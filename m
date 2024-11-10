@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E278D2FA
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 04:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61539347B4
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 05:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731213986; cv=none; b=MydoMGXGcnnj0G/evAq+Bofo88qcVgwINSeXLKRfac8q9DxUaQNvx3r/Ts3hPoigVsbY1xQo00cE2TUjJvJ4lVT+KCH3FozPFmDj4KI0rAY4M3eygGN/MoBQJVAIypu/bwk93suASosnOFbsV+fB9dTMaJre75SLrgz+Bq+/AUs=
+	t=1731215843; cv=none; b=pFOx2YFWms8gh5x5gCUQ0PO+yRQtT4Hehs6GomZiPEGPt+x06cLmuRCdxpy/+ZBwvk1CuSbM+H1dVrfRm5XGg0I6VJrT7DLXGU6gLTVt0Z5qNCn56zKUDariaj44/vjhuh/qNFUyeBDD58tMvrcCdywBJ9szuWrw+nL7CiwD3nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731213986; c=relaxed/simple;
-	bh=MNhNwU+7x5aJhNF4hTyavmgwx8PRlvUXdpOO3JtLcPM=;
+	s=arc-20240116; t=1731215843; c=relaxed/simple;
+	bh=feV6XOPt0Rp63/87zP/6zjV5+TVPZEGtjzkB/asn+BA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HiXporCJOfJK2sMNWiI9wguM9vUJlDjTG7E/Stu5VJQYO/4Wi0KTrrLgYwYAkOVAiAN8LsX2u6/g1lYrEsPVPby67QlA2I8J2IVYHMQtBv8dZavhvNmva1A26yK/YKF0lsSnxAqo1hM2o8UXzunqFPFBcGRtBEPmbNV+rffME38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miDPVxNf; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=h2Npm+sVIqWum00A6iUMx/mIjwPTLMqyhVgW19wDqQGaDsOALS9YxSBx4wX5XvBDQnrlVIb7YzMAROXyz8dLEAp+t/XZJJ3QjceDVKKSfXDX0SyDbfy9KPj2jT60xb0zrhnVNmik6PbT1MC+oE8QC3dugl/1+Zh5vDRCu0PYnQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPEOp3bB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miDPVxNf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPEOp3bB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731213981; x=1762749981;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MNhNwU+7x5aJhNF4hTyavmgwx8PRlvUXdpOO3JtLcPM=;
-  b=miDPVxNffbmEylVEdnBq1VgFQMYTFYA9kpPRQ5WexFBwIJBImZ8Qh1ax
-   tRY0P7d07VjkcEy7dKMM4KciEZo2n25EziszM7roUeHNqjK8ZGf0VZq03
-   VKPvQ3gx5KzAWd9E404kukV4uJehoj2TAJ2JMKWdLKnG36L9VDO3mI40a
-   iOOsmcmEQ5pO/9KaHM4aiJvYCTD5fFBkRHScBH8W1ZKQMW+X/Kow/30Tq
-   KlkyPB7GPGmfExJuHWIzNNJfxKjU0AuwnWaJWzwJ/x9UC1JOH4zq6GCl0
-   0mKRCnj8vSehwu5+vnEPr7ihu9D9FYACmvy2GiIFwOMEzaKap5FTIFP1q
-   A==;
-X-CSE-ConnectionGUID: Cv6XVZ2kQj6nmKIdREInVg==
-X-CSE-MsgGUID: dPNxFGqcTBmPHQRChtk4eQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="42452100"
-X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="42452100"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 20:46:20 -0800
-X-CSE-ConnectionGUID: vBzMZNatQVe+k1uqmwd+tA==
-X-CSE-MsgGUID: d4Nfm3gmTX+ezpSjX545Ig==
+  t=1731215841; x=1762751841;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=feV6XOPt0Rp63/87zP/6zjV5+TVPZEGtjzkB/asn+BA=;
+  b=mPEOp3bBvH69nUkPOl2WilPI4phglBYj4C3hdHIv1qsau4TLbKxKD/ht
+   p/1OlKXtcVDu0TOJuT9FHtETh93voniiWsFr9Bqz6wLzoxtU7S9yxjPQj
+   l5U9W0q8VZaFhsCTsGMADn15EmJoRwc/elNJjADV9SWjTB1DA2f7F7cRq
+   g6NWBs7mb/YmKVpbZPEDDMSQSqMBvf7C6xilKg6fC6bGdHVh420kkCiWe
+   Quf5KQn38uYVBVBTSmJCyEmDfzG1eJDklxsVEIgSBQy5Www4RoKMf49zc
+   SURr1iEpz3NIvPrpSigelkVAskL2OfRnbBrNzeDicV8+waOHcPkG3hF1Q
+   g==;
+X-CSE-ConnectionGUID: 0ObrGldoRRCiR/SJLSL+aA==
+X-CSE-MsgGUID: CHRkVRqORVyG9hpcH0WH5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31012216"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31012216"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 21:17:20 -0800
+X-CSE-ConnectionGUID: ExhAuPN9TU2TxITkf/bsEA==
+X-CSE-MsgGUID: QKF2dRO1RpOq0rAuuhKZFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="86276767"
+   d="scan'208";a="86735419"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Nov 2024 20:46:18 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2024 21:17:18 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9zq3-000szu-1w;
-	Sun, 10 Nov 2024 04:46:15 +0000
-Date: Sun, 10 Nov 2024 12:45:24 +0800
+	id 1tA0K4-000t10-1k;
+	Sun, 10 Nov 2024 05:17:16 +0000
+Date: Sun, 10 Nov 2024 13:16:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-partner_predev 81/81]
- arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: phy@627000: 'power-domains' is
- a required property
-Message-ID: <202411101244.GhTP6ndO-lkp@intel.com>
+Subject: Re: [PATCH 2/3] arm64: dts: rockchip: add dsi controller nodes on
+ rk3588
+Message-ID: <202411101212.Fi0WmjjF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,1102 +62,600 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241106123758.423584-3-heiko@sntech.de>
+References: <20241106123758.423584-3-heiko@sntech.de>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: heiko@sntech.de
+CC: quentin.schulz@cherry.de
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: Heiko Stuebner <heiko.stuebner@cherry.de>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
-head:   4f78c3d7bcf25a6712f168ec3e669c779412364f
-commit: dc5cb63592bd8c1de1fc6647ac7da44deacc9e4c [81/81] dt-bindings: phy: migrate QMP UFS PHY bindings to qcom,sc8280xp-qmp-ufs-phy.yaml
-:::::: branch date: 11 days ago
-:::::: commit date: 1 year, 4 months ago
-config: arm64-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241110/202411101244.GhTP6ndO-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on next-20241108]
+[cannot apply to linus/master v6.12-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/arm64=
+-dts-rockchip-add-mipi-dcphy-nodes-to-rk3588/20241106-210147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchi=
+p.git for-next
+patch link:    https://lore.kernel.org/r/20241106123758.423584-3-heiko%40sn=
+tech.de
+patch subject: [PATCH 2/3] arm64: dts: rockchip: add dsi controller nodes o=
+n rk3588
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-051-20241107 (https://download.01.org/0day-ci/arch=
+ive/20241110/202411101212.Fi0WmjjF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101244.GhTP6ndO-lkp@intel.com/reproduce)
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20241110/202411101212.Fi0WmjjF-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411101244.GhTP6ndO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411101212.Fi0WmjjF-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: pmic@3: wled@d800:interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: pmic@3: wled@d800:interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: remoteproc@2080000: clocks: [[30, 222], [30, 223], [30, 157], [20], [30, 229], [30, 224], [30, 225], [4, 2], [4, 8]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,msm8996-mss-pil.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: funnel@3023000: 'in-ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-dynamic-funnel.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-db820c.dtb: usb@6af8800: 'extcon' does not match any of the regexes: '^usb@[0-9a-f]+$', 'pinctrl-[0-9]+'
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /dsi@fde20000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /dsi@fde30000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: analog-sound: Unev=
+aluated properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
 --
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: pmic@3: wled@d800:interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: pmic@3: wled@d800:interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: remoteproc@2080000: clocks: [[24, 222], [24, 223], [24, 157], [16], [24, 229], [24, 224], [24, 225], [25, 2], [25, 8]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,msm8996-mss-pil.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: funnel@3023000: 'in-ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-dynamic-funnel.yaml#
-   arch/arm64/boot/dts/qcom/apq8096-ifc6640.dtb: syscon@9a10000: compatible: 'anyOf' conditional failed, one must be fixed:
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /dsi@fde20000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /dsi@fde30000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: pmic@3: wled@d800:interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: pmic@3: wled@d800:interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: remoteproc@1c00000: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: remoteproc@1c00000: 'px-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3.dtb: remoteproc@2080000: clocks: [[24, 222], [24, 223], [24, 157], [20], [24, 229], [24, 224], [24, 225], [3, 2], [3, 8]] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /dsi@fde20000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /dsi@fde30000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /hdmi@fde80000: =
+failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@feda0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@fedb0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: pmic@3: wled@d800:interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: pmic@3: wled@d800:interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: remoteproc@1c00000: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: remoteproc@1c00000: 'px-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-oneplus3t.dtb: remoteproc@2080000: clocks: [[24, 222], [24, 223], [24, 157], [20], [24, 229], [24, 224], [24, 225], [3, 2], [3, 8]] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /dsi@fde2000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /dsi@fde3000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /hdmi@fde800=
+00: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-q=
+p']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@feda000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
+']
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@fedb000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
+']
 --
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: pmic@3: wled@d800: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: wled@d800: 'label' is a required property
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: remoteproc@1c00000: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: remoteproc@2080000: clocks: [[31, 222], [31, 223], [31, 157], [21], [31, 229], [31, 224], [31, 225], [2, 2], [2, 8]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,msm8996-mss-pil.yaml#
-   arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dtb: funnel@3023000: 'in-ports' is a required property
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /dsi@fde20000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /dsi@fde30000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: pmic@3: wled@d800: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: wled@d800: 'label' is a required property
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: remoteproc@1c00000: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: remoteproc@2080000: clocks: [[30, 222], [30, 223], [30, 157], [20], [30, 229], [30, 224], [30, 225], [2, 2], [2, 8]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,msm8996-mss-pil.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-natrium.dtb: funnel@3023000: 'in-ports' is a required property
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /dsi@fde20000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /dsi@fde30000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: pmic@3: wled@d800:interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: pmic@3: wled@d800:interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: wled@d800: interrupt-names:0: 'ovp' was expected
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: wled@d800: interrupts: [[3, 216, 2, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: wled@d800: interrupt-names: ['short'] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/backlight/qcom-wled.yaml#
->> arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: phy@627000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: phy@627000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: phy@627000: '#address-cells', '#size-cells', 'phy@627400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: remoteproc@1c00000: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: remoteproc@2080000: clocks: [[31, 222], [31, 223], [31, 157], [21], [31, 229], [31, 224], [31, 225], [3, 2], [3, 8]] is too short
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,msm8996-mss-pil.yaml#
-   arch/arm64/boot/dts/qcom/msm8996pro-xiaomi-scorpio.dtb: funnel@3023000: 'in-ports' is a required property
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1276.7-1284.4: Warning =
+(graph_child_address): /usb@fc000000/port: graph node has single child node=
+ 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /dsi@fde20000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /dsi@fde30000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: analog-sound: 'simple-=
+audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
+card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
+-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
+', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: pci@1c00000: iommu-map: [[256, 31, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /dsi@fd=
+e20000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /dsi@fd=
+e30000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /hdmi@f=
+de80000: failed to match any schema with compatible: ['rockchip,rk3588-dw-h=
+dmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
+da0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
+db0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: analog-=
+sound: 'simple-audio-card,hp-det-gpios' does not match any of the regexes: =
+'^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]=
++)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,pla=
+t(@[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: pci@1c00000: iommu-map: [[256, 34, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: etm@7c40000: 'out-ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: etm@7c40000: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dtb: etm@7d40000: 'out-ports' is a required property
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible:0: 't=
+sd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'ad,adm9=
+240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'asterala=
+bs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', 'blute=
+k,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'capella=
+,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dallas,ds17=
+80', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,dps920a=
+b', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devantech,sr=
+f10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech,dmard=
+06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', 'elgin,=
+jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121', 'ho=
+neywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ-hwmon=
+', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infineon,tl=
+v493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe12254',=
+ 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'injoini=
+c,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', 'inspur=
+,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,isl69260=
+', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnology,ltc=
+2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim,ds180=
+3-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max5481',=
+ 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', 'mcube=
+,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', 'meas,=
+ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,tsys01',=
+ 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc6255', '=
+memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp3422',=
+ 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'microchip,=
+mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp4017-103'=
+, 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp4017-503'=
+, 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp4018-502'=
+, 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp4019-104'=
+, 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654', 'mic=
+rochip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da280', '=
+miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp2891', 'm=
+ps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', 'mps,mp=
+5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80', 'nati=
+onal,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki,ml86v=
+7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', 'renes=
+as,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', 'samsun=
+g,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirion,sgp4=
+0', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'sensortek,s=
+tk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si7005', '=
+silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir,mango=
+h-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc1008', '=
+ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm73', '=
+ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tmp125',=
+ 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps544b20'=
+, 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti,tsc20=
+03', 'vicor,pli1209bc', 'winbond,w83793']
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible: ['ts=
+d,mule', 'ti,amc6821'] is too long
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: 'i2c-mux' does n=
+ot match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /i2c@fd880000/fan@18: fa=
+iled to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /dsi@fde20000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /dsi@fde30000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /hdmi@fde80000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@feda0000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@fedb0000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: pci@1c00000: iommu-map: [[256, 31, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /dsi@fde20000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /dsi@fde30000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound: 'simple-audio-=
+card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,c=
+odec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio=
+-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pi=
+nctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: pci@1c00000: iommu-map: [[256, 31, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /dsi@fde20000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /dsi@fde30000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /hdmi@fde80000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@feda0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@fedb0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: sound: 'simple-au=
+dio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-ca=
+rd,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-a=
+udio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$',=
+ 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: pci@1c00000: iommu-map: [[256, 34, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: etm@7c40000: 'out-ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: etm@7c40000: Unevaluated properties are not allowed ('port' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etm.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-mtp.dtb: etm@7d40000: 'out-ports' is a required property
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /dsi@fde20000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /dsi@fde30000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound: 'simple-audio-c=
+ard,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,co=
+dec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-=
+card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pin=
+ctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pci@1c00000: iommu-map: [[256, 35, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /dsi@fde20000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /dsi@fde30000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /hdmi@fde80000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@feda0000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@fedb0000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: sound: 'simple-=
+audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
+card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
+-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
+', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pci@1c00000: iommu-map: [[256, 35, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /dsi@fde20000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /dsi@fde30000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: sound: 'simple-audi=
+o-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card=
+,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-aud=
+io-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', '=
+pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@800f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pci@1c00000: iommu-map: [[256, 34, 5248, 1]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
->> arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: phy@1da7000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: phy@1da7000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: phy@1da7000: '#address-cells', '#size-cells', 'phy@1da7400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/msm8998-xiaomi-sagit.dtb: pmic@0: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@6' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@6', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@6' does not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc-rev2'] is too short
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1149.7-1157.4: Warnin=
+g (graph_child_address): /usb@fc000000/port: graph node has single child no=
+de 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /dsi@fde20000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /dsi@fde30000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: analog-sound: Uneval=
+uated properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /pcie-oscillator: fa=
+iled to match any schema with compatible: ['gated-fixed-clock']
 --
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/qrb5165-rb5.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /dsi@fde20000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /dsi@fde30000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /hdmi@fde80000: failed =
+to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@feda0000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@fedb0000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: analog-sound: Unevaluat=
+ed properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
 --
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /dsi@fde20000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /dsi@fde30000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
+:0: 'tsd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'a=
+d,adm9240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'as=
+teralabs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', =
+'blutek,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'c=
+apella,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dalla=
+s,ds1780', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,d=
+ps920ab', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devant=
+ech,srf10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech=
+,dmard06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', '=
+elgin,jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121=
+', 'honeywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ=
+-hwmon', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infin=
+eon,tlv493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe1=
+2254', 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'i=
+njoinic,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', '=
+inspur,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,is=
+l69260', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnolo=
+gy,ltc2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim=
+,ds1803-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max=
+5481', 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', =
+'mcube,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', =
+'meas,ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,ts=
+ys01', 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc62=
+55', 'memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp=
+3422', 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'micr=
+ochip,mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp401=
+7-103', 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp401=
+7-503', 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp401=
+8-502', 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp401=
+9-104', 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654'=
+, 'microchip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da2=
+80', 'miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp289=
+1', 'mps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', '=
+mps,mp5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80',=
+ 'national,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki=
+,ml86v7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', =
+'renesas,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', '=
+samsung,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirio=
+n,sgp40', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'senso=
+rtek,stk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si70=
+05', 'silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir=
+,mangoh-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc10=
+08', 'ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm=
+73', 'ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tm=
+p125', 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps5=
+44b20', 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti=
+,tsc2003', 'vicor,pli1209bc', 'winbond,w83793']
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
+: ['tsd,mule', 'ti,amc6821'] is too long
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: 'i2c-mux' =
+does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /i2c@fec80000/fan@=
+18: failed to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   	['pipe', 'aux', 'cfg', 'bus_master', 'bus_slave', 'slave_q2a', 'ref', 'tbu'] is too short
-   	'tbu' was expected
-   	'ddrss_sf_tbu' was expected
-   	[[42, 68], [42, 64], [42, 66], [42, 67], [42, 69], [42, 70], [42, 235], [42, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: ufshc@1d84000: compatible:0: 'qcom,sc8180x-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc']
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/ufshc@1d84000: failed to match any schema with compatible: ['qcom,sc8180x-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy-wrapper@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy-wrapper@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy-wrapper@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/interconnect@1e00000: failed to match any schema with compatible: ['qcom,sc8180x-ipa-virt']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: gpu@2c00000: '#stream-id-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: gpu@2c00000: #stream-id-cells: 16 is greater than the maximum of 8
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: iommu@2ca0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sc8180x-smmu-500', 'qcom,adreno-smmu', 'qcom,smmu-500', 'arm,mmu-500'] is too long
-   	'qcom,sc8180x-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,msm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
-   	'qcom,sc8180x-smmu-500' is not one of ['qcom,sa8775p-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500', 'qcom,sm8350-smmu-500']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /dsi@fde20000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /dsi@fde30000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   	['pipe', 'aux', 'cfg', 'bus_master', 'bus_slave', 'slave_q2a', 'ref', 'tbu'] is too short
-   	'tbu' was expected
-   	'ddrss_sf_tbu' was expected
-   	[[42, 68], [42, 64], [42, 66], [42, 67], [42, 69], [42, 70], [42, 235], [42, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: ufshc@1d84000: compatible:0: 'qcom,sc8180x-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc']
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/ufshc@1d84000: failed to match any schema with compatible: ['qcom,sc8180x-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy-wrapper@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy-wrapper@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy-wrapper@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/interconnect@1e00000: failed to match any schema with compatible: ['qcom,sc8180x-ipa-virt']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: gpu@2c00000: '#stream-id-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: gpu@2c00000: #stream-id-cells: 16 is greater than the maximum of 8
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: iommu@2ca0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sc8180x-smmu-500', 'qcom,adreno-smmu', 'qcom,smmu-500', 'arm,mmu-500'] is too long
-   	'qcom,sc8180x-smmu-500' is not one of ['qcom,msm8996-smmu-v2', 'qcom,msm8998-smmu-v2', 'qcom,sdm630-smmu-v2', 'qcom,sm6375-smmu-v2']
-   	'qcom,sc8180x-smmu-500' is not one of ['qcom,sa8775p-smmu-500', 'qcom,sc7280-smmu-500', 'qcom,sc8280xp-smmu-500', 'qcom,sm6115-smmu-500', 'qcom,sm6125-smmu-500', 'qcom,sm8150-smmu-500', 'qcom,sm8250-smmu-500', 'qcom,sm8350-smmu-500']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /dsi@fde20000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /dsi@fde30000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4692.27-4743.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1218.44-1221.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: /soc@0/geniqup@8c0000/spi@894000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: pci@1c00000: iommu-map: [[0, 43, 7184, 1], [256, 43, 7185, 1], [512, 43, 7186, 1], [768, 43, 7187, 1], [1024, 43, 7188, 1], [1280, 43, 7189, 1], [1536, 43, 7190, 1], [1792, 43, 7191, 1], [2048, 43, 7192, 1], [2304, 43, 7193, 1], [2560, 43, 7194, 1], [2816, 43, 7195, 1], [3072, 43, 7196, 1], [3328, 43, 7197, 1], [3584, 43, 7198, 1], [3840, 43, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: pci@1c08000: iommu-map: [[0, 43, 7168, 1], [256, 43, 7169, 1], [512, 43, 7170, 1], [768, 43, 7171, 1], [1024, 43, 7172, 1], [1280, 43, 7173, 1], [1536, 43, 7174, 1], [1792, 43, 7175, 1], [2048, 43, 7176, 1], [2304, 43, 7177, 1], [2560, 43, 7178, 1], [2816, 43, 7179, 1], [3072, 43, 7180, 1], [3328, 43, 7181, 1], [3584, 43, 7182, 1], [3840, 43, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r1.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /dsi@fde20000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /dsi@fde30000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4692.27-4743.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1218.44-1221.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: /soc@0/geniqup@8c0000/spi@894000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: pci@1c00000: iommu-map: [[0, 43, 7184, 1], [256, 43, 7185, 1], [512, 43, 7186, 1], [768, 43, 7187, 1], [1024, 43, 7188, 1], [1280, 43, 7189, 1], [1536, 43, 7190, 1], [1792, 43, 7191, 1], [2048, 43, 7192, 1], [2304, 43, 7193, 1], [2560, 43, 7194, 1], [2816, 43, 7195, 1], [3072, 43, 7196, 1], [3328, 43, 7197, 1], [3584, 43, 7198, 1], [3840, 43, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: pci@1c08000: iommu-map: [[0, 43, 7168, 1], [256, 43, 7169, 1], [512, 43, 7170, 1], [768, 43, 7171, 1], [1024, 43, 7172, 1], [1280, 43, 7173, 1], [1536, 43, 7174, 1], [1792, 43, 7175, 1], [2048, 43, 7176, 1], [2304, 43, 7177, 1], [2560, 43, 7178, 1], [2816, 43, 7179, 1], [3072, 43, 7180, 1], [3328, 43, 7181, 1], [3584, 43, 7182, 1], [3840, 43, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r2.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1130.7-1138.4: Warning=
+ (graph_child_address): /usb@fc000000/port: graph node has single child nod=
+e 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /dsi@fde20000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /dsi@fde30000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4692.27-4743.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8005.dtsi:26.23-35.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@5: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1218.44-1221.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: /soc@0/geniqup@8c0000/spi@894000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: pci@1c00000: iommu-map: [[0, 43, 7184, 1], [256, 43, 7185, 1], [512, 43, 7186, 1], [768, 43, 7187, 1], [1024, 43, 7188, 1], [1280, 43, 7189, 1], [1536, 43, 7190, 1], [1792, 43, 7191, 1], [2048, 43, 7192, 1], [2304, 43, 7193, 1], [2560, 43, 7194, 1], [2816, 43, 7195, 1], [3072, 43, 7196, 1], [3328, 43, 7197, 1], [3584, 43, 7198, 1], [3840, 43, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: pci@1c08000: iommu-map: [[0, 43, 7168, 1], [256, 43, 7169, 1], [512, 43, 7170, 1], [768, 43, 7171, 1], [1024, 43, 7172, 1], [1280, 43, 7173, 1], [1536, 43, 7174, 1], [1792, 43, 7175, 1], [2048, 43, 7176, 1], [2304, 43, 7177, 1], [2560, 43, 7178, 1], [2816, 43, 7179, 1], [3072, 43, 7180, 1], [3328, 43, 7181, 1], [3584, 43, 7182, 1], [3840, 43, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-cheza-r3.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /dsi@fde20000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /dsi@fde30000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /hdmi@fde80000: =
+failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@feda0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@fedb0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: analog-sound: 's=
+imple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-=
+audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^=
+simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-=
+f]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pci@1c00000: Unevaluated properties are not allowed ('enable-gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /dsi@fde20000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /dsi@fde30000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: audio-codec@11=
+: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yam=
+l#
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pci@1c00000: Unevaluated properties are not allowed ('enable-gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /dsi@fde20000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /dsi@fde30000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /hdmi@fde80000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@feda0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@fedb0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pci@1c00000: iommu-map: [[0, 51, 7184, 1], [256, 51, 7185, 1], [512, 51, 7186, 1], [768, 51, 7187, 1], [1024, 51, 7188, 1], [1280, 51, 7189, 1], [1536, 51, 7190, 1], [1792, 51, 7191, 1], [2048, 51, 7192, 1], [2304, 51, 7193, 1], [2560, 51, 7194, 1], [2816, 51, 7195, 1], [3072, 51, 7196, 1], [3328, 51, 7197, 1], [3584, 51, 7198, 1], [3840, 51, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: pci@1c08000: iommu-map: [[0, 51, 7168, 1], [256, 51, 7169, 1], [512, 51, 7170, 1], [768, 51, 7171, 1], [1024, 51, 7172, 1], [1280, 51, 7173, 1], [1536, 51, 7174, 1], [1792, 51, 7175, 1], [2048, 51, 7176, 1], [2304, 51, 7177, 1], [2560, 51, 7178, 1], [2816, 51, 7179, 1], [3072, 51, 7180, 1], [3328, 51, 7181, 1], [3584, 51, 7182, 1], [3840, 51, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyln.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /dsi@fde20000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /dsi@fde30000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-lg-judyp.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /dsi@fde20000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /dsi@fde30000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-mtp.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /dsi@fde20000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /dsi@fde30000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: /soc@0/geniqup@8c0000/i2c@890000/max98927@3a: failed to match any schema with compatible: ['maxim,max98927']
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: /soc@0/geniqup@ac0000/i2c@a90000/synaptics-rmi4-i2c@20: failed to match any schema with compatible: ['syna,rmi4-i2c']
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /dsi@fde20000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /dsi@fde30000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,q6dsp-lpass-ports.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: /soc@0/geniqup@ac0000/i2c@a90000/synaptics-rmi4-i2c@20: failed to match any schema with compatible: ['syna,rmi4-i2c']
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /dsi@fde20000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /dsi@fde30000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: analog-sound: 'simp=
+le-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-aud=
+io-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^sim=
+ple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+=
+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4620.27-4671.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4692.27-4743.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1218.44-1221.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1218.44-1221.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: /soc@0/geniqup@ac0000/i2c@a98000/touchscreen@20: failed to match any schema with compatible: ['syna,rmi4-i2c']
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: /soc@0/geniqup@8c0000/i2c@894000/touchscreen@38: failed to match any schema with compatible: ['focaltech,fts8719']
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: bridge@2c: 'vcc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ti,sn65dsi86.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: panel: 'power-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: remoteproc-adsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: remoteproc-cdsp: Unevaluated properties are not allowed ('firmware-name' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: pci@1c00000: iommu-map: [[0, 49, 7184, 1], [256, 49, 7185, 1], [512, 49, 7186, 1], [768, 49, 7187, 1], [1024, 49, 7188, 1], [1280, 49, 7189, 1], [1536, 49, 7190, 1], [1792, 49, 7191, 1], [2048, 49, 7192, 1], [2304, 49, 7193, 1], [2560, 49, 7194, 1], [2816, 49, 7195, 1], [3072, 49, 7196, 1], [3328, 49, 7197, 1], [3584, 49, 7198, 1], [3840, 49, 7199, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: pci@1c08000: iommu-map: [[0, 49, 7168, 1], [256, 49, 7169, 1], [512, 49, 7170, 1], [768, 49, 7171, 1], [1024, 49, 7172, 1], [1280, 49, 7173, 1], [1536, 49, 7174, 1], [1792, 49, 7175, 1], [2048, 49, 7176, 1], [2304, 49, 7177, 1], [2560, 49, 7178, 1], [2816, 49, 7179, 1], [3072, 49, 7180, 1], [3328, 49, 7181, 1], [3584, 49, 7182, 1], [3840, 49, 7183, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sdm850-samsung-w737.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: dma-controller@1b04000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: dma-controller@1b04000: iommus: [[42, 146, 0], [42, 148, 17], [42, 150, 17], [42, 152, 1], [42, 159, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: /soc@0/dma-controller@1b04000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: ufs@4804000: compatible:0: 'qcom,sm6115-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc']
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: ufs@4804000: Unevaluated properties are not allowed ('compatible', 'reg-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: /soc@0/ufs@4804000: failed to match any schema with compatible: ['qcom,sm6115-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
->> arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: phy@4807000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: phy@4807000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: phy@4807000: '#address-cells', '#size-cells', 'phy@4807400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: mailbox@f111000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm6115-apcs-hmss-global', 'qcom,msm8994-apcs-kpss-global'] is too long
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,ipq5018-apcs-apps-global', 'qcom,ipq5332-apcs-apps-global', 'qcom,ipq8074-apcs-apps-global', 'qcom,ipq9574-apcs-apps-global']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,sc7180-apss-shared', 'qcom,sc8180x-apss-shared', 'qcom,sm8150-apss-shared']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,msm8916-apcs-kpss-global', 'qcom,msm8939-apcs-kpss-global', 'qcom,msm8953-apcs-kpss-global', 'qcom,msm8976-apcs-kpss-global', 'qcom,msm8994-apcs-kpss-global', 'qcom,qcs404-apcs-apps-global', 'qcom,sdx55-apcs-gcc']
---
-   	'qcom,spmi-adc5' is not one of ['qcom,pm8226-iadc', 'qcom,pm8941-iadc']
-   	'qcom,spmi-adc5' is not one of ['qcom,pmi8998-rradc', 'qcom,pm660-rradc']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: adc@3100: 'die-temp@6', 'ref-gnd@0', 'vcoin@85', 'vph-pwr@83', 'vref-1p25@1', 'xo-therm@4c' do not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/qcom,spmi-vadc.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: ufs@4804000: compatible:0: 'qcom,sm6115-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc']
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: ufs@4804000: Unevaluated properties are not allowed ('compatible', 'reg-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: /soc@0/ufs@4804000: failed to match any schema with compatible: ['qcom,sm6115-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
->> arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: phy@4807000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: phy@4807000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: phy@4807000: '#address-cells', '#size-cells', 'phy@4807400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: mailbox@f111000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm6115-apcs-hmss-global', 'qcom,msm8994-apcs-kpss-global'] is too long
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,ipq5018-apcs-apps-global', 'qcom,ipq5332-apcs-apps-global', 'qcom,ipq8074-apcs-apps-global', 'qcom,ipq9574-apcs-apps-global']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,sc7180-apss-shared', 'qcom,sc8180x-apss-shared', 'qcom,sm8150-apss-shared']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,msm8916-apcs-kpss-global', 'qcom,msm8939-apcs-kpss-global', 'qcom,msm8953-apcs-kpss-global', 'qcom,msm8976-apcs-kpss-global', 'qcom,msm8994-apcs-kpss-global', 'qcom,qcs404-apcs-apps-global', 'qcom,sdx55-apcs-gcc']
---
-   	'qcom,spmi-adc5' is not one of ['qcom,pm8226-iadc', 'qcom,pm8941-iadc']
-   	'qcom,spmi-adc5' is not one of ['qcom,pmi8998-rradc', 'qcom,pm660-rradc']
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: adc@3100: 'die-temp@6', 'ref-gnd@0', 'vcoin@85', 'vph-pwr@83', 'vref-1p25@1', 'xo-therm@4c' do not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/qcom,spmi-vadc.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: ufs@4804000: compatible:0: 'qcom,sm6115-ufshc' is not one of ['qcom,msm8994-ufshc', 'qcom,msm8996-ufshc', 'qcom,msm8998-ufshc', 'qcom,sa8775p-ufshc', 'qcom,sc8280xp-ufshc', 'qcom,sdm845-ufshc', 'qcom,sm6350-ufshc', 'qcom,sm8150-ufshc', 'qcom,sm8250-ufshc', 'qcom,sm8350-ufshc', 'qcom,sm8450-ufshc', 'qcom,sm8550-ufshc']
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: ufs@4804000: Unevaluated properties are not allowed ('compatible', 'reg-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: /soc@0/ufs@4804000: failed to match any schema with compatible: ['qcom,sm6115-ufshc', 'qcom,ufshc', 'jedec,ufs-2.0']
->> arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: phy@4807000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: phy@4807000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: phy@4807000: '#address-cells', '#size-cells', 'phy@4807400', 'ranges', 'vddp-ref-clk-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: mailbox@f111000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm6115-apcs-hmss-global', 'qcom,msm8994-apcs-kpss-global'] is too long
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,ipq5018-apcs-apps-global', 'qcom,ipq5332-apcs-apps-global', 'qcom,ipq8074-apcs-apps-global', 'qcom,ipq9574-apcs-apps-global']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,sc7180-apss-shared', 'qcom,sc8180x-apss-shared', 'qcom,sm8150-apss-shared']
-   	'qcom,sm6115-apcs-hmss-global' is not one of ['qcom,msm8916-apcs-kpss-global', 'qcom,msm8939-apcs-kpss-global', 'qcom,msm8953-apcs-kpss-global', 'qcom,msm8976-apcs-kpss-global', 'qcom,msm8994-apcs-kpss-global', 'qcom,qcs404-apcs-apps-global', 'qcom,sdx55-apcs-gcc']
---
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: /soc@0/geniqup@8c0000/serial@884000/bluetooth: failed to match any schema with compatible: ['qcom,wcn3988-bt']
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: haptics@5a: awinic,boost-debug: b'0\xeb\xd4' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: haptics@5a: awinic,tset: b'\x12' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: haptics@5a: awinic,r-spare: b'h' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: /soc@0/geniqup@9c0000/i2c@990000/haptics@5a: failed to match any schema with compatible: ['awinic,aw8695']
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: ufs@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: pmic@4: adc@3100: 'oneOf' conditional failed, one must be fixed:
-   	'#address-cells', '#size-cells', 'adc-chan@0', 'adc-chan@1', 'adc-chan@6', 'adc-chan@83' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'#address-cells', '#size-cells', 'adc-chan@0', 'adc-chan@1', 'adc-chan@6', 'adc-chan@83', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	'adc-chan@0', 'adc-chan@1', 'adc-chan@6', 'adc-chan@83' do not match any of the regexes: '^channel@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	['qcom,spmi-adc5'] is too short
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-hdk.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-mtp.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: ramoops@ffc00000: Unevaluated properties are not allowed ('msg-size' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/ramoops.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: /soc@0/geniqup@ac0000/i2c@a94000/touchscreen@48: failed to match any schema with compatible: ['samsung,s6sy761']
->> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: dma-controller@1dc4000: iommus: [[48, 1426, 0], [48, 1432, 0], [48, 1433, 0], [48, 1439, 0], [48, 1414, 17], [48, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4282.27-4353.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: ramoops@ffc00000: Unevaluated properties are not allowed ('msg-size' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/ramoops.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: /soc@0/geniqup@ac0000/i2c@a94000/touchscreen@48: failed to match any schema with compatible: ['samsung,s6sy761']
->> arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: dma-controller@1dc4000: iommus: [[48, 1426, 0], [48, 1432, 0], [48, 1433, 0], [48, 1439, 0], [48, 1414, 17], [48, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-boe.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3171.14-3179.6: Warning (avoid_unnecessary_addr_size): /soc@0/funnel@6c2d000/out-ports: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:4374.27-4426.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8150b.dtsi:125.9-140.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2823.14-2833.6: Warning (graph_child_address): /soc@0/tpda@6004000/out-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:2870.13-2880.6: Warning (graph_child_address): /soc@0/funnel@6005000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3083.13-3093.6: Warning (graph_child_address): /soc@0/etf@6b05000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8250.dtsi:3438.13-3448.6: Warning (graph_child_address): /soc@0/funnel@7810000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
->> arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: dma-controller@1dc4000: iommus: [[47, 1426, 0], [47, 1432, 0], [47, 1433, 0], [47, 1439, 0], [47, 1414, 17], [47, 1430, 17]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
-   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-csot.dtb: etf@6b05000: in-ports: '#address-cells', '#size-cells', 'port@0' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-tmc.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dts:353.9-364.5: Warning (graph_child_address): /soc@0/geniqup@ac0000/i2c@a94000/typec-mux@42/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: typec-mux@42: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fsa4480.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: typec-mux@42: 'ports', 'svid' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/fcs,fsa4480.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: typec-mux@42: svid: b'\xff\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: phy@1c06000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: /soc@0/phy@1c0e000: failed to match any schema with compatible: ['qcom,sm8350-qmp-gen3x2-pcie-phy']
->> arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-hdk.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2582.27-2659.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2680.27-2757.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2545.11-2555.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: /soc@0/phy@1c0e000: failed to match any schema with compatible: ['qcom,sm8350-qmp-gen3x2-pcie-phy']
->> arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-microsoft-surface-duo2.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2582.27-2659.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2680.27-2757.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8350.dtsi:2545.11-2555.7: Warning (graph_child_address): /soc@0/display-subsystem@ae00000/displayport-controller@ae90000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: /soc@0/phy@1c0e000: failed to match any schema with compatible: ['qcom,sm8350-qmp-gen3x2-pcie-phy']
->> arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8350-mtp.dtb: /soc@0/dma-controller@1dc4000: failed to match any schema with compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: /soc@0/spmi@c400000/pmic@7: failed to match any schema with compatible: ['qcom,pm8450', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: ufshc@1d84000: clocks: [[49, 151], [49, 10], [49, 150], [49, 166], [42, 0], [49, 164], [49, 160], [49, 162], [49, 154]] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: ufshc@1d84000: clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: ufshc@1d84000: reg: [[0, 30949376, 0, 12288], [0, 30965760, 0, 32768]] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: dma-controller@1dc4000: iommus: [[48, 1412, 17], [48, 1416, 0], [48, 1432, 5], [48, 1434, 0], [48, 1439, 0]] is too long
---
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: /soc@0/spmi@c400000/pmic@7: failed to match any schema with compatible: ['qcom,pm8450', 'qcom,spmi-pmic']
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: ufshc@1d84000: clocks: [[49, 151], [49, 10], [49, 150], [49, 166], [42, 0], [49, 164], [49, 160], [49, 162], [49, 154]] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: ufshc@1d84000: clock-names: ['core_clk', 'bus_aggr_clk', 'iface_clk', 'core_clk_unipro', 'ref_clk', 'tx_lane0_sync_clk', 'rx_lane0_sync_clk', 'rx_lane1_sync_clk', 'ice_core_clk'] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: ufshc@1d84000: reg: [[0, 30949376, 0, 12288], [0, 30965760, 0, 32768]] is too long
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ufs/qcom,ufs.yaml#
->> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1d87000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1d87000: '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: phy@1d87000: '#address-cells', '#size-cells', 'phy@1d87400', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-ufs-phy.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: dma-controller@1dc4000: compatible:0: 'qcom,bam-v1.7.4' is not one of ['qcom,bam-v1.3.0', 'qcom,bam-v1.4.0', 'qcom,bam-v1.7.0']
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: dma-controller@1dc4000: compatible: ['qcom,bam-v1.7.4', 'qcom,bam-v1.7.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,bam-dma.yaml#
-   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: dma-controller@1dc4000: iommus: [[48, 1412, 17], [48, 1416, 0], [48, 1432, 5], [48, 1434, 0], [48, 1439, 0]] is too long
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /dsi@fde20000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /dsi@fde30000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: analog-sound: 'sim=
+ple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-au=
+dio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^si=
+mple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]=
++)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
