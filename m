@@ -1,122 +1,316 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD28312CD96;
-	Mon, 11 Nov 2024 07:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB320B22
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 08:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731309255; cv=none; b=i10I4IxHvbnXzYJIJHz7/AR+fGj0AwxFGPXHpBf6nbJl6JVqTX/DFP5FvFu0u7I2WPgyIQ0vrpWh55mD9xouqOkqDCKocv3WTzGX3+r/MxcU8mRNHy+hWmfBQZjKIAtZvgc2ObfhqZkUAi0OwCAlAbDQ0ODxD73p8+ZrIAA8rck=
+	t=1731312836; cv=none; b=utSsfooKbKJ4W7znCJ8XSCxcymv5KaT8e0p38Uc6Z6iUy37C+2F4mwhMlZp3GywTIh8z0IMjEsdQC0yd14SJMXSfETvTMPgmaA3LfLYjJjWcPDwe+F5RSWZlgaCg3AQJRea99+HBCZccIEP3tuhQSvG/a5Cepgn1UWu32uxb670=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731309255; c=relaxed/simple;
-	bh=34OLCIHJ1bYChjoa3WCtiTSvNQcl0f9H02uyZ1GOTUI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Xgoc8xrjIiV1BZjIvTLX+Iy5hMBs9V+tvMC5+t+/vaZSlipFPbHNAjLM3nGhiZuUsdTjV6wkhBklS2UAanTW7uK9GirFkhA51Q2u5cdkT6sqSaOgeKquIOPR2HQg3vPEfv79vDuK/uVr9EnRRuRvQhRWz7PZH8f1e9WGjGzavfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwAXePGzrjFnhKz2AA--.22647S2;
-	Mon, 11 Nov 2024 15:13:55 +0800 (CST)
-Received: from shuaijiakun1288$phytium.com.cn ( [218.76.62.144] ) by
- ajax-webmail-mail (Coremail) ; Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
-Date: Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5biF5a625Z2k?= <shuaijiakun1288@phytium.com.cn>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, kernel@openeuler.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [openeuler:OLK-5.10 2284/2284] drivers/gpu/drm/ast/ast_mm.c:116
- ast_pci_host_is_5c01() error: we previously assumed 'child' could be null
- (see line 109)
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.1-cmXT6 build
- 20240812(cfb32469) Copyright (c) 2002-2024 www.mailtech.cn
- mispb-4edfefde-e422-4ddc-8a36-c3f99eb8cd32-icoremail.net
-In-Reply-To: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
-References: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: D91mVGZvb3Rlcl90eHQ9MzA0MTozODM=
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1731312836; c=relaxed/simple;
+	bh=BzAqHcVM9GXOdaSWANLneg0ydcBHt/Gg8g7yThbUJHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k0DJ79uG+h7ox364YbTnjqcEak0MONT0gAKuCdelud7syqI09lpGUa2chskdEoTA8pbYk9Q5iaaQm1nqv0q72UXIW6491bJ2GfV/iApJFdNq5AxHRofo+gSyQbdiBHukCbLOxJBlBBjtrsNtIfzw0njoIspf9IL/jwlRILiN8A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfCQcIzP; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfCQcIzP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731312834; x=1762848834;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BzAqHcVM9GXOdaSWANLneg0ydcBHt/Gg8g7yThbUJHI=;
+  b=AfCQcIzP8tvd9IUA2IAYqmOso3FoiR1lJFjiKQJQT68BEl4FsvLaFoII
+   iTs+Zp8cE7X57iKefWUOTDJCOgGPD+HWd67CnGbVATg8DjTU9DdMr1wH4
+   uOBO4oO7baisH6hlZ/2frf5hpWf+tLItPYvgtuSA+kAZ02JwCxeGyHbsy
+   5pRLC1fPTIRUJVrIWmw1IOtF1iBdDoEpi8MxgeghSUzZSEAuQwFL00dHq
+   M7DeynrObeu9ZFqP9/9SAK18FrN06rgyR2Xq8W2yinW/0GfhJZjCoEWk8
+   lcYmPlPA+7R6YCsG95t3jlYVr3o6Fa4O8BCy49MtbsP5Wo5XJa88vN0h2
+   g==;
+X-CSE-ConnectionGUID: 9yzEOpJJSLuHxSV/zUhyxw==
+X-CSE-MsgGUID: KGI9ELz1S/KsBCVu/PfLrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30879222"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30879222"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 00:13:54 -0800
+X-CSE-ConnectionGUID: q+OTedOsRiKsBLvECp/Pzg==
+X-CSE-MsgGUID: VoUjBfxeSROj9FERKDd/8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="117714107"
+Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Nov 2024 00:13:52 -0800
+Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAPYT-00006v-2N;
+	Mon, 11 Nov 2024 08:13:49 +0000
+Date: Mon, 11 Nov 2024 16:13:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH 4/5] riscv: sophgo: dts: add pcie controllers for SG2042
+Message-ID: <202411111536.13Umjjra-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <43289c58.646f.1931a126647.Coremail.shuaijiakun1288@phytium.com.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:AQAAfwAHX3uxrjFnMstNAA--.8539W
-X-CM-SenderInfo: 5vkxtx5mldy3bqrsmmo6sk53xlxphulrpou0/1tbiAQAGCGcxDp8C
-	lwABsc
-Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=shuaijiaku
-	n1288@phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoW3WryfGw48Zw4xGF15ZFy8Grg_yoW3Aw13p3
-	WfJ3yUAr1UG3W7X3yfKw18ArW8A3yUWr47JrnrtFy5Zw1DJr4DWr9xKrWxJ3Wjga1jgrs8
-	Kwnrur4Yvr1jq37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
-	UUUUU
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-SGkgRGFuLCAKClRoYW5rIHlvdSBmb3IgeW91ciByZXBvcnQgYW5kIHdlIGhhdmUgbm90aWNlZCB0
-aGlzIGJ1Zy4gSXQgd2lsbCBiZSBoYW5kbGVkIGFuZCB1cGxvYWRlZCBpbiBhIHNlcGFyYXRlIGNv
-bW1pdC4KCkhhdmUgYSBnb29kIGRheSBeX14KCj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+IOWP
-keS7tuS6ujogIkRhbiBDYXJwZW50ZXIiIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+Cj4g5Y+R
-6YCB5pe26Ze0OjIwMjQtMTEtMDYgMTc6MDA6NTAgKOaYn+acn+S4iSkKPiDmlLbku7bkuro6IG9l
-LWtidWlsZEBsaXN0cy5saW51eC5kZXYsIGtlcm5lbEBvcGVuZXVsZXIub3JnLCAiSmlha3VuIFNo
-dWFpIiA8c2h1YWlqaWFrdW4xMjg4QHBoeXRpdW0uY29tLmNuPgo+IOaKhOmAgTogbGtwQGludGVs
-LmNvbSwgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYKPiDkuLvpopg6IFtvcGVuZXVsZXI6
-T0xLLTUuMTAgMjI4NC8yMjg0XSBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tbS5jOjExNiBhc3Rf
-cGNpX2hvc3RfaXNfNWMwMSgpIGVycm9yOiB3ZSBwcmV2aW91c2x5IGFzc3VtZWQgJ2NoaWxkJyBj
-b3VsZCBiZSBudWxsIChzZWUgbGluZSAxMDkpCj4gCj4gdHJlZTogICBodHRwczovL2dpdGVlLmNv
-bS9vcGVuZXVsZXIva2VybmVsLmdpdCBPTEstNS4xMAo+IGhlYWQ6ICAgZjcwNWU5MDlhMDFlZTlh
-ZTc1NTQyNDU3Y2E5NWIwNTVkYWUxNzdhMAo+IGNvbW1pdDogOTY4ZWU0MzZlNGQwY2UwOTk5NGY3
-NDAxNWRjMTYzZWYyODBjY2MxZSBbMjI4NC8yMjg0XSBkcm0vYXN0OiBGaXhlZCBkaXNwbGF5IGVy
-cm9yIGZvciBwczIzeHggd2hlbiB1c2luZyBhc3QgYm1jIGNhcmQKPiBjb25maWc6IHg4Nl82NC1y
-YW5kY29uZmlnLTE2MS0yMDI0MTAyOSAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
-cmNoaXZlLzIwMjQxMTA2LzIwMjQxMTA2MDYxMi5HWW13Wngxay1sa3BAaW50ZWwuY29tL2NvbmZp
-ZykKPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAKPiAKPiBJZiB5
-b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVz
-dCBhIG5ldyB2ZXJzaW9uIG9mCj4gdGhlIHNhbWUgcGF0Y2gvY29tbWl0KSwga2luZGx5IGFkZCBm
-b2xsb3dpbmcgdGFncwo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
-ZWwuY29tPgo+IHwgUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGlu
-YXJvLm9yZz4KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MTEwNjA2
-MTIuR1ltd1p4MWstbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVy
-cy9ncHUvZHJtL2FzdC9hc3RfbW0uYzoxMTYgYXN0X3BjaV9ob3N0X2lzXzVjMDEoKSBlcnJvcjog
-d2UgcHJldmlvdXNseSBhc3N1bWVkICdjaGlsZCcgY291bGQgYmUgbnVsbCAoc2VlIGxpbmUgMTA5
-KQo+IAo+IHZpbSArL2NoaWxkICsxMTYgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW0uYwo+IAo+
-IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMDQgIHN0YXRpYyBib29s
-IGFzdF9wY2lfaG9zdF9pc181YzAxKHN0cnVjdCBwY2lfYnVzICpidXMpCj4gOTY4ZWU0MzZlNGQw
-Y2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNSAgewo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1
-biBTaHVhaSAyMDI0LTA1LTE0ICAxMDYgIAlzdHJ1Y3QgcGNpX2J1cyAqY2hpbGQgPSBidXM7Cj4g
-OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNyAgCXN0cnVjdCBwY2lf
-ZGV2ICpyb290ID0gTlVMTDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0x
-NCAgMTA4ICAKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCBAMTA5ICAJ
-d2hpbGUgKGNoaWxkKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF5eXl5eCj4gV2UgbG9vcCB1bnRpbCBjaGlsZCBpcyBOVUxMCj4gCj4g
-OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDExMCAgCQlpZiAoY2hpbGQt
-PnBhcmVudC0+cGFyZW50KQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0
-ICAxMTEgIAkJCWNoaWxkID0gY2hpbGQtPnBhcmVudDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4g
-U2h1YWkgMjAyNC0wNS0xNCAgMTEyICAJCWVsc2UKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
-YWkgMjAyNC0wNS0xNCAgMTEzICAJCQlicmVhazsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
-YWkgMjAyNC0wNS0xNCAgMTE0ICAJfQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0
-LTA1LTE0ICAxMTUgIAo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0IEAx
-MTYgIAlyb290ID0gY2hpbGQtPnNlbGY7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eCj4gRGVyZWZlcmVuY2UKPiAKPiA5
-NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE3ICAKPiA5NjhlZTQzNmU0
-ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE4ICAJaWYgKChyb290LT52ZW5kb3IgPT0g
-MHgxZGI3KSAmJiAocm9vdC0+ZGV2aWNlID09IDB4NWMwMSkpCj4gOTY4ZWU0MzZlNGQwY2UgSmlh
-a3VuIFNodWFpIDIwMjQtMDUtMTQgIDExOSAgCQlyZXR1cm4gdHJ1ZTsKPiA5NjhlZTQzNmU0ZDBj
-ZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTIwICAJcmV0dXJuIGZhbHNlOwo+IDk2OGVlNDM2
-ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMjEgIH0KPiAKPiAtLSAKPiAwLURBWSBD
-SSBLZXJuZWwgVGVzdCBTZXJ2aWNlCj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0
-cy93aWtpCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgrluIXlrrblnaQgTWVuZGV6
-IFNodWFpIHwg6L2v5Lu26YCC6YWN5bel56iL5biICjE4Mi0wMTIwLTUyMjkgICAgICDmuZbljZfn
-nIHplb/mspnluILlvIDnpo/ljLroipnok4nkuK3ot68x5q61MjE55Y+35a+M5YW05pe25LujVDLl
-hpnlrZfmpbwyMOalvAoNCg0K5L+h5oGv5a6J5YWo5aOw5piO77ya5pys6YKu5Lu25YyF5ZCr5L+h
-5oGv5b2S5Y+R5Lu25Lq65omA5Zyo57uE57uH5omA5pyJLOWPkeS7tuS6uuaJgOWcqOe7hOe7h+Wv
-ueivpemCruS7tuaLpeacieaJgOacieadg+WIqeOAguivt+aOpeaUtuiAheazqOaEj+S/neWvhizm
-nKrnu4/lj5Hku7bkurrkuabpnaLorrjlj68s5LiN5b6X5ZCR5Lu75L2V56ys5LiJ5pa557uE57uH
-5ZKM5Liq5Lq66YCP6Zyy5pys6YKu5Lu25omA5ZCr5L+h5oGv44CCDQpJbmZvcm1hdGlvbiBTZWN1
-cml0eSBOb3RpY2U6IFRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBtYWlsIGlzIHNv
-bGVseSBwcm9wZXJ0eSBvZiB0aGUgc2VuZGVyJ3Mgb3JnYW5pemF0aW9uLlRoaXMgbWFpbCBjb21t
-dW5pY2F0aW9uIGlzIGNvbmZpZGVudGlhbC5SZWNpcGllbnRzIG5hbWVkIGFib3ZlIGFyZSBvYmxp
-Z2F0ZWQgdG8gbWFpbnRhaW4gc2VjcmVjeSBhbmQgYXJlIG5vdCBwZXJtaXR0ZWQgdG8gZGlzY2xv
-c2UgdGhlIGNvbnRlbnRzIG9mIHRoaXMgY29tbXVuaWNhdGlvbiB0byBvdGhlcnMu
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/riscv/boot/dts/sophgo/sg2042.dtsi:198.29-219.5: ERROR (phandle_references): /soc/pcie@7060000000: Reference to non-existent node or label "msi""
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang@outlook.com>
+References: <c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang@outlook.com>
+TO: Chen Wang <unicornxw@gmail.com>
+TO: kw@linux.com
+TO: u.kleine-koenig@baylibre.com
+TO: aou@eecs.berkeley.edu
+TO: arnd@arndb.de
+TO: bhelgaas@google.com
+TO: unicorn_wang@outlook.com
+TO: conor+dt@kernel.org
+TO: guoren@kernel.org
+TO: inochiama@outlook.com
+TO: krzk+dt@kernel.org
+TO: lee@kernel.org
+TO: lpieralisi@kernel.org
+TO: manivannan.sadhasivam@linaro.org
+TO: palmer@dabbelt.com
+TO: paul.walmsley@sifive.com
+TO: pbrobinson@gmail.com
+TO: robh@kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-pci@vger.kernel.org
+TO: linux-riscv@lists.infradead.org
+TO: chao.wei@sophgo.com
+TO: xiaoguang.xing@sophgo.com
+TO: fengchun.li@sophgo.com
+
+Hi Chen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2d5404caa8c7bb5c4e0435f94b28834ae5456623]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-pci-Add-Sophgo-SG2042-PCIe-host/20241111-140237
+base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
+patch link:    https://lore.kernel.org/r/c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang%40outlook.com
+patch subject: [PATCH 4/5] riscv: sophgo: dts: add pcie controllers for SG2042
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: riscv-randconfig-051-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111536.13Umjjra-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.11
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111536.13Umjjra-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202411111536.13Umjjra-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/sophgo/sg2042.dtsi:198.29-219.5: ERROR (phandle_references): /soc/pcie@7060000000: Reference to non-existent node or label "msi"
+
+vim +/msi +198 arch/riscv/boot/dts/sophgo/sg2042.dtsi
+
+967a94a92aaaaf Chen Wang        2023-10-07   14  
+967a94a92aaaaf Chen Wang        2023-10-07   15  / {
+967a94a92aaaaf Chen Wang        2023-10-07   16  	compatible = "sophgo,sg2042";
+967a94a92aaaaf Chen Wang        2023-10-07   17  	#address-cells = <2>;
+967a94a92aaaaf Chen Wang        2023-10-07   18  	#size-cells = <2>;
+967a94a92aaaaf Chen Wang        2023-10-07   19  	dma-noncoherent;
+967a94a92aaaaf Chen Wang        2023-10-07   20  
+967a94a92aaaaf Chen Wang        2023-10-07   21  	aliases {
+967a94a92aaaaf Chen Wang        2023-10-07   22  		serial0 = &uart0;
+967a94a92aaaaf Chen Wang        2023-10-07   23  	};
+967a94a92aaaaf Chen Wang        2023-10-07   24  
+b1240a39511b92 Chen Wang        2023-11-24   25  	cgi_main: oscillator0 {
+b1240a39511b92 Chen Wang        2023-11-24   26  		compatible = "fixed-clock";
+b1240a39511b92 Chen Wang        2023-11-24   27  		clock-output-names = "cgi_main";
+b1240a39511b92 Chen Wang        2023-11-24   28  		#clock-cells = <0>;
+b1240a39511b92 Chen Wang        2023-11-24   29  	};
+b1240a39511b92 Chen Wang        2023-11-24   30  
+b1240a39511b92 Chen Wang        2023-11-24   31  	cgi_dpll0: oscillator1 {
+b1240a39511b92 Chen Wang        2023-11-24   32  		compatible = "fixed-clock";
+b1240a39511b92 Chen Wang        2023-11-24   33  		clock-output-names = "cgi_dpll0";
+b1240a39511b92 Chen Wang        2023-11-24   34  		#clock-cells = <0>;
+b1240a39511b92 Chen Wang        2023-11-24   35  	};
+b1240a39511b92 Chen Wang        2023-11-24   36  
+b1240a39511b92 Chen Wang        2023-11-24   37  	cgi_dpll1: oscillator2 {
+b1240a39511b92 Chen Wang        2023-11-24   38  		compatible = "fixed-clock";
+b1240a39511b92 Chen Wang        2023-11-24   39  		clock-output-names = "cgi_dpll1";
+b1240a39511b92 Chen Wang        2023-11-24   40  		#clock-cells = <0>;
+b1240a39511b92 Chen Wang        2023-11-24   41  	};
+b1240a39511b92 Chen Wang        2023-11-24   42  
+967a94a92aaaaf Chen Wang        2023-10-07   43  	soc: soc {
+967a94a92aaaaf Chen Wang        2023-10-07   44  		compatible = "simple-bus";
+967a94a92aaaaf Chen Wang        2023-10-07   45  		#address-cells = <2>;
+967a94a92aaaaf Chen Wang        2023-10-07   46  		#size-cells = <2>;
+5d9e6bc82bd070 Inochi Amaoto    2024-07-29   47  		interrupt-parent = <&intc>;
+967a94a92aaaaf Chen Wang        2023-10-07   48  		ranges;
+967a94a92aaaaf Chen Wang        2023-10-07   49  
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   50  		i2c0: i2c@7030005000 {
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   51  			compatible = "snps,designware-i2c";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   52  			reg = <0x70 0x30005000 0x0 0x1000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   53  			#address-cells = <1>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   54  			#size-cells = <0>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   55  			clocks = <&clkgen GATE_CLK_APB_I2C>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   56  			clock-names = "ref";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   57  			clock-frequency = <100000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   58  			interrupts = <101 IRQ_TYPE_LEVEL_HIGH>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   59  			resets = <&rstgen RST_I2C0>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   60  			status = "disabled";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   61  		};
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   62  
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   63  		i2c1: i2c@7030006000 {
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   64  			compatible = "snps,designware-i2c";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   65  			reg = <0x70 0x30006000 0x0 0x1000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   66  			#address-cells = <1>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   67  			#size-cells = <0>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   68  			clocks = <&clkgen GATE_CLK_APB_I2C>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   69  			clock-names = "ref";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   70  			clock-frequency = <100000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   71  			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   72  			resets = <&rstgen RST_I2C1>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   73  			status = "disabled";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   74  		};
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   75  
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   76  		i2c2: i2c@7030007000 {
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   77  			compatible = "snps,designware-i2c";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   78  			reg = <0x70 0x30007000 0x0 0x1000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   79  			#address-cells = <1>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   80  			#size-cells = <0>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   81  			clocks = <&clkgen GATE_CLK_APB_I2C>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   82  			clock-names = "ref";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   83  			clock-frequency = <100000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   84  			interrupts = <103 IRQ_TYPE_LEVEL_HIGH>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   85  			resets = <&rstgen RST_I2C2>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   86  			status = "disabled";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   87  		};
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   88  
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   89  		i2c3: i2c@7030008000 {
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   90  			compatible = "snps,designware-i2c";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   91  			reg = <0x70 0x30008000 0x0 0x1000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   92  			#address-cells = <1>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   93  			#size-cells = <0>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   94  			clocks = <&clkgen GATE_CLK_APB_I2C>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   95  			clock-names = "ref";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   96  			clock-frequency = <100000>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   97  			interrupts = <104 IRQ_TYPE_LEVEL_HIGH>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   98  			resets = <&rstgen RST_I2C3>;
+c8eb04aecdd4df Inochi Amaoto    2024-07-29   99  			status = "disabled";
+c8eb04aecdd4df Inochi Amaoto    2024-07-29  100  		};
+c8eb04aecdd4df Inochi Amaoto    2024-07-29  101  
+a508d794f86ea6 Chen Wang        2024-08-19  102  		gpio0: gpio@7030009000 {
+a508d794f86ea6 Chen Wang        2024-08-19  103  			compatible = "snps,dw-apb-gpio";
+a508d794f86ea6 Chen Wang        2024-08-19  104  			reg = <0x70 0x30009000 0x0 0x400>;
+a508d794f86ea6 Chen Wang        2024-08-19  105  			#address-cells = <1>;
+a508d794f86ea6 Chen Wang        2024-08-19  106  			#size-cells = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  107  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
+a508d794f86ea6 Chen Wang        2024-08-19  108  				 <&clkgen GATE_CLK_GPIO_DB>;
+a508d794f86ea6 Chen Wang        2024-08-19  109  			clock-names = "bus", "db";
+a508d794f86ea6 Chen Wang        2024-08-19  110  
+a508d794f86ea6 Chen Wang        2024-08-19  111  			port0a: gpio-controller@0 {
+a508d794f86ea6 Chen Wang        2024-08-19  112  				compatible = "snps,dw-apb-gpio-port";
+a508d794f86ea6 Chen Wang        2024-08-19  113  				gpio-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  114  				#gpio-cells = <2>;
+d99913e1b80b51 Uwe Kleine-König 2024-10-22  115  				ngpios = <32>;
+a508d794f86ea6 Chen Wang        2024-08-19  116  				reg = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  117  				interrupt-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  118  				#interrupt-cells = <2>;
+a508d794f86ea6 Chen Wang        2024-08-19  119  				interrupt-parent = <&intc>;
+a508d794f86ea6 Chen Wang        2024-08-19  120  				interrupts = <96 IRQ_TYPE_LEVEL_HIGH>;
+a508d794f86ea6 Chen Wang        2024-08-19  121  			};
+a508d794f86ea6 Chen Wang        2024-08-19  122  		};
+a508d794f86ea6 Chen Wang        2024-08-19  123  
+a508d794f86ea6 Chen Wang        2024-08-19  124  		gpio1: gpio@703000a000 {
+a508d794f86ea6 Chen Wang        2024-08-19  125  			compatible = "snps,dw-apb-gpio";
+a508d794f86ea6 Chen Wang        2024-08-19  126  			reg = <0x70 0x3000a000 0x0 0x400>;
+a508d794f86ea6 Chen Wang        2024-08-19  127  			#address-cells = <1>;
+a508d794f86ea6 Chen Wang        2024-08-19  128  			#size-cells = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  129  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
+a508d794f86ea6 Chen Wang        2024-08-19  130  				 <&clkgen GATE_CLK_GPIO_DB>;
+a508d794f86ea6 Chen Wang        2024-08-19  131  			clock-names = "bus", "db";
+a508d794f86ea6 Chen Wang        2024-08-19  132  
+a508d794f86ea6 Chen Wang        2024-08-19  133  			port1a: gpio-controller@0 {
+a508d794f86ea6 Chen Wang        2024-08-19  134  				compatible = "snps,dw-apb-gpio-port";
+a508d794f86ea6 Chen Wang        2024-08-19  135  				gpio-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  136  				#gpio-cells = <2>;
+d99913e1b80b51 Uwe Kleine-König 2024-10-22  137  				ngpios = <32>;
+a508d794f86ea6 Chen Wang        2024-08-19  138  				reg = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  139  				interrupt-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  140  				#interrupt-cells = <2>;
+a508d794f86ea6 Chen Wang        2024-08-19  141  				interrupt-parent = <&intc>;
+a508d794f86ea6 Chen Wang        2024-08-19  142  				interrupts = <97 IRQ_TYPE_LEVEL_HIGH>;
+a508d794f86ea6 Chen Wang        2024-08-19  143  			};
+a508d794f86ea6 Chen Wang        2024-08-19  144  		};
+a508d794f86ea6 Chen Wang        2024-08-19  145  
+a508d794f86ea6 Chen Wang        2024-08-19  146  		gpio2: gpio@703000b000 {
+a508d794f86ea6 Chen Wang        2024-08-19  147  			compatible = "snps,dw-apb-gpio";
+a508d794f86ea6 Chen Wang        2024-08-19  148  			reg = <0x70 0x3000b000 0x0 0x400>;
+a508d794f86ea6 Chen Wang        2024-08-19  149  			#address-cells = <1>;
+a508d794f86ea6 Chen Wang        2024-08-19  150  			#size-cells = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  151  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
+a508d794f86ea6 Chen Wang        2024-08-19  152  				 <&clkgen GATE_CLK_GPIO_DB>;
+a508d794f86ea6 Chen Wang        2024-08-19  153  			clock-names = "bus", "db";
+a508d794f86ea6 Chen Wang        2024-08-19  154  
+a508d794f86ea6 Chen Wang        2024-08-19  155  			port2a: gpio-controller@0 {
+a508d794f86ea6 Chen Wang        2024-08-19  156  				compatible = "snps,dw-apb-gpio-port";
+a508d794f86ea6 Chen Wang        2024-08-19  157  				gpio-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  158  				#gpio-cells = <2>;
+d99913e1b80b51 Uwe Kleine-König 2024-10-22  159  				ngpios = <32>;
+a508d794f86ea6 Chen Wang        2024-08-19  160  				reg = <0>;
+a508d794f86ea6 Chen Wang        2024-08-19  161  				interrupt-controller;
+a508d794f86ea6 Chen Wang        2024-08-19  162  				#interrupt-cells = <2>;
+a508d794f86ea6 Chen Wang        2024-08-19  163  				interrupt-parent = <&intc>;
+a508d794f86ea6 Chen Wang        2024-08-19  164  				interrupts = <98 IRQ_TYPE_LEVEL_HIGH>;
+a508d794f86ea6 Chen Wang        2024-08-19  165  			};
+a508d794f86ea6 Chen Wang        2024-08-19  166  		};
+a508d794f86ea6 Chen Wang        2024-08-19  167  
+b1240a39511b92 Chen Wang        2023-11-24  168  		pllclk: clock-controller@70300100c0 {
+b1240a39511b92 Chen Wang        2023-11-24  169  			compatible = "sophgo,sg2042-pll";
+b1240a39511b92 Chen Wang        2023-11-24  170  			reg = <0x70 0x300100c0 0x0 0x40>;
+b1240a39511b92 Chen Wang        2023-11-24  171  			clocks = <&cgi_main>, <&cgi_dpll0>, <&cgi_dpll1>;
+b1240a39511b92 Chen Wang        2023-11-24  172  			clock-names = "cgi_main", "cgi_dpll0", "cgi_dpll1";
+b1240a39511b92 Chen Wang        2023-11-24  173  			#clock-cells = <1>;
+b1240a39511b92 Chen Wang        2023-11-24  174  		};
+b1240a39511b92 Chen Wang        2023-11-24  175  
+b1240a39511b92 Chen Wang        2023-11-24  176  		rpgate: clock-controller@7030010368 {
+b1240a39511b92 Chen Wang        2023-11-24  177  			compatible = "sophgo,sg2042-rpgate";
+b1240a39511b92 Chen Wang        2023-11-24  178  			reg = <0x70 0x30010368 0x0 0x98>;
+b1240a39511b92 Chen Wang        2023-11-24  179  			clocks = <&clkgen GATE_CLK_RP_CPU_NORMAL>;
+b1240a39511b92 Chen Wang        2023-11-24  180  			clock-names = "rpgate";
+b1240a39511b92 Chen Wang        2023-11-24  181  			#clock-cells = <1>;
+b1240a39511b92 Chen Wang        2023-11-24  182  		};
+b1240a39511b92 Chen Wang        2023-11-24  183  
+b1240a39511b92 Chen Wang        2023-11-24  184  		clkgen: clock-controller@7030012000 {
+b1240a39511b92 Chen Wang        2023-11-24  185  			compatible = "sophgo,sg2042-clkgen";
+b1240a39511b92 Chen Wang        2023-11-24  186  			reg = <0x70 0x30012000 0x0 0x1000>;
+b1240a39511b92 Chen Wang        2023-11-24  187  			clocks = <&pllclk MPLL_CLK>,
+b1240a39511b92 Chen Wang        2023-11-24  188  				 <&pllclk FPLL_CLK>,
+b1240a39511b92 Chen Wang        2023-11-24  189  				 <&pllclk DPLL0_CLK>,
+b1240a39511b92 Chen Wang        2023-11-24  190  				 <&pllclk DPLL1_CLK>;
+b1240a39511b92 Chen Wang        2023-11-24  191  			clock-names = "mpll",
+b1240a39511b92 Chen Wang        2023-11-24  192  				      "fpll",
+b1240a39511b92 Chen Wang        2023-11-24  193  				      "dpll0",
+b1240a39511b92 Chen Wang        2023-11-24  194  				      "dpll1";
+b1240a39511b92 Chen Wang        2023-11-24  195  			#clock-cells = <1>;
+b1240a39511b92 Chen Wang        2023-11-24  196  		};
+b1240a39511b92 Chen Wang        2023-11-24  197  
+400cd81382c7f9 Chen Wang        2024-11-11 @198  		pcie_rc0: pcie@7060000000 {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
