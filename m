@@ -1,85 +1,63 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA65213BAEE
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 09:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54ED146A68
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 09:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731318010; cv=none; b=gY6iYCfUQfnh/ttqJ9S7ABdr6p34BSY+u2ZgHceyILAZfaQZMXWjTRXxPYZklF+BvGPUc3pOP4tCYlMNncnblQJ/TLjT8PcTPSs/fZUBdIFjfUnIkQU95JTOTwfKYchiuf2s2zhfB/vzCrqks9Caw9R40yxSq24StoKJYBj/c6Y=
+	t=1731318239; cv=none; b=EGDx29hSTBUHNptDHS6Bl7SZHcQ7jzqoK+N42ducmykCizKnU+agrd3LF0/9FRvNCUGb04u++UJgSURoGNdSuQSOEbpw1JsuLVUHx7wPM2KHrZN5a1EuH+Bb19wJuaC8Y5KCZ6UUGo1yMCEbskGfp7MgBSSwy5xiTMJ+jdMWvCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731318010; c=relaxed/simple;
-	bh=eVbFQ8eRmgwQjhyZDrpzmXZtLQtDVQOa42qdW6+BPsA=;
+	s=arc-20240116; t=1731318239; c=relaxed/simple;
+	bh=LG2oRZ80i01qs7NGC4LV+2RagFX7Y68AMcAgdb+Ah4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=AbbYaycjUqkrObLEt357W9j4vBMHvrqPB+XpCOs9Dlo74XWsZU49/rgeLeuKsL2RTBx1KYVbssupIG2rlEFO3qTACj+qEe3ET2xx1FMAphhr+Tes9c1SaSe6t2D9+FQ1zvDmId0jCXsPBQzd8YCYaXxnaT+VrmrGT6w38H812ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=opucUnZB; arc=none smtp.client-ip=209.85.208.49
+	 Content-Disposition; b=d0s/nIBeLbkAB7sRVihz0lQHdymKuXYg2L21+SgPyd/+X2OwstTE1e67ODAvbi1C9TYMcfupaze/MRT4PeHnBGkY3BjmvdHrpe17F+BHxirv3IvNL6kKz7adFuut60rk0+ihlb6WpsTEfwUBu5k7ahlOzNtqTFXnl5oiqwgUhKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=poOtKBqe; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="opucUnZB"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cec93719ccso5878875a12.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 01:40:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="poOtKBqe"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a99ebb390a5so989329466b.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 01:43:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731318006; x=1731922806; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RL5ouNz62J4rP7Vb2EwmgbN1hwLbAAvQeLoAfZ/ypHo=;
-        b=opucUnZBJet6jjM0WBj6lPfKgeXlzEtlYfYMjgoNDpJ9XDwAJ/R6PcMTCg/tbgHAsf
-         1hheDC6i9f7zlI+0DpEtUN/At8nIwfdb7hF8lvgeAg5Oq4TjWZrUCnUODFwlPSskASe+
-         cejWED9s7fkVGmR3q88ySVJmqhtKjFmxFfyG2xe0zq1tKzLOs/4/RRoq31fOmjpxsru3
-         pI9pTzkKByl3Rl+W7/wvnigZFbiDhXXsT7fOOtSrKnlcZSOPZ8tgikb6JnJHkL6+jtFb
-         EkcvoscIHcBF/PpKr42kzy3abpnoNVXP1QoGVoGwPGb2o2Tn8Vcocqr57UL3IjQhLStB
-         OOQg==
+        d=linaro.org; s=google; t=1731318235; x=1731923035; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zN5u/k/hQf/EODB0Rgy/g9MqUY8TUESZQQ3pm+8evkw=;
+        b=poOtKBqe14o/tKe7iT5wvY/VPSzrm22NLkQozuEmiKTpSDWr6m1YZInSU7Wn5U/Phf
+         VpusBSlbnenSUVZirROsQaY4csAuFI8F8HvC//UebEPZs0BqnmlVwAEVO2rutXb4mGNj
+         43iKg0ZjsVtEruEJVWHtzFJRvrJJ6Ow6qCikd8QvN2kPQJmzPpp2SXVClfMxfhwlCvLt
+         V+SZmclo+Wg7VHrsQ8o+I3YEZxJVgHCE+CvquOIsMM/pYuHZP+NvOwM1LGJ5OIfq6/yp
+         sozwgGV+z8PF0sWSZ//FXxOvLqOxhAv0vwmdAGY+S9t4++CERuXqrXR49GBwPkfrRvSp
+         hrrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731318006; x=1731922806;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RL5ouNz62J4rP7Vb2EwmgbN1hwLbAAvQeLoAfZ/ypHo=;
-        b=F4ushu2jsZrc6IfSkQWR7TzMI4u3sylYHhCu0APGXzqjkjsJVDITsePRscZkuThy8c
-         md3cZm7n9Gi29XJvm672UVM9aY2dD+bJ+YHhY85N3BdELUexFOh6ZWeaTt2olATFfKay
-         rHrNz16wzGavaytpFTcuj1Idu94lokDYObvf0Jo5itLHr66E9ATHDcl7D7RzpDtVYw53
-         hT29cJrPbxlEdtAUx0aJWftEjyBlQOSbf/EXnCYQhRkTHvqks4mu/21tOCHmGmyUCOWE
-         tIuf48nRNSOLaG3psTSm79IA1/fkLVJRasqiXl04WdPIFDUHooyHUt+F+Am+LNNbu2HM
-         IbcA==
-X-Gm-Message-State: AOJu0Yw/Es7goqsKjyVK9DT2UGtOz8CxcDufq1TrGh1IpJ+6TAtrPwvk
-	v9za4/1B3qVxQRhE47+DFuTv1QMOfC5ExlvHLXOSW18Uha9p+3SavwZ1O4+0Hn3XOAdYFhWwPno
-	g5h4=
-X-Google-Smtp-Source: AGHT+IF/p+575+YNR2OJr4WYmzHEumA5ro2KoQ7Lo/HcKAeV1re5jL3XLj3j1AdmsGeHCshinHqVXw==
-X-Received: by 2002:a05:6402:13ce:b0:5ce:ddd4:7c2f with SMTP id 4fb4d7f45d1cf-5cf0a30c5dcmr10678581a12.7.1731318006331;
-        Mon, 11 Nov 2024 01:40:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731318235; x=1731923035;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zN5u/k/hQf/EODB0Rgy/g9MqUY8TUESZQQ3pm+8evkw=;
+        b=swTUzLsM2jl+ReR/FemVrInLvQjRenRM4dfFnvld0H/2mGmPs25se+UKbnB2+WU++q
+         /1aR1+rGQk2mA5Dy3Vt5W7jnGtR2893tPlTTNj20ZVRswFFQQyorNlZUzLhUU5XadkfO
+         ofCEYzgSAJVfTiCOKHzxHtgQr8vGKquBJnEyNAqm5Im2YHRuS1vh0Uj+y2w/DW/xp+y1
+         toHtHKvRmVU55T1xNCjsAQh0bPu6eLhDIXTTLixFSfo5Q7ga7UOu3gEeMX4pvvFN3rfz
+         R+pIL++gX5nvfeURspAM1PuoA5ve2EHH5cpHBdQyCxVF7trh0gNurBS6zH9cLl+7VeIH
+         7BhQ==
+X-Gm-Message-State: AOJu0Yw27nsM3RsOLhHpnH+s08kaC1AsrYrW5syIR4rVtO3TuDG5+N5B
+	NDzUJADAGVBya+rDkFb8IQSb8F7zxWlDNNTAbYKLI0hQCOs5hhN/Lx0b7N4v2XRFiBLJL062SNL
+	Vve0=
+X-Google-Smtp-Source: AGHT+IGFaIPnZqqDAJMhMwyxIn6+GOqns9j3XX//DVN0QDrgJeJvrt3tgEqi2wiJm4jBk9jWGeE3Ug==
+X-Received: by 2002:a17:907:2da5:b0:a99:fbb6:4972 with SMTP id a640c23a62f3a-a9eeff97fe5mr1165490066b.25.1731318235345;
+        Mon, 11 Nov 2024 01:43:55 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf0f369037sm3560713a12.12.2024.11.11.01.40.05
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0defbdcsm573018066b.159.2024.11.11.01.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 01:40:06 -0800 (PST)
-Date: Mon, 11 Nov 2024 12:38:50 +0300
+        Mon, 11 Nov 2024 01:43:54 -0800 (PST)
+Date: Mon, 11 Nov 2024 12:43:51 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>,
-	netdev@vger.kernel.org
+To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kurt Kanzenbach <kurt@linutronix.de>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Chris Snook <chris.snook@gmail.com>,
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-can@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] net: modernize ioremap in probe
-Message-ID: <0460e9ea-3d2b-425b-9e97-c69afe138670@stanley.mountain>
+	linux-kernel@vger.kernel.org
+Subject: drivers/soc/apple/mailbox.c:292 apple_mbox_get() warn: passing zero
+ to 'ERR_PTR'
+Message-ID: <8291bb96-afb7-4703-8a72-ba764534efc9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -88,99 +66,54 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241109233641.8313-1-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-modernize-ioremap-in-probe/20241110-073751
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241109233641.8313-1-rosenp%40gmail.com
-patch subject: [PATCH] net: modernize ioremap in probe
-config: arm-randconfig-r071-20241110 (https://download.01.org/0day-ci/archive/20241111/202411110835.tTxOya6U-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   906bd684e4b1e517dd424a354744c5b0aebef8af
+commit: c84292d9d253706267889cf2614400712f15d689 soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
+config: sparc-randconfig-r072-20241107 (https://download.01.org/0day-ci/archive/20241108/202411081103.7IiOcvUp-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411110835.tTxOya6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411081103.7IiOcvUp-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/freescale/xgmac_mdio.c:395 xgmac_mdio_probe() error: uninitialized symbol 'res'.
+drivers/soc/apple/mailbox.c:292 apple_mbox_get() warn: passing zero to 'ERR_PTR'
 
-vim +/res +395 drivers/net/ethernet/freescale/xgmac_mdio.c
+vim +/ERR_PTR +292 drivers/soc/apple/mailbox.c
 
-33897cc869eef8 Bill Pemberton    2012-12-03  371  static int xgmac_mdio_probe(struct platform_device *pdev)
-9f35a7342cff0b Timur Tabi        2012-08-20  372  {
-ac53c26433b51f Marcin Wojtas     2021-06-25  373  	struct fwnode_handle *fwnode;
-73ee5442978b2d Shaohui Xie       2015-03-16  374  	struct mdio_fsl_priv *priv;
-15e7064e879335 Calvin Johnson    2021-06-11  375  	struct resource *res;
-15e7064e879335 Calvin Johnson    2021-06-11  376  	struct mii_bus *bus;
-9f35a7342cff0b Timur Tabi        2012-08-20  377  	int ret;
-9f35a7342cff0b Timur Tabi        2012-08-20  378  
-229f4bb47512ec Calvin Johnson    2020-06-22  379  	/* In DPAA-1, MDIO is one of the many FMan sub-devices. The FMan
-229f4bb47512ec Calvin Johnson    2020-06-22  380  	 * defines a register space that spans a large area, covering all the
-229f4bb47512ec Calvin Johnson    2020-06-22  381  	 * subdevice areas. Therefore, MDIO cannot claim exclusive access to
-229f4bb47512ec Calvin Johnson    2020-06-22  382  	 * this register area.
-229f4bb47512ec Calvin Johnson    2020-06-22  383  	 */
-9f35a7342cff0b Timur Tabi        2012-08-20  384  
-1d14eb15dc2c39 Tobias Waldekranz 2022-01-26  385  	bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(struct mdio_fsl_priv));
-9f35a7342cff0b Timur Tabi        2012-08-20  386  	if (!bus)
-9f35a7342cff0b Timur Tabi        2012-08-20  387  		return -ENOMEM;
-9f35a7342cff0b Timur Tabi        2012-08-20  388  
-9f35a7342cff0b Timur Tabi        2012-08-20  389  	bus->name = "Freescale XGMAC MDIO Bus";
-c0fc8e6dcee40c Andrew Lunn       2023-01-09  390  	bus->read = xgmac_mdio_read_c22;
-c0fc8e6dcee40c Andrew Lunn       2023-01-09  391  	bus->write = xgmac_mdio_write_c22;
-c0fc8e6dcee40c Andrew Lunn       2023-01-09  392  	bus->read_c45 = xgmac_mdio_read_c45;
-c0fc8e6dcee40c Andrew Lunn       2023-01-09  393  	bus->write_c45 = xgmac_mdio_write_c45;
-9f35a7342cff0b Timur Tabi        2012-08-20  394  	bus->parent = &pdev->dev;
-229f4bb47512ec Calvin Johnson    2020-06-22 @395  	snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
-                                                                                                   ^^^
-res isn't initialized.
+6e1457fcad3ff6 Hector Martin 2023-03-14  282  struct apple_mbox *apple_mbox_get(struct device *dev, int index)
+6e1457fcad3ff6 Hector Martin 2023-03-14  283  {
+6e1457fcad3ff6 Hector Martin 2023-03-14  284  	struct of_phandle_args args;
+6e1457fcad3ff6 Hector Martin 2023-03-14  285  	struct platform_device *pdev;
+6e1457fcad3ff6 Hector Martin 2023-03-14  286  	struct apple_mbox *mbox;
+6e1457fcad3ff6 Hector Martin 2023-03-14  287  	int ret;
+6e1457fcad3ff6 Hector Martin 2023-03-14  288  
+6e1457fcad3ff6 Hector Martin 2023-03-14  289  	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
+6e1457fcad3ff6 Hector Martin 2023-03-14  290  					 index, &args);
+6e1457fcad3ff6 Hector Martin 2023-03-14  291  	if (ret || !args.np)
+6e1457fcad3ff6 Hector Martin 2023-03-14 @292  		return ERR_PTR(ret);
 
-9f35a7342cff0b Timur Tabi        2012-08-20  396  
-73ee5442978b2d Shaohui Xie       2015-03-16  397  	priv = bus->priv;
-865bbb2945a161 Rosen Penev       2024-11-09  398  	priv->mdio_base = devm_platform_ioremap_resource(pdev, 0);
-865bbb2945a161 Rosen Penev       2024-11-09  399  	if (IS_ERR(priv->mdio_base))
-865bbb2945a161 Rosen Penev       2024-11-09  400  		return PTR_ERR(priv->mdio_base);
-9f35a7342cff0b Timur Tabi        2012-08-20  401  
-15e7064e879335 Calvin Johnson    2021-06-11  402  	/* For both ACPI and DT cases, endianness of MDIO controller
-15e7064e879335 Calvin Johnson    2021-06-11  403  	 * needs to be specified using "little-endian" property.
-15e7064e879335 Calvin Johnson    2021-06-11  404  	 */
-229f4bb47512ec Calvin Johnson    2020-06-22  405  	priv->is_little_endian = device_property_read_bool(&pdev->dev,
-07bf2e11ad0586 Julia Lawall      2016-08-05  406  							   "little-endian");
-73ee5442978b2d Shaohui Xie       2015-03-16  407  
-6198c722019774 Tobias Waldekranz 2022-01-18  408  	priv->has_a009885 = device_property_read_bool(&pdev->dev,
-6198c722019774 Tobias Waldekranz 2022-01-18  409  						      "fsl,erratum-a009885");
-229f4bb47512ec Calvin Johnson    2020-06-22  410  	priv->has_a011043 = device_property_read_bool(&pdev->dev,
-1d3ca681b9d957 Madalin Bucur     2020-01-22  411  						      "fsl,erratum-a011043");
-1d3ca681b9d957 Madalin Bucur     2020-01-22  412  
-909bea73485fab Tobias Waldekranz 2022-01-26  413  	xgmac_mdio_set_suppress_preamble(bus);
-909bea73485fab Tobias Waldekranz 2022-01-26  414  
-dd8f467eda72cd Tobias Waldekranz 2022-01-26  415  	ret = xgmac_mdio_set_mdc_freq(bus);
-dd8f467eda72cd Tobias Waldekranz 2022-01-26  416  	if (ret)
-dd8f467eda72cd Tobias Waldekranz 2022-01-26  417  		return ret;
-dd8f467eda72cd Tobias Waldekranz 2022-01-26  418  
-105b0468d7b2e6 zhaoxiao          2022-08-18  419  	fwnode = dev_fwnode(&pdev->dev);
-ac53c26433b51f Marcin Wojtas     2021-06-25  420  	if (is_of_node(fwnode))
-ac53c26433b51f Marcin Wojtas     2021-06-25  421  		ret = of_mdiobus_register(bus, to_of_node(fwnode));
-ac53c26433b51f Marcin Wojtas     2021-06-25  422  	else if (is_acpi_node(fwnode))
-ac53c26433b51f Marcin Wojtas     2021-06-25  423  		ret = acpi_mdiobus_register(bus, fwnode);
-ac53c26433b51f Marcin Wojtas     2021-06-25  424  	else
-ac53c26433b51f Marcin Wojtas     2021-06-25  425  		ret = -EINVAL;
-9f35a7342cff0b Timur Tabi        2012-08-20  426  	if (ret) {
-9f35a7342cff0b Timur Tabi        2012-08-20  427  		dev_err(&pdev->dev, "cannot register MDIO bus\n");
-9f35a7342cff0b Timur Tabi        2012-08-20  428  		return ret;
-9f35a7342cff0b Timur Tabi        2012-08-20  429  	}
-9f35a7342cff0b Timur Tabi        2012-08-20  430  
-1d14eb15dc2c39 Tobias Waldekranz 2022-01-26  431  	platform_set_drvdata(pdev, bus);
-9f35a7342cff0b Timur Tabi        2012-08-20  432  
-9f35a7342cff0b Timur Tabi        2012-08-20  433  	return 0;
-9f35a7342cff0b Timur Tabi        2012-08-20  434  }
+This should be something like: return ERR_PTR(ret ?: -EINVAL);
+
+6e1457fcad3ff6 Hector Martin 2023-03-14  293  
+6e1457fcad3ff6 Hector Martin 2023-03-14  294  	pdev = of_find_device_by_node(args.np);
+6e1457fcad3ff6 Hector Martin 2023-03-14  295  	of_node_put(args.np);
+6e1457fcad3ff6 Hector Martin 2023-03-14  296  
+6e1457fcad3ff6 Hector Martin 2023-03-14  297  	if (!pdev)
+6e1457fcad3ff6 Hector Martin 2023-03-14  298  		return ERR_PTR(EPROBE_DEFER);
+6e1457fcad3ff6 Hector Martin 2023-03-14  299  
+6e1457fcad3ff6 Hector Martin 2023-03-14  300  	mbox = platform_get_drvdata(pdev);
+6e1457fcad3ff6 Hector Martin 2023-03-14  301  	if (!mbox)
+6e1457fcad3ff6 Hector Martin 2023-03-14  302  		return ERR_PTR(EPROBE_DEFER);
+6e1457fcad3ff6 Hector Martin 2023-03-14  303  
+6e1457fcad3ff6 Hector Martin 2023-03-14  304  	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
+6e1457fcad3ff6 Hector Martin 2023-03-14  305  		return ERR_PTR(ENODEV);
+6e1457fcad3ff6 Hector Martin 2023-03-14  306  
+6e1457fcad3ff6 Hector Martin 2023-03-14  307  	return mbox;
+6e1457fcad3ff6 Hector Martin 2023-03-14  308  }
 
 -- 
 0-DAY CI Kernel Test Service
