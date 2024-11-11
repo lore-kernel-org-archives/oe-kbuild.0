@@ -1,209 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DC73C3C
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 02:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD28312CD96;
+	Mon, 11 Nov 2024 07:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731290838; cv=none; b=Bom8WrNZ2XDhcmi5AsB1Ar2VFrOb/iNFaQeqwUXKnrFdYAxu0lwdGINc/ufqBt1jhAWp/TVpVT0aPNVAsLJzTwlX6zC9qmx6kprQ2+9T0iDL0HDXni/+D6WNHNjRo+W31QX4D91vUHVywhe1ZGusn3+Fn7LPBGmwYCdIgjP794Y=
+	t=1731309255; cv=none; b=i10I4IxHvbnXzYJIJHz7/AR+fGj0AwxFGPXHpBf6nbJl6JVqTX/DFP5FvFu0u7I2WPgyIQ0vrpWh55mD9xouqOkqDCKocv3WTzGX3+r/MxcU8mRNHy+hWmfBQZjKIAtZvgc2ObfhqZkUAi0OwCAlAbDQ0ODxD73p8+ZrIAA8rck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731290838; c=relaxed/simple;
-	bh=bS0fNfBjfwbSc+2RfE0gq0x63ULm/MDVlezS+Z+4txY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UfaMTsCsiuqHfSW8PXRGIDlxIvJ/TsZk4R3dCfFOkKBnS9V3I1FiBPYMJz9iR1XOsfziC/yN+HVeGNcBTMZK9ZphfaeeRCeAjHk6fBajymgCctfI/ILA5ne/ImYM74GIPD/gZdP9lsnLjPUo4SIg6NEoJ3MdCkfGAIAQiMrpCXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ldi2sbJh; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ldi2sbJh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731290836; x=1762826836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bS0fNfBjfwbSc+2RfE0gq0x63ULm/MDVlezS+Z+4txY=;
-  b=Ldi2sbJhSVXg27b0WY3JZcBjTO2HGFnpjVMGOqRiDXfL0T/NL4JhYilL
-   ZbSu06zi/1SONuZYhqAJKPNjxX+gz4keWipwZvI+HB4jKwLWhGA7Fd3ER
-   2NqP7yh5d0EJ0m4zkTKpbAGGoxQRIsBAqT2oR2dZdb6rAAYYnb1WFnTr1
-   muZDRE+vXw+wun/Uj1yXWeg0y4Szj/UZXrQYln3zczYkKYWiFsS7wSPzw
-   aH+sIjjW5TB4kUvtbYnY5FJdReVwKOAD0YQDdfAdw3M4Xhdtsn1xFHZWE
-   1/K7MP39YVKCenINs+xLetRYAntAVGWWnhmf7GxWjZxpP6AnzKc1IWpjF
-   Q==;
-X-CSE-ConnectionGUID: s3qIDay0QYK3CxR+RXKRIw==
-X-CSE-MsgGUID: rPPEYmEHQaSAbQfcnQk42w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="30503826"
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="30503826"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 18:07:16 -0800
-X-CSE-ConnectionGUID: L9WxTSpCQe6JjUApj3oi4w==
-X-CSE-MsgGUID: 0w/xdzjzQJC9+Q4wOtJ/8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="109969567"
-Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2024 18:07:14 -0800
-Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAJpg-0000YG-0P;
-	Mon, 11 Nov 2024 02:07:12 +0000
-Date: Mon, 11 Nov 2024 10:06:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net v2]: stmmac: dwmac-intel-plat: fix call balance of
- tx_clk handling routines
-Message-ID: <202411110911.fxtHBKSw-lkp@intel.com>
+	s=arc-20240116; t=1731309255; c=relaxed/simple;
+	bh=34OLCIHJ1bYChjoa3WCtiTSvNQcl0f9H02uyZ1GOTUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=Xgoc8xrjIiV1BZjIvTLX+Iy5hMBs9V+tvMC5+t+/vaZSlipFPbHNAjLM3nGhiZuUsdTjV6wkhBklS2UAanTW7uK9GirFkhA51Q2u5cdkT6sqSaOgeKquIOPR2HQg3vPEfv79vDuK/uVr9EnRRuRvQhRWz7PZH8f1e9WGjGzavfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
+Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
+	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwAXePGzrjFnhKz2AA--.22647S2;
+	Mon, 11 Nov 2024 15:13:55 +0800 (CST)
+Received: from shuaijiakun1288$phytium.com.cn ( [218.76.62.144] ) by
+ ajax-webmail-mail (Coremail) ; Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
+Date: Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5biF5a625Z2k?= <shuaijiakun1288@phytium.com.cn>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, kernel@openeuler.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [openeuler:OLK-5.10 2284/2284] drivers/gpu/drm/ast/ast_mm.c:116
+ ast_pci_host_is_5c01() error: we previously assumed 'child' could be null
+ (see line 109)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT6 build
+ 20240812(cfb32469) Copyright (c) 2002-2024 www.mailtech.cn
+ mispb-4edfefde-e422-4ddc-8a36-c3f99eb8cd32-icoremail.net
+In-Reply-To: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
+References: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: D91mVGZvb3Rlcl90eHQ9MzA0MTozODM=
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <43289c58.646f.1931a126647.Coremail.shuaijiakun1288@phytium.com.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:AQAAfwAHX3uxrjFnMstNAA--.8539W
+X-CM-SenderInfo: 5vkxtx5mldy3bqrsmmo6sk53xlxphulrpou0/1tbiAQAGCGcxDp8C
+	lwABsc
+Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=shuaijiaku
+	n1288@phytium.com.cn;
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WryfGw48Zw4xGF15ZFy8Grg_yoW3Aw13p3
+	WfJ3yUAr1UG3W7X3yfKw18ArW8A3yUWr47JrnrtFy5Zw1DJr4DWr9xKrWxJ3Wjga1jgrs8
+	Kwnrur4Yvr1jq37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
+	UUUUU
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241108173334.2973603-1-mordan@ispras.ru>
-References: <20241108173334.2973603-1-mordan@ispras.ru>
-TO: Vitalii Mordan <mordan@ispras.ru>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: Vitalii Mordan <mordan@ispras.ru>
-CC: Jose Abreu <joabreu@synopsys.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-CC: netdev@vger.kernel.org
-CC: linux-stm32@st-md-mailman.stormreply.com
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: lvc-project@linuxtesting.org
-CC: Fedor Pchelkin <pchelkin@ispras.ru>
-CC: Alexey Khoroshilov <khoroshilov@ispras.ru>
-CC: Vadim Mutilin <mutilin@ispras.ru>
+SGkgRGFuLCAKClRoYW5rIHlvdSBmb3IgeW91ciByZXBvcnQgYW5kIHdlIGhhdmUgbm90aWNlZCB0
+aGlzIGJ1Zy4gSXQgd2lsbCBiZSBoYW5kbGVkIGFuZCB1cGxvYWRlZCBpbiBhIHNlcGFyYXRlIGNv
+bW1pdC4KCkhhdmUgYSBnb29kIGRheSBeX14KCj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+IOWP
+keS7tuS6ujogIkRhbiBDYXJwZW50ZXIiIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+Cj4g5Y+R
+6YCB5pe26Ze0OjIwMjQtMTEtMDYgMTc6MDA6NTAgKOaYn+acn+S4iSkKPiDmlLbku7bkuro6IG9l
+LWtidWlsZEBsaXN0cy5saW51eC5kZXYsIGtlcm5lbEBvcGVuZXVsZXIub3JnLCAiSmlha3VuIFNo
+dWFpIiA8c2h1YWlqaWFrdW4xMjg4QHBoeXRpdW0uY29tLmNuPgo+IOaKhOmAgTogbGtwQGludGVs
+LmNvbSwgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYKPiDkuLvpopg6IFtvcGVuZXVsZXI6
+T0xLLTUuMTAgMjI4NC8yMjg0XSBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tbS5jOjExNiBhc3Rf
+cGNpX2hvc3RfaXNfNWMwMSgpIGVycm9yOiB3ZSBwcmV2aW91c2x5IGFzc3VtZWQgJ2NoaWxkJyBj
+b3VsZCBiZSBudWxsIChzZWUgbGluZSAxMDkpCj4gCj4gdHJlZTogICBodHRwczovL2dpdGVlLmNv
+bS9vcGVuZXVsZXIva2VybmVsLmdpdCBPTEstNS4xMAo+IGhlYWQ6ICAgZjcwNWU5MDlhMDFlZTlh
+ZTc1NTQyNDU3Y2E5NWIwNTVkYWUxNzdhMAo+IGNvbW1pdDogOTY4ZWU0MzZlNGQwY2UwOTk5NGY3
+NDAxNWRjMTYzZWYyODBjY2MxZSBbMjI4NC8yMjg0XSBkcm0vYXN0OiBGaXhlZCBkaXNwbGF5IGVy
+cm9yIGZvciBwczIzeHggd2hlbiB1c2luZyBhc3QgYm1jIGNhcmQKPiBjb25maWc6IHg4Nl82NC1y
+YW5kY29uZmlnLTE2MS0yMDI0MTAyOSAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
+cmNoaXZlLzIwMjQxMTA2LzIwMjQxMTA2MDYxMi5HWW13Wngxay1sa3BAaW50ZWwuY29tL2NvbmZp
+ZykKPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAKPiAKPiBJZiB5
+b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVz
+dCBhIG5ldyB2ZXJzaW9uIG9mCj4gdGhlIHNhbWUgcGF0Y2gvY29tbWl0KSwga2luZGx5IGFkZCBm
+b2xsb3dpbmcgdGFncwo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
+ZWwuY29tPgo+IHwgUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGlu
+YXJvLm9yZz4KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MTEwNjA2
+MTIuR1ltd1p4MWstbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfbW0uYzoxMTYgYXN0X3BjaV9ob3N0X2lzXzVjMDEoKSBlcnJvcjog
+d2UgcHJldmlvdXNseSBhc3N1bWVkICdjaGlsZCcgY291bGQgYmUgbnVsbCAoc2VlIGxpbmUgMTA5
+KQo+IAo+IHZpbSArL2NoaWxkICsxMTYgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW0uYwo+IAo+
+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMDQgIHN0YXRpYyBib29s
+IGFzdF9wY2lfaG9zdF9pc181YzAxKHN0cnVjdCBwY2lfYnVzICpidXMpCj4gOTY4ZWU0MzZlNGQw
+Y2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNSAgewo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1
+biBTaHVhaSAyMDI0LTA1LTE0ICAxMDYgIAlzdHJ1Y3QgcGNpX2J1cyAqY2hpbGQgPSBidXM7Cj4g
+OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNyAgCXN0cnVjdCBwY2lf
+ZGV2ICpyb290ID0gTlVMTDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0x
+NCAgMTA4ICAKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCBAMTA5ICAJ
+d2hpbGUgKGNoaWxkKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF5eXl5eCj4gV2UgbG9vcCB1bnRpbCBjaGlsZCBpcyBOVUxMCj4gCj4g
+OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDExMCAgCQlpZiAoY2hpbGQt
+PnBhcmVudC0+cGFyZW50KQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0
+ICAxMTEgIAkJCWNoaWxkID0gY2hpbGQtPnBhcmVudDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4g
+U2h1YWkgMjAyNC0wNS0xNCAgMTEyICAJCWVsc2UKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
+YWkgMjAyNC0wNS0xNCAgMTEzICAJCQlicmVhazsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
+YWkgMjAyNC0wNS0xNCAgMTE0ICAJfQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0
+LTA1LTE0ICAxMTUgIAo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0IEAx
+MTYgIAlyb290ID0gY2hpbGQtPnNlbGY7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eCj4gRGVyZWZlcmVuY2UKPiAKPiA5
+NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE3ICAKPiA5NjhlZTQzNmU0
+ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE4ICAJaWYgKChyb290LT52ZW5kb3IgPT0g
+MHgxZGI3KSAmJiAocm9vdC0+ZGV2aWNlID09IDB4NWMwMSkpCj4gOTY4ZWU0MzZlNGQwY2UgSmlh
+a3VuIFNodWFpIDIwMjQtMDUtMTQgIDExOSAgCQlyZXR1cm4gdHJ1ZTsKPiA5NjhlZTQzNmU0ZDBj
+ZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTIwICAJcmV0dXJuIGZhbHNlOwo+IDk2OGVlNDM2
+ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMjEgIH0KPiAKPiAtLSAKPiAwLURBWSBD
+SSBLZXJuZWwgVGVzdCBTZXJ2aWNlCj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0
+cy93aWtpCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgrluIXlrrblnaQgTWVuZGV6
+IFNodWFpIHwg6L2v5Lu26YCC6YWN5bel56iL5biICjE4Mi0wMTIwLTUyMjkgICAgICDmuZbljZfn
+nIHplb/mspnluILlvIDnpo/ljLroipnok4nkuK3ot68x5q61MjE55Y+35a+M5YW05pe25LujVDLl
+hpnlrZfmpbwyMOalvAoNCg0K5L+h5oGv5a6J5YWo5aOw5piO77ya5pys6YKu5Lu25YyF5ZCr5L+h
+5oGv5b2S5Y+R5Lu25Lq65omA5Zyo57uE57uH5omA5pyJLOWPkeS7tuS6uuaJgOWcqOe7hOe7h+Wv
+ueivpemCruS7tuaLpeacieaJgOacieadg+WIqeOAguivt+aOpeaUtuiAheazqOaEj+S/neWvhizm
+nKrnu4/lj5Hku7bkurrkuabpnaLorrjlj68s5LiN5b6X5ZCR5Lu75L2V56ys5LiJ5pa557uE57uH
+5ZKM5Liq5Lq66YCP6Zyy5pys6YKu5Lu25omA5ZCr5L+h5oGv44CCDQpJbmZvcm1hdGlvbiBTZWN1
+cml0eSBOb3RpY2U6IFRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBtYWlsIGlzIHNv
+bGVseSBwcm9wZXJ0eSBvZiB0aGUgc2VuZGVyJ3Mgb3JnYW5pemF0aW9uLlRoaXMgbWFpbCBjb21t
+dW5pY2F0aW9uIGlzIGNvbmZpZGVudGlhbC5SZWNpcGllbnRzIG5hbWVkIGFib3ZlIGFyZSBvYmxp
+Z2F0ZWQgdG8gbWFpbnRhaW4gc2VjcmVjeSBhbmQgYXJlIG5vdCBwZXJtaXR0ZWQgdG8gZGlzY2xv
+c2UgdGhlIGNvbnRlbnRzIG9mIHRoaXMgY29tbXVuaWNhdGlvbiB0byBvdGhlcnMu
 
-Hi Vitalii,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vitalii-Mordan/stmmac-dwmac-intel-plat-fix-call-balance-of-tx_clk-handling-routines/20241109-013647
-base:   net/main
-patch link:    https://lore.kernel.org/r/20241108173334.2973603-1-mordan%40ispras.ru
-patch subject: [PATCH net v2]: stmmac: dwmac-intel-plat: fix call balance of tx_clk handling routines
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r071-20241110 (https://download.01.org/0day-ci/archive/20241111/202411110911.fxtHBKSw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411110911.fxtHBKSw-lkp@intel.com/
-
-smatch warnings:
-drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c:163 intel_eth_plat_probe() error: we previously assumed 'dwmac->data' could be null (see line 101)
-
-vim +163 drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c
-
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   74  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   75  static int intel_eth_plat_probe(struct platform_device *pdev)
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   76  {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   77  	struct plat_stmmacenet_data *plat_dat;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   78  	struct stmmac_resources stmmac_res;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   79  	struct intel_dwmac *dwmac;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   80  	unsigned long rate;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   81  	int ret;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   82  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   83  	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   84  	if (ret)
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   85  		return ret;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   86  
-abea8fd5e801a6 Jisheng Zhang        2023-09-16   87  	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   88  	if (IS_ERR(plat_dat)) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   89  		dev_err(&pdev->dev, "dt configuration failed\n");
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   90  		return PTR_ERR(plat_dat);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   91  	}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   92  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   93  	dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac), GFP_KERNEL);
-abea8fd5e801a6 Jisheng Zhang        2023-09-16   94  	if (!dwmac)
-abea8fd5e801a6 Jisheng Zhang        2023-09-16   95  		return -ENOMEM;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   96  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   97  	dwmac->dev = &pdev->dev;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   98  	dwmac->tx_clk = NULL;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   99  
-b0377116decdee Rob Herring          2023-10-09  100  	dwmac->data = device_get_match_data(&pdev->dev);
-b0377116decdee Rob Herring          2023-10-09 @101  	if (dwmac->data) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  102  		if (dwmac->data->fix_mac_speed)
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  103  			plat_dat->fix_mac_speed = dwmac->data->fix_mac_speed;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  104  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  105  		/* Enable TX clock */
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  106  		if (dwmac->data->tx_clk_en) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  107  			dwmac->tx_clk = devm_clk_get(&pdev->dev, "tx_clk");
-abea8fd5e801a6 Jisheng Zhang        2023-09-16  108  			if (IS_ERR(dwmac->tx_clk))
-abea8fd5e801a6 Jisheng Zhang        2023-09-16  109  				return PTR_ERR(dwmac->tx_clk);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  110  
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  111  			ret = clk_prepare_enable(dwmac->tx_clk);
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  112  			if (ret) {
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  113  				dev_err(&pdev->dev,
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  114  					"Failed to enable tx_clk\n");
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  115  				return ret;
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  116  			}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  117  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  118  			/* Check and configure TX clock rate */
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  119  			rate = clk_get_rate(dwmac->tx_clk);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  120  			if (dwmac->data->tx_clk_rate &&
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  121  			    rate != dwmac->data->tx_clk_rate) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  122  				rate = dwmac->data->tx_clk_rate;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  123  				ret = clk_set_rate(dwmac->tx_clk, rate);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  124  				if (ret) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  125  					dev_err(&pdev->dev,
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  126  						"Failed to set tx_clk\n");
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  127  					goto err_tx_clk_disable;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  128  				}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  129  			}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  130  		}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  131  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  132  		/* Check and configure PTP ref clock rate */
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  133  		rate = clk_get_rate(plat_dat->clk_ptp_ref);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  134  		if (dwmac->data->ptp_ref_clk_rate &&
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  135  		    rate != dwmac->data->ptp_ref_clk_rate) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  136  			rate = dwmac->data->ptp_ref_clk_rate;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  137  			ret = clk_set_rate(plat_dat->clk_ptp_ref, rate);
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  138  			if (ret) {
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  139  				dev_err(&pdev->dev,
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  140  					"Failed to set clk_ptp_ref\n");
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  141  				goto err_tx_clk_disable;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  142  			}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  143  		}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  144  	}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  145  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  146  	plat_dat->bsp_priv = dwmac;
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  147  	plat_dat->eee_usecs_rate = plat_dat->clk_ptp_rate;
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  148  
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  149  	if (plat_dat->eee_usecs_rate > 0) {
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  150  		u32 tx_lpi_usec;
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  151  
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  152  		tx_lpi_usec = (plat_dat->eee_usecs_rate / 1000000) - 1;
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  153  		writel(tx_lpi_usec, stmmac_res.addr + GMAC_1US_TIC_COUNTER);
-b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  154  	}
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  155  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  156  	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  157  	if (ret)
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  158  		goto err_tx_clk_disable;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  159  
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  160  	return 0;
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  161  
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  162  err_tx_clk_disable:
-bd8cfad17c9530 Vitalii Mordan       2024-11-08 @163  	if (dwmac->data->tx_clk_en)
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  164  		clk_disable_unprepare(dwmac->tx_clk);
-bd8cfad17c9530 Vitalii Mordan       2024-11-08  165  	return ret;
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  166  }
-9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  167  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
