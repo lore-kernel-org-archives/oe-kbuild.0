@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB320B22
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 08:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3868415687D
+	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 09:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731312836; cv=none; b=utSsfooKbKJ4W7znCJ8XSCxcymv5KaT8e0p38Uc6Z6iUy37C+2F4mwhMlZp3GywTIh8z0IMjEsdQC0yd14SJMXSfETvTMPgmaA3LfLYjJjWcPDwe+F5RSWZlgaCg3AQJRea99+HBCZccIEP3tuhQSvG/a5Cepgn1UWu32uxb670=
+	t=1731316553; cv=none; b=XRG5ujHI/jZ3OIm4kxGig5Hr869vX9AvddhuH959UbRH6F4FwsoS0d9Ru0AE3PuJEOijBrY+g58NM1tHxTFwpYPh24plvRH9qHxRO6EX5OJvxjG5Y8RvbVLYX6XtmCdHviorH46WnmSoqLWPr35UqtnOw0ePBfrXODY6LTwLM/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731312836; c=relaxed/simple;
-	bh=BzAqHcVM9GXOdaSWANLneg0ydcBHt/Gg8g7yThbUJHI=;
+	s=arc-20240116; t=1731316553; c=relaxed/simple;
+	bh=4SorxWmczYWyGtKRkGL9aWjQEhQUjC9PUa+Uys2aHLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k0DJ79uG+h7ox364YbTnjqcEak0MONT0gAKuCdelud7syqI09lpGUa2chskdEoTA8pbYk9Q5iaaQm1nqv0q72UXIW6491bJ2GfV/iApJFdNq5AxHRofo+gSyQbdiBHukCbLOxJBlBBjtrsNtIfzw0njoIspf9IL/jwlRILiN8A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfCQcIzP; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=Ekh/oqGwNQtIuDH8auUNzQzPd5ngq2wThTVa+rgUbauQTkZrP6XVdQUsIQzFnL0T6/pH2vuRfYr5/omIx3IvSUgIVjNm9tupO2FJVKXGpxA8UK5L3sqEeyOUDpHXO0hoodnHnibI8WEj1Z3YmdLkMWrRYwYBJfdR9IkyC2Cczpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vev2MPnF; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfCQcIzP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731312834; x=1762848834;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BzAqHcVM9GXOdaSWANLneg0ydcBHt/Gg8g7yThbUJHI=;
-  b=AfCQcIzP8tvd9IUA2IAYqmOso3FoiR1lJFjiKQJQT68BEl4FsvLaFoII
-   iTs+Zp8cE7X57iKefWUOTDJCOgGPD+HWd67CnGbVATg8DjTU9DdMr1wH4
-   uOBO4oO7baisH6hlZ/2frf5hpWf+tLItPYvgtuSA+kAZ02JwCxeGyHbsy
-   5pRLC1fPTIRUJVrIWmw1IOtF1iBdDoEpi8MxgeghSUzZSEAuQwFL00dHq
-   M7DeynrObeu9ZFqP9/9SAK18FrN06rgyR2Xq8W2yinW/0GfhJZjCoEWk8
-   lcYmPlPA+7R6YCsG95t3jlYVr3o6Fa4O8BCy49MtbsP5Wo5XJa88vN0h2
-   g==;
-X-CSE-ConnectionGUID: 9yzEOpJJSLuHxSV/zUhyxw==
-X-CSE-MsgGUID: KGI9ELz1S/KsBCVu/PfLrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30879222"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30879222"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 00:13:54 -0800
-X-CSE-ConnectionGUID: q+OTedOsRiKsBLvECp/Pzg==
-X-CSE-MsgGUID: VoUjBfxeSROj9FERKDd/8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="117714107"
-Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Nov 2024 00:13:52 -0800
-Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAPYT-00006v-2N;
-	Mon, 11 Nov 2024 08:13:49 +0000
-Date: Mon, 11 Nov 2024 16:13:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/5] riscv: sophgo: dts: add pcie controllers for SG2042
-Message-ID: <202411111536.13Umjjra-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vev2MPnF"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9a0ec0a94fso701310266b.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 01:15:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731316549; x=1731921349; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1VCSi35Pnpy+RJV8R2Tk+aJNEVKY/wjSPAZ8KQBt7fA=;
+        b=vev2MPnF0nuPNqVsiIwC4SDHy7XD1oXGBZqdkpe2PN13Hl/cUXEnP19SkBh21tpzDt
+         2zQcLDmJuyM3kWj/AQxjSLG3uM0Sktm6aiBiuSagpnfy2dnCYOV0CgISYfolJDDhaoVQ
+         7PLs1xHomtVaLl3GJ/dS/Npc0CFN/lhcRh2oH+fV7ip/c2FMijhJP408HEOps08uGGPS
+         xqEs2NkkudewL1fYbjX9Nin4rk15TYPhDwRy37RVy4oWbnnqH+etYzGTlufcLkeSoP8L
+         xAwI5cRySalvheguv9/uJcbCtWz7WLsrPxLiSpn3LY3wsd1dWnlgizFYcHEKCHek44eD
+         ngnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731316549; x=1731921349;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1VCSi35Pnpy+RJV8R2Tk+aJNEVKY/wjSPAZ8KQBt7fA=;
+        b=kY70Mb9wJxu8enDOthFAAxOduy1X9eYZEllWvkAVz5CqfpIjaQAvqu20ajaqnIDehZ
+         jsvKgSZ6La3I9jAiOfAfjl8Mr/ENH6RE83YpJksUqb19UL0hoaZvDa1uCYLXvsJED3EA
+         2JZc2L3mkhRwkGvRKDH3vV4FTUqkoyFB04iXAQSk0veMV0oP1YHi2B7sWdO2qlqUA1Bv
+         kzAJhImpro8bL3uKX5btl9QSENrAtOuZ+D92iEF+doLd1DDHRWl9K2iuNWPHQu4QookU
+         mDt/f5HA7DW+Nug2Rphgi0s8wFzxmm/YWRUfPN1snT+QsAECW8pd+wQkfsxzKqx166dW
+         NW7w==
+X-Gm-Message-State: AOJu0Yz0Am8r6Hjr86/FekpTMnIJ1hMCcJdmXxeoquKN2PngvoXF0m1y
+	vUbz7PmDlNSCAx8Gf4xG0s9kj6Me1tIGPV1hYqxDY3jNGoFfW7912G+zJ7RADSD0Gg18UNBoGoX
+	81HE=
+X-Google-Smtp-Source: AGHT+IFVeptHZM3VciSUgGtQ56bFk2XkT0Mi7Rva5vLWFJ1y6IwY1Wq4YpuShO2BdrGmAAe9jorzcA==
+X-Received: by 2002:a17:907:2dab:b0:a99:f975:2e6 with SMTP id a640c23a62f3a-a9eeff3772amr1158164366b.35.1731316548829;
+        Mon, 11 Nov 2024 01:15:48 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a4c210sm569183966b.78.2024.11.11.01.15.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 01:15:48 -0800 (PST)
+Date: Mon, 11 Nov 2024 12:15:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mircea Caprioru <mircea.caprioru@analog.com>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibe.com>
+Subject: Re: [PATCH 2/2] iio: adc: ad7124: Refuse invalid input specifiers
+Message-ID: <bb25249b-62b8-4d7f-9ef3-cb5e1f8674ba@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,255 +74,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241108181813.272593-6-u.kleine-koenig@baylibre.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/riscv/boot/dts/sophgo/sg2042.dtsi:198.29-219.5: ERROR (phandle_references): /soc/pcie@7060000000: Reference to non-existent node or label "msi""
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang@outlook.com>
-References: <c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang@outlook.com>
-TO: Chen Wang <unicornxw@gmail.com>
-TO: kw@linux.com
-TO: u.kleine-koenig@baylibre.com
-TO: aou@eecs.berkeley.edu
-TO: arnd@arndb.de
-TO: bhelgaas@google.com
-TO: unicorn_wang@outlook.com
-TO: conor+dt@kernel.org
-TO: guoren@kernel.org
-TO: inochiama@outlook.com
-TO: krzk+dt@kernel.org
-TO: lee@kernel.org
-TO: lpieralisi@kernel.org
-TO: manivannan.sadhasivam@linaro.org
-TO: palmer@dabbelt.com
-TO: paul.walmsley@sifive.com
-TO: pbrobinson@gmail.com
-TO: robh@kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-pci@vger.kernel.org
-TO: linux-riscv@lists.infradead.org
-TO: chao.wei@sophgo.com
-TO: xiaoguang.xing@sophgo.com
-TO: fengchun.li@sophgo.com
-
-Hi Chen,
+Hi Uwe,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2d5404caa8c7bb5c4e0435f94b28834ae5456623]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-pci-Add-Sophgo-SG2042-PCIe-host/20241111-140237
-base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
-patch link:    https://lore.kernel.org/r/c8d05d3a4cf620ec4fcbf1050dea7c77f834c87a.1731303328.git.unicorn_wang%40outlook.com
-patch subject: [PATCH 4/5] riscv: sophgo: dts: add pcie controllers for SG2042
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: riscv-randconfig-051-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111536.13Umjjra-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.11
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111536.13Umjjra-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/iio-adc-ad7124-Don-t-create-more-channels-than-the-hardware-is-capable-of/20241109-022036
+base:   9852d85ec9d492ebef56dc5f229416c925758edc
+patch link:    https://lore.kernel.org/r/20241108181813.272593-6-u.kleine-koenig%40baylibre.com
+patch subject: [PATCH 2/2] iio: adc: ad7124: Refuse invalid input specifiers
+config: i386-randconfig-141-20241109 (https://download.01.org/0day-ci/archive/20241109/202411090908.Ynrg4eS0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411111536.13Umjjra-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411090908.Ynrg4eS0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/riscv/boot/dts/sophgo/sg2042.dtsi:198.29-219.5: ERROR (phandle_references): /soc/pcie@7060000000: Reference to non-existent node or label "msi"
+smatch warnings:
+drivers/iio/adc/ad7124.c:874 ad7124_parse_channel_config() warn: passing zero to 'dev_err_probe'
 
-vim +/msi +198 arch/riscv/boot/dts/sophgo/sg2042.dtsi
+vim +/dev_err_probe +874 drivers/iio/adc/ad7124.c
 
-967a94a92aaaaf Chen Wang        2023-10-07   14  
-967a94a92aaaaf Chen Wang        2023-10-07   15  / {
-967a94a92aaaaf Chen Wang        2023-10-07   16  	compatible = "sophgo,sg2042";
-967a94a92aaaaf Chen Wang        2023-10-07   17  	#address-cells = <2>;
-967a94a92aaaaf Chen Wang        2023-10-07   18  	#size-cells = <2>;
-967a94a92aaaaf Chen Wang        2023-10-07   19  	dma-noncoherent;
-967a94a92aaaaf Chen Wang        2023-10-07   20  
-967a94a92aaaaf Chen Wang        2023-10-07   21  	aliases {
-967a94a92aaaaf Chen Wang        2023-10-07   22  		serial0 = &uart0;
-967a94a92aaaaf Chen Wang        2023-10-07   23  	};
-967a94a92aaaaf Chen Wang        2023-10-07   24  
-b1240a39511b92 Chen Wang        2023-11-24   25  	cgi_main: oscillator0 {
-b1240a39511b92 Chen Wang        2023-11-24   26  		compatible = "fixed-clock";
-b1240a39511b92 Chen Wang        2023-11-24   27  		clock-output-names = "cgi_main";
-b1240a39511b92 Chen Wang        2023-11-24   28  		#clock-cells = <0>;
-b1240a39511b92 Chen Wang        2023-11-24   29  	};
-b1240a39511b92 Chen Wang        2023-11-24   30  
-b1240a39511b92 Chen Wang        2023-11-24   31  	cgi_dpll0: oscillator1 {
-b1240a39511b92 Chen Wang        2023-11-24   32  		compatible = "fixed-clock";
-b1240a39511b92 Chen Wang        2023-11-24   33  		clock-output-names = "cgi_dpll0";
-b1240a39511b92 Chen Wang        2023-11-24   34  		#clock-cells = <0>;
-b1240a39511b92 Chen Wang        2023-11-24   35  	};
-b1240a39511b92 Chen Wang        2023-11-24   36  
-b1240a39511b92 Chen Wang        2023-11-24   37  	cgi_dpll1: oscillator2 {
-b1240a39511b92 Chen Wang        2023-11-24   38  		compatible = "fixed-clock";
-b1240a39511b92 Chen Wang        2023-11-24   39  		clock-output-names = "cgi_dpll1";
-b1240a39511b92 Chen Wang        2023-11-24   40  		#clock-cells = <0>;
-b1240a39511b92 Chen Wang        2023-11-24   41  	};
-b1240a39511b92 Chen Wang        2023-11-24   42  
-967a94a92aaaaf Chen Wang        2023-10-07   43  	soc: soc {
-967a94a92aaaaf Chen Wang        2023-10-07   44  		compatible = "simple-bus";
-967a94a92aaaaf Chen Wang        2023-10-07   45  		#address-cells = <2>;
-967a94a92aaaaf Chen Wang        2023-10-07   46  		#size-cells = <2>;
-5d9e6bc82bd070 Inochi Amaoto    2024-07-29   47  		interrupt-parent = <&intc>;
-967a94a92aaaaf Chen Wang        2023-10-07   48  		ranges;
-967a94a92aaaaf Chen Wang        2023-10-07   49  
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   50  		i2c0: i2c@7030005000 {
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   51  			compatible = "snps,designware-i2c";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   52  			reg = <0x70 0x30005000 0x0 0x1000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   53  			#address-cells = <1>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   54  			#size-cells = <0>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   55  			clocks = <&clkgen GATE_CLK_APB_I2C>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   56  			clock-names = "ref";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   57  			clock-frequency = <100000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   58  			interrupts = <101 IRQ_TYPE_LEVEL_HIGH>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   59  			resets = <&rstgen RST_I2C0>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   60  			status = "disabled";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   61  		};
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   62  
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   63  		i2c1: i2c@7030006000 {
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   64  			compatible = "snps,designware-i2c";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   65  			reg = <0x70 0x30006000 0x0 0x1000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   66  			#address-cells = <1>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   67  			#size-cells = <0>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   68  			clocks = <&clkgen GATE_CLK_APB_I2C>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   69  			clock-names = "ref";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   70  			clock-frequency = <100000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   71  			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   72  			resets = <&rstgen RST_I2C1>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   73  			status = "disabled";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   74  		};
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   75  
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   76  		i2c2: i2c@7030007000 {
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   77  			compatible = "snps,designware-i2c";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   78  			reg = <0x70 0x30007000 0x0 0x1000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   79  			#address-cells = <1>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   80  			#size-cells = <0>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   81  			clocks = <&clkgen GATE_CLK_APB_I2C>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   82  			clock-names = "ref";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   83  			clock-frequency = <100000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   84  			interrupts = <103 IRQ_TYPE_LEVEL_HIGH>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   85  			resets = <&rstgen RST_I2C2>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   86  			status = "disabled";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   87  		};
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   88  
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   89  		i2c3: i2c@7030008000 {
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   90  			compatible = "snps,designware-i2c";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   91  			reg = <0x70 0x30008000 0x0 0x1000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   92  			#address-cells = <1>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   93  			#size-cells = <0>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   94  			clocks = <&clkgen GATE_CLK_APB_I2C>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   95  			clock-names = "ref";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   96  			clock-frequency = <100000>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   97  			interrupts = <104 IRQ_TYPE_LEVEL_HIGH>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   98  			resets = <&rstgen RST_I2C3>;
-c8eb04aecdd4df Inochi Amaoto    2024-07-29   99  			status = "disabled";
-c8eb04aecdd4df Inochi Amaoto    2024-07-29  100  		};
-c8eb04aecdd4df Inochi Amaoto    2024-07-29  101  
-a508d794f86ea6 Chen Wang        2024-08-19  102  		gpio0: gpio@7030009000 {
-a508d794f86ea6 Chen Wang        2024-08-19  103  			compatible = "snps,dw-apb-gpio";
-a508d794f86ea6 Chen Wang        2024-08-19  104  			reg = <0x70 0x30009000 0x0 0x400>;
-a508d794f86ea6 Chen Wang        2024-08-19  105  			#address-cells = <1>;
-a508d794f86ea6 Chen Wang        2024-08-19  106  			#size-cells = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  107  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
-a508d794f86ea6 Chen Wang        2024-08-19  108  				 <&clkgen GATE_CLK_GPIO_DB>;
-a508d794f86ea6 Chen Wang        2024-08-19  109  			clock-names = "bus", "db";
-a508d794f86ea6 Chen Wang        2024-08-19  110  
-a508d794f86ea6 Chen Wang        2024-08-19  111  			port0a: gpio-controller@0 {
-a508d794f86ea6 Chen Wang        2024-08-19  112  				compatible = "snps,dw-apb-gpio-port";
-a508d794f86ea6 Chen Wang        2024-08-19  113  				gpio-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  114  				#gpio-cells = <2>;
-d99913e1b80b51 Uwe Kleine-König 2024-10-22  115  				ngpios = <32>;
-a508d794f86ea6 Chen Wang        2024-08-19  116  				reg = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  117  				interrupt-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  118  				#interrupt-cells = <2>;
-a508d794f86ea6 Chen Wang        2024-08-19  119  				interrupt-parent = <&intc>;
-a508d794f86ea6 Chen Wang        2024-08-19  120  				interrupts = <96 IRQ_TYPE_LEVEL_HIGH>;
-a508d794f86ea6 Chen Wang        2024-08-19  121  			};
-a508d794f86ea6 Chen Wang        2024-08-19  122  		};
-a508d794f86ea6 Chen Wang        2024-08-19  123  
-a508d794f86ea6 Chen Wang        2024-08-19  124  		gpio1: gpio@703000a000 {
-a508d794f86ea6 Chen Wang        2024-08-19  125  			compatible = "snps,dw-apb-gpio";
-a508d794f86ea6 Chen Wang        2024-08-19  126  			reg = <0x70 0x3000a000 0x0 0x400>;
-a508d794f86ea6 Chen Wang        2024-08-19  127  			#address-cells = <1>;
-a508d794f86ea6 Chen Wang        2024-08-19  128  			#size-cells = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  129  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
-a508d794f86ea6 Chen Wang        2024-08-19  130  				 <&clkgen GATE_CLK_GPIO_DB>;
-a508d794f86ea6 Chen Wang        2024-08-19  131  			clock-names = "bus", "db";
-a508d794f86ea6 Chen Wang        2024-08-19  132  
-a508d794f86ea6 Chen Wang        2024-08-19  133  			port1a: gpio-controller@0 {
-a508d794f86ea6 Chen Wang        2024-08-19  134  				compatible = "snps,dw-apb-gpio-port";
-a508d794f86ea6 Chen Wang        2024-08-19  135  				gpio-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  136  				#gpio-cells = <2>;
-d99913e1b80b51 Uwe Kleine-König 2024-10-22  137  				ngpios = <32>;
-a508d794f86ea6 Chen Wang        2024-08-19  138  				reg = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  139  				interrupt-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  140  				#interrupt-cells = <2>;
-a508d794f86ea6 Chen Wang        2024-08-19  141  				interrupt-parent = <&intc>;
-a508d794f86ea6 Chen Wang        2024-08-19  142  				interrupts = <97 IRQ_TYPE_LEVEL_HIGH>;
-a508d794f86ea6 Chen Wang        2024-08-19  143  			};
-a508d794f86ea6 Chen Wang        2024-08-19  144  		};
-a508d794f86ea6 Chen Wang        2024-08-19  145  
-a508d794f86ea6 Chen Wang        2024-08-19  146  		gpio2: gpio@703000b000 {
-a508d794f86ea6 Chen Wang        2024-08-19  147  			compatible = "snps,dw-apb-gpio";
-a508d794f86ea6 Chen Wang        2024-08-19  148  			reg = <0x70 0x3000b000 0x0 0x400>;
-a508d794f86ea6 Chen Wang        2024-08-19  149  			#address-cells = <1>;
-a508d794f86ea6 Chen Wang        2024-08-19  150  			#size-cells = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  151  			clocks = <&clkgen GATE_CLK_APB_GPIO>,
-a508d794f86ea6 Chen Wang        2024-08-19  152  				 <&clkgen GATE_CLK_GPIO_DB>;
-a508d794f86ea6 Chen Wang        2024-08-19  153  			clock-names = "bus", "db";
-a508d794f86ea6 Chen Wang        2024-08-19  154  
-a508d794f86ea6 Chen Wang        2024-08-19  155  			port2a: gpio-controller@0 {
-a508d794f86ea6 Chen Wang        2024-08-19  156  				compatible = "snps,dw-apb-gpio-port";
-a508d794f86ea6 Chen Wang        2024-08-19  157  				gpio-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  158  				#gpio-cells = <2>;
-d99913e1b80b51 Uwe Kleine-König 2024-10-22  159  				ngpios = <32>;
-a508d794f86ea6 Chen Wang        2024-08-19  160  				reg = <0>;
-a508d794f86ea6 Chen Wang        2024-08-19  161  				interrupt-controller;
-a508d794f86ea6 Chen Wang        2024-08-19  162  				#interrupt-cells = <2>;
-a508d794f86ea6 Chen Wang        2024-08-19  163  				interrupt-parent = <&intc>;
-a508d794f86ea6 Chen Wang        2024-08-19  164  				interrupts = <98 IRQ_TYPE_LEVEL_HIGH>;
-a508d794f86ea6 Chen Wang        2024-08-19  165  			};
-a508d794f86ea6 Chen Wang        2024-08-19  166  		};
-a508d794f86ea6 Chen Wang        2024-08-19  167  
-b1240a39511b92 Chen Wang        2023-11-24  168  		pllclk: clock-controller@70300100c0 {
-b1240a39511b92 Chen Wang        2023-11-24  169  			compatible = "sophgo,sg2042-pll";
-b1240a39511b92 Chen Wang        2023-11-24  170  			reg = <0x70 0x300100c0 0x0 0x40>;
-b1240a39511b92 Chen Wang        2023-11-24  171  			clocks = <&cgi_main>, <&cgi_dpll0>, <&cgi_dpll1>;
-b1240a39511b92 Chen Wang        2023-11-24  172  			clock-names = "cgi_main", "cgi_dpll0", "cgi_dpll1";
-b1240a39511b92 Chen Wang        2023-11-24  173  			#clock-cells = <1>;
-b1240a39511b92 Chen Wang        2023-11-24  174  		};
-b1240a39511b92 Chen Wang        2023-11-24  175  
-b1240a39511b92 Chen Wang        2023-11-24  176  		rpgate: clock-controller@7030010368 {
-b1240a39511b92 Chen Wang        2023-11-24  177  			compatible = "sophgo,sg2042-rpgate";
-b1240a39511b92 Chen Wang        2023-11-24  178  			reg = <0x70 0x30010368 0x0 0x98>;
-b1240a39511b92 Chen Wang        2023-11-24  179  			clocks = <&clkgen GATE_CLK_RP_CPU_NORMAL>;
-b1240a39511b92 Chen Wang        2023-11-24  180  			clock-names = "rpgate";
-b1240a39511b92 Chen Wang        2023-11-24  181  			#clock-cells = <1>;
-b1240a39511b92 Chen Wang        2023-11-24  182  		};
-b1240a39511b92 Chen Wang        2023-11-24  183  
-b1240a39511b92 Chen Wang        2023-11-24  184  		clkgen: clock-controller@7030012000 {
-b1240a39511b92 Chen Wang        2023-11-24  185  			compatible = "sophgo,sg2042-clkgen";
-b1240a39511b92 Chen Wang        2023-11-24  186  			reg = <0x70 0x30012000 0x0 0x1000>;
-b1240a39511b92 Chen Wang        2023-11-24  187  			clocks = <&pllclk MPLL_CLK>,
-b1240a39511b92 Chen Wang        2023-11-24  188  				 <&pllclk FPLL_CLK>,
-b1240a39511b92 Chen Wang        2023-11-24  189  				 <&pllclk DPLL0_CLK>,
-b1240a39511b92 Chen Wang        2023-11-24  190  				 <&pllclk DPLL1_CLK>;
-b1240a39511b92 Chen Wang        2023-11-24  191  			clock-names = "mpll",
-b1240a39511b92 Chen Wang        2023-11-24  192  				      "fpll",
-b1240a39511b92 Chen Wang        2023-11-24  193  				      "dpll0",
-b1240a39511b92 Chen Wang        2023-11-24  194  				      "dpll1";
-b1240a39511b92 Chen Wang        2023-11-24  195  			#clock-cells = <1>;
-b1240a39511b92 Chen Wang        2023-11-24  196  		};
-b1240a39511b92 Chen Wang        2023-11-24  197  
-400cd81382c7f9 Chen Wang        2024-11-11 @198  		pcie_rc0: pcie@7060000000 {
+a6eaf02b82744b Jonathan Cameron  2024-02-18  824  static int ad7124_parse_channel_config(struct iio_dev *indio_dev,
+a6eaf02b82744b Jonathan Cameron  2024-02-18  825  				       struct device *dev)
+b3af341bbd9662 Stefan Popa       2018-11-13  826  {
+b3af341bbd9662 Stefan Popa       2018-11-13  827  	struct ad7124_state *st = iio_priv(indio_dev);
+7b8d045e497a04 Alexandru Tachici 2021-03-11  828  	struct ad7124_channel_config *cfg;
+7b8d045e497a04 Alexandru Tachici 2021-03-11  829  	struct ad7124_channel *channels;
+b3af341bbd9662 Stefan Popa       2018-11-13  830  	struct iio_chan_spec *chan;
+b3af341bbd9662 Stefan Popa       2018-11-13  831  	unsigned int ain[2], channel = 0, tmp;
+b3af341bbd9662 Stefan Popa       2018-11-13  832  	int ret;
+b3af341bbd9662 Stefan Popa       2018-11-13  833  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  834  	st->num_channels = device_get_child_node_count(dev);
+a6eaf02b82744b Jonathan Cameron  2024-02-18  835  	if (!st->num_channels)
+a6eaf02b82744b Jonathan Cameron  2024-02-18  836  		return dev_err_probe(dev, -ENODEV, "no channel children\n");
+b3af341bbd9662 Stefan Popa       2018-11-13  837  
+b478bd5e22404e Uwe Kleine-König  2024-11-08  838  	if (st->num_channels > AD7124_MAX_CHANNELS) {
+b478bd5e22404e Uwe Kleine-König  2024-11-08  839  		dev_warn(dev, "Limit number of channels to " __stringify(AD7124_MAX_CHANNELS) "\n");
+b478bd5e22404e Uwe Kleine-König  2024-11-08  840  		st->num_channels = AD7124_MAX_CHANNELS;
+b478bd5e22404e Uwe Kleine-König  2024-11-08  841  	}
+b478bd5e22404e Uwe Kleine-König  2024-11-08  842  
+b3af341bbd9662 Stefan Popa       2018-11-13  843  	chan = devm_kcalloc(indio_dev->dev.parent, st->num_channels,
+b3af341bbd9662 Stefan Popa       2018-11-13  844  			    sizeof(*chan), GFP_KERNEL);
+b3af341bbd9662 Stefan Popa       2018-11-13  845  	if (!chan)
+b3af341bbd9662 Stefan Popa       2018-11-13  846  		return -ENOMEM;
+b3af341bbd9662 Stefan Popa       2018-11-13  847  
+7b8d045e497a04 Alexandru Tachici 2021-03-11  848  	channels = devm_kcalloc(indio_dev->dev.parent, st->num_channels, sizeof(*channels),
+7b8d045e497a04 Alexandru Tachici 2021-03-11  849  				GFP_KERNEL);
+7b8d045e497a04 Alexandru Tachici 2021-03-11  850  	if (!channels)
+1478a388f4baaa Mircea Caprioru   2019-06-25  851  		return -ENOMEM;
+1478a388f4baaa Mircea Caprioru   2019-06-25  852  
+b3af341bbd9662 Stefan Popa       2018-11-13  853  	indio_dev->channels = chan;
+b3af341bbd9662 Stefan Popa       2018-11-13  854  	indio_dev->num_channels = st->num_channels;
+7b8d045e497a04 Alexandru Tachici 2021-03-11  855  	st->channels = channels;
+b3af341bbd9662 Stefan Popa       2018-11-13  856  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  857  	device_for_each_child_node_scoped(dev, child) {
+a6eaf02b82744b Jonathan Cameron  2024-02-18  858  		ret = fwnode_property_read_u32(child, "reg", &channel);
+b3af341bbd9662 Stefan Popa       2018-11-13  859  		if (ret)
+a6eaf02b82744b Jonathan Cameron  2024-02-18  860  			return ret;
+b3af341bbd9662 Stefan Popa       2018-11-13  861  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  862  		if (channel >= indio_dev->num_channels)
+a6eaf02b82744b Jonathan Cameron  2024-02-18  863  			return dev_err_probe(dev, -EINVAL,
+f2a772c51206b0 Jonathan Cameron  2021-05-13  864  				"Channel index >= number of channels\n");
+f2a772c51206b0 Jonathan Cameron  2021-05-13  865  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  866  		ret = fwnode_property_read_u32_array(child, "diff-channels",
+b3af341bbd9662 Stefan Popa       2018-11-13  867  						     ain, 2);
+b3af341bbd9662 Stefan Popa       2018-11-13  868  		if (ret)
+a6eaf02b82744b Jonathan Cameron  2024-02-18  869  			return ret;
+b3af341bbd9662 Stefan Popa       2018-11-13  870  
+4112b30ba58b5c Uwe Kleine-König  2024-11-08  871  		if (!ad7124_valid_input_select(ain[0], st->chip_info) ||
+4112b30ba58b5c Uwe Kleine-König  2024-11-08  872  		    !ad7124_valid_input_select(ain[1], st->chip_info))
+4112b30ba58b5c Uwe Kleine-König  2024-11-08  873  			return dev_err_probe(dev, ret,
+
+s/ret/-EINVAL/?
+
+4112b30ba58b5c Uwe Kleine-König  2024-11-08 @874  					     "diff-channels property of %pfwP contains invalid data\n", child);
+4112b30ba58b5c Uwe Kleine-König  2024-11-08  875  
+7b8d045e497a04 Alexandru Tachici 2021-03-11  876  		st->channels[channel].nr = channel;
+7b8d045e497a04 Alexandru Tachici 2021-03-11  877  		st->channels[channel].ain = AD7124_CHANNEL_AINP(ain[0]) |
+b3af341bbd9662 Stefan Popa       2018-11-13  878  						  AD7124_CHANNEL_AINM(ain[1]);
+7b8d045e497a04 Alexandru Tachici 2021-03-11  879  
+61cbfb5368dd50 Dumitru Ceclan    2024-08-06  880  		cfg = &st->channels[channel].cfg;
+a6eaf02b82744b Jonathan Cameron  2024-02-18  881  		cfg->bipolar = fwnode_property_read_bool(child, "bipolar");
+b3af341bbd9662 Stefan Popa       2018-11-13  882  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  883  		ret = fwnode_property_read_u32(child, "adi,reference-select", &tmp);
+b3af341bbd9662 Stefan Popa       2018-11-13  884  		if (ret)
+7b8d045e497a04 Alexandru Tachici 2021-03-11  885  			cfg->refsel = AD7124_INT_REF;
+b3af341bbd9662 Stefan Popa       2018-11-13  886  		else
+7b8d045e497a04 Alexandru Tachici 2021-03-11  887  			cfg->refsel = tmp;
+b3af341bbd9662 Stefan Popa       2018-11-13  888  
+a6eaf02b82744b Jonathan Cameron  2024-02-18  889  		cfg->buf_positive =
+a6eaf02b82744b Jonathan Cameron  2024-02-18  890  			fwnode_property_read_bool(child, "adi,buffered-positive");
+a6eaf02b82744b Jonathan Cameron  2024-02-18  891  		cfg->buf_negative =
+a6eaf02b82744b Jonathan Cameron  2024-02-18  892  			fwnode_property_read_bool(child, "adi,buffered-negative");
+0eaecea6e4878a Mircea Caprioru   2019-06-25  893  
+d7857e4ee1ba69 Alexandru Tachici 2019-12-20  894  		chan[channel] = ad7124_channel_template;
+d7857e4ee1ba69 Alexandru Tachici 2019-12-20  895  		chan[channel].address = channel;
+d7857e4ee1ba69 Alexandru Tachici 2019-12-20  896  		chan[channel].scan_index = channel;
+d7857e4ee1ba69 Alexandru Tachici 2019-12-20  897  		chan[channel].channel = ain[0];
+d7857e4ee1ba69 Alexandru Tachici 2019-12-20  898  		chan[channel].channel2 = ain[1];
+b3af341bbd9662 Stefan Popa       2018-11-13  899  	}
+b3af341bbd9662 Stefan Popa       2018-11-13  900  
+b3af341bbd9662 Stefan Popa       2018-11-13  901  	return 0;
+b3af341bbd9662 Stefan Popa       2018-11-13  902  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
