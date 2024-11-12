@@ -1,122 +1,119 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39602153820
-	for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 12:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DAA13AA53
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Nov 2024 11:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731327143; cv=none; b=rwJIHBwkJZZb9aq5bNuObPijY4PJHzO3XpfBqyWlfkXSbiuRnWpp27ukHGMfqy9vFr2OWV8oTZqSC4Xxw1MSf+1QOOpKJ0Pif/k7GMDa9/qbiVGvBpwUCjq9DZrPQZCTWYljvP8X1AdMkHuIoH89IDm625S1mGgFVUgnyH2MWXM=
+	t=1731410504; cv=none; b=P6Tu+AMF58mee0AsTypXA90N5wzCLA7DZ2UNhkCYvPNB0Dxdke16P1h2jQx+iEbQAzVg2ZWnhU8c8h7E8LgWsEHINipcEYPOA9dTWUf7sXjAK48mBcXIWb4o/FVKUqpLNaEf//nj2YHySslY5LOoh2rPRMrOl06j2vYeMl4x1is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731327143; c=relaxed/simple;
-	bh=MYPFJ/QHuhRFvZR1gxMo8eXaZCjaRP6tLWd2q3gcNcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PqK3gvXWe4BpzFF7meJ6wM4nVMzh1FoR3WVdqcLfFgiYQp2flZh3Ry4GaOUlhDiPBY+z6XrTGdHtMlSyUUkueG+mAcWthDjO0J7y0b9ddn55NRem0Y5Gopshq/PaEo+eAz2T7skra59JBYhfcJbr1Nc/kzLs4iraYczzarbQQ+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=02kDpZhj; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1731410504; c=relaxed/simple;
+	bh=OHAI+Z8lzey+beJwgp4vWMJMEwrKoA5N1pRcC4Do1gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o/45qWqHgUIpDGjgOGv0X07DkG2hYFB3lcebFSWzeAio+KJi6AluQJ/XgAegSo4/BFwPs87ZczWRjc6Kw4JwRAqhLVnmGkcRtSL0RHxvbVR/XdB1P0KW8kV+eKWEMzLZgYbhqmJTEjRCKTDjEly9lKB7iQLswRIp9LQpD1IQKEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxVmcgc/; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="02kDpZhj"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4315abed18aso37281975e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 11 Nov 2024 04:12:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731327139; x=1731931939; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xs+3Bmk7/ET8ZIXxUWywxy47jkhQeABRqUPAmW38Cw0=;
-        b=02kDpZhjDd3zyHEiZVwcrk2MW3QQCG3f9tZi93K3XizrPxLRECzlKT1AowG50AhNLy
-         441+VgpMoKuLMPYHw0eN/gLa0Fs60TNnlJXOoYRLbg8y+sV2HAkTF6BudQV/+6Kw9dxR
-         5rO/fHeRatZ3Yz56A9zBQaILYibUsoRXHIVmlRwjHJeSRi1ht+1vD9Xu8yY/fnEslCY9
-         zF4U6f2sR89wkA6fyIlHH7UJCadwuKHQBzf3o0b7JZQIjPz32Mq69px06m///nRadqLd
-         0wJk440FPPxHoyeQ7jjIJietyUAY27rMQppIOwukTNFl2ve/borGMi8XSl5ZW0uddwXD
-         npHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731327139; x=1731931939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xs+3Bmk7/ET8ZIXxUWywxy47jkhQeABRqUPAmW38Cw0=;
-        b=ibAOL5JwhMx5AGss4JDP+GsxVd5LvGRDAmHZAUzULv+UCkNjUHrPqH2rieiRN6Uipb
-         vmgDKzSRVDJ2VIrcQa+jlsXrDvNdyui84/CvAfkDF76Ulnw+yKtZ+l1474qjT4ZLgva3
-         xK10aWyB4CLP/TQvy+7/f4jebTM0UnFO5J+999oCysvcdkk+ZagEhE0p8zEd/4kuykYT
-         9vSHCny3imaas+sOQmNzEu0EJQ70hmuEPa4lk4p9nZ8sDBemGasmJ+RIMcXWjJF0ukpk
-         cI0hG98CsLwE1pCFQKk2eevbN5M3tPS+z6mvA8HsmBBpQvRyB+YSJiBU42/HG9Hjsk0b
-         cMsQ==
-X-Gm-Message-State: AOJu0YxmJ7ufRdNCoa6Ibd0esyAYFmVUVf+LI+aM/jPEKfxDn3yKswWk
-	ivKvUBW/3b+piv25yZDe1V7lc36fbA6GDAJzwHDauM0DQw5+dV3qgQo2l/XHVx4=
-X-Google-Smtp-Source: AGHT+IFTrCeJsG4pTRHfhvy6GFhZe1enatnsIdLOV+d/7VyKJJXALSMPOSSGn3f7bQZGCXpBbPrFsQ==
-X-Received: by 2002:a05:600c:3b8f:b0:431:5f1b:a7c6 with SMTP id 5b1f17b1804b1-432b751f5edmr101593285e9.30.1731327139457;
-        Mon, 11 Nov 2024 04:12:19 -0800 (PST)
-Received: from localhost (p200300f65f28bb0063ffae39110fa2df.dip0.t-ipconnect.de. [2003:f6:5f28:bb00:63ff:ae39:110f:a2df])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97cfefsm12671139f8f.26.2024.11.11.04.12.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 04:12:18 -0800 (PST)
-Date: Mon, 11 Nov 2024 13:12:17 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Mircea Caprioru <mircea.caprioru@analog.com>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibe.com>
-Subject: Re: [PATCH 2/2] iio: adc: ad7124: Refuse invalid input specifiers
-Message-ID: <v5ytfwjmimsbfgdq3sb2xg6d2dkllvnv2a7wltwtzt62oqikge@574uazpvjd67>
-References: <20241108181813.272593-6-u.kleine-koenig@baylibre.com>
- <bb25249b-62b8-4d7f-9ef3-cb5e1f8674ba@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxVmcgc/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731410502; x=1762946502;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OHAI+Z8lzey+beJwgp4vWMJMEwrKoA5N1pRcC4Do1gg=;
+  b=UxVmcgc/zuNzgHXoeEEeUeZMfWIoaFw7RaAL5ud9Ks5X5LkliQ0INlLP
+   CvN3jIQ9C6hS789mv++aV8CWxsegtPCBH2PkLIJb0ExaksVNZkUw8i6HS
+   Z+omDe4R+ufzKboxQKl1iMTgNOlZnY6JYcrlzllL4fB9RikVyqvZlhYSM
+   rqw9MDyTJKSYmCHioEjrXjtca9VCgYs77aIOzg2dZBwIZpZGdaOut5KHn
+   vQTvr+BiCP9VnNbzOtpUAaTKGdEmC6yYuEGnILz6N4r7zQVqIQNr/IhI1
+   1qnnaGGZ2nq1vax/Sqa/APPth9wmaTqQUxIovM3eMBev+1xyyUaDzblvP
+   w==;
+X-CSE-ConnectionGUID: LJjxVexRTfyzNGnt+HIM7Q==
+X-CSE-MsgGUID: QH0XaSEqTSCb1Hcwa3Gq8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="34104567"
+X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
+   d="scan'208";a="34104567"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:21:42 -0800
+X-CSE-ConnectionGUID: 1K17B+cdSkePCLRgYX57+w==
+X-CSE-MsgGUID: 66B+EQuuTTirRbjbvqeKDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
+   d="scan'208";a="92496038"
+Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Nov 2024 03:21:41 -0800
+Received: from kbuild by bcfed0da017c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAoxm-0001CR-2B;
+	Tue, 12 Nov 2024 11:21:38 +0000
+Date: Tue, 12 Nov 2024 19:21:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn:
+ missing unwind goto?
+Message-ID: <202411121927.sodblsKG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fouxnykmbwuimmjy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bb25249b-62b8-4d7f-9ef3-cb5e1f8674ba@stanley.mountain>
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Peter Oberparleiter <oberpar@linux.ibm.com>
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
+CC: Alexandra Winter <wintera@linux.ibm.com>
 
---fouxnykmbwuimmjy
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] iio: adc: ad7124: Refuse invalid input specifiers
-MIME-Version: 1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
+commit: 607638faf2ff1cede37458111496e7cc6c977f6f s390/qdio: handle deferred cc1
+date:   7 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 7 months ago
+config: s390-randconfig-r073-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121927.sodblsKG-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
 
-[Dropped Mircea Caprioru from Cc: as the analog.com MTA doesn't know
-their address]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411121927.sodblsKG-lkp@intel.com/
 
-Hello Dan,
+smatch warnings:
+drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn: missing unwind goto?
 
-On Mon, Nov 11, 2024 at 12:15:45PM +0300, Dan Carpenter wrote:
-> 4112b30ba58b5c Uwe Kleine-K=F6nig  2024-11-08  871  		if (!ad7124_valid_i=
-nput_select(ain[0], st->chip_info) ||
-> 4112b30ba58b5c Uwe Kleine-K=F6nig  2024-11-08  872  		    !ad7124_valid_i=
-nput_select(ain[1], st->chip_info))
-> 4112b30ba58b5c Uwe Kleine-K=F6nig  2024-11-08  873  			return dev_err_pro=
-be(dev, ret,
->=20
-> s/ret/-EINVAL/?
->=20
-> 4112b30ba58b5c Uwe Kleine-K=F6nig  2024-11-08 @874  					     "diff-chann=
-els property of %pfwP contains invalid data\n", child);
+vim +735 drivers/s390/cio/qdio_main.c
 
-Indeed. I adapted that in my tree, so will be fixed in v2.
+779e6e1c724d30 Jan Glauber         2008-07-17  724  
+607638faf2ff1c Peter Oberparleiter 2024-04-10  725  static int qdio_establish_handle_irq(struct qdio_irq *irq_ptr, int cstat,
+607638faf2ff1c Peter Oberparleiter 2024-04-10  726  				     int dstat, int dcc)
+779e6e1c724d30 Jan Glauber         2008-07-17  727  {
+4c57542320e73b Jan Glauber         2009-06-12  728  	DBF_DEV_EVENT(DBF_INFO, irq_ptr, "qest irq");
+779e6e1c724d30 Jan Glauber         2008-07-17  729  
+4c57542320e73b Jan Glauber         2009-06-12  730  	if (cstat)
+779e6e1c724d30 Jan Glauber         2008-07-17  731  		goto error;
+4c57542320e73b Jan Glauber         2009-06-12  732  	if (dstat & ~(DEV_STAT_DEV_END | DEV_STAT_CHN_END))
+779e6e1c724d30 Jan Glauber         2008-07-17  733  		goto error;
+607638faf2ff1c Peter Oberparleiter 2024-04-10  734  	if (dcc == 1)
+607638faf2ff1c Peter Oberparleiter 2024-04-10 @735  		return -EAGAIN;
+4c57542320e73b Jan Glauber         2009-06-12  736  	if (!(dstat & DEV_STAT_DEV_END))
+4c57542320e73b Jan Glauber         2009-06-12  737  		goto error;
+4c57542320e73b Jan Glauber         2009-06-12  738  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ESTABLISHED);
+607638faf2ff1c Peter Oberparleiter 2024-04-10  739  	return 0;
+4c57542320e73b Jan Glauber         2009-06-12  740  
+779e6e1c724d30 Jan Glauber         2008-07-17  741  error:
+22f9934767f490 Jan Glauber         2008-12-25  742  	DBF_ERROR("%4x EQ:error", irq_ptr->schid.sch_no);
+22f9934767f490 Jan Glauber         2008-12-25  743  	DBF_ERROR("ds: %2x cs:%2x", dstat, cstat);
+779e6e1c724d30 Jan Glauber         2008-07-17  744  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ERR);
+607638faf2ff1c Peter Oberparleiter 2024-04-10  745  	return -EIO;
+779e6e1c724d30 Jan Glauber         2008-07-17  746  }
+779e6e1c724d30 Jan Glauber         2008-07-17  747  
 
-Thanks
-Uwe
-
---fouxnykmbwuimmjy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcx9J4ACgkQj4D7WH0S
-/k4nJQgAlTnkDayqlntyEewP3+b8xai6S8tWGg4oVXcZG2VRF9hJmUZYIislQRT8
-RqFv8/YpMKLVUWklIvFWyCHXhouEd4dwSuJnflIwgTRii4S9yNhhv2l1INDzQqWz
-zNKRfRAeJS/FC8Ju9yICppslJNCUnZiAuD1BiknH4u2aiM0M3TDHwDjS3NY08VFI
-fX5JmGG/UGw7PFOLc+aiTzkOrhpK0Zevx9k4WDPBP7iUZi9Py/bBYYNW+qPLkTn/
-h22Z8nzfFNPrvMlorIh9ETD+ON2GlO/qBmH94/DyLVzcLSnsxNMbxt1RUYXNAavR
-CtGw1AmZTRW6Ldpvo/vDMsAwnU7Sfg==
-=fCAt
------END PGP SIGNATURE-----
-
---fouxnykmbwuimmjy--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
