@@ -1,118 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DAA13AA53
-	for <oe-kbuild@lists.linux.dev>; Tue, 12 Nov 2024 11:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA55201037
+	for <oe-kbuild@lists.linux.dev>; Tue, 12 Nov 2024 15:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731410504; cv=none; b=P6Tu+AMF58mee0AsTypXA90N5wzCLA7DZ2UNhkCYvPNB0Dxdke16P1h2jQx+iEbQAzVg2ZWnhU8c8h7E8LgWsEHINipcEYPOA9dTWUf7sXjAK48mBcXIWb4o/FVKUqpLNaEf//nj2YHySslY5LOoh2rPRMrOl06j2vYeMl4x1is=
+	t=1731423743; cv=none; b=t2L6GPBWNdqHkcTQXJDkfvwrYcgqooNA53f+4XmsRnG/PpbHTexHUFRDVmUSbuwU6WdOjffv4Sk1fOQAZitWlLnZUTa8QV/vlD/zO5XRqn8dLYnMtfVAP47Q8uQZVOitKU/uGtoX3qMW299zl4Uf/5n67fJFA2dRe8fXT3wciPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731410504; c=relaxed/simple;
-	bh=OHAI+Z8lzey+beJwgp4vWMJMEwrKoA5N1pRcC4Do1gg=;
+	s=arc-20240116; t=1731423743; c=relaxed/simple;
+	bh=kwZ2a2tH1vx5JJ/n7pIbTSwv/x5JHLz3mIdC4/0er+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o/45qWqHgUIpDGjgOGv0X07DkG2hYFB3lcebFSWzeAio+KJi6AluQJ/XgAegSo4/BFwPs87ZczWRjc6Kw4JwRAqhLVnmGkcRtSL0RHxvbVR/XdB1P0KW8kV+eKWEMzLZgYbhqmJTEjRCKTDjEly9lKB7iQLswRIp9LQpD1IQKEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxVmcgc/; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=HSRerSi1IHrxCGi4Q1eldKnOp4kfZyG9qwwlp0ERP2xYPvRRqphtJuhfUSqJ14uyivQfVK3uw4idvrHlfRQ0BFeOgkwUoIrHYrjzF5togk6n7iTTRur4AhZaT3zsJGLrxA/isR0UpeZq7qcsRsrvWxREnp885KM31BJXncW5Ug8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+tR5nX3; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxVmcgc/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+tR5nX3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731410502; x=1762946502;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHAI+Z8lzey+beJwgp4vWMJMEwrKoA5N1pRcC4Do1gg=;
-  b=UxVmcgc/zuNzgHXoeEEeUeZMfWIoaFw7RaAL5ud9Ks5X5LkliQ0INlLP
-   CvN3jIQ9C6hS789mv++aV8CWxsegtPCBH2PkLIJb0ExaksVNZkUw8i6HS
-   Z+omDe4R+ufzKboxQKl1iMTgNOlZnY6JYcrlzllL4fB9RikVyqvZlhYSM
-   rqw9MDyTJKSYmCHioEjrXjtca9VCgYs77aIOzg2dZBwIZpZGdaOut5KHn
-   vQTvr+BiCP9VnNbzOtpUAaTKGdEmC6yYuEGnILz6N4r7zQVqIQNr/IhI1
-   1qnnaGGZ2nq1vax/Sqa/APPth9wmaTqQUxIovM3eMBev+1xyyUaDzblvP
-   w==;
-X-CSE-ConnectionGUID: LJjxVexRTfyzNGnt+HIM7Q==
-X-CSE-MsgGUID: QH0XaSEqTSCb1Hcwa3Gq8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="34104567"
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="34104567"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:21:42 -0800
-X-CSE-ConnectionGUID: 1K17B+cdSkePCLRgYX57+w==
-X-CSE-MsgGUID: 66B+EQuuTTirRbjbvqeKDw==
+  t=1731423742; x=1762959742;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kwZ2a2tH1vx5JJ/n7pIbTSwv/x5JHLz3mIdC4/0er+0=;
+  b=D+tR5nX31sA0E7xY11pN8loeGp7irs3lo3eG8z2xAo73yc6DNA5M6+N2
+   T8CtaToj2v1eFY5I2/Rp+469DA81Bc7GA2O05DwdRZH5zHsid10bJeqrN
+   bjHavE9Rxa8qsOMWVPbNJYDlE89Fonvd3iB07NYHv3jnDEysxGtqGAVI/
+   5kwCuB6U0Q97uSRufixqIE/mudE71X8NXy/kCkjr3eoTYuu18ex69soyU
+   L4zWlcqFdsEToGVD9+vt2Q6fKyJ0YaOEgertjlxglU1Iv47syClj3/F/+
+   BohrX4wCUeN2b80KsMGW7dapJbuksdeaBdClTsipiMZoFcHbwp4HegR+D
+   A==;
+X-CSE-ConnectionGUID: tfyXiii2RQKkLKAfkSguxw==
+X-CSE-MsgGUID: puHyhHg9Qoeia3uNHkzm2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31115767"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31115767"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 07:02:20 -0800
+X-CSE-ConnectionGUID: +/vOfRA2TTy/6XrR+ZlVRA==
+X-CSE-MsgGUID: AZ00LC20Ssuak1RqwcvhyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="92496038"
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
+   d="scan'208";a="87623474"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Nov 2024 03:21:41 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 12 Nov 2024 07:02:18 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAoxm-0001CR-2B;
-	Tue, 12 Nov 2024 11:21:38 +0000
-Date: Tue, 12 Nov 2024 19:21:14 +0800
+	id 1tAsPI-0001Rp-29;
+	Tue, 12 Nov 2024 15:02:16 +0000
+Date: Tue, 12 Nov 2024 23:02:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn:
- missing unwind goto?
-Message-ID: <202411121927.sodblsKG-lkp@intel.com>
+Subject: Re: [PATCH v7 2/2] pwm: add support for NXPs high-side switch
+ MC33XS2410
+Message-ID: <202411122253.03yKXFpX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241109174135.26292-3-dima.fedrau@gmail.com>
+References: <20241109174135.26292-3-dima.fedrau@gmail.com>
+TO: Dimitri Fedrau <dima.fedrau@gmail.com>
+CC: Dimitri Fedrau <dima.fedrau@gmail.com>
+CC: "Uwe Kleine-König" <ukleinek@kernel.org>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: linux-pwm@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Peter Oberparleiter <oberpar@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
-CC: Alexandra Winter <wintera@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
-commit: 607638faf2ff1cede37458111496e7cc6c977f6f s390/qdio: handle deferred cc1
-date:   7 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 7 months ago
-config: s390-randconfig-r073-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121927.sodblsKG-lkp@intel.com/config)
+Hi Dimitri,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.12-rc7 next-20241112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/dt-bindings-pwm-add-support-for-MC33XS2410/20241110-014336
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241109174135.26292-3-dima.fedrau%40gmail.com
+patch subject: [PATCH v7 2/2] pwm: add support for NXPs high-side switch MC33XS2410
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-r073-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122253.03yKXFpX-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411121927.sodblsKG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411122253.03yKXFpX-lkp@intel.com/
 
 smatch warnings:
-drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn: missing unwind goto?
+drivers/pwm/pwm-mc33xs2410.c:184 mc33xs2410_pwm_get_freq() error: uninitialized symbol 'step'.
 
-vim +735 drivers/s390/cio/qdio_main.c
+vim +/step +184 drivers/pwm/pwm-mc33xs2410.c
 
-779e6e1c724d30 Jan Glauber         2008-07-17  724  
-607638faf2ff1c Peter Oberparleiter 2024-04-10  725  static int qdio_establish_handle_irq(struct qdio_irq *irq_ptr, int cstat,
-607638faf2ff1c Peter Oberparleiter 2024-04-10  726  				     int dstat, int dcc)
-779e6e1c724d30 Jan Glauber         2008-07-17  727  {
-4c57542320e73b Jan Glauber         2009-06-12  728  	DBF_DEV_EVENT(DBF_INFO, irq_ptr, "qest irq");
-779e6e1c724d30 Jan Glauber         2008-07-17  729  
-4c57542320e73b Jan Glauber         2009-06-12  730  	if (cstat)
-779e6e1c724d30 Jan Glauber         2008-07-17  731  		goto error;
-4c57542320e73b Jan Glauber         2009-06-12  732  	if (dstat & ~(DEV_STAT_DEV_END | DEV_STAT_CHN_END))
-779e6e1c724d30 Jan Glauber         2008-07-17  733  		goto error;
-607638faf2ff1c Peter Oberparleiter 2024-04-10  734  	if (dcc == 1)
-607638faf2ff1c Peter Oberparleiter 2024-04-10 @735  		return -EAGAIN;
-4c57542320e73b Jan Glauber         2009-06-12  736  	if (!(dstat & DEV_STAT_DEV_END))
-4c57542320e73b Jan Glauber         2009-06-12  737  		goto error;
-4c57542320e73b Jan Glauber         2009-06-12  738  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ESTABLISHED);
-607638faf2ff1c Peter Oberparleiter 2024-04-10  739  	return 0;
-4c57542320e73b Jan Glauber         2009-06-12  740  
-779e6e1c724d30 Jan Glauber         2008-07-17  741  error:
-22f9934767f490 Jan Glauber         2008-12-25  742  	DBF_ERROR("%4x EQ:error", irq_ptr->schid.sch_no);
-22f9934767f490 Jan Glauber         2008-12-25  743  	DBF_ERROR("ds: %2x cs:%2x", dstat, cstat);
-779e6e1c724d30 Jan Glauber         2008-07-17  744  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ERR);
-607638faf2ff1c Peter Oberparleiter 2024-04-10  745  	return -EIO;
-779e6e1c724d30 Jan Glauber         2008-07-17  746  }
-779e6e1c724d30 Jan Glauber         2008-07-17  747  
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  152  
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  153  static u8 mc33xs2410_pwm_get_freq(u64 period)
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  154  {
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  155  	u8 step, count;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  156  
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  157  	/*
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  158  	 * Check which step is appropriate for the given period, starting with
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  159  	 * the highest frequency(lowest period). Higher frequencies are
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  160  	 * represented with better resolution by the device. Therefore favor
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  161  	 * frequency range with the better resolution to minimize error
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  162  	 * introduced by the frequency steps.
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  163  	 */
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  164  
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  165  	switch (period) {
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  166  	case MC33XS2410_PWM_MIN_PERIOD ... MC33XS2410_PWM_MAX_PERIOD(3):
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  167  		step = 3;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  168  		break;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  169  	case MC33XS2410_PWM_MAX_PERIOD(3) + 1 ... MC33XS2410_PWM_MAX_PERIOD(2):
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  170  		step = 2;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  171  		break;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  172  	case MC33XS2410_PWM_MAX_PERIOD(2) + 1 ... MC33XS2410_PWM_MAX_PERIOD(1):
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  173  		step = 1;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  174  		break;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  175  	case MC33XS2410_PWM_MAX_PERIOD(1) + 1 ... MC33XS2410_PWM_MAX_PERIOD(0):
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  176  		step = 0;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  177  		break;
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  178  	}
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  179  
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  180  	/*
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  181  	 * Round up here because a higher count results in a higher frequency
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  182  	 * and so a smaller period.
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  183  	 */
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09 @184  	count = DIV_ROUND_UP((u32)MC33XS2410_PWM_MAX_PERIOD(step), (u32)period);
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  185  	return FIELD_PREP(MC33XS2410_PWM_FREQ_STEP, step) |
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  186  	       FIELD_PREP(MC33XS2410_PWM_FREQ_COUNT, count - 1);
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  187  }
+23a0a66c9fc5eb0 Dimitri Fedrau 2024-11-09  188  
 
 -- 
 0-DAY CI Kernel Test Service
