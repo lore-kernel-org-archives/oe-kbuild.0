@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65401C695
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 14:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535DA70829
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 16:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731509687; cv=none; b=haeoc81dgE2+Y8RMueE6jQgf2GIDB5F8+oaoszUl3CWXdTH/bLBmDk18YhKIWVuN1QTlhHSf/feoPCna/hL431Fpn/VmghES/Wz3MXzvL42lF+RmBsNf4+dNI3bCs6tRGjUEgX8f74x+IMGBhleacuLm/DjdjWiKUkV+ufIyyLw=
+	t=1731517036; cv=none; b=nErUuNGgI8K1ObNNAuzQG64mzuY/0/7V2USo3e5LIAIb7KEextpX4rIFT49pZyyX2/3LMyBmqvxtQhsortNdY07Zw9k+V46Hd9+Y6cidHHf+zgFMqAOAFbWMQ1Xf7WT43WICRvTlBwrqWHNph2iEBtX6ZCcDSQX6Q9paHyUrRf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731509687; c=relaxed/simple;
-	bh=6nNZFwRaHdG0EAX927amx+fZ+N3Hw0AAMzEPpM1MNDw=;
+	s=arc-20240116; t=1731517036; c=relaxed/simple;
+	bh=OsSuaSQk8QLwILo/26rZv9pUpH+hBh0nQkoccpbBD4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RxFaF/rlLQoGejElKtqXtcCm+l8t+HmL/jKsh14GI+LZ28CDhqwZUqQilI4XH7ABHfgUncKUQ8DNUZjql1cuV4LxPFloUo0jBcon2ThWK+Wa07wbwv4BjA5d6j90rQ/gnrFGgrVd4Ntfazc86KFODMy/4cai7U5CtkOcgj2q1cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMtEPj/S; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=FmG6Da61xYqTLgjKJxvAWpQDiXfUiraLLJZoqULdhikMccRfb49d61YcUvIOPdfUDm7dQLtpGZc4TvY0PEYmPJCo1J9J1ytV5qXA6UQtzvVfMYUP5VWIxJGqH6P2Wu/9ustKogngPcI0ql0fuY9XVGBqrZFX9Jv/zrkG2gg+auM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKOrqhit; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMtEPj/S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKOrqhit"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731509686; x=1763045686;
+  t=1731517035; x=1763053035;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6nNZFwRaHdG0EAX927amx+fZ+N3Hw0AAMzEPpM1MNDw=;
-  b=dMtEPj/Sfy9KxNgKOJV0toUnl0dftNAFidb2jyCx86E2EOSOoVU/fHNG
-   m7JOYWfPKSMgh/oDAnmQxYlmNs+TvP4E9vsvPYsn9BvKTy/n0YN6owzNB
-   KQTwyFVSDOKjHiTWc4NlGU+SeMrJTzbRQ6H9h7iKtMNZXhHO5de74Lq5U
-   sPilrK8Lt33KO3rJiZj8xrbLUFbyjN5YK6rWPQYpaIO1d+7aHL0Y9YFHM
-   GSOH4L77srHaFSoadIig8rV6LaFhjFBt6AEnSnyjHlxQAMSqtPEzHSgl5
-   j0rHKsd4y4UZPusVMdXKl+vm6gip8BIuA1Xtip625jk/Btg8r07tKKYbE
-   Q==;
-X-CSE-ConnectionGUID: FDw1MB8VSCaBJgl+ZoCs4Q==
-X-CSE-MsgGUID: BkgG529URLWSru1r60+8Ug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="19012760"
+  bh=OsSuaSQk8QLwILo/26rZv9pUpH+hBh0nQkoccpbBD4s=;
+  b=aKOrqhitu3GHWKIJqp8Q9D6EXiJZJgSYc7YgnHNgioV5X6c2MVas7KTr
+   N/DKaOXz98/ovPZN/MTupsnrY3hjc3cXN9o0ZgEhFziefTbAHGifEKpe/
+   R3fvlRuX3pbGF77XPP/S7/SdAI5vlg8MzuU2XzNNddYW3887jGslDq9rC
+   v2K2C3pZuqLGUyoJ3KkDybFtsntVfQJaS0SJc+hu0+D7J+Zq2WrHX2oeU
+   okdHfnU/u9VNpPV3IyViAGpqGuxOV43q81NC4+eMFKZ49Pvd8VcfMujnz
+   ItFM64tgeZo0PncP9xccA26apet7+XIRAQqjwcfrjacjembJgEbxIblQF
+   A==;
+X-CSE-ConnectionGUID: igNsNEbaTjuLhIlbbRsadg==
+X-CSE-MsgGUID: lAssQ1ETSse5ZmOEJAzDdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31512302"
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="19012760"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:54:45 -0800
-X-CSE-ConnectionGUID: ZUfIXIF2QpqCcBcTTBfTog==
-X-CSE-MsgGUID: 2vR/hpDaRCe15XIjdvE3gA==
+   d="scan'208";a="31512302"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 08:57:02 -0800
+X-CSE-ConnectionGUID: XB3JQhHSTZqCK9maiM4s+g==
+X-CSE-MsgGUID: 511yMGQcTGy3WvyPeh3Xsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="87886844"
+   d="scan'208";a="125442904"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Nov 2024 06:54:43 -0800
+  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2024 08:57:01 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBElV-0000TV-0y;
-	Wed, 13 Nov 2024 14:54:41 +0000
-Date: Wed, 13 Nov 2024 22:54:35 +0800
+	id 1tBGfq-0000ZN-0t;
+	Wed, 13 Nov 2024 16:56:58 +0000
+Date: Thu, 14 Nov 2024 00:56:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-5.10 12/13]
- sound/soc/codecs/hdmi-codec.c:587 hdmi_codec_prepare() error: __memcpy()
- 'hcp->iec_status' too small (5 vs 24)
-Message-ID: <202411132223.yZgcsRlE-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: Add support for QCS9075 RB8
+Message-ID: <202411140002.Rg1CFCP8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,69 +61,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241110145339.3635437-5-quic_wasimn@quicinc.com>
+References: <20241110145339.3635437-5-quic_wasimn@quicinc.com>
+TO: Wasim Nazir <quic_wasimn@quicinc.com>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Wasim Nazir <quic_wasimn@quicinc.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   e733b347fbf8a8a5149461d848bf4e726141afaf
-commit: 9eda09e511f648adf90efdb805e2429bf5bc25cb [12/13] UPSTREAM: ASoC: hdmi-codec: Add a prepare hook
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 years, 3 months ago
-config: x86_64-randconfig-161-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132223.yZgcsRlE-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Wasim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wasim-Nazir/dt-bindings-arm-qcom-ids-add-SoC-ID-for-QCS9075/20241110-225519
+base:   929beafbe7acce3267c06115e13e03ff6e50548a
+patch link:    https://lore.kernel.org/r/20241110145339.3635437-5-quic_wasimn%40quicinc.com
+patch subject: [PATCH 4/5] arm64: dts: qcom: Add support for QCS9075 RB8
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20241111 (https://download.01.org/0day-ci/archive/20241114/202411140002.Rg1CFCP8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.11
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140002.Rg1CFCP8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411132223.yZgcsRlE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411140002.Rg1CFCP8-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/hdmi-codec.c:587 hdmi_codec_prepare() error: __memcpy() 'hcp->iec_status' too small (5 vs 24)
-
-Old smatch warnings:
-sound/soc/codecs/hdmi-codec.c:551 hdmi_codec_hw_params() error: __memcpy() 'hcp->iec_status' too small (5 vs 24)
-
-vim +587 sound/soc/codecs/hdmi-codec.c
-
-cd6111b26280a2 Arnaud Pouliquen 2017-01-03  564  
-9eda09e511f648 Maxime Ripard    2021-05-25  565  static int hdmi_codec_prepare(struct snd_pcm_substream *substream,
-9eda09e511f648 Maxime Ripard    2021-05-25  566  			      struct snd_soc_dai *dai)
-9eda09e511f648 Maxime Ripard    2021-05-25  567  {
-9eda09e511f648 Maxime Ripard    2021-05-25  568  	struct hdmi_codec_priv *hcp = snd_soc_dai_get_drvdata(dai);
-9eda09e511f648 Maxime Ripard    2021-05-25  569  	struct hdmi_codec_daifmt *cf = dai->playback_dma_data;
-9eda09e511f648 Maxime Ripard    2021-05-25  570  	struct snd_pcm_runtime *runtime = substream->runtime;
-9eda09e511f648 Maxime Ripard    2021-05-25  571  	unsigned int channels = runtime->channels;
-9eda09e511f648 Maxime Ripard    2021-05-25  572  	unsigned int width = snd_pcm_format_width(runtime->format);
-9eda09e511f648 Maxime Ripard    2021-05-25  573  	unsigned int rate = runtime->rate;
-9eda09e511f648 Maxime Ripard    2021-05-25  574  	struct hdmi_codec_params hp;
-9eda09e511f648 Maxime Ripard    2021-05-25  575  	int ret;
-09184118a8abae Jyri Sarha       2016-03-31  576  
-9eda09e511f648 Maxime Ripard    2021-05-25  577  	if (!hcp->hcd.ops->prepare)
-9eda09e511f648 Maxime Ripard    2021-05-25  578  		return 0;
-9eda09e511f648 Maxime Ripard    2021-05-25  579  
-9eda09e511f648 Maxime Ripard    2021-05-25  580  	dev_dbg(dai->dev, "%s() width %d rate %d channels %d\n", __func__,
-9eda09e511f648 Maxime Ripard    2021-05-25  581  		width, rate, channels);
-9eda09e511f648 Maxime Ripard    2021-05-25  582  
-9eda09e511f648 Maxime Ripard    2021-05-25  583  	ret = hdmi_codec_fill_codec_params(dai, width, rate, channels, &hp);
-9eda09e511f648 Maxime Ripard    2021-05-25  584  	if (ret < 0)
-9eda09e511f648 Maxime Ripard    2021-05-25  585  		return ret;
-9eda09e511f648 Maxime Ripard    2021-05-25  586  
-9eda09e511f648 Maxime Ripard    2021-05-25 @587  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
-9eda09e511f648 Maxime Ripard    2021-05-25  588  	ret = snd_pcm_fill_iec958_consumer(runtime, hp.iec.status,
-9eda09e511f648 Maxime Ripard    2021-05-25  589  					   sizeof(hp.iec.status));
-9eda09e511f648 Maxime Ripard    2021-05-25  590  	if (ret < 0) {
-9eda09e511f648 Maxime Ripard    2021-05-25  591  		dev_err(dai->dev, "Creating IEC958 channel status failed %d\n",
-9eda09e511f648 Maxime Ripard    2021-05-25  592  			ret);
-9eda09e511f648 Maxime Ripard    2021-05-25  593  		return ret;
-9eda09e511f648 Maxime Ripard    2021-05-25  594  	}
-9eda09e511f648 Maxime Ripard    2021-05-25  595  
-9eda09e511f648 Maxime Ripard    2021-05-25  596  	cf->bit_fmt = runtime->format;
-9eda09e511f648 Maxime Ripard    2021-05-25  597  	return hcp->hcd.ops->prepare(dai->dev->parent, hcp->hcd.data,
-0cf4610b9f297e Jerome Brunet    2019-05-06  598  				     cf, &hp);
-09184118a8abae Jyri Sarha       2016-03-31  599  }
-09184118a8abae Jyri Sarha       2016-03-31  600  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+   arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
+   	'qcom,crypto-v5.1' was expected
+   	'qcom,crypto-v5.4' was expected
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
+   	'qcom,ipq4019-qce' was expected
+   	'qcom,sm8150-qce' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
