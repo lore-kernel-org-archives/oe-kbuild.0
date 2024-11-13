@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39991DFD9F
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 12:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D321FE10A
+	for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 12:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731501676; cv=none; b=T9jlE4p8D0/ZbhQublJOVBTu9tM47I381YO+WJG8uEWUmR2Bxl3kocU3gXBTvajTo9KuOHYCOBsP+xUPHv25gNY4y8bcGuN/DrTvvtFOG6UVngSAqBe9YdHNteCqkYacsBe7SnUydhfwSlnvkTc/mhpW+wUwZwcVdO9BstgcwlM=
+	t=1731502049; cv=none; b=qliv8Zv7TGZVqzDBnavmwCaWUa45bC+FYGyy3RfFL6qHYc7WN37h6qTDvcWJZmqmW3rjL+KS3enlli5mCeK2IsEF6U86hIlWcBwaCaA1IOnqbE8qzsO4bqe1BlGY/xjNMc9jlPj+mDP7koDVFF3wiTwp15aT9cGd5CjcNAkD7X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731501676; c=relaxed/simple;
-	bh=HZAuFzxxk8wNed0mr14GmmfPP9VBHYwdgGRgUgEmArM=;
+	s=arc-20240116; t=1731502049; c=relaxed/simple;
+	bh=IbrOu7cLj9wDp/+e2cHXQDfOhPtQM5fVS/pNjUA1Uq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9FMZ9n84JooOvlwztjoTT0bZPk4JMe61GQ6UIp64eH8ussUqAxoQJbPaB33oxVPI/ks7J3YF5cxrC1nyfmyB1cpq0aVpPZO46XrtbGVYAiJqENy4cHe7lgs2q2LK4XPu9AgO3Eo4QjhEjGf1ylvcOy8lQ2WNDFrX/MBFAZlUdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GncHR8+5; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=BVPFAg+cRrr4J2yte9kvoi/Cv9Ar/qGeVjolKz2ryUiNCUM9wdMmn0RtjETR+YZiehB1Ka2ZvOdwp3wV+eOvyPiJzZprtJepm6xieKn/P+DwnPQOrcf+LsRTqN7RwvKFqUBW0C5n64NJBhKT5RKUsVOpKRtl0DMaUKEFkkcaYJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ozx+BkHw; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GncHR8+5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731501675; x=1763037675;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HZAuFzxxk8wNed0mr14GmmfPP9VBHYwdgGRgUgEmArM=;
-  b=GncHR8+5nN9CD0G0SJnl+Dpd6Zy8zfxY9HLQRyMwNcXrLt4IsPmynpt8
-   o/kUY5b8mfcxQx2aghmiNeOAbvYCAHlARkqem4eVZ0nHkBT1Cxc+va31Y
-   RuUYWNBsxMQa8Cv0hy9ovSqAv1zkwpz4451FZxgpAGc3AeYEBsaNL8kYO
-   V1qi+/ZvJZfiksM5SP2v3bNWjZt/C120AOpJMeW6+4jRJ3byJS67nBUSX
-   PpZgzXY4l4cqUaYltJe+1Ua+f6to635A+0zHrY/jAv/SX5eWRLqbJoZHs
-   +2RNFzKEsTXWAbCXXg1zjuxXEa13IgcXb4VbOHwtzIzoSP7kOjeVC7XID
-   g==;
-X-CSE-ConnectionGUID: gcG5jLqoRyGYaqXD/Ezo1g==
-X-CSE-MsgGUID: febUzSZyTwmZXSQ7B3x9wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="30784412"
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="30784412"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 04:41:12 -0800
-X-CSE-ConnectionGUID: wCfCn18NQ2eO5gaQlhqppQ==
-X-CSE-MsgGUID: rREFYd1oR0u2/xRt3sWj1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="87431176"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Nov 2024 04:41:11 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBCgG-0000Nr-35;
-	Wed, 13 Nov 2024 12:41:08 +0000
-Date: Wed, 13 Nov 2024 20:40:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ozx+BkHw"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-431481433bdso59927805e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 04:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731502046; x=1732106846; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bRI/6MHh+O1V2mQ/jai9pmuLYyDdPgB/WKCT/qqEwik=;
+        b=ozx+BkHw8FRp5DdwfFifZ18WqmPXJSaCU3KTtagZJ8hPncmsFB8aM2zuVj4jq+JsN0
+         sYkseLh2O97Wc4k4Z5XW6Cs6ZOUhQHLbiif8xSMzVyapxQ5bSn5gVFqbw8iGy3tsES8g
+         sNBkWaXoNi9fvG4Q0Qqgpkqqklw2CzXWM6ZTxLU9LHZcOWxPL+TPchyb8LDzdwIHk8/X
+         /bhg95NfgpEja5IFEZ3tf4ZWMoAoqKmuwd3yn0+uv4Oh0gRhHn8UGkiPN24Ub+cwxN6c
+         ezEJ8+TwrLHccs9Shm6OKEhzA9nX7FObshCEWktFZdMlyCUPYU8PKoMhv9GMepRZ6QhD
+         It5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731502046; x=1732106846;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bRI/6MHh+O1V2mQ/jai9pmuLYyDdPgB/WKCT/qqEwik=;
+        b=Ygx1YrxyVUEBR5DQZCH+mhk/HapAT6oZeDYMldGkxQFsYXX908ymDI2AwcyJd+8CYz
+         Af+h4PvgsVnoXgN1pqvqHAvSUFTCav2J0Ju27NAoV88uwDzf7yrBJinpE+Med3tN2ng3
+         B1TXx27xhdeuBejsSGK4o7pdgSdyjwylwtjHZ9pvkGGMWH+fflCIniAfHYNJeDtMb+ck
+         JkR5WfIySxkhxEOIzeIErF0SGihQ6Fa124oMR5GUQpCvgqFgj3dtozUxhZBt5EbMH7UI
+         JDlHzqzGL2ZOuB7pp5e01zMzcDWxpFsAOmZmkchZ5OdBlTpFwkTb+RqMuIeKG/n/oaGX
+         k1fg==
+X-Gm-Message-State: AOJu0Yxn83UtQhkFPL7fxOI2d3lLN23xQJv4fcnWisS0uLm8aK/XD6Q/
+	Gb5XJAtG5edFkUA06xjJwVOCIYUm3PdBGraAm+9nTJtSi9oZUanMv8JaVw3LpCsjWoS6HAqjbtc
+	n
+X-Google-Smtp-Source: AGHT+IFi24cTgT7VBdMlL2UvxlRwlrQgbWV944mNNkKV0nYlPhVn/td2SrLqRwJ9YqHCLyugxaAgSg==
+X-Received: by 2002:a05:600c:a00e:b0:431:1512:743b with SMTP id 5b1f17b1804b1-432d4acfba3mr21479255e9.21.1731502045574;
+        Wed, 13 Nov 2024 04:47:25 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54f76b9sm23265215e9.14.2024.11.13.04.47.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 04:47:25 -0800 (PST)
+Date: Wed, 13 Nov 2024 15:47:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android12-5.10 11/13]
  sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __memcpy()
  'hcp->iec_status' too small (5 vs 24)
-Message-ID: <202411132026.abNXeRjz-lkp@intel.com>
+Message-ID: <3e6e40c1-16eb-4775-82f8-93d7f167b112@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
 tree:   https://android.googlesource.com/kernel/common android12-5.10
 head:   ee2e0e624b3958f48d3bdeabeda5396444f9e5ec
 commit: 4ad97b395f94bc0f546f27bbe9b8a62321f49ad3 [11/13] UPSTREAM: ASoC: hdmi-codec: Add iec958 controls
-:::::: branch date: 16 hours ago
-:::::: commit date: 2 years, 3 months ago
 config: x86_64-randconfig-161-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132026.abNXeRjz-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202411132026.abNXeRjz-lkp@intel.com/
 
 smatch warnings:
@@ -86,7 +84,6 @@ sound/soc/codecs/hdmi-codec.c:504 hdmi_codec_hw_params() error: __memcpy() 'hcp-
 
 vim +504 sound/soc/codecs/hdmi-codec.c
 
-09184118a8abae Jyri Sarha        2016-03-31  483  
 09184118a8abae Jyri Sarha        2016-03-31  484  static int hdmi_codec_hw_params(struct snd_pcm_substream *substream,
 09184118a8abae Jyri Sarha        2016-03-31  485  				struct snd_pcm_hw_params *params,
 09184118a8abae Jyri Sarha        2016-03-31  486  				struct snd_soc_dai *dai)
@@ -108,6 +105,9 @@ cd6111b26280a2 Arnaud Pouliquen  2017-01-03  498  	int ret, idx;
 09184118a8abae Jyri Sarha        2016-03-31  502  		params_channels(params));
 09184118a8abae Jyri Sarha        2016-03-31  503  
 4ad97b395f94bc Maxime Ripard     2021-05-25 @504  	memcpy(hp.iec.status, hcp->iec_status, sizeof(hp.iec.status));
+                                                                              ^^^^^^^^^^^^^^^
+Read overflow?
+
 4ad97b395f94bc Maxime Ripard     2021-05-25  505  	ret = snd_pcm_fill_iec958_consumer_hw_params(params, hp.iec.status,
 09184118a8abae Jyri Sarha        2016-03-31  506  						     sizeof(hp.iec.status));
 09184118a8abae Jyri Sarha        2016-03-31  507  	if (ret < 0) {
@@ -141,8 +141,8 @@ cd6111b26280a2 Arnaud Pouliquen  2017-01-03  529
 efc9194bcff846 Kuninori Morimoto 2016-06-24  535  	return hcp->hcd.ops->hw_params(dai->dev->parent, hcp->hcd.data,
 0cf4610b9f297e Jerome Brunet     2019-05-06  536  				       cf, &hp);
 09184118a8abae Jyri Sarha        2016-03-31  537  }
-09184118a8abae Jyri Sarha        2016-03-31  538  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
