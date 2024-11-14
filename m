@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC58F18A6D8
-	for <oe-kbuild@lists.linux.dev>; Wed, 13 Nov 2024 23:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4151E370
+	for <oe-kbuild@lists.linux.dev>; Thu, 14 Nov 2024 00:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731541436; cv=none; b=IToXzQ+51Mlgeg/9KbOBAvty9KSXJaq/aBe3qaIpIasdwIJr30HORicn97qtuD1IizwbLPhEdcwNv7ZojiDedoPHoMf35oZWFc3J1hOhVfiQbHo3pcU8KfRUzJD10HozbHz5aK1ogTkKzwbnQBwvUEelK3W3HU7JAw3bAztyYYo=
+	t=1731544622; cv=none; b=ahQtb1TyovFy8KxhubDhKVFVzRrFD7K1GG2W0I/mAH6deYsA6Hni+h4KK0vApqI1X5Pa9IL3/nCB3NsfbARI5OoW83qWZG0tHSPxurADQQoJx/oFRn9NnXOV/CXd2plVoojaPERlHcPzW0Pnmpad5+XuSb/xU1qY14LPXqdKJ+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731541436; c=relaxed/simple;
-	bh=Q0L0WfYqPNtepRmhFWBIxw2ycnoZqvGKsKe5wAUx91k=;
+	s=arc-20240116; t=1731544622; c=relaxed/simple;
+	bh=LJaErNT60eT48nurb1I80FU7/KDCOPGXTbECcVE+L9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KJtnmkt7ry2E0pZJHuP/iGldkzUSE+4ZL6hjEEEBk2uKjFcHDxoh9OSqNfBUN2igKnZhFCfsfzoJxNbSDZf51WFZVWZS9V6I14KKZgDs62kb3H4GDiv4IQ++u58EqIZxjA2MsZwacjlSbh4NNnVqds4u9jektHDUmHk8tlz9/oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rk5jmPHl; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Q4TUGqGzQUqRb7c6UsszPk2piioCguDVtRNun+PMWNFCq9SCI/SzoCsbPeKMF8gKqR7QITMgbj0yYzNwY7unPBdnJH1mJve3g4OCmtERGu6oeq2rDjQv+5GwHDeYVwY6/tnIEFuqndJJXHoZy3rxrZPNB+bcoepFGa6FDHbuVgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUr+C47m; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rk5jmPHl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUr+C47m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731541434; x=1763077434;
+  t=1731544620; x=1763080620;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q0L0WfYqPNtepRmhFWBIxw2ycnoZqvGKsKe5wAUx91k=;
-  b=Rk5jmPHl/eynvQS8zA+yD3hC0eIch3zIaAcz9OWQXachHcbyTMHqBqY6
-   gPvWodc30prOdTXM0SeXtWFaxp2Yo3fCJFwhVnda5mD/huahFxcGNHNSu
-   c5GbE3iFSK504Pf4ywxawvZtlwFEl4KYksmvsrpc3y/HltYjn2dg5T3NW
-   RlSaH4lg0Nd5SKnmCMrXOtnusXFDOUNByB4pXNUx19/6wXwYDZ+t9G2ir
-   w1FcYFeLRXHGz6/QYNp6i/SiuM2YzBfaskXK6F5K2gfYZNJmzIzM0rUZU
-   2OFvA510vLsO53Fw3IXuKLAY8l+fePo6HcDNMGKy9tckyks0IpDh8xOm4
-   Q==;
-X-CSE-ConnectionGUID: /vZP1lzQQoax/dS2UhIQTA==
-X-CSE-MsgGUID: PHG1eJqJTSmhbtTloGUPDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="42874673"
+  bh=LJaErNT60eT48nurb1I80FU7/KDCOPGXTbECcVE+L9A=;
+  b=RUr+C47mHcgoPg8OZCZB5s+iEZDiipIcRvOhkfqWoyLtCUH1QDyQtAEM
+   lsrJDXZPmcNxqp2x5cOGXYOCoWAPG+qvZsLHdUBeXMbOClWTINRUEBh6N
+   JhQQl+Zlpd7UL/AOBxKs68Ha5ZVW8yitYe0yNuRESxQ5wA6Fctm26Tooc
+   psQ0ATeruMgxdr49up4oFcblIuCxMz33JD50hviXHrBvKh87JsrUXQXaM
+   lgvmBJ5puT0mMQM137EGnPxeXxFjmcbYIiIK2JDRUJRKt2xynTveCRI5h
+   snaQI6G5e0TAsI8AOT86ncRhZRTsliqQLLgh0+XLYmVCFLNek7uw5SOy5
+   w==;
+X-CSE-ConnectionGUID: 4xN9hllBRreszf9MyXJVmw==
+X-CSE-MsgGUID: X7mSCXkBTciT2Gj4LMQLIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="56854492"
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="42874673"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 15:43:54 -0800
-X-CSE-ConnectionGUID: UQi/5ldCQnietJ87YPQGfw==
-X-CSE-MsgGUID: VlSWYxQcR1+FxjffsAuorQ==
+   d="scan'208";a="56854492"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 16:36:59 -0800
+X-CSE-ConnectionGUID: Qe5kEm13SpmgOjCNlj4BXA==
+X-CSE-MsgGUID: Yz9YN3FlROCjp6nBdRmMMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="118843809"
+   d="scan'208";a="87791113"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2024 15:43:52 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Nov 2024 16:36:58 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBN1Z-0000s9-0h;
-	Wed, 13 Nov 2024 23:43:49 +0000
-Date: Thu, 14 Nov 2024 07:43:10 +0800
+	id 1tBNqy-0000z7-1J;
+	Thu, 14 Nov 2024 00:36:56 +0000
+Date: Thu, 14 Nov 2024 08:36:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v7 3/3] crypto: Add Inside Secure SafeXcel EIP-93 crypto
- engine support
-Message-ID: <202411140735.mQv5EJqy-lkp@intel.com>
+Subject: [rafael-pm:bleeding-edge 447/448] drivers/thermal/testing/zone.c:333
+ tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
+Message-ID: <202411140825.w4TfKdbS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,164 +64,79 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241112015920.22564-4-ansuelsmth@gmail.com>
-References: <20241112015920.22564-4-ansuelsmth@gmail.com>
-TO: Christian Marangi <ansuelsmth@gmail.com>
-TO: Christian Marangi <ansuelsmth@gmail.com>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Antoine Tenart <atenart@kernel.org>
-TO: Peter Zijlstra <peterz@infradead.org>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Will Deacon <will@kernel.org>
-TO: Waiman Long <longman@redhat.com>
-TO: Boqun Feng <boqun.feng@gmail.com>
-TO: Nathan Chancellor <nathan@kernel.org>
-TO: Nick Desaulniers <ndesaulniers@google.com>
-TO: Bill Wendling <morbo@google.com>
-TO: Justin Stitt <justinstitt@google.com>
-TO: linux-crypto@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: llvm@lists.linux.dev
-TO: upstream@airoha.com
-CC: Richard van Schagen <vschagen@icloud.com>
+CC: linux-acpi@vger.kernel.org
+CC: devel@acpica.org
+CC: linux-pm@vger.kernel.org
+TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master tip/locking/core linus/master v6.12-rc7 next-20241113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/spinlock-extend-guard-with-spinlock_bh-variants/20241112-100439
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241112015920.22564-4-ansuelsmth%40gmail.com
-patch subject: [PATCH v7 3/3] crypto: Add Inside Secure SafeXcel EIP-93 crypto engine support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: m68k-randconfig-r073-20241114 (https://download.01.org/0day-ci/archive/20241114/202411140735.mQv5EJqy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d1bf954af846f66ac2ea07b2457b4a089a009c08
+commit: 498ea32432db6f2a0bce88fd521e529a58a370c4 [447/448] thermal: testing: Use DEFINE_FREE() and __free() to simplify code
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-161-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140825.w4TfKdbS-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411140735.mQv5EJqy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411140825.w4TfKdbS-lkp@intel.com/
 
 New smatch warnings:
-drivers/crypto/inside-secure/eip93/eip93-hash.c:197 __eip93_hash_init() error: uninitialized symbol 'sa_record_hmac'.
+drivers/thermal/testing/zone.c:333 tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
+drivers/thermal/testing/zone.c:333 tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
 
 Old smatch warnings:
-drivers/crypto/inside-secure/eip93/eip93-hash.c:330 eip93_send_hash_req() error: uninitialized symbol 'crypto_async_idr'.
+drivers/thermal/testing/zone.c:188 tt_add_tz() error: uninitialized symbol 'tt_work'.
+drivers/thermal/testing/zone.c:240 tt_del_tz() error: uninitialized symbol 'tt_work'.
+drivers/thermal/testing/zone.c:335 tt_zone_add_trip() error: uninitialized symbol 'tt_trip'.
+drivers/thermal/testing/zone.c:390 tt_zone_register_tz() error: uninitialized symbol 'trips'.
 
-vim +/sa_record_hmac +197 drivers/crypto/inside-secure/eip93/eip93-hash.c
+vim +/tt_zone +333 drivers/thermal/testing/zone.c
 
-7cd8d75e204549 Christian Marangi 2024-11-12  143  
-7cd8d75e204549 Christian Marangi 2024-11-12  144  static int __eip93_hash_init(struct ahash_request *req, struct sa_state *sa_state,
-7cd8d75e204549 Christian Marangi 2024-11-12  145  			     dma_addr_t sa_state_base)
-7cd8d75e204549 Christian Marangi 2024-11-12  146  {
-7cd8d75e204549 Christian Marangi 2024-11-12  147  	struct eip93_hash_reqctx *rctx = ahash_request_ctx(req);
-7cd8d75e204549 Christian Marangi 2024-11-12  148  	struct crypto_ahash *ahash = crypto_ahash_reqtfm(req);
-7cd8d75e204549 Christian Marangi 2024-11-12  149  	struct eip93_hash_ctx *ctx = crypto_ahash_ctx(ahash);
-7cd8d75e204549 Christian Marangi 2024-11-12  150  	struct sa_record *sa_record, *sa_record_hmac;
-7cd8d75e204549 Christian Marangi 2024-11-12  151  	struct eip93_device *mtk = ctx->mtk;
-7cd8d75e204549 Christian Marangi 2024-11-12  152  	int digestsize;
-7cd8d75e204549 Christian Marangi 2024-11-12  153  	int ret;
-7cd8d75e204549 Christian Marangi 2024-11-12  154  
-7cd8d75e204549 Christian Marangi 2024-11-12  155  	/* Set sa_state and mtk for rctx to handle error case later */
-7cd8d75e204549 Christian Marangi 2024-11-12  156  	rctx->mtk = mtk;
-7cd8d75e204549 Christian Marangi 2024-11-12  157  	rctx->sa_state = sa_state;
-7cd8d75e204549 Christian Marangi 2024-11-12  158  	rctx->sa_state_base = sa_state_base;
-7cd8d75e204549 Christian Marangi 2024-11-12  159  
-7cd8d75e204549 Christian Marangi 2024-11-12  160  	sa_record = kzalloc(sizeof(*sa_record), GFP_KERNEL);
-7cd8d75e204549 Christian Marangi 2024-11-12  161  	if (!sa_record)
-7cd8d75e204549 Christian Marangi 2024-11-12  162  		return -ENOMEM;
-7cd8d75e204549 Christian Marangi 2024-11-12  163  
-7cd8d75e204549 Christian Marangi 2024-11-12  164  	if (IS_HMAC(ctx->flags)) {
-7cd8d75e204549 Christian Marangi 2024-11-12  165  		sa_record_hmac = kzalloc(sizeof(*sa_record_hmac), GFP_KERNEL);
-7cd8d75e204549 Christian Marangi 2024-11-12  166  		if (!sa_record_hmac) {
-7cd8d75e204549 Christian Marangi 2024-11-12  167  			ret = -ENOMEM;
-7cd8d75e204549 Christian Marangi 2024-11-12  168  			goto free_sa_record;
-7cd8d75e204549 Christian Marangi 2024-11-12  169  		}
-7cd8d75e204549 Christian Marangi 2024-11-12  170  	}
-7cd8d75e204549 Christian Marangi 2024-11-12  171  
-7cd8d75e204549 Christian Marangi 2024-11-12  172  	digestsize = crypto_ahash_digestsize(ahash);
-7cd8d75e204549 Christian Marangi 2024-11-12  173  
-7cd8d75e204549 Christian Marangi 2024-11-12  174  	eip93_set_sa_record(sa_record, 0, ctx->flags);
-7cd8d75e204549 Christian Marangi 2024-11-12  175  	sa_record->sa_cmd0_word |= EIP93_SA_CMD_HASH_FROM_STATE;
-7cd8d75e204549 Christian Marangi 2024-11-12  176  	sa_record->sa_cmd0_word |= EIP93_SA_CMD_SAVE_HASH;
-7cd8d75e204549 Christian Marangi 2024-11-12  177  	sa_record->sa_cmd0_word &= ~EIP93_SA_CMD_OPCODE;
-7cd8d75e204549 Christian Marangi 2024-11-12  178  	sa_record->sa_cmd0_word |= FIELD_PREP(EIP93_SA_CMD_OPCODE,
-7cd8d75e204549 Christian Marangi 2024-11-12  179  					      EIP93_SA_CMD_OPCODE_BASIC_OUT_HASH);
-7cd8d75e204549 Christian Marangi 2024-11-12  180  	sa_record->sa_cmd0_word &= ~EIP93_SA_CMD_DIGEST_LENGTH;
-7cd8d75e204549 Christian Marangi 2024-11-12  181  	sa_record->sa_cmd0_word |= FIELD_PREP(EIP93_SA_CMD_DIGEST_LENGTH,
-7cd8d75e204549 Christian Marangi 2024-11-12  182  					      digestsize / sizeof(u32));
-7cd8d75e204549 Christian Marangi 2024-11-12  183  
-7cd8d75e204549 Christian Marangi 2024-11-12  184  	/*
-7cd8d75e204549 Christian Marangi 2024-11-12  185  	 * HMAC special handling
-7cd8d75e204549 Christian Marangi 2024-11-12  186  	 * Enabling CMD_HMAC force the inner hash to be always finalized.
-7cd8d75e204549 Christian Marangi 2024-11-12  187  	 * This cause problems on handling message > 64 byte as we
-7cd8d75e204549 Christian Marangi 2024-11-12  188  	 * need to produce intermediate inner hash on sending intermediate
-7cd8d75e204549 Christian Marangi 2024-11-12  189  	 * 64 bytes blocks.
-7cd8d75e204549 Christian Marangi 2024-11-12  190  	 *
-7cd8d75e204549 Christian Marangi 2024-11-12  191  	 * To handle this, enable CMD_HMAC only on the last block.
-7cd8d75e204549 Christian Marangi 2024-11-12  192  	 * We make a duplicate of sa_record and on the last descriptor,
-7cd8d75e204549 Christian Marangi 2024-11-12  193  	 * we pass a dedicated sa_record with CMD_HMAC enabled to make
-7cd8d75e204549 Christian Marangi 2024-11-12  194  	 * EIP93 apply the outer hash.
-7cd8d75e204549 Christian Marangi 2024-11-12  195  	 */
-7cd8d75e204549 Christian Marangi 2024-11-12  196  	if (IS_HMAC(ctx->flags)) {
-7cd8d75e204549 Christian Marangi 2024-11-12 @197  		memcpy(sa_record_hmac, sa_record, sizeof(*sa_record));
-7cd8d75e204549 Christian Marangi 2024-11-12  198  		/* Copy pre-hashed opad for HMAC */
-7cd8d75e204549 Christian Marangi 2024-11-12  199  		memcpy(sa_record_hmac->sa_o_digest, ctx->opad, SHA256_DIGEST_SIZE);
-7cd8d75e204549 Christian Marangi 2024-11-12  200  
-7cd8d75e204549 Christian Marangi 2024-11-12  201  		/* Disable HMAC for hash normal sa_record */
-7cd8d75e204549 Christian Marangi 2024-11-12  202  		sa_record->sa_cmd1_word &= ~EIP93_SA_CMD_HMAC;
-7cd8d75e204549 Christian Marangi 2024-11-12  203  	}
-7cd8d75e204549 Christian Marangi 2024-11-12  204  
-7cd8d75e204549 Christian Marangi 2024-11-12  205  	rctx->sa_record = sa_record;
-7cd8d75e204549 Christian Marangi 2024-11-12  206  	rctx->sa_record_base = dma_map_single(mtk->dev, rctx->sa_record,
-7cd8d75e204549 Christian Marangi 2024-11-12  207  					      sizeof(*rctx->sa_record),
-7cd8d75e204549 Christian Marangi 2024-11-12  208  					      DMA_TO_DEVICE);
-7cd8d75e204549 Christian Marangi 2024-11-12  209  	ret = dma_mapping_error(mtk->dev, rctx->sa_record_base);
-7cd8d75e204549 Christian Marangi 2024-11-12  210  	if (ret)
-7cd8d75e204549 Christian Marangi 2024-11-12  211  		goto free_sa_record;
-7cd8d75e204549 Christian Marangi 2024-11-12  212  
-7cd8d75e204549 Christian Marangi 2024-11-12  213  	if (IS_HMAC(ctx->flags)) {
-7cd8d75e204549 Christian Marangi 2024-11-12  214  		rctx->sa_record_hmac = sa_record_hmac;
-7cd8d75e204549 Christian Marangi 2024-11-12  215  		rctx->sa_record_hmac_base = dma_map_single(mtk->dev,
-7cd8d75e204549 Christian Marangi 2024-11-12  216  							   rctx->sa_record_hmac,
-7cd8d75e204549 Christian Marangi 2024-11-12  217  							   sizeof(*rctx->sa_record_hmac),
-7cd8d75e204549 Christian Marangi 2024-11-12  218  							   DMA_TO_DEVICE);
-7cd8d75e204549 Christian Marangi 2024-11-12  219  		ret = dma_mapping_error(mtk->dev, rctx->sa_record_hmac_base);
-7cd8d75e204549 Christian Marangi 2024-11-12  220  		if (ret)
-7cd8d75e204549 Christian Marangi 2024-11-12  221  			goto free_sa_record_base;
-7cd8d75e204549 Christian Marangi 2024-11-12  222  	}
-7cd8d75e204549 Christian Marangi 2024-11-12  223  
-7cd8d75e204549 Christian Marangi 2024-11-12  224  	rctx->len = 0;
-7cd8d75e204549 Christian Marangi 2024-11-12  225  	rctx->left_last = 0;
-7cd8d75e204549 Christian Marangi 2024-11-12  226  	rctx->partial_hash = false;
-7cd8d75e204549 Christian Marangi 2024-11-12  227  	rctx->export_state = false;
-7cd8d75e204549 Christian Marangi 2024-11-12  228  	rctx->state = NULL;
-7cd8d75e204549 Christian Marangi 2024-11-12  229  	INIT_LIST_HEAD(&rctx->blocks);
-7cd8d75e204549 Christian Marangi 2024-11-12  230  
-7cd8d75e204549 Christian Marangi 2024-11-12  231  	return 0;
-7cd8d75e204549 Christian Marangi 2024-11-12  232  
-7cd8d75e204549 Christian Marangi 2024-11-12  233  free_sa_record_base:
-7cd8d75e204549 Christian Marangi 2024-11-12  234  	dma_unmap_single(mtk->dev, rctx->sa_record_base, sizeof(*rctx->sa_record),
-7cd8d75e204549 Christian Marangi 2024-11-12  235  			 DMA_TO_DEVICE);
-7cd8d75e204549 Christian Marangi 2024-11-12  236  free_sa_record:
-7cd8d75e204549 Christian Marangi 2024-11-12  237  	kfree(sa_record);
-7cd8d75e204549 Christian Marangi 2024-11-12  238  	return ret;
-7cd8d75e204549 Christian Marangi 2024-11-12  239  }
-7cd8d75e204549 Christian Marangi 2024-11-12  240  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  330  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  331  int tt_zone_add_trip(const char *arg)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  332  {
+498ea32432db6f Rafael J. Wysocki 2024-11-10 @333  	struct tt_thermal_zone *tt_zone __free(put_tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  334  	struct tt_work *tt_work __free(kfree);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  335  	struct tt_trip *tt_trip __free(kfree);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  336  	int id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  337  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  338  	tt_work = kzalloc(sizeof(*tt_work), GFP_KERNEL);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  339  	if (!tt_work)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  340  		return -ENOMEM;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  341  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  342  	tt_trip = kzalloc(sizeof(*tt_trip), GFP_KERNEL);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  343  	if (!tt_trip)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  344  		return -ENOMEM;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  345  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  346  	tt_zone = tt_get_tt_zone(arg);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  347  	if (IS_ERR(tt_zone))
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  348  		return PTR_ERR(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  349  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  350  	id = ida_alloc(&tt_zone->ida, GFP_KERNEL);
+498ea32432db6f Rafael J. Wysocki 2024-11-10  351  	if (id < 0)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  352  		return id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  353  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  354  	tt_trip->trip.type = THERMAL_TRIP_ACTIVE;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  355  	tt_trip->trip.temperature = THERMAL_TEMP_INVALID;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  356  	tt_trip->trip.flags = THERMAL_TRIP_FLAG_RW;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  357  	tt_trip->id = id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  358  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  359  	guard(tt_zone)(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  360  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  361  	list_add_tail(&tt_trip->list_node, &tt_zone->trips);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  362  	tt_zone->num_trips++;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  363  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  364  	INIT_WORK(&tt_work->work, tt_zone_add_trip_work_fn);
+498ea32432db6f Rafael J. Wysocki 2024-11-10  365  	tt_work->tt_zone = no_free_ptr(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  366  	tt_work->tt_trip = no_free_ptr(tt_trip);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  367  	schedule_work(&(no_free_ptr(tt_work)->work));
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  368  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  369  	return 0;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  370  }
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  371  
 
 -- 
 0-DAY CI Kernel Test Service
