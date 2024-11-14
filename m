@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4E2158DB2
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Nov 2024 05:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E7F3BBEB
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Nov 2024 06:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731647122; cv=none; b=FzUXBGtmmFMvYcuTmF0I7mgvKhiWqemNmaOlwnJbY1JHwpWhBQa4HftvGplHMXWqdC/0TCD8qHTUOeX9Ae0Fk2Suj3uwLyremumyoCmFr4mkZGXWcjzZRRw2LNqCp7JXu938EiKeTmgiL/0uHvAcdGWgfhxpjpcPD6jkaamaNLw=
+	t=1731652781; cv=none; b=Y4Bmt3pyehX81H++VMJ9oy9kckLnXuInhKriPubDi/gHBUj59NOA5Yt46R1otjgU+kV99J3RtL06rJUoPgZiHVdQoWhC8BuHtVVF0sr/cKKY83hQw1n8aoRLCS9ZzZAFOeeZRfGaW0CojBhIECGMcvBvX2zIrfphscmk74SAnKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731647122; c=relaxed/simple;
-	bh=IFZFpmRzBBmSH3bwhL3SaS+NrQrcSb0dTJpsXkjRSd8=;
+	s=arc-20240116; t=1731652781; c=relaxed/simple;
+	bh=8W9YGovs3LD2cWF2F9SrgnhxBNlCPNqv9kH5VvtorIY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fAvVMPk3DwUqhOvcNytz7Hn5QHsJRm1ij33m4O7lZFFdhUKGlHp37icu/2Sd4JaKioBsTEnyE1icf8ABz5cJorX82NIyet5wnkntTlUbM+oNOvCDSa42fRo092iJnbW/JcDfdBamw8DPP5xk78dtdL8d2+7Hv01qJqnjuE70jTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJZb6nz4; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=OgYz6avrr/zNLOfbe4TVwCFyuJ+luPBo9XmGq4lr9HxXS6jrISUxve1QHU+ValN8tjBzoHjI8HWB8Ong2XrUVHiDYBLZ958bGniR0P39cWhl43kqqh0TOvkg6wqV37GWZ0qDb1lGrq3v/ScXf10ar8OzwzJnD/Y4Jt7w3/VgtyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nc6XU7zl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJZb6nz4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nc6XU7zl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731647120; x=1763183120;
+  t=1731652779; x=1763188779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IFZFpmRzBBmSH3bwhL3SaS+NrQrcSb0dTJpsXkjRSd8=;
-  b=eJZb6nz4BH9dBFFP78Lfu50vH91P24QhV75tDFfyAjP8h6zGwX9h2GwP
-   Q02FmD/y3inT0Zi4m8EEXn2BAainYGQGzBjioQ/nlR597SnEcqN4OFeYG
-   db9sl9W2bMScFjhz5cHd10bw0RaJFFtXiQNV8uHYJM78gQnzmIAl3LC13
-   gyHpIOvJa4j5tPrWAnfGuJrRHC5uJ0uaw8R78DsXxe4fROu3T//YfymKp
-   pcEkFlH2ubXWZpRXtvZIU3MCRw31ykDYsk1A98L/whhsRXcyJHnDDIKIr
-   ad8IFfRdta1pyn+JtQc3M26+Ifb3p/EvYawPakwF71vNcRGkJuD33LvmF
+  bh=8W9YGovs3LD2cWF2F9SrgnhxBNlCPNqv9kH5VvtorIY=;
+  b=Nc6XU7zlh6D/4LtniNYUM/XIhLEe4WQJnBi4pKq1vKA15w8lwJg0apfI
+   IYb0YYhgR7fXaL2XBmoDgMV2gyA0h2ToWsmEAAyjh78QBR2ChQS1uxUF1
+   xs9j/dm+Aiu5ge/6UiYRUUjgdldHesuT/mZascM7umYfrd/xSBUkSwxsD
+   02MgRrjE7onuEqpTw4n2vdUwz83Geu/V4mVUBe3HrxEfRlZ/N+3reVkhV
+   ep1SymbieLxqKn0MGFtHkZeVrZByxm5H5CnNdPRcNQ+yBRvUgjFuzho6q
+   vkoLwQAxq3aX0vMaY6PQwkhKHJ4AqxHwYbylnjYC4/wGwfUfXCAxXcrEv
    Q==;
-X-CSE-ConnectionGUID: J4YugaLBR8ujYr7fIvXdRw==
-X-CSE-MsgGUID: lJdxpu5zSCuOo4dS08QxMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31884300"
-X-IronPort-AV: E=Sophos;i="6.12,155,1728975600"; 
-   d="scan'208";a="31884300"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 21:05:19 -0800
-X-CSE-ConnectionGUID: DB6QxyP4SZ+X2MhUXHHdSg==
-X-CSE-MsgGUID: 2GHE2sSfRru1FWXj8WnsSw==
+X-CSE-ConnectionGUID: 6wM3RlwMSXSdJs7DLenmaQ==
+X-CSE-MsgGUID: QC7jbbjARgqR6a6YNh8tfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31580585"
+X-IronPort-AV: E=Sophos;i="6.12,156,1728975600"; 
+   d="scan'208";a="31580585"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 13:50:11 -0800
+X-CSE-ConnectionGUID: e/soi/tiT6Clp+GB3YoyuQ==
+X-CSE-MsgGUID: rDkrj6OzTymv4r6AummuQw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="93391333"
-Received: from lkp-server02.sh.intel.com (HELO 481373e0caf0) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 14 Nov 2024 21:05:19 -0800
-Received: from kbuild by 481373e0caf0 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
+   d="scan'208";a="92768657"
+Received: from lkp-server02.sh.intel.com (HELO f5eddd9a323a) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2024 13:50:10 -0800
+Received: from kbuild by f5eddd9a323a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBoWC-00009l-0d;
-	Fri, 15 Nov 2024 05:05:16 +0000
-Date: Fri, 15 Nov 2024 13:05:10 +0800
+	id 1tBhj5-00003Z-2n;
+	Thu, 14 Nov 2024 21:50:07 +0000
+Date: Fri, 15 Nov 2024 05:49:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/5] arm64: dts: qcom: Add support for QCS9075 RB8
-Message-ID: <202411151212.N73pyIKS-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the
+ index variable of the iterator on line 375
+Message-ID: <202411150508.8VM7Y6uQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,68 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241110145339.3635437-5-quic_wasimn@quicinc.com>
-References: <20241110145339.3635437-5-quic_wasimn@quicinc.com>
-TO: Wasim Nazir <quic_wasimn@quicinc.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Wasim Nazir <quic_wasimn@quicinc.com>
+TO: Stephan Gerhold <stephan@gerhold.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-Hi Wasim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wasim-Nazir/dt-bindings-arm-qcom-ids-add-SoC-ID-for-QCS9075/20241110-225519
-base:   929beafbe7acce3267c06115e13e03ff6e50548a
-patch link:    https://lore.kernel.org/r/20241110145339.3635437-5-quic_wasimn%40quicinc.com
-patch subject: [PATCH 4/5] arm64: dts: qcom: Add support for QCS9075 RB8
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20241111 (https://download.01.org/0day-ci/archive/20241115/202411151212.N73pyIKS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.11
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241115/202411151212.N73pyIKS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cfaaa7d010d1fc58f9717fcc8591201e741d2d49
+commit: 2b391c4ca735d0633bcdca5f83939c9791405225 pmdomain: core: Scale down parent/child performance states in reverse order
+date:   9 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-051-20241114 (https://download.01.org/0day-ci/archive/20241115/202411150508.8VM7Y6uQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411151212.N73pyIKS-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411150508.8VM7Y6uQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
->> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
->> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
->> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
-   	'qcom,crypto-v5.1' was expected
-   	'qcom,crypto-v5.4' was expected
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
-   	'qcom,ipq4019-qce' was expected
-   	'qcom,sm8150-qce' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
->> arch/arm64/boot/dts/qcom/qcs9075-rb8.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the index variable of the iterator on line 375
+
+vim +385 drivers/pmdomain/core.c
+
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  363  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  364  static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  365  					unsigned int state, int depth)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  366  {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  367  	struct gpd_link *link = NULL;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  368  	int ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  369  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  370  	if (state == genpd->performance_state)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  371  		return 0;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  372  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  373  	/* When scaling up, propagate to parents first in normal order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  374  	if (state > genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @375  		list_for_each_entry(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  376  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  377  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  378  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  379  		}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  380  	}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  381  
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  382  	if (genpd->set_performance_state) {
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  383  		ret = genpd->set_performance_state(genpd, state);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  384  		if (ret) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @385  			if (link)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  386  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  387  			return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  388  		}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  389  	}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  390  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  391  	/* When scaling down, propagate to parents last in reverse order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  392  	if (state < genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  393  		list_for_each_entry_reverse(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  394  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  395  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  396  				goto rollback_parents_down;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  397  		}
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  398  	}
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  399  
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  400  	genpd->performance_state = state;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  401  	return 0;
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  402  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  403  rollback_parents_up:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  404  	list_for_each_entry_continue_reverse(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  405  		_genpd_rollback_parent_state(link, depth);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  406  	return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  407  rollback_parents_down:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  408  	list_for_each_entry_continue(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  409  		_genpd_rollback_parent_state(link, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  410  	return ret;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  411  }
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  412  
 
 -- 
 0-DAY CI Kernel Test Service
