@@ -1,143 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E7F3BBEB
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Nov 2024 06:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CBA1885B3
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Nov 2024 06:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731652781; cv=none; b=Y4Bmt3pyehX81H++VMJ9oy9kckLnXuInhKriPubDi/gHBUj59NOA5Yt46R1otjgU+kV99J3RtL06rJUoPgZiHVdQoWhC8BuHtVVF0sr/cKKY83hQw1n8aoRLCS9ZzZAFOeeZRfGaW0CojBhIECGMcvBvX2zIrfphscmk74SAnKY=
+	t=1731653517; cv=none; b=elZ1sHRvwWdQLkU63ZJBBjd1w7NWmsoGOIg1xGQApLA2qDg6/YHNa/cSiFc3t3f3SGHMZE++xejrGqqUptU/zDjOiexhOT0hzeHU8julXrQKZJGcwnCEBDF/uq4nN2nVU/60c/KnmrWoeGQlywkMG6O9jxCsBrygVm0Cd85lA68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731652781; c=relaxed/simple;
-	bh=8W9YGovs3LD2cWF2F9SrgnhxBNlCPNqv9kH5VvtorIY=;
+	s=arc-20240116; t=1731653517; c=relaxed/simple;
+	bh=uF8MNohazxDMVLsthI6vhMBP5MD32OEWi5QLgxwfMKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OgYz6avrr/zNLOfbe4TVwCFyuJ+luPBo9XmGq4lr9HxXS6jrISUxve1QHU+ValN8tjBzoHjI8HWB8Ong2XrUVHiDYBLZ958bGniR0P39cWhl43kqqh0TOvkg6wqV37GWZ0qDb1lGrq3v/ScXf10ar8OzwzJnD/Y4Jt7w3/VgtyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nc6XU7zl; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=arIv93/xXAWY6BXisvlZiNEEteNnM9Iu72pTBOI5lpKVe3IefXfzgSK2SicZeeoSB6JNVT9tNMLUM5fmO2GNT4uh2FR3NEr9cCl+ZOVe01TH0m/NpxRShrkSCtqykobsVKlQuFaeqlIKCJZOiWd9MEgjv2nJTkQoKicydMOvmQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+lFdi93; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nc6XU7zl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+lFdi93"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731652779; x=1763188779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8W9YGovs3LD2cWF2F9SrgnhxBNlCPNqv9kH5VvtorIY=;
-  b=Nc6XU7zlh6D/4LtniNYUM/XIhLEe4WQJnBi4pKq1vKA15w8lwJg0apfI
-   IYb0YYhgR7fXaL2XBmoDgMV2gyA0h2ToWsmEAAyjh78QBR2ChQS1uxUF1
-   xs9j/dm+Aiu5ge/6UiYRUUjgdldHesuT/mZascM7umYfrd/xSBUkSwxsD
-   02MgRrjE7onuEqpTw4n2vdUwz83Geu/V4mVUBe3HrxEfRlZ/N+3reVkhV
-   ep1SymbieLxqKn0MGFtHkZeVrZByxm5H5CnNdPRcNQ+yBRvUgjFuzho6q
-   vkoLwQAxq3aX0vMaY6PQwkhKHJ4AqxHwYbylnjYC4/wGwfUfXCAxXcrEv
-   Q==;
-X-CSE-ConnectionGUID: 6wM3RlwMSXSdJs7DLenmaQ==
-X-CSE-MsgGUID: QC7jbbjARgqR6a6YNh8tfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31580585"
+  t=1731653515; x=1763189515;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uF8MNohazxDMVLsthI6vhMBP5MD32OEWi5QLgxwfMKY=;
+  b=b+lFdi93c23j7PtTGVdrN+/EP1lIa3BHG4suWbKn5dfEgfpG3kyIBCjQ
+   QNjKcQE9H8lB6dNjl6XU/hGCkvFJoE6IijUOdXnIIsGP34xqGtUlxisB5
+   Lh8EIJdbg5w0hzZFFQgqRJZkVNN9iDZbjJvHZcv2RKWzxUlVocSnQCuK0
+   sBjQA/L4JbBYyQgYtQeIZByzfNP2tkJTjZ30sO47U4WIXMzoKaQlt7CNz
+   PEBFHTZ7fNYYmrJgr9trxpA9lJzmGAxSCtJTbYLYeiR8hz7+MRnoYMCT0
+   IhsGf88ej0jdqgzETDthSsvWq4wXIGdtRGhxgu2N7KjFMjThhoiP1l32p
+   w==;
+X-CSE-ConnectionGUID: 1okNz4MWTWCdJUbv6IU4vA==
+X-CSE-MsgGUID: vPHIi7X7RASQ6GtT0yjCIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31792267"
 X-IronPort-AV: E=Sophos;i="6.12,156,1728975600"; 
-   d="scan'208";a="31580585"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 13:50:11 -0800
-X-CSE-ConnectionGUID: e/soi/tiT6Clp+GB3YoyuQ==
-X-CSE-MsgGUID: rDkrj6OzTymv4r6AummuQw==
+   d="scan'208";a="31792267"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 15:24:41 -0800
+X-CSE-ConnectionGUID: 9xTPjiRsRRWxeZAbGOlt8Q==
+X-CSE-MsgGUID: Lpvvwe+0T36nf1YVotwOyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="92768657"
+   d="scan'208";a="93435527"
 Received: from lkp-server02.sh.intel.com (HELO f5eddd9a323a) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2024 13:50:10 -0800
+  by orviesa004.jf.intel.com with ESMTP; 14 Nov 2024 15:24:41 -0800
 Received: from kbuild by f5eddd9a323a with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBhj5-00003Z-2n;
-	Thu, 14 Nov 2024 21:50:07 +0000
-Date: Fri, 15 Nov 2024 05:49:24 +0800
+	id 1tBjCY-00006Y-04;
+	Thu, 14 Nov 2024 23:24:38 +0000
+Date: Fri, 15 Nov 2024 07:21:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the
- index variable of the iterator on line 375
-Message-ID: <202411150508.8VM7Y6uQ-lkp@intel.com>
+Subject: drivers/scsi/sd.c:2183:7-17: WARNING: Unsigned expression compared
+ with zero: the_result > 0
+Message-ID: <202411150700.kWopQj0K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Stephan Gerhold <stephan@gerhold.net>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+TO: Mike Christie <michael.christie@oracle.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: John Garry <john.g.garry@oracle.com>
+CC: Bart Van Assche <bvanassche@acm.org>
+CC: Martin Wilck <mwilck@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cfaaa7d010d1fc58f9717fcc8591201e741d2d49
-commit: 2b391c4ca735d0633bcdca5f83939c9791405225 pmdomain: core: Scale down parent/child performance states in reverse order
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-051-20241114 (https://download.01.org/0day-ci/archive/20241115/202411150508.8VM7Y6uQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: b4d0c33a32c3c59217ec449de3892b1a6d68cbc1 scsi: sd: Fix sshdr use in sd_spinup_disk
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-101-20241114 (https://download.01.org/0day-ci/archive/20241115/202411150700.kWopQj0K-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411150508.8VM7Y6uQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411150700.kWopQj0K-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the index variable of the iterator on line 375
+>> drivers/scsi/sd.c:2183:7-17: WARNING: Unsigned expression compared with zero: the_result > 0
 
-vim +385 drivers/pmdomain/core.c
+vim +2183 drivers/scsi/sd.c
 
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  363  
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  364  static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  365  					unsigned int state, int depth)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  366  {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  367  	struct gpd_link *link = NULL;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  368  	int ret;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  369  
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  370  	if (state == genpd->performance_state)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  371  		return 0;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  372  
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  373  	/* When scaling up, propagate to parents first in normal order */
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  374  	if (state > genpd->performance_state) {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @375  		list_for_each_entry(link, &genpd->child_links, child_node) {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  376  			ret = _genpd_set_parent_state(genpd, link, state, depth);
-18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  377  			if (ret)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  378  				goto rollback_parents_up;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  379  		}
-18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  380  	}
-18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  381  
-079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  382  	if (genpd->set_performance_state) {
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  383  		ret = genpd->set_performance_state(genpd, state);
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  384  		if (ret) {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @385  			if (link)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  386  				goto rollback_parents_up;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  387  			return ret;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  388  		}
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  389  	}
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  390  
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  391  	/* When scaling down, propagate to parents last in reverse order */
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  392  	if (state < genpd->performance_state) {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  393  		list_for_each_entry_reverse(link, &genpd->child_links, child_node) {
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  394  			ret = _genpd_set_parent_state(genpd, link, state, depth);
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  395  			if (ret)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  396  				goto rollback_parents_down;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  397  		}
-079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  398  	}
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  399  
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  400  	genpd->performance_state = state;
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  401  	return 0;
-18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  402  
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  403  rollback_parents_up:
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  404  	list_for_each_entry_continue_reverse(link, &genpd->child_links, child_node)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  405  		_genpd_rollback_parent_state(link, depth);
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  406  	return ret;
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  407  rollback_parents_down:
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  408  	list_for_each_entry_continue(link, &genpd->child_links, child_node)
-2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  409  		_genpd_rollback_parent_state(link, depth);
-18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  410  	return ret;
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  411  }
-cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  412  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2147  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2148  /*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2149   * spinup disk - called only in sd_revalidate_disk()
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2150   */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2151  static void
+e73aec8247032e Martin K. Petersen  2007-02-27  2152  sd_spinup_disk(struct scsi_disk *sdkp)
+ea73a9f23906c3 James Bottomley     2005-08-28  2153  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2154  	unsigned char cmd[10];
+4451e472627881 Alan Stern          2005-07-12  2155  	unsigned long spintime_expire = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2156  	int retries, spintime;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2157  	unsigned int the_result;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2158  	struct scsi_sense_hdr sshdr;
+af16cd63d9d3b7 Mike Christie       2022-12-29  2159  	const struct scsi_exec_args exec_args = {
+af16cd63d9d3b7 Mike Christie       2022-12-29  2160  		.sshdr = &sshdr,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2161  	};
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2162  	int sense_valid = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2163  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2164  	spintime = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2165  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2166  	/* Spin up drives, as required.  Only do this at boot time */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2167  	/* Spinup needs to be done for module loads too. */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2168  	do {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2169  		retries = 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2170  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2171  		do {
+4521428c48118b Heiner Kallweit     2021-09-11  2172  			bool media_was_present = sdkp->media_present;
+4521428c48118b Heiner Kallweit     2021-09-11  2173  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2174  			cmd[0] = TEST_UNIT_READY;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2175  			memset((void *) &cmd[1], 0, 9);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2176  
+af16cd63d9d3b7 Mike Christie       2022-12-29  2177  			the_result = scsi_execute_cmd(sdkp->device, cmd,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2178  						      REQ_OP_DRV_IN, NULL, 0,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2179  						      SD_TIMEOUT,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2180  						      sdkp->max_retries,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2181  						      &exec_args);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2182  
+b4d0c33a32c3c5 Mike Christie       2023-10-04 @2183  			if (the_result > 0) {
+b4d38e38e66f8e Alan Stern          2006-10-11  2184  				/*
+b4d38e38e66f8e Alan Stern          2006-10-11  2185  				 * If the drive has indicated to us that it
+b4d38e38e66f8e Alan Stern          2006-10-11  2186  				 * doesn't have any media in it, don't bother
+b4d38e38e66f8e Alan Stern          2006-10-11  2187  				 * with any more polling.
+b4d38e38e66f8e Alan Stern          2006-10-11  2188  				 */
+848ade90ba9c1e Christian Loehle    2021-08-16  2189  				if (media_not_present(sdkp, &sshdr)) {
+4521428c48118b Heiner Kallweit     2021-09-11  2190  					if (media_was_present)
+b4d0c33a32c3c5 Mike Christie       2023-10-04  2191  						sd_printk(KERN_NOTICE, sdkp,
+b4d0c33a32c3c5 Mike Christie       2023-10-04  2192  							  "Media removed, stopped polling\n");
+b4d38e38e66f8e Alan Stern          2006-10-11  2193  					return;
+848ade90ba9c1e Christian Loehle    2021-08-16  2194  				}
+b4d38e38e66f8e Alan Stern          2006-10-11  2195  
+ea73a9f23906c3 James Bottomley     2005-08-28  2196  				sense_valid = scsi_sense_valid(&sshdr);
+b4d0c33a32c3c5 Mike Christie       2023-10-04  2197  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2198  			retries++;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2199  		} while (retries < 3 &&
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2200  			 (!scsi_status_is_good(the_result) ||
+464a00c9e0ad45 Hannes Reinecke     2021-04-27  2201  			  (scsi_status_is_check_condition(the_result) &&
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2202  			  sense_valid && sshdr.sense_key == UNIT_ATTENTION)));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2203  
+464a00c9e0ad45 Hannes Reinecke     2021-04-27  2204  		if (!scsi_status_is_check_condition(the_result)) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2205  			/* no sense, TUR either succeeded or failed
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2206  			 * with a status error */
+e73aec8247032e Martin K. Petersen  2007-02-27  2207  			if(!spintime && !scsi_status_is_good(the_result)) {
+ef61329db7b8b4 Hannes Reinecke     2014-10-24  2208  				sd_print_result(sdkp, "Test Unit Ready failed",
+ef61329db7b8b4 Hannes Reinecke     2014-10-24  2209  						the_result);
+e73aec8247032e Martin K. Petersen  2007-02-27  2210  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2211  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2212  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2213  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2214  		/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2215  		 * The device does not want the automatic start to be issued.
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2216  		 */
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2217  		if (sdkp->device->no_start_on_add)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2218  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2219  
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2220  		if (sense_valid && sshdr.sense_key == NOT_READY) {
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2221  			if (sshdr.asc == 4 && sshdr.ascq == 3)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2222  				break;	/* manual intervention required */
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2223  			if (sshdr.asc == 4 && sshdr.ascq == 0xb)
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2224  				break;	/* standby */
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2225  			if (sshdr.asc == 4 && sshdr.ascq == 0xc)
+33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2226  				break;	/* unavailable */
+505aa4b6a8834a Mahesh Rajashekhara 2018-04-17  2227  			if (sshdr.asc == 4 && sshdr.ascq == 0x1b)
+505aa4b6a8834a Mahesh Rajashekhara 2018-04-17  2228  				break;	/* sanitize in progress */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2229  			/*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2230  			 * Issue command to spin up drive when not ready
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2231  			 */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2232  			if (!spintime) {
+e73aec8247032e Martin K. Petersen  2007-02-27  2233  				sd_printk(KERN_NOTICE, sdkp, "Spinning up disk...");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2234  				cmd[0] = START_STOP;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2235  				cmd[1] = 1;	/* Return immediately */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2236  				memset((void *) &cmd[2], 0, 8);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2237  				cmd[4] = 1;	/* Start spin cycle */
+d2886ea368a677 Stefan Richter      2008-05-11  2238  				if (sdkp->device->start_stop_pwr_cond)
+d2886ea368a677 Stefan Richter      2008-05-11  2239  					cmd[4] |= 1 << 4;
+af16cd63d9d3b7 Mike Christie       2022-12-29  2240  				scsi_execute_cmd(sdkp->device, cmd,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2241  						 REQ_OP_DRV_IN, NULL, 0,
+0610959fbbca62 Mike Christie       2020-10-01  2242  						 SD_TIMEOUT, sdkp->max_retries,
+af16cd63d9d3b7 Mike Christie       2022-12-29  2243  						 &exec_args);
+4451e472627881 Alan Stern          2005-07-12  2244  				spintime_expire = jiffies + 100 * HZ;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2245  				spintime = 1;
+4451e472627881 Alan Stern          2005-07-12  2246  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2247  			/* Wait 1 second for next try */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2248  			msleep(1000);
+3a1d0783ac2750 Michał Mirosław     2017-11-24  2249  			printk(KERN_CONT ".");
+4451e472627881 Alan Stern          2005-07-12  2250  
+4451e472627881 Alan Stern          2005-07-12  2251  		/*
+4451e472627881 Alan Stern          2005-07-12  2252  		 * Wait for USB flash devices with slow firmware.
+4451e472627881 Alan Stern          2005-07-12  2253  		 * Yes, this sense key/ASC combination shouldn't
+4451e472627881 Alan Stern          2005-07-12  2254  		 * occur here.  It's characteristic of these devices.
+4451e472627881 Alan Stern          2005-07-12  2255  		 */
+4451e472627881 Alan Stern          2005-07-12  2256  		} else if (sense_valid &&
+4451e472627881 Alan Stern          2005-07-12  2257  				sshdr.sense_key == UNIT_ATTENTION &&
+4451e472627881 Alan Stern          2005-07-12  2258  				sshdr.asc == 0x28) {
+4451e472627881 Alan Stern          2005-07-12  2259  			if (!spintime) {
+4451e472627881 Alan Stern          2005-07-12  2260  				spintime_expire = jiffies + 5 * HZ;
+4451e472627881 Alan Stern          2005-07-12  2261  				spintime = 1;
+4451e472627881 Alan Stern          2005-07-12  2262  			}
+4451e472627881 Alan Stern          2005-07-12  2263  			/* Wait 1 second for next try */
+4451e472627881 Alan Stern          2005-07-12  2264  			msleep(1000);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2265  		} else {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2266  			/* we don't understand the sense code, so it's
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2267  			 * probably pointless to loop */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2268  			if(!spintime) {
+e73aec8247032e Martin K. Petersen  2007-02-27  2269  				sd_printk(KERN_NOTICE, sdkp, "Unit Not Ready\n");
+e73aec8247032e Martin K. Petersen  2007-02-27  2270  				sd_print_sense_hdr(sdkp, &sshdr);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2271  			}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2272  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2273  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2274  				
+4451e472627881 Alan Stern          2005-07-12  2275  	} while (spintime && time_before_eq(jiffies, spintime_expire));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2276  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2277  	if (spintime) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2278  		if (scsi_status_is_good(the_result))
+3a1d0783ac2750 Michał Mirosław     2017-11-24  2279  			printk(KERN_CONT "ready\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2280  		else
+3a1d0783ac2750 Michał Mirosław     2017-11-24  2281  			printk(KERN_CONT "not responding...\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2282  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2283  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  2284  
 
 -- 
 0-DAY CI Kernel Test Service
