@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94360194AD5
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 19:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F9C1953B0
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 19:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731785585; cv=none; b=VvBnXH+oSwtID+tsFTLkgjxqgWW08vQQ+aziU0smSlN2KqeGNGnS4IhQBp8Dla6YVztjihgmHeGZk/BwIA7pyOPpQyyvxmyt+h2iXZiwmeuOyYgY+Rdbwu608ymYR/J6+zTmdTQbntLHdZhSp30OHYwqtZfWK8PF0fmmfjLnDes=
+	t=1731786298; cv=none; b=rxH1hRupz+dR+ilhh4XAGMZ62sSvveHVouQPb1sh15EjziRZGZclLo9QvB7gzOVhhKmgCLaW8ingcedbkITmVHW1kDuNgvRn2WMQ7KinibmjAbd27YZDJlW5a3TaNbFXqUNnaNvGMfy7xT8MD3vfzaoTyMcVFkuo1uONEnGPhlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731785585; c=relaxed/simple;
-	bh=Yae4wussdGz/1L1c6nmuN2URjx2RWqcZBj71CGNoU3s=;
+	s=arc-20240116; t=1731786298; c=relaxed/simple;
+	bh=cVvRmHcI5BReFtHCDaLR0x1slgw/yeiRQK6h2DUi7Lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rzNOqTqfaxqeiHjvI0jCnhjoYrUnrvpUNyixOwBr5uslN2/Sau6SIX2yVVpsvL8/w0KbmiGyvd0i9Qx/ugD+bASoBlZWAUhAKHeVpuDJn8URBmHnt1GAroI19YoUYp312eyVDafC72C7OVujoJz+Z/PC77eZ9ROWEYDx+iZEg7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mg5ZoVWk; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=ZOWsBgwD1YgTt8BO4asMwMU/5JwZ/S/TPCwKxqw7jtefd/NOvEs+oodln+eeUdOfl6W0H6HQb1MtDPiNln1ni3t1Fjhn54KCX5JP8Xmu23lQRPV2imuT2rMVmBd3xy48TL4U7nQNxZceZEAmZRWwlZhnXgRGmFOxXY+/YXIP/O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MxufJ5HK; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mg5ZoVWk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731785584; x=1763321584;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yae4wussdGz/1L1c6nmuN2URjx2RWqcZBj71CGNoU3s=;
-  b=Mg5ZoVWkwbw20LCNRlfOrsKRpUBBT8msyCkz1cn1HOSlzitf2cL9JMuf
-   /aH8frBUHhbIyhYER1KI6CgMVmk/IO41HIyEAzzPxfvgavllupofpinDb
-   iQ3UKqJlto15jH79YM/WKC2/1EMJgPyC46eHbMBF+4C8pzFdiDtWVTWfB
-   +g0jg2efNeA6QRprzJbkmNQVNC/xfDoMx+6GIvPH3GreDeVvNHVfYUvlC
-   jKtXeUroTWRlM6O8P8DB2F459PDnIEhLxMI8h2Q5HyLm94wQJtju7oHGY
-   E6z+bqaSKeyQ0cIrKayDUfpRGSupv3R2P0B7/YJFQmkGjytCjcVW5evCC
-   Q==;
-X-CSE-ConnectionGUID: Q2WSnV2OSpi61jxnqSxA2A==
-X-CSE-MsgGUID: QrqbdXg2ScutyKA5fEW5Xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42421048"
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="42421048"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 11:33:03 -0800
-X-CSE-ConnectionGUID: EYRbtiTvRaiBUj7znOLKww==
-X-CSE-MsgGUID: JJ0vb7HfSqujvzNawEgCEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="112140903"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 11:33:02 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tCOXT-00013v-1n;
-	Sat, 16 Nov 2024 19:32:59 +0000
-Date: Sun, 17 Nov 2024 03:32:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MxufJ5HK"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38222245a86so1671043f8f.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 11:44:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731786294; x=1732391094; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
+        b=MxufJ5HKL7+xEyA2KE+QeyZs3sIiRIJ6tVPf76dSjJ+0Ow8jhBiRkwIePI9PYHwOM8
+         v7tKltLnl1bQTBJxshxs0YbcgMo9MxOaHNA14HFUkbRK5q5vtke8wHQKRMs17ifcurng
+         9V57qTVkUBfmyOXQi7xbd7dVAfBMH0d7FpkGZx1OqOXhZd4dWM1N5ecG3szmaVgnnlfZ
+         HKpPfWCsMzAdiixx6DS+JAqf0A1JT1a5aaswTSScRiUegNouM1UW5Hmo+22LcH5TYu/F
+         LCs/UYoYwCY0axcLGJhLP9fbd6CsFesaCUmjTS0tOgdShM0SaoxTSCKgOBwLdv0P79yV
+         cIdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731786294; x=1732391094;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
+        b=IRYoShUMENeqXZZf/0FoqllyH5Ev05EFC+ta6e+Gt8yDMN/wfIv8rnk/u+kUGfWcXl
+         QA/WCjj2Ff9Mx5L/Nubc3l01gWDYCmO2iWhJH3YrgIHZ64au+s+7spmh1NNanlDWDgNd
+         vaRajxmXvk6IfgBiJXCz847yJrm1kGtrj//6qLTEZHUzdq3DTtgnWtboq6y1ZJxkQhz1
+         IEj9pxv4fgoDFDwNq6OgwkMoLCN+mMLO2imrFz9ryQ6sW4p4J0FipHWL30ilKWojnyV5
+         sAjogqnCIsnrACDRjo53l/EI2GhIDC97Fno1RZ+JP8Onz4v9OcdGJCzAFKy0USSHkMft
+         cIXg==
+X-Gm-Message-State: AOJu0YyLlEySa9T8wqnTrFvRw7VHZVgz+c94RQMEeZXnroevMgOWohz0
+	h18dXrV/PwguXsE6UCjgoENHLZXYGLl/I4deTbFhJneM5c143sktPYKLKBRvQnZP0a/xcGTLBKQ
+	H
+X-Google-Smtp-Source: AGHT+IED3SQWzksMYz+uVeXJC+u8nZB1TMwiLWP80LbsNP2roIBh3HpyveR919wxorKDX8SacvvWVQ==
+X-Received: by 2002:a05:6000:4008:b0:382:37b2:87ff with SMTP id ffacd0b85a97d-38237b28b76mr2376092f8f.44.1731786293714;
+        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821ae16108sm7982328f8f.66.2024.11.16.11.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
+Date: Sat, 16 Nov 2024 22:44:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [djiang:cxl/fwctl 20/28] drivers/cxl/core/mbox.c:798 cxl_walk_cel()
  error: we previously assumed 'cmd' could be null (see line 783)
-Message-ID: <202411170357.DFRoqGt8-lkp@intel.com>
+Message-ID: <5cad1d59-b95b-4100-9276-097a755eafc9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,22 +66,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
 head:   81cb57f64be6af29f39bde3b3ca4203975a84377
 commit: 044c18e2de67a0bebddea14ec307777a5a1df048 [20/28] cxl: Save Command Effects Log (CEL) effects for enabled commands
-:::::: branch date: 23 hours ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-161-20241116 (https://download.01.org/0day-ci/archive/20241117/202411170357.DFRoqGt8-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202411170357.DFRoqGt8-lkp@intel.com/
 
 smatch warnings:
@@ -85,16 +83,6 @@ drivers/cxl/core/mbox.c:798 cxl_walk_cel() error: we previously assumed 'cmd' co
 
 vim +/cmd +798 drivers/cxl/core/mbox.c
 
-4faf31b43468c5 Dan Williams     2021-09-08  758  
-4faf31b43468c5 Dan Williams     2021-09-08  759  /**
-4faf31b43468c5 Dan Williams     2021-09-08  760   * cxl_walk_cel() - Walk through the Command Effects Log.
-59f8d1510739e9 Dan Williams     2023-06-14  761   * @mds: The driver data for the operation
-4faf31b43468c5 Dan Williams     2021-09-08  762   * @size: Length of the Command Effects Log.
-4faf31b43468c5 Dan Williams     2021-09-08  763   * @cel: CEL
-4faf31b43468c5 Dan Williams     2021-09-08  764   *
-4faf31b43468c5 Dan Williams     2021-09-08  765   * Iterate over each entry in the CEL and determine if the driver supports the
-4faf31b43468c5 Dan Williams     2021-09-08  766   * command. If so, the command is enabled for the device and can be used later.
-4faf31b43468c5 Dan Williams     2021-09-08  767   */
 59f8d1510739e9 Dan Williams     2023-06-14  768  static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
 4faf31b43468c5 Dan Williams     2021-09-08  769  {
 744cd0e20b0ed8 Dave Jiang       2024-06-17  770  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
@@ -111,6 +99,9 @@ vim +/cmd +798 drivers/cxl/core/mbox.c
 d2f706058826b8 Ira Weiny        2023-09-03  781  		int enabled = 0;
 4faf31b43468c5 Dan Williams     2021-09-08  782  
 d2f706058826b8 Ira Weiny        2023-09-03 @783  		if (cmd) {
+                                                                    ^^^
+Apparently cmd can be NULL
+
 744cd0e20b0ed8 Dave Jiang       2024-06-17  784  			set_bit(cmd->info.id, cxl_mbox->enabled_cmds);
 d2f706058826b8 Ira Weiny        2023-09-03  785  			enabled++;
 d2f706058826b8 Ira Weiny        2023-09-03  786  		}
@@ -126,13 +117,16 @@ d2f706058826b8 Ira Weiny        2023-09-03  795  			enabled++;
 d2f706058826b8 Ira Weiny        2023-09-03  796  		}
 ad64f5952ce3ea Davidlohr Bueso  2023-07-25  797  
 044c18e2de67a0 Dave Jiang       2024-11-06 @798  		cmd->info.effects = le16_to_cpu(cel_entry[i].effect);
+                                                                ^^^^^
+Unchecked dereference
+
 044c18e2de67a0 Dave Jiang       2024-11-06  799  
 d2f706058826b8 Ira Weiny        2023-09-03  800  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
 d2f706058826b8 Ira Weiny        2023-09-03  801  			enabled ? "enabled" : "unsupported by driver");
 4faf31b43468c5 Dan Williams     2021-09-08  802  	}
 4faf31b43468c5 Dan Williams     2021-09-08  803  }
-4faf31b43468c5 Dan Williams     2021-09-08  804  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
