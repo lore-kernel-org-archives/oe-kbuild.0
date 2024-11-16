@@ -1,62 +1,58 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F9C1953B0
-	for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 19:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09AC28FF
+	for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 20:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731786298; cv=none; b=rxH1hRupz+dR+ilhh4XAGMZ62sSvveHVouQPb1sh15EjziRZGZclLo9QvB7gzOVhhKmgCLaW8ingcedbkITmVHW1kDuNgvRn2WMQ7KinibmjAbd27YZDJlW5a3TaNbFXqUNnaNvGMfy7xT8MD3vfzaoTyMcVFkuo1uONEnGPhlc=
+	t=1731788710; cv=none; b=lmRz8MmCkbzwA+rdUaqFrx8lQOJ/K4evqlnDAGFnqLbxIrkvoPWDFqqG9tCS93ykRASPti5ACL+AWdLtQZTTH57RxoMbV91NYG/RcGNv4gWBpjpBHDDrAbPoiFBeaZECr/tUYdBYXQGQQ2Oylm3xR2XuccQ/Dr+9DXRd9Zt2RWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731786298; c=relaxed/simple;
-	bh=cVvRmHcI5BReFtHCDaLR0x1slgw/yeiRQK6h2DUi7Lw=;
+	s=arc-20240116; t=1731788710; c=relaxed/simple;
+	bh=3Psefbcp/iELzOx+Vyk47uTaQrcTMtZalVpFc7WNfSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZOWsBgwD1YgTt8BO4asMwMU/5JwZ/S/TPCwKxqw7jtefd/NOvEs+oodln+eeUdOfl6W0H6HQb1MtDPiNln1ni3t1Fjhn54KCX5JP8Xmu23lQRPV2imuT2rMVmBd3xy48TL4U7nQNxZceZEAmZRWwlZhnXgRGmFOxXY+/YXIP/O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MxufJ5HK; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=UdH5P4ilwH1XJ8RfOuV1dvTZ6u5s7AxB+pDvf4bSzXq0+pB+gGS4iO+6mLWpRO4LW8xRQbt2W/FGHtp5VwYokNx229pSavTFeffmnfFI3oig+ZuSAjU0Qb1hqqB4MJHymuXfMBMtF2P2HiXYwQ6K3DUC53oVINBz6M3wwvDP2vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/Oar2S2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MxufJ5HK"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38222245a86so1671043f8f.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 16 Nov 2024 11:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731786294; x=1732391094; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
-        b=MxufJ5HKL7+xEyA2KE+QeyZs3sIiRIJ6tVPf76dSjJ+0Ow8jhBiRkwIePI9PYHwOM8
-         v7tKltLnl1bQTBJxshxs0YbcgMo9MxOaHNA14HFUkbRK5q5vtke8wHQKRMs17ifcurng
-         9V57qTVkUBfmyOXQi7xbd7dVAfBMH0d7FpkGZx1OqOXhZd4dWM1N5ecG3szmaVgnnlfZ
-         HKpPfWCsMzAdiixx6DS+JAqf0A1JT1a5aaswTSScRiUegNouM1UW5Hmo+22LcH5TYu/F
-         LCs/UYoYwCY0axcLGJhLP9fbd6CsFesaCUmjTS0tOgdShM0SaoxTSCKgOBwLdv0P79yV
-         cIdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731786294; x=1732391094;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
-        b=IRYoShUMENeqXZZf/0FoqllyH5Ev05EFC+ta6e+Gt8yDMN/wfIv8rnk/u+kUGfWcXl
-         QA/WCjj2Ff9Mx5L/Nubc3l01gWDYCmO2iWhJH3YrgIHZ64au+s+7spmh1NNanlDWDgNd
-         vaRajxmXvk6IfgBiJXCz847yJrm1kGtrj//6qLTEZHUzdq3DTtgnWtboq6y1ZJxkQhz1
-         IEj9pxv4fgoDFDwNq6OgwkMoLCN+mMLO2imrFz9ryQ6sW4p4J0FipHWL30ilKWojnyV5
-         sAjogqnCIsnrACDRjo53l/EI2GhIDC97Fno1RZ+JP8Onz4v9OcdGJCzAFKy0USSHkMft
-         cIXg==
-X-Gm-Message-State: AOJu0YyLlEySa9T8wqnTrFvRw7VHZVgz+c94RQMEeZXnroevMgOWohz0
-	h18dXrV/PwguXsE6UCjgoENHLZXYGLl/I4deTbFhJneM5c143sktPYKLKBRvQnZP0a/xcGTLBKQ
-	H
-X-Google-Smtp-Source: AGHT+IED3SQWzksMYz+uVeXJC+u8nZB1TMwiLWP80LbsNP2roIBh3HpyveR919wxorKDX8SacvvWVQ==
-X-Received: by 2002:a05:6000:4008:b0:382:37b2:87ff with SMTP id ffacd0b85a97d-38237b28b76mr2376092f8f.44.1731786293714;
-        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821ae16108sm7982328f8f.66.2024.11.16.11.44.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
-Date: Sat, 16 Nov 2024 22:44:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl/fwctl 20/28] drivers/cxl/core/mbox.c:798 cxl_walk_cel()
- error: we previously assumed 'cmd' could be null (see line 783)
-Message-ID: <5cad1d59-b95b-4100-9276-097a755eafc9@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/Oar2S2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731788708; x=1763324708;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3Psefbcp/iELzOx+Vyk47uTaQrcTMtZalVpFc7WNfSo=;
+  b=k/Oar2S27lzE8ShrvXyzzT99pNdDOfy6QpxaUDAacB/c4zbNXmKe7P6I
+   DJ5iwnwYtv6u53ysh2bSzOWAr4+vLc+duz/AAcx7oyAs9x3MtaTGhH7JE
+   saXnuK+N+9/fiR63JUQkjuXLxyfpzdqGFOF7eP/lRUE1pKAPaBAGDxU/p
+   hB8GGFPrykp1FRa0DPrxsAvxatntUBdgvg0KqcEcGqS9KDftzzn50dvKV
+   FlICOSjdzy+twmJFFfy2mlWH9X20XNBpa3Tq82aBMt6u76yZRg0s7ulNo
+   aBaancWux23Z166OYLUAmgFtkR0dsqM668FjSi7IqmxxNvv2cfstyZZTW
+   g==;
+X-CSE-ConnectionGUID: o/iM0aeUSrGobB2Ek7HvDg==
+X-CSE-MsgGUID: 2YQfX9Y9QQGFAz5wfOrlvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42852772"
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
+   d="scan'208";a="42852772"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 12:25:08 -0800
+X-CSE-ConnectionGUID: 9I9rORUZTfqufDXlXqYmlA==
+X-CSE-MsgGUID: 8UbRsmYKSWa3n4FLmsX6SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
+   d="scan'208";a="92937683"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 16 Nov 2024 12:25:06 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tCPLr-00016z-35;
+	Sat, 16 Nov 2024 20:25:03 +0000
+Date: Sun, 17 Nov 2024 04:24:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [djiang:cxl/fwctl 24/28] drivers/cxl/core/mbox.c:968
+ cxl_mbox_get_supported_features_filtered() error: uninitialized symbol 'u'.
+Message-ID: <202411170439.4lrT79gy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,67 +62,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Dave Jiang <dave.jiang@intel.com>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
 head:   81cb57f64be6af29f39bde3b3ca4203975a84377
-commit: 044c18e2de67a0bebddea14ec307777a5a1df048 [20/28] cxl: Save Command Effects Log (CEL) effects for enabled commands
-config: x86_64-randconfig-161-20241116 (https://download.01.org/0day-ci/archive/20241117/202411170357.DFRoqGt8-lkp@intel.com/config)
+commit: 6cf5361c36766f6ea8fc0ff6bc80407cd343168e [24/28] fwctl/cxl: Add support to filter exclusive features
+:::::: branch date: 24 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241116 (https://download.01.org/0day-ci/archive/20241117/202411170439.4lrT79gy-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411170357.DFRoqGt8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411170439.4lrT79gy-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/mbox.c:798 cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line 783)
+New smatch warnings:
+drivers/cxl/core/mbox.c:968 cxl_mbox_get_supported_features_filtered() error: uninitialized symbol 'u'.
 
-vim +/cmd +798 drivers/cxl/core/mbox.c
+Old smatch warnings:
+drivers/cxl/core/mbox.c:1129 cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line 1114)
 
-59f8d1510739e9 Dan Williams     2023-06-14  768  static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
-4faf31b43468c5 Dan Williams     2021-09-08  769  {
-744cd0e20b0ed8 Dave Jiang       2024-06-17  770  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
-49be6dd807511d Dan Williams     2021-09-08  771  	struct cxl_cel_entry *cel_entry;
-4faf31b43468c5 Dan Williams     2021-09-08  772  	const int cel_entries = size / sizeof(*cel_entry);
-59f8d1510739e9 Dan Williams     2023-06-14  773  	struct device *dev = mds->cxlds.dev;
-4faf31b43468c5 Dan Williams     2021-09-08  774  	int i;
-4faf31b43468c5 Dan Williams     2021-09-08  775  
-49be6dd807511d Dan Williams     2021-09-08  776  	cel_entry = (struct cxl_cel_entry *) cel;
-4faf31b43468c5 Dan Williams     2021-09-08  777  
-4faf31b43468c5 Dan Williams     2021-09-08  778  	for (i = 0; i < cel_entries; i++) {
-4faf31b43468c5 Dan Williams     2021-09-08  779  		u16 opcode = le16_to_cpu(cel_entry[i].opcode);
-4faf31b43468c5 Dan Williams     2021-09-08  780  		struct cxl_mem_command *cmd = cxl_mem_find_command(opcode);
-d2f706058826b8 Ira Weiny        2023-09-03  781  		int enabled = 0;
-4faf31b43468c5 Dan Williams     2021-09-08  782  
-d2f706058826b8 Ira Weiny        2023-09-03 @783  		if (cmd) {
-                                                                    ^^^
-Apparently cmd can be NULL
+vim +/u +968 drivers/cxl/core/mbox.c
 
-744cd0e20b0ed8 Dave Jiang       2024-06-17  784  			set_bit(cmd->info.id, cxl_mbox->enabled_cmds);
-d2f706058826b8 Ira Weiny        2023-09-03  785  			enabled++;
-d2f706058826b8 Ira Weiny        2023-09-03  786  		}
-d0abf5787adc03 Alison Schofield 2023-04-18  787  
-d2f706058826b8 Ira Weiny        2023-09-03  788  		if (cxl_is_poison_command(opcode)) {
-59f8d1510739e9 Dan Williams     2023-06-14  789  			cxl_set_poison_cmd_enabled(&mds->poison, opcode);
-d2f706058826b8 Ira Weiny        2023-09-03  790  			enabled++;
-d2f706058826b8 Ira Weiny        2023-09-03  791  		}
-d0abf5787adc03 Alison Schofield 2023-04-18  792  
-d2f706058826b8 Ira Weiny        2023-09-03  793  		if (cxl_is_security_command(opcode)) {
-ad64f5952ce3ea Davidlohr Bueso  2023-07-25  794  			cxl_set_security_cmd_enabled(&mds->security, opcode);
-d2f706058826b8 Ira Weiny        2023-09-03  795  			enabled++;
-d2f706058826b8 Ira Weiny        2023-09-03  796  		}
-ad64f5952ce3ea Davidlohr Bueso  2023-07-25  797  
-044c18e2de67a0 Dave Jiang       2024-11-06 @798  		cmd->info.effects = le16_to_cpu(cel_entry[i].effect);
-                                                                ^^^^^
-Unchecked dereference
-
-044c18e2de67a0 Dave Jiang       2024-11-06  799  
-d2f706058826b8 Ira Weiny        2023-09-03  800  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
-d2f706058826b8 Ira Weiny        2023-09-03  801  			enabled ? "enabled" : "unsupported by driver");
-4faf31b43468c5 Dan Williams     2021-09-08  802  	}
-4faf31b43468c5 Dan Williams     2021-09-08  803  }
+13ea80e8d3fb32 Dave Jiang 2024-06-14  900  
+6cf5361c36766f Dave Jiang 2024-11-14  901  /*
+6cf5361c36766f Dave Jiang 2024-11-14  902   * Emulate the 'get supported features' mailbox command and only copy out the
+6cf5361c36766f Dave Jiang 2024-11-14  903   * features that are not marked as exclusive for kernel.
+6cf5361c36766f Dave Jiang 2024-11-14  904   */
+6cf5361c36766f Dave Jiang 2024-11-14  905  static void cxl_mbox_get_supported_features_filtered(struct cxl_mailbox *cxl_mbox,
+6cf5361c36766f Dave Jiang 2024-11-14  906  						     struct cxl_mbox_cmd *mbox_cmd)
+6cf5361c36766f Dave Jiang 2024-11-14  907  {
+6cf5361c36766f Dave Jiang 2024-11-14  908  	struct cxl_mbox_get_sup_feats_in *feat_in = mbox_cmd->payload_in;
+6cf5361c36766f Dave Jiang 2024-11-14  909  	struct cxl_mbox_get_sup_feats_out *feat_out = mbox_cmd->payload_out;
+6cf5361c36766f Dave Jiang 2024-11-14  910  	const int feat_out_size = sizeof(*feat_out);
+6cf5361c36766f Dave Jiang 2024-11-14  911  	struct cxl_feat_entry *pos;
+6cf5361c36766f Dave Jiang 2024-11-14  912  	const int feat_ent_size = sizeof(*pos);
+6cf5361c36766f Dave Jiang 2024-11-14  913  	int out_count, ents, u;
+6cf5361c36766f Dave Jiang 2024-11-14  914  	u32 count;
+6cf5361c36766f Dave Jiang 2024-11-14  915  	u16 start;
+6cf5361c36766f Dave Jiang 2024-11-14  916  
+6cf5361c36766f Dave Jiang 2024-11-14  917  	count = le32_to_cpu(feat_in->count);
+6cf5361c36766f Dave Jiang 2024-11-14  918  	start = le16_to_cpu(feat_in->start_idx);
+6cf5361c36766f Dave Jiang 2024-11-14  919  	ents = count / sizeof(struct cxl_feat_entry);
+6cf5361c36766f Dave Jiang 2024-11-14  920  	ents -= start;
+6cf5361c36766f Dave Jiang 2024-11-14  921  	if (ents < 0) {
+6cf5361c36766f Dave Jiang 2024-11-14  922  		mbox_cmd->size_out = 0;
+6cf5361c36766f Dave Jiang 2024-11-14  923  		mbox_cmd->return_code = CXL_MBOX_CMD_RC_INPUT;
+6cf5361c36766f Dave Jiang 2024-11-14  924  		return;
+6cf5361c36766f Dave Jiang 2024-11-14  925  	}
+6cf5361c36766f Dave Jiang 2024-11-14  926  
+6cf5361c36766f Dave Jiang 2024-11-14  927  	if (mbox_cmd->size_out < feat_out_size) {
+6cf5361c36766f Dave Jiang 2024-11-14  928  		mbox_cmd->size_out = 0;
+6cf5361c36766f Dave Jiang 2024-11-14  929  		mbox_cmd->return_code = CXL_MBOX_CMD_RC_INPUT;
+6cf5361c36766f Dave Jiang 2024-11-14  930  		return;
+6cf5361c36766f Dave Jiang 2024-11-14  931  	}
+6cf5361c36766f Dave Jiang 2024-11-14  932  
+6cf5361c36766f Dave Jiang 2024-11-14  933  	feat_out->supported_feats =
+6cf5361c36766f Dave Jiang 2024-11-14  934  		cpu_to_le16(cxl_mbox->num_user_feats);
+6cf5361c36766f Dave Jiang 2024-11-14  935  	if (ents == 0) {
+6cf5361c36766f Dave Jiang 2024-11-14  936  		feat_out->num_entries = cpu_to_le16(0);
+6cf5361c36766f Dave Jiang 2024-11-14  937  		mbox_cmd->size_out = feat_out_size;
+6cf5361c36766f Dave Jiang 2024-11-14  938  		mbox_cmd->return_code = CXL_MBOX_CMD_RC_SUCCESS;
+6cf5361c36766f Dave Jiang 2024-11-14  939  		return;
+6cf5361c36766f Dave Jiang 2024-11-14  940  	}
+6cf5361c36766f Dave Jiang 2024-11-14  941  
+6cf5361c36766f Dave Jiang 2024-11-14  942  	pos = &feat_out->ents[0];
+6cf5361c36766f Dave Jiang 2024-11-14  943  	out_count = feat_out_size;
+6cf5361c36766f Dave Jiang 2024-11-14  944  	for (int i = 0, u = 0; i < cxl_mbox->num_features; i++) {
+6cf5361c36766f Dave Jiang 2024-11-14  945  		struct cxl_feature *feat = &cxl_mbox->entries[i];
+6cf5361c36766f Dave Jiang 2024-11-14  946  
+6cf5361c36766f Dave Jiang 2024-11-14  947  		if (feat->exclusive)
+6cf5361c36766f Dave Jiang 2024-11-14  948  			continue;
+6cf5361c36766f Dave Jiang 2024-11-14  949  
+6cf5361c36766f Dave Jiang 2024-11-14  950  		if (u < start) {
+6cf5361c36766f Dave Jiang 2024-11-14  951  			u++;
+6cf5361c36766f Dave Jiang 2024-11-14  952  			continue;
+6cf5361c36766f Dave Jiang 2024-11-14  953  		}
+6cf5361c36766f Dave Jiang 2024-11-14  954  
+6cf5361c36766f Dave Jiang 2024-11-14  955  		memcpy(pos, &feat->entry, feat_ent_size);
+6cf5361c36766f Dave Jiang 2024-11-14  956  		out_count += feat_ent_size;
+6cf5361c36766f Dave Jiang 2024-11-14  957  		pos++;
+6cf5361c36766f Dave Jiang 2024-11-14  958  		u++;
+6cf5361c36766f Dave Jiang 2024-11-14  959  
+6cf5361c36766f Dave Jiang 2024-11-14  960  		if (u == count)
+6cf5361c36766f Dave Jiang 2024-11-14  961  			break;
+6cf5361c36766f Dave Jiang 2024-11-14  962  
+6cf5361c36766f Dave Jiang 2024-11-14  963  		/* Make sure it does not go over total output buffer size */
+6cf5361c36766f Dave Jiang 2024-11-14  964  		if (out_count + feat_ent_size >= mbox_cmd->size_out)
+6cf5361c36766f Dave Jiang 2024-11-14  965  			break;
+6cf5361c36766f Dave Jiang 2024-11-14  966  	}
+6cf5361c36766f Dave Jiang 2024-11-14  967  
+6cf5361c36766f Dave Jiang 2024-11-14 @968  	feat_out->num_entries = cpu_to_le16(u);
+6cf5361c36766f Dave Jiang 2024-11-14  969  	mbox_cmd->size_out = out_count;
+6cf5361c36766f Dave Jiang 2024-11-14  970  	mbox_cmd->return_code = CXL_MBOX_CMD_RC_SUCCESS;
+6cf5361c36766f Dave Jiang 2024-11-14  971  }
+6cf5361c36766f Dave Jiang 2024-11-14  972  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
