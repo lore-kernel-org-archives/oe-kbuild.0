@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A60126BE1
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 10:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5622158222
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 10:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731838102; cv=none; b=rU7fNXH9XdLJymwzHV3kTc+wRdMUPaBQx3TaU77y8HaOuTB67L4UT1BPTqLyiGx6AyzV8rqejS00iI27JTf/IMBDfW4r96kjSJu0LEAcZaH7AnQXB/qBpTGPvsL1JKx+jmLhcOEurqANx3RaRZoy9XUkBN0+Ra5DJ6t+6qEmZH0=
+	t=1731839364; cv=none; b=h+tjOX1iGuRTIyTtCcB4SqLnuGFz/DPwnA3d+y6sFkQZ8f0jfJ9ngPlZw6VwMUlpfsyQ7OirhK/0QfwWh367FGA49cDAl+g2cfcplPHDknr0UNCsQhxC8CiKinbC+q8tPD5fLUSg0FB9vAcaM/bOnGtNz1y7vYaT2/wyhLUHfMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731838102; c=relaxed/simple;
-	bh=y1E6B/l84w85cx3ri9o0AzwPl4SFR1iH45EVGFOyygg=;
+	s=arc-20240116; t=1731839364; c=relaxed/simple;
+	bh=xYqdIfVw0xgEj1+2cIm5ltU5jPBuh1pdB/l4cAG5pyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f9UmuGebM+Z/43SMqmv59o4oA50iiNMAccIWKErzObiNw705xhK/PPz39A9Uu82yOxQwg68bSR9QGPhYrC2Qjgfo550ty9CS6EnnNhWFT98GO8tpGvSPSEt++c1c4s7FcoKZjV1feFx5pdMg0DzIbAIjkWEfUVDy32prKYIt0QE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHGIkyF+; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=BKSXKCjcxE7gckpertTeto9oVe9DmoKDxM0zCiB9Vkd0HgvhLeIhc8Ehfsj/KDxUGU/NP/QyA1RfIhlDX84XXsmXETY+L/tcei81IKTuFG8I6yZpKsDJO2i/LM0HWULXyb5BMYWu/Hdxjfw0Q/O/e/xKiDuOQCnnU6YIfoXqrjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSEAs6IC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHGIkyF+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSEAs6IC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731838100; x=1763374100;
+  t=1731839362; x=1763375362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y1E6B/l84w85cx3ri9o0AzwPl4SFR1iH45EVGFOyygg=;
-  b=WHGIkyF+SPcBUkOKXP9FMXeNyRQxLp11YZr3MDPQ/VA1UvoXNE7cWUfx
-   1oXymXe4gpiwrsA2N9Ioj5LK1yLLDfC6gJzjXDox2uHb3YDmbpnjXLbFF
-   pBw0bJgg3V0mRH7314fcdF0KEHDBxtOOFZ6m+MK81Gt3Nbd3OqWvzyns9
-   UZTnkhhQhUsX44sv21JQucDV7tkwFKe9mmf3TeZ0VU3NP0Shu2R1UortU
-   96DR6iX0/coVVHUKgvG7IxuJZtpaUi31cd/oTgRAhKBp1/bEKQgEiB1KW
-   cjlMhaT1yXtwjsfn4RNiknuZaJWDGsOxRtq/HRoK2RA9H9KyWQsWnQgtq
-   w==;
-X-CSE-ConnectionGUID: oR3QEwmDTgqARnm89BJmwg==
-X-CSE-MsgGUID: oZD21KXrStqy++gkZ1LXXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="49329544"
+  bh=xYqdIfVw0xgEj1+2cIm5ltU5jPBuh1pdB/l4cAG5pyo=;
+  b=FSEAs6ICj79+u5fpQ+M7+5EYmvv63iqwEwoztMP97u1nvbVgF5m6wHsR
+   JtxneinBYighYOXsBOC6UOqj1/BtSyY4nU9BOxhe8YXxKZ8niJ2xuAouN
+   p16TSnt7nbXVAxkUtc/w8v19Nmv1GIqkCr6g/+NV2G6rO8GMxaOCQss3T
+   RcVyfbi/kvxtWawZHXhLpqaEKhD3k/Do/K2WrykZ8DGohT2A0MYhjPnKN
+   g+x2TVyhQ9060VyIcByZv9K96wjye3jd3plyPxtyGpWgMeeD9Tg4JllkP
+   oGNnctHYeB1YhfBHGZqm9+D9SFh+Ge10fDbKP8GkBV62xMxA8DhvA1+jA
+   g==;
+X-CSE-ConnectionGUID: 17MmP2i9QdaHbbvI3fuDMA==
+X-CSE-MsgGUID: wW2F6jiNQ0SOC5vnakm89A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42432541"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="49329544"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 02:08:20 -0800
-X-CSE-ConnectionGUID: WwIYo8iQSQ2t/thrCMVTZQ==
-X-CSE-MsgGUID: 336YxUPsQuaSA3JCiuBadw==
+   d="scan'208";a="42432541"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 02:29:21 -0800
+X-CSE-ConnectionGUID: KZHG3woFRweK0om0m+pWCA==
+X-CSE-MsgGUID: mXQJRc9vSk+1roXyhxsVVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="93892536"
+   d="scan'208";a="94054854"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2024 02:08:19 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Nov 2024 02:29:20 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCcCW-0001gB-1A;
-	Sun, 17 Nov 2024 10:08:16 +0000
-Date: Sun, 17 Nov 2024 18:07:59 +0800
+	id 1tCcWr-0001gb-2G;
+	Sun, 17 Nov 2024 10:29:17 +0000
+Date: Sun, 17 Nov 2024 18:28:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/intel/iwlwifi/fw/regulatory.c:286
- iwl_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
-Message-ID: <202411171847.0REwoxyl-lkp@intel.com>
+Subject: fs/ceph/addr.c:911 writepages_finish() error: 'page' dereferencing
+ possible ERR_PTR()
+Message-ID: <202411171812.OPCM60Nr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,123 +65,146 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Gregory Greenman <gregory.greenman@intel.com>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4a5df37964673effcd9f84041f7423206a5ae5f2
-commit: 09059c6764a8870ff7515c2d78ecbea7fbcffc23 wifi: iwlwifi: prepare for reading PPAG table from UEFI
-date:   10 months ago
+commit: af7628d6ec196999175ecb3fdb38336489b0f88a fs: convert error_remove_page to error_remove_folio
+date:   11 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-141-20241115 (https://download.01.org/0day-ci/archive/20241117/202411171847.0REwoxyl-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: commit date: 11 months ago
+config: i386-randconfig-141-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171812.OPCM60Nr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411171847.0REwoxyl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411171812.OPCM60Nr-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/wireless/intel/iwlwifi/fw/regulatory.c:286 iwl_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
+fs/ceph/addr.c:911 writepages_finish() error: 'page' dereferencing possible ERR_PTR()
 
 Old smatch warnings:
-drivers/net/wireless/intel/iwlwifi/fw/regulatory.c:288 iwl_fill_ppag_table() error: buffer overflow 'gain' 11 <= 21
+fs/ceph/addr.c:1171 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1171 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1175 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1175 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1176 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1176 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1182 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1182 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1189 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
+fs/ceph/addr.c:1189 ceph_writepages_start() warn: potentially one past the end of array 'pages[locked_pages]'
 
-vim +/gain +286 drivers/net/wireless/intel/iwlwifi/fw/regulatory.c
+vim +/page +911 fs/ceph/addr.c
 
-09059c6764a887 Miri Korenblit 2024-01-31  208  
-09059c6764a887 Miri Korenblit 2024-01-31  209  int iwl_fill_ppag_table(struct iwl_fw_runtime *fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  210  			union iwl_ppag_table_cmd *cmd, int *cmd_size)
-09059c6764a887 Miri Korenblit 2024-01-31  211  {
-09059c6764a887 Miri Korenblit 2024-01-31  212  	u8 cmd_ver;
-09059c6764a887 Miri Korenblit 2024-01-31  213  	int i, j, num_sub_bands;
-09059c6764a887 Miri Korenblit 2024-01-31  214  	s8 *gain;
-09059c6764a887 Miri Korenblit 2024-01-31  215  
-09059c6764a887 Miri Korenblit 2024-01-31  216  	/* many firmware images for JF lie about this */
-09059c6764a887 Miri Korenblit 2024-01-31  217  	if (CSR_HW_RFID_TYPE(fwrt->trans->hw_rf_id) ==
-09059c6764a887 Miri Korenblit 2024-01-31  218  	    CSR_HW_RFID_TYPE(CSR_HW_RF_ID_TYPE_JF))
-09059c6764a887 Miri Korenblit 2024-01-31  219  		return -EOPNOTSUPP;
-09059c6764a887 Miri Korenblit 2024-01-31  220  
-09059c6764a887 Miri Korenblit 2024-01-31  221  	if (!fw_has_capa(&fwrt->fw->ucode_capa, IWL_UCODE_TLV_CAPA_SET_PPAG)) {
-09059c6764a887 Miri Korenblit 2024-01-31  222  		IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  223  				"PPAG capability not supported by FW, command not sent.\n");
-09059c6764a887 Miri Korenblit 2024-01-31  224  		return -EINVAL;
-09059c6764a887 Miri Korenblit 2024-01-31  225  	}
-09059c6764a887 Miri Korenblit 2024-01-31  226  
-09059c6764a887 Miri Korenblit 2024-01-31  227  	cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
-09059c6764a887 Miri Korenblit 2024-01-31  228  					WIDE_ID(PHY_OPS_GROUP,
-09059c6764a887 Miri Korenblit 2024-01-31  229  						PER_PLATFORM_ANT_GAIN_CMD),
-09059c6764a887 Miri Korenblit 2024-01-31  230  					IWL_FW_CMD_VER_UNKNOWN);
-09059c6764a887 Miri Korenblit 2024-01-31  231  	if (!fwrt->ppag_table_valid || (cmd_ver <= 3 && !fwrt->ppag_flags)) {
-09059c6764a887 Miri Korenblit 2024-01-31  232  		IWL_DEBUG_RADIO(fwrt, "PPAG not enabled, command not sent.\n");
-09059c6764a887 Miri Korenblit 2024-01-31  233  		return -EINVAL;
-09059c6764a887 Miri Korenblit 2024-01-31  234  	}
-09059c6764a887 Miri Korenblit 2024-01-31  235  
-09059c6764a887 Miri Korenblit 2024-01-31  236  	/* The 'flags' field is the same in v1 and in v2 so we can just
-09059c6764a887 Miri Korenblit 2024-01-31  237  	 * use v1 to access it.
-09059c6764a887 Miri Korenblit 2024-01-31  238  	 */
-09059c6764a887 Miri Korenblit 2024-01-31  239  	cmd->v1.flags = cpu_to_le32(fwrt->ppag_flags);
-09059c6764a887 Miri Korenblit 2024-01-31  240  
-09059c6764a887 Miri Korenblit 2024-01-31  241  	IWL_DEBUG_RADIO(fwrt, "PPAG cmd ver is %d\n", cmd_ver);
-09059c6764a887 Miri Korenblit 2024-01-31  242  	if (cmd_ver == 1) {
-09059c6764a887 Miri Korenblit 2024-01-31  243  		num_sub_bands = IWL_NUM_SUB_BANDS_V1;
-09059c6764a887 Miri Korenblit 2024-01-31  244  		gain = cmd->v1.gain[0];
-09059c6764a887 Miri Korenblit 2024-01-31  245  		*cmd_size = sizeof(cmd->v1);
-09059c6764a887 Miri Korenblit 2024-01-31  246  		if (fwrt->ppag_ver == 1 || fwrt->ppag_ver == 2) {
-09059c6764a887 Miri Korenblit 2024-01-31  247  			/* in this case FW supports revision 0 */
-09059c6764a887 Miri Korenblit 2024-01-31  248  			IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  249  					"PPAG table rev is %d, send truncated table\n",
-09059c6764a887 Miri Korenblit 2024-01-31  250  					fwrt->ppag_ver);
-09059c6764a887 Miri Korenblit 2024-01-31  251  		}
-09059c6764a887 Miri Korenblit 2024-01-31  252  	} else if (cmd_ver >= 2 && cmd_ver <= 4) {
-09059c6764a887 Miri Korenblit 2024-01-31  253  		num_sub_bands = IWL_NUM_SUB_BANDS_V2;
-09059c6764a887 Miri Korenblit 2024-01-31  254  		gain = cmd->v2.gain[0];
-09059c6764a887 Miri Korenblit 2024-01-31  255  		*cmd_size = sizeof(cmd->v2);
-09059c6764a887 Miri Korenblit 2024-01-31  256  		if (fwrt->ppag_ver == 0) {
-09059c6764a887 Miri Korenblit 2024-01-31  257  			/* in this case FW supports revisions 1 or 2 */
-09059c6764a887 Miri Korenblit 2024-01-31  258  			IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  259  					"PPAG table rev is 0, send padded table\n");
-09059c6764a887 Miri Korenblit 2024-01-31  260  		}
-09059c6764a887 Miri Korenblit 2024-01-31  261  	} else {
-09059c6764a887 Miri Korenblit 2024-01-31  262  		IWL_DEBUG_RADIO(fwrt, "Unsupported PPAG command version\n");
-09059c6764a887 Miri Korenblit 2024-01-31  263  		return -EINVAL;
-09059c6764a887 Miri Korenblit 2024-01-31  264  	}
-09059c6764a887 Miri Korenblit 2024-01-31  265  
-09059c6764a887 Miri Korenblit 2024-01-31  266  	/* ppag mode */
-09059c6764a887 Miri Korenblit 2024-01-31  267  	IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  268  			"PPAG MODE bits were read from bios: %d\n",
-09059c6764a887 Miri Korenblit 2024-01-31  269  			cmd->v1.flags);
-09059c6764a887 Miri Korenblit 2024-01-31  270  	if ((cmd_ver == 1 &&
-09059c6764a887 Miri Korenblit 2024-01-31  271  	     !fw_has_capa(&fwrt->fw->ucode_capa,
-09059c6764a887 Miri Korenblit 2024-01-31  272  			  IWL_UCODE_TLV_CAPA_PPAG_CHINA_BIOS_SUPPORT)) ||
-09059c6764a887 Miri Korenblit 2024-01-31  273  	    (cmd_ver == 2 && fwrt->ppag_ver == 2)) {
-09059c6764a887 Miri Korenblit 2024-01-31  274  		cmd->v1.flags &= cpu_to_le32(IWL_PPAG_ETSI_MASK);
-09059c6764a887 Miri Korenblit 2024-01-31  275  		IWL_DEBUG_RADIO(fwrt, "masking ppag China bit\n");
-09059c6764a887 Miri Korenblit 2024-01-31  276  	} else {
-09059c6764a887 Miri Korenblit 2024-01-31  277  		IWL_DEBUG_RADIO(fwrt, "isn't masking ppag China bit\n");
-09059c6764a887 Miri Korenblit 2024-01-31  278  	}
-09059c6764a887 Miri Korenblit 2024-01-31  279  
-09059c6764a887 Miri Korenblit 2024-01-31  280  	IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  281  			"PPAG MODE bits going to be sent: %d\n",
-09059c6764a887 Miri Korenblit 2024-01-31  282  			cmd->v1.flags);
-09059c6764a887 Miri Korenblit 2024-01-31  283  
-09059c6764a887 Miri Korenblit 2024-01-31  284  	for (i = 0; i < IWL_NUM_CHAIN_LIMITS; i++) {
-09059c6764a887 Miri Korenblit 2024-01-31  285  		for (j = 0; j < num_sub_bands; j++) {
-09059c6764a887 Miri Korenblit 2024-01-31 @286  			gain[i * num_sub_bands + j] =
-09059c6764a887 Miri Korenblit 2024-01-31  287  				fwrt->ppag_chains[i].subbands[j];
-09059c6764a887 Miri Korenblit 2024-01-31  288  			IWL_DEBUG_RADIO(fwrt,
-09059c6764a887 Miri Korenblit 2024-01-31  289  					"PPAG table: chain[%d] band[%d]: gain = %d\n",
-09059c6764a887 Miri Korenblit 2024-01-31  290  					i, j, gain[i * num_sub_bands + j]);
-09059c6764a887 Miri Korenblit 2024-01-31  291  		}
-09059c6764a887 Miri Korenblit 2024-01-31  292  	}
-09059c6764a887 Miri Korenblit 2024-01-31  293  
-09059c6764a887 Miri Korenblit 2024-01-31  294  	return 0;
-09059c6764a887 Miri Korenblit 2024-01-31  295  }
-09059c6764a887 Miri Korenblit 2024-01-31  296  IWL_EXPORT_SYMBOL(iwl_fill_ppag_table);
-09059c6764a887 Miri Korenblit 2024-01-31  297  
+1d3576fd10f0d7 Sage Weil               2009-10-06  832  
+1d3576fd10f0d7 Sage Weil               2009-10-06  833  /*
+1d3576fd10f0d7 Sage Weil               2009-10-06  834   * async writeback completion handler.
+1d3576fd10f0d7 Sage Weil               2009-10-06  835   *
+1d3576fd10f0d7 Sage Weil               2009-10-06  836   * If we get an error, set the mapping error bit, but not the individual
+1d3576fd10f0d7 Sage Weil               2009-10-06  837   * page error bits.
+1d3576fd10f0d7 Sage Weil               2009-10-06  838   */
+85e084feb47349 Ilya Dryomov            2016-04-28  839  static void writepages_finish(struct ceph_osd_request *req)
+1d3576fd10f0d7 Sage Weil               2009-10-06  840  {
+1d3576fd10f0d7 Sage Weil               2009-10-06  841  	struct inode *inode = req->r_inode;
+1d3576fd10f0d7 Sage Weil               2009-10-06  842  	struct ceph_inode_info *ci = ceph_inode(inode);
+38d46409c4639a Xiubo Li                2023-06-12  843  	struct ceph_client *cl = ceph_inode_to_client(inode);
+87060c1089a94f Alex Elder              2013-04-03  844  	struct ceph_osd_data *osd_data;
+1d3576fd10f0d7 Sage Weil               2009-10-06  845  	struct page *page;
+5b64640cf65be4 Yan, Zheng              2016-01-07  846  	int num_pages, total_pages = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  847  	int i, j;
+5b64640cf65be4 Yan, Zheng              2016-01-07  848  	int rc = req->r_result;
+1d3576fd10f0d7 Sage Weil               2009-10-06  849  	struct ceph_snap_context *snapc = req->r_snapc;
+1d3576fd10f0d7 Sage Weil               2009-10-06  850  	struct address_space *mapping = inode->i_mapping;
+5995d90d2d19f3 Xiubo Li                2023-06-12  851  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
+903f4fec78dd05 Xiubo Li                2021-05-13  852  	unsigned int len = 0;
+5b64640cf65be4 Yan, Zheng              2016-01-07  853  	bool remove_page;
+5b64640cf65be4 Yan, Zheng              2016-01-07  854  
+38d46409c4639a Xiubo Li                2023-06-12  855  	doutc(cl, "%llx.%llx rc %d\n", ceph_vinop(inode), rc);
+26544c623e741a Jeff Layton             2017-04-04  856  	if (rc < 0) {
+5b64640cf65be4 Yan, Zheng              2016-01-07  857  		mapping_set_error(mapping, rc);
+26544c623e741a Jeff Layton             2017-04-04  858  		ceph_set_error_write(ci);
+0b98acd6188309 Ilya Dryomov            2020-09-14  859  		if (rc == -EBLOCKLISTED)
+0b98acd6188309 Ilya Dryomov            2020-09-14  860  			fsc->blocklisted = true;
+26544c623e741a Jeff Layton             2017-04-04  861  	} else {
+26544c623e741a Jeff Layton             2017-04-04  862  		ceph_clear_error_write(ci);
+26544c623e741a Jeff Layton             2017-04-04  863  	}
+1d3576fd10f0d7 Sage Weil               2009-10-06  864  
+79788c698b2904 Sage Weil               2010-02-02  865  	/*
+5b64640cf65be4 Yan, Zheng              2016-01-07  866  	 * We lost the cache cap, need to truncate the page before
+5b64640cf65be4 Yan, Zheng              2016-01-07  867  	 * it is unlocked, otherwise we'd truncate it later in the
+5b64640cf65be4 Yan, Zheng              2016-01-07  868  	 * page truncation thread, possibly losing some data that
+5b64640cf65be4 Yan, Zheng              2016-01-07  869  	 * raced its way in
+79788c698b2904 Sage Weil               2010-02-02  870  	 */
+5b64640cf65be4 Yan, Zheng              2016-01-07  871  	remove_page = !(ceph_caps_issued(ci) &
+5b64640cf65be4 Yan, Zheng              2016-01-07  872  			(CEPH_CAP_FILE_CACHE|CEPH_CAP_FILE_LAZYIO));
+1d3576fd10f0d7 Sage Weil               2009-10-06  873  
+1d3576fd10f0d7 Sage Weil               2009-10-06  874  	/* clean all pages */
+5b64640cf65be4 Yan, Zheng              2016-01-07  875  	for (i = 0; i < req->r_num_ops; i++) {
+642d51fb0775a4 Xiubo Li                2022-05-05  876  		if (req->r_ops[i].op != CEPH_OSD_OP_WRITE) {
+38d46409c4639a Xiubo Li                2023-06-12  877  			pr_warn_client(cl,
+38d46409c4639a Xiubo Li                2023-06-12  878  				"%llx.%llx incorrect op %d req %p index %d tid %llu\n",
+38d46409c4639a Xiubo Li                2023-06-12  879  				ceph_vinop(inode), req->r_ops[i].op, req, i,
+38d46409c4639a Xiubo Li                2023-06-12  880  				req->r_tid);
+5b64640cf65be4 Yan, Zheng              2016-01-07  881  			break;
+642d51fb0775a4 Xiubo Li                2022-05-05  882  		}
+5b64640cf65be4 Yan, Zheng              2016-01-07  883  
+5b64640cf65be4 Yan, Zheng              2016-01-07  884  		osd_data = osd_req_op_extent_osd_data(req, i);
+5b64640cf65be4 Yan, Zheng              2016-01-07  885  		BUG_ON(osd_data->type != CEPH_OSD_DATA_TYPE_PAGES);
+903f4fec78dd05 Xiubo Li                2021-05-13  886  		len += osd_data->length;
+5b64640cf65be4 Yan, Zheng              2016-01-07  887  		num_pages = calc_pages_for((u64)osd_data->alignment,
+5b64640cf65be4 Yan, Zheng              2016-01-07  888  					   (u64)osd_data->length);
+5b64640cf65be4 Yan, Zheng              2016-01-07  889  		total_pages += num_pages;
+5b64640cf65be4 Yan, Zheng              2016-01-07  890  		for (j = 0; j < num_pages; j++) {
+5b64640cf65be4 Yan, Zheng              2016-01-07  891  			page = osd_data->pages[j];
+d55207717ded95 Jeff Layton             2022-08-25  892  			if (fscrypt_is_bounce_page(page)) {
+d55207717ded95 Jeff Layton             2022-08-25  893  				page = fscrypt_pagecache_page(page);
+d55207717ded95 Jeff Layton             2022-08-25  894  				fscrypt_free_bounce_page(osd_data->pages[j]);
+d55207717ded95 Jeff Layton             2022-08-25  895  				osd_data->pages[j] = page;
+d55207717ded95 Jeff Layton             2022-08-25  896  			}
+1d3576fd10f0d7 Sage Weil               2009-10-06  897  			BUG_ON(!page);
+1d3576fd10f0d7 Sage Weil               2009-10-06  898  			WARN_ON(!PageUptodate(page));
+1d3576fd10f0d7 Sage Weil               2009-10-06  899  
+5b64640cf65be4 Yan, Zheng              2016-01-07  900  			if (atomic_long_dec_return(&fsc->writeback_count) <
+5b64640cf65be4 Yan, Zheng              2016-01-07  901  			     CONGESTION_OFF_THRESH(
+5b64640cf65be4 Yan, Zheng              2016-01-07  902  					fsc->mount_options->congestion_kb))
+503d4fa6ee28e8 NeilBrown               2022-03-22  903  				fsc->write_congested = false;
+2baba25019ec56 Yehuda Sadeh            2009-12-18  904  
+379fc7fad0ae6e Jeff Layton             2021-03-23  905  			ceph_put_snap_context(detach_page_private(page));
+1d3576fd10f0d7 Sage Weil               2009-10-06  906  			end_page_writeback(page);
+38d46409c4639a Xiubo Li                2023-06-12  907  			doutc(cl, "unlocking %p\n", page);
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  908  
+5b64640cf65be4 Yan, Zheng              2016-01-07  909  			if (remove_page)
+af7628d6ec1969 Matthew Wilcox (Oracle  2023-11-17  910) 				generic_error_remove_folio(inode->i_mapping,
+af7628d6ec1969 Matthew Wilcox (Oracle  2023-11-17 @911) 							  page_folio(page));
+e63dc5c780ba32 Yehuda Sadeh            2010-02-19  912  
+1d3576fd10f0d7 Sage Weil               2009-10-06  913  			unlock_page(page);
+1d3576fd10f0d7 Sage Weil               2009-10-06  914  		}
+38d46409c4639a Xiubo Li                2023-06-12  915  		doutc(cl, "%llx.%llx wrote %llu bytes cleaned %d pages\n",
+38d46409c4639a Xiubo Li                2023-06-12  916  		      ceph_vinop(inode), osd_data->length,
+38d46409c4639a Xiubo Li                2023-06-12  917  		      rc >= 0 ? num_pages : 0);
+1d3576fd10f0d7 Sage Weil               2009-10-06  918  
+96ac9158a230e4 John Hubbard            2019-08-08  919  		release_pages(osd_data->pages, num_pages);
+5b64640cf65be4 Yan, Zheng              2016-01-07  920  	}
+5b64640cf65be4 Yan, Zheng              2016-01-07  921  
+903f4fec78dd05 Xiubo Li                2021-05-13  922  	ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
+903f4fec78dd05 Xiubo Li                2021-05-13  923  				  req->r_end_latency, len, rc);
+903f4fec78dd05 Xiubo Li                2021-05-13  924  
+5b64640cf65be4 Yan, Zheng              2016-01-07  925  	ceph_put_wrbuffer_cap_refs(ci, total_pages, snapc);
+5b64640cf65be4 Yan, Zheng              2016-01-07  926  
+5b64640cf65be4 Yan, Zheng              2016-01-07  927  	osd_data = osd_req_op_extent_osd_data(req, 0);
+87060c1089a94f Alex Elder              2013-04-03  928  	if (osd_data->pages_from_pool)
+a0102bda5bc099 Jeff Layton             2020-07-30  929  		mempool_free(osd_data->pages, ceph_wb_pagevec_pool);
+1d3576fd10f0d7 Sage Weil               2009-10-06  930  	else
+87060c1089a94f Alex Elder              2013-04-03  931  		kfree(osd_data->pages);
+1d3576fd10f0d7 Sage Weil               2009-10-06  932  	ceph_osdc_put_request(req);
+1464de9f813e35 Xiubo Li                2023-05-09  933  	ceph_dec_osd_stopping_blocker(fsc->mdsc);
+1d3576fd10f0d7 Sage Weil               2009-10-06  934  }
+1d3576fd10f0d7 Sage Weil               2009-10-06  935  
 
 -- 
 0-DAY CI Kernel Test Service
