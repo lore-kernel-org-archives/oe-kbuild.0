@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAEA1DA605
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 17:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF9D3B1A4
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 19:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731863584; cv=none; b=CcpP7yLOXfW2qTsqrcGHxaRH1uYKj3pKc7cfJsHOpUtUsnHaMiqkBMNXt4ExkZ5q00aWd11bhMj3xQs8oEaPIqHGGzvK2JEfXQenaYTihRYyM3lOsyJwDa3uzt2uLhDS8t6ijCQhilLmuSiOsGkk9vgMrBIljB9Jd2gcK7Ya76E=
+	t=1731872894; cv=none; b=e4z2GcsUqx75HL9Tx1FR1Snv541Iy+oZyo2CTV8Uf27AKu0B2SuWaT7guuiwxR+g5S2jTaBCE0RR2Lm/L4kGe3h7asxsrozF4F4aZuYEC+SLj7Ll1AO2hYn5a+Ipcpq2h66Lz9eIrUM9CpRNaeH8cT+K5AtSoe1fzomwyWyBSxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731863584; c=relaxed/simple;
-	bh=as/o90OAnpW7RdtbJAKiBFZASL308DBRyUQwJYqALo8=;
+	s=arc-20240116; t=1731872894; c=relaxed/simple;
+	bh=V/dGbFoXL2uULue+aRTcPRf0OaWmzSiR/tiO2DZfhBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z2IzpmHEe0mPPkXZC6K2j37K3CqUBYu4v4gTicSpYF2xvBQX1ruNLpGtlH9n0O9v5MmUd+/DZUIbwSgF368G19Bf8eRvnp8pSpPn3a+csvbL9u79/ONf2A48klWmx6j3t9kwhzMj01WfU+UIW7CMk9u8FS9h/xx15+O3u4z5n20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eo1Q5XGm; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=gCWSvLPWO/pGMZnYVJY/2L+SgZoFbgvaBrP+kZ8x47SpIxkocDIt0/MVWy3eWZImKWCFQjf7Krvkamds5u2taCyd4D9ovvOuAvGYukJts/17jdn0ORql1PES//d4UF21+w+fNHyu8PlQdJNWS21ikIFmyUlELKlt1RVdGHriA4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWsLMVfk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eo1Q5XGm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWsLMVfk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731863582; x=1763399582;
+  t=1731872892; x=1763408892;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=as/o90OAnpW7RdtbJAKiBFZASL308DBRyUQwJYqALo8=;
-  b=eo1Q5XGmpw4z4Atm9XuCNZpDCeIgV9meMhkD5/IfSJOdZF3nq8BxKH0K
-   VEuQ6k44ws+UnT7yOXxpL1TgedfaEom6cXXxfyM7L3xU3WldujOD11fNP
-   uPheW30/88YO08Kvg26wIfrsmNRIUsvMNxy3wZs3l0J6J4sZ/xpbrBGFp
-   tfpl+4d4x83IoTqtKpKmqBLugyQKssOYOmSbn/tjCLX1wRs+6iNZDIIze
-   Xco67RIYXaa4Zyb9yVAx1vwuxou2xUJnTXvXMsNsjUuhPYevoxf7q26MD
-   rJlPpgg8BhTgNuw9YgbSd3jTq3AzCY1N1iL0jR1mDmmmuzc68gP2O/h1e
-   Q==;
-X-CSE-ConnectionGUID: heI1+9GbS5+xt89i101coQ==
-X-CSE-MsgGUID: EuDEQFaDTBWnQPrWFp7zzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="43216976"
+  bh=V/dGbFoXL2uULue+aRTcPRf0OaWmzSiR/tiO2DZfhBY=;
+  b=iWsLMVfkbGi0cuk8wFjBC79f4qlwxe53Z4PlTRwPck4IvsCzYFuyx/p6
+   PUefyxI6G8kwL/iXVslT2gD9cnQBfVjDq9esz1Qe8DPb4+rOlFqHQ00oF
+   HfkbMlxUvTN79ebTjzLM8Po09ZNFOhierOb4Ax44NoCH2ood7TEghJs0u
+   hHO/raojL98caOptxVpGIetHiuqr8OWsivARMcFviJU/JgU5jVfcFkO+c
+   2KHlSOVzqi/WvNvW4M8x2ga/J8G8Q4CWfsYwNJKhWiNsBgrLi5aYwk742
+   tfijcWCdzYEqTqT6nRssU7+kSbrHfnL5a0Ob+Ig+ZLG50Xa1dGdGVE6uE
+   g==;
+X-CSE-ConnectionGUID: gOP6SZbFQxSzq+nKiPejZw==
+X-CSE-MsgGUID: Hbhey48wTJGybh1NmtYNhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31970822"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="43216976"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 09:13:01 -0800
-X-CSE-ConnectionGUID: hCTTgXF/RfSMibXXt2Oq3Q==
-X-CSE-MsgGUID: aym/fizkQIuVzn3cu0LMzA==
+   d="scan'208";a="31970822"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 11:48:12 -0800
+X-CSE-ConnectionGUID: ceDm9ZTfQdatz1up1hPYgQ==
+X-CSE-MsgGUID: AxTG2GgvRWGXpoVxGXTccA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="93949638"
+   d="scan'208";a="89446326"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2024 09:13:00 -0800
+  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2024 11:48:10 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCipV-0001xp-2U;
-	Sun, 17 Nov 2024 17:12:57 +0000
-Date: Mon, 18 Nov 2024 01:12:26 +0800
+	id 1tClFg-000219-0A;
+	Sun, 17 Nov 2024 19:48:08 +0000
+Date: Mon, 18 Nov 2024 03:47:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/i915/display/intel_cx0_phy.c:119:7-50: opportunity
- for str_read_write(command == XELPDP_PORT_P2M_COMMAND_READ_ACK)
-Message-ID: <202411180127.gaKCnj3T-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612
+ iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
+Message-ID: <202411180342.73j3R47z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,65 +65,99 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-CC: Mika Kahola <mika.kahola@intel.com>
-CC: Imre Deak <imre.deak@intel.com>
+TO: Johannes Berg <johannes.berg@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a5df37964673effcd9f84041f7423206a5ae5f2
-commit: 51390cc0e00a378b7c152bb6f63efc0a01b59d20 drm/i915/mtl: Add Support for C10 PHY message bus and pll programming
-date:   1 year, 7 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 7 months ago
-config: i386-randconfig-051-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180127.gaKCnj3T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+head:   f66d6acccbc08b4146f4c2cf9445241f70f5517d
+commit: 3f3126515fbee0e364f8218f6171c091d8e2555e wifi: iwlwifi: mvm: add mvm-specific guard
+date:   6 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-141-20241115 (https://download.01.org/0day-ci/archive/20241118/202411180342.73j3R47z-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411180127.gaKCnj3T-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411180342.73j3R47z-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_cx0_phy.c:119:7-50: opportunity for str_read_write(command == XELPDP_PORT_P2M_COMMAND_READ_ACK)
-   drivers/gpu/drm/i915/display/intel_cx0_phy.c:126:7-50: opportunity for str_read_write(command == XELPDP_PORT_P2M_COMMAND_READ_ACK)
+smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612 iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
 
-vim +119 drivers/gpu/drm/i915/display/intel_cx0_phy.c
+vim +/ret +612 drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c
 
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  100  
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  101  static int intel_cx0_wait_for_ack(struct drm_i915_private *i915, enum port port,
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  102  				  int command, int lane, u32 *val)
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  103  {
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  104  	enum phy phy = intel_port_to_phy(i915, port);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  105  
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  106  	if (__intel_de_wait_for_register(i915,
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  107  					 XELPDP_PORT_P2M_MSGBUS_STATUS(port, lane),
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  108  					 XELPDP_PORT_P2M_RESPONSE_READY,
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  109  					 XELPDP_PORT_P2M_RESPONSE_READY,
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  110  					 XELPDP_MSGBUS_TIMEOUT_FAST_US,
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  111  					 XELPDP_MSGBUS_TIMEOUT_SLOW, val)) {
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  112  		drm_dbg_kms(&i915->drm, "PHY %c Timeout waiting for message ACK. Status: 0x%x\n",
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  113  			    phy_name(phy), *val);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  114  		return -ETIMEDOUT;
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  115  	}
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  116  
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  117  	if (*val & XELPDP_PORT_P2M_ERROR_SET) {
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  118  		drm_dbg_kms(&i915->drm, "PHY %c Error occurred during %s command. Status: 0x%x\n", phy_name(phy),
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13 @119  			    command == XELPDP_PORT_P2M_COMMAND_READ_ACK ? "read" : "write", *val);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  120  		intel_cx0_bus_reset(i915, port, lane);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  121  		return -EINVAL;
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  122  	}
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  123  
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  124  	if (REG_FIELD_GET(XELPDP_PORT_P2M_COMMAND_TYPE_MASK, *val) != command) {
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  125  		drm_dbg_kms(&i915->drm, "PHY %c Not a %s response. MSGBUS Status: 0x%x.\n", phy_name(phy),
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  126  			    command == XELPDP_PORT_P2M_COMMAND_READ_ACK ? "read" : "write", *val);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  127  		intel_cx0_bus_reset(i915, port, lane);
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  128  		return -EINVAL;
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  129  	}
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  130  
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  131  	return 0;
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  132  }
-51390cc0e00a37 Radhakrishna Sripada 2023-04-13  133  
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  573  
+f947b62c03b15d Miri Korenblit   2023-03-20  574  static int iwl_mvm_mld_start_ap_ibss(struct ieee80211_hw *hw,
+cbce62a315f67e Miri Korenblit   2023-03-28  575  				     struct ieee80211_vif *vif,
+cbce62a315f67e Miri Korenblit   2023-03-28  576  				     struct ieee80211_bss_conf *link_conf)
+f947b62c03b15d Miri Korenblit   2023-03-20  577  {
+f947b62c03b15d Miri Korenblit   2023-03-20  578  	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
+f947b62c03b15d Miri Korenblit   2023-03-20  579  	struct iwl_mvm_vif *mvmvif = iwl_mvm_vif_from_mac80211(vif);
+f947b62c03b15d Miri Korenblit   2023-03-20  580  	int ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  581  
+3f3126515fbee0 Johannes Berg    2024-05-12  582  	guard(mvm)(mvm);
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  583  
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  584  	if (vif->type == NL80211_IFTYPE_AP)
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  585  		iwl_mvm_send_ap_tx_power_constraint_cmd(mvm, vif, link_conf);
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  586  
+36cf537798cb6c Gregory Greenman 2023-03-28  587  	/* Send the beacon template */
+36cf537798cb6c Gregory Greenman 2023-03-28  588  	ret = iwl_mvm_mac_ctxt_beacon_changed(mvm, vif, link_conf);
+36cf537798cb6c Gregory Greenman 2023-03-28  589  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  590  		return ret;
+36cf537798cb6c Gregory Greenman 2023-03-28  591  
+bf976c814c864e Johannes Berg    2023-03-28  592  	/* the link should be already activated when assigning chan context */
+bf976c814c864e Johannes Berg    2023-03-28  593  	ret = iwl_mvm_link_changed(mvm, vif, link_conf,
+bf976c814c864e Johannes Berg    2023-03-28  594  				   LINK_CONTEXT_MODIFY_ALL &
+bf976c814c864e Johannes Berg    2023-03-28  595  				   ~LINK_CONTEXT_MODIFY_ACTIVE,
+f947b62c03b15d Miri Korenblit   2023-03-20  596  				   true);
+f947b62c03b15d Miri Korenblit   2023-03-20  597  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  598  		return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  599  
+62e0ccb2170e7a Gregory Greenman 2023-03-28  600  	ret = iwl_mvm_mld_add_mcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  601  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  602  		return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  603  
+f947b62c03b15d Miri Korenblit   2023-03-20  604  	/* Send the bcast station. At this stage the TBTT and DTIM time
+f947b62c03b15d Miri Korenblit   2023-03-20  605  	 * events are added and applied to the scheduler
+f947b62c03b15d Miri Korenblit   2023-03-20  606  	 */
+62e0ccb2170e7a Gregory Greenman 2023-03-28  607  	ret = iwl_mvm_mld_add_bcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  608  	if (ret)
+f947b62c03b15d Miri Korenblit   2023-03-20  609  		goto out_rm_mcast;
+f947b62c03b15d Miri Korenblit   2023-03-20  610  
+f947b62c03b15d Miri Korenblit   2023-03-20  611  	if (iwl_mvm_start_ap_ibss_common(hw, vif, &ret))
+f947b62c03b15d Miri Korenblit   2023-03-20 @612  		goto out_failed;
+f947b62c03b15d Miri Korenblit   2023-03-20  613  
+f947b62c03b15d Miri Korenblit   2023-03-20  614  	/* Need to update the P2P Device MAC (only GO, IBSS is single vif) */
+f947b62c03b15d Miri Korenblit   2023-03-20  615  	if (vif->p2p && mvm->p2p_device_vif)
+f947b62c03b15d Miri Korenblit   2023-03-20  616  		iwl_mvm_mld_mac_ctxt_changed(mvm, mvm->p2p_device_vif, false);
+f947b62c03b15d Miri Korenblit   2023-03-20  617  
+f947b62c03b15d Miri Korenblit   2023-03-20  618  	iwl_mvm_bt_coex_vif_change(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  619  
+f947b62c03b15d Miri Korenblit   2023-03-20  620  	/* we don't support TDLS during DCM */
+f947b62c03b15d Miri Korenblit   2023-03-20  621  	if (iwl_mvm_phy_ctx_count(mvm) > 1)
+f947b62c03b15d Miri Korenblit   2023-03-20  622  		iwl_mvm_teardown_tdls_peers(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  623  
+fd940de72d493c Avraham Stern    2023-06-12  624  	iwl_mvm_ftm_restart_responder(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  625  
+3f3126515fbee0 Johannes Berg    2024-05-12  626  	return 0;
+f947b62c03b15d Miri Korenblit   2023-03-20  627  
+f947b62c03b15d Miri Korenblit   2023-03-20  628  out_failed:
+f947b62c03b15d Miri Korenblit   2023-03-20  629  	iwl_mvm_power_update_mac(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  630  	mvmvif->ap_ibss_active = false;
+62e0ccb2170e7a Gregory Greenman 2023-03-28  631  	iwl_mvm_mld_rm_bcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  632  out_rm_mcast:
+62e0ccb2170e7a Gregory Greenman 2023-03-28  633  	iwl_mvm_mld_rm_mcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  634  	return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  635  }
+f947b62c03b15d Miri Korenblit   2023-03-20  636  
+
+:::::: The code at line 612 was first introduced by commit
+:::::: f947b62c03b15d14349668384bb365aabe898650 wifi: iwlwifi: mvm: add start_ap() and join_ibss() callbacks for MLD mode
+
+:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
