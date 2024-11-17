@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05631D6DB0
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 15:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7D0B652
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 16:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731857390; cv=none; b=lsYFK6sEoNjHiTxShVwOIAiWoBnZLOPjveCGDDppTBDKAhEkhgu2FI4UML10NbEt0vUK6kuNUcbMwO85z596+htCO87XboSdlyEZfxMydlWQdytlz3nflXydLQz0COaWxGprwRp0tb6D9DhFru6sY+rqpsx70TtnEABJmNFNPHs=
+	t=1731859251; cv=none; b=oZEdDqYkR20KwSmE5gvs5O8uY4UOJYoGSFcMNFp0Aj1agvRla6L6nTiw/jw5Z6bdTjP3tND7SiUgwua6dVBfJaIOkmtIPuKFHkqMfbysQ5eHkpTHjayiqWI6+GslCzxIi8qiIwLDflDAqzj8I45/98a7vclK3B6rf2/iinAxuWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731857390; c=relaxed/simple;
-	bh=wxUFvJ5r1TybVcpW0gV5ZsM83f3VU2HX3P/8W1FCcGU=;
+	s=arc-20240116; t=1731859251; c=relaxed/simple;
+	bh=wG1Yl3RvFwjakX4ZOAelsyQo8MSKPryK2jEbDDOCXHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KK1/jSvNwJegJX22ZvYYb/dZhthsKF2QLwKb447Xh4rMuFg8AdE/C6K1o2ow+fCn7n5aWJMEW1lhD9QPm2ldZcK0Vp1OsU1kS7nav+yB+R0sQVOWCPbarAQuQIi57Ei/BU581gyO4DJlCqUV5Bn4kZkK29ejAaXMIGajHFXx30Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2j4+BVc; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=pOU5Vve1MrlCWZ2+mgDP+CWlwmrIKztkwMdhQZKM58xe749tEWRkwFjhQhmBdBiaGLLkPeZz4D2ubnnNPRTK2CmoyvFDOWpZSNSbM3s67z8blv8QcMmKonme66EtQu/KkVIWC+r+l/fVOMbE7Mxdddursxg13/igqElg7vAc8Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3vSaNmc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2j4+BVc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3vSaNmc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731857389; x=1763393389;
+  t=1731859250; x=1763395250;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wxUFvJ5r1TybVcpW0gV5ZsM83f3VU2HX3P/8W1FCcGU=;
-  b=N2j4+BVcdGNSpa5RmtMATb+/eLchtoZFJocbUwfD/e247mwFyV5xXXeA
-   JeKR63X9D14lKwENLl2nrC1D8o2DGelnMRH04yVWGNAWtlEIvxlxKAx+i
-   YM/TssRjkpmKVAwoufQFb9FhuEv1SSzS8buSIhe1i4tIzYzcxUxsKv/IH
-   m7p1Vh86/xYpWCvYvHbULNvHslurPP2Nvlnwg0QNpozQgYW3kSkCNhGg3
-   zATcdHT5jLqM6QToVBNoYRXAwd8iPcoS3TC5L62dFkBLZ43zZKlrnN6Ww
-   TBqihy0rzW/bkMo1/LulZT0jnS5fPrllagZidqw3oq60xSa+pxrrGYExJ
+  bh=wG1Yl3RvFwjakX4ZOAelsyQo8MSKPryK2jEbDDOCXHs=;
+  b=T3vSaNmcjxAO+X/GPe0N5kgoRXW+Rh2S1cYsZwhSWlfwlRYM+DOmbXXG
+   5DF72W6e0FcSl2XNvAf2Kis9YoJ5ego+9Pcv3uPXDs05hUmOTMcU89xKv
+   lB5aOGrLWWRGGvDBtnRqlsqa0sa6LMD/sUPEgG5kJYbEP0sOztAGMzAp4
+   G0oqAjS+341CylUoSJrWVVGLU8mLWbSXQSKChsKehVH457pV567h9OCaF
+   uHNhwJWGQKG0l+RDGvSGY6e9VKVkawy/umUfcmg6VCVGxKpjESXSKY7aP
+   bkPcOJoxAZWtMgkF8N4vVp/rCzpPPFFuuu0XJAG1ITeic690/5l8fLMaR
    Q==;
-X-CSE-ConnectionGUID: dfoGPIHQTX2yWpiPc/sWPg==
-X-CSE-MsgGUID: Xw9idm+BSl+kM6CWY1iCmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42455972"
+X-CSE-ConnectionGUID: 5zPuKkbURa6Burup08YYyA==
+X-CSE-MsgGUID: H/mUrsgwSo2owldjRfJYEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31947070"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="42455972"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:29:46 -0800
-X-CSE-ConnectionGUID: SNoRRa5bQ0++/PlvyXHyAQ==
-X-CSE-MsgGUID: 5aBHyC5+Tiq9P8u22BYlGQ==
+   d="scan'208";a="31947070"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 08:00:50 -0800
+X-CSE-ConnectionGUID: ntql5S4ZTSCGbtG5N0fdrA==
+X-CSE-MsgGUID: JPugmbFySpWD+y/Q1DqBKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="88767675"
+   d="scan'208";a="112304856"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2024 07:29:45 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 08:00:48 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tChDa-0001p5-1L;
-	Sun, 17 Nov 2024 15:29:42 +0000
-Date: Sun, 17 Nov 2024 23:29:18 +0800
+	id 1tChhd-0001s7-2g;
+	Sun, 17 Nov 2024 16:00:45 +0000
+Date: Mon, 18 Nov 2024 00:00:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [hch-xfs:xfs-zoned 32/75] fs/xfs/xfs_zone_gc.c:432:33-34: WARNING
- opportunity for min()
-Message-ID: <202411172338.tdqVAepe-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [chenhuacai-loongson:loongarch-next 5/8]
+ arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: /bus@10000000/i2s@1fe2d000:
+ failed to match any schema with compatible: ['loongson,ls2k1000-i2s']
+Message-ID: <202411172316.4JGjb9Ol-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,95 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+TO: Binbin Zhou <zhoubinbin@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   2259694a0da179e06201614e2e37cd0f3c8669b3
-commit: 1b9104b51569dbccbeb66612746279b40fe10b62 [32/75] xfs: support zoned RT devices
-:::::: branch date: 3 days ago
-:::::: commit date: 12 days ago
-config: x86_64-randconfig-103-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172338.tdqVAepe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
+head:   66b31c6222ee988c7a708b0bb83e35e064f498f1
+commit: 1725736ff87d0bace9b449e5610b5eebbbfee64f [5/8] LoongArch: dts: Add I2S support to Loongson-2K1000
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: loongarch-randconfig-051-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172316.4JGjb9Ol-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172316.4JGjb9Ol-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411172338.tdqVAepe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411172316.4JGjb9Ol-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_zone_gc.c:432:33-34: WARNING opportunity for min()
-
-vim +432 fs/xfs/xfs_zone_gc.c
-
-1b9104b51569db Christoph Hellwig 2024-11-05  399  
-1b9104b51569db Christoph Hellwig 2024-11-05  400  static int
-1b9104b51569db Christoph Hellwig 2024-11-05  401  xfs_zone_gc_query(
-1b9104b51569db Christoph Hellwig 2024-11-05  402  	struct xfs_mount	*mp,
-1b9104b51569db Christoph Hellwig 2024-11-05  403  	struct xfs_zone_gc_iter	*iter)
-1b9104b51569db Christoph Hellwig 2024-11-05  404  {
-1b9104b51569db Christoph Hellwig 2024-11-05  405  	struct xfs_rtgroup	*rtg = iter->victim_rtg;
-1b9104b51569db Christoph Hellwig 2024-11-05  406  	struct xfs_rmap_irec	ri_low = { };
-1b9104b51569db Christoph Hellwig 2024-11-05  407  	struct xfs_rmap_irec	ri_high;
-1b9104b51569db Christoph Hellwig 2024-11-05  408  	struct xfs_btree_cur	*cur;
-1b9104b51569db Christoph Hellwig 2024-11-05  409  	struct xfs_trans	*tp;
-1b9104b51569db Christoph Hellwig 2024-11-05  410  	int			error;
-1b9104b51569db Christoph Hellwig 2024-11-05  411  
-1b9104b51569db Christoph Hellwig 2024-11-05  412  	ASSERT(iter->next_startblock <= rtg->rtg_extents);
-1b9104b51569db Christoph Hellwig 2024-11-05  413  	if (iter->next_startblock == rtg->rtg_extents)
-1b9104b51569db Christoph Hellwig 2024-11-05  414  		goto done;
-1b9104b51569db Christoph Hellwig 2024-11-05  415  
-1b9104b51569db Christoph Hellwig 2024-11-05  416  	ASSERT(iter->next_startblock < rtg->rtg_extents);
-1b9104b51569db Christoph Hellwig 2024-11-05  417  	ri_low.rm_startblock = iter->next_startblock;
-1b9104b51569db Christoph Hellwig 2024-11-05  418  	memset(&ri_high, 0xFF, sizeof(ri_high));
-1b9104b51569db Christoph Hellwig 2024-11-05  419  
-1b9104b51569db Christoph Hellwig 2024-11-05  420  	iter->rec_idx = 0;
-1b9104b51569db Christoph Hellwig 2024-11-05  421  	iter->rec_count = 0;
-1b9104b51569db Christoph Hellwig 2024-11-05  422  
-1b9104b51569db Christoph Hellwig 2024-11-05  423  	error = xfs_trans_alloc_empty(mp, &tp);
-1b9104b51569db Christoph Hellwig 2024-11-05  424  	if (error)
-1b9104b51569db Christoph Hellwig 2024-11-05  425  		return error;
-1b9104b51569db Christoph Hellwig 2024-11-05  426  
-1b9104b51569db Christoph Hellwig 2024-11-05  427  	xfs_rtgroup_lock(rtg, XFS_RTGLOCK_RMAP);
-1b9104b51569db Christoph Hellwig 2024-11-05  428  	xfs_rtgroup_trans_join(tp, rtg, XFS_RTGLOCK_RMAP);
-1b9104b51569db Christoph Hellwig 2024-11-05  429  	cur = xfs_rtrmapbt_init_cursor(tp, rtg);
-1b9104b51569db Christoph Hellwig 2024-11-05  430  	error = xfs_rmap_query_range(cur, &ri_low, &ri_high,
-1b9104b51569db Christoph Hellwig 2024-11-05  431  			xfs_zone_gc_query_cb, iter);
-1b9104b51569db Christoph Hellwig 2024-11-05 @432  	xfs_btree_del_cursor(cur, error < 0 ? error : 0);
-1b9104b51569db Christoph Hellwig 2024-11-05  433  	xfs_trans_cancel(tp);
-1b9104b51569db Christoph Hellwig 2024-11-05  434  
-1b9104b51569db Christoph Hellwig 2024-11-05  435  	if (error < 0)
-1b9104b51569db Christoph Hellwig 2024-11-05  436  		return error;
-1b9104b51569db Christoph Hellwig 2024-11-05  437  
-1b9104b51569db Christoph Hellwig 2024-11-05  438  	/*
-1b9104b51569db Christoph Hellwig 2024-11-05  439  	 * Sort the rmap records by inode number and increasing offset to
-1b9104b51569db Christoph Hellwig 2024-11-05  440  	 * defragment the mappings.
-1b9104b51569db Christoph Hellwig 2024-11-05  441  	 *
-1b9104b51569db Christoph Hellwig 2024-11-05  442  	 * This could be further enhanced by an even bigger look ahead window,
-1b9104b51569db Christoph Hellwig 2024-11-05  443  	 * but that's better left until we have better detection of changes to
-1b9104b51569db Christoph Hellwig 2024-11-05  444  	 * inode mapping to avoid the potential of GCing already dead data.
-1b9104b51569db Christoph Hellwig 2024-11-05  445  	 */
-1b9104b51569db Christoph Hellwig 2024-11-05  446  	sort(iter->recs, iter->rec_count, sizeof(iter->recs[0]),
-1b9104b51569db Christoph Hellwig 2024-11-05  447  		xfs_zone_gc_rmap_rec_cmp, NULL);
-1b9104b51569db Christoph Hellwig 2024-11-05  448  
-1b9104b51569db Christoph Hellwig 2024-11-05  449  	if (error == 0) {
-1b9104b51569db Christoph Hellwig 2024-11-05  450  		/*
-1b9104b51569db Christoph Hellwig 2024-11-05  451  		 * We finished iterating through the zone.
-1b9104b51569db Christoph Hellwig 2024-11-05  452  		 */
-1b9104b51569db Christoph Hellwig 2024-11-05  453  		iter->next_startblock = rtg->rtg_extents;
-1b9104b51569db Christoph Hellwig 2024-11-05  454  		if (iter->rec_count == 0)
-1b9104b51569db Christoph Hellwig 2024-11-05  455  			goto done;
-1b9104b51569db Christoph Hellwig 2024-11-05  456  	}
-1b9104b51569db Christoph Hellwig 2024-11-05  457  
-1b9104b51569db Christoph Hellwig 2024-11-05  458  	return 0;
-1b9104b51569db Christoph Hellwig 2024-11-05  459  done:
-1b9104b51569db Christoph Hellwig 2024-11-05  460  	xfs_rtgroup_rele(iter->victim_rtg);
-1b9104b51569db Christoph Hellwig 2024-11-05  461  	iter->victim_rtg = NULL;
-1b9104b51569db Christoph Hellwig 2024-11-05  462  	return 0;
-1b9104b51569db Christoph Hellwig 2024-11-05  463  }
-1b9104b51569db Christoph Hellwig 2024-11-05  464  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: /bus@10000000/i2s@1fe2d000: failed to match any schema with compatible: ['loongson,ls2k1000-i2s']
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000: ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000: ethernet@3,0:interrupts:0: [12, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000: ethernet@3,0:interrupts: [[12, 4], [13, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000: ethernet@3,1:interrupts:0:0: 14 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
+   arch/loongarch/boot/dts/loongson-2k1000-ref.dtb: pcie@1a000000: ethernet@3,1:interrupts:0: [14, 4] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
