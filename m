@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C6028EB
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 14:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05631D6DB0
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 15:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731853664; cv=none; b=W1uMXQ4Y8b8MBBrwD+i8pX+19lZeuy03GyuP3+ssneP3dsQJxCBtkX77n+35tjsnPPArIsQ13fv4u1S07nSLMrFRh+RVPUOaZRmjIZR+dWuLkDudgroIXiNgkE4Q4b6wNbEVz0D55kdTxrihhUq5/lY5PNctZbWsYCk15kZr/QI=
+	t=1731857390; cv=none; b=lsYFK6sEoNjHiTxShVwOIAiWoBnZLOPjveCGDDppTBDKAhEkhgu2FI4UML10NbEt0vUK6kuNUcbMwO85z596+htCO87XboSdlyEZfxMydlWQdytlz3nflXydLQz0COaWxGprwRp0tb6D9DhFru6sY+rqpsx70TtnEABJmNFNPHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731853664; c=relaxed/simple;
-	bh=qa+0T1G9c2iAJb6/OhmCUjcs5VzCnmQRpE9Jkb3uWPI=;
+	s=arc-20240116; t=1731857390; c=relaxed/simple;
+	bh=wxUFvJ5r1TybVcpW0gV5ZsM83f3VU2HX3P/8W1FCcGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M1X6OEZgpJYcgj9W5TAO2V1YHOOAuMIS+L6R+aD+wSQotXRDD1DiQfNuBWAUFNoUi0mB8nl/ztK4SyWmdBSljOu4FronKYOD0e1ewWVmA6EIPJccmtgx8SaRn+XzXa90tx4iTpa8+vWzMhPV+yvruxrOZX5X3U+KL5KpKYHEr5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UW6hHRcG; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=KK1/jSvNwJegJX22ZvYYb/dZhthsKF2QLwKb447Xh4rMuFg8AdE/C6K1o2ow+fCn7n5aWJMEW1lhD9QPm2ldZcK0Vp1OsU1kS7nav+yB+R0sQVOWCPbarAQuQIi57Ei/BU581gyO4DJlCqUV5Bn4kZkK29ejAaXMIGajHFXx30Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N2j4+BVc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UW6hHRcG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N2j4+BVc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731853662; x=1763389662;
+  t=1731857389; x=1763393389;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qa+0T1G9c2iAJb6/OhmCUjcs5VzCnmQRpE9Jkb3uWPI=;
-  b=UW6hHRcGfa+58l/uWRkXsLGLER+9LQMIEfUNccuLR6KRehxjxCdJWLRf
-   9N1e4VohCE/1TSJo9wHRKYe31XnI0l6oLyGt4hGPwXZ1yPlfM3XLYLKqL
-   CEFSV+QTG9b3CmTcqF0QnDRbTlCyS3kPvvFCJBHcm/I/DG72OAgNA/LUz
-   ktTJxH11I0q1sQeCiShY1qfBXgqAZpT6emQrDpRHyFv5Oa8YgWRDob4q1
-   5V5q5+GRpNyQiUxa68TKWgT/+zC2x3L2qgIZWPyNRbNNzWFHx8bgO3Sr2
-   R2mIOUvuLQa/3ztXwwrRct17mTucNLJ4oIApAgYfqNck9oAKYSeLbDUxT
-   g==;
-X-CSE-ConnectionGUID: Et0xkaFvRPWUg3gVDdgjfw==
-X-CSE-MsgGUID: aND8hs4IR2qCMY/pQ0ME3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35730745"
+  bh=wxUFvJ5r1TybVcpW0gV5ZsM83f3VU2HX3P/8W1FCcGU=;
+  b=N2j4+BVcdGNSpa5RmtMATb+/eLchtoZFJocbUwfD/e247mwFyV5xXXeA
+   JeKR63X9D14lKwENLl2nrC1D8o2DGelnMRH04yVWGNAWtlEIvxlxKAx+i
+   YM/TssRjkpmKVAwoufQFb9FhuEv1SSzS8buSIhe1i4tIzYzcxUxsKv/IH
+   m7p1Vh86/xYpWCvYvHbULNvHslurPP2Nvlnwg0QNpozQgYW3kSkCNhGg3
+   zATcdHT5jLqM6QToVBNoYRXAwd8iPcoS3TC5L62dFkBLZ43zZKlrnN6Ww
+   TBqihy0rzW/bkMo1/LulZT0jnS5fPrllagZidqw3oq60xSa+pxrrGYExJ
+   Q==;
+X-CSE-ConnectionGUID: dfoGPIHQTX2yWpiPc/sWPg==
+X-CSE-MsgGUID: Xw9idm+BSl+kM6CWY1iCmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42455972"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="35730745"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 06:27:41 -0800
-X-CSE-ConnectionGUID: 9+T5W+2mQx2RfUKA6Ig0RQ==
-X-CSE-MsgGUID: HAcfznMKR4qwMopCXfoL5w==
+   d="scan'208";a="42455972"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:29:46 -0800
+X-CSE-ConnectionGUID: SNoRRa5bQ0++/PlvyXHyAQ==
+X-CSE-MsgGUID: 5aBHyC5+Tiq9P8u22BYlGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="89403975"
+   d="scan'208";a="88767675"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Nov 2024 06:27:41 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2024 07:29:45 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCgFV-0001nV-31;
-	Sun, 17 Nov 2024 14:27:37 +0000
-Date: Sun, 17 Nov 2024 22:26:50 +0800
+	id 1tChDa-0001p5-1L;
+	Sun, 17 Nov 2024 15:29:42 +0000
+Date: Sun, 17 Nov 2024 23:29:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/amd/acp/acp-legacy-common.c:467 check_acp_config() error:
- uninitialized symbol 'pdm_addr'.
-Message-ID: <202411172217.GYwLWCUO-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [hch-xfs:xfs-zoned 32/75] fs/xfs/xfs_zone_gc.c:432:33-34: WARNING
+ opportunity for min()
+Message-ID: <202411172338.tdqVAepe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,76 +64,93 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a5df37964673effcd9f84041f7423206a5ae5f2
-commit: 09068d624c490c0e89f33f963c402f1859964467 ASoC: amd: acp: fix for acp platform device creation failure
-date:   7 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20241115 (https://download.01.org/0day-ci/archive/20241117/202411172217.GYwLWCUO-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   2259694a0da179e06201614e2e37cd0f3c8669b3
+commit: 1b9104b51569dbccbeb66612746279b40fe10b62 [32/75] xfs: support zoned RT devices
+:::::: branch date: 3 days ago
+:::::: commit date: 12 days ago
+config: x86_64-randconfig-103-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172338.tdqVAepe-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411172217.GYwLWCUO-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411172338.tdqVAepe-lkp@intel.com/
 
-smatch warnings:
-sound/soc/amd/acp/acp-legacy-common.c:467 check_acp_config() error: uninitialized symbol 'pdm_addr'.
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_zone_gc.c:432:33-34: WARNING opportunity for min()
 
-vim +/pdm_addr +467 sound/soc/amd/acp/acp-legacy-common.c
+vim +432 fs/xfs/xfs_zone_gc.c
 
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  438  
-09068d624c490c Vijendar Mukunda 2024-05-02  439  void check_acp_config(struct pci_dev *pci, struct acp_chip_info *chip)
-09068d624c490c Vijendar Mukunda 2024-05-02  440  {
-09068d624c490c Vijendar Mukunda 2024-05-02  441  	struct acpi_device *pdm_dev;
-09068d624c490c Vijendar Mukunda 2024-05-02  442  	const union acpi_object *obj;
-09068d624c490c Vijendar Mukunda 2024-05-02  443  	u32 pdm_addr;
-09068d624c490c Vijendar Mukunda 2024-05-02  444  
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  445  	switch (chip->acp_rev) {
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  446  	case ACP3X_DEV:
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  447  		pdm_addr = ACP_RENOIR_PDM_ADDR;
-09068d624c490c Vijendar Mukunda 2024-05-02  448  		check_acp3x_config(chip);
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  449  		break;
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  450  	case ACP6X_DEV:
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  451  		pdm_addr = ACP_REMBRANDT_PDM_ADDR;
-09068d624c490c Vijendar Mukunda 2024-05-02  452  		check_acp6x_config(chip);
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  453  		break;
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  454  	case ACP63_DEV:
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  455  		pdm_addr = ACP63_PDM_ADDR;
-09068d624c490c Vijendar Mukunda 2024-05-02  456  		check_acp6x_config(chip);
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  457  		break;
-e84db124cb2158 Syed Saba Kareem 2023-10-21  458  	case ACP70_DEV:
-e84db124cb2158 Syed Saba Kareem 2023-10-21  459  		pdm_addr = ACP70_PDM_ADDR;
-09068d624c490c Vijendar Mukunda 2024-05-02  460  		check_acp70_config(chip);
-e84db124cb2158 Syed Saba Kareem 2023-10-21  461  		break;
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  462  	default:
-09068d624c490c Vijendar Mukunda 2024-05-02  463  		break;
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  464  	}
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  465  
-09068d624c490c Vijendar Mukunda 2024-05-02  466  	if (chip->is_pdm_config) {
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21 @467  		pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  468  		if (pdm_dev) {
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  469  			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  470  						   ACPI_TYPE_INTEGER, &obj) &&
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  471  						   obj->integer.value == pdm_addr)
-09068d624c490c Vijendar Mukunda 2024-05-02  472  				chip->is_pdm_dev = true;
-09068d624c490c Vijendar Mukunda 2024-05-02  473  		}
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  474  	}
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  475  }
-09068d624c490c Vijendar Mukunda 2024-05-02  476  EXPORT_SYMBOL_NS_GPL(check_acp_config, SND_SOC_ACP_COMMON);
-3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  477  
-
-:::::: The code at line 467 was first introduced by commit
-:::::: 3a94c8ad0aae2b14a55059869871ea2d199af489 ASoC: amd: acp: add code for scanning acp pdm controller
-
-:::::: TO: Syed Saba Kareem <Syed.SabaKareem@amd.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+1b9104b51569db Christoph Hellwig 2024-11-05  399  
+1b9104b51569db Christoph Hellwig 2024-11-05  400  static int
+1b9104b51569db Christoph Hellwig 2024-11-05  401  xfs_zone_gc_query(
+1b9104b51569db Christoph Hellwig 2024-11-05  402  	struct xfs_mount	*mp,
+1b9104b51569db Christoph Hellwig 2024-11-05  403  	struct xfs_zone_gc_iter	*iter)
+1b9104b51569db Christoph Hellwig 2024-11-05  404  {
+1b9104b51569db Christoph Hellwig 2024-11-05  405  	struct xfs_rtgroup	*rtg = iter->victim_rtg;
+1b9104b51569db Christoph Hellwig 2024-11-05  406  	struct xfs_rmap_irec	ri_low = { };
+1b9104b51569db Christoph Hellwig 2024-11-05  407  	struct xfs_rmap_irec	ri_high;
+1b9104b51569db Christoph Hellwig 2024-11-05  408  	struct xfs_btree_cur	*cur;
+1b9104b51569db Christoph Hellwig 2024-11-05  409  	struct xfs_trans	*tp;
+1b9104b51569db Christoph Hellwig 2024-11-05  410  	int			error;
+1b9104b51569db Christoph Hellwig 2024-11-05  411  
+1b9104b51569db Christoph Hellwig 2024-11-05  412  	ASSERT(iter->next_startblock <= rtg->rtg_extents);
+1b9104b51569db Christoph Hellwig 2024-11-05  413  	if (iter->next_startblock == rtg->rtg_extents)
+1b9104b51569db Christoph Hellwig 2024-11-05  414  		goto done;
+1b9104b51569db Christoph Hellwig 2024-11-05  415  
+1b9104b51569db Christoph Hellwig 2024-11-05  416  	ASSERT(iter->next_startblock < rtg->rtg_extents);
+1b9104b51569db Christoph Hellwig 2024-11-05  417  	ri_low.rm_startblock = iter->next_startblock;
+1b9104b51569db Christoph Hellwig 2024-11-05  418  	memset(&ri_high, 0xFF, sizeof(ri_high));
+1b9104b51569db Christoph Hellwig 2024-11-05  419  
+1b9104b51569db Christoph Hellwig 2024-11-05  420  	iter->rec_idx = 0;
+1b9104b51569db Christoph Hellwig 2024-11-05  421  	iter->rec_count = 0;
+1b9104b51569db Christoph Hellwig 2024-11-05  422  
+1b9104b51569db Christoph Hellwig 2024-11-05  423  	error = xfs_trans_alloc_empty(mp, &tp);
+1b9104b51569db Christoph Hellwig 2024-11-05  424  	if (error)
+1b9104b51569db Christoph Hellwig 2024-11-05  425  		return error;
+1b9104b51569db Christoph Hellwig 2024-11-05  426  
+1b9104b51569db Christoph Hellwig 2024-11-05  427  	xfs_rtgroup_lock(rtg, XFS_RTGLOCK_RMAP);
+1b9104b51569db Christoph Hellwig 2024-11-05  428  	xfs_rtgroup_trans_join(tp, rtg, XFS_RTGLOCK_RMAP);
+1b9104b51569db Christoph Hellwig 2024-11-05  429  	cur = xfs_rtrmapbt_init_cursor(tp, rtg);
+1b9104b51569db Christoph Hellwig 2024-11-05  430  	error = xfs_rmap_query_range(cur, &ri_low, &ri_high,
+1b9104b51569db Christoph Hellwig 2024-11-05  431  			xfs_zone_gc_query_cb, iter);
+1b9104b51569db Christoph Hellwig 2024-11-05 @432  	xfs_btree_del_cursor(cur, error < 0 ? error : 0);
+1b9104b51569db Christoph Hellwig 2024-11-05  433  	xfs_trans_cancel(tp);
+1b9104b51569db Christoph Hellwig 2024-11-05  434  
+1b9104b51569db Christoph Hellwig 2024-11-05  435  	if (error < 0)
+1b9104b51569db Christoph Hellwig 2024-11-05  436  		return error;
+1b9104b51569db Christoph Hellwig 2024-11-05  437  
+1b9104b51569db Christoph Hellwig 2024-11-05  438  	/*
+1b9104b51569db Christoph Hellwig 2024-11-05  439  	 * Sort the rmap records by inode number and increasing offset to
+1b9104b51569db Christoph Hellwig 2024-11-05  440  	 * defragment the mappings.
+1b9104b51569db Christoph Hellwig 2024-11-05  441  	 *
+1b9104b51569db Christoph Hellwig 2024-11-05  442  	 * This could be further enhanced by an even bigger look ahead window,
+1b9104b51569db Christoph Hellwig 2024-11-05  443  	 * but that's better left until we have better detection of changes to
+1b9104b51569db Christoph Hellwig 2024-11-05  444  	 * inode mapping to avoid the potential of GCing already dead data.
+1b9104b51569db Christoph Hellwig 2024-11-05  445  	 */
+1b9104b51569db Christoph Hellwig 2024-11-05  446  	sort(iter->recs, iter->rec_count, sizeof(iter->recs[0]),
+1b9104b51569db Christoph Hellwig 2024-11-05  447  		xfs_zone_gc_rmap_rec_cmp, NULL);
+1b9104b51569db Christoph Hellwig 2024-11-05  448  
+1b9104b51569db Christoph Hellwig 2024-11-05  449  	if (error == 0) {
+1b9104b51569db Christoph Hellwig 2024-11-05  450  		/*
+1b9104b51569db Christoph Hellwig 2024-11-05  451  		 * We finished iterating through the zone.
+1b9104b51569db Christoph Hellwig 2024-11-05  452  		 */
+1b9104b51569db Christoph Hellwig 2024-11-05  453  		iter->next_startblock = rtg->rtg_extents;
+1b9104b51569db Christoph Hellwig 2024-11-05  454  		if (iter->rec_count == 0)
+1b9104b51569db Christoph Hellwig 2024-11-05  455  			goto done;
+1b9104b51569db Christoph Hellwig 2024-11-05  456  	}
+1b9104b51569db Christoph Hellwig 2024-11-05  457  
+1b9104b51569db Christoph Hellwig 2024-11-05  458  	return 0;
+1b9104b51569db Christoph Hellwig 2024-11-05  459  done:
+1b9104b51569db Christoph Hellwig 2024-11-05  460  	xfs_rtgroup_rele(iter->victim_rtg);
+1b9104b51569db Christoph Hellwig 2024-11-05  461  	iter->victim_rtg = NULL;
+1b9104b51569db Christoph Hellwig 2024-11-05  462  	return 0;
+1b9104b51569db Christoph Hellwig 2024-11-05  463  }
+1b9104b51569db Christoph Hellwig 2024-11-05  464  
 
 -- 
 0-DAY CI Kernel Test Service
