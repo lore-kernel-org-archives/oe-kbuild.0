@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A85BD515
-	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 04:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D720D1773A
+	for <oe-kbuild@lists.linux.dev>; Sun, 17 Nov 2024 05:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731818636; cv=none; b=bbmGJ7llkXaAEx2AIDh9KAoviRlA9CQMG3iCk44DpG898Wjibuhd3C0gwHxAwIhyYA2JxTPtRYNxD1TX1dYmvQGeuw7vDZb5eWY4QJ7pBO94wwu8IOWB1fERCNVE5GDzyhrLUcZnq/rBbk00gnARdfCcyCX9oIzUDGQnDOwbSAY=
+	t=1731821883; cv=none; b=LMrEHkzcRBOlhpSq4yegwjxujgNHfV2BSJZBdNYEd0qzqOYid9t4hW/pZXUdcvIaMCsSyKiw1i7LudRnaSnm64pWDc7AIVNEcBhNfiYa4Q4x2oqK/vkXGzEhCiq4XfRbs4flX3eF/LMrysKWVv01L7niHub46spETXdft1J61VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731818636; c=relaxed/simple;
-	bh=6xerNpGvj8m73dJNmqvC6Gt2N3s1rMoGEeeYhl0wVMs=;
+	s=arc-20240116; t=1731821883; c=relaxed/simple;
+	bh=omlQErDoB7dLKSOaf2rDXFOdC2KFbMJ23gXQxKcK1sE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qvacdqwiuv2Oq2yhZ8o2GHs0+82uifylVvCCwYDSTQsVT+LnY3oyu2OaJx7t4S9ki+sETQ7t7Ixx5Im60E/E1D1gbGwJhkC1TY9xIDv+xWDdBd1bbLmws9bhB5/pyKhiOP8YmfOms/r5lX65YCNuIbgGuQ+nKyJloVifZQS8QI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jASWR+/3; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=dRWshtst391T1uGSSehBgV3CIWP9+cTui8EDKeOlPlUz+tm9FWpQhbcu+jxDvMrvS8tKyZhAR9SvGcaKN/rbRvZWPUJx0s7bmHjvuCU/WRpXelo407xMyfRk1ePU1zL2ejv3KjlaY/vUqR4hyNE7kqF0dLN2vFthAjePbC3OQ54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=esNJ2gdT; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jASWR+/3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="esNJ2gdT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731818634; x=1763354634;
+  t=1731821881; x=1763357881;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6xerNpGvj8m73dJNmqvC6Gt2N3s1rMoGEeeYhl0wVMs=;
-  b=jASWR+/3kDrf1n4RgdglMdHhoNFLSORQ2V9QM30XA8uQvdNZ7MCT7hBY
-   DuBPTVfVYQapuwZj0qdCnQDh45tfML3/OX0qdDK9W38VU+B2mIUkeNqt0
-   KFkoG+6SP8aIGhm+Mw9xRhNfInCHI/0saRjfZfCF5OSTZ64qmML+kOt2I
-   EkUsAH2yUZYVkZScS9d2fgEElIbinbFcHkxbESo/qRrqBrVQvUTLmF0RB
-   WwmQAoaY9jB1v4oSrnX58xnwYm9lS1tsdV8iDF2FNbOf0mBByCbHcgjpx
-   RiEeC3sVFzEPcql1hJYW4oUstnYM10GT9VEkiF5shyniQ5ITUGhnPcpMe
-   A==;
-X-CSE-ConnectionGUID: pa2Ok9beQ6CPNm2jdaNdig==
-X-CSE-MsgGUID: pP1w/cg5TXO0Xvl4EcMVEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54292192"
+  bh=omlQErDoB7dLKSOaf2rDXFOdC2KFbMJ23gXQxKcK1sE=;
+  b=esNJ2gdTXdMxIFSpK5uJyhZR7g5pLu2WUPyy61i+qwD5Imw3u8C5BJBA
+   VXy5pfXl47DcQFr4+aFHMTBPP76Fc/AYJ3zoN5Qz0ZfvDL0VikPjnoRWO
+   PdIuN5tAbZB07O5iVXwnHwXmyxtc0nmC84HYjff2i4jvEIdu56BOUA0iT
+   hTPPJloO7Lr1ZBfiH/THaMmwwXQD8LpbqAdyRy7qI6S4xuotL6KeVR7Va
+   qZQNFxoTMGi+1yJsE9+i7IY/6b+sBjGYRWYVRMEMAJY8LudUUMxoH3lvu
+   /6xL9OHlhYuvrOEFNIm1XDGmzyrHK9CB+s4gFDMHK1iERNvwKO48imzdu
+   g==;
+X-CSE-ConnectionGUID: qgcK0matS/awAgp8RMtGOA==
+X-CSE-MsgGUID: KfP7Az+YTyGqf0KhkBpsgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42424043"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="54292192"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 20:43:53 -0800
-X-CSE-ConnectionGUID: kkQX7SmHRYiobmlWfJH+5w==
-X-CSE-MsgGUID: Ak75iWDFQnWgcAvX8BX3Xg==
+   d="scan'208";a="42424043"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:38:00 -0800
+X-CSE-ConnectionGUID: 4wc5XDpWRhu94Sb+W4WOEw==
+X-CSE-MsgGUID: 2cO3bngnSZmb1adAnF8/aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="119851130"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="93950832"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Nov 2024 20:43:52 -0800
+  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2024 21:37:59 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCX8Y-0001UT-0O;
-	Sun, 17 Nov 2024 04:43:50 +0000
-Date: Sun, 17 Nov 2024 12:43:33 +0800
+	id 1tCXyu-0001ZV-0u;
+	Sun, 17 Nov 2024 05:37:56 +0000
+Date: Sun, 17 Nov 2024 13:37:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: broadcom: Remove unused and undocumented
- properties
-Message-ID: <202411171222.NZSELzIy-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 11280/11989] fs/smb/client/fs_context.c:1017
+ smb3_reconfigure() warn: inconsistent returns '&ses->session_mutex'.
+Message-ID: <202411171308.yWc07G0Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,121 +62,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241115193854.3624123-1-robh@kernel.org>
-References: <20241115193854.3624123-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-TO: Ray Jui <rjui@broadcom.com>
-TO: Scott Branden <sbranden@broadcom.com>
-TO: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Shyam Prasad N <sprasad@microsoft.com>
+CC: Steve French <stfrench@microsoft.com>
+CC: Meetakshi Setiya <msetiya@microsoft.com>
 
-Hi Rob,
+Hi Shyam,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/arm64-dts-broadcom-Remove-unused-and-undocumented-properties/20241116-230054
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241115193854.3624123-1-robh%40kernel.org
-patch subject: [PATCH] arm64: dts: broadcom: Remove unused and undocumented properties
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: arm64-randconfig-052-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171222.NZSELzIy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171222.NZSELzIy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   744cf71b8bdfcdd77aaf58395e068b7457634b2c
+commit: 7e654ab7da03193bb3aebc7645b336839434f180 [11280/11989] cifs: during remount, make sure passwords are in sync
+:::::: branch date: 2 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20241116 (https://download.01.org/0day-ci/archive/20241117/202411171308.yWc07G0Q-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411171222.NZSELzIy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411171308.yWc07G0Q-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:80.27-84.5: Warning (unit_address_vs_reg): /cpus/l2-cache@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:194.11-763.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:35.18-39.4: Warning (simple_bus_reg): /soc/oscillator: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:80.21-86.4: Warning (simple_bus_reg): /soc/iprocmed: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:88.23-94.4: Warning (simple_bus_reg): /soc/iprocslow: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:48.16-54.5: Warning (unique_unit_address_if_enabled): /cpus/cpu@0: duplicate unit-address (also used in node /cpus/l2-cache@0)
->> arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: pcie@20020000: Unevaluated properties are not allowed ('brcm,pcie-ob-oarr-size' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/brcm,iproc-pcie.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: pcie@50020000: Unevaluated properties are not allowed ('brcm,pcie-ob-oarr-size' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/brcm,iproc-pcie.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: soc: iprocmed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: soc: oscillator: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: soc: iprocslow: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: ethernet@61000000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
---
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0: $nodename: 'anyOf' conditional failed, one must be fixed:
-   	'at25@0' does not match '^eeprom@[0-9a-f]{1,2}$'
-   	'at25@0' does not match '^fram@[0-9a-f]{1,2}$'
-   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0: 'pagesize' is a required property
-   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0: 'size' is a required property
-   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0: 'address-width' is a required property
-   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml#
->> arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: at25@0: Unevaluated properties are not allowed ('$nodename' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at25.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66420000: $nodename:0: 'sdhci@66420000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66420000: Unevaluated properties are not allowed ('bus-width', 'dma-coherent' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66430000: $nodename:0: 'sdhci@66430000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: sdhci@66430000: Unevaluated properties are not allowed ('bus-width', 'dma-coherent' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/brcm,iproc-sdhci.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: nand@66460000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   	'brcm,nand-bcm63138' was expected
-   	'brcm,nand-bcm63168' was expected
-   	'brcm,brcmnand' was expected
-   	'brcm,brcmnand-v6.1' is not one of ['brcm,brcmnand-v7.0', 'brcm,brcmnand-v7.1']
-   	'brcm,nand-bcm6368' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: nand@66460000: $nodename:0: 'nand@66460000' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: nand@66460000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'nandcs@0' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/brcm,brcmnand.yaml#
->> arch/arm64/boot/dts/broadcom/northstar2/ns2-svk.dtb: spi@66470200: Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/brcm,spi-bcm-qspi.yaml#
---
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:80.27-84.5: Warning (unit_address_vs_reg): /cpus/l2-cache@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:194.11-763.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:35.18-39.4: Warning (simple_bus_reg): /soc/oscillator: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:80.21-86.4: Warning (simple_bus_reg): /soc/iprocmed: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-clock.dtsi:88.23-94.4: Warning (simple_bus_reg): /soc/iprocslow: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi:48.16-54.5: Warning (unique_unit_address_if_enabled): /cpus/cpu@0: duplicate unit-address (also used in node /cpus/l2-cache@0)
->> arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: pcie@20020000: Unevaluated properties are not allowed ('brcm,pcie-ob-oarr-size' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/brcm,iproc-pcie.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: soc: oscillator: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: soc: iprocslow: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: soc: iprocmed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: ethernet@61000000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/brcm,amac.yaml#
-   arch/arm64/boot/dts/broadcom/northstar2/ns2-xmc.dtb: /soc/iproc-pdc0@612c0000: failed to match any schema with compatible: ['brcm,iproc-pdc-mbox']
+smatch warnings:
+fs/smb/client/fs_context.c:1017 smb3_reconfigure() warn: inconsistent returns '&ses->session_mutex'.
+
+vim +1017 fs/smb/client/fs_context.c
+
+d6a78783407cdf fs/cifs/fs_context.c Ronnie Sahlberg 2020-12-14  1016  
+d6a78783407cdf fs/cifs/fs_context.c Ronnie Sahlberg 2020-12-14 @1017  	return rc;
+d6a78783407cdf fs/cifs/fs_context.c Ronnie Sahlberg 2020-12-14  1018  }
+d6a78783407cdf fs/cifs/fs_context.c Ronnie Sahlberg 2020-12-14  1019  
+
+:::::: The code at line 1017 was first introduced by commit
+:::::: d6a78783407cdf9f8dcf677f7e5a26b1aa22bc0e cifs: add initial reconfigure support
+
+:::::: TO: Ronnie Sahlberg <lsahlber@redhat.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
