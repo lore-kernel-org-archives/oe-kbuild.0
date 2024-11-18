@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4362F13D518
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 14:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F711A0B0C
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 15:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731941929; cv=none; b=Dtrqc4tbZLnNVm7YbD9kRGeLYUNMaSlBfG+hOEjhBU3YnkFq9wszxZjgt8QcHurBSGYSyq91FSBl+heIF5RAbx48MOkrjCQacbUG+N6N7jUpNLOHMdlRHRcFaqwPYcDaq8xdInri4D/+6VxWGZaE11Dm7sv4+8UzVCx9ljJp4Co=
+	t=1731942530; cv=none; b=ASLfFUzWW/8eIZcVlDn2b34CHUpqUQXRvJQLcvto93eAJKTczmzamhaYAQMpr2mvSivEM3De0QQMOK7GuDVOrUUgIJbyPEueUCEzj0dFPiMw88JYNd3ku81+sZw19a8yoKhCHy2zOIJMmLWWQ5mvFgkTJb635TGQA4dDZmKt/wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731941929; c=relaxed/simple;
-	bh=VZrOuAJ1U177jFf1mZGUjLXKgZUS7p8S9+VrsdQxJLg=;
+	s=arc-20240116; t=1731942530; c=relaxed/simple;
+	bh=3kAYp1tkCIbCCQYkHpbnosGihCKK8ADFY4Y9QLxYRqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fl7OVqHFx5UNqeaOV3ABxgZKQVRhx8XS5vActzYcF2e9GPQRBsNh2bHduuuCmuI0RpLc1JbdmVdwAUtx5qzUs6gDQ5e8yAgsI9O7ldA35XRLQFywyLvstdebcE8TA9FXWTsTmSmnhQsNzVeUdfhJK9vWju2RLJdsqmkmlShAeGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPbmzhmL; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=BIrFARnf/0DgSFcVbNcStGvWaomqGibIDeb/bWrhGVIaJ8MMUPMnButYOPrLnaM7DF5Vp39O54JXDAkuguBUw7OZx5fDeBvK+mL51fo79Xl/oVmoFx+1fNcrYlIjMerNkGqqSN6J9y6Ge97u/om8F4M2lcvyzrS1paPyDjTyRas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5Rx/xRD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPbmzhmL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5Rx/xRD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731941927; x=1763477927;
+  t=1731942528; x=1763478528;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VZrOuAJ1U177jFf1mZGUjLXKgZUS7p8S9+VrsdQxJLg=;
-  b=XPbmzhmLYi/wrV18zz0sW0J7bELLHHOHfDOxgrJjYBirGfEE3fuM/oFj
-   jgd97gS5N8XnB65A5r+K+SlNYKH6VOfypvIPklSvhPIFdG911DLCQ32EU
-   VQ/2OK0YtVSYPne6cWmHJNF5MGu3lSCBrm1i8JAtywvLwPXyAA/Vct+Zs
-   x0zlCfKfafPZgEPXsGlvHK1oqs7I7iogXf2o00mu+aL12MML/hv9ExbEI
-   hA0bR9L4kF00jXgDhJjnoNAwFlP02N9zhSbG4fGKhm8O6x1Yhkhl64UDk
-   upHCn8doEk6WU6XWTgxccapfNsrz/R1KLiG5xD1l/z6d8nuARwNlJ0irw
-   A==;
-X-CSE-ConnectionGUID: Qfrm/JsmSaW5+iH65e4IbA==
-X-CSE-MsgGUID: jJuZ46z5RcmyPuoqjPNrpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="32136211"
+  bh=3kAYp1tkCIbCCQYkHpbnosGihCKK8ADFY4Y9QLxYRqA=;
+  b=D5Rx/xRDJmuxsuICKF++RcQSjQWYaFaDf9WqJRF8p6UuX29A1wFAXIL0
+   VhCcbInjotcBi/cJRArImOZj2Q2f/FNo7riT7Sw6YfdnkHrh4ssnk2Hlb
+   sAXh6H2TgH98K0IJyp3v7FMn+vT0DclEJsTdzfQ31KhRNuvM0kQfl/ajr
+   WEbK9Ln0uOCEXTP5aVZ7VHA+y6Oty/mFWapBZFapkbSQiYT6AK8eXOIQK
+   KZNq7ho9qyGLbb/32TpP7Coab+6TKe2Ucc932FhIvG27E8okwVZmd3Epp
+   rEjW/GgDYclRShveSKuhf/Hz3xFv2S+gwsq5UQ6CUCi6vJBqiMdXVz0Kt
+   Q==;
+X-CSE-ConnectionGUID: /UtMdFKlRVGDgBjyDt7ECA==
+X-CSE-MsgGUID: ORxwtJV+RxCj2d7rdtfmYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="42534735"
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="32136211"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 06:58:47 -0800
-X-CSE-ConnectionGUID: 6Nwf28JVRJiGEI5pNHiugA==
-X-CSE-MsgGUID: AUQwPd+IT/Oqa3/3PPO5sQ==
+   d="scan'208";a="42534735"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 07:08:47 -0800
+X-CSE-ConnectionGUID: a7ESY+tUR86jh3kOBBxwpw==
+X-CSE-MsgGUID: gOHWvMV8RtmWBSasoq2+bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="89656533"
+   d="scan'208";a="93328845"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Nov 2024 06:58:46 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2024 07:08:46 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD3D9-0002UJ-0t;
-	Mon, 18 Nov 2024 14:58:43 +0000
-Date: Mon, 18 Nov 2024 22:57:50 +0800
+	id 1tD3Mp-0002UZ-32;
+	Mon, 18 Nov 2024 15:08:43 +0000
+Date: Mon, 18 Nov 2024 23:08:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/renesas/rswitch.c:324
- rswitch_gwca_queue_alloc() warn: missing unwind goto?
-Message-ID: <202411182217.dw4mXBjx-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid
+ reference to the index variable of the iterator on line 1219
+Message-ID: <202411182345.toGcRvhZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,77 +65,81 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+TO: Amir Goldstein <amir73il@gmail.com>
+CC: Jan Kara <jack@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   adc218676eef25575469234709c2d87185ca223a
-commit: 6a203cb5165d2257e8d54193b69afdb480a17f6f net: rswitch: Use build_skb() for RX
-date:   11 months ago
+commit: 30ad1938326bf9303ca38090339d948975a626f5 fanotify: allow "weak" fsid when watching a single filesystem
+date:   12 months ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 11 months ago
-config: loongarch-randconfig-r071-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182217.dw4mXBjx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+:::::: commit date: 12 months ago
+config: i386-randconfig-054-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182345.toGcRvhZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411182217.dw4mXBjx-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411182345.toGcRvhZ-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/renesas/rswitch.c:324 rswitch_gwca_queue_alloc() warn: missing unwind goto?
+cocci warnings: (new ones prefixed by >>)
+>> fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid reference to the index variable of the iterator on line 1219
 
-vim +324 drivers/net/ethernet/renesas/rswitch.c
+vim +1233 fs/notify/fanotify/fanotify_user.c
 
-33f5d733b58903 Yoshihiro Shimoda 2023-02-09  299  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  300  static int rswitch_gwca_queue_alloc(struct net_device *ndev,
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  301  				    struct rswitch_private *priv,
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  302  				    struct rswitch_gwca_queue *gq,
-8857034184538c Yoshihiro Shimoda 2023-12-08  303  				    bool dir_tx, unsigned int ring_size)
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  304  {
-8857034184538c Yoshihiro Shimoda 2023-12-08  305  	unsigned int i, bit;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  306  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  307  	gq->dir_tx = dir_tx;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  308  	gq->ring_size = ring_size;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  309  	gq->ndev = ndev;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  310  
-48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  311  	if (!dir_tx) {
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  312  		gq->rx_bufs = kcalloc(gq->ring_size, sizeof(*gq->rx_bufs), GFP_KERNEL);
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  313  		if (!gq->rx_bufs)
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  314  			return -ENOMEM;
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  315  		if (rswitch_gwca_queue_alloc_rx_buf(gq, 0, gq->ring_size) < 0)
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  316  			goto out;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  317  
-251eadcc640a0b Yoshihiro Shimoda 2023-02-09  318  		gq->rx_ring = dma_alloc_coherent(ndev->dev.parent,
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  319  						 sizeof(struct rswitch_ext_ts_desc) *
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  320  						 (gq->ring_size + 1), &gq->ring_dma, GFP_KERNEL);
-48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  321  	} else {
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  322  		gq->skbs = kcalloc(gq->ring_size, sizeof(*gq->skbs), GFP_KERNEL);
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  323  		if (!gq->skbs)
-6a203cb5165d22 Yoshihiro Shimoda 2023-12-08 @324  			return -ENOMEM;
-251eadcc640a0b Yoshihiro Shimoda 2023-02-09  325  		gq->tx_ring = dma_alloc_coherent(ndev->dev.parent,
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  326  						 sizeof(struct rswitch_ext_desc) *
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  327  						 (gq->ring_size + 1), &gq->ring_dma, GFP_KERNEL);
-48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  328  	}
-48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  329  
-251eadcc640a0b Yoshihiro Shimoda 2023-02-09  330  	if (!gq->rx_ring && !gq->tx_ring)
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  331  		goto out;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  332  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  333  	i = gq->index / 32;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  334  	bit = BIT(gq->index % 32);
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  335  	if (dir_tx)
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  336  		priv->gwca.tx_irq_bits[i] |= bit;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  337  	else
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  338  		priv->gwca.rx_irq_bits[i] |= bit;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  339  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  340  	return 0;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  341  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  342  out:
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  343  	rswitch_gwca_queue_free(ndev, gq);
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  344  
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  345  	return -ENOMEM;
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  346  }
-3590918b5d07aa Yoshihiro Shimoda 2022-10-31  347  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1200  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1201  static int fanotify_set_mark_fsid(struct fsnotify_group *group,
+30ad1938326bf9 Amir Goldstein 2023-11-30  1202  				  struct fsnotify_mark *mark,
+30ad1938326bf9 Amir Goldstein 2023-11-30  1203  				  struct fan_fsid *fsid)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1204  {
+30ad1938326bf9 Amir Goldstein 2023-11-30  1205  	struct fsnotify_mark_connector *conn;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1206  	struct fsnotify_mark *old;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1207  	struct super_block *old_sb = NULL;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1208  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1209  	FANOTIFY_MARK(mark)->fsid = fsid->id;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1210  	mark->flags |= FSNOTIFY_MARK_FLAG_HAS_FSID;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1211  	if (fsid->weak)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1212  		mark->flags |= FSNOTIFY_MARK_FLAG_WEAK_FSID;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1213  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1214  	/* First mark added will determine if group is single or multi fsid */
+30ad1938326bf9 Amir Goldstein 2023-11-30  1215  	if (list_empty(&group->marks_list))
+30ad1938326bf9 Amir Goldstein 2023-11-30  1216  		return 0;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1217  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1218  	/* Find sb of an existing mark */
+30ad1938326bf9 Amir Goldstein 2023-11-30 @1219  	list_for_each_entry(old, &group->marks_list, g_list) {
+30ad1938326bf9 Amir Goldstein 2023-11-30  1220  		conn = READ_ONCE(old->connector);
+30ad1938326bf9 Amir Goldstein 2023-11-30  1221  		if (!conn)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1222  			continue;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1223  		old_sb = fsnotify_connector_sb(conn);
+30ad1938326bf9 Amir Goldstein 2023-11-30  1224  		if (old_sb)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1225  			break;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1226  	}
+30ad1938326bf9 Amir Goldstein 2023-11-30  1227  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1228  	/* Only detached marks left? */
+30ad1938326bf9 Amir Goldstein 2023-11-30  1229  	if (!old_sb)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1230  		return 0;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1231  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1232  	/* Do not allow mixing of marks with weak and strong fsid */
+30ad1938326bf9 Amir Goldstein 2023-11-30 @1233  	if ((mark->flags ^ old->flags) & FSNOTIFY_MARK_FLAG_WEAK_FSID)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1234  		return -EXDEV;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1235  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1236  	/* Allow mixing of marks with strong fsid from different fs */
+30ad1938326bf9 Amir Goldstein 2023-11-30  1237  	if (!fsid->weak)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1238  		return 0;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1239  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1240  	/* Do not allow mixing marks with weak fsid from different fs */
+30ad1938326bf9 Amir Goldstein 2023-11-30  1241  	if (old_sb != fsid->sb)
+30ad1938326bf9 Amir Goldstein 2023-11-30  1242  		return -EXDEV;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1243  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1244  	/* Do not allow mixing marks from different btrfs sub-volumes */
+30ad1938326bf9 Amir Goldstein 2023-11-30  1245  	if (!fanotify_fsid_equal(&FANOTIFY_MARK(old)->fsid,
+30ad1938326bf9 Amir Goldstein 2023-11-30  1246  				 &FANOTIFY_MARK(mark)->fsid))
+30ad1938326bf9 Amir Goldstein 2023-11-30  1247  		return -EXDEV;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1248  
+30ad1938326bf9 Amir Goldstein 2023-11-30  1249  	return 0;
+30ad1938326bf9 Amir Goldstein 2023-11-30  1250  }
+30ad1938326bf9 Amir Goldstein 2023-11-30  1251  
 
 -- 
 0-DAY CI Kernel Test Service
