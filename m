@@ -1,720 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77A19340D
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 13:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4362F13D518
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 14:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731937540; cv=none; b=MBBYDcj4U0oeXefCEqLvFDM/YNUZjRgT2Y4G3LeiTDNh3gHDZb08cFa39cPtl2eKwmfVXNeI8LkpoXpjQQRmeBJCW6zcdKqaZesneQokQ30IlB3XA1gGy76NVtULqB/0B84PFPL/nX0hPVHAR+S7hn3WVmxMg7blI/VZkv+b38Y=
+	t=1731941929; cv=none; b=Dtrqc4tbZLnNVm7YbD9kRGeLYUNMaSlBfG+hOEjhBU3YnkFq9wszxZjgt8QcHurBSGYSyq91FSBl+heIF5RAbx48MOkrjCQacbUG+N6N7jUpNLOHMdlRHRcFaqwPYcDaq8xdInri4D/+6VxWGZaE11Dm7sv4+8UzVCx9ljJp4Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731937540; c=relaxed/simple;
-	bh=P7BlAc0f+CJMhUwKVXwkDag/I6wxr4/NXe6CVBqY0oM=;
+	s=arc-20240116; t=1731941929; c=relaxed/simple;
+	bh=VZrOuAJ1U177jFf1mZGUjLXKgZUS7p8S9+VrsdQxJLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VdEZ2d3w/9y0lbwMwSuNIVVmMKePXvxsukLSbY+ZBlTQb4AsmHpbAUiF9wlleL/QgxgS2J3/Z2N/EQMUrrVqiwts+pAMH+akGvmc3n4X/AwhEvHaWNc4ftpySprMbl3B6SVq7/NV5ZSAcV0pUJlV6OAzhbaNPPW5vrg6b6Cd/AM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DHWHn9Kr; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Fl7OVqHFx5UNqeaOV3ABxgZKQVRhx8XS5vActzYcF2e9GPQRBsNh2bHduuuCmuI0RpLc1JbdmVdwAUtx5qzUs6gDQ5e8yAgsI9O7ldA35XRLQFywyLvstdebcE8TA9FXWTsTmSmnhQsNzVeUdfhJK9vWju2RLJdsqmkmlShAeGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XPbmzhmL; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DHWHn9Kr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XPbmzhmL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731937536; x=1763473536;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=P7BlAc0f+CJMhUwKVXwkDag/I6wxr4/NXe6CVBqY0oM=;
-  b=DHWHn9KrqlrWEGNBiXjF6pXXjH2Dy0db1czwXDHRsVAHVj6KuFL+ISlH
-   EXV9keSQfNloUBzbNMlt+p6oPgP0+RpQDmaILrh/qsKiJTrJ20ZTwnhzn
-   glPctd67gEOrxhlY7yBHDbEgTKQST29CasfHLFVjwWT0qzjMkgyAL29FR
-   abT3ev7g7EgUeIbw8pOAkaWHPq0IOJcwqe4swbNFRqa0W64vKqrV0SBy5
-   6lzpR9jKEYg8GM6T7vIvMSdfntZ+dFFOq2YWCa7Zg9LHeRtMjYer6HlFD
-   gtL35IoLyutQueUsiet1smjztdtfycTuUGyGWuMIS0GS0Zz+97oI2VGMY
+  t=1731941927; x=1763477927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VZrOuAJ1U177jFf1mZGUjLXKgZUS7p8S9+VrsdQxJLg=;
+  b=XPbmzhmLYi/wrV18zz0sW0J7bELLHHOHfDOxgrJjYBirGfEE3fuM/oFj
+   jgd97gS5N8XnB65A5r+K+SlNYKH6VOfypvIPklSvhPIFdG911DLCQ32EU
+   VQ/2OK0YtVSYPne6cWmHJNF5MGu3lSCBrm1i8JAtywvLwPXyAA/Vct+Zs
+   x0zlCfKfafPZgEPXsGlvHK1oqs7I7iogXf2o00mu+aL12MML/hv9ExbEI
+   hA0bR9L4kF00jXgDhJjnoNAwFlP02N9zhSbG4fGKhm8O6x1Yhkhl64UDk
+   upHCn8doEk6WU6XWTgxccapfNsrz/R1KLiG5xD1l/z6d8nuARwNlJ0irw
    A==;
-X-CSE-ConnectionGUID: /wbhqPDbSVGHGlJ1XZYlcA==
-X-CSE-MsgGUID: Os6IU3c9QW689SGGkiRIaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="42408637"
+X-CSE-ConnectionGUID: Qfrm/JsmSaW5+iH65e4IbA==
+X-CSE-MsgGUID: jJuZ46z5RcmyPuoqjPNrpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="32136211"
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="42408637"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 05:45:36 -0800
-X-CSE-ConnectionGUID: tSLBbPyoT02TZr/pfD1NDQ==
-X-CSE-MsgGUID: aBl3R2BDRW6sCFo5O3PTUg==
+   d="scan'208";a="32136211"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 06:58:47 -0800
+X-CSE-ConnectionGUID: 6Nwf28JVRJiGEI5pNHiugA==
+X-CSE-MsgGUID: AUQwPd+IT/Oqa3/3PPO5sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="88796004"
+   d="scan'208";a="89656533"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2024 05:45:34 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 18 Nov 2024 06:58:46 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD24J-0002Rp-37;
-	Mon, 18 Nov 2024 13:45:31 +0000
-Date: Mon, 18 Nov 2024 21:45:23 +0800
+	id 1tD3D9-0002UJ-0t;
+	Mon, 18 Nov 2024 14:58:43 +0000
+Date: Mon, 18 Nov 2024 22:57:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/kbuild-c23-extensions 2/2] fixdep: error
- opening file: lib/test_fortify/.read_overflow-memscan.log.d: No such file or
- directory
-Message-ID: <202411182156.OhPAOv2H-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/renesas/rswitch.c:324
+ rswitch_gwca_queue_alloc() warn: missing unwind goto?
+Message-ID: <202411182217.dw4mXBjx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "only scripts/Makefile.* file changed"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Weißschuh" <linux@weissschuh.net>
+CC: linux-kernel@vger.kernel.org
+TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-c23-extensions
-head:   e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c
-commit: e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c [2/2] kbuild: disable -Wc23-extensions
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-randconfig-001-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182156.OhPAOv2H-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411182156.OhPAOv2H-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   adc218676eef25575469234709c2d87185ca223a
+commit: 6a203cb5165d2257e8d54193b69afdb480a17f6f net: rswitch: Use build_skb() for RX
+date:   11 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 11 months ago
+config: loongarch-randconfig-r071-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182217.dw4mXBjx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411182156.OhPAOv2H-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411182217.dw4mXBjx-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/renesas/rswitch.c:324 rswitch_gwca_queue_alloc() warn: missing unwind goto?
 
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
->> lib/overflow_kunit.c:820:2: warning: result of comparison of constant 65535 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:820:2: warning: result of comparison of constant 65535 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:824:2: warning: result of comparison of constant 32767 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:824:2: warning: result of comparison of constant 32767 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:825:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:825:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:826:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:826:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:827:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:827:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:828:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:828:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:829:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:829:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
---
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:852:2: warning: result of comparison of constant 4294967295 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:852:2: warning: result of comparison of constant 4294967295 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:853:2: warning: result of comparison of constant 2147483647 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:853:2: warning: result of comparison of constant 2147483647 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:858:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:858:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:859:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:859:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:860:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:860:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:896:2: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:896:2: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:897:2: warning: result of comparison of constant 9223372036854775807 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:897:2: warning: result of comparison of constant 9223372036854775807 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:932:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:932:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:932:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:932:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   55 warnings generated.
-..
+vim +324 drivers/net/ethernet/renesas/rswitch.c
+
+33f5d733b58903 Yoshihiro Shimoda 2023-02-09  299  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  300  static int rswitch_gwca_queue_alloc(struct net_device *ndev,
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  301  				    struct rswitch_private *priv,
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  302  				    struct rswitch_gwca_queue *gq,
+8857034184538c Yoshihiro Shimoda 2023-12-08  303  				    bool dir_tx, unsigned int ring_size)
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  304  {
+8857034184538c Yoshihiro Shimoda 2023-12-08  305  	unsigned int i, bit;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  306  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  307  	gq->dir_tx = dir_tx;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  308  	gq->ring_size = ring_size;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  309  	gq->ndev = ndev;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  310  
+48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  311  	if (!dir_tx) {
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  312  		gq->rx_bufs = kcalloc(gq->ring_size, sizeof(*gq->rx_bufs), GFP_KERNEL);
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  313  		if (!gq->rx_bufs)
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  314  			return -ENOMEM;
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  315  		if (rswitch_gwca_queue_alloc_rx_buf(gq, 0, gq->ring_size) < 0)
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  316  			goto out;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  317  
+251eadcc640a0b Yoshihiro Shimoda 2023-02-09  318  		gq->rx_ring = dma_alloc_coherent(ndev->dev.parent,
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  319  						 sizeof(struct rswitch_ext_ts_desc) *
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  320  						 (gq->ring_size + 1), &gq->ring_dma, GFP_KERNEL);
+48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  321  	} else {
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  322  		gq->skbs = kcalloc(gq->ring_size, sizeof(*gq->skbs), GFP_KERNEL);
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08  323  		if (!gq->skbs)
+6a203cb5165d22 Yoshihiro Shimoda 2023-12-08 @324  			return -ENOMEM;
+251eadcc640a0b Yoshihiro Shimoda 2023-02-09  325  		gq->tx_ring = dma_alloc_coherent(ndev->dev.parent,
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  326  						 sizeof(struct rswitch_ext_desc) *
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  327  						 (gq->ring_size + 1), &gq->ring_dma, GFP_KERNEL);
+48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  328  	}
+48cf0a25702b2d Yoshihiro Shimoda 2023-02-09  329  
+251eadcc640a0b Yoshihiro Shimoda 2023-02-09  330  	if (!gq->rx_ring && !gq->tx_ring)
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  331  		goto out;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  332  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  333  	i = gq->index / 32;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  334  	bit = BIT(gq->index % 32);
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  335  	if (dir_tx)
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  336  		priv->gwca.tx_irq_bits[i] |= bit;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  337  	else
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  338  		priv->gwca.rx_irq_bits[i] |= bit;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  339  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  340  	return 0;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  341  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  342  out:
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  343  	rswitch_gwca_queue_free(ndev, gq);
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  344  
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  345  	return -ENOMEM;
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  346  }
+3590918b5d07aa Yoshihiro Shimoda 2022-10-31  347  
 
 -- 
 0-DAY CI Kernel Test Service
