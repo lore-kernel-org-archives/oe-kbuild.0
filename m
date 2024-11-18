@@ -1,190 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AB91E2838
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BA11E4937
 	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 19:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731957977; cv=none; b=l/6yJBPVTpf5dA4ua6uLK9BmoiJ10bDY1S+vOvgS4zKuc9HCYvICDA0sH3t87hwvV6ICXQAfoM4c9v/JuvmFBAN6/3q2jsaDIGX7zjXhP0Gt3Xo54cRTRq/bdqbcMaQLE9nJSXoOM+X3yvIaIR+pFuu6yr8fhK1TC7VkvN8Xrws=
+	t=1731957979; cv=none; b=Gh/Ujc4H3jpuQej5GXM0iLmhfzSLi2iKfmKO3N9RlysbDNkJikHxrOXmVhJWfblWlmXTarIhyzTrKqu1wa8g5OzZIPXvwKbitUHjh3QPg1Hy60gMq/BGXcVcTOVofoqbCJBrbY5wVlPT6l9Wm9vemeM7vaVyTAEWXagvMjIFqiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731957977; c=relaxed/simple;
-	bh=rfhg4y8hLDYqphmu84HTmD+fXBRF6jT+AtQ/nJ8MVfk=;
+	s=arc-20240116; t=1731957979; c=relaxed/simple;
+	bh=k4FWmQBBRC2IRT+aWIxvHWm4chRWPPt0dNqncwYcmVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z6rgEyAXp+htmDW5pNnct0NBM4pJLkzk7V7JNDQjc+5tme1c3R6oJ+VIDvvvdlGa/drntwRkBeKqT39EQkU/7IGn+1f5skzk7vAuTfanLJMOlSGZtC+VFki41pcz0FF34OAQmzGnikfhr7xZvodqI9dl6lrofEIFILgLe1OjxL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPpdpxl7; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=KkFQbNwBXg+r+28j9UiXuAbLmBCZ4QbHpcCATFdFaRD9sB0tE+x+Xq9lBdLoEB3sdl3DMKrCfoxtIQ/+gRzw2fPUO543USfnK5CvC5eIuJCqqWXqrrO8LQQTcvZBliK5TEUe//LaDmsLlI9bcSRv6qFquWxmhJ9NLpQB0sHGQkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeOoZrFo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPpdpxl7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeOoZrFo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1731957976; x=1763493976;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rfhg4y8hLDYqphmu84HTmD+fXBRF6jT+AtQ/nJ8MVfk=;
-  b=bPpdpxl7vxDvQejrMDH65d/1bU/eGykXu36pD2BebXp2KYdgy0KKrE7c
-   KZX6bRVeYE0Ju8qjDs//H/mSXnaz9q2iwlx1hbNNFpD8rjXZK68WFIYqp
-   jm5WSNz8OhyOUljIq4BQk9H8MA1rIazB2JkHGWOYw5QRhZu0QE47cTnTH
-   GO9GEqdSzUxO2zQmGPB5UAuUOKii6/MUzLLBDAmorMs8yAT71OTj58uOx
-   B1MNk2e/0x5p9n5YwrWH1KiaBDsuWruMlGPUlsHob9O+0YX/iNxMYqKS2
-   Bszc37ZpAUahLRlzCTYv8/dZlFICjj4eBjZxhdaBL5j7qWk8vzHkfWydw
-   w==;
-X-CSE-ConnectionGUID: HO/gNns2QDS9Vqdm2dPzcA==
-X-CSE-MsgGUID: 3vneoYm/QFSPxof5b+9oQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31684072"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k4FWmQBBRC2IRT+aWIxvHWm4chRWPPt0dNqncwYcmVI=;
+  b=YeOoZrFoeUA1nVRHzTHw9Njl9dfUs4TgogV2lItG+3h5+j3b9orwAdOw
+   EW6VQkz/Ful+zrJXfXozHjQ3M0oJq38bCFr4hCMtPxgneV9WT9QxQsGxZ
+   t2xzMCb0GuSiAJkDC3hD/H/Jks4GTD9sVJ0C5invpcw147YqTJeVDqW1T
+   g9TFra4ec9S53xCbtfLiERfsiwF9u57K16QMZBLyb0JBHZ1hafmNmfuo/
+   naH08uI+mWlQseU3Mxx6wkf/qOzhW1M2mYRJKjdNBPN5lwVbfCgjClImh
+   MZnQoGMWJpvSvbkaDBZkLxg8hygGU9KFe6Qat/m9YIkinUFtZvN4oAQ1j
+   g==;
+X-CSE-ConnectionGUID: drkKAdqWShCOZ2j1NrU+Sw==
+X-CSE-MsgGUID: E6wj2FTqSLCii9k2VU5LrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="54431071"
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="31684072"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 11:26:15 -0800
-X-CSE-ConnectionGUID: 9FRaTTRtQGW6qkUsSdETVg==
-X-CSE-MsgGUID: kSLPxggbRI+l2vldpoTUuQ==
+   d="scan'208";a="54431071"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 11:26:15 -0800
+X-CSE-ConnectionGUID: UPQdNliySayFljcrxrMg+Q==
+X-CSE-MsgGUID: MvImTuMITsuKHVTMem8Q5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="94397222"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="94362706"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Nov 2024 11:26:14 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2024 11:26:16 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD7Nz-0002bn-39;
+	id 1tD7Nz-0002bp-3B;
 	Mon, 18 Nov 2024 19:26:11 +0000
-Date: Tue, 19 Nov 2024 03:25:56 +0800
+Date: Tue, 19 Nov 2024 03:26:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/kbuild-c23-extensions 2/2]
- lib/string_helpers.c:1021:2: error: call to undeclared function
- 'EACH_FORTIFY_FUNC'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202411190358.2ltqLxlO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [tip:master 9/20] mm/msync.c:90 __do_sys_msync() warn: comparison of
+ a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_604)
+Message-ID: <202411190335.GID8hWfa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "only scripts/Makefile.* file changed"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Weißschuh" <linux@weissschuh.net>
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-c23-extensions
-head:   e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c
-commit: e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c [2/2] kbuild: disable -Wc23-extensions
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: arm-randconfig-002-20241119 (https://download.01.org/0day-ci/archive/20241119/202411190358.2ltqLxlO-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
+head:   2aeea258b83dd16312692fc89a0f52e3fdb5f582
+commit: 09d057dce716885db361d83875f7a0616cce6708 [9/20] Merge branch into tip/master: 'timers/core'
+:::::: branch date: 2 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-randconfig-r073-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190335.GID8hWfa-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190358.2ltqLxlO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411190358.2ltqLxlO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411190335.GID8hWfa-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_604)
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_604)
 
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
->> lib/string_helpers.c:1014:6: warning: no previous prototype for function '__read_overflow2_field' [-Wmissing-prototypes]
-   void __read_overflow2_field(size_t avail, size_t wanted) { }
-        ^
-   lib/string_helpers.c:1014:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __read_overflow2_field(size_t avail, size_t wanted) { }
-   ^
-   static 
->> lib/string_helpers.c:1016:6: warning: no previous prototype for function '__write_overflow_field' [-Wmissing-prototypes]
-   void __write_overflow_field(size_t avail, size_t wanted) { }
-        ^
-   lib/string_helpers.c:1016:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __write_overflow_field(size_t avail, size_t wanted) { }
-   ^
-   static 
->> lib/string_helpers.c:1021:2: error: call to undeclared function 'EACH_FORTIFY_FUNC'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-           ^
->> lib/string_helpers.c:1021:20: error: use of undeclared identifier 'MAKE_FORTIFY_FUNC_NAME'; did you mean 'EACH_FORTIFY_FUNC'?
-           EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-                             ^~~~~~~~~~~~~~~~~~~~~~
-                             EACH_FORTIFY_FUNC
-   lib/string_helpers.c:1021:2: note: 'EACH_FORTIFY_FUNC' declared here
-           EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-           ^
->> lib/string_helpers.c:1021:2: error: incompatible integer to pointer conversion initializing 'const char *const' with an expression of type 'int' [-Wint-conversion]
-           EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/string_helpers.c:1021:2: error: initializer element is not a compile-time constant
-           EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/string_helpers.c:1027:18: error: call to undeclared function 'FORTIFY_REASON_FUNC'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           const u8 func = FORTIFY_REASON_FUNC(reason);
-                           ^
->> lib/string_helpers.c:1028:21: error: call to undeclared function 'FORTIFY_REASON_DIR'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           const bool write = FORTIFY_REASON_DIR(reason);
-                              ^
->> lib/string_helpers.c:1031:38: error: use of undeclared identifier 'FORTIFY_FUNC_UNKNOWN'
-           name = fortify_func_name[umin(func, FORTIFY_FUNC_UNKNOWN)];
-                                               ^
->> lib/string_helpers.c:1031:38: error: use of undeclared identifier 'FORTIFY_FUNC_UNKNOWN'
->> lib/string_helpers.c:1031:38: error: use of undeclared identifier 'FORTIFY_FUNC_UNKNOWN'
->> lib/string_helpers.c:1025:6: warning: no previous prototype for function '__fortify_report' [-Wmissing-prototypes]
-   void __fortify_report(const u8 reason, const size_t avail, const size_t size)
-        ^
-   lib/string_helpers.c:1025:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __fortify_report(const u8 reason, const size_t avail, const size_t size)
-   ^
-   static 
->> lib/string_helpers.c:1037:6: warning: no previous prototype for function '__fortify_panic' [-Wmissing-prototypes]
-   void __fortify_panic(const u8 reason, const size_t avail, const size_t size)
-        ^
-   lib/string_helpers.c:1037:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __fortify_panic(const u8 reason, const size_t avail, const size_t size)
-   ^
-   static 
-   5 warnings and 9 errors generated.
+vim +90 mm/msync.c
 
+^1da177e4c3f41 Linus Torvalds     2005-04-16  17  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  18  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  19   * MS_SYNC syncs the entire file - including mappings.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  20   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  21   * MS_ASYNC does not start I/O (it used to, up to 2.5.67).
+204ec841fbea3e Peter Zijlstra     2006-09-25  22   * Nor does it marks the relevant pages dirty (it used to up to 2.6.17).
+204ec841fbea3e Peter Zijlstra     2006-09-25  23   * Now it doesn't do anything, since dirty pages are properly tracked.
+204ec841fbea3e Peter Zijlstra     2006-09-25  24   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  25   * The application may now run fsync() to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  26   * write out the dirty pages and wait on the writeout and check the result.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  27   * Or the application may run fadvise(FADV_DONTNEED) against the fd to start
+^1da177e4c3f41 Linus Torvalds     2005-04-16  28   * async writeout immediately.
+16538c40776b8b Amos Waterland     2006-03-24  29   * So by _not_ starting I/O in MS_ASYNC we provide complete flexibility to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  30   * applications.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  31   */
+6a6160a7b5c27b Heiko Carstens     2009-01-14  32  SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  33  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  34  	unsigned long end;
+204ec841fbea3e Peter Zijlstra     2006-09-25  35  	struct mm_struct *mm = current->mm;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  36  	struct vm_area_struct *vma;
+676758bdb7bfca Andrew Morton      2006-03-24  37  	int unmapped_error = 0;
+676758bdb7bfca Andrew Morton      2006-03-24  38  	int error = -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  39  
+057d3389108eda Andrey Konovalov   2019-09-25  40  	start = untagged_addr(start);
+057d3389108eda Andrey Konovalov   2019-09-25  41  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  42  	if (flags & ~(MS_ASYNC | MS_INVALIDATE | MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  43  		goto out;
+b0d61c7e56815b Alexander Kuleshov 2015-11-05  44  	if (offset_in_page(start))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  45  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  46  	if ((flags & MS_ASYNC) && (flags & MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  47  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  48  	error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  49  	len = (len + ~PAGE_MASK) & PAGE_MASK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  50  	end = start + len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  51  	if (end < start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  52  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  53  	error = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  54  	if (end == start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  55  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  56  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  57  	 * If the interval [start,end) covers some unmapped address ranges,
+f6899bc03cbadc Nikita Ermakov     2021-04-29  58  	 * just ignore them, but return -ENOMEM at the end. Besides, if the
+f6899bc03cbadc Nikita Ermakov     2021-04-29  59  	 * flag is MS_ASYNC (w/o MS_INVALIDATE) the result would be -ENOMEM
+f6899bc03cbadc Nikita Ermakov     2021-04-29  60  	 * anyway and there is nothing left to do, so return immediately.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  61  	 */
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  62  	mmap_read_lock(mm);
+204ec841fbea3e Peter Zijlstra     2006-09-25  63  	vma = find_vma(mm, start);
+204ec841fbea3e Peter Zijlstra     2006-09-25  64  	for (;;) {
+9c50823eebf7c2 Andrew Morton      2006-03-24  65  		struct file *file;
+7fc34a62ca4434 Matthew Wilcox     2014-06-04  66  		loff_t fstart, fend;
+9c50823eebf7c2 Andrew Morton      2006-03-24  67  
+204ec841fbea3e Peter Zijlstra     2006-09-25  68  		/* Still start < end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  69  		error = -ENOMEM;
+204ec841fbea3e Peter Zijlstra     2006-09-25  70  		if (!vma)
+204ec841fbea3e Peter Zijlstra     2006-09-25  71  			goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		/* Here start < vma->vm_end. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  73  		if (start < vma->vm_start) {
+f6899bc03cbadc Nikita Ermakov     2021-04-29  74  			if (flags == MS_ASYNC)
+f6899bc03cbadc Nikita Ermakov     2021-04-29  75  				goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  76  			start = vma->vm_start;
+204ec841fbea3e Peter Zijlstra     2006-09-25  77  			if (start >= end)
+9c50823eebf7c2 Andrew Morton      2006-03-24  78  				goto out_unlock;
+204ec841fbea3e Peter Zijlstra     2006-09-25  79  			unmapped_error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  80  		}
+204ec841fbea3e Peter Zijlstra     2006-09-25  81  		/* Here vma->vm_start <= start < vma->vm_end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  82  		if ((flags & MS_INVALIDATE) &&
+204ec841fbea3e Peter Zijlstra     2006-09-25  83  				(vma->vm_flags & VM_LOCKED)) {
+204ec841fbea3e Peter Zijlstra     2006-09-25  84  			error = -EBUSY;
+9c50823eebf7c2 Andrew Morton      2006-03-24  85  			goto out_unlock;
+9c50823eebf7c2 Andrew Morton      2006-03-24  86  		}
+9c50823eebf7c2 Andrew Morton      2006-03-24  87  		file = vma->vm_file;
+496a8e68654a5f Namjae Jeon        2014-07-02  88  		fstart = (start - vma->vm_start) +
+496a8e68654a5f Namjae Jeon        2014-07-02  89  			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+7fc34a62ca4434 Matthew Wilcox     2014-06-04 @90  		fend = fstart + (min(end, vma->vm_end) - start) - 1;
 
-vim +/EACH_FORTIFY_FUNC +1021 lib/string_helpers.c
+:::::: The code at line 90 was first introduced by commit
+:::::: 7fc34a62ca4434a79c68e23e70ed26111b7a4cf8 mm/msync.c: sync only the requested range in msync()
 
-5c4e0a21fae877 Guenter Roeck 2021-11-02  1011  
-c430f60036af44 Kees Cook     2021-04-14  1012  #ifdef CONFIG_FORTIFY_SOURCE
-f68f2ff91512c1 Kees Cook     2021-04-20  1013  /* These are placeholders for fortify compile-time warnings. */
-f68f2ff91512c1 Kees Cook     2021-04-20 @1014  void __read_overflow2_field(size_t avail, size_t wanted) { }
-f68f2ff91512c1 Kees Cook     2021-04-20  1015  EXPORT_SYMBOL(__read_overflow2_field);
-f68f2ff91512c1 Kees Cook     2021-04-20 @1016  void __write_overflow_field(size_t avail, size_t wanted) { }
-f68f2ff91512c1 Kees Cook     2021-04-20  1017  EXPORT_SYMBOL(__write_overflow_field);
-f68f2ff91512c1 Kees Cook     2021-04-20  1018  
-475ddf1fce1ec4 Kees Cook     2023-04-07  1019  static const char * const fortify_func_name[] = {
-475ddf1fce1ec4 Kees Cook     2023-04-07  1020  #define MAKE_FORTIFY_FUNC_NAME(func)	[MAKE_FORTIFY_FUNC(func)] = #func
-475ddf1fce1ec4 Kees Cook     2023-04-07 @1021  	EACH_FORTIFY_FUNC(MAKE_FORTIFY_FUNC_NAME)
-475ddf1fce1ec4 Kees Cook     2023-04-07  1022  #undef  MAKE_FORTIFY_FUNC_NAME
-475ddf1fce1ec4 Kees Cook     2023-04-07  1023  };
-475ddf1fce1ec4 Kees Cook     2023-04-07  1024  
-3d965b33e40d97 Kees Cook     2023-04-07 @1025  void __fortify_report(const u8 reason, const size_t avail, const size_t size)
-475ddf1fce1ec4 Kees Cook     2023-04-07  1026  {
-475ddf1fce1ec4 Kees Cook     2023-04-07 @1027  	const u8 func = FORTIFY_REASON_FUNC(reason);
-475ddf1fce1ec4 Kees Cook     2023-04-07 @1028  	const bool write = FORTIFY_REASON_DIR(reason);
-475ddf1fce1ec4 Kees Cook     2023-04-07  1029  	const char *name;
-475ddf1fce1ec4 Kees Cook     2023-04-07  1030  
-475ddf1fce1ec4 Kees Cook     2023-04-07 @1031  	name = fortify_func_name[umin(func, FORTIFY_FUNC_UNKNOWN)];
-3d965b33e40d97 Kees Cook     2023-04-07  1032  	WARN(1, "%s: detected buffer overflow: %zu byte %s of buffer size %zu\n",
-3d965b33e40d97 Kees Cook     2023-04-07  1033  		 name, size, str_read_write(!write), avail);
-475ddf1fce1ec4 Kees Cook     2023-04-07  1034  }
-475ddf1fce1ec4 Kees Cook     2023-04-07  1035  EXPORT_SYMBOL(__fortify_report);
-475ddf1fce1ec4 Kees Cook     2023-04-07  1036  
-3d965b33e40d97 Kees Cook     2023-04-07 @1037  void __fortify_panic(const u8 reason, const size_t avail, const size_t size)
-
-:::::: The code at line 1021 was first introduced by commit
-:::::: 475ddf1fce1ec4826c8dda40ec59f7f83a7aadb8 fortify: Split reporting and avoid passing string pointer
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Matthew Wilcox <matthew.r.wilcox@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
