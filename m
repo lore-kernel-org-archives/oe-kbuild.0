@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BE61E5711
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 20:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A601A08BC
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 22:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731962927; cv=none; b=QZLKGdOWqYJWR9rFChaY/LNxf9yNEqTM51m2+5jiLPNAWyAYf+Xkc6Gxs/6tB7ta/KaUVoNUu8XYpyUymMNW0zI+fN7SpCuhOZbnp29x4w37ZTWg6cGnuX94nFR9W/H3OQgvRMbn5k089iL51CLcIL35EcQ6TcCXqLepgQPS3Mo=
+	t=1731970298; cv=none; b=m34gLD1VTbpoTFXTu05dk+3m8NJxYFKyNgS/ilhq0GHiIqUFzzavweCbZVE3lcmpvoRCfJzUOgK6K7EF87tlWs29kwMt/Yr7Tg5vJGjSGvTXShM353H83qrWUvIvcMSQXE+KYiWFCJ1K8CbG38Dxan2UO5C3XsdCg1/1hL5in+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731962927; c=relaxed/simple;
-	bh=nNh0LpVVOaJeLnJwXcy+omTgLn60MpPhrcntB2Ypwr4=;
+	s=arc-20240116; t=1731970298; c=relaxed/simple;
+	bh=WUYlBmxoOetG/BUU8AX/Ha/vNGuRnK+IrcBrin2s2FM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UsZ+Lg/EZIXj2em1R7v6yiYNjF4cOodRcoAoXFUg5/5NEq9cNpl8UlkEPe4uYq1uFtEKoajNwu7UwxuOKdDGr8l99n++PP/FtfpybH5rO7+G8sF1qlQs0poHnmMoycpDhLgAfwKBz1GS2UAVx/Ol9wtOtnyybuA1LQ9SuKB8T4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XAy7V4Cd; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=pWD6/g/uyPuLWz/yQCmy7//MovE9VTULWJnibseDjtjhLuQ244EdTaa85Na8g/5CXaJzhPibBKKMLBJdOH9FYd7wxuVbCtXZ5+Ib0QSRCg3rMnsw0hvpFj8zxv4x5jWCHYpd/jzPOnrpV2IXu0cofx5ejdJc3czVYYKtvvIVm9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ot5Kkh6l; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XAy7V4Cd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ot5Kkh6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731962925; x=1763498925;
+  t=1731970295; x=1763506295;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=nNh0LpVVOaJeLnJwXcy+omTgLn60MpPhrcntB2Ypwr4=;
-  b=XAy7V4Cde1q6TEe4N8NG6VyBvqGuBjxp8iWkkISZgYx+gdTVUYnfD8Gf
-   ERK+RVX1pJWS27MnhNAD/irb9swCZ0/zrjSV8wJkJB9fc2+x1Aa/zfPcw
-   Xu2wgu/HUJdBIVyaffyClKo1dI2stEoMkmNtHYujtzVzfUVwvLrVcOvFQ
-   f0t22jyGBUowSAEAHHqMVhX5ySc0M3d7BAwRclnQdcly8qVn4D98jRA4f
-   FJKjTjicw6mYm+5aL0bJjkmyctbzsi31yc88EX+8SWCHTP6ey5qgZVDvW
-   CR+whF8j1qkkSHzo8yUr4A0L2nxmb6qZe0F0f01I0vuE/3Tq4sDXspf4B
+  bh=WUYlBmxoOetG/BUU8AX/Ha/vNGuRnK+IrcBrin2s2FM=;
+  b=Ot5Kkh6l/LJAMYVj+36wCh+BuDTCxPE2pVbwqbvETn/WCYOlBr+E+a1n
+   LjOYbxZChaISxGZpXSwaUnks3kYsCblA0HwvwutzRLuOW+3xKwyfDNLq6
+   DDxqsaHVp7+vwLLnRqmamxAgbbGRKgS0kAEucM4ufgKMAkZb2nJy2hGID
+   YWACvYGuEMDDv1WJG+J2DKn4WLzVyUa9yWEGPrYSxbugCG80RRQBCek/8
+   OkFmai3Rtv6Jbv2WVsZaMi9xPzO1TvCll7wJIzEgWl7U+wTewCDZDnfkF
+   tnRSDbGwkviMiAvPPAzgR0aXIi5vdrTFmE2xrmhFdusLWtHxv9c1ln8G6
    A==;
-X-CSE-ConnectionGUID: vCcgLtX8Sie6DURipLUM7A==
-X-CSE-MsgGUID: bHe89b0CQ0WGTiqRjMpKhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31996508"
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="31996508"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 12:48:23 -0800
-X-CSE-ConnectionGUID: 0NwmYV+NTyqnsZ9oNa3p2Q==
-X-CSE-MsgGUID: FYZTAxRTT7aW68lZXjSCVA==
+X-CSE-ConnectionGUID: GjvodtlISLq6xQn1+VUnMQ==
+X-CSE-MsgGUID: /julQe8mTumivU5kfH0X3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31874742"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
+   d="scan'208";a="31874742"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 14:51:35 -0800
+X-CSE-ConnectionGUID: sU/hcUWUS8O2QSYZbSHlGg==
+X-CSE-MsgGUID: vWTwoKJ3QoyJld3n1NhovA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="120288262"
+X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
+   d="scan'208";a="89789990"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2024 12:48:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 18 Nov 2024 14:51:34 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD8fS-0002e5-2c;
-	Mon, 18 Nov 2024 20:48:18 +0000
-Date: Tue, 19 Nov 2024 04:48:17 +0800
+	id 1tDAah-0002gH-1A;
+	Mon, 18 Nov 2024 22:51:31 +0000
+Date: Tue, 19 Nov 2024 06:51:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [thomas-weissschuh:b4/kbuild-c23-extensions 2/2] clang diag:
- warning: unknown warning option '-Wno-c23-extensions'; did you mean
- '-Wno-c2x-extensions'?
-Message-ID: <202411190410.dav92Y9o-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 6/187]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38: compatible:0:
+ 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+Message-ID: <202411190630.HMyaKlbN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,174 +66,153 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Weißschuh" <linux@weissschuh.net>
+TO: "Martin Povišer" <povik+lin@cutebit.org>
+CC: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-c23-extensions
-head:   e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c
-commit: e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c [2/2] kbuild: disable -Wc23-extensions
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: um-randconfig-001-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190410.dav92Y9o-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190410.dav92Y9o-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   323d77b0bf173729bb2a5aa2f4bd1c13796720a8
+commit: 7f3c43dbcb976ae8db2b12955055c795e384d3c8 [6/187] arm64: dts: apple: t8112*: Put in audio nodes
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: arm64-randconfig-051-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190630.HMyaKlbN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190630.HMyaKlbN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411190410.dav92Y9o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411190630.HMyaKlbN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   1 warning generated.
-   warning: warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   1 warning generated.
-   1 warning generated.
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   1 warning generated.
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   1 warning generated.
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   1 warning generated.
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   val = __raw_readb(PCI_IOBASE + addr);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-   ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-   ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-   ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-   ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   __raw_writeb(value, PCI_IOBASE + addr);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   readsb(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   readsw(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   readsl(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   writesb(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   writesw(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   writesl(PCI_IOBASE + addr, buffer, count);
-   ~~~~~~~~~~ ^
-   13 warnings generated.
->> clang diag: warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> clang diag: warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> clang diag: warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
-   clang diag: include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   warning: unused import: `ffi::c_void`
-   --> rust/kernel/kunit.rs:9:12
-   |
-   9 | use core::{ffi::c_void, fmt};
-   |            ^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8112-j413.dts:133.14-152.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j413.dts:154.14-163.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@38: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@39: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@235014000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: wifi@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8112-j473.dts:103.14-112.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j473.dts:114.14-123.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/i2c@235014000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
+--
+   arch/arm64/boot/dts/apple/t8112-j493.dts:122.14-141.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112-j493.dts:143.14-152.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@235014000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: wifi@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
 
 -- 
 0-DAY CI Kernel Test Service
