@@ -1,175 +1,323 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296FF1DFD90
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 18:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F4E1E2833
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 19:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731955037; cv=none; b=UhG5rVhh5nS8yCYCJMpbOV4EwAw4u3X9X0Zob9OLWNLTsqbSK7N4nKzPWx6HbL/oNgqHM1VfNfKxmD8AGjmelBcxypzAljCiHfQft/WGjpgl6tyoU3j+Gq+ErwdPSKg+w2Ytc5x/vKcj3LgPW4OBEM5BcO2dcZsC3ahLporDH4I=
+	t=1731957977; cv=none; b=Ap+Ee3QTQ4XQ1hXe8ZwvwQ8PsJb7NjGCWQuI3e/87ziOSKQqXXxgqmn8aFj7VwRiNJq0WEsGeHrHmjN563WIULjZhoFyFp9xJBz1CUwvSV/pvJ3l/UAROz0FmCfCkuOWKXlxBA9//Un9oj1tWakV991HKofAM0ogfJRZfCpyaXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731955037; c=relaxed/simple;
-	bh=veoy5a5dW6t2BpWB8948/OFW8RSw0oqfC0Xklrv21+M=;
+	s=arc-20240116; t=1731957977; c=relaxed/simple;
+	bh=H68vb5YDvHh1Qnbhkqxk37nMfBapRDlJpPe4riqvCC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hLrDpOrGQYW/Yp5Qy3F0+6P6d5UpHs7UEUmSMoiPFBng03U4oKs2CQEE5lQagIBu3sOesgalJwtI7GijrlnwqRyBQm+hkzguedU9ID/+ZOgg3xzYBERG2qLR2eIKYNyM3EAqgw5ZxPkeR13dfZbixxLW72FXs/UV417MVm8CBXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/cTEMPg; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SR+5arMc4b6aPt6DyqpThKOzofVNlh33/xatHleMnBNrXy0tBjw8pupetytBTcm97ei4zbxYhZnKVFbCpcWuqzIk86m9vwcpzy2yb8EigCvv7l7jTOA06PXWJl0tAV9A7iSRREd3c2O5MBBxbYE8BCjf/ixYfLWdc/l8V2O3XHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOR/Bvgg; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/cTEMPg"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53da5a27771so2724034e87.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 10:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731955032; x=1732559832; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
-        b=A/cTEMPgAWuHUycIzPrQLSIIzs90pVCir3Z0nQZXXypleU30GA6PrdZd+Af8ntBnKK
-         LCodA4E9+KvxFNrpfh5vcX+h8hTRrtP2IKSHGAa6R8d3ow5o3PedWjgQKbkcJes2+pbu
-         W5e9F6HrqSF7h38n8xpNcwHKiPjt6NF/wbbEyOdL2woEU/zD4eWTod2OQnYXWq6rAAbV
-         JtaWVu9hCNQoFWknQ3gB9Q3MmRjCxj5F9YksHNnW2O2erjYIpfugmskVp/QelXroTDHp
-         nMv6Tym5h/PRysWZ/u979goaEP5NsiGOlkzB81wIitsendSztruyS46St0qNjYLxYUzr
-         iW8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731955032; x=1732559832;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
-        b=sJGMDg5CW8xJ9ITATGPemnOKmVVNzmIQq4C/0gRT3HcC+klhYC2NnPe+2E7mK+ab46
-         XBjgKhgWw5U0l+P3+vRWdSGzmPnA2ccAuJCCOSxmq1WAVcRlIAPkhcliwMDEf7UvZnK/
-         Om+ur9xFK2IRcr9TEW3juGAXOX2QPJ6bLtbBF5R4A9UhLIWlTnEFUfCO8KOyrGOjmmgk
-         vGMBZ7ICqJnOZYUkMy5X11H6LJhcoMJSzFWuFKL/UuprBVfNIcFRCDQsqm1d/FevJvwt
-         NhdT1I4COdGxP8yYYyv7ORQz7O2tw2WFxu4T6xwnJwyS2YTVZA688GRzXBwpvJN6dzbQ
-         J95A==
-X-Gm-Message-State: AOJu0Yx2OUopvhGtlhXxrfBPWtEw6aSBgp7TWAt76O3Pgkz/dygDwJPF
-	RCzfETSXlIiiE6PWAl2tE16lYw+PYqlfMlLTVJLCLoAXszcQZtI7pdW8wTGMAF/Md+7V450iVPX
-	X
-X-Google-Smtp-Source: AGHT+IE7HkAZZKWlZWOe967YjeFFbvdoOqf49zoPBHZJEX8eseJRaxOA4F6Olv+RbpHKAT0tW28c2A==
-X-Received: by 2002:a05:6512:3a84:b0:53d:a927:8206 with SMTP id 2adb3069b0e04-53dab29ad8dmr4847606e87.20.1731955030890;
-        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dac1fb7asm164569785e9.42.2024.11.18.10.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
-Date: Mon, 18 Nov 2024 21:37:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 20/119] sound/soc/soc-dapm.c:2320
- dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
-Message-ID: <821b7439-cde3-4b59-a4b1-84b38d29b1c3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOR/Bvgg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731957975; x=1763493975;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H68vb5YDvHh1Qnbhkqxk37nMfBapRDlJpPe4riqvCC8=;
+  b=HOR/BvggiPRxqC2OOj+nPPgqq6yr7A52Vy8XxJPCfLCGsQEiwXDxyEna
+   YQKM0McDiALepldTNP/Wrsn+mA6GuR9REn1fd8LUjMvdnh3BOclGcwsyI
+   1BC8Ke/33r5kmZOMKuO6HyfVgVNQl9kFXIaEOssJfI+afO6IMVvoU/9K/
+   Cb/Va5fZtehuqhtYdtfDb8amuZMScED66GP3bXsWVzlAG2a3dcL+H/acI
+   L0zCTNv0VGeAKyTV1Kw9vmLnUamagrByc8Q5pzGnhQYXQCUNrwPQ70tE0
+   5baGyypxep7jzZfLWEtPw2eZGPnJOiB2sC+3f/pTrz4wm091k3l8f/I1h
+   g==;
+X-CSE-ConnectionGUID: LP6vW0tbQK+lbi1/CU1lmw==
+X-CSE-MsgGUID: IJAwL7v4QRC3lfUDFrqkkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="54431070"
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
+   d="scan'208";a="54431070"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 11:26:15 -0800
+X-CSE-ConnectionGUID: BvDQfF5QQkWGLaojca7/IA==
+X-CSE-MsgGUID: tmGxxStcQOmiYi0RHrFT6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="94362703"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2024 11:26:15 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tD7Nz-0002bl-35;
+	Mon, 18 Nov 2024 19:26:11 +0000
+Date: Tue, 19 Nov 2024 03:25:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v8 4/7] arm64: dts: qcom: ipq5332: Add tsens node
+Message-ID: <202411190334.lSy7SZo4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
-commit: 36eb765eeea35c3cb54bd0f11d9f33982142b51c [20/119] ASoC: dapm: Export new 'graph.dot' file in debugfs
-config: x86_64-randconfig-161-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190027.DwOYG7u2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241115103957.1157495-5-quic_mmanikan@quicinc.com>
+References: <20241115103957.1157495-5-quic_mmanikan@quicinc.com>
+TO: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
+TO: srinivas.kandagatla@linaro.org
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: amitk@kernel.org
+TO: thara.gopinath@gmail.com
+TO: rafael@kernel.org
+TO: daniel.lezcano@linaro.org
+TO: rui.zhang@intel.com
+TO: lukasz.luba@arm.com
+TO: andersson@kernel.org
+TO: konradybcio@kernel.org
+TO: linux-arm-msm@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-pm@vger.kernel.org
+CC: quic_srichara@quicinc.com
+CC: quic_varada@quicinc.com
+
+Hi Manikanta,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20241114]
+[also build test WARNING on linus/master v6.12]
+[cannot apply to robh/for-next rafael-pm/thermal v6.12-rc7 v6.12-rc6 v6.12-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/dt-bindings-thermal-tsens-Add-ipq5332-ipq5424-compatible/20241115-184431
+base:   next-20241114
+patch link:    https://lore.kernel.org/r/20241115103957.1157495-5-quic_mmanikan%40quicinc.com
+patch subject: [PATCH v8 4/7] arm64: dts: qcom: ipq5332: Add tsens node
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241119/202411190334.lSy7SZo4-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190334.lSy7SZo4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411190027.DwOYG7u2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411190334.lSy7SZo4-lkp@intel.com/
 
-smatch warnings:
-sound/soc/soc-dapm.c:2320 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/ipq5332.dtsi:186.30-189.6: Warning (unique_unit_address_if_enabled): /soc@0/efuse@a4000/s12@3a6: duplicate unit-address (also used in node /soc@0/efuse@a4000/s13@3a6)
+>> arch/arm64/boot/dts/qcom/ipq5332.dtsi:206.25-209.6: Warning (unique_unit_address_if_enabled): /soc@0/efuse@a4000/mode@3e1: duplicate unit-address (also used in node /soc@0/efuse@a4000/base0@3e1)
 
-vim +/num_wdone +2320 sound/soc/soc-dapm.c
+vim +186 arch/arm64/boot/dts/qcom/ipq5332.dtsi
 
-36eb765eeea35c Martin Povišer 2022-08-21  2256  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
-36eb765eeea35c Martin Povišer 2022-08-21  2257  				    size_t count, loff_t *ppos)
-36eb765eeea35c Martin Povišer 2022-08-21  2258  {
-36eb765eeea35c Martin Povišer 2022-08-21  2259  	struct snd_soc_card *card = file->private_data;
-36eb765eeea35c Martin Povišer 2022-08-21  2260  	struct snd_soc_dapm_context *dapm;
-36eb765eeea35c Martin Povišer 2022-08-21  2261  	struct snd_soc_dapm_path *p;
-36eb765eeea35c Martin Povišer 2022-08-21  2262  	struct snd_soc_dapm_widget *w;
-36eb765eeea35c Martin Povišer 2022-08-21  2263  	struct snd_soc_pcm_runtime *rtd;
-36eb765eeea35c Martin Povišer 2022-08-21  2264  	struct snd_soc_dapm_widget *wdone[16];
-36eb765eeea35c Martin Povišer 2022-08-21  2265  	struct snd_soc_dai *dai;
-36eb765eeea35c Martin Povišer 2022-08-21  2266  	int i, num_wdone = 0, cluster = 0;
-36eb765eeea35c Martin Povišer 2022-08-21  2267  	char *buf;
-36eb765eeea35c Martin Povišer 2022-08-21  2268  	ssize_t bufsize;
-36eb765eeea35c Martin Povišer 2022-08-21  2269  	ssize_t ret = 0;
-36eb765eeea35c Martin Povišer 2022-08-21  2270  
-36eb765eeea35c Martin Povišer 2022-08-21  2271  	bufsize = 1024 * card->num_dapm_widgets;
-36eb765eeea35c Martin Povišer 2022-08-21  2272  	buf = kmalloc(bufsize, GFP_KERNEL);
-36eb765eeea35c Martin Povišer 2022-08-21  2273  	if (!buf)
-36eb765eeea35c Martin Povišer 2022-08-21  2274  		return -ENOMEM;
-36eb765eeea35c Martin Povišer 2022-08-21  2275  
-36eb765eeea35c Martin Povišer 2022-08-21  2276  	mutex_lock(&card->dapm_mutex);
-36eb765eeea35c Martin Povišer 2022-08-21  2277  
-36eb765eeea35c Martin Povišer 2022-08-21  2278  #define bufprintf(...) \
-36eb765eeea35c Martin Povišer 2022-08-21  2279  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
-36eb765eeea35c Martin Povišer 2022-08-21  2280  
-36eb765eeea35c Martin Povišer 2022-08-21  2281  	bufprintf("digraph dapm {\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2282  
-36eb765eeea35c Martin Povišer 2022-08-21  2283  	/*
-36eb765eeea35c Martin Povišer 2022-08-21  2284  	 * Print the user-visible devices of the card.
-36eb765eeea35c Martin Povišer 2022-08-21  2285  	 */
-36eb765eeea35c Martin Povišer 2022-08-21  2286  	bufprintf("subgraph cluster_%d {\n", cluster++);
-36eb765eeea35c Martin Povišer 2022-08-21  2287  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2288  	for_each_card_rtds(card, rtd) {
-36eb765eeea35c Martin Povišer 2022-08-21  2289  		if (rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2290  			continue;
-36eb765eeea35c Martin Povišer 2022-08-21  2291  
-36eb765eeea35c Martin Povišer 2022-08-21  2292  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
-36eb765eeea35c Martin Povišer 2022-08-21  2293  			  rtd->pcm->device, rtd->dai_link->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2294  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2295  	bufprintf("};\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2296  
-36eb765eeea35c Martin Povišer 2022-08-21  2297  	/*
-36eb765eeea35c Martin Povišer 2022-08-21  2298  	 * Print the playback/capture widgets of DAIs just next to
-36eb765eeea35c Martin Povišer 2022-08-21  2299  	 * the user-visible devices. Keep the list of already printed
-36eb765eeea35c Martin Povišer 2022-08-21  2300  	 * widgets in 'wdone', so they will be skipped later.
-36eb765eeea35c Martin Povišer 2022-08-21  2301  	 */
-36eb765eeea35c Martin Povišer 2022-08-21  2302  	for_each_card_rtds(card, rtd) {
-36eb765eeea35c Martin Povišer 2022-08-21  2303  		for_each_rtd_cpu_dais(rtd, i, dai) {
-36eb765eeea35c Martin Povišer 2022-08-21  2304  			if (dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget) {
-36eb765eeea35c Martin Povišer 2022-08-21  2305  				w = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget;
-36eb765eeea35c Martin Povišer 2022-08-21  2306  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2307  				if (!rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2308  					bufprintf("w%pK -> w%pK;\n", rtd, w);
-36eb765eeea35c Martin Povišer 2022-08-21  2309  				wdone[num_wdone] = w;
-36eb765eeea35c Martin Povišer 2022-08-21  2310  				if (num_wdone < ARRAY_SIZE(wdone))
-
-If num_wdone == ARRAY_SIZE() then the the previous line just caused memory
-corruption.
-
-36eb765eeea35c Martin Povišer 2022-08-21  2311  					num_wdone++;
-36eb765eeea35c Martin Povišer 2022-08-21  2312  			}
-36eb765eeea35c Martin Povišer 2022-08-21  2313  
-36eb765eeea35c Martin Povišer 2022-08-21  2314  			if (dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget) {
-36eb765eeea35c Martin Povišer 2022-08-21  2315  				w = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget;
-36eb765eeea35c Martin Povišer 2022-08-21  2316  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2317  				if (!rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2318  					bufprintf("w%pK -> w%pK;\n", w, rtd);
-36eb765eeea35c Martin Povišer 2022-08-21  2319  				wdone[num_wdone] = w;
-36eb765eeea35c Martin Povišer 2022-08-21 @2320  				if (num_wdone < ARRAY_SIZE(wdone))
-
-same
-
-36eb765eeea35c Martin Povišer 2022-08-21  2321  					num_wdone++;
-36eb765eeea35c Martin Povišer 2022-08-21  2322  			}
-36eb765eeea35c Martin Povišer 2022-08-21  2323  		}
-36eb765eeea35c Martin Povišer 2022-08-21  2324  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2325  
-36eb765eeea35c Martin Povišer 2022-08-21  2326  	for_each_card_dapms(card, dapm) {
-36eb765eeea35c Martin Povišer 2022-08-21  2327  		const char *prefix = soc_dapm_prefix(dapm);
-36eb765eeea35c Martin Povišer 2022-08-21  2328  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   12  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   13  / {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   14  	interrupt-parent = <&intc>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   15  	#address-cells = <2>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   16  	#size-cells = <2>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   17  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   18  	clocks {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   19  		sleep_clk: sleep-clk {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   20  			compatible = "fixed-clock";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   21  			#clock-cells = <0>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   22  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   23  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   24  		xo_board: xo-board-clk {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   25  			compatible = "fixed-clock";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   26  			#clock-cells = <0>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   27  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   28  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   29  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   30  	cpus {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   31  		#address-cells = <1>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   32  		#size-cells = <0>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   33  
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   34  		cpu0: cpu@0 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   35  			device_type = "cpu";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   36  			compatible = "arm,cortex-a53";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   37  			reg = <0x0>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   38  			enable-method = "psci";
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   39  			next-level-cache = <&l2_0>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   40  			clocks = <&apcs_glb APCS_ALIAS0_CORE_CLK>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   41  			operating-points-v2 = <&cpu_opp_table>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   42  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   43  
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   44  		cpu1: cpu@1 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   45  			device_type = "cpu";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   46  			compatible = "arm,cortex-a53";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   47  			reg = <0x1>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   48  			enable-method = "psci";
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   49  			next-level-cache = <&l2_0>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   50  			clocks = <&apcs_glb APCS_ALIAS0_CORE_CLK>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   51  			operating-points-v2 = <&cpu_opp_table>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   52  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   53  
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   54  		cpu2: cpu@2 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   55  			device_type = "cpu";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   56  			compatible = "arm,cortex-a53";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   57  			reg = <0x2>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   58  			enable-method = "psci";
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   59  			next-level-cache = <&l2_0>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   60  			clocks = <&apcs_glb APCS_ALIAS0_CORE_CLK>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   61  			operating-points-v2 = <&cpu_opp_table>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   62  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   63  
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   64  		cpu3: cpu@3 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   65  			device_type = "cpu";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   66  			compatible = "arm,cortex-a53";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   67  			reg = <0x3>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   68  			enable-method = "psci";
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   69  			next-level-cache = <&l2_0>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   70  			clocks = <&apcs_glb APCS_ALIAS0_CORE_CLK>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   71  			operating-points-v2 = <&cpu_opp_table>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   72  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   73  
+6f8c1ed2580918 Krzysztof Kozlowski   2024-10-22   74  		l2_0: l2-cache {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   75  			compatible = "cache";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   76  			cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski   2023-04-16   77  			cache-unified;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   78  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   79  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   80  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   81  	firmware {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   82  		scm {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   83  			compatible = "qcom,scm-ipq5332", "qcom,scm";
+ed32155302fc3e Kathiravan T          2023-02-10   84  			qcom,dload-mode = <&tcsr 0x6100>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   85  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   86  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   87  
+0360f0ea8c0f67 Kathiravan T          2023-03-07   88  	memory@40000000 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07   89  		device_type = "memory";
+0360f0ea8c0f67 Kathiravan T          2023-03-07   90  		/* We expect the bootloader to fill in the size */
+0360f0ea8c0f67 Kathiravan T          2023-03-07   91  		reg = <0x0 0x40000000 0x0 0x0>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07   92  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07   93  
+e16dd29a3dff57 Kathiravan T          2023-02-17   94  	cpu_opp_table: opp-table-cpu {
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20   95  		compatible = "operating-points-v2-kryo-cpu";
+e16dd29a3dff57 Kathiravan T          2023-02-17   96  		opp-shared;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20   97  		nvmem-cells = <&cpu_speed_bin>;
+e16dd29a3dff57 Kathiravan T          2023-02-17   98  
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20   99  		opp-1100000000 {
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  100  			opp-hz = /bits/ 64 <1100000000>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  101  			opp-supported-hw = <0x7>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  102  			clock-latency-ns = <200000>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  103  		};
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  104  
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  105  		opp-1500000000 {
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  106  			opp-hz = /bits/ 64 <1500000000>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  107  			opp-supported-hw = <0x3>;
+e16dd29a3dff57 Kathiravan T          2023-02-17  108  			clock-latency-ns = <200000>;
+e16dd29a3dff57 Kathiravan T          2023-02-17  109  		};
+e16dd29a3dff57 Kathiravan T          2023-02-17  110  	};
+e16dd29a3dff57 Kathiravan T          2023-02-17  111  
+0360f0ea8c0f67 Kathiravan T          2023-03-07  112  	pmu {
+0360f0ea8c0f67 Kathiravan T          2023-03-07  113  		compatible = "arm,cortex-a53-pmu";
+0360f0ea8c0f67 Kathiravan T          2023-03-07  114  		interrupts = <GIC_PPI 7 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  115  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07  116  
+0360f0ea8c0f67 Kathiravan T          2023-03-07  117  	psci {
+0360f0ea8c0f67 Kathiravan T          2023-03-07  118  		compatible = "arm,psci-1.0";
+0360f0ea8c0f67 Kathiravan T          2023-03-07  119  		method = "smc";
+0360f0ea8c0f67 Kathiravan T          2023-03-07  120  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07  121  
+0360f0ea8c0f67 Kathiravan T          2023-03-07  122  	reserved-memory {
+0360f0ea8c0f67 Kathiravan T          2023-03-07  123  		#address-cells = <2>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  124  		#size-cells = <2>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  125  		ranges;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  126  
+0196b041aeec78 Kathiravan T          2023-05-19  127  		bootloader@4a100000 {
+0196b041aeec78 Kathiravan T          2023-05-19  128  			reg = <0x0 0x4a100000 0x0 0x400000>;
+0196b041aeec78 Kathiravan T          2023-05-19  129  			no-map;
+0196b041aeec78 Kathiravan T          2023-05-19  130  		};
+0196b041aeec78 Kathiravan T          2023-05-19  131  
+0196b041aeec78 Kathiravan T          2023-05-19  132  		sbl@4a500000 {
+0196b041aeec78 Kathiravan T          2023-05-19  133  			reg = <0x0 0x4a500000 0x0 0x100000>;
+0196b041aeec78 Kathiravan T          2023-05-19  134  			no-map;
+0196b041aeec78 Kathiravan T          2023-05-19  135  		};
+0196b041aeec78 Kathiravan T          2023-05-19  136  
+0360f0ea8c0f67 Kathiravan T          2023-03-07  137  		tz_mem: tz@4a600000 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07  138  			reg = <0x0 0x4a600000 0x0 0x200000>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  139  			no-map;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  140  		};
+d56dd7f935e125 Kathiravan T          2023-02-10  141  
+d56dd7f935e125 Kathiravan T          2023-02-10  142  		smem@4a800000 {
+d56dd7f935e125 Kathiravan T          2023-02-10  143  			compatible = "qcom,smem";
+0196b041aeec78 Kathiravan T          2023-05-19  144  			reg = <0x0 0x4a800000 0x0 0x100000>;
+d56dd7f935e125 Kathiravan T          2023-02-10  145  			no-map;
+d56dd7f935e125 Kathiravan T          2023-02-10  146  
+d08afd80158399 Vignesh Viswanathan   2023-09-04  147  			hwlocks = <&tcsr_mutex 3>;
+d56dd7f935e125 Kathiravan T          2023-02-10  148  		};
+0360f0ea8c0f67 Kathiravan T          2023-03-07  149  	};
+0360f0ea8c0f67 Kathiravan T          2023-03-07  150  
+0360f0ea8c0f67 Kathiravan T          2023-03-07  151  	soc@0 {
+0360f0ea8c0f67 Kathiravan T          2023-03-07  152  		compatible = "simple-bus";
+0360f0ea8c0f67 Kathiravan T          2023-03-07  153  		#address-cells = <1>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  154  		#size-cells = <1>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  155  		ranges = <0 0 0 0xffffffff>;
+0360f0ea8c0f67 Kathiravan T          2023-03-07  156  
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  157  		usbphy0: phy@7b000 {
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  158  			compatible = "qcom,ipq5332-usb-hsphy";
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  159  			reg = <0x0007b000 0x12c>;
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  160  
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  161  			clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>;
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  162  
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  163  			resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  164  
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  165  			#phy-cells = <0>;
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  166  
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  167  			status = "disabled";
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  168  		};
+bfb9614015f5c6 Varadarajan Narayanan 2023-08-31  169  
+2f34a2aa4c88f4 Kathiravan T          2023-05-26  170  		qfprom: efuse@a4000 {
+2f34a2aa4c88f4 Kathiravan T          2023-05-26  171  			compatible = "qcom,ipq5332-qfprom", "qcom,qfprom";
+2f34a2aa4c88f4 Kathiravan T          2023-05-26  172  			reg = <0x000a4000 0x721>;
+2f34a2aa4c88f4 Kathiravan T          2023-05-26  173  			#address-cells = <1>;
+2f34a2aa4c88f4 Kathiravan T          2023-05-26  174  			#size-cells = <1>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  175  
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  176  			cpu_speed_bin: cpu-speed-bin@1d {
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  177  				reg = <0x1d 0x2>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  178  				bits = <7 2>;
+62073bc9f1ecc0 Varadarajan Narayanan 2023-10-20  179  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  180  
+a1b247eb22bdeb Praveenkumar I        2024-11-15  181  			tsens_sens11_off: s11@3a5 {
+a1b247eb22bdeb Praveenkumar I        2024-11-15  182  				reg = <0x3a5 0x1>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  183  				bits = <4 4>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  184  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  185  
+a1b247eb22bdeb Praveenkumar I        2024-11-15 @186  			tsens_sens12_off: s12@3a6 {
+a1b247eb22bdeb Praveenkumar I        2024-11-15  187  				reg = <0x3a6 0x1>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  188  				bits = <0 4>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  189  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  190  
+a1b247eb22bdeb Praveenkumar I        2024-11-15  191  			tsens_sens13_off: s13@3a6 {
+a1b247eb22bdeb Praveenkumar I        2024-11-15  192  				reg = <0x3a6 0x1>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  193  				bits = <4 4>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  194  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  195  
+a1b247eb22bdeb Praveenkumar I        2024-11-15  196  			tsens_sens14_off: s14@3ad {
+a1b247eb22bdeb Praveenkumar I        2024-11-15  197  				reg = <0x3ad 0x2>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  198  				bits = <7 4>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  199  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  200  
+a1b247eb22bdeb Praveenkumar I        2024-11-15  201  			tsens_sens15_off: s15@3ae {
+a1b247eb22bdeb Praveenkumar I        2024-11-15  202  				reg = <0x3ae 0x1>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  203  				bits = <3 4>;
+a1b247eb22bdeb Praveenkumar I        2024-11-15  204  			};
+a1b247eb22bdeb Praveenkumar I        2024-11-15  205  
+a1b247eb22bdeb Praveenkumar I        2024-11-15 @206  			tsens_mode: mode@3e1 {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
