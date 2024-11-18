@@ -1,86 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADE91A00F8
-	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 16:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296FF1DFD90
+	for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 18:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731948788; cv=none; b=LqiA2iCHIsSC+LVg5ayCiwVtWOkkAZKvTX22qwE68pTgNpYk2SuSfTezS0DoX4zpLz8khKpoid2UzGFTG+CRji45f2I/PWNM1p8rWjn9qGSoqtUV73MYBxec/EuwBWekuE1uoS/+uuUiNmd2BZPV1J39hku2yZi4nJs/l4UP994=
+	t=1731955037; cv=none; b=UhG5rVhh5nS8yCYCJMpbOV4EwAw4u3X9X0Zob9OLWNLTsqbSK7N4nKzPWx6HbL/oNgqHM1VfNfKxmD8AGjmelBcxypzAljCiHfQft/WGjpgl6tyoU3j+Gq+ErwdPSKg+w2Ytc5x/vKcj3LgPW4OBEM5BcO2dcZsC3ahLporDH4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731948788; c=relaxed/simple;
-	bh=uRHxYlE1bEa4Pqks36SFoA8XbsYTXJ7l92KclSww/Z4=;
+	s=arc-20240116; t=1731955037; c=relaxed/simple;
+	bh=veoy5a5dW6t2BpWB8948/OFW8RSw0oqfC0Xklrv21+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gjj0y+znrYoD4NyMjXSRv5Y2SB5t7GxNNJ4Y3VIKSVx6qtK8jQxGEn8hYqLdnRQQQVi0cWMSXXFeJ06/OCBZY6t9fwqY9ToqiGuF1kpdEJyqpWqI8MeVrsKD+4dAiJMdAP5Dhr34EUPtiMUNYgAk0IrB7vTP25iY3m4fwJwNH18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYKEJLOH; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=hLrDpOrGQYW/Yp5Qy3F0+6P6d5UpHs7UEUmSMoiPFBng03U4oKs2CQEE5lQagIBu3sOesgalJwtI7GijrlnwqRyBQm+hkzguedU9ID/+ZOgg3xzYBERG2qLR2eIKYNyM3EAqgw5ZxPkeR13dfZbixxLW72FXs/UV417MVm8CBXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/cTEMPg; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYKEJLOH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731948786; x=1763484786;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uRHxYlE1bEa4Pqks36SFoA8XbsYTXJ7l92KclSww/Z4=;
-  b=BYKEJLOH518wmXKNxPTeKobR6OwFfzhRjzK7XOPN0IPwUFO2ny4TlROd
-   aaoyn13pkUO7O6pyMS9fV2Qv47rqt8osodETxSvzy5a+Bfp5fV78Fmgl4
-   snojEGLvntxt+wKtcaNTk+CghWacThVF8g6mUq9K/0M2hTyoJz9PmFtnW
-   YS6z2QqvXtXWz6GFFVagXTsKmbBTvevJWSRJ80gu7SIthogw4RKy0JyP+
-   Lm3Bo010kOsP97YqLrlhMZqK+sIiFip+CFIT3vtMYv4X7TnPHTOCdtwV2
-   6Lz7llhFgXSpOAhKmAcX9Y3ecY/f0u99q2Edm7CzGgE0pYHbc2zvM+bCj
-   A==;
-X-CSE-ConnectionGUID: zcTEkn+2Ti+BS/Z8xRWCxQ==
-X-CSE-MsgGUID: vnxrKXL/TxaFGjCmoC4osw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31321462"
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="31321462"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 08:53:03 -0800
-X-CSE-ConnectionGUID: 37hqp6HmSjuTFpgcAAXpYQ==
-X-CSE-MsgGUID: tQcy29X7SHuNCCWOSwIAMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="89427916"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2024 08:53:00 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tD4zi-0002Y0-08;
-	Mon, 18 Nov 2024 16:52:58 +0000
-Date: Tue, 19 Nov 2024 00:52:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/cTEMPg"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53da5a27771so2724034e87.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 18 Nov 2024 10:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731955032; x=1732559832; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
+        b=A/cTEMPgAWuHUycIzPrQLSIIzs90pVCir3Z0nQZXXypleU30GA6PrdZd+Af8ntBnKK
+         LCodA4E9+KvxFNrpfh5vcX+h8hTRrtP2IKSHGAa6R8d3ow5o3PedWjgQKbkcJes2+pbu
+         W5e9F6HrqSF7h38n8xpNcwHKiPjt6NF/wbbEyOdL2woEU/zD4eWTod2OQnYXWq6rAAbV
+         JtaWVu9hCNQoFWknQ3gB9Q3MmRjCxj5F9YksHNnW2O2erjYIpfugmskVp/QelXroTDHp
+         nMv6Tym5h/PRysWZ/u979goaEP5NsiGOlkzB81wIitsendSztruyS46St0qNjYLxYUzr
+         iW8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731955032; x=1732559832;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
+        b=sJGMDg5CW8xJ9ITATGPemnOKmVVNzmIQq4C/0gRT3HcC+klhYC2NnPe+2E7mK+ab46
+         XBjgKhgWw5U0l+P3+vRWdSGzmPnA2ccAuJCCOSxmq1WAVcRlIAPkhcliwMDEf7UvZnK/
+         Om+ur9xFK2IRcr9TEW3juGAXOX2QPJ6bLtbBF5R4A9UhLIWlTnEFUfCO8KOyrGOjmmgk
+         vGMBZ7ICqJnOZYUkMy5X11H6LJhcoMJSzFWuFKL/UuprBVfNIcFRCDQsqm1d/FevJvwt
+         NhdT1I4COdGxP8yYYyv7ORQz7O2tw2WFxu4T6xwnJwyS2YTVZA688GRzXBwpvJN6dzbQ
+         J95A==
+X-Gm-Message-State: AOJu0Yx2OUopvhGtlhXxrfBPWtEw6aSBgp7TWAt76O3Pgkz/dygDwJPF
+	RCzfETSXlIiiE6PWAl2tE16lYw+PYqlfMlLTVJLCLoAXszcQZtI7pdW8wTGMAF/Md+7V450iVPX
+	X
+X-Google-Smtp-Source: AGHT+IE7HkAZZKWlZWOe967YjeFFbvdoOqf49zoPBHZJEX8eseJRaxOA4F6Olv+RbpHKAT0tW28c2A==
+X-Received: by 2002:a05:6512:3a84:b0:53d:a927:8206 with SMTP id 2adb3069b0e04-53dab29ad8dmr4847606e87.20.1731955030890;
+        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dac1fb7asm164569785e9.42.2024.11.18.10.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
+Date: Mon, 18 Nov 2024 21:37:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
 Subject: [asahilinux:bits/070-audio 20/119] sound/soc/soc-dapm.c:2320
  dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
-Message-ID: <202411190027.DwOYG7u2-lkp@intel.com>
+Message-ID: <821b7439-cde3-4b59-a4b1-84b38d29b1c3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
 
 tree:   https://github.com/AsahiLinux/linux bits/070-audio
 head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
 commit: 36eb765eeea35c3cb54bd0f11d9f33982142b51c [20/119] ASoC: dapm: Export new 'graph.dot' file in debugfs
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
 config: x86_64-randconfig-161-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190027.DwOYG7u2-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202411190027.DwOYG7u2-lkp@intel.com/
 
 smatch warnings:
@@ -88,7 +88,6 @@ sound/soc/soc-dapm.c:2320 dapm_graph_read_file() error: testing array offset 'nu
 
 vim +/num_wdone +2320 sound/soc/soc-dapm.c
 
-ef49e4fae3f364 Mark Brown     2011-04-04  2255  
 36eb765eeea35c Martin Povišer 2022-08-21  2256  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
 36eb765eeea35c Martin Povišer 2022-08-21  2257  				    size_t count, loff_t *ppos)
 36eb765eeea35c Martin Povišer 2022-08-21  2258  {
@@ -144,6 +143,10 @@ ef49e4fae3f364 Mark Brown     2011-04-04  2255
 36eb765eeea35c Martin Povišer 2022-08-21  2308  					bufprintf("w%pK -> w%pK;\n", rtd, w);
 36eb765eeea35c Martin Povišer 2022-08-21  2309  				wdone[num_wdone] = w;
 36eb765eeea35c Martin Povišer 2022-08-21  2310  				if (num_wdone < ARRAY_SIZE(wdone))
+
+If num_wdone == ARRAY_SIZE() then the the previous line just caused memory
+corruption.
+
 36eb765eeea35c Martin Povišer 2022-08-21  2311  					num_wdone++;
 36eb765eeea35c Martin Povišer 2022-08-21  2312  			}
 36eb765eeea35c Martin Povišer 2022-08-21  2313  
@@ -154,6 +157,9 @@ ef49e4fae3f364 Mark Brown     2011-04-04  2255
 36eb765eeea35c Martin Povišer 2022-08-21  2318  					bufprintf("w%pK -> w%pK;\n", w, rtd);
 36eb765eeea35c Martin Povišer 2022-08-21  2319  				wdone[num_wdone] = w;
 36eb765eeea35c Martin Povišer 2022-08-21 @2320  				if (num_wdone < ARRAY_SIZE(wdone))
+
+same
+
 36eb765eeea35c Martin Povišer 2022-08-21  2321  					num_wdone++;
 36eb765eeea35c Martin Povišer 2022-08-21  2322  			}
 36eb765eeea35c Martin Povišer 2022-08-21  2323  		}
@@ -162,61 +168,8 @@ ef49e4fae3f364 Mark Brown     2011-04-04  2255
 36eb765eeea35c Martin Povišer 2022-08-21  2326  	for_each_card_dapms(card, dapm) {
 36eb765eeea35c Martin Povišer 2022-08-21  2327  		const char *prefix = soc_dapm_prefix(dapm);
 36eb765eeea35c Martin Povišer 2022-08-21  2328  
-36eb765eeea35c Martin Povišer 2022-08-21  2329  		if (dapm != &card->dapm) {
-36eb765eeea35c Martin Povišer 2022-08-21  2330  			bufprintf("subgraph cluster_%d {\n", cluster++);
-36eb765eeea35c Martin Povišer 2022-08-21  2331  			if (prefix)
-36eb765eeea35c Martin Povišer 2022-08-21  2332  				bufprintf("label=\"%s\";\n", prefix);
-36eb765eeea35c Martin Povišer 2022-08-21  2333  			else if (dapm->component)
-36eb765eeea35c Martin Povišer 2022-08-21  2334  				bufprintf("label=\"%s\";\n",
-36eb765eeea35c Martin Povišer 2022-08-21  2335  					  dapm->component->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2336  		}
-36eb765eeea35c Martin Povišer 2022-08-21  2337  
-36eb765eeea35c Martin Povišer 2022-08-21  2338  		for_each_card_widgets(dapm->card, w) {
-36eb765eeea35c Martin Povišer 2022-08-21  2339  			const char *name = w->name;
-36eb765eeea35c Martin Povišer 2022-08-21  2340  			bool skip = false;
-36eb765eeea35c Martin Povišer 2022-08-21  2341  
-36eb765eeea35c Martin Povišer 2022-08-21  2342  			if (w->dapm != dapm)
-36eb765eeea35c Martin Povišer 2022-08-21  2343  				continue;
-36eb765eeea35c Martin Povišer 2022-08-21  2344  
-36eb765eeea35c Martin Povišer 2022-08-21  2345  			if (list_empty(&w->edges[0]) && list_empty(&w->edges[1]))
-36eb765eeea35c Martin Povišer 2022-08-21  2346  				continue;
-36eb765eeea35c Martin Povišer 2022-08-21  2347  
-36eb765eeea35c Martin Povišer 2022-08-21  2348  			for (i = 0; i < num_wdone; i++)
-36eb765eeea35c Martin Povišer 2022-08-21  2349  				if (wdone[i] == w)
-36eb765eeea35c Martin Povišer 2022-08-21  2350  					skip = true;
-36eb765eeea35c Martin Povišer 2022-08-21  2351  			if (skip)
-36eb765eeea35c Martin Povišer 2022-08-21  2352  				continue;
-36eb765eeea35c Martin Povišer 2022-08-21  2353  
-36eb765eeea35c Martin Povišer 2022-08-21  2354  			if (prefix && strlen(name) > strlen(prefix) + 1)
-36eb765eeea35c Martin Povišer 2022-08-21  2355  				name += strlen(prefix) + 1;
-36eb765eeea35c Martin Povišer 2022-08-21  2356  
-36eb765eeea35c Martin Povišer 2022-08-21  2357  			bufprintf("w%pK [label=\"%s\"];\n", w, name);
-36eb765eeea35c Martin Povišer 2022-08-21  2358  		}
-36eb765eeea35c Martin Povišer 2022-08-21  2359  
-36eb765eeea35c Martin Povišer 2022-08-21  2360  		if (dapm != &card->dapm)
-36eb765eeea35c Martin Povišer 2022-08-21  2361  			bufprintf("}\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2362  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2363  
-36eb765eeea35c Martin Povišer 2022-08-21  2364  	list_for_each_entry(p, &card->paths, list) {
-36eb765eeea35c Martin Povišer 2022-08-21  2365  		if (p->name)
-36eb765eeea35c Martin Povišer 2022-08-21  2366  			bufprintf("w%pK -> w%pK [label=\"%s\"];\n",
-36eb765eeea35c Martin Povišer 2022-08-21  2367  				  p->source, p->sink, p->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2368  		else
-36eb765eeea35c Martin Povišer 2022-08-21  2369  			bufprintf("w%pK -> w%pK;\n", p->source, p->sink);
-36eb765eeea35c Martin Povišer 2022-08-21  2370  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2371  
-36eb765eeea35c Martin Povišer 2022-08-21  2372  	bufprintf("}\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2373  #undef bufprintf
-36eb765eeea35c Martin Povišer 2022-08-21  2374  
-36eb765eeea35c Martin Povišer 2022-08-21  2375  	mutex_unlock(&card->dapm_mutex);
-36eb765eeea35c Martin Povišer 2022-08-21  2376  
-36eb765eeea35c Martin Povišer 2022-08-21  2377  	ret = simple_read_from_buffer(user_buf, count, ppos, buf, ret);
-36eb765eeea35c Martin Povišer 2022-08-21  2378  
-36eb765eeea35c Martin Povišer 2022-08-21  2379  	kfree(buf);
-36eb765eeea35c Martin Povišer 2022-08-21  2380  	return ret;
-36eb765eeea35c Martin Povišer 2022-08-21  2381  }
-36eb765eeea35c Martin Povišer 2022-08-21  2382  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
