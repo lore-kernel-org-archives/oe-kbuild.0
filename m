@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BA81D4323
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 22:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983411C8773
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 23:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732229225; cv=none; b=i69oUlJIXhLchOMBmFoHQyXkUN5uCQ3lRm2OSE86wbaxoCfw8f+VRrPct+ZdM4OuJCHORCYHQ7gbOTW9wQSlIGWyBp9BQ1ZdN78XPECKe5QhhmlB+mAW9onAfU9BmhNBzWykOkk0XMPOY6drmognHMEQmB3bhtCdN3F04tRTRU0=
+	t=1732233014; cv=none; b=eNtQ+vEnQnnAqzyyF1Uq164ncNASt+mzlJg2yqyzQXLqqI/R72Dx6jXhTGR/8KNavMrylZVFJ4L03M/tCEWWYGsYSdAfCMB1yU4kXJ37/C4FfwdljyZcqW0Qn8USr+jc/xPN0UY0H8vC42YEnfUHKxvSKaZGounOaNxGVPVZ1B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732229225; c=relaxed/simple;
-	bh=aRb3+T4Nxa1ILm/ImZSReb+N2U+XwPDiAN9DDV/Xr9Q=;
+	s=arc-20240116; t=1732233014; c=relaxed/simple;
+	bh=uizGneWbks294+zeYHQ9obmlEbzcqj5RKqh+XdsbIik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GF+JmLgSDlSvjenAtKHVuQAKTywTL673lqED+yQBeW4LT46L9wWw//S5WqOfAL/lKpX/sMosyP9MtmY3C0mw1nyqOW/mwFFjZbPA2XIg3F+pwj/OeJsjp0TvKRGvWA3Rtuwo8IIK5mMHJIZjDQKpHeVC4mE0W9pfN9WXRdNFghs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dq3JYnmR; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=VllfDzc+XgkqZBpvCcvJeB9ZgsN+uvtR3uftt1I3iX8fx+W5jLTGEvMR1jy/dEbk10RizPRpYnXbDthAWpgmbeqALzRHOA+MUQusNPCiM0Bykqmfef8JAfIOf8geK5peV0nYw3AKlqbnX+hkGecR1v943Rfaw/H5kIPmF5ADwCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJ+UCoAB; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dq3JYnmR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJ+UCoAB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732229224; x=1763765224;
+  t=1732233012; x=1763769012;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aRb3+T4Nxa1ILm/ImZSReb+N2U+XwPDiAN9DDV/Xr9Q=;
-  b=dq3JYnmR8h2QOrDH0U+oTpJGUWF76rYTyosP9qD923OCLrMTDvEW2b+T
-   fWMfYEZe+NRhk+pFr/asdTZ+rw6AjwbteO4EFiCA6sjP8SbvNAJJhEqBc
-   JQv6qzQn70drJv6PX4qViT03lLhKksZDpFzwhDKc/XxVljqQnJ4Qvs3H1
-   v1z1QqTNgOqQ7SSiD+pP5FU99n1EiUU4DuNgRQuX3jR/+4ZU4SsGPHJsd
-   9UUSUiN57gTTS1FxHZiTMBBjnHUWqVq9h0LLmQTRQHr3a0S8nId7zmkXV
-   LtcdOZFgr80vZoPJxTyEsSY7s/2vbMCrJo/uRlXPkaENePvyhDT5i/6Gb
-   w==;
-X-CSE-ConnectionGUID: OXnTxzQESvKlslubK95Rqw==
-X-CSE-MsgGUID: FPObqcU4QienPDZskbVHZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="36150201"
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="36150201"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 14:47:04 -0800
-X-CSE-ConnectionGUID: 5s6aA5aaRU6hhXLpnHE8AA==
-X-CSE-MsgGUID: /nxLskoFS0OT0oMEC5FBAQ==
+  bh=uizGneWbks294+zeYHQ9obmlEbzcqj5RKqh+XdsbIik=;
+  b=dJ+UCoABJFPCdPkm+ZaTvEuiBf79ETluohSOjLeRrSLiSgzwV+x1jfZ6
+   KAnsWsnBwVQ3jSZDSIYk2/Tx7upSpMWypNh/g9iGB0B65ABQjU8dFGCQv
+   CFQQbxg3/JX6HB0MAsgYg5oJbU7fbjWHwdNGzgv0fEZcz8WtvCfr/dgyI
+   412XvkVCGB6Z3O4+/3RbkAGv3bABoXr5EiwLHPdUS8g8irhRMt2hCcXy2
+   1Oq+V25V8LKlzhWPKUIU6RWPhuLEmjJdMZsucDBRT2sQ0rOSji5hl05yk
+   XtOJddsQvht4xPFXB9ivC0e6SxhjitoEWbs6h4CdMSiwG7mjN73yrP9/F
+   Q==;
+X-CSE-ConnectionGUID: 5Acx+NP2RJOLGFmiUfhcJQ==
+X-CSE-MsgGUID: Q1yp8qkeTjqO+oQZ5B1FaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32496439"
+X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
+   d="scan'208";a="32496439"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 15:50:12 -0800
+X-CSE-ConnectionGUID: n+DOzNqlQxiQOL+6XbTXeA==
+X-CSE-MsgGUID: Q2gzF9SMTWuZxxxhHeNt6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="94482428"
+X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
+   d="scan'208";a="95353507"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Nov 2024 14:47:02 -0800
+  by orviesa005.jf.intel.com with ESMTP; 21 Nov 2024 15:50:11 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEFwy-0003Qz-1Q;
-	Thu, 21 Nov 2024 22:47:00 +0000
-Date: Fri, 22 Nov 2024 06:46:37 +0800
+	id 1tEGw4-0003Tf-1v;
+	Thu, 21 Nov 2024 23:50:08 +0000
+Date: Fri, 22 Nov 2024 07:49:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 11/11] ARM: dts: socfpga: add Enclustra SoM dts files
-Message-ID: <202411220644.yjZUVhxE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [groeck-staging:testing 1/42] drivers/hwmon/hwmon.c:437
+ hwmon_attr_show() error: uninitialized symbol 'val'.
+Message-ID: <202411220739.a2INGM5p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,103 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241116131025.114542-12-l.rubusch@gmail.com>
-References: <20241116131025.114542-12-l.rubusch@gmail.com>
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: dinguyen@kernel.org
-CC: marex@denx.de
-CC: s.trumtrar@pengutronix.de
-CC: l.rubusch@gmail.com
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+CC: linux-hwmon@vger.kernel.org
+TO: Guenter Roeck <linux@roeck-us.net>
 
-Hi Lothar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.12-rc7]
-[also build test WARNING on linus/master next-20241121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/ARM-dts-socfpga-add-Enclustra-boot-mode-dtsi/20241121-092540
-base:   v6.12-rc7
-patch link:    https://lore.kernel.org/r/20241116131025.114542-12-l.rubusch%40gmail.com
-patch subject: [PATCH v5 11/11] ARM: dts: socfpga: add Enclustra SoM dts files
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm-randconfig-001-20241121 (https://download.01.org/0day-ci/archive/20241122/202411220644.yjZUVhxE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220644.yjZUVhxE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git testing
+head:   8c8865aa3d3c2dabf9a2161d2809eccfeae92645
+commit: 2c67fcdff546bc261761a3d66aa165a627b71458 [1/42] hwmon: Introduce 64-bit energy attribute support
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20241121 (https://download.01.org/0day-ci/archive/20241122/202411220739.a2INGM5p-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411220644.yjZUVhxE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411220739.a2INGM5p-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa1.dtsi:35.9-39.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa2.dtsi:35.9-39.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
+smatch warnings:
+drivers/hwmon/hwmon.c:437 hwmon_attr_show() error: uninitialized symbol 'val'.
+drivers/hwmon/hwmon.c:440 hwmon_attr_show() error: uninitialized symbol 'val64'.
 
-vim +35 arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa1.dtsi
+vim +/val +437 drivers/hwmon/hwmon.c
 
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   7  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   8  / {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   9  	model = "Enclustra Mercury SA1";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  10  	compatible = "altr,socfpga-cyclone5", "altr,socfpga";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  11  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  12  	chosen {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  13  		stdout-path = "serial0:115200n8";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  14  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  15  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  16  	aliases {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  17  		ethernet0 = &gmac1;
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  18  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  19  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  20  	/* Adjusted the i2c labels to use generic base-board dtsi files for
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  21  	 * Enclustra Arria10 and Cyclone5 SoMs.
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  22  	 *
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  23  	 * The set of i2c0 and i2c1 labels defined in socfpga_cyclone5.dtsi and in
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  24  	 * socfpga_arria10.dtsi do not allow for using the same base-board .dtsi
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  25  	 * fragments. Thus define generic labels here to match the correct i2c
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  26  	 * bus in a generic base-board .dtsi file.
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  27  	 */
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  28  	soc {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  29  		i2c_encl: i2c@ffc04000 {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  30  		};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  31  		i2c_encl_fpga: i2c@ffc05000 {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  32  		};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  33  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  34  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16 @35  	memory {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  36  		name = "memory";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  37  		device_type = "memory";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  38  		reg = <0x0 0x40000000>; /* 1GB */
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  39  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  40  };
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  41  
+d560168b5d0fb4 Guenter Roeck 2015-08-26  422  
+d560168b5d0fb4 Guenter Roeck 2015-08-26  423  static ssize_t hwmon_attr_show(struct device *dev,
+d560168b5d0fb4 Guenter Roeck 2015-08-26  424  			       struct device_attribute *devattr, char *buf)
+d560168b5d0fb4 Guenter Roeck 2015-08-26  425  {
+d560168b5d0fb4 Guenter Roeck 2015-08-26  426  	struct hwmon_device_attribute *hattr = to_hwmon_attr(devattr);
+2c67fcdff546bc Guenter Roeck 2024-08-28  427  	s64 val64;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  428  	long val;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  429  	int ret;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  430  
+d560168b5d0fb4 Guenter Roeck 2015-08-26  431  	ret = hattr->ops->read(dev, hattr->type, hattr->attr, hattr->index,
+2c67fcdff546bc Guenter Roeck 2024-08-28  432  			       hattr->type == hwmon_energy64 ? (long long *)&val64 : &val);
+d560168b5d0fb4 Guenter Roeck 2015-08-26  433  	if (ret < 0)
+d560168b5d0fb4 Guenter Roeck 2015-08-26  434  		return ret;
+d560168b5d0fb4 Guenter Roeck 2015-08-26  435  
+2c67fcdff546bc Guenter Roeck 2024-08-28  436  	if (hattr->type != hwmon_energy64)
+2c67fcdff546bc Guenter Roeck 2024-08-28 @437  		val64 = val;
+2c67fcdff546bc Guenter Roeck 2024-08-28  438  
+61b8ab2c5481dc Nicolin Chen  2018-10-09  439  	trace_hwmon_attr_show(hattr->index + hwmon_attr_base(hattr->type),
+2c67fcdff546bc Guenter Roeck 2024-08-28 @440  			      hattr->name, val64);
+61b8ab2c5481dc Nicolin Chen  2018-10-09  441  
+2c67fcdff546bc Guenter Roeck 2024-08-28  442  	return sprintf(buf, "%lld\n", val64);
+d560168b5d0fb4 Guenter Roeck 2015-08-26  443  }
+d560168b5d0fb4 Guenter Roeck 2015-08-26  444  
 
 -- 
 0-DAY CI Kernel Test Service
