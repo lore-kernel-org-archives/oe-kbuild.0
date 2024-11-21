@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AB52309B6
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 05:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA90274068
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 07:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732167603; cv=none; b=KaQSqOPPF8YILfv/qCKcyKOzBjdYb3ktbOF76AhBwmDUYYdFNWUR8iA5qHQ1LlGeX4APPLRpsnTbRgIRLhXajju0uxdODBo+281q+U/N9mPUOIgcjX2toKNF35R8f+AutNnnvCVTvR3qgqouAgp/W9wxwJVvN/RtOvKUiKPZ8Hw=
+	t=1732173149; cv=none; b=Q/hGvzc15OVERlHtfN9BTL1CvoLEOPdfmwcRwFtmGHy8W1v2NC6Edrk7XwZspUhm3+J2Qqc3Ji4eiVJpMNd59G5vULabfQ5dxyeWVJc43yl0kp5BbuN5u2/jvJmdzX1jaMjRyrmMx/QpseMpRNyUWgPVDVV6WtpTTfzbjjMcggo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732167603; c=relaxed/simple;
-	bh=d9JQ5m/Mvxwuq1jlqrWYnI7cNU8h7lQZizQjaoxq2rI=;
+	s=arc-20240116; t=1732173149; c=relaxed/simple;
+	bh=xsbr9qUAAOKvMGkIZSBC00FfsCxM6wppR0G9i9/hShU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hE0pnp12Njhb8r/OcCiMD7Yo4E/u7pjVNJ/d6fGea6mnItU6vwzqHaYWNSMvcjZ8XSuckD5kEQN5FfLbsBmFIWoioCZIxeNniZro19lL4Vam+kZge6zqtbmccULtrgmYe2ck1LhJzOY2N1u0Gu963rb7p5xezoLbUf482rT0ReY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gmjajEn9; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=LSXeuqUdztZYt+GowxpPyeqPRUlMv/FnR3voe+1cGM+f92GQIsV5ShJWuxcIQqt6TYkFaIK3sLXQOCpjAENKQvjvn+2e6MeKWcjCn0floGlK1PdytdgHG0Tjy/VjVbk+V2AD56wXPw43XBsw1hE627HfeIbucu086TfbIbHv5fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnW2qVW5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gmjajEn9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnW2qVW5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732167602; x=1763703602;
+  t=1732173148; x=1763709148;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d9JQ5m/Mvxwuq1jlqrWYnI7cNU8h7lQZizQjaoxq2rI=;
-  b=gmjajEn9M2WX42PhL2TZLLeBcjK7HJAqKYVGlRv5NVxK/rKORqYXdk9y
-   nUIch5ZwqWEHatydw0FGUtsOn8UtBJrftINVbNl0kwERYUZQ7PcnOIIQm
-   T4DiRvmyXY+dOSeSzHmzPzHu/uB6GRinS3SjqT0rkkTsxblzQYx2oVXvH
-   ZQVNuNS4UjX8PBM/cdezXNcIuFw1bI0nyUq3oPGGsYH5KG1QEl/3vszEz
-   ofakiqNsR19CZxyvVFZ954x4N6hXvAEivYA1dhl99S8sVy82RwW+rqklZ
-   4HZfR5BlMO5A+UD6ER8gZMNLCY69yN1Erb9zI7dpSGXcQq62OIdUOOgSo
+  bh=xsbr9qUAAOKvMGkIZSBC00FfsCxM6wppR0G9i9/hShU=;
+  b=lnW2qVW5U7jD2ZJD0lDZCq/YC7k4JGjqxjxmuxh2tEExsue6MX3WAkpn
+   HfMpJ8QRvezLpQ2vx0LOG+oVH027sKnJ1CvbjdR7OtAutmRNm5ruv1yVP
+   8KK3Z9vVcizOX7OJP+matCbYbsX+c3wikovdSUp+q4zt9ff6v6o1nzoLv
+   Ghyrj1h2lXVd6l2n5LdeQasQvCiWc0pP6fXfuwJa02AxcsnFHaouafQ1Y
+   i7iYqXmWRF6Zas0M9YeinIb5sxYSJsLK+ajay8BU5iZwjWLTZHCjIESbV
+   t4QaAuMjO5MFC4vlYAgDFMEdx/jWfp2fqNZ4kSjgvLk/mnNcmHYX+UQQb
    A==;
-X-CSE-ConnectionGUID: LehFXfWuQbinTwc0zSOYtA==
-X-CSE-MsgGUID: yzt07szwSDS6PK4u2BGtLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="43640775"
-X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="43640775"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 21:40:01 -0800
-X-CSE-ConnectionGUID: x0hk2Jh4TCCMTCqtyR4YPA==
-X-CSE-MsgGUID: KbpmME+STpuroddYsyN6Ag==
+X-CSE-ConnectionGUID: Lm0W94f0QxKa7PMQ0WRBmA==
+X-CSE-MsgGUID: x2LtB5V5Q/OFdyE6Oa4uQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="31632744"
+X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; 
+   d="scan'208";a="31632744"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 23:12:16 -0800
+X-CSE-ConnectionGUID: zRTNT92xTJ+v22Kk4o0p8Q==
+X-CSE-MsgGUID: CRFwvvkfQ4qlP03MkD/gMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="95204903"
+X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; 
+   d="scan'208";a="121027013"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2024 21:40:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2024 23:12:16 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDzv3-0002KV-1o;
-	Thu, 21 Nov 2024 05:39:57 +0000
-Date: Thu, 21 Nov 2024 13:39:04 +0800
+	id 1tE1MK-0002Yi-2t;
+	Thu, 21 Nov 2024 07:12:12 +0000
+Date: Thu, 21 Nov 2024 15:12:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/kthread.c:476 __kthread_create_on_node() warn:
- '&create->list' not removed from list
-Message-ID: <202411211332.mOnyrG5e-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/xfs/xfs_exchrange.c:114:11-12: WARNING opportunity for max()
+Message-ID: <202411211500.WbW2jbuy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,90 +64,112 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   43fb83c17ba2d63dfb798f0be7453ed55ca3f9c2
-commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+commit: 42672471f938cdab2573f32ce23915b78f0578f4 xfs: bind together the front and back ends of the file range exchange code
 date:   7 months ago
-:::::: branch date: 6 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 7 months ago
-config: hexagon-randconfig-r071-20241119 (https://download.01.org/0day-ci/archive/20241121/202411211332.mOnyrG5e-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+config: x86_64-randconfig-104-20241115 (https://download.01.org/0day-ci/archive/20241121/202411211500.WbW2jbuy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411211332.mOnyrG5e-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411211500.WbW2jbuy-lkp@intel.com/
 
-smatch warnings:
-kernel/kthread.c:476 __kthread_create_on_node() warn: '&create->list' not removed from list
-drivers/video/fbdev/sh_mobile_lcdcfb.c:2649 sh_mobile_lcdc_probe() warn: 'irq' from request_irq() not released on lines: 2649.
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_exchrange.c:114:11-12: WARNING opportunity for max()
+   fs/xfs/xfs_exchrange.c:115:11-12: WARNING opportunity for max()
 
-vim +476 kernel/kthread.c
+vim +114 fs/xfs/xfs_exchrange.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  426  
-c0b942a76361e0 Nicolas Iooss     2016-12-12  427  static __printf(4, 0)
-c0b942a76361e0 Nicolas Iooss     2016-12-12  428  struct task_struct *__kthread_create_on_node(int (*threadfn)(void *data),
-2a1d446019f9a5 Thomas Gleixner   2012-07-16  429  						    void *data, int node,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  430  						    const char namefmt[],
-255451e45345bc Petr Mladek       2016-10-11  431  						    va_list args)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  432  {
-786235eeba0e1e Tetsuo Handa      2013-11-12  433  	DECLARE_COMPLETION_ONSTACK(done);
-786235eeba0e1e Tetsuo Handa      2013-11-12  434  	struct task_struct *task;
-786235eeba0e1e Tetsuo Handa      2013-11-12  435  	struct kthread_create_info *create = kmalloc(sizeof(*create),
-786235eeba0e1e Tetsuo Handa      2013-11-12  436  						     GFP_KERNEL);
-786235eeba0e1e Tetsuo Handa      2013-11-12  437  
-786235eeba0e1e Tetsuo Handa      2013-11-12  438  	if (!create)
-786235eeba0e1e Tetsuo Handa      2013-11-12  439  		return ERR_PTR(-ENOMEM);
-786235eeba0e1e Tetsuo Handa      2013-11-12  440  	create->threadfn = threadfn;
-786235eeba0e1e Tetsuo Handa      2013-11-12  441  	create->data = data;
-786235eeba0e1e Tetsuo Handa      2013-11-12  442  	create->node = node;
-786235eeba0e1e Tetsuo Handa      2013-11-12  443  	create->done = &done;
-73e0c116594d99 Mike Christie     2023-03-10  444  	create->full_name = kvasprintf(GFP_KERNEL, namefmt, args);
-73e0c116594d99 Mike Christie     2023-03-10  445  	if (!create->full_name) {
-73e0c116594d99 Mike Christie     2023-03-10  446  		task = ERR_PTR(-ENOMEM);
-73e0c116594d99 Mike Christie     2023-03-10  447  		goto free_create;
-73e0c116594d99 Mike Christie     2023-03-10  448  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  449  
-73c279927f8956 Eric W. Biederman 2007-05-09  450  	spin_lock(&kthread_create_lock);
-786235eeba0e1e Tetsuo Handa      2013-11-12  451  	list_add_tail(&create->list, &kthread_create_list);
-73c279927f8956 Eric W. Biederman 2007-05-09  452  	spin_unlock(&kthread_create_lock);
-73c279927f8956 Eric W. Biederman 2007-05-09  453  
-cbd9b67bd3883d Dmitry Adamushko  2008-04-29  454  	wake_up_process(kthreadd_task);
-786235eeba0e1e Tetsuo Handa      2013-11-12  455  	/*
-786235eeba0e1e Tetsuo Handa      2013-11-12  456  	 * Wait for completion in killable state, for I might be chosen by
-786235eeba0e1e Tetsuo Handa      2013-11-12  457  	 * the OOM killer while kthreadd is trying to allocate memory for
-786235eeba0e1e Tetsuo Handa      2013-11-12  458  	 * new kernel thread.
-786235eeba0e1e Tetsuo Handa      2013-11-12  459  	 */
-786235eeba0e1e Tetsuo Handa      2013-11-12  460  	if (unlikely(wait_for_completion_killable(&done))) {
-786235eeba0e1e Tetsuo Handa      2013-11-12  461  		/*
-d25c83c6606ffc Petr Mladek       2022-03-15  462  		 * If I was killed by a fatal signal before kthreadd (or new
-d25c83c6606ffc Petr Mladek       2022-03-15  463  		 * kernel thread) calls complete(), leave the cleanup of this
-d25c83c6606ffc Petr Mladek       2022-03-15  464  		 * structure to that thread.
-786235eeba0e1e Tetsuo Handa      2013-11-12  465  		 */
-786235eeba0e1e Tetsuo Handa      2013-11-12  466  		if (xchg(&create->done, NULL))
-8fe6929cfd43c4 Tetsuo Handa      2014-06-04  467  			return ERR_PTR(-EINTR);
-786235eeba0e1e Tetsuo Handa      2013-11-12  468  		/*
-786235eeba0e1e Tetsuo Handa      2013-11-12  469  		 * kthreadd (or new kernel thread) will call complete()
-786235eeba0e1e Tetsuo Handa      2013-11-12  470  		 * shortly.
-786235eeba0e1e Tetsuo Handa      2013-11-12  471  		 */
-786235eeba0e1e Tetsuo Handa      2013-11-12  472  		wait_for_completion(&done);
-786235eeba0e1e Tetsuo Handa      2013-11-12  473  	}
-786235eeba0e1e Tetsuo Handa      2013-11-12  474  	task = create->result;
-73e0c116594d99 Mike Christie     2023-03-10  475  free_create:
-786235eeba0e1e Tetsuo Handa      2013-11-12 @476  	kfree(create);
-786235eeba0e1e Tetsuo Handa      2013-11-12  477  	return task;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  478  }
-255451e45345bc Petr Mladek       2016-10-11  479  
-
-:::::: The code at line 476 was first introduced by commit
-:::::: 786235eeba0e1e85e5cbbb9f97d1087ad03dfa21 kthread: make kthread_create() killable
-
-:::::: TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+42672471f938cd Darrick J. Wong 2024-04-15   76  
+42672471f938cd Darrick J. Wong 2024-04-15   77  /*
+42672471f938cd Darrick J. Wong 2024-04-15   78   * Obtain a quota reservation to make sure we don't hit EDQUOT.  We can skip
+42672471f938cd Darrick J. Wong 2024-04-15   79   * this if quota enforcement is disabled or if both inodes' dquots are the
+42672471f938cd Darrick J. Wong 2024-04-15   80   * same.  The qretry structure must be initialized to zeroes before the first
+42672471f938cd Darrick J. Wong 2024-04-15   81   * call to this function.
+42672471f938cd Darrick J. Wong 2024-04-15   82   */
+42672471f938cd Darrick J. Wong 2024-04-15   83  STATIC int
+42672471f938cd Darrick J. Wong 2024-04-15   84  xfs_exchrange_reserve_quota(
+42672471f938cd Darrick J. Wong 2024-04-15   85  	struct xfs_trans		*tp,
+42672471f938cd Darrick J. Wong 2024-04-15   86  	const struct xfs_exchmaps_req	*req,
+42672471f938cd Darrick J. Wong 2024-04-15   87  	unsigned int			*qretry)
+42672471f938cd Darrick J. Wong 2024-04-15   88  {
+42672471f938cd Darrick J. Wong 2024-04-15   89  	int64_t				ddelta, rdelta;
+42672471f938cd Darrick J. Wong 2024-04-15   90  	int				ip1_error = 0;
+42672471f938cd Darrick J. Wong 2024-04-15   91  	int				error;
+42672471f938cd Darrick J. Wong 2024-04-15   92  
+42672471f938cd Darrick J. Wong 2024-04-15   93  	/*
+42672471f938cd Darrick J. Wong 2024-04-15   94  	 * Don't bother with a quota reservation if we're not enforcing them
+42672471f938cd Darrick J. Wong 2024-04-15   95  	 * or the two inodes have the same dquots.
+42672471f938cd Darrick J. Wong 2024-04-15   96  	 */
+42672471f938cd Darrick J. Wong 2024-04-15   97  	if (!XFS_IS_QUOTA_ON(tp->t_mountp) || req->ip1 == req->ip2 ||
+42672471f938cd Darrick J. Wong 2024-04-15   98  	    (req->ip1->i_udquot == req->ip2->i_udquot &&
+42672471f938cd Darrick J. Wong 2024-04-15   99  	     req->ip1->i_gdquot == req->ip2->i_gdquot &&
+42672471f938cd Darrick J. Wong 2024-04-15  100  	     req->ip1->i_pdquot == req->ip2->i_pdquot))
+42672471f938cd Darrick J. Wong 2024-04-15  101  		return 0;
+42672471f938cd Darrick J. Wong 2024-04-15  102  
+42672471f938cd Darrick J. Wong 2024-04-15  103  	*qretry = 0;
+42672471f938cd Darrick J. Wong 2024-04-15  104  
+42672471f938cd Darrick J. Wong 2024-04-15  105  	/*
+42672471f938cd Darrick J. Wong 2024-04-15  106  	 * For each file, compute the net gain in the number of regular blocks
+42672471f938cd Darrick J. Wong 2024-04-15  107  	 * that will be mapped into that file and reserve that much quota.  The
+42672471f938cd Darrick J. Wong 2024-04-15  108  	 * quota counts must be able to absorb at least that much space.
+42672471f938cd Darrick J. Wong 2024-04-15  109  	 */
+42672471f938cd Darrick J. Wong 2024-04-15  110  	ddelta = req->ip2_bcount - req->ip1_bcount;
+42672471f938cd Darrick J. Wong 2024-04-15  111  	rdelta = req->ip2_rtbcount - req->ip1_rtbcount;
+42672471f938cd Darrick J. Wong 2024-04-15  112  	if (ddelta > 0 || rdelta > 0) {
+42672471f938cd Darrick J. Wong 2024-04-15  113  		error = xfs_trans_reserve_quota_nblks(tp, req->ip1,
+42672471f938cd Darrick J. Wong 2024-04-15 @114  				ddelta > 0 ? ddelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  115  				rdelta > 0 ? rdelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  116  				false);
+42672471f938cd Darrick J. Wong 2024-04-15  117  		if (error == -EDQUOT || error == -ENOSPC) {
+42672471f938cd Darrick J. Wong 2024-04-15  118  			/*
+42672471f938cd Darrick J. Wong 2024-04-15  119  			 * Save this error and see what happens if we try to
+42672471f938cd Darrick J. Wong 2024-04-15  120  			 * reserve quota for ip2.  Then report both.
+42672471f938cd Darrick J. Wong 2024-04-15  121  			 */
+42672471f938cd Darrick J. Wong 2024-04-15  122  			*qretry |= QRETRY_IP1;
+42672471f938cd Darrick J. Wong 2024-04-15  123  			ip1_error = error;
+42672471f938cd Darrick J. Wong 2024-04-15  124  			error = 0;
+42672471f938cd Darrick J. Wong 2024-04-15  125  		}
+42672471f938cd Darrick J. Wong 2024-04-15  126  		if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  127  			return error;
+42672471f938cd Darrick J. Wong 2024-04-15  128  	}
+42672471f938cd Darrick J. Wong 2024-04-15  129  	if (ddelta < 0 || rdelta < 0) {
+42672471f938cd Darrick J. Wong 2024-04-15  130  		error = xfs_trans_reserve_quota_nblks(tp, req->ip2,
+42672471f938cd Darrick J. Wong 2024-04-15  131  				ddelta < 0 ? -ddelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  132  				rdelta < 0 ? -rdelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  133  				false);
+42672471f938cd Darrick J. Wong 2024-04-15  134  		if (error == -EDQUOT || error == -ENOSPC)
+42672471f938cd Darrick J. Wong 2024-04-15  135  			*qretry |= QRETRY_IP2;
+42672471f938cd Darrick J. Wong 2024-04-15  136  		if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  137  			return error;
+42672471f938cd Darrick J. Wong 2024-04-15  138  	}
+42672471f938cd Darrick J. Wong 2024-04-15  139  	if (ip1_error)
+42672471f938cd Darrick J. Wong 2024-04-15  140  		return ip1_error;
+42672471f938cd Darrick J. Wong 2024-04-15  141  
+42672471f938cd Darrick J. Wong 2024-04-15  142  	/*
+42672471f938cd Darrick J. Wong 2024-04-15  143  	 * For each file, forcibly reserve the gross gain in mapped blocks so
+42672471f938cd Darrick J. Wong 2024-04-15  144  	 * that we don't trip over any quota block reservation assertions.
+42672471f938cd Darrick J. Wong 2024-04-15  145  	 * We must reserve the gross gain because the quota code subtracts from
+42672471f938cd Darrick J. Wong 2024-04-15  146  	 * bcount the number of blocks that we unmap; it does not add that
+42672471f938cd Darrick J. Wong 2024-04-15  147  	 * quantity back to the quota block reservation.
+42672471f938cd Darrick J. Wong 2024-04-15  148  	 */
+42672471f938cd Darrick J. Wong 2024-04-15  149  	error = xfs_trans_reserve_quota_nblks(tp, req->ip1, req->ip1_bcount,
+42672471f938cd Darrick J. Wong 2024-04-15  150  			req->ip1_rtbcount, true);
+42672471f938cd Darrick J. Wong 2024-04-15  151  	if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  152  		return error;
+42672471f938cd Darrick J. Wong 2024-04-15  153  
+42672471f938cd Darrick J. Wong 2024-04-15  154  	return xfs_trans_reserve_quota_nblks(tp, req->ip2, req->ip2_bcount,
+42672471f938cd Darrick J. Wong 2024-04-15  155  			req->ip2_rtbcount, true);
+42672471f938cd Darrick J. Wong 2024-04-15  156  }
+42672471f938cd Darrick J. Wong 2024-04-15  157  
 
 -- 
 0-DAY CI Kernel Test Service
