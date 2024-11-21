@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6EBE6C
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 00:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AB52309B6
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Nov 2024 05:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732150144; cv=none; b=s3jAj17ealcfI1z3pmAbs6QznlEY2wwcyqwzWJOfCJgc1QxZ6xikUQ2hF609M7RTaGM+TQSAeOlmZzuVVXcCrg+94GDK2RkEFIJaTGLL0ce2iGUWgrqq9UKCWmwEUbEbGeF94DPwVh1f36TU//7MVtUPGuptFLz1Luatp8s8CDw=
+	t=1732167603; cv=none; b=KaQSqOPPF8YILfv/qCKcyKOzBjdYb3ktbOF76AhBwmDUYYdFNWUR8iA5qHQ1LlGeX4APPLRpsnTbRgIRLhXajju0uxdODBo+281q+U/N9mPUOIgcjX2toKNF35R8f+AutNnnvCVTvR3qgqouAgp/W9wxwJVvN/RtOvKUiKPZ8Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732150144; c=relaxed/simple;
-	bh=hkzWymLDBAxzdc2l9DLjiOYNpYH26dNh4HwG0qQ48Yo=;
+	s=arc-20240116; t=1732167603; c=relaxed/simple;
+	bh=d9JQ5m/Mvxwuq1jlqrWYnI7cNU8h7lQZizQjaoxq2rI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MASZbzZRgNCy5gG8n0rjvghpSvEjmt/RSau5/mTq6sjvTFCP0te3AwkZ4aM/ErQT1tEBVqZcrKAhX69MvXqLlBJbF5gkcxILeTXqSBMmgwM9+mIViBn0b3FRuv6IEWzP5FK6NjcF6uUuStOP2WdkPxUdsiY9c8eAlTycN+zNKq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdiBLzPu; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=hE0pnp12Njhb8r/OcCiMD7Yo4E/u7pjVNJ/d6fGea6mnItU6vwzqHaYWNSMvcjZ8XSuckD5kEQN5FfLbsBmFIWoioCZIxeNniZro19lL4Vam+kZge6zqtbmccULtrgmYe2ck1LhJzOY2N1u0Gu963rb7p5xezoLbUf482rT0ReY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gmjajEn9; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdiBLzPu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gmjajEn9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732150142; x=1763686142;
+  t=1732167602; x=1763703602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hkzWymLDBAxzdc2l9DLjiOYNpYH26dNh4HwG0qQ48Yo=;
-  b=PdiBLzPugpC7sIu6FKV9JHLlBF/MyNWp+A8BMfvSQg6Coe/mxibhNf3D
-   xa2sdyqzj4LhTLmf+jbJzDt2ljvoWbheIe6e69Xi0ao0nfYGBTvoSmR0o
-   IQIoSI0jmMMT8ZXcHqrreownQgBnARhykh4hiUcs/Pilq2CGXtvjBpqad
-   S1Rw/7j/fh98/RV75xC1K+qHbXtDPnIKehpimbu5I+EcDF/vcRecZLBJA
-   Qfi0xL9SsmzzT2y3otjc46b3hYE9EsDDRywkEVZXCPWz0P9BPb+fyQhiS
-   wWXYorvLQSNvjJHy5FuyLfrX+6Q6s7B1OrfmLga0EH1cz+Ywme02BVRhY
-   Q==;
-X-CSE-ConnectionGUID: muH0ayKpRAa9TM+rmKmkPQ==
-X-CSE-MsgGUID: hhIgw4S1RoG5i3AVgs5sRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="57638695"
+  bh=d9JQ5m/Mvxwuq1jlqrWYnI7cNU8h7lQZizQjaoxq2rI=;
+  b=gmjajEn9M2WX42PhL2TZLLeBcjK7HJAqKYVGlRv5NVxK/rKORqYXdk9y
+   nUIch5ZwqWEHatydw0FGUtsOn8UtBJrftINVbNl0kwERYUZQ7PcnOIIQm
+   T4DiRvmyXY+dOSeSzHmzPzHu/uB6GRinS3SjqT0rkkTsxblzQYx2oVXvH
+   ZQVNuNS4UjX8PBM/cdezXNcIuFw1bI0nyUq3oPGGsYH5KG1QEl/3vszEz
+   ofakiqNsR19CZxyvVFZ954x4N6hXvAEivYA1dhl99S8sVy82RwW+rqklZ
+   4HZfR5BlMO5A+UD6ER8gZMNLCY69yN1Erb9zI7dpSGXcQq62OIdUOOgSo
+   A==;
+X-CSE-ConnectionGUID: LehFXfWuQbinTwc0zSOYtA==
+X-CSE-MsgGUID: yzt07szwSDS6PK4u2BGtLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="43640775"
 X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="57638695"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 16:49:01 -0800
-X-CSE-ConnectionGUID: t3S39xXJQj+NOc2j6yp8Pg==
-X-CSE-MsgGUID: LK5MKzc1TRiKLU3HCwH16g==
+   d="scan'208";a="43640775"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 21:40:01 -0800
+X-CSE-ConnectionGUID: x0hk2Jh4TCCMTCqtyR4YPA==
+X-CSE-MsgGUID: KbpmME+STpuroddYsyN6Ag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="90205563"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="95204903"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Nov 2024 16:49:00 -0800
+  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2024 21:40:00 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDvNR-0001G9-1g;
-	Thu, 21 Nov 2024 00:48:57 +0000
-Date: Thu, 21 Nov 2024 08:48:09 +0800
+	id 1tDzv3-0002KV-1o;
+	Thu, 21 Nov 2024 05:39:57 +0000
+Date: Thu, 21 Nov 2024 13:39:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9320/12380]
- drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2499
- iwl_mvm_parse_wowlan_info_notif() warn: variable dereferenced before check
- 'data' (see line 2497)
-Message-ID: <202411210812.0eLaonw3-lkp@intel.com>
+Subject: kernel/kthread.c:476 __kthread_create_on_node() warn:
+ '&create->list' not removed from list
+Message-ID: <202411211332.mOnyrG5e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,86 +64,91 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ac24e26aa08fe026804f678599f805eb13374a5d
-commit: 4635e6eaa0fec321409242f99cccedbaf486c5e8 [9320/12380] wifi: iwlwifi: mvm: support new versions of the wowlan APIs
-:::::: branch date: 18 hours ago
-:::::: commit date: 13 days ago
-config: i386-randconfig-141-20241120 (https://download.01.org/0day-ci/archive/20241121/202411210812.0eLaonw3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   43fb83c17ba2d63dfb798f0be7453ed55ca3f9c2
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   7 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 months ago
+config: hexagon-randconfig-r071-20241119 (https://download.01.org/0day-ci/archive/20241121/202411211332.mOnyrG5e-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411210812.0eLaonw3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411211332.mOnyrG5e-lkp@intel.com/
 
 smatch warnings:
-drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2499 iwl_mvm_parse_wowlan_info_notif() warn: variable dereferenced before check 'data' (see line 2497)
+kernel/kthread.c:476 __kthread_create_on_node() warn: '&create->list' not removed from list
+drivers/video/fbdev/sh_mobile_lcdcfb.c:2649 sh_mobile_lcdc_probe() warn: 'irq' from request_irq() not released on lines: 2649.
 
-vim +/data +2499 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
+vim +476 kernel/kthread.c
 
-0c4aa7a12a5a96 Yedidya Benshimol 2023-09-21  2490  
-32fed4706d9aca Naftali Goldstein 2022-09-06  2491  static void iwl_mvm_parse_wowlan_info_notif(struct iwl_mvm *mvm,
-32fed4706d9aca Naftali Goldstein 2022-09-06  2492  					    struct iwl_wowlan_info_notif *data,
-32fed4706d9aca Naftali Goldstein 2022-09-06  2493  					    struct iwl_wowlan_status_data *status,
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2494  					    u32 len)
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2495  {
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2496  	u32 expected_len = sizeof(*data) +
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28 @2497  		data->num_mlo_link_keys * sizeof(status->mlo_keys[0]);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2498  
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28 @2499  	if (!data) {
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2500  		IWL_ERR(mvm, "iwl_wowlan_info_notif data is NULL\n");
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2501  		status = NULL;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2502  		return;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2503  	}
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2504  
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2505  	if (len < expected_len) {
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2506  		IWL_ERR(mvm, "Invalid WoWLAN info notification!\n");
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2507  		status = NULL;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2508  		return;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2509  	}
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2510  
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2511  	if (mvm->fast_resume)
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2512  		return;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2513  
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2514  	iwl_mvm_convert_key_counters_v5(status, &data->gtk[0].sc);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2515  	iwl_mvm_convert_gtk_v3(status, data->gtk);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2516  	iwl_mvm_convert_igtk(status, &data->igtk[0]);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2517  	iwl_mvm_convert_bigtk(status, data->bigtk);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2518  	status->replay_ctr = le64_to_cpu(data->replay_ctr);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2519  	status->pattern_number = le16_to_cpu(data->pattern_number);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2520  	status->tid_offloaded_tx = data->tid_offloaded_tx;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2521  	if (IWL_FW_CHECK(mvm,
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2522  			 data->tid_offloaded_tx >=
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2523  			 ARRAY_SIZE(status->qos_seq_ctr),
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2524  			 "tid_offloaded_tx is out of bound %d\n",
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2525  			 data->tid_offloaded_tx))
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2526  		data->tid_offloaded_tx = 0;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2527  	status->qos_seq_ctr[data->tid_offloaded_tx] =
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2528  		le16_to_cpu(data->qos_seq_ctr);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2529  	status->wakeup_reasons = le32_to_cpu(data->wakeup_reasons);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2530  	status->num_of_gtk_rekeys =
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2531  		le32_to_cpu(data->num_of_gtk_rekeys);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2532  	status->received_beacons = le32_to_cpu(data->received_beacons);
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2533  	status->tid_tear_down = data->tid_tear_down;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2534  
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2535  	if (data->num_mlo_link_keys) {
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2536  		status->num_mlo_keys = data->num_mlo_link_keys;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2537  		if (IWL_FW_CHECK(mvm,
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2538  				 status->num_mlo_keys > WOWLAN_MAX_MLO_KEYS,
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2539  				 "Too many mlo keys: %d, max %d\n",
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2540  				 status->num_mlo_keys, WOWLAN_MAX_MLO_KEYS))
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2541  			status->num_mlo_keys = WOWLAN_MAX_MLO_KEYS;
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2542  		memcpy(status->mlo_keys, data->mlo_gtks,
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2543  		       status->num_mlo_keys * sizeof(status->mlo_keys[0]));
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2544  	}
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2545  }
-4635e6eaa0fec3 Emmanuel Grumbach 2024-10-28  2546  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  426  
+c0b942a76361e0 Nicolas Iooss     2016-12-12  427  static __printf(4, 0)
+c0b942a76361e0 Nicolas Iooss     2016-12-12  428  struct task_struct *__kthread_create_on_node(int (*threadfn)(void *data),
+2a1d446019f9a5 Thomas Gleixner   2012-07-16  429  						    void *data, int node,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  430  						    const char namefmt[],
+255451e45345bc Petr Mladek       2016-10-11  431  						    va_list args)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  432  {
+786235eeba0e1e Tetsuo Handa      2013-11-12  433  	DECLARE_COMPLETION_ONSTACK(done);
+786235eeba0e1e Tetsuo Handa      2013-11-12  434  	struct task_struct *task;
+786235eeba0e1e Tetsuo Handa      2013-11-12  435  	struct kthread_create_info *create = kmalloc(sizeof(*create),
+786235eeba0e1e Tetsuo Handa      2013-11-12  436  						     GFP_KERNEL);
+786235eeba0e1e Tetsuo Handa      2013-11-12  437  
+786235eeba0e1e Tetsuo Handa      2013-11-12  438  	if (!create)
+786235eeba0e1e Tetsuo Handa      2013-11-12  439  		return ERR_PTR(-ENOMEM);
+786235eeba0e1e Tetsuo Handa      2013-11-12  440  	create->threadfn = threadfn;
+786235eeba0e1e Tetsuo Handa      2013-11-12  441  	create->data = data;
+786235eeba0e1e Tetsuo Handa      2013-11-12  442  	create->node = node;
+786235eeba0e1e Tetsuo Handa      2013-11-12  443  	create->done = &done;
+73e0c116594d99 Mike Christie     2023-03-10  444  	create->full_name = kvasprintf(GFP_KERNEL, namefmt, args);
+73e0c116594d99 Mike Christie     2023-03-10  445  	if (!create->full_name) {
+73e0c116594d99 Mike Christie     2023-03-10  446  		task = ERR_PTR(-ENOMEM);
+73e0c116594d99 Mike Christie     2023-03-10  447  		goto free_create;
+73e0c116594d99 Mike Christie     2023-03-10  448  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  449  
+73c279927f8956 Eric W. Biederman 2007-05-09  450  	spin_lock(&kthread_create_lock);
+786235eeba0e1e Tetsuo Handa      2013-11-12  451  	list_add_tail(&create->list, &kthread_create_list);
+73c279927f8956 Eric W. Biederman 2007-05-09  452  	spin_unlock(&kthread_create_lock);
+73c279927f8956 Eric W. Biederman 2007-05-09  453  
+cbd9b67bd3883d Dmitry Adamushko  2008-04-29  454  	wake_up_process(kthreadd_task);
+786235eeba0e1e Tetsuo Handa      2013-11-12  455  	/*
+786235eeba0e1e Tetsuo Handa      2013-11-12  456  	 * Wait for completion in killable state, for I might be chosen by
+786235eeba0e1e Tetsuo Handa      2013-11-12  457  	 * the OOM killer while kthreadd is trying to allocate memory for
+786235eeba0e1e Tetsuo Handa      2013-11-12  458  	 * new kernel thread.
+786235eeba0e1e Tetsuo Handa      2013-11-12  459  	 */
+786235eeba0e1e Tetsuo Handa      2013-11-12  460  	if (unlikely(wait_for_completion_killable(&done))) {
+786235eeba0e1e Tetsuo Handa      2013-11-12  461  		/*
+d25c83c6606ffc Petr Mladek       2022-03-15  462  		 * If I was killed by a fatal signal before kthreadd (or new
+d25c83c6606ffc Petr Mladek       2022-03-15  463  		 * kernel thread) calls complete(), leave the cleanup of this
+d25c83c6606ffc Petr Mladek       2022-03-15  464  		 * structure to that thread.
+786235eeba0e1e Tetsuo Handa      2013-11-12  465  		 */
+786235eeba0e1e Tetsuo Handa      2013-11-12  466  		if (xchg(&create->done, NULL))
+8fe6929cfd43c4 Tetsuo Handa      2014-06-04  467  			return ERR_PTR(-EINTR);
+786235eeba0e1e Tetsuo Handa      2013-11-12  468  		/*
+786235eeba0e1e Tetsuo Handa      2013-11-12  469  		 * kthreadd (or new kernel thread) will call complete()
+786235eeba0e1e Tetsuo Handa      2013-11-12  470  		 * shortly.
+786235eeba0e1e Tetsuo Handa      2013-11-12  471  		 */
+786235eeba0e1e Tetsuo Handa      2013-11-12  472  		wait_for_completion(&done);
+786235eeba0e1e Tetsuo Handa      2013-11-12  473  	}
+786235eeba0e1e Tetsuo Handa      2013-11-12  474  	task = create->result;
+73e0c116594d99 Mike Christie     2023-03-10  475  free_create:
+786235eeba0e1e Tetsuo Handa      2013-11-12 @476  	kfree(create);
+786235eeba0e1e Tetsuo Handa      2013-11-12  477  	return task;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  478  }
+255451e45345bc Petr Mladek       2016-10-11  479  
+
+:::::: The code at line 476 was first introduced by commit
+:::::: 786235eeba0e1e85e5cbbb9f97d1087ad03dfa21 kthread: make kthread_create() killable
+
+:::::: TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
