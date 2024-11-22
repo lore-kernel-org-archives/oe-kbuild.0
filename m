@@ -1,168 +1,175 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AEB1D61B9
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 09:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7098D16F824
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 10:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732269003; cv=none; b=pjZN45rgY93iEdtT9jilGrVyhUfJmDUu1jWgmJ4w/N1qcubF2NknEuGxiBVN/xZw5l+0BIvbh5C/31wclDBidEbI0sg3+S21B4TtrRQcINwbtCXjbqnOAtYHg0wXitYdb42qvUew4sHcXjtAbiC3uU1xK8JStV/Jlz2uHY+BnSM=
+	t=1732270816; cv=none; b=YZ+KcpfuLvsU+GMsfnihbrDihglZh9cLZR7xIMTmKv+q4TykPE908W5462K44NHuYldWszDLp6Vx78mWe6a/OvlSz5lStjbgPQNa28/jxU2VMDcsC6LgXc8uOobhLVtYzNPbmUM7HDW9LXk0BwOtO14NnOXOxzHxHtgldHIi7t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732269003; c=relaxed/simple;
-	bh=PvEGdxriQ64q0nn9Stq2sPLaEpishpGozwR3OcVmBwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lIzxIowhGL8re9fq7o9tUcWLqonYIOCP9FWLzUS5TxqtZKP06NfJp/F540D6UCRG8/HWRfpiVepm2bNrEDsg+bZOw9kss9I4JisfTTidc28owULxS/IE7VTlCcymFSgRGoBmcdF1cQlznBAzOr9VJ1UU5D5v8vF+0GCqOIav9Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gQ2LNKY2; arc=none smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1732270816; c=relaxed/simple;
+	bh=Fgd425EW2gU0BmZBsdEo9t67i/7cD/FmKQDWH5Wxef8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=j8zo9JRw6CQYKnFZUXp9uhE+f7UXgHJSHhgnKTxOL8hqu9QAvW9FQLUcclo5aTg5p0aFziW3ovEBLZIu5Whko0GDLa19sV4mERkqnfOH1AAEPuIGvmB0dh8yzjHsPprTb1YIgkWa/dqC2vJnAHROSRpUgvYa1ayVEp94Isymwuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i9382Xs+; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gQ2LNKY2"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2965e65ce89so1283420fac.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 01:50:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732269001; x=1732873801; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hVK3siImP8xz7KIb6KpsrNuBusfSPJqPiJxMHJ1HiJQ=;
-        b=gQ2LNKY2TtgZ4Qrw65yB50l63HSgBMwsaetiyL8UtgSF/7xj4LNZpblhs17UAXw6Ns
-         iI1eid86WMdWAkJM0TmAyp8bkkCARlUhPdgY4RUC0NjeA1ou0ilt/qcuwdiiJ7WXaDnN
-         Z8xmRcAzvYw8ZtAFSCaHdDurroxM5F0SLztLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732269001; x=1732873801;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hVK3siImP8xz7KIb6KpsrNuBusfSPJqPiJxMHJ1HiJQ=;
-        b=IOAaI5nXnNeQDzEHz77KcRDTw4AF3toEVd6EA7u/ziU5ZUlqUo6101jWauYQmJ9/Vi
-         mxIJG3zoY1c9Tt93tIuk8gJkeRi0APLmO4CwZVVryAMYvgMQ239FkKvK1M30xf3tEpNY
-         sH9QtbJaugtR7O1qc+y2MuvP50SxSG7m/jxxGaU1yFc0TF2yGRfkPW0n3ICPNfo9VdV/
-         4b8GMBrPkU3rbhub1hk60v2961Fng+VPRVWjOP2nlBJOOCdhaE2xB9CXQ7qtPytIARxP
-         tpJ6w/d90D5UkGaRh/tkcA1x4oKPuRO8nj8cfWeWB6TADkf+3X5Zyc1zpT/q2cIorjNo
-         5ueQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+ZYBxdSYkT20Mor6WlgmsO7G3FUIHtxIM0ARFDWwNw+WTuz2g825i55L6tcbRWKULYCqZVPpvP5I=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2jaArGdF7bYy2zqFSfqZ0iz8LGtr53TgRO5PC+Uz9kGa14T1M
-	pnbQv8UrZMr42D1cPEKj8v19sRah0v21O7HxbpiKuaZJv7WEsq8sgwthhYb91i1Y0nG31/4M/F4
-	=
-X-Gm-Gg: ASbGncu7R4C5sVkgIQmRAqk82NLwLeR42OSMNgDvlszaeIHkhiJvoSFkih9uCITlIwP
-	f7t1mB5tJuKpiNWh2MCrxFY+d2OR5wfwy74314OXCenCEcVl2um/lTl3qhTVFvceUhvig7aMjeX
-	ufaumHAB8dus6YU/dY0F4SuhHG6YYIwZIQSw6ahw/3kmNXRUtcB7mPysBEptqOk8P94o6zuFE1U
-	AMYM9a5+USHSdnNvQXq56to3ZGu6Wypfzz5pz7M8l9gGlJWpggmuYyX4Id77Zlx52FvckpEoMhF
-	ZtgMGeuegJbWrI8J
-X-Google-Smtp-Source: AGHT+IEJ5cKHGLkw0EYJCPvrpeu9JZp9ZQ6TAM5Lg2VHtUEuJYmdRryYp4eUGb3i2ukyfpDcOTT/UA==
-X-Received: by 2002:a05:6871:3b08:b0:297:23cf:d3db with SMTP id 586e51a60fabf-29723cfe7ddmr1269217fac.37.1732269000662;
-        Fri, 22 Nov 2024 01:50:00 -0800 (PST)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com. [209.85.167.175])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2971d898b54sm464325fac.53.2024.11.22.01.49.59
-        for <oe-kbuild@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Nov 2024 01:50:00 -0800 (PST)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3e606cba08eso991119b6e.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 01:49:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW8GpvLucUdKz9rTkIjFueF7R1aSEUR4I8gv+0g+flF2Sd5y9nDf2hEF3V0urLNZJ8FzcVoUfEVW54=@lists.linux.dev
-X-Received: by 2002:a05:6808:1590:b0:3e7:6468:1fd5 with SMTP id
- 5614622812f47-3e915a5886cmr2412276b6e.34.1732268998797; Fri, 22 Nov 2024
- 01:49:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i9382Xs+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732270815; x=1763806815;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Fgd425EW2gU0BmZBsdEo9t67i/7cD/FmKQDWH5Wxef8=;
+  b=i9382Xs+t1pk7YANEkLVs804wsvu3iXC1xIM5mwsSblyR7lMz5Ajubio
+   gn+Kuyy1EQk6Iy0V1kUf4UMZpBYjChV+jD8G4z93zhWzybT9hLzc6GHd6
+   GNf5yPdFPj1RUDmMErL1SGdeilC3/NWm67hCuYC8TdAX6VKShttgt3CG3
+   DBP6f1pxswiLTjIkgibBP206WaX+KUrB/7zZp202bjoY0CsjpUGNEvakn
+   yVOV6p/uTLRxIBbXqnZBMQodKpwmxmwvJ5ie9ZaIyZZJIKiA5N8rBQwsh
+   wFbohC2heg5oDbLWD+iWpyvEADZ3O+HJdXI2L5+HkZSXv7Kcu0itk9aem
+   A==;
+X-CSE-ConnectionGUID: ILTL5jwOTYmSXiRHRjLDYA==
+X-CSE-MsgGUID: wcX4JxFfRGeScjt7+kbb5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="35280463"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="35280463"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 02:20:14 -0800
+X-CSE-ConnectionGUID: +QMioIXMTcqc+DzQX1gkiQ==
+X-CSE-MsgGUID: 1qBzuoj9QACHTPFw+Lkkag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="90680580"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 22 Nov 2024 02:20:13 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tEQlm-0003pZ-0w;
+	Fri, 22 Nov 2024 10:20:10 +0000
+Date: Fri, 22 Nov 2024 18:19:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [RFC PATCH 27/29] drm/xe: Teach xe_sync layer about
+ drm_xe_semaphore
+Message-ID: <202411221644.U9ddWy9K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <54307d9c-a9bf-4bc1-b15d-60c5ba53d0ea@stanley.mountain>
- <Z0A6Rc-HUPcsIw8z@kekkonen.localdomain> <CANiDSCuQFmrPTLTFs0GPJ209EEKN=MCg8cK3xcsxp8c2eEMhVg@mail.gmail.com>
- <Z0A8njOPBMtkb5wJ@valkosipuli.retiisi.eu>
-In-Reply-To: <Z0A8njOPBMtkb5wJ@valkosipuli.retiisi.eu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 22 Nov 2024 10:49:47 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtRife4KNYmCFX56hroGJCHTQvSWdwwMRHGC7mpVbKCYQ@mail.gmail.com>
-Message-ID: <CANiDSCtRife4KNYmCFX56hroGJCHTQvSWdwwMRHGC7mpVbKCYQ@mail.gmail.com>
-Subject: Re: drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready()
- warn: iterator 'i' not incremented
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Sakari
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241118233757.2374041-28-matthew.brost@intel.com>
+References: <20241118233757.2374041-28-matthew.brost@intel.com>
+TO: Matthew Brost <matthew.brost@intel.com>
 
-On Fri, 22 Nov 2024 at 09:11, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Ricardo,
->
-> On Fri, Nov 22, 2024 at 09:06:40AM +0100, Ricardo Ribalda wrote:
-> > Hi
-> >
-> > On Fri, 22 Nov 2024 at 09:01, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > Hi Dan,
-> > >
-> > > On Fri, Nov 22, 2024 at 10:45:53AM +0300, Dan Carpenter wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > > head:   28eb75e178d389d325f1666e422bc13bbbb9804c
-> > > > commit: 93da10eee90b2ffa4b496dd4a6ea276c57461fb6 media: intel/ipu6: Fix direct dependency Kconfig error
-> > > > config: alpha-randconfig-r072-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221147.N6w23gDo-lkp@intel.com/config)
-> > > > compiler: alpha-linux-gcc (GCC) 14.2.0
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > > | Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
-> > > >
-> > > > smatch warnings:
-> > > > drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-> > > >
-> > > > vim +/i +752 drivers/media/pci/intel/ipu-bridge.c
-> > > >
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  745  static int ipu_bridge_ivsc_is_ready(void)
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  746  {
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  747     struct acpi_device *sensor_adev, *adev;
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  748     struct device *csi_dev;
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  749     bool ready = true;
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  750     unsigned int i;
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  751
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03 @752     for (i = 0; i < ARRAY_SIZE(ipu_supported_sensors); i++) {
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  753  #if IS_ENABLED(CONFIG_ACPI)
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  754             const struct ipu_sensor_config *cfg =
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  755                     &ipu_supported_sensors[i];
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  756
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  757             for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  758  #else
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  759             while (true) {
-> > > >                                                                                                         ^^^^^^^^^^^^^^
-> > > >
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  760                     sensor_adev = NULL;
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  761  #endif
-> > > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  762                     if (!ACPI_PTR(sensor_adev->status.enabled))
-> > > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  763                             continue;
-> > > >
-> > > >
-> > > > These continues make sense in for_each_acpi_dev_match() but not in a while (true) {
-> > > > loop.  We're stuck forever.
-> > >
-> > > The non-ACPI case is there just for the looks... I think what should be
-> > > done is to make the entire loop conditional to CONFIG_ACPI. I can post a
-> > > patch.
-> >
-> > I saw your mail after I sent my patch :)
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20241122-fix-ipu-v1-1-246e254cb77c@chromium.org/
-> >
-> > If we make the entire loop conditional then we would not compile test the
-> > loop.
->
-> I'm fine with the patch as such but don't you think we might get just a
-> different warning from this one? :-) I'm fine trying this though.
+Hi Matthew,
 
-I have send a new series to fix it for real. Until the acpi guys
-review the code we can land the first patch of the series. I have
-tested it with smatch and sparse and it seems to be fine.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
->
-> --
-> Sakari Ailus
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20241121]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.12]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/dma-fence-Add-dma_fence_preempt-base-class/20241121-124856
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241118233757.2374041-28-matthew.brost%40intel.com
+patch subject: [RFC PATCH 27/29] drm/xe: Teach xe_sync layer about drm_xe_semaphore
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221644.U9ddWy9K-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411221644.U9ddWy9K-lkp@intel.com/
+
+smatch warnings:
+drivers/gpu/drm/xe/xe_sync.c:275 xe_sync_semaphore_parse() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +275 drivers/gpu/drm/xe/xe_sync.c
+
+dd08ebf6c3525a Matthew Brost 2023-03-30  218  
+0f3343471ed4df Matthew Brost 2024-11-18  219  int xe_sync_semaphore_parse(struct xe_device *xe, struct xe_file *xef,
+0f3343471ed4df Matthew Brost 2024-11-18  220  			    struct xe_sync_entry *sync,
+0f3343471ed4df Matthew Brost 2024-11-18  221  			    struct drm_xe_semaphore __user *semaphore_user,
+0f3343471ed4df Matthew Brost 2024-11-18  222  			    unsigned int flags)
+0f3343471ed4df Matthew Brost 2024-11-18  223  {
+0f3343471ed4df Matthew Brost 2024-11-18  224  	struct drm_xe_semaphore semaphore_in;
+0f3343471ed4df Matthew Brost 2024-11-18  225  	struct drm_gem_object *gem_obj;
+0f3343471ed4df Matthew Brost 2024-11-18  226  	struct xe_bo *bo;
+0f3343471ed4df Matthew Brost 2024-11-18  227  
+0f3343471ed4df Matthew Brost 2024-11-18  228  	if (copy_from_user(&semaphore_in, semaphore_user,
+0f3343471ed4df Matthew Brost 2024-11-18  229  			   sizeof(*semaphore_user)))
+0f3343471ed4df Matthew Brost 2024-11-18  230  		return -EFAULT;
+0f3343471ed4df Matthew Brost 2024-11-18  231  
+0f3343471ed4df Matthew Brost 2024-11-18  232  	if (XE_IOCTL_DBG(xe, semaphore_in.offset & 0x7 ||
+0f3343471ed4df Matthew Brost 2024-11-18  233  			 !semaphore_in.handle || semaphore_in.token ||
+0f3343471ed4df Matthew Brost 2024-11-18  234  			 semaphore_in.reserved[0] || semaphore_in.reserved[1]))
+0f3343471ed4df Matthew Brost 2024-11-18  235  		return -EINVAL;
+0f3343471ed4df Matthew Brost 2024-11-18  236  
+0f3343471ed4df Matthew Brost 2024-11-18  237  	gem_obj = drm_gem_object_lookup(xef->drm, semaphore_in.handle);
+0f3343471ed4df Matthew Brost 2024-11-18  238  	if (XE_IOCTL_DBG(xe, !gem_obj))
+0f3343471ed4df Matthew Brost 2024-11-18  239  		return -ENOENT;
+0f3343471ed4df Matthew Brost 2024-11-18  240  
+0f3343471ed4df Matthew Brost 2024-11-18  241  	bo = gem_to_xe_bo(gem_obj);
+0f3343471ed4df Matthew Brost 2024-11-18  242  
+0f3343471ed4df Matthew Brost 2024-11-18  243  	if (XE_IOCTL_DBG(xe, bo->size < semaphore_in.offset)) {
+0f3343471ed4df Matthew Brost 2024-11-18  244  		xe_bo_put(bo);
+0f3343471ed4df Matthew Brost 2024-11-18  245  		return -EINVAL;
+0f3343471ed4df Matthew Brost 2024-11-18  246  	}
+0f3343471ed4df Matthew Brost 2024-11-18  247  
+0f3343471ed4df Matthew Brost 2024-11-18  248  	if (flags & DRM_XE_SYNC_FLAG_SIGNAL) {
+0f3343471ed4df Matthew Brost 2024-11-18  249  		struct iosys_map vmap = sync->bo->vmap;
+0f3343471ed4df Matthew Brost 2024-11-18  250  		struct dma_fence *fence;
+0f3343471ed4df Matthew Brost 2024-11-18  251  
+0f3343471ed4df Matthew Brost 2024-11-18  252  		sync->chain_fence = dma_fence_chain_alloc();
+0f3343471ed4df Matthew Brost 2024-11-18  253  		if (!sync->chain_fence) {
+0f3343471ed4df Matthew Brost 2024-11-18  254  			xe_bo_put(bo);
+0f3343471ed4df Matthew Brost 2024-11-18  255  			dma_fence_chain_free(sync->chain_fence);
+0f3343471ed4df Matthew Brost 2024-11-18  256  			return -ENOMEM;
+0f3343471ed4df Matthew Brost 2024-11-18  257  		}
+0f3343471ed4df Matthew Brost 2024-11-18  258  
+0f3343471ed4df Matthew Brost 2024-11-18  259  		fence = xe_hw_fence_alloc();
+0f3343471ed4df Matthew Brost 2024-11-18  260  		if (IS_ERR(fence)) {
+0f3343471ed4df Matthew Brost 2024-11-18  261  			xe_bo_put(bo);
+0f3343471ed4df Matthew Brost 2024-11-18  262  			return PTR_ERR(fence);
+0f3343471ed4df Matthew Brost 2024-11-18  263  		}
+0f3343471ed4df Matthew Brost 2024-11-18  264  
+0f3343471ed4df Matthew Brost 2024-11-18  265  		vmap = bo->vmap;
+0f3343471ed4df Matthew Brost 2024-11-18  266  		iosys_map_incr(&vmap, semaphore_in.offset);
+0f3343471ed4df Matthew Brost 2024-11-18  267  
+0f3343471ed4df Matthew Brost 2024-11-18  268  		xe_hw_fence_user_init(fence, xe, vmap, semaphore_in.seqno);
+0f3343471ed4df Matthew Brost 2024-11-18  269  		sync->fence = fence;
+0f3343471ed4df Matthew Brost 2024-11-18  270  		sync->flags = IS_UNINSTALLED_HW_FENCE;
+0f3343471ed4df Matthew Brost 2024-11-18  271  	} else {
+0f3343471ed4df Matthew Brost 2024-11-18  272  		sync->user_fence = dma_fence_user_fence_alloc();
+0f3343471ed4df Matthew Brost 2024-11-18  273  		if (XE_IOCTL_DBG(xe, !sync->user_fence)) {
+0f3343471ed4df Matthew Brost 2024-11-18  274  			xe_bo_put(bo);
+0f3343471ed4df Matthew Brost 2024-11-18 @275  			return PTR_ERR(sync->ufence);
+0f3343471ed4df Matthew Brost 2024-11-18  276  		}
+0f3343471ed4df Matthew Brost 2024-11-18  277  
+0f3343471ed4df Matthew Brost 2024-11-18  278  		sync->addr = semaphore_in.offset;
+0f3343471ed4df Matthew Brost 2024-11-18  279  		sync->timeline_value = semaphore_in.seqno;
+0f3343471ed4df Matthew Brost 2024-11-18  280  		sync->flags = DRM_XE_SYNC_FLAG_SIGNAL;
+0f3343471ed4df Matthew Brost 2024-11-18  281  	}
+0f3343471ed4df Matthew Brost 2024-11-18  282  	sync->bo = bo;
+0f3343471ed4df Matthew Brost 2024-11-18  283  
+0f3343471ed4df Matthew Brost 2024-11-18  284  	return 0;
+0f3343471ed4df Matthew Brost 2024-11-18  285  }
+0f3343471ed4df Matthew Brost 2024-11-18  286  
 
 -- 
-Ricardo Ribalda
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
