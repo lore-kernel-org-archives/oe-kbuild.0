@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2567B2E3EE
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 16:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68641BC06C
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 23:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732291310; cv=none; b=SsvnwJ2GGKrOBBCnqsI8raxewsovNGGtzpRxQlCoysKqfvGzD9kUIT4yZDm/yiRFwb84Nl4TTCA+YmwQ8Xw/ORWOXt+3gEjr59N9R5HbLEgFS4t0yibLL/r6l/Gt+u66LrYiCKU7IjrWzR4sfZPVL2e7MS+Bk2Xau66jZvMKy6Y=
+	t=1732316435; cv=none; b=ICGLNZZtrQ6KxJDcapTHBp86K9MfQ1STidfWcMHugyXBIW0rg1A97/X8BB4hSy/Mw6utjn+A+wsX8DHowkGRp0NcA1OMNl7Jt/1QwIAYLKjxri1m9c3ACixAM29m01piQOL1OrUF/BlT+TdCTHSuoPHq+JKmJAVH7wjMTOO0tBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732291310; c=relaxed/simple;
-	bh=IJeKqgzV+lgZeFw70cx5YhWXtJuBpd+Cinzt2ps65qo=;
+	s=arc-20240116; t=1732316435; c=relaxed/simple;
+	bh=GIMAWtotinXn0UdGZ8rnXrjWAUXDOEl4z91RHux1KfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NqcbFdxveA1+aJfz1Xjd5oSxYKpO1EhqTMHSq5nEUPIpuSeJOTjtBbR+WMRFhIqQQg8vXLSRgP7cjiZpRdHM1zy/DnTFmdxn92FLHc2q2DTDCMaqTLsFDiQlmS862BN5dU/3m3Xuc2dluc5V4tA7CUTzf/GnxE12z9tZlNBzY0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJSCPv7U; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=jAH3Bl4mMz+vMwoZwuRvnSOTZqFuFGm3uyV/yqTO3MoR2DEETVUGz7Rdy0eVPmMjNqSqXzKlCYRE1AGCqErXFCQAYoyKUJ9PxdUKydSO+PmltGGWWpMI7zJFwPfv5w1aClRGoWMJtdONEqSQSCVBzxDVbsbp8Cjs9G8UyiDgrhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdjGO42W; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJSCPv7U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdjGO42W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732291308; x=1763827308;
+  t=1732316431; x=1763852431;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IJeKqgzV+lgZeFw70cx5YhWXtJuBpd+Cinzt2ps65qo=;
-  b=mJSCPv7Um4h1xrbgjyxS3uXS0VD8qw1K8BpGscw6oDEl5xKuX2f/TwKF
-   u3ZKRlUFWuCPvdWqFGt5xV/uF6n7le78OaW7ZrQ+gj+KnHSLeyUjsLUKq
-   W1QmdsOJh1a1Ui9i+LPlYloXHXpqfhfDhGer4nIeNe9CxLdv0SEQuApj0
-   DK259yrkmWiCGpw+q5M5Ny7MIM35sGBXguDw/uuNdTY+K4cKU2nkPKQAm
-   v8TcleBI3qku7VCdJTOQ1wjkRkO28USpPe1IngnTHczuIswOSwSoAXGjt
-   C9tKwW9VyNY9t7AacRP+jFUWEGlO3B6I6BqQaTuLwhc5mfR5itjL9UEku
+  bh=GIMAWtotinXn0UdGZ8rnXrjWAUXDOEl4z91RHux1KfY=;
+  b=jdjGO42WXkCHD92GImbJ31CbIZwWlPqc5gWUxmp/Sa8gaJNKEcdldEff
+   fhF7g/8tiaM3BjSef8B2Qb6MJ6LMAoUlD0sXCy2DFIvnXKCJwNPIy/dnU
+   EmIVFCJ1G55ch9j9V4goBMVC/dBLZdvMGFrx9gSd+6q7N78bzOxLVDrN+
+   NPwE1+hNN6+ziak68DWw83dr0SEkVP/eFfdPWtMH7upR9n8na4AfsBuia
+   jepl/SQDitK19FydQsMPAfC6R/QTsOUDaGwc55qM/YV4FbrcM0qiE80vE
+   5JEkSPqDzq5D4mT4q38KxljtOPkP6zwXs6c9rD/CbN/pdp9XdI8qBOOBj
    g==;
-X-CSE-ConnectionGUID: Gu+jhH1iRkO8qtmuMEENjA==
-X-CSE-MsgGUID: 9ux4GbXlS5ea16FMLg870w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="43828989"
+X-CSE-ConnectionGUID: YtWWsy4CTdi8AA9EYOAOWQ==
+X-CSE-MsgGUID: zYkvHOpXQLC6SfuO9hUgwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36260994"
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="43828989"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 08:01:47 -0800
-X-CSE-ConnectionGUID: SSPSDDbhRFmNDH7ZMLXcVQ==
-X-CSE-MsgGUID: nugRGPojRX6gQVQjkzNiBA==
+   d="scan'208";a="36260994"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 15:00:31 -0800
+X-CSE-ConnectionGUID: 3qaOk8+qQEaIblAmYixQqw==
+X-CSE-MsgGUID: s1bFeB5YRuStf74e9k/Csw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="113888131"
+   d="scan'208";a="95123581"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2024 08:01:46 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 22 Nov 2024 15:00:30 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEW6K-00042R-0E;
-	Fri, 22 Nov 2024 16:01:44 +0000
-Date: Sat, 23 Nov 2024 00:01:01 +0800
+	id 1tEcdY-0004Gl-08;
+	Fri, 22 Nov 2024 23:00:28 +0000
+Date: Sat, 23 Nov 2024 06:59:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12 38/6108]
- net/netfilter/xt_IDLETIMER.c:206 idletimer_tg_show() error: we previously
- assumed 'timer' could be null (see line 197)
-Message-ID: <202411222344.akGJ6WjR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/5] arm64: dts: imx8mp: Configure dsp node for rproc
+ usage
+Message-ID: <202411230620.M7qu34f7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,124 +62,300 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241120135859.3133984-3-daniel.baluta@nxp.com>
+References: <20241120135859.3133984-3-daniel.baluta@nxp.com>
+TO: Daniel Baluta <daniel.baluta@nxp.com>
+TO: shawnguo@kernel.org
+TO: s.hauer@pengutronix.de
+TO: kernel@pengutronix.de
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: festevam@gmail.com
+CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: frank.li@nxp.com
+CC: aisheng.dong@nxp.com
+CC: daniel.baluta@gmail.com
+CC: laurentiu.mihalcea@nxp.com
+CC: shengjiu.wang@nxp.com
+CC: iuliana.prodan@nxp.com
+CC: Daniel Baluta <daniel.baluta@nxp.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   84abfa8faedf827ec60f5b6a2d913bf80d14fab6
-commit: f0c2df2b1228a4407c72e92e07d9f3fe695fa558 [38/6108] ANDROID: netfilter: xt_IDLETIMER: Add new netlink msg type
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 years ago
-config: i386-randconfig-141-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222344.akGJ6WjR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.12-rc6]
+[also build test WARNING on linus/master next-20241122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Baluta/arm64-dts-imx8mp-Add-mu2-root-clock/20241121-132543
+base:   v6.12-rc6
+patch link:    https://lore.kernel.org/r/20241120135859.3133984-3-daniel.baluta%40nxp.com
+patch subject: [PATCH 2/5] arm64: dts: imx8mp: Configure dsp node for rproc usage
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20241122 (https://download.01.org/0day-ci/archive/20241123/202411230620.M7qu34f7-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230620.M7qu34f7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411222344.akGJ6WjR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411230620.M7qu34f7-lkp@intel.com/
 
-smatch warnings:
-net/netfilter/xt_IDLETIMER.c:206 idletimer_tg_show() error: we previously assumed 'timer' could be null (see line 197)
-net/netfilter/xt_IDLETIMER.c:243 idletimer_resume() warn: can 'timer' even be NULL?
-
-vim +/timer +206 net/netfilter/xt_IDLETIMER.c
-
-0902b469bd2506 Luciano Coelho 2010-06-15  186  
-0902b469bd2506 Luciano Coelho 2010-06-15  187  static ssize_t idletimer_tg_show(struct kobject *kobj, struct attribute *attr,
-0902b469bd2506 Luciano Coelho 2010-06-15  188  				 char *buf)
-0902b469bd2506 Luciano Coelho 2010-06-15  189  {
-0902b469bd2506 Luciano Coelho 2010-06-15  190  	struct idletimer_tg *timer;
-0902b469bd2506 Luciano Coelho 2010-06-15  191  	unsigned long expires = 0;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  192  	unsigned long now = jiffies;
-0902b469bd2506 Luciano Coelho 2010-06-15  193  
-0902b469bd2506 Luciano Coelho 2010-06-15  194  	mutex_lock(&list_mutex);
-0902b469bd2506 Luciano Coelho 2010-06-15  195  
-0902b469bd2506 Luciano Coelho 2010-06-15  196  	timer =	__idletimer_tg_find_by_label(attr->name);
-0902b469bd2506 Luciano Coelho 2010-06-15 @197  	if (timer)
-0902b469bd2506 Luciano Coelho 2010-06-15  198  		expires = timer->timer.expires;
-0902b469bd2506 Luciano Coelho 2010-06-15  199  
-0902b469bd2506 Luciano Coelho 2010-06-15  200  	mutex_unlock(&list_mutex);
-0902b469bd2506 Luciano Coelho 2010-06-15  201  
-f0c2df2b1228a4 JP Abgrall     2012-04-26  202  	if (time_after(expires, now))
-0902b469bd2506 Luciano Coelho 2010-06-15  203  		return sprintf(buf, "%u\n",
-f0c2df2b1228a4 JP Abgrall     2012-04-26  204  			       jiffies_to_msecs(expires - now) / 1000);
-0902b469bd2506 Luciano Coelho 2010-06-15  205  
-f0c2df2b1228a4 JP Abgrall     2012-04-26 @206  	if (timer->send_nl_msg)
-f0c2df2b1228a4 JP Abgrall     2012-04-26  207  		return sprintf(buf, "0 %d\n",
-f0c2df2b1228a4 JP Abgrall     2012-04-26  208  			jiffies_to_msecs(now - expires) / 1000);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  209  	else
-0902b469bd2506 Luciano Coelho 2010-06-15  210  		return sprintf(buf, "0\n");
-0902b469bd2506 Luciano Coelho 2010-06-15  211  }
-0902b469bd2506 Luciano Coelho 2010-06-15  212  
-0902b469bd2506 Luciano Coelho 2010-06-15  213  static void idletimer_tg_work(struct work_struct *work)
-0902b469bd2506 Luciano Coelho 2010-06-15  214  {
-0902b469bd2506 Luciano Coelho 2010-06-15  215  	struct idletimer_tg *timer = container_of(work, struct idletimer_tg,
-0902b469bd2506 Luciano Coelho 2010-06-15  216  						  work);
-0902b469bd2506 Luciano Coelho 2010-06-15  217  
-0902b469bd2506 Luciano Coelho 2010-06-15  218  	sysfs_notify(idletimer_tg_kobj, NULL, timer->attr.attr.name);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  219  
-f0c2df2b1228a4 JP Abgrall     2012-04-26  220  	if (timer->send_nl_msg)
-f0c2df2b1228a4 JP Abgrall     2012-04-26  221  		notify_netlink_uevent(timer->attr.attr.name, timer);
-0902b469bd2506 Luciano Coelho 2010-06-15  222  }
-0902b469bd2506 Luciano Coelho 2010-06-15  223  
-e99e88a9d2b067 Kees Cook      2017-10-16  224  static void idletimer_tg_expired(struct timer_list *t)
-0902b469bd2506 Luciano Coelho 2010-06-15  225  {
-e99e88a9d2b067 Kees Cook      2017-10-16  226  	struct idletimer_tg *timer = from_timer(timer, t, timer);
-0902b469bd2506 Luciano Coelho 2010-06-15  227  
-0902b469bd2506 Luciano Coelho 2010-06-15  228  	pr_debug("timer %s expired\n", timer->attr.attr.name);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  229  	spin_lock_bh(&timestamp_lock);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  230  	timer->active = false;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  231  	timer->work_pending = true;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  232  	schedule_work(&timer->work);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  233  	spin_unlock_bh(&timestamp_lock);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  234  }
-0902b469bd2506 Luciano Coelho 2010-06-15  235  
-f0c2df2b1228a4 JP Abgrall     2012-04-26  236  static int idletimer_resume(struct notifier_block *notifier,
-f0c2df2b1228a4 JP Abgrall     2012-04-26  237  		unsigned long pm_event, void *unused)
-f0c2df2b1228a4 JP Abgrall     2012-04-26  238  {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  239  	struct timespec ts;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  240  	unsigned long time_diff, now = jiffies;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  241  	struct idletimer_tg *timer = container_of(notifier,
-f0c2df2b1228a4 JP Abgrall     2012-04-26  242  			struct idletimer_tg, pm_nb);
-f0c2df2b1228a4 JP Abgrall     2012-04-26 @243  	if (!timer)
-f0c2df2b1228a4 JP Abgrall     2012-04-26  244  		return NOTIFY_DONE;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  245  	switch (pm_event) {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  246  	case PM_SUSPEND_PREPARE:
-f0c2df2b1228a4 JP Abgrall     2012-04-26  247  		get_monotonic_boottime(&timer->last_suspend_time);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  248  		break;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  249  	case PM_POST_SUSPEND:
-f0c2df2b1228a4 JP Abgrall     2012-04-26  250  		spin_lock_bh(&timestamp_lock);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  251  		if (!timer->active) {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  252  			spin_unlock_bh(&timestamp_lock);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  253  			break;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  254  		}
-f0c2df2b1228a4 JP Abgrall     2012-04-26  255  		/* since jiffies are not updated when suspended now represents
-f0c2df2b1228a4 JP Abgrall     2012-04-26  256  		 * the time it would have suspended */
-f0c2df2b1228a4 JP Abgrall     2012-04-26  257  		if (time_after(timer->timer.expires, now)) {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  258  			get_monotonic_boottime(&ts);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  259  			ts = timespec_sub(ts, timer->last_suspend_time);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  260  			time_diff = timespec_to_jiffies(&ts);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  261  			if (timer->timer.expires > (time_diff + now)) {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  262  				mod_timer_pending(&timer->timer,
-f0c2df2b1228a4 JP Abgrall     2012-04-26  263  						(timer->timer.expires - time_diff));
-f0c2df2b1228a4 JP Abgrall     2012-04-26  264  			} else {
-f0c2df2b1228a4 JP Abgrall     2012-04-26  265  				del_timer(&timer->timer);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  266  				timer->timer.expires = 0;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  267  				timer->active = false;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  268  				timer->work_pending = true;
-0902b469bd2506 Luciano Coelho 2010-06-15  269  				schedule_work(&timer->work);
-0902b469bd2506 Luciano Coelho 2010-06-15  270  			}
-f0c2df2b1228a4 JP Abgrall     2012-04-26  271  		}
-f0c2df2b1228a4 JP Abgrall     2012-04-26  272  		spin_unlock_bh(&timestamp_lock);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  273  		break;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  274  	default:
-f0c2df2b1228a4 JP Abgrall     2012-04-26  275  		break;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  276  	}
-f0c2df2b1228a4 JP Abgrall     2012-04-26  277  	return NOTIFY_DONE;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  278  }
-0902b469bd2506 Luciano Coelho 2010-06-15  279  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: dsp@3b6e8000: memory-region: [[147]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: dsp@3b6e8000: memory-region: [[143]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: dsp@3b6e8000: memory-region: [[118]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: dsp@3b6e8000: memory-region: [[117]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: dsp@3b6e8000: memory-region: [[151]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: dsp@3b6e8000: memory-region: [[155]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: dsp@3b6e8000: memory-region: [[101]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: dsp@3b6e8000: memory-region: [[139]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: dsp@3b6e8000: memory-region: [[108]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: dsp@3b6e8000: memory-region: [[127]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: dsp@3b6e8000: memory-region: [[123]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: dsp@3b6e8000: memory-region: [[125]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: dsp@3b6e8000: memory-region: [[126]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: dsp@3b6e8000: memory-region: [[155]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: dsp@3b6e8000: memory-region: [[104]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: dsp@3b6e8000: memory-region: [[119]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: dsp@3b6e8000: memory-region: [[126]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: dsp@3b6e8000: memory-region: [[128]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: dsp@3b6e8000: memory-region: [[121]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: dsp@3b6e8000: memory-region: [[163]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: dsp@3b6e8000: memory-region: [[159]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: dsp@3b6e8000: memory-region: [[158]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: dsp@3b6e8000: memory-region: [[157]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: dsp@3b6e8000: memory-region: [[168]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: dsp@3b6e8000: memory-region: [[164]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: dsp@3b6e8000: memory-region: [[163]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: dsp@3b6e8000: memory-region: [[162]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: dsp@3b6e8000: memory-region: [[127]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
+   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
