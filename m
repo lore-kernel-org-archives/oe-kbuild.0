@@ -1,81 +1,58 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DA517C992;
-	Fri, 22 Nov 2024 08:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732263096; cv=pass; b=hcOHRjkVaNpv8j5SmWDP3m8pF0kJGZtfDCqTgWY9mgkErsHI/DfftmCei413A3HqguZ7YqBo6HssEG6FSr2l4XHv9zvDDMjb7i4hO4QO0olVcvFddk6cbXQca1CLwBoREYZLzU2VluCBKTxG5wyTmqhmfzZJMHbiQ7wTtgWHsVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732263096; c=relaxed/simple;
-	bh=5OSIA5yfXfTEOiApH3tLTnSXeO90aFWKH284IvMHd/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeddNFToGS67+hqvjRKc53yC5FshhlypRbyJDAtkBWFpMHz+6E209xiYzLo75jASjOW3Draf2ptUXn2jf6Dy1kErsHbxApVNrMq1GyyBMf0OMVC0MGPx8G85CHMVAIZyHSWsXB10a4bFn+JG/B+TwWApCSomy5hcubNgVSqWuvI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QNBVIxyH; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6B71DEFC0
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Nov 2024 09:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732266850; cv=none; b=uYQ5ULIFTwtNGGODgAKXkSRwMuE0dRncM0oCeUcs6AdZHqUnqndxrWGUDnm8hHWyfao4qECQMb97oIrR9WojHqPxpdbiR814A8IfCWBC+zWoT3Nrak7YIXbvBAT7Dnr+geuAs3mQLzIw6G3Apj1wSYhwdK+FDOLlNtVW6lS2cnM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732266850; c=relaxed/simple;
+	bh=SIH9HpOFO9+2GiFIeF5dJNNp2CKu9dl93blNGg89L3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pkoAnTCV/pUmBzzBxbPK0PQX27Nw1gYpuLd0c7KD6yLTv0kGtb9iblzCFqouvVnHz3bJLmGwEKylw5M8s572xELTYp7jsY1muuk7B1CgzTAB8pT+ODzcnkaLIqDBY1vnMJc/lwpS8/j7hcmu/1NFfMj/mdc+VAIjS/+JEe50uE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVnHB8cK; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QNBVIxyH"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XvnqM2jqkz49Pv3;
-	Fri, 22 Nov 2024 10:11:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1732263083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ippbDKWwjgedKHUNgriEsvQ+7CFSQnkoFmjAHD1jXZA=;
-	b=QNBVIxyHJ5Wg/2tJoHqa8dzsBI4cbLRxK6HNFo6lCS2r/ZB/VaOGhVWN1VvbQOWJfhJ518
-	zvALd2r/HpjnM8jb7CdPSj8k1pbVkUSK20X6wHHd309p20tj4wQJUlejrDe8eBCABAM8Y4
-	pi1ZaPonDDyaiAb6q6SWv2t6su6IUTGPVL+6RGVtxGFdJ17huhLlVQT7ZyrFXN5EfOrO0c
-	bcpJMbgOaGbQ7Nc3PMn+lf3wx7qYaIMeRbJl3aKGEtA5W30mlpqEdueAnHzRZ+t2zAolhx
-	cQou2A/hghr9cgm9dQmVwy5pq3rqkRB2HY4FlirUeFidzNNMbIj1wIeFI8UDRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1732263083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ippbDKWwjgedKHUNgriEsvQ+7CFSQnkoFmjAHD1jXZA=;
-	b=Ju20UBMnbjl7q5ZgAYJ67rCvTDAyVLhcng9pDQt8wmRHvmxqxAMdfLB2Xsb8kfkNQCnXP3
-	D9JeZu2nPdJW4z0J+s7w3JggEnGXYFtCDHzSY9PC6XzJQbkQqdFOc9fVvictDkThCadEMg
-	9Wal8dS9A5HB8wYbFpXlHOwoRWnutwqPTnbQ66VC+rkMV3pAptHnNIzz4LROoxeOP4i4Xg
-	f/n9Y07D7gDXQGR7s3VyMWqdB20tYjhU7Zgoc6JAkt5CJvUlrrN1vd9X9h2w9vf5jr3yGU
-	3Xg60irCTXy45MaTrmLZgxMfsSwK1uaTbQg1aoPjUuSFODQ+8ySN+n6RCYXnlQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1732263083; a=rsa-sha256;
-	cv=none;
-	b=olQ0irYzoKLmBB1ix3ON2yfzoUuhwWTuNM+TJU55M3xaw9ejgBLT+a04RQ+NXZFSfVg/sk
-	JVUoU8qhTGZbSixlXbGDjTzZcXHq4Q+1H2nDYvWzHhKKTyMiBO3eka8+Z4yVPgOTeAuYsT
-	Vg5GJyYy9wqS2noa8BgqAMwpwMX4TNN7ZdHIWkbhArjiMyeMl+eRZWAahCdcl/CZ99xHLX
-	XmEhYkcYeADJsPuE/z2Z2WLVvyGVFCzqceh8yVp7clxfx/Sid3JhvDDuN35LPNNGNvVzRE
-	EIHJb5sdvrtiwV/dDAyB+FVVy96UPpTp/rajFNjw17AUrGbngZplbuhQIh3XIA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0BE47634C93;
-	Fri, 22 Nov 2024 10:11:10 +0200 (EET)
-Date: Fri, 22 Nov 2024 08:11:10 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: drivers/media/pci/intel/ipu-bridge.c:752
- ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-Message-ID: <Z0A8njOPBMtkb5wJ@valkosipuli.retiisi.eu>
-References: <54307d9c-a9bf-4bc1-b15d-60c5ba53d0ea@stanley.mountain>
- <Z0A6Rc-HUPcsIw8z@kekkonen.localdomain>
- <CANiDSCuQFmrPTLTFs0GPJ209EEKN=MCg8cK3xcsxp8c2eEMhVg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVnHB8cK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732266848; x=1763802848;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SIH9HpOFO9+2GiFIeF5dJNNp2CKu9dl93blNGg89L3Q=;
+  b=OVnHB8cKfsgov5kMpRNr7+/JXfry0WTM8KrCMt8FSZNbYkCz+iJNkieg
+   KvFTTxt102EowDtuAsxtmgjKWnKMkTCKdm/rOmpa2B2Bv9WK+TFa0ZgL/
+   FLPXQUJnpUrFcDDeSx8tYKkWo9Gv4jHvWI91PiUqrSZRe+jd0v8KEqVq4
+   pJTK9v5Hf6qpcoIReH8+EVx3Yvg3ek8z64IjVhFKAJWuS16MdhoWpmAqj
+   mp5ULlkrISlJdwICrNcNtoMxL9xHYtW347+vWRB/jvEOOatrt8k+AitiY
+   ATZYVnJTbBIzOQ5gXBkHDY3WEkSzCQBsi5NRTXK86sQC8MgiSJtVP+20G
+   Q==;
+X-CSE-ConnectionGUID: eR8XYSxSQ/ai5FtzosMRwg==
+X-CSE-MsgGUID: 8caDXaH1R/GOSUIorJsgWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="49834727"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="49834727"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 01:14:08 -0800
+X-CSE-ConnectionGUID: wgaR5z5eSuW+v4xN2a6YHw==
+X-CSE-MsgGUID: nLy3aDA8Tp+wqvmlv77CCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="90460125"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 22 Nov 2024 01:14:07 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tEPjo-0003nn-1W;
+	Fri, 22 Nov 2024 09:14:04 +0000
+Date: Fri, 22 Nov 2024 17:13:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
+ for str_enabled_disabled(dw24 . ts_pll_enable)
+Message-ID: <202411221711.E76hpBkK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -84,73 +61,184 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCuQFmrPTLTFs0GPJ209EEKN=MCg8cK3xcsxp8c2eEMhVg@mail.gmail.com>
 
-Hi Ricardo,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Karol Kolacinski <karol.kolacinski@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>
 
-On Fri, Nov 22, 2024 at 09:06:40AM +0100, Ricardo Ribalda wrote:
-> Hi
-> 
-> On Fri, 22 Nov 2024 at 09:01, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Dan,
-> >
-> > On Fri, Nov 22, 2024 at 10:45:53AM +0300, Dan Carpenter wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   28eb75e178d389d325f1666e422bc13bbbb9804c
-> > > commit: 93da10eee90b2ffa4b496dd4a6ea276c57461fb6 media: intel/ipu6: Fix direct dependency Kconfig error
-> > > config: alpha-randconfig-r072-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221147.N6w23gDo-lkp@intel.com/config)
-> > > compiler: alpha-linux-gcc (GCC) 14.2.0
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > | Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
-> > >
-> > > smatch warnings:
-> > > drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-> > >
-> > > vim +/i +752 drivers/media/pci/intel/ipu-bridge.c
-> > >
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  745  static int ipu_bridge_ivsc_is_ready(void)
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  746  {
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  747     struct acpi_device *sensor_adev, *adev;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  748     struct device *csi_dev;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  749     bool ready = true;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  750     unsigned int i;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  751
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03 @752     for (i = 0; i < ARRAY_SIZE(ipu_supported_sensors); i++) {
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  753  #if IS_ENABLED(CONFIG_ACPI)
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  754             const struct ipu_sensor_config *cfg =
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  755                     &ipu_supported_sensors[i];
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  756
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  757             for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  758  #else
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  759             while (true) {
-> > >                                                                                                         ^^^^^^^^^^^^^^
-> > >
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  760                     sensor_adev = NULL;
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  761  #endif
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  762                     if (!ACPI_PTR(sensor_adev->status.enabled))
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  763                             continue;
-> > >
-> > >
-> > > These continues make sense in for_each_acpi_dev_match() but not in a while (true) {
-> > > loop.  We're stuck forever.
-> >
-> > The non-ACPI case is there just for the looks... I think what should be
-> > done is to make the entire loop conditional to CONFIG_ACPI. I can post a
-> > patch.
-> 
-> I saw your mail after I sent my patch :)
-> https://patchwork.linuxtv.org/project/linux-media/patch/20241122-fix-ipu-v1-1-246e254cb77c@chromium.org/
-> 
-> If we make the entire loop conditional then we would not compile test the
-> loop.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   28eb75e178d389d325f1666e422bc13bbbb9804c
+commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
+date:   6 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-r051-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221711.E76hpBkK-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
 
-I'm fine with the patch as such but don't you think we might get just a
-different warning from this one? :-) I'm fine trying this though.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411221711.E76hpBkK-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+
+vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+
+3a7496234d179a Jacob Keller       2021-10-13  336  
+3a7496234d179a Jacob Keller       2021-10-13  337  /**
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
+d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
+3a7496234d179a Jacob Keller       2021-10-13  351   */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
+3a7496234d179a Jacob Keller       2021-10-13  355  {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
+3a7496234d179a Jacob Keller       2021-10-13  362  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
+3a7496234d179a Jacob Keller       2021-10-13  368  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  373  	}
+3a7496234d179a Jacob Keller       2021-10-13  374  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  380  	}
+3a7496234d179a Jacob Keller       2021-10-13  381  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  385  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  389  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  393  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  400  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  404  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
+3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
+3a7496234d179a Jacob Keller       2021-10-13  408  	}
+3a7496234d179a Jacob Keller       2021-10-13  409  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  415  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  420  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
+3a7496234d179a Jacob Keller       2021-10-13  423  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  427  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  432  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  435  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  439  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  444  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  448  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  452  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  455  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  459  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  462  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  466  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
+3a7496234d179a Jacob Keller       2021-10-13  470  	}
+3a7496234d179a Jacob Keller       2021-10-13  471  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  478  
+3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
+3a7496234d179a Jacob Keller       2021-10-13  480  }
+3a7496234d179a Jacob Keller       2021-10-13  481  
 
 -- 
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
