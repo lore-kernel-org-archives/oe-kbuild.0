@@ -1,67 +1,59 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3A117084F
-	for <oe-kbuild@lists.linux.dev>; Sat, 23 Nov 2024 10:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3FEA95C
+	for <oe-kbuild@lists.linux.dev>; Sat, 23 Nov 2024 11:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732357382; cv=none; b=bywRpuh+mIRAKtQ5In90cP6dSJLVHRUW3Fb3+wDUfMn1KKdlPW1w5BAltrYQOSsytUtlr+/GWwO4iixXWawQFP1EYMw1l7K4cXu4NZe4WrcwUqOmPiraUOHKT28G5gD2dXlyHpBPcW3MCFkUqLQLErrCI/HTkMBqZ3tWCpkCUXY=
+	t=1732363183; cv=none; b=JmwZwxZhUCjhmujhCX9wN0mjzIswvJ7xrvar7FL8c6+XH5/8gBRkuVcVdvUiONSxS2DcOyEr4hUDilyHYd7f5p37EugCsHJbUfH6lHAqz0F60fFl6BDQ6QtF7SmJaUZVgWYUslQYHKVfZFPjpuBVLz/ItBQa2CyjW1dudLFXzaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732357382; c=relaxed/simple;
-	bh=fjDb4Q89lIVf4B13p8PqqbaNV57uxDzKx4kMqhP/i2o=;
+	s=arc-20240116; t=1732363183; c=relaxed/simple;
+	bh=gC/Yh4ylDqeFOdqh5/j4vTPI8z5cq+4d7HR6FqFtP4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t2dUo3RaR0WiUfUxHRc8/UGJUWHeKWgKatDncAFba70354r6sBuerRERY/jH3cFR1hZ0du/XWDAS5zHSqFKnDJPZFFQmph4U1X3Hg9ztB0JSfV/s8R4gctNVsL8xmunlBo9v6PscLuMQVOcdp/bU1EprRF9qmuEswAo0qos333w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zzjGWMiL; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=LEROSjze8V5tYxyiRylOkgAZ25u5oGpsC6P9kU8vh2qCLJ0AHoUL4GWM6ggbgvo9A6Zhe/HLRgDdfC8MBDcwEG41aQS2qleVjPrXyNrdE4y+jDUJE4qICCF83KP0EgkaoGEpI7wkrZ8uu4xzqLi3Si738eJitfh2+DB4QXp8gvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfLaXt23; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zzjGWMiL"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so25986935e9.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 23 Nov 2024 02:23:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732357378; x=1732962178; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NqUmdrrnzUuAaTAqeudZWfVzj5B2psh9iL4Q1pore8o=;
-        b=zzjGWMiL2wFOxVPADwjPTc4Zg+9WzjrBzh7HUlCLEEn6fehp4eHVBHnZo+gknCsNrx
-         d/5n8YM9c7SgrC1R6wJyO3Xz5NkgeYbhgYks3vWd98Y0MnrPYOjwKiG73y4KywRWq4YZ
-         OJomQ3NUtnDv2efaiImas8NeffqoyBeVz+CTSBOJcZJw7SxoB8zVjdpNx80WHv9rDeOI
-         35aWWC2GnmNEMMvoLvpEyUM1GU6uvW+7+P9OLqVyqZEuik+0T9sIHKaK9W9mmVrnugZd
-         hI9AEKlz9ELD/Q2Epx3pWZvho+RNSVYsISDsH6xl7uPK7PW00cTHGTjKqjMO73G2hqtc
-         OAxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732357378; x=1732962178;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqUmdrrnzUuAaTAqeudZWfVzj5B2psh9iL4Q1pore8o=;
-        b=G72rOMamb+AnH65Qt3xSVlimN8NjfpoNKvL6bD7u7zeD2sMBibApW5uzAuiRqW0IJV
-         rn2rGnL4wAANP3giWCHHJTt8FQBoUNKXG60sgkT5YuYS3/QLD4NK5e9rH5/Mv2n3j3du
-         Q+/WnnwCawUXulg3V7PzX6rR9jHP4JNuEAw0bKXHH2op00guytrq6OtISwSB9iYo6f6q
-         jWilH5ACGCILHwBsMLj/1Akko+PAYo6VaNQ3faXB/KeDniORYe5RJjOpeygUMmb7Xom3
-         ygHOFJbA8E88UcqK8geMO2njgpu1/VchsU3xaNnyc9/47d5ps/QNXviRdvmdhhOSWc30
-         Z27g==
-X-Gm-Message-State: AOJu0YxHzuP4aSF0KBvUw0aKmXg3rhQvUdLZFWgIgTPuTb0CaGIn/++t
-	BhToW5FO2Ffj1wbRClKJkimkR79E26XPg72ysuk+te9QGNd4PmwWTTtVm1nk/p7zd88KUOznGhn
-	o
-X-Gm-Gg: ASbGnct6egqbQyzUu1j/xmbpg995GujdwtDrmw4hlQeLfAmpTsKTe1YZse2caQir3Sv
-	wUp++U5S6NXUmwjDUYI/R16xudTFqxvCgJzSdYpMJYxBB/sOHT5Kl2DXccZXs+UjJq/zr7Q/I1T
-	eMJMJF7/EYs+75/hx3PclHYE5VvKr2NH7YkjMkvYTWaf2r0gpwcDdNxB89qNEAKBsu2pIo2xvY8
-	eE56xmN1APHq32uutQHiqwTU8OGrUW/WH4vJBp9+4AVyZnnK/VvAaY=
-X-Google-Smtp-Source: AGHT+IFfMir9uVqZOn78Y9wGGlBVANftpSYauFsKG8R5shDLlSNYqxNerAp1YVWGkDWxKy4Q6LKvVg==
-X-Received: by 2002:a05:600c:5254:b0:431:4f5e:1f61 with SMTP id 5b1f17b1804b1-433ce42133dmr52544565e9.14.1732357378269;
-        Sat, 23 Nov 2024 02:22:58 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fad5fa2sm4970372f8f.1.2024.11.23.02.22.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 02:22:57 -0800 (PST)
-Date: Sat, 23 Nov 2024 13:22:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 38/6108]
- net/netfilter/xt_IDLETIMER.c:206 idletimer_tg_show() error: we previously
- assumed 'timer' could be null (see line 197)
-Message-ID: <2bb04a6a-f480-42a9-9e42-5a573f2f7cb7@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfLaXt23"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732363181; x=1763899181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gC/Yh4ylDqeFOdqh5/j4vTPI8z5cq+4d7HR6FqFtP4w=;
+  b=QfLaXt23ka0U6fvZHHlMMEhk72UUwuuAxRmzfGaiPOx8p68MAGOVrMHX
+   7Of3jj9xC17Q0mx3tehUIafIOxTfa+fkHk8lIfUkGLtgiL51yJ8g/TPcD
+   FhA8mGpDEDDQ4dU9ooxSLnlTzMQTBTGTgODAZzb4A4HxAv3ioUSoO6yOP
+   RIQldhHfguZkOjDv15yDw+yBwXVEIiH0c/HmpVbKR7gEabVB11+Y3wji2
+   mu04Fg9L4fE4oF2sDUUQOMIeLmLsObjkVp3CBlofNrL5EJrBS7OxNtHRk
+   ntHrTu0YiR3sjxsmWSmQb37Zy8lvEP8nEicqVjFxwxijp3g7thAlcXeTD
+   A==;
+X-CSE-ConnectionGUID: m5Z5tD0RSVeg0bn521uK7g==
+X-CSE-MsgGUID: wiW6ho9pTGOuVb/6tTcI4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="31897443"
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; 
+   d="scan'208";a="31897443"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2024 03:59:40 -0800
+X-CSE-ConnectionGUID: jTAJJHdKQGWygzrucWQ/bA==
+X-CSE-MsgGUID: uduwctL1SXy90aC/Ndp6jg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,178,1728975600"; 
+   d="scan'208";a="95590243"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Nov 2024 03:59:39 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tEonZ-0004bj-0e;
+	Sat, 23 Nov 2024 11:59:37 +0000
+Date: Sat, 23 Nov 2024 19:58:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:OLK-5.10 2466/2466] drivers/net/bonding/bond_sysctl.c:11
+ (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression :
+ bond_broadcast_arp_or_nd_table[1]->procname
+Message-ID: <202411231901.RiFcrQuA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,59 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   84abfa8faedf827ec60f5b6a2d913bf80d14fab6
-commit: f0c2df2b1228a4407c72e92e07d9f3fe695fa558 [38/6108] ANDROID: netfilter: xt_IDLETIMER: Add new netlink msg type
-config: i386-randconfig-141-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222344.akGJ6WjR-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: "openeuler-sync-bot" <openeuler.syncbot@gmail.com>
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   87bba796cf0405f8832bd4971fc5ffc6aed586c8
+commit: 337eb92cdbafcc9ec159404e382d6254672948c2 [2466/2466] anolis: bond: broadcast ARP or ND messages to all slaves
+:::::: branch date: 8 hours ago
+:::::: commit date: 1 year, 4 months ago
+config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241123/202411231901.RiFcrQuA-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411222344.akGJ6WjR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411231901.RiFcrQuA-lkp@intel.com/
 
 smatch warnings:
-net/netfilter/xt_IDLETIMER.c:206 idletimer_tg_show() error: we previously assumed 'timer' could be null (see line 197)
+drivers/net/bonding/bond_sysctl.c:11 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : bond_broadcast_arp_or_nd_table[1]->procname
+drivers/net/bonding/bond_sysctl.c:11 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : bond_broadcast_arp_or_nd_table[1]->proc_handler
 
-vim +/timer +206 net/netfilter/xt_IDLETIMER.c
+vim +11 drivers/net/bonding/bond_sysctl.c
 
-0902b469bd2506 Luciano Coelho 2010-06-15  187  static ssize_t idletimer_tg_show(struct kobject *kobj, struct attribute *attr,
-0902b469bd2506 Luciano Coelho 2010-06-15  188  				 char *buf)
-0902b469bd2506 Luciano Coelho 2010-06-15  189  {
-0902b469bd2506 Luciano Coelho 2010-06-15  190  	struct idletimer_tg *timer;
-0902b469bd2506 Luciano Coelho 2010-06-15  191  	unsigned long expires = 0;
-f0c2df2b1228a4 JP Abgrall     2012-04-26  192  	unsigned long now = jiffies;
-0902b469bd2506 Luciano Coelho 2010-06-15  193  
-0902b469bd2506 Luciano Coelho 2010-06-15  194  	mutex_lock(&list_mutex);
-0902b469bd2506 Luciano Coelho 2010-06-15  195  
-0902b469bd2506 Luciano Coelho 2010-06-15  196  	timer =	__idletimer_tg_find_by_label(attr->name);
-0902b469bd2506 Luciano Coelho 2010-06-15 @197  	if (timer)
-                                                    ^^^^^
-Check for NULL
-
-0902b469bd2506 Luciano Coelho 2010-06-15  198  		expires = timer->timer.expires;
-0902b469bd2506 Luciano Coelho 2010-06-15  199  
-0902b469bd2506 Luciano Coelho 2010-06-15  200  	mutex_unlock(&list_mutex);
-0902b469bd2506 Luciano Coelho 2010-06-15  201  
-f0c2df2b1228a4 JP Abgrall     2012-04-26  202  	if (time_after(expires, now))
-
-If expires is zero then time_after() is false.
-
-0902b469bd2506 Luciano Coelho 2010-06-15  203  		return sprintf(buf, "%u\n",
-f0c2df2b1228a4 JP Abgrall     2012-04-26  204  			       jiffies_to_msecs(expires - now) / 1000);
-0902b469bd2506 Luciano Coelho 2010-06-15  205  
-f0c2df2b1228a4 JP Abgrall     2012-04-26 @206  	if (timer->send_nl_msg)
-                                                    ^^^^^^^^^^^^^^^^^^
-Unchecked dereference.  This is really old out of tree code from Android.
-
-f0c2df2b1228a4 JP Abgrall     2012-04-26  207  		return sprintf(buf, "0 %d\n",
-f0c2df2b1228a4 JP Abgrall     2012-04-26  208  			jiffies_to_msecs(now - expires) / 1000);
-f0c2df2b1228a4 JP Abgrall     2012-04-26  209  	else
-0902b469bd2506 Luciano Coelho 2010-06-15  210  		return sprintf(buf, "0\n");
-0902b469bd2506 Luciano Coelho 2010-06-15  211  }
+337eb92cdbafcc Tony Lu 2023-01-10  10  
+337eb92cdbafcc Tony Lu 2023-01-10 @11  static struct ctl_table bond_broadcast_arp_or_nd_table[] = {
+337eb92cdbafcc Tony Lu 2023-01-10  12  	{
+337eb92cdbafcc Tony Lu 2023-01-10  13  		.procname	= "broadcast_arp_or_nd",
+337eb92cdbafcc Tony Lu 2023-01-10  14  		.data		= &sysctl_bond_broadcast_arp_or_nd,
+337eb92cdbafcc Tony Lu 2023-01-10  15  		.maxlen		= sizeof(int),
+337eb92cdbafcc Tony Lu 2023-01-10  16  		.mode		= 0644,
+337eb92cdbafcc Tony Lu 2023-01-10  17  		.proc_handler	= proc_dointvec,
+337eb92cdbafcc Tony Lu 2023-01-10  18  	},
+337eb92cdbafcc Tony Lu 2023-01-10  19  	{}
+337eb92cdbafcc Tony Lu 2023-01-10  20  };
+337eb92cdbafcc Tony Lu 2023-01-10  21  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
