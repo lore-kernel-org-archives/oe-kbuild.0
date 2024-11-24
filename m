@@ -1,196 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BD57FBAC
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 17:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1755CB660
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 18:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732469327; cv=none; b=jovXbv4VZFDejwki0qrvHJag0WwqoooJGVv/EgMK78sOZCNmgARVhTLRMFMofoKsDpTeKA/zrbQMPt0nYIoqEaM7fEew4So+kk2vQe3+HJ1pNfU5Ck4rzKyiH8dA6zlxjnpNEJcmfqLh/tGpB1T+rJrGJuYLEJt8y9J1sThbFvU=
+	t=1732473653; cv=none; b=Fa/VNTL+pHyLmhrzLTEpu6IrOivM9V36Trm6LFE0nnr67L+PSrsBOzTnSOiTdmfLMas9hhYDXEBNovW6lPt830x3cnf46rMWJAHWcYyHz0Wd0+8cdvbJ2dSWC3qCjKGViXrNty/le0IsPuAV1WURVObNTljIkUjdQlV2dKDVWME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732469327; c=relaxed/simple;
-	bh=7DgtFnMTDAdt4WGrMjE4NVrMODopga2jRQCdzY4Cq50=;
+	s=arc-20240116; t=1732473653; c=relaxed/simple;
+	bh=Cm/W/H8hAO2Hi2i0vQNKjOiVpwL+kHVr9UnW3LKcxdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wz9g9L4x1hMaWgbWFTjCSUQDLElqmWG6CKElX8EoGyCwSzSSPcgmEOy3wmr/qyUe5KaDSO0ZQ2TaEFxc/YMBIre/eaQJ2hhFVZ6VNpWzDC5vpNAuMEBLhez9e5vX1PyUhibs80IZYN9UIGPpHbyvGjwbIDFXZxTr7UZ9tVEdAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5MtEKqu; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=lCBF8RpvCfJitB8MueOtxov4DlfhkwOPiVjdFvcKxQdrNfexxuYlVHqW+vUUzy+UR8bfyGEJ8ufwxCHUEyWfOyRyad47eYCk3tfKo8RwzUbxG9TP7rqnxfw7K+kxpiHRwxka078a+9Yv+NXtbmt4cRArZRpxZcdJC8mmoKnpsD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwN1CGAT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5MtEKqu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwN1CGAT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732469324; x=1764005324;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7DgtFnMTDAdt4WGrMjE4NVrMODopga2jRQCdzY4Cq50=;
-  b=X5MtEKqu2+Mxg6p/YgyigknuFp7OEYntJpDXV3w2cq4IVG/Slq6eqhw9
-   Dkrg4Zm9KAAkh06ifZVPoB9JHfSs6IHZKk6F1GXXU8SRf0fIhM3/rWKD8
-   S0GnO0q9Av34cmLu/mIW/BG9NJpGJOX+clbMdn2XkTcC0LC6jWvomEbM+
-   Rvp7aO1Flj33KiVOEv/108aB3zCGRbZWn7MIun2Y0A1FUgUyjx4ko0AWc
-   oAId2/hOpX4BDO/iGZqDZJfV2ui6VMFEg5lDcLLicXWzfTAQmX6bo7TmJ
-   OpGBa2mM9ZciuyS87wJhIMZokTbR15RYzHEwkWE+sf5zTU3Jmx5ECxUcT
-   g==;
-X-CSE-ConnectionGUID: xsYPP1pYREuR6MyRRBR3Ug==
-X-CSE-MsgGUID: BXwrjMgoTLeys4APPcI/Ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32726009"
+  t=1732473651; x=1764009651;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Cm/W/H8hAO2Hi2i0vQNKjOiVpwL+kHVr9UnW3LKcxdQ=;
+  b=LwN1CGATc2sq9N7jcc+v8aoDwpPW7PwoV32PHlY8z+BF2tagmVAOzth0
+   tTZWBFHdJPN3QfvG8XVNoUPDKoaq+wGVT/cu0CZSwl5lKYgUdTvUmZa5X
+   maXebU0B0HdNY9UECBrccRAUpDDRNPPpFK58sr765g8P0MDVJG1uYifQ2
+   lPunTvl350BeISBBt8LPbh6sm7gzzpnwjf06SGa+xrt6zBfQMxdYTMYRE
+   otp+b0zlH92CBjt1GbzClA4vh4FM32YQcFdtg+t9Mn+spB6kJC79ggY/G
+   Vy12j25Zgy83CvH30OsC3+6tCFmgidwW3vA0bKr3lkysd9cd2R3k2jGIU
+   w==;
+X-CSE-ConnectionGUID: 7ANEXYzHQHScC+UbBjileA==
+X-CSE-MsgGUID: gpI5Sz+aQVKL2NX/KfgIbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="36487161"
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="32726009"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 09:28:44 -0800
-X-CSE-ConnectionGUID: gGpFOTxSTY6DlpWg2akN2w==
-X-CSE-MsgGUID: StSKdMHbRlaj31vLs4erkw==
+   d="scan'208";a="36487161"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 10:40:50 -0800
+X-CSE-ConnectionGUID: yAXkAHD9RPeIQxN9ANRdiQ==
+X-CSE-MsgGUID: EguFO5T8QIybDGpBPU7q1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="91186465"
+   d="scan'208";a="91484149"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Nov 2024 09:28:43 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Nov 2024 10:40:48 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFGPY-00057t-1e;
-	Sun, 24 Nov 2024 17:28:40 +0000
-Date: Mon, 25 Nov 2024 01:28:23 +0800
+	id 1tFHXK-00059v-2o;
+	Sun, 24 Nov 2024 18:40:46 +0000
+Date: Mon, 25 Nov 2024 02:40:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/ipv4/tcp_ao.c:689 tcp_ao_del_cmd() error: memcmp() '&key->addr'
- too small (4 vs 16)
-Message-ID: <202411250125.dSCU3dFH-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 12070/12501]
+ drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1247
+Message-ID: <202411250217.5VQHIVVl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dmitry Safonov <dima@arista.com>
-CC: Francesco Ruggeri <fruggeri@arista.com>
-CC: Salam Noureddine <noureddine@arista.com>
+TO: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+CC: Andi Shyti <andi.shyti@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f16d5e6f220661f73b36a4be1b21575651d8833
-commit: 4954f17ddefc51d218625dcdfaf422a253dad3fa net/tcp: Introduce TCP_AO setsockopt()s
-date:   1 year, 1 month ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161-20241114 (https://download.01.org/0day-ci/archive/20241125/202411250125.dSCU3dFH-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cfba9f07a1d6aeca38f47f1f472cfb0ba133d341
+commit: 8bba86687c0b6a22f05ed4a7398c519d3796bc74 [12070/12501] i2c: xiic: Add atomic transfer support
+:::::: branch date: 3 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-051-20241124 (https://download.01.org/0day-ci/archive/20241125/202411250217.5VQHIVVl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411250125.dSCU3dFH-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411250217.5VQHIVVl-lkp@intel.com/
 
-smatch warnings:
-net/ipv4/tcp_ao.c:689 tcp_ao_del_cmd() error: memcmp() '&key->addr' too small (4 vs 16)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1247
+   drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1245
 
-vim +689 net/ipv4/tcp_ao.c
+vim +1326 drivers/i2c/busses/i2c-xiic.c
 
-4954f17ddefc51 Dmitry Safonov 2023-10-23  599  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  600  static int tcp_ao_del_cmd(struct sock *sk, unsigned short int family,
-4954f17ddefc51 Dmitry Safonov 2023-10-23  601  			  sockptr_t optval, int optlen)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  602  {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  603  	struct tcp_ao_key *key, *new_current = NULL, *new_rnext = NULL;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  604  	struct tcp_ao_info *ao_info;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  605  	union tcp_ao_addr *addr;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  606  	struct tcp_ao_del cmd;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  607  	int addr_len;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  608  	__u8 prefix;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  609  	u16 port;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  610  	int err;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  611  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  612  	if (optlen < sizeof(cmd))
-4954f17ddefc51 Dmitry Safonov 2023-10-23  613  		return -EINVAL;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  614  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  615  	err = copy_struct_from_sockptr(&cmd, sizeof(cmd), optval, optlen);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  616  	if (err)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  617  		return err;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  618  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  619  	if (cmd.reserved != 0 || cmd.reserved2 != 0)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  620  		return -EINVAL;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  621  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  622  	if (cmd.set_current || cmd.set_rnext) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  623  		if (!tcp_ao_can_set_current_rnext(sk))
-4954f17ddefc51 Dmitry Safonov 2023-10-23  624  			return -EINVAL;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  625  	}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  626  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  627  	ao_info = setsockopt_ao_info(sk);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  628  	if (IS_ERR(ao_info))
-4954f17ddefc51 Dmitry Safonov 2023-10-23  629  		return PTR_ERR(ao_info);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  630  	if (!ao_info)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  631  		return -ENOENT;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  632  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  633  	/* For sockets in TCP_CLOSED it's possible set keys that aren't
-4954f17ddefc51 Dmitry Safonov 2023-10-23  634  	 * matching the future peer (address/VRF/etc),
-4954f17ddefc51 Dmitry Safonov 2023-10-23  635  	 * tcp_ao_connect_init() will choose a correct matching MKT
-4954f17ddefc51 Dmitry Safonov 2023-10-23  636  	 * if there's any.
-4954f17ddefc51 Dmitry Safonov 2023-10-23  637  	 */
-4954f17ddefc51 Dmitry Safonov 2023-10-23  638  	if (cmd.set_current) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  639  		new_current = tcp_ao_established_key(ao_info, cmd.current_key, -1);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  640  		if (!new_current)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  641  			return -ENOENT;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  642  	}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  643  	if (cmd.set_rnext) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  644  		new_rnext = tcp_ao_established_key(ao_info, -1, cmd.rnext);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  645  		if (!new_rnext)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  646  			return -ENOENT;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  647  	}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  648  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  649  	if (family == AF_INET) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  650  		struct sockaddr_in *sin = (struct sockaddr_in *)&cmd.addr;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  651  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  652  		addr = (union tcp_ao_addr *)&sin->sin_addr;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  653  		addr_len = sizeof(struct in_addr);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  654  		port = ntohs(sin->sin_port);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  655  	} else {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  656  		struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)&cmd.addr;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  657  		struct in6_addr *addr6 = &sin6->sin6_addr;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  658  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  659  		if (ipv6_addr_v4mapped(addr6)) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  660  			addr = (union tcp_ao_addr *)&addr6->s6_addr32[3];
-4954f17ddefc51 Dmitry Safonov 2023-10-23  661  			addr_len = sizeof(struct in_addr);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  662  			family = AF_INET;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  663  		} else {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  664  			addr = (union tcp_ao_addr *)addr6;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  665  			addr_len = sizeof(struct in6_addr);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  666  		}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  667  		port = ntohs(sin6->sin6_port);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  668  	}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  669  	prefix = cmd.prefix;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  670  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  671  	/* Currently matching is not performed on port (or port ranges) */
-4954f17ddefc51 Dmitry Safonov 2023-10-23  672  	if (port != 0)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  673  		return -EINVAL;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  674  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  675  	/* We could choose random present key here for current/rnext
-4954f17ddefc51 Dmitry Safonov 2023-10-23  676  	 * but that's less predictable. Let's be strict and don't
-4954f17ddefc51 Dmitry Safonov 2023-10-23  677  	 * allow removing a key that's in use. RFC5925 doesn't
-4954f17ddefc51 Dmitry Safonov 2023-10-23  678  	 * specify how-to coordinate key removal, but says:
-4954f17ddefc51 Dmitry Safonov 2023-10-23  679  	 * "It is presumed that an MKT affecting a particular
-4954f17ddefc51 Dmitry Safonov 2023-10-23  680  	 * connection cannot be destroyed during an active connection"
-4954f17ddefc51 Dmitry Safonov 2023-10-23  681  	 */
-4954f17ddefc51 Dmitry Safonov 2023-10-23  682  	hlist_for_each_entry_rcu(key, &ao_info->head, node) {
-4954f17ddefc51 Dmitry Safonov 2023-10-23  683  		if (cmd.sndid != key->sndid ||
-4954f17ddefc51 Dmitry Safonov 2023-10-23  684  		    cmd.rcvid != key->rcvid)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  685  			continue;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  686  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  687  		if (family != key->family ||
-4954f17ddefc51 Dmitry Safonov 2023-10-23  688  		    prefix != key->prefixlen ||
-4954f17ddefc51 Dmitry Safonov 2023-10-23 @689  		    memcmp(addr, &key->addr, addr_len))
-4954f17ddefc51 Dmitry Safonov 2023-10-23  690  			continue;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  691  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  692  		if (key == new_current || key == new_rnext)
-4954f17ddefc51 Dmitry Safonov 2023-10-23  693  			continue;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  694  
-4954f17ddefc51 Dmitry Safonov 2023-10-23  695  		return tcp_ao_delete_key(sk, ao_info, key,
-4954f17ddefc51 Dmitry Safonov 2023-10-23  696  					  new_current, new_rnext);
-4954f17ddefc51 Dmitry Safonov 2023-10-23  697  	}
-4954f17ddefc51 Dmitry Safonov 2023-10-23  698  	return -ENOENT;
-4954f17ddefc51 Dmitry Safonov 2023-10-23  699  }
-4954f17ddefc51 Dmitry Safonov 2023-10-23  700  
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1238  
+c119e7d00c9168 Marek Vasut          2021-08-23  1239  static int xiic_start_xfer(struct xiic_i2c *i2c, struct i2c_msg *msgs, int num)
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1240  {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1241  	bool broken_read, max_read_len, smbus_blk_read;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1242  	int ret, count;
+c119e7d00c9168 Marek Vasut          2021-08-23  1243  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1244  	if (i2c->atomic)
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1245  		spin_lock(&i2c->atomic_lock);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1246  	else
+77c680196791e7 Lars-Peter Clausen   2015-11-16 @1247  		mutex_lock(&i2c->lock);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1248  
+1d4a1adbed2582 Robert Hancock       2024-09-11  1249  	if (i2c->tx_msg || i2c->rx_msg) {
+ee1691d0ae103b Marc Ferland         2024-05-13  1250  		dev_err(i2c->adap.dev.parent,
+ee1691d0ae103b Marc Ferland         2024-05-13  1251  			"cannot start a transfer while busy\n");
+1d4a1adbed2582 Robert Hancock       2024-09-11  1252  		ret = -EBUSY;
+c119e7d00c9168 Marek Vasut          2021-08-23  1253  		goto out;
+ee1691d0ae103b Marc Ferland         2024-05-13  1254  	}
+c119e7d00c9168 Marek Vasut          2021-08-23  1255  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1256  	i2c->atomic_xfer_state = STATE_DONE;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1257  
+1d4a1adbed2582 Robert Hancock       2024-09-11  1258  	/* In single master mode bus can only be busy, when in use by this
+1d4a1adbed2582 Robert Hancock       2024-09-11  1259  	 * driver. If the register indicates bus being busy for some reason we
+1d4a1adbed2582 Robert Hancock       2024-09-11  1260  	 * should ignore it, since bus will never be released and i2c will be
+1d4a1adbed2582 Robert Hancock       2024-09-11  1261  	 * stuck forever.
+1d4a1adbed2582 Robert Hancock       2024-09-11  1262  	 */
+1d4a1adbed2582 Robert Hancock       2024-09-11  1263  	if (!i2c->singlemaster) {
+1d4a1adbed2582 Robert Hancock       2024-09-11  1264  		ret = xiic_wait_not_busy(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1265  		if (ret) {
+1d4a1adbed2582 Robert Hancock       2024-09-11  1266  			/* If the bus is stuck in a busy state, such as due to spurious low
+1d4a1adbed2582 Robert Hancock       2024-09-11  1267  			 * pulses on the bus causing a false start condition to be detected,
+1d4a1adbed2582 Robert Hancock       2024-09-11  1268  			 * then try to recover by re-initializing the controller and check
+1d4a1adbed2582 Robert Hancock       2024-09-11  1269  			 * again if the bus is still busy.
+1d4a1adbed2582 Robert Hancock       2024-09-11  1270  			 */
+1d4a1adbed2582 Robert Hancock       2024-09-11  1271  			dev_warn(i2c->adap.dev.parent, "I2C bus busy timeout, reinitializing\n");
+1d4a1adbed2582 Robert Hancock       2024-09-11  1272  			ret = xiic_reinit(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1273  			if (ret)
+1d4a1adbed2582 Robert Hancock       2024-09-11  1274  				goto out;
+1d4a1adbed2582 Robert Hancock       2024-09-11  1275  			ret = xiic_wait_not_busy(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1276  			if (ret)
+1d4a1adbed2582 Robert Hancock       2024-09-11  1277  				goto out;
+1d4a1adbed2582 Robert Hancock       2024-09-11  1278  		}
+1d4a1adbed2582 Robert Hancock       2024-09-11  1279  	}
+1d4a1adbed2582 Robert Hancock       2024-09-11  1280  
+c119e7d00c9168 Marek Vasut          2021-08-23  1281  	i2c->tx_msg = msgs;
+c119e7d00c9168 Marek Vasut          2021-08-23  1282  	i2c->rx_msg = NULL;
+c119e7d00c9168 Marek Vasut          2021-08-23  1283  	i2c->nmsgs = num;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1284  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1285  	if (!i2c->atomic)
+fdacc3c7405d1f Marek Vasut          2021-08-23  1286  		init_completion(&i2c->completion);
+c119e7d00c9168 Marek Vasut          2021-08-23  1287  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1288  	/* Decide standard mode or Dynamic mode */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1289  	i2c->dynamic = true;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1290  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1291  	/* Initialize prev message type */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1292  	i2c->prev_msg_tx = false;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1293  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1294  	/*
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1295  	 * Scan through nmsgs, use dynamic mode when none of the below three
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1296  	 * conditions occur. We need standard mode even if one condition holds
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1297  	 * true in the entire array of messages in a single transfer.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1298  	 * If read transaction as dynamic mode is broken for delayed reads
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1299  	 * in xlnx,axi-iic-2.0 / xlnx,xps-iic-2.00.a IP versions.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1300  	 * If read length is > 255 bytes.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1301  	 * If smbus_block_read transaction.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1302  	 */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1303  	for (count = 0; count < i2c->nmsgs; count++) {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1304  		broken_read = (i2c->quirks & DYNAMIC_MODE_READ_BROKEN_BIT) &&
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1305  				(i2c->tx_msg[count].flags & I2C_M_RD);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1306  		max_read_len = (i2c->tx_msg[count].flags & I2C_M_RD) &&
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1307  				(i2c->tx_msg[count].len > MAX_READ_LENGTH_DYNAMIC);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1308  		smbus_blk_read = (i2c->tx_msg[count].flags & I2C_M_RECV_LEN);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1309  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1310  		if (broken_read || max_read_len || smbus_blk_read) {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1311  			i2c->dynamic = false;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1312  			break;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1313  		}
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1314  	}
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1315  
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1316  	ret = xiic_reinit(i2c);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1317  	if (!ret)
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1318  		__xiic_start_xfer(i2c);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1319  
+c119e7d00c9168 Marek Vasut          2021-08-23  1320  out:
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1321  	if (i2c->atomic)
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1322  		spin_unlock(&i2c->atomic_lock);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  1323  	else
+77c680196791e7 Lars-Peter Clausen   2015-11-16  1324  		mutex_unlock(&i2c->lock);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1325  
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09 @1326  	return ret;
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1327  }
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1328  
+
+:::::: The code at line 1326 was first introduced by commit
+:::::: b4c119dbc300c7a6ee2da70d5c7ba14747b35142 i2c: xiic: Add timeout to the rx fifo wait loop
+
+:::::: TO: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+:::::: CC: Wolfram Sang <wsa@the-dreams.de>
 
 -- 
 0-DAY CI Kernel Test Service
