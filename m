@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43112C80
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 15:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5912500A6
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 16:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732462476; cv=none; b=Xi88hruQmtkUIxMJJ4UHdFEEV6qgBk6izfZ/2VrbDCbafyLP6EyO8SCPaJJDImgUEXylWDaOT7Q1Yci/HUKv3y0ZxS3k6EyKs+AUiieEeYmR6DMOq/jP0n4OuwJcBmdSztC4dj2ng9f40lHUmY1gbq/j4832g6lQd19FcpAOKbY=
+	t=1732467466; cv=none; b=bLa5NS/XkM6ebjvblJzih9sVUHP8ODPAs4nrikYukhQHuNcNGf+73ngFTQfLm9zYuysUfO0Jv1sbczcJB3oBkpQs0cxSWKJFDoUmk0Tt5Z+1YpYcCSruPD+MICseb6Otwr00FvkRUPoNG9XEW52m9CTTyPoMtrIHQS8lcNsQ7JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732462476; c=relaxed/simple;
-	bh=CwEvGnTziCZ16JyIw6/B/j7Oj3ozfACydfSe2/nsM9c=;
+	s=arc-20240116; t=1732467466; c=relaxed/simple;
+	bh=0CDPkYgzlDqrjM1HY6fHrPSUZg7o9QUj6P/tYGADe70=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B6C332B5IjyTI/c6gaOh3hdny4rYSUWwB/iORJHjkXuKmnuF68yt2klJ9L6766/fEV1Ghob9ZVyC2V4XcItb64pEYCJsZGsiPKuLpbo+BpUTxpC/71xIq7X1AXiC8FwRmARQj2F248PoAdpWsI0u2jYU8GeNrJ91h8tAIuXuec8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dvfw7ZtO; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=p2ouey0BXveB+kFjHLdfvaSTQcHJfxVLmhwF0nf8H8X+eOsOnsUlHJ0HBNc3noh6/mywuFZ2VNnAfbajhcDV9raLWsTxgC295r0HhAJ2MLYeU0MJLmiyi4AqXdH1TT8tKXo4d0As4/8kZ+oDu/m8hue1ju0ePGd36UpwQ2CCk80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jkLv7kXj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dvfw7ZtO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jkLv7kXj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732462475; x=1763998475;
+  t=1732467465; x=1764003465;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CwEvGnTziCZ16JyIw6/B/j7Oj3ozfACydfSe2/nsM9c=;
-  b=Dvfw7ZtO/wzzGwAAb8o5tkUwmf+lTYJcQizanVVS1WfmT+YdO8GnvKQs
-   CoNrp4uyoZn+fW6dOtcXAh/BO8EQMuZYGitFiu+y2zA56QGg10Ma6Mv5u
-   6Su6Z4X9Uwa4i9+1QbOCzRIobeg5MZFvA9e4CWRLGsr5Ox3clOl1uQ1tj
-   L0+cicezsKdAXzRe/xCTuRnpu0ksdOtcYTC7Ncu0xHfZxy3bn7XtQs8hG
-   /LmPHaQFlBLI6tTRi2656KIZjJXR55ze9+s3JAhy23/xZgkUnmfF2YQAy
-   vUw7kxxmpQbDXUktn4ObpzBDTaB80e5An/kBr6d8QAB2yc0WY2ULMV9Vc
-   Q==;
-X-CSE-ConnectionGUID: AmMiMeAGSByq+xY1NDlzfA==
-X-CSE-MsgGUID: qxCLPOXqR1K3IQLsDTOLUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43949436"
+  bh=0CDPkYgzlDqrjM1HY6fHrPSUZg7o9QUj6P/tYGADe70=;
+  b=jkLv7kXjsQVwtuSUQzRMGHJVzHrXeZVeYalx8pMERflkrwVxW9JVtc7f
+   wXA6izYJBt+WgyyLNfkpldXUgMhZku1gZaKs9PXdOvQxcGdQkNdLAixh6
+   R2INsJG6GCCdDmLPK+PH9ci1hTxltQWMznyZ5fbldK1Fyb769VSKKfRUM
+   4b+NVNuSycfPneAtiH/63S18icNsZhCCsj5qZOMfXk6fEPf+uXDOdSYKM
+   b9LAhkghQjcbMLA3lzCrHgPF5Orl9wGRrXkhiRX5e/CK5fURJzNPksGM/
+   OLvjMwQbkn7YI3RNBsQy0ecHkSdEbVdfp/ICBaU+vS0it2ZCaPB0C5o0/
+   A==;
+X-CSE-ConnectionGUID: wzIYheIER5a7e5iJnondCA==
+X-CSE-MsgGUID: Yvg0+yFvR6eJ6NPjefa6BQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="49982937"
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="43949436"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 07:34:35 -0800
-X-CSE-ConnectionGUID: TK1z9EpHR6i+oq4huEemLw==
-X-CSE-MsgGUID: r7m0HuVMTn+8RXr475CDvg==
+   d="scan'208";a="49982937"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 08:57:41 -0800
+X-CSE-ConnectionGUID: KfzTGE1FRTGnR0b+rHvQnw==
+X-CSE-MsgGUID: 83vu1abCQ7u0DvrpF9SVhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="95968803"
+   d="scan'208";a="91471886"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Nov 2024 07:34:33 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Nov 2024 08:57:40 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFEd4-000545-2P;
-	Sun, 24 Nov 2024 15:34:30 +0000
-Date: Sun, 24 Nov 2024 23:33:39 +0800
+	id 1tFFvV-00056r-1g;
+	Sun, 24 Nov 2024 16:57:37 +0000
+Date: Mon, 25 Nov 2024 00:57:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v16 04/26] blk-zoned: Only handle errors after pending
- zoned writes have completed
-Message-ID: <202411242326.HSKyGmyJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the
+ index variable of the iterator on line 375
+Message-ID: <202411250048.B1xeP6u5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,80 +64,80 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241119002815.600608-5-bvanassche@acm.org>
-References: <20241119002815.600608-5-bvanassche@acm.org>
-TO: Bart Van Assche <bvanassche@acm.org>
+CC: linux-kernel@vger.kernel.org
+TO: Stephan Gerhold <stephan@gerhold.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-Hi Bart,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on next-20241122]
-[cannot apply to jejb-scsi/for-next mkp-scsi/for-next v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/blk-zoned-Fix-a-reference-count-leak/20241121-112830
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241119002815.600608-5-bvanassche%40acm.org
-patch subject: [PATCH v16 04/26] blk-zoned: Only handle errors after pending zoned writes have completed
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: microblaze-randconfig-r072-20241124 (https://download.01.org/0day-ci/archive/20241124/202411242326.HSKyGmyJ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9f16d5e6f220661f73b36a4be1b21575651d8833
+commit: 2b391c4ca735d0633bcdca5f83939c9791405225 pmdomain: core: Scale down parent/child performance states in reverse order
+date:   9 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-051-20241114 (https://download.01.org/0day-ci/archive/20241125/202411250048.B1xeP6u5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411242326.HSKyGmyJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411250048.B1xeP6u5-lkp@intel.com/
 
-New smatch warnings:
-block/blk-zoned.c:804 blk_zone_all_zwr_inserted() warn: iterator 'i' not incremented
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the index variable of the iterator on line 375
 
-Old smatch warnings:
-arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
+vim +385 drivers/pmdomain/core.c
 
-vim +/i +804 block/blk-zoned.c
-
-2238dfb90653aa Bart Van Assche 2024-11-18  779  
-2238dfb90653aa Bart Van Assche 2024-11-18  780  /*
-2238dfb90653aa Bart Van Assche 2024-11-18  781   * Report whether or not all zoned writes for a zone have been inserted into a
-2238dfb90653aa Bart Van Assche 2024-11-18  782   * software queue, elevator queue or hardware queue.
-2238dfb90653aa Bart Van Assche 2024-11-18  783   */
-2238dfb90653aa Bart Van Assche 2024-11-18  784  static bool blk_zone_all_zwr_inserted(struct blk_zone_wplug *zwplug)
-2238dfb90653aa Bart Van Assche 2024-11-18  785  {
-2238dfb90653aa Bart Van Assche 2024-11-18  786  	struct gendisk *disk = zwplug->disk;
-2238dfb90653aa Bart Van Assche 2024-11-18  787  	struct request_queue *q = disk->queue;
-2238dfb90653aa Bart Van Assche 2024-11-18  788  	struct all_zwr_inserted_data d = { .zwplug = zwplug, .res = true };
-2238dfb90653aa Bart Van Assche 2024-11-18  789  	struct blk_mq_hw_ctx *hctx;
-2238dfb90653aa Bart Van Assche 2024-11-18  790  	long unsigned int i;
-2238dfb90653aa Bart Van Assche 2024-11-18  791  	struct request *rq;
-2238dfb90653aa Bart Van Assche 2024-11-18  792  
-2238dfb90653aa Bart Van Assche 2024-11-18  793  	scoped_guard(spinlock_irqsave, &q->requeue_lock) {
-2238dfb90653aa Bart Van Assche 2024-11-18  794  		list_for_each_entry(rq, &q->requeue_list, queuelist)
-2238dfb90653aa Bart Van Assche 2024-11-18  795  			if (blk_rq_is_seq_zoned_write(rq) &&
-2238dfb90653aa Bart Van Assche 2024-11-18  796  			    bio_zone_no(rq->bio) == zwplug->zone_no)
-2238dfb90653aa Bart Van Assche 2024-11-18  797  				return false;
-2238dfb90653aa Bart Van Assche 2024-11-18  798  		list_for_each_entry(rq, &q->flush_list, queuelist)
-2238dfb90653aa Bart Van Assche 2024-11-18  799  			if (blk_rq_is_seq_zoned_write(rq) &&
-2238dfb90653aa Bart Van Assche 2024-11-18  800  			    bio_zone_no(rq->bio) == zwplug->zone_no)
-2238dfb90653aa Bart Van Assche 2024-11-18  801  				return false;
-2238dfb90653aa Bart Van Assche 2024-11-18  802  	}
-2238dfb90653aa Bart Van Assche 2024-11-18  803  
-2238dfb90653aa Bart Van Assche 2024-11-18 @804  	queue_for_each_hw_ctx(q, hctx, i) {
-2238dfb90653aa Bart Van Assche 2024-11-18  805  		struct blk_mq_tags *tags = hctx->sched_tags ?: hctx->tags;
-2238dfb90653aa Bart Van Assche 2024-11-18  806  
-2238dfb90653aa Bart Van Assche 2024-11-18  807  		blk_mq_all_tag_iter(tags, blk_zwr_inserted, &d);
-2238dfb90653aa Bart Van Assche 2024-11-18  808  		if (!d.res || blk_mq_is_shared_tags(q->tag_set->flags))
-2238dfb90653aa Bart Van Assche 2024-11-18  809  			break;
-2238dfb90653aa Bart Van Assche 2024-11-18  810  	}
-2238dfb90653aa Bart Van Assche 2024-11-18  811  
-2238dfb90653aa Bart Van Assche 2024-11-18  812  	return d.res;
-2238dfb90653aa Bart Van Assche 2024-11-18  813  }
-2238dfb90653aa Bart Van Assche 2024-11-18  814  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  363  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  364  static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  365  					unsigned int state, int depth)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  366  {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  367  	struct gpd_link *link = NULL;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  368  	int ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  369  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  370  	if (state == genpd->performance_state)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  371  		return 0;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  372  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  373  	/* When scaling up, propagate to parents first in normal order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  374  	if (state > genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @375  		list_for_each_entry(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  376  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  377  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  378  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  379  		}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  380  	}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  381  
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  382  	if (genpd->set_performance_state) {
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  383  		ret = genpd->set_performance_state(genpd, state);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  384  		if (ret) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @385  			if (link)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  386  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  387  			return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  388  		}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  389  	}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  390  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  391  	/* When scaling down, propagate to parents last in reverse order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  392  	if (state < genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  393  		list_for_each_entry_reverse(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  394  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  395  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  396  				goto rollback_parents_down;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  397  		}
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  398  	}
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  399  
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  400  	genpd->performance_state = state;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  401  	return 0;
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  402  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  403  rollback_parents_up:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  404  	list_for_each_entry_continue_reverse(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  405  		_genpd_rollback_parent_state(link, depth);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  406  	return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  407  rollback_parents_down:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  408  	list_for_each_entry_continue(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  409  		_genpd_rollback_parent_state(link, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  410  	return ret;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  411  }
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  412  
 
 -- 
 0-DAY CI Kernel Test Service
