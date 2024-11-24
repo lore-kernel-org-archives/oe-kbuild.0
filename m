@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1469487BF
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 19:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A68163
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Nov 2024 20:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732476721; cv=none; b=H9dl3VbiA5ZqCRltqB/vgwetcjf+L+viDaWaaqsMx3uJJhwn1LwRyUma/ZKzF1pIsILgKdr8y6gnT3K/nQPf7kmeyMJyIL9z5z6a2C/Z35boo/BgFPNTLB2tbxGnKQio4EJs9x4D3Hz5veAUeXD3C3lJAv6Eqy4g9ofR5kVH9cE=
+	t=1732479855; cv=none; b=mBlbmsZ8+0alUY5sP0rM7dxF/+6XfD+wj2yIkjEY41DGGoA/AmnuyWeFYvjA1sGYR2GREQIH6rHbs+LhvOFt6TKLy/7b3yaTefG7p2Uvn1+6kXtnIVtF5BGjCgpUNAzTNAmqMMCNuRURF73AOfNx6u23YgYGZF0ZCDKsub9H9hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732476721; c=relaxed/simple;
-	bh=TnXdy+oMEgH2Uy5MzglRG2oZroEWJEc1IzfzQ5CrxJA=;
+	s=arc-20240116; t=1732479855; c=relaxed/simple;
+	bh=JBmb8nTeNqeAiJvcUrMjeZlDhmcfVT9ttmZDb2mYCbw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XknLQX/t/JV0ImmhWOYr6m3WIukI5OiDP30t2VPQ0eMaEWWVlZokxow966OrX9qw2Y1A/k66NsCsRnytHDKuqJg7enfEqVv6XKPbtibVCWCM78bAQnbFhMM1SlbRfENJvQXfzpl1kVwJzbnBS3UigAg+PCvgEHDgbg3fCxjtJa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWOX8EUK; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=WW36Nps185KzRo9WNRCPzuJgTXWKpQgEDqZCTVay12o4qR5HNFhxoF6mwf0YdT0WsZvNTx7mOXltjjPH8gfvcINlk4kgmk6xXZ1JfvJRn0gTJwPy2mm44mCku7EAG/3HDqopbwagUIF2Tbbf9+yblXqXQ7l1jB6ST6RTYxcaAMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bw5Ij+Y9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWOX8EUK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bw5Ij+Y9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732476719; x=1764012719;
+  t=1732479853; x=1764015853;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TnXdy+oMEgH2Uy5MzglRG2oZroEWJEc1IzfzQ5CrxJA=;
-  b=OWOX8EUKfffVjOgoJUW6qnezKZQ0lAX0fiEh1n/9xIn+SOgV8psXMGBY
-   QySWjjxXWzY02d+MiJY9B4H3pTPbsXyJx04EluoSHjdAQKH8dZ7qLYTAK
-   uofc3VTgrWZp4whMa9eBwh3/LMcQZKQu6PK9uoWnxmjCQCJz27e0GLtZx
-   ES0qqIgWMdc5ol3UCKS6RSbVPnZALZte9F5rVlbEIkAT47Y4HGvVPQTZz
-   xIPpQzpv4X2DwUb5Tq02KZsCX6prj1+Av1lJpEfRhQVRfUB6OkNl9z4kY
-   sH7z+beEJqcILWWTnlvKwJfP2mnxMLmwM8wcaHThAVLk3WohIdRBbTLtT
-   Q==;
-X-CSE-ConnectionGUID: NP8cWDMbS6WDf8emP7exOA==
-X-CSE-MsgGUID: SKuiFqBiSmCLTrD/VH3XlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43957914"
+  bh=JBmb8nTeNqeAiJvcUrMjeZlDhmcfVT9ttmZDb2mYCbw=;
+  b=Bw5Ij+Y94hFSP/5a6JXQgJh6agrIhy4FTFMjQusltjugCq36TRIrVZC8
+   6OoS4GB1da5zCLyxyXuli4ENq1qY3EAhFSdnIzdatOSVi52WaroAT7arx
+   ZIQDaEQQW44pTuw54y1Q4Jg1jsLZjtV4byRDiwf3fOMTMSo0EBE7MW1gn
+   aAFkUYkZ09ko+H9HRVDHlj45uNmx3TeuTS0MZFaApWliLsjsVf8KI0ywB
+   QExIFfoeVtFtK7nHYypUuXZUuWW4KZi9d+wSiRv4S5MGYkqy8YPTyfaRX
+   b+AnTuXBU0VSCNQbNiO9lQASbf8qq4TnIIk09GIQcI2wAQS1LPeDJtcL+
+   A==;
+X-CSE-ConnectionGUID: 2m9L+kCjTraQ0gtDtdPLXQ==
+X-CSE-MsgGUID: NiPbs8dRRsmWynHPRsv9LQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43636296"
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="43957914"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 11:31:59 -0800
-X-CSE-ConnectionGUID: EPE1rUO1QYOcZU8jlvzYUg==
-X-CSE-MsgGUID: E/ZrFQQWQSC9yJH9KYAnZQ==
+   d="scan'208";a="43636296"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 12:24:11 -0800
+X-CSE-ConnectionGUID: p4NZ7k2DQ/aRGJ4VfRtqTA==
+X-CSE-MsgGUID: +zfx2oDQSm+tUBggPXfS1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="91410605"
+   d="scan'208";a="90705907"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Nov 2024 11:31:57 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 24 Nov 2024 12:24:09 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFIKo-0005Bl-2e;
-	Sun, 24 Nov 2024 19:31:54 +0000
-Date: Mon, 25 Nov 2024 03:31:45 +0800
+	id 1tFJ9L-0005DR-01;
+	Sun, 24 Nov 2024 20:24:07 +0000
+Date: Mon, 25 Nov 2024 04:23:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp()
- error: we previously assumed 'res->dattr' could be null (see line 985)
-Message-ID: <202411250359.DWxho9P8-lkp@intel.com>
+Subject: net/ipv4/tcp_ao.c:2089 tcp_ao_copy_mkts_to_user() error:
+ __builtin_memcpy() '&key->addr' too small (4 vs 16)
+Message-ID: <202411250403.yeJU2w9H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,251 +65,261 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Selvin Xavier <selvin.xavier@broadcom.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
+TO: Dmitry Safonov <dima@arista.com>
+CC: Francesco Ruggeri <fruggeri@arista.com>
+CC: Salam Noureddine <noureddine@arista.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9f16d5e6f220661f73b36a4be1b21575651d8833
-commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
-date:   12 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241125/202411250359.DWxho9P8-lkp@intel.com/config)
+commit: ef84703a911f4ee52ca585e8308b7084093941f4 net/tcp: Add TCP-AO getsockopt()s
+date:   1 year, 1 month ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-161-20241114 (https://download.01.org/0day-ci/archive/20241125/202411250403.yeJU2w9H-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411250359.DWxho9P8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411250403.yeJU2w9H-lkp@intel.com/
 
 New smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
+net/ipv4/tcp_ao.c:2089 tcp_ao_copy_mkts_to_user() error: __builtin_memcpy() '&key->addr' too small (4 vs 16)
 
 Old smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:495 bnxt_qplib_nq_start_irq() warn: 'msix_vector' from request_irq() not released on lines: 495.
+net/ipv4/tcp_ao.c:1755 tcp_ao_del_cmd() error: memcmp() '&key->addr' too small (4 vs 16)
 
-vim +1090 drivers/infiniband/hw/bnxt_re/qplib_fp.c
+vim +2089 net/ipv4/tcp_ao.c
 
-fddcbbb02af42a Devesh Sharma      2020-04-02   966  
-1ac5a404797523 Selvin Xavier      2017-02-10   967  int bnxt_qplib_create_qp(struct bnxt_qplib_res *res, struct bnxt_qplib_qp *qp)
-1ac5a404797523 Selvin Xavier      2017-02-10   968  {
-1ac5a404797523 Selvin Xavier      2017-02-10   969  	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
-0c4dcd60281750 Devesh Sharma      2020-02-15   970  	struct bnxt_qplib_hwq_attr hwq_attr = {};
-0c4dcd60281750 Devesh Sharma      2020-02-15   971  	struct bnxt_qplib_sg_info sginfo = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   972  	struct creq_create_qp_resp resp = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   973  	struct bnxt_qplib_cmdqmsg msg = {};
-1ac5a404797523 Selvin Xavier      2017-02-10   974  	struct bnxt_qplib_q *sq = &qp->sq;
-1ac5a404797523 Selvin Xavier      2017-02-10   975  	struct bnxt_qplib_q *rq = &qp->rq;
-ff015bcd213b5d Selvin Xavier      2023-03-30   976  	struct cmdq_create_qp req = {};
-fddcbbb02af42a Devesh Sharma      2020-04-02   977  	int rc, req_size, psn_sz = 0;
-1ac5a404797523 Selvin Xavier      2017-02-10   978  	struct bnxt_qplib_hwq *xrrq;
-c50866e2853a03 Devesh Sharma      2019-02-22   979  	struct bnxt_qplib_pbl *pbl;
-c50866e2853a03 Devesh Sharma      2019-02-22   980  	u32 qp_flags = 0;
-99bf84e24eb83d Devesh Sharma      2020-04-02   981  	u8 pg_sz_lvl;
-84cf229f4001c1 Selvin Xavier      2020-08-24   982  	u32 tbl_indx;
-159fb4ceacd79b Devesh Sharma      2020-07-15   983  	u16 nsge;
-1ac5a404797523 Selvin Xavier      2017-02-10   984  
-07f830ae4913d0 Selvin Xavier      2023-12-07  @985  	if (res->dattr)
-07f830ae4913d0 Selvin Xavier      2023-12-07   986  		qp->dev_cap_flags = res->dattr->dev_cap_flags;
-07f830ae4913d0 Selvin Xavier      2023-12-07   987  
-3a4304d8269501 Chandramohan Akula 2023-10-23   988  	sq->dbinfo.flags = 0;
-e576adf583b525 Selvin Xavier      2023-03-30   989  	bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
-e576adf583b525 Selvin Xavier      2023-03-30   990  				 CMDQ_BASE_OPCODE_CREATE_QP,
-e576adf583b525 Selvin Xavier      2023-03-30   991  				 sizeof(req));
-1ac5a404797523 Selvin Xavier      2017-02-10   992  
-1ac5a404797523 Selvin Xavier      2017-02-10   993  	/* General */
-1ac5a404797523 Selvin Xavier      2017-02-10   994  	req.type = qp->type;
-1ac5a404797523 Selvin Xavier      2017-02-10   995  	req.dpi = cpu_to_le32(qp->dpi->dpi);
-1ac5a404797523 Selvin Xavier      2017-02-10   996  	req.qp_handle = cpu_to_le64(qp->qp_handle);
-1ac5a404797523 Selvin Xavier      2017-02-10   997  
-1ac5a404797523 Selvin Xavier      2017-02-10   998  	/* SQ */
-37f91cff2de017 Devesh Sharma      2019-02-07   999  	if (qp->type == CMDQ_CREATE_QP_TYPE_RC) {
-1801d87b3598b1 Selvin Xavier      2023-12-07  1000  		psn_sz = bnxt_qplib_is_chip_gen_p5_p7(res->cctx) ?
-37f91cff2de017 Devesh Sharma      2019-02-07  1001  			 sizeof(struct sq_psn_search_ext) :
-37f91cff2de017 Devesh Sharma      2019-02-07  1002  			 sizeof(struct sq_psn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1003  
-07f830ae4913d0 Selvin Xavier      2023-12-07  1004  		if (BNXT_RE_HW_RETX(qp->dev_cap_flags)) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1005  			psn_sz = sizeof(struct sq_msn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1006  			qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1007  		}
-37f91cff2de017 Devesh Sharma      2019-02-07  1008  	}
-0c4dcd60281750 Devesh Sharma      2020-02-15  1009  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1010  	hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1011  	hwq_attr.sginfo = &sq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1012  	hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1013  	hwq_attr.depth = bnxt_qplib_get_depth(sq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1014  	hwq_attr.aux_stride = psn_sz;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1015  	hwq_attr.aux_depth = bnxt_qplib_set_sq_size(sq, qp->wqe_mode);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1016  	/* Update msn tbl size */
-07f830ae4913d0 Selvin Xavier      2023-12-07  1017  	if (BNXT_RE_HW_RETX(qp->dev_cap_flags) && psn_sz) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1018  		hwq_attr.aux_depth = roundup_pow_of_two(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-07f830ae4913d0 Selvin Xavier      2023-12-07  1019  		qp->msn_tbl_sz = hwq_attr.aux_depth;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1020  		qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1021  	}
-07f830ae4913d0 Selvin Xavier      2023-12-07  1022  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1023  	hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1024  	rc = bnxt_qplib_alloc_init_hwq(&sq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1025  	if (rc)
-07d5ce14b2aa22 Kalesh AP          2023-05-18  1026  		return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1027  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1028  	rc = bnxt_qplib_alloc_init_swq(sq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1029  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1030  		goto fail_sq;
-fddcbbb02af42a Devesh Sharma      2020-04-02  1031  
-fddcbbb02af42a Devesh Sharma      2020-04-02  1032  	if (psn_sz)
-fddcbbb02af42a Devesh Sharma      2020-04-02  1033  		bnxt_qplib_init_psn_ptr(qp, psn_sz);
-fddcbbb02af42a Devesh Sharma      2020-04-02  1034  
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1035  	req.sq_size = cpu_to_le32(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-1ac5a404797523 Selvin Xavier      2017-02-10  1036  	pbl = &sq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1037  	req.sq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1038  	pg_sz_lvl = (bnxt_qplib_base_pg_size(&sq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1039  		     CMDQ_CREATE_QP_SQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1040  	pg_sz_lvl |= (sq->hwq.level & CMDQ_CREATE_QP_SQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1041  	req.sq_pg_size_sq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1042  	req.sq_fwo_sq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1043  		cpu_to_le16(((sq->max_sge & CMDQ_CREATE_QP_SQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1044  			     CMDQ_CREATE_QP_SQ_SGE_SFT) | 0);
-1ac5a404797523 Selvin Xavier      2017-02-10  1045  	req.scq_cid = cpu_to_le32(qp->scq->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1046  
-1ac5a404797523 Selvin Xavier      2017-02-10  1047  	/* RQ */
-159fb4ceacd79b Devesh Sharma      2020-07-15  1048  	if (!qp->srq) {
-3a4304d8269501 Chandramohan Akula 2023-10-23  1049  		rq->dbinfo.flags = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1050  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1051  		hwq_attr.sginfo = &rq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1052  		hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1053  		hwq_attr.depth = bnxt_qplib_get_depth(rq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1054  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1055  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1056  		hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1057  		rc = bnxt_qplib_alloc_init_hwq(&rq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1058  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1059  			goto sq_swq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1060  		rc = bnxt_qplib_alloc_init_swq(rq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1061  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1062  			goto fail_rq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1063  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1064  		req.rq_size = cpu_to_le32(rq->max_wqe);
-1ac5a404797523 Selvin Xavier      2017-02-10  1065  		pbl = &rq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1066  		req.rq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1067  		pg_sz_lvl = (bnxt_qplib_base_pg_size(&rq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1068  			     CMDQ_CREATE_QP_RQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1069  		pg_sz_lvl |= (rq->hwq.level & CMDQ_CREATE_QP_RQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1070  		req.rq_pg_size_rq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1071  		nsge = (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_STATIC) ?
-159fb4ceacd79b Devesh Sharma      2020-07-15  1072  			6 : rq->max_sge;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1073  		req.rq_fwo_rq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1074  			cpu_to_le16(((nsge &
-159fb4ceacd79b Devesh Sharma      2020-07-15  1075  				      CMDQ_CREATE_QP_RQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1076  				     CMDQ_CREATE_QP_RQ_SGE_SFT) | 0);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1077  	} else {
-37cb11acf1f72a Devesh Sharma      2018-01-11  1078  		/* SRQ */
-37cb11acf1f72a Devesh Sharma      2018-01-11  1079  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_SRQ_USED;
-37cb11acf1f72a Devesh Sharma      2018-01-11  1080  		req.srq_cid = cpu_to_le32(qp->srq->id);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1081  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1082  	req.rcq_cid = cpu_to_le32(qp->rcq->id);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1083  
-99bf84e24eb83d Devesh Sharma      2020-04-02  1084  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_RESERVED_LKEY_ENABLE;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1085  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FR_PMR_ENABLED;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1086  	if (qp->sig_type)
-99bf84e24eb83d Devesh Sharma      2020-04-02  1087  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FORCE_COMPLETION;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1088  	if (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_VARIABLE)
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1089  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_VARIABLE_SIZED_WQE_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15 @1090  	if (_is_ext_stats_supported(res->dattr->dev_cap_flags) && !res->is_vf)
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1091  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_EXT_STATS_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1092  
-1ac5a404797523 Selvin Xavier      2017-02-10  1093  	req.qp_flags = cpu_to_le32(qp_flags);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1094  
-1ac5a404797523 Selvin Xavier      2017-02-10  1095  	/* ORRQ and IRRQ */
-1ac5a404797523 Selvin Xavier      2017-02-10  1096  	if (psn_sz) {
-1ac5a404797523 Selvin Xavier      2017-02-10  1097  		xrrq = &qp->orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1098  		xrrq->max_elements =
-1ac5a404797523 Selvin Xavier      2017-02-10  1099  			ORD_LIMIT_TO_ORRQ_SLOTS(qp->max_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1100  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1101  			   BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1102  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1103  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1104  		sginfo.pgshft = PAGE_SHIFT;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1105  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1106  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1107  		hwq_attr.sginfo = &sginfo;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1108  		hwq_attr.depth = xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1109  		hwq_attr.stride = BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1110  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1111  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1112  		hwq_attr.type = HWQ_TYPE_CTX;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1113  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1114  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1115  			goto rq_swq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1116  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1117  		req.orrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1118  
-1ac5a404797523 Selvin Xavier      2017-02-10  1119  		xrrq = &qp->irrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1120  		xrrq->max_elements = IRD_LIMIT_TO_IRRQ_SLOTS(
-1ac5a404797523 Selvin Xavier      2017-02-10  1121  						qp->max_dest_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1122  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1123  			   BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1124  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1125  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1126  		hwq_attr.depth =  xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1127  		hwq_attr.stride = BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1128  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1129  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1130  			goto fail_orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1131  
-1ac5a404797523 Selvin Xavier      2017-02-10  1132  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1133  		req.irrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1134  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1135  	req.pd_id = cpu_to_le32(qp->pd->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1136  
-ff015bcd213b5d Selvin Xavier      2023-03-30  1137  	bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req),
-ff015bcd213b5d Selvin Xavier      2023-03-30  1138  				sizeof(resp), 0);
-ff015bcd213b5d Selvin Xavier      2023-03-30  1139  	rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1140  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1141  		goto fail;
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1142  
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1143  	qp->id = le32_to_cpu(resp.xid);
-1ac5a404797523 Selvin Xavier      2017-02-10  1144  	qp->cur_qp_state = CMDQ_MODIFY_QP_NEW_STATE_RESET;
-f218d67ef00431 Selvin Xavier      2017-06-29  1145  	INIT_LIST_HEAD(&qp->sq_flush);
-f218d67ef00431 Selvin Xavier      2017-06-29  1146  	INIT_LIST_HEAD(&qp->rq_flush);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1147  	qp->cctx = res->cctx;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1148  	sq->dbinfo.hwq = &sq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1149  	sq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1150  	sq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1151  	sq->dbinfo.max_slot = bnxt_qplib_set_sq_max_slot(qp->wqe_mode);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1152  	if (rq->max_wqe) {
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1153  		rq->dbinfo.hwq = &rq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1154  		rq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1155  		rq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1156  		rq->dbinfo.max_slot = bnxt_qplib_set_rq_max_slot(rq->wqe_size);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1157  	}
-84cf229f4001c1 Selvin Xavier      2020-08-24  1158  	tbl_indx = map_qp_id_to_tbl_indx(qp->id, rcfw);
-84cf229f4001c1 Selvin Xavier      2020-08-24  1159  	rcfw->qp_tbl[tbl_indx].qp_id = qp->id;
-84cf229f4001c1 Selvin Xavier      2020-08-24  1160  	rcfw->qp_tbl[tbl_indx].qp_handle = (void *)qp;
-1ac5a404797523 Selvin Xavier      2017-02-10  1161  
-1ac5a404797523 Selvin Xavier      2017-02-10  1162  	return 0;
-1ac5a404797523 Selvin Xavier      2017-02-10  1163  fail:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1164  	bnxt_qplib_free_hwq(res, &qp->irrq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1165  fail_orrq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1166  	bnxt_qplib_free_hwq(res, &qp->orrq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1167  rq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1168  	kfree(rq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1169  fail_rq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1170  	bnxt_qplib_free_hwq(res, &rq->hwq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1171  sq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1172  	kfree(sq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1173  fail_sq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1174  	bnxt_qplib_free_hwq(res, &sq->hwq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1175  	return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1176  }
-1ac5a404797523 Selvin Xavier      2017-02-10  1177  
-
-:::::: The code at line 1090 was first introduced by commit
-:::::: 9a381f7e5aa299de3500b8afa2237e5d1eab63fb RDMA/bnxt_re: Add extended statistics counters
-
-:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+4954f17ddefc51 Dmitry Safonov 2023-10-23  1896  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1897  /* tcp_ao_copy_mkts_to_user(ao_info, optval, optlen)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1898   *
+ef84703a911f4e Dmitry Safonov 2023-10-23  1899   * @ao_info:	struct tcp_ao_info on the socket that
+ef84703a911f4e Dmitry Safonov 2023-10-23  1900   *		socket getsockopt(TCP_AO_GET_KEYS) is executed on
+ef84703a911f4e Dmitry Safonov 2023-10-23  1901   * @optval:	pointer to array of tcp_ao_getsockopt structures in user space.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1902   *		Must be != NULL.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1903   * @optlen:	pointer to size of tcp_ao_getsockopt structure.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1904   *		Must be != NULL.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1905   *
+ef84703a911f4e Dmitry Safonov 2023-10-23  1906   * Return value: 0 on success, a negative error number otherwise.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1907   *
+ef84703a911f4e Dmitry Safonov 2023-10-23  1908   * optval points to an array of tcp_ao_getsockopt structures in user space.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1909   * optval[0] is used as both input and output to getsockopt. It determines
+ef84703a911f4e Dmitry Safonov 2023-10-23  1910   * which keys are returned by the kernel.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1911   * optval[0].nkeys is the size of the array in user space. On return it contains
+ef84703a911f4e Dmitry Safonov 2023-10-23  1912   * the number of keys matching the search criteria.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1913   * If tcp_ao_getsockopt::get_all is set, then all keys in the socket are
+ef84703a911f4e Dmitry Safonov 2023-10-23  1914   * returned, otherwise only keys matching <addr, prefix, sndid, rcvid>
+ef84703a911f4e Dmitry Safonov 2023-10-23  1915   * in optval[0] are returned.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1916   * optlen is also used as both input and output. The user provides the size
+ef84703a911f4e Dmitry Safonov 2023-10-23  1917   * of struct tcp_ao_getsockopt in user space, and the kernel returns the size
+ef84703a911f4e Dmitry Safonov 2023-10-23  1918   * of the structure in kernel space.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1919   * The size of struct tcp_ao_getsockopt may differ between user and kernel.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1920   * There are three cases to consider:
+ef84703a911f4e Dmitry Safonov 2023-10-23  1921   *  * If usize == ksize, then keys are copied verbatim.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1922   *  * If usize < ksize, then the userspace has passed an old struct to a
+ef84703a911f4e Dmitry Safonov 2023-10-23  1923   *    newer kernel. The rest of the trailing bytes in optval[0]
+ef84703a911f4e Dmitry Safonov 2023-10-23  1924   *    (ksize - usize) are interpreted as 0 by the kernel.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1925   *  * If usize > ksize, then the userspace has passed a new struct to an
+ef84703a911f4e Dmitry Safonov 2023-10-23  1926   *    older kernel. The trailing bytes unknown to the kernel (usize - ksize)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1927   *    are checked to ensure they are zeroed, otherwise -E2BIG is returned.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1928   * On return the kernel fills in min(usize, ksize) in each entry of the array.
+ef84703a911f4e Dmitry Safonov 2023-10-23  1929   * The layout of the fields in the user and kernel structures is expected to
+ef84703a911f4e Dmitry Safonov 2023-10-23  1930   * be the same (including in the 32bit vs 64bit case).
+ef84703a911f4e Dmitry Safonov 2023-10-23  1931   */
+ef84703a911f4e Dmitry Safonov 2023-10-23  1932  static int tcp_ao_copy_mkts_to_user(struct tcp_ao_info *ao_info,
+ef84703a911f4e Dmitry Safonov 2023-10-23  1933  				    sockptr_t optval, sockptr_t optlen)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1934  {
+ef84703a911f4e Dmitry Safonov 2023-10-23  1935  	struct tcp_ao_getsockopt opt_in, opt_out;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1936  	struct tcp_ao_key *key, *current_key;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1937  	bool do_address_matching = true;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1938  	union tcp_ao_addr *addr = NULL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1939  	unsigned int max_keys;	/* maximum number of keys to copy to user */
+ef84703a911f4e Dmitry Safonov 2023-10-23  1940  	size_t out_offset = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1941  	size_t bytes_to_write;	/* number of bytes to write to user level */
+ef84703a911f4e Dmitry Safonov 2023-10-23  1942  	int err, user_len;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1943  	u32 matched_keys;	/* keys from ao_info matched so far */
+ef84703a911f4e Dmitry Safonov 2023-10-23  1944  	int optlen_out;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1945  	__be16 port = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1946  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1947  	if (copy_from_sockptr(&user_len, optlen, sizeof(int)))
+ef84703a911f4e Dmitry Safonov 2023-10-23  1948  		return -EFAULT;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1949  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1950  	if (user_len <= 0)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1951  		return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1952  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1953  	memset(&opt_in, 0, sizeof(struct tcp_ao_getsockopt));
+ef84703a911f4e Dmitry Safonov 2023-10-23  1954  	err = copy_struct_from_sockptr(&opt_in, sizeof(opt_in),
+ef84703a911f4e Dmitry Safonov 2023-10-23  1955  				       optval, user_len);
+ef84703a911f4e Dmitry Safonov 2023-10-23  1956  	if (err < 0)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1957  		return err;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1958  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1959  	if (opt_in.pkt_good || opt_in.pkt_bad)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1960  		return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1961  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1962  	if (opt_in.reserved != 0)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1963  		return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1964  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1965  	max_keys = opt_in.nkeys;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1966  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1967  	if (opt_in.get_all || opt_in.is_current || opt_in.is_rnext) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  1968  		if (opt_in.get_all && (opt_in.is_current || opt_in.is_rnext))
+ef84703a911f4e Dmitry Safonov 2023-10-23  1969  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1970  		do_address_matching = false;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1971  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  1972  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1973  	switch (opt_in.addr.ss_family) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  1974  	case AF_INET: {
+ef84703a911f4e Dmitry Safonov 2023-10-23  1975  		struct sockaddr_in *sin;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1976  		__be32 mask;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1977  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1978  		sin = (struct sockaddr_in *)&opt_in.addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1979  		port = sin->sin_port;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1980  		addr = (union tcp_ao_addr *)&sin->sin_addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1981  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1982  		if (opt_in.prefix > 32)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1983  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1984  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1985  		if (ntohl(sin->sin_addr.s_addr) == INADDR_ANY &&
+ef84703a911f4e Dmitry Safonov 2023-10-23  1986  		    opt_in.prefix != 0)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1987  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1988  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1989  		mask = inet_make_mask(opt_in.prefix);
+ef84703a911f4e Dmitry Safonov 2023-10-23  1990  		if (sin->sin_addr.s_addr & ~mask)
+ef84703a911f4e Dmitry Safonov 2023-10-23  1991  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1992  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1993  		break;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1994  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  1995  	case AF_INET6: {
+ef84703a911f4e Dmitry Safonov 2023-10-23  1996  		struct sockaddr_in6 *sin6;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1997  		struct in6_addr *addr6;
+ef84703a911f4e Dmitry Safonov 2023-10-23  1998  
+ef84703a911f4e Dmitry Safonov 2023-10-23  1999  		sin6 = (struct sockaddr_in6 *)&opt_in.addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2000  		addr = (union tcp_ao_addr *)&sin6->sin6_addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2001  		addr6 = &sin6->sin6_addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2002  		port = sin6->sin6_port;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2003  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2004  		/* We don't have to change family and @addr here if
+ef84703a911f4e Dmitry Safonov 2023-10-23  2005  		 * ipv6_addr_v4mapped() like in key adding:
+ef84703a911f4e Dmitry Safonov 2023-10-23  2006  		 * tcp_ao_key_cmp() does it. Do the sanity checks though.
+ef84703a911f4e Dmitry Safonov 2023-10-23  2007  		 */
+ef84703a911f4e Dmitry Safonov 2023-10-23  2008  		if (opt_in.prefix != 0) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2009  			if (ipv6_addr_v4mapped(addr6)) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2010  				__be32 mask, addr4 = addr6->s6_addr32[3];
+ef84703a911f4e Dmitry Safonov 2023-10-23  2011  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2012  				if (opt_in.prefix > 32 ||
+ef84703a911f4e Dmitry Safonov 2023-10-23  2013  				    ntohl(addr4) == INADDR_ANY)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2014  					return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2015  				mask = inet_make_mask(opt_in.prefix);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2016  				if (addr4 & ~mask)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2017  					return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2018  			} else {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2019  				struct in6_addr pfx;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2020  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2021  				if (ipv6_addr_any(addr6) ||
+ef84703a911f4e Dmitry Safonov 2023-10-23  2022  				    opt_in.prefix > 128)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2023  					return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2024  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2025  				ipv6_addr_prefix(&pfx, addr6, opt_in.prefix);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2026  				if (ipv6_addr_cmp(&pfx, addr6))
+ef84703a911f4e Dmitry Safonov 2023-10-23  2027  					return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2028  			}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2029  		} else if (!ipv6_addr_any(addr6)) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2030  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2031  		}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2032  		break;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2033  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2034  	case 0:
+ef84703a911f4e Dmitry Safonov 2023-10-23  2035  		if (!do_address_matching)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2036  			break;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2037  		fallthrough;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2038  	default:
+ef84703a911f4e Dmitry Safonov 2023-10-23  2039  		return -EAFNOSUPPORT;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2040  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2041  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2042  	if (!do_address_matching) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2043  		/* We could just ignore those, but let's do stricter checks */
+ef84703a911f4e Dmitry Safonov 2023-10-23  2044  		if (addr || port)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2045  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2046  		if (opt_in.prefix || opt_in.sndid || opt_in.rcvid)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2047  			return -EINVAL;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2048  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2049  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2050  	bytes_to_write = min_t(int, user_len, sizeof(struct tcp_ao_getsockopt));
+ef84703a911f4e Dmitry Safonov 2023-10-23  2051  	matched_keys = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2052  	/* May change in RX, while we're dumping, pre-fetch it */
+ef84703a911f4e Dmitry Safonov 2023-10-23  2053  	current_key = READ_ONCE(ao_info->current_key);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2054  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2055  	hlist_for_each_entry_rcu(key, &ao_info->head, node) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2056  		if (opt_in.get_all)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2057  			goto match;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2058  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2059  		if (opt_in.is_current || opt_in.is_rnext) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2060  			if (opt_in.is_current && key == current_key)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2061  				goto match;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2062  			if (opt_in.is_rnext && key == ao_info->rnext_key)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2063  				goto match;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2064  			continue;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2065  		}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2066  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2067  		if (tcp_ao_key_cmp(key, addr, opt_in.prefix,
+ef84703a911f4e Dmitry Safonov 2023-10-23  2068  				   opt_in.addr.ss_family,
+ef84703a911f4e Dmitry Safonov 2023-10-23  2069  				   opt_in.sndid, opt_in.rcvid) != 0)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2070  			continue;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2071  match:
+ef84703a911f4e Dmitry Safonov 2023-10-23  2072  		matched_keys++;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2073  		if (matched_keys > max_keys)
+ef84703a911f4e Dmitry Safonov 2023-10-23  2074  			continue;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2075  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2076  		memset(&opt_out, 0, sizeof(struct tcp_ao_getsockopt));
+ef84703a911f4e Dmitry Safonov 2023-10-23  2077  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2078  		if (key->family == AF_INET) {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2079  			struct sockaddr_in *sin_out = (struct sockaddr_in *)&opt_out.addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2080  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2081  			sin_out->sin_family = key->family;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2082  			sin_out->sin_port = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2083  			memcpy(&sin_out->sin_addr, &key->addr, sizeof(struct in_addr));
+ef84703a911f4e Dmitry Safonov 2023-10-23  2084  		} else {
+ef84703a911f4e Dmitry Safonov 2023-10-23  2085  			struct sockaddr_in6 *sin6_out = (struct sockaddr_in6 *)&opt_out.addr;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2086  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2087  			sin6_out->sin6_family = key->family;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2088  			sin6_out->sin6_port = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23 @2089  			memcpy(&sin6_out->sin6_addr, &key->addr, sizeof(struct in6_addr));
+ef84703a911f4e Dmitry Safonov 2023-10-23  2090  		}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2091  		opt_out.sndid = key->sndid;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2092  		opt_out.rcvid = key->rcvid;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2093  		opt_out.prefix = key->prefixlen;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2094  		opt_out.keyflags = key->keyflags;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2095  		opt_out.is_current = (key == current_key);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2096  		opt_out.is_rnext = (key == ao_info->rnext_key);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2097  		opt_out.nkeys = 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2098  		opt_out.maclen = key->maclen;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2099  		opt_out.keylen = key->keylen;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2100  		opt_out.pkt_good = atomic64_read(&key->pkt_good);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2101  		opt_out.pkt_bad = atomic64_read(&key->pkt_bad);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2102  		memcpy(&opt_out.key, key->key, key->keylen);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2103  		tcp_sigpool_algo(key->tcp_sigpool_id, opt_out.alg_name, 64);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2104  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2105  		/* Copy key to user */
+ef84703a911f4e Dmitry Safonov 2023-10-23  2106  		if (copy_to_sockptr_offset(optval, out_offset,
+ef84703a911f4e Dmitry Safonov 2023-10-23  2107  					   &opt_out, bytes_to_write))
+ef84703a911f4e Dmitry Safonov 2023-10-23  2108  			return -EFAULT;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2109  		out_offset += user_len;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2110  	}
+ef84703a911f4e Dmitry Safonov 2023-10-23  2111  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2112  	optlen_out = (int)sizeof(struct tcp_ao_getsockopt);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2113  	if (copy_to_sockptr(optlen, &optlen_out, sizeof(int)))
+ef84703a911f4e Dmitry Safonov 2023-10-23  2114  		return -EFAULT;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2115  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2116  	out_offset = offsetof(struct tcp_ao_getsockopt, nkeys);
+ef84703a911f4e Dmitry Safonov 2023-10-23  2117  	if (copy_to_sockptr_offset(optval, out_offset,
+ef84703a911f4e Dmitry Safonov 2023-10-23  2118  				   &matched_keys, sizeof(u32)))
+ef84703a911f4e Dmitry Safonov 2023-10-23  2119  		return -EFAULT;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2120  
+ef84703a911f4e Dmitry Safonov 2023-10-23  2121  	return 0;
+ef84703a911f4e Dmitry Safonov 2023-10-23  2122  }
+ef84703a911f4e Dmitry Safonov 2023-10-23  2123  
 
 -- 
 0-DAY CI Kernel Test Service
