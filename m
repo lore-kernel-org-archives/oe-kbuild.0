@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625997DA68
-	for <oe-kbuild@lists.linux.dev>; Tue, 26 Nov 2024 11:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FAD196D9D
+	for <oe-kbuild@lists.linux.dev>; Tue, 26 Nov 2024 12:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732619065; cv=none; b=EYLXIqJJ+LfTuXdzj8q9ICJJZFWWAeKgSDn3xecIjrErZZuoKesEjMbfY8Ad20cYkzmslVvk1zJv4V1LmhQ6TwIz+Rie+U3SbB23kjbLGojBCzsFmTlY7nSE/wliUCUdbG4BhEgCX0xrZrSEu3y8ecX/yGrVPGFoJSPUiW/aaDA=
+	t=1732623358; cv=none; b=pokv72jHQHZhBctllhwei9wLRUPy167gdvdFN2IaOjivgt5BLTEAXU1vU2Es/S4lbEDyoo0lNgZphN++JwjSHSmsgj2wde3cq+KlDT43m/34Y5S9ZLt+Bazm16KUqHOddrtI9onI3TQ4YmtvIG6y110CLfXECz7nX1V5Oz55aaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732619065; c=relaxed/simple;
-	bh=+rJMRhplUUQpf4N2xnr69aUGfN5LnmQSoX/FTxtcq3I=;
+	s=arc-20240116; t=1732623358; c=relaxed/simple;
+	bh=S2J+f4/jK3ZBA1s2bIYtjwrLhn6GJxr4WKdHdkdJRrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LUBSk5RwI8379jVOVcb0lWAc4AmoFhU4hEaN39O06o37PkEstVNfK7zlD2COLyBRMiTS0LF7IyTbicR568gBw/VvMBLzYw6dxLi6jxEB03MHnouPc+hSNoDsBD1a34VzBElgJC9/FKMXEiFtUkPtlEJL9MZcN1bZuQ+3FzPA7hI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HlNOtOzY; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=iQD+5Bxp9fhJZu+Jrve6djTKu6ELss5ibqlGuKHN1CU4zy3tY4cLWEHT/CjaXmMRBhTz3euYrqPRATutMkQpOKLywjteyNorh9HwJFkQARU7Ps/lHFrLcvSdA2dBgh4u/pLN/YyPjtmvd2FC9Bn1LK/env8SwkpN5xoxSJb1hJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaSD4Qbt; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HlNOtOzY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaSD4Qbt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732619064; x=1764155064;
+  t=1732623356; x=1764159356;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+rJMRhplUUQpf4N2xnr69aUGfN5LnmQSoX/FTxtcq3I=;
-  b=HlNOtOzYechV5LlDaYzB/Fys9MCuGuEoyMX2JMTEBcIYx7/rOmTjSxil
-   tLzElfL0fRpvGWM5mcAG1INIIsWKfkW/3UG+UEM+hS4nZa4TOnF0IA5et
-   TEj3ubkXpF7+kjLh5hLkY4eyQqBC880XjUAO0QzsEhvXd6pNj+59r8SbS
-   TT0UioD3JEMG8Mp3HtTxnsxkpE8Zyra0NreJfsMTKHc5Ywo8jrdvOtUPG
-   2VWwGvb6yWbcx7HvVFbJJx85SW0rWeAXVfFNm9/09Sdo0xDq5Q2CwpEiw
-   F4S6YBmaKmbw4qaG9wDPLkn86T4mDVzO3t8QcWb2BvPC6kpAjFebQ8uNe
-   g==;
-X-CSE-ConnectionGUID: pBTXe06ARIigEdSA3fhrkQ==
-X-CSE-MsgGUID: ES2HZqAdSbG+/qFA63fWsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="35629866"
+  bh=S2J+f4/jK3ZBA1s2bIYtjwrLhn6GJxr4WKdHdkdJRrg=;
+  b=YaSD4QbtCAj7BGiX53btjZczv4kDj5F7Z1O8e2vgUxDVKKXxY8NO5PFh
+   qjxpNHB2JoqccHBOkLuckyF9Eg5ey3r191XNAnZd/6yuiwutJMR7NohFv
+   b4h9hfRdlffIw07EtxUC1Fmyq9Dvw0OdREOzumQideChkGY2cMhmNB8Pm
+   R2TmJxCJSo+yk9MdS52l3fkkWUeEI1MzLufCgLb2tE/XTw/OQQaX9G39t
+   4ez0IwZ6Rn9noT7ll2e31vk7j2DmUw3Le2a8qqYLCak0wLQvKpC6CFsRM
+   TNBd76+7OJ/iQ86t5LL+UEr7GuidaXUAyMzk0lT/LxOg0FC4mybLgPJcJ
+   A==;
+X-CSE-ConnectionGUID: 4LQmrC+lQOCZ1X+9GdHWLQ==
+X-CSE-MsgGUID: lOInkTLNSpS1znU23+hR3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="36441390"
 X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="35629866"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 03:04:23 -0800
-X-CSE-ConnectionGUID: Uqv21skNQNC0ZoqM+QgM2w==
-X-CSE-MsgGUID: DszVPO6JQ2KeszUOR3xqeQ==
+   d="scan'208";a="36441390"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 04:15:56 -0800
+X-CSE-ConnectionGUID: zpyh44NwSFm3I7CZhp7HPw==
+X-CSE-MsgGUID: A+m25ZmpQHGzqySXvpm4/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="114841350"
+   d="scan'208";a="96674782"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Nov 2024 03:04:22 -0800
+  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2024 04:15:55 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFtMh-0007EZ-1T;
-	Tue, 26 Nov 2024 11:04:19 +0000
-Date: Tue, 26 Nov 2024 19:04:11 +0800
+	id 1tFuTw-0007HF-0t;
+	Tue, 26 Nov 2024 12:15:52 +0000
+Date: Tue, 26 Nov 2024 20:15:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn:
- missing error code 'ret'
-Message-ID: <202411261836.ZMTzikEz-lkp@intel.com>
+Subject: mm/kasan/kasan_test_c.c:427 krealloc_uaf() warn: passing freed
+ memory 'ptr1' (line 425)
+Message-ID: <202411262039.Ce4wbBLM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,94 +65,106 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jianbo Liu <jianbol@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+TO: Matthew Maurer <mmaurer@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Andrey Konovalov <andreyknvl@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7eef7e306d3c40a0c5b9ff6adc9b273cc894dbd5
-commit: 638420115cc4ad6c3a2683bf46a052b505abb202 IB/mlx5: Create UMR QP just before first reg_mr occurs
-date:   5 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-r071-20241124 (https://download.01.org/0day-ci/archive/20241126/202411261836.ZMTzikEz-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+commit: a2f11547052001bd448ccec81dd1e68409078fbb kasan: rust: Add KASAN smoke test via UAF
+date:   2 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 months ago
+config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241126/202411262039.Ce4wbBLM-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411261836.ZMTzikEz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411262039.Ce4wbBLM-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn: missing error code 'ret'
+mm/kasan/kasan_test_c.c:427 krealloc_uaf() warn: passing freed memory 'ptr1' (line 425)
+mm/kasan/kasan_test_c.c:472 kmalloc_uaf_16() error: dereferencing freed memory 'ptr2' (line 470)
+mm/kasan/kasan_test_c.c:645 kmalloc_uaf_memset() warn: passing freed memory 'ptr' (line 644)
+mm/kasan/kasan_test_c.c:857 rcu_uaf_reclaim() error: dereferencing freed memory 'fp' (line 856)
+mm/kasan/kasan_test_c.c:966 kmem_cache_double_free() error: double free of 'p' (line 965)
+mm/kasan/kasan_test_c.c:1201 mempool_uaf_helper() warn: passing freed memory 'elem' (line 1199)
+mm/kasan/kasan_test_c.c:1270 mempool_double_free_helper() error: double free of 'elem' (line 1268)
 
-vim +/ret +153 drivers/infiniband/hw/mlx5/umr.c
+vim +/ptr1 +427 mm/kasan/kasan_test_c.c
 
-04876c12c19e94 Aharon Landau 2022-04-12  134  
-04876c12c19e94 Aharon Landau 2022-04-12  135  int mlx5r_umr_resource_init(struct mlx5_ib_dev *dev)
-04876c12c19e94 Aharon Landau 2022-04-12  136  {
-04876c12c19e94 Aharon Landau 2022-04-12  137  	struct ib_qp_init_attr init_attr = {};
-04876c12c19e94 Aharon Landau 2022-04-12  138  	struct ib_cq *cq;
-04876c12c19e94 Aharon Landau 2022-04-12  139  	struct ib_qp *qp;
-638420115cc4ad Jianbo Liu    2024-06-03  140  	int ret = 0;
-04876c12c19e94 Aharon Landau 2022-04-12  141  
-638420115cc4ad Jianbo Liu    2024-06-03  142  
-638420115cc4ad Jianbo Liu    2024-06-03  143  	/*
-638420115cc4ad Jianbo Liu    2024-06-03  144  	 * UMR qp is set once, never changed until device unload.
-638420115cc4ad Jianbo Liu    2024-06-03  145  	 * Avoid taking the mutex if initialization is already done.
-638420115cc4ad Jianbo Liu    2024-06-03  146  	 */
-638420115cc4ad Jianbo Liu    2024-06-03  147  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03  148  		return 0;
-638420115cc4ad Jianbo Liu    2024-06-03  149  
-638420115cc4ad Jianbo Liu    2024-06-03  150  	mutex_lock(&dev->umrc.init_lock);
-638420115cc4ad Jianbo Liu    2024-06-03  151  	/* First user allocates the UMR resources. Skip if already allocated. */
-638420115cc4ad Jianbo Liu    2024-06-03  152  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03 @153  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  154  
-04876c12c19e94 Aharon Landau 2022-04-12  155  	cq = ib_alloc_cq(&dev->ib_dev, NULL, 128, 0, IB_POLL_SOFTIRQ);
-04876c12c19e94 Aharon Landau 2022-04-12  156  	if (IS_ERR(cq)) {
-04876c12c19e94 Aharon Landau 2022-04-12  157  		mlx5_ib_dbg(dev, "Couldn't create CQ for sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  158  		ret = PTR_ERR(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  159  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  160  	}
-04876c12c19e94 Aharon Landau 2022-04-12  161  
-04876c12c19e94 Aharon Landau 2022-04-12  162  	init_attr.send_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  163  	init_attr.recv_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  164  	init_attr.sq_sig_type = IB_SIGNAL_ALL_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  165  	init_attr.cap.max_send_wr = MAX_UMR_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  166  	init_attr.cap.max_send_sge = 1;
-04876c12c19e94 Aharon Landau 2022-04-12  167  	init_attr.qp_type = MLX5_IB_QPT_REG_UMR;
-04876c12c19e94 Aharon Landau 2022-04-12  168  	init_attr.port_num = 1;
-638420115cc4ad Jianbo Liu    2024-06-03  169  	qp = ib_create_qp(dev->umrc.pd, &init_attr);
-04876c12c19e94 Aharon Landau 2022-04-12  170  	if (IS_ERR(qp)) {
-04876c12c19e94 Aharon Landau 2022-04-12  171  		mlx5_ib_dbg(dev, "Couldn't create sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  172  		ret = PTR_ERR(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  173  		goto destroy_cq;
-04876c12c19e94 Aharon Landau 2022-04-12  174  	}
-04876c12c19e94 Aharon Landau 2022-04-12  175  
-04876c12c19e94 Aharon Landau 2022-04-12  176  	ret = mlx5r_umr_qp_rst2rts(dev, qp);
-04876c12c19e94 Aharon Landau 2022-04-12  177  	if (ret)
-04876c12c19e94 Aharon Landau 2022-04-12  178  		goto destroy_qp;
-04876c12c19e94 Aharon Landau 2022-04-12  179  
-04876c12c19e94 Aharon Landau 2022-04-12  180  	dev->umrc.cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  181  
-04876c12c19e94 Aharon Landau 2022-04-12  182  	sema_init(&dev->umrc.sem, MAX_UMR_WR);
-158e71bb69e368 Aharon Landau 2022-05-15  183  	mutex_init(&dev->umrc.lock);
-9b7d4be967f16f Maor Gottlieb 2022-08-29  184  	dev->umrc.state = MLX5_UMR_STATE_ACTIVE;
-638420115cc4ad Jianbo Liu    2024-06-03  185  	dev->umrc.qp = qp;
-04876c12c19e94 Aharon Landau 2022-04-12  186  
-638420115cc4ad Jianbo Liu    2024-06-03  187  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  188  	return 0;
-04876c12c19e94 Aharon Landau 2022-04-12  189  
-04876c12c19e94 Aharon Landau 2022-04-12  190  destroy_qp:
-04876c12c19e94 Aharon Landau 2022-04-12  191  	ib_destroy_qp(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  192  destroy_cq:
-04876c12c19e94 Aharon Landau 2022-04-12  193  	ib_free_cq(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  194  unlock:
-638420115cc4ad Jianbo Liu    2024-06-03  195  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  196  	return ret;
-04876c12c19e94 Aharon Landau 2022-04-12  197  }
-04876c12c19e94 Aharon Landau 2022-04-12  198  
+b87c28b9a7ef64 lib/test_kasan.c      Andrey Konovalov 2021-02-25  412  
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  413  /*
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  414   * Check that krealloc() detects a use-after-free, returns NULL,
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  415   * and doesn't unpoison the freed object.
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  416   */
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  417  static void krealloc_uaf(struct kunit *test)
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  418  {
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  419  	char *ptr1, *ptr2;
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  420  	int size1 = 201;
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  421  	int size2 = 235;
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  422  
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  423  	ptr1 = kmalloc(size1, GFP_KERNEL);
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  424  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25 @425  	kfree(ptr1);
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  426  
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25 @427  	KUNIT_EXPECT_KASAN_FAIL(test, ptr2 = krealloc(ptr1, size2, GFP_KERNEL));
+ccad78f17f9f2a lib/test_kasan.c      Ricardo Ribalda  2022-02-11  428  	KUNIT_ASSERT_NULL(test, ptr2);
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  429  	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)ptr1);
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  430  }
+26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  431  
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  432  static void kmalloc_oob_16(struct kunit *test)
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  433  {
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  434  	struct {
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  435  		u64 words[2];
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  436  	} *ptr1, *ptr2;
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  437  
+85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  438  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
+85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  439  
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  440  	/* This test is specifically crafted for the generic mode. */
+da17e377723f50 lib/test_kasan.c      Andrey Konovalov 2021-02-24  441  	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  442  
+e10aea105e9ed1 mm/kasan/kasan_test.c Arnd Bergmann    2024-02-12  443  	/* RELOC_HIDE to prevent gcc from warning about short alloc */
+e10aea105e9ed1 mm/kasan/kasan_test.c Arnd Bergmann    2024-02-12  444  	ptr1 = RELOC_HIDE(kmalloc(sizeof(*ptr1) - 3, GFP_KERNEL), 0);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  445  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  446  
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  447  	ptr2 = kmalloc(sizeof(*ptr2), GFP_KERNEL);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  448  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  449  
+aaf50b1969d793 lib/test_kasan.c      Kees Cook        2022-06-08  450  	OPTIMIZER_HIDE_VAR(ptr1);
+aaf50b1969d793 lib/test_kasan.c      Kees Cook        2022-06-08  451  	OPTIMIZER_HIDE_VAR(ptr2);
+73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  452  	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  453  	kfree(ptr1);
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  454  	kfree(ptr2);
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  455  }
+3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  456  
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  457  static void kmalloc_uaf_16(struct kunit *test)
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  458  {
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  459  	struct {
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  460  		u64 words[2];
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  461  	} *ptr1, *ptr2;
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  462  
+85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  463  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
+85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  464  
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  465  	ptr1 = kmalloc(sizeof(*ptr1), GFP_KERNEL);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  466  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  467  
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  468  	ptr2 = kmalloc(sizeof(*ptr2), GFP_KERNEL);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  469  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01 @470  	kfree(ptr2);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  471  
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01 @472  	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  473  	kfree(ptr1);
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  474  }
+58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  475  
+
+:::::: The code at line 427 was first introduced by commit
+:::::: 26a5ca7a73be31f76c291465680517cde37051ca kasan, mm: fail krealloc on freed objects
+
+:::::: TO: Andrey Konovalov <andreyknvl@google.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
