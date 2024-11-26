@@ -1,170 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FAD196D9D
-	for <oe-kbuild@lists.linux.dev>; Tue, 26 Nov 2024 12:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E6416F8F5
+	for <oe-kbuild@lists.linux.dev>; Tue, 26 Nov 2024 12:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732623358; cv=none; b=pokv72jHQHZhBctllhwei9wLRUPy167gdvdFN2IaOjivgt5BLTEAXU1vU2Es/S4lbEDyoo0lNgZphN++JwjSHSmsgj2wde3cq+KlDT43m/34Y5S9ZLt+Bazm16KUqHOddrtI9onI3TQ4YmtvIG6y110CLfXECz7nX1V5Oz55aaM=
+	t=1732623958; cv=none; b=BS90GqbhqGhQa9Tph+TJ6mP8Q0zoUit+OwLxWjdmPLtcSLLBn5XR1FgrN5DWKroNvY3q2INlf9N0+N4vLbFlX/LIGBDVMXEHoEJ33miuS50ZNEMvlsu4lVD6PXG74Jmf8VMGLxjVVRthMiL7G90Y40pcOhPHMp70UXUk1dnuG1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732623358; c=relaxed/simple;
-	bh=S2J+f4/jK3ZBA1s2bIYtjwrLhn6GJxr4WKdHdkdJRrg=;
+	s=arc-20240116; t=1732623958; c=relaxed/simple;
+	bh=U0Cr6L25Huvoqp4vS/YTlcw49No2AzkezwDbADgMDSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iQD+5Bxp9fhJZu+Jrve6djTKu6ELss5ibqlGuKHN1CU4zy3tY4cLWEHT/CjaXmMRBhTz3euYrqPRATutMkQpOKLywjteyNorh9HwJFkQARU7Ps/lHFrLcvSdA2dBgh4u/pLN/YyPjtmvd2FC9Bn1LK/env8SwkpN5xoxSJb1hJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaSD4Qbt; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=WBO7v3zEiycHeoiWwYeENmN/6YnBwD8dv7mOeLpdyz0m2ZPB4DQzg+3znuiCuDXgsZyN3McIrjyGaiGxkVbREpU7ceR/h1GD+v9WThqV/jKN9Hv7NGFds+qmsCW09K4kkMo8RxrKU+z61KveZCyDBKs17nNPFpVBHA9nsVOtDOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ro7bSugn; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaSD4Qbt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ro7bSugn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732623356; x=1764159356;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S2J+f4/jK3ZBA1s2bIYtjwrLhn6GJxr4WKdHdkdJRrg=;
-  b=YaSD4QbtCAj7BGiX53btjZczv4kDj5F7Z1O8e2vgUxDVKKXxY8NO5PFh
-   qjxpNHB2JoqccHBOkLuckyF9Eg5ey3r191XNAnZd/6yuiwutJMR7NohFv
-   b4h9hfRdlffIw07EtxUC1Fmyq9Dvw0OdREOzumQideChkGY2cMhmNB8Pm
-   R2TmJxCJSo+yk9MdS52l3fkkWUeEI1MzLufCgLb2tE/XTw/OQQaX9G39t
-   4ez0IwZ6Rn9noT7ll2e31vk7j2DmUw3Le2a8qqYLCak0wLQvKpC6CFsRM
-   TNBd76+7OJ/iQ86t5LL+UEr7GuidaXUAyMzk0lT/LxOg0FC4mybLgPJcJ
-   A==;
-X-CSE-ConnectionGUID: 4LQmrC+lQOCZ1X+9GdHWLQ==
-X-CSE-MsgGUID: lOInkTLNSpS1znU23+hR3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="36441390"
+  t=1732623957; x=1764159957;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U0Cr6L25Huvoqp4vS/YTlcw49No2AzkezwDbADgMDSM=;
+  b=Ro7bSugn1mNscZHgu9C8yTc7AZAlk+qHVespG3D0t21nCAjn/Qzzj9Tn
+   N711ryPrWRnIxCOY0qxSSMY9NPdwELByYRNMsZuMynKUpd/2Mxf7G0esA
+   bUyI0EdUnrXJ1z2fj5kF56QX6nAfK4radouJjNNu4J0HZ0HiX9ZrBKwQ4
+   QDqrAJqo1iEWDGlLzAkCNIXpt66PMfFhDOjzm8W4l8zopg2Hd1gL+Y8Nd
+   zF50tKitHCphh1CXJ8l0BCzn8QKxaNpQiyS/6223iwpCbAokC4J4UGpP+
+   /778Wl8de9m1hAPicjtRMX16t6naxF2AxX7P2x6BTk+5MKuLysilxYces
+   g==;
+X-CSE-ConnectionGUID: lb46NcW9Tvmjz0rKEmhYmg==
+X-CSE-MsgGUID: 03xfvXAaR52VoSA2gA6C3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="50305991"
 X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="36441390"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 04:15:56 -0800
-X-CSE-ConnectionGUID: zpyh44NwSFm3I7CZhp7HPw==
-X-CSE-MsgGUID: A+m25ZmpQHGzqySXvpm4/g==
+   d="scan'208";a="50305991"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 04:25:56 -0800
+X-CSE-ConnectionGUID: 90XDYcEkRpCJ/qVpX62o5A==
+X-CSE-MsgGUID: U/1rQp5fSiObZDLlOWQCSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="96674782"
+   d="scan'208";a="92073437"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2024 04:15:55 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 26 Nov 2024 04:25:55 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFuTw-0007HF-0t;
-	Tue, 26 Nov 2024 12:15:52 +0000
-Date: Tue, 26 Nov 2024 20:15:18 +0800
+	id 1tFudc-0007HR-2p;
+	Tue, 26 Nov 2024 12:25:52 +0000
+Date: Tue, 26 Nov 2024 20:25:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/kasan/kasan_test_c.c:427 krealloc_uaf() warn: passing freed
- memory 'ptr1' (line 425)
-Message-ID: <202411262039.Ce4wbBLM-lkp@intel.com>
+Subject: drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn:
+ 'sclk' from clk_prepare_enable() not released on lines: 231.
+Message-ID: <202411262044.zAgkiJSZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Maurer <mmaurer@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Andrey Konovalov <andreyknvl@gmail.com>
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7eef7e306d3c40a0c5b9ff6adc9b273cc894dbd5
-commit: a2f11547052001bd448ccec81dd1e68409078fbb kasan: rust: Add KASAN smoke test via UAF
-date:   2 months ago
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   8 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 2 months ago
-config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241126/202411262039.Ce4wbBLM-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: commit date: 8 months ago
+config: nios2-randconfig-r073-20241126 (https://download.01.org/0day-ci/archive/20241126/202411262044.zAgkiJSZ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411262039.Ce4wbBLM-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411262044.zAgkiJSZ-lkp@intel.com/
 
-smatch warnings:
-mm/kasan/kasan_test_c.c:427 krealloc_uaf() warn: passing freed memory 'ptr1' (line 425)
-mm/kasan/kasan_test_c.c:472 kmalloc_uaf_16() error: dereferencing freed memory 'ptr2' (line 470)
-mm/kasan/kasan_test_c.c:645 kmalloc_uaf_memset() warn: passing freed memory 'ptr' (line 644)
-mm/kasan/kasan_test_c.c:857 rcu_uaf_reclaim() error: dereferencing freed memory 'fp' (line 856)
-mm/kasan/kasan_test_c.c:966 kmem_cache_double_free() error: double free of 'p' (line 965)
-mm/kasan/kasan_test_c.c:1201 mempool_uaf_helper() warn: passing freed memory 'elem' (line 1199)
-mm/kasan/kasan_test_c.c:1270 mempool_double_free_helper() error: double free of 'elem' (line 1268)
+New smatch warnings:
+drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn: 'sclk' from clk_prepare_enable() not released on lines: 231.
 
-vim +/ptr1 +427 mm/kasan/kasan_test_c.c
+Old smatch warnings:
+drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn: 'irq' from request_irq() not released on lines: 219,225,231.
 
-b87c28b9a7ef64 lib/test_kasan.c      Andrey Konovalov 2021-02-25  412  
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  413  /*
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  414   * Check that krealloc() detects a use-after-free, returns NULL,
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  415   * and doesn't unpoison the freed object.
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  416   */
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  417  static void krealloc_uaf(struct kunit *test)
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  418  {
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  419  	char *ptr1, *ptr2;
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  420  	int size1 = 201;
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  421  	int size2 = 235;
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  422  
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  423  	ptr1 = kmalloc(size1, GFP_KERNEL);
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  424  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25 @425  	kfree(ptr1);
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  426  
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25 @427  	KUNIT_EXPECT_KASAN_FAIL(test, ptr2 = krealloc(ptr1, size2, GFP_KERNEL));
-ccad78f17f9f2a lib/test_kasan.c      Ricardo Ribalda  2022-02-11  428  	KUNIT_ASSERT_NULL(test, ptr2);
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  429  	KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)ptr1);
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  430  }
-26a5ca7a73be31 lib/test_kasan.c      Andrey Konovalov 2021-02-25  431  
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  432  static void kmalloc_oob_16(struct kunit *test)
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  433  {
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  434  	struct {
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  435  		u64 words[2];
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  436  	} *ptr1, *ptr2;
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  437  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  438  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  439  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  440  	/* This test is specifically crafted for the generic mode. */
-da17e377723f50 lib/test_kasan.c      Andrey Konovalov 2021-02-24  441  	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  442  
-e10aea105e9ed1 mm/kasan/kasan_test.c Arnd Bergmann    2024-02-12  443  	/* RELOC_HIDE to prevent gcc from warning about short alloc */
-e10aea105e9ed1 mm/kasan/kasan_test.c Arnd Bergmann    2024-02-12  444  	ptr1 = RELOC_HIDE(kmalloc(sizeof(*ptr1) - 3, GFP_KERNEL), 0);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  445  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  446  
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  447  	ptr2 = kmalloc(sizeof(*ptr2), GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  448  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  449  
-aaf50b1969d793 lib/test_kasan.c      Kees Cook        2022-06-08  450  	OPTIMIZER_HIDE_VAR(ptr1);
-aaf50b1969d793 lib/test_kasan.c      Kees Cook        2022-06-08  451  	OPTIMIZER_HIDE_VAR(ptr2);
-73228c7ecc5e40 lib/test_kasan.c      Patricia Alfonso 2020-10-13  452  	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  453  	kfree(ptr1);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  454  	kfree(ptr2);
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  455  }
-3f15801cdc2379 lib/test_kasan.c      Andrey Ryabinin  2015-02-13  456  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  457  static void kmalloc_uaf_16(struct kunit *test)
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  458  {
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  459  	struct {
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  460  		u64 words[2];
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  461  	} *ptr1, *ptr2;
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  462  
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  463  	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-85f195b12d8b76 mm/kasan/kasan_test.c Marco Elver      2023-02-24  464  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  465  	ptr1 = kmalloc(sizeof(*ptr1), GFP_KERNEL);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  466  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  467  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  468  	ptr2 = kmalloc(sizeof(*ptr2), GFP_KERNEL);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  469  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01 @470  	kfree(ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  471  
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01 @472  	KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 = *ptr2);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  473  	kfree(ptr1);
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  474  }
-58b999d7a22c59 lib/test_kasan.c      Andrey Konovalov 2020-11-01  475  
+vim +/sclk +247 drivers/clocksource/timer-atmel-st.c
 
-:::::: The code at line 427 was first introduced by commit
-:::::: 26a5ca7a73be31f76c291465680517cde37051ca kasan, mm: fail krealloc on freed objects
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  179  
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  180  /*
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  181   * ST (system timer) module supports both clockevents and clocksource.
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  182   */
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  183  static int __init atmel_st_timer_init(struct device_node *node)
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  184  {
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  185  	struct clk *sclk;
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  186  	unsigned int sclk_rate, val;
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  187  	int irq, ret;
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  188  
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  189  	regmap_st = syscon_node_to_regmap(node);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  190  	if (IS_ERR(regmap_st)) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  191  		pr_err("Unable to get regmap\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  192  		return PTR_ERR(regmap_st);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  193  	}
+454c46df839456 arch/arm/mach-at91/at91rm9200_time.c Joachim Eastwood  2012-10-28  194  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  195  	/* Disable all timer interrupts, and clear any pending ones */
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  196  	regmap_write(regmap_st, AT91_ST_IDR,
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  197  		AT91_ST_PITS | AT91_ST_WDOVF | AT91_ST_RTTINC | AT91_ST_ALMS);
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  198  	regmap_read(regmap_st, AT91_ST_SR, &val);
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  199  
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  200  	/* Get the interrupts property */
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  201  	irq  = irq_of_parse_and_map(node, 0);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  202  	if (!irq) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  203  		pr_err("Unable to get IRQ from DT\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  204  		return -EINVAL;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  205  	}
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  206  
+2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  207  	/* Make IRQs happen for the system timer */
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  208  	ret = request_irq(irq, at91rm9200_timer_interrupt,
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  209  			  IRQF_SHARED | IRQF_TIMER | IRQF_IRQPOLL,
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  210  			  "at91_tick", regmap_st);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  211  	if (ret) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  212  		pr_err("Unable to setup IRQ\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  213  		return ret;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  214  	}
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  215  
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  216  	sclk = of_clk_get(node, 0);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  217  	if (IS_ERR(sclk)) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  218  		pr_err("Unable to get slow clock\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  219  		return PTR_ERR(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  220  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  221  
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  222  	ret = clk_prepare_enable(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  223  	if (ret) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  224  		pr_err("Could not enable slow clock\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  225  		return ret;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  226  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  227  
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  228  	sclk_rate = clk_get_rate(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  229  	if (!sclk_rate) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  230  		pr_err("Invalid slow clock rate\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  231  		return -EINVAL;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  232  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  233  	timer_latch = (sclk_rate + HZ / 2) / HZ;
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  234  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  235  	/* The 32KiHz "Slow Clock" (tick every 30517.58 nanoseconds) is used
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  236  	 * directly for the clocksource and all clockevents, after adjusting
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  237  	 * its prescaler from the 1 Hz default.
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  238  	 */
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  239  	regmap_write(regmap_st, AT91_ST_RTMR, 1);
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  240  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  241  	/* Setup timer clockevent, with minimum of two ticks (important!!) */
+320ab2b0b1e08e arch/arm/mach-at91/at91rm9200_time.c Rusty Russell     2008-12-13  242  	clkevt.cpumask = cpumask_of(0);
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  243  	clockevents_config_and_register(&clkevt, sclk_rate,
+1c283531115bda arch/arm/mach-at91/at91rm9200_time.c Uwe Kleine-König  2013-10-08  244  					2, AT91_ST_ALMV);
+2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  245  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  246  	/* register clocksource */
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06 @247  	return clocksource_register_hz(&clk32k, sclk_rate);
 
-:::::: TO: Andrey Konovalov <andreyknvl@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: The code at line 247 was first introduced by commit
+:::::: adbaf5254152f322b873d0a9cd0f150dd30c64aa clocksource/drivers/atmel-st: Convert init function to return error
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
