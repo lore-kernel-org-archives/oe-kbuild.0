@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE4BDF51
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 06:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993B71946B
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 06:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732687558; cv=none; b=FfWLqcUb1b0xn92nELevVGaw40wSg1ZPG3tYlCY9nOPgFwLwsE/qCkJwydno1eDPyQiD5LTnDj720ZgpCW1UeIGBhDNKTL2An4FzIUKxghq8suUIWaiUTXD6RKvkxVZamHezjw3kw0hKEP21hSFc7Vt7OiejuDvFacSPjyMn99Y=
+	t=1732689986; cv=none; b=AMP2hM0HMY11OpKp4Sem0U/zjcEzcs/4uxthze62Si/FTeqIk0ghsabpz12hVvQlcn27rLJIa5y710jdSBOlgoi0l83+wWdTE4PX0Rn9t0wP8v8pWXHRAm6nXM2ZMMqt4gFs3h2+RrXDGY7oaagqXJEEMI4JYn4C9STjan+xn14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732687558; c=relaxed/simple;
-	bh=enq3kQXzb5EPKrSeX01Wlsutc2PRAtEisE8p8ZeH35k=;
+	s=arc-20240116; t=1732689986; c=relaxed/simple;
+	bh=h63DEEF497gFo386iyQgeTo7ZFSu7S/9Pv8/DCP8Elw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K4FEAwxkuR+Xh4EWgQnAo16BiXXmRlMCZoF3XD9jLxtyzH73jBK1pxCqTzy7/IJnw0wkC2bMPDFHAD0rtxh1pp0BBARrw46Y5gwIpLkGm3cPmacxDZDL2zjsOsZh1F+Mh+dsgOOxgkvYwh9T35FVz85lqRjGwT/tDOpztZE2GsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4AtLMvj; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=dUjsOxKkZHxLSiJFQRFUCeYSnXmrNZRdGEMB/h8J1dVG6qdcih1x49G5xYN6Y4fZ3gIE/p+CW6cQuUPqzeS4VEUixLcxB+auwaRHBecH7OyZWIPhMe1uVWKdaWI9947IM/G4C5ni/toYSQ0TxIJSgBL7nu9Nn/wJY8KZsFGpcik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ex3aLCT4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4AtLMvj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ex3aLCT4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732687556; x=1764223556;
+  t=1732689981; x=1764225981;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=enq3kQXzb5EPKrSeX01Wlsutc2PRAtEisE8p8ZeH35k=;
-  b=J4AtLMvj/uck6WXIMPKvZqnCSeZpggx2XUfYtrceFAfVVTXnWjaRbuio
-   3/jOJ1pXDnHSanvZAtoZ3AyE3udawsqBd34uqXLfvuG6Xw3Z/My9ntFsL
-   jjexPVOKemWvqOFNWB20YS+YViK2G33ddwDx3uy2RGhvxxxQk5oBXX4//
-   hh9sh2nplqYUlhGCL6WSbMA5w7cSkpV20aSfiqsQRQwulgVup10Sl0EbM
-   WYKRquX5pbzAhxrdRhWHtBK3RR7Q4Ra36hCmD99TlETnp8t/+Ct0xTH2a
-   6UsNcrCmvhyhgVZPGWmtbjEAa0luLT1TFpeOpkHgnAHwNq728CGyl5y9a
+  bh=h63DEEF497gFo386iyQgeTo7ZFSu7S/9Pv8/DCP8Elw=;
+  b=Ex3aLCT4NZoiFillbcizRmF9s6kpx68jUvZH7K/J5vy0EOmTgEQc5/FK
+   WmWsQiklCdJaPV+spgc7sXPAHiNQ3m5EnhoXd/tcD7hE5M90VCg4Dh1IN
+   tsAlOpWA/NLL/0wm0nOc9ajuwnAVX6LBHrFo6huPCYveSCdyKi7xeATon
+   oI3EFknMsccbU/5X8sbAhUfyGj8ID6D5+QyZrRJVFQLF6uuoxAc60hQ9h
+   TYZN/6osQ+fdN4LQ06DFAEavjk/4cOF31hEO0dwq2pX9wnubjwUFNEssi
+   RhkYGJ+IhjUbCU8gfhJVQHPOLJtjQ292GKZVJOJkJPIzqQ8Ul77ADNaId
    A==;
-X-CSE-ConnectionGUID: KSWbtafWRz6lNC9VdWuPoA==
-X-CSE-MsgGUID: d4PuTWjISnKr3CHkwPk0kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="33124715"
+X-CSE-ConnectionGUID: U6la0o2AQtqmrNTFdk5TJQ==
+X-CSE-MsgGUID: 5HnmQdKpSoOtn/dU7viD+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="36665698"
 X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
-   d="scan'208";a="33124715"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 22:05:53 -0800
-X-CSE-ConnectionGUID: 4ra/sYweSqi+kTkZRyi0Ig==
-X-CSE-MsgGUID: oT/p5eThTQGQK3eMj7D5/A==
+   d="scan'208";a="36665698"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 22:46:21 -0800
+X-CSE-ConnectionGUID: KCqqSqByQXaOzQWXhM7CtA==
+X-CSE-MsgGUID: KXsBmmvQQpKVPfZ/aM8iOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
-   d="scan'208";a="91980321"
+   d="scan'208";a="96916574"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Nov 2024 22:05:51 -0800
+  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2024 22:46:18 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGBBN-0007lD-0z;
-	Wed, 27 Nov 2024 06:05:49 +0000
-Date: Wed, 27 Nov 2024 14:05:07 +0800
+	id 1tGBoW-0007mh-0O;
+	Wed, 27 Nov 2024 06:46:16 +0000
+Date: Wed, 27 Nov 2024 14:46:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp()
- error: we previously assumed 'res->dattr' could be null (see line 985)
-Message-ID: <202411271324.rsve13Sr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 1/2] dt-bindings: arm: mediatek: Add MT8186 Starmie
+ Chromebooks
+Message-ID: <202411271401.ZYrBphxT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,254 +62,1002 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Selvin Xavier <selvin.xavier@broadcom.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
+In-Reply-To: <20241122104938.1437925-2-wmacek@chromium.org>
+References: <20241122104938.1437925-2-wmacek@chromium.org>
+TO: Wojciech Macek <wmacek@chromium.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: "Chen-Yu Tsai" <wenst@chromium.org>
+TO: Rafal Milecki <rafal@milecki.pl>
+TO: "Hsin-Yi Wang" <hsinyi@chromium.org>
+TO: Sean Wang <sean.wang@mediatek.com>
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-mediatek@lists.infradead.org
+CC: Wojciech Macek <wmacek@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aaf20f870da056752f6386693cc0d8e25421ef35
-commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
-date:   12 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241127/202411271324.rsve13Sr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Wojciech,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.12 next-20241126]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wojciech-Macek/dt-bindings-arm-mediatek-Add-MT8186-Starmie-Chromebooks/20241125-121351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241122104938.1437925-2-wmacek%40chromium.org
+patch subject: [PATCH v1 1/2] dt-bindings: arm: mediatek: Add MT8186 Starmie Chromebooks
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20241125 (https://download.01.org/0day-ci/archive/20241127/202411271401.ZYrBphxT-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271401.ZYrBphxT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411271324.rsve13Sr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411271401.ZYrBphxT-lkp@intel.com/
 
-New smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
-
-Old smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:495 bnxt_qplib_nq_start_irq() warn: 'msix_vector' from request_irq() not released on lines: 495.
-
-vim +1090 drivers/infiniband/hw/bnxt_re/qplib_fp.c
-
-fddcbbb02af42a Devesh Sharma      2020-04-02   966  
-1ac5a404797523 Selvin Xavier      2017-02-10   967  int bnxt_qplib_create_qp(struct bnxt_qplib_res *res, struct bnxt_qplib_qp *qp)
-1ac5a404797523 Selvin Xavier      2017-02-10   968  {
-1ac5a404797523 Selvin Xavier      2017-02-10   969  	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
-0c4dcd60281750 Devesh Sharma      2020-02-15   970  	struct bnxt_qplib_hwq_attr hwq_attr = {};
-0c4dcd60281750 Devesh Sharma      2020-02-15   971  	struct bnxt_qplib_sg_info sginfo = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   972  	struct creq_create_qp_resp resp = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   973  	struct bnxt_qplib_cmdqmsg msg = {};
-1ac5a404797523 Selvin Xavier      2017-02-10   974  	struct bnxt_qplib_q *sq = &qp->sq;
-1ac5a404797523 Selvin Xavier      2017-02-10   975  	struct bnxt_qplib_q *rq = &qp->rq;
-ff015bcd213b5d Selvin Xavier      2023-03-30   976  	struct cmdq_create_qp req = {};
-fddcbbb02af42a Devesh Sharma      2020-04-02   977  	int rc, req_size, psn_sz = 0;
-1ac5a404797523 Selvin Xavier      2017-02-10   978  	struct bnxt_qplib_hwq *xrrq;
-c50866e2853a03 Devesh Sharma      2019-02-22   979  	struct bnxt_qplib_pbl *pbl;
-c50866e2853a03 Devesh Sharma      2019-02-22   980  	u32 qp_flags = 0;
-99bf84e24eb83d Devesh Sharma      2020-04-02   981  	u8 pg_sz_lvl;
-84cf229f4001c1 Selvin Xavier      2020-08-24   982  	u32 tbl_indx;
-159fb4ceacd79b Devesh Sharma      2020-07-15   983  	u16 nsge;
-1ac5a404797523 Selvin Xavier      2017-02-10   984  
-07f830ae4913d0 Selvin Xavier      2023-12-07  @985  	if (res->dattr)
-07f830ae4913d0 Selvin Xavier      2023-12-07   986  		qp->dev_cap_flags = res->dattr->dev_cap_flags;
-07f830ae4913d0 Selvin Xavier      2023-12-07   987  
-3a4304d8269501 Chandramohan Akula 2023-10-23   988  	sq->dbinfo.flags = 0;
-e576adf583b525 Selvin Xavier      2023-03-30   989  	bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
-e576adf583b525 Selvin Xavier      2023-03-30   990  				 CMDQ_BASE_OPCODE_CREATE_QP,
-e576adf583b525 Selvin Xavier      2023-03-30   991  				 sizeof(req));
-1ac5a404797523 Selvin Xavier      2017-02-10   992  
-1ac5a404797523 Selvin Xavier      2017-02-10   993  	/* General */
-1ac5a404797523 Selvin Xavier      2017-02-10   994  	req.type = qp->type;
-1ac5a404797523 Selvin Xavier      2017-02-10   995  	req.dpi = cpu_to_le32(qp->dpi->dpi);
-1ac5a404797523 Selvin Xavier      2017-02-10   996  	req.qp_handle = cpu_to_le64(qp->qp_handle);
-1ac5a404797523 Selvin Xavier      2017-02-10   997  
-1ac5a404797523 Selvin Xavier      2017-02-10   998  	/* SQ */
-37f91cff2de017 Devesh Sharma      2019-02-07   999  	if (qp->type == CMDQ_CREATE_QP_TYPE_RC) {
-1801d87b3598b1 Selvin Xavier      2023-12-07  1000  		psn_sz = bnxt_qplib_is_chip_gen_p5_p7(res->cctx) ?
-37f91cff2de017 Devesh Sharma      2019-02-07  1001  			 sizeof(struct sq_psn_search_ext) :
-37f91cff2de017 Devesh Sharma      2019-02-07  1002  			 sizeof(struct sq_psn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1003  
-07f830ae4913d0 Selvin Xavier      2023-12-07  1004  		if (BNXT_RE_HW_RETX(qp->dev_cap_flags)) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1005  			psn_sz = sizeof(struct sq_msn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1006  			qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1007  		}
-37f91cff2de017 Devesh Sharma      2019-02-07  1008  	}
-0c4dcd60281750 Devesh Sharma      2020-02-15  1009  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1010  	hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1011  	hwq_attr.sginfo = &sq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1012  	hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1013  	hwq_attr.depth = bnxt_qplib_get_depth(sq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1014  	hwq_attr.aux_stride = psn_sz;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1015  	hwq_attr.aux_depth = bnxt_qplib_set_sq_size(sq, qp->wqe_mode);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1016  	/* Update msn tbl size */
-07f830ae4913d0 Selvin Xavier      2023-12-07  1017  	if (BNXT_RE_HW_RETX(qp->dev_cap_flags) && psn_sz) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1018  		hwq_attr.aux_depth = roundup_pow_of_two(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-07f830ae4913d0 Selvin Xavier      2023-12-07  1019  		qp->msn_tbl_sz = hwq_attr.aux_depth;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1020  		qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1021  	}
-07f830ae4913d0 Selvin Xavier      2023-12-07  1022  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1023  	hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1024  	rc = bnxt_qplib_alloc_init_hwq(&sq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1025  	if (rc)
-07d5ce14b2aa22 Kalesh AP          2023-05-18  1026  		return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1027  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1028  	rc = bnxt_qplib_alloc_init_swq(sq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1029  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1030  		goto fail_sq;
-fddcbbb02af42a Devesh Sharma      2020-04-02  1031  
-fddcbbb02af42a Devesh Sharma      2020-04-02  1032  	if (psn_sz)
-fddcbbb02af42a Devesh Sharma      2020-04-02  1033  		bnxt_qplib_init_psn_ptr(qp, psn_sz);
-fddcbbb02af42a Devesh Sharma      2020-04-02  1034  
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1035  	req.sq_size = cpu_to_le32(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-1ac5a404797523 Selvin Xavier      2017-02-10  1036  	pbl = &sq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1037  	req.sq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1038  	pg_sz_lvl = (bnxt_qplib_base_pg_size(&sq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1039  		     CMDQ_CREATE_QP_SQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1040  	pg_sz_lvl |= (sq->hwq.level & CMDQ_CREATE_QP_SQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1041  	req.sq_pg_size_sq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1042  	req.sq_fwo_sq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1043  		cpu_to_le16(((sq->max_sge & CMDQ_CREATE_QP_SQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1044  			     CMDQ_CREATE_QP_SQ_SGE_SFT) | 0);
-1ac5a404797523 Selvin Xavier      2017-02-10  1045  	req.scq_cid = cpu_to_le32(qp->scq->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1046  
-1ac5a404797523 Selvin Xavier      2017-02-10  1047  	/* RQ */
-159fb4ceacd79b Devesh Sharma      2020-07-15  1048  	if (!qp->srq) {
-3a4304d8269501 Chandramohan Akula 2023-10-23  1049  		rq->dbinfo.flags = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1050  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1051  		hwq_attr.sginfo = &rq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1052  		hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1053  		hwq_attr.depth = bnxt_qplib_get_depth(rq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1054  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1055  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1056  		hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1057  		rc = bnxt_qplib_alloc_init_hwq(&rq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1058  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1059  			goto sq_swq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1060  		rc = bnxt_qplib_alloc_init_swq(rq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1061  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1062  			goto fail_rq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1063  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1064  		req.rq_size = cpu_to_le32(rq->max_wqe);
-1ac5a404797523 Selvin Xavier      2017-02-10  1065  		pbl = &rq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1066  		req.rq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1067  		pg_sz_lvl = (bnxt_qplib_base_pg_size(&rq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1068  			     CMDQ_CREATE_QP_RQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1069  		pg_sz_lvl |= (rq->hwq.level & CMDQ_CREATE_QP_RQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1070  		req.rq_pg_size_rq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1071  		nsge = (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_STATIC) ?
-159fb4ceacd79b Devesh Sharma      2020-07-15  1072  			6 : rq->max_sge;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1073  		req.rq_fwo_rq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1074  			cpu_to_le16(((nsge &
-159fb4ceacd79b Devesh Sharma      2020-07-15  1075  				      CMDQ_CREATE_QP_RQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1076  				     CMDQ_CREATE_QP_RQ_SGE_SFT) | 0);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1077  	} else {
-37cb11acf1f72a Devesh Sharma      2018-01-11  1078  		/* SRQ */
-37cb11acf1f72a Devesh Sharma      2018-01-11  1079  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_SRQ_USED;
-37cb11acf1f72a Devesh Sharma      2018-01-11  1080  		req.srq_cid = cpu_to_le32(qp->srq->id);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1081  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1082  	req.rcq_cid = cpu_to_le32(qp->rcq->id);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1083  
-99bf84e24eb83d Devesh Sharma      2020-04-02  1084  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_RESERVED_LKEY_ENABLE;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1085  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FR_PMR_ENABLED;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1086  	if (qp->sig_type)
-99bf84e24eb83d Devesh Sharma      2020-04-02  1087  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FORCE_COMPLETION;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1088  	if (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_VARIABLE)
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1089  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_VARIABLE_SIZED_WQE_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15 @1090  	if (_is_ext_stats_supported(res->dattr->dev_cap_flags) && !res->is_vf)
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1091  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_EXT_STATS_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1092  
-1ac5a404797523 Selvin Xavier      2017-02-10  1093  	req.qp_flags = cpu_to_le32(qp_flags);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1094  
-1ac5a404797523 Selvin Xavier      2017-02-10  1095  	/* ORRQ and IRRQ */
-1ac5a404797523 Selvin Xavier      2017-02-10  1096  	if (psn_sz) {
-1ac5a404797523 Selvin Xavier      2017-02-10  1097  		xrrq = &qp->orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1098  		xrrq->max_elements =
-1ac5a404797523 Selvin Xavier      2017-02-10  1099  			ORD_LIMIT_TO_ORRQ_SLOTS(qp->max_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1100  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1101  			   BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1102  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1103  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1104  		sginfo.pgshft = PAGE_SHIFT;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1105  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1106  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1107  		hwq_attr.sginfo = &sginfo;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1108  		hwq_attr.depth = xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1109  		hwq_attr.stride = BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1110  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1111  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1112  		hwq_attr.type = HWQ_TYPE_CTX;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1113  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1114  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1115  			goto rq_swq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1116  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1117  		req.orrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1118  
-1ac5a404797523 Selvin Xavier      2017-02-10  1119  		xrrq = &qp->irrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1120  		xrrq->max_elements = IRD_LIMIT_TO_IRRQ_SLOTS(
-1ac5a404797523 Selvin Xavier      2017-02-10  1121  						qp->max_dest_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1122  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1123  			   BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1124  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1125  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1126  		hwq_attr.depth =  xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1127  		hwq_attr.stride = BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1128  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1129  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1130  			goto fail_orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1131  
-1ac5a404797523 Selvin Xavier      2017-02-10  1132  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1133  		req.irrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1134  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1135  	req.pd_id = cpu_to_le32(qp->pd->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1136  
-ff015bcd213b5d Selvin Xavier      2023-03-30  1137  	bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req),
-ff015bcd213b5d Selvin Xavier      2023-03-30  1138  				sizeof(resp), 0);
-ff015bcd213b5d Selvin Xavier      2023-03-30  1139  	rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1140  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1141  		goto fail;
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1142  
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1143  	qp->id = le32_to_cpu(resp.xid);
-1ac5a404797523 Selvin Xavier      2017-02-10  1144  	qp->cur_qp_state = CMDQ_MODIFY_QP_NEW_STATE_RESET;
-f218d67ef00431 Selvin Xavier      2017-06-29  1145  	INIT_LIST_HEAD(&qp->sq_flush);
-f218d67ef00431 Selvin Xavier      2017-06-29  1146  	INIT_LIST_HEAD(&qp->rq_flush);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1147  	qp->cctx = res->cctx;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1148  	sq->dbinfo.hwq = &sq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1149  	sq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1150  	sq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1151  	sq->dbinfo.max_slot = bnxt_qplib_set_sq_max_slot(qp->wqe_mode);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1152  	if (rq->max_wqe) {
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1153  		rq->dbinfo.hwq = &rq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1154  		rq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1155  		rq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1156  		rq->dbinfo.max_slot = bnxt_qplib_set_rq_max_slot(rq->wqe_size);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1157  	}
-84cf229f4001c1 Selvin Xavier      2020-08-24  1158  	tbl_indx = map_qp_id_to_tbl_indx(qp->id, rcfw);
-84cf229f4001c1 Selvin Xavier      2020-08-24  1159  	rcfw->qp_tbl[tbl_indx].qp_id = qp->id;
-84cf229f4001c1 Selvin Xavier      2020-08-24  1160  	rcfw->qp_tbl[tbl_indx].qp_handle = (void *)qp;
-1ac5a404797523 Selvin Xavier      2017-02-10  1161  
-1ac5a404797523 Selvin Xavier      2017-02-10  1162  	return 0;
-1ac5a404797523 Selvin Xavier      2017-02-10  1163  fail:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1164  	bnxt_qplib_free_hwq(res, &qp->irrq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1165  fail_orrq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1166  	bnxt_qplib_free_hwq(res, &qp->orrq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1167  rq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1168  	kfree(rq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1169  fail_rq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1170  	bnxt_qplib_free_hwq(res, &rq->hwq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1171  sq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1172  	kfree(sq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1173  fail_sq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1174  	bnxt_qplib_free_hwq(res, &sq->hwq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1175  	return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1176  }
-1ac5a404797523 Selvin Xavier      2017-02-10  1177  
-
-:::::: The code at line 1090 was first introduced by commit
-:::::: 9a381f7e5aa299de3500b8afa2237e5d1eab63fb RDMA/bnxt_re: Add extended statistics counters
-
-:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt2712-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt2712-evb', 'mediatek,mt2712']
+>> arch/arm64/boot/dts/mediatek/mt2712-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt2712-evb', 'mediatek,mt2712']
+   arch/arm64/boot/dts/mediatek/mt2712-evb.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt2712-scpsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt2712-evb.dtb: /pcie@112ff000: failed to match any schema with compatible: ['mediatek,mt2712-pcie']
+   arch/arm64/boot/dts/mediatek/mt2712-evb.dtb: /pcie@11700000: failed to match any schema with compatible: ['mediatek,mt2712-pcie']
+--
+>> arch/arm64/boot/dts/mediatek/mt6755-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6755-evb', 'mediatek,mt6755']
+>> arch/arm64/boot/dts/mediatek/mt6755-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6755-evb', 'mediatek,mt6755']
+   arch/arm64/boot/dts/mediatek/mt6755-evb.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt6779-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6779-evb', 'mediatek,mt6779']
+>> arch/arm64/boot/dts/mediatek/mt6779-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6779-evb', 'mediatek,mt6779']
+   arch/arm64/boot/dts/mediatek/mt6779-evb.dtb: intpol-controller@c53a650: $nodename:0: 'intpol-controller@c53a650' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt6779-evb.dtb: /soc/clock-controller@11210000: failed to match any schema with compatible: ['mediatek,mt6779-audio', 'syscon']
+--
+>> arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6795-evb', 'mediatek,mt6795']
+>> arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6795-evb', 'mediatek,mt6795']
+   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: syscon@10006000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: timer@10008000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6795-timer', 'mediatek,mt6577-timer'] is too long
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
+   	'mediatek,mt6765-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6795-timer', 'mediatek,mt6577-timer']
+--
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /: failed to match any schema with compatible: ['sony,xperia-m5', 'mediatek,mt6795']
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /: failed to match any schema with compatible: ['sony,xperia-m5', 'mediatek,mt6795']
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: timer@10008000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6795-timer', 'mediatek,mt6577-timer'] is too long
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
+   	'mediatek,mt6795-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
+   	'mediatek,mt6765-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6795-timer', 'mediatek,mt6577-timer']
+--
+>> arch/arm64/boot/dts/mediatek/mt6797-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6797-evb', 'mediatek,mt6797']
+>> arch/arm64/boot/dts/mediatek/mt6797-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt6797-evb', 'mediatek,mt6797']
+   arch/arm64/boot/dts/mediatek/mt6797-evb.dtb: pinctrl@10005000: 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'i2c7', 'uart0', 'uart1' do not match any of the regexes: '-[0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt6779-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt6797-evb.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt6797-scpsys']
+   arch/arm64/boot/dts/mediatek/mt6797-evb.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: /: failed to match any schema with compatible: ['archermind,mt6797-x20-dev', 'mediatek,mt6797']
+>> arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: /: failed to match any schema with compatible: ['archermind,mt6797-x20-dev', 'mediatek,mt6797']
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: pinctrl@10005000: 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'i2c7', 'uart0', 'uart1' do not match any of the regexes: '-[0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt6779-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt6797-scpsys']
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: i2c@11008000: Unevaluated properties are not allowed ('id' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: i2c@1100e000: Unevaluated properties are not allowed ('id' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt6797-x20-dev.dtb: i2c@11010000: Unevaluated properties are not allowed ('id' was unexpected)
+--
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /: failed to match any schema with compatible: ['mediatek,mt7622-rfb1', 'mediatek,mt7622']
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /: failed to match any schema with compatible: ['mediatek,mt7622-rfb1', 'mediatek,mt7622']
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: pwrap@10001000: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /pwrap@10001000/regulators: failed to match any schema with compatible: ['mediatek,mt6380-regulator']
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7622-scpsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: pinctrl@10211000: reg: [[0, 270602240, 0, 4096], [0, 268455936, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: pinctrl@10211000: reg-names:0: 'eint' was expected
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: pinctrl@10211000: reg-names: ['base', 'eint'] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r64', 'mediatek,mt7622']
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r64', 'mediatek,mt7622']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pwrap@10001000: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pwrap@10001000/regulators: failed to match any schema with compatible: ['mediatek,mt6380-regulator']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7622-scpsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg: [[0, 270602240, 0, 4096], [0, 268455936, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg-names:0: 'eint' was expected
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg-names: ['base', 'eint'] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt7981b-cudy-wr3000-v1.dtb: /: failed to match any schema with compatible: ['cudy,wr3000-v1', 'mediatek,mt7981b']
+>> arch/arm64/boot/dts/mediatek/mt7981b-cudy-wr3000-v1.dtb: /: failed to match any schema with compatible: ['cudy,wr3000-v1', 'mediatek,mt7981b']
+--
+>> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: /: failed to match any schema with compatible: ['openwrt,one', 'mediatek,mt7981b']
+>> arch/arm64/boot/dts/mediatek/mt7981b-openwrt-one.dtb: /: failed to match any schema with compatible: ['openwrt,one', 'mediatek,mt7981b']
+--
+>> arch/arm64/boot/dts/mediatek/mt7981b-xiaomi-ax3000t.dtb: /: failed to match any schema with compatible: ['xiaomi,ax3000t', 'mediatek,mt7981b']
+>> arch/arm64/boot/dts/mediatek/mt7981b-xiaomi-ax3000t.dtb: /: failed to match any schema with compatible: ['xiaomi,ax3000t', 'mediatek,mt7981b']
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts:98.10-154.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1100a000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: /: failed to match any schema with compatible: ['acelink,ew-7886cax', 'mediatek,mt7986a']
+>> arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: /: failed to match any schema with compatible: ['acelink,ew-7886cax', 'mediatek,mt7986a']
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r3', 'mediatek,mt7986a']
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r3', 'mediatek,mt7986a']
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31: 'interrupts' is a dependency of 'interrupt-controller'
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r3mini', 'mediatek,mt7986a']
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r3mini', 'mediatek,mt7986a']
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: /: failed to match any schema with compatible: ['mediatek,mt7986a-rfb', 'mediatek,mt7986a']
+>> arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: /: failed to match any schema with compatible: ['mediatek,mt7986a-rfb', 'mediatek,mt7986a']
+   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: /: failed to match any schema with compatible: ['mediatek,mt7986b-rfb', 'mediatek,mt7986b']
+>> arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: /: failed to match any schema with compatible: ['mediatek,mt7986b-rfb', 'mediatek,mt7986b']
+   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000: interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000: interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4', 'mediatek,mt7988a']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /: failed to match any schema with compatible: ['bananapi,bpi-r4', 'mediatek,mt7988a']
+--
+>> arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: /: failed to match any schema with compatible: ['mediatek,mt8167-pumpkin', 'mediatek,mt8167']
+>> arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: /: failed to match any schema with compatible: ['mediatek,mt8167-pumpkin', 'mediatek,mt8167']
+   arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: syscfg-pctl@10005000: compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8167-pumpkin.dtb: pinctrl@1000b000: 'ethernet', 'gpiodefault', 'i2c0', 'i2c2' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1137.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /: failed to match any schema with compatible: ['google,elm-rev8', 'google,elm-rev7', 'google,elm-rev6', 'google,elm-rev5', 'google,elm-rev4', 'google,elm-rev3', 'google,elm', 'mediatek,mt8173']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/pmic/mt6397clock: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: mt6397regulator: buck_vpca15: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6397-regulator.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1137.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /: failed to match any schema with compatible: ['google,hana-rev6', 'google,hana-rev5', 'google,hana-rev4', 'google,hana-rev3', 'google,hana', 'mediatek,mt8173']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/pmic/mt6397clock: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: mt6397regulator: buck_vpca15: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6397-regulator.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1137.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   marvell,wakeup-pin: size (2) error for type uint32
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /: failed to match any schema with compatible: ['google,hana-rev7', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /: failed to match any schema with compatible: ['google,hana-rev7', 'mediatek,mt8173']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/pmic/mt6397clock: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: mt6397regulator: buck_vpca15: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6397-regulator.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8173-evb', 'mediatek,mt8173']
+>> arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8173-evb', 'mediatek,mt8173']
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: power-controller@10001000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: power-controller@10003000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: pinctrl@1000b000: 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'spi0', 'usb_iddig_pull_down', 'usb_iddig_pull_up', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: pwrap@1000d000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
+   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: mt6397regulator: buck_vpca15: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8183-evb', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8183-evb', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: pinctrl@10005000: 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'pwm1', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dsi@14014000: 'port' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /: failed to match any schema with compatible: ['google,burnet', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: /: failed to match any schema with compatible: ['google,burnet', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-burnet.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /: failed to match any schema with compatible: ['google,cozmo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: /: failed to match any schema with compatible: ['google,cozmo', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cozmo.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /: failed to match any schema with compatible: ['google,damu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: /: failed to match any schema with compatible: ['google,damu', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-damu.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /: failed to match any schema with compatible: ['google,fennel-sku1', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /: failed to match any schema with compatible: ['google,fennel-sku1', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: /: failed to match any schema with compatible: ['google,fennel-sku1', 'google,fennel', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /: failed to match any schema with compatible: ['google,fennel-sku6', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /: failed to match any schema with compatible: ['google,fennel-sku6', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: /: failed to match any schema with compatible: ['google,fennel-sku6', 'google,fennel', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku6.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /: failed to match any schema with compatible: ['google,fennel-sku7', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /: failed to match any schema with compatible: ['google,fennel-sku7', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: /: failed to match any schema with compatible: ['google,fennel-sku7', 'google,fennel', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel-sku7.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /: failed to match any schema with compatible: ['google,fennel-sku0', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /: failed to match any schema with compatible: ['google,fennel-sku0', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: /: failed to match any schema with compatible: ['google,fennel-sku0', 'google,fennel', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /: failed to match any schema with compatible: ['google,fennel-sku2', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /: failed to match any schema with compatible: ['google,fennel-sku2', 'google,fennel', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: /: failed to match any schema with compatible: ['google,fennel-sku2', 'google,fennel', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-fennel14-sku2.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /: failed to match any schema with compatible: ['google,juniper-sku16', 'google,juniper', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /: failed to match any schema with compatible: ['google,juniper-sku16', 'google,juniper', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: /: failed to match any schema with compatible: ['google,juniper-sku16', 'google,juniper', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-juniper-sku16.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /: failed to match any schema with compatible: ['google,kappa', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: /: failed to match any schema with compatible: ['google,kappa', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kappa.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /: failed to match any schema with compatible: ['google,juniper-sku17', 'google,juniper', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /: failed to match any schema with compatible: ['google,juniper-sku17', 'google,juniper', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: /: failed to match any schema with compatible: ['google,juniper-sku17', 'google,juniper', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-kenzo.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-sku0', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-sku0', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-sku0', 'google,makomo', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-sku1', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-sku1', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-sku1', 'google,makomo', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /: failed to match any schema with compatible: ['google,willow-sku0', 'google,willow', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /: failed to match any schema with compatible: ['google,willow-sku0', 'google,willow', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: /: failed to match any schema with compatible: ['google,willow-sku0', 'google,willow', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1825.22-1837.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /: failed to match any schema with compatible: ['google,willow-sku1', 'google,willow', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /: failed to match any schema with compatible: ['google,willow-sku1', 'google,willow', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: /: failed to match any schema with compatible: ['google,willow-sku1', 'google,willow', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-willow-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3', 'google,kakadu-rev2', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3', 'google,kakadu-rev2', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3', 'google,kakadu-rev2', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3', 'google,kakadu-rev2', 'google,kakadu', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3-sku22', 'google,kakadu-rev2-sku22', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3-sku22', 'google,kakadu-rev2-sku22', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3-sku22', 'google,kakadu-rev2-sku22', 'google,kakadu', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: /: failed to match any schema with compatible: ['google,kakadu-rev3-sku22', 'google,kakadu-rev2-sku22', 'google,kakadu', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-sku22.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /: failed to match any schema with compatible: ['google,kodama-sku16', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /: failed to match any schema with compatible: ['google,kodama-sku16', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: /: failed to match any schema with compatible: ['google,kodama-sku16', 'google,kodama', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku16.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /: failed to match any schema with compatible: ['google,kodama-sku272', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /: failed to match any schema with compatible: ['google,kodama-sku272', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: /: failed to match any schema with compatible: ['google,kodama-sku272', 'google,kodama', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku272.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /: failed to match any schema with compatible: ['google,kodama-sku288', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /: failed to match any schema with compatible: ['google,kodama-sku288', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: /: failed to match any schema with compatible: ['google,kodama-sku288', 'google,kodama', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku288.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /: failed to match any schema with compatible: ['google,kodama-sku32', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /: failed to match any schema with compatible: ['google,kodama-sku32', 'google,kodama', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: /: failed to match any schema with compatible: ['google,kodama-sku32', 'google,kodama', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama-sku32.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /: failed to match any schema with compatible: ['google,krane-sku0', 'google,krane', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /: failed to match any schema with compatible: ['google,krane-sku0', 'google,krane', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: /: failed to match any schema with compatible: ['google,krane-sku0', 'google,krane', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /: failed to match any schema with compatible: ['google,krane-sku176', 'google,krane', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /: failed to match any schema with compatible: ['google,krane-sku176', 'google,krane', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: /: failed to match any schema with compatible: ['google,krane-sku176', 'google,krane', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /: failed to match any schema with compatible: ['mediatek,mt8183-pumpkin', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: /: failed to match any schema with compatible: ['mediatek,mt8183-pumpkin', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: cci: 'proc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/interconnect/mediatek,cci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pinctrl@10005000: mmc0-pins-default:pins_clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pinctrl@10005000: mmc0-pins-uhs:pins_clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pinctrl@10005000: mmc0-pins-uhs:pins_ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dtb: pinctrl@10005000: mmc1-pins-default:pins_cmd_dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393219', 'google,steelix-sku393216', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393219', 'google,steelix-sku393216', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393219', 'google,steelix-sku393216', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393219', 'google,steelix-sku393216', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393220', 'google,steelix-sku393217', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393220', 'google,steelix-sku393217', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393220', 'google,steelix-sku393217', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393220', 'google,steelix-sku393217', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393221', 'google,steelix-sku393218', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393221', 'google,steelix-sku393218', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393221', 'google,steelix-sku393218', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /: failed to match any schema with compatible: ['google,steelix-sku393221', 'google,steelix-sku393218', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-sku196609', 'google,steelix-sku196608', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-sku196609', 'google,steelix-sku196608', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-sku196609', 'google,steelix-sku196608', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-sku196609', 'google,steelix-sku196608', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131072', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131072', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131072', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131073', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131073', 'google,steelix', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131073', 'google,steelix', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327681', 'google,tentacruel', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327681', 'google,tentacruel', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327681', 'google,tentacruel', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327683', 'google,tentacruel', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327683', 'google,tentacruel', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /: failed to match any schema with compatible: ['google,tentacruel-sku327683', 'google,tentacruel', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: dp-bridge@5c: 'extcon' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: sound: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8186-evb', 'mediatek,mt8186']
+>> arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8186-evb', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-evb.dtb: cci: 'proc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/interconnect/mediatek,cci.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8188-evb', 'mediatek,mt8188']
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8188-evb', 'mediatek,mt8188']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: syscon@10006000: power-controller:power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scpsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /: failed to match any schema with compatible: ['google,hayato-rev1', 'google,hayato', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /: failed to match any schema with compatible: ['google,hayato-rev1', 'google,hayato', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /: failed to match any schema with compatible: ['google,hayato-rev1', 'google,hayato', 'mediatek,mt8192']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pcm: clocks: [[59, 0], [59, 7], [59, 8], [59, 6], [59, 21], [59, 1], [59, 2], [59, 4], [59, 3], [59, 5], [59, 9], [59, 10], [59, 18], [59, 19], [59, 20], [59, 22], [59, 23], [59, 24], [59, 25], [59, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: mt8192-afe-pcm: clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /: failed to match any schema with compatible: ['google,hayato-rev5-sku2', 'google,hayato-sku2', 'google,hayato', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /: failed to match any schema with compatible: ['google,hayato-rev5-sku2', 'google,hayato-sku2', 'google,hayato', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /: failed to match any schema with compatible: ['google,hayato-rev5-sku2', 'google,hayato-sku2', 'google,hayato', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /: failed to match any schema with compatible: ['google,hayato-rev5-sku2', 'google,hayato-sku2', 'google,hayato', 'mediatek,mt8192']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-afe-pcm: clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-afe-pcm: clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /: failed to match any schema with compatible: ['google,spherion-rev3', 'google,spherion-rev2', 'google,spherion-rev1', 'google,spherion-rev0', 'google,spherion', 'mediatek,mt8192']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-pcm: clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: mt8192-afe-pcm: clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /: failed to match any schema with compatible: ['google,spherion-rev4', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /: failed to match any schema with compatible: ['google,spherion-rev4', 'google,spherion', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /: failed to match any schema with compatible: ['google,spherion-rev4', 'google,spherion', 'mediatek,mt8192']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-pcm: clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-pcm: clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8192-evb', 'mediatek,mt8192']
+>> arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8192-evb', 'mediatek,mt8192']
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: /soc/pwrap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: /soc/pwrap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: syscon@11210000: 'mt8192-afe-pcm' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm: clocks: [[45, 0], [45, 7], [45, 8], [45, 6], [45, 21], [45, 1], [45, 2], [45, 4], [45, 3], [45, 5], [45, 9], [45, 10], [45, 18], [45, 19], [45, 20], [45, 22], [45, 23], [45, 24], [45, 25], [45, 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm: clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-evb.dtb: mt8192-afe-pcm: clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /: failed to match any schema with compatible: ['google,tomato-rev1', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /: failed to match any schema with compatible: ['google,tomato-rev1', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /: failed to match any schema with compatible: ['google,tomato-rev1', 'google,tomato', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34: #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/i2c@11e02000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /: failed to match any schema with compatible: ['google,tomato-rev2', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /: failed to match any schema with compatible: ['google,tomato-rev2', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /: failed to match any schema with compatible: ['google,tomato-rev2', 'google,tomato', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34: #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/i2c@11e02000/codec@1a: failed to match any schema with compatible: ['realtek,rt5682i']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /: failed to match any schema with compatible: ['google,tomato-rev4', 'google,tomato-rev3', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /: failed to match any schema with compatible: ['google,tomato-rev4', 'google,tomato-rev3', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /: failed to match any schema with compatible: ['google,tomato-rev4', 'google,tomato-rev3', 'google,tomato', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /: failed to match any schema with compatible: ['google,tomato-rev4', 'google,tomato-rev3', 'google,tomato', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34: #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a: #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /: failed to match any schema with compatible: ['mediatek,mt8195-demo', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /: failed to match any schema with compatible: ['mediatek,mt8195-demo', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic@34: charger:usb-otg-vbus-regulator: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: charger: usb-otg-vbus-regulator: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/supply/mt6360_charger.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8195-evb', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /: failed to match any schema with compatible: ['mediatek,mt8195-evb', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: display@14f06000: clocks: [[30, 14], [30, 43], [30, 44]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,split.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: mutex@1c101000: 'clock-names', 'reg-names' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8365-evk', 'mediatek,mt8365']
+>> arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8365-evk', 'mediatek,mt8365']
+   arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: pmic: 'adc' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6357.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8395-evk', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8395-evk', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8395-evk', 'mediatek,mt8395', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1: Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1: $nodename:0: 'eth-phy0@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8390-evk', 'mediatek,mt8390', 'mediatek,mt8188']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8390-evk', 'mediatek,mt8390', 'mediatek,mt8188']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /: failed to match any schema with compatible: ['mediatek,mt8390-evk', 'mediatek,mt8390', 'mediatek,mt8188']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: syscon@10006000: power-controller:power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scpsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller: power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /: failed to match any schema with compatible: ['kontron,3-5-sbc-i1200', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /: failed to match any schema with compatible: ['kontron,3-5-sbc-i1200', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /: failed to match any schema with compatible: ['kontron,3-5-sbc-i1200', 'mediatek,mt8395', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator: 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LDO5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[123567]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /: failed to match any schema with compatible: ['radxa,nio-12l', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /: failed to match any schema with compatible: ['radxa,nio-12l', 'mediatek,mt8395', 'mediatek,mt8195']
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /: failed to match any schema with compatible: ['radxa,nio-12l', 'mediatek,mt8395', 'mediatek,mt8195']
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: t-phy@11e30000: 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: display@14f06000: clocks: [[34, 14], [34, 43], [34, 44]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,split.yaml#
+--
+>> arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: /: failed to match any schema with compatible: ['mediatek,mt8516']
+   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: topckgen@10000000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8516-topckgen', 'syscon'] is too long
+   	['mediatek,mt8516-topckgen', 'syscon'] is too short
+   	'mediatek,mt7623-topckgen' was expected
+   	'mediatek,mt8516-topckgen' is not one of ['mediatek,mt2701-topckgen', 'mediatek,mt2712-topckgen', 'mediatek,mt6765-topckgen', 'mediatek,mt6779-topckgen', 'mediatek,mt6795-topckgen', 'mediatek,mt7629-topckgen', 'mediatek,mt7981-topckgen', 'mediatek,mt7986-topckgen', 'mediatek,mt7988-mcusys', 'mediatek,mt7988-topckgen', 'mediatek,mt8167-topckgen', 'mediatek,mt8183-topckgen']
+   	'mediatek,mt2701-topckgen' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,topckgen.yaml#
+   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dtb: apmixedsys@10018000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8516-apmixedsys', 'syscon'] is too long
+   	['mediatek,mt8516-apmixedsys', 'syscon'] is too short
 
 -- 
 0-DAY CI Kernel Test Service
