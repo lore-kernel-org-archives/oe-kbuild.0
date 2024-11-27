@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA97F288B5
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 02:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE4BDF51
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 06:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732675106; cv=none; b=PIj6OpKOdYKYgJU11VjjsJflbENe6dR2osrS11Mr9SWCiawa9lvEe4LlKeX+D84AgbazhkUAatOVmZsyYYC2pDDeO6jaWpJdo0audaf42zVp39Cr0fHECvOs5ABXtfnwaKD05smNcw0mYeH5B0PwYGpEIhEa7AqN3CYHiTGwgNQ=
+	t=1732687558; cv=none; b=FfWLqcUb1b0xn92nELevVGaw40wSg1ZPG3tYlCY9nOPgFwLwsE/qCkJwydno1eDPyQiD5LTnDj720ZgpCW1UeIGBhDNKTL2An4FzIUKxghq8suUIWaiUTXD6RKvkxVZamHezjw3kw0hKEP21hSFc7Vt7OiejuDvFacSPjyMn99Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732675106; c=relaxed/simple;
-	bh=GomlsVu5wrqCnwQHfDBV76E83h8Oa3U0MCaE6OjPfiA=;
+	s=arc-20240116; t=1732687558; c=relaxed/simple;
+	bh=enq3kQXzb5EPKrSeX01Wlsutc2PRAtEisE8p8ZeH35k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dG60Fx4oSOoPXgiVOVDGangJRKrfDTwEze1lHXxXEKiLlZfcA8ktbbrBekwLmxfYZd43kzCPIb1ybtCYdq5OTVZyieDXQD2uezma4Z5lt5zKHwPiP5y1jr9LjnM04q+tyGK68GQ+qZ6a9+w3l+8HMBCpNFxY1ZZl0oKVeWFkQuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbHPw2fq; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=K4FEAwxkuR+Xh4EWgQnAo16BiXXmRlMCZoF3XD9jLxtyzH73jBK1pxCqTzy7/IJnw0wkC2bMPDFHAD0rtxh1pp0BBARrw46Y5gwIpLkGm3cPmacxDZDL2zjsOsZh1F+Mh+dsgOOxgkvYwh9T35FVz85lqRjGwT/tDOpztZE2GsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4AtLMvj; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbHPw2fq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4AtLMvj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732675104; x=1764211104;
+  t=1732687556; x=1764223556;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GomlsVu5wrqCnwQHfDBV76E83h8Oa3U0MCaE6OjPfiA=;
-  b=AbHPw2fqM5BYqEIAjZKIHSGGjxdQTULtNW5vTiYJD3WcHAN+UlKz1PxB
-   2yZoL/R49W0/1Wik5Y+BQBVrgOvyHQ3T274flTCCO0sMIuiUp/lePIXh4
-   JOaVaZ/W9EEDktPE8LKJN57kac8IkqTm9F4rv3F0elYjAQdwHFsKmrzqS
-   g8S9KqiBboCWtH66XNYte5Le7fZfwjpkd1Ug91N92He0678PHOh1EoK+F
-   ySIe7WpjVMWnJAxtV5F+7iOSe44LOmEUJb+SjcI4VGUFirpG2u7GHh/bP
-   prcCHmkZ0dfoIghLlhmmp4e+xWvjamEO91nh4wWV3POHMniFt/jgDq6X6
+  bh=enq3kQXzb5EPKrSeX01Wlsutc2PRAtEisE8p8ZeH35k=;
+  b=J4AtLMvj/uck6WXIMPKvZqnCSeZpggx2XUfYtrceFAfVVTXnWjaRbuio
+   3/jOJ1pXDnHSanvZAtoZ3AyE3udawsqBd34uqXLfvuG6Xw3Z/My9ntFsL
+   jjexPVOKemWvqOFNWB20YS+YViK2G33ddwDx3uy2RGhvxxxQk5oBXX4//
+   hh9sh2nplqYUlhGCL6WSbMA5w7cSkpV20aSfiqsQRQwulgVup10Sl0EbM
+   WYKRquX5pbzAhxrdRhWHtBK3RR7Q4Ra36hCmD99TlETnp8t/+Ct0xTH2a
+   6UsNcrCmvhyhgVZPGWmtbjEAa0luLT1TFpeOpkHgnAHwNq728CGyl5y9a
    A==;
-X-CSE-ConnectionGUID: uKFjCJVlQneNOU0DIVYQaw==
-X-CSE-MsgGUID: HAIXvXmhQAuxDuoQsqSjpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="50390417"
+X-CSE-ConnectionGUID: KSWbtafWRz6lNC9VdWuPoA==
+X-CSE-MsgGUID: d4PuTWjISnKr3CHkwPk0kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="33124715"
 X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
-   d="scan'208";a="50390417"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 18:38:23 -0800
-X-CSE-ConnectionGUID: i5bXtC7XRVeQHNAtyIs5gw==
-X-CSE-MsgGUID: /hfme/hkR6O5LUiBOv5kTQ==
+   d="scan'208";a="33124715"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 22:05:53 -0800
+X-CSE-ConnectionGUID: 4ra/sYweSqi+kTkZRyi0Ig==
+X-CSE-MsgGUID: oT/p5eThTQGQK3eMj7D5/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="96851360"
+X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
+   d="scan'208";a="91980321"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Nov 2024 18:38:22 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 26 Nov 2024 22:05:51 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tG7wZ-0007fe-1E;
-	Wed, 27 Nov 2024 02:38:19 +0000
-Date: Wed, 27 Nov 2024 10:37:53 +0800
+	id 1tGBBN-0007lD-0z;
+	Wed, 27 Nov 2024 06:05:49 +0000
+Date: Wed, 27 Nov 2024 14:05:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [thesofproject:topic/sof-dev 1/1] sound/soc/sof/ipc3-topology.c:1606
- sof_ipc3_widget_setup_comp_dai() warn: missing unwind goto?
-Message-ID: <202411271005.h44CowIa-lkp@intel.com>
+Subject: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp()
+ error: we previously assumed 'res->dattr' could be null (see line 985)
+Message-ID: <202411271324.rsve13Sr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,179 +64,252 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: Ranjani Sridharan <ranjani.sridharan@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Selvin Xavier <selvin.xavier@broadcom.com>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev
-head:   414dc9543a7292dac30f2614001718afce5eef9f
-commit: 3592316d9f108d6ebbf655dede9feac9620557f2 [1/1] ASoC: SOF: ipc3-topology: Convert the topology pin index to ALH dai index
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 weeks ago
-config: nios2-randconfig-r073-20241126 (https://download.01.org/0day-ci/archive/20241127/202411271005.h44CowIa-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aaf20f870da056752f6386693cc0d8e25421ef35
+commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
+date:   12 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241127/202411271324.rsve13Sr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411271005.h44CowIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411271324.rsve13Sr-lkp@intel.com/
 
-smatch warnings:
-sound/soc/sof/ipc3-topology.c:1606 sof_ipc3_widget_setup_comp_dai() warn: missing unwind goto?
+New smatch warnings:
+drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
 
-vim +1606 sound/soc/sof/ipc3-topology.c
+Old smatch warnings:
+drivers/infiniband/hw/bnxt_re/qplib_fp.c:495 bnxt_qplib_nq_start_irq() warn: 'msix_vector' from request_irq() not released on lines: 495.
 
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1557  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1558  static int sof_ipc3_widget_setup_comp_dai(struct snd_sof_widget *swidget)
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1559  {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1560  	struct snd_soc_component *scomp = swidget->scomp;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1561  	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1562  	struct snd_sof_dai *dai = swidget->private;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1563  	struct sof_dai_private_data *private;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1564  	struct sof_ipc_comp_dai *comp_dai;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1565  	size_t ipc_size = sizeof(*comp_dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1566  	struct sof_ipc_dai_config *config;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1567  	struct snd_sof_dai_link *slink;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1568  	int ret;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1569  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1570  	private = kzalloc(sizeof(*private), GFP_KERNEL);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1571  	if (!private)
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1572  		return -ENOMEM;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1573  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1574  	dai->private = private;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1575  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1576  	private->comp_dai = sof_comp_alloc(swidget, &ipc_size, swidget->pipeline_id);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1577  	if (!private->comp_dai) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1578  		ret = -ENOMEM;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1579  		goto free;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1580  	}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1581  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1582  	/* configure dai IPC message */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1583  	comp_dai = private->comp_dai;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1584  	comp_dai->comp.type = SOF_COMP_DAI;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1585  	comp_dai->config.hdr.size = sizeof(comp_dai->config);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1586  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1587  	/* parse one set of DAI tokens */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1588  	ret = sof_update_ipc_object(scomp, comp_dai, SOF_DAI_TOKENS, swidget->tuples,
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1589  				    swidget->num_tuples, sizeof(*comp_dai), 1);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1590  	if (ret < 0)
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1591  		goto free;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1592  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1593  	/* update comp_tokens */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1594  	ret = sof_update_ipc_object(scomp, &comp_dai->config, SOF_COMP_TOKENS,
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1595  				    swidget->tuples, swidget->num_tuples,
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1596  				    sizeof(comp_dai->config), 1);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1597  	if (ret < 0)
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1598  		goto free;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1599  
-3592316d9f108d Bard Liao            2024-10-29  1600  	/* Subtract the base to match the FW dai index. */
-3592316d9f108d Bard Liao            2024-10-29  1601  	if (comp_dai->type == SOF_DAI_INTEL_ALH) {
-3592316d9f108d Bard Liao            2024-10-29  1602  		if (comp_dai->dai_index < INTEL_ALH_DAI_INDEX_BASE) {
-3592316d9f108d Bard Liao            2024-10-29  1603  			dev_err(sdev->dev,
-3592316d9f108d Bard Liao            2024-10-29  1604  				"Invalid ALH dai index %d, only Pin numbers >= %d can be used\n",
-3592316d9f108d Bard Liao            2024-10-29  1605  				comp_dai->dai_index, INTEL_ALH_DAI_INDEX_BASE);
-3592316d9f108d Bard Liao            2024-10-29 @1606  			return -EINVAL;
-3592316d9f108d Bard Liao            2024-10-29  1607  		}
-3592316d9f108d Bard Liao            2024-10-29  1608  		comp_dai->dai_index -= INTEL_ALH_DAI_INDEX_BASE;
-3592316d9f108d Bard Liao            2024-10-29  1609  	}
-3592316d9f108d Bard Liao            2024-10-29  1610  
-884a48099f2b93 Pierre-Louis Bossart 2022-06-13  1611  	dev_dbg(scomp->dev, "dai %s: type %d index %d\n",
-884a48099f2b93 Pierre-Louis Bossart 2022-06-13  1612  		swidget->widget->name, comp_dai->type, comp_dai->dai_index);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1613  	sof_dbg_comp_config(scomp, &comp_dai->config);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1614  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1615  	/* now update DAI config */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1616  	list_for_each_entry(slink, &sdev->dai_link_list, list) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1617  		struct sof_ipc_dai_config common_config;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1618  		int i;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1619  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1620  		if (strcmp(slink->link->name, dai->name))
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1621  			continue;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1622  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1623  		/* Reserve memory for all hw configs, eventually freed by widget */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1624  		config = kcalloc(slink->num_hw_configs, sizeof(*config), GFP_KERNEL);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1625  		if (!config) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1626  			ret = -ENOMEM;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1627  			goto free_comp;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1628  		}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1629  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1630  		/* parse one set of DAI link tokens */
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1631  		ret = sof_update_ipc_object(scomp, &common_config, SOF_DAI_LINK_TOKENS,
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1632  					    slink->tuples, slink->num_tuples,
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1633  					    sizeof(common_config), 1);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1634  		if (ret < 0)
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1635  			goto free_config;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1636  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1637  		for (i = 0; i < slink->num_hw_configs; i++) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1638  			config[i].hdr.cmd = SOF_IPC_GLB_DAI_MSG | SOF_IPC_DAI_CONFIG;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1639  			config[i].format = le32_to_cpu(slink->hw_configs[i].fmt);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1640  			config[i].type = common_config.type;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1641  			config[i].dai_index = comp_dai->dai_index;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1642  		}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1643  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1644  		switch (common_config.type) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1645  		case SOF_DAI_INTEL_SSP:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1646  			ret = sof_link_ssp_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1647  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1648  		case SOF_DAI_INTEL_DMIC:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1649  			ret = sof_link_dmic_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1650  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1651  		case SOF_DAI_INTEL_HDA:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1652  			ret = sof_link_hda_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1653  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1654  		case SOF_DAI_INTEL_ALH:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1655  			ret = sof_link_alh_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1656  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1657  		case SOF_DAI_IMX_SAI:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1658  			ret = sof_link_sai_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1659  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1660  		case SOF_DAI_IMX_ESAI:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1661  			ret = sof_link_esai_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1662  			break;
-50b2bedcda7503 Daniel Baluta        2023-08-01  1663  		case SOF_DAI_IMX_MICFIL:
-50b2bedcda7503 Daniel Baluta        2023-08-01  1664  			ret = sof_link_micfil_load(scomp, slink, config, dai);
-50b2bedcda7503 Daniel Baluta        2023-08-01  1665  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1666  		case SOF_DAI_AMD_BT:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1667  			ret = sof_link_acp_bt_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1668  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1669  		case SOF_DAI_AMD_SP:
-8df17302f925ef V sujith kumar Reddy 2022-10-12  1670  		case SOF_DAI_AMD_SP_VIRTUAL:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1671  			ret = sof_link_acp_sp_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1672  			break;
-a9f1f32992e744 V sujith kumar Reddy 2022-03-24  1673  		case SOF_DAI_AMD_HS:
-8df17302f925ef V sujith kumar Reddy 2022-10-12  1674  		case SOF_DAI_AMD_HS_VIRTUAL:
-a9f1f32992e744 V sujith kumar Reddy 2022-03-24  1675  			ret = sof_link_acp_hs_load(scomp, slink, config, dai);
-a9f1f32992e744 V sujith kumar Reddy 2022-03-24  1676  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1677  		case SOF_DAI_AMD_DMIC:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1678  			ret = sof_link_acp_dmic_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1679  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1680  		case SOF_DAI_MEDIATEK_AFE:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1681  			ret = sof_link_afe_load(scomp, slink, config, dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1682  			break;
-f4f841b6338299 Vijendar Mukunda     2023-11-06  1683  		case SOF_DAI_AMD_SDW:
-f4f841b6338299 Vijendar Mukunda     2023-11-06  1684  			ret = sof_link_acp_sdw_load(scomp, slink, config, dai);
-f4f841b6338299 Vijendar Mukunda     2023-11-06  1685  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1686  		default:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1687  			break;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1688  		}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1689  		if (ret < 0) {
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1690  			dev_err(scomp->dev, "failed to load config for dai %s\n", dai->name);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1691  			goto free_config;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1692  		}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1693  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1694  		kfree(config);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1695  	}
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1696  
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1697  	return 0;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1698  free_config:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1699  	kfree(config);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1700  free_comp:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1701  	kfree(comp_dai);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1702  free:
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1703  	kfree(private);
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1704  	dai->private = NULL;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1705  	return ret;
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1706  }
-a86a91dc9eefa3 Ranjani Sridharan    2021-12-04  1707  
+vim +1090 drivers/infiniband/hw/bnxt_re/qplib_fp.c
+
+fddcbbb02af42a Devesh Sharma      2020-04-02   966  
+1ac5a404797523 Selvin Xavier      2017-02-10   967  int bnxt_qplib_create_qp(struct bnxt_qplib_res *res, struct bnxt_qplib_qp *qp)
+1ac5a404797523 Selvin Xavier      2017-02-10   968  {
+1ac5a404797523 Selvin Xavier      2017-02-10   969  	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
+0c4dcd60281750 Devesh Sharma      2020-02-15   970  	struct bnxt_qplib_hwq_attr hwq_attr = {};
+0c4dcd60281750 Devesh Sharma      2020-02-15   971  	struct bnxt_qplib_sg_info sginfo = {};
+ff015bcd213b5d Selvin Xavier      2023-03-30   972  	struct creq_create_qp_resp resp = {};
+ff015bcd213b5d Selvin Xavier      2023-03-30   973  	struct bnxt_qplib_cmdqmsg msg = {};
+1ac5a404797523 Selvin Xavier      2017-02-10   974  	struct bnxt_qplib_q *sq = &qp->sq;
+1ac5a404797523 Selvin Xavier      2017-02-10   975  	struct bnxt_qplib_q *rq = &qp->rq;
+ff015bcd213b5d Selvin Xavier      2023-03-30   976  	struct cmdq_create_qp req = {};
+fddcbbb02af42a Devesh Sharma      2020-04-02   977  	int rc, req_size, psn_sz = 0;
+1ac5a404797523 Selvin Xavier      2017-02-10   978  	struct bnxt_qplib_hwq *xrrq;
+c50866e2853a03 Devesh Sharma      2019-02-22   979  	struct bnxt_qplib_pbl *pbl;
+c50866e2853a03 Devesh Sharma      2019-02-22   980  	u32 qp_flags = 0;
+99bf84e24eb83d Devesh Sharma      2020-04-02   981  	u8 pg_sz_lvl;
+84cf229f4001c1 Selvin Xavier      2020-08-24   982  	u32 tbl_indx;
+159fb4ceacd79b Devesh Sharma      2020-07-15   983  	u16 nsge;
+1ac5a404797523 Selvin Xavier      2017-02-10   984  
+07f830ae4913d0 Selvin Xavier      2023-12-07  @985  	if (res->dattr)
+07f830ae4913d0 Selvin Xavier      2023-12-07   986  		qp->dev_cap_flags = res->dattr->dev_cap_flags;
+07f830ae4913d0 Selvin Xavier      2023-12-07   987  
+3a4304d8269501 Chandramohan Akula 2023-10-23   988  	sq->dbinfo.flags = 0;
+e576adf583b525 Selvin Xavier      2023-03-30   989  	bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
+e576adf583b525 Selvin Xavier      2023-03-30   990  				 CMDQ_BASE_OPCODE_CREATE_QP,
+e576adf583b525 Selvin Xavier      2023-03-30   991  				 sizeof(req));
+1ac5a404797523 Selvin Xavier      2017-02-10   992  
+1ac5a404797523 Selvin Xavier      2017-02-10   993  	/* General */
+1ac5a404797523 Selvin Xavier      2017-02-10   994  	req.type = qp->type;
+1ac5a404797523 Selvin Xavier      2017-02-10   995  	req.dpi = cpu_to_le32(qp->dpi->dpi);
+1ac5a404797523 Selvin Xavier      2017-02-10   996  	req.qp_handle = cpu_to_le64(qp->qp_handle);
+1ac5a404797523 Selvin Xavier      2017-02-10   997  
+1ac5a404797523 Selvin Xavier      2017-02-10   998  	/* SQ */
+37f91cff2de017 Devesh Sharma      2019-02-07   999  	if (qp->type == CMDQ_CREATE_QP_TYPE_RC) {
+1801d87b3598b1 Selvin Xavier      2023-12-07  1000  		psn_sz = bnxt_qplib_is_chip_gen_p5_p7(res->cctx) ?
+37f91cff2de017 Devesh Sharma      2019-02-07  1001  			 sizeof(struct sq_psn_search_ext) :
+37f91cff2de017 Devesh Sharma      2019-02-07  1002  			 sizeof(struct sq_psn_search);
+07f830ae4913d0 Selvin Xavier      2023-12-07  1003  
+07f830ae4913d0 Selvin Xavier      2023-12-07  1004  		if (BNXT_RE_HW_RETX(qp->dev_cap_flags)) {
+07f830ae4913d0 Selvin Xavier      2023-12-07  1005  			psn_sz = sizeof(struct sq_msn_search);
+07f830ae4913d0 Selvin Xavier      2023-12-07  1006  			qp->msn = 0;
+07f830ae4913d0 Selvin Xavier      2023-12-07  1007  		}
+37f91cff2de017 Devesh Sharma      2019-02-07  1008  	}
+0c4dcd60281750 Devesh Sharma      2020-02-15  1009  
+0c4dcd60281750 Devesh Sharma      2020-02-15  1010  	hwq_attr.res = res;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1011  	hwq_attr.sginfo = &sq->sg_info;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1012  	hwq_attr.stride = sizeof(struct sq_sge);
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1013  	hwq_attr.depth = bnxt_qplib_get_depth(sq);
+0c4dcd60281750 Devesh Sharma      2020-02-15  1014  	hwq_attr.aux_stride = psn_sz;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1015  	hwq_attr.aux_depth = bnxt_qplib_set_sq_size(sq, qp->wqe_mode);
+07f830ae4913d0 Selvin Xavier      2023-12-07  1016  	/* Update msn tbl size */
+07f830ae4913d0 Selvin Xavier      2023-12-07  1017  	if (BNXT_RE_HW_RETX(qp->dev_cap_flags) && psn_sz) {
+07f830ae4913d0 Selvin Xavier      2023-12-07  1018  		hwq_attr.aux_depth = roundup_pow_of_two(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
+07f830ae4913d0 Selvin Xavier      2023-12-07  1019  		qp->msn_tbl_sz = hwq_attr.aux_depth;
+07f830ae4913d0 Selvin Xavier      2023-12-07  1020  		qp->msn = 0;
+07f830ae4913d0 Selvin Xavier      2023-12-07  1021  	}
+07f830ae4913d0 Selvin Xavier      2023-12-07  1022  
+0c4dcd60281750 Devesh Sharma      2020-02-15  1023  	hwq_attr.type = HWQ_TYPE_QUEUE;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1024  	rc = bnxt_qplib_alloc_init_hwq(&sq->hwq, &hwq_attr);
+1ac5a404797523 Selvin Xavier      2017-02-10  1025  	if (rc)
+07d5ce14b2aa22 Kalesh AP          2023-05-18  1026  		return rc;
+1ac5a404797523 Selvin Xavier      2017-02-10  1027  
+159fb4ceacd79b Devesh Sharma      2020-07-15  1028  	rc = bnxt_qplib_alloc_init_swq(sq);
+159fb4ceacd79b Devesh Sharma      2020-07-15  1029  	if (rc)
+1ac5a404797523 Selvin Xavier      2017-02-10  1030  		goto fail_sq;
+fddcbbb02af42a Devesh Sharma      2020-04-02  1031  
+fddcbbb02af42a Devesh Sharma      2020-04-02  1032  	if (psn_sz)
+fddcbbb02af42a Devesh Sharma      2020-04-02  1033  		bnxt_qplib_init_psn_ptr(qp, psn_sz);
+fddcbbb02af42a Devesh Sharma      2020-04-02  1034  
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1035  	req.sq_size = cpu_to_le32(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
+1ac5a404797523 Selvin Xavier      2017-02-10  1036  	pbl = &sq->hwq.pbl[PBL_LVL_0];
+1ac5a404797523 Selvin Xavier      2017-02-10  1037  	req.sq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1038  	pg_sz_lvl = (bnxt_qplib_base_pg_size(&sq->hwq) <<
+99bf84e24eb83d Devesh Sharma      2020-04-02  1039  		     CMDQ_CREATE_QP_SQ_PG_SIZE_SFT);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1040  	pg_sz_lvl |= (sq->hwq.level & CMDQ_CREATE_QP_SQ_LVL_MASK);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1041  	req.sq_pg_size_sq_lvl = pg_sz_lvl;
+159fb4ceacd79b Devesh Sharma      2020-07-15  1042  	req.sq_fwo_sq_sge =
+159fb4ceacd79b Devesh Sharma      2020-07-15  1043  		cpu_to_le16(((sq->max_sge & CMDQ_CREATE_QP_SQ_SGE_MASK) <<
+159fb4ceacd79b Devesh Sharma      2020-07-15  1044  			     CMDQ_CREATE_QP_SQ_SGE_SFT) | 0);
+1ac5a404797523 Selvin Xavier      2017-02-10  1045  	req.scq_cid = cpu_to_le32(qp->scq->id);
+1ac5a404797523 Selvin Xavier      2017-02-10  1046  
+1ac5a404797523 Selvin Xavier      2017-02-10  1047  	/* RQ */
+159fb4ceacd79b Devesh Sharma      2020-07-15  1048  	if (!qp->srq) {
+3a4304d8269501 Chandramohan Akula 2023-10-23  1049  		rq->dbinfo.flags = 0;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1050  		hwq_attr.res = res;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1051  		hwq_attr.sginfo = &rq->sg_info;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1052  		hwq_attr.stride = sizeof(struct sq_sge);
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1053  		hwq_attr.depth = bnxt_qplib_get_depth(rq);
+0c4dcd60281750 Devesh Sharma      2020-02-15  1054  		hwq_attr.aux_stride = 0;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1055  		hwq_attr.aux_depth = 0;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1056  		hwq_attr.type = HWQ_TYPE_QUEUE;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1057  		rc = bnxt_qplib_alloc_init_hwq(&rq->hwq, &hwq_attr);
+1ac5a404797523 Selvin Xavier      2017-02-10  1058  		if (rc)
+159fb4ceacd79b Devesh Sharma      2020-07-15  1059  			goto sq_swq;
+159fb4ceacd79b Devesh Sharma      2020-07-15  1060  		rc = bnxt_qplib_alloc_init_swq(rq);
+159fb4ceacd79b Devesh Sharma      2020-07-15  1061  		if (rc)
+1ac5a404797523 Selvin Xavier      2017-02-10  1062  			goto fail_rq;
+159fb4ceacd79b Devesh Sharma      2020-07-15  1063  
+159fb4ceacd79b Devesh Sharma      2020-07-15  1064  		req.rq_size = cpu_to_le32(rq->max_wqe);
+1ac5a404797523 Selvin Xavier      2017-02-10  1065  		pbl = &rq->hwq.pbl[PBL_LVL_0];
+1ac5a404797523 Selvin Xavier      2017-02-10  1066  		req.rq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1067  		pg_sz_lvl = (bnxt_qplib_base_pg_size(&rq->hwq) <<
+99bf84e24eb83d Devesh Sharma      2020-04-02  1068  			     CMDQ_CREATE_QP_RQ_PG_SIZE_SFT);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1069  		pg_sz_lvl |= (rq->hwq.level & CMDQ_CREATE_QP_RQ_LVL_MASK);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1070  		req.rq_pg_size_rq_lvl = pg_sz_lvl;
+159fb4ceacd79b Devesh Sharma      2020-07-15  1071  		nsge = (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_STATIC) ?
+159fb4ceacd79b Devesh Sharma      2020-07-15  1072  			6 : rq->max_sge;
+159fb4ceacd79b Devesh Sharma      2020-07-15  1073  		req.rq_fwo_rq_sge =
+159fb4ceacd79b Devesh Sharma      2020-07-15  1074  			cpu_to_le16(((nsge &
+159fb4ceacd79b Devesh Sharma      2020-07-15  1075  				      CMDQ_CREATE_QP_RQ_SGE_MASK) <<
+159fb4ceacd79b Devesh Sharma      2020-07-15  1076  				     CMDQ_CREATE_QP_RQ_SGE_SFT) | 0);
+37cb11acf1f72a Devesh Sharma      2018-01-11  1077  	} else {
+37cb11acf1f72a Devesh Sharma      2018-01-11  1078  		/* SRQ */
+37cb11acf1f72a Devesh Sharma      2018-01-11  1079  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_SRQ_USED;
+37cb11acf1f72a Devesh Sharma      2018-01-11  1080  		req.srq_cid = cpu_to_le32(qp->srq->id);
+37cb11acf1f72a Devesh Sharma      2018-01-11  1081  	}
+1ac5a404797523 Selvin Xavier      2017-02-10  1082  	req.rcq_cid = cpu_to_le32(qp->rcq->id);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1083  
+99bf84e24eb83d Devesh Sharma      2020-04-02  1084  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_RESERVED_LKEY_ENABLE;
+99bf84e24eb83d Devesh Sharma      2020-04-02  1085  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FR_PMR_ENABLED;
+99bf84e24eb83d Devesh Sharma      2020-04-02  1086  	if (qp->sig_type)
+99bf84e24eb83d Devesh Sharma      2020-04-02  1087  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FORCE_COMPLETION;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1088  	if (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_VARIABLE)
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1089  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_VARIABLE_SIZED_WQE_ENABLED;
+9a381f7e5aa299 Selvin Xavier      2021-09-15 @1090  	if (_is_ext_stats_supported(res->dattr->dev_cap_flags) && !res->is_vf)
+9a381f7e5aa299 Selvin Xavier      2021-09-15  1091  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_EXT_STATS_ENABLED;
+9a381f7e5aa299 Selvin Xavier      2021-09-15  1092  
+1ac5a404797523 Selvin Xavier      2017-02-10  1093  	req.qp_flags = cpu_to_le32(qp_flags);
+99bf84e24eb83d Devesh Sharma      2020-04-02  1094  
+1ac5a404797523 Selvin Xavier      2017-02-10  1095  	/* ORRQ and IRRQ */
+1ac5a404797523 Selvin Xavier      2017-02-10  1096  	if (psn_sz) {
+1ac5a404797523 Selvin Xavier      2017-02-10  1097  		xrrq = &qp->orrq;
+1ac5a404797523 Selvin Xavier      2017-02-10  1098  		xrrq->max_elements =
+1ac5a404797523 Selvin Xavier      2017-02-10  1099  			ORD_LIMIT_TO_ORRQ_SLOTS(qp->max_rd_atomic);
+1ac5a404797523 Selvin Xavier      2017-02-10  1100  		req_size = xrrq->max_elements *
+1ac5a404797523 Selvin Xavier      2017-02-10  1101  			   BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE + PAGE_SIZE - 1;
+1ac5a404797523 Selvin Xavier      2017-02-10  1102  		req_size &= ~(PAGE_SIZE - 1);
+0c4dcd60281750 Devesh Sharma      2020-02-15  1103  		sginfo.pgsize = req_size;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1104  		sginfo.pgshft = PAGE_SHIFT;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1105  
+0c4dcd60281750 Devesh Sharma      2020-02-15  1106  		hwq_attr.res = res;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1107  		hwq_attr.sginfo = &sginfo;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1108  		hwq_attr.depth = xrrq->max_elements;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1109  		hwq_attr.stride = BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1110  		hwq_attr.aux_stride = 0;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1111  		hwq_attr.aux_depth = 0;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1112  		hwq_attr.type = HWQ_TYPE_CTX;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1113  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
+1ac5a404797523 Selvin Xavier      2017-02-10  1114  		if (rc)
+159fb4ceacd79b Devesh Sharma      2020-07-15  1115  			goto rq_swq;
+1ac5a404797523 Selvin Xavier      2017-02-10  1116  		pbl = &xrrq->pbl[PBL_LVL_0];
+1ac5a404797523 Selvin Xavier      2017-02-10  1117  		req.orrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
+1ac5a404797523 Selvin Xavier      2017-02-10  1118  
+1ac5a404797523 Selvin Xavier      2017-02-10  1119  		xrrq = &qp->irrq;
+1ac5a404797523 Selvin Xavier      2017-02-10  1120  		xrrq->max_elements = IRD_LIMIT_TO_IRRQ_SLOTS(
+1ac5a404797523 Selvin Xavier      2017-02-10  1121  						qp->max_dest_rd_atomic);
+1ac5a404797523 Selvin Xavier      2017-02-10  1122  		req_size = xrrq->max_elements *
+1ac5a404797523 Selvin Xavier      2017-02-10  1123  			   BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE + PAGE_SIZE - 1;
+1ac5a404797523 Selvin Xavier      2017-02-10  1124  		req_size &= ~(PAGE_SIZE - 1);
+0c4dcd60281750 Devesh Sharma      2020-02-15  1125  		sginfo.pgsize = req_size;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1126  		hwq_attr.depth =  xrrq->max_elements;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1127  		hwq_attr.stride = BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE;
+0c4dcd60281750 Devesh Sharma      2020-02-15  1128  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
+1ac5a404797523 Selvin Xavier      2017-02-10  1129  		if (rc)
+1ac5a404797523 Selvin Xavier      2017-02-10  1130  			goto fail_orrq;
+1ac5a404797523 Selvin Xavier      2017-02-10  1131  
+1ac5a404797523 Selvin Xavier      2017-02-10  1132  		pbl = &xrrq->pbl[PBL_LVL_0];
+1ac5a404797523 Selvin Xavier      2017-02-10  1133  		req.irrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
+1ac5a404797523 Selvin Xavier      2017-02-10  1134  	}
+1ac5a404797523 Selvin Xavier      2017-02-10  1135  	req.pd_id = cpu_to_le32(qp->pd->id);
+1ac5a404797523 Selvin Xavier      2017-02-10  1136  
+ff015bcd213b5d Selvin Xavier      2023-03-30  1137  	bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req),
+ff015bcd213b5d Selvin Xavier      2023-03-30  1138  				sizeof(resp), 0);
+ff015bcd213b5d Selvin Xavier      2023-03-30  1139  	rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
+cc1ec769b87c7d Devesh Sharma      2017-05-22  1140  	if (rc)
+1ac5a404797523 Selvin Xavier      2017-02-10  1141  		goto fail;
+cc1ec769b87c7d Devesh Sharma      2017-05-22  1142  
+cc1ec769b87c7d Devesh Sharma      2017-05-22  1143  	qp->id = le32_to_cpu(resp.xid);
+1ac5a404797523 Selvin Xavier      2017-02-10  1144  	qp->cur_qp_state = CMDQ_MODIFY_QP_NEW_STATE_RESET;
+f218d67ef00431 Selvin Xavier      2017-06-29  1145  	INIT_LIST_HEAD(&qp->sq_flush);
+f218d67ef00431 Selvin Xavier      2017-06-29  1146  	INIT_LIST_HEAD(&qp->rq_flush);
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1147  	qp->cctx = res->cctx;
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1148  	sq->dbinfo.hwq = &sq->hwq;
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1149  	sq->dbinfo.xid = qp->id;
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1150  	sq->dbinfo.db = qp->dpi->dbr;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1151  	sq->dbinfo.max_slot = bnxt_qplib_set_sq_max_slot(qp->wqe_mode);
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1152  	if (rq->max_wqe) {
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1153  		rq->dbinfo.hwq = &rq->hwq;
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1154  		rq->dbinfo.xid = qp->id;
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1155  		rq->dbinfo.db = qp->dpi->dbr;
+2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1156  		rq->dbinfo.max_slot = bnxt_qplib_set_rq_max_slot(rq->wqe_size);
+6f53196bc5e7fd Devesh Sharma      2020-02-15  1157  	}
+84cf229f4001c1 Selvin Xavier      2020-08-24  1158  	tbl_indx = map_qp_id_to_tbl_indx(qp->id, rcfw);
+84cf229f4001c1 Selvin Xavier      2020-08-24  1159  	rcfw->qp_tbl[tbl_indx].qp_id = qp->id;
+84cf229f4001c1 Selvin Xavier      2020-08-24  1160  	rcfw->qp_tbl[tbl_indx].qp_handle = (void *)qp;
+1ac5a404797523 Selvin Xavier      2017-02-10  1161  
+1ac5a404797523 Selvin Xavier      2017-02-10  1162  	return 0;
+1ac5a404797523 Selvin Xavier      2017-02-10  1163  fail:
+0c4dcd60281750 Devesh Sharma      2020-02-15  1164  	bnxt_qplib_free_hwq(res, &qp->irrq);
+1ac5a404797523 Selvin Xavier      2017-02-10  1165  fail_orrq:
+0c4dcd60281750 Devesh Sharma      2020-02-15  1166  	bnxt_qplib_free_hwq(res, &qp->orrq);
+159fb4ceacd79b Devesh Sharma      2020-07-15  1167  rq_swq:
+159fb4ceacd79b Devesh Sharma      2020-07-15  1168  	kfree(rq->swq);
+1ac5a404797523 Selvin Xavier      2017-02-10  1169  fail_rq:
+0c4dcd60281750 Devesh Sharma      2020-02-15  1170  	bnxt_qplib_free_hwq(res, &rq->hwq);
+159fb4ceacd79b Devesh Sharma      2020-07-15  1171  sq_swq:
+159fb4ceacd79b Devesh Sharma      2020-07-15  1172  	kfree(sq->swq);
+1ac5a404797523 Selvin Xavier      2017-02-10  1173  fail_sq:
+0c4dcd60281750 Devesh Sharma      2020-02-15  1174  	bnxt_qplib_free_hwq(res, &sq->hwq);
+1ac5a404797523 Selvin Xavier      2017-02-10  1175  	return rc;
+1ac5a404797523 Selvin Xavier      2017-02-10  1176  }
+1ac5a404797523 Selvin Xavier      2017-02-10  1177  
+
+:::::: The code at line 1090 was first introduced by commit
+:::::: 9a381f7e5aa299de3500b8afa2237e5d1eab63fb RDMA/bnxt_re: Add extended statistics counters
+
+:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
