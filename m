@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5A11F8F05
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 11:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1C41FECC8
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 14:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732707854; cv=none; b=Tj+7VdKQlMNe1s9X9T1rsPHKwPlR/PQOdAARWDcxxi38Xg5TDpU3hVz8MaPRZe7Pp34jyeX5qSxpkkruO3Q4ebGNwpcdRJ0jCMzV2tn1dn+xgA8dYpe4nQJFBEZJm3Obvjc+7ZrbKYherIhtG7DTnelBzdgw6DbKLuh8tkfH1b0=
+	t=1732717034; cv=none; b=ljSctRZztPkvrjQAfJtnnhsUBVBYHax0Baaj++iOWI+0gNf7xv6xsYnipUIsYoFAocyhSN4BrwZMg+GfSfqd9oTQjjZsdZ1NcKlnbyAuZwmz/ettrBjF+ePHhrWKEhhQM/yJN40q0kZ7PK+dz3nJzR3v+EFq6/9iCKAARPFzXa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732707854; c=relaxed/simple;
-	bh=iA805rRgDVet93thEzxpaY53mp1vHed8V3HOUY3FQVc=;
+	s=arc-20240116; t=1732717034; c=relaxed/simple;
+	bh=m9UrxIft/EGnMt7KkwBSj9FS6Eo2OAcrbeOjaGtsjds=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cvl4ot/sbeTDRI0FCj1F56qdoBtpVJeEnD4V8w6hDeaepQF8g5+iJZAcEi/6+tiNYif4h0FiTWNUnRGXo1te4JV3VumkJEe4O2+Dw9dwhh2XGn0YaDqyXgeVlowU0vagk+hFC3565fkicjGe0d1QZPfwhFJL3CK+3EffJIgLZRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPfgEWHk; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=tNNBZy6djUWvu0RUdNxU5SWTlFYdgiunfs2Cx4EgzMK0OLwFupMXPePlzTNcw6YwkKUIMG5dcwycWmhPJXzoiANGUVZWb/MWJEo+letMoTjm2rT1lr8eBdgFEXGCZIthNN0o6XlST/SAbqy04qs2TK0rManc/p8FqmSFC0la/Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GqvKZ6Uf; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPfgEWHk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqvKZ6Uf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732707851; x=1764243851;
+  t=1732717032; x=1764253032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iA805rRgDVet93thEzxpaY53mp1vHed8V3HOUY3FQVc=;
-  b=EPfgEWHkVZtwGn7F6LnA+X3BFOonxZiUxx3hQQoFF0tXgbdoAgoal4zr
-   NHIlwGQpsGWC98Y8YNyz/qUYetofgekRtmq+ge+Y3f5FULqkWThS12ED0
-   9nQHnPh3KTL59jFqEWE5qhINDdvMWSaU7LDBfzLNDm9CpXd8BMpVLydG4
-   uuwZhxm/2arDwvHLVQSCMWS1v+7wEqlxTOTi5K77XbCQyCsvk3iDoYcG5
-   KB54c1CSi6XOi0wUV/bj1Y3PdFUn5u9l/+1N6vj9hwv9osSklHWWRzlRu
-   Lr+O71XK5JiEZDT0eyL78iFV6o3x5gITt5ezvaEfSjyaMFyeLGh27ASts
-   w==;
-X-CSE-ConnectionGUID: VYxh0XgOTBWNyF5ahHIgwA==
-X-CSE-MsgGUID: tC5YcC5rTAOcuuihiFDWdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="33157333"
+  bh=m9UrxIft/EGnMt7KkwBSj9FS6Eo2OAcrbeOjaGtsjds=;
+  b=GqvKZ6UfHGkxnQoY5B8151qJ0VfLNoAtZf2gzazHrSCx0jXb13vP5oIR
+   it7LfdIt2DRmJC+39oxP72XNwKq/Lus7t10LiatrK4vtEVJHhXC6m7HZx
+   EGMetHAalVup2FxOjX9MFnUkOBcRLUrhmWpXcRNKtYIJIkVhb1pZVLLd9
+   6N92Ku+l9d6B7Rls6+5kt/KaWPPb9tcs8+aZreM2iRpqhXe7v+a1Yc+SV
+   yZ83Pv9a1RgnoNls6swH2htLpbdqsL4mjxAW2xWH72ZGqBYyzemBmI6bl
+   SBaVrA34KNNXRVbpe3u7BcG/cJX+tTgV0pfdGa7AF2B+i1Dh4nQJdIqR7
+   A==;
+X-CSE-ConnectionGUID: qkpaGihtQXO1U0N8oLzTgw==
+X-CSE-MsgGUID: bJ7xmqwVSkqloUGvvEY9YQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="43985660"
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="33157333"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 03:44:11 -0800
-X-CSE-ConnectionGUID: VX+pvFWBQEOM+s4xVgyqGA==
-X-CSE-MsgGUID: kS0upW/vSHKyLg0ygA8fow==
+   d="scan'208";a="43985660"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 06:17:11 -0800
+X-CSE-ConnectionGUID: 367e6G6XRoSofqwQVF/Q/w==
+X-CSE-MsgGUID: 6m1cnGzeQWGc3PevgXKHdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="92082535"
+   d="scan'208";a="92355984"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Nov 2024 03:44:09 -0800
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 06:17:10 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGGSl-0007xL-0p;
-	Wed, 27 Nov 2024 11:44:07 +0000
-Date: Wed, 27 Nov 2024 19:43:25 +0800
+	id 1tGIqp-00082x-38;
+	Wed, 27 Nov 2024 14:17:07 +0000
+Date: Wed, 27 Nov 2024 22:16:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 4/5] arm64: dts: imx8mp: Add fsl,dsp-ctrl property for dsp
-Message-ID: <202411271923.7UEZYofH-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 7/187]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: iommus: [[95, 0],
+ [96, 1]] is too long
+Message-ID: <202411272225.2FN9b26N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,380 +69,163 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241120135859.3133984-5-daniel.baluta@nxp.com>
-References: <20241120135859.3133984-5-daniel.baluta@nxp.com>
-TO: Daniel Baluta <daniel.baluta@nxp.com>
-TO: shawnguo@kernel.org
-TO: s.hauer@pengutronix.de
-TO: kernel@pengutronix.de
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: festevam@gmail.com
-CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: frank.li@nxp.com
-CC: aisheng.dong@nxp.com
-CC: daniel.baluta@gmail.com
-CC: laurentiu.mihalcea@nxp.com
-CC: shengjiu.wang@nxp.com
-CC: iuliana.prodan@nxp.com
-CC: Daniel Baluta <daniel.baluta@nxp.com>
+TO: Janne Grunau <j@jannau.net>
+CC: Hector Martin <marcan@marcan.st>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.12-rc6]
-[also build test WARNING on linus/master next-20241126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Baluta/arm64-dts-imx8mp-Add-mu2-root-clock/20241121-132543
-base:   v6.12-rc6
-patch link:    https://lore.kernel.org/r/20241120135859.3133984-5-daniel.baluta%40nxp.com
-patch subject: [PATCH 4/5] arm64: dts: imx8mp: Add fsl,dsp-ctrl property for dsp
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-052-20241122 (https://download.01.org/0day-ci/archive/20241127/202411271923.7UEZYofH-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   fc5046b01c4d686a823d497cd4abeaae227b62db
+commit: 450732102c9d0ebf2bbff8f3fb10c9b15fae8cac [7/187] arm64: dts: apple: t8112: Add dwc3 nodes
+:::::: branch date: 8 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-051-20241118 (https://download.01.org/0day-ci/archive/20241127/202411272225.2FN9b26N-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271923.7UEZYofH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411272225.2FN9b26N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411271923.7UEZYofH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411272225.2FN9b26N-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: dsp@3b6e8000: memory-region: [[147]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@502280000: iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@502280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@502f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: wifi@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /sound: failed to match any schema with compatible: ['apple,j413-macaudio', 'apple,macaudio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: dsp@3b6e8000: memory-region: [[143]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@502280000: iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@502280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@502f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /sound: failed to match any schema with compatible: ['apple,j473-macaudio', 'apple,macaudio']
 --
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: dsp@3b6e8000: memory-region: [[118]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: dsp@3b6e8000: memory-region: [[117]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: dsp@3b6e8000: memory-region: [[151]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: dsp@3b6e8000: memory-region: [[155]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: dsp@3b6e8000: memory-region: [[139]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: dsp@3b6e8000: memory-region: [[101]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: dsp@3b6e8000: memory-region: [[139]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: dsp@3b6e8000: memory-region: [[108]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: dsp@3b6e8000: memory-region: [[127]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: dsp@3b6e8000: memory-region: [[123]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: dsp@3b6e8000: memory-region: [[125]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: dsp@3b6e8000: memory-region: [[126]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: dsp@3b6e8000: memory-region: [[155]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: dsp@3b6e8000: memory-region: [[104]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: dsp@3b6e8000: memory-region: [[119]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: dsp@3b6e8000: memory-region: [[126]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: dsp@3b6e8000: memory-region: [[128]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: dsp@3b6e8000: memory-region: [[121]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: dsp@3b6e8000: memory-region: [[163]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: dsp@3b6e8000: memory-region: [[159]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: dsp@3b6e8000: memory-region: [[158]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: dsp@3b6e8000: memory-region: [[157]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: dsp@3b6e8000: memory-region: [[168]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: dsp@3b6e8000: memory-region: [[164]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: dsp@3b6e8000: memory-region: [[163]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: dsp@3b6e8000: memory-region: [[162]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: dsp@3b6e8000: memory-region: [[127]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: dsp@3b6e8000: memory-region: [[139]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: dsp@3b6e8000: memory-region: [[152]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: clock-controller@30e20000: compatible: ['fsl,imx8mp-audio-blk-ctrl', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: pcie-ep@33800000: reg: [[864026624, 4194304], [402653184, 134217728]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: pcie-ep@33800000: reg-names: ['dbi', 'addr_space'] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: dsp@3b6e8000: memory-region: [[135]] is too short
-   	from schema $id: http://devicetree.org/schemas/dsp/fsl,dsp.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: iommus: [[95, 0], [96, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@382f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@502280000: iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@502280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f00000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@502f80000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@502f80000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: wifi@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /sound: failed to match any schema with compatible: ['apple,j493-macaudio', 'apple,macaudio']
 
 -- 
 0-DAY CI Kernel Test Service
