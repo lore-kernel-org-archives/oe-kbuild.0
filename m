@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49471188CC6
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 07:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17E41442E8
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 09:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732694362; cv=none; b=cUDH1acM4obmTcmvjruxW5srb19cSJIiSJ2qcZ76eMZTrKF0U0qkBK1gnWFHyVBnCE7zMyPlYibPumCYchgC/4yFjUHI70AyDhZudnBx7l6Ivhtr0O8m2upC+RZjFcN2/2/a+SdDw/ab+l2UkJaWwGTbEvhjhaIXeYAEAXsnjH4=
+	t=1732699266; cv=none; b=LNi69YJwNCnOJvAKJo2KGd0oI3uB9jD8kDydGTg8D25eN/OMed8gN59H1LB5URX9Df8M+2D6JAXoN9P2LKmWp/lFtqGt6BSroD/kN3aWlw/S1HYvGnJFHNlJZm/WlEYeqIplma4tW2J25AGE0kXEQolyGf748OhGQO76aH4CTIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732694362; c=relaxed/simple;
-	bh=+P+VIPHiollQZiILhnkZYT1c+D3GVg1JZYyQS0mP++I=;
+	s=arc-20240116; t=1732699266; c=relaxed/simple;
+	bh=ptcjbsdRuHBuWrtFXXRSO9VpZgNHnxoRgZZoXLAJiWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=seqox1QSKik5rcy6DIRDltrGNCiYq0XQ30RSOtTT5g8+ACouNEPz2wPanYzLNllF+KbGO2Fq94Sb4c97Wib6oOXMOfoYcJKOl2L6895ZVSMOR5Fdeh/KFmhna0U9qCGKJztPotC4YfNL0kfXVhyDFD7YBhJbjqfIsCHxm+3JvQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H41cPUgt; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=tEJ14hD3KBpakQWms9fhH22iOgZdxn97A737eX9E2HAJzFJHSvwAm2LEsmcDyGZN08r5Z0wzp+yUeDHhaDC5zvbH/SI86BO/OPUpuQGiBd52OlFiKkKHU7xnwpYae9VN4qMnLanW1mvwBw03tQ1/6VZg63MjuUXo81nh0M+dROE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRKTe8l3; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H41cPUgt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRKTe8l3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732694361; x=1764230361;
+  t=1732699263; x=1764235263;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+P+VIPHiollQZiILhnkZYT1c+D3GVg1JZYyQS0mP++I=;
-  b=H41cPUgtx0DvuI8TAfWje70azdrJLqlQdpB791goHpgzueUwnFk6owad
-   wUtiCfuNUrWPsAsFegPuaKhMXH2dh/OAiBW1bmpJ3Kj1neiBSgMVq/5et
-   +ZmXYSgZ0CmeQiO6zVoWT/GJZcxinW/NBIWedMLGi3tJ++NqqXCC9wdnE
-   UZuJbPCgVaNu6kp9w/RyAo2gZ2R7i6fxViPgv/MW5+X86otQlnqnol9DC
-   0LPPe0DNFkzhtLHM7EAZ/UZBtor9994YEmmOl6fd/o4CveR9B/UWXMPUN
-   h1xgly3LSGZn2qIvutT86TiHLduVdchNNNqWXpZEiIdkccunjl14MjMYI
+  bh=ptcjbsdRuHBuWrtFXXRSO9VpZgNHnxoRgZZoXLAJiWs=;
+  b=HRKTe8l3sufdmdwFVh0Im49bFwf+5Q01+AfQJ/GEk8t3QIzHYqVmURKc
+   3OVSCuEmaEh35DALYk7864NBN7YARYo6mqmav8As+ktsl14CewJJW5rm7
+   +V9oBcziCySykI6yQP1YZ/rnxYQrBd9nqkyWUkDetSYYOM8cWy92XgNuN
+   Z9laqcG1MI1OSd67RpQqW8srfmKXTyeIivpLFKGiOyqEG+/AcX9PGNnj9
+   R4fZEPBm4EJYUUGMUpj4GaRBSRi+u4shGifL5aRa0dX3TC8n79FYUQ39p
+   m9Aijl7PaaEVUMmmlpcljYzx1d7uEpVKu8MvhU5AJ3PIDsJrYfbD6cs3N
    A==;
-X-CSE-ConnectionGUID: Uyj8gqw3QQi1gZixetktTw==
-X-CSE-MsgGUID: n7y2gJbZT+mejBelYSu/kQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32628565"
+X-CSE-ConnectionGUID: MKCSl8OwQm6RRfmiguKYMA==
+X-CSE-MsgGUID: An08ubcASmCD9QqupQqDUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="33048157"
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="32628565"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 23:58:23 -0800
-X-CSE-ConnectionGUID: y0GwLnD+SxeJRyd6hZ9P9Q==
-X-CSE-MsgGUID: 74QeqRkXRui+5aMeuYXrhQ==
+   d="scan'208";a="33048157"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 01:21:02 -0800
+X-CSE-ConnectionGUID: QpUA87JjTdW1f27wPQh7Hw==
+X-CSE-MsgGUID: FvuvYdTTRkOe676FUKRmCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="92320723"
+   d="scan'208";a="95961628"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Nov 2024 23:58:20 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 27 Nov 2024 01:21:01 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGCwE-0007p1-0b;
-	Wed, 27 Nov 2024 07:58:18 +0000
-Date: Wed, 27 Nov 2024 15:57:28 +0800
+	id 1tGEEE-0007rv-2W;
+	Wed, 27 Nov 2024 09:20:58 +0000
+Date: Wed, 27 Nov 2024 17:20:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] ARM: dts: microchip: sama5d29_curiosity: Add
- no-1-8-v property to sdmmc0 node
-Message-ID: <202411271521.CwzIHnLE-lkp@intel.com>
+Subject: [jpoimboe:uaccess-hardening-2 2/5] arch/x86/coco/sev/core.c:475:25:
+ sparse: sparse: duplicate [noderef]
+Message-ID: <202411271726.dvFXgNky-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,70 +63,140 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check warning: arch/x86/coco/sev/core.c:475:25: sparse: sparse: duplicate [noderef]"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241119160107.598411-2-cristian.birsan@microchip.com>
-References: <20241119160107.598411-2-cristian.birsan@microchip.com>
-TO: cristian.birsan@microchip.com
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: nicolas.ferre@microchip.com
-TO: alexandre.belloni@bootlin.com
-TO: claudiu.beznea@tuxon.dev
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Cristian Birsan <cristian.birsan@microchip.com>
-CC: Mihai Sain <mihai.sain@microchip.com>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 158f238aa69d91ad74e535c73f552bd4b025109c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/cristian-birsan-microchip-com/ARM-dts-microchip-sama5d29_curiosity-Add-no-1-8-v-property-to-sdmmc0-node/20241121-134919
-base:   158f238aa69d91ad74e535c73f552bd4b025109c
-patch link:    https://lore.kernel.org/r/20241119160107.598411-2-cristian.birsan%40microchip.com
-patch subject: [PATCH 1/2] ARM: dts: microchip: sama5d29_curiosity: Add no-1-8-v property to sdmmc0 node
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-051-20241122 (https://download.01.org/0day-ci/archive/20241127/202411271521.CwzIHnLE-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271521.CwzIHnLE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git uaccess-hardening-2
+head:   fe61a94918d25569e09dcdbdd5c8f67b2736f540
+commit: f7a5c14629a56aae2519289cd41f892f5ee7615d [2/5] x86/sev: Remove off-label __get_user() usage
+:::::: branch date: 4 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-122-20241126 (https://download.01.org/0day-ci/archive/20241127/202411271726.dvFXgNky-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271726.dvFXgNky-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411271521.CwzIHnLE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411271726.dvFXgNky-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: ehci@500000: Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: /ahb/ebi@10000000: failed to match any schema with compatible: ['atmel,sama5d3-ebi']
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: nand-controller: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: nand-controller: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: /ahb/ebi@10000000/nand-controller: failed to match any schema with compatible: ['atmel,sama5d3-nand-controller']
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: sdio-host@a0000000: $nodename:0: 'sdio-host@a0000000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
->> arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: sdio-host@a0000000: Unevaluated properties are not allowed ('bus-width', 'disable-wp', 'no-1-8-v' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: sdio-host@b0000000: $nodename:0: 'sdio-host@b0000000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: sdio-host@b0000000: Unevaluated properties are not allowed ('bus-width', 'disable-wp' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/atmel,sama5d2-sdhci.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: hlcdc@f0000000: 'hlcdc-display-controller', 'hlcdc-pwm' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/atmel,hlcdc.yaml#
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: /ahb/apb/ramc@f000c000: failed to match any schema with compatible: ['atmel,sama5d3-ddramc']
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: /ahb/apb/dma-controller@f0010000: failed to match any schema with compatible: ['atmel,sama5d4-dma']
-   arch/arm/boot/dts/microchip/at91-sama5d29_curiosity.dtb: /ahb/apb/dma-controller@f0004000: failed to match any schema with compatible: ['atmel,sama5d4-dma']
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: duplicate [noderef]
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: multiple address spaces given: __user & __user
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: multiple address spaces given: __user & __user
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: multiple address spaces given: __user & __user
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: multiple address spaces given: __user & __user
+>> arch/x86/coco/sev/core.c:475:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:479:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:479:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:479:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:479:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:479:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:483:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:483:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:483:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:483:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:483:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:487:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:487:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:487:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:487:25: sparse: sparse: multiple address spaces given: __user & __user
+   arch/x86/coco/sev/core.c:487:25: sparse: sparse: multiple address spaces given: __user & __user
+
+vim +475 arch/x86/coco/sev/core.c
+
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  423  
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  424  static enum es_result vc_read_mem(struct es_em_ctxt *ctxt,
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  425  				  char *src, char *buf, size_t size)
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  426  {
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  427  	unsigned long error_code = X86_PF_PROT;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  428  
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  429  	/*
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  430  	 * NOTE: the 'src' pointer can be either user or kernel memory.
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  431  	 *
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  432  	 * This function runs in atomic context, so unsafe_get_user() is not
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  433  	 * allowed to sleep.  allowed to sleep. The page-fault handler detects
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  434  	 * that it is running in atomic context and will not try to take
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  435  	 * mmap_sem and handle the fault, so additional
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  436  	 * pagefault_enable()/disable() calls are not needed.
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  437  	 *
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  438  	 * The access can't be done via copy_from_user() here because
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  439  	 * vc_read_mem() must not use string instructions to access unsafe
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  440  	 * memory. The reason is that MOVS is emulated by the #VC handler by
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  441  	 * splitting the move up into a read and a write and taking a nested #VC
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  442  	 * exception on whatever of them is the MMIO access. Using string
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  443  	 * instructions here would cause infinite nesting.
+4954f5b8ef0baf arch/x86/kernel/sev.c    Joerg Roedel     2021-05-19  444  	 */
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  445  
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  446  	if (user_access_begin(src, size)) {
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  447  		switch (size) {
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  448  		case 1: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  449  			unsafe_get_user(*(u8 *)buf,  (u8 __user *)src,  user_fault);
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  450  			break;
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  451  		}
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  452  		case 2: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  453  			unsafe_get_user(*(u16 *)buf, (u16 __user *)src, user_fault);
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  454  			break;
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  455  		}
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  456  		case 4: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  457  			unsafe_get_user(*(u32 *)buf, (u32 __user *)src, user_fault);
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  458  			break;
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  459  		}
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  460  		case 8: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  461  			unsafe_get_user(*(u64 *)buf, (u64 __user *)src, user_fault);
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  462  			break;
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  463  		}
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  464  		default:
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  465  			user_access_end();
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  466  			WARN_ONCE(1, "%s: Invalid size: %zu\n", __func__, size);
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  467  			return ES_UNSUPPORTED;
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  468  		}
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  469  
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  470  		user_access_end();
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  471  	} else {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  472  
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  473  		switch (size) {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  474  		case 1: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23 @475  			__get_kernel_nofault((u8 *)buf,  (u8 __user *)src,  u8 __user, fault);
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  476  			break;
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  477  		}
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  478  		case 2: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  479  			__get_kernel_nofault((u16 *)buf, (u16 __user *)src, u16 __user, fault);
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  480  			break;
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  481  		}
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  482  		case 4: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  483  			__get_kernel_nofault((u32 *)buf, (u32 __user *)src, u32 __user, fault);
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  484  			break;
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  485  		}
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  486  		case 8: {
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  487  			__get_kernel_nofault((u64 *)buf, (u64 __user *)src, u64 __user, fault);
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  488  			break;
+1d5379d0475419 arch/x86/kernel/sev.c    Michael Sterritt 2021-11-19  489  		}
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  490  		default:
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  491  			WARN_ONCE(1, "%s: Invalid size: %zu\n", __func__, size);
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  492  			return ES_UNSUPPORTED;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  493  		}
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  494  	}
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  495  
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  496  	return ES_OK;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  497  
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  498  user_fault:
+f7a5c14629a56a arch/x86/coco/sev/core.c Josh Poimboeuf   2024-11-23  499  	user_access_end();
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  500  fault:
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  501  	if (user_mode(ctxt->regs))
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  502  		error_code |= X86_PF_USER;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  503  
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  504  	ctxt->fi.vector = X86_TRAP_PF;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  505  	ctxt->fi.error_code = error_code;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  506  	ctxt->fi.cr2 = (unsigned long)src;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  507  
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  508  	return ES_EXCEPTION;
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  509  }
+f980f9c31a923e arch/x86/kernel/sev-es.c Joerg Roedel     2020-09-07  510  
 
 -- 
 0-DAY CI Kernel Test Service
