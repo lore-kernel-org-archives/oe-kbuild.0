@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126E0433C8
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 23:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93191433C8
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Nov 2024 23:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732749450; cv=none; b=aqa0oE23h5R3TajMSLI5x+ln3kr/QkYJH6YmAm9MiYuYqMjT3G7SpPbWaGENBVVgj/vhbo/bfqfkT69zx7Bxh4WcYiCGA/AVNOeL93jnPGkY0cgKwdp3Fj/183YWDcFHr4g9FGLzVwhG6wbPwWVliiN81KqPGPot4asvraOgNuc=
+	t=1732750080; cv=none; b=kBvzFpbt4zRjb7g1qvXhDrttycaInhVCD7azZ9DR7IO1JKwOZat8/JPSXaeT/+C7X4FxgOyRWbwEvkrg34YCr6iErohrjjIucxba0nG1ojHnqX29RY6R0r+dU2+A70cJ+ramsZV0Gyn/YksGLA2kazLMqAeHmChIEbPrWy6VmcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732749450; c=relaxed/simple;
-	bh=3M9e8Q2HARxw7R4N40oIeYynrBX11JScX9/rOelsi18=;
+	s=arc-20240116; t=1732750080; c=relaxed/simple;
+	bh=TzDraNArx0k4aeYM/f4hMet0zl7l/DqSJoKgSVUemwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oQ0rg59Cgw86xZlOP/D33Kg756iVrn0RHK+uuNgtK76laLg5f/We3al9QltY/rNhfR5mFaxDEcapIS+qVj+mvpXCLY/kYxo8nKPAzjuePhtEbXN1iO/LxIn5t0n4NW+gO9T+ft0Y2dZSp66Fdx40oDm2kZrss9Qb9pb8TeG2MW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ULZ8np8r; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ICfTRNRQEKlo3IWT4FH6DLqYBiGM8l2sG9wbqdEMkYznp5O+mStFZAGwcrfgW9peicSZ7Wid2uLUOCjJA6rQDUoEvACumNJsPKTsckkBWhpWPN39tkdLlDLX1sVrDApI78R2qCM4Edtw49EV6q6/JoUubN7ARLGA/iaoJQ3R+n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJdI0H8d; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ULZ8np8r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJdI0H8d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732749448; x=1764285448;
+  t=1732750078; x=1764286078;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3M9e8Q2HARxw7R4N40oIeYynrBX11JScX9/rOelsi18=;
-  b=ULZ8np8rprzwaj35zIDusJdlRyeAoj1azm6huaGb0KHua5KjvoAt+xfE
-   93NilzKRG/XLtwH6FVp3cXVcfNjVY3cJRUK2ECRogmu0jHUKZFqRqMhcG
-   KUYm35KNLVs/I1sZFlPKB7pqXnh1wquoc+iZTdwRaxL0pLCW5W4MBprU1
-   I/wM+CUcbggppuByIEV7BL08eChHenfiwx+yWMDba8yXgWz0EMCWEVBJ7
-   9DI8gpoMp1SVXbCCrWbnxu+vYWSZojVLF4tEYhyzF4l+KokLejoT4ft2a
-   5gAWzoLLIiFQcddhN0pf9B+Iv9onjuPQTe5pErqZx8tM6CKoWI9EZMjCZ
-   w==;
-X-CSE-ConnectionGUID: QOeYaw0cQXmaX7LbczGUqQ==
-X-CSE-MsgGUID: MvxCa+dDTOG314FO8iR3qQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="43460653"
+  bh=TzDraNArx0k4aeYM/f4hMet0zl7l/DqSJoKgSVUemwg=;
+  b=RJdI0H8dx8YRzKu8lavXs++Euf/H2g7ksUhthTDSYnrjnKq2ofhr1qn9
+   53HfNH1kfHqmjKmfEn3gvqGZ3UhHESJgoZuNJmUASv+2EL+Ot4whERzHz
+   ZXpqIf4WJRWH9nSSW7go96RqAP+dfrZpWCQfExDED6MEbtz5vBo242ob7
+   E8ErDawXjAb5QtISiiW60A6VVVa6OPG6sRioRNeJQYDXuBLzrC148WhwX
+   6/rD4EK/w7k8ETZYWyraKVHr/NzolOm0Zr2ZAOl6xOd+RmGcarwryhISF
+   u12kCjx/LA52DLUyPRSW8Q2S/8Wo9BUKNohhEiFvAoC6c/Pl45sfqQHIO
+   A==;
+X-CSE-ConnectionGUID: 1X0NHW0lQ+O4QCiJnxC/HA==
+X-CSE-MsgGUID: WVz9DOHoTWiSGdudVAv8GQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="50496777"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="43460653"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 15:17:28 -0800
-X-CSE-ConnectionGUID: Si0AvSXkTnmQmKpI7jvcfA==
-X-CSE-MsgGUID: /c4uqjNaQBCBeVzc+teuww==
+   d="scan'208";a="50496777"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 15:27:57 -0800
+X-CSE-ConnectionGUID: 4OL29YMvRvWcOALS1jmwLA==
+X-CSE-MsgGUID: b7aq74dBTkKb+dX1xMQFxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="92001212"
+   d="scan'208";a="92165777"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Nov 2024 15:17:27 -0800
+  by orviesa006.jf.intel.com with ESMTP; 27 Nov 2024 15:27:56 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGRHg-0008R1-1i;
-	Wed, 27 Nov 2024 23:17:24 +0000
-Date: Thu, 28 Nov 2024 07:16:32 +0800
+	id 1tGRRp-0008RH-0S;
+	Wed, 27 Nov 2024 23:27:53 +0000
+Date: Thu, 28 Nov 2024 07:26:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: mt8186: Add mt8186-skitty
-Message-ID: <202411280729.WFy8IMCE-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 8/187]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to
+ match any schema with compatible: ['apple,t8112-mtp',
+ 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+Message-ID: <202411280756.OXwsP3Y9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,76 +70,122 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241121032619.16525-1-herbert1_wu@pegatron.corp-partner.google.com>
-References: <20241121032619.16525-1-herbert1_wu@pegatron.corp-partner.google.com>
-TO: Herbert Wu <herbert1_wu@pegatron.corp-partner.google.com>
-TO: linux-kernel@vger.kernel.org
-CC: geoffrey_chien@pegatron.corp-partner.google.com
-CC: hsinyi@chromium.org
-CC: shawnku@chromium.org
-CC: Herbert Wu <herbert1_wu@pegatron.corp-partner.google.com>
+TO: Janne Grunau <j@jannau.net>
 
-Hi Herbert,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.12 next-20241127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Wu/arm64-dts-mt8186-Add-mt8186-skitty/20241121-155513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241121032619.16525-1-herbert1_wu%40pegatron.corp-partner.google.com
-patch subject: [PATCH] arm64: dts: mt8186: Add mt8186-skitty
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm64-randconfig-052-20241122 (https://download.01.org/0day-ci/archive/20241128/202411280729.WFy8IMCE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   fc5046b01c4d686a823d497cd4abeaae227b62db
+commit: 7c4f2a54aace2162197cc102e8e6c2c5e5b5070e [8/187] arm64: dts: apple: t8112: Add mtp device nodes for j413/j493
+:::::: branch date: 8 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-051-20241118 (https://download.01.org/0day-ci/archive/20241128/202411280756.OXwsP3Y9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280729.WFy8IMCE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280756.OXwsP3Y9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411280729.WFy8IMCE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411280756.OXwsP3Y9-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,skitty', 'google,corsola', 'mediatek,mt8186'] is too long
-   	['google,skitty', 'google,corsola', 'mediatek,mt8186'] is too short
-   	'google,skitty' is not one of ['mediatek,mt2701-evb']
-   	'google,skitty' is not one of ['mediatek,mt2712-evb']
-   	'google,skitty' is not one of ['mediatek,mt6580-evbp1']
-   	'google,skitty' is not one of ['prestigio,pmt5008-3g']
-   	'google,skitty' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,skitty' is not one of ['mediatek,mt6592-evb']
-   	'google,skitty' is not one of ['mediatek,mt6755-evb']
-   	'google,skitty' is not one of ['mediatek,mt6765-evb']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: iommus: [[100, 0], [101, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
 --
-   	'mediatek,mt8395' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,kakadu' was expected
-   	'google,tentacruel-sku262145' was expected
-   	'google,tentacruel-sku262149' was expected
-   	'google,spherion-rev1' was expected
-   	'google,dojo-sku3' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /: failed to match any schema with compatible: ['google,skitty', 'google,corsola', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /: failed to match any schema with compatible: ['google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: dp-bridge@5c: 'extcon' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: iommus: [[99, 0], [100, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+--
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/smc@23e400000: failed to match any schema with compatible: ['apple,t8112-smc', 'apple,smc']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/mtp@24e400000: failed to match any schema with compatible: ['apple,t8112-mtp', 'apple,t8112-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@24e808000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/iommu@24e808000: failed to match any schema with compatible: ['apple,t8112-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000: failed to match any schema with compatible: ['apple,t8112-dockchannel', 'apple,dockchannel']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/fifo@24eb14000/input@8000: failed to match any schema with compatible: ['apple,dockchannel-hid']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: iommus: [[100, 0], [101, 1]] is too long
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: usb@382280000: Unevaluated properties are not allowed ('iommus' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8112-dwc3', 'apple,dwc3', 'snps,dwc3']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000: compatible:0: 'apple,t8112-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: iommu@382f00000: compatible: ['apple,t8112-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
