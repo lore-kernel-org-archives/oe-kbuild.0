@@ -1,184 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9EC70807
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 03:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7301386BF
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 05:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732766167; cv=none; b=IazGQ/5dg0tdYI5XHFiefcn6S78cYRa0hEivfcB7+rxS/KgNXIHTRgDjQkrssBsAYzmKY7WBGp4QV3fFoRNrPkVyR8LMXd/TXoPiZvpGhwkzeVeNd7e3wSUNg3F5VqdsQAIRFgbRF4dmmuKYa1BeIQc1p+2v2w+m/qRVhPFTHhE=
+	t=1732772354; cv=none; b=i7A1uZDc16N8YBDrF2sdlDs7tZ1OgvEH8ncz6xZeiyqchdRzh9ljH1YF4XcYgdZlmzehAYdAtfyZCtwJPMCBktAzouIdG8AkJjcgf98zi9e6u2GKYsS3RDinFTdlXdCXtFKGX2py3K9TIrEX6Lc9g53MLHgQwUp58HzJT7cYsQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732766167; c=relaxed/simple;
-	bh=Jn1ujHpSfbonzQFt4YE63DxKRO2E/b72XdUkE75j8G4=;
+	s=arc-20240116; t=1732772354; c=relaxed/simple;
+	bh=3EN+GgjI8KKZra6/JlRfjOpjG/USW8lzMq9JkxjU4+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EnFPtUTVGyQobZomzKfGF+tuIY78jnXXwZCAx+pJ0/1dkadt34o8qAeAhVOfy2I6ugqYaFSR+m0APKw7c4GcPsGKI5QMKAWD+biNvebjbpOHr5BrMbjw3mawdGQGnPS7RQ6nbFSEMw5gC3sry7VpOxRZQnFscdGhN4TEDEYpfrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qvbg7mvs; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=DmELGGcLN9FYP/fjZFTw08bxGjFmp27O9+P+m2+3akJ8eAFXI7PDW3yhiSUwl/SJ3ay9fMizunDnAKQDcf3dueYDE+gFg+lUF8AVp5WOWq1vJ2oWjKbtP62s8rSHOgpotwQLJdS9on8bSIi+BHfTCBcNbs47eBAPiwj/JrVuywA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiKbL73J; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qvbg7mvs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiKbL73J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732766165; x=1764302165;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jn1ujHpSfbonzQFt4YE63DxKRO2E/b72XdUkE75j8G4=;
-  b=Qvbg7mvsaaP67fip//kSJtS2jB9EbIhGz7SoqFjeJdYiyXHBciQZk9fM
-   xpV/8ar1YxBkNEkm2ljWshoqg7drHMyirlpYi6aKZ7+iP5fv7ZuAJDUBA
-   PwYmET1N6iv4uZfxIL0mNZzS7sGxI4p1XbFO1TTz7ibYdmTjfS1ev2DmQ
-   gCgym8URVdN6gc3ZneUgqo+BJVbAG5/zMBRHqfCcXfKEP8/0zjytmUwce
-   oW9Xoiq1z4sHjf4TeyUT/tU4Ahc/x168EIEmBohZGqPegtPU3XWu5aABt
-   +HaQiAMOwbgP3bxjc5xv081aSX1AMnVHeQ/cDF2rCb7HCBJsDuKOa/hZr
-   g==;
-X-CSE-ConnectionGUID: ElXX3kUqSbe0uyhCIabpsA==
-X-CSE-MsgGUID: ubbXjT3IRNu84c9wORE9pQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="43599640"
+  t=1732772352; x=1764308352;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3EN+GgjI8KKZra6/JlRfjOpjG/USW8lzMq9JkxjU4+c=;
+  b=BiKbL73J9liFRiXz5GdA4TxqbclKNHfqXcAYhGmO8721fGdzjyD5wmHW
+   GkREBf+UrNxQOBqT2DLe75xRvBpRYtJ6Gi1eXlyzTmtxWVYa5XALphNeO
+   IJUTwbemg+/OnRJGr2vgvsHf5LCBPcLqprTXZC2uet0W9E20mdIgXWPmI
+   TmRahAWSOqA2uhnfWm8RCoTXzhHBYr515lYshm2p32hIC1IaTAzhUY/z+
+   AT/Gp+Gbvm/FHxnqZbjC0yyz7lJT6e/MSjjAZcgNjBgOar3d2Aymycx/B
+   /sybi0tfI/6mnC+mkYnKBFNzLcMWUa9pupCpgSB3oMqs71KgmHueOp4ja
+   A==;
+X-CSE-ConnectionGUID: irVlG8oKQ46Mk9sY2jf+4A==
+X-CSE-MsgGUID: SKLyNJmVRCGjC+2kfQqt6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33045259"
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="43599640"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 19:56:04 -0800
-X-CSE-ConnectionGUID: yTNmP4sURZC82lwK1DFEhg==
-X-CSE-MsgGUID: yLho4vsSQ7yYyRQ/wcXlyg==
+   d="scan'208";a="33045259"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 21:39:12 -0800
+X-CSE-ConnectionGUID: +30JS8OnQGOOSoti5bnPgg==
+X-CSE-MsgGUID: Fr5TcyrkQMK5swYN3ezcgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="92958848"
+   d="scan'208";a="97222908"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2024 19:56:03 -0800
+  by orviesa004.jf.intel.com with ESMTP; 27 Nov 2024 21:39:10 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGVdI-0008wU-1R;
-	Thu, 28 Nov 2024 03:56:00 +0000
-Date: Thu, 28 Nov 2024 11:55:47 +0800
+	id 1tGXF6-00096p-0Q;
+	Thu, 28 Nov 2024 05:39:08 +0000
+Date: Thu, 28 Nov 2024 13:38:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2490/2490] drivers/net/macsec.c:2616
- macsec_upd_offload() warn: missing error code 'ret'
-Message-ID: <202411281126.4dLuT65j-lkp@intel.com>
+Subject: [linux-next:master 11908/12916] drivers/i2c/busses/i2c-xiic.c:932
+ xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg'
+ (see line 930)
+Message-ID: <202411281318.Ami4hwE8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: zhaoxiaoqiang11 <zhaoxiaoqiang11@jd.com>
+TO: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+CC: Andi Shyti <andi.shyti@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a0d38e859312d55415b596dc57d4ac3f260f49e4
-commit: a93d4233e0498373fef7fb7e4de42dd969f9c1b1 [2490/2490] net: macsec: fix net device access prior to holding a lock
-:::::: branch date: 2 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: x86_64-randconfig-161-20241127 (https://download.01.org/0day-ci/archive/20241128/202411281126.4dLuT65j-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f3d2b5299b0a8bcb8a9405a8d3fceb24f79c4f0
+commit: 8bba86687c0b6a22f05ed4a7398c519d3796bc74 [11908/12916] i2c: xiic: Add atomic transfer support
+:::::: branch date: 26 hours ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20241121 (https://download.01.org/0day-ci/archive/20241128/202411281318.Ami4hwE8-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411281126.4dLuT65j-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411281318.Ami4hwE8-lkp@intel.com/
 
 smatch warnings:
-drivers/net/macsec.c:2616 macsec_upd_offload() warn: missing error code 'ret'
+drivers/i2c/busses/i2c-xiic.c:932 xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg' (see line 930)
 
-vim +/ret +2616 drivers/net/macsec.c
+vim +932 drivers/i2c/busses/i2c-xiic.c
 
-dcb780fb279514 Antoine Tenart  2020-01-13  2576  
-dcb780fb279514 Antoine Tenart  2020-01-13  2577  static int macsec_upd_offload(struct sk_buff *skb, struct genl_info *info)
-dcb780fb279514 Antoine Tenart  2020-01-13  2578  {
-dcb780fb279514 Antoine Tenart  2020-01-13  2579  	struct nlattr *tb_offload[MACSEC_OFFLOAD_ATTR_MAX + 1];
-dcb780fb279514 Antoine Tenart  2020-01-13  2580  	enum macsec_offload offload, prev_offload;
-dcb780fb279514 Antoine Tenart  2020-01-13  2581  	int (*func)(struct macsec_context *ctx);
-dcb780fb279514 Antoine Tenart  2020-01-13  2582  	struct nlattr **attrs = info->attrs;
-a249f8050624f9 Dmitry Bogdanov 2020-03-25  2583  	struct net_device *dev;
-dcb780fb279514 Antoine Tenart  2020-01-13  2584  	const struct macsec_ops *ops;
-dcb780fb279514 Antoine Tenart  2020-01-13  2585  	struct macsec_context ctx;
-dcb780fb279514 Antoine Tenart  2020-01-13  2586  	struct macsec_dev *macsec;
-a93d4233e04983 Emeel Hakim     2022-12-11  2587  	int ret = 0;
-dcb780fb279514 Antoine Tenart  2020-01-13  2588  
-dcb780fb279514 Antoine Tenart  2020-01-13  2589  	if (!attrs[MACSEC_ATTR_IFINDEX])
-dcb780fb279514 Antoine Tenart  2020-01-13  2590  		return -EINVAL;
-dcb780fb279514 Antoine Tenart  2020-01-13  2591  
-dcb780fb279514 Antoine Tenart  2020-01-13  2592  	if (!attrs[MACSEC_ATTR_OFFLOAD])
-dcb780fb279514 Antoine Tenart  2020-01-13  2593  		return -EINVAL;
-dcb780fb279514 Antoine Tenart  2020-01-13  2594  
-dcb780fb279514 Antoine Tenart  2020-01-13  2595  	if (nla_parse_nested_deprecated(tb_offload, MACSEC_OFFLOAD_ATTR_MAX,
-dcb780fb279514 Antoine Tenart  2020-01-13  2596  					attrs[MACSEC_ATTR_OFFLOAD],
-dcb780fb279514 Antoine Tenart  2020-01-13  2597  					macsec_genl_offload_policy, NULL))
-dcb780fb279514 Antoine Tenart  2020-01-13  2598  		return -EINVAL;
-dcb780fb279514 Antoine Tenart  2020-01-13  2599  
-a93d4233e04983 Emeel Hakim     2022-12-11  2600  	rtnl_lock();
-a93d4233e04983 Emeel Hakim     2022-12-11  2601  
-dcb780fb279514 Antoine Tenart  2020-01-13  2602  	dev = get_dev_from_nl(genl_info_net(info), attrs);
-a93d4233e04983 Emeel Hakim     2022-12-11  2603  	if (IS_ERR(dev)) {
-a93d4233e04983 Emeel Hakim     2022-12-11  2604  		ret = PTR_ERR(dev);
-a93d4233e04983 Emeel Hakim     2022-12-11  2605  		goto out;
-a93d4233e04983 Emeel Hakim     2022-12-11  2606  	}
-dcb780fb279514 Antoine Tenart  2020-01-13  2607  	macsec = macsec_priv(dev);
-dcb780fb279514 Antoine Tenart  2020-01-13  2608  
-a93d4233e04983 Emeel Hakim     2022-12-11  2609  	if (!tb_offload[MACSEC_OFFLOAD_ATTR_TYPE]) {
-a93d4233e04983 Emeel Hakim     2022-12-11  2610  		ret = -EINVAL;
-a93d4233e04983 Emeel Hakim     2022-12-11  2611  		goto out;
-a93d4233e04983 Emeel Hakim     2022-12-11  2612  	}
-aa81700cf2326e Davide Caratti  2020-04-06  2613  
-dcb780fb279514 Antoine Tenart  2020-01-13  2614  	offload = nla_get_u8(tb_offload[MACSEC_OFFLOAD_ATTR_TYPE]);
-dcb780fb279514 Antoine Tenart  2020-01-13  2615  	if (macsec->offload == offload)
-a93d4233e04983 Emeel Hakim     2022-12-11 @2616  		goto out;
-dcb780fb279514 Antoine Tenart  2020-01-13  2617  
-dcb780fb279514 Antoine Tenart  2020-01-13  2618  	/* Check if the offloading mode is supported by the underlying layers */
-dcb780fb279514 Antoine Tenart  2020-01-13  2619  	if (offload != MACSEC_OFFLOAD_OFF &&
-a93d4233e04983 Emeel Hakim     2022-12-11  2620  	    !macsec_check_offload(offload, macsec)) {
-a93d4233e04983 Emeel Hakim     2022-12-11  2621  		ret = -EOPNOTSUPP;
-a93d4233e04983 Emeel Hakim     2022-12-11  2622  		goto out;
-a93d4233e04983 Emeel Hakim     2022-12-11  2623  	}
-dcb780fb279514 Antoine Tenart  2020-01-13  2624  
-dcb780fb279514 Antoine Tenart  2020-01-13  2625  	/* Check if the net device is busy. */
-a93d4233e04983 Emeel Hakim     2022-12-11  2626  	if (netif_running(dev)) {
-a93d4233e04983 Emeel Hakim     2022-12-11  2627  		ret = -EBUSY;
-a93d4233e04983 Emeel Hakim     2022-12-11  2628  		goto out;
-a93d4233e04983 Emeel Hakim     2022-12-11  2629  	}
-dcb780fb279514 Antoine Tenart  2020-01-13  2630  
-dcb780fb279514 Antoine Tenart  2020-01-13  2631  	prev_offload = macsec->offload;
-dcb780fb279514 Antoine Tenart  2020-01-13  2632  	macsec->offload = offload;
-dcb780fb279514 Antoine Tenart  2020-01-13  2633  
-dcb780fb279514 Antoine Tenart  2020-01-13  2634  	/* Check if the device already has rules configured: we do not support
-dcb780fb279514 Antoine Tenart  2020-01-13  2635  	 * rules migration.
-dcb780fb279514 Antoine Tenart  2020-01-13  2636  	 */
-dcb780fb279514 Antoine Tenart  2020-01-13  2637  	if (macsec_is_configured(macsec)) {
-dcb780fb279514 Antoine Tenart  2020-01-13  2638  		ret = -EBUSY;
-dcb780fb279514 Antoine Tenart  2020-01-13  2639  		goto rollback;
-dcb780fb279514 Antoine Tenart  2020-01-13  2640  	}
-dcb780fb279514 Antoine Tenart  2020-01-13  2641  
-dcb780fb279514 Antoine Tenart  2020-01-13  2642  	ops = __macsec_get_ops(offload == MACSEC_OFFLOAD_OFF ? prev_offload : offload,
-dcb780fb279514 Antoine Tenart  2020-01-13  2643  			       macsec, &ctx);
-dcb780fb279514 Antoine Tenart  2020-01-13  2644  	if (!ops) {
-dcb780fb279514 Antoine Tenart  2020-01-13  2645  		ret = -EOPNOTSUPP;
-dcb780fb279514 Antoine Tenart  2020-01-13  2646  		goto rollback;
-dcb780fb279514 Antoine Tenart  2020-01-13  2647  	}
-dcb780fb279514 Antoine Tenart  2020-01-13  2648  
-dcb780fb279514 Antoine Tenart  2020-01-13  2649  	if (prev_offload == MACSEC_OFFLOAD_OFF)
-dcb780fb279514 Antoine Tenart  2020-01-13  2650  		func = ops->mdo_add_secy;
-dcb780fb279514 Antoine Tenart  2020-01-13  2651  	else
-dcb780fb279514 Antoine Tenart  2020-01-13  2652  		func = ops->mdo_del_secy;
-dcb780fb279514 Antoine Tenart  2020-01-13  2653  
-dcb780fb279514 Antoine Tenart  2020-01-13  2654  	ctx.secy = &macsec->secy;
-dcb780fb279514 Antoine Tenart  2020-01-13  2655  	ret = macsec_offload(func, &ctx);
-dcb780fb279514 Antoine Tenart  2020-01-13  2656  	if (ret)
-dcb780fb279514 Antoine Tenart  2020-01-13  2657  		goto rollback;
-dcb780fb279514 Antoine Tenart  2020-01-13  2658  
-29ca3cdfe13b27 Antoine Tenart  2020-05-06  2659  	rtnl_unlock();
-dcb780fb279514 Antoine Tenart  2020-01-13  2660  	return 0;
-dcb780fb279514 Antoine Tenart  2020-01-13  2661  
-dcb780fb279514 Antoine Tenart  2020-01-13  2662  rollback:
-dcb780fb279514 Antoine Tenart  2020-01-13  2663  	macsec->offload = prev_offload;
-a93d4233e04983 Emeel Hakim     2022-12-11  2664  out:
-dcb780fb279514 Antoine Tenart  2020-01-13  2665  	rtnl_unlock();
-dcb780fb279514 Antoine Tenart  2020-01-13  2666  	return ret;
-dcb780fb279514 Antoine Tenart  2020-01-13  2667  }
-dcb780fb279514 Antoine Tenart  2020-01-13  2668  
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  927  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  928  static void xiic_recv_atomic(struct xiic_i2c *i2c)
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  929  {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @930  	while (xiic_rx_space(i2c)) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  931  		if (xiic_getreg32(i2c, XIIC_IISR_OFFSET) & XIIC_INTR_RX_FULL_MASK) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @932  			if (!i2c->rx_msg) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  933  				xiic_clear_rx_fifo(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  934  				break;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  935  			}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  936  			xiic_read_rx(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  937  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  938  			/* Clear Rx full and Tx error interrupts. */
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  939  			xiic_irq_clr_en(i2c, XIIC_INTR_RX_FULL_MASK |
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  940  					XIIC_INTR_TX_ERROR_MASK);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  941  		}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  942  		if (xiic_error_check(i2c))
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  943  			return;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  944  	}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  945  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  946  	i2c->rx_msg = NULL;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  947  	xiic_irq_clr_en(i2c, XIIC_INTR_TX_ERROR_MASK);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  948  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  949  	/* send next message if this wasn't the last. */
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  950  	if (i2c->nmsgs > 1) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  951  		i2c->nmsgs--;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  952  		i2c->tx_msg++;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  953  		__xiic_start_xfer(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  954  	}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  955  }
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  956  
 
 -- 
 0-DAY CI Kernel Test Service
