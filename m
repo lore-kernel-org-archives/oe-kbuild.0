@@ -1,124 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7301386BF
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 05:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9891494B5
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 08:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732772354; cv=none; b=i7A1uZDc16N8YBDrF2sdlDs7tZ1OgvEH8ncz6xZeiyqchdRzh9ljH1YF4XcYgdZlmzehAYdAtfyZCtwJPMCBktAzouIdG8AkJjcgf98zi9e6u2GKYsS3RDinFTdlXdCXtFKGX2py3K9TIrEX6Lc9g53MLHgQwUp58HzJT7cYsQw=
+	t=1732782796; cv=none; b=h6xg1REsyE548njgeM3BwQKOT7y2cVc7+mzpVYF1R9/TacO7zOGK1DXKaaXjiBEuJicp/yLZe9YYFzemvaUgsaqRAFa9v+ia/RSyNVYCY03hOuOqAR+XckU+TnhhMBTolPJH5Gui80Y5mMFFoVXACIJ2jnWSQCZBpYHKi3QA5Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732772354; c=relaxed/simple;
-	bh=3EN+GgjI8KKZra6/JlRfjOpjG/USW8lzMq9JkxjU4+c=;
+	s=arc-20240116; t=1732782796; c=relaxed/simple;
+	bh=9/VuygAsm7WvzQXD4AMrcIC09H1HvbYZ2NO3ldGbwJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DmELGGcLN9FYP/fjZFTw08bxGjFmp27O9+P+m2+3akJ8eAFXI7PDW3yhiSUwl/SJ3ay9fMizunDnAKQDcf3dueYDE+gFg+lUF8AVp5WOWq1vJ2oWjKbtP62s8rSHOgpotwQLJdS9on8bSIi+BHfTCBcNbs47eBAPiwj/JrVuywA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiKbL73J; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=KOmM/r7sjM94V8UofXrDQ3bs0xMVQjdiZb0Tiim32PrGHGrFLVOQLHWZ3sfsDRKe5mq9+P49he1AKtV+ZNUo1EtUc4kxqqe7mAOLZWuzUDHGEtiF2sCZNdQBS9c0RVrq0CHPyMS1FThPHaiXBc2K5A/IH5q+5qxo4uldFpNIdqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+qhPlb4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiKbL73J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+qhPlb4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732772352; x=1764308352;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3EN+GgjI8KKZra6/JlRfjOpjG/USW8lzMq9JkxjU4+c=;
-  b=BiKbL73J9liFRiXz5GdA4TxqbclKNHfqXcAYhGmO8721fGdzjyD5wmHW
-   GkREBf+UrNxQOBqT2DLe75xRvBpRYtJ6Gi1eXlyzTmtxWVYa5XALphNeO
-   IJUTwbemg+/OnRJGr2vgvsHf5LCBPcLqprTXZC2uet0W9E20mdIgXWPmI
-   TmRahAWSOqA2uhnfWm8RCoTXzhHBYr515lYshm2p32hIC1IaTAzhUY/z+
-   AT/Gp+Gbvm/FHxnqZbjC0yyz7lJT6e/MSjjAZcgNjBgOar3d2Aymycx/B
-   /sybi0tfI/6mnC+mkYnKBFNzLcMWUa9pupCpgSB3oMqs71KgmHueOp4ja
-   A==;
-X-CSE-ConnectionGUID: irVlG8oKQ46Mk9sY2jf+4A==
-X-CSE-MsgGUID: SKLyNJmVRCGjC+2kfQqt6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33045259"
+  t=1732782795; x=1764318795;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9/VuygAsm7WvzQXD4AMrcIC09H1HvbYZ2NO3ldGbwJM=;
+  b=g+qhPlb4qhMvkryerMjVVjnaSpZ6NQrZonV97gYSwTUuBh5wee1XhSQH
+   qQc9a6TADsv6PXQsxZSgmQIRm0jeft99i9BhKu5oN7bZuaRPW1Dx9b8BM
+   fCSEkHpIH32he2/y/rlvaUSzztrs/rYFt/breQ5KG1KRatXNa7kpdTcqo
+   06uRj+p8q9BcljGGuPxXY55SzU7asyv10iMd3gtLYoC15nJcz1GdbP9JU
+   jQeHAHczG1bWzwskWkKruMhKojvj3KndmB3swjh3bhpU2hTh2Q+zVjbKI
+   7bEV6HcESJOS14nx3T0zyHwG3JFEbFh6so6dpmxx2djTC33dJFePvNTOm
+   Q==;
+X-CSE-ConnectionGUID: YS/if0elQ42z+mWZ5Nh1zA==
+X-CSE-MsgGUID: 6jmj3OTHRM6D5t93VeC9xQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="36791974"
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="33045259"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 21:39:12 -0800
-X-CSE-ConnectionGUID: +30JS8OnQGOOSoti5bnPgg==
-X-CSE-MsgGUID: Fr5TcyrkQMK5swYN3ezcgQ==
+   d="scan'208";a="36791974"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 00:33:15 -0800
+X-CSE-ConnectionGUID: urJXzze8RPmx+WJfb3o8Hw==
+X-CSE-MsgGUID: SEq6GJF1Rqud5ZxglBG9SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="97222908"
+   d="scan'208";a="96606575"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Nov 2024 21:39:10 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 28 Nov 2024 00:33:13 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGXF6-00096p-0Q;
-	Thu, 28 Nov 2024 05:39:08 +0000
-Date: Thu, 28 Nov 2024 13:38:20 +0800
+	id 1tGZxW-0009Ll-1O;
+	Thu, 28 Nov 2024 08:33:10 +0000
+Date: Thu, 28 Nov 2024 16:32:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 11908/12916] drivers/i2c/busses/i2c-xiic.c:932
- xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg'
- (see line 930)
-Message-ID: <202411281318.Ami4hwE8-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op
+ == REQ_OP_WRITE)
+Message-ID: <202411281626.NpBKMKT8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-CC: Andi Shyti <andi.shyti@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6f3d2b5299b0a8bcb8a9405a8d3fceb24f79c4f0
-commit: 8bba86687c0b6a22f05ed4a7398c519d3796bc74 [11908/12916] i2c: xiic: Add atomic transfer support
-:::::: branch date: 26 hours ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-141-20241121 (https://download.01.org/0day-ci/archive/20241128/202411281318.Ami4hwE8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b86545e02e8c22fb89218f29d381fa8e8b91d815
+commit: 6ad5b3255b9e3d6d94154738aacd5119bf9c8f6e xfs: use bios directly to read and write the log recovery buffers
+date:   5 years ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 5 years ago
+config: x86_64-randconfig-104-20241115 (https://download.01.org/0day-ci/archive/20241128/202411281626.NpBKMKT8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411281318.Ami4hwE8-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411281626.NpBKMKT8-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-xiic.c:932 xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg' (see line 930)
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op == REQ_OP_WRITE)
 
-vim +932 drivers/i2c/busses/i2c-xiic.c
+vim +173 fs/xfs/xfs_log_recover.c
 
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  927  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  928  static void xiic_recv_atomic(struct xiic_i2c *i2c)
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  929  {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @930  	while (xiic_rx_space(i2c)) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  931  		if (xiic_getreg32(i2c, XIIC_IISR_OFFSET) & XIIC_INTR_RX_FULL_MASK) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @932  			if (!i2c->rx_msg) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  933  				xiic_clear_rx_fifo(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  934  				break;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  935  			}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  936  			xiic_read_rx(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  937  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  938  			/* Clear Rx full and Tx error interrupts. */
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  939  			xiic_irq_clr_en(i2c, XIIC_INTR_RX_FULL_MASK |
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  940  					XIIC_INTR_TX_ERROR_MASK);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  941  		}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  942  		if (xiic_error_check(i2c))
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  943  			return;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  944  	}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  945  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  946  	i2c->rx_msg = NULL;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  947  	xiic_irq_clr_en(i2c, XIIC_INTR_TX_ERROR_MASK);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  948  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  949  	/* send next message if this wasn't the last. */
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  950  	if (i2c->nmsgs > 1) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  951  		i2c->nmsgs--;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  952  		i2c->tx_msg++;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  953  		__xiic_start_xfer(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  954  	}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  955  }
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  956  
+076e6acb8f0d95 Christoph Hellwig 2009-03-16  145  
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  146  static int
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  147  xlog_do_io(
+9a8d2fdbb47aaa Mark Tinguely     2012-06-14  148  	struct xlog		*log,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  149  	xfs_daddr_t		blk_no,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  150  	unsigned int		nbblks,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  151  	char			*data,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  152  	unsigned int		op)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  153  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  154  	int			error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  155  
+99c265950b55f1 Brian Foster      2017-10-26  156  	if (!xlog_verify_bp(log, blk_no, nbblks)) {
+99c265950b55f1 Brian Foster      2017-10-26  157  		xfs_warn(log->l_mp,
+99c265950b55f1 Brian Foster      2017-10-26  158  			 "Invalid log block/length (0x%llx, 0x%x) for buffer",
+99c265950b55f1 Brian Foster      2017-10-26  159  			 blk_no, nbblks);
+ff30a6221d95b6 Alex Elder        2010-04-13  160  		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_HIGH, log->l_mp);
+2451337dd04390 Dave Chinner      2014-06-25  161  		return -EFSCORRUPTED;
+3228149ceb8b04 Dave Chinner      2009-01-22  162  	}
+3228149ceb8b04 Dave Chinner      2009-01-22  163  
+69ce58f08a3c45 Alex Elder        2010-04-20  164  	blk_no = round_down(blk_no, log->l_sectBBsize);
+69ce58f08a3c45 Alex Elder        2010-04-20  165  	nbblks = round_up(nbblks, log->l_sectBBsize);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  166  	ASSERT(nbblks > 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  167  
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  168  	error = xfs_rw_bdev(log->l_targ->bt_bdev, log->l_logBBstart + blk_no,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  169  			BBTOB(nbblks), data, op);
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  170  	if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  171  		xfs_alert(log->l_mp,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  172  			  "log recovery %s I/O error at daddr 0x%llx len %d error %d",
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28 @173  			  op == REQ_OP_WRITE ? "write" : "read",
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  174  			  blk_no, nbblks, error);
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  175  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  176  	return error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  177  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  178  
 
 -- 
 0-DAY CI Kernel Test Service
