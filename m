@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42288537F8
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 18:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5811525763
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 18:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732818249; cv=none; b=hWlAECtqo44sDkuYG4KLXLnTU/JHMYlzYRwJa42KfJYWjl1tBI4sZ+SblqoFEjQweZRb7+hWWXaIwiGCvddh6UB8w0utQhjuoybUVNX4nruVTWFXiW0eU9y33ZmtcKdNfIXpGUnlLh5AYNMyudQnqZNFVi/74mVeCCGGO+FsvgE=
+	t=1732818850; cv=none; b=nBRVQ4xmSRPiNa6tb72XFZchL6gzX+VJJEZxtQhF3dWX8jSwIJ9D7t8ToEGBecWIjt4SypBYpd3OnRUV6tTQxuMLRtUMtGVt/O6oRsvibtVMvVLZA6x83R8siTW6H+4OeYhi/wiJiQO/mngy/tJ8B4jV6k1svYjrTSeHtXYqdtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732818249; c=relaxed/simple;
-	bh=6iHgjt1dp94ZKJAyffuQ2Jq5uVyyH2hghodpb+A0KMo=;
+	s=arc-20240116; t=1732818850; c=relaxed/simple;
+	bh=PYws/dZwqZdNWwQB/QxEs2UHgXiJYngQqlHH5OHITwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cCsWOf9evZMfOV6I2GciaWng6EsIaFbd4a1XiFeOpFbUpPSur5eg/kMqhbQs+2CxQTsDTS7WIqSN60dJs0UChJ3W9puPduhZo0RGiUSSNSuvyaOLHgx1WsCZmDgqqL4tEai3zFCTp+9MZSn1eGTHyOx/WOrZipwPBUPb4Lv1Eyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIkjxB4+; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=FqkElh4a7EqjtbqFk1YhnzSSHFl2Xd7wTtPkGgSkTp9pqrRWHdWo/FNXxB/l/Sle5748b1+EPyyx28txG2vo0KBhC3DXSihCmuSFQz9q4lMSBFPf8VzMNCCHcrGoCOwsa2gmuAYxruyUuu97eBzfUAlce+jL+UZ7nRkDQQ+27Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7nqrgXh; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIkjxB4+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7nqrgXh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732818248; x=1764354248;
+  t=1732818848; x=1764354848;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6iHgjt1dp94ZKJAyffuQ2Jq5uVyyH2hghodpb+A0KMo=;
-  b=PIkjxB4+BsttrsK+paCIN3me1Ltzw6SF5g8GI65h/HbKkHwId6yxYgTg
-   xrgJiTgsNvahGlJbivuX0wBwTlB4HDKMQZPgjmQJoczURVvfk71cZzCqU
-   l0HQHxi1vbzQnTRu00bTvKnyZShlL5T7l4JEXzl1gdlrnGYHeWLCrgtJO
-   9e2lVpa7CNjmuKKIi7L1SAwlnKIpcGSSQO2AhqCgApKFcbOn40ePHTmRU
-   tAmPSf8Vi7KgunQ05easBCiGQqhs2CxLFrsaWko3/+MZsdxwWYIcUY2Im
-   eeYn0lxJtFCk0vjfN7fWMZr9lwh5ZP12CVahT0NUXVGCqRxi6tLXOYuah
+  bh=PYws/dZwqZdNWwQB/QxEs2UHgXiJYngQqlHH5OHITwM=;
+  b=n7nqrgXhTCgfZmp+9yuGFBmAFu3a96HKwdk0SVeYNyQv1At05NGr19w3
+   q4ctme4dvKeyS1yoUrEZ+uYh5SrP1rWcYS91Bo8YmW+IWmU1XcHgBlteF
+   r48UGXve63adEaj1wlF9l2L+FQ16AIs4ko3SJNOuYvzCd+3bY69Ttse2N
+   od3UJw06gH8Yu26MvSk3oIyDRNuRRsQZpAwNGDSbqqwxy3NlnkU1g4Pp3
+   k28kowLU6XOPLjftaucWHtLAmFkr7V/xd8D2dGLMaEYcAoxH1VW8kKYrR
+   y9ChEaU4a3SiTpZVu+wuX6/9rYexZEOv/5idqCbtiI2M+q4+psJAFqXxz
    g==;
-X-CSE-ConnectionGUID: 96DrEtd3RUmjr3eBX7UJaw==
-X-CSE-MsgGUID: QWhbBXGkQNuf4bUWVrHiEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="43548837"
+X-CSE-ConnectionGUID: kmgewHYVQYm0TFSESmPFPA==
+X-CSE-MsgGUID: n7HGnPs7QyqLX+rIEyq+Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32426582"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="43548837"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 10:24:07 -0800
-X-CSE-ConnectionGUID: 5UMFzF1bQBiJcVd5YoMD7A==
-X-CSE-MsgGUID: z8zu5tfZTF2OhdzLNGSlGw==
+   d="scan'208";a="32426582"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 10:34:07 -0800
+X-CSE-ConnectionGUID: 0TsDkzHuT+Kr/y0Kgea73Q==
+X-CSE-MsgGUID: i8W4HP4sQ3+8t2tBqI6lGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="97060610"
+   d="scan'208";a="92762721"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Nov 2024 10:24:06 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 28 Nov 2024 10:34:06 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGjBL-0009uB-0f;
-	Thu, 28 Nov 2024 18:24:03 +0000
-Date: Fri, 29 Nov 2024 02:23:27 +0800
+	id 1tGjL2-0009uT-1J;
+	Thu, 28 Nov 2024 18:34:04 +0000
+Date: Fri, 29 Nov 2024 02:33:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 11/11] ARM: dts: socfpga: add Enclustra SoM dts files
-Message-ID: <202411290213.VOpZ6JU1-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/phy/phylink.c:1800:49-51: opportunity for str_up_down(up)
+Message-ID: <202411290222.b0BTiQYr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,103 +61,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241116131025.114542-12-l.rubusch@gmail.com>
-References: <20241116131025.114542-12-l.rubusch@gmail.com>
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: dinguyen@kernel.org
-CC: marex@denx.de
-CC: s.trumtrar@pengutronix.de
-CC: l.rubusch@gmail.com
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: Serge Semin <fancer.lancer@gmail.com>
 
-Hi Lothar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.12-rc7]
-[also build test WARNING on linus/master next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/ARM-dts-socfpga-add-Enclustra-boot-mode-dtsi/20241121-092540
-base:   v6.12-rc7
-patch link:    https://lore.kernel.org/r/20241116131025.114542-12-l.rubusch%40gmail.com
-patch subject: [PATCH v5 11/11] ARM: dts: socfpga: add Enclustra SoM dts files
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: arm-randconfig-001-20241121 (https://download.01.org/0day-ci/archive/20241129/202411290213.VOpZ6JU1-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290213.VOpZ6JU1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b86545e02e8c22fb89218f29d381fa8e8b91d815
+commit: f6bb3e9d98c2e8d70587d5ddaf9426ef30d7865c net: pcs: xpcs: Add Synopsys DW xPCS platform device driver
+date:   5 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-051-20241120 (https://download.01.org/0day-ci/archive/20241129/202411290222.b0BTiQYr-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411290213.VOpZ6JU1-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411290222.b0BTiQYr-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa1.dtsi:35.9-39.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa2.dtsi:35.9-39.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/phy/phylink.c:1800:49-51: opportunity for str_up_down(up)
+   drivers/net/phy/phylink.c:2121:39-41: opportunity for str_up_down(up)
 
-vim +35 arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mercury_sa1.dtsi
+vim +1800 drivers/net/phy/phylink.c
 
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   7  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   8  / {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16   9  	model = "Enclustra Mercury SA1";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  10  	compatible = "altr,socfpga-cyclone5", "altr,socfpga";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  11  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  12  	chosen {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  13  		stdout-path = "serial0:115200n8";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  14  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  15  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  16  	aliases {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  17  		ethernet0 = &gmac1;
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  18  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  19  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  20  	/* Adjusted the i2c labels to use generic base-board dtsi files for
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  21  	 * Enclustra Arria10 and Cyclone5 SoMs.
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  22  	 *
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  23  	 * The set of i2c0 and i2c1 labels defined in socfpga_cyclone5.dtsi and in
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  24  	 * socfpga_arria10.dtsi do not allow for using the same base-board .dtsi
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  25  	 * fragments. Thus define generic labels here to match the correct i2c
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  26  	 * bus in a generic base-board .dtsi file.
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  27  	 */
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  28  	soc {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  29  		i2c_encl: i2c@ffc04000 {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  30  		};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  31  		i2c_encl_fpga: i2c@ffc05000 {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  32  		};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  33  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  34  
-9e43c1044b96b9 Lothar Rubusch 2024-11-16 @35  	memory {
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  36  		name = "memory";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  37  		device_type = "memory";
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  38  		reg = <0x0 0x40000000>; /* 1GB */
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  39  	};
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  40  };
-9e43c1044b96b9 Lothar Rubusch 2024-11-16  41  
+653a180957a85c Michael Sit Wei Hong  2023-03-30  1777  
+a307593a644443 Doug Berger           2020-05-18  1778  static void phylink_phy_change(struct phy_device *phydev, bool up)
+9525ae83959b60 Russell King          2017-07-25  1779  {
+9525ae83959b60 Russell King          2017-07-25  1780  	struct phylink *pl = phydev->phylink;
+33faac8e03ac24 Russell King          2020-02-15  1781  	bool tx_pause, rx_pause;
+33faac8e03ac24 Russell King          2020-02-15  1782  
+33faac8e03ac24 Russell King          2020-02-15  1783  	phy_get_pause(phydev, &tx_pause, &rx_pause);
+9525ae83959b60 Russell King          2017-07-25  1784  
+9525ae83959b60 Russell King          2017-07-25  1785  	mutex_lock(&pl->state_mutex);
+9525ae83959b60 Russell King          2017-07-25  1786  	pl->phy_state.speed = phydev->speed;
+9525ae83959b60 Russell King          2017-07-25  1787  	pl->phy_state.duplex = phydev->duplex;
+ae0e4bb2a0e0e4 Sean Anderson         2022-09-20  1788  	pl->phy_state.rate_matching = phydev->rate_matching;
+9525ae83959b60 Russell King          2017-07-25  1789  	pl->phy_state.pause = MLO_PAUSE_NONE;
+33faac8e03ac24 Russell King          2020-02-15  1790  	if (tx_pause)
+33faac8e03ac24 Russell King          2020-02-15  1791  		pl->phy_state.pause |= MLO_PAUSE_TX;
+33faac8e03ac24 Russell King          2020-02-15  1792  	if (rx_pause)
+33faac8e03ac24 Russell King          2020-02-15  1793  		pl->phy_state.pause |= MLO_PAUSE_RX;
+9525ae83959b60 Russell King          2017-07-25  1794  	pl->phy_state.interface = phydev->interface;
+9525ae83959b60 Russell King          2017-07-25  1795  	pl->phy_state.link = up;
+9525ae83959b60 Russell King          2017-07-25  1796  	mutex_unlock(&pl->state_mutex);
+9525ae83959b60 Russell King          2017-07-25  1797  
+9525ae83959b60 Russell King          2017-07-25  1798  	phylink_run_resolve(pl);
+9525ae83959b60 Russell King          2017-07-25  1799  
+ae0e4bb2a0e0e4 Sean Anderson         2022-09-20 @1800  	phylink_dbg(pl, "phy link %s %s/%s/%s/%s/%s\n", up ? "up" : "down",
+9525ae83959b60 Russell King          2017-07-25  1801  		    phy_modes(phydev->interface),
+9525ae83959b60 Russell King          2017-07-25  1802  		    phy_speed_to_str(phydev->speed),
+d34869b44a174b Russell King (Oracle  2021-07-20  1803) 		    phy_duplex_to_str(phydev->duplex),
+ae0e4bb2a0e0e4 Sean Anderson         2022-09-20  1804  		    phy_rate_matching_to_str(phydev->rate_matching),
+d34869b44a174b Russell King (Oracle  2021-07-20  1805) 		    phylink_pause_to_str(pl->phy_state.pause));
+9525ae83959b60 Russell King          2017-07-25  1806  }
+9525ae83959b60 Russell King          2017-07-25  1807  
+
+:::::: The code at line 1800 was first introduced by commit
+:::::: ae0e4bb2a0e0e434e9f98fb4994093ec2ee71997 net: phylink: Adjust link settings based on rate matching
+
+:::::: TO: Sean Anderson <sean.anderson@seco.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
