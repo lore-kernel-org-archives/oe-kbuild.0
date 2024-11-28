@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A726A10F4
-	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 00:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D84284A5E
+	for <oe-kbuild@lists.linux.dev>; Thu, 28 Nov 2024 03:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732752678; cv=none; b=Ba7X0iyDS9mWaLaTTDMT0vHMX9+XVPNNHpLbCBRm3N0ul8h7Y3E398bEzKYzIfTeLVRG77rCl8RteRifX4H0162gSH19qoqGcZfXEiWzkmSMwyj7hlKmJvphGQ6nuqVs/QNPTueKNuU1ol2FJw/a1rKtrsXlL37eekqx/4Gq8kg=
+	t=1732763697; cv=none; b=WO770wNiO/NopArXIqIdMkRxP4im3gK4fjZcu54K3QCbuD6gjtFb2PsP2yEqii/5Nrs1yf6M05vWwrJDocwKPTILXIrsWBRm8J8GdNdDza8SW82LGi3Lk/2sgEDRUFIfFIptqz7RznLShXjfQlEG0Uvs8/pALdXyGkPTpkeeo5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732752678; c=relaxed/simple;
-	bh=+0+KROQ5DCrX7Do5V9hFw+QmHAyQ3zsU6RXtsqv1/s4=;
+	s=arc-20240116; t=1732763697; c=relaxed/simple;
+	bh=5XqF161oY2MlPJMkCk4MNg4g8BOf30DYKIQ3xCkWAjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CStLvWKPeaJkIoimmXTJw4x2nTpCOoAA+JlR9ORwO+Z44A64wG7U2I07cNbqdb1hbSSCoy7cmYfgPIXotPR5dA7V/sFOPcMzcnIKE3JTk79eXyCwkjp7DPvXJGnCqRcJHzt60aXqCIEKZ7LrfccW+i8hhxuiFOgx6HJez/m8RF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hP41PkxV; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=XcTeB4YxeWWLiNyOHqygJQ58C40VnALwWiaiL8ToR97wa3AucW+oVy0amcPnq2BCTHEXmBMw4yq9JS3YaYRWLhd2QM+WDQ9oqQFSpeQjZEfQ44Y4yVFwgfR75SW6Jkz7kWaZvnA9Fko5KuEaE/cniBGi4raIf73QrcwLKL21rXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guBI5WIp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hP41PkxV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guBI5WIp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732752676; x=1764288676;
+  t=1732763695; x=1764299695;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+0+KROQ5DCrX7Do5V9hFw+QmHAyQ3zsU6RXtsqv1/s4=;
-  b=hP41PkxV5jMIa0zOVuuRJ0Ejy/sNsySS+nU3zIX8HONjJBYvjinj9OYO
-   Sk20y/PrWy1mYFBhUNCiEKthRKKiTwRY5Sfi/tTwly3BSuSfX4396Wz7N
-   wtMATABeaGJLBOPRbh2se9DOBfs0fWfnQloqXgDxmogg268ibFdr8RqyD
-   6GSPxUZ1chiDgdKxIK5hyb49ajv6ovSy6rQl3WifgvNC6ADrLi4ZRD1ik
-   j9DHTld7Xn3HCu8z7n57t9V4rWUGMKMEscLRiS4BJ5AXr1LveciH886hd
-   jORu3QUtg+bxb/3uGjo/ewloh5gMx4mdspeuE7pKXmPxVL92MXng5FgjO
-   g==;
-X-CSE-ConnectionGUID: HByJgwbxRuKvvRU1ENWMAQ==
-X-CSE-MsgGUID: MxTQN7CJSr+O9ecrAxSdxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32346670"
-X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="32346670"
+  bh=5XqF161oY2MlPJMkCk4MNg4g8BOf30DYKIQ3xCkWAjc=;
+  b=guBI5WIpUg6Sd0dSbDXetolaXVksFwjVwpFjHOHIB5BrioCQKXR8m9th
+   eFaoxAy5dLgq1Ij7qqXIh1ZY+4th8piWkQZNzRqLCXZLuBnW38ul81AZ8
+   xG5TptIyaKjHImuHvyIhDYKJSnd88GJOIapMND1CwjMtRgahda8UiW5NS
+   3HEyj8nlQXWFYd6Ig4ezrInQYL/leaS1CobcE1yeqg+oZdtTIf0rD04+f
+   nrhf2d6ieOyBY1keHpeFyRtogKyqViewHoZiOqBak+is8YCuJQP1sGvEw
+   hOJM4en9Kcuc5tiHMccF4CnW9FNPGL1fHH+WkgoexoJY+EenHhrhN3vvn
+   A==;
+X-CSE-ConnectionGUID: 5fUrlGvFQn+Po7D2LP+EjQ==
+X-CSE-MsgGUID: +YXR2IM/SkuqcoCg5xnvdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32919601"
+X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
+   d="scan'208";a="32919601"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 16:11:12 -0800
-X-CSE-ConnectionGUID: WncDC7nVQ9C8v2ITUnpS2w==
-X-CSE-MsgGUID: I7z/IDHnQ+Op88awHxXSYw==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 19:14:53 -0800
+X-CSE-ConnectionGUID: 69wXNYbLQ7KR35MDmSCPKA==
+X-CSE-MsgGUID: HWi/zOGlSsy3dwucBu9V5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="92477508"
+X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
+   d="scan'208";a="92507422"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 16:11:11 -0800
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 19:14:52 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGS7g-0008T6-2N;
-	Thu, 28 Nov 2024 00:11:08 +0000
-Date: Thu, 28 Nov 2024 08:10:35 +0800
+	id 1tGUzR-0008p7-0a;
+	Thu, 28 Nov 2024 03:14:49 +0000
+Date: Thu, 28 Nov 2024 11:13:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
- for str_enabled_disabled(dw24 . ts_pll_enable)
-Message-ID: <202411280826.LqqIJLhD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:OLK-5.10 2466/2466] drivers/ata/libata-eh.c:3257
+ ata_eh_set_lpm() warn: variable dereferenced before check 'ap' (see line
+ 3240)
+Message-ID: <202411281144.DkOnMkIw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,180 +65,176 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Karol Kolacinski <karol.kolacinski@intel.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
+TO: kernel@openeuler.org
+TO: Zheng Zengkai <zhengzengkai@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9ad55a67a788c0806b0fe23be36fae6dbfbc3fc5
-commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
-date:   6 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-r051-20241122 (https://download.01.org/0day-ci/archive/20241128/202411280826.LqqIJLhD-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a0d38e859312d55415b596dc57d4ac3f260f49e4
+commit: f83af24f656adf6bcda72ba1c42882035beec4eb [2466/2466] ata: Add support for disabling PhyRdy Change Interrupt based on actual LPM capability
+:::::: branch date: 63 minutes ago
+:::::: commit date: 2 years, 9 months ago
+config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241128/202411281144.DkOnMkIw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411280826.LqqIJLhD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411281144.DkOnMkIw-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+smatch warnings:
+drivers/ata/libata-eh.c:3257 ata_eh_set_lpm() warn: variable dereferenced before check 'ap' (see line 3240)
 
-vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+vim +/ap +3257 drivers/ata/libata-eh.c
 
-3a7496234d179a Jacob Keller       2021-10-13  336  
-3a7496234d179a Jacob Keller       2021-10-13  337  /**
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
-d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
-3a7496234d179a Jacob Keller       2021-10-13  351   */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
-3a7496234d179a Jacob Keller       2021-10-13  355  {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
-3a7496234d179a Jacob Keller       2021-10-13  362  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
-3a7496234d179a Jacob Keller       2021-10-13  368  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  373  	}
-3a7496234d179a Jacob Keller       2021-10-13  374  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  380  	}
-3a7496234d179a Jacob Keller       2021-10-13  381  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  385  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  389  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  393  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  400  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  404  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
-3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
-3a7496234d179a Jacob Keller       2021-10-13  408  	}
-3a7496234d179a Jacob Keller       2021-10-13  409  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  415  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  420  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
-3a7496234d179a Jacob Keller       2021-10-13  423  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  427  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  432  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  435  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  439  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  444  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  448  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  452  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  455  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  459  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  462  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  466  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
-3a7496234d179a Jacob Keller       2021-10-13  470  	}
-3a7496234d179a Jacob Keller       2021-10-13  471  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  478  
-3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
-3a7496234d179a Jacob Keller       2021-10-13  480  }
-3a7496234d179a Jacob Keller       2021-10-13  481  
+6013efd8860bf1 Tejun Heo                 2009-11-19  3218  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3219  /**
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3220   *	ata_eh_set_lpm - configure SATA interface power management
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3221   *	@link: link to configure power management
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3222   *	@policy: the link power management policy
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3223   *	@r_failed_dev: out parameter for failed device
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3224   *
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3225   *	Enable SATA Interface power management.  This will enable
+f4ac6476945ff6 Hans de Goede             2017-09-14  3226   *	Device Interface Power Management (DIPM) for min_power and
+f4ac6476945ff6 Hans de Goede             2017-09-14  3227   *	medium_power_with_dipm policies, and then call driver specific
+f4ac6476945ff6 Hans de Goede             2017-09-14  3228   *	callbacks for enabling Host Initiated Power management.
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3229   *
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3230   *	LOCKING:
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3231   *	EH context.
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3232   *
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3233   *	RETURNS:
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3234   *	0 on success, -errno on failure.
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3235   */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3236  static int ata_eh_set_lpm(struct ata_link *link, enum ata_lpm_policy policy,
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3237  			  struct ata_device **r_failed_dev)
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3238  {
+6c8ea89cecd780 Tejun Heo                 2010-09-01  3239  	struct ata_port *ap = ata_is_host_link(link) ? link->ap : NULL;
+f83af24f656adf LeoLiu-oc                 2022-02-23 @3240  	struct device *device = ap->host->dev;
+f83af24f656adf LeoLiu-oc                 2022-02-23  3241  	struct pci_dev *pdev = (!device || !dev_is_pci(device)) ? NULL : to_pci_dev(device);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3242  	struct ata_eh_context *ehc = &link->eh_context;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3243  	struct ata_device *dev, *link_dev = NULL, *lpm_dev = NULL;
+e5005b15c91f33 Tejun Heo                 2010-12-09  3244  	enum ata_lpm_policy old_policy = link->lpm_policy;
+5f6f12ccf3aa42 Tejun Heo                 2011-05-09  3245  	bool no_dipm = link->ap->flags & ATA_FLAG_NO_DIPM;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3246  	unsigned int hints = ATA_LPM_EMPTY | ATA_LPM_HIPM;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3247  	unsigned int err_mask;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3248  	int rc;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3249  
+f83af24f656adf LeoLiu-oc                 2022-02-23  3250  	/* if controller does not support lpm, then sets no LPM flags*/
+f83af24f656adf LeoLiu-oc                 2022-02-23  3251  	if ((pdev && pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) &&
+f83af24f656adf LeoLiu-oc                 2022-02-23  3252  		!(ap->host->flags & (ATA_HOST_PART | ATA_HOST_SSC | ATA_HOST_DEVSLP)))
+f83af24f656adf LeoLiu-oc                 2022-02-23  3253  		link->flags |= ATA_LFLAG_NO_LPM;
+f83af24f656adf LeoLiu-oc                 2022-02-23  3254  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3255  	/* if the link or host doesn't do LPM, noop */
+4c9029e7d00f31 Bartlomiej Zolnierkiewicz 2020-03-26  3256  	if (!IS_ENABLED(CONFIG_SATA_HOST) ||
+4c9029e7d00f31 Bartlomiej Zolnierkiewicz 2020-03-26 @3257  	    (link->flags & ATA_LFLAG_NO_LPM) || (ap && !ap->ops->set_lpm))
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3258  		return 0;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3259  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3260  	/*
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3261  	 * DIPM is enabled only for MIN_POWER as some devices
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3262  	 * misbehave when the host NACKs transition to SLUMBER.  Order
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3263  	 * device and link configurations such that the host always
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3264  	 * allows DIPM requests.
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3265  	 */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3266  	ata_for_each_dev(dev, link, ENABLED) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3267  		bool hipm = ata_id_has_hipm(dev->id);
+ae01b2493c3bf0 Tejun Heo                 2011-03-16  3268  		bool dipm = ata_id_has_dipm(dev->id) && !no_dipm;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3269  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3270  		/* find the first enabled and LPM enabled devices */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3271  		if (!link_dev)
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3272  			link_dev = dev;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3273  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3274  		if (!lpm_dev && (hipm || dipm))
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3275  			lpm_dev = dev;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3276  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3277  		hints &= ~ATA_LPM_EMPTY;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3278  		if (!hipm)
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3279  			hints &= ~ATA_LPM_HIPM;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3280  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3281  		/* disable DIPM before changing link config */
+f4ac6476945ff6 Hans de Goede             2017-09-14  3282  		if (policy < ATA_LPM_MED_POWER_WITH_DIPM && dipm) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3283  			err_mask = ata_dev_set_feature(dev,
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3284  					SETFEATURES_SATA_DISABLE, SATA_DIPM);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3285  			if (err_mask && err_mask != AC_ERR_DEV) {
+a9a79dfec23956 Joe Perches               2011-04-15  3286  				ata_dev_warn(dev,
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3287  					     "failed to disable DIPM, Emask 0x%x\n",
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3288  					     err_mask);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3289  				rc = -EIO;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3290  				goto fail;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3291  			}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3292  		}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3293  	}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3294  
+6c8ea89cecd780 Tejun Heo                 2010-09-01  3295  	if (ap) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3296  		rc = ap->ops->set_lpm(link, policy, hints);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3297  		if (!rc && ap->slave_link)
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3298  			rc = ap->ops->set_lpm(ap->slave_link, policy, hints);
+6c8ea89cecd780 Tejun Heo                 2010-09-01  3299  	} else
+6c8ea89cecd780 Tejun Heo                 2010-09-01  3300  		rc = sata_pmp_set_lpm(link, policy, hints);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3301  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3302  	/*
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3303  	 * Attribute link config failure to the first (LPM) enabled
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3304  	 * device on the link.
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3305  	 */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3306  	if (rc) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3307  		if (rc == -EOPNOTSUPP) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3308  			link->flags |= ATA_LFLAG_NO_LPM;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3309  			return 0;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3310  		}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3311  		dev = lpm_dev ? lpm_dev : link_dev;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3312  		goto fail;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3313  	}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3314  
+e5005b15c91f33 Tejun Heo                 2010-12-09  3315  	/*
+e5005b15c91f33 Tejun Heo                 2010-12-09  3316  	 * Low level driver acked the transition.  Issue DIPM command
+e5005b15c91f33 Tejun Heo                 2010-12-09  3317  	 * with the new policy set.
+e5005b15c91f33 Tejun Heo                 2010-12-09  3318  	 */
+e5005b15c91f33 Tejun Heo                 2010-12-09  3319  	link->lpm_policy = policy;
+e5005b15c91f33 Tejun Heo                 2010-12-09  3320  	if (ap && ap->slave_link)
+e5005b15c91f33 Tejun Heo                 2010-12-09  3321  		ap->slave_link->lpm_policy = policy;
+e5005b15c91f33 Tejun Heo                 2010-12-09  3322  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3323  	/* host config updated, enable DIPM if transitioning to MIN_POWER */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3324  	ata_for_each_dev(dev, link, ENABLED) {
+f4ac6476945ff6 Hans de Goede             2017-09-14  3325  		if (policy >= ATA_LPM_MED_POWER_WITH_DIPM && !no_dipm &&
+ae01b2493c3bf0 Tejun Heo                 2011-03-16  3326  		    ata_id_has_dipm(dev->id)) {
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3327  			err_mask = ata_dev_set_feature(dev,
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3328  					SETFEATURES_SATA_ENABLE, SATA_DIPM);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3329  			if (err_mask && err_mask != AC_ERR_DEV) {
+a9a79dfec23956 Joe Perches               2011-04-15  3330  				ata_dev_warn(dev,
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3331  					"failed to enable DIPM, Emask 0x%x\n",
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3332  					err_mask);
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3333  				rc = -EIO;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3334  				goto fail;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3335  			}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3336  		}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3337  	}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3338  
+09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3339  	link->last_lpm_change = jiffies;
+09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3340  	link->flags |= ATA_LFLAG_CHANGED;
+09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3341  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3342  	return 0;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3343  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3344  fail:
+e5005b15c91f33 Tejun Heo                 2010-12-09  3345  	/* restore the old policy */
+e5005b15c91f33 Tejun Heo                 2010-12-09  3346  	link->lpm_policy = old_policy;
+e5005b15c91f33 Tejun Heo                 2010-12-09  3347  	if (ap && ap->slave_link)
+e5005b15c91f33 Tejun Heo                 2010-12-09  3348  		ap->slave_link->lpm_policy = old_policy;
+e5005b15c91f33 Tejun Heo                 2010-12-09  3349  
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3350  	/* if no device or only one more chance is left, disable LPM */
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3351  	if (!dev || ehc->tries[dev->devno] <= 2) {
+a9a79dfec23956 Joe Perches               2011-04-15  3352  		ata_link_warn(link, "disabling LPM on the link\n");
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3353  		link->flags |= ATA_LFLAG_NO_LPM;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3354  	}
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3355  	if (r_failed_dev)
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3356  		*r_failed_dev = dev;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3357  	return rc;
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3358  }
+6b7ae9545ad987 Tejun Heo                 2010-09-01  3359  
+
+:::::: The code at line 3257 was first introduced by commit
+:::::: 4c9029e7d00f31923bcecbaab6a12ba52017924e ata: let compiler optimize out ata_eh_set_lpm() on non-SATA hosts
+
+:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
