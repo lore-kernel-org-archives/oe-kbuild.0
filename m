@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B34E156C72
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Nov 2024 06:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DE1184F
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Nov 2024 06:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732861102; cv=none; b=ffgnKrw1DgT8U96nnOfi9DqsU4mmNQO8cfTzE2gJ9gpKacYX1pbBaVtOh6VrB5Y0/QK+RLhgEGetOhuV32Y4qU7+TmosdcAqcshQ07LI7aE2huD54G3L9jHT21nx8XQArg48UvzaqlLC29QEfNIrs4+ZslD8rYvvLROx9QP8QhI=
+	t=1732862964; cv=none; b=SSL8vAjtlpFGkJAR4cTpoX0WJScTzV1UV/QUO9gFpuJucCuEHYKnzBQJMWaRXY7xrmt3nSOMKmy+gSeGGZVA3vpj5/8V0qLrPyjqpxHrG4Z/XVu2EsA7ByEMbfRxh5wCtMjb0rkVo/uBa1bgSr8GJldb7CbYhqLYnSjoXq7Rllg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732861102; c=relaxed/simple;
-	bh=y1MftWDu8k157NpJ8U6XXL0kWLokSrLZVR9daGFpF3s=;
+	s=arc-20240116; t=1732862964; c=relaxed/simple;
+	bh=Ka2Tpk/LHO7bZhlVZCrMWoWoEtUobmFdApMdIRBNdE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MFgbWmzfm4OGiJZ++eWl3wEuaupLZInJcDacbalY3sIjvHutYKD3EsNTX//YolT2MPh1nhUW8/BW4/w6jmT3QTSUgvWBkC2BuLaq4LdBVBtGssAzneYZog5tsKx3ror+FumsYvQ+DHnjWj+EJGN99NvR+Osq70XbVTkas/nV2J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=It25zOIS; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=XemhlXMMbUQHBv20byYjBTtG0XqAVRATq6My2rzM0mFsifRWoLKHYfwwi5zMZRQ86Gz044oJIUZAHz+iW0pqmeXsI/rQUwu/lP14mjD8EVH67msKFNpWDIhDF3Hq6G3Gb0Oe7ZxXPu8Ye/IMivanrdnbFUudMhpohaxAhogGxx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHcajW7H; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="It25zOIS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHcajW7H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732861100; x=1764397100;
+  t=1732862962; x=1764398962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y1MftWDu8k157NpJ8U6XXL0kWLokSrLZVR9daGFpF3s=;
-  b=It25zOISgBQx/MhBeusrLIsvjzgDmxS8YZ4dtWMxf1DMz/GoUGF7pNve
-   HXAHcnR6GMj9NWqLVEuDMYEWIa41gutuvW5K44R0CD3jqoVKtmVoLbkKP
-   OSec1TY+AOxMzPVk54e+GKLf38ngBbiwps87BgyFGms9IyZ3CUJURXxze
-   Xz4vo0nEKOaG9b06SC2C10WbJOoX+pCP7VLqsDRDU0oGKMapdhCMRDj2x
-   lCJivYgTzcV0OI1/HQgI1kS8rYhrXQbOAfPukUVq86+PBEALvqnMtNQQ9
-   mjYVr0Bq/cDtdYiIi/OJvigPWTxpSBu/Zm5V24ifN8fsqjncuTT/bAk2E
+  bh=Ka2Tpk/LHO7bZhlVZCrMWoWoEtUobmFdApMdIRBNdE8=;
+  b=dHcajW7HveT5xGZh+7LZdyrpjPW0ZoygW1b2dwY8D3Q9F71f9XKrisdC
+   VDD6EKJYmom2VhHAVw5EocnzAtavGCwDbkUHYwTAwBzZ77sxUNuZIQhti
+   7fB6cV79DlmH+BbHtbd+i4BC8S4AzwBd0jVABiEQ73jWsF5or0I1i1c85
+   X9HQtLcJPKA1ndLNTRAZLr0Q3zo3OaBovHtqrfAComjqahjBfB9DpL0dt
+   RNHqYk4vgLNkFRcmTEkYCQM5uLp7PqAWMgaxPv6QQuL7BTQTuI37mzIAM
+   GKmp/ngyK3HyVmSYF+MBXR2N2wXH43KVKh0XCJugJ4NM0soj0duELjB06
    Q==;
-X-CSE-ConnectionGUID: IKExvUCJQ1S3CjuJ7sazmA==
-X-CSE-MsgGUID: hE5ZvsFrQMKXSdNMxvO/JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32461541"
+X-CSE-ConnectionGUID: 2C+y4ZHjQQi5FSU71i5dJg==
+X-CSE-MsgGUID: Vbwvou6eSWytxOAodK2lJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="50497809"
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="32461541"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 22:18:17 -0800
-X-CSE-ConnectionGUID: S+LYiAyDR9mo3f4TSGfIdw==
-X-CSE-MsgGUID: QWgrU4jmRTGvMEhjx6+/6A==
+   d="scan'208";a="50497809"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 22:49:21 -0800
+X-CSE-ConnectionGUID: LrCT3WmPTD+FTVuE4YOKfQ==
+X-CSE-MsgGUID: sX9FnTHGR1CyREsqVOC25A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="93257388"
+   d="scan'208";a="115690762"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Nov 2024 22:18:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 28 Nov 2024 22:49:21 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGuKT-00003j-1y;
-	Fri, 29 Nov 2024 06:18:13 +0000
-Date: Fri, 29 Nov 2024 14:17:48 +0800
+	id 1tGuoY-00006V-12;
+	Fri, 29 Nov 2024 06:49:18 +0000
+Date: Fri, 29 Nov 2024 14:48:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djwong-xfs:defrag-freespace 258/258] fs/xfs/xfs_bmap_util.c:2328
- xfs_map_free_rt_extent() warn: missing error code 'error'
-Message-ID: <202411291429.a3CqZypn-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 12/15] ARM: dts: microchip: add support for
+ sama7d65_curiosity board
+Message-ID: <202411291401.Uvey4TjI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,120 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+In-Reply-To: <7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner@microchip.com>
+References: <7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner@microchip.com>
+TO: Ryan.Wanner@microchip.com
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: nicolas.ferre@microchip.com
+TO: alexandre.belloni@bootlin.com
+TO: claudiu.beznea@tuxon.dev
+TO: mturquette@baylibre.com
+TO: sboyd@kernel.org
+TO: arnd@arndb.de
+CC: dharma.b@microchip.com
+CC: mihai.sain@microchip.com
+CC: romain.sioen@microchip.com
+CC: varshini.rajendran@microchip.com
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: linux-mmc@vger.kernel.org
+CC: linux-gpio@vger.kernel.org
+CC: linux-spi@vger.kernel.org
+CC: linux-serial@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git defrag-freespace
-head:   3a05c9546fce4d9c2d8b2a40f0538e8bb8941926
-commit: 456cb26b1542e21901f9f9adcb5a5b6f8f4a9071 [258/258] xfs: implement FALLOC_FL_MAP_FREE for realtime files
-:::::: branch date: 28 hours ago
-:::::: commit date: 10 days ago
-config: nios2-randconfig-r071-20241119 (https://download.01.org/0day-ci/archive/20241129/202411291429.a3CqZypn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on soc/for-next linus/master v6.12 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wanner-microchip-com/dt-bindings-ARM-at91-Document-Microchip-SAMA7D65-Curiosity/20241121-132438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner%40microchip.com
+patch subject: [PATCH 12/15] ARM: dts: microchip: add support for sama7d65_curiosity board
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm-randconfig-051-20241122 (https://download.01.org/0day-ci/archive/20241129/202411291401.Uvey4TjI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411291401.Uvey4TjI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411291429.a3CqZypn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411291401.Uvey4TjI-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_bmap_util.c:2328 xfs_map_free_rt_extent() warn: missing error code 'error'
-
-Old smatch warnings:
-fs/xfs/xfs_bmap_util.c:1834 xfs_convert_rtbigalloc_mapping() warn: missing error code 'error'
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-fs/xfs/xfs_bmap_util.c:2103 xfs_map_free_extent() warn: missing error code 'error'
-
-vim +/error +2328 fs/xfs/xfs_bmap_util.c
-
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2292  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2293  /* Find a free extent in this rtgroup and map it into the file. */
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2294  STATIC int
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2295  xfs_map_free_rt_extent(
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2296  	struct xfs_inode	*ip,
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2297  	struct xfs_rtgroup	*rtg,
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2298  	xfs_rtxnum_t		*cursor,
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2299  	xfs_rtxnum_t		end_rtx)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2300  {
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2301  	struct xfs_bmbt_irec	irec;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2302  	struct xfs_mount	*mp = ip->i_mount;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2303  	struct xfs_trans	*tp;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2304  	loff_t			endpos;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2305  	xfs_rtxlen_t		len_rtx;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2306  	xfs_extlen_t		free_len;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2307  	int			error;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2308  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2309  	if (fatal_signal_pending(current))
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2310  		return -EINTR;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2311  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2312  	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_write, 0, 0, false,
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2313  			&tp);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2314  	if (error)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2315  		return error;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2316  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2317  	xfs_rtgroup_lock(rtg, XFS_RTGLOCK_BITMAP);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2318  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2319  	error = xfs_rtallocate_find_freesp(tp, rtg, cursor, end_rtx, &len_rtx);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2320  	if (error)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2321  		goto out_rtglock;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2322  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2323  	/*
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2324  	 * If off_rtx is beyond the end of the rt device or is past what the
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2325  	 * user asked for, bail out.
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2326  	 */
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2327  	if (*cursor >= end_rtx)
-456cb26b1542e2 Darrick J. Wong 2024-10-15 @2328  		goto out_rtglock;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2329  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2330  	free_len = xfs_rtxlen_to_extlen(mp, len_rtx);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2331  	error = xfs_map_free_reserve_more(tp, ip, &free_len);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2332  	if (error)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2333  		goto out_rtglock;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2334  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2335  	error = xfs_map_free_rtgroup_extent(tp, ip, rtg, *cursor, len_rtx,
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2336  			&irec);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2337  	if (error == -EAGAIN) {
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2338  		/*
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2339  		 * The allocator was busy and told us to try again.  The
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2340  		 * transaction could be dirty due to a nrext64 upgrade, so
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2341  		 * commit the transaction and try again without advancing
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2342  		 * the cursor.
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2343  		 *
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2344  		 * XXX do we fail to unlock something here?
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2345  		 */
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2346  		xfs_rtgroup_unlock(rtg, XFS_RTGLOCK_BITMAP);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2347  		error = xfs_trans_commit(tp);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2348  		xfs_iunlock(ip, XFS_ILOCK_EXCL);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2349  		return error;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2350  	}
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2351  	if (error)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2352  		goto out_cancel;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2353  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2354  	/* Update isize if needed. */
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2355  	endpos = XFS_FSB_TO_B(mp, irec.br_startoff + irec.br_blockcount);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2356  	if (endpos > i_size_read(VFS_I(ip))) {
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2357  		i_size_write(VFS_I(ip), endpos);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2358  		ip->i_disk_size = endpos;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2359  		xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2360  	}
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2361  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2362  	error = xfs_trans_commit(tp);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2363  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2364  	if (error)
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2365  		return error;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2366  
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2367  	ASSERT(xfs_blen_to_rtxoff(mp, irec.br_blockcount) == 0);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2368  	*cursor += xfs_extlen_to_rtxlen(mp, irec.br_blockcount);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2369  	return 0;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2370  out_rtglock:
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2371  	xfs_rtgroup_unlock(rtg, XFS_RTGLOCK_BITMAP);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2372  out_cancel:
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2373  	xfs_trans_cancel(tp);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2374  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2375  	return error;
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2376  }
-456cb26b1542e2 Darrick J. Wong 2024-10-15  2377  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
 
 -- 
 0-DAY CI Kernel Test Service
