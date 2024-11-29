@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D397F19F104
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Nov 2024 18:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F158AD23
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Nov 2024 22:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732903784; cv=none; b=deJBCyJUMdZqrmiLDoPrBp77qrUyS+xobgOwr5mJdjfVJ/6gLPZjFrSwgpZKY6PpjJo6T6mLfMk8OcTTqgprKgiWrBIjl/Qilfy6g3r4HiH84pX3zC3vkR+Vwj8QZzdqJVz6usgT4UW8+ryFMWBGqUypDxMg2JnEDGq7+vrlfQ0=
+	t=1732918142; cv=none; b=PdzVO8k3wJBTLhJy//QrMfGlip5atzHdESzZbIMvmQTE4ApRdZiLV9MHH5+2dXJXTzKnxV9XOPLWsIPeNSNpElPfiBD1ySXhjXRKnTHxmgGhUGYjjViCOf8aUPZCA6KGn0UKNCt2YxG/qhMxuWY1kqyNQM4krYrFIRULDc6cENA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732903784; c=relaxed/simple;
-	bh=aRsWTpqzbVIzIo1vsuU9O24XvINCCW+a6ivp6Rbn5qs=;
+	s=arc-20240116; t=1732918142; c=relaxed/simple;
+	bh=/YATCfMKzfkg8tMTWXBHL+/t5UsO4F2c+A4hmantDT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O0iB4EGEde2NbXI76AT1abwYK+Wy4P27jaNK6ZqN2uwNzaAL9lGr8Fk+8E8K6tKEYGFv12phQ/bnwfb5gOsm1CDwn/p45ZLXIDQlp5xss/FidWLgp4TrfYA4/iCRUW011MRa+NQ2OcsNNpDsShUA2hJD7u9hinz+mQqCb9Bhgmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ihYr1ERG; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=HeA74u/BKb/grPa1BMCHnTzBOMrEmChlPWCR5b+Gh9Q74qxBwh81VTrMudjW1CmFk87ch2ZFxo8aueSbhq1lDRBhpp7hMsKCip4dHkR1GEGOcvG/oHJN7a4pb4MNmAr8UIVWIrk7bum83TK/BtJ6GweyFP6ebg/X6EPVlXSi7u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f7KHKBIm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ihYr1ERG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f7KHKBIm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732903782; x=1764439782;
+  t=1732918141; x=1764454141;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aRsWTpqzbVIzIo1vsuU9O24XvINCCW+a6ivp6Rbn5qs=;
-  b=ihYr1ERGTvMpRXM+un23papBrMieAghgqsv/AiUSLQSIs9OTbK6u9Xu9
-   p9WP1xwI/C8jjB6UJ14t41AAxNc83aQ6MjoLhFfTE9wYNDg0si7o674UT
-   nElSimMzxzhiuSEneUb5DzXq70wd34vs91lFzU7pvhvgTY0+MBu3yMmRx
-   6opU62Nm1hX2hj7TiF12m5naIxf8jacwpQ1iLW5WG4hACvFqqfV9uo2al
-   1xJEvaXf9jCDVpa4q1sffg6DINrWCEFRC9khlgQ9eHP8rP+EDsLFE9Fx6
-   QiHnE3rw2K6Hp1htNPy5ace5/WtwHj7eygL9oYO5HiW7iEPGnOw+scsQD
-   A==;
-X-CSE-ConnectionGUID: 2jTJJZG+Rlm2dTSEPFeQHQ==
-X-CSE-MsgGUID: NRmiwq6MTX2Z2qdfKDaukQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="33296591"
+  bh=/YATCfMKzfkg8tMTWXBHL+/t5UsO4F2c+A4hmantDT4=;
+  b=f7KHKBImEHuTRxoJBD6J34XfZ86DqCSS6WBNipaahx1CrV6cr8cawYo0
+   +3PVChFjleItkTWdoPADlgmHtTyeF/rBsebNA0eHZ06jX508DrPVhkdG2
+   e4Oj3B5tgQZt/GtELSCwK/M3VXZJ39ietpJEZgPM3rbntTreYYX/lYfqp
+   4MbuRhW2Lf5jNHufPv0NZlvuB1MoCtXnwVaIVjQyScsALY4gC5gIbYC+s
+   wxVqxNRzC8CyjAk0U5DmXeZlu1wVgJwG5RJttMmYgCYaBPO6m6KsIVaID
+   4bATmJs6uLVerax/0gs2vhVKLxF2P+Ngeu3hb5Q7o/nTeXwARosIUD0ab
+   w==;
+X-CSE-ConnectionGUID: S5nvW3bRRyyKKPnlrLyQXw==
+X-CSE-MsgGUID: S6/A69gbT5qh2rV9bzQbuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="55645260"
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="33296591"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 10:09:40 -0800
-X-CSE-ConnectionGUID: 6mrQMyujTz6s+ihi6QbIUg==
-X-CSE-MsgGUID: 2P64G1VZRmSYRQqCjuC4DA==
+   d="scan'208";a="55645260"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 14:09:00 -0800
+X-CSE-ConnectionGUID: m25H5X7TSjqyUFu/W9ueEg==
+X-CSE-MsgGUID: Cht6rdt0SASWyIUxE1KKiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="92420745"
+   d="scan'208";a="93048918"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Nov 2024 10:09:38 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2024 14:08:58 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tH5Qt-0000bZ-2X;
-	Fri, 29 Nov 2024 18:09:35 +0000
-Date: Sat, 30 Nov 2024 02:08:41 +0800
+	id 1tH9AW-0000jL-0V;
+	Fri, 29 Nov 2024 22:08:56 +0000
+Date: Sat, 30 Nov 2024 06:08:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:OLK-6.6 1562/1562] arch/loongarch/kernel/efi.c:220:5-11:
- WARNING: Unsigned expression compared with zero: status < 0
-Message-ID: <202411300209.pfS7Frtb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 1/2] arm64: dts: qcom: qcs6490-rb3gen2: enable
+ Bluetooth
+Message-ID: <202411300545.q75nZKNj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,54 +62,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Hongchen Zhang <zhanghongchen@loongson.cn>
+In-Reply-To: <20241127115107.11549-2-quic_janathot@quicinc.com>
+References: <20241127115107.11549-2-quic_janathot@quicinc.com>
+TO: Janaki Ramaiah Thota <quic_janathot@quicinc.com>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Marcel Holtmann <marcel@holtmann.org>
+TO: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+TO: Bartosz Golaszewski <brgl@bgdev.pl>
+CC: quic_mohamull@quicinc.com
+CC: quic_hbandi@quicinc.com
+CC: quic_anubhavg@quicinc.com
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-bluetooth@vger.kernel.org
+CC: linux-pm@vger.kernel.org
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   429a19874eb589d27346ba7363fa091d7e4ff99a
-commit: 221e2e8bdbb851a519df0bac5a44298dae2b4612 [1562/1562] LoongArch: add kernel setvirtmap for runtime
-:::::: branch date: 8 hours ago
-:::::: commit date: 12 months ago
-config: loongarch-randconfig-r064-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300209.pfS7Frtb-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+Hi Janaki,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on linus/master next-20241128]
+[cannot apply to robh/for-next broonie-regulator/for-next bluetooth-next/master brgl/gpio/for-next broonie-sound/for-next v6.12]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Janaki-Ramaiah-Thota/arm64-dts-qcom-qcs6490-rb3gen2-enable-Bluetooth/20241128-112231
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20241127115107.11549-2-quic_janathot%40quicinc.com
+patch subject: [PATCH v4 1/2] arm64: dts: qcom: qcs6490-rb3gen2: enable Bluetooth
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300545.q75nZKNj-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300545.q75nZKNj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411300209.pfS7Frtb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411300545.q75nZKNj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/efi.c:220:5-11: WARNING: Unsigned expression compared with zero: status < 0
-
-vim +220 arch/loongarch/kernel/efi.c
-
-221e2e8bdbb851 liuyun      2023-12-02  206  
-628c3bb40e9a8c Huacai Chen 2022-05-31  207  void __init efi_runtime_init(void)
-628c3bb40e9a8c Huacai Chen 2022-05-31  208  {
-221e2e8bdbb851 liuyun      2023-12-02  209  	efi_status_t status;
-221e2e8bdbb851 liuyun      2023-12-02  210  
-88d4d957edc707 Binbin Zhou 2022-12-10  211  	if (!efi_enabled(EFI_BOOT) || !efi_systab->runtime)
-628c3bb40e9a8c Huacai Chen 2022-05-31  212  		return;
-628c3bb40e9a8c Huacai Chen 2022-05-31  213  
-628c3bb40e9a8c Huacai Chen 2022-05-31  214  	if (efi_runtime_disabled()) {
-628c3bb40e9a8c Huacai Chen 2022-05-31  215  		pr_info("EFI runtime services will be disabled.\n");
-628c3bb40e9a8c Huacai Chen 2022-05-31  216  		return;
-628c3bb40e9a8c Huacai Chen 2022-05-31  217  	}
-628c3bb40e9a8c Huacai Chen 2022-05-31  218  
-221e2e8bdbb851 liuyun      2023-12-02  219  	status = set_virtual_map();
-221e2e8bdbb851 liuyun      2023-12-02 @220  	if (status < 0)
-221e2e8bdbb851 liuyun      2023-12-02  221  		return;
-221e2e8bdbb851 liuyun      2023-12-02  222  
-221e2e8bdbb851 liuyun      2023-12-02  223  	efi.runtime = READ_ONCE(efi_systab->runtime);
-628c3bb40e9a8c Huacai Chen 2022-05-31  224  	efi.runtime_version = (unsigned int)efi.runtime->hdr.revision;
-628c3bb40e9a8c Huacai Chen 2022-05-31  225  
-628c3bb40e9a8c Huacai Chen 2022-05-31  226  	efi_native_runtime_setup();
-628c3bb40e9a8c Huacai Chen 2022-05-31  227  	set_bit(EFI_RUNTIME_SERVICES, &efi.flags);
-628c3bb40e9a8c Huacai Chen 2022-05-31  228  }
-628c3bb40e9a8c Huacai Chen 2022-05-31  229  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4582.26-4653.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sc7280.dtsi:4035.10-4045.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: bluetooth: 'enable-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: bluetooth: 'swctrl-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: bluetooth: 'vddio-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: bluetooth: 'vddbtcxmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: bluetooth: 'vddasd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: usb@8cf8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: /wcn6750-pmu: failed to match any schema with compatible: ['qcom,wcn6750-pmu']
 
 -- 
 0-DAY CI Kernel Test Service
