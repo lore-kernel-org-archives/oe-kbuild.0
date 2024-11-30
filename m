@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDFE19FA9D
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 14:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1906919F117
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 15:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732975726; cv=none; b=mxx8NxUt+N6cv+l3WfYlPE3CmDUC2BFxK2b7VH0Vr2nm2WwUO5zO4qE4sTT+yGFwXHksxTFEEYLvs/sJGaEoYlfM7uhdqJ2t2AoQa6xKr7PXv+c4AgeZz/mchJjgF+UxMUo0ZR2IGyhA4GQSZDjyNUAdkDlfF6kGjXG7VbnTXy0=
+	t=1732981365; cv=none; b=ZLjQg8OpTqSdKRlfIEuUgZieDQNefewnWdkvGlTv30clclvl0KPuQ0RpE/QED4JEpQEPQHpWB7gz94LxX3kG5FoqeCoRC4lAIzXDF557sqeacCbhfXCNdNCLNGZROrV+piTMjWMt0SDzBpI2xZRtnJ7kxTERGahCLuOMdRWYo/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732975726; c=relaxed/simple;
-	bh=StiUni/jWip95WG0dKyw78yKczmVmfqt4TRV4Inq7Vg=;
+	s=arc-20240116; t=1732981365; c=relaxed/simple;
+	bh=ZjE5f1j0mljqEf/b9z45iktwJG3jVw4Y40YHRV6nJkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jXj24qASnjUpRIczDa0JigJo+PnJNKHAS7fEJij4IthVj0gAApHftIVTrPXzVbqbJlsv8fIRumCb5Ugxd5AImSq/QlKFcgnJ+FNovLR0nJT+RST8oOKUQkmExHydksfHkUAbggi9urhPgc64jPFPmlFmeYXCHEFSqZMVBI+jnFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4UYYQKE; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Wx9gcjYEIyo1BDX+QdJI7aS3yyZAS7lG183+tlPTRsvgXx+KKaS6P6YXq0Q7JMhZPG8H3m5KNQc+1Y4aQsJcK7ym/d152yXRMTLJmkmsH4vcm+/D6fL7b2mJ1jbVXcLXpzII4cwvWfj7aqkeyhCJzG2jsl7TXzBdCmW5HviRsVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pQIq3qRW; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4UYYQKE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732975724; x=1764511724;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=StiUni/jWip95WG0dKyw78yKczmVmfqt4TRV4Inq7Vg=;
-  b=A4UYYQKE1Rjzzv7bL/HEDcVyBW/jaiwLkP/ilHpp/pMGBdyCUn6PMSIn
-   ccrtDpC2LlANtwMBZCJbXbo3EpV0oX57zTA9v+gfcWBRJPZ06gJvKX6yJ
-   iPpQ4ZtKgDLAh0iAzaRxptrjYzRpo6yktzQJcfRAyJRowm0Djnww5W/6W
-   YHocT2JyG5y3IpeB5F/618hi25zjzmaMq3F4YP50aKxxZ5AspSMBamxCN
-   wwfhC8qSlPP5I91GowzJGRhpuwAtBFT0Sx4TbELdzV9Vo9b9I1s1S4bD7
-   kHvVI5XXj7z0rk06Ayfn7sWhnPuUbTZfT+lhvRhdIWgf/56OF6T9V/zjk
-   g==;
-X-CSE-ConnectionGUID: a5AvlNiKSL+zNh0VDvttaA==
-X-CSE-MsgGUID: NLyY4rNZSb6sx1RzF/Av/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36848380"
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="36848380"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 06:08:43 -0800
-X-CSE-ConnectionGUID: R77sSVQXSLK6HLL35xEtYg==
-X-CSE-MsgGUID: cmtLyVp1S4C9p/dRYpEthg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="93079462"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 30 Nov 2024 06:08:42 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tHO8r-0000iX-0x;
-	Sat, 30 Nov 2024 14:08:17 +0000
-Date: Sat, 30 Nov 2024 22:05:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [peterz-queue:perf/core 16/23] arch/x86/events/rapl.c:385
- rapl_pmu_event_init() warn: can 'rapl_pmus' even be NULL?
-Message-ID: <202411302252.kUNWVTgj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pQIq3qRW"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d01db666ceso3261397a12.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 07:42:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732981361; x=1733586161; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
+        b=pQIq3qRWA+WNQfMLWKoYr0Q3+IuCC6Q2F8aZprHfzlqD0JOENDK9/cMhoW5tvR4C8l
+         JEf+aVNPdbl76QsgVIu3TC3Uo/UARqUycVXOt6J6ZH6Gtmi5TmXqHJcxgnh0PL46++r1
+         hPjCsTyR+5RPwa1beJP8pIIljy8HC5GR/g46pCS6Y97Kdynp2zDduBrMkpxPGfmi2SBP
+         V5fHvbOofZw/E/X6i6tnYNBVQiUiYLqL/Dj/COQWX3t6fcFcSIW+lLKDxiwuqAJ6aUMw
+         hrZ2LAQx/CxcqJD/uonVmrkrTrU3M6Gmstx/7snYTAAIEsnJspmoGZzpoop2UG7ZAeqC
+         cLIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732981361; x=1733586161;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
+        b=gA/yfkY7AdmYNFFDUPI0j/cczzD0RTl3IYOZe7UVZD2EZVCkbeHf2i+fjfcL/Dgqpz
+         gJEmDvgWUPl0/92sJELdROB/VOF/DsWcDedAe5TV5t2yiRap0hlLsF2wT5ht4pz6Fo01
+         sVVEgktgUc6lxuLhG4ra0MOnIQ5kyMNGp1eJZSV2U+zRv8mjvMX3ffT0GElNE0gtVgVN
+         LxJEHPw+0Vo4DZsqyHXtXwkq6oteycnpxaoFzZLB5nmct8t9w0UrKYWj+fGcW4gJJ7oA
+         8DmDP0c6J3VKQN/544hha95xV7bTk5YFmtNNvNCh1A9T3tCjc+IQQMXD52AKaIJ66hlI
+         Wn9A==
+X-Gm-Message-State: AOJu0Yyi9GaUR+2oVMJBZMr8isgqBHFxVZg9N3CDbLhA7BypC0mXCEwq
+	wRr/gypaqY1nPZhVIyFcSO3bMvcBZYSByAIIUdrLaiUSEkpPNX0ghb8jktvEJ7K2PsAM1j2DVK8
+	J
+X-Gm-Gg: ASbGncvHP63w7giM+VWWGjOw/zrB1gEQ09VjHucir6WbWlGzNEdTGN2LbLxxEfp0MRf
+	nYCtvNws9a96A4wI2LZm9z3rY+C0BVEvZ2oWS//hc2nVRojKVZ+TDinKqbith8p52gsxNusWxC5
+	HOWvs2Qpp4gZc709ssQJs2o3ah3qPHCgZrIzA5i3W1XL4AYaKu9/kncLtH0HhF4ta3CYBSgJhkc
+	qHzqa3Is/27qZJVAV2PrWYulFhaifYqi4rVycYqY1Y6q0Q/tiI=
+X-Google-Smtp-Source: AGHT+IERKPOUwCa2ntGDo8N7kUSwQa5zsZ313jvf4rSIvuQkKUouo9rMs4TsB49Eedu2xKjJ3Vi00g==
+X-Received: by 2002:a17:906:1bb1:b0:aa5:3e7b:c117 with SMTP id a640c23a62f3a-aa580f3505amr1356781266b.28.1732981361240;
+        Sat, 30 Nov 2024 07:42:41 -0800 (PST)
+Received: from localhost ([41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59994e43dsm287451566b.177.2024.11.30.07.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 07:42:40 -0800 (PST)
+Date: Sat, 30 Nov 2024 18:42:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 5/16] mm/vmscan.c:3679 reset_ctrl_pos()
+ error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
+Message-ID: <49c4229d-3f48-4aad-a90d-ec407a813052@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,101 +70,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dhananjay Ugwekar <Dhananjay.Ugwekar@amd.com>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: "Gautham R. Shenoy" <gautham.shenoy@amd.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
-head:   ba0be87f1aa7f9c86cdd1b86b99fb18d80246a59
-commit: 72d3db217c3b0e202437e9e4f4218e6f9785e232 [16/23] perf/x86/rapl: Add core energy counter support for AMD CPUs
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: x86_64-randconfig-161-20241130 (https://download.01.org/0day-ci/archive/20241130/202411302252.kUNWVTgj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   b2b621a35c99ae939056ecf51631858aff950acc
+commit: 31ee01d6177c6425cac96c3a479ac109013f5755 [5/16] CHROMIUM: mm/mglru: age at different rates
+config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241125/202411252126.fpKorPPx-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411302252.kUNWVTgj-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411252126.fpKorPPx-lkp@intel.com/
 
 smatch warnings:
-arch/x86/events/rapl.c:385 rapl_pmu_event_init() warn: can 'rapl_pmus' even be NULL?
+mm/vmscan.c:3679 reset_ctrl_pos() error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
 
-vim +/rapl_pmus +385 arch/x86/events/rapl.c
+vim +3679 mm/vmscan.c
 
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  364  
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  365  static int rapl_pmu_event_init(struct perf_event *event)
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  366  {
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  367  	u64 cfg = event->attr.config & RAPL_EVENT_MASK;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  368  	int bit, rapl_pmus_scope, ret = 0;
-84edcae7fa0ea4 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  369  	struct rapl_pmu *rapl_pmu;
-dbcbe43b6c37d2 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  370  	unsigned int rapl_pmu_idx;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  371  	struct rapl_pmus *rapl_pmus;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  372  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  373  	/* unsupported modes and filters */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  374  	if (event->attr.sample_period) /* no sampling */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  375  		return -EINVAL;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  376  
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  377  	/* check only supported bits are set */
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  378  	if (event->attr.config & ~RAPL_EVENT_MASK)
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  379  		return -EINVAL;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  380  
-8a6d2f8f73caa8 arch/x86/events/intel/rapl.c                Thomas Gleixner   2016-02-22  381  	if (event->cpu < 0)
-8a6d2f8f73caa8 arch/x86/events/intel/rapl.c                Thomas Gleixner   2016-02-22  382  		return -EINVAL;
-8a6d2f8f73caa8 arch/x86/events/intel/rapl.c                Thomas Gleixner   2016-02-22  383  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  384  	rapl_pmus = container_of(event->pmu, struct rapl_pmus, pmu);
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15 @385  	if (!rapl_pmus)
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  386  		return -EINVAL;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  387  	rapl_pmus_scope = rapl_pmus->pmu.scope;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  388  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  389  	if (rapl_pmus_scope == PERF_PMU_SCOPE_PKG || rapl_pmus_scope == PERF_PMU_SCOPE_DIE) {
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  390  		/* only look at RAPL package events */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  391  		if (event->attr.type != rapl_pmus_pkg->pmu.type)
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  392  			return -ENOENT;
-122f1c51b11a9e arch/x86/events/intel/rapl.c                Jiri Olsa         2019-06-16  393  
-cd117efb268bbc arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  394  		cfg = array_index_nospec((long)cfg, NR_RAPL_PKG_DOMAINS + 1);
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  395  		if (!cfg || cfg >= NR_RAPL_PKG_DOMAINS + 1)
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  396  			return -EINVAL;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  397  
-122f1c51b11a9e arch/x86/events/intel/rapl.c                Jiri Olsa         2019-06-16  398  		bit = cfg - 1;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  399  		event->hw.event_base = rapl_model->rapl_pkg_msrs[bit].msr;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  400  	} else if (rapl_pmus_scope == PERF_PMU_SCOPE_CORE) {
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  401  		/* only look at RAPL core events */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  402  		if (event->attr.type != rapl_pmus_core->pmu.type)
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  403  			return -ENOENT;
-122f1c51b11a9e arch/x86/events/intel/rapl.c                Jiri Olsa         2019-06-16  404  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  405  		cfg = array_index_nospec((long)cfg, NR_RAPL_CORE_DOMAINS + 1);
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  406  		if (!cfg || cfg >= NR_RAPL_PKG_DOMAINS + 1)
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  407  			return -EINVAL;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  408  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  409  		bit = cfg - 1;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  410  		event->hw.event_base = rapl_model->rapl_core_msrs[bit].msr;
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  411  	} else
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  412  		return -EINVAL;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  413  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  414  	/* check event supported */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  415  	if (!(rapl_pmus->cntr_mask & (1 << bit)))
-dbcbe43b6c37d2 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  416  		return -EINVAL;
-dbcbe43b6c37d2 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  417  
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  418  	rapl_pmu_idx = get_rapl_pmu_idx(event->cpu, rapl_pmus_scope);
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  419  	if (rapl_pmu_idx >= rapl_pmus->nr_rapl_pmu)
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  420  		return -EINVAL;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  421  	/* must be done before validate_group */
-72d3db217c3b0e arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  422  	rapl_pmu = rapl_pmus->rapl_pmu[rapl_pmu_idx];
-84edcae7fa0ea4 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  423  	if (!rapl_pmu)
-dd86e373e09fb1 arch/x86/events/intel/rapl.c                Thomas Gleixner   2017-01-31  424  		return -EINVAL;
-84edcae7fa0ea4 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  425  
-84edcae7fa0ea4 arch/x86/events/rapl.c                      Dhananjay Ugwekar 2024-11-15  426  	event->pmu_private = rapl_pmu;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  427  	event->hw.config = cfg;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  428  	event->hw.idx = bit;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  429  
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  430  	return ret;
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  431  }
-4788e5b4b2338f arch/x86/kernel/cpu/perf_event_intel_rapl.c Stephane Eranian  2013-11-12  432  
+2b29ac9f92f57d7 David Stevens 2024-07-12  3653  static void reset_ctrl_pos(struct lruvec *lruvec, int type)
+2b29ac9f92f57d7 David Stevens 2024-07-12  3654  {
+2b29ac9f92f57d7 David Stevens 2024-07-12  3655  	int hist, tier;
+2b29ac9f92f57d7 David Stevens 2024-07-12  3656  	struct lru_gen_folio *lrugen = &lruvec->lrugen;
+31ee01d6177c642 David Stevens 2024-06-06  3657  	unsigned long carry_from_seq = lrugen->min_seq[type];
+31ee01d6177c642 David Stevens 2024-06-06  3658  	unsigned long next_seq = carry_from_seq + 1;
+31ee01d6177c642 David Stevens 2024-06-06  3659  	unsigned long next_gen = lru_gen_from_seq(next_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3660  	long total_nr_pages = 0;
+2b29ac9f92f57d7 David Stevens 2024-07-12  3661  
+2b29ac9f92f57d7 David Stevens 2024-07-12  3662  	lockdep_assert_held(&lruvec->lru_lock);
+ac35a490237446b Yu Zhao       2022-09-18  3663  
+31ee01d6177c642 David Stevens 2024-06-06  3664  	hist = lru_hist_from_seq(carry_from_seq);
+ac35a490237446b Yu Zhao       2022-09-18  3665  
+ac35a490237446b Yu Zhao       2022-09-18  3666  	for (tier = 0; tier < MAX_NR_TIERS; tier++) {
+                                                                              ^^^^^^^^^^^^^
+
+ac35a490237446b Yu Zhao       2022-09-18  3667  		unsigned long sum;
+ac35a490237446b Yu Zhao       2022-09-18  3668  
+ac35a490237446b Yu Zhao       2022-09-18  3669  		sum = lrugen->avg_refaulted[type][tier] +
+ac35a490237446b Yu Zhao       2022-09-18  3670  		      atomic_long_read(&lrugen->refaulted[hist][type][tier]);
+ac35a490237446b Yu Zhao       2022-09-18  3671  		WRITE_ONCE(lrugen->avg_refaulted[type][tier], sum / 2);
+ac35a490237446b Yu Zhao       2022-09-18  3672  
+ac35a490237446b Yu Zhao       2022-09-18  3673  		sum = lrugen->avg_total[type][tier] +
+ac35a490237446b Yu Zhao       2022-09-18  3674  		      atomic_long_read(&lrugen->evicted[hist][type][tier]);
+ac35a490237446b Yu Zhao       2022-09-18  3675  		if (tier)
+ac35a490237446b Yu Zhao       2022-09-18  3676  			sum += lrugen->protected[hist][type][tier - 1];
+ac35a490237446b Yu Zhao       2022-09-18  3677  		WRITE_ONCE(lrugen->avg_total[type][tier], sum / 2);
+ac35a490237446b Yu Zhao       2022-09-18  3678  
+31ee01d6177c642 David Stevens 2024-06-06 @3679  		total_nr_pages += lrugen->nr_pages[next_gen][type][tier];
+
+There is a mixup between MAX_NR_TIERS (4) and MAX_NR_ZONES (3) which
+results in an out of bounds read.
+
+ac35a490237446b Yu Zhao       2022-09-18  3680  	}
+31ee01d6177c642 David Stevens 2024-06-06  3681  	/* nr_pages is eventually consistent, so fix up the estimate if it's negative. */
+31ee01d6177c642 David Stevens 2024-06-06  3682  	total_nr_pages = max(total_nr_pages, 0);
+2b29ac9f92f57d7 David Stevens 2024-07-12  3683  
+2b29ac9f92f57d7 David Stevens 2024-07-12  3684  	if (NR_HIST_GENS == 1)
+31ee01d6177c642 David Stevens 2024-06-06  3685  		reset_histograms(lruvec, type, carry_from_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3686  
+31ee01d6177c642 David Stevens 2024-06-06  3687  	hist = lru_hist_from_seq(next_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3688  	WRITE_ONCE(lrugen->victim_seq[hist][type], READ_ONCE(lrugen->min_seq[!type]));
+31ee01d6177c642 David Stevens 2024-06-06  3689  	WRITE_ONCE(lrugen->oldest_gen_size[hist][type], total_nr_pages);
+31ee01d6177c642 David Stevens 2024-06-06  3690  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
