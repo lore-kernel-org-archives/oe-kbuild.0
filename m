@@ -1,68 +1,71 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0287914A0AA
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 09:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08725136E21
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 09:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732958809; cv=none; b=O/N3IGWD3aS/MXiZKfC/MkYpI4Ndbi/lIAFTbjoH1G2n/x+AtgUn+cSO1Xo+9Iw4n/qSQYUbGcws09SgoNWnP9W+/ktDYpPMZyP09cTy+uxe+O/rE8Xuj0Btm77/FGmgGfRwQe28SMD38bn0jPyFaAAE3/PecUiMVlueioxz1O0=
+	t=1732960303; cv=none; b=s/CjuMwUw/YCNkttahdTYdkwZ879V0G2Gd0229JGq6Zm0PdcJczzvJ91Y708Gs9QDNepKJcQfuty/wIIq4HEmWi8Y9DHCMN8PJWdqYlmQCXx/qGV0YTFV2s2EYO40BOIHXy5Ynha5XSGYZKkvM7Tdcm5J6wNt2Pygb7ouYHG4tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732958809; c=relaxed/simple;
-	bh=rpaND6MMN5dZJIlvr6NBRQ5KjSTiK1a89fv4aqev05w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e8sieJphhvfULUavd5tQkHL3YoiMg46BB9F/nY9YNkQBKyf+pxZ7u1LLjTdxWRC+O3Vi4Gs/sHeksYN5iwx7SFbpBp5ZVRsKgeml/thXtQi6k0C14T5TbBfnzZxvmSUzEa14R3UdqPkLSBdZLnTL5BxtLEv0wqYR/mgRtgdrfJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BqdJTBkE; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1732960303; c=relaxed/simple;
+	bh=kKRrLUcexh83lOiUaUbKCKWvIfIwKmuP8E+WT04gVvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pJ+oRcIlWUku+7/K77fuAvGNmLE5R+L9V3teq1z5Q39ELHNUKa+ek18FLH33vIapGlJVnKuWYn5YcSjx3Kv00RBVTvg+jtqEX0GC9Wb78msz4PVC/XdEsS4pEwtJ5GMrdt1vienIKR5ooAMaXTTInrwixp2WvPjkue9kIEk7g6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NXX1Tchk; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BqdJTBkE"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aa543c4db92so352601466b.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 01:26:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NXX1Tchk"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5cf9ef18ae9so6402988a12.1
+        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 01:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732958805; x=1733563605; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Uw/EotuC9q7RRzaotT29tAEiNazhDbbCz+xEzj7qC/o=;
-        b=BqdJTBkExI7ZX45/i/i9fIPOD96YTTpR+KD2l8dnYVOM7BnloU7LwZ5e9mBxCIdkCl
-         Pk6enGH4bwQuSomgZARQFhxjlUkUKoauT+jGkCJb88YUiZQQoNyrJj9CnL4jpohikopb
-         yOoRQOYodW7A1gNHnrKJERblQdBoCsE2vd+MwcPBXgqAEZ9zfTGMWUOZHwlRpff3NkRj
-         V6mCsape9S98BnAjzvqCfC/LUsIVo/8yXf70AxW+xiDgv80sT7+5sGhzFP/ujYqzDpiS
-         IDkz8L9LzTerpsc9Q69V0Ahintll/sS1wBcXueu7uCik8bqxOG1uqueme1xDupWzJJ/n
-         xEXQ==
+        d=linaro.org; s=google; t=1732960299; x=1733565099; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rSWtHVu+8YCZ9NtKFC73H5G6nhNqj0VGkVJgF+ZsU5Q=;
+        b=NXX1TchkVg5Fh/DhTnCTqik5xl+eiyLs+sTBjGr8/32NA9+xJ494AHKLTVjy3df/Vm
+         QeG4f33QX2zy3CFqZbW4kzC3vljbmMKp/QoOKOT9ggFIHbH0G3OTAT4oLMUoVrqb89m5
+         6z1nWAmw0y53lZC0psIrYyhVKUdb5SWxDtPdpHVjlg/KiKXdVO6DFqkDNw8R4GMDJAaJ
+         8AY4wR2NR2x1EzL5FK51SwksBqXSc0sscVR3wec5GP8w/qLSXlj/IimQvD9URIO55htt
+         mPYmg4fc4RwHBW+6xMbsnXgnEFVfV1gvr2s200UOCWo7N1KuUPPVfkXa/uOR4xWOdR5e
+         HoVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732958805; x=1733563605;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uw/EotuC9q7RRzaotT29tAEiNazhDbbCz+xEzj7qC/o=;
-        b=oPR/Ci3gtwIjMOsptQd58PYQ51fFL9L9ka85nu6k6e0fJXl19a79J5y0c7H2APVZ+H
-         +hFsNukVh4T+3pWRG8hgRHHDwrPzd1UDOWE0EQ+ztTxU5p+IIlItcUSsuIaWzQzaYv7Y
-         kh9miBkSB/ACUTtQOiOPgBkpOF+mlAKT0lJaxDrlyrB9AaYP4ygJbJqIWAaQAHR9tRQA
-         p47mWXuCTvkrhTaPja2LXGP85KecGR1WBYqvSf3SXKMznj3XQR0bQscVBCb0/D+BKhI/
-         YvLFlVdkGlxPaIe18XMNuM1QvMEks8iwPVe51wvR9qlU5auMGodMGCWeu430/Nxap4DK
-         u7vg==
-X-Gm-Message-State: AOJu0YyVN4tIA2vB2Gkp6GC5/H+U8Sqj2KufIRGVkrIC8XAnUUxh9Mj6
-	9/b6la7DBgERMrfP6ScdOPCfJihGQNQpSufLV0VPHW4Dt6ociRRatOyIsH/6IAP4JQhtZICwfXK
-	LSJ4Upg==
-X-Gm-Gg: ASbGncu1AVxWe4MOjJLTujnfl00pX/dasQ3Kz1KQs4LXSBAAVdLI94nc6pyr65UzZQk
-	WYOPc59WxaJW4bLZkYQIK+4TIjl/jZGCJ2LzgfvvZpXvmmaphuY9APa/HckLYvCkKUeOlWzkj65
-	KxpHriWGSQUA26sWsOstEEkoJz8VNdVNz1Q0IRHiG68P2dob0YGuGXeHUmh3W4miUd3jJgv9V7u
-	2C9tnd7G9Taaylgl8JYCkyykfP9+8wk1k/mfsZeMYQq5cb3dNwa35iMv5vitjhPmwiaRRHq
-X-Google-Smtp-Source: AGHT+IEmHIp6AbQZjgJeJn2nGJp/qWEims+cAU3oNMLqJCVxe2daNqhXMQxjmc1Juq0/xjb5P/aaSg==
-X-Received: by 2002:a17:906:2182:b0:aa5:3853:5535 with SMTP id a640c23a62f3a-aa581028f7dmr1328325066b.38.1732958804702;
-        Sat, 30 Nov 2024 01:26:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732960299; x=1733565099;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rSWtHVu+8YCZ9NtKFC73H5G6nhNqj0VGkVJgF+ZsU5Q=;
+        b=p86b5V8eOZdvIJE4tdk3SXrJoENEOI6ZHFxp50hr1c3LGZ+IRReQ0tOa1I7Wrq5p/P
+         EMZ+w/K02TiarzHettA2kxof6ooMEQRa/OoDRAjvbFbY1GPKLM/WV29mXarraxigEWcG
+         X+U6Y3EdBncoGUZbEY7vgBXS3XSL9oNEQHDzzF0bqRov5xJPsMHqfE9zmoYlFcrBrWFc
+         BqtIfXMH3A8Z7Xtt8FBGcX3svFpKvilXO9vHC/GY+FYAYcbRZptIZiYaDESPs47JufY5
+         b3b6Am87x3aJffeHiWqKF6S5lJMxITwegZlaPr4AhlT3AGKIdJFbLgVJrP6cKk1aQuDd
+         GciQ==
+X-Gm-Message-State: AOJu0YyJg2Mv8PBM4ktOx9dkRHbX41H98vUrVgzkDErz88CcAUubgw4d
+	ImlDpfn9jmlOh3YeNmlilcadgmAEsoyqTh70lrJ4mc5LvL36tpd57w7o7xoXfXN3qFKI/OIfLO2
+	PFNCtdQ==
+X-Gm-Gg: ASbGncs0cE5y08RFERxygiMeIGp2F68ar3XpdlBpAjFTLB+EuL87gV5z0Vns4x7nJGI
+	r7XK3m19w5nqDQrt/0OCRhhnRLkd8er1Vhz6tQ8HCRWo8oTOSQmB0pA8pEI2kSOi729mYO+eHid
+	5hMkYrAPGarT7OXpFf6qsnNSFvfAi0b+8NzHtmnDdk12YPW8NHObGFAldtbpOBK6nl+z2LU9olt
+	ab1jGgTNzxl7jjvvW7SkXGYyo0FnA1898/xJxCuxzXsYTd8iWg1XnJqE/dwLJRe7lcQV4tu
+X-Google-Smtp-Source: AGHT+IHl2HNKLt+8WbRAJWvgG5RXB2PtrE7G/WuljhCmVnYPMsQv3+LZlwwJFg4dwqVFPCttA5FCJA==
+X-Received: by 2002:a17:906:9ca:b0:a9a:170d:67b2 with SMTP id a640c23a62f3a-aa5946dcdebmr1151991866b.29.1732960298564;
+        Sat, 30 Nov 2024 01:51:38 -0800 (PST)
 Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa599943614sm260237466b.175.2024.11.30.01.26.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5999731d5sm262574966b.200.2024.11.30.01.51.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 01:26:44 -0800 (PST)
-Date: Sat, 30 Nov 2024 12:26:41 +0300
+        Sat, 30 Nov 2024 01:51:38 -0800 (PST)
+Date: Sat, 30 Nov 2024 12:51:34 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Selvin Xavier <selvin.xavier@broadcom.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
 	Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp()
- error: we previously assumed 'res->dattr' could be null (see line 985)
-Message-ID: <38c06486-6a1d-4129-839d-a68e29b21e40@stanley.mountain>
+Subject: Re: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090
+ bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be
+ null (see line 985)
+Message-ID: <cc4ebf9f-0441-4e7a-b979-3680a899c109@stanley.mountain>
+References: <38c06486-6a1d-4129-839d-a68e29b21e40@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,243 +74,28 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <38c06486-6a1d-4129-839d-a68e29b21e40@stanley.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f16d5e6f220661f73b36a4be1b21575651d8833
-commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
-date:   12 months ago
-config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241125/202411250359.DWxho9P8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Oops.  Sorry for the resend.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411250359.DWxho9P8-lkp@intel.com/
+On Sat, Nov 30, 2024 at 12:26:41PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   9f16d5e6f220661f73b36a4be1b21575651d8833
+> commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
+> date:   12 months ago
+> config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241125/202411250359.DWxho9P8-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411250359.DWxho9P8-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
+> 
 
-New smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
-
-vim +1090 drivers/infiniband/hw/bnxt_re/qplib_fp.c
-
-1ac5a404797523 Selvin Xavier      2017-02-10   967  int bnxt_qplib_create_qp(struct bnxt_qplib_res *res, struct bnxt_qplib_qp *qp)
-1ac5a404797523 Selvin Xavier      2017-02-10   968  {
-1ac5a404797523 Selvin Xavier      2017-02-10   969  	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
-0c4dcd60281750 Devesh Sharma      2020-02-15   970  	struct bnxt_qplib_hwq_attr hwq_attr = {};
-0c4dcd60281750 Devesh Sharma      2020-02-15   971  	struct bnxt_qplib_sg_info sginfo = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   972  	struct creq_create_qp_resp resp = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   973  	struct bnxt_qplib_cmdqmsg msg = {};
-1ac5a404797523 Selvin Xavier      2017-02-10   974  	struct bnxt_qplib_q *sq = &qp->sq;
-1ac5a404797523 Selvin Xavier      2017-02-10   975  	struct bnxt_qplib_q *rq = &qp->rq;
-ff015bcd213b5d Selvin Xavier      2023-03-30   976  	struct cmdq_create_qp req = {};
-fddcbbb02af42a Devesh Sharma      2020-04-02   977  	int rc, req_size, psn_sz = 0;
-1ac5a404797523 Selvin Xavier      2017-02-10   978  	struct bnxt_qplib_hwq *xrrq;
-c50866e2853a03 Devesh Sharma      2019-02-22   979  	struct bnxt_qplib_pbl *pbl;
-c50866e2853a03 Devesh Sharma      2019-02-22   980  	u32 qp_flags = 0;
-99bf84e24eb83d Devesh Sharma      2020-04-02   981  	u8 pg_sz_lvl;
-84cf229f4001c1 Selvin Xavier      2020-08-24   982  	u32 tbl_indx;
-159fb4ceacd79b Devesh Sharma      2020-07-15   983  	u16 nsge;
-1ac5a404797523 Selvin Xavier      2017-02-10   984  
-07f830ae4913d0 Selvin Xavier      2023-12-07  @985  	if (res->dattr)
-                                                            ^^^^^^^^^^
-This assumes ->dattr can be NULL
-
-07f830ae4913d0 Selvin Xavier      2023-12-07   986  		qp->dev_cap_flags = res->dattr->dev_cap_flags;
-07f830ae4913d0 Selvin Xavier      2023-12-07   987  
-3a4304d8269501 Chandramohan Akula 2023-10-23   988  	sq->dbinfo.flags = 0;
-e576adf583b525 Selvin Xavier      2023-03-30   989  	bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
-e576adf583b525 Selvin Xavier      2023-03-30   990  				 CMDQ_BASE_OPCODE_CREATE_QP,
-e576adf583b525 Selvin Xavier      2023-03-30   991  				 sizeof(req));
-1ac5a404797523 Selvin Xavier      2017-02-10   992  
-1ac5a404797523 Selvin Xavier      2017-02-10   993  	/* General */
-1ac5a404797523 Selvin Xavier      2017-02-10   994  	req.type = qp->type;
-1ac5a404797523 Selvin Xavier      2017-02-10   995  	req.dpi = cpu_to_le32(qp->dpi->dpi);
-1ac5a404797523 Selvin Xavier      2017-02-10   996  	req.qp_handle = cpu_to_le64(qp->qp_handle);
-1ac5a404797523 Selvin Xavier      2017-02-10   997  
-1ac5a404797523 Selvin Xavier      2017-02-10   998  	/* SQ */
-37f91cff2de017 Devesh Sharma      2019-02-07   999  	if (qp->type == CMDQ_CREATE_QP_TYPE_RC) {
-1801d87b3598b1 Selvin Xavier      2023-12-07  1000  		psn_sz = bnxt_qplib_is_chip_gen_p5_p7(res->cctx) ?
-37f91cff2de017 Devesh Sharma      2019-02-07  1001  			 sizeof(struct sq_psn_search_ext) :
-37f91cff2de017 Devesh Sharma      2019-02-07  1002  			 sizeof(struct sq_psn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1003  
-07f830ae4913d0 Selvin Xavier      2023-12-07  1004  		if (BNXT_RE_HW_RETX(qp->dev_cap_flags)) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1005  			psn_sz = sizeof(struct sq_msn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1006  			qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1007  		}
-37f91cff2de017 Devesh Sharma      2019-02-07  1008  	}
-0c4dcd60281750 Devesh Sharma      2020-02-15  1009  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1010  	hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1011  	hwq_attr.sginfo = &sq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1012  	hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1013  	hwq_attr.depth = bnxt_qplib_get_depth(sq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1014  	hwq_attr.aux_stride = psn_sz;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1015  	hwq_attr.aux_depth = bnxt_qplib_set_sq_size(sq, qp->wqe_mode);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1016  	/* Update msn tbl size */
-07f830ae4913d0 Selvin Xavier      2023-12-07  1017  	if (BNXT_RE_HW_RETX(qp->dev_cap_flags) && psn_sz) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1018  		hwq_attr.aux_depth = roundup_pow_of_two(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-07f830ae4913d0 Selvin Xavier      2023-12-07  1019  		qp->msn_tbl_sz = hwq_attr.aux_depth;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1020  		qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1021  	}
-07f830ae4913d0 Selvin Xavier      2023-12-07  1022  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1023  	hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1024  	rc = bnxt_qplib_alloc_init_hwq(&sq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1025  	if (rc)
-07d5ce14b2aa22 Kalesh AP          2023-05-18  1026  		return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1027  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1028  	rc = bnxt_qplib_alloc_init_swq(sq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1029  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1030  		goto fail_sq;
-fddcbbb02af42a Devesh Sharma      2020-04-02  1031  
-fddcbbb02af42a Devesh Sharma      2020-04-02  1032  	if (psn_sz)
-fddcbbb02af42a Devesh Sharma      2020-04-02  1033  		bnxt_qplib_init_psn_ptr(qp, psn_sz);
-fddcbbb02af42a Devesh Sharma      2020-04-02  1034  
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1035  	req.sq_size = cpu_to_le32(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-1ac5a404797523 Selvin Xavier      2017-02-10  1036  	pbl = &sq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1037  	req.sq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1038  	pg_sz_lvl = (bnxt_qplib_base_pg_size(&sq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1039  		     CMDQ_CREATE_QP_SQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1040  	pg_sz_lvl |= (sq->hwq.level & CMDQ_CREATE_QP_SQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1041  	req.sq_pg_size_sq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1042  	req.sq_fwo_sq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1043  		cpu_to_le16(((sq->max_sge & CMDQ_CREATE_QP_SQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1044  			     CMDQ_CREATE_QP_SQ_SGE_SFT) | 0);
-1ac5a404797523 Selvin Xavier      2017-02-10  1045  	req.scq_cid = cpu_to_le32(qp->scq->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1046  
-1ac5a404797523 Selvin Xavier      2017-02-10  1047  	/* RQ */
-159fb4ceacd79b Devesh Sharma      2020-07-15  1048  	if (!qp->srq) {
-3a4304d8269501 Chandramohan Akula 2023-10-23  1049  		rq->dbinfo.flags = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1050  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1051  		hwq_attr.sginfo = &rq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1052  		hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1053  		hwq_attr.depth = bnxt_qplib_get_depth(rq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1054  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1055  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1056  		hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1057  		rc = bnxt_qplib_alloc_init_hwq(&rq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1058  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1059  			goto sq_swq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1060  		rc = bnxt_qplib_alloc_init_swq(rq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1061  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1062  			goto fail_rq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1063  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1064  		req.rq_size = cpu_to_le32(rq->max_wqe);
-1ac5a404797523 Selvin Xavier      2017-02-10  1065  		pbl = &rq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1066  		req.rq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1067  		pg_sz_lvl = (bnxt_qplib_base_pg_size(&rq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1068  			     CMDQ_CREATE_QP_RQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1069  		pg_sz_lvl |= (rq->hwq.level & CMDQ_CREATE_QP_RQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1070  		req.rq_pg_size_rq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1071  		nsge = (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_STATIC) ?
-159fb4ceacd79b Devesh Sharma      2020-07-15  1072  			6 : rq->max_sge;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1073  		req.rq_fwo_rq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1074  			cpu_to_le16(((nsge &
-159fb4ceacd79b Devesh Sharma      2020-07-15  1075  				      CMDQ_CREATE_QP_RQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1076  				     CMDQ_CREATE_QP_RQ_SGE_SFT) | 0);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1077  	} else {
-37cb11acf1f72a Devesh Sharma      2018-01-11  1078  		/* SRQ */
-37cb11acf1f72a Devesh Sharma      2018-01-11  1079  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_SRQ_USED;
-37cb11acf1f72a Devesh Sharma      2018-01-11  1080  		req.srq_cid = cpu_to_le32(qp->srq->id);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1081  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1082  	req.rcq_cid = cpu_to_le32(qp->rcq->id);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1083  
-99bf84e24eb83d Devesh Sharma      2020-04-02  1084  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_RESERVED_LKEY_ENABLE;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1085  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FR_PMR_ENABLED;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1086  	if (qp->sig_type)
-99bf84e24eb83d Devesh Sharma      2020-04-02  1087  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FORCE_COMPLETION;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1088  	if (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_VARIABLE)
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1089  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_VARIABLE_SIZED_WQE_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15 @1090  	if (_is_ext_stats_supported(res->dattr->dev_cap_flags) && !res->is_vf)
-                                                                                    ^^^^^^^^^^
-Unchecked dereference
-
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1091  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_EXT_STATS_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1092  
-1ac5a404797523 Selvin Xavier      2017-02-10  1093  	req.qp_flags = cpu_to_le32(qp_flags);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1094  
-1ac5a404797523 Selvin Xavier      2017-02-10  1095  	/* ORRQ and IRRQ */
-1ac5a404797523 Selvin Xavier      2017-02-10  1096  	if (psn_sz) {
-1ac5a404797523 Selvin Xavier      2017-02-10  1097  		xrrq = &qp->orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1098  		xrrq->max_elements =
-1ac5a404797523 Selvin Xavier      2017-02-10  1099  			ORD_LIMIT_TO_ORRQ_SLOTS(qp->max_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1100  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1101  			   BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1102  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1103  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1104  		sginfo.pgshft = PAGE_SHIFT;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1105  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1106  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1107  		hwq_attr.sginfo = &sginfo;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1108  		hwq_attr.depth = xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1109  		hwq_attr.stride = BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1110  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1111  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1112  		hwq_attr.type = HWQ_TYPE_CTX;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1113  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1114  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1115  			goto rq_swq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1116  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1117  		req.orrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1118  
-1ac5a404797523 Selvin Xavier      2017-02-10  1119  		xrrq = &qp->irrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1120  		xrrq->max_elements = IRD_LIMIT_TO_IRRQ_SLOTS(
-1ac5a404797523 Selvin Xavier      2017-02-10  1121  						qp->max_dest_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1122  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1123  			   BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1124  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1125  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1126  		hwq_attr.depth =  xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1127  		hwq_attr.stride = BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1128  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1129  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1130  			goto fail_orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1131  
-1ac5a404797523 Selvin Xavier      2017-02-10  1132  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1133  		req.irrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1134  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1135  	req.pd_id = cpu_to_le32(qp->pd->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1136  
-ff015bcd213b5d Selvin Xavier      2023-03-30  1137  	bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req),
-ff015bcd213b5d Selvin Xavier      2023-03-30  1138  				sizeof(resp), 0);
-ff015bcd213b5d Selvin Xavier      2023-03-30  1139  	rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1140  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1141  		goto fail;
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1142  
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1143  	qp->id = le32_to_cpu(resp.xid);
-1ac5a404797523 Selvin Xavier      2017-02-10  1144  	qp->cur_qp_state = CMDQ_MODIFY_QP_NEW_STATE_RESET;
-f218d67ef00431 Selvin Xavier      2017-06-29  1145  	INIT_LIST_HEAD(&qp->sq_flush);
-f218d67ef00431 Selvin Xavier      2017-06-29  1146  	INIT_LIST_HEAD(&qp->rq_flush);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1147  	qp->cctx = res->cctx;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1148  	sq->dbinfo.hwq = &sq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1149  	sq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1150  	sq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1151  	sq->dbinfo.max_slot = bnxt_qplib_set_sq_max_slot(qp->wqe_mode);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1152  	if (rq->max_wqe) {
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1153  		rq->dbinfo.hwq = &rq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1154  		rq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1155  		rq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1156  		rq->dbinfo.max_slot = bnxt_qplib_set_rq_max_slot(rq->wqe_size);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1157  	}
-84cf229f4001c1 Selvin Xavier      2020-08-24  1158  	tbl_indx = map_qp_id_to_tbl_indx(qp->id, rcfw);
-84cf229f4001c1 Selvin Xavier      2020-08-24  1159  	rcfw->qp_tbl[tbl_indx].qp_id = qp->id;
-84cf229f4001c1 Selvin Xavier      2020-08-24  1160  	rcfw->qp_tbl[tbl_indx].qp_handle = (void *)qp;
-1ac5a404797523 Selvin Xavier      2017-02-10  1161  
-1ac5a404797523 Selvin Xavier      2017-02-10  1162  	return 0;
-1ac5a404797523 Selvin Xavier      2017-02-10  1163  fail:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1164  	bnxt_qplib_free_hwq(res, &qp->irrq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1165  fail_orrq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1166  	bnxt_qplib_free_hwq(res, &qp->orrq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1167  rq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1168  	kfree(rq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1169  fail_rq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1170  	bnxt_qplib_free_hwq(res, &rq->hwq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1171  sq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1172  	kfree(sq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1173  fail_sq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1174  	bnxt_qplib_free_hwq(res, &sq->hwq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1175  	return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1176  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
