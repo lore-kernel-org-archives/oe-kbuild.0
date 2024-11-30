@@ -1,66 +1,67 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1906919F117
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 15:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22E642AA4
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 15:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732981365; cv=none; b=ZLjQg8OpTqSdKRlfIEuUgZieDQNefewnWdkvGlTv30clclvl0KPuQ0RpE/QED4JEpQEPQHpWB7gz94LxX3kG5FoqeCoRC4lAIzXDF557sqeacCbhfXCNdNCLNGZROrV+piTMjWMt0SDzBpI2xZRtnJ7kxTERGahCLuOMdRWYo/A=
+	t=1732981435; cv=none; b=fA5xWT9/3MBnmS0Mq4ghmBCY3DfofHdflDeBsMSXEhDrqzvdha0nLRm1MDE5A/W3HbtDR/FAjd0VrLK1ydj9NcFYCPB+rb/1nQkbr9e0BcYsi4H0Lfd6a6gdSR0UGSvh8crVV840gaFeT4IrE+D0dB4xnzYpqmTWqGQ4tE7ialw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732981365; c=relaxed/simple;
-	bh=ZjE5f1j0mljqEf/b9z45iktwJG3jVw4Y40YHRV6nJkU=;
+	s=arc-20240116; t=1732981435; c=relaxed/simple;
+	bh=8P7EZh8yb0h7RIxx3McBqNuNXtXocSyz+vcxg95TtNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wx9gcjYEIyo1BDX+QdJI7aS3yyZAS7lG183+tlPTRsvgXx+KKaS6P6YXq0Q7JMhZPG8H3m5KNQc+1Y4aQsJcK7ym/d152yXRMTLJmkmsH4vcm+/D6fL7b2mJ1jbVXcLXpzII4cwvWfj7aqkeyhCJzG2jsl7TXzBdCmW5HviRsVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pQIq3qRW; arc=none smtp.client-ip=209.85.208.50
+	 Content-Disposition; b=MPvdgbrGXgWLWYFPhv66OADLn1AdZsMrsQZxWZvrksp9sZ60YZHq5PsPqQF9ZHmEGb2jLEBcdhzglK4jT+6O1XHBlBeT4C4s2hQfJiFOlOhwqzwYBX7ouGTdYV9+S21DqyA8VTejfLT+BZNkr4GM5Jxy5+I4cYMR5MncgxzkPKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MHXKgFS/; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pQIq3qRW"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d01db666ceso3261397a12.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 07:42:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MHXKgFS/"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aa5366d3b47so428110866b.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 07:43:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732981361; x=1733586161; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1732981431; x=1733586231; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
-        b=pQIq3qRWA+WNQfMLWKoYr0Q3+IuCC6Q2F8aZprHfzlqD0JOENDK9/cMhoW5tvR4C8l
-         JEf+aVNPdbl76QsgVIu3TC3Uo/UARqUycVXOt6J6ZH6Gtmi5TmXqHJcxgnh0PL46++r1
-         hPjCsTyR+5RPwa1beJP8pIIljy8HC5GR/g46pCS6Y97Kdynp2zDduBrMkpxPGfmi2SBP
-         V5fHvbOofZw/E/X6i6tnYNBVQiUiYLqL/Dj/COQWX3t6fcFcSIW+lLKDxiwuqAJ6aUMw
-         hrZ2LAQx/CxcqJD/uonVmrkrTrU3M6Gmstx/7snYTAAIEsnJspmoGZzpoop2UG7ZAeqC
-         cLIg==
+        bh=QEr8+hx+feiWRenkko8sFtr7Ec4FvTKy4XdPwSZ8x7I=;
+        b=MHXKgFS/OV4oVaaMSPBnx0us5BU9prcQ7D7LCIaa/7k4nDyRsKIgIIFdcHGjnKBzIE
+         XZsfaklU5AP/UARF4av2oYxcqHf1AmChxiGIOEBjwO0b1loms1OPO8di4hc0Gph57MV4
+         Rhm0DRt4wYRVebT2Odwumov8hSZ5FC0rY8KV+7GbrdUujjqsdTCGZM3MwStL57tBR5Ra
+         DOPI9n5SIXKR3YnmAXzcQ4yFskJnrwYrIz9AJo/CHbBjthApXz30MXJvkiEVZlXTCiQY
+         z7ARLcFR4BVo2Qw0jj4ntNZTypE4GsPWNRLdVMuWnyUEa1NP93EVDt6R6ElO3cG86x69
+         lrdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732981361; x=1733586161;
+        d=1e100.net; s=20230601; t=1732981431; x=1733586231;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
-        b=gA/yfkY7AdmYNFFDUPI0j/cczzD0RTl3IYOZe7UVZD2EZVCkbeHf2i+fjfcL/Dgqpz
-         gJEmDvgWUPl0/92sJELdROB/VOF/DsWcDedAe5TV5t2yiRap0hlLsF2wT5ht4pz6Fo01
-         sVVEgktgUc6lxuLhG4ra0MOnIQ5kyMNGp1eJZSV2U+zRv8mjvMX3ffT0GElNE0gtVgVN
-         LxJEHPw+0Vo4DZsqyHXtXwkq6oteycnpxaoFzZLB5nmct8t9w0UrKYWj+fGcW4gJJ7oA
-         8DmDP0c6J3VKQN/544hha95xV7bTk5YFmtNNvNCh1A9T3tCjc+IQQMXD52AKaIJ66hlI
-         Wn9A==
-X-Gm-Message-State: AOJu0Yyi9GaUR+2oVMJBZMr8isgqBHFxVZg9N3CDbLhA7BypC0mXCEwq
-	wRr/gypaqY1nPZhVIyFcSO3bMvcBZYSByAIIUdrLaiUSEkpPNX0ghb8jktvEJ7K2PsAM1j2DVK8
-	J
-X-Gm-Gg: ASbGncvHP63w7giM+VWWGjOw/zrB1gEQ09VjHucir6WbWlGzNEdTGN2LbLxxEfp0MRf
-	nYCtvNws9a96A4wI2LZm9z3rY+C0BVEvZ2oWS//hc2nVRojKVZ+TDinKqbith8p52gsxNusWxC5
-	HOWvs2Qpp4gZc709ssQJs2o3ah3qPHCgZrIzA5i3W1XL4AYaKu9/kncLtH0HhF4ta3CYBSgJhkc
-	qHzqa3Is/27qZJVAV2PrWYulFhaifYqi4rVycYqY1Y6q0Q/tiI=
-X-Google-Smtp-Source: AGHT+IERKPOUwCa2ntGDo8N7kUSwQa5zsZ313jvf4rSIvuQkKUouo9rMs4TsB49Eedu2xKjJ3Vi00g==
-X-Received: by 2002:a17:906:1bb1:b0:aa5:3e7b:c117 with SMTP id a640c23a62f3a-aa580f3505amr1356781266b.28.1732981361240;
-        Sat, 30 Nov 2024 07:42:41 -0800 (PST)
-Received: from localhost ([41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59994e43dsm287451566b.177.2024.11.30.07.42.39
+        bh=QEr8+hx+feiWRenkko8sFtr7Ec4FvTKy4XdPwSZ8x7I=;
+        b=b07GmjJ7CxsMdZrPO1oVqsWALzUtQgTBNJvlNNaYA8WNnSSsJISJtusDWLyICrwkCG
+         P1RIboSeJIWApj5mxfYs45XN0Mc4I4xZmkNRLpnujrTGO9SdWXpIj6BHgABBOFTcwb3W
+         jDONIb431sdwJamUgU/TUue+LQZ3y/mpf2oYQqssUw8BjgUQ5XwUR6gjN07aaja8Ht9h
+         ZcIQr23BtcamThHGOwLcO0GhCqW06JDm24DIEAUm2G/omf0Ex4/cvP10ylsvy6Uox0oR
+         cu0axAuaVjHsWakbU1qczEjhwEAO1i9kvyf0MmUAzzt55WuuedYC+HgkcXwX3w0T+VyG
+         wW9w==
+X-Gm-Message-State: AOJu0YzPIuLl4MPiGFSEIHPKxPvAQNyXjta7K48lGzoeAB40hmuC7lqX
+	/1XGkDmmm3DrxpC2FZmqQp/25EAoFd8NDYiHdKS1hOSSmFZgqXSuJxRaSHFJP3TtIO8FZMHq9Y8
+	l
+X-Gm-Gg: ASbGnct3ljLmlBJ8P/oN3aInySer1Ojf1QypLhTd78/yQ4Jxr99tCZQdKxtHIEzHvKd
+	lAhgfrObGrCkzLMZyLI9MjN2Q1H2XKBNdtuO7WgA4HPWHlvrDcb9GKTBxHp5WUTtTwZMpIjRi71
+	vL2HCrOttGZ62MJqT2RinJ5eCtaRYwJJ/dAU6n4hspqoJ0T30WHw7VICQt2b09Fsp7IctZZPuy9
+	/H+XzhRpL4NAS3N0DQvIxUyEXmsY1UExpw+b4mruUz+sCeKbhQticgfOmEJUm3YaPN0qt36
+X-Google-Smtp-Source: AGHT+IFqIGiJnI9PzQXBkXZRQHQIfQKitL7vKaRiNgc89HUSGEOMYbqu+ESdUAuI4e+DGJ1WNLOcCw==
+X-Received: by 2002:a17:906:18b2:b0:aa5:241a:dc77 with SMTP id a640c23a62f3a-aa581073ea2mr1154088866b.54.1732981431440;
+        Sat, 30 Nov 2024 07:43:51 -0800 (PST)
+Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5996c0eb2sm294386566b.28.2024.11.30.07.43.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 07:42:40 -0800 (PST)
-Date: Sat, 30 Nov 2024 18:42:29 +0300
+        Sat, 30 Nov 2024 07:43:50 -0800 (PST)
+Date: Sat, 30 Nov 2024 18:43:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 5/16] mm/vmscan.c:3679 reset_ctrl_pos()
- error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
-Message-ID: <49c4229d-3f48-4aad-a90d-ec407a813052@stanley.mountain>
+Subject: [jarkko-tpmdd:v4l2-loopback 6/7]
+ drivers/media/v4l2-core/v4l2-loopback.c:1892 vidioc_dqbuf() error:
+ uninitialized symbol 'index'.
+Message-ID: <4cded80e-601b-4feb-a789-73f8cc863a34@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,67 +71,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   b2b621a35c99ae939056ecf51631858aff950acc
-commit: 31ee01d6177c6425cac96c3a479ac109013f5755 [5/16] CHROMIUM: mm/mglru: age at different rates
-config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241125/202411252126.fpKorPPx-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git v4l2-loopback
+head:   3a755621b768ff98489ccb7cf9905866d724872b
+commit: 4a6abc37d28f3a63e4f54d12b97c075744285f8d [6/7] media: v4l2-loopback
+config: hexagon-randconfig-r072-20241125 (https://download.01.org/0day-ci/archive/20241126/202411260207.Y7cyTmeG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411252126.fpKorPPx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411260207.Y7cyTmeG-lkp@intel.com/
 
 smatch warnings:
-mm/vmscan.c:3679 reset_ctrl_pos() error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
+drivers/media/v4l2-core/v4l2-loopback.c:1892 vidioc_dqbuf() error: uninitialized symbol 'index'.
+drivers/media/v4l2-core/v4l2-loopback.c:2959 v4l2loopback_control_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +3679 mm/vmscan.c
+vim +/index +1892 drivers/media/v4l2-core/v4l2-loopback.c
 
-2b29ac9f92f57d7 David Stevens 2024-07-12  3653  static void reset_ctrl_pos(struct lruvec *lruvec, int type)
-2b29ac9f92f57d7 David Stevens 2024-07-12  3654  {
-2b29ac9f92f57d7 David Stevens 2024-07-12  3655  	int hist, tier;
-2b29ac9f92f57d7 David Stevens 2024-07-12  3656  	struct lru_gen_folio *lrugen = &lruvec->lrugen;
-31ee01d6177c642 David Stevens 2024-06-06  3657  	unsigned long carry_from_seq = lrugen->min_seq[type];
-31ee01d6177c642 David Stevens 2024-06-06  3658  	unsigned long next_seq = carry_from_seq + 1;
-31ee01d6177c642 David Stevens 2024-06-06  3659  	unsigned long next_gen = lru_gen_from_seq(next_seq);
-31ee01d6177c642 David Stevens 2024-06-06  3660  	long total_nr_pages = 0;
-2b29ac9f92f57d7 David Stevens 2024-07-12  3661  
-2b29ac9f92f57d7 David Stevens 2024-07-12  3662  	lockdep_assert_held(&lruvec->lru_lock);
-ac35a490237446b Yu Zhao       2022-09-18  3663  
-31ee01d6177c642 David Stevens 2024-06-06  3664  	hist = lru_hist_from_seq(carry_from_seq);
-ac35a490237446b Yu Zhao       2022-09-18  3665  
-ac35a490237446b Yu Zhao       2022-09-18  3666  	for (tier = 0; tier < MAX_NR_TIERS; tier++) {
-                                                                              ^^^^^^^^^^^^^
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1845  static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1846  {
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1847  	struct v4l2_loopback_device *dev;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1848  	struct v4l2_loopback_opener *opener;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1849  	int index;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1850  	struct v4l2l_buffer *b;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1851  
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1852  	dev = v4l2loopback_getdevice(file);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1853  	opener = fh_to_opener(fh);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1854  	if (opener->timeout_image_io) {
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1855  		*buf = dev->timeout_image_buffer.buffer;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1856  		return 0;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1857  	}
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1858  
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1859  	switch (buf->type) {
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1860  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1861  		index = get_capture_buffer(file);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1862  		if (index < 0)
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1863  			return index;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1864  		dprintkrw("capture DQBUF pos: %lld index: %d\n",
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1865  			  (long long)(opener->read_position - 1), index);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1866  		if (!(dev->buffers[index].buffer.flags &
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1867  		      V4L2_BUF_FLAG_MAPPED)) {
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1868  			dprintk("trying to return not mapped buf[%d]\n", index);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1869  			return -EINVAL;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1870  		}
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1871  		unset_flags(&dev->buffers[index]);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1872  		*buf = dev->buffers[index].buffer;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1873  		dprintkrw(
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1874  			"dqbuf(CAPTURE)#%d: buffer#%d @ %p type=%d bytesused=%d length=%d flags=%x field=%d timestamp=%lld.%06ld sequence=%d\n",
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1875  			index, buf->index, buf, buf->type, buf->bytesused,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1876  			buf->length, buf->flags, buf->field,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1877  			(long long)buf->timestamp.tv_sec,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1878  			(long int)buf->timestamp.tv_usec, buf->sequence);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1879  		return 0;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1880  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1881  		spin_lock_bh(&dev->list_lock);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1882  
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1883  		b = list_entry(dev->outbufs_list.prev, struct v4l2l_buffer,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1884  			       list_head);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1885  		list_move_tail(&b->list_head, &dev->outbufs_list);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1886  
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1887  		spin_unlock_bh(&dev->list_lock);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1888  		dprintkrw("output DQBUF index: %d\n", b->buffer.index);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1889  		unset_flags(b);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1890  		*buf = b->buffer;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1891  		buf->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22 @1892  		dprintkrw(
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1893  			"dqbuf(OUTPUT)#%d: buffer#%d @ %p type=%d bytesused=%d length=%d flags=%x field=%d timestamp=%lld.%06ld sequence=%d\n",
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1894  			index, buf->index, buf, buf->type, buf->bytesused,
+                                                                        ^^^^^
+index is uninitialized
 
-ac35a490237446b Yu Zhao       2022-09-18  3667  		unsigned long sum;
-ac35a490237446b Yu Zhao       2022-09-18  3668  
-ac35a490237446b Yu Zhao       2022-09-18  3669  		sum = lrugen->avg_refaulted[type][tier] +
-ac35a490237446b Yu Zhao       2022-09-18  3670  		      atomic_long_read(&lrugen->refaulted[hist][type][tier]);
-ac35a490237446b Yu Zhao       2022-09-18  3671  		WRITE_ONCE(lrugen->avg_refaulted[type][tier], sum / 2);
-ac35a490237446b Yu Zhao       2022-09-18  3672  
-ac35a490237446b Yu Zhao       2022-09-18  3673  		sum = lrugen->avg_total[type][tier] +
-ac35a490237446b Yu Zhao       2022-09-18  3674  		      atomic_long_read(&lrugen->evicted[hist][type][tier]);
-ac35a490237446b Yu Zhao       2022-09-18  3675  		if (tier)
-ac35a490237446b Yu Zhao       2022-09-18  3676  			sum += lrugen->protected[hist][type][tier - 1];
-ac35a490237446b Yu Zhao       2022-09-18  3677  		WRITE_ONCE(lrugen->avg_total[type][tier], sum / 2);
-ac35a490237446b Yu Zhao       2022-09-18  3678  
-31ee01d6177c642 David Stevens 2024-06-06 @3679  		total_nr_pages += lrugen->nr_pages[next_gen][type][tier];
-
-There is a mixup between MAX_NR_TIERS (4) and MAX_NR_ZONES (3) which
-results in an out of bounds read.
-
-ac35a490237446b Yu Zhao       2022-09-18  3680  	}
-31ee01d6177c642 David Stevens 2024-06-06  3681  	/* nr_pages is eventually consistent, so fix up the estimate if it's negative. */
-31ee01d6177c642 David Stevens 2024-06-06  3682  	total_nr_pages = max(total_nr_pages, 0);
-2b29ac9f92f57d7 David Stevens 2024-07-12  3683  
-2b29ac9f92f57d7 David Stevens 2024-07-12  3684  	if (NR_HIST_GENS == 1)
-31ee01d6177c642 David Stevens 2024-06-06  3685  		reset_histograms(lruvec, type, carry_from_seq);
-31ee01d6177c642 David Stevens 2024-06-06  3686  
-31ee01d6177c642 David Stevens 2024-06-06  3687  	hist = lru_hist_from_seq(next_seq);
-31ee01d6177c642 David Stevens 2024-06-06  3688  	WRITE_ONCE(lrugen->victim_seq[hist][type], READ_ONCE(lrugen->min_seq[!type]));
-31ee01d6177c642 David Stevens 2024-06-06  3689  	WRITE_ONCE(lrugen->oldest_gen_size[hist][type], total_nr_pages);
-31ee01d6177c642 David Stevens 2024-06-06  3690  }
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1895  			buf->length, buf->flags, buf->field,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1896  			(long long)buf->timestamp.tv_sec,
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1897  			(long int)buf->timestamp.tv_usec, buf->sequence);
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1898  		return 0;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1899  	default:
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1900  		return -EINVAL;
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1901  	}
+4a6abc37d28f3a Jarkko Sakkinen 2024-11-22  1902  }
 
 -- 
 0-DAY CI Kernel Test Service
