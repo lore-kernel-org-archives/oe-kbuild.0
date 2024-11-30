@@ -1,237 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3B929A0
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 04:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8A62F3B
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 05:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732942530; cv=none; b=fm8U3LoZ5vMUbzfph9HV8iGcIjDmvZ9Il4negLgkwp4s/G/WKPL90Ondu5v+olAEFfCJME7dRBw6IY30nwgZU0zp41U5w2rNpftGKwytG3wMXNo4zDrZQhi3paZWAXFySbJtoFsNcWRqWhHgzAQ7o7BTLdQDXx/iDBMznk6KSKs=
+	t=1732945050; cv=none; b=h15hUA0dT+7zlf//XqidBBes8iU4iROOL0aD+2dY0+udqG8U3q3l+5HiBSqXGTfydGT/Ut/Ak1JpJMlqmzN/Gdg7lumQEMsp3gK5jJYz+dEKTkQPwHCVz6qTDElBWJzDVdwVNIRSov8ESitM0B8i4DXvajC93vMLX1rlH4VwleI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732942530; c=relaxed/simple;
-	bh=gVBMqcvt39Zw0+s6CE7i5AvGM9/jGy3KO+wdxGdZ9sk=;
+	s=arc-20240116; t=1732945050; c=relaxed/simple;
+	bh=P8CwnhuWKB2I9lo4BdF//pgbiS9iXWKmnu7aSouSqgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TWfaaqBOpJTEXzqFQzp54YeMl6safBG4Pdq8l2VnQB5ks8fu8CHWiEd1uuRiG512QihutV+VgUMyBMRV6yFQ7oIHBGjmro3uyNCZqFnMGA01S4N++VCGlSpW2XIvS5Y+uxa1P91EAn4JiuQyWpXOwmKZaHKmM2hMfvX7d07Rr+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OicNp2Qa; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=ZdPi6uVPBAP21EY0HzWF4ffh7Yo3o2DPSZzuvQG0GGPBqP6jgocjKh3sOwZmY9pbSd2LfnypYqK3fn3+QMSK4+7kYEAJIJTxX/OUm/LXbFJYo/AmisRBiSk9bRoWkCf1fGGlf/ibgfY68JKR0QnYd1d3+xiIAgPQOQ1XRu0CY84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2yy31vv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OicNp2Qa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2yy31vv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732942528; x=1764478528;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gVBMqcvt39Zw0+s6CE7i5AvGM9/jGy3KO+wdxGdZ9sk=;
-  b=OicNp2QauaBS21Lhaf997snaf8avurMMNN1+XJXhxn2ViFzjio7/bFQX
-   Hbocp+jZCwd/YImQZxYMnSRZV8H/mPplIQznOriPA6jfZUcwucRIiXJN2
-   eqAGHCga4lpTYnR6Jv7QKARAqYH4QPHdunx8dEgtLPnqAElXvLp6Kgl7u
-   YjpmI3s93fERmf7QZenqKVrf5021GbsfjdRy7NdkTbWGrgH9g6tZbPQ5W
-   Tg7EurCRiN8odgJ5zj3CWz7u0AjjUl92a16A5ZXPSZol7xbJB+jJUxDlt
-   qTVaz8QjHS/UsqtrIOh1Pih4thlVR4bjLtw7uYP9kTTxC42v6sevu2TEl
+  t=1732945048; x=1764481048;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P8CwnhuWKB2I9lo4BdF//pgbiS9iXWKmnu7aSouSqgw=;
+  b=n2yy31vv2f/G4EfPNy1BoHoWKdx1C+MQdbLtkqOpmNa/iZ15ennysBo1
+   OP96drpON7gOzS/mSrIyUtExB6iQGFQj4dKM4siSSgN2kZ56kS/KafETa
+   4a1V5qsjUzbbp6vbPrBBnoE7+GQEcuAsg+N0URMZcojaDUAfaICgFHxW1
+   TBwlr2X+wZYy8Ohvez1FJd3HlMWEXjjtiL9dlbmMH48GygBhFIYHQ9ied
+   4Vrzta88Eo/+EHKbGNrmPD2vFJ57eOYic8Pp1Im7OAvOv+Boy9Duk+Pg0
+   W4QhSwQvIt71MOATHLyWo8Hm7aYJrLt91TuV17pNVjbDcwnyECUQqqPuo
    Q==;
-X-CSE-ConnectionGUID: ULpMhhR5SAqFHAxlSwpLlQ==
-X-CSE-MsgGUID: kXowP1hzTGWUOWJY7wh8WQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44549244"
+X-CSE-ConnectionGUID: T2fRapTZSu6IcPFCqio+7Q==
+X-CSE-MsgGUID: zhzwTnX9RHO6olivcQArBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43835592"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="44549244"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 20:55:24 -0800
-X-CSE-ConnectionGUID: 5Bk43nrqQk+a/TkZ6Lp65g==
-X-CSE-MsgGUID: nRzC84IrSsOlpcXqfhWtmg==
+   d="scan'208";a="43835592"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 21:37:26 -0800
+X-CSE-ConnectionGUID: hgWE3TQvRFejbqk1p+YO8A==
+X-CSE-MsgGUID: aAhg1gpOSb6e0v/rGkK+hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="92723825"
+   d="scan'208";a="92547236"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Nov 2024 20:55:23 -0800
+  by orviesa009.jf.intel.com with ESMTP; 29 Nov 2024 21:37:25 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHFVo-00005Y-2v;
-	Sat, 30 Nov 2024 04:55:20 +0000
-Date: Sat, 30 Nov 2024 12:55:11 +0800
+	id 1tHGAU-000075-1f;
+	Sat, 30 Nov 2024 05:37:22 +0000
+Date: Sat, 30 Nov 2024 13:36:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/scsi/sd.c:2183:7-17: WARNING: Unsigned expression compared
- with zero: the_result > 0
-Message-ID: <202411301200.Egg0Y6Cx-lkp@intel.com>
+Subject: net/ipv4/inet_connection_sock.c:379:1-7: preceding lock on line 341
+Message-ID: <202411301357.yQlm2z4o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mike Christie <michael.christie@oracle.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Christoph Hellwig <hch@lst.de>
-CC: John Garry <john.g.garry@oracle.com>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: Martin Wilck <mwilck@suse.com>
+TO: Joanne Koong <joannelkoong@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2ba9f676d0a2e408aef14d679984c26373bf37b7
-commit: b4d0c33a32c3c59217ec449de3892b1a6d68cbc1 scsi: sd: Fix sshdr use in sd_spinup_disk
-date:   1 year, 2 months ago
+commit: 28044fc1d4953b07acec0da4d2fc4784c57ea6fb net: Add a bhash2 table hashed by port and address
+date:   2 years, 3 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 1 year, 2 months ago
-config: hexagon-randconfig-r051-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301200.Egg0Y6Cx-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+:::::: commit date: 2 years, 3 months ago
+config: x86_64-randconfig-104-20241120 (https://download.01.org/0day-ci/archive/20241130/202411301357.yQlm2z4o-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411301200.Egg0Y6Cx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411301357.yQlm2z4o-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/scsi/sd.c:2183:7-17: WARNING: Unsigned expression compared with zero: the_result > 0
+>> net/ipv4/inet_connection_sock.c:379:1-7: preceding lock on line 341
+   net/ipv4/inet_connection_sock.c:565:1-7: preceding lock on line 527
 
-vim +2183 drivers/scsi/sd.c
+vim +379 net/ipv4/inet_connection_sock.c
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2147  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2148  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2149   * spinup disk - called only in sd_revalidate_disk()
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2150   */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2151  static void
-e73aec8247032e Martin K. Petersen  2007-02-27  2152  sd_spinup_disk(struct scsi_disk *sdkp)
-ea73a9f23906c3 James Bottomley     2005-08-28  2153  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2154  	unsigned char cmd[10];
-4451e472627881 Alan Stern          2005-07-12  2155  	unsigned long spintime_expire = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2156  	int retries, spintime;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2157  	unsigned int the_result;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2158  	struct scsi_sense_hdr sshdr;
-af16cd63d9d3b7 Mike Christie       2022-12-29  2159  	const struct scsi_exec_args exec_args = {
-af16cd63d9d3b7 Mike Christie       2022-12-29  2160  		.sshdr = &sshdr,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2161  	};
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2162  	int sense_valid = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2163  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2164  	spintime = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2165  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2166  	/* Spin up drives, as required.  Only do this at boot time */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2167  	/* Spinup needs to be done for module loads too. */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2168  	do {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2169  		retries = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2170  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2171  		do {
-4521428c48118b Heiner Kallweit     2021-09-11  2172  			bool media_was_present = sdkp->media_present;
-4521428c48118b Heiner Kallweit     2021-09-11  2173  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2174  			cmd[0] = TEST_UNIT_READY;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2175  			memset((void *) &cmd[1], 0, 9);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2176  
-af16cd63d9d3b7 Mike Christie       2022-12-29  2177  			the_result = scsi_execute_cmd(sdkp->device, cmd,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2178  						      REQ_OP_DRV_IN, NULL, 0,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2179  						      SD_TIMEOUT,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2180  						      sdkp->max_retries,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2181  						      &exec_args);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2182  
-b4d0c33a32c3c5 Mike Christie       2023-10-04 @2183  			if (the_result > 0) {
-b4d38e38e66f8e Alan Stern          2006-10-11  2184  				/*
-b4d38e38e66f8e Alan Stern          2006-10-11  2185  				 * If the drive has indicated to us that it
-b4d38e38e66f8e Alan Stern          2006-10-11  2186  				 * doesn't have any media in it, don't bother
-b4d38e38e66f8e Alan Stern          2006-10-11  2187  				 * with any more polling.
-b4d38e38e66f8e Alan Stern          2006-10-11  2188  				 */
-848ade90ba9c1e Christian Loehle    2021-08-16  2189  				if (media_not_present(sdkp, &sshdr)) {
-4521428c48118b Heiner Kallweit     2021-09-11  2190  					if (media_was_present)
-b4d0c33a32c3c5 Mike Christie       2023-10-04  2191  						sd_printk(KERN_NOTICE, sdkp,
-b4d0c33a32c3c5 Mike Christie       2023-10-04  2192  							  "Media removed, stopped polling\n");
-b4d38e38e66f8e Alan Stern          2006-10-11  2193  					return;
-848ade90ba9c1e Christian Loehle    2021-08-16  2194  				}
-b4d38e38e66f8e Alan Stern          2006-10-11  2195  
-ea73a9f23906c3 James Bottomley     2005-08-28  2196  				sense_valid = scsi_sense_valid(&sshdr);
-b4d0c33a32c3c5 Mike Christie       2023-10-04  2197  			}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2198  			retries++;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2199  		} while (retries < 3 &&
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2200  			 (!scsi_status_is_good(the_result) ||
-464a00c9e0ad45 Hannes Reinecke     2021-04-27  2201  			  (scsi_status_is_check_condition(the_result) &&
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2202  			  sense_valid && sshdr.sense_key == UNIT_ATTENTION)));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2203  
-464a00c9e0ad45 Hannes Reinecke     2021-04-27  2204  		if (!scsi_status_is_check_condition(the_result)) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2205  			/* no sense, TUR either succeeded or failed
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2206  			 * with a status error */
-e73aec8247032e Martin K. Petersen  2007-02-27  2207  			if(!spintime && !scsi_status_is_good(the_result)) {
-ef61329db7b8b4 Hannes Reinecke     2014-10-24  2208  				sd_print_result(sdkp, "Test Unit Ready failed",
-ef61329db7b8b4 Hannes Reinecke     2014-10-24  2209  						the_result);
-e73aec8247032e Martin K. Petersen  2007-02-27  2210  			}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2211  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2212  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2213  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2214  		/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2215  		 * The device does not want the automatic start to be issued.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2216  		 */
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2217  		if (sdkp->device->no_start_on_add)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2218  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2219  
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2220  		if (sense_valid && sshdr.sense_key == NOT_READY) {
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2221  			if (sshdr.asc == 4 && sshdr.ascq == 3)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2222  				break;	/* manual intervention required */
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2223  			if (sshdr.asc == 4 && sshdr.ascq == 0xb)
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2224  				break;	/* standby */
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2225  			if (sshdr.asc == 4 && sshdr.ascq == 0xc)
-33dd6f92a1a7ad Matthew Wilcox      2009-02-20  2226  				break;	/* unavailable */
-505aa4b6a8834a Mahesh Rajashekhara 2018-04-17  2227  			if (sshdr.asc == 4 && sshdr.ascq == 0x1b)
-505aa4b6a8834a Mahesh Rajashekhara 2018-04-17  2228  				break;	/* sanitize in progress */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2229  			/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2230  			 * Issue command to spin up drive when not ready
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2231  			 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2232  			if (!spintime) {
-e73aec8247032e Martin K. Petersen  2007-02-27  2233  				sd_printk(KERN_NOTICE, sdkp, "Spinning up disk...");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2234  				cmd[0] = START_STOP;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2235  				cmd[1] = 1;	/* Return immediately */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2236  				memset((void *) &cmd[2], 0, 8);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2237  				cmd[4] = 1;	/* Start spin cycle */
-d2886ea368a677 Stefan Richter      2008-05-11  2238  				if (sdkp->device->start_stop_pwr_cond)
-d2886ea368a677 Stefan Richter      2008-05-11  2239  					cmd[4] |= 1 << 4;
-af16cd63d9d3b7 Mike Christie       2022-12-29  2240  				scsi_execute_cmd(sdkp->device, cmd,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2241  						 REQ_OP_DRV_IN, NULL, 0,
-0610959fbbca62 Mike Christie       2020-10-01  2242  						 SD_TIMEOUT, sdkp->max_retries,
-af16cd63d9d3b7 Mike Christie       2022-12-29  2243  						 &exec_args);
-4451e472627881 Alan Stern          2005-07-12  2244  				spintime_expire = jiffies + 100 * HZ;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2245  				spintime = 1;
-4451e472627881 Alan Stern          2005-07-12  2246  			}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2247  			/* Wait 1 second for next try */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2248  			msleep(1000);
-3a1d0783ac2750 Michał Mirosław     2017-11-24  2249  			printk(KERN_CONT ".");
-4451e472627881 Alan Stern          2005-07-12  2250  
-4451e472627881 Alan Stern          2005-07-12  2251  		/*
-4451e472627881 Alan Stern          2005-07-12  2252  		 * Wait for USB flash devices with slow firmware.
-4451e472627881 Alan Stern          2005-07-12  2253  		 * Yes, this sense key/ASC combination shouldn't
-4451e472627881 Alan Stern          2005-07-12  2254  		 * occur here.  It's characteristic of these devices.
-4451e472627881 Alan Stern          2005-07-12  2255  		 */
-4451e472627881 Alan Stern          2005-07-12  2256  		} else if (sense_valid &&
-4451e472627881 Alan Stern          2005-07-12  2257  				sshdr.sense_key == UNIT_ATTENTION &&
-4451e472627881 Alan Stern          2005-07-12  2258  				sshdr.asc == 0x28) {
-4451e472627881 Alan Stern          2005-07-12  2259  			if (!spintime) {
-4451e472627881 Alan Stern          2005-07-12  2260  				spintime_expire = jiffies + 5 * HZ;
-4451e472627881 Alan Stern          2005-07-12  2261  				spintime = 1;
-4451e472627881 Alan Stern          2005-07-12  2262  			}
-4451e472627881 Alan Stern          2005-07-12  2263  			/* Wait 1 second for next try */
-4451e472627881 Alan Stern          2005-07-12  2264  			msleep(1000);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2265  		} else {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2266  			/* we don't understand the sense code, so it's
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2267  			 * probably pointless to loop */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2268  			if(!spintime) {
-e73aec8247032e Martin K. Petersen  2007-02-27  2269  				sd_printk(KERN_NOTICE, sdkp, "Unit Not Ready\n");
-e73aec8247032e Martin K. Petersen  2007-02-27  2270  				sd_print_sense_hdr(sdkp, &sshdr);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2271  			}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2272  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2273  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2274  				
-4451e472627881 Alan Stern          2005-07-12  2275  	} while (spintime && time_before_eq(jiffies, spintime_expire));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2276  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2277  	if (spintime) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2278  		if (scsi_status_is_good(the_result))
-3a1d0783ac2750 Michał Mirosław     2017-11-24  2279  			printk(KERN_CONT "ready\n");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2280  		else
-3a1d0783ac2750 Michał Mirosław     2017-11-24  2281  			printk(KERN_CONT "not responding...\n");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2282  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2283  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  2284  
+971af18bbfabb7 Arnaldo Carvalho de Melo 2005-12-13  278  
+289141b7688b71 Josef Bacik              2017-01-17  279  /*
+289141b7688b71 Josef Bacik              2017-01-17  280   * Find an open port number for the socket.  Returns with the
+28044fc1d4953b Joanne Koong             2022-08-22  281   * inet_bind_hashbucket locks held if successful.
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  282   */
+289141b7688b71 Josef Bacik              2017-01-17  283  static struct inet_bind_hashbucket *
+28044fc1d4953b Joanne Koong             2022-08-22  284  inet_csk_find_open_port(const struct sock *sk, struct inet_bind_bucket **tb_ret,
+28044fc1d4953b Joanne Koong             2022-08-22  285  			struct inet_bind2_bucket **tb2_ret,
+28044fc1d4953b Joanne Koong             2022-08-22  286  			struct inet_bind_hashbucket **head2_ret, int *port_ret)
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  287  {
+ea8add2b190395 Eric Dumazet             2016-02-11  288  	struct inet_hashinfo *hinfo = sk->sk_prot->h.hashinfo;
+593d1ebe00a45a Joanne Koong             2022-06-15  289  	int port = 0;
+28044fc1d4953b Joanne Koong             2022-08-22  290  	struct inet_bind_hashbucket *head, *head2;
+3b1e0a655f8eba YOSHIFUJI Hideaki        2008-03-26  291  	struct net *net = sock_net(sk);
+593d1ebe00a45a Joanne Koong             2022-06-15  292  	bool relax = false;
+ea8add2b190395 Eric Dumazet             2016-02-11  293  	int i, low, high, attempt_half;
+28044fc1d4953b Joanne Koong             2022-08-22  294  	struct inet_bind2_bucket *tb2;
+ea8add2b190395 Eric Dumazet             2016-02-11  295  	struct inet_bind_bucket *tb;
+ea8add2b190395 Eric Dumazet             2016-02-11  296  	u32 remaining, offset;
+3c82a21f4320c8 Robert Shearman          2018-11-07  297  	int l3mdev;
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  298  
+3c82a21f4320c8 Robert Shearman          2018-11-07  299  	l3mdev = inet_sk_bound_l3mdev(sk);
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  300  ports_exhausted:
+ea8add2b190395 Eric Dumazet             2016-02-11  301  	attempt_half = (sk->sk_reuse == SK_CAN_REUSE) ? 1 : 0;
+ea8add2b190395 Eric Dumazet             2016-02-11  302  other_half_scan:
+0bbf87d852d243 Eric W. Biederman        2013-09-28  303  	inet_get_local_port_range(net, &low, &high);
+ea8add2b190395 Eric Dumazet             2016-02-11  304  	high++; /* [32768, 60999] -> [32768, 61000[ */
+ea8add2b190395 Eric Dumazet             2016-02-11  305  	if (high - low < 4)
+ea8add2b190395 Eric Dumazet             2016-02-11  306  		attempt_half = 0;
+946f9eb226c296 Eric Dumazet             2015-05-20  307  	if (attempt_half) {
+ea8add2b190395 Eric Dumazet             2016-02-11  308  		int half = low + (((high - low) >> 2) << 1);
+946f9eb226c296 Eric Dumazet             2015-05-20  309  
+946f9eb226c296 Eric Dumazet             2015-05-20  310  		if (attempt_half == 1)
+946f9eb226c296 Eric Dumazet             2015-05-20  311  			high = half;
+946f9eb226c296 Eric Dumazet             2015-05-20  312  		else
+946f9eb226c296 Eric Dumazet             2015-05-20  313  			low = half;
+946f9eb226c296 Eric Dumazet             2015-05-20  314  	}
+ea8add2b190395 Eric Dumazet             2016-02-11  315  	remaining = high - low;
+ea8add2b190395 Eric Dumazet             2016-02-11  316  	if (likely(remaining > 1))
+ea8add2b190395 Eric Dumazet             2016-02-11  317  		remaining &= ~1U;
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  318  
+ea8add2b190395 Eric Dumazet             2016-02-11  319  	offset = prandom_u32() % remaining;
+ea8add2b190395 Eric Dumazet             2016-02-11  320  	/* __inet_hash_connect() favors ports having @low parity
+ea8add2b190395 Eric Dumazet             2016-02-11  321  	 * We do the opposite to not pollute connect() users.
+ea8add2b190395 Eric Dumazet             2016-02-11  322  	 */
+ea8add2b190395 Eric Dumazet             2016-02-11  323  	offset |= 1U;
+ea8add2b190395 Eric Dumazet             2016-02-11  324  
+ea8add2b190395 Eric Dumazet             2016-02-11  325  other_parity_scan:
+ea8add2b190395 Eric Dumazet             2016-02-11  326  	port = low + offset;
+ea8add2b190395 Eric Dumazet             2016-02-11  327  	for (i = 0; i < remaining; i += 2, port += 2) {
+ea8add2b190395 Eric Dumazet             2016-02-11  328  		if (unlikely(port >= high))
+ea8add2b190395 Eric Dumazet             2016-02-11  329  			port -= remaining;
+ea8add2b190395 Eric Dumazet             2016-02-11  330  		if (inet_is_local_reserved_port(net, port))
+ea8add2b190395 Eric Dumazet             2016-02-11  331  			continue;
+ea8add2b190395 Eric Dumazet             2016-02-11  332  		head = &hinfo->bhash[inet_bhashfn(net, port,
+ea8add2b190395 Eric Dumazet             2016-02-11  333  						  hinfo->bhash_size)];
+ea8add2b190395 Eric Dumazet             2016-02-11  334  		spin_lock_bh(&head->lock);
+28044fc1d4953b Joanne Koong             2022-08-22  335  		if (inet_use_bhash2_on_bind(sk)) {
+28044fc1d4953b Joanne Koong             2022-08-22  336  			if (inet_bhash2_addr_any_conflict(sk, port, l3mdev, relax, false))
+28044fc1d4953b Joanne Koong             2022-08-22  337  				goto next_port;
+28044fc1d4953b Joanne Koong             2022-08-22  338  		}
+28044fc1d4953b Joanne Koong             2022-08-22  339  
+28044fc1d4953b Joanne Koong             2022-08-22  340  		head2 = inet_bhashfn_portaddr(hinfo, sk, net, port);
+28044fc1d4953b Joanne Koong             2022-08-22 @341  		spin_lock(&head2->lock);
+28044fc1d4953b Joanne Koong             2022-08-22  342  		tb2 = inet_bind2_bucket_find(head2, net, port, l3mdev, sk);
+b67bfe0d42cac5 Sasha Levin              2013-02-27  343  		inet_bind_bucket_for_each(tb, &head->chain)
+28044fc1d4953b Joanne Koong             2022-08-22  344  			if (inet_bind_bucket_match(tb, net, port, l3mdev)) {
+28044fc1d4953b Joanne Koong             2022-08-22  345  				if (!inet_csk_bind_conflict(sk, tb, tb2,
+28044fc1d4953b Joanne Koong             2022-08-22  346  							    relax, false))
+6cd66616834c89 Josef Bacik              2017-01-17  347  					goto success;
+28044fc1d4953b Joanne Koong             2022-08-22  348  				spin_unlock(&head2->lock);
+ea8add2b190395 Eric Dumazet             2016-02-11  349  				goto next_port;
+2b05ad33e1e624 Flavio Leitner           2012-01-25  350  			}
+289141b7688b71 Josef Bacik              2017-01-17  351  		tb = NULL;
+289141b7688b71 Josef Bacik              2017-01-17  352  		goto success;
+ea8add2b190395 Eric Dumazet             2016-02-11  353  next_port:
+ea8add2b190395 Eric Dumazet             2016-02-11  354  		spin_unlock_bh(&head->lock);
+ea8add2b190395 Eric Dumazet             2016-02-11  355  		cond_resched();
+a9d8f9110d7e95 Evgeniy Polyakov         2009-01-19  356  	}
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  357  
+ea8add2b190395 Eric Dumazet             2016-02-11  358  	offset--;
+ea8add2b190395 Eric Dumazet             2016-02-11  359  	if (!(offset & 1))
+ea8add2b190395 Eric Dumazet             2016-02-11  360  		goto other_parity_scan;
+ea8add2b190395 Eric Dumazet             2016-02-11  361  
+946f9eb226c296 Eric Dumazet             2015-05-20  362  	if (attempt_half == 1) {
+946f9eb226c296 Eric Dumazet             2015-05-20  363  		/* OK we now try the upper half of the range */
+946f9eb226c296 Eric Dumazet             2015-05-20  364  		attempt_half = 2;
+ea8add2b190395 Eric Dumazet             2016-02-11  365  		goto other_half_scan;
+3f421baa4720b7 Arnaldo Carvalho de Melo 2005-08-09  366  	}
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  367  
+0db232765887d9 Kuniyuki Iwashima        2022-07-13  368  	if (READ_ONCE(net->ipv4.sysctl_ip_autobind_reuse) && !relax) {
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  369  		/* We still have a chance to connect to different destinations */
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  370  		relax = true;
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  371  		goto ports_exhausted;
+4b01a9674231a9 Kuniyuki Iwashima        2020-03-10  372  	}
+289141b7688b71 Josef Bacik              2017-01-17  373  	return NULL;
+289141b7688b71 Josef Bacik              2017-01-17  374  success:
+289141b7688b71 Josef Bacik              2017-01-17  375  	*port_ret = port;
+289141b7688b71 Josef Bacik              2017-01-17  376  	*tb_ret = tb;
+28044fc1d4953b Joanne Koong             2022-08-22  377  	*tb2_ret = tb2;
+28044fc1d4953b Joanne Koong             2022-08-22  378  	*head2_ret = head2;
+289141b7688b71 Josef Bacik              2017-01-17 @379  	return head;
+289141b7688b71 Josef Bacik              2017-01-17  380  }
+289141b7688b71 Josef Bacik              2017-01-17  381  
+
+:::::: The code at line 379 was first introduced by commit
+:::::: 289141b7688b71dc69b8d7a54bf67a4d7bc79f96 inet: split inet_csk_get_port into two functions
+
+:::::: TO: Josef Bacik <jbacik@fb.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
