@@ -1,69 +1,66 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618FA4436E
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 16:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F4A19AA5F
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 16:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732982503; cv=none; b=Ns1XIJXIGZ6EYvAAconIAqx6QVih3gfoG3OkB+pGaxA64OO96OkJ+ndfKvDs63k/27ZSnKHpwaGZZP/FD+cYTAyHmXZfgBmFLFvdaDtua8h2kerhtNQdV0azvCmE4hmKERcNbOySA+toLL7kR1UJWsmPkrNJGPFFeywK9gn4bE4=
+	t=1732982784; cv=none; b=AnBA6xRbZu4Q7yO2OXvJKcAzTnOjaU8KzxUnpYijTsikTBJS2v2piBzYjaFeA362/+TrfxG06gz2zdDJp3kaFEf0MpAKWuiTbYKhsHiHbbgSMkSfWeseihpi9Uk6ztOYI0OI3ZPs70FHTXl0P66FS9UnVxHvZQDB5wH2geV2umU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732982503; c=relaxed/simple;
-	bh=8PQ17UtHKWEWFc8bUqxcYRYZlrzIaoJKvd4SBh+fboA=;
+	s=arc-20240116; t=1732982784; c=relaxed/simple;
+	bh=Nsrnp7LaDtQNb9ASCOGm1PaoWaIYfsrJjazNvTHMLkw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rnh/AX0dwMRZ/ikuV+1zcc+tpHjpY2t5Z/uWR1ZR+0LBVlNKI5UO+WZZGHTNiTv9gv8YW7Sl660m2XwNamarsyZ63ZxKrychT2cNIP/j5lQvQtIiGkcVwXqPHmdeUB7z3fpgsBVUnqKBfIO+0K3GIs0CqOMCMHhDVOuDIUcRmlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vr315uNS; arc=none smtp.client-ip=209.85.208.51
+	 Content-Disposition; b=N3Nl4jaIUcwxR2+voS7QLAeG5ZxKgpqyTFb3ua9awCYqjEwnC+lfFoGcALSWqJENdyPHft/BpnSk3JnHsyD3kiHrHWwfanM7YaLorNv+5zayDOCsyniT7KZo35n2hdFuAUbqC7SV3dvA+LobCjyT/AObtd3qHYedcsdxTg10unk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kMFN4xQk; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vr315uNS"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0bfa52bd9so1315863a12.2
-        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 08:01:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kMFN4xQk"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa535eed875so437422666b.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 08:06:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732982499; x=1733587299; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1732982780; x=1733587580; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LcX4f2MqHn8HzczBZ5vJerxCPkOipukcFDGbVXHsyGE=;
-        b=vr315uNSLIQ28liYaAxc25kPLxkLcUUdB+xqSqOgevkSV4l/lvoXWyfl0Yq9s21qYI
-         ddM1j89RUDjHrTNGnZqCejkE5fkM0XOna8CtS4Dm6a2fTnNLYzPRUOEQ/NnatrxTTV5/
-         Vaaz93mb6qsTy/DrYfZdIbSqmd1+qTnpOFmQJPQZR8JMWuvjHOybr0xKfiiqi1HaqTAC
-         1+giQMl/BXAFzSA/f8F6tGEWoCF/nMWLtkRx1AzemeT/7jM/Dnb1N8lxZwyRHa+rSfOW
-         lnGGxTfehosP+zV+vFR2sZJhXjjOv73uQ7GzmdnkPPmMLNxDE4jkBe5ncAWw8FfstRuB
-         N94g==
+        bh=CMYdxPyOmeFhFZ6H0csR+ykuJoEq6nooFSgO0tdXHGE=;
+        b=kMFN4xQkYtiqAbwJKMBWhcrX4fT5o6iawNN6D9iC+J8UT5WtVLTn3p7Z0VMi1lPiYg
+         vfzDZaNDkqg3FAbtjBMYBEREiAn8OG9QI3Y0cf2PzgHAKtxA7MzC/OzsR+prE3T8yfih
+         nhYxdZ4g0KfRzD6LtZ1BeLeq6j6HiSV320Jcx9ogkjhz0utBSZXwlymX5Iigm0h4I6ei
+         9cbbDIwzksikD9ZFhQMyN24fzW14Hef9JoGt34JbBXkyqhJou8Zbo+kYtMX2JD62welx
+         lgC2NKWPE/rC45exGC7jiqO25lrdL/WKANUzO39koxTnCY8hNrSal3UObXdFgYjE4b2v
+         aNDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732982499; x=1733587299;
+        d=1e100.net; s=20230601; t=1732982780; x=1733587580;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LcX4f2MqHn8HzczBZ5vJerxCPkOipukcFDGbVXHsyGE=;
-        b=RZ2T8P5Ys5kvPwVKjWucDNrbF+pIxV81EaP4WbM0Ye7sQoSSHnDckV9DWlgzisoMyG
-         tDf44dqpfJ1lLYK/MJtM8ObwGg51IF4odWdA9z4oRYunrOJhoi9pKg7pgyE2nF5u6SnD
-         iY4CN1YtJzruLyDgIqAvLmEDhn45DwBFC3SIToBoWCoCxQOX4LOXWKe1oze5o4FswOLZ
-         qymeuP/J/IZ6wvCv2vzarq9gI959TKGb67hk03zdHQ6SB6FiwyyqRBALDYsMepL3+ONN
-         +NCGkajYePT2vcGOH8g9mAMmb911bg+lr1obBlngCVY+mwH4v9PYaxelbOUUoznNRIEP
-         sPjw==
-X-Gm-Message-State: AOJu0YxsKeOdEhe1y9gWhojPw5ZzIIV6TzyoEUhD0MOf6qIKWYNflTKB
-	xbjw+UG5zOEtVcoxyNQncuG0ooGlExlAB31ydNXF8/sYjDizixSJrbE+h+BD6PlC4Xxv7+Dbc/i
-	B
-X-Gm-Gg: ASbGncvYKk6zhohbRiibnI/SFeNUKXl/3ydSS/ZRE9ODs6Lwb/iv7RlR0jT+iMkHjA8
-	DOV2EMTaXc4I03PNCOdIVq1LGBhtmzpbAPCQrJP9oSNgYyfy813WmcIZXj/yG1c5IackUst5CfB
-	e4owd2/uHq24wh/WmrmoYMYjopUuOcK49Q3IXHiA14P++J01ATW/vNaCMrNDIjDlGANwqZkGp9V
-	yPeHKa2EtLmyFzuei5bwXHDSR632pWfZqBtx/WEBDpbBj/H+llbBtK4eAhvz5r9Twx65Pas
-X-Google-Smtp-Source: AGHT+IG6IKVMxCoqilw91nUdTOtT6PRScXP1YSV7J8UmVDlgsGAp6lswVKcs9LxQNnoyLJYl0yidKg==
-X-Received: by 2002:a05:6402:2354:b0:5cf:d5ad:2809 with SMTP id 4fb4d7f45d1cf-5d080c47a10mr13715822a12.24.1732982499332;
-        Sat, 30 Nov 2024 08:01:39 -0800 (PST)
+        bh=CMYdxPyOmeFhFZ6H0csR+ykuJoEq6nooFSgO0tdXHGE=;
+        b=AytCUljDht6jqQlD+PORKxNEIEZ+Zs0j3r0MkFkpOQNFYiqbPOwjzvX5AvCQhp1M9Q
+         w5Qhx0kJbt2fukhWBDCw5yGc4BfJhLAmdYjBpAdjyyrlUc3fAu3vgoC60ULp9/2A/tSe
+         7MJ+A+5z50jz4VnQ7w0eCfkkzoVRiCGySma/ww5FTL6eLD+QASPSqh5j7+W/cXTYsH69
+         IRCy7bt7wpU1ZFAgdQhW/XuP8mVZTjq8jxhIPCzhT10kRoe1fgbXkYoC7mfP2TDyCI0u
+         AZXZIFnxTjUW5hD8fIAEa+tHRfsJBNCfcU50K6JgNvYMO5ysQ78+FlpDgfhK4fL+yCif
+         g50Q==
+X-Gm-Message-State: AOJu0YxuvDqEKt8ikAPz1fj5k1rnj17ohGuDaqtSSdLs31o/DLppMKtK
+	wDfxC8JEZjzsH3N4JcMMuYUfa4hTMp2ajI9IfIZLgpqNQRnf6/zZIiFLF8AJ4397ccozG6KpnL9
+	q
+X-Gm-Gg: ASbGnctNeA5r2tgeDFjcxbkBEuH/K0kI/rrIo7zSuAY/L9NML9h3hf5kptdqRNcWm2V
+	jYyoAYHi36Lq1wsGzyDhUr352TRnupGCsy9lIYRc8MGKMZFHsTx/CmpHheqIYCMSj8ZReTFb2xP
+	a1wTE1jzGOCE7ahklhp7BHsfQp8sf1P4fGr3EvuRLMMgIhXBVlYh1zj6MttUmgLmq3E6Csai9r6
+	yrLSLv+m82Y7kMFSSrIQGraAPKKG6dnI0brbMnC7oKe1FiHJItCjK6Kl4Cf0T3YlqybpJw0
+X-Google-Smtp-Source: AGHT+IH+QK21nXbKJawLHfjFBv+7+qZ9USZW54TK7dUsjTw7plIf6hEtUosiTwaCIdEMrlTGQwEdGQ==
+X-Received: by 2002:a17:907:6ea9:b0:aa5:297a:429f with SMTP id a640c23a62f3a-aa58108036dmr1687028966b.51.1732982780279;
+        Sat, 30 Nov 2024 08:06:20 -0800 (PST)
 Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0bf49f159sm1320085a12.0.2024.11.30.08.01.37
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa599908be5sm292536066b.140.2024.11.30.08.06.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 08:01:38 -0800 (PST)
-Date: Sat, 30 Nov 2024 19:01:33 +0300
+        Sat, 30 Nov 2024 08:06:19 -0800 (PST)
+Date: Sat, 30 Nov 2024 19:06:14 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andi Shyti <andi.shyti@kernel.org>
-Subject: [linux-next:master 11908/12916] drivers/i2c/busses/i2c-xiic.c:932
- xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg'
- (see line 930)
-Message-ID: <37f714bf-bd1a-4a97-9881-1d1ed2cbb20c@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fsnotify_hsm 2/2] fs/binfmt_elf.c:1357 load_elf_binary()
+ error: we previously assumed 'interpreter' could be null (see line 985)
+Message-ID: <8704bdd6-74eb-41f3-86dd-2436315fdb4e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,57 +70,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6f3d2b5299b0a8bcb8a9405a8d3fceb24f79c4f0
-commit: 8bba86687c0b6a22f05ed4a7398c519d3796bc74 [11908/12916] i2c: xiic: Add atomic transfer support
-config: i386-randconfig-141-20241121 (https://download.01.org/0day-ci/archive/20241128/202411281318.Ami4hwE8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://github.com/amir73il/linux fsnotify_hsm
+head:   e155d521497c38f4ec41e56b154817f4854e7023
+commit: 69f947e37830ee8307126700d082ff80d06d416a [2/2] fs: don't block write during exec on pre-content watched files
+config: x86_64-randconfig-161-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301243.AwR7XcXJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411281318.Ami4hwE8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411301243.AwR7XcXJ-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-xiic.c:932 xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg' (see line 930)
+New smatch warnings:
+fs/binfmt_elf.c:1357 load_elf_binary() error: we previously assumed 'interpreter' could be null (see line 985)
+fs/binfmt_elf.c:1358 load_elf_binary() warn: variable dereferenced before check 'interpreter' (see line 1357)
+fs/binfmt_elf.c:1358 load_elf_binary() warn: variable dereferenced before check 'interpreter' (see line 1357)
 
-vim +932 drivers/i2c/busses/i2c-xiic.c
+Old smatch warnings:
+arch/x86/include/asm/elf.h:161 elf_common_init() warn: inconsistent indenting
 
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  928  static void xiic_recv_atomic(struct xiic_i2c *i2c)
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  929  {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @930  	while (xiic_rx_space(i2c)) {
-                                                                             ^^^
-The xiic_rx_space() macro dereferences i2c->rx_msg.
+vim +/interpreter +1357 fs/binfmt_elf.c
 
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  931  		if (xiic_getreg32(i2c, XIIC_IISR_OFFSET) & XIIC_INTR_RX_FULL_MASK) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @932  			if (!i2c->rx_msg) {
-                                                                            ^^^^^^^^^^^^
-Inconsistent NULL check.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1345  
+b83838313386f6 Kees Cook               2018-04-10  1346  	finalize_exec(bprm);
+bc3d7bf61a9eae Gabriel Krisman Bertazi 2020-10-03  1347  	START_THREAD(elf_ex, regs, elf_entry, bprm->p);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1348  	retval = 0;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1349  out:
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1350  	return retval;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1351  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1352  	/* error cleanup */
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1353  out_free_dentry:
+0693ffebcfe5ac Alexey Dobriyan         2020-04-06  1354  	kfree(interp_elf_ex);
+a9d9ef133f443a Paul Burton             2014-09-11  1355  	kfree(interp_elf_phdata);
+594d2a14f2168c Li Zetao                2022-10-24  1356  out_free_file:
+69f947e37830ee Amir Goldstein          2024-11-28 @1357  	exe_file_allow_write_access(interpreter);
+                                                                                            ^^^^^^^^^^^
+Unchecked dereference
 
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  933  				xiic_clear_rx_fifo(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  934  				break;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  935  			}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  936  			xiic_read_rx(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  937  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  938  			/* Clear Rx full and Tx error interrupts. */
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  939  			xiic_irq_clr_en(i2c, XIIC_INTR_RX_FULL_MASK |
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  940  					XIIC_INTR_TX_ERROR_MASK);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  941  		}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  942  		if (xiic_error_check(i2c))
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  943  			return;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  944  	}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  945  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  946  	i2c->rx_msg = NULL;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  947  	xiic_irq_clr_en(i2c, XIIC_INTR_TX_ERROR_MASK);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  948  
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  949  	/* send next message if this wasn't the last. */
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  950  	if (i2c->nmsgs > 1) {
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  951  		i2c->nmsgs--;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  952  		i2c->tx_msg++;
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  953  		__xiic_start_xfer(i2c);
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  954  	}
-8bba86687c0b6a Manikanta Guntupalli 2024-10-11  955  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16 @1358  	if (interpreter)
+                                                                    ^^^^^^^^^^^
+Checked too late
+
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1359  		fput(interpreter);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1360  out_free_ph:
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1361  	kfree(elf_phdata);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1362  	goto out;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  1363  }
 
 -- 
 0-DAY CI Kernel Test Service
