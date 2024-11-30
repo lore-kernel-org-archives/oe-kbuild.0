@@ -1,68 +1,69 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5953F1A0BC5
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 15:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618FA4436E
+	for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 16:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732982347; cv=none; b=pc8dylBKOOyM1/5NSkSsQ1HKwYVq6+Z0+tPEHQWld5vHyYjKF6C21glSUCb47fK/852YeF3aSROP1EBmF5V5AXrTkN7qsaOr2mP739L9fmv0PAndg//90qC+UiVZR51IKuVjB+hCV8YqZcuLxgV0EtJbwh2rLeUjAMez30yMhoc=
+	t=1732982503; cv=none; b=Ns1XIJXIGZ6EYvAAconIAqx6QVih3gfoG3OkB+pGaxA64OO96OkJ+ndfKvDs63k/27ZSnKHpwaGZZP/FD+cYTAyHmXZfgBmFLFvdaDtua8h2kerhtNQdV0azvCmE4hmKERcNbOySA+toLL7kR1UJWsmPkrNJGPFFeywK9gn4bE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732982347; c=relaxed/simple;
-	bh=gpVIL5eF+8BbmhFwI/AuB/X0BVm8f34cpWHZQ5CXwzY=;
+	s=arc-20240116; t=1732982503; c=relaxed/simple;
+	bh=8PQ17UtHKWEWFc8bUqxcYRYZlrzIaoJKvd4SBh+fboA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EGr0zZ48T/SeLyv121ZxoAt3Lig5Xx3DO26gXVu6pnW+m5UAmzGYgeAX/BveVp4iwdYo84OYK9B8ySkhdomIxbVEy0JbphwCJrmV9+RrwcRdijKZmpedmLG5+Egb/XKulALn5/p8sR0aX85bvGxGVP4QiwD0Uu+QvJV3EWI8jow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BsQp4uUB; arc=none smtp.client-ip=209.85.208.47
+	 Content-Disposition; b=rnh/AX0dwMRZ/ikuV+1zcc+tpHjpY2t5Z/uWR1ZR+0LBVlNKI5UO+WZZGHTNiTv9gv8YW7Sl660m2XwNamarsyZ63ZxKrychT2cNIP/j5lQvQtIiGkcVwXqPHmdeUB7z3fpgsBVUnqKBfIO+0K3GIs0CqOMCMHhDVOuDIUcRmlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vr315uNS; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BsQp4uUB"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5cec9609303so3202357a12.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 07:59:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vr315uNS"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0bfa52bd9so1315863a12.2
+        for <oe-kbuild@lists.linux.dev>; Sat, 30 Nov 2024 08:01:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732982343; x=1733587143; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1732982499; x=1733587299; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Il4qUVvhXjYUHRDegOiih77I/cCBsmIIzn/rvSkGkRk=;
-        b=BsQp4uUB2lUU5hZlP1+sEWMDMihLOq/c7NLVesxy1d9MauZMBArIVxVYT63iewWkOQ
-         jsCrj86KeZ2Wm51MUaBFYNP+MzgQvk4FyHNYHob/y57WHmBN8ueBgVPuAuVGc7HX0ujW
-         7mf/R7v8J7QIrtpiGcgG71Y6cowgcjgJ3cfwzHj+0Fi9q+i0RM+ooPyopEe5sKRhrM80
-         w/xdrvbk5FJUM2fnQAyDSSbib2pdhMn9JOfUc2vhTCouQayakZAeEpeEOOU4s0zCB+1/
-         f6lr7j8R0pdlUskDmK2aSCUkUbSVdamBFR6UcZ2vNiPhmS60NhsSdzsOZGhBuhjizQOU
-         VNHA==
+        bh=LcX4f2MqHn8HzczBZ5vJerxCPkOipukcFDGbVXHsyGE=;
+        b=vr315uNSLIQ28liYaAxc25kPLxkLcUUdB+xqSqOgevkSV4l/lvoXWyfl0Yq9s21qYI
+         ddM1j89RUDjHrTNGnZqCejkE5fkM0XOna8CtS4Dm6a2fTnNLYzPRUOEQ/NnatrxTTV5/
+         Vaaz93mb6qsTy/DrYfZdIbSqmd1+qTnpOFmQJPQZR8JMWuvjHOybr0xKfiiqi1HaqTAC
+         1+giQMl/BXAFzSA/f8F6tGEWoCF/nMWLtkRx1AzemeT/7jM/Dnb1N8lxZwyRHa+rSfOW
+         lnGGxTfehosP+zV+vFR2sZJhXjjOv73uQ7GzmdnkPPmMLNxDE4jkBe5ncAWw8FfstRuB
+         N94g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732982343; x=1733587143;
+        d=1e100.net; s=20230601; t=1732982499; x=1733587299;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Il4qUVvhXjYUHRDegOiih77I/cCBsmIIzn/rvSkGkRk=;
-        b=a58HKCzgX3NunBUHvHRER3J9DZr/HJrn56sgaBC9tAXwBSVtGe/hQUrYIfKpT4FDK9
-         L4oB0DaQiZD+mJfs+kIOVwXwswfw33srw6hiYzT6tp+K+tPxb1xRxaxLvHZa5VfBkvF3
-         /r3Kgp5evJM81KQi2XbrgSoDyOmu5BhCEWAVp/VsE+bO32Rg6ESeCi/JxMI16fF48WhK
-         Re8WMcHTW3rgeCi18lu/Iz6ZqinN5t8/gi5Y4WM0QqzipUwITJWJ4OTNRkvHgScWVIpR
-         hwBdJgAL5V7Ex936QyXVP5nUdoO4geEEVmU4tUblvTgIk1I1gL61/MQdUIimSRfQIq+r
-         I/hA==
-X-Gm-Message-State: AOJu0YzfSeakXw5QsW909ePn6RTj2YNffTV+HonKeOeZShFGoV+XCBpr
-	lKe/yKlrNvtTkGxKg6LmvbjfEqeK2EDgh1hgpr4ZeO00tP15aToL0VxdKa+/OGVRKLQ621spdpM
-	d
-X-Gm-Gg: ASbGnctTUpGhdu2Jv++8BaIzcR+2ttH5m7P/6pJdk1oBIv4lhuGDeN/0/SlND8prTjS
-	7GhOtQxQS2N5YJJptYeGRznwMbjLMmMtcoEwJE7jYHgaukyPzkUj32ivXNnsNQK85si+aywjNBO
-	hcBKbI2aUNB0TbkG50xXPU0+ACMSmfU/vfnhmVVWgEV3NUAXFYZ5M5iZlpYaNDeEOgPtr4xcxFt
-	2JcV43RKuHTrUpYp0v8jBlZXZpB8YHgL8sBe3w61XIb8O/ywHAKj1sycXcJgunSfO2s4tqx
-X-Google-Smtp-Source: AGHT+IG1gvdpsL8OxmYnk3ETvCr76c84USWNIiDyA6pN2Rc5LrHtFTB6N/ztqvqoP5tLAGc7ebY2zg==
-X-Received: by 2002:a05:6402:440b:b0:5cf:e218:984f with SMTP id 4fb4d7f45d1cf-5d080c5810dmr13529204a12.27.1732982343477;
-        Sat, 30 Nov 2024 07:59:03 -0800 (PST)
+        bh=LcX4f2MqHn8HzczBZ5vJerxCPkOipukcFDGbVXHsyGE=;
+        b=RZ2T8P5Ys5kvPwVKjWucDNrbF+pIxV81EaP4WbM0Ye7sQoSSHnDckV9DWlgzisoMyG
+         tDf44dqpfJ1lLYK/MJtM8ObwGg51IF4odWdA9z4oRYunrOJhoi9pKg7pgyE2nF5u6SnD
+         iY4CN1YtJzruLyDgIqAvLmEDhn45DwBFC3SIToBoWCoCxQOX4LOXWKe1oze5o4FswOLZ
+         qymeuP/J/IZ6wvCv2vzarq9gI959TKGb67hk03zdHQ6SB6FiwyyqRBALDYsMepL3+ONN
+         +NCGkajYePT2vcGOH8g9mAMmb911bg+lr1obBlngCVY+mwH4v9PYaxelbOUUoznNRIEP
+         sPjw==
+X-Gm-Message-State: AOJu0YxsKeOdEhe1y9gWhojPw5ZzIIV6TzyoEUhD0MOf6qIKWYNflTKB
+	xbjw+UG5zOEtVcoxyNQncuG0ooGlExlAB31ydNXF8/sYjDizixSJrbE+h+BD6PlC4Xxv7+Dbc/i
+	B
+X-Gm-Gg: ASbGncvYKk6zhohbRiibnI/SFeNUKXl/3ydSS/ZRE9ODs6Lwb/iv7RlR0jT+iMkHjA8
+	DOV2EMTaXc4I03PNCOdIVq1LGBhtmzpbAPCQrJP9oSNgYyfy813WmcIZXj/yG1c5IackUst5CfB
+	e4owd2/uHq24wh/WmrmoYMYjopUuOcK49Q3IXHiA14P++J01ATW/vNaCMrNDIjDlGANwqZkGp9V
+	yPeHKa2EtLmyFzuei5bwXHDSR632pWfZqBtx/WEBDpbBj/H+llbBtK4eAhvz5r9Twx65Pas
+X-Google-Smtp-Source: AGHT+IG6IKVMxCoqilw91nUdTOtT6PRScXP1YSV7J8UmVDlgsGAp6lswVKcs9LxQNnoyLJYl0yidKg==
+X-Received: by 2002:a05:6402:2354:b0:5cf:d5ad:2809 with SMTP id 4fb4d7f45d1cf-5d080c47a10mr13715822a12.24.1732982499332;
+        Sat, 30 Nov 2024 08:01:39 -0800 (PST)
 Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0b8aeeaf7sm1643735a12.30.2024.11.30.07.59.02
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0bf49f159sm1320085a12.0.2024.11.30.08.01.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 07:59:03 -0800 (PST)
-Date: Sat, 30 Nov 2024 18:58:58 +0300
+        Sat, 30 Nov 2024 08:01:38 -0800 (PST)
+Date: Sat, 30 Nov 2024 19:01:33 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2466/2466] drivers/ata/libata-eh.c:3257
- ata_eh_set_lpm() warn: variable dereferenced before check 'ap' (see line
- 3240)
-Message-ID: <d9da7a75-40d7-425a-a039-03b362cf0411@stanley.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andi Shyti <andi.shyti@kernel.org>
+Subject: [linux-next:master 11908/12916] drivers/i2c/busses/i2c-xiic.c:932
+ xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg'
+ (see line 930)
+Message-ID: <37f714bf-bd1a-4a97-9881-1d1ed2cbb20c@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,158 +73,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a0d38e859312d55415b596dc57d4ac3f260f49e4
-commit: f83af24f656adf6bcda72ba1c42882035beec4eb [2466/2466] ata: Add support for disabling PhyRdy Change Interrupt based on actual LPM capability
-config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241128/202411281144.DkOnMkIw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6f3d2b5299b0a8bcb8a9405a8d3fceb24f79c4f0
+commit: 8bba86687c0b6a22f05ed4a7398c519d3796bc74 [11908/12916] i2c: xiic: Add atomic transfer support
+config: i386-randconfig-141-20241121 (https://download.01.org/0day-ci/archive/20241128/202411281318.Ami4hwE8-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411281144.DkOnMkIw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411281318.Ami4hwE8-lkp@intel.com/
 
 smatch warnings:
-drivers/ata/libata-eh.c:3257 ata_eh_set_lpm() warn: variable dereferenced before check 'ap' (see line 3240)
+drivers/i2c/busses/i2c-xiic.c:932 xiic_recv_atomic() warn: variable dereferenced before check 'i2c->rx_msg' (see line 930)
 
-vim +/ap +3257 drivers/ata/libata-eh.c
+vim +932 drivers/i2c/busses/i2c-xiic.c
 
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3236  static int ata_eh_set_lpm(struct ata_link *link, enum ata_lpm_policy policy,
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3237  			  struct ata_device **r_failed_dev)
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3238  {
-6c8ea89cecd780 Tejun Heo                 2010-09-01  3239  	struct ata_port *ap = ata_is_host_link(link) ? link->ap : NULL;
-                                                                                                                          ^^^^
-"ap" can be NULL
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  928  static void xiic_recv_atomic(struct xiic_i2c *i2c)
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  929  {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @930  	while (xiic_rx_space(i2c)) {
+                                                                             ^^^
+The xiic_rx_space() macro dereferences i2c->rx_msg.
 
-f83af24f656adf LeoLiu-oc                 2022-02-23 @3240  	struct device *device = ap->host->dev;
-                                                                                        ^^^^
-Unchecked dereference
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  931  		if (xiic_getreg32(i2c, XIIC_IISR_OFFSET) & XIIC_INTR_RX_FULL_MASK) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11 @932  			if (!i2c->rx_msg) {
+                                                                            ^^^^^^^^^^^^
+Inconsistent NULL check.
 
-f83af24f656adf LeoLiu-oc                 2022-02-23  3241  	struct pci_dev *pdev = (!device || !dev_is_pci(device)) ? NULL : to_pci_dev(device);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3242  	struct ata_eh_context *ehc = &link->eh_context;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3243  	struct ata_device *dev, *link_dev = NULL, *lpm_dev = NULL;
-e5005b15c91f33 Tejun Heo                 2010-12-09  3244  	enum ata_lpm_policy old_policy = link->lpm_policy;
-5f6f12ccf3aa42 Tejun Heo                 2011-05-09  3245  	bool no_dipm = link->ap->flags & ATA_FLAG_NO_DIPM;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3246  	unsigned int hints = ATA_LPM_EMPTY | ATA_LPM_HIPM;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3247  	unsigned int err_mask;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3248  	int rc;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3249  
-f83af24f656adf LeoLiu-oc                 2022-02-23  3250  	/* if controller does not support lpm, then sets no LPM flags*/
-f83af24f656adf LeoLiu-oc                 2022-02-23  3251  	if ((pdev && pdev->vendor == PCI_VENDOR_ID_ZHAOXIN) &&
-f83af24f656adf LeoLiu-oc                 2022-02-23  3252  		!(ap->host->flags & (ATA_HOST_PART | ATA_HOST_SSC | ATA_HOST_DEVSLP)))
-                                                                          ^^^^
-Another unchecked dereference
-
-f83af24f656adf LeoLiu-oc                 2022-02-23  3253  		link->flags |= ATA_LFLAG_NO_LPM;
-f83af24f656adf LeoLiu-oc                 2022-02-23  3254  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3255  	/* if the link or host doesn't do LPM, noop */
-4c9029e7d00f31 Bartlomiej Zolnierkiewicz 2020-03-26  3256  	if (!IS_ENABLED(CONFIG_SATA_HOST) ||
-4c9029e7d00f31 Bartlomiej Zolnierkiewicz 2020-03-26 @3257  	    (link->flags & ATA_LFLAG_NO_LPM) || (ap && !ap->ops->set_lpm))
-                                                                                                         ^^
-The rest of the function checks for NULL but it's too late.
-
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3258  		return 0;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3259  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3260  	/*
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3261  	 * DIPM is enabled only for MIN_POWER as some devices
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3262  	 * misbehave when the host NACKs transition to SLUMBER.  Order
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3263  	 * device and link configurations such that the host always
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3264  	 * allows DIPM requests.
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3265  	 */
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3266  	ata_for_each_dev(dev, link, ENABLED) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3267  		bool hipm = ata_id_has_hipm(dev->id);
-ae01b2493c3bf0 Tejun Heo                 2011-03-16  3268  		bool dipm = ata_id_has_dipm(dev->id) && !no_dipm;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3269  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3270  		/* find the first enabled and LPM enabled devices */
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3271  		if (!link_dev)
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3272  			link_dev = dev;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3273  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3274  		if (!lpm_dev && (hipm || dipm))
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3275  			lpm_dev = dev;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3276  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3277  		hints &= ~ATA_LPM_EMPTY;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3278  		if (!hipm)
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3279  			hints &= ~ATA_LPM_HIPM;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3280  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3281  		/* disable DIPM before changing link config */
-f4ac6476945ff6 Hans de Goede             2017-09-14  3282  		if (policy < ATA_LPM_MED_POWER_WITH_DIPM && dipm) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3283  			err_mask = ata_dev_set_feature(dev,
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3284  					SETFEATURES_SATA_DISABLE, SATA_DIPM);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3285  			if (err_mask && err_mask != AC_ERR_DEV) {
-a9a79dfec23956 Joe Perches               2011-04-15  3286  				ata_dev_warn(dev,
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3287  					     "failed to disable DIPM, Emask 0x%x\n",
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3288  					     err_mask);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3289  				rc = -EIO;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3290  				goto fail;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3291  			}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3292  		}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3293  	}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3294  
-6c8ea89cecd780 Tejun Heo                 2010-09-01  3295  	if (ap) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3296  		rc = ap->ops->set_lpm(link, policy, hints);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3297  		if (!rc && ap->slave_link)
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3298  			rc = ap->ops->set_lpm(ap->slave_link, policy, hints);
-6c8ea89cecd780 Tejun Heo                 2010-09-01  3299  	} else
-6c8ea89cecd780 Tejun Heo                 2010-09-01  3300  		rc = sata_pmp_set_lpm(link, policy, hints);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3301  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3302  	/*
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3303  	 * Attribute link config failure to the first (LPM) enabled
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3304  	 * device on the link.
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3305  	 */
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3306  	if (rc) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3307  		if (rc == -EOPNOTSUPP) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3308  			link->flags |= ATA_LFLAG_NO_LPM;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3309  			return 0;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3310  		}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3311  		dev = lpm_dev ? lpm_dev : link_dev;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3312  		goto fail;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3313  	}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3314  
-e5005b15c91f33 Tejun Heo                 2010-12-09  3315  	/*
-e5005b15c91f33 Tejun Heo                 2010-12-09  3316  	 * Low level driver acked the transition.  Issue DIPM command
-e5005b15c91f33 Tejun Heo                 2010-12-09  3317  	 * with the new policy set.
-e5005b15c91f33 Tejun Heo                 2010-12-09  3318  	 */
-e5005b15c91f33 Tejun Heo                 2010-12-09  3319  	link->lpm_policy = policy;
-e5005b15c91f33 Tejun Heo                 2010-12-09  3320  	if (ap && ap->slave_link)
-e5005b15c91f33 Tejun Heo                 2010-12-09  3321  		ap->slave_link->lpm_policy = policy;
-e5005b15c91f33 Tejun Heo                 2010-12-09  3322  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3323  	/* host config updated, enable DIPM if transitioning to MIN_POWER */
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3324  	ata_for_each_dev(dev, link, ENABLED) {
-f4ac6476945ff6 Hans de Goede             2017-09-14  3325  		if (policy >= ATA_LPM_MED_POWER_WITH_DIPM && !no_dipm &&
-ae01b2493c3bf0 Tejun Heo                 2011-03-16  3326  		    ata_id_has_dipm(dev->id)) {
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3327  			err_mask = ata_dev_set_feature(dev,
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3328  					SETFEATURES_SATA_ENABLE, SATA_DIPM);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3329  			if (err_mask && err_mask != AC_ERR_DEV) {
-a9a79dfec23956 Joe Perches               2011-04-15  3330  				ata_dev_warn(dev,
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3331  					"failed to enable DIPM, Emask 0x%x\n",
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3332  					err_mask);
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3333  				rc = -EIO;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3334  				goto fail;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3335  			}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3336  		}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3337  	}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3338  
-09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3339  	link->last_lpm_change = jiffies;
-09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3340  	link->flags |= ATA_LFLAG_CHANGED;
-09c5b4803a80a5 Gabriele Mazzotta         2015-04-25  3341  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3342  	return 0;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3343  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3344  fail:
-e5005b15c91f33 Tejun Heo                 2010-12-09  3345  	/* restore the old policy */
-e5005b15c91f33 Tejun Heo                 2010-12-09  3346  	link->lpm_policy = old_policy;
-e5005b15c91f33 Tejun Heo                 2010-12-09  3347  	if (ap && ap->slave_link)
-e5005b15c91f33 Tejun Heo                 2010-12-09  3348  		ap->slave_link->lpm_policy = old_policy;
-e5005b15c91f33 Tejun Heo                 2010-12-09  3349  
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3350  	/* if no device or only one more chance is left, disable LPM */
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3351  	if (!dev || ehc->tries[dev->devno] <= 2) {
-a9a79dfec23956 Joe Perches               2011-04-15  3352  		ata_link_warn(link, "disabling LPM on the link\n");
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3353  		link->flags |= ATA_LFLAG_NO_LPM;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3354  	}
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3355  	if (r_failed_dev)
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3356  		*r_failed_dev = dev;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3357  	return rc;
-6b7ae9545ad987 Tejun Heo                 2010-09-01  3358  }
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  933  				xiic_clear_rx_fifo(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  934  				break;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  935  			}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  936  			xiic_read_rx(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  937  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  938  			/* Clear Rx full and Tx error interrupts. */
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  939  			xiic_irq_clr_en(i2c, XIIC_INTR_RX_FULL_MASK |
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  940  					XIIC_INTR_TX_ERROR_MASK);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  941  		}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  942  		if (xiic_error_check(i2c))
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  943  			return;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  944  	}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  945  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  946  	i2c->rx_msg = NULL;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  947  	xiic_irq_clr_en(i2c, XIIC_INTR_TX_ERROR_MASK);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  948  
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  949  	/* send next message if this wasn't the last. */
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  950  	if (i2c->nmsgs > 1) {
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  951  		i2c->nmsgs--;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  952  		i2c->tx_msg++;
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  953  		__xiic_start_xfer(i2c);
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  954  	}
+8bba86687c0b6a Manikanta Guntupalli 2024-10-11  955  }
 
 -- 
 0-DAY CI Kernel Test Service
