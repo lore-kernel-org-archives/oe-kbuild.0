@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B92D1CEEAD
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 13:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB11D1D417B
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 14:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733059983; cv=none; b=s7qM5qNHMAulIQtl9QwJkR5APhMwCEB1zQIWVPRrPpg5+zOV0d2t8l29+ksvUnXUrPjWmEULQhuYpf0NVetTnwkiD5wluDcpn23AgF0I+CaLBC69LdhPXMsfmpxE7TsVz1uuVXjIUwnpa/CmWFWs9jSnNv3CO7BIYwZ9G/r4F5A=
+	t=1733061876; cv=none; b=jMWaM8912FVAFRAogDyESL2XBXh4EUnzZSi6xwW5hHOJmWUcoSns811FPquVbxK4XJydkNMaioKrKa8Qg20PhPmZZMOF3pWoMYe3sy+zl0jwrnlrwwTQJPa2IeUPl5jYLXOZjwi1stji95Nh8TQkRYNlcvbPvJ6wMzg2nMeZ66I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733059983; c=relaxed/simple;
-	bh=YSM8YGRE2w9aw7xdJQxFLdhgfaG8NP4qyul0yUhWHmc=;
+	s=arc-20240116; t=1733061876; c=relaxed/simple;
+	bh=huL3isg7qSGU/LvSMl4ws58xnKnLOjK9EYvbvSryEFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fszNZTFMBO4xhahIBDD4X4+5+mSnO/NizCQ5Pk5zcmeJjLTrBcx/olbuC8ucVFj5WYbsD71V9EWZA3Cxdx9KyXO4vyqh1fakytk287xmcSuZ2fFhVsYV6AOJqXQNRrIdweD4hyFnrXBl6/cPbwo02B46Y9Qp3NuFIJouLjux9GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O32CV8q5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=WW61NY1hNWUQMV1gzBq5E5krX+RYRKz8F+Pas3ohnOWCDO4whHYOIrgLuZoOTdDZyykcJgp1znIR4Rabqon6sLCxYF2pbzVFZXaXHwZZ62T8vVnp9uemEQOnAb4numUUYTo1MkJzbQfM0YCqdaA2Zg+wATkdxZYmRbMnGcsYRiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv8nCfrp; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O32CV8q5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv8nCfrp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733059981; x=1764595981;
+  t=1733061873; x=1764597873;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YSM8YGRE2w9aw7xdJQxFLdhgfaG8NP4qyul0yUhWHmc=;
-  b=O32CV8q518tj3MKatgM/nsjILsYTXTIt8TEcSgqksW0ceKI38YE8Sb7M
-   pLn0BZgPipuozw3pbgqeL7LVWMDs1jNawvunvpEPdeBh2tvYl2O6GX/p/
-   CUZ8CqMcOPNi7G6CH3ETwAqi8c2EvV2g51A024GwJ+AoKHc6cJIJbOjR3
-   s8LQ1NnYF54sarIvFiMaH3aZ3OFo/HSI7zi5Egg933dQ0GpmpmMenN8Jk
-   NynxpKnloF4CkbW/8eoeYxBS4z/6PNS+iAq+eDS9pZjvovMLAvCjKPUlk
-   HWJB+Gh+IQmQA8AtGVQ+BdTWshYqzsW9z5FLKl208A1GFVpTLEvoFvL4z
-   g==;
-X-CSE-ConnectionGUID: klEHZZeuRdeeLN9FNE0Qkw==
-X-CSE-MsgGUID: OCyk5I5ZRU6vrKrlhPsWBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44612510"
+  bh=huL3isg7qSGU/LvSMl4ws58xnKnLOjK9EYvbvSryEFI=;
+  b=Fv8nCfrpm/S8h0mFxL0jRs3SJc5SDSWbFAGCoBOEQgoPc1+MllR3VsnY
+   YxvRDZMxzVzB3urIDCJIp4XNd6vo/kxgl8KocK5SODdFqcvhtY5wLkHnX
+   D33ZZpsiTRQh60McfqXsiKTJ5qmeOPlK8XrtxEQt7xHlkdNnxoB3DYGP3
+   8RJBfJY3lMH6qqlBgmkBZiTNA6lXmY4pCwk4P5ek6ZsznyLW/qKTfV360
+   BbxmJivckaX/xMkOep4D8O+3yr/FdIBno20IeBwk4TB7O8yQI+UdS+PC3
+   GnC/QIUxev13GhBvFidPbIFSDsvup97tetERiZWWVY7BiwkgJ081+nsuj
+   w==;
+X-CSE-ConnectionGUID: 5SmivD0XSKOXcyDv85XU1Q==
+X-CSE-MsgGUID: Tz+W5ePASpqc8V4vpVLVpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33105961"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="44612510"
+   d="scan'208";a="33105961"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 05:33:00 -0800
-X-CSE-ConnectionGUID: 3cxZth5cRmiAptUGlz3oVw==
-X-CSE-MsgGUID: 8Q8YNbMBS1SLaqS+/8aO/Q==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 06:04:33 -0800
+X-CSE-ConnectionGUID: K5B/8ghvTk29pG6v4H49Ww==
+X-CSE-MsgGUID: jaSKo8FRQN+JUoBpEvL8yQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="97831231"
+   d="scan'208";a="97835504"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2024 05:32:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2024 06:04:31 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHk4G-0001Yn-1t;
-	Sun, 01 Dec 2024 13:32:56 +0000
-Date: Sun, 1 Dec 2024 21:31:59 +0800
+	id 1tHkYm-0001Zs-2T;
+	Sun, 01 Dec 2024 14:04:28 +0000
+Date: Sun, 1 Dec 2024 22:04:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/rcu/rcutorture.c:1900:11-12: WARNING kmalloc is used to
- allocate this memory at line 1887
-Message-ID: <202412012159.XzUyULh7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815
+ netxen_setup_pci_map() warn: 'ahw->pci_base0' from ioremap() not released on
+ lines: 815.
+Message-ID: <202412012119.QRmwUSdZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,85 +66,157 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: 0d3dd2c8eadb7d4404b8788f552fb2b824fe2c7e rcutorture: Add crude tests for mem_dump_obj()
-date:   3 years, 9 months ago
+commit: c0d94aa54bd893bd41ca35e2a2de332742bb167d x86: Clean up ioremap()
+date:   5 years ago
 :::::: branch date: 11 hours ago
-:::::: commit date: 3 years, 9 months ago
-config: x86_64-randconfig-r063-20241119 (https://download.01.org/0day-ci/archive/20241201/202412012159.XzUyULh7-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: commit date: 5 years ago
+config: i386-randconfig-141-20241120 (https://download.01.org/0day-ci/archive/20241201/202412012119.QRmwUSdZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412012159.XzUyULh7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412012119.QRmwUSdZ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/rcu/rcutorture.c:1900:11-12: WARNING kmalloc is used to allocate this memory at line 1887
+New smatch warnings:
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base0' from ioremap() not released on lines: 815.
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base1' from ioremap() not released on lines: 815.
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base1' from ioremap() not released on lines: 815.
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base2' from ioremap() not released on lines: 815.
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base2' from ioremap() not released on lines: 815.
 
-vim +1900 kernel/rcu/rcutorture.c
+Old smatch warnings:
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:737 netxen_setup_pci_map() warn: consider using resource_size() here
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:738 netxen_setup_pci_map() warn: consider using resource_size() here
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:740 netxen_setup_pci_map() warn: consider using resource_size() here
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:753 netxen_setup_pci_map() warn: consider using resource_size() here
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:754 netxen_setup_pci_map() warn: consider using resource_size() here
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:850 netxen_check_options() warn: inconsistent indenting
 
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1849  
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1850  /*
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1851   * Periodically prints torture statistics, if periodic statistics printing
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1852   * was specified via the stat_interval module parameter.
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1853   */
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1854  static int
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1855  rcu_torture_stats(void *arg)
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1856  {
-5ccf60f23d33af kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-29  1857  	VERBOSE_TOROUT_STRING("rcu_torture_stats task started");
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1858  	do {
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1859  		schedule_timeout_interruptible(stat_interval * HZ);
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1860  		rcu_torture_stats_print();
-f67a33561e6e54 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-29  1861  		torture_shutdown_absorb("rcu_torture_stats");
-36970bb91d8961 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-30  1862  	} while (!torture_must_stop());
-7fafaac5b9ce22 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-31  1863  	torture_kthread_stopping("rcu_torture_stats");
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1864  
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1865  	{
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1866  		struct rcu_head *rhp;
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1867  		struct kmem_cache *kcp;
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1868  		static int z;
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1869  
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1870  		kcp = kmem_cache_create("rcuscale", 136, 8, SLAB_STORE_USER, NULL);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1871  		rhp = kmem_cache_alloc(kcp, GFP_KERNEL);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1872  		pr_alert("mem_dump_obj() slab test: rcu_torture_stats = %px, &rhp = %px, rhp = %px, &z = %px\n", stats_task, &rhp, rhp, &z);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1873  		pr_alert("mem_dump_obj(ZERO_SIZE_PTR):");
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1874  		mem_dump_obj(ZERO_SIZE_PTR);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1875  		pr_alert("mem_dump_obj(NULL):");
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1876  		mem_dump_obj(NULL);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1877  		pr_alert("mem_dump_obj(%px):", &rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1878  		mem_dump_obj(&rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1879  		pr_alert("mem_dump_obj(%px):", rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1880  		mem_dump_obj(rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1881  		pr_alert("mem_dump_obj(%px):", &rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1882  		mem_dump_obj(&rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1883  		pr_alert("mem_dump_obj(%px):", &z);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1884  		mem_dump_obj(&z);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1885  		kmem_cache_free(kcp, rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1886  		kmem_cache_destroy(kcp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07 @1887  		rhp = kmalloc(sizeof(*rhp), GFP_KERNEL);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1888  		pr_alert("mem_dump_obj() kmalloc test: rcu_torture_stats = %px, &rhp = %px, rhp = %px\n", stats_task, &rhp, rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1889  		pr_alert("mem_dump_obj(kmalloc %px):", rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1890  		mem_dump_obj(rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1891  		pr_alert("mem_dump_obj(kmalloc %px):", &rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1892  		mem_dump_obj(&rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1893  		kfree(rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1894  		rhp = vmalloc(4096);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1895  		pr_alert("mem_dump_obj() vmalloc test: rcu_torture_stats = %px, &rhp = %px, rhp = %px\n", stats_task, &rhp, rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1896  		pr_alert("mem_dump_obj(vmalloc %px):", rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1897  		mem_dump_obj(rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1898  		pr_alert("mem_dump_obj(vmalloc %px):", &rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1899  		mem_dump_obj(&rhp->func);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07 @1900  		vfree(rhp);
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1901  	}
-0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1902  
-d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1903  	return 0;
-d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1904  }
-d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1905  
+vim +815 drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c
+
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  708  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  709  static int
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  710  netxen_setup_pci_map(struct netxen_adapter *adapter)
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  711  {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  712  	void __iomem *db_ptr = NULL;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  713  
+71fb62fb6dd4ed drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  714  	resource_size_t mem_base, db_base;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  715  	unsigned long mem_len, db_len = 0;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  716  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  717  	struct pci_dev *pdev = adapter->pdev;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  718  	int pci_func = adapter->ahw.pci_func;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  719  	struct netxen_hardware_context *ahw = &adapter->ahw;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  720  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  721  	int err = 0;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  722  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  723  	/*
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  724  	 * Set the CRB window to invalid. If any register in window 0 is
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  725  	 * accessed it should set the window to 0 and then reset it to 1.
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  726  	 */
+907fa1201c76f4 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  727  	adapter->ahw.crb_win = -1;
+47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  728  	adapter->ahw.ocm_win = -1;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  729  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  730  	/* remap phys address */
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  731  	mem_base = pci_resource_start(pdev, 0);	/* 0 is for BAR 0 */
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  732  	mem_len = pci_resource_len(pdev, 0);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  733  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  734  	/* 128 Meg of memory */
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  735  	if (mem_len == NETXEN_PCI_128MB_SIZE) {
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  736  
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  737  		ahw->pci_base0 = ioremap(mem_base, FIRST_PAGE_GROUP_SIZE);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  738  		ahw->pci_base1 = ioremap(mem_base + SECOND_PAGE_GROUP_START,
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  739  				SECOND_PAGE_GROUP_SIZE);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  740  		ahw->pci_base2 = ioremap(mem_base + THIRD_PAGE_GROUP_START,
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  741  				THIRD_PAGE_GROUP_SIZE);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  742  		if (ahw->pci_base0 == NULL || ahw->pci_base1 == NULL ||
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  743  						ahw->pci_base2 == NULL) {
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  744  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  745  			err = -EIO;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  746  			goto err_out;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  747  		}
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  748  
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  749  		ahw->pci_len0 = FIRST_PAGE_GROUP_SIZE;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  750  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  751  	} else if (mem_len == NETXEN_PCI_32MB_SIZE) {
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  752  
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  753  		ahw->pci_base1 = ioremap(mem_base, SECOND_PAGE_GROUP_SIZE);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  754  		ahw->pci_base2 = ioremap(mem_base + THIRD_PAGE_GROUP_START -
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  755  			SECOND_PAGE_GROUP_START, THIRD_PAGE_GROUP_SIZE);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  756  		if (ahw->pci_base1 == NULL || ahw->pci_base2 == NULL) {
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  757  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  758  			err = -EIO;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  759  			goto err_out;
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  760  		}
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  761  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  762  	} else if (mem_len == NETXEN_PCI_2MB_SIZE) {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  763  
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  764  		ahw->pci_base0 = pci_ioremap_bar(pdev, 0);
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  765  		if (ahw->pci_base0 == NULL) {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  766  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  767  			return -EIO;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  768  		}
+afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  769  		ahw->pci_len0 = mem_len;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  770  	} else {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  771  		return -EIO;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  772  	}
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  773  
+195c5f98294078 drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-09-05  774  	netxen_setup_hwops(adapter);
+195c5f98294078 drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-09-05  775  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  776  	dev_info(&pdev->dev, "%dMB memory map\n", (int)(mem_len>>20));
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  777  
+6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  778  	if (NX_IS_REVISION_P3P(adapter->ahw.revision_id)) {
+6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  779  		adapter->ahw.ocm_win_crb = netxen_get_ioaddr(adapter,
+6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  780  			NETXEN_PCIX_PS_REG(PCIX_OCM_WINDOW_REG(pci_func)));
+6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  781  
+6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  782  	} else if (NX_IS_REVISION_P3(adapter->ahw.revision_id)) {
+47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  783  		adapter->ahw.ocm_win_crb = netxen_get_ioaddr(adapter,
+47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  784  			NETXEN_PCIX_PS_REG(PCIE_MN_WINDOW_REG(pci_func)));
+47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  785  	}
+47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  786  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  787  	if (NX_IS_REVISION_P3(adapter->ahw.revision_id))
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  788  		goto skip_doorbell;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  789  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  790  	db_base = pci_resource_start(pdev, 4);	/* doorbell is on bar 4 */
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  791  	db_len = pci_resource_len(pdev, 4);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  792  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  793  	if (db_len == 0) {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  794  		printk(KERN_ERR "%s: doorbell is disabled\n",
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  795  				netxen_nic_driver_name);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  796  		err = -EIO;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  797  		goto err_out;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  798  	}
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  799  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  800  	db_ptr = ioremap(db_base, NETXEN_DB_MAPSIZE_BYTES);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  801  	if (!db_ptr) {
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  802  		printk(KERN_ERR "%s: Failed to allocate doorbell map.",
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  803  				netxen_nic_driver_name);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  804  		err = -EIO;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  805  		goto err_out;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  806  	}
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  807  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  808  skip_doorbell:
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  809  	adapter->ahw.db_base = db_ptr;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  810  	adapter->ahw.db_len = db_len;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  811  	return 0;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  812  
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  813  err_out:
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  814  	netxen_cleanup_pci_map(adapter);
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24 @815  	return err;
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  816  }
+97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  817  
+
+:::::: The code at line 815 was first introduced by commit
+:::::: 97daee83b0fd2361cc70be6f3d6ecda69def2103 netxen: refactor pci probe
+
+:::::: TO: Dhananjay Phadke <dhananjay@netxen.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
