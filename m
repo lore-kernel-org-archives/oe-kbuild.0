@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7CF4D8A3
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 20:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A6315A8
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 20:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733083375; cv=none; b=bqapgEYHGaTWETi/d6xE2yw2XC3Avp0G6W8nvX2ADWdVhbZMbCbdoJuGAbIz47cH3RqWHA6SbnxtsqzK/UzB4hO9iTLEvf5gDFCS3Teo3IRtMi7QfwJtzjq1epcoAvCTG2L3LrDIQruZ/dqvbH9xycab7XAFc/fqa3aEq2nZMlw=
+	t=1733084619; cv=none; b=JTfpxZrK8LlzqRF1mUkVtobvKpBIMO1R/TzKf01G7MTX+UcXu1xxSy/X6zbk4N5LI2z/Ea5bvaiVl4NpSw+B1X4fK/wUOThFIZ035z+E+6KtWG4+cqKP26cxvTXBV8irGCrjDWeLPDn3B2pF01DoPSJVuzaoXgDIkTnpYwxvhZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733083375; c=relaxed/simple;
-	bh=AKmiz143Qc6OMYB6JBsgDmH2pJQfdLM8yAFFblBXJpU=;
+	s=arc-20240116; t=1733084619; c=relaxed/simple;
+	bh=tqsY60tBOfY8vSgmunumrnEpFsZsEwhJiqE24UgcIXo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fVbpu9dFFRiIH1uoSg4/SABUANhAC9RlRPEfA8khQPtcscJ8RiVVrHF6JW/quVwoNX4dSToDnlv55A5fOQeaTftRreZnHts3jZ8u86GLqze4bwLt5F7tTfGBk6EcIwQyMqOqA+6ChsKVn2+/6zf3nbClaMRgAxm73SMX1T7nju0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ew8x2kkq; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=QlJ08t02hKLpcQzkOE7vENeLiKmHBSnCB3C6KN596ORZl1qmLrcPxUPkZkOHnkEoreBLZLOwn1eVajh/tnLEqqCg3G+GAzGtn8Vfq5ypGsGDqoMVjrwy7DSditQA56xKMwyarJvd8eulTjKsbEXJ7rKD0mhtznXIiOhOiRzj0DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hBTKh9GZ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ew8x2kkq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hBTKh9GZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733083373; x=1764619373;
+  t=1733084617; x=1764620617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AKmiz143Qc6OMYB6JBsgDmH2pJQfdLM8yAFFblBXJpU=;
-  b=ew8x2kkqb5Glg7sLIpV7NMrr96qp8KD1nmuRJrmLxXY0JjYCzFROPPH2
-   8O7s8Qwg1WnL/mr3eSLLtB8AF540YXZ9L97vBjeXVs+ns6Yd1Jk89oACq
-   MErX/SHbuX7RAQYLNv7BEPV1RLXQFper2W7NGRWtm/IOCXD+2N+Xq5VpF
-   uchHVBOytF1iYOiKaCsUgKleBUtF/OYphAwvX1RhDFCrlCB/22ds8tONc
-   HfgpAH77w500o4AjfF6GSEr/AERGPx2kta/BT/jxYsWautcu8OaEZ7Udu
-   vomWlKuK980WSt9lQUrmrtvWjUhJxlpQHoyO7TtuJIfNeYwaWot7pNYjy
+  bh=tqsY60tBOfY8vSgmunumrnEpFsZsEwhJiqE24UgcIXo=;
+  b=hBTKh9GZ2OpJKdf2PYCIS6zNo5iXt2XNHa7NJjlzYRUCaSPeHI4FfAYo
+   yel4hfvphle/408ssxHKDHDmV7EwXj8/um/8T7479+vty7Kyt3SNSePOC
+   Kd+w3f26Vz+4pO/v3ZvbU/ZCdvZ/LBclQi8JVTPXvnJFIgINC+oDtcEoO
+   R1LvZ6l1s/+zZ9P1TG2mv4S/RJCtXaqqsctbkbSAwGSX6/ulsLUaiTB7C
+   AUo0kEYJ9cDoASHcKTNtcPRd6gYw1OT1j+XNrlvBAZjUy/lLhMRBHpgYa
+   jZfrc/gcNhTorwI4C2vhtUE+oVhvpTwm/m1c9Iq3OeUosG4EgjfP9bj6C
    A==;
-X-CSE-ConnectionGUID: FIPC35MSSA6abHTh+2jMng==
-X-CSE-MsgGUID: exGgJrmISkeJ7qQHfhInmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="50762359"
+X-CSE-ConnectionGUID: ZoJDsWJ1TdCp+WArzvO5Sg==
+X-CSE-MsgGUID: hOOI3t/QS6iAIjjIjEcGuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44618163"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="50762359"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 12:02:53 -0800
-X-CSE-ConnectionGUID: RRxIIlZRQ+iNwhdNZ2w9xg==
-X-CSE-MsgGUID: fyS+eNirTD2elKPloLJ9XQ==
+   d="scan'208";a="44618163"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 12:23:36 -0800
+X-CSE-ConnectionGUID: 6PUwtkf5RI+1EtfTjRvxqg==
+X-CSE-MsgGUID: zDqM3vA+TCeZbZC1WTIjOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93085245"
+   d="scan'208";a="97002789"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Dec 2024 12:02:52 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 01 Dec 2024 12:23:35 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHq9Z-0001of-2B;
-	Sun, 01 Dec 2024 20:02:49 +0000
-Date: Mon, 2 Dec 2024 04:01:50 +0800
+	id 1tHqTc-0001pN-1l;
+	Sun, 01 Dec 2024 20:23:32 +0000
+Date: Mon, 2 Dec 2024 04:23:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/actions/owl-emac.c:210
- owl_emac_ring_prepare_rx() error: uninitialized symbol 'desc'.
-Message-ID: <202412020332.8MdB0i7n-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/ice/ice_main.c:978:12-13: WARNING
+ opportunity for min()
+Message-ID: <202412020459.f9HCHXpB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,98 +65,92 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Cai Huoqing <caihuoqing@baidu.com>
+TO: Jacob Keller <jacob.e.keller@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: fbcf8a340150abd20bf44fc706362b0827157fe8 net: ethernet: actions: Add helper dependency on COMPILE_TEST
-date:   3 years, 3 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 3 years, 3 months ago
-config: hexagon-randconfig-r071-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020332.8MdB0i7n-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+commit: d69ea414c9b498064d4cd3ebbe2fd4b8298568bc ice: implement device flash update via devlink
+date:   4 years, 4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 years, 4 months ago
+config: alpha-randconfig-r051-20241117 (https://download.01.org/0day-ci/archive/20241202/202412020459.f9HCHXpB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412020332.8MdB0i7n-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412020459.f9HCHXpB-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/actions/owl-emac.c:210 owl_emac_ring_prepare_rx() error: uninitialized symbol 'desc'.
-drivers/net/ethernet/actions/owl-emac.c:233 owl_emac_ring_prepare_tx() error: uninitialized symbol 'desc'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_main.c:978:12-13: WARNING opportunity for min()
 
-vim +/desc +210 drivers/net/ethernet/actions/owl-emac.c
+vim +978 drivers/net/ethernet/intel/ice/ice_main.c
 
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  178  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  179  static int owl_emac_ring_prepare_rx(struct owl_emac_priv *priv)
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  180  {
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  181  	struct owl_emac_ring *ring = &priv->rx_ring;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  182  	struct device *dev = owl_emac_get_dev(priv);
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  183  	struct net_device *netdev = priv->netdev;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  184  	struct owl_emac_ring_desc *desc;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  185  	struct sk_buff *skb;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  186  	dma_addr_t dma_addr;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  187  	int i;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  188  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  189  	for (i = 0; i < ring->size; i++) {
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  190  		skb = owl_emac_alloc_skb(netdev);
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  191  		if (!skb)
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  192  			return -ENOMEM;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  193  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  194  		dma_addr = owl_emac_dma_map_rx(priv, skb);
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  195  		if (dma_mapping_error(dev, dma_addr)) {
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  196  			dev_kfree_skb(skb);
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  197  			return -ENOMEM;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  198  		}
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  199  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  200  		desc = &ring->descs[i];
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  201  		desc->status = OWL_EMAC_BIT_RDES0_OWN;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  202  		desc->control = skb_tailroom(skb) & OWL_EMAC_MSK_RDES1_RBS1;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  203  		desc->buf_addr = dma_addr;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  204  		desc->reserved = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  205  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  206  		ring->skbs[i] = skb;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  207  		ring->skbs_dma[i] = dma_addr;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  208  	}
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  209  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22 @210  	desc->control |= OWL_EMAC_BIT_RDES1_RER;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  211  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  212  	ring->head = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  213  	ring->tail = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  214  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  215  	return 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  216  }
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  217  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  218  static void owl_emac_ring_prepare_tx(struct owl_emac_priv *priv)
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  219  {
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  220  	struct owl_emac_ring *ring = &priv->tx_ring;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  221  	struct owl_emac_ring_desc *desc;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  222  	int i;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  223  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  224  	for (i = 0; i < ring->size; i++) {
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  225  		desc = &ring->descs[i];
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  226  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  227  		desc->status = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  228  		desc->control = OWL_EMAC_BIT_TDES1_IC;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  229  		desc->buf_addr = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  230  		desc->reserved = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  231  	}
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  232  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22 @233  	desc->control |= OWL_EMAC_BIT_TDES1_TER;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  234  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  235  	memset(ring->skbs_dma, 0, sizeof(dma_addr_t) * ring->size);
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  236  
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  237  	ring->head = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  238  	ring->tail = 0;
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  239  }
-de6e0b19823985 Cristian Ciocaltea 2021-03-22  240  
-
-:::::: The code at line 210 was first introduced by commit
-:::::: de6e0b198239857943db395377dc1d2ddd6c05df net: ethernet: actions: Add Actions Semi Owl Ethernet MAC driver
-
-:::::: TO: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+d69ea414c9b498 Jacob Keller 2020-07-23  930  
+d69ea414c9b498 Jacob Keller 2020-07-23  931  /**
+d69ea414c9b498 Jacob Keller 2020-07-23  932   * ice_wait_for_aq_event - Wait for an AdminQ event from firmware
+d69ea414c9b498 Jacob Keller 2020-07-23  933   * @pf: pointer to the PF private structure
+d69ea414c9b498 Jacob Keller 2020-07-23  934   * @opcode: the opcode to wait for
+d69ea414c9b498 Jacob Keller 2020-07-23  935   * @timeout: how long to wait, in jiffies
+d69ea414c9b498 Jacob Keller 2020-07-23  936   * @event: storage for the event info
+d69ea414c9b498 Jacob Keller 2020-07-23  937   *
+d69ea414c9b498 Jacob Keller 2020-07-23  938   * Waits for a specific AdminQ completion event on the ARQ for a given PF. The
+d69ea414c9b498 Jacob Keller 2020-07-23  939   * current thread will be put to sleep until the specified event occurs or
+d69ea414c9b498 Jacob Keller 2020-07-23  940   * until the given timeout is reached.
+d69ea414c9b498 Jacob Keller 2020-07-23  941   *
+d69ea414c9b498 Jacob Keller 2020-07-23  942   * To obtain only the descriptor contents, pass an event without an allocated
+d69ea414c9b498 Jacob Keller 2020-07-23  943   * msg_buf. If the complete data buffer is desired, allocate the
+d69ea414c9b498 Jacob Keller 2020-07-23  944   * event->msg_buf with enough space ahead of time.
+d69ea414c9b498 Jacob Keller 2020-07-23  945   *
+d69ea414c9b498 Jacob Keller 2020-07-23  946   * Returns: zero on success, or a negative error code on failure.
+d69ea414c9b498 Jacob Keller 2020-07-23  947   */
+d69ea414c9b498 Jacob Keller 2020-07-23  948  int ice_aq_wait_for_event(struct ice_pf *pf, u16 opcode, unsigned long timeout,
+d69ea414c9b498 Jacob Keller 2020-07-23  949  			  struct ice_rq_event_info *event)
+d69ea414c9b498 Jacob Keller 2020-07-23  950  {
+d69ea414c9b498 Jacob Keller 2020-07-23  951  	struct ice_aq_task *task;
+d69ea414c9b498 Jacob Keller 2020-07-23  952  	long ret;
+d69ea414c9b498 Jacob Keller 2020-07-23  953  	int err;
+d69ea414c9b498 Jacob Keller 2020-07-23  954  
+d69ea414c9b498 Jacob Keller 2020-07-23  955  	task = kzalloc(sizeof(*task), GFP_KERNEL);
+d69ea414c9b498 Jacob Keller 2020-07-23  956  	if (!task)
+d69ea414c9b498 Jacob Keller 2020-07-23  957  		return -ENOMEM;
+d69ea414c9b498 Jacob Keller 2020-07-23  958  
+d69ea414c9b498 Jacob Keller 2020-07-23  959  	INIT_HLIST_NODE(&task->entry);
+d69ea414c9b498 Jacob Keller 2020-07-23  960  	task->opcode = opcode;
+d69ea414c9b498 Jacob Keller 2020-07-23  961  	task->event = event;
+d69ea414c9b498 Jacob Keller 2020-07-23  962  	task->state = ICE_AQ_TASK_WAITING;
+d69ea414c9b498 Jacob Keller 2020-07-23  963  
+d69ea414c9b498 Jacob Keller 2020-07-23  964  	spin_lock_bh(&pf->aq_wait_lock);
+d69ea414c9b498 Jacob Keller 2020-07-23  965  	hlist_add_head(&task->entry, &pf->aq_wait_list);
+d69ea414c9b498 Jacob Keller 2020-07-23  966  	spin_unlock_bh(&pf->aq_wait_lock);
+d69ea414c9b498 Jacob Keller 2020-07-23  967  
+d69ea414c9b498 Jacob Keller 2020-07-23  968  	ret = wait_event_interruptible_timeout(pf->aq_wait_queue, task->state,
+d69ea414c9b498 Jacob Keller 2020-07-23  969  					       timeout);
+d69ea414c9b498 Jacob Keller 2020-07-23  970  	switch (task->state) {
+d69ea414c9b498 Jacob Keller 2020-07-23  971  	case ICE_AQ_TASK_WAITING:
+d69ea414c9b498 Jacob Keller 2020-07-23  972  		err = ret < 0 ? ret : -ETIMEDOUT;
+d69ea414c9b498 Jacob Keller 2020-07-23  973  		break;
+d69ea414c9b498 Jacob Keller 2020-07-23  974  	case ICE_AQ_TASK_CANCELED:
+d69ea414c9b498 Jacob Keller 2020-07-23  975  		err = ret < 0 ? ret : -ECANCELED;
+d69ea414c9b498 Jacob Keller 2020-07-23  976  		break;
+d69ea414c9b498 Jacob Keller 2020-07-23  977  	case ICE_AQ_TASK_COMPLETE:
+d69ea414c9b498 Jacob Keller 2020-07-23 @978  		err = ret < 0 ? ret : 0;
+d69ea414c9b498 Jacob Keller 2020-07-23  979  		break;
+d69ea414c9b498 Jacob Keller 2020-07-23  980  	default:
+d69ea414c9b498 Jacob Keller 2020-07-23  981  		WARN(1, "Unexpected AdminQ wait task state %u", task->state);
+d69ea414c9b498 Jacob Keller 2020-07-23  982  		err = -EINVAL;
+d69ea414c9b498 Jacob Keller 2020-07-23  983  		break;
+d69ea414c9b498 Jacob Keller 2020-07-23  984  	}
+d69ea414c9b498 Jacob Keller 2020-07-23  985  
+d69ea414c9b498 Jacob Keller 2020-07-23  986  	spin_lock_bh(&pf->aq_wait_lock);
+d69ea414c9b498 Jacob Keller 2020-07-23  987  	hlist_del(&task->entry);
+d69ea414c9b498 Jacob Keller 2020-07-23  988  	spin_unlock_bh(&pf->aq_wait_lock);
+d69ea414c9b498 Jacob Keller 2020-07-23  989  	kfree(task);
+d69ea414c9b498 Jacob Keller 2020-07-23  990  
+d69ea414c9b498 Jacob Keller 2020-07-23  991  	return err;
+d69ea414c9b498 Jacob Keller 2020-07-23  992  }
+d69ea414c9b498 Jacob Keller 2020-07-23  993  
 
 -- 
 0-DAY CI Kernel Test Service
