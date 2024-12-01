@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6F01D14F8
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 16:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135401D79A7
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 17:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733070871; cv=none; b=Vg1rINgfM+/9bSD0Jta7MSCHiKwlwKCnGt9dK5o1UPpvshT5kZSh5u47BaxFkV7FAoyDByx7f/k5NzjrqaJ3JsRGaaIKMVOLNH6uHy3zvVHpOxYOIxwXrLWB5BXFYhNEofJp6RHJLhBzPJ2liZc+L2vqwZtZEulnfNuRZiBqYh8=
+	t=1733075342; cv=none; b=PXWTvrjZyT6dAcAgta6jPItliu8i7yTFEfLDvLOvDf/AOLnkjScd5bEQtNPFj6SfgzyFWpx0crXgK3/2m+AsyLgRfCxM3oock/N/pldqrLaAx8qQ+3S/FE4hQMBWwbJtVO40T5GNN1WaG3AM5jo96AcDCTMEZ8iUhF3ysraRm5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733070871; c=relaxed/simple;
-	bh=Spguxy3N2kVMvOmfawWq7+8Dxd3DykU81tRGJ85hv4Y=;
+	s=arc-20240116; t=1733075342; c=relaxed/simple;
+	bh=DD5SCHXgXGHcSKp02YycaOH4VdxWsLUmVO9nF6xxQRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H20Hd93Mnm9k0DgRXkuhHhfm9VGzTIRs7o1itQWNrFBComoHBscFE4Dl/UCSPksmNiIeZHWIfHkQaORLwpd/7i09T40WFYALvNqrc1vpJji4WWu382MXdDY8E+B/GsXE5g2uHhqbL2Ho2HOJHssMtG/38aQfOTHgfhUQ83lkZZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4LBIYPG; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=c8vd/QBttRzxeNyhdLs+aIiu1Gu8N37WUnDd5nGii4cqIufD9CYznrGg1QWm8R7TDjoGh/rJheqBZfOwqaHvC7Sh73C+1soDDeHx8KlwPeWqPDS8MhJRyLYm9lipq1OxTcMd4WUInCoNNqiIsiXz5wTeCt5lC7J80QSPGVr7TQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIQAzpqy; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4LBIYPG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIQAzpqy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733070869; x=1764606869;
+  t=1733075341; x=1764611341;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Spguxy3N2kVMvOmfawWq7+8Dxd3DykU81tRGJ85hv4Y=;
-  b=G4LBIYPG2EP1v4f16hsvPv5zzLBsAogAI6MVRRiasYQETATqCUkAX7F0
-   S3p8aLRtP0Qxe8sVDugr8XwHAdGV6yL6iTYvZb887xK4f+d5mkjarDgJW
-   d2J0MUZwrRKF4deKAbu4a91gvYtabXlQCiNayVerMRlwZQCwZeqI0Lp4L
-   EluZVyfZt9LTqJJlbUr73gJfUoY+MJixmhFy+FtSoUqB3DvNCG09wSI4J
-   DG1oBPs+2rZth9mDkbMpZWAPeKkEdbzFhIOquIxggs+w5sl21fq8Ge6KO
-   71qzB3LU9zSpE9zPwk7v6R6AXalzdkXkJjLo/KRJ74SNKa75mZlFSDj+b
-   g==;
-X-CSE-ConnectionGUID: LwQejF1hQlOqgnStm7XJLA==
-X-CSE-MsgGUID: +7pAcG7URgOgzsSMqn+Imw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44619795"
-X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="44619795"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 08:34:26 -0800
-X-CSE-ConnectionGUID: ozn2hSXOT9qbVHkW7vPO+A==
-X-CSE-MsgGUID: /z7alpQLQoW/d0i+VVbHog==
+  bh=DD5SCHXgXGHcSKp02YycaOH4VdxWsLUmVO9nF6xxQRk=;
+  b=CIQAzpqyfICDP/coyHlTLuoiidTA67d3DX6jAtK1NzupFBwJxKjjG+YY
+   3iFTrrWz7cWUheN6dCqGl2KM5pf8EDebuCxx3BHOSKA+4kFSAVTxi8tq3
+   qgGJaue/aklRcSbR3FcKM7zH9t2FozMByWNwNAhKhofrwwAR3z+yz1ADf
+   ZkpkcKiwpXVhtAwWjwQpM0pB0D8u/6mGGhax6KQicCXkvygrDkKCY+8k8
+   uyNfYGp4ATIXlkotMEiJMfns6jofViK13J/uxz7Z5B1Jmg5dntsJzXC+F
+   mUuV8s1MTCNMPXLBDFho6WquPuVdR8WK3zzEACMpqcDRYP3Ug50EWVFzV
+   A==;
+X-CSE-ConnectionGUID: DQnSUkAMSmW3Nm6IRkaLFQ==
+X-CSE-MsgGUID: TClpoRBtRPSAFVmsFh3KoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44284877"
+X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
+   d="scan'208";a="44284877"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 09:49:00 -0800
+X-CSE-ConnectionGUID: 1gsvupKAQhCGvJR/X/YC9w==
+X-CSE-MsgGUID: D2qU5iX/Q/mLb/LMCtzOMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="92808981"
+X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
+   d="scan'208";a="97865570"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Dec 2024 08:34:26 -0800
+  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2024 09:48:58 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHmtq-0001g9-2k;
-	Sun, 01 Dec 2024 16:34:22 +0000
-Date: Mon, 2 Dec 2024 00:34:13 +0800
+	id 1tHo40-0001jl-0x;
+	Sun, 01 Dec 2024 17:48:56 +0000
+Date: Mon, 2 Dec 2024 01:47:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/firmware/cirrus/cs_dsp.c:480:6-18: opportunity for
- str_enabled_disabled(ctl -> enabled)
-Message-ID: <202412020003.ac5pjcVQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 12/15] ARM: dts: microchip: add support for
+ sama7d65_curiosity board
+Message-ID: <202412020111.9lrRBVyT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,61 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner@microchip.com>
+References: <7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner@microchip.com>
+TO: Ryan.Wanner@microchip.com
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: nicolas.ferre@microchip.com
+TO: alexandre.belloni@bootlin.com
+TO: claudiu.beznea@tuxon.dev
+TO: mturquette@baylibre.com
+TO: sboyd@kernel.org
+TO: arnd@arndb.de
+CC: dharma.b@microchip.com
+CC: mihai.sain@microchip.com
+CC: romain.sioen@microchip.com
+CC: varshini.rajendran@microchip.com
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-TO: Simon Trimmer <simont@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>
+CC: linux-clk@vger.kernel.org
+CC: linux-mmc@vger.kernel.org
+CC: linux-gpio@vger.kernel.org
+CC: linux-spi@vger.kernel.org
+CC: linux-serial@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: 7a3f924cee4bdfe85eda4e636213e79d3fda6182 firmware: cs_dsp: Add a debugfs entry containing control details
-date:   1 year, 8 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 1 year, 8 months ago
-config: arc-randconfig-r052-20241117 (https://download.01.org/0day-ci/archive/20241202/202412020003.ac5pjcVQ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on soc/for-next linus/master v6.12 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wanner-microchip-com/dt-bindings-ARM-at91-Document-Microchip-SAMA7D65-Curiosity/20241121-132438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/7877f8c4cce78de34a6bdcc13fc78f5f0ebde06b.1732030972.git.Ryan.Wanner%40microchip.com
+patch subject: [PATCH 12/15] ARM: dts: microchip: add support for sama7d65_curiosity board
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-051-20241122 (https://download.01.org/0day-ci/archive/20241202/202412020111.9lrRBVyT-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020111.9lrRBVyT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412020003.ac5pjcVQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412020111.9lrRBVyT-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/firmware/cirrus/cs_dsp.c:480:6-18: opportunity for str_enabled_disabled(ctl -> enabled)
-
-vim +480 drivers/firmware/cirrus/cs_dsp.c
-
-f6bc909e7673c3 Simon Trimmer 2021-09-13  460  
-7a3f924cee4bdf Simon Trimmer 2023-03-28  461  static int cs_dsp_coeff_base_reg(struct cs_dsp_coeff_ctl *ctl, unsigned int *reg,
-7a3f924cee4bdf Simon Trimmer 2023-03-28  462  				 unsigned int off);
-7a3f924cee4bdf Simon Trimmer 2023-03-28  463  
-7a3f924cee4bdf Simon Trimmer 2023-03-28  464  static int cs_dsp_debugfs_read_controls_show(struct seq_file *s, void *ignored)
-7a3f924cee4bdf Simon Trimmer 2023-03-28  465  {
-7a3f924cee4bdf Simon Trimmer 2023-03-28  466  	struct cs_dsp *dsp = s->private;
-7a3f924cee4bdf Simon Trimmer 2023-03-28  467  	struct cs_dsp_coeff_ctl *ctl;
-7a3f924cee4bdf Simon Trimmer 2023-03-28  468  	unsigned int reg;
-7a3f924cee4bdf Simon Trimmer 2023-03-28  469  
-7a3f924cee4bdf Simon Trimmer 2023-03-28  470  	list_for_each_entry(ctl, &dsp->ctl_list, list) {
-7a3f924cee4bdf Simon Trimmer 2023-03-28  471  		cs_dsp_coeff_base_reg(ctl, &reg, 0);
-7a3f924cee4bdf Simon Trimmer 2023-03-28  472  		seq_printf(s, "%22.*s: %#8zx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
-7a3f924cee4bdf Simon Trimmer 2023-03-28  473  			   ctl->subname_len, ctl->subname, ctl->len,
-7a3f924cee4bdf Simon Trimmer 2023-03-28  474  			   cs_dsp_mem_region_name(ctl->alg_region.type),
-7a3f924cee4bdf Simon Trimmer 2023-03-28  475  			   ctl->offset, reg, ctl->fw_name, ctl->alg_region.alg, ctl->type,
-7a3f924cee4bdf Simon Trimmer 2023-03-28  476  			   ctl->flags & WMFW_CTL_FLAG_VOLATILE ? 'V' : '-',
-7a3f924cee4bdf Simon Trimmer 2023-03-28  477  			   ctl->flags & WMFW_CTL_FLAG_SYS ? 'S' : '-',
-7a3f924cee4bdf Simon Trimmer 2023-03-28  478  			   ctl->flags & WMFW_CTL_FLAG_READABLE ? 'R' : '-',
-7a3f924cee4bdf Simon Trimmer 2023-03-28  479  			   ctl->flags & WMFW_CTL_FLAG_WRITEABLE ? 'W' : '-',
-7a3f924cee4bdf Simon Trimmer 2023-03-28 @480  			   ctl->enabled ? "enabled" : "disabled",
-7a3f924cee4bdf Simon Trimmer 2023-03-28  481  			   ctl->set ? "dirty" : "clean");
-7a3f924cee4bdf Simon Trimmer 2023-03-28  482  	}
-7a3f924cee4bdf Simon Trimmer 2023-03-28  483  
-7a3f924cee4bdf Simon Trimmer 2023-03-28  484  	return 0;
-7a3f924cee4bdf Simon Trimmer 2023-03-28  485  }
-7a3f924cee4bdf Simon Trimmer 2023-03-28  486  DEFINE_SHOW_ATTRIBUTE(cs_dsp_debugfs_read_controls);
-7a3f924cee4bdf Simon Trimmer 2023-03-28  487  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
 
 -- 
 0-DAY CI Kernel Test Service
