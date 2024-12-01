@@ -1,284 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB606F30C
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 06:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E586214A84
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 07:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733033093; cv=none; b=lNDqUpwTl28T/+RbZRcNrXFnQWNlAox4Q5njTmNgVEBLRHDf87YXibB8mqpH+OKxjtoNJKTAMf6g17icw0Lb474gGeevHROqVJ4MTKgZRvFOe3gx62pKojMWajgo+t+NaEarcWWq2OOMFOPq9tO+re5EEG619m59APDueU5pbuk=
+	t=1733037275; cv=none; b=PwDF12BuBgFYc1Di6CHeYKkKcK4O71BlhUzLxytpFnv/kGLWqI1FMmqkm8wXDxR+yjvrvxvkTO/hUnXWOYnogzA39c0Tlqc2wqTCKmhta0EMlUWujRZ2onfVWHjAnrS+4vlITzrv5Vx8DLQOHDnXMuTEuLnPtYQYTnj9rfuyf48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733033093; c=relaxed/simple;
-	bh=q/a4TQhHC5voBNJov66VA/A1+Vx+MRgzbuSHF/Tp5j4=;
+	s=arc-20240116; t=1733037275; c=relaxed/simple;
+	bh=RzbiDGw88ZVMI6lD5CKB/wLYJcw9EPb+HTNQyJPxM7o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XVtYbGnh+R8AoAy4EwkI44YXKQHQYBrktSA4f9wPy6fAicoY5NTwUJoo7ZJHfDTQHTbw54teS8/J5xiYMYtW6wBeUlGmHxOTPXGyhaCc61Wen5HxlMsQipxSCxHKQKuiVswLZsruInjSBjLWVS2BgUrLoSYmywyFTEspf9HLV7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GLojenPM; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=JGK2eEVVTtMHtv8R4WdVw796m4N1TwXgcXl9xhelu4tlD1Muehmmg+Z20NDoXn2l8mgw818QIOi7/f5T42i+m8apJn4+rLikdpj3cOfvoa1XwAPK+5OQxAuIEOaYX4Zu9gJxAXA2QvFOsUEa/yRvrecVGT8ojxO+3/DtettOj60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcf3zJet; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GLojenPM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcf3zJet"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733033091; x=1764569091;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=q/a4TQhHC5voBNJov66VA/A1+Vx+MRgzbuSHF/Tp5j4=;
-  b=GLojenPMJMuYCSOWrIxO1ZtsqYwzloRGmmGHWA4x9vkfio8Z9sfqzpDh
-   pPUehYvxAUOH79kwaTBh8EHG05FJkdAPhQlTVfblt/UQYN4vK3Gg1RTFG
-   NZeUj2Nedgtr6ziUjsNQexZT6zv1daaklueOgM7M1RG9YYFf1YCK5bCod
-   MkKzi/XkPJF7LcOrMylREFntdtzTXip9/nZXHTanmtx+m39mTicX4Do18
-   3T+R9pPoAcZqHBfUqM1zgqMrQf+QfR5LETEO/GuyXcjV4Mxz2dfEdBl7C
-   kCL8QQD2gFYyQ/77FB1n3vdcoNTvkyBx5c1bESptOY+XHngxCtIFy0wfi
-   g==;
-X-CSE-ConnectionGUID: pqoXJN8+RS6gC16wX2UtFQ==
-X-CSE-MsgGUID: j8nF7p6CQxeAQeyun2nHiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36070344"
+  t=1733037273; x=1764573273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RzbiDGw88ZVMI6lD5CKB/wLYJcw9EPb+HTNQyJPxM7o=;
+  b=mcf3zJetJuWBlENH3u/FY+ULBsnTUbmKgZMX+KWJ5zPMMZoxtUyp+mSU
+   EIs4zBYKaPFra/RaS9Ew+YSET2DmXENubh6fBT2jj/GOgdov00BsckjLK
+   mb1k4vbSoJFGs9aN8IWZmL0LH5KJSfW/RdwH2b6BOX1Cqd/SuiKBQiBpb
+   QCmS4YsZT8JM2bGA+avDbWDbXL34xBambsP9FL49MR80jF0LheKbM8ys0
+   /bVK5iSTxY5yiYKwNJXmLblr+a+EJw9WD8fr2Fpa4HjV+EPxIb7iiCAO0
+   NlbBm+LfuSS6w2Fni052bJ3rRHTv400QgCENuBJNTDdgoC3An+kODa3Lb
+   w==;
+X-CSE-ConnectionGUID: 7cJOMepEQ92mi4k+BC1BeQ==
+X-CSE-MsgGUID: hOguU0gUSyKpvx937/kXSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="43885666"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="36070344"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 22:04:51 -0800
-X-CSE-ConnectionGUID: prleFe5DTxCbeo62fAjDlA==
-X-CSE-MsgGUID: 4rcZEYqrSxOyh7LBDiCLMg==
+   d="scan'208";a="43885666"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 23:14:32 -0800
+X-CSE-ConnectionGUID: ZZGeHvRHTjiGZfJ9XUbs2Q==
+X-CSE-MsgGUID: q0cMFJKESli0kBmTwJjjKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="93269505"
+   d="scan'208";a="92690893"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Nov 2024 22:04:48 -0800
+  by orviesa010.jf.intel.com with ESMTP; 30 Nov 2024 23:14:30 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHd4U-0001IN-21;
-	Sun, 01 Dec 2024 06:04:43 +0000
-Date: Sun, 1 Dec 2024 14:01:29 +0800
+	id 1tHe9z-0001Ki-1l;
+	Sun, 01 Dec 2024 07:14:27 +0000
+Date: Sun, 1 Dec 2024 15:14:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpio/gpio-mvebu.c:1301 mvebu_gpio_probe() warn:
- 'mvchip->clk' from clk_prepare_enable() not released on lines:
- 1189,1236,1248.
-Message-ID: <202412011320.BujOpt1Q-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c:316:1-7: ERROR:
+ missing iounmap; ioremap on line 256 and execution via conditional on line
+ 265
+Message-ID: <202412011545.MPPNO8m4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+TO: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: 956ee0c5c969c9caf6744e166f5a80526be10c5b gpio: mvebu: allow building the module with COMPILE_TEST=y
-date:   8 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 weeks ago
-config: nios2-randconfig-r072-20241119 (https://download.01.org/0day-ci/archive/20241201/202412011320.BujOpt1Q-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
+commit: 4bdc0d676a643140bdf17dbf7eafedee3d496a3c remove ioremap_nocache and devm_ioremap_nocache
+date:   4 years, 11 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 years, 11 months ago
+config: x86_64-randconfig-102-20241118 (https://download.01.org/0day-ci/archive/20241201/202412011545.MPPNO8m4-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412011320.BujOpt1Q-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412011545.MPPNO8m4-lkp@intel.com/
 
-smatch warnings:
-drivers/gpio/gpio-mvebu.c:1301 mvebu_gpio_probe() warn: 'mvchip->clk' from clk_prepare_enable() not released on lines: 1189,1236,1248.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c:316:1-7: ERROR: missing iounmap; ioremap on line 256 and execution via conditional on line 265
 
-vim +1301 drivers/gpio/gpio-mvebu.c
+vim +316 drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c
 
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1121  
-3836309d93462b Bill Pemberton      2012-11-19  1122  static int mvebu_gpio_probe(struct platform_device *pdev)
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1123  {
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1124  	struct mvebu_gpio_chip *mvchip;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1125  	struct device_node *np = pdev->dev.of_node;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1126  	struct irq_chip_generic *gc;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1127  	struct irq_chip_type *ct;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1128  	unsigned int ngpios;
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1129  	bool have_irqs;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1130  	int soc_variant;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1131  	int i, cpu, id;
-f1d2d081e8d13b Andrew Lunn         2015-01-10  1132  	int err;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1133  
-03a975cbcfcd0b Rob Herring         2023-10-06  1134  	soc_variant = (unsigned long)device_get_match_data(&pdev->dev);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1135  
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1136  	/* Some gpio controllers do not provide irq support */
-0c21639f5a4b1f Peng Fan            2019-12-04  1137  	err = platform_irq_count(pdev);
-0c21639f5a4b1f Peng Fan            2019-12-04  1138  	if (err < 0)
-0c21639f5a4b1f Peng Fan            2019-12-04  1139  		return err;
-0c21639f5a4b1f Peng Fan            2019-12-04  1140  
-0c21639f5a4b1f Peng Fan            2019-12-04  1141  	have_irqs = err != 0;
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1142  
-a4319a611bcdc3 Andrew Lunn         2015-01-10  1143  	mvchip = devm_kzalloc(&pdev->dev, sizeof(struct mvebu_gpio_chip),
-a4319a611bcdc3 Andrew Lunn         2015-01-10  1144  			      GFP_KERNEL);
-6c8365f68ab38b Jingoo Han          2014-04-29  1145  	if (!mvchip)
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1146  		return -ENOMEM;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1147  
-b5b7b487431b01 Thomas Petazzoni    2014-10-24  1148  	platform_set_drvdata(pdev, mvchip);
-b5b7b487431b01 Thomas Petazzoni    2014-10-24  1149  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1150  	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1151  		dev_err(&pdev->dev, "Missing ngpios OF property\n");
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1152  		return -ENODEV;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1153  	}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1154  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1155  	id = of_alias_get_id(pdev->dev.of_node, "gpio");
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1156  	if (id < 0) {
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1157  		dev_err(&pdev->dev, "Couldn't get OF id\n");
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1158  		return id;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1159  	}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1160  
-757642f9a584e8 Andrew Lunn         2017-04-14  1161  	mvchip->clk = devm_clk_get(&pdev->dev, NULL);
-de88747f514a4e Andrew Lunn         2013-02-03  1162  	/* Not all SoCs require a clock.*/
-757642f9a584e8 Andrew Lunn         2017-04-14  1163  	if (!IS_ERR(mvchip->clk))
-757642f9a584e8 Andrew Lunn         2017-04-14  1164  		clk_prepare_enable(mvchip->clk);
-de88747f514a4e Andrew Lunn         2013-02-03  1165  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1166  	mvchip->soc_variant = soc_variant;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1167  	mvchip->chip.label = dev_name(&pdev->dev);
-58383c78425e4e Linus Walleij       2015-11-04  1168  	mvchip->chip.parent = &pdev->dev;
-203f0daafdf228 Jonas Gorski        2015-10-11  1169  	mvchip->chip.request = gpiochip_generic_request;
-203f0daafdf228 Jonas Gorski        2015-10-11  1170  	mvchip->chip.free = gpiochip_generic_free;
-e8dacf5957ea58 Baruch Siach        2019-01-10  1171  	mvchip->chip.get_direction = mvebu_gpio_get_direction;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1172  	mvchip->chip.direction_input = mvebu_gpio_direction_input;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1173  	mvchip->chip.get = mvebu_gpio_get;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1174  	mvchip->chip.direction_output = mvebu_gpio_direction_output;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1175  	mvchip->chip.set = mvebu_gpio_set;
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1176  	if (have_irqs)
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1177  		mvchip->chip.to_irq = mvebu_gpio_to_irq;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1178  	mvchip->chip.base = id * MVEBU_MAX_GPIO_PER_BANK;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1179  	mvchip->chip.ngpio = ngpios;
-9fb1f39eb2d670 Linus Walleij       2013-12-04  1180  	mvchip->chip.can_sleep = false;
-a4ba5e1b92b69b Simon Guinot        2013-03-24  1181  	mvchip->chip.dbg_show = mvebu_gpio_dbg_show;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1182  
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1183  	if (soc_variant == MVEBU_GPIO_SOC_VARIANT_A8K)
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1184  		err = mvebu_gpio_probe_syscon(pdev, mvchip);
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1185  	else
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1186  		err = mvebu_gpio_probe_raw(pdev, mvchip);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1187  
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1188  	if (err)
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1189  		return err;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1190  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1191  	/*
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1192  	 * Mask and clear GPIO interrupts.
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1193  	 */
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1194  	switch (soc_variant) {
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1195  	case MVEBU_GPIO_SOC_VARIANT_ORION:
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1196  	case MVEBU_GPIO_SOC_VARIANT_A8K:
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1197  		regmap_write(mvchip->regs,
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1198  			     GPIO_EDGE_CAUSE_OFF + mvchip->offset, 0);
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1199  		regmap_write(mvchip->regs,
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1200  			     GPIO_EDGE_MASK_OFF + mvchip->offset, 0);
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1201  		regmap_write(mvchip->regs,
-b6730b20837e74 Gregory CLEMENT     2017-06-12  1202  			     GPIO_LEVEL_MASK_OFF + mvchip->offset, 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1203  		break;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1204  	case MVEBU_GPIO_SOC_VARIANT_MV78200:
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1205  		regmap_write(mvchip->regs, GPIO_EDGE_CAUSE_OFF, 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1206  		for (cpu = 0; cpu < 2; cpu++) {
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1207  			regmap_write(mvchip->regs,
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1208  				     GPIO_EDGE_MASK_MV78200_OFF(cpu), 0);
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1209  			regmap_write(mvchip->regs,
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1210  				     GPIO_LEVEL_MASK_MV78200_OFF(cpu), 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1211  		}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1212  		break;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1213  	case MVEBU_GPIO_SOC_VARIANT_ARMADAXP:
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1214  		regmap_write(mvchip->regs, GPIO_EDGE_CAUSE_OFF, 0);
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1215  		regmap_write(mvchip->regs, GPIO_EDGE_MASK_OFF, 0);
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1216  		regmap_write(mvchip->regs, GPIO_LEVEL_MASK_OFF, 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1217  		for (cpu = 0; cpu < 4; cpu++) {
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1218  			regmap_write(mvchip->percpu_regs,
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1219  				     GPIO_EDGE_CAUSE_ARMADAXP_OFF(cpu), 0);
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1220  			regmap_write(mvchip->percpu_regs,
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1221  				     GPIO_EDGE_MASK_ARMADAXP_OFF(cpu), 0);
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1222  			regmap_write(mvchip->percpu_regs,
-2233bf7a92e784 Thomas Petazzoni    2017-05-19  1223  				     GPIO_LEVEL_MASK_ARMADAXP_OFF(cpu), 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1224  		}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1225  		break;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1226  	default:
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1227  		BUG();
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1228  	}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1229  
-00b9ab4a25cf5a Laxman Dewangan     2016-02-22  1230  	devm_gpiochip_add_data(&pdev->dev, &mvchip->chip, mvchip);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1231  
-7ee1a01e47403f Baruch Siach        2020-12-02  1232  	/* Some MVEBU SoCs have simple PWM support for GPIO lines */
-3101b1e4ba3874 Uwe Kleine-König    2023-01-20  1233  	if (IS_REACHABLE(CONFIG_PWM)) {
-7ee1a01e47403f Baruch Siach        2020-12-02  1234  		err = mvebu_pwm_probe(pdev, mvchip, id);
-7ee1a01e47403f Baruch Siach        2020-12-02  1235  		if (err)
-7ee1a01e47403f Baruch Siach        2020-12-02  1236  			return err;
-7ee1a01e47403f Baruch Siach        2020-12-02  1237  	}
-7ee1a01e47403f Baruch Siach        2020-12-02  1238  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1239  	/* Some gpio controllers do not provide irq support */
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1240  	if (!have_irqs)
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1241  		return 0;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1242  
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1243  	mvchip->domain =
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1244  	    irq_domain_add_linear(np, ngpios, &irq_generic_chip_ops, NULL);
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1245  	if (!mvchip->domain) {
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1246  		dev_err(&pdev->dev, "couldn't allocate irq domain %s (DT).\n",
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1247  			mvchip->chip.label);
-1945063eb59e64 Uwe Kleine-König    2023-07-17  1248  		return -ENODEV;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1249  	}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1250  
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1251  	err = devm_add_action_or_reset(&pdev->dev, mvebu_gpio_remove_irq_domain,
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1252  				       mvchip->domain);
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1253  	if (err)
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1254  		return err;
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1255  
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1256  	err = irq_alloc_domain_generic_chips(
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1257  	    mvchip->domain, ngpios, 2, np->name, handle_level_irq,
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1258  	    IRQ_NOREQUEST | IRQ_NOPROBE | IRQ_LEVEL, 0, 0);
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1259  	if (err) {
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1260  		dev_err(&pdev->dev, "couldn't allocate irq chips %s (DT).\n",
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1261  			mvchip->chip.label);
-644ee70267a934 Bartosz Golaszewski 2023-07-19  1262  		return err;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1263  	}
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1264  
-899c37edfedbe1 Ralph Sennhauser    2017-03-16  1265  	/*
-899c37edfedbe1 Ralph Sennhauser    2017-03-16  1266  	 * NOTE: The common accessors cannot be used because of the percpu
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1267  	 * access to the mask registers
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1268  	 */
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1269  	gc = irq_get_domain_generic_chip(mvchip->domain, 0);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1270  	gc->private = mvchip;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1271  	ct = &gc->chip_types[0];
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1272  	ct->type = IRQ_TYPE_LEVEL_HIGH | IRQ_TYPE_LEVEL_LOW;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1273  	ct->chip.irq_mask = mvebu_gpio_level_irq_mask;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1274  	ct->chip.irq_unmask = mvebu_gpio_level_irq_unmask;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1275  	ct->chip.irq_set_type = mvebu_gpio_irq_set_type;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1276  	ct->chip.name = mvchip->chip.label;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1277  
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1278  	ct = &gc->chip_types[1];
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1279  	ct->type = IRQ_TYPE_EDGE_RISING | IRQ_TYPE_EDGE_FALLING;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1280  	ct->chip.irq_ack = mvebu_gpio_irq_ack;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1281  	ct->chip.irq_mask = mvebu_gpio_edge_irq_mask;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1282  	ct->chip.irq_unmask = mvebu_gpio_edge_irq_unmask;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1283  	ct->chip.irq_set_type = mvebu_gpio_irq_set_type;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1284  	ct->handler = handle_edge_irq;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1285  	ct->chip.name = mvchip->chip.label;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1286  
-899c37edfedbe1 Ralph Sennhauser    2017-03-16  1287  	/*
-899c37edfedbe1 Ralph Sennhauser    2017-03-16  1288  	 * Setup the interrupt handlers. Each chip can have up to 4
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1289  	 * interrupt handlers, with each handler dealing with 8 GPIO
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1290  	 * pins.
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1291  	 */
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1292  	for (i = 0; i < 4; i++) {
-525b0858ff2fdb Chris Packham       2020-03-13  1293  		int irq = platform_get_irq_optional(pdev, i);
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1294  
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1295  		if (irq < 0)
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1296  			continue;
-812d47889a8e41 Jason Gunthorpe     2016-10-19  1297  		irq_set_chained_handler_and_data(irq, mvebu_gpio_irq_handler,
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1298  						 mvchip);
-f1d2d081e8d13b Andrew Lunn         2015-01-10  1299  	}
-f1d2d081e8d13b Andrew Lunn         2015-01-10  1300  
-f1d2d081e8d13b Andrew Lunn         2015-01-10 @1301  	return 0;
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1302  }
-fefe7b0923459e Thomas Petazzoni    2012-09-19  1303  
+a4d36e20d03514 David VomLehn     2017-01-23  196  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  197  static int aq_pci_probe(struct pci_dev *pdev,
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  198  			const struct pci_device_id *pci_id)
+a4d36e20d03514 David VomLehn     2017-01-23  199  {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  200  	struct net_device *ndev;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  201  	resource_size_t mmio_pa;
+7b0c342f1f6754 Nikita Danilov    2019-11-07  202  	struct aq_nic_s *self;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  203  	u32 numvecs;
+7b0c342f1f6754 Nikita Danilov    2019-11-07  204  	u32 bar;
+7b0c342f1f6754 Nikita Danilov    2019-11-07  205  	int err;
+a4d36e20d03514 David VomLehn     2017-01-23  206  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  207  	err = pci_enable_device(pdev);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  208  	if (err)
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  209  		return err;
+a4d36e20d03514 David VomLehn     2017-01-23  210  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  211  	err = aq_pci_func_init(pdev);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  212  	if (err)
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  213  		goto err_pci_func;
+a4d36e20d03514 David VomLehn     2017-01-23  214  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  215  	ndev = aq_ndev_alloc();
+f03e4f8aadc84d Wei Yongjun       2018-01-23  216  	if (!ndev) {
+f03e4f8aadc84d Wei Yongjun       2018-01-23  217  		err = -ENOMEM;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  218  		goto err_ndev;
+f03e4f8aadc84d Wei Yongjun       2018-01-23  219  	}
+a4d36e20d03514 David VomLehn     2017-01-23  220  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  221  	self = netdev_priv(ndev);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  222  	self->pdev = pdev;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  223  	SET_NETDEV_DEV(ndev, &pdev->dev);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  224  	pci_set_drvdata(pdev, self);
+6849540adc0bcc Igor Russkikh     2017-10-19  225  
+f5dce08ab17945 Nikita Danilov    2019-04-29  226  	mutex_init(&self->fwreq_mutex);
+f5dce08ab17945 Nikita Danilov    2019-04-29  227  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  228  	err = aq_pci_probe_get_hw_by_id(pdev, &self->aq_hw_ops,
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  229  					&aq_nic_get_cfg(self)->aq_hw_caps);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  230  	if (err)
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  231  		goto err_ioremap;
+a4d36e20d03514 David VomLehn     2017-01-23  232  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  233  	self->aq_hw = kzalloc(sizeof(*self->aq_hw), GFP_KERNEL);
+370c10522e96bf Dan Carpenter     2018-02-22  234  	if (!self->aq_hw) {
+370c10522e96bf Dan Carpenter     2018-02-22  235  		err = -ENOMEM;
+370c10522e96bf Dan Carpenter     2018-02-22  236  		goto err_ioremap;
+370c10522e96bf Dan Carpenter     2018-02-22  237  	}
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  238  	self->aq_hw->aq_nic_cfg = aq_nic_get_cfg(self);
+a4d36e20d03514 David VomLehn     2017-01-23  239  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  240  	for (bar = 0; bar < 4; ++bar) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  241  		if (IORESOURCE_MEM & pci_resource_flags(pdev, bar)) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  242  			resource_size_t reg_sz;
+a4d36e20d03514 David VomLehn     2017-01-23  243  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  244  			mmio_pa = pci_resource_start(pdev, bar);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  245  			if (mmio_pa == 0U) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  246  				err = -EIO;
+370c10522e96bf Dan Carpenter     2018-02-22  247  				goto err_free_aq_hw;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  248  			}
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  249  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  250  			reg_sz = pci_resource_len(pdev, bar);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  251  			if ((reg_sz <= 24 /*ATL_REGS_SIZE*/)) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  252  				err = -EIO;
+370c10522e96bf Dan Carpenter     2018-02-22  253  				goto err_free_aq_hw;
+a4d36e20d03514 David VomLehn     2017-01-23  254  			}
+a4d36e20d03514 David VomLehn     2017-01-23  255  
+4bdc0d676a6431 Christoph Hellwig 2020-01-06 @256  			self->aq_hw->mmio = ioremap(mmio_pa, reg_sz);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  257  			if (!self->aq_hw->mmio) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  258  				err = -EIO;
+370c10522e96bf Dan Carpenter     2018-02-22  259  				goto err_free_aq_hw;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  260  			}
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  261  			break;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  262  		}
+a4d36e20d03514 David VomLehn     2017-01-23  263  	}
+a4d36e20d03514 David VomLehn     2017-01-23  264  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19 @265  	if (bar == 4) {
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  266  		err = -EIO;
+370c10522e96bf Dan Carpenter     2018-02-22  267  		goto err_free_aq_hw;
+a4d36e20d03514 David VomLehn     2017-01-23  268  	}
+5b97b0d10eddee Igor Russkikh     2018-01-15  269  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  270  	numvecs = min((u8)AQ_CFG_VECS_DEF,
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  271  		      aq_nic_get_cfg(self)->aq_hw_caps->msix_irqs);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  272  	numvecs = min(numvecs, num_online_cpus());
+04a1839950d92a Egor Pomozov      2019-10-22  273  	/* Request IRQ vector for PTP */
+04a1839950d92a Egor Pomozov      2019-10-22  274  	numvecs += 1;
+04a1839950d92a Egor Pomozov      2019-10-22  275  
+4c83f170b3ac08 Igor Russkikh     2019-04-29  276  	numvecs += AQ_HW_SERVICE_IRQS;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  277  	/*enable interrupts */
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  278  #if !AQ_CFG_FORCE_LEGACY_INT
+58d813afbe8965 Colin Ian King    2018-06-07  279  	err = pci_alloc_irq_vectors(self->pdev, 1, numvecs,
+a09bd81b5413d1 Igor Russkikh     2018-05-07  280  				    PCI_IRQ_MSIX | PCI_IRQ_MSI |
+a09bd81b5413d1 Igor Russkikh     2018-05-07  281  				    PCI_IRQ_LEGACY);
+5b97b0d10eddee Igor Russkikh     2018-01-15  282  
+58d813afbe8965 Colin Ian King    2018-06-07  283  	if (err < 0)
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  284  		goto err_hwinit;
+58d813afbe8965 Colin Ian King    2018-06-07  285  	numvecs = err;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  286  #endif
+a09bd81b5413d1 Igor Russkikh     2018-05-07  287  	self->irqvecs = numvecs;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  288  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  289  	/* net device init */
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  290  	aq_nic_cfg_start(self);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  291  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  292  	aq_nic_ndev_init(self);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  293  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  294  	err = aq_nic_ndev_register(self);
+5b97b0d10eddee Igor Russkikh     2018-01-15  295  	if (err < 0)
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  296  		goto err_register;
+5b97b0d10eddee Igor Russkikh     2018-01-15  297  
+4c0131539fc0ad Yana Esina        2019-04-29  298  	aq_drvinfo_init(ndev);
+4c0131539fc0ad Yana Esina        2019-04-29  299  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  300  	return 0;
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  301  
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  302  err_register:
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  303  	aq_nic_free_vectors(self);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  304  	aq_pci_free_irq_vectors(self);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  305  err_hwinit:
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  306  	iounmap(self->aq_hw->mmio);
+370c10522e96bf Dan Carpenter     2018-02-22  307  err_free_aq_hw:
+370c10522e96bf Dan Carpenter     2018-02-22  308  	kfree(self->aq_hw);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  309  err_ioremap:
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  310  	free_netdev(ndev);
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  311  err_ndev:
+a09bd81b5413d1 Igor Russkikh     2018-05-07  312  	pci_release_regions(pdev);
+a09bd81b5413d1 Igor Russkikh     2018-05-07  313  err_pci_func:
+23ee07ad3c2fd5 Igor Russkikh     2018-01-19  314  	pci_disable_device(pdev);
+7b0c342f1f6754 Nikita Danilov    2019-11-07  315  
+5b97b0d10eddee Igor Russkikh     2018-01-15 @316  	return err;
+5b97b0d10eddee Igor Russkikh     2018-01-15  317  }
+5b97b0d10eddee Igor Russkikh     2018-01-15  318  
 
-:::::: The code at line 1301 was first introduced by commit
-:::::: f1d2d081e8d13b23ea53f32932ae03af76934b9a gpio: mvebu: Fix probe cleanup on error
+:::::: The code at line 316 was first introduced by commit
+:::::: 5b97b0d10eddeeec258b807f009a2cb2764653c7 net: aquantia: Simplify dependencies between pci modules
 
-:::::: TO: Andrew Lunn <andrew@lunn.ch>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+:::::: TO: Igor Russkikh <igor.russkikh@aquantia.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
