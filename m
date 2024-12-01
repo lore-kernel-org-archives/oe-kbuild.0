@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6994208A7
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 10:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B92D1CEEAD
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 13:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733047370; cv=none; b=VfdzpcCPSQg4tzbMWMr36ThzBo8E57aqgPf/B3oQlRQ0tLWcK03+q3T/eUX4Qh+YdYUTMMBJh2l8Rc+EzWk5zS/3Hnb2AgU7JoH+KRqmWMXqAy6li3k3mngvKo2KgPfE6/XvpH/xl9tT0oZTfVYPf1wKtCwRI8fLmFGpMuZ12OA=
+	t=1733059983; cv=none; b=s7qM5qNHMAulIQtl9QwJkR5APhMwCEB1zQIWVPRrPpg5+zOV0d2t8l29+ksvUnXUrPjWmEULQhuYpf0NVetTnwkiD5wluDcpn23AgF0I+CaLBC69LdhPXMsfmpxE7TsVz1uuVXjIUwnpa/CmWFWs9jSnNv3CO7BIYwZ9G/r4F5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733047370; c=relaxed/simple;
-	bh=ay6Ap7KOdX5Gigs5xXvdbw8Hfrs1uBzT1DRISosmBsA=;
+	s=arc-20240116; t=1733059983; c=relaxed/simple;
+	bh=YSM8YGRE2w9aw7xdJQxFLdhgfaG8NP4qyul0yUhWHmc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jD/Ij7ULP2JH7jd1Y5LH5Z3B9w9MTMhGMIeiWbiTNtaGVWohKB+dRr6R2liBppkholahttyQM5kSH9gCqWGgu/UEZWtZkTssVxxdPxGg62Uyx2N8luaf+0uCuUoT5lV33pke3itM1hDKRyrGYIcrpirhH8WYAKBRBZSltLgBGKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPIjF6Za; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=fszNZTFMBO4xhahIBDD4X4+5+mSnO/NizCQ5Pk5zcmeJjLTrBcx/olbuC8ucVFj5WYbsD71V9EWZA3Cxdx9KyXO4vyqh1fakytk287xmcSuZ2fFhVsYV6AOJqXQNRrIdweD4hyFnrXBl6/cPbwo02B46Y9Qp3NuFIJouLjux9GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O32CV8q5; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPIjF6Za"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O32CV8q5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733047368; x=1764583368;
+  t=1733059981; x=1764595981;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ay6Ap7KOdX5Gigs5xXvdbw8Hfrs1uBzT1DRISosmBsA=;
-  b=FPIjF6ZaupOVw0124uav9YJwBvY5tovEJM8tVYDpztsKQ6Ya9xnGx5cG
-   Ygmy6+wpHsfAvYxTfpAwE7cnRy4n3udzKJzaXmyY2a4lT6Lkg3C0aO2oB
-   kp0fUoE9V2h+v/74VM0C8HYZhwXuWzSsSEU2wNSeANlxVYIXoE3Q45tKo
-   Nfcf1PP410zTqMF1b5Ote2bSab1IIjTNAMd35YmCVVJz1nZMoxmDOPqgl
-   SzqdwlMJquA8JXZpFov4v54T2jMDxkwNwtKtt/GIBYu+vFvWsiKQarkYC
-   biMmeYZSltugX5ro9iblna1FFuBuJmwb7wWd5+3vizGMya1cj+LI5VtVi
-   w==;
-X-CSE-ConnectionGUID: Bat48ElZQGyZyZe6iuwdsA==
-X-CSE-MsgGUID: E2WCPta4QwmFwemVYhpdEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36995664"
+  bh=YSM8YGRE2w9aw7xdJQxFLdhgfaG8NP4qyul0yUhWHmc=;
+  b=O32CV8q518tj3MKatgM/nsjILsYTXTIt8TEcSgqksW0ceKI38YE8Sb7M
+   pLn0BZgPipuozw3pbgqeL7LVWMDs1jNawvunvpEPdeBh2tvYl2O6GX/p/
+   CUZ8CqMcOPNi7G6CH3ETwAqi8c2EvV2g51A024GwJ+AoKHc6cJIJbOjR3
+   s8LQ1NnYF54sarIvFiMaH3aZ3OFo/HSI7zi5Egg933dQ0GpmpmMenN8Jk
+   NynxpKnloF4CkbW/8eoeYxBS4z/6PNS+iAq+eDS9pZjvovMLAvCjKPUlk
+   HWJB+Gh+IQmQA8AtGVQ+BdTWshYqzsW9z5FLKl208A1GFVpTLEvoFvL4z
+   g==;
+X-CSE-ConnectionGUID: klEHZZeuRdeeLN9FNE0Qkw==
+X-CSE-MsgGUID: OCyk5I5ZRU6vrKrlhPsWBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44612510"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="36995664"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 02:02:46 -0800
-X-CSE-ConnectionGUID: dWfKK0OzS7Cjjs2wqT/hyQ==
-X-CSE-MsgGUID: d2sJPYzmQ+u75gpSnYdlYQ==
+   d="scan'208";a="44612510"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 05:33:00 -0800
+X-CSE-ConnectionGUID: 3cxZth5cRmiAptUGlz3oVw==
+X-CSE-MsgGUID: 8Q8YNbMBS1SLaqS+/8aO/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="92995584"
+   d="scan'208";a="97831231"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Dec 2024 02:02:45 -0800
+  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2024 05:32:58 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHgma-0001S1-1G;
-	Sun, 01 Dec 2024 10:02:32 +0000
-Date: Sun, 1 Dec 2024 18:01:49 +0800
+	id 1tHk4G-0001Yn-1t;
+	Sun, 01 Dec 2024 13:32:56 +0000
+Date: Sun, 1 Dec 2024 21:31:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/bpf/helpers.c:1260:33-38: ERROR: t is NULL but dereferenced.
-Message-ID: <202412011718.lsm0y2Aw-lkp@intel.com>
+Subject: kernel/rcu/rcutorture.c:1900:11-12: WARNING kmalloc is used to
+ allocate this memory at line 1887
+Message-ID: <202412012159.XzUyULh7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,61 +65,85 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: b00628b1c7d595ae5b544e059c27b1f5828314b4 bpf: Introduce bpf timers.
-date:   3 years, 5 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 years, 5 months ago
-config: x86_64-randconfig-102-20241120 (https://download.01.org/0day-ci/archive/20241201/202412011718.lsm0y2Aw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 0d3dd2c8eadb7d4404b8788f552fb2b824fe2c7e rcutorture: Add crude tests for mem_dump_obj()
+date:   3 years, 9 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 3 years, 9 months ago
+config: x86_64-randconfig-r063-20241119 (https://download.01.org/0day-ci/archive/20241201/202412012159.XzUyULh7-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412011718.lsm0y2Aw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412012159.XzUyULh7-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/bpf/helpers.c:1260:33-38: ERROR: t is NULL but dereferenced.
+>> kernel/rcu/rcutorture.c:1900:11-12: WARNING kmalloc is used to allocate this memory at line 1887
 
-vim +1260 kernel/bpf/helpers.c
+vim +1900 kernel/rcu/rcutorture.c
 
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1232  
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1233  BPF_CALL_1(bpf_timer_cancel, struct bpf_timer_kern *, timer)
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1234  {
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1235  	struct bpf_hrtimer *t;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1236  	int ret = 0;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1237  
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1238  	if (in_nmi())
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1239  		return -EOPNOTSUPP;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1240  	__bpf_spin_lock_irqsave(&timer->lock);
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1241  	t = timer->timer;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1242  	if (!t) {
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1243  		ret = -EINVAL;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1244  		goto out;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1245  	}
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1246  	if (this_cpu_read(hrtimer_running) == t) {
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1247  		/* If bpf callback_fn is trying to bpf_timer_cancel()
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1248  		 * its own timer the hrtimer_cancel() will deadlock
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1249  		 * since it waits for callback_fn to finish
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1250  		 */
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1251  		ret = -EDEADLK;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1252  		goto out;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1253  	}
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1254  	drop_prog_refcnt(t);
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1255  out:
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1256  	__bpf_spin_unlock_irqrestore(&timer->lock);
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1257  	/* Cancel the timer and wait for associated callback to finish
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1258  	 * if it was running.
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1259  	 */
-b00628b1c7d595 Alexei Starovoitov 2021-07-14 @1260  	ret = ret ?: hrtimer_cancel(&t->timer);
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1261  	return ret;
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1262  }
-b00628b1c7d595 Alexei Starovoitov 2021-07-14  1263  
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1849  
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1850  /*
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1851   * Periodically prints torture statistics, if periodic statistics printing
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1852   * was specified via the stat_interval module parameter.
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1853   */
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1854  static int
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1855  rcu_torture_stats(void *arg)
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1856  {
+5ccf60f23d33af kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-29  1857  	VERBOSE_TOROUT_STRING("rcu_torture_stats task started");
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1858  	do {
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1859  		schedule_timeout_interruptible(stat_interval * HZ);
+a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney 2005-10-30  1860  		rcu_torture_stats_print();
+f67a33561e6e54 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-29  1861  		torture_shutdown_absorb("rcu_torture_stats");
+36970bb91d8961 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-30  1862  	} while (!torture_must_stop());
+7fafaac5b9ce22 kernel/rcu/rcutorture.c Paul E. McKenney 2014-01-31  1863  	torture_kthread_stopping("rcu_torture_stats");
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1864  
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1865  	{
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1866  		struct rcu_head *rhp;
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1867  		struct kmem_cache *kcp;
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1868  		static int z;
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1869  
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1870  		kcp = kmem_cache_create("rcuscale", 136, 8, SLAB_STORE_USER, NULL);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1871  		rhp = kmem_cache_alloc(kcp, GFP_KERNEL);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1872  		pr_alert("mem_dump_obj() slab test: rcu_torture_stats = %px, &rhp = %px, rhp = %px, &z = %px\n", stats_task, &rhp, rhp, &z);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1873  		pr_alert("mem_dump_obj(ZERO_SIZE_PTR):");
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1874  		mem_dump_obj(ZERO_SIZE_PTR);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1875  		pr_alert("mem_dump_obj(NULL):");
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1876  		mem_dump_obj(NULL);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1877  		pr_alert("mem_dump_obj(%px):", &rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1878  		mem_dump_obj(&rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1879  		pr_alert("mem_dump_obj(%px):", rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1880  		mem_dump_obj(rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1881  		pr_alert("mem_dump_obj(%px):", &rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1882  		mem_dump_obj(&rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1883  		pr_alert("mem_dump_obj(%px):", &z);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1884  		mem_dump_obj(&z);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1885  		kmem_cache_free(kcp, rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1886  		kmem_cache_destroy(kcp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07 @1887  		rhp = kmalloc(sizeof(*rhp), GFP_KERNEL);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1888  		pr_alert("mem_dump_obj() kmalloc test: rcu_torture_stats = %px, &rhp = %px, rhp = %px\n", stats_task, &rhp, rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1889  		pr_alert("mem_dump_obj(kmalloc %px):", rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1890  		mem_dump_obj(rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1891  		pr_alert("mem_dump_obj(kmalloc %px):", &rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1892  		mem_dump_obj(&rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1893  		kfree(rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1894  		rhp = vmalloc(4096);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1895  		pr_alert("mem_dump_obj() vmalloc test: rcu_torture_stats = %px, &rhp = %px, rhp = %px\n", stats_task, &rhp, rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1896  		pr_alert("mem_dump_obj(vmalloc %px):", rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1897  		mem_dump_obj(rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1898  		pr_alert("mem_dump_obj(vmalloc %px):", &rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1899  		mem_dump_obj(&rhp->func);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07 @1900  		vfree(rhp);
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1901  	}
+0d3dd2c8eadb7d kernel/rcu/rcutorture.c Paul E. McKenney 2020-12-07  1902  
+d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1903  	return 0;
+d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1904  }
+d120f65f3aaf30 kernel/rcutorture.c     Paul E. McKenney 2008-06-18  1905  
 
 -- 
 0-DAY CI Kernel Test Service
