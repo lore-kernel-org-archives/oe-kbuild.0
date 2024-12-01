@@ -1,222 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB11D1D417B
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 14:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E932AF12
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 15:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733061876; cv=none; b=jMWaM8912FVAFRAogDyESL2XBXh4EUnzZSi6xwW5hHOJmWUcoSns811FPquVbxK4XJydkNMaioKrKa8Qg20PhPmZZMOF3pWoMYe3sy+zl0jwrnlrwwTQJPa2IeUPl5jYLXOZjwi1stji95Nh8TQkRYNlcvbPvJ6wMzg2nMeZ66I=
+	t=1733066989; cv=none; b=RzIcON4Wxcn7FJhZ9w6bkVZSZeDSD137DYbh+RiZzgL99/rUAy2ZUY0Tl57g9fXV2Cvsfye/YMyZGn4/DnW1kRRZecXL+JTRkws9SlUEBAgqWDTDr7KI5L6CScCKaoquVHBTRp+mMnAw1g4mD5u/12aNj1twL23v0H9qybjJBow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733061876; c=relaxed/simple;
-	bh=huL3isg7qSGU/LvSMl4ws58xnKnLOjK9EYvbvSryEFI=;
+	s=arc-20240116; t=1733066989; c=relaxed/simple;
+	bh=BidTRHD6mLzouvX59gLF4Cjtt5Ewj17+OFAa6Hmek0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WW61NY1hNWUQMV1gzBq5E5krX+RYRKz8F+Pas3ohnOWCDO4whHYOIrgLuZoOTdDZyykcJgp1znIR4Rabqon6sLCxYF2pbzVFZXaXHwZZ62T8vVnp9uemEQOnAb4numUUYTo1MkJzbQfM0YCqdaA2Zg+wATkdxZYmRbMnGcsYRiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fv8nCfrp; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=TTpYQBa0aTKEKJDKfStMXkhRqBuRJPFxoxlY+j3qCQNmbZYLENDFg1XpNasdpHu7zKCj5Wh6XnFiTstjSHvTKSkjFPEP4B8D3U3eXzCbvQ9Eh5PNFr8xU19I1dTA2lJ4jrSrm7qzMr1qDP4QhyFTIpZw93W+OuR0UAnaXGj5sN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PLg3Bwdd; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fv8nCfrp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLg3Bwdd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733061873; x=1764597873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=huL3isg7qSGU/LvSMl4ws58xnKnLOjK9EYvbvSryEFI=;
-  b=Fv8nCfrpm/S8h0mFxL0jRs3SJc5SDSWbFAGCoBOEQgoPc1+MllR3VsnY
-   YxvRDZMxzVzB3urIDCJIp4XNd6vo/kxgl8KocK5SODdFqcvhtY5wLkHnX
-   D33ZZpsiTRQh60McfqXsiKTJ5qmeOPlK8XrtxEQt7xHlkdNnxoB3DYGP3
-   8RJBfJY3lMH6qqlBgmkBZiTNA6lXmY4pCwk4P5ek6ZsznyLW/qKTfV360
-   BbxmJivckaX/xMkOep4D8O+3yr/FdIBno20IeBwk4TB7O8yQI+UdS+PC3
-   GnC/QIUxev13GhBvFidPbIFSDsvup97tetERiZWWVY7BiwkgJ081+nsuj
-   w==;
-X-CSE-ConnectionGUID: 5SmivD0XSKOXcyDv85XU1Q==
-X-CSE-MsgGUID: Tz+W5ePASpqc8V4vpVLVpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33105961"
+  t=1733066987; x=1764602987;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BidTRHD6mLzouvX59gLF4Cjtt5Ewj17+OFAa6Hmek0g=;
+  b=PLg3BwddySLNdUY0wQNNe3JifcWs3oEhOxLMZBm4WJE0pVEIeQqtyW+d
+   w26NoclAVxd0yFEZl+M8nFksRKNVMI4DxWsLkUotwM4qpUT3Iy7BokmN7
+   ll101R1ynI3Bk1S0H+gJrBlsHghG9QPKQFn3EMk7m1287PtDMqPlwi4yO
+   Q5++F2A1IQ2qcbYz1+rTQDJTsvcUiPuRIJxK4l+CT1mdC/sIWa5qBwoEe
+   9gpbkEEgNq7WWlYZrKHUed9np7KZ3xyIWpF8sCci7pseXve0a51i4+0kM
+   pPRsb46lK1vkA3qa/uVxN3WWTJ58iA7LQdS324nO5HqOosvBjjt4V3Njb
+   Q==;
+X-CSE-ConnectionGUID: w1ddcnUmR9Ob9r1nZacdYQ==
+X-CSE-MsgGUID: GH+r8CkbTqit9WUNMI31ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="32982962"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="33105961"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 06:04:33 -0800
-X-CSE-ConnectionGUID: K5B/8ghvTk29pG6v4H49Ww==
-X-CSE-MsgGUID: jaSKo8FRQN+JUoBpEvL8yQ==
+   d="scan'208";a="32982962"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 07:29:46 -0800
+X-CSE-ConnectionGUID: Dy/qr46vQ0Cjeix65t/r9g==
+X-CSE-MsgGUID: ZwQZLHSFQpeXqox0G4OtRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="97835504"
+   d="scan'208";a="123753556"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2024 06:04:31 -0800
+  by orviesa002.jf.intel.com with ESMTP; 01 Dec 2024 07:29:45 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHkYm-0001Zs-2T;
-	Sun, 01 Dec 2024 14:04:28 +0000
-Date: Sun, 1 Dec 2024 22:04:12 +0800
+	id 1tHltH-0001ct-0M;
+	Sun, 01 Dec 2024 15:29:43 +0000
+Date: Sun, 1 Dec 2024 23:29:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815
- netxen_setup_pci_map() warn: 'ahw->pci_base0' from ioremap() not released on
- lines: 815.
-Message-ID: <202412012119.QRmwUSdZ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/futex/pi.c:723:3-9: preceding lock on line 821
+Message-ID: <202412012316.S5UXgGUb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Thomas Gleixner <tglx@linutronix.de>
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: "André Almeida" <andrealmeid@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: c0d94aa54bd893bd41ca35e2a2de332742bb167d x86: Clean up ioremap()
-date:   5 years ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 5 years ago
-config: i386-randconfig-141-20241120 (https://download.01.org/0day-ci/archive/20241201/202412012119.QRmwUSdZ-lkp@intel.com/config)
+commit: 85dc28fa4ec058645c29bda952d901b29dfaa0b0 futex: Split out PI futex
+date:   3 years, 2 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 years, 2 months ago
+config: i386-randconfig-051-20241117 (https://download.01.org/0day-ci/archive/20241201/202412012316.S5UXgGUb-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412012119.QRmwUSdZ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412012316.S5UXgGUb-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base0' from ioremap() not released on lines: 815.
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base1' from ioremap() not released on lines: 815.
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base1' from ioremap() not released on lines: 815.
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base2' from ioremap() not released on lines: 815.
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:815 netxen_setup_pci_map() warn: 'ahw->pci_base2' from ioremap() not released on lines: 815.
+cocci warnings: (new ones prefixed by >>)
+>> kernel/futex/pi.c:723:3-9: preceding lock on line 821
+   kernel/futex/pi.c:728:3-9: preceding lock on line 821
+   kernel/futex/pi.c:755:3-9: preceding lock on line 821
+   kernel/futex/pi.c:828:2-8: preceding lock on line 821
 
-Old smatch warnings:
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:737 netxen_setup_pci_map() warn: consider using resource_size() here
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:738 netxen_setup_pci_map() warn: consider using resource_size() here
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:740 netxen_setup_pci_map() warn: consider using resource_size() here
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:753 netxen_setup_pci_map() warn: consider using resource_size() here
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:754 netxen_setup_pci_map() warn: consider using resource_size() here
-drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:850 netxen_check_options() warn: inconsistent indenting
+vim +723 kernel/futex/pi.c
 
-vim +815 drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c
-
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  708  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  709  static int
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  710  netxen_setup_pci_map(struct netxen_adapter *adapter)
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  711  {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  712  	void __iomem *db_ptr = NULL;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  713  
-71fb62fb6dd4ed drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  714  	resource_size_t mem_base, db_base;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  715  	unsigned long mem_len, db_len = 0;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  716  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  717  	struct pci_dev *pdev = adapter->pdev;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  718  	int pci_func = adapter->ahw.pci_func;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  719  	struct netxen_hardware_context *ahw = &adapter->ahw;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  720  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  721  	int err = 0;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  722  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  723  	/*
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  724  	 * Set the CRB window to invalid. If any register in window 0 is
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  725  	 * accessed it should set the window to 0 and then reset it to 1.
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  726  	 */
-907fa1201c76f4 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  727  	adapter->ahw.crb_win = -1;
-47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  728  	adapter->ahw.ocm_win = -1;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  729  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  730  	/* remap phys address */
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  731  	mem_base = pci_resource_start(pdev, 0);	/* 0 is for BAR 0 */
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  732  	mem_len = pci_resource_len(pdev, 0);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  733  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  734  	/* 128 Meg of memory */
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  735  	if (mem_len == NETXEN_PCI_128MB_SIZE) {
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  736  
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  737  		ahw->pci_base0 = ioremap(mem_base, FIRST_PAGE_GROUP_SIZE);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  738  		ahw->pci_base1 = ioremap(mem_base + SECOND_PAGE_GROUP_START,
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  739  				SECOND_PAGE_GROUP_SIZE);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  740  		ahw->pci_base2 = ioremap(mem_base + THIRD_PAGE_GROUP_START,
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  741  				THIRD_PAGE_GROUP_SIZE);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  742  		if (ahw->pci_base0 == NULL || ahw->pci_base1 == NULL ||
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  743  						ahw->pci_base2 == NULL) {
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  744  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  745  			err = -EIO;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  746  			goto err_out;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  747  		}
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  748  
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  749  		ahw->pci_len0 = FIRST_PAGE_GROUP_SIZE;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  750  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  751  	} else if (mem_len == NETXEN_PCI_32MB_SIZE) {
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  752  
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  753  		ahw->pci_base1 = ioremap(mem_base, SECOND_PAGE_GROUP_SIZE);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  754  		ahw->pci_base2 = ioremap(mem_base + THIRD_PAGE_GROUP_START -
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  755  			SECOND_PAGE_GROUP_START, THIRD_PAGE_GROUP_SIZE);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  756  		if (ahw->pci_base1 == NULL || ahw->pci_base2 == NULL) {
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  757  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  758  			err = -EIO;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  759  			goto err_out;
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  760  		}
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  761  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  762  	} else if (mem_len == NETXEN_PCI_2MB_SIZE) {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  763  
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  764  		ahw->pci_base0 = pci_ioremap_bar(pdev, 0);
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  765  		if (ahw->pci_base0 == NULL) {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  766  			dev_err(&pdev->dev, "failed to map PCI bar 0\n");
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  767  			return -EIO;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  768  		}
-afbe5cd6c40e0f drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2010-03-26  769  		ahw->pci_len0 = mem_len;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  770  	} else {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  771  		return -EIO;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  772  	}
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  773  
-195c5f98294078 drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-09-05  774  	netxen_setup_hwops(adapter);
-195c5f98294078 drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-09-05  775  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  776  	dev_info(&pdev->dev, "%dMB memory map\n", (int)(mem_len>>20));
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  777  
-6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  778  	if (NX_IS_REVISION_P3P(adapter->ahw.revision_id)) {
-6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  779  		adapter->ahw.ocm_win_crb = netxen_get_ioaddr(adapter,
-6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  780  			NETXEN_PCIX_PS_REG(PCIX_OCM_WINDOW_REG(pci_func)));
-6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  781  
-6abb4b83eac25d drivers/net/netxen/netxen_nic_main.c Amit Kumar Salecha 2009-10-16  782  	} else if (NX_IS_REVISION_P3(adapter->ahw.revision_id)) {
-47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  783  		adapter->ahw.ocm_win_crb = netxen_get_ioaddr(adapter,
-47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  784  			NETXEN_PCIX_PS_REG(PCIE_MN_WINDOW_REG(pci_func)));
-47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  785  	}
-47abe35610cbbf drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-10-13  786  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  787  	if (NX_IS_REVISION_P3(adapter->ahw.revision_id))
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  788  		goto skip_doorbell;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  789  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  790  	db_base = pci_resource_start(pdev, 4);	/* doorbell is on bar 4 */
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  791  	db_len = pci_resource_len(pdev, 4);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  792  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  793  	if (db_len == 0) {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  794  		printk(KERN_ERR "%s: doorbell is disabled\n",
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  795  				netxen_nic_driver_name);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  796  		err = -EIO;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  797  		goto err_out;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  798  	}
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  799  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  800  	db_ptr = ioremap(db_base, NETXEN_DB_MAPSIZE_BYTES);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  801  	if (!db_ptr) {
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  802  		printk(KERN_ERR "%s: Failed to allocate doorbell map.",
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  803  				netxen_nic_driver_name);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  804  		err = -EIO;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  805  		goto err_out;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  806  	}
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  807  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  808  skip_doorbell:
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  809  	adapter->ahw.db_base = db_ptr;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  810  	adapter->ahw.db_len = db_len;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  811  	return 0;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  812  
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  813  err_out:
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  814  	netxen_cleanup_pci_map(adapter);
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24 @815  	return err;
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  816  }
-97daee83b0fd23 drivers/net/netxen/netxen_nic_main.c Dhananjay Phadke   2009-02-24  817  
-
-:::::: The code at line 815 was first introduced by commit
-:::::: 97daee83b0fd2361cc70be6f3d6ecda69def2103 netxen: refactor pci probe
-
-:::::: TO: Dhananjay Phadke <dhananjay@netxen.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  682  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  683  static int __fixup_pi_state_owner(u32 __user *uaddr, struct futex_q *q,
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  684  				  struct task_struct *argowner)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  685  {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  686  	struct futex_pi_state *pi_state = q->pi_state;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  687  	struct task_struct *oldowner, *newowner;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  688  	u32 uval, curval, newval, newtid;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  689  	int err = 0;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  690  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  691  	oldowner = pi_state->owner;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  692  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  693  	/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  694  	 * We are here because either:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  695  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  696  	 *  - we stole the lock and pi_state->owner needs updating to reflect
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  697  	 *    that (@argowner == current),
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  698  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  699  	 * or:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  700  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  701  	 *  - someone stole our lock and we need to fix things to point to the
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  702  	 *    new owner (@argowner == NULL).
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  703  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  704  	 * Either way, we have to replace the TID in the user space variable.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  705  	 * This must be atomic as we have to preserve the owner died bit here.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  706  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  707  	 * Note: We write the user space value _before_ changing the pi_state
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  708  	 * because we can fault here. Imagine swapped out pages or a fork
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  709  	 * that marked all the anonymous memory readonly for cow.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  710  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  711  	 * Modifying pi_state _before_ the user space value would leave the
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  712  	 * pi_state in an inconsistent state when we fault here, because we
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  713  	 * need to drop the locks to handle the fault. This might be observed
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  714  	 * in the PID checks when attaching to PI state .
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  715  	 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  716  retry:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  717  	if (!argowner) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  718  		if (oldowner != current) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  719  			/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  720  			 * We raced against a concurrent self; things are
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  721  			 * already fixed up. Nothing to do.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  722  			 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23 @723  			return 0;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  724  		}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  725  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  726  		if (__rt_mutex_futex_trylock(&pi_state->pi_mutex)) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  727  			/* We got the lock. pi_state is correct. Tell caller. */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  728  			return 1;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  729  		}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  730  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  731  		/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  732  		 * The trylock just failed, so either there is an owner or
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  733  		 * there is a higher priority waiter than this one.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  734  		 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  735  		newowner = rt_mutex_owner(&pi_state->pi_mutex);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  736  		/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  737  		 * If the higher priority waiter has not yet taken over the
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  738  		 * rtmutex then newowner is NULL. We can't return here with
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  739  		 * that state because it's inconsistent vs. the user space
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  740  		 * state. So drop the locks and try again. It's a valid
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  741  		 * situation and not any different from the other retry
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  742  		 * conditions.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  743  		 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  744  		if (unlikely(!newowner)) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  745  			err = -EAGAIN;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  746  			goto handle_err;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  747  		}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  748  	} else {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  749  		WARN_ON_ONCE(argowner != current);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  750  		if (oldowner == current) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  751  			/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  752  			 * We raced against a concurrent self; things are
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  753  			 * already fixed up. Nothing to do.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  754  			 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  755  			return 1;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  756  		}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  757  		newowner = argowner;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  758  	}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  759  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  760  	newtid = task_pid_vnr(newowner) | FUTEX_WAITERS;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  761  	/* Owner died? */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  762  	if (!pi_state->owner)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  763  		newtid |= FUTEX_OWNER_DIED;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  764  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  765  	err = futex_get_value_locked(&uval, uaddr);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  766  	if (err)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  767  		goto handle_err;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  768  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  769  	for (;;) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  770  		newval = (uval & FUTEX_OWNER_DIED) | newtid;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  771  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  772  		err = futex_cmpxchg_value_locked(&curval, uaddr, uval, newval);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  773  		if (err)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  774  			goto handle_err;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  775  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  776  		if (curval == uval)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  777  			break;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  778  		uval = curval;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  779  	}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  780  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  781  	/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  782  	 * We fixed up user space. Now we need to fix the pi_state
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  783  	 * itself.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  784  	 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  785  	pi_state_update_owner(pi_state, newowner);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  786  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  787  	return argowner == current;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  788  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  789  	/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  790  	 * In order to reschedule or handle a page fault, we need to drop the
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  791  	 * locks here. In the case of a fault, this gives the other task
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  792  	 * (either the highest priority waiter itself or the task which stole
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  793  	 * the rtmutex) the chance to try the fixup of the pi_state. So once we
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  794  	 * are back from handling the fault we need to check the pi_state after
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  795  	 * reacquiring the locks and before trying to do another fixup. When
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  796  	 * the fixup has been done already we simply return.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  797  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  798  	 * Note: we hold both hb->lock and pi_mutex->wait_lock. We can safely
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  799  	 * drop hb->lock since the caller owns the hb -> futex_q relation.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  800  	 * Dropping the pi_mutex->wait_lock requires the state revalidate.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  801  	 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  802  handle_err:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  803  	raw_spin_unlock_irq(&pi_state->pi_mutex.wait_lock);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  804  	spin_unlock(q->lock_ptr);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  805  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  806  	switch (err) {
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  807  	case -EFAULT:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  808  		err = fault_in_user_writeable(uaddr);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  809  		break;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  810  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  811  	case -EAGAIN:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  812  		cond_resched();
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  813  		err = 0;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  814  		break;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  815  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  816  	default:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  817  		WARN_ON_ONCE(1);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  818  		break;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  819  	}
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  820  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23 @821  	spin_lock(q->lock_ptr);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  822  	raw_spin_lock_irq(&pi_state->pi_mutex.wait_lock);
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  823  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  824  	/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  825  	 * Check if someone else fixed it for us:
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  826  	 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  827  	if (pi_state->owner != oldowner)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  828  		return argowner == current;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  829  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  830  	/* Retry if err was -EAGAIN or the fault in succeeded */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  831  	if (!err)
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  832  		goto retry;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  833  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  834  	/*
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  835  	 * fault_in_user_writeable() failed so user state is immutable. At
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  836  	 * best we can make the kernel state consistent but user state will
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  837  	 * be most likely hosed and any subsequent unlock operation will be
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  838  	 * rejected due to PI futex rule [10].
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  839  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  840  	 * Ensure that the rtmutex owner is also the pi_state owner despite
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  841  	 * the user space value claiming something different. There is no
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  842  	 * point in unlocking the rtmutex if current is the owner as it
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  843  	 * would need to wait until the next waiter has taken the rtmutex
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  844  	 * to guarantee consistent state. Keep it simple. Userspace asked
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  845  	 * for this wreckaged state.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  846  	 *
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  847  	 * The rtmutex has an owner - either current or some other
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  848  	 * task. See the EAGAIN loop above.
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  849  	 */
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  850  	pi_state_update_owner(pi_state, rt_mutex_owner(&pi_state->pi_mutex));
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  851  
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  852  	return err;
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  853  }
+85dc28fa4ec058 Peter Zijlstra 2021-09-23  854  
 
 -- 
 0-DAY CI Kernel Test Service
