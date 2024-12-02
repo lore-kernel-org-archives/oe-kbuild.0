@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60431C32
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 03:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663F517C2
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 04:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733109347; cv=none; b=q2VY7twKY9N79lWRjChxLMCGA19JPAcZF6ST6KS8a+F5lf6XL/mQ4XBwyg9ppfBgZB4j73yJZdP70LOghOHGupr5YvgSMxCi+aGrJcBsaAUwsH7W4svL0ixevNzFJzZicakiKpsO0Vu7scA+YBPTLpd4d9gYTSmpZJxyg6AQHIk=
+	t=1733113701; cv=none; b=SRMFIx3DR/zhlOieyhP6TytMxwlOa6zH5HXTKiZcA2rpc1+GQS+TmMNE8zujQIMIBfGyEp6D+OCRNjplgc0wbO8FTTVgE9+Lna6Pzyqk1MV6TYtMr1BYr8s0MjPT4wRpTwekfDDPBTcXftvu6s7hCyRsHboY3eMmdxEARq+jHMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733109347; c=relaxed/simple;
-	bh=71Tp+4GDuM+wayW/w4YVvYpxjqttNd9KKf5Y2nKgYw0=;
+	s=arc-20240116; t=1733113701; c=relaxed/simple;
+	bh=zSJ9wCSwCAExLapkqAE3rY8/s8g03hOtyZxE5hvlv74=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RHMBWoOqyzNLQ3fk+urb9Wi2crCM5SLu0cAOaaQNTeKuRBVKDpI9tqs2IILrRNdYlOm2jguROY8kbkbJx1FHmg7LBbf3lBw8sNrVinB6nVig51dxFXmPxjgqYcvr36B79c1DrOytvMBkMpFFZHAnn6r61iPYYpOvJsl56c53PF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7GS20nj; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=SzHpFq6U62+hv9sdJjHtaSQESgUAvWNofOUQA9ShljtzvEQECg+HBalVBMwHUGDvceL8DSwHp91dXowA+CJsoyQjl/r0n3W9iTxrHb9JLshISP25kRJsVRlAmYxRyPxXzHH/VVAmRSnIL1M5ajo4P+JQrU33LDIfawRcbnmPzq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1Fv9VCJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7GS20nj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1Fv9VCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733109345; x=1764645345;
+  t=1733113697; x=1764649697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=71Tp+4GDuM+wayW/w4YVvYpxjqttNd9KKf5Y2nKgYw0=;
-  b=D7GS20njeXVAbJx11uEC1Z8b084URROtX9VVuecC6DjNC/PZ+xN77adM
-   Y/vEG235SpW5r7bZ7fOyGymJZODMRC1vV3/DPBe+3eEK/baYZIz/7nws9
-   msnE3kvVPwZlse3uNnWy9e+TDg29sj3j3ePAtZvJQPSVyPbwn7P4A/D/Q
-   lmNyJ633sHk0Vhn7XAoTrbAiUXySKKMEVdm5lYSa8OdWBcuArQpa0cvfc
-   osVglUGenh0/8GC0z+hjq23KJ0Vw6tlkFDWzbq83Gv+5ZYUR/7kthg6x8
-   UY41QuW+2dBp08I7C99utmit4z+RKmQZoKe2AHgN825w1z2whq33cgTLQ
-   g==;
-X-CSE-ConnectionGUID: 11gfwYfrRaOgu7gJIRc4Xw==
-X-CSE-MsgGUID: wv+dnGnhR2+9BJW3uw2C8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43747224"
+  bh=zSJ9wCSwCAExLapkqAE3rY8/s8g03hOtyZxE5hvlv74=;
+  b=B1Fv9VCJAeAEDK03v0+hi3UmfkjY/mjKS/8Qq1nEAlazoRraRfrkSDPW
+   j08PIQXvSpuhIw1avHQx3eG8SYq3gvozBqJGO3DjZA9udNWvjukMgyTqE
+   QiLa5013mTu6ADknvPgfGbMuTny7Za+1Gq4PVaAMD80eECed9KZpLKd8N
+   pOkVzxWJb2+rsndpt+PD5lGTqmr/mBXfcD/Qdbic798e9EHjR/APmEyu1
+   1iZbn77U8Dv06ubBzxoVgIotJ6iPeO2kZuFDVpATDGrKcE/pbbQo31ken
+   DiszLTfXZ5SUONywpVeI07kL421Hiuj87zuTWLqcOhy6cjxUEbvUH8OF8
+   w==;
+X-CSE-ConnectionGUID: H4ESEHmAS5+kVFwstnAogg==
+X-CSE-MsgGUID: Znkq1P9GQbm8aQQrs+MYgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33142767"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="43747224"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 19:15:44 -0800
-X-CSE-ConnectionGUID: oPEzD+UzRkq8CZIW6h9Hyg==
-X-CSE-MsgGUID: YBA1PJuATbCe3INKEy6i4A==
+   d="scan'208";a="33142767"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 20:28:17 -0800
+X-CSE-ConnectionGUID: CAwdyqMzSRSi8duxeDiToA==
+X-CSE-MsgGUID: e+tRjejVSJeOyfgtLG30qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="92891198"
+   d="scan'208";a="93833249"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Dec 2024 19:15:43 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2024 20:28:16 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHwuF-00022n-1Y;
-	Mon, 02 Dec 2024 03:15:36 +0000
-Date: Mon, 2 Dec 2024 11:14:31 +0800
+	id 1tHy2L-00024v-0q;
+	Mon, 02 Dec 2024 04:28:02 +0000
+Date: Mon, 2 Dec 2024 12:27:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid
- reference to the index variable of the iterator on line 1219
-Message-ID: <202412021154.5uFNariI-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
+Message-ID: <202412021211.JMAnA3Nh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,84 +61,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Amir Goldstein <amir73il@gmail.com>
-CC: Jan Kara <jack@suse.cz>
+In-Reply-To: <20241127073409.147714-3-jason-hsu@quantatw.com>
+References: <20241127073409.147714-3-jason-hsu@quantatw.com>
+TO: Jason Hsu <jasonhell19@gmail.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: joel@jms.id.au
+TO: andrew@codeconstruct.com.au
+TO: patrick@stwcx.xyz
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+CC: yang.chen@quantatw.com
+CC: jerry.lin@quantatw.com
+CC: Jason Hsu <jason-hsu@quantatw.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-commit: 30ad1938326bf9303ca38090339d948975a626f5 fanotify: allow "weak" fsid when watching a single filesystem
-date:   1 year ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 1 year ago
-config: i386-randconfig-054-20241118 (https://download.01.org/0day-ci/archive/20241202/202412021154.5uFNariI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.12 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Hsu/dt-bindings-arm-aspeed-add-Meta-Ventura-board/20241128-150504
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241127073409.147714-3-jason-hsu%40quantatw.com
+patch subject: [PATCH v5 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-051-20241129 (https://download.01.org/0day-ci/archive/20241202/202412021211.JMAnA3Nh-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021211.JMAnA3Nh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412021154.5uFNariI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412021211.JMAnA3Nh-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid reference to the index variable of the iterator on line 1219
-
-vim +1233 fs/notify/fanotify/fanotify_user.c
-
-30ad1938326bf9 Amir Goldstein 2023-11-30  1200  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1201  static int fanotify_set_mark_fsid(struct fsnotify_group *group,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1202  				  struct fsnotify_mark *mark,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1203  				  struct fan_fsid *fsid)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1204  {
-30ad1938326bf9 Amir Goldstein 2023-11-30  1205  	struct fsnotify_mark_connector *conn;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1206  	struct fsnotify_mark *old;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1207  	struct super_block *old_sb = NULL;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1208  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1209  	FANOTIFY_MARK(mark)->fsid = fsid->id;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1210  	mark->flags |= FSNOTIFY_MARK_FLAG_HAS_FSID;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1211  	if (fsid->weak)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1212  		mark->flags |= FSNOTIFY_MARK_FLAG_WEAK_FSID;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1213  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1214  	/* First mark added will determine if group is single or multi fsid */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1215  	if (list_empty(&group->marks_list))
-30ad1938326bf9 Amir Goldstein 2023-11-30  1216  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1217  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1218  	/* Find sb of an existing mark */
-30ad1938326bf9 Amir Goldstein 2023-11-30 @1219  	list_for_each_entry(old, &group->marks_list, g_list) {
-30ad1938326bf9 Amir Goldstein 2023-11-30  1220  		conn = READ_ONCE(old->connector);
-30ad1938326bf9 Amir Goldstein 2023-11-30  1221  		if (!conn)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1222  			continue;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1223  		old_sb = fsnotify_connector_sb(conn);
-30ad1938326bf9 Amir Goldstein 2023-11-30  1224  		if (old_sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1225  			break;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1226  	}
-30ad1938326bf9 Amir Goldstein 2023-11-30  1227  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1228  	/* Only detached marks left? */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1229  	if (!old_sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1230  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1231  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1232  	/* Do not allow mixing of marks with weak and strong fsid */
-30ad1938326bf9 Amir Goldstein 2023-11-30 @1233  	if ((mark->flags ^ old->flags) & FSNOTIFY_MARK_FLAG_WEAK_FSID)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1234  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1235  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1236  	/* Allow mixing of marks with strong fsid from different fs */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1237  	if (!fsid->weak)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1238  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1239  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1240  	/* Do not allow mixing marks with weak fsid from different fs */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1241  	if (old_sb != fsid->sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1242  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1243  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1244  	/* Do not allow mixing marks from different btrfs sub-volumes */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1245  	if (!fanotify_fsid_equal(&FANOTIFY_MARK(old)->fsid,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1246  				 &FANOTIFY_MARK(mark)->fsid))
-30ad1938326bf9 Amir Goldstein 2023-11-30  1247  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1248  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1249  	return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1250  }
-30ad1938326bf9 Amir Goldstein 2023-11-30  1251  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: adc@1e6e9000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: adc@1e6e9100: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@200/i2c-mux@77/i2c@5/pwm@20: failed to match any schema with compatible: ['max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
