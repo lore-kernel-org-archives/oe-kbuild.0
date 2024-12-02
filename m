@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAE710A3E
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Dec 2024 23:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F9B2943F
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 01:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733094821; cv=none; b=sFeywQhvO5HjHQZskSAtdjrfGWjhIQMbURdn4RdyTXOKtIRwAnH1eQUOKYenAVf/gepSsuCC2vOqHadWwE6ijDvBAOOL5p0Bpu+mCKRKdCMYRdhWJw5MAuG6pFs/t70WmgOBmTX0xz+002apnt4csRWcffnVnspGmTDkIFQasAo=
+	t=1733102515; cv=none; b=eCzfYXUnYOGH9nZZ5z2fbNClKfdErngX0oTIgeYI6KXRPM01HOvG8Uvuoc97QC7UnkEuItGnBs8JgnS0ls78/41Td8kkDUcs2nhbNsOBeM30SI3Kk1nEs/qHzOqbZafVOYRkXkag8bcBNAHZY2lQ1uYcgQKUIOuRmJ4V1okMNEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733094821; c=relaxed/simple;
-	bh=PypjgzrYJo+dfbtbJ4+7kYETX5vwQ0u+cnZAl2QvYxs=;
+	s=arc-20240116; t=1733102515; c=relaxed/simple;
+	bh=ulMGQXIZkKNoKrW9j/1oUEXMwYwAd0Cxb5eVyiUd7rc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GwxUDfGbVoXvzFOU9Co+keXNyJwmRTmgfuVMLj7T8WszsUiYQKkd50hKnbWHfa+cFkgsNNUBvCk7ehGUI+NMM59VYyUByk2pL6GV/GRBVZA3yOnA63SEgXEgXDoq5vJVye4Va+08MJnwedI4sYqDwwp+d17kP4V7vjWUWnoO+GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCDJOfWR; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=AW+oY4FhnHKuf2+JFHFh63fg4YPufjYPyOky61b1VovpWgdDLKwPIOfM2CodeBbjax7yC/z7fXh5qesJVVpwkrnRRtJ3gMIBRdQnE5XTo5IVwrdRCA7UZLIKsIznk42XEl19BJuswYnC69dBkrBVzg8sdNd0/Drox74IziD6XrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcwrhbCX; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCDJOfWR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcwrhbCX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733094819; x=1764630819;
+  t=1733102513; x=1764638513;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PypjgzrYJo+dfbtbJ4+7kYETX5vwQ0u+cnZAl2QvYxs=;
-  b=CCDJOfWRb9WP8DZryHybc/JkZr7udezir+RbXU6kuCcaJnL+UQc1KZ/v
-   wxkR9ST/FtG1+tIShafv31uKFN22+U3OvkaY18LVbd76NeRBIYzVKN/8U
-   d9rIdiqV7bJeCcdyRE+ZGU4U0e+T8cTpbX05QfwyQKov2TsvoKXarDVoA
-   dYrcogckld7I3vKfH4oFQKFM2EKKhS1Nted8/xMCHj5/IUP10/O6ZLvVL
-   au0pZYtbb4Xj+9eS3pOhXE/q4rvmdvyMAkhOJaAiu5dYO4T7VsiW0+6o8
-   e/hb82OIOMIEgWBfi1cvEDrwkbH7M4HBcvMBHI2HmnwoUhMKHDTpwPDb7
-   A==;
-X-CSE-ConnectionGUID: 8qF4OKaGRTaOLjf5YG4Y3w==
-X-CSE-MsgGUID: 5o2NQAkNQrGSqsueLB5L5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44622608"
+  bh=ulMGQXIZkKNoKrW9j/1oUEXMwYwAd0Cxb5eVyiUd7rc=;
+  b=CcwrhbCXKTfIS24DjdFxX3iCOfqg/8GAI70YGJkiytCUY7PL0qQWpvs+
+   U+9+T66ShunXo4X11X1QHgYkV19l0RUKQ0pIqYYcJg9BFfKf94K9NhSz0
+   j8VGenhg4p8HAcFf9xA6c2RnTpmyV5L4kel7IAiZ8EPIMrIgUElVNNx+a
+   b5On9FiznxbiDxUT8uxOuvxpiQcHdyVCHcueli3puiCmNyFHSc/BRhlNC
+   kexq+oHZgUMur1MAdViig0D3MGj+oQ5E1nC0c2VGTXfLWuV7oZz+/yYvy
+   irKM3pg6MvU6l/Ja8BYrxrchRkAk2IhNQG+RhY9J2sZGGlNh2xQtAH3fB
+   Q==;
+X-CSE-ConnectionGUID: UY986IN+QQ+TnHGZPN47Ng==
+X-CSE-MsgGUID: 6GO0xxZKSLekPv0B6DIl3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="50670393"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="44622608"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 15:13:38 -0800
-X-CSE-ConnectionGUID: fIX5PMLGSOGri8HDBVIKBg==
-X-CSE-MsgGUID: QUB+rkWhTqiQh6yxxgMiPg==
+   d="scan'208";a="50670393"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 17:21:53 -0800
+X-CSE-ConnectionGUID: IWlUr9qTTh+D6t74Mnad3A==
+X-CSE-MsgGUID: p4Dy21VbSbGcyE3xc99WzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93045721"
+   d="scan'208";a="93800806"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Dec 2024 15:13:37 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2024 17:21:52 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHt83-0001v9-2z;
-	Sun, 01 Dec 2024 23:13:29 +0000
-Date: Mon, 2 Dec 2024 07:12:56 +0800
+	id 1tHv7n-0001z6-3B;
+	Mon, 02 Dec 2024 01:21:22 +0000
+Date: Mon, 2 Dec 2024 09:18:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/virt/acrn/mm.c:217 acrn_vm_ram_map() error: uninitialized
- symbol 'start_pfn'.
-Message-ID: <202412020703.yQjqGXT5-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pinctrl/pinctrl-amd.c:468:3-5: opportunity for
+ str_enable_disable(on)
+Message-ID: <202412020908.DxdITRnB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,235 +65,62 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-commit: 3d6586008f7b638f91f3332602592caa8b00b559 drivers/virt/acrn: fix PFNMAP PTE checks in acrn_vm_ram_map()
-date:   7 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-161-20241202 (https://download.01.org/0day-ci/archive/20241202/202412020703.yQjqGXT5-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+head:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+commit: acd47b9f28e55b505aedb842131b40904e151d7c pinctrl: amd: Handle wake-up interrupt
+date:   3 years, 3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 years, 3 months ago
+config: i386-randconfig-054-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020908.DxdITRnB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412020703.yQjqGXT5-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412020908.DxdITRnB-lkp@intel.com/
 
-New smatch warnings:
-drivers/virt/acrn/mm.c:217 acrn_vm_ram_map() error: uninitialized symbol 'start_pfn'.
-drivers/virt/acrn/mm.c:224 acrn_vm_ram_map() error: uninitialized symbol 'ret'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/pinctrl-amd.c:468:3-5: opportunity for str_enable_disable(on)
 
-Old smatch warnings:
-drivers/virt/acrn/mm.c:231 acrn_vm_ram_map() error: uninitialized symbol 'start_pfn'.
+vim +468 drivers/pinctrl/pinctrl-amd.c
 
-vim +/start_pfn +217 drivers/virt/acrn/mm.c
-
-88f537d5e8ddc8 Shuo Liu          2021-02-07  148  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  149  /**
-88f537d5e8ddc8 Shuo Liu          2021-02-07  150   * acrn_vm_ram_map() - Create a RAM EPT mapping of User VM.
-88f537d5e8ddc8 Shuo Liu          2021-02-07  151   * @vm:		The User VM pointer
-88f537d5e8ddc8 Shuo Liu          2021-02-07  152   * @memmap:	Info of the EPT mapping
-88f537d5e8ddc8 Shuo Liu          2021-02-07  153   *
-88f537d5e8ddc8 Shuo Liu          2021-02-07  154   * Return: 0 on success, <0 for error.
-88f537d5e8ddc8 Shuo Liu          2021-02-07  155   */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  156  int acrn_vm_ram_map(struct acrn_vm *vm, struct acrn_vm_memmap *memmap)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  157  {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  158  	struct vm_memory_region_batch *regions_info;
-3d6586008f7b63 David Hildenbrand 2024-04-10  159  	int nr_pages, i, order, nr_regions = 0;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  160  	struct vm_memory_mapping *region_mapping;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  161  	struct vm_memory_region_op *vm_region;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  162  	struct page **pages = NULL, *page;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  163  	void *remap_vaddr;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  164  	int ret, pinned;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  165  	u64 user_vm_pa;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  166  	struct vm_area_struct *vma;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  167  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  168  	if (!vm || !memmap)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  169  		return -EINVAL;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  170  
-3d6586008f7b63 David Hildenbrand 2024-04-10  171  	/* Get the page number of the map region */
-3d6586008f7b63 David Hildenbrand 2024-04-10  172  	nr_pages = memmap->len >> PAGE_SHIFT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  173  	if (!nr_pages)
-3d6586008f7b63 David Hildenbrand 2024-04-10  174  		return -EINVAL;
-3d6586008f7b63 David Hildenbrand 2024-04-10  175  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  176  	mmap_read_lock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  177  	vma = vma_lookup(current->mm, memmap->vma_base);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  178  	if (vma && ((vma->vm_flags & VM_PFNMAP) != 0)) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  179  		unsigned long start_pfn, cur_pfn;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  180  		spinlock_t *ptl;
-3d6586008f7b63 David Hildenbrand 2024-04-10  181  		bool writable;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  182  		pte_t *ptep;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  183  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  184  		if ((memmap->vma_base + memmap->len) > vma->vm_end) {
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  185  			mmap_read_unlock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  186  			return -EINVAL;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  187  		}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  188  
-3d6586008f7b63 David Hildenbrand 2024-04-10  189  		for (i = 0; i < nr_pages; i++) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  190  			ret = follow_pte(vma->vm_mm,
-3d6586008f7b63 David Hildenbrand 2024-04-10  191  					 memmap->vma_base + i * PAGE_SIZE,
-3d6586008f7b63 David Hildenbrand 2024-04-10  192  					 &ptep, &ptl);
-3d6586008f7b63 David Hildenbrand 2024-04-10  193  			if (ret)
-3d6586008f7b63 David Hildenbrand 2024-04-10  194  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  195  
-3d6586008f7b63 David Hildenbrand 2024-04-10  196  			cur_pfn = pte_pfn(ptep_get(ptep));
-3d6586008f7b63 David Hildenbrand 2024-04-10  197  			if (i == 0)
-3d6586008f7b63 David Hildenbrand 2024-04-10  198  				start_pfn = cur_pfn;
-3d6586008f7b63 David Hildenbrand 2024-04-10  199  			writable = !!pte_write(ptep_get(ptep));
-3d6586008f7b63 David Hildenbrand 2024-04-10  200  			pte_unmap_unlock(ptep, ptl);
-3d6586008f7b63 David Hildenbrand 2024-04-10  201  
-3d6586008f7b63 David Hildenbrand 2024-04-10  202  			/* Disallow write access if the PTE is not writable. */
-3d6586008f7b63 David Hildenbrand 2024-04-10  203  			if (!writable &&
-3d6586008f7b63 David Hildenbrand 2024-04-10  204  			    (memmap->attr & ACRN_MEM_ACCESS_WRITE)) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  205  				ret = -EFAULT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  206  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  207  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  208  
-3d6586008f7b63 David Hildenbrand 2024-04-10  209  			/* Disallow refcounted pages. */
-3d6586008f7b63 David Hildenbrand 2024-04-10  210  			if (pfn_valid(cur_pfn) &&
-3d6586008f7b63 David Hildenbrand 2024-04-10  211  			    !PageReserved(pfn_to_page(cur_pfn))) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  212  				ret = -EFAULT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  213  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  214  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  215  
-3d6586008f7b63 David Hildenbrand 2024-04-10  216  			/* Disallow non-contiguous ranges. */
-3d6586008f7b63 David Hildenbrand 2024-04-10 @217  			if (cur_pfn != start_pfn + i) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  218  				ret = -EINVAL;
-3d6586008f7b63 David Hildenbrand 2024-04-10  219  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  220  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  221  		}
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  222  		mmap_read_unlock(current->mm);
-3d6586008f7b63 David Hildenbrand 2024-04-10  223  
-3d6586008f7b63 David Hildenbrand 2024-04-10 @224  		if (ret) {
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  225  			dev_dbg(acrn_dev.this_device,
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  226  				"Failed to lookup PFN at VMA:%pK.\n", (void *)memmap->vma_base);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  227  			return ret;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  228  		}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  229  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  230  		return acrn_mm_region_add(vm, memmap->user_vm_pa,
-3d6586008f7b63 David Hildenbrand 2024-04-10  231  			 PFN_PHYS(start_pfn), memmap->len,
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  232  			 ACRN_MEM_TYPE_WB, memmap->attr);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  233  	}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  234  	mmap_read_unlock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  235  
-746f1b0ac5bf6e Len Baker         2021-10-29  236  	pages = vzalloc(array_size(nr_pages, sizeof(*pages)));
-88f537d5e8ddc8 Shuo Liu          2021-02-07  237  	if (!pages)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  238  		return -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  239  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  240  	/* Lock the pages of user memory map region */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  241  	pinned = pin_user_pages_fast(memmap->vma_base,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  242  				     nr_pages, FOLL_WRITE | FOLL_LONGTERM,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  243  				     pages);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  244  	if (pinned < 0) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  245  		ret = pinned;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  246  		goto free_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  247  	} else if (pinned != nr_pages) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  248  		ret = -EFAULT;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  249  		goto put_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  250  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  251  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  252  	/* Create a kernel map for the map region */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  253  	remap_vaddr = vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  254  	if (!remap_vaddr) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  255  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  256  		goto put_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  257  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  258  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  259  	/* Record Service VM va <-> User VM pa mapping */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  260  	mutex_lock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  261  	region_mapping = &vm->regions_mapping[vm->regions_mapping_count];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  262  	if (vm->regions_mapping_count < ACRN_MEM_MAPPING_MAX) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  263  		region_mapping->pages = pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  264  		region_mapping->npages = nr_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  265  		region_mapping->size = memmap->len;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  266  		region_mapping->service_vm_va = remap_vaddr;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  267  		region_mapping->user_vm_pa = memmap->user_vm_pa;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  268  		vm->regions_mapping_count++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  269  	} else {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  270  		dev_warn(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  271  			"Run out of memory mapping slots!\n");
-88f537d5e8ddc8 Shuo Liu          2021-02-07  272  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  273  		mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  274  		goto unmap_no_count;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  275  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  276  	mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  277  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  278  	/* Calculate count of vm_memory_region_op */
-3d6586008f7b63 David Hildenbrand 2024-04-10  279  	for (i = 0; i < nr_pages; i += 1 << order) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  280  		page = pages[i];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  281  		VM_BUG_ON_PAGE(PageTail(page), page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  282  		order = compound_order(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  283  		nr_regions++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  284  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  285  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  286  	/* Prepare the vm_memory_region_batch */
-746f1b0ac5bf6e Len Baker         2021-10-29  287  	regions_info = kzalloc(struct_size(regions_info, regions_op,
-746f1b0ac5bf6e Len Baker         2021-10-29  288  					   nr_regions), GFP_KERNEL);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  289  	if (!regions_info) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  290  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  291  		goto unmap_kernel_map;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  292  	}
-51a71ab21f61ce Kees Cook         2023-09-22  293  	regions_info->regions_num = nr_regions;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  294  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  295  	/* Fill each vm_memory_region_op */
-746f1b0ac5bf6e Len Baker         2021-10-29  296  	vm_region = regions_info->regions_op;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  297  	regions_info->vmid = vm->vmid;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  298  	regions_info->regions_gpa = virt_to_phys(vm_region);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  299  	user_vm_pa = memmap->user_vm_pa;
-3d6586008f7b63 David Hildenbrand 2024-04-10  300  	for (i = 0; i < nr_pages; i += 1 << order) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  301  		u32 region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  302  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  303  		page = pages[i];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  304  		VM_BUG_ON_PAGE(PageTail(page), page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  305  		order = compound_order(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  306  		region_size = PAGE_SIZE << order;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  307  		vm_region->type = ACRN_MEM_REGION_ADD;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  308  		vm_region->user_vm_pa = user_vm_pa;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  309  		vm_region->service_vm_pa = page_to_phys(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  310  		vm_region->size = region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  311  		vm_region->attr = (ACRN_MEM_TYPE_WB & ACRN_MEM_TYPE_MASK) |
-88f537d5e8ddc8 Shuo Liu          2021-02-07  312  				  (memmap->attr & ACRN_MEM_ACCESS_RIGHT_MASK);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  313  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  314  		vm_region++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  315  		user_vm_pa += region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  316  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  317  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  318  	/* Inform the ACRN Hypervisor to set up EPT mappings */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  319  	ret = hcall_set_memory_regions(virt_to_phys(regions_info));
-88f537d5e8ddc8 Shuo Liu          2021-02-07  320  	if (ret < 0) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  321  		dev_dbg(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  322  			"Failed to set regions, VM[%u]!\n", vm->vmid);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  323  		goto unset_region;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  324  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  325  	kfree(regions_info);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  326  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  327  	dev_dbg(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  328  		"%s: VM[%u] service-GVA[%pK] user-GPA[%pK] size[0x%llx]\n",
-88f537d5e8ddc8 Shuo Liu          2021-02-07  329  		__func__, vm->vmid,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  330  		remap_vaddr, (void *)memmap->user_vm_pa, memmap->len);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  331  	return ret;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  332  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  333  unset_region:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  334  	kfree(regions_info);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  335  unmap_kernel_map:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  336  	mutex_lock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  337  	vm->regions_mapping_count--;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  338  	mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  339  unmap_no_count:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  340  	vunmap(remap_vaddr);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  341  put_pages:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  342  	for (i = 0; i < pinned; i++)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  343  		unpin_user_page(pages[i]);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  344  free_pages:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  345  	vfree(pages);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  346  	return ret;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  347  }
-88f537d5e8ddc8 Shuo Liu          2021-02-07  348  
+dbad75dd1f25e0 Ken Xue           2015-03-10  440  
+d62bd5ce12d79b Raul E Rangel     2021-04-29  441  static int amd_gpio_irq_set_wake(struct irq_data *d, unsigned int on)
+d62bd5ce12d79b Raul E Rangel     2021-04-29  442  {
+d62bd5ce12d79b Raul E Rangel     2021-04-29  443  	u32 pin_reg;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  444  	unsigned long flags;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  445  	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+d62bd5ce12d79b Raul E Rangel     2021-04-29  446  	struct amd_gpio *gpio_dev = gpiochip_get_data(gc);
+c4b68e513953c3 Mario Limonciello 2021-08-09  447  	u32 wake_mask = BIT(WAKE_CNTRL_OFF_S0I3) | BIT(WAKE_CNTRL_OFF_S3);
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  448  	int err;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  449  
+d62bd5ce12d79b Raul E Rangel     2021-04-29  450  	raw_spin_lock_irqsave(&gpio_dev->lock, flags);
+d62bd5ce12d79b Raul E Rangel     2021-04-29  451  	pin_reg = readl(gpio_dev->base + (d->hwirq)*4);
+d62bd5ce12d79b Raul E Rangel     2021-04-29  452  
+d62bd5ce12d79b Raul E Rangel     2021-04-29  453  	if (on)
+d62bd5ce12d79b Raul E Rangel     2021-04-29  454  		pin_reg |= wake_mask;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  455  	else
+d62bd5ce12d79b Raul E Rangel     2021-04-29  456  		pin_reg &= ~wake_mask;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  457  
+d62bd5ce12d79b Raul E Rangel     2021-04-29  458  	writel(pin_reg, gpio_dev->base + (d->hwirq)*4);
+d62bd5ce12d79b Raul E Rangel     2021-04-29  459  	raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
+d62bd5ce12d79b Raul E Rangel     2021-04-29  460  
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  461  	if (on)
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  462  		err = enable_irq_wake(gpio_dev->irq);
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  463  	else
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  464  		err = disable_irq_wake(gpio_dev->irq);
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  465  
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  466  	if (err)
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  467  		dev_err(&gpio_dev->pdev->dev, "failed to %s wake-up interrupt\n",
+acd47b9f28e55b Basavaraj Natikar 2021-08-31 @468  			on ? "enable" : "disable");
+acd47b9f28e55b Basavaraj Natikar 2021-08-31  469  
+d62bd5ce12d79b Raul E Rangel     2021-04-29  470  	return 0;
+d62bd5ce12d79b Raul E Rangel     2021-04-29  471  }
+d62bd5ce12d79b Raul E Rangel     2021-04-29  472  
 
 -- 
 0-DAY CI Kernel Test Service
