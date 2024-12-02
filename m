@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0786F1D958E
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 19:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3EA1DE892
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 19:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733166605; cv=none; b=uh9g9DucOZAkcds3FfCRqY3ceXLjqexWcZzoEMwRwd+BgWgzeRqn26iFMz1J1VF5Fv6Euz46HqfkVD0VlNlTicEldxI3WXGXEHQ8S3JGmpdyqoX6oyCExcmWHYUEImW8YQqavDecVZhDSb9WVYHAdoHTQ6xDYsbuuyFxWCscNPw=
+	t=1733168702; cv=none; b=L2lecK3DZkOmQxkopph+Hi2SzrKJ/Kca18KjHiZ3njebY7Ti7IiluW9ADKeR/3p+EuMu+Ds2DTbMB2zKXx2jeKsPLaij/ifOwkM5423JbbvSbWYHer47NX8Ahx0jH6x0EdfCHgqa+GLkO24z3JH2KRvZbewp3CsmR8pB/lRjJj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733166605; c=relaxed/simple;
-	bh=4VFXnMg2QZt86Ha7RF39ZRGHpu3H1yL5UveMDfWg8P8=;
+	s=arc-20240116; t=1733168702; c=relaxed/simple;
+	bh=egfEN1MgwX77QeDHrc11FsDYQxIprzSaSqh1kBB49FI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tAuZTG0OOCq1IZhcZJDbjF/F9389aa7oO3RVBQhRd0I0q9L6AQFgKkvEQy65WN0xsv7/XYwVwhXPlcbfpfB587uLeFGFDPKeDwOQMD3PsFj1Y97pysNm6vxqBpgEOemQVFjIH1sRqemOHgOA06XZSMfP6Zp5/+luMEdKeJdW3i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ox8OcVy1; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=ErVdROEIyj/p0Kqk3FQQxL8/5iZiUeO6GZw7gvgVw5RX98HoaqVnM34cpswMpZ3B34fBMY/8JVD/68c5yLArambE7XlQrjLdYePboY55cnRQRZCMmgY5KGYIxf9h8SeT0q5AHeHP1qaR7DxrdPtaE51dIKkmPcWn0PwEhgSR2pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gK/R6QfV; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ox8OcVy1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gK/R6QfV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733166604; x=1764702604;
+  t=1733168700; x=1764704700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4VFXnMg2QZt86Ha7RF39ZRGHpu3H1yL5UveMDfWg8P8=;
-  b=Ox8OcVy17Zx0iecZZAN0OAbgBX1q9YKlJd7nr2Y2zB3ni/GI7kytYULw
-   53+ALgO0DcHBNG1kN34N0ahSZCDN+HQ4sALM+ncLT+WC/eJE/YSGM+MZY
-   UUfXJ0d6u/tjQw96RWg30piFwCwWqbBi8QgPr6Z+K9GthtaMcnAb+xeNN
-   9poKDtDrFswUqeWgeOkC7Zsts3BqwnrpDmlI6dLjp85bB0hrGHuW3ioaT
-   oztk6nr+KGVkTfeylBkVyT2+SMBYlIneGwB8QfNxJUYeDddcu5VIpQLZ8
-   2OQH0F4lBo7gcWWx1OURi3PZwZJZxYo5z4dB5Hf4ijBcWe4jXGJTwzNmU
-   A==;
-X-CSE-ConnectionGUID: ZvllWVEfR92npUbIHOM+ZQ==
-X-CSE-MsgGUID: xoP9IlpJRXWKPZ2mlKlIog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44741000"
+  bh=egfEN1MgwX77QeDHrc11FsDYQxIprzSaSqh1kBB49FI=;
+  b=gK/R6QfVUKA8JbMyFk2enLvff3j5CKhl4B/bd0DsO8rY6saVEtc7w/oA
+   tv8s+Q5w4Q1WIMDemnL3Ydt4kgVMiAf6CxlDQ2TRJjWE1irdrnIAV0M1N
+   TGNUAtqFP1YrL7qnx0ThcixQ8AEXP08hHOCGHzXxxI8dON+oBMNgQx3b+
+   +37y/Yyv3v79VtZcc+P7r88ucvJUZ3/B5QIL2twob6hHv+le/pnrdpih2
+   qZhV8K8cxPyDFdM3ebVW5n11RlDonj6lnjwvfp6hhVD7rrI7I6nVOXYpS
+   tlKrTKZ+R1VeQABZkrwKUMr0RArwMC6o/2RxrGzTaDeTQvf/cSiZtNjJr
+   g==;
+X-CSE-ConnectionGUID: //6drt39ReOwwlDHK/tOpQ==
+X-CSE-MsgGUID: 006fsEKzQ82ZcvLKok38Ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33098917"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="44741000"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 11:10:01 -0800
-X-CSE-ConnectionGUID: XvnS8ZwsSXCcxrqKHz9Mgw==
-X-CSE-MsgGUID: snHQ4B0TS+K9ssG1C/IYxA==
+   d="scan'208";a="33098917"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 11:45:00 -0800
+X-CSE-ConnectionGUID: NUWWilL9TKa2p29FKs5ozg==
+X-CSE-MsgGUID: 228sHhZ4TTKw357CBYGmkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="98177054"
+   d="scan'208";a="97636650"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 02 Dec 2024 11:10:01 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 11:44:58 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIBny-0002nP-05;
-	Mon, 02 Dec 2024 19:09:58 +0000
-Date: Tue, 3 Dec 2024 03:00:27 +0800
+	id 1tICLU-0002pk-0U;
+	Mon, 02 Dec 2024 19:44:45 +0000
+Date: Tue, 3 Dec 2024 03:42:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/usb/typec/ucsi/ucsi_ccg.c:637:8-28: WARNING: Threaded IRQ
- with no primary handler requested without IRQF_ONESHOT (unless it is nested
- IRQ)
-Message-ID: <202412030218.ufNQUJRw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/scsi/qedi/qedi_main.c:924 qedi_get_boot_tgt_info() error:
+ snprintf() chops off the last chars of
+ 'block->target[index]->target_name.byte': 256 vs 255
+Message-ID: <202412030334.S8d3ITeg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,39 +66,56 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Sanket Goswami <Sanket.Goswami@amd.com>
+TO: Manish Rangankar <mrangankar@marvell.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Lee Duncan <lduncan@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 5767f40053ebf599e47d688e65b259d0b6f3227a ucsi_ccg: Do not hardcode interrupt polarity and type
-date:   2 years, 6 months ago
+commit: 2f1ea39870c95aa9fff6a0b48757625a0b22f551 scsi: qedi: Remove additional char from boot target iqnname
+date:   4 years, 8 months ago
 :::::: branch date: 20 hours ago
-:::::: commit date: 2 years, 6 months ago
-config: loongarch-randconfig-r062-20241111 (https://download.01.org/0day-ci/archive/20241203/202412030218.ufNQUJRw-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+:::::: commit date: 4 years, 8 months ago
+config: i386-randconfig-141-20241120 (https://download.01.org/0day-ci/archive/20241203/202412030334.S8d3ITeg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412030218.ufNQUJRw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412030334.S8d3ITeg-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/usb/typec/ucsi/ucsi_ccg.c:637:8-28: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+New smatch warnings:
+drivers/scsi/qedi/qedi_main.c:924 qedi_get_boot_tgt_info() error: snprintf() chops off the last chars of 'block->target[index]->target_name.byte': 256 vs 255
 
-vim +637 drivers/usb/typec/ucsi/ucsi_ccg.c
+Old smatch warnings:
+drivers/scsi/qedi/qedi_main.c:956 qedi_find_boot_info() warn: returning -1 instead of -ENOMEM is sloppy
+drivers/scsi/qedi/qedi_main.c:1607 qedi_alloc_global_queues() warn: missing error code 'status'
 
-247c554a14aa16 Ajay Gupta     2018-10-26  629  
-5767f40053ebf5 Sanket Goswami 2022-05-26  630  static int ccg_request_irq(struct ucsi_ccg *uc)
-5767f40053ebf5 Sanket Goswami 2022-05-26  631  {
-5767f40053ebf5 Sanket Goswami 2022-05-26  632  	unsigned long flags = IRQF_ONESHOT;
-5767f40053ebf5 Sanket Goswami 2022-05-26  633  
-5767f40053ebf5 Sanket Goswami 2022-05-26  634  	if (!has_acpi_companion(uc->dev))
-5767f40053ebf5 Sanket Goswami 2022-05-26  635  		flags |= IRQF_TRIGGER_HIGH;
-5767f40053ebf5 Sanket Goswami 2022-05-26  636  
-5767f40053ebf5 Sanket Goswami 2022-05-26 @637  	return request_threaded_irq(uc->irq, NULL, ccg_irq_handler, flags, dev_name(uc->dev), uc);
-5767f40053ebf5 Sanket Goswami 2022-05-26  638  }
-5767f40053ebf5 Sanket Goswami 2022-05-26  639  
+vim +924 drivers/scsi/qedi/qedi_main.c
+
+ace7f46ba5fde7 Manish Rangankar 2016-12-01  915  
+534bbdf8832ae4 Manish Rangankar 2018-05-22  916  static void qedi_get_boot_tgt_info(struct nvm_iscsi_block *block,
+534bbdf8832ae4 Manish Rangankar 2018-05-22  917  				   struct qedi_boot_target *tgt, u8 index)
+534bbdf8832ae4 Manish Rangankar 2018-05-22  918  {
+534bbdf8832ae4 Manish Rangankar 2018-05-22  919  	u32 ipv6_en;
+534bbdf8832ae4 Manish Rangankar 2018-05-22  920  
+534bbdf8832ae4 Manish Rangankar 2018-05-22  921  	ipv6_en = !!(block->generic.ctrl_flags &
+534bbdf8832ae4 Manish Rangankar 2018-05-22  922  		     NVM_ISCSI_CFG_GEN_IPV6_ENABLED);
+534bbdf8832ae4 Manish Rangankar 2018-05-22  923  
+2f1ea39870c95a Manish Rangankar 2020-04-07 @924  	snprintf(tgt->iscsi_name, sizeof(tgt->iscsi_name), "%s",
+534bbdf8832ae4 Manish Rangankar 2018-05-22  925  		 block->target[index].target_name.byte);
+534bbdf8832ae4 Manish Rangankar 2018-05-22  926  
+534bbdf8832ae4 Manish Rangankar 2018-05-22  927  	tgt->ipv6_en = ipv6_en;
+534bbdf8832ae4 Manish Rangankar 2018-05-22  928  
+534bbdf8832ae4 Manish Rangankar 2018-05-22  929  	if (ipv6_en)
+534bbdf8832ae4 Manish Rangankar 2018-05-22  930  		snprintf(tgt->ip_addr, IPV6_LEN, "%pI6\n",
+534bbdf8832ae4 Manish Rangankar 2018-05-22  931  			 block->target[index].ipv6_addr.byte);
+534bbdf8832ae4 Manish Rangankar 2018-05-22  932  	else
+534bbdf8832ae4 Manish Rangankar 2018-05-22  933  		snprintf(tgt->ip_addr, IPV4_LEN, "%pI4\n",
+534bbdf8832ae4 Manish Rangankar 2018-05-22  934  			 block->target[index].ipv4_addr.byte);
+534bbdf8832ae4 Manish Rangankar 2018-05-22  935  }
+534bbdf8832ae4 Manish Rangankar 2018-05-22  936  
 
 -- 
 0-DAY CI Kernel Test Service
