@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765272036E9
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 14:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A575C2194B4
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 14:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733148303; cv=none; b=MaCxLonBjfjQeAGJ1Ws7neValDM/ySsqAI1KCfl1eYq8KZ6TOpfojS7G0JFjGuiMSrmNMAr4JpcDZ8uOtPv/d5MlDM9e+Un5L0Joda2bVHJcW+ZUwQhu0rbIxXflQzJx2SUf7nyTPIvK2gVWcY7GGgMzdSStuVXsCj4JXWftt04=
+	t=1733150021; cv=none; b=OuIVIEQAJyLsJHFd/gjtmMYyJmyzO7RZiwpT83hICsTiYPly/PEpATTHigOyQqkM/GAN/V8+a+R0NJvoNM6scQNGed0RfyJfIVbf6ZWWPaAc47miei7rflytS8E8wnJNb4l+TsJi3sovMeUcOiKnaGUoAk00nVjVFafdbIzN8ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733148303; c=relaxed/simple;
-	bh=64tjZNPVom2BBGXFM4yAGfCNfndjxbGyaE3zPl4N5JM=;
+	s=arc-20240116; t=1733150021; c=relaxed/simple;
+	bh=k54BxwMRyKjxKBI6MXQhsysuiB2HRs/RM9nBqKAwKSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Owsrdf6bY+C5VDc7WlIqk/cdn5oOPN2AfLrKvC6jHepOZPChZH5Qv+AyLvKNCvkWkrwxpQFLPZJQrEHSa85IkTW4NR20CjlofaeEFFQPtmZsXfC8PblHzSWgFh4tihS2UBmWxMn8jSlfWkpdGmiiLl/tZEFq0jIhENrHgQG8xP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GF7XVRTD; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=aTp5+Nyf1JO3RWDPUkJt33S2wTgKNO14LSxpbTyVBv57vrUWO2/uODJfTjskX093I/dv5r5sCfOcZ20fOpY/pcyid703wAbmXcXdR+D3V6xgNGaKQRzVzDPXgf8FUpQG321h4a71MN5Rt11BE/3eqNe34zEgN+AKRdv2SXcDvkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFshD1dl; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GF7XVRTD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFshD1dl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733148301; x=1764684301;
+  t=1733150018; x=1764686018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=64tjZNPVom2BBGXFM4yAGfCNfndjxbGyaE3zPl4N5JM=;
-  b=GF7XVRTDJb+GkrQ7U1Jj4rm8QZ3TIzrFtoBBvxstdyPMnMw5Uny3vyNR
-   AM3VFIxpaZO1pafepOWLMEl1XpyZrST8u5huyGbeVY+kZiXBBwOaLYtBa
-   VF7nY/d/s3BU1sRLaGeKFYEul3oJjEhUYSTt/gzTsnlBhQ9cQ94lLeYxD
-   ttCNnRAOX79YN/1KYOYCrk7Dg7uUyIzwPPhOwuHPSH+EyeUPtZFMv2Yhm
-   EugMXzse/GtPms3W2f/cZpCrn6zSWWUye1mzLzVeQkP0rfBgm+tkAhajc
-   IMFgmZTpd9gZ+BQ6JnqD4sfE4UbTKDflYNsIQfkQIkfVi9dKzN4A4usNm
-   w==;
-X-CSE-ConnectionGUID: 5ETtRc+jSnaHcNzkGsMSsg==
-X-CSE-MsgGUID: LK5IF4gcRhWzBbbX7eGPyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="43986716"
+  bh=k54BxwMRyKjxKBI6MXQhsysuiB2HRs/RM9nBqKAwKSI=;
+  b=gFshD1dlUvdlzdm/F9+njUJoK5K0xi8x1NskK7QFlfumBSRLAKcO3kDC
+   Cwgj1kHR/NBmfwhkicR//pHlEcYG58cdZl9HBvS5YMUVr1yL7x3dLPU7N
+   BHMwIq489MFTYM5dVjxjhZGBN9oL9IgXHmBx4+COsb01KPKJngl/gOox/
+   HYYZcyqvqaLrjF9hG+/zuZ26hIj5gv36djkAzniAHZY3Td9BupR969x4v
+   uQNeTH3JGkl6Ch+na/XnQeh6uVrCmeV9XWpRlZDDBJ3Y87BYowOs1B3jA
+   UEZF0Q11k+ZPIndCOiiUQrztldDmyqAcAEtSTGlp8Sqhwxg7wNhe732iu
+   A==;
+X-CSE-ConnectionGUID: 1pt14dHdRb+A5J1r/GM7Gg==
+X-CSE-MsgGUID: YtZWq74jQLSj5EG/BpUq/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33062925"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="43986716"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 06:03:13 -0800
-X-CSE-ConnectionGUID: TQPMdQJxR7+vjsUzUIow3w==
-X-CSE-MsgGUID: Mi54kmKSTV6GUcdp9zj/Cw==
+   d="scan'208";a="33062925"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 06:33:38 -0800
+X-CSE-ConnectionGUID: dmL8SpixQcmgCe7xSCX/bQ==
+X-CSE-MsgGUID: L7qLxi8hT+auOchKkb4aIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="123958729"
+   d="scan'208";a="97196477"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 02 Dec 2024 06:03:12 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 06:33:36 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI713-0002TD-2r;
-	Mon, 02 Dec 2024 14:03:09 +0000
-Date: Mon, 2 Dec 2024 22:02:46 +0800
+	id 1tI7UU-0002Ur-2f;
+	Mon, 02 Dec 2024 14:33:34 +0000
+Date: Mon, 2 Dec 2024 22:33:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: net/core/gro.c:38:25-29: ERROR: invalid reference to the index
- variable of the iterator on line 34
-Message-ID: <202412022106.v6cskfGx-lkp@intel.com>
+Subject: fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op
+ == REQ_OP_WRITE)
+Message-ID: <202412030002.mrwonn73-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,62 +65,63 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 75082e7f46809432131749f4ecea66864d0f7438 net: add missing include in include/net/gro.h
-date:   3 years, 1 month ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 3 years, 1 month ago
-config: csky-randconfig-r052-20241113 (https://download.01.org/0day-ci/archive/20241202/202412022106.v6cskfGx-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+commit: 6ad5b3255b9e3d6d94154738aacd5119bf9c8f6e xfs: use bios directly to read and write the log recovery buffers
+date:   5 years ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 5 years ago
+config: x86_64-randconfig-104-20241115 (https://download.01.org/0day-ci/archive/20241203/202412030002.mrwonn73-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412022106.v6cskfGx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412030002.mrwonn73-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> net/core/gro.c:38:25-29: ERROR: invalid reference to the index variable of the iterator on line 34
+>> fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op == REQ_OP_WRITE)
 
-vim +38 net/core/gro.c
+vim +173 fs/xfs/xfs_log_recover.c
 
-587652bbdd06ab3 Eric Dumazet 2021-11-15  16  
-587652bbdd06ab3 Eric Dumazet 2021-11-15  17  /**
-587652bbdd06ab3 Eric Dumazet 2021-11-15  18   *	dev_add_offload - register offload handlers
-587652bbdd06ab3 Eric Dumazet 2021-11-15  19   *	@po: protocol offload declaration
-587652bbdd06ab3 Eric Dumazet 2021-11-15  20   *
-587652bbdd06ab3 Eric Dumazet 2021-11-15  21   *	Add protocol offload handlers to the networking stack. The passed
-587652bbdd06ab3 Eric Dumazet 2021-11-15  22   *	&proto_offload is linked into kernel lists and may not be freed until
-587652bbdd06ab3 Eric Dumazet 2021-11-15  23   *	it has been removed from the kernel lists.
-587652bbdd06ab3 Eric Dumazet 2021-11-15  24   *
-587652bbdd06ab3 Eric Dumazet 2021-11-15  25   *	This call does not sleep therefore it can not
-587652bbdd06ab3 Eric Dumazet 2021-11-15  26   *	guarantee all CPU's that are in middle of receiving packets
-587652bbdd06ab3 Eric Dumazet 2021-11-15  27   *	will see the new offload handlers (until the next received packet).
-587652bbdd06ab3 Eric Dumazet 2021-11-15  28   */
-587652bbdd06ab3 Eric Dumazet 2021-11-15  29  void dev_add_offload(struct packet_offload *po)
-587652bbdd06ab3 Eric Dumazet 2021-11-15  30  {
-587652bbdd06ab3 Eric Dumazet 2021-11-15  31  	struct packet_offload *elem;
-587652bbdd06ab3 Eric Dumazet 2021-11-15  32  
-587652bbdd06ab3 Eric Dumazet 2021-11-15  33  	spin_lock(&offload_lock);
-587652bbdd06ab3 Eric Dumazet 2021-11-15 @34  	list_for_each_entry(elem, &offload_base, list) {
-587652bbdd06ab3 Eric Dumazet 2021-11-15  35  		if (po->priority < elem->priority)
-587652bbdd06ab3 Eric Dumazet 2021-11-15  36  			break;
-587652bbdd06ab3 Eric Dumazet 2021-11-15  37  	}
-587652bbdd06ab3 Eric Dumazet 2021-11-15 @38  	list_add_rcu(&po->list, elem->list.prev);
-587652bbdd06ab3 Eric Dumazet 2021-11-15  39  	spin_unlock(&offload_lock);
-587652bbdd06ab3 Eric Dumazet 2021-11-15  40  }
-587652bbdd06ab3 Eric Dumazet 2021-11-15  41  EXPORT_SYMBOL(dev_add_offload);
-587652bbdd06ab3 Eric Dumazet 2021-11-15  42  
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 587652bbdd06ab38a4c1b85e40f933d2cf4a1147 net: gro: populate net/core/gro.c
-
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+076e6acb8f0d95 Christoph Hellwig 2009-03-16  145  
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  146  static int
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  147  xlog_do_io(
+9a8d2fdbb47aaa Mark Tinguely     2012-06-14  148  	struct xlog		*log,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  149  	xfs_daddr_t		blk_no,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  150  	unsigned int		nbblks,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  151  	char			*data,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  152  	unsigned int		op)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  153  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  154  	int			error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  155  
+99c265950b55f1 Brian Foster      2017-10-26  156  	if (!xlog_verify_bp(log, blk_no, nbblks)) {
+99c265950b55f1 Brian Foster      2017-10-26  157  		xfs_warn(log->l_mp,
+99c265950b55f1 Brian Foster      2017-10-26  158  			 "Invalid log block/length (0x%llx, 0x%x) for buffer",
+99c265950b55f1 Brian Foster      2017-10-26  159  			 blk_no, nbblks);
+ff30a6221d95b6 Alex Elder        2010-04-13  160  		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_HIGH, log->l_mp);
+2451337dd04390 Dave Chinner      2014-06-25  161  		return -EFSCORRUPTED;
+3228149ceb8b04 Dave Chinner      2009-01-22  162  	}
+3228149ceb8b04 Dave Chinner      2009-01-22  163  
+69ce58f08a3c45 Alex Elder        2010-04-20  164  	blk_no = round_down(blk_no, log->l_sectBBsize);
+69ce58f08a3c45 Alex Elder        2010-04-20  165  	nbblks = round_up(nbblks, log->l_sectBBsize);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  166  	ASSERT(nbblks > 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  167  
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  168  	error = xfs_rw_bdev(log->l_targ->bt_bdev, log->l_logBBstart + blk_no,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  169  			BBTOB(nbblks), data, op);
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  170  	if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  171  		xfs_alert(log->l_mp,
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  172  			  "log recovery %s I/O error at daddr 0x%llx len %d error %d",
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28 @173  			  op == REQ_OP_WRITE ? "write" : "read",
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  174  			  blk_no, nbblks, error);
+6ad5b3255b9e3d Christoph Hellwig 2019-06-28  175  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  176  	return error;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  177  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  178  
 
 -- 
 0-DAY CI Kernel Test Service
