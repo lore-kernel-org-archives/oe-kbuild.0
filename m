@@ -1,186 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEBE1F9F63
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 09:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFD51FE469
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 10:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733131539; cv=none; b=WnXuIpNFZmvUTRcJ/URxFLNesfDfQdqmihnspqdiP7KdmP3Mi2ggofjjD57DmcUmv33iuPk69M8yDjonh/ApGcjUDMtiwILvhoRTo/0XbPmtMQOhrKMxa/ujPlKtyw0M/rEkCzAk3EDpbGUfc9fU4BfBTOwqsyW8wwR6qEc39lQ=
+	t=1733134034; cv=none; b=GGSkJjukpvyKNi7BuLGuJQ4p4dOGG2GxgobJYgF+DMFv+W2ULoIRmU+ddqnwKGSnJcn+j+hsL5hRqmAZVfmKCleaOrC19DAPQxmUEs9jn+5P1GfFM1iMvRyyyaOr8NRHtEhuIhAm+uGZGjQRZiMATp1SqsYgKEABXmAs7zpYchI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733131539; c=relaxed/simple;
-	bh=WoGW2MXYj0QD3pkL8zaPmf8nxJ4r57/NeSqkEGkYHVU=;
+	s=arc-20240116; t=1733134034; c=relaxed/simple;
+	bh=o7amj8vFnvoRx1BqyvQvOvxiHq5JiyQGRzLI/K5A+Yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P5mEC+Dxz2DL+WQg/0vTFyCbKsSusy+MPWgKZ1W943Eqh6JqGyPPaZve3ZwhiosuvcVNwVmJUu27mZXSZpguxJhzyLegxh7PdIdfBjvyXpSjrTHq/OR47a1XJSIMRCBedXvesyk4xZnSNPVFA4vZR0ZcK6dGBdAapnhMj9QQt/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myj6xhnP; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=ltHsuWJMwmmu/DA1coDsK46CICiyZvM0vtFHDfIwlvulYwx3iasJko7MmyLYy7pqvsDJNZk0ojAEpebtRxcx0FiHSP8L4NpMesBKo/xFdPU+TqwU98gn7pNcjotyJ2iH/Vx6gPuy3RkH4uAccVaMB0B6vtbzuYYhMsaVUYt86go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0BvWaCL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myj6xhnP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0BvWaCL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733131537; x=1764667537;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WoGW2MXYj0QD3pkL8zaPmf8nxJ4r57/NeSqkEGkYHVU=;
-  b=myj6xhnPfO+qPi19m0SUqxuHdDyXLrxhx4IiW1p/ZA7uke1u6Hjl6YCI
-   FiEj6dJzYrHMzcCs9npJU/zFJRMIzijUJkEFcuqCjV+87KFxaw5UQGdnQ
-   hRg7uoRGubDK9Lg+CzOMm29FWsyY/bT1xTVxJpVO7+1QDuwsZ3jwL+sT4
-   ugdF9F3uvf0QFo06khs3xwkqjuXYlFic4cA9gE/73K7EO3SS37xFDx2jl
-   PaDeSvK4HbcQ3Go3ZJOdLXOGNM1uQI4sLdCFPiGeyAHCyBgTQt0yQ1Yv3
-   lQuOxT6PPB++N3n71d8Z7ndmkiwbAiy5/Phg6Kjf+pjL+lyQ8QqemzAvL
+  t=1733134032; x=1764670032;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=o7amj8vFnvoRx1BqyvQvOvxiHq5JiyQGRzLI/K5A+Yc=;
+  b=n0BvWaCLBbGbyluGT3lL2Palilk3aXErVFfQQpTB0/R9uIUI3EQBzcsL
+   PzeuuDi0ef49XEh/1l6V1sDqux6sbPneOecplTIEv5LaRbBmDl1v0m6fo
+   vRs7/zzDkrH0cNVf8WeUHUxdITQuCpuvXpD4wYIAeJqBIzYtlakhuotA0
+   PdTGUNwqPnNjEJOgc4QuVcCKONLsGOPXk2GFqKJ4JUdrnWorXlTs4sk/w
+   jGAAis/BTTWAazsPcCGAqiOd4UslnsojaWH5D1uXZAgOC8b+jl6zRxsxf
+   pVknWqbS0h4ZuMwtHNa+VR9ZL/c94Vf1t+1iJROG1b3j2HBSmJFQytbiz
    A==;
-X-CSE-ConnectionGUID: Lw3gyK9MRb6vZMn06HLcJA==
-X-CSE-MsgGUID: BaGbvuRCT0SPGQ40WIp7JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33443411"
-X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="33443411"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 01:25:33 -0800
-X-CSE-ConnectionGUID: EkbkcMpvSPi3BoOnfCQU3w==
-X-CSE-MsgGUID: gZFkuVkDTkiBPl3kP2JbCQ==
+X-CSE-ConnectionGUID: IFyCSbNBRLm1s94hTWDNjg==
+X-CSE-MsgGUID: 9taaIvqVSae5MUoQtfnROQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43964821"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
+   d="scan'208";a="43964821"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 02:07:11 -0800
+X-CSE-ConnectionGUID: 1uX0GeBCRCWzkXD5/4qxYw==
+X-CSE-MsgGUID: ZcXHkmVASTioJhqKMAQ11Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93892523"
+X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
+   d="scan'208";a="93538579"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Dec 2024 01:25:33 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Dec 2024 02:07:10 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI2gM-0002Ft-0W;
-	Mon, 02 Dec 2024 09:25:30 +0000
-Date: Mon, 2 Dec 2024 17:24:42 +0800
+	id 1tI3Ke-0002IL-09;
+	Mon, 02 Dec 2024 10:07:08 +0000
+Date: Mon, 2 Dec 2024 18:06:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2063:2-8:
- preceding lock on line 2002
-Message-ID: <202412021715.xjsYGsdN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/tty/serial/8250/8250_fsl.c:96 fsl8250_handle_irq() warn:
+ inconsistent returns 'flags'.
+Message-ID: <202412021726.AnX78KqO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Aleksandr Mishin <amishin@t-argos.ru>
-CC: Robert Foss <rfoss@kernel.org>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: John Ogness <john.ogness@linutronix.de>
+
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 935a92a1c400285545198ca2800a4c6c519c650a drm: bridge: cdns-mhdp8546: Fix possible null pointer dereference
-date:   8 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 8 months ago
-config: loongarch-randconfig-r054-20241202 (https://download.01.org/0day-ci/archive/20241202/202412021715.xjsYGsdN-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+commit: 448d65172f2b964ac10d1d9a33043e5607d2f70a serial: 8250_fsl: Use port lock wrappers
+date:   1 year, 2 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 1 year, 2 months ago
+config: hexagon-randconfig-r071-20241118 (https://download.01.org/0day-ci/archive/20241202/202412021726.AnX78KqO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412021715.xjsYGsdN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412021726.AnX78KqO-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2063:2-8: preceding lock on line 2002
-   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2063:2-8: preceding lock on line 2038
+smatch warnings:
+drivers/tty/serial/8250/8250_fsl.c:96 fsl8250_handle_irq() warn: inconsistent returns 'flags'.
 
-vim +2063 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+vim +/flags +96 drivers/tty/serial/8250/8250_fsl.c
 
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1985  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1986  static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1987  				    struct drm_bridge_state *bridge_state)
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1988  {
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1989  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1990  	struct drm_atomic_state *state = bridge_state->base.state;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1991  	struct cdns_mhdp_bridge_state *mhdp_state;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1992  	struct drm_crtc_state *crtc_state;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1993  	struct drm_connector *connector;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1994  	struct drm_connector_state *conn_state;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1995  	struct drm_bridge_state *new_state;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1996  	const struct drm_display_mode *mode;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1997  	u32 resp;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1998  	int ret;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  1999  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2000  	dev_dbg(mhdp->dev, "bridge enable\n");
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2001  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18 @2002  	mutex_lock(&mhdp->link_mutex);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2003  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2004  	if (mhdp->plugged && !mhdp->link_up) {
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2005  		ret = cdns_mhdp_link_up(mhdp);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2006  		if (ret < 0)
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2007  			goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2008  	}
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2009  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2010  	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->enable)
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2011  		mhdp->info->ops->enable(mhdp);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2012  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2013  	/* Enable VIF clock for stream 0 */
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2014  	ret = cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR, &resp);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2015  	if (ret < 0) {
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2016  		dev_err(mhdp->dev, "Failed to read CDNS_DPTX_CAR %d\n", ret);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2017  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2018  	}
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2019  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2020  	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2021  			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2022  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2023  	connector = drm_atomic_get_new_connector_for_encoder(state,
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2024  							     bridge->encoder);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2025  	if (WARN_ON(!connector))
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2026  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2027  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2028  	conn_state = drm_atomic_get_new_connector_state(state, connector);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2029  	if (WARN_ON(!conn_state))
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2030  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2031  
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2032  	if (mhdp->hdcp_supported &&
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2033  	    mhdp->hw_state == MHDP_HW_READY &&
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2034  	    conn_state->content_protection ==
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2035  	    DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2036  		mutex_unlock(&mhdp->link_mutex);
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2037  		cdns_mhdp_hdcp_enable(mhdp, conn_state->hdcp_content_type);
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2038  		mutex_lock(&mhdp->link_mutex);
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2039  	}
-6a3608eae6d33a Parshuram Thombare 2021-04-10  2040  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2041  	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2042  	if (WARN_ON(!crtc_state))
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2043  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2044  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2045  	mode = &crtc_state->adjusted_mode;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2046  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2047  	new_state = drm_atomic_get_new_bridge_state(state, bridge);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2048  	if (WARN_ON(!new_state))
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2049  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2050  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2051  	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2052  				    mhdp->link.rate)) {
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2053  		ret = -EINVAL;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2054  		goto out;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2055  	}
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2056  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2057  	cdns_mhdp_sst_enable(mhdp, mode);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2058  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2059  	mhdp_state = to_cdns_mhdp_bridge_state(new_state);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2060  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2061  	mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
-935a92a1c40028 Aleksandr Mishin   2024-04-08  2062  	if (!mhdp_state->current_mode)
-935a92a1c40028 Aleksandr Mishin   2024-04-08 @2063  		return;
-935a92a1c40028 Aleksandr Mishin   2024-04-08  2064  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2065  	drm_mode_set_name(mhdp_state->current_mode);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2066  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2067  	dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__, mode->name);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2068  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2069  	mhdp->bridge_enabled = true;
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2070  
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2071  out:
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2072  	mutex_unlock(&mhdp->link_mutex);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2073  	if (ret < 0)
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2074  		schedule_work(&mhdp->modeset_retry_work);
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2075  }
-fb43aa0acdfd60 Swapnil Jakhade    2020-09-18  2076  
+11361610b00500 drivers/tty/serial/8250/8250_fsl.c kuldip dwivedi   2020-09-03  25  
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  26  int fsl8250_handle_irq(struct uart_port *port)
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  27  {
+853a9ae29e978d drivers/tty/serial/8250/8250_fsl.c Johan Hovold     2021-07-14  28  	unsigned long flags;
+f8ba5680a56be6 drivers/tty/serial/8250/8250_fsl.c Ilpo Järvinen    2022-06-24  29  	u16 lsr, orig_lsr;
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  30  	unsigned int iir;
+b1261c86fe238c drivers/tty/serial/8250/8250_fsl.c Andy Shevchenko  2014-07-14  31  	struct uart_8250_port *up = up_to_u8250p(port);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  32  
+448d65172f2b96 drivers/tty/serial/8250/8250_fsl.c Thomas Gleixner  2023-09-14  33  	uart_port_lock_irqsave(&up->port, &flags);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  34  
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  35  	iir = port->serial_in(port, UART_IIR);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  36  	if (iir & UART_IIR_NO_INT) {
+448d65172f2b96 drivers/tty/serial/8250/8250_fsl.c Thomas Gleixner  2023-09-14  37  		uart_port_unlock_irqrestore(&up->port, flags);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  38  		return 0;
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  39  	}
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  40  
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  41  	/*
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  42  	 * For a single break the hardware reports LSR.BI for each character
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  43  	 * time. This is described in the MPC8313E chip errata as "General17".
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  44  	 * A typical break has a duration of 0.3s, with a 115200n8 configuration
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  45  	 * that (theoretically) corresponds to ~3500 interrupts in these 0.3s.
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  46  	 * In practise it's less (around 500) because of hardware
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  47  	 * and software latencies. The workaround recommended by the vendor is
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  48  	 * to read the RX register (to clear LSR.DR and thus prevent a FIFO
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  49  	 * aging interrupt). To prevent the irq from retriggering LSR must not be
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  50  	 * read. (This would clear LSR.BI, hardware would reassert the BI event
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  51  	 * immediately and interrupt the CPU again. The hardware clears LSR.BI
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  52  	 * when the next valid char is read.)
+d2d4bd217ccd47 drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2023-05-24  53  	 */
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  54  	if (unlikely(up->lsr_saved_flags & UART_LSR_BI)) {
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  55  		up->lsr_saved_flags &= ~UART_LSR_BI;
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  56  		port->serial_in(port, UART_RX);
+448d65172f2b96 drivers/tty/serial/8250/8250_fsl.c Thomas Gleixner  2023-09-14  57  		uart_port_unlock_irqrestore(&up->port, flags);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  58  		return 1;
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  59  	}
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  60  
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  61  	lsr = orig_lsr = up->port.serial_in(&up->port, UART_LSR);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  62  
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  63  	/* Process incoming characters first */
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  64  	if ((lsr & (UART_LSR_DR | UART_LSR_BI)) &&
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  65  	    (up->ier & (UART_IER_RLSI | UART_IER_RDI))) {
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  66  		lsr = serial8250_rx_chars(up, lsr);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  67  	}
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  68  
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  69  	/* Stop processing interrupts on input overrun */
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  70  	if ((orig_lsr & UART_LSR_OE) && (up->overrun_backoff_time_ms > 0)) {
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  71  		unsigned long delay;
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  72  
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  73  		up->ier = port->serial_in(port, UART_IER);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  74  		if (up->ier & (UART_IER_RLSI | UART_IER_RDI)) {
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  75  			port->ops->stop_rx(port);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  76  		} else {
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  77  			/* Keep restarting the timer until
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  78  			 * the input overrun subsides.
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  79  			 */
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  80  			cancel_delayed_work(&up->overrun_backoff);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  81  		}
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  82  
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  83  		delay = msecs_to_jiffies(up->overrun_backoff_time_ms);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  84  		schedule_delayed_work(&up->overrun_backoff, delay);
+6d7f677a2afa1c drivers/tty/serial/8250/8250_fsl.c Darwin Dingel    2018-12-10  85  	}
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  86  
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  87  	serial8250_modem_status(up);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  88  
+409cc4541ade01 drivers/tty/serial/8250/8250_fsl.c Andrij Abyzov    2020-09-28  89  	if ((lsr & UART_LSR_THRE) && (up->ier & UART_IER_THRI))
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  90  		serial8250_tx_chars(up);
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  91  
+9d3aaceb73acad drivers/tty/serial/8250/8250_fsl.c Uwe Kleine-König 2022-07-04  92  	up->lsr_saved_flags |= orig_lsr & UART_LSR_BI;
+75f4e830fa9c47 drivers/tty/serial/8250/8250_fsl.c Johan Hovold     2021-04-16  93  
+853a9ae29e978d drivers/tty/serial/8250/8250_fsl.c Johan Hovold     2021-07-14  94  	uart_unlock_and_check_sysrq_irqrestore(&up->port, flags);
+75f4e830fa9c47 drivers/tty/serial/8250/8250_fsl.c Johan Hovold     2021-04-16  95  
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04 @96  	return 1;
+9deaa53ac7fa37 drivers/tty/serial/8250_fsl.c      Paul Gortmaker   2011-12-04  97  }
+bd63acf9e9a6b4 drivers/tty/serial/8250/8250_fsl.c Arnd Bergmann    2015-11-16  98  EXPORT_SYMBOL_GPL(fsl8250_handle_irq);
+11361610b00500 drivers/tty/serial/8250/8250_fsl.c kuldip dwivedi   2020-09-03  99  
+
+:::::: The code at line 96 was first introduced by commit
+:::::: 9deaa53ac7fa373623123aa4f18828dd62292b1a serial: add irq handler for Freescale 16550 errata.
+
+:::::: TO: Paul Gortmaker <paul.gortmaker@windriver.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
