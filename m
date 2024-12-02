@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A575C2194B4
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 14:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894501A0726
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 16:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733150021; cv=none; b=OuIVIEQAJyLsJHFd/gjtmMYyJmyzO7RZiwpT83hICsTiYPly/PEpATTHigOyQqkM/GAN/V8+a+R0NJvoNM6scQNGed0RfyJfIVbf6ZWWPaAc47miei7rflytS8E8wnJNb4l+TsJi3sovMeUcOiKnaGUoAk00nVjVFafdbIzN8ZY=
+	t=1733156794; cv=none; b=KCY4VpuZTzMcgdae46+ghFHR1HFsfBKMMuqX6z8gzH19y01pQJhy6vB6LuS4339+C2neXnQM5GYg+RRMFVs5wIj0WFROO0VqKg5yZSRTrdPTVLH2byqIG26vlhEh5oED0Jpva6Tb28+rUPFMaKeY1f+njPCxXoXDx+rWh/eK5SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733150021; c=relaxed/simple;
-	bh=k54BxwMRyKjxKBI6MXQhsysuiB2HRs/RM9nBqKAwKSI=;
+	s=arc-20240116; t=1733156794; c=relaxed/simple;
+	bh=hjUWT02YvGzr5i72fN1xQQJWp02bffd8Y8OGkh2quzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aTp5+Nyf1JO3RWDPUkJt33S2wTgKNO14LSxpbTyVBv57vrUWO2/uODJfTjskX093I/dv5r5sCfOcZ20fOpY/pcyid703wAbmXcXdR+D3V6xgNGaKQRzVzDPXgf8FUpQG321h4a71MN5Rt11BE/3eqNe34zEgN+AKRdv2SXcDvkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gFshD1dl; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=rBMczc0fTrEHm3fYw3/jj09T8ehpYR5Zm3wx04F42hHworfRNrD+XwH2uhuOlrLWu0UO/QwNXM5dimO9hmZDRxJlVNRX+PncocTwmCUrOA0KwTDCqqGyKRwiCtzr9HQ75Ql4VEAeifaNnewi5tTV6ViFZEapKHQMka7KKLDyVFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZfRYeTo3; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFshD1dl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZfRYeTo3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733150018; x=1764686018;
+  t=1733156793; x=1764692793;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k54BxwMRyKjxKBI6MXQhsysuiB2HRs/RM9nBqKAwKSI=;
-  b=gFshD1dlUvdlzdm/F9+njUJoK5K0xi8x1NskK7QFlfumBSRLAKcO3kDC
-   Cwgj1kHR/NBmfwhkicR//pHlEcYG58cdZl9HBvS5YMUVr1yL7x3dLPU7N
-   BHMwIq489MFTYM5dVjxjhZGBN9oL9IgXHmBx4+COsb01KPKJngl/gOox/
-   HYYZcyqvqaLrjF9hG+/zuZ26hIj5gv36djkAzniAHZY3Td9BupR969x4v
-   uQNeTH3JGkl6Ch+na/XnQeh6uVrCmeV9XWpRlZDDBJ3Y87BYowOs1B3jA
-   UEZF0Q11k+ZPIndCOiiUQrztldDmyqAcAEtSTGlp8Sqhwxg7wNhe732iu
-   A==;
-X-CSE-ConnectionGUID: 1pt14dHdRb+A5J1r/GM7Gg==
-X-CSE-MsgGUID: YtZWq74jQLSj5EG/BpUq/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33062925"
+  bh=hjUWT02YvGzr5i72fN1xQQJWp02bffd8Y8OGkh2quzg=;
+  b=ZfRYeTo3zdeUS4Q73mx7qT7pr3WUTEd7zzkQFRqmZ5g/Bjo6pugYdqZx
+   7JKGGiKxj5ur3xbCGlNscbDq9oGoNUEC769IfhlwfJRW6iqPAcKwbcKp8
+   A594wyXVjcCRKQ5NMqBQQYkeMzY7VrPuFtxmq4dq+wLnQ7Kx/+Hna3X1z
+   qm7GEek4mYbjzS9sgiNY4WxRRdIANOkm+TxeYAufvy+L+mlkx5Om2Wi9X
+   LohHBx9MlPCZHwe7JKeVD+uv3EDQJGGBX5zcR8YYStbL5JX97Zf7mY3mW
+   tivoes9fpBzHzb+dRjtf9Vakqq47ibZ7oNjvecNR3BsIm1f+dNSA2XkHZ
+   w==;
+X-CSE-ConnectionGUID: 6QV+kesIQNO6+LnX/H3vUQ==
+X-CSE-MsgGUID: 4BholVYBTxW/2jk4iOL3cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33260897"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="33062925"
+   d="scan'208";a="33260897"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 06:33:38 -0800
-X-CSE-ConnectionGUID: dmL8SpixQcmgCe7xSCX/bQ==
-X-CSE-MsgGUID: L7qLxi8hT+auOchKkb4aIQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 08:26:31 -0800
+X-CSE-ConnectionGUID: R8R5tvQsQ/6nMf0hoKSqmQ==
+X-CSE-MsgGUID: X6AZUsuKT6KTAh+JpA8oZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="97196477"
+   d="scan'208";a="97223888"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 06:33:36 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 08:26:30 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI7UU-0002Ur-2f;
-	Mon, 02 Dec 2024 14:33:34 +0000
-Date: Mon, 2 Dec 2024 22:33:24 +0800
+	id 1tI9FM-0002av-1M;
+	Mon, 02 Dec 2024 16:26:09 +0000
+Date: Tue, 3 Dec 2024 00:25:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op
- == REQ_OP_WRITE)
-Message-ID: <202412030002.mrwonn73-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bcachefs:bcachefs-testing 173/173] fs/bcachefs/inode.c:931
+ bch2_inode_create() error: uninitialized symbol 'start'.
+Message-ID: <202412030007.Zkc9PGnl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,64 +64,144 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 6ad5b3255b9e3d6d94154738aacd5119bf9c8f6e xfs: use bios directly to read and write the log recovery buffers
-date:   5 years ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 5 years ago
-config: x86_64-randconfig-104-20241115 (https://download.01.org/0day-ci/archive/20241203/202412030002.mrwonn73-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   a6c90193bc06c071ac00989791a284cf94def0e5
+commit: a6c90193bc06c071ac00989791a284cf94def0e5 [173/173] bcachefs: bcachefs_metadata_version_persistent_inode_cursors
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: x86_64-randconfig-161-20241202 (https://download.01.org/0day-ci/archive/20241203/202412030007.Zkc9PGnl-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412030002.mrwonn73-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412030007.Zkc9PGnl-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_log_recover.c:173:5-23: opportunity for str_write_read(op == REQ_OP_WRITE)
+smatch warnings:
+fs/bcachefs/inode.c:931 bch2_inode_create() error: uninitialized symbol 'start'.
 
-vim +173 fs/xfs/xfs_log_recover.c
+vim +/start +931 fs/bcachefs/inode.c
 
-076e6acb8f0d95 Christoph Hellwig 2009-03-16  145  
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  146  static int
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  147  xlog_do_io(
-9a8d2fdbb47aaa Mark Tinguely     2012-06-14  148  	struct xlog		*log,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  149  	xfs_daddr_t		blk_no,
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  150  	unsigned int		nbblks,
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  151  	char			*data,
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  152  	unsigned int		op)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  153  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  154  	int			error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  155  
-99c265950b55f1 Brian Foster      2017-10-26  156  	if (!xlog_verify_bp(log, blk_no, nbblks)) {
-99c265950b55f1 Brian Foster      2017-10-26  157  		xfs_warn(log->l_mp,
-99c265950b55f1 Brian Foster      2017-10-26  158  			 "Invalid log block/length (0x%llx, 0x%x) for buffer",
-99c265950b55f1 Brian Foster      2017-10-26  159  			 blk_no, nbblks);
-ff30a6221d95b6 Alex Elder        2010-04-13  160  		XFS_ERROR_REPORT(__func__, XFS_ERRLEVEL_HIGH, log->l_mp);
-2451337dd04390 Dave Chinner      2014-06-25  161  		return -EFSCORRUPTED;
-3228149ceb8b04 Dave Chinner      2009-01-22  162  	}
-3228149ceb8b04 Dave Chinner      2009-01-22  163  
-69ce58f08a3c45 Alex Elder        2010-04-20  164  	blk_no = round_down(blk_no, log->l_sectBBsize);
-69ce58f08a3c45 Alex Elder        2010-04-20  165  	nbblks = round_up(nbblks, log->l_sectBBsize);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  166  	ASSERT(nbblks > 0);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  167  
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  168  	error = xfs_rw_bdev(log->l_targ->bt_bdev, log->l_logBBstart + blk_no,
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  169  			BBTOB(nbblks), data, op);
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  170  	if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  171  		xfs_alert(log->l_mp,
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  172  			  "log recovery %s I/O error at daddr 0x%llx len %d error %d",
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28 @173  			  op == REQ_OP_WRITE ? "write" : "read",
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  174  			  blk_no, nbblks, error);
-6ad5b3255b9e3d Christoph Hellwig 2019-06-28  175  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  176  	return error;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  177  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  178  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  883  
+6fed42bb7750e2 Kent Overstreet 2021-03-16  884  /*
+6fed42bb7750e2 Kent Overstreet 2021-03-16  885   * This just finds an empty slot:
+6fed42bb7750e2 Kent Overstreet 2021-03-16  886   */
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  887  int bch2_inode_create(struct btree_trans *trans,
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  888  		      struct btree_iter *iter,
+e6ae27272491af Kent Overstreet 2021-03-15  889  		      struct bch_inode_unpacked *inode_u,
+bff796ae6539b5 Kent Overstreet 2021-05-28  890  		      u32 snapshot, u64 cpu)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  891  {
+45e4dcba79401d Kent Overstreet 2020-10-27  892  	struct bch_fs *c = trans->c;
+8b53852d0a80ec Kent Overstreet 2020-02-18  893  	struct bkey_s_c k;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  894  	u64 min, max, start, pos;
+d125615a4e2219 Dan Robertson   2021-05-14  895  	int ret = 0;
+b282a74faebc94 Kent Overstreet 2021-05-27  896  	unsigned bits = (c->opts.inodes_32bit ? 31 : 63);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  897  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  898  	u64 cursor_idx = c->opts.shard_inode_numbers ? cpu : 0;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  899  
+b282a74faebc94 Kent Overstreet 2021-05-27  900  	if (c->opts.shard_inode_numbers) {
+b282a74faebc94 Kent Overstreet 2021-05-27  901  		bits -= c->inode_shard_bits;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  902  
+b5e8a6992fb119 Kent Overstreet 2020-11-02  903  		min = (cpu << bits);
+b5e8a6992fb119 Kent Overstreet 2020-11-02  904  		max = (cpu << bits) | ~(ULLONG_MAX << bits);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  905  
+b5e8a6992fb119 Kent Overstreet 2020-11-02  906  		min = max_t(u64, min, BLOCKDEV_INODE_MAX);
+b282a74faebc94 Kent Overstreet 2021-05-27  907  	} else {
+b282a74faebc94 Kent Overstreet 2021-05-27  908  		min = BLOCKDEV_INODE_MAX;
+b282a74faebc94 Kent Overstreet 2021-05-27  909  		max = ~(ULLONG_MAX << bits);
+b282a74faebc94 Kent Overstreet 2021-05-27  910  	}
+45e4dcba79401d Kent Overstreet 2020-10-27  911  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  912  	struct btree_iter cursor_iter;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  913  	struct bkey_s_c cursor_k = bch2_bkey_get_iter(trans, &cursor_iter,
+a6c90193bc06c0 Kent Overstreet 2024-12-01  914  					BTREE_ID_logged_ops,
+a6c90193bc06c0 Kent Overstreet 2024-12-01  915  					POS(LOGGED_OPS_INUM_inode_cursors, cursor_idx),
+a6c90193bc06c0 Kent Overstreet 2024-12-01  916  					BTREE_ITER_cached);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  917  	ret = bkey_err(cursor_k);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  918  	if (ret)
+a6c90193bc06c0 Kent Overstreet 2024-12-01  919  		return ret;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  920  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  921  	struct bkey_i_inode_alloc_cursor *cursor =
+a6c90193bc06c0 Kent Overstreet 2024-12-01  922  		bch2_bkey_alloc(trans, &cursor_iter, 0, inode_alloc_cursor);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  923  	ret = PTR_ERR_OR_ZERO(cursor);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  924  	if (ret)
+a6c90193bc06c0 Kent Overstreet 2024-12-01  925  		goto cursor_err;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  926  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  927  	if (cursor_k.k->type == KEY_TYPE_inode_alloc_cursor) {
+a6c90193bc06c0 Kent Overstreet 2024-12-01  928  		cursor->v.idx = bkey_s_c_to_inode_alloc_cursor(cursor_k).v->idx;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  929  		cursor->v.gen = bkey_s_c_to_inode_alloc_cursor(cursor_k).v->gen;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  930  	} else {
+a6c90193bc06c0 Kent Overstreet 2024-12-01 @931  		cursor->v.idx = start;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  932  		cursor->v.gen = 0;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  933  	}
+a6c90193bc06c0 Kent Overstreet 2024-12-01  934  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  935  	bch2_trans_iter_exit(trans, &cursor_iter);
+b5e8a6992fb119 Kent Overstreet 2020-11-02  936  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  937  	if (le64_to_cpu(cursor->v.idx)  < min)
+a6c90193bc06c0 Kent Overstreet 2024-12-01  938  		cursor->v.idx = cpu_to_le64(min);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  939  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  940  	if (le64_to_cpu(cursor->v.idx) >= max) {
+a6c90193bc06c0 Kent Overstreet 2024-12-01  941  		cursor->v.idx = cpu_to_le64(min);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  942  		le64_add_cpu(&cursor->v.gen, 1);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  943  	}
+a6c90193bc06c0 Kent Overstreet 2024-12-01  944  
+a6c90193bc06c0 Kent Overstreet 2024-12-01  945  	pos = start = le64_to_cpu(cursor->v.idx);
+e6ae27272491af Kent Overstreet 2021-03-15  946  
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  947  	bch2_trans_iter_init(trans, iter, BTREE_ID_inodes, POS(0, pos),
+5dd8c60e1e0448 Kent Overstreet 2024-04-07  948  			     BTREE_ITER_all_snapshots|
+5dd8c60e1e0448 Kent Overstreet 2024-04-07  949  			     BTREE_ITER_intent);
+b5e8a6992fb119 Kent Overstreet 2020-11-02  950  again:
+e6ae27272491af Kent Overstreet 2021-03-15  951  	while ((k = bch2_btree_iter_peek(iter)).k &&
+e6ae27272491af Kent Overstreet 2021-03-15  952  	       !(ret = bkey_err(k)) &&
+e88a75ebe86c1d Kent Overstreet 2022-11-24  953  	       bkey_lt(k.k->p, POS(0, max))) {
+63a2edce9487b1 Kent Overstreet 2023-01-09  954  		if (pos < iter->pos.offset)
+e6ae27272491af Kent Overstreet 2021-03-15  955  			goto found_slot;
+e6ae27272491af Kent Overstreet 2021-03-15  956  
+b5e8a6992fb119 Kent Overstreet 2020-11-02  957  		/*
+e6ae27272491af Kent Overstreet 2021-03-15  958  		 * We don't need to iterate over keys in every snapshot once
+e6ae27272491af Kent Overstreet 2021-03-15  959  		 * we've found just one:
+b5e8a6992fb119 Kent Overstreet 2020-11-02  960  		 */
+e6ae27272491af Kent Overstreet 2021-03-15  961  		pos = iter->pos.offset + 1;
+e6ae27272491af Kent Overstreet 2021-03-15  962  		bch2_btree_iter_set_pos(iter, POS(0, pos));
+e6ae27272491af Kent Overstreet 2021-03-15  963  	}
+e6ae27272491af Kent Overstreet 2021-03-15  964  
+63a2edce9487b1 Kent Overstreet 2023-01-09  965  	if (!ret && pos < max)
+b5e8a6992fb119 Kent Overstreet 2020-11-02  966  		goto found_slot;
+e6ae27272491af Kent Overstreet 2021-03-15  967  
+e6ae27272491af Kent Overstreet 2021-03-15  968  	if (!ret && start == min)
+098ef98d5bff46 Kent Overstreet 2022-09-18  969  		ret = -BCH_ERR_ENOSPC_inode_create;
+45e4dcba79401d Kent Overstreet 2020-10-27  970  
+e6ae27272491af Kent Overstreet 2021-03-15  971  	if (ret) {
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  972  		bch2_trans_iter_exit(trans, iter);
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  973  		return ret;
+e6ae27272491af Kent Overstreet 2021-03-15  974  	}
+45e4dcba79401d Kent Overstreet 2020-10-27  975  
+b5e8a6992fb119 Kent Overstreet 2020-11-02  976  	/* Retry from start */
+e6ae27272491af Kent Overstreet 2021-03-15  977  	pos = start = min;
+e6ae27272491af Kent Overstreet 2021-03-15  978  	bch2_btree_iter_set_pos(iter, POS(0, pos));
+a6c90193bc06c0 Kent Overstreet 2024-12-01  979  	le64_add_cpu(&cursor->v.gen, 1);
+b5e8a6992fb119 Kent Overstreet 2020-11-02  980  	goto again;
+e6ae27272491af Kent Overstreet 2021-03-15  981  found_slot:
+e6ae27272491af Kent Overstreet 2021-03-15  982  	bch2_btree_iter_set_pos(iter, SPOS(0, pos, snapshot));
+e6ae27272491af Kent Overstreet 2021-03-15  983  	k = bch2_btree_iter_peek_slot(iter);
+e6ae27272491af Kent Overstreet 2021-03-15  984  	ret = bkey_err(k);
+e6ae27272491af Kent Overstreet 2021-03-15  985  	if (ret) {
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  986  		bch2_trans_iter_exit(trans, iter);
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  987  		return ret;
+b5e8a6992fb119 Kent Overstreet 2020-11-02  988  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  989  
+b5e8a6992fb119 Kent Overstreet 2020-11-02  990  	inode_u->bi_inum	= k.k->p.offset;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  991  	inode_u->bi_generation	= le64_to_cpu(cursor->v.gen);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  992  	cursor->v.idx		= cpu_to_le64(k.k->p.offset + 1);
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  993  	return 0;
+a6c90193bc06c0 Kent Overstreet 2024-12-01  994  cursor_err:
+a6c90193bc06c0 Kent Overstreet 2024-12-01  995  	bch2_trans_iter_exit(trans, &cursor_iter);
+a6c90193bc06c0 Kent Overstreet 2024-12-01  996  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  997  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  998  
 
 -- 
 0-DAY CI Kernel Test Service
