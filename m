@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F9B2943F
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 01:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDB4F9E6
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 01:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733102515; cv=none; b=eCzfYXUnYOGH9nZZ5z2fbNClKfdErngX0oTIgeYI6KXRPM01HOvG8Uvuoc97QC7UnkEuItGnBs8JgnS0ls78/41Td8kkDUcs2nhbNsOBeM30SI3Kk1nEs/qHzOqbZafVOYRkXkag8bcBNAHZY2lQ1uYcgQKUIOuRmJ4V1okMNEs=
+	t=1733102954; cv=none; b=dA4wlogViatxj9CL8KrYflyhl9VcZOR67w4N7J0rynboUQetETgIXILExehM/f/8hLVb4Q/TehUQduTYErIKwXbJ6wRpyYwEkXeGiP1vI2KelifguIpVDz0U2YZrI2ny/LaBtm23RIWIpyv8MKnjxwSBwL8IppcbTdhoSHaZGzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733102515; c=relaxed/simple;
-	bh=ulMGQXIZkKNoKrW9j/1oUEXMwYwAd0Cxb5eVyiUd7rc=;
+	s=arc-20240116; t=1733102954; c=relaxed/simple;
+	bh=5HFPr40AJ8gwALbphp+1zZmibK6Hg7JctmpVSllpnPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AW+oY4FhnHKuf2+JFHFh63fg4YPufjYPyOky61b1VovpWgdDLKwPIOfM2CodeBbjax7yC/z7fXh5qesJVVpwkrnRRtJ3gMIBRdQnE5XTo5IVwrdRCA7UZLIKsIznk42XEl19BJuswYnC69dBkrBVzg8sdNd0/Drox74IziD6XrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcwrhbCX; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=IOesztW2Qh+9ue2v2tCYzPAIjVp/is6KpX1OkQ+W/xT6SzdLgR9r5L67O2NLfcSeNh1FdNKweevEmYN947FS6GB6XoQGWF1ljfk9352Xi4CLGo3FEg3BoIlK35h31GcQieM14TBNU1k0fjmLRTgUJx9t8KxtcraSv0Z8G/MTS/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtMkiKs6; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcwrhbCX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtMkiKs6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733102513; x=1764638513;
+  t=1733102952; x=1764638952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ulMGQXIZkKNoKrW9j/1oUEXMwYwAd0Cxb5eVyiUd7rc=;
-  b=CcwrhbCXKTfIS24DjdFxX3iCOfqg/8GAI70YGJkiytCUY7PL0qQWpvs+
-   U+9+T66ShunXo4X11X1QHgYkV19l0RUKQ0pIqYYcJg9BFfKf94K9NhSz0
-   j8VGenhg4p8HAcFf9xA6c2RnTpmyV5L4kel7IAiZ8EPIMrIgUElVNNx+a
-   b5On9FiznxbiDxUT8uxOuvxpiQcHdyVCHcueli3puiCmNyFHSc/BRhlNC
-   kexq+oHZgUMur1MAdViig0D3MGj+oQ5E1nC0c2VGTXfLWuV7oZz+/yYvy
-   irKM3pg6MvU6l/Ja8BYrxrchRkAk2IhNQG+RhY9J2sZGGlNh2xQtAH3fB
-   Q==;
-X-CSE-ConnectionGUID: UY986IN+QQ+TnHGZPN47Ng==
-X-CSE-MsgGUID: 6GO0xxZKSLekPv0B6DIl3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="50670393"
+  bh=5HFPr40AJ8gwALbphp+1zZmibK6Hg7JctmpVSllpnPU=;
+  b=BtMkiKs6kdB7LJNBvieTuVF1ld11wGKb0IH2qv3nmAIMDd7FNLFAI3is
+   4e8ewPHkBgbUFsMXrcHbgDLdRf5xXCAt/XfvxqQHEGiSjpTq0Y2jSu8rR
+   FmrVomftBeX3QKgsdPeuujD+4OsIpsv/VvXcRIQe47bcZ505QmwC8EezX
+   XHg3l0L3IPCH/HYXZyY9+sGPs4dtneBJ6VpNlYYP2xFrgVFNW6GvUA+50
+   Ldjmn2HjvbORVuTjyU29sEpBLmzPSfwWKuEi1eI4QrR1GFImdHG1vNit0
+   aSYPLNVOSQV/R8EBxXmJ3KVHDalGs8GQiKFDwbFreeZSDjx23ch4SyxL5
+   g==;
+X-CSE-ConnectionGUID: KOYDLi4lRJued43Rx5zBRw==
+X-CSE-MsgGUID: 1XbEC+gbS+G8RBP86ptPQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33002479"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="50670393"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 17:21:53 -0800
-X-CSE-ConnectionGUID: IWlUr9qTTh+D6t74Mnad3A==
-X-CSE-MsgGUID: p4Dy21VbSbGcyE3xc99WzA==
+   d="scan'208";a="33002479"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 17:29:11 -0800
+X-CSE-ConnectionGUID: 1qV/qAykQtOahlWk7+sbTg==
+X-CSE-MsgGUID: vwvhhkHxTVaPYbB9sMbtNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93800806"
+   d="scan'208";a="97737102"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2024 17:21:52 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2024 17:29:11 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHv7n-0001z6-3B;
-	Mon, 02 Dec 2024 01:21:22 +0000
-Date: Mon, 2 Dec 2024 09:18:17 +0800
+	id 1tHvFL-0001zV-2c;
+	Mon, 02 Dec 2024 01:29:07 +0000
+Date: Mon, 2 Dec 2024 09:28:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pinctrl/pinctrl-amd.c:468:3-5: opportunity for
- str_enable_disable(on)
-Message-ID: <202412020908.DxdITRnB-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/mips/boot/dts/ralink/rt2880.dtsi:8.9-10.5: Warning
+ (unit_address_vs_reg): /cpus/cpu@0: node has a unit name, but no reg or
+ ranges property
+Message-ID: <202412020922.vE1Y4yqn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,65 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Rob Herring <robh@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-commit: acd47b9f28e55b505aedb842131b40904e151d7c pinctrl: amd: Handle wake-up interrupt
-date:   3 years, 3 months ago
+commit: 3e95dfb315de27bb6c6d7012659e396eb5b91e5e dt-bindings: Don't error out on yamllint and dt-doc-validate errors
+date:   4 years ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 3 years, 3 months ago
-config: i386-randconfig-054-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020908.DxdITRnB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: commit date: 4 years ago
+config: mips-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241202/202412020922.vE1Y4yqn-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020922.vE1Y4yqn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412020908.DxdITRnB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412020922.vE1Y4yqn-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/pinctrl-amd.c:468:3-5: opportunity for str_enable_disable(on)
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/mips/boot/dts/ralink/rt2880.dtsi:8.9-10.5: Warning (unit_address_vs_reg): /cpus/cpu@0: node has a unit name, but no reg or ranges property
+--
+>> arch/mips/boot/dts/ralink/rt3883.dtsi:8.9-10.5: Warning (unit_address_vs_reg): /cpus/cpu@0: node has a unit name, but no reg or ranges property
+--
+>> arch/mips/boot/dts/ralink/mt7620a.dtsi:8.9-10.5: Warning (unit_address_vs_reg): /cpus/cpu@0: node has a unit name, but no reg or ranges property
 
-vim +468 drivers/pinctrl/pinctrl-amd.c
+vim +8 arch/mips/boot/dts/ralink/rt2880.dtsi
 
-dbad75dd1f25e0 Ken Xue           2015-03-10  440  
-d62bd5ce12d79b Raul E Rangel     2021-04-29  441  static int amd_gpio_irq_set_wake(struct irq_data *d, unsigned int on)
-d62bd5ce12d79b Raul E Rangel     2021-04-29  442  {
-d62bd5ce12d79b Raul E Rangel     2021-04-29  443  	u32 pin_reg;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  444  	unsigned long flags;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  445  	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-d62bd5ce12d79b Raul E Rangel     2021-04-29  446  	struct amd_gpio *gpio_dev = gpiochip_get_data(gc);
-c4b68e513953c3 Mario Limonciello 2021-08-09  447  	u32 wake_mask = BIT(WAKE_CNTRL_OFF_S0I3) | BIT(WAKE_CNTRL_OFF_S3);
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  448  	int err;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  449  
-d62bd5ce12d79b Raul E Rangel     2021-04-29  450  	raw_spin_lock_irqsave(&gpio_dev->lock, flags);
-d62bd5ce12d79b Raul E Rangel     2021-04-29  451  	pin_reg = readl(gpio_dev->base + (d->hwirq)*4);
-d62bd5ce12d79b Raul E Rangel     2021-04-29  452  
-d62bd5ce12d79b Raul E Rangel     2021-04-29  453  	if (on)
-d62bd5ce12d79b Raul E Rangel     2021-04-29  454  		pin_reg |= wake_mask;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  455  	else
-d62bd5ce12d79b Raul E Rangel     2021-04-29  456  		pin_reg &= ~wake_mask;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  457  
-d62bd5ce12d79b Raul E Rangel     2021-04-29  458  	writel(pin_reg, gpio_dev->base + (d->hwirq)*4);
-d62bd5ce12d79b Raul E Rangel     2021-04-29  459  	raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
-d62bd5ce12d79b Raul E Rangel     2021-04-29  460  
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  461  	if (on)
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  462  		err = enable_irq_wake(gpio_dev->irq);
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  463  	else
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  464  		err = disable_irq_wake(gpio_dev->irq);
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  465  
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  466  	if (err)
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  467  		dev_err(&gpio_dev->pdev->dev, "failed to %s wake-up interrupt\n",
-acd47b9f28e55b Basavaraj Natikar 2021-08-31 @468  			on ? "enable" : "disable");
-acd47b9f28e55b Basavaraj Natikar 2021-08-31  469  
-d62bd5ce12d79b Raul E Rangel     2021-04-29  470  	return 0;
-d62bd5ce12d79b Raul E Rangel     2021-04-29  471  }
-d62bd5ce12d79b Raul E Rangel     2021-04-29  472  
+d99e19c799a6b4 arch/mips/ralink/dts/rt2880.dtsi John Crispin 2013-04-12 @8  		cpu@0 {
+
+:::::: The code at line 8 was first introduced by commit
+:::::: d99e19c799a6b48a5c6d733f5885862df5c77c70 DT: MIPS: ralink: add RT2880 dts files
+
+:::::: TO: John Crispin <blogic@openwrt.org>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
