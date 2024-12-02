@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3EA1DE892
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 19:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113EE1DE8A7
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 20:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733168702; cv=none; b=L2lecK3DZkOmQxkopph+Hi2SzrKJ/Kca18KjHiZ3njebY7Ti7IiluW9ADKeR/3p+EuMu+Ds2DTbMB2zKXx2jeKsPLaij/ifOwkM5423JbbvSbWYHer47NX8Ahx0jH6x0EdfCHgqa+GLkO24z3JH2KRvZbewp3CsmR8pB/lRjJj4=
+	t=1733171830; cv=none; b=K505jKkenFaqD5AxVgZaT+6A26e96qbB0IaFoEjT7nqZxzTfIrsMGsVJeydwPeIls5i5I5Tqh0704E3GQIe0SdljCQSXy7wK8gcL0Qvdioe6uM6w+kAB4B88ZSuDPJ9HqOEBKzdnjSlO8bk/6L4YGRSEApySQ+fqt3wOAeVFdyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733168702; c=relaxed/simple;
-	bh=egfEN1MgwX77QeDHrc11FsDYQxIprzSaSqh1kBB49FI=;
+	s=arc-20240116; t=1733171830; c=relaxed/simple;
+	bh=Dcv+L45LthErr/6YB4ddcP7JsH67+VuNo0HlDx4FpVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ErVdROEIyj/p0Kqk3FQQxL8/5iZiUeO6GZw7gvgVw5RX98HoaqVnM34cpswMpZ3B34fBMY/8JVD/68c5yLArambE7XlQrjLdYePboY55cnRQRZCMmgY5KGYIxf9h8SeT0q5AHeHP1qaR7DxrdPtaE51dIKkmPcWn0PwEhgSR2pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gK/R6QfV; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=cBLBGZeYWred6mU2CpqGXD5I/sWuSX6jZ2Fut8q1iN1wTvUM7KLFPa8AFbW3srtaMtEonA78Rszas1YY8xiRcCdeQgW/2tCk6WPNrekN1ES7BP7jHr4N0T4FHWcf/A7bqmUJzKkIrBV31qRk2xH67YsScw5viNG5Fin8nFkBX4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnLScrDq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gK/R6QfV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnLScrDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733168700; x=1764704700;
+  t=1733171828; x=1764707828;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=egfEN1MgwX77QeDHrc11FsDYQxIprzSaSqh1kBB49FI=;
-  b=gK/R6QfVUKA8JbMyFk2enLvff3j5CKhl4B/bd0DsO8rY6saVEtc7w/oA
-   tv8s+Q5w4Q1WIMDemnL3Ydt4kgVMiAf6CxlDQ2TRJjWE1irdrnIAV0M1N
-   TGNUAtqFP1YrL7qnx0ThcixQ8AEXP08hHOCGHzXxxI8dON+oBMNgQx3b+
-   +37y/Yyv3v79VtZcc+P7r88ucvJUZ3/B5QIL2twob6hHv+le/pnrdpih2
-   qZhV8K8cxPyDFdM3ebVW5n11RlDonj6lnjwvfp6hhVD7rrI7I6nVOXYpS
-   tlKrTKZ+R1VeQABZkrwKUMr0RArwMC6o/2RxrGzTaDeTQvf/cSiZtNjJr
-   g==;
-X-CSE-ConnectionGUID: //6drt39ReOwwlDHK/tOpQ==
-X-CSE-MsgGUID: 006fsEKzQ82ZcvLKok38Ig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33098917"
+  bh=Dcv+L45LthErr/6YB4ddcP7JsH67+VuNo0HlDx4FpVc=;
+  b=ZnLScrDqTUtpx6D72nYt9BGg6XJnm7aFvB1yYQsgYK3Pf+lJZBXAGlBC
+   4Z4/04IlvZobUBm2wKGv5yQM30xPvQpQsJVkjsYKXHV+hLtNzvXVxviKK
+   14jx40Foli2Bjp/oaajYPtrJctEBKEV4YC+iYZY7ugmyQjV06CwDSdQfV
+   AnVcZRfhHTfxdnK37HcyTfgn9eT1g1MUhnmc/tPW1l5EW0F2PKfB6EZiF
+   ArnfKd976FyoEabEd6ogolcK/oIBlYQQxWybW0wUEKHHXK+wYsqhmCuMX
+   haJ89XPQpOUjVEmUa07xnEqgXJkiD727UeFv2OsNvqGho3BwvASuyAZxU
+   A==;
+X-CSE-ConnectionGUID: vNjHVPcTTEWxaFMIiDW/qw==
+X-CSE-MsgGUID: cMJoMJobRDKzyG/6V4I7VA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33490973"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="33098917"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 11:45:00 -0800
-X-CSE-ConnectionGUID: NUWWilL9TKa2p29FKs5ozg==
-X-CSE-MsgGUID: 228sHhZ4TTKw357CBYGmkQ==
+   d="scan'208";a="33490973"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 12:37:07 -0800
+X-CSE-ConnectionGUID: PLA1CfmUQgG5AsV78ZC8LQ==
+X-CSE-MsgGUID: Bjr6/KSpQES2MFj67JwzAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="97636650"
+   d="scan'208";a="93308142"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 11:44:58 -0800
+  by orviesa006.jf.intel.com with ESMTP; 02 Dec 2024 12:37:06 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tICLU-0002pk-0U;
-	Mon, 02 Dec 2024 19:44:45 +0000
-Date: Tue, 3 Dec 2024 03:42:24 +0800
+	id 1tID9u-0002sG-2o;
+	Mon, 02 Dec 2024 20:36:46 +0000
+Date: Tue, 3 Dec 2024 04:34:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/scsi/qedi/qedi_main.c:924 qedi_get_boot_tgt_info() error:
- snprintf() chops off the last chars of
- 'block->target[index]->target_name.byte': 256 vs 255
-Message-ID: <202412030334.S8d3ITeg-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:OLK-6.6 1455/1455] arch/loongarch/kernel/efi.c:220:5-11:
+ WARNING: Unsigned expression compared with zero: status < 0
+Message-ID: <202412030419.eW5bmks2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,57 +64,52 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Manish Rangankar <mrangankar@marvell.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Lee Duncan <lduncan@suse.com>
+TO: kernel@openeuler.org
+TO: Hongchen Zhang <zhanghongchen@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 2f1ea39870c95aa9fff6a0b48757625a0b22f551 scsi: qedi: Remove additional char from boot target iqnname
-date:   4 years, 8 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 4 years, 8 months ago
-config: i386-randconfig-141-20241120 (https://download.01.org/0day-ci/archive/20241203/202412030334.S8d3ITeg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   9809e40d1abbcdf278f3db91f03a94507bdbb442
+commit: 221e2e8bdbb851a519df0bac5a44298dae2b4612 [1455/1455] LoongArch: add kernel setvirtmap for runtime
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year ago
+config: loongarch-randconfig-r053-20241112 (https://download.01.org/0day-ci/archive/20241203/202412030419.eW5bmks2-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412030334.S8d3ITeg-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412030419.eW5bmks2-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/qedi/qedi_main.c:924 qedi_get_boot_tgt_info() error: snprintf() chops off the last chars of 'block->target[index]->target_name.byte': 256 vs 255
+cocci warnings: (new ones prefixed by >>)
+>> arch/loongarch/kernel/efi.c:220:5-11: WARNING: Unsigned expression compared with zero: status < 0
 
-Old smatch warnings:
-drivers/scsi/qedi/qedi_main.c:956 qedi_find_boot_info() warn: returning -1 instead of -ENOMEM is sloppy
-drivers/scsi/qedi/qedi_main.c:1607 qedi_alloc_global_queues() warn: missing error code 'status'
+vim +220 arch/loongarch/kernel/efi.c
 
-vim +924 drivers/scsi/qedi/qedi_main.c
-
-ace7f46ba5fde7 Manish Rangankar 2016-12-01  915  
-534bbdf8832ae4 Manish Rangankar 2018-05-22  916  static void qedi_get_boot_tgt_info(struct nvm_iscsi_block *block,
-534bbdf8832ae4 Manish Rangankar 2018-05-22  917  				   struct qedi_boot_target *tgt, u8 index)
-534bbdf8832ae4 Manish Rangankar 2018-05-22  918  {
-534bbdf8832ae4 Manish Rangankar 2018-05-22  919  	u32 ipv6_en;
-534bbdf8832ae4 Manish Rangankar 2018-05-22  920  
-534bbdf8832ae4 Manish Rangankar 2018-05-22  921  	ipv6_en = !!(block->generic.ctrl_flags &
-534bbdf8832ae4 Manish Rangankar 2018-05-22  922  		     NVM_ISCSI_CFG_GEN_IPV6_ENABLED);
-534bbdf8832ae4 Manish Rangankar 2018-05-22  923  
-2f1ea39870c95a Manish Rangankar 2020-04-07 @924  	snprintf(tgt->iscsi_name, sizeof(tgt->iscsi_name), "%s",
-534bbdf8832ae4 Manish Rangankar 2018-05-22  925  		 block->target[index].target_name.byte);
-534bbdf8832ae4 Manish Rangankar 2018-05-22  926  
-534bbdf8832ae4 Manish Rangankar 2018-05-22  927  	tgt->ipv6_en = ipv6_en;
-534bbdf8832ae4 Manish Rangankar 2018-05-22  928  
-534bbdf8832ae4 Manish Rangankar 2018-05-22  929  	if (ipv6_en)
-534bbdf8832ae4 Manish Rangankar 2018-05-22  930  		snprintf(tgt->ip_addr, IPV6_LEN, "%pI6\n",
-534bbdf8832ae4 Manish Rangankar 2018-05-22  931  			 block->target[index].ipv6_addr.byte);
-534bbdf8832ae4 Manish Rangankar 2018-05-22  932  	else
-534bbdf8832ae4 Manish Rangankar 2018-05-22  933  		snprintf(tgt->ip_addr, IPV4_LEN, "%pI4\n",
-534bbdf8832ae4 Manish Rangankar 2018-05-22  934  			 block->target[index].ipv4_addr.byte);
-534bbdf8832ae4 Manish Rangankar 2018-05-22  935  }
-534bbdf8832ae4 Manish Rangankar 2018-05-22  936  
+221e2e8bdbb851 liuyun      2023-12-02  206  
+628c3bb40e9a8c Huacai Chen 2022-05-31  207  void __init efi_runtime_init(void)
+628c3bb40e9a8c Huacai Chen 2022-05-31  208  {
+221e2e8bdbb851 liuyun      2023-12-02  209  	efi_status_t status;
+221e2e8bdbb851 liuyun      2023-12-02  210  
+88d4d957edc707 Binbin Zhou 2022-12-10  211  	if (!efi_enabled(EFI_BOOT) || !efi_systab->runtime)
+628c3bb40e9a8c Huacai Chen 2022-05-31  212  		return;
+628c3bb40e9a8c Huacai Chen 2022-05-31  213  
+628c3bb40e9a8c Huacai Chen 2022-05-31  214  	if (efi_runtime_disabled()) {
+628c3bb40e9a8c Huacai Chen 2022-05-31  215  		pr_info("EFI runtime services will be disabled.\n");
+628c3bb40e9a8c Huacai Chen 2022-05-31  216  		return;
+628c3bb40e9a8c Huacai Chen 2022-05-31  217  	}
+628c3bb40e9a8c Huacai Chen 2022-05-31  218  
+221e2e8bdbb851 liuyun      2023-12-02  219  	status = set_virtual_map();
+221e2e8bdbb851 liuyun      2023-12-02 @220  	if (status < 0)
+221e2e8bdbb851 liuyun      2023-12-02  221  		return;
+221e2e8bdbb851 liuyun      2023-12-02  222  
+221e2e8bdbb851 liuyun      2023-12-02  223  	efi.runtime = READ_ONCE(efi_systab->runtime);
+628c3bb40e9a8c Huacai Chen 2022-05-31  224  	efi.runtime_version = (unsigned int)efi.runtime->hdr.revision;
+628c3bb40e9a8c Huacai Chen 2022-05-31  225  
+628c3bb40e9a8c Huacai Chen 2022-05-31  226  	efi_native_runtime_setup();
+628c3bb40e9a8c Huacai Chen 2022-05-31  227  	set_bit(EFI_RUNTIME_SERVICES, &efi.flags);
+628c3bb40e9a8c Huacai Chen 2022-05-31  228  }
+628c3bb40e9a8c Huacai Chen 2022-05-31  229  
 
 -- 
 0-DAY CI Kernel Test Service
