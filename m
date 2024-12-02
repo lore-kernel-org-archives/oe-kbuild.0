@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894501A0726
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 16:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E881DAC97
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 17:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733156794; cv=none; b=KCY4VpuZTzMcgdae46+ghFHR1HFsfBKMMuqX6z8gzH19y01pQJhy6vB6LuS4339+C2neXnQM5GYg+RRMFVs5wIj0WFROO0VqKg5yZSRTrdPTVLH2byqIG26vlhEh5oED0Jpva6Tb28+rUPFMaKeY1f+njPCxXoXDx+rWh/eK5SE=
+	t=1733161695; cv=none; b=UO6GB/OS6P9qB6IHvL68xtppnX7jdXb1GJ9/Lfjh24bAVdSHVlW8dj2MyNA1MJvcjTbxBKkIODknS6i5NHIlGrRjV/ybTOkvZwtfClBre1Q8+M/56PtwUViYCTiUUoHEJG8OS0b+7nlHM+1V1pQgS8QSSK/PFOUz1pnu+/lfkK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733156794; c=relaxed/simple;
-	bh=hjUWT02YvGzr5i72fN1xQQJWp02bffd8Y8OGkh2quzg=;
+	s=arc-20240116; t=1733161695; c=relaxed/simple;
+	bh=x8jPwoVOScj3O8a8z0Ek0ktlvydokfzfotJFlJgKbRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rBMczc0fTrEHm3fYw3/jj09T8ehpYR5Zm3wx04F42hHworfRNrD+XwH2uhuOlrLWu0UO/QwNXM5dimO9hmZDRxJlVNRX+PncocTwmCUrOA0KwTDCqqGyKRwiCtzr9HQ75Ql4VEAeifaNnewi5tTV6ViFZEapKHQMka7KKLDyVFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZfRYeTo3; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=hXkJ091OXWL3hYiSbV3mCSKRlaDUbH+vkPEkK/Ln/buJL3WQselGdozb7WUGtAjNVawDqI6j1NLGpT1Q+3tC/plm6+vqWcgEDQtVdxap+M2NnrNRxE0q2Vy5SF158jZxpGBm4u44oIXw0t/MWmRiI1HMdymL2kEAF0gZG7BtAk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3+D6s+E; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZfRYeTo3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3+D6s+E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733156793; x=1764692793;
+  t=1733161694; x=1764697694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hjUWT02YvGzr5i72fN1xQQJWp02bffd8Y8OGkh2quzg=;
-  b=ZfRYeTo3zdeUS4Q73mx7qT7pr3WUTEd7zzkQFRqmZ5g/Bjo6pugYdqZx
-   7JKGGiKxj5ur3xbCGlNscbDq9oGoNUEC769IfhlwfJRW6iqPAcKwbcKp8
-   A594wyXVjcCRKQ5NMqBQQYkeMzY7VrPuFtxmq4dq+wLnQ7Kx/+Hna3X1z
-   qm7GEek4mYbjzS9sgiNY4WxRRdIANOkm+TxeYAufvy+L+mlkx5Om2Wi9X
-   LohHBx9MlPCZHwe7JKeVD+uv3EDQJGGBX5zcR8YYStbL5JX97Zf7mY3mW
-   tivoes9fpBzHzb+dRjtf9Vakqq47ibZ7oNjvecNR3BsIm1f+dNSA2XkHZ
+  bh=x8jPwoVOScj3O8a8z0Ek0ktlvydokfzfotJFlJgKbRA=;
+  b=J3+D6s+EBr49bEcfSgU2yCvsQ86KqNCFkW1WJTHQptIPjslgxIOTZKbB
+   nvML0iWD+0HhI5lQU9B+f3gB5PVGzkkF4tIDyi8yLA1MmmgEwGyvd+xBR
+   UANBpPYwyZNhELx0/r3+q28JCOGVjH65rBgJXfPMNjiK0jDLElCu1ycLM
+   /A3JikICGF3eo+X3IZfZVFz4eINtY2WOmQlzotN57MzTfJ8Zjg3qgItuI
+   Nl1L8l32gYb5IFx6VvQEhndUdEHOO/qZKSrIrjQzxHtrRFDKQ9HinsrbR
+   yG75srXEyGtcwyo5NlV8aZxkZWrVjlYAVsoWfQVcidu/e8OMKGivNIXPg
    w==;
-X-CSE-ConnectionGUID: 6QV+kesIQNO6+LnX/H3vUQ==
-X-CSE-MsgGUID: 4BholVYBTxW/2jk4iOL3cA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33260897"
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="33260897"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 08:26:31 -0800
-X-CSE-ConnectionGUID: R8R5tvQsQ/6nMf0hoKSqmQ==
-X-CSE-MsgGUID: X6AZUsuKT6KTAh+JpA8oZA==
+X-CSE-ConnectionGUID: BSSLpAHJTXuGIK82nzSbxg==
+X-CSE-MsgGUID: s1WddfS7SPisZ1NmZJf32g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33219638"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="33219638"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:48:13 -0800
+X-CSE-ConnectionGUID: j6KqBRcBQ5mK3+fPZciepg==
+X-CSE-MsgGUID: CNGWB3goREWel+bLBruZGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="97223888"
+X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
+   d="scan'208";a="93004461"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 08:26:30 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 02 Dec 2024 09:48:12 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI9FM-0002av-1M;
-	Mon, 02 Dec 2024 16:26:09 +0000
-Date: Tue, 3 Dec 2024 00:25:42 +0800
+	id 1tIAWn-0002gv-2F;
+	Mon, 02 Dec 2024 17:48:09 +0000
+Date: Tue, 3 Dec 2024 01:48:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [bcachefs:bcachefs-testing 173/173] fs/bcachefs/inode.c:931
- bch2_inode_create() error: uninitialized symbol 'start'.
-Message-ID: <202412030007.Zkc9PGnl-lkp@intel.com>
+Subject: Re: [PATCH] x86/cpu: Enable SD_ASYM_PACKING for PKG domain on
+ systems with AMD preferred cores
+Message-ID: <202412030147.iL04d26O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,144 +64,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Kent Overstreet <kent.overstreet@linux.dev>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20241202043724.3929062-1-superm1@kernel.org>
+References: <20241202043724.3929062-1-superm1@kernel.org>
+TO: Mario Limonciello <superm1@kernel.org>
+TO: Borislav Petkov <bp@alien8.de>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: "(maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\))" <x86@kernel.org>
+CC: "H . Peter Anvin" <hpa@zytor.com>
+CC: Mario Limonciello <mario.limonciello@amd.com>
+CC: "(open list:X86 ARCHITECTURE \(32-BIT AND 64-BIT\))" <linux-kernel@vger.kernel.org>
+CC: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+CC: Perry Yuan <perry.yuan@amd.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   a6c90193bc06c071ac00989791a284cf94def0e5
-commit: a6c90193bc06c071ac00989791a284cf94def0e5 [173/173] bcachefs: bcachefs_metadata_version_persistent_inode_cursors
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-161-20241202 (https://download.01.org/0day-ci/archive/20241203/202412030007.Zkc9PGnl-lkp@intel.com/config)
+Hi Mario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/x86-cpu-Enable-SD_ASYM_PACKING-for-PKG-domain-on-systems-with-AMD-preferred-cores/20241202-124012
+base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
+patch link:    https://lore.kernel.org/r/20241202043724.3929062-1-superm1%40kernel.org
+patch subject: [PATCH] x86/cpu: Enable SD_ASYM_PACKING for PKG domain on systems with AMD preferred cores
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-161-20241202 (https://download.01.org/0day-ci/archive/20241203/202412030147.iL04d26O-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412030007.Zkc9PGnl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412030147.iL04d26O-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/inode.c:931 bch2_inode_create() error: uninitialized symbol 'start'.
+arch/x86/kernel/smpboot.c:508 x86_die_flags() warn: statement has no effect 3
 
-vim +/start +931 fs/bcachefs/inode.c
+vim +508 arch/x86/kernel/smpboot.c
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  883  
-6fed42bb7750e2 Kent Overstreet 2021-03-16  884  /*
-6fed42bb7750e2 Kent Overstreet 2021-03-16  885   * This just finds an empty slot:
-6fed42bb7750e2 Kent Overstreet 2021-03-16  886   */
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  887  int bch2_inode_create(struct btree_trans *trans,
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  888  		      struct btree_iter *iter,
-e6ae27272491af Kent Overstreet 2021-03-15  889  		      struct bch_inode_unpacked *inode_u,
-bff796ae6539b5 Kent Overstreet 2021-05-28  890  		      u32 snapshot, u64 cpu)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  891  {
-45e4dcba79401d Kent Overstreet 2020-10-27  892  	struct bch_fs *c = trans->c;
-8b53852d0a80ec Kent Overstreet 2020-02-18  893  	struct bkey_s_c k;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  894  	u64 min, max, start, pos;
-d125615a4e2219 Dan Robertson   2021-05-14  895  	int ret = 0;
-b282a74faebc94 Kent Overstreet 2021-05-27  896  	unsigned bits = (c->opts.inodes_32bit ? 31 : 63);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  897  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  898  	u64 cursor_idx = c->opts.shard_inode_numbers ? cpu : 0;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  899  
-b282a74faebc94 Kent Overstreet 2021-05-27  900  	if (c->opts.shard_inode_numbers) {
-b282a74faebc94 Kent Overstreet 2021-05-27  901  		bits -= c->inode_shard_bits;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  902  
-b5e8a6992fb119 Kent Overstreet 2020-11-02  903  		min = (cpu << bits);
-b5e8a6992fb119 Kent Overstreet 2020-11-02  904  		max = (cpu << bits) | ~(ULLONG_MAX << bits);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  905  
-b5e8a6992fb119 Kent Overstreet 2020-11-02  906  		min = max_t(u64, min, BLOCKDEV_INODE_MAX);
-b282a74faebc94 Kent Overstreet 2021-05-27  907  	} else {
-b282a74faebc94 Kent Overstreet 2021-05-27  908  		min = BLOCKDEV_INODE_MAX;
-b282a74faebc94 Kent Overstreet 2021-05-27  909  		max = ~(ULLONG_MAX << bits);
-b282a74faebc94 Kent Overstreet 2021-05-27  910  	}
-45e4dcba79401d Kent Overstreet 2020-10-27  911  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  912  	struct btree_iter cursor_iter;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  913  	struct bkey_s_c cursor_k = bch2_bkey_get_iter(trans, &cursor_iter,
-a6c90193bc06c0 Kent Overstreet 2024-12-01  914  					BTREE_ID_logged_ops,
-a6c90193bc06c0 Kent Overstreet 2024-12-01  915  					POS(LOGGED_OPS_INUM_inode_cursors, cursor_idx),
-a6c90193bc06c0 Kent Overstreet 2024-12-01  916  					BTREE_ITER_cached);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  917  	ret = bkey_err(cursor_k);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  918  	if (ret)
-a6c90193bc06c0 Kent Overstreet 2024-12-01  919  		return ret;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  920  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  921  	struct bkey_i_inode_alloc_cursor *cursor =
-a6c90193bc06c0 Kent Overstreet 2024-12-01  922  		bch2_bkey_alloc(trans, &cursor_iter, 0, inode_alloc_cursor);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  923  	ret = PTR_ERR_OR_ZERO(cursor);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  924  	if (ret)
-a6c90193bc06c0 Kent Overstreet 2024-12-01  925  		goto cursor_err;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  926  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  927  	if (cursor_k.k->type == KEY_TYPE_inode_alloc_cursor) {
-a6c90193bc06c0 Kent Overstreet 2024-12-01  928  		cursor->v.idx = bkey_s_c_to_inode_alloc_cursor(cursor_k).v->idx;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  929  		cursor->v.gen = bkey_s_c_to_inode_alloc_cursor(cursor_k).v->gen;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  930  	} else {
-a6c90193bc06c0 Kent Overstreet 2024-12-01 @931  		cursor->v.idx = start;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  932  		cursor->v.gen = 0;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  933  	}
-a6c90193bc06c0 Kent Overstreet 2024-12-01  934  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  935  	bch2_trans_iter_exit(trans, &cursor_iter);
-b5e8a6992fb119 Kent Overstreet 2020-11-02  936  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  937  	if (le64_to_cpu(cursor->v.idx)  < min)
-a6c90193bc06c0 Kent Overstreet 2024-12-01  938  		cursor->v.idx = cpu_to_le64(min);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  939  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  940  	if (le64_to_cpu(cursor->v.idx) >= max) {
-a6c90193bc06c0 Kent Overstreet 2024-12-01  941  		cursor->v.idx = cpu_to_le64(min);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  942  		le64_add_cpu(&cursor->v.gen, 1);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  943  	}
-a6c90193bc06c0 Kent Overstreet 2024-12-01  944  
-a6c90193bc06c0 Kent Overstreet 2024-12-01  945  	pos = start = le64_to_cpu(cursor->v.idx);
-e6ae27272491af Kent Overstreet 2021-03-15  946  
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  947  	bch2_trans_iter_init(trans, iter, BTREE_ID_inodes, POS(0, pos),
-5dd8c60e1e0448 Kent Overstreet 2024-04-07  948  			     BTREE_ITER_all_snapshots|
-5dd8c60e1e0448 Kent Overstreet 2024-04-07  949  			     BTREE_ITER_intent);
-b5e8a6992fb119 Kent Overstreet 2020-11-02  950  again:
-e6ae27272491af Kent Overstreet 2021-03-15  951  	while ((k = bch2_btree_iter_peek(iter)).k &&
-e6ae27272491af Kent Overstreet 2021-03-15  952  	       !(ret = bkey_err(k)) &&
-e88a75ebe86c1d Kent Overstreet 2022-11-24  953  	       bkey_lt(k.k->p, POS(0, max))) {
-63a2edce9487b1 Kent Overstreet 2023-01-09  954  		if (pos < iter->pos.offset)
-e6ae27272491af Kent Overstreet 2021-03-15  955  			goto found_slot;
-e6ae27272491af Kent Overstreet 2021-03-15  956  
-b5e8a6992fb119 Kent Overstreet 2020-11-02  957  		/*
-e6ae27272491af Kent Overstreet 2021-03-15  958  		 * We don't need to iterate over keys in every snapshot once
-e6ae27272491af Kent Overstreet 2021-03-15  959  		 * we've found just one:
-b5e8a6992fb119 Kent Overstreet 2020-11-02  960  		 */
-e6ae27272491af Kent Overstreet 2021-03-15  961  		pos = iter->pos.offset + 1;
-e6ae27272491af Kent Overstreet 2021-03-15  962  		bch2_btree_iter_set_pos(iter, POS(0, pos));
-e6ae27272491af Kent Overstreet 2021-03-15  963  	}
-e6ae27272491af Kent Overstreet 2021-03-15  964  
-63a2edce9487b1 Kent Overstreet 2023-01-09  965  	if (!ret && pos < max)
-b5e8a6992fb119 Kent Overstreet 2020-11-02  966  		goto found_slot;
-e6ae27272491af Kent Overstreet 2021-03-15  967  
-e6ae27272491af Kent Overstreet 2021-03-15  968  	if (!ret && start == min)
-098ef98d5bff46 Kent Overstreet 2022-09-18  969  		ret = -BCH_ERR_ENOSPC_inode_create;
-45e4dcba79401d Kent Overstreet 2020-10-27  970  
-e6ae27272491af Kent Overstreet 2021-03-15  971  	if (ret) {
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  972  		bch2_trans_iter_exit(trans, iter);
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  973  		return ret;
-e6ae27272491af Kent Overstreet 2021-03-15  974  	}
-45e4dcba79401d Kent Overstreet 2020-10-27  975  
-b5e8a6992fb119 Kent Overstreet 2020-11-02  976  	/* Retry from start */
-e6ae27272491af Kent Overstreet 2021-03-15  977  	pos = start = min;
-e6ae27272491af Kent Overstreet 2021-03-15  978  	bch2_btree_iter_set_pos(iter, POS(0, pos));
-a6c90193bc06c0 Kent Overstreet 2024-12-01  979  	le64_add_cpu(&cursor->v.gen, 1);
-b5e8a6992fb119 Kent Overstreet 2020-11-02  980  	goto again;
-e6ae27272491af Kent Overstreet 2021-03-15  981  found_slot:
-e6ae27272491af Kent Overstreet 2021-03-15  982  	bch2_btree_iter_set_pos(iter, SPOS(0, pos, snapshot));
-e6ae27272491af Kent Overstreet 2021-03-15  983  	k = bch2_btree_iter_peek_slot(iter);
-e6ae27272491af Kent Overstreet 2021-03-15  984  	ret = bkey_err(k);
-e6ae27272491af Kent Overstreet 2021-03-15  985  	if (ret) {
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  986  		bch2_trans_iter_exit(trans, iter);
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  987  		return ret;
-b5e8a6992fb119 Kent Overstreet 2020-11-02  988  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  989  
-b5e8a6992fb119 Kent Overstreet 2020-11-02  990  	inode_u->bi_inum	= k.k->p.offset;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  991  	inode_u->bi_generation	= le64_to_cpu(cursor->v.gen);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  992  	cursor->v.idx		= cpu_to_le64(k.k->p.offset + 1);
-67e0dd8f0d8b4b Kent Overstreet 2021-08-30  993  	return 0;
-a6c90193bc06c0 Kent Overstreet 2024-12-01  994  cursor_err:
-a6c90193bc06c0 Kent Overstreet 2024-12-01  995  	bch2_trans_iter_exit(trans, &cursor_iter);
-a6c90193bc06c0 Kent Overstreet 2024-12-01  996  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  997  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  998  
+108af4b4bd3813 Ricardo Neri      2023-08-14  499  
+108af4b4bd3813 Ricardo Neri      2023-08-14  500  static int x86_die_flags(void)
+108af4b4bd3813 Ricardo Neri      2023-08-14  501  {
+d5fec370ef73d0 Mario Limonciello 2024-12-01  502  	if (cpu_feature_enabled(X86_FEATURE_HYBRID_CPU))
+108af4b4bd3813 Ricardo Neri      2023-08-14  503  		return x86_sched_itmt_flags();
+108af4b4bd3813 Ricardo Neri      2023-08-14  504  
+d5fec370ef73d0 Mario Limonciello 2024-12-01  505  	switch (boot_cpu_data.x86_vendor) {
+d5fec370ef73d0 Mario Limonciello 2024-12-01  506  	case X86_VENDOR_AMD:
+d5fec370ef73d0 Mario Limonciello 2024-12-01  507  	case X86_VENDOR_HYGON:
+d5fec370ef73d0 Mario Limonciello 2024-12-01 @508  		bool prefcore = false;
+d5fec370ef73d0 Mario Limonciello 2024-12-01  509  
+d5fec370ef73d0 Mario Limonciello 2024-12-01  510  		amd_detect_prefcore(&prefcore);
+d5fec370ef73d0 Mario Limonciello 2024-12-01  511  		if (prefcore || cpu_feature_enabled(X86_FEATURE_AMD_HETEROGENEOUS_CORES))
+d5fec370ef73d0 Mario Limonciello 2024-12-01  512  			return x86_sched_itmt_flags();
+d5fec370ef73d0 Mario Limonciello 2024-12-01  513  	};
+d5fec370ef73d0 Mario Limonciello 2024-12-01  514  
+108af4b4bd3813 Ricardo Neri      2023-08-14  515  	return 0;
+108af4b4bd3813 Ricardo Neri      2023-08-14  516  }
+d3d37d850d1d77 Tim Chen          2016-11-22  517  
 
 -- 
 0-DAY CI Kernel Test Service
