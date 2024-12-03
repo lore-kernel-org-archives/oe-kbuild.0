@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51806F2FE
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Dec 2024 05:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8476B190664
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Dec 2024 07:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733202101; cv=none; b=EYhknwO2JD5bqVaTZDCAp165Hkh+6EPFQSo1p7dzZ12cGkaK5KoE6KckJaqGJny/P9fJJagzTwLIOgLk1vaABRo0P1YR2atre2wWaoJ7mC6c3PIBTXgB9szj+DnyxijrptOBCQcGuDyVlo+BXwSNLPdEpm/pY4kPFm7EeKpACDw=
+	t=1733211661; cv=none; b=OeKK1i0E2xYbeERx+L6THFgVi+QdRtIFeWDriCHKCx+WnywcbL0BY+XMwzUm1yeYn0Fqo8jBPWpFNUbn721Vh/qAGxAxU43XSTuDcBU7vHnANny8bwRqobbZ0GuaJv7IffZO9qvzjznisFMFyKokxMZLldSWJh0uPGAYk6WUpXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733202101; c=relaxed/simple;
-	bh=grocGKBadiSa7gYcTg6ocNqCu7l0Sw6qC69yVppl+p8=;
+	s=arc-20240116; t=1733211661; c=relaxed/simple;
+	bh=cOx/vgEFwMgLMYnjgpLJUakYEclCa/tKhf5CbznT5dI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hkfXdpt/ZfXcSuceorfmhj7QuzFW29Fq99J4XT92U2as476NNwMixNv/fbYu2JIY7nrvz8SCMlsONBoyPG9tC4LfqKvkPmShqiNa2qsPNL/8ZZvTh3hDNzav08KvVrxF/4Z08Ykc0UODIQ7+Zg0E9dVsU0O8ggYf7i3oXzQPamk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCzbjNIZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=NgtL5IyxTx/TBV7lCRO6vWc95sVbKqQ5drimrFB8PsMnTLFJy6RV+UN8ThKTyCqvIjJfxVNL8dbfCBExrT5hTX901edwFXt8LwKgD63mqbLV2HmQpawGl6KNdhorT78rJNkAXolidoQ9XpFbcWx3z6iEjuuCKESwBhMJ/qyDm1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/jdHFIB; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCzbjNIZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/jdHFIB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733202099; x=1764738099;
+  t=1733211660; x=1764747660;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=grocGKBadiSa7gYcTg6ocNqCu7l0Sw6qC69yVppl+p8=;
-  b=CCzbjNIZFjmH9RCqY2ivg7dxAohZQqGXms0KVvENqC+x+reY0c8BZYub
-   6nP5kg0vUEAgwXxKf2jlreX1QW3Acbgpt2w73xKNMk7ERLhUgqbUteCo0
-   S5oLVEDoRSqZESSt2nvQTGBW+GfPpi7Q1Pau6XelvOx2yLpxYLGBtRYmx
-   xp7wysFzUe6i0omgIIsHJdQo2CkxsbSOWmz0sIV21ate2JdKcJhoFs8A0
-   lFeTuxjvyi8he9HeRL+zfDTBsUfuHXJjzjUKVsccRHAc2nw6m5ByL75os
-   taeK0AsmNWIuNZmuwDfvcLkuhRmdh8s7u36LZgbPq5lUFn/WPn/81jQrE
-   w==;
-X-CSE-ConnectionGUID: PvPuBx4HTpq05w9N2aNr+w==
-X-CSE-MsgGUID: YSn4NihHT3axdJfVeD9Q8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44011857"
+  bh=cOx/vgEFwMgLMYnjgpLJUakYEclCa/tKhf5CbznT5dI=;
+  b=W/jdHFIB2w9n1pj5vgNp6BBTLCN2Mubmy/tsLK05xNIa0jusdAp3GI8C
+   OZJiDwR8l/6cnEUekf+Lwel30cjOM5SJu7adYZkI+CeTdzuj3kcmhP6v5
+   2/ug6VeYB5KMUJn3Kh/demWzODkpA72nSxtf6HYMLcYLFPnOHs8ATAGBV
+   hfnSQGCEfcGHUKxSYOzUlNFvdFdGGu4L7dhBFo7hrJuWqR1zeBpifdN0c
+   fium35JCQPco53VOEAiv1irZUqrt0YRuBeoXBAjhPTfnLhbeChMQBTR9s
+   NZjtFrUJp6KSbx347yYDTHsHgiHxRa2UF+qa0rTuMJ6CAvopsa7fVd5RT
+   A==;
+X-CSE-ConnectionGUID: OWKcK5hwTnCmt92u3L1Ltw==
+X-CSE-MsgGUID: sz9PrPMtQU6ZLrO3jV3VIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33468503"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="44011857"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 21:01:37 -0800
-X-CSE-ConnectionGUID: jIUSg8GQSVCNxrbxy11zJw==
-X-CSE-MsgGUID: rP/v0cleTeeaRj0KTdBbNg==
+   d="scan'208";a="33468503"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 23:40:59 -0800
+X-CSE-ConnectionGUID: zBCInU55SUKOAskzXtjX/w==
+X-CSE-MsgGUID: ri7NMqeBQaiFPbbNuCkJTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="93210163"
+   d="scan'208";a="98126671"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 02 Dec 2024 21:01:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Dec 2024 23:40:59 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIL2T-00008R-1i;
-	Tue, 03 Dec 2024 05:01:33 +0000
-Date: Tue, 3 Dec 2024 13:00:42 +0800
+	id 1tINWh-0000IJ-1J;
+	Tue, 03 Dec 2024 07:40:55 +0000
+Date: Tue, 3 Dec 2024 15:40:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/firmware/cirrus/cs_dsp.c:486:6-18: opportunity for
- str_enabled_disabled(ctl -> enabled)
-Message-ID: <202412031258.TH91OMZC-lkp@intel.com>
+Subject: drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c:353:51-53:
+ opportunity for str_on_off(on)
+Message-ID: <202412031559.HWe1dA4v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,64 +65,48 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: James Ogletree <jogletre@opensource.cirrus.com>
-CC: Lee Jones <lee@kernel.org>
-CC: Jeff LaBundy <jeff@labundy.com>
+TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Caleb Connolly <caleb.connolly@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: cb626376cbd00cd69329371519a8e9568baef715 mfd: cs40l50: Add support for CS40L50 core driver
-date:   5 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-r054-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031258.TH91OMZC-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+commit: a4422ff221429c600c3dc5d0394fb3738b89d040 usb: typec: qcom: Add Qualcomm PMIC Type-C driver
+date:   1 year, 7 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 1 year, 7 months ago
+config: loongarch-randconfig-r062-20241111 (https://download.01.org/0day-ci/archive/20241203/202412031559.HWe1dA4v-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412031258.TH91OMZC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412031559.HWe1dA4v-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/firmware/cirrus/cs_dsp.c:486:6-18: opportunity for str_enabled_disabled(ctl -> enabled)
+>> drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c:353:51-53: opportunity for str_on_off(on)
 
-vim +486 drivers/firmware/cirrus/cs_dsp.c
+vim +353 drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_pdphy.c
 
-f6bc909e7673c30 Simon Trimmer 2021-09-13  466  
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  467  static int cs_dsp_coeff_base_reg(struct cs_dsp_coeff_ctl *ctl, unsigned int *reg,
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  468  				 unsigned int off);
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  469  
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  470  static int cs_dsp_debugfs_read_controls_show(struct seq_file *s, void *ignored)
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  471  {
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  472  	struct cs_dsp *dsp = s->private;
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  473  	struct cs_dsp_coeff_ctl *ctl;
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  474  	unsigned int reg;
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  475  
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  476  	list_for_each_entry(ctl, &dsp->ctl_list, list) {
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  477  		cs_dsp_coeff_base_reg(ctl, &reg, 0);
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  478  		seq_printf(s, "%22.*s: %#8zx %s:%08x %#8x %s %#8x %#4x %c%c%c%c %s %s\n",
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  479  			   ctl->subname_len, ctl->subname, ctl->len,
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  480  			   cs_dsp_mem_region_name(ctl->alg_region.type),
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  481  			   ctl->offset, reg, ctl->fw_name, ctl->alg_region.alg, ctl->type,
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  482  			   ctl->flags & WMFW_CTL_FLAG_VOLATILE ? 'V' : '-',
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  483  			   ctl->flags & WMFW_CTL_FLAG_SYS ? 'S' : '-',
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  484  			   ctl->flags & WMFW_CTL_FLAG_READABLE ? 'R' : '-',
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  485  			   ctl->flags & WMFW_CTL_FLAG_WRITEABLE ? 'W' : '-',
-7a3f924cee4bdfe Simon Trimmer 2023-03-28 @486  			   ctl->enabled ? "enabled" : "disabled",
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  487  			   ctl->set ? "dirty" : "clean");
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  488  	}
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  489  
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  490  	return 0;
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  491  }
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  492  DEFINE_SHOW_ATTRIBUTE(cs_dsp_debugfs_read_controls);
-7a3f924cee4bdfe Simon Trimmer 2023-03-28  493  
-
-:::::: The code at line 486 was first introduced by commit
-:::::: 7a3f924cee4bdfe85eda4e636213e79d3fda6182 firmware: cs_dsp: Add a debugfs entry containing control details
-
-:::::: TO: Simon Trimmer <simont@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+a4422ff221429c Bryan O'Donoghue 2023-05-08  340  
+a4422ff221429c Bryan O'Donoghue 2023-05-08  341  int qcom_pmic_typec_pdphy_set_pd_rx(struct pmic_typec_pdphy *pmic_typec_pdphy, bool on)
+a4422ff221429c Bryan O'Donoghue 2023-05-08  342  {
+a4422ff221429c Bryan O'Donoghue 2023-05-08  343  	unsigned long flags;
+a4422ff221429c Bryan O'Donoghue 2023-05-08  344  	int ret;
+a4422ff221429c Bryan O'Donoghue 2023-05-08  345  
+a4422ff221429c Bryan O'Donoghue 2023-05-08  346  	spin_lock_irqsave(&pmic_typec_pdphy->lock, flags);
+a4422ff221429c Bryan O'Donoghue 2023-05-08  347  
+a4422ff221429c Bryan O'Donoghue 2023-05-08  348  	ret = regmap_write(pmic_typec_pdphy->regmap,
+a4422ff221429c Bryan O'Donoghue 2023-05-08  349  			   pmic_typec_pdphy->base + USB_PDPHY_RX_ACKNOWLEDGE_REG, !on);
+a4422ff221429c Bryan O'Donoghue 2023-05-08  350  
+a4422ff221429c Bryan O'Donoghue 2023-05-08  351  	spin_unlock_irqrestore(&pmic_typec_pdphy->lock, flags);
+a4422ff221429c Bryan O'Donoghue 2023-05-08  352  
+a4422ff221429c Bryan O'Donoghue 2023-05-08 @353  	dev_dbg(pmic_typec_pdphy->dev, "set_pd_rx: %s\n", on ? "on" : "off");
+a4422ff221429c Bryan O'Donoghue 2023-05-08  354  
+a4422ff221429c Bryan O'Donoghue 2023-05-08  355  	return ret;
+a4422ff221429c Bryan O'Donoghue 2023-05-08  356  }
+a4422ff221429c Bryan O'Donoghue 2023-05-08  357  
 
 -- 
 0-DAY CI Kernel Test Service
