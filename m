@@ -1,123 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE6A1DB940
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Dec 2024 22:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF724C60B
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Dec 2024 01:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733179793; cv=none; b=uawCKcH3HolfC9XvsaRnJmBATGzdBqt9NTffEivkXURZcPUkyiAmRCwXXb9hxkRM5ADiGji4NKLY1iD9TP5fSTu1KCiTfKJwxReCRBBN1uu0hfyYTGxiHpHJMGYcqHr2P51bx3EtW40QGB9eLU9VU9zeiU+U7PodP15GQVCp9nk=
+	t=1733187784; cv=none; b=TB4czBqNdb+Lf97LOjvAMztyai2m/g7yBh9hY10YPG+U/jqzAhidTIi1dq2g2s22uZ9USRJClGfdai4zGrXDLNOX7e032F7P3OQCQz6gmSqesvG1TOA6BQWRaEvecvP/9UpfGg9yNvGSF3+Pi6uem37bI3DxPC68XvyEGLX7dLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733179793; c=relaxed/simple;
-	bh=gekG+aZy6xj0HnL7NJCj88kTncrh8qYC22B/eaVeNuQ=;
+	s=arc-20240116; t=1733187784; c=relaxed/simple;
+	bh=6H3yGzuaUiFrYI0UVUBpjLL0YyRUKtAC1C/e11Txo4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AjESN1zGpcV8abMFMDgIzc5puq/8Ymnx2idWjej696k3RR0bdXcg+Ml5m8+jwJ+ZdA1WE3JAVdCE4AgQqBvgCdfUdD+rWOfKQVRd1ePuZ0CSwo5E4VUApBFxXhE2YqB8k0iDBdR8cj1Pd9eZhvx3GJb8LykX2e3b7DnfBxcxI1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsD3I+a6; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=eRS/9m7ep3chgf2bbUaj1OybXRDKQNB4uP7kPGraBmksVWbKZ1yjbLUEMEWNUU+1epeLgSkBWir6OMIEgxKJqu/I3XMNtrUIYlBqv0iy/jnZMMzbUOhby0FsOiU/fWG/cDh0YrlRHBocFofR8c2wCAXp/ABpEb3Z6xF/wlsUE9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQ1Kvyt1; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsD3I+a6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQ1Kvyt1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733179791; x=1764715791;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gekG+aZy6xj0HnL7NJCj88kTncrh8qYC22B/eaVeNuQ=;
-  b=BsD3I+a6igrL/H6EEnvbxSw/NZpZxH04lIfjWvRaV0RtANUBJ32sJR6k
-   eTb3m2QcKG3WZGmAJM5hmRBFSpBbtRFyqkQDITZl8ayzsBRAh+Qjos4lR
-   78J2tGOZb/7dRNsRE3QFyGAFKulY/l0mlWAJvOSHe0bQJEN0mSluhp7e5
-   kkQSAPnj0RsHi64bgotbjNwpl240SYrZsCMwvmgWPnqvx5VS8SFZ+MNpL
-   tuzqueqnag7Jtbk8V/CPj4bY+ae4tylOCpsxLa0FkvwhHeXvw1CzhQKx+
-   4B+0hEhGwI6HvqTOewtSc7BZVZxP15tWOII1HZahLlNzK+6VKviC7cm+Q
+  t=1733187783; x=1764723783;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6H3yGzuaUiFrYI0UVUBpjLL0YyRUKtAC1C/e11Txo4A=;
+  b=bQ1Kvyt123wHCVFMLYJuY5Q7EkzSj4yL+I31eMV5hKSpqgQPex1w/txr
+   +7smKuP7KSRzPNJ7ucazuIqjR76ppfQTHzq/81Wp+vDPBZTys8GXqb1GX
+   EOc4MZFCEhjrgJt29zoNufzTmT5KiDATTxNTWhiCel4wiOusLBsvve3PW
+   v0naFdT10QtEyRS2ehArJn+dPT8JKDmMuQAYZ7bUVLOLSWaJ0Fep2V/go
+   frWiBTR8/6XI53HyDrNhBX8/TprPnIBZweLsorXBS7Kfi2PxzScUaOSHR
+   ezVMv0OxIrrGPUsDmP2e9hQt9lXrNNhDn6RP0UTDl2BjL8UyWiUlJr82V
    Q==;
-X-CSE-ConnectionGUID: qSXFXMu7RmmoyrxYQuX3fA==
-X-CSE-MsgGUID: zLibneGgSfWsdsfeYctIUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="55860493"
+X-CSE-ConnectionGUID: QcyY6uzJRv6urAPh/jXD4w==
+X-CSE-MsgGUID: yootI/ywTkmh10M4IC9hFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33512480"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="55860493"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:49:51 -0800
-X-CSE-ConnectionGUID: DWE+LasGQaCAgTXPAw1ziQ==
-X-CSE-MsgGUID: hRjRdz5rS3+1XBdPgQS/hw==
+   d="scan'208";a="33512480"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 17:02:59 -0800
+X-CSE-ConnectionGUID: ZDKv8xiFQ9mG0kr0OEAjcw==
+X-CSE-MsgGUID: Uros274mT4q5j3ST/EfwZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="92899914"
+   d="scan'208";a="93599360"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Dec 2024 14:49:49 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Dec 2024 17:02:52 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIFEb-0002zH-0g;
-	Mon, 02 Dec 2024 22:49:44 +0000
-Date: Tue, 3 Dec 2024 06:49:13 +0800
+	id 1tIHJR-00036B-1U;
+	Tue, 03 Dec 2024 01:02:49 +0000
+Date: Tue, 3 Dec 2024 09:02:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/sti/sti_mixer.c:341:32-38: opportunity for
- str_enable_disable(status)
-Message-ID: <202412030600.A9JtaQ1v-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/catpt/loader.c:654 catpt_first_boot_firmware() warn:
+ consider using resource_size() here
+Message-ID: <202412030801.p9QRPA6v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 74bde7581df3e18061119e1b27b63d0a9ea57b7a drm/sti: Allow build with COMPILE_TEST=y
-date:   6 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 6 months ago
-config: alpha-randconfig-r051-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030600.A9JtaQ1v-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
+head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
+commit: 6cbfa11d2694b8a1e46d6834fb9705d5589e3ef1 ASoC: Intel: Select catpt and deprecate haswell
+date:   4 years, 2 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 years, 2 months ago
+config: i386-randconfig-141-20241112 (https://download.01.org/0day-ci/archive/20241203/202412030801.p9QRPA6v-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412030600.A9JtaQ1v-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412030801.p9QRPA6v-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/sti/sti_mixer.c:341:32-38: opportunity for str_enable_disable(status)
+smatch warnings:
+sound/soc/intel/catpt/loader.c:654 catpt_first_boot_firmware() warn: consider using resource_size() here
 
-vim +341 drivers/gpu/drm/sti/sti_mixer.c
+vim +654 sound/soc/intel/catpt/loader.c
 
-e21e21939ce003 Benjamin Gaignard 2014-07-28  335  
-871bcdfea68560 Vincent Abriou    2015-07-31  336  int sti_mixer_set_plane_status(struct sti_mixer *mixer,
-871bcdfea68560 Vincent Abriou    2015-07-31  337  			       struct sti_plane *plane, bool status)
-e21e21939ce003 Benjamin Gaignard 2014-07-28  338  {
-e21e21939ce003 Benjamin Gaignard 2014-07-28  339  	u32 mask, val;
-e21e21939ce003 Benjamin Gaignard 2014-07-28  340  
-d219673d8437ff Benjamin Gaignard 2014-07-30 @341  	DRM_DEBUG_DRIVER("%s %s %s\n", status ? "enable" : "disable",
-871bcdfea68560 Vincent Abriou    2015-07-31  342  			 sti_mixer_to_str(mixer), sti_plane_to_str(plane));
-d219673d8437ff Benjamin Gaignard 2014-07-30  343  
-871bcdfea68560 Vincent Abriou    2015-07-31  344  	mask = sti_mixer_get_plane_mask(plane);
-e21e21939ce003 Benjamin Gaignard 2014-07-28  345  	if (!mask) {
-871bcdfea68560 Vincent Abriou    2015-07-31  346  		DRM_ERROR("Can't find layer mask\n");
-e21e21939ce003 Benjamin Gaignard 2014-07-28  347  		return -EINVAL;
-e21e21939ce003 Benjamin Gaignard 2014-07-28  348  	}
-e21e21939ce003 Benjamin Gaignard 2014-07-28  349  
-e21e21939ce003 Benjamin Gaignard 2014-07-28  350  	val = sti_mixer_reg_read(mixer, GAM_MIXER_CTL);
-e21e21939ce003 Benjamin Gaignard 2014-07-28  351  	val &= ~mask;
-e21e21939ce003 Benjamin Gaignard 2014-07-28  352  	val |= status ? mask : 0;
-e21e21939ce003 Benjamin Gaignard 2014-07-28  353  	sti_mixer_reg_write(mixer, GAM_MIXER_CTL, val);
-e21e21939ce003 Benjamin Gaignard 2014-07-28  354  
-e21e21939ce003 Benjamin Gaignard 2014-07-28  355  	return 0;
-e21e21939ce003 Benjamin Gaignard 2014-07-28  356  }
-e21e21939ce003 Benjamin Gaignard 2014-07-28  357  
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  637  
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  638  int catpt_first_boot_firmware(struct catpt_dev *cdev)
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  639  {
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  640  	struct resource *res;
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  641  	int ret;
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  642  
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  643  	ret = catpt_boot_firmware(cdev, false);
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  644  	if (ret) {
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  645  		dev_err(cdev->dev, "basefw boot failed: %d\n", ret);
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  646  		return ret;
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  647  	}
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  648  
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  649  	/* restrict FW Core dump area */
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  650  	__request_region(&cdev->dram, 0, 0x200, NULL, 0);
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  651  	/* restrict entire area following BASE_FW - highest offset in DRAM */
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  652  	for (res = cdev->dram.child; res->sibling; res = res->sibling)
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29  653  		;
+a9aa6fb3eb6c7e Cezary Rojewski 2020-09-29 @654  	__request_region(&cdev->dram, res->end + 1,
 
-:::::: The code at line 341 was first introduced by commit
-:::::: d219673d8437ff1073c11d30ac496fa42b09662c drm: sti: add Compositor
+:::::: The code at line 654 was first introduced by commit
+:::::: a9aa6fb3eb6c7e0e7e117b3f2dfafef8c45b9ea6 ASoC: Intel: catpt: Firmware loading and context restore
 
-:::::: TO: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+:::::: TO: Cezary Rojewski <cezary.rojewski@intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
