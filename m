@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E431E1C04
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CE51E1A3C
 	for <oe-kbuild@lists.linux.dev>; Tue,  3 Dec 2024 10:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733221531; cv=none; b=sajRu0H1zxd3MH8VPeG1LoVrMtf0YFPkWk/byQwNeVOsyvgCp+0RaghlzVWg5gznqmUbJpCsXtonQVvlZSFmjqC7CqD5PdOK1y8PcZ7CqLarHYBfuSwpv9SOH4dobGo07ib846VyZcrbTLJWGmeO90Jz2Tz1wwd1QA/ZFtuC3jE=
+	t=1733221531; cv=none; b=FkAc0gsvn3Z1lLr2HjpxYfLgnCbgLaftbef9emdBrcnGcn1vA3DEI6a3bAjYu/D4Gwjj08h7UN0EixGmK73o/FNzadejGu3+ORs1Z8GZ+5l5l/WEYwkmRb7ntqwZlFUaqFKOGn796KZpV88NPYJY4wXBAomckm3lkIk8/pIkghs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733221531; c=relaxed/simple;
-	bh=qZy4XuCI+zK+mltNFi5G2ScHaChjMwRcBTRpzgvLlVw=;
+	bh=wNSRs1xlzEJFuADPUbHKLiWB91WOaWpXYIX1DF5jp0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TxfOa9HBeMBtsH40A85t2KD/XZXu4e7DlAkIt5Vagl3ydY+p2r8YvcUenNGyDkzbgjRmpztpZgxkUw6LK5GbgwgkkLX1+tImwLxwYxpV4YAyxWAYYOdNNJZETpLNdqwoNQj5R1DQ1rh+ErrUFpdgyNwBPqlydrxfhp3mBzRB4xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdnxRfeJ; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=jNi2Z/eneZG5a/MTQJAtBp6RIbZMEuNqd2apbCKgyhhWO5RJmQcUwjCEYAogOJaRFsZ/gOsqr+305+LYIUxot+R1EsYgrW0ccwXzkxV1gAwLJzcwaiPvpV0UO5M1ssL4rnNEec3hDHu6363Ww/sI/cATYDWplVeUwfx5Y7nNTa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFPLmV+R; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdnxRfeJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFPLmV+R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733221530; x=1764757530;
+  t=1733221529; x=1764757529;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qZy4XuCI+zK+mltNFi5G2ScHaChjMwRcBTRpzgvLlVw=;
-  b=jdnxRfeJT1/sC5SzkfWkgMjmbeIcZzhkeq+TmBcvS2JPoNsOHRHKscRl
-   t8oQcZAUamUwXQz5o75TaHq7aZvx6E8tqsjw2pCnIn7KTuoUaDb5aex2s
-   x8jNNFGdIMhcRNgDGpsGbiSOCthudWHk6YO0+trVAekYKtFsUTQP0VnIU
-   dUPUR5aMHany8y8YTLW513ds9O1m4aOjUPuc1SegYDqnHfl63e/212LbV
-   oZ7fNs4yyFCnGh98rBs9/1O1KLnqtqXourieXkVnqmb3HRe+E98BwObUP
-   ztupNA6oeKpaGNRvvugS1Ap71zDsXsJ2/ZEfxw7iIkD6G+MsAHHz+Rtu6
-   w==;
-X-CSE-ConnectionGUID: JVhuxLXDTI26DtJP7hN5lg==
-X-CSE-MsgGUID: XbbfQ9IqSl+2QGms2tBvCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33351063"
+  bh=wNSRs1xlzEJFuADPUbHKLiWB91WOaWpXYIX1DF5jp0g=;
+  b=XFPLmV+RrZOpDbQMYudG0OC50qZYCOvnblKegankoJy8Fdpe3x/fVkou
+   uBCsWpPfuTBDd8gpfwW5gs2xA4fULpSNBvf4EvDtvpC8Mgbuu1jvtXTQB
+   aC6YOiWeiPZXwY3zwUHNs7IblUXd70nrf6V2VEiYYYX8m14FvY9s9Ayk9
+   zBAoVfQHo2tiGo3U4iFgmfXJpAARnErg69P7DkkjdOkhbSUcdz/jcKIia
+   2bLCPm6prAyuQvmjyf6jjGmXI51LKr79JHhS60T7wkXRdlnBqYbQ4QqP3
+   oCRkPQ5kQb8/Epl9+xjFtMEKqwn9QTm76NwLwZfPIvntGstCMbqwYWA15
+   A==;
+X-CSE-ConnectionGUID: OkbkJVLvQ2G//OPQ9yBrhA==
+X-CSE-MsgGUID: VEnzjz5wShWEw04QLHHJDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37199042"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="33351063"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:25:29 -0800
-X-CSE-ConnectionGUID: LKK/kds4SySElBl68xEQWA==
-X-CSE-MsgGUID: lBo6r3/iSMGYGR+fnI6vWw==
+   d="scan'208";a="37199042"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:25:29 -0800
+X-CSE-ConnectionGUID: ndTBenFlQPuFDICsCN6+2Q==
+X-CSE-MsgGUID: n+loSSRCQBSHwN4W4r5NXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="124326437"
+   d="scan'208";a="124224886"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Dec 2024 02:25:28 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Dec 2024 02:25:28 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIQ5t-0000XY-2a;
+	id 1tIQ5t-0000XT-2S;
 	Tue, 03 Dec 2024 10:25:25 +0000
-Date: Tue, 3 Dec 2024 18:25:24 +0800
+Date: Tue, 3 Dec 2024 18:25:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/dma/idxd/sysfs.c:391 engine_group_id_store() warn: potential
- spectre issue 'idxd->groups' [r] (local cap)
-Message-ID: <202412031841.Bd4untdR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/3] dt-bindings: mtd: mchp48l640 add mb85rs128ty
+ compatible
+Message-ID: <202412031857.OWe09h5w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,74 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241202-mb85rs128ty-v1-2-a660b6490dc8@pengutronix.de>
+References: <20241202-mb85rs128ty-v1-2-a660b6490dc8@pengutronix.de>
+TO: Jonas Rebmann <jre@pengutronix.de>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Richard Weinberger <richard@nod.at>
+TO: Vignesh Raghavendra <vigneshr@ti.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Heiko Schocher <hs@denx.de>
+CC: linux-mtd@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-TO: Dave Jiang <dave.jiang@intel.com>
-CC: Vinod Koul <vkoul@kernel.org>
+CC: devicetree@vger.kernel.org
+CC: David Jander <david@protonic.nl>
+CC: kernel@pengutronix.de
+CC: Jonas Rebmann <jre@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: c52ca478233c172b2d322b5241d6279a8661cbba dmaengine: idxd: add configuration component of driver
-date:   4 years, 10 months ago
+Hi Jonas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7af08b57bcb9ebf78675c50069c54125c0a8b795]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Rebmann/mtd-mchp48l640-make-WEL-behaviour-configurable/20241203-033012
+base:   7af08b57bcb9ebf78675c50069c54125c0a8b795
+patch link:    https://lore.kernel.org/r/20241202-mb85rs128ty-v1-2-a660b6490dc8%40pengutronix.de
+patch subject: [PATCH 2/3] dt-bindings: mtd: mchp48l640 add mb85rs128ty compatible
 :::::: branch date: 15 hours ago
-:::::: commit date: 4 years, 10 months ago
-config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241203/202412031841.Bd4untdR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: commit date: 15 hours ago
+config: arm-randconfig-052-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031857.OWe09h5w-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031857.OWe09h5w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412031841.Bd4untdR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412031857.OWe09h5w-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/idxd/sysfs.c:391 engine_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
-drivers/dma/idxd/sysfs.c:800 wq_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
-
-vim +391 drivers/dma/idxd/sysfs.c
-
-c52ca478233c17 Dave Jiang 2020-01-21  361  
-c52ca478233c17 Dave Jiang 2020-01-21  362  static ssize_t engine_group_id_store(struct device *dev,
-c52ca478233c17 Dave Jiang 2020-01-21  363  				     struct device_attribute *attr,
-c52ca478233c17 Dave Jiang 2020-01-21  364  				     const char *buf, size_t count)
-c52ca478233c17 Dave Jiang 2020-01-21  365  {
-c52ca478233c17 Dave Jiang 2020-01-21  366  	struct idxd_engine *engine =
-c52ca478233c17 Dave Jiang 2020-01-21  367  		container_of(dev, struct idxd_engine, conf_dev);
-c52ca478233c17 Dave Jiang 2020-01-21  368  	struct idxd_device *idxd = engine->idxd;
-c52ca478233c17 Dave Jiang 2020-01-21  369  	long id;
-c52ca478233c17 Dave Jiang 2020-01-21  370  	int rc;
-c52ca478233c17 Dave Jiang 2020-01-21  371  	struct idxd_group *prevg, *group;
-c52ca478233c17 Dave Jiang 2020-01-21  372  
-c52ca478233c17 Dave Jiang 2020-01-21  373  	rc = kstrtol(buf, 10, &id);
-c52ca478233c17 Dave Jiang 2020-01-21  374  	if (rc < 0)
-c52ca478233c17 Dave Jiang 2020-01-21  375  		return -EINVAL;
-c52ca478233c17 Dave Jiang 2020-01-21  376  
-c52ca478233c17 Dave Jiang 2020-01-21  377  	if (!test_bit(IDXD_FLAG_CONFIGURABLE, &idxd->flags))
-c52ca478233c17 Dave Jiang 2020-01-21  378  		return -EPERM;
-c52ca478233c17 Dave Jiang 2020-01-21  379  
-c52ca478233c17 Dave Jiang 2020-01-21  380  	if (id > idxd->max_groups - 1 || id < -1)
-c52ca478233c17 Dave Jiang 2020-01-21  381  		return -EINVAL;
-c52ca478233c17 Dave Jiang 2020-01-21  382  
-c52ca478233c17 Dave Jiang 2020-01-21  383  	if (id == -1) {
-c52ca478233c17 Dave Jiang 2020-01-21  384  		if (engine->group) {
-c52ca478233c17 Dave Jiang 2020-01-21  385  			engine->group->num_engines--;
-c52ca478233c17 Dave Jiang 2020-01-21  386  			engine->group = NULL;
-c52ca478233c17 Dave Jiang 2020-01-21  387  		}
-c52ca478233c17 Dave Jiang 2020-01-21  388  		return count;
-c52ca478233c17 Dave Jiang 2020-01-21  389  	}
-c52ca478233c17 Dave Jiang 2020-01-21  390  
-c52ca478233c17 Dave Jiang 2020-01-21 @391  	group = &idxd->groups[id];
-c52ca478233c17 Dave Jiang 2020-01-21  392  	prevg = engine->group;
-c52ca478233c17 Dave Jiang 2020-01-21  393  
-c52ca478233c17 Dave Jiang 2020-01-21  394  	if (prevg)
-c52ca478233c17 Dave Jiang 2020-01-21  395  		prevg->num_engines--;
-c52ca478233c17 Dave Jiang 2020-01-21  396  	engine->group = &idxd->groups[id];
-c52ca478233c17 Dave Jiang 2020-01-21  397  	engine->group->num_engines++;
-c52ca478233c17 Dave Jiang 2020-01-21  398  
-c52ca478233c17 Dave Jiang 2020-01-21  399  	return count;
-c52ca478233c17 Dave Jiang 2020-01-21  400  }
-c52ca478233c17 Dave Jiang 2020-01-21  401  
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/timer/fsl,imxgpt.yaml#
+   arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: iomuxc-gpr@30340000: 'csi-mux' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+   arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: dsi@30760000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
+   	'fsl,imx7d-mipi-dsim' is not one of ['samsung,exynos3250-mipi-dsi', 'samsung,exynos4210-mipi-dsi', 'samsung,exynos5410-mipi-dsi', 'samsung,exynos5422-mipi-dsi', 'samsung,exynos5433-mipi-dsi', 'fsl,imx8mm-mipi-dsim', 'fsl,imx8mp-mipi-dsim']
+   	'fsl,imx8mn-mipi-dsim' was expected
+   	from schema $id: http://devicetree.org/schemas/display/bridge/samsung,mipi-dsim.yaml#
+   arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: /soc/bus@30400000/dsi@30760000: failed to match any schema with compatible: ['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim']
+   arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: /soc/bus@30400000/pcie-phy@306d0000: failed to match any schema with compatible: ['fsl,imx7d-pcie-phy']
+>> arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: sram@0: compatible: ['microchip,48l640'] is too short
+   	from schema $id: http://devicetree.org/schemas/mtd/microchip,mchp48l640.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx7d-smegw01.dtb: sram@0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/microchip,mchp48l640.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
