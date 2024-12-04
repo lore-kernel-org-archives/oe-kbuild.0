@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D741A8F9A
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Dec 2024 18:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BCE197A7E
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Dec 2024 22:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733338057; cv=none; b=CjZ4WElJJ63byVg13NySVSMmBkJvPB4YRkUF5MCh+PvjONt8EXM+lAY0ZBVgp7uL2QDD/2p04cQXUvigv6Xbx65duHpwdCMksU1nOac+f0BvkvFiCcUGkF6xS0lFJLQIpGuyqKVPIj6FCIqBoS037zxdLk47PoXV5LMEH6TTOLw=
+	t=1733350495; cv=none; b=g0OD7KTf7Vl1VgENXsd/kJ+8TftCoNC7YzMGBpa4d3aGDmgpkxVfPrGh1gdVSkvJhpw0Dn66ZwQt1dgftuiskzXl91aeuasUV7eDmtGUKrqbIk57XjqaQpDsBcsSC/kMZThDvEegP7fukKYP8Gza6KRxcRgrbe+s4jgLNqBLeFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733338057; c=relaxed/simple;
-	bh=jCubvNdvoNYBm0f21Ep9G7O0CVR3TKdfL+XazgcpaWM=;
+	s=arc-20240116; t=1733350495; c=relaxed/simple;
+	bh=Nsck0m6/m5pduyMWyceo8nmIAW4ot8QpBcGHFqbIzG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L85tv4epyIlERiD3BJYqpcbAzYQt9sTuH20fvLgtVAPqqRWd8nVekHvPUHnN2q8Wo6rl06ituo5oqgQWwOoUyb0OYKMhIOJz7Ca23r4z42xGjfOtmrgJTh1MDBoiYpTiHw8PBJqN/MrTKnlQ/p+PbNnbVYFYf7ccklw5elOod7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yv+AX5Bg; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=XhnqffX1bKZlmVNaoIlJU9O3hblhQIfuJ1cYE5cMvnx3adETQBmJ1pNciWk4zxi0eyHVxJvUJS10JLDU4bv57yn12Buc48Q9/eM0ZesJ9WXTf6U5JT3TRZiBwDLSEtOAWHeEYTDLGg836E9zdiobw4WbIhNkK/fC4IJ7eU2q+g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BV88ZzbN; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yv+AX5Bg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BV88ZzbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733338056; x=1764874056;
+  t=1733350494; x=1764886494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jCubvNdvoNYBm0f21Ep9G7O0CVR3TKdfL+XazgcpaWM=;
-  b=Yv+AX5BgtIi5HkkOdVS6eOf2FH9Ns7AirZ5s/JS59zkb6wLW8PhxfyHn
-   Bggd8tuVO59ZI3a6Ri7GpDOJAgYoWME91qC3cf89FaxuV86SBAdhbIJx1
-   jj96DSZxSIsAmcRsHnOqqy2QLKZBdL48p6pXRQzGrE9SSn2c5y3tSIxv6
-   mybJoHs4fp0vFwfOt/s+lFkm5pga8/IpYU6cdmkPUmd7kZ/UsnGa+WRey
-   y0HsmrfsxlNFwOCUqCXX23LAKCkgK5qQW3hLoFD6d7UZLnu1qXlpqvl5U
-   3yVMXb2iZsJXP+mnSGL/Jv2tzHsAPr5e63c8WzYNqcbOE3UTtK+j6ADHR
-   A==;
-X-CSE-ConnectionGUID: LJ/LPv2xQU2i1gXpmOPjtA==
-X-CSE-MsgGUID: Pl9aAg/YRsCBfRVFORIWqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="45000521"
+  bh=Nsck0m6/m5pduyMWyceo8nmIAW4ot8QpBcGHFqbIzG4=;
+  b=BV88ZzbN/FF8OfG2m5vJ0VIZKcbzB9QbLcJJWWSShMz/Pzjto4OGSupt
+   qQWlHLxP5/1Hk1twkOIC8QhRwr9jKpnyJWU5YB5k3Vr0z5BkHJdez0xGr
+   rLab0+7dc+MYBKdSj992s/cSDL4z+yGMRsum7w2voOgMp3dsoCvQ1xhT5
+   Ociu8HjqbhK51HjrN5tHCAV7ZBjSjW5/r0z+3HuFhGi86VvDLEJYA+LA7
+   3HyoML1YdlcZ2P7aEkc4y1vWOruDmETuD8gnzIO33AETSy8g4BisDvRyf
+   TL+8iNfGsB/2g3q3uzUVCrOsHk7LBMAwpmVLe2tYFtt/x7gYJXqIJ6cdG
+   Q==;
+X-CSE-ConnectionGUID: rmADUmbDQhGsv8B79DkQbw==
+X-CSE-MsgGUID: V0jOoKl3SsmdVZuh0ZA5GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33786279"
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="45000521"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 10:47:35 -0800
-X-CSE-ConnectionGUID: dY8TnV/EQ16MEShPRvj+qA==
-X-CSE-MsgGUID: CImrpdW7SNebfX3C4wUJ6A==
+   d="scan'208";a="33786279"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 14:14:54 -0800
+X-CSE-ConnectionGUID: bD9R1aUpRKKqVwptDRf5ng==
+X-CSE-MsgGUID: 3A/65PikTY2wFd5gZ4BDJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="93730282"
+   d="scan'208";a="93794972"
 Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Dec 2024 10:47:33 -0800
+  by orviesa009.jf.intel.com with ESMTP; 04 Dec 2024 14:14:52 -0800
 Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIuPK-0003OZ-2h;
-	Wed, 04 Dec 2024 18:47:30 +0000
-Date: Thu, 5 Dec 2024 02:47:14 +0800
+	id 1tIxdx-0003Xx-3D;
+	Wed, 04 Dec 2024 22:14:50 +0000
+Date: Thu, 5 Dec 2024 06:14:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/dma/idxd/device.c:370 idxd_cmd_exec() warn: mixing irqsave
- and irq
-Message-ID: <202412050237.MXIHJMPC-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.13-rc1 8/159]
+ arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: thermal-zones:
+ bigcpu-reg-thermal:trips:phandle: 283 is not of type 'object'
+Message-ID: <202412050647.umTkPyuE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,74 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dave Jiang <dave.jiang@intel.com>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Tony Luck <tony.luck@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+CC: linux-renesas-soc@vger.kernel.org
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
-commit: 0d5c10b4c84d6ae6255129e5f16a0d2119c74334 dmaengine: idxd: add work queue drain support
-date:   4 years, 5 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 4 years, 5 months ago
-config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241205/202412050237.MXIHJMPC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.13-rc1
+head:   a48936ee46cd2afd08e4b81aaae14c8e791fdfe6
+commit: bcbede4b77f674b6140af1faaab0308872bc7136 [8/159] kbuild: Enable DT symbols when CONFIG_OF_OVERLAY is used
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: arm64-randconfig-051-20241204 (https://download.01.org/0day-ci/archive/20241205/202412050647.umTkPyuE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050647.umTkPyuE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412050237.MXIHJMPC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412050647.umTkPyuE-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/idxd/device.c:370 idxd_cmd_exec() warn: mixing irqsave and irq
-
-vim +370 drivers/dma/idxd/device.c
-
-bfe1d56091c1a4 Dave Jiang 2020-01-21  356  
-0d5c10b4c84d6a Dave Jiang 2020-06-26  357  static void idxd_cmd_exec(struct idxd_device *idxd, int cmd_code, u32 operand,
-0d5c10b4c84d6a Dave Jiang 2020-06-26  358  			  u32 *status)
-bfe1d56091c1a4 Dave Jiang 2020-01-21  359  {
-bfe1d56091c1a4 Dave Jiang 2020-01-21  360  	union idxd_command_reg cmd;
-0d5c10b4c84d6a Dave Jiang 2020-06-26  361  	DECLARE_COMPLETION_ONSTACK(done);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  362  	unsigned long flags;
-bfe1d56091c1a4 Dave Jiang 2020-01-21  363  
-bfe1d56091c1a4 Dave Jiang 2020-01-21  364  	memset(&cmd, 0, sizeof(cmd));
-bfe1d56091c1a4 Dave Jiang 2020-01-21  365  	cmd.cmd = cmd_code;
-bfe1d56091c1a4 Dave Jiang 2020-01-21  366  	cmd.operand = operand;
-0d5c10b4c84d6a Dave Jiang 2020-06-26  367  	cmd.int_req = 1;
-0d5c10b4c84d6a Dave Jiang 2020-06-26  368  
-0d5c10b4c84d6a Dave Jiang 2020-06-26  369  	spin_lock_irqsave(&idxd->dev_lock, flags);
-0d5c10b4c84d6a Dave Jiang 2020-06-26 @370  	wait_event_lock_irq(idxd->cmd_waitq,
-0d5c10b4c84d6a Dave Jiang 2020-06-26  371  			    !test_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags),
-0d5c10b4c84d6a Dave Jiang 2020-06-26  372  			    idxd->dev_lock);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  373  
-bfe1d56091c1a4 Dave Jiang 2020-01-21  374  	dev_dbg(&idxd->pdev->dev, "%s: sending cmd: %#x op: %#x\n",
-bfe1d56091c1a4 Dave Jiang 2020-01-21  375  		__func__, cmd_code, operand);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  376  
-0d5c10b4c84d6a Dave Jiang 2020-06-26  377  	__set_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  378  	idxd->cmd_done = &done;
-bfe1d56091c1a4 Dave Jiang 2020-01-21  379  	iowrite32(cmd.bits, idxd->reg_base + IDXD_CMD_OFFSET);
-bfe1d56091c1a4 Dave Jiang 2020-01-21  380  
-0d5c10b4c84d6a Dave Jiang 2020-06-26  381  	/*
-0d5c10b4c84d6a Dave Jiang 2020-06-26  382  	 * After command submitted, release lock and go to sleep until
-0d5c10b4c84d6a Dave Jiang 2020-06-26  383  	 * the command completes via interrupt.
-0d5c10b4c84d6a Dave Jiang 2020-06-26  384  	 */
-0d5c10b4c84d6a Dave Jiang 2020-06-26  385  	spin_unlock_irqrestore(&idxd->dev_lock, flags);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  386  	wait_for_completion(&done);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  387  	spin_lock_irqsave(&idxd->dev_lock, flags);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  388  	if (status)
-0d5c10b4c84d6a Dave Jiang 2020-06-26  389  		*status = ioread32(idxd->reg_base + IDXD_CMDSTS_OFFSET);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  390  	__clear_bit(IDXD_FLAG_CMD_RUNNING, &idxd->flags);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  391  	/* Wake up other pending commands */
-0d5c10b4c84d6a Dave Jiang 2020-06-26  392  	wake_up(&idxd->cmd_waitq);
-0d5c10b4c84d6a Dave Jiang 2020-06-26  393  	spin_unlock_irqrestore(&idxd->dev_lock, flags);
-bfe1d56091c1a4 Dave Jiang 2020-01-21  394  }
-bfe1d56091c1a4 Dave Jiang 2020-01-21  395  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000: 'extcon' does not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+>> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: thermal-zones: bigcpu-reg-thermal:trips:phandle: 283 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: thermal-zones: litcpu-reg-thermal:trips:phandle: 287 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
+--
+   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1608.20-1674.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm1:pwm1m1-ch5:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m0-ch4:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch1:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch6:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch0:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch5:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch3:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m0-ch2:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m1-ch2:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm2:pwm2m0-ch3:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: i3c1_sda:i3c1_sdam1-pu:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: pwm0:pwm0m1-ch1:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: i3c1:i3c1m1-xfer:rockchip,pins:0:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
+   arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dtb: pinctrl: i3c1:i3c1m1-xfer:rockchip,pins:1:2: 14 is greater than the maximum of 13
+   	from schema $id: http://devicetree.org/schemas/pinctrl/rockchip,pinctrl.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
