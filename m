@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B17C1B0F1A
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Dec 2024 12:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72B520B1F7
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Dec 2024 15:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733315224; cv=none; b=YsB1Ykmase6KJ2ymBsFp3eIrqSpdlLQYwGCqvbQqs4bSnGqXpnmnZo4utA5HQx3sI/V9llnOxBJ25KnQ/+yC8JK7geXAp1ctzNOPF9XV52fAMQtRLxtumI2C8/97+QZDd8SZGT2ildrmN3Bt5ZLV4IQJY3HzRZAfdlz9WLyWmX4=
+	t=1733325262; cv=none; b=T+avXuZURgJNvC8z6Vw258C3eMsCINsYVef+eMUFF2aSdN9HuuXMnAMgqWb1qacvuNyIlmsoxHdGRyVPvgKkzsd4fmzb/YJMPf2xbHVsbIVtJ6P9ArQlaIMwe+JvBkm+ZT5cMKwbauGWWmpewkXDIClQkOnd8u+YSDdrdUVj2zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733315224; c=relaxed/simple;
-	bh=dnz1cWBglVtMixpPW1AZlms4HL/KtjncpN/eTf73VIw=;
+	s=arc-20240116; t=1733325262; c=relaxed/simple;
+	bh=EvXM02tO6yjyKm/Jwl4qSn9ESvQ4Qu0hdnvG8bDmZu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HdkXG6qtfW15k4/P55hgP2a+iebq0RR5U9hLPiJr8YyO4X9GeNtsOETn1TLnFLHvr54ckMASFmh8/Zg2ODXH+QM3O+DtNj7OrNq4WgJBLKMwBkWqAAPQzUGh1jPOokJdviofETUxdERltJQoUy0AR/1NEBTtwzHoqzuHzi9J5Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vulwmrzx; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=uAJzmqKglwbm8kj1BCPW1obm7tl0EiybUZG6ieI4/RjCTVfuoveIBkFfhnz1skVGe3tjwF/rxKfnHnI6gllB1BFw31BDp8k6H0fMlkeja0fF2Vn+lgqffsq7RTaFVcCeRkXoF0KI1dbI+k6UfWdCDr9CdKCLvbMENGtH6JHUrpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qzC0+Qmy; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vulwmrzx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733315222; x=1764851222;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dnz1cWBglVtMixpPW1AZlms4HL/KtjncpN/eTf73VIw=;
-  b=Vulwmrzxh2MFnqnHp3k6FTyB9QUp28oqwtVQEF8CtdEm4Dsk0+AtN3tI
-   +KAtWPBdr7zOyO9iWPDPzGbWIULV3M/vQMNsb0sHUPX+mKt3Qf6+i5gcc
-   /bAx4LK+lRhKVEZCm5aVlCt5KmSRwAZLMluaqRxoAd4nykYeslMSNIIhz
-   PepI9DqGn4RSHt4iOyXUBS4meH7kOUkpfDy7PwZRuqdjcvEZAnNeYC3pz
-   xwI1ebNbJq6qkMImKSAlRfc7Rsv3NJojdEnHacU9nBC1FmKe2XrJ9t6hD
-   fThedXnvJj1Wca1RMdU/Pb3ndfvpO+e5Sd7Dh7KInscxrSZENJqqdoqNO
-   g==;
-X-CSE-ConnectionGUID: AMcrgxhGSP+FHSd4vXewGg==
-X-CSE-MsgGUID: WHvg/I1NRWmCt+4zNJu1iA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44054714"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="44054714"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 04:27:02 -0800
-X-CSE-ConnectionGUID: lgzI4ExwQn6xMOI+4aHUdw==
-X-CSE-MsgGUID: YwvFvKG4QAOABAWFZmnBqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="94582864"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 04 Dec 2024 04:27:01 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIoT4-00030w-0A;
-	Wed, 04 Dec 2024 12:26:58 +0000
-Date: Wed, 4 Dec 2024 20:26:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qzC0+Qmy"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso1189445466b.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 04 Dec 2024 07:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733325257; x=1733930057; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZiMvEGOnA3x8ktWeqDOREzwrlUTrCkUJYsXv6kLLcLI=;
+        b=qzC0+QmyxK+vqhxi17/JPOicrNS0rRbJxYD9Vv2u3uIIn+VjXNQSeFbOSaeBAV3+cC
+         M9pXqiviWCo6Ord0X3wD/ksH4FUVD89MDCrXvNcuRw8yW7gTnts4ZseiaiVf1Y0n+xcz
+         Mlu0hM6AuDFyFK+CF/E/0aE9DAwzIFQi7FAYAEk73QteEI5QR+ZFhQ6gUI/5Fi6RMhMA
+         STI6khjPWwZUeE9q632UWShtaa6peRLfNE/7rTn+6SOlcUfj4Bcb1ldHU5KRsOAEdr8V
+         PMBv5t0yJB2AcX9U7ndskkEug7yAcIEVBjU521vV26skC3c8aWa+vbL0zXeK1tAaUwbv
+         IgcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733325257; x=1733930057;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZiMvEGOnA3x8ktWeqDOREzwrlUTrCkUJYsXv6kLLcLI=;
+        b=bUKKXOFEAJUYvwowtcUFLwqxDcCPufY0Oc/BgQjVcN1fHqprDxF/wYmoVVpJzAw6yV
+         JB1Cyt/puCfBAEoTkiC3aGWePNctLZZn8AQKXpNiMgF47JBib9I8siQglj/4OzeBg+NS
+         MQzj4jA8EkdKGG9LYtrrWTSsX53ROUfHQkwF0t2b22AM9akCPSfIa65gmxdGak9+clG9
+         z/TF/yiH8xCzun8H04kiGXPQHE7+TeUSY8XommdYN/kf29ZY4XgjXST3/d8tYZiUfGLF
+         mhD3VgRbgTy8isGsSisIY4VvlWk7v3NO50+qBCaf37Z67xrYGCwD8Su++CnJGoRNctAR
+         3J8w==
+X-Gm-Message-State: AOJu0Yx1Kr2p91DbipI0d4iBmavNglsMPPkynmz0f+/29e37ufCIqehV
+	WnrDoJLLgBntvVwcdXf2Yc0aMfbB9HKTKY+vM4zt1/CzH+Jr5y9gRan0gZc/GbmUHctJEruT1tZ
+	V
+X-Gm-Gg: ASbGncvZDXHZ/A8zzDrqDZcRkUphi+aY4U9UexOkTqWWRhLz1vbbg+POKQpL9KT//1W
+	natZYqn4KAWcJDWqElpfW9IbB49o8Ja9qGMYhA+4KIz45ZiU06r6dkKXoGAyvmSKFJ7uX8h6Yqh
+	ofdsvwDYGASiSw9fbz4S/l8b4LtzzIuadfj4z7x9rFsE6oeJ3VlR79SQjWgBn5gJvwx/GSw1qkA
+	8yinFQ+h9bUcFBSIFyMYnQ2wBUkNNmMmUxbIO+WoN+PH1nlVQao31lKF45J5k+HzBYK3T0sew==
+X-Google-Smtp-Source: AGHT+IHbdn++zxupMPsIv4w/y2HdWMryceH/LpF4wX4mLdWemSgp6CuJQnWo+ftPXRvxTNtQzIB0dQ==
+X-Received: by 2002:a17:907:7719:b0:aa5:249f:8431 with SMTP id a640c23a62f3a-aa5f7d4ed63mr634753666b.18.1733325257169;
+        Wed, 04 Dec 2024 07:14:17 -0800 (PST)
+Received: from localhost (hdeb.n1.ips.mtn.co.ug. [41.210.141.235])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d12136e9f9sm254760a12.44.2024.12.04.07.14.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 07:14:16 -0800 (PST)
+Date: Wed, 4 Dec 2024 18:14:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Simon Horman <horms@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: drivers/remoteproc/pru_rproc.c:341 pru_rproc_set_ctable() warn:
  variable dereferenced before IS_ERR check 'rproc' (see line 335)
-Message-ID: <202412042058.zwL1rOlr-lkp@intel.com>
+Message-ID: <f5bd0861-abaa-4e9a-89af-deb682df8641@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,11 +71,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Simon Horman <horms@kernel.org>
-
 Hi Simon,
 
 FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
@@ -74,16 +78,13 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   feffde684ac29a3b7aec82d2df850fbdbdee55e4
 commit: e752f9b924a1fd1afcf36e51b03dfa9c3096a3bd soc: ti: pruss: Allow compile-testing
-date:   1 year, 7 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 7 months ago
 config: alpha-randconfig-r072-20241122 (https://download.01.org/0day-ci/archive/20241204/202412042058.zwL1rOlr-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202412042058.zwL1rOlr-lkp@intel.com/
 
 smatch warnings:
@@ -91,53 +92,26 @@ drivers/remoteproc/pru_rproc.c:341 pru_rproc_set_ctable() warn: variable derefer
 
 vim +/rproc +341 drivers/remoteproc/pru_rproc.c
 
-919e8942548aa87 MD Danish Anwar 2023-01-06  324  
-102853400321bae Roger Quadros   2023-01-06  325  /**
-102853400321bae Roger Quadros   2023-01-06  326   * pru_rproc_set_ctable() - set the constant table index for the PRU
-102853400321bae Roger Quadros   2023-01-06  327   * @rproc: the rproc instance of the PRU
-102853400321bae Roger Quadros   2023-01-06  328   * @c: constant table index to set
-102853400321bae Roger Quadros   2023-01-06  329   * @addr: physical address to set it to
-102853400321bae Roger Quadros   2023-01-06  330   *
-102853400321bae Roger Quadros   2023-01-06  331   * Return: 0 on success, or errno in error case.
-102853400321bae Roger Quadros   2023-01-06  332   */
 102853400321bae Roger Quadros   2023-01-06  333  int pru_rproc_set_ctable(struct rproc *rproc, enum pru_ctable_idx c, u32 addr)
 102853400321bae Roger Quadros   2023-01-06  334  {
 102853400321bae Roger Quadros   2023-01-06 @335  	struct pru_rproc *pru = rproc->priv;
+                                                                                ^^^^^^^^^^^
+Dereference
+
 102853400321bae Roger Quadros   2023-01-06  336  	unsigned int reg;
 102853400321bae Roger Quadros   2023-01-06  337  	u32 mask, set;
 102853400321bae Roger Quadros   2023-01-06  338  	u16 idx;
 102853400321bae Roger Quadros   2023-01-06  339  	u16 idx_mask;
 102853400321bae Roger Quadros   2023-01-06  340  
 102853400321bae Roger Quadros   2023-01-06 @341  	if (IS_ERR_OR_NULL(rproc))
+                                                                           ^^^^^
+Checked too late
+
 102853400321bae Roger Quadros   2023-01-06  342  		return -EINVAL;
 102853400321bae Roger Quadros   2023-01-06  343  
 102853400321bae Roger Quadros   2023-01-06  344  	if (!rproc->dev.parent || !is_pru_rproc(rproc->dev.parent))
-102853400321bae Roger Quadros   2023-01-06  345  		return -ENODEV;
-102853400321bae Roger Quadros   2023-01-06  346  
-102853400321bae Roger Quadros   2023-01-06  347  	/* pointer is 16 bit and index is 8-bit so mask out the rest */
-102853400321bae Roger Quadros   2023-01-06  348  	idx_mask = (c >= PRU_C28) ? 0xFFFF : 0xFF;
-102853400321bae Roger Quadros   2023-01-06  349  
-102853400321bae Roger Quadros   2023-01-06  350  	/* ctable uses bit 8 and upwards only */
-102853400321bae Roger Quadros   2023-01-06  351  	idx = (addr >> 8) & idx_mask;
-102853400321bae Roger Quadros   2023-01-06  352  
-102853400321bae Roger Quadros   2023-01-06  353  	/* configurable ctable (i.e. C24) starts at PRU_CTRL_CTBIR0 */
-102853400321bae Roger Quadros   2023-01-06  354  	reg = PRU_CTRL_CTBIR0 + 4 * (c >> 1);
-102853400321bae Roger Quadros   2023-01-06  355  	mask = idx_mask << (16 * (c & 1));
-102853400321bae Roger Quadros   2023-01-06  356  	set = idx << (16 * (c & 1));
-102853400321bae Roger Quadros   2023-01-06  357  
-102853400321bae Roger Quadros   2023-01-06  358  	pru_control_set_reg(pru, reg, mask, set);
-102853400321bae Roger Quadros   2023-01-06  359  
-102853400321bae Roger Quadros   2023-01-06  360  	return 0;
-102853400321bae Roger Quadros   2023-01-06  361  }
-102853400321bae Roger Quadros   2023-01-06  362  EXPORT_SYMBOL_GPL(pru_rproc_set_ctable);
-102853400321bae Roger Quadros   2023-01-06  363  
-
-:::::: The code at line 341 was first introduced by commit
-:::::: 102853400321baea2527917e6e89be33508c3e18 remoteproc: pru: Add pru_rproc_set_ctable() function
-
-:::::: TO: Roger Quadros <rogerq@ti.com>
-:::::: CC: Mathieu Poirier <mathieu.poirier@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
