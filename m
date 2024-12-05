@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8613E1B393B
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Dec 2024 21:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65DF1CCEED
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Dec 2024 23:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733433722; cv=none; b=Jl1b5dncUyqmNqgbnCW1jQLFWqnhIPZRcHEgRdG9wrzfBpVXSJw+2uwYGag8DgXTf+2S+9gjgW2w1h62DRCYAynnMubRg5oxoCwRz1ZJobJC2NEEKEN2NOl9I63jwJ09FhzZzBH84ihWTK6ZSweWv4lzBtCcMFNdLrMM/b55esY=
+	t=1733440274; cv=none; b=rtwKZY9+tZDcKxckHrvM29Y2zKUV313qI2wtmdvy21AWAQZHSgCe3gStyu69wt54TbrYc2V4IvwJIh4nIsYun9zOg8LSsJFpaIkyjUSVmvvjII6RXPo9kSEkGJotrKjSUmwEFyWRV5yvorx8YxZIWgWMKhpeOiN920YCR0PTGDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733433722; c=relaxed/simple;
-	bh=nsu3Vi4nCb6vV8fxzHMjn0Zm65SGXs257phObLFlDEk=;
+	s=arc-20240116; t=1733440274; c=relaxed/simple;
+	bh=zP2TgMCgZF2vfI0+93kE/aOVWL4cdWdJYdk5yKvdmik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KXZcmJFHXUqVAcWs9X4BoeGTsBf59IQRKHPvSlv7YrC7WdhFIqjJY3JpM1RrTKrZLf2PAir6tlNRtG34Qu4pWEttatu5zoUr4SshJRKtz7AL/9naYz3QhJsW2Nc0MxWinKeLSm8NRD7qJ8og/3lcd2tGBaefva6bfDMy65Ln/og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWTevi0/; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=jNekp/LTz2kKwp6SCpHlGW5HuI5eebVosFZa10IvtjBE+oC/zRTE6o2gVTrEeaOn3phN2+PoaWIVOqh5xoXgaXs80amMNeEcyoVrfYYY6ZC4cpqrHCDZ/OEPJxr58w6g0jZegKZHfqRCp4n0xliglOQnOnCx8Qzg3jG2H0n1Z2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIQ5aQaD; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWTevi0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIQ5aQaD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733433720; x=1764969720;
+  t=1733440272; x=1764976272;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nsu3Vi4nCb6vV8fxzHMjn0Zm65SGXs257phObLFlDEk=;
-  b=cWTevi0/QN+UKe1IMUqX7QD86o36tjZ0ZuZk3uHCQgm6HuxTEcMt9bBB
-   9Tbw8U8I4yEY4fazs8/D6on8WROQFbvAViBt/ViJBBWa+AEjoy48hiUj2
-   0FX5ClOHGotcRNvQsoGsWXa3GFHuTZKInCZnxabLYSoe5Dbh9A92FCxkq
-   48RHyjY6XAxKXvdPVvTadEUW7Yw1XAVYT3CUN5WQ6wy6p8ZxSh9TZJHnn
-   oPXVMkI3tUH422Xwngl8rVMP8lax5nZD33ghvj29h3Xe8Ee9YgzAHpit7
-   /PBPxP1X16Ny2KbUYREdufm4Huc8yJptj3nr72UQOOHZxVD5BSPwRSwuk
-   w==;
-X-CSE-ConnectionGUID: WLuGncD+R7Ci9pj/QX8c3Q==
-X-CSE-MsgGUID: 4qmITSPWRVKQYSuB2iMh7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37445959"
+  bh=zP2TgMCgZF2vfI0+93kE/aOVWL4cdWdJYdk5yKvdmik=;
+  b=aIQ5aQaDs8sGXTG9HyeaL0ecjjdqtU+IYRo1VSOhOjnpyYKuAvAjhiqB
+   Dm7RN5QC6/uN3IOH260uzv1qMSbUUxGCMGhS7O+nn0XQe0MEpyZYx7VVG
+   /yUJGTAX9S5T1lzWQL4AszFhXHJh3JFWQU5QAwcf1E+IOUBMXTOElPrjJ
+   a6ZCVxxBPdEjQalFzZs0DjZJwG6RtCsSwCtlzN5SUSD3P4YYxts4L9t0Q
+   kFFg1bQ+OfC9TlUh8MTx6b0T0WjKVSRW8j0qtfEw4WqGToCv09Q0WfDzH
+   jgorUpcm9N8DdAuhodNuwLLHweQ8adtqAFyf2gAHNx1I+7luuQ6QAIdJa
+   Q==;
+X-CSE-ConnectionGUID: m/XH6GAkTlW0S/KuwbfL+g==
+X-CSE-MsgGUID: tXtI3fLRT4qLA3yMS7xDQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="34024881"
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="37445959"
+   d="scan'208";a="34024881"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 13:21:59 -0800
-X-CSE-ConnectionGUID: rtxVueKHTbOSOg4VxO+nwQ==
-X-CSE-MsgGUID: gu5NTRiuS92ftH2Gy+Xupg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 15:11:11 -0800
+X-CSE-ConnectionGUID: OsX36zR5Tzy4W8Yi4bhv8A==
+X-CSE-MsgGUID: 7k4lcpW6R4+Cc1X4hXGLFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="99177471"
+   d="scan'208";a="99197028"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Dec 2024 13:21:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Dec 2024 15:11:10 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tJJIJ-0000Ov-11;
-	Thu, 05 Dec 2024 21:21:55 +0000
-Date: Fri, 6 Dec 2024 05:21:29 +0800
+	id 1tJKzz-0000TD-11;
+	Thu, 05 Dec 2024 23:11:07 +0000
+Date: Fri, 6 Dec 2024 07:10:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v4 10/10] iio: accel: adxl345: add kfifo with watermark
-Message-ID: <202412060455.YbuXxQ8B-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/dma/idxd/sysfs.c:429 engine_group_id_store() warn: possible
+ spectre second half.  'engine->group'
+Message-ID: <202412060752.cqiewqzU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,93 +64,81 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241204182451.144381-11-l.rubusch@gmail.com>
-References: <20241204182451.144381-11-l.rubusch@gmail.com>
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-TO: lars@metafoo.de
-TO: Michael.Hennerich@analog.com
-TO: jic23@kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-iio@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: eraretuya@gmail.com
-CC: l.rubusch@gmail.com
+TO: Dave Jiang <dave.jiang@intel.com>
+CC: Vinod Koul <vkoul@kernel.org>
 
-Hi Lothar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.13-rc1 next-20241205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241205-024402
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241204182451.144381-11-l.rubusch%40gmail.com
-patch subject: [PATCH v4 10/10] iio: accel: adxl345: add kfifo with watermark
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: m68k-randconfig-r061-20241206 (https://download.01.org/0day-ci/archive/20241206/202412060455.YbuXxQ8B-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   896d8946da97332d4dc80fa1937d8dd6b1c35ad4
+commit: defe49f96012ca91e8e673cb95b5c30b4a3735e8 dmaengine: idxd: fix group conf_dev lifetime
+date:   3 years, 8 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 years, 8 months ago
+config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241206/202412060752.cqiewqzU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412060455.YbuXxQ8B-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412060752.cqiewqzU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/accel/adxl345_core.c:441:5-13: WARNING: Unsigned expression compared with zero: int_stat < 0
+New smatch warnings:
+drivers/dma/idxd/sysfs.c:429 engine_group_id_store() warn: possible spectre second half.  'engine->group'
+drivers/dma/idxd/sysfs.c:867 wq_group_id_store() warn: possible spectre second half.  'group'
 
-vim +441 drivers/iio/accel/adxl345_core.c
+Old smatch warnings:
+drivers/dma/idxd/sysfs.c:428 engine_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
+drivers/dma/idxd/sysfs.c:862 wq_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
 
-faf6855881a930 Lothar Rubusch 2024-12-04  425  
-faf6855881a930 Lothar Rubusch 2024-12-04  426  /**
-faf6855881a930 Lothar Rubusch 2024-12-04  427   * adxl345_event_handler() - Handle events of the ADXL345.
-faf6855881a930 Lothar Rubusch 2024-12-04  428   * @irq: The irq being handled.
-faf6855881a930 Lothar Rubusch 2024-12-04  429   * @p: The struct iio_device pointer for the device.
-faf6855881a930 Lothar Rubusch 2024-12-04  430   *
-faf6855881a930 Lothar Rubusch 2024-12-04  431   * Return: The interrupt was handled.
-faf6855881a930 Lothar Rubusch 2024-12-04  432   */
-faf6855881a930 Lothar Rubusch 2024-12-04  433  static irqreturn_t adxl345_event_handler(int irq, void *p)
-faf6855881a930 Lothar Rubusch 2024-12-04  434  {
-faf6855881a930 Lothar Rubusch 2024-12-04  435  	struct iio_dev *indio_dev = p;
-faf6855881a930 Lothar Rubusch 2024-12-04  436  	struct adxl345_state *st = iio_priv(indio_dev);
-faf6855881a930 Lothar Rubusch 2024-12-04  437  	u8 int_stat;
-faf6855881a930 Lothar Rubusch 2024-12-04  438  	int samples;
-faf6855881a930 Lothar Rubusch 2024-12-04  439  
-faf6855881a930 Lothar Rubusch 2024-12-04  440  	int_stat = adxl345_get_status(st);
-faf6855881a930 Lothar Rubusch 2024-12-04 @441  	if (int_stat < 0)
-faf6855881a930 Lothar Rubusch 2024-12-04  442  		return IRQ_NONE;
-faf6855881a930 Lothar Rubusch 2024-12-04  443  
-faf6855881a930 Lothar Rubusch 2024-12-04  444  	if (int_stat == 0x0)
-faf6855881a930 Lothar Rubusch 2024-12-04  445  		goto err;
-faf6855881a930 Lothar Rubusch 2024-12-04  446  
-faf6855881a930 Lothar Rubusch 2024-12-04  447  	if (int_stat & ADXL345_INT_OVERRUN)
-faf6855881a930 Lothar Rubusch 2024-12-04  448  		goto err;
-faf6855881a930 Lothar Rubusch 2024-12-04  449  
-faf6855881a930 Lothar Rubusch 2024-12-04  450  	if (int_stat & (ADXL345_INT_DATA_READY | ADXL345_INT_WATERMARK)) {
-faf6855881a930 Lothar Rubusch 2024-12-04  451  		samples = adxl345_get_samples(st);
-faf6855881a930 Lothar Rubusch 2024-12-04  452  		if (samples < 0)
-faf6855881a930 Lothar Rubusch 2024-12-04  453  			goto err;
-faf6855881a930 Lothar Rubusch 2024-12-04  454  
-faf6855881a930 Lothar Rubusch 2024-12-04  455  		if (adxl345_fifo_push(indio_dev, samples) < 0)
-faf6855881a930 Lothar Rubusch 2024-12-04  456  			goto err;
-faf6855881a930 Lothar Rubusch 2024-12-04  457  
-faf6855881a930 Lothar Rubusch 2024-12-04  458  	}
-faf6855881a930 Lothar Rubusch 2024-12-04  459  	return IRQ_HANDLED;
-faf6855881a930 Lothar Rubusch 2024-12-04  460  
-faf6855881a930 Lothar Rubusch 2024-12-04  461  err:
-faf6855881a930 Lothar Rubusch 2024-12-04  462  	adxl345_fifo_reset(st);
-faf6855881a930 Lothar Rubusch 2024-12-04  463  
-faf6855881a930 Lothar Rubusch 2024-12-04  464  	return IRQ_HANDLED;
-faf6855881a930 Lothar Rubusch 2024-12-04  465  }
-faf6855881a930 Lothar Rubusch 2024-12-04  466  
+vim +429 drivers/dma/idxd/sysfs.c
+
+c52ca478233c17 Dave Jiang 2020-01-21  394  
+c52ca478233c17 Dave Jiang 2020-01-21  395  static ssize_t engine_group_id_store(struct device *dev,
+c52ca478233c17 Dave Jiang 2020-01-21  396  				     struct device_attribute *attr,
+c52ca478233c17 Dave Jiang 2020-01-21  397  				     const char *buf, size_t count)
+c52ca478233c17 Dave Jiang 2020-01-21  398  {
+c52ca478233c17 Dave Jiang 2020-01-21  399  	struct idxd_engine *engine =
+c52ca478233c17 Dave Jiang 2020-01-21  400  		container_of(dev, struct idxd_engine, conf_dev);
+c52ca478233c17 Dave Jiang 2020-01-21  401  	struct idxd_device *idxd = engine->idxd;
+c52ca478233c17 Dave Jiang 2020-01-21  402  	long id;
+c52ca478233c17 Dave Jiang 2020-01-21  403  	int rc;
+f7b280c6388137 YueHaibing 2020-02-11  404  	struct idxd_group *prevg;
+c52ca478233c17 Dave Jiang 2020-01-21  405  
+c52ca478233c17 Dave Jiang 2020-01-21  406  	rc = kstrtol(buf, 10, &id);
+c52ca478233c17 Dave Jiang 2020-01-21  407  	if (rc < 0)
+c52ca478233c17 Dave Jiang 2020-01-21  408  		return -EINVAL;
+c52ca478233c17 Dave Jiang 2020-01-21  409  
+c52ca478233c17 Dave Jiang 2020-01-21  410  	if (!test_bit(IDXD_FLAG_CONFIGURABLE, &idxd->flags))
+c52ca478233c17 Dave Jiang 2020-01-21  411  		return -EPERM;
+c52ca478233c17 Dave Jiang 2020-01-21  412  
+c52ca478233c17 Dave Jiang 2020-01-21  413  	if (id > idxd->max_groups - 1 || id < -1)
+c52ca478233c17 Dave Jiang 2020-01-21  414  		return -EINVAL;
+c52ca478233c17 Dave Jiang 2020-01-21  415  
+c52ca478233c17 Dave Jiang 2020-01-21  416  	if (id == -1) {
+c52ca478233c17 Dave Jiang 2020-01-21  417  		if (engine->group) {
+c52ca478233c17 Dave Jiang 2020-01-21  418  			engine->group->num_engines--;
+c52ca478233c17 Dave Jiang 2020-01-21  419  			engine->group = NULL;
+c52ca478233c17 Dave Jiang 2020-01-21  420  		}
+c52ca478233c17 Dave Jiang 2020-01-21  421  		return count;
+c52ca478233c17 Dave Jiang 2020-01-21  422  	}
+c52ca478233c17 Dave Jiang 2020-01-21  423  
+c52ca478233c17 Dave Jiang 2020-01-21  424  	prevg = engine->group;
+c52ca478233c17 Dave Jiang 2020-01-21  425  
+c52ca478233c17 Dave Jiang 2020-01-21  426  	if (prevg)
+c52ca478233c17 Dave Jiang 2020-01-21  427  		prevg->num_engines--;
+defe49f96012ca Dave Jiang 2021-04-15  428  	engine->group = idxd->groups[id];
+c52ca478233c17 Dave Jiang 2020-01-21 @429  	engine->group->num_engines++;
+c52ca478233c17 Dave Jiang 2020-01-21  430  
+c52ca478233c17 Dave Jiang 2020-01-21  431  	return count;
+c52ca478233c17 Dave Jiang 2020-01-21  432  }
+c52ca478233c17 Dave Jiang 2020-01-21  433  
+
+:::::: The code at line 429 was first introduced by commit
+:::::: c52ca478233c172b2d322b5241d6279a8661cbba dmaengine: idxd: add configuration component of driver
+
+:::::: TO: Dave Jiang <dave.jiang@intel.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
