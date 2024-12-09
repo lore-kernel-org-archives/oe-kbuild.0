@@ -1,69 +1,69 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08BA20C023
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 05:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C911C2325
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 06:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733723459; cv=none; b=IYZ4j5iF1felH3+yTzN4XAZsjkzapYnKIL88ruOCbd4TQxGO3ppZu34Fk+bCWURTThh6alY53oaLM/Vs1VB86AZUJPUxr5m4aGz2dZFYC93qGRCbQOilE26ZletKG+uMLABXrkDZ2ExaRYiml6Nw91D+riDqOinSfjOJ7N4SsyI=
+	t=1733725255; cv=none; b=Q9Vn+dABA9YljiIy4zeaY629TuZkLKK8Z5BDLNoZr0pcw57hmjeLnfR29sLTZ42O5UyBDd5fzI5xfLLYWjhEfQ5H/heyYiCiW5xaTj6JNpdOt7x57kFUJkU3Z0w7/4R5TKO/5BVcCppKdbxkEx60nmxJ/tGbA54k8kQlqxA14hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733723459; c=relaxed/simple;
-	bh=MviEnYY+yN4NlL5Ybvu7cgCpvIJDFNrAjhE7HsAKz8k=;
+	s=arc-20240116; t=1733725255; c=relaxed/simple;
+	bh=GpYynn+iuoP7VK0sSmVZgMS2aLLGAqJHZ9w4DCaAhoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r64bbEgppBfeR6kn0/kw1Ea5tMdf2k9TUMgFsU1OdQ54aNfLBEk2/R38xmwxNP7ANp1HppG70x4d484L3FtiHvWArxmdumXy3rc26N7CRt+1qH6Qu/57iHdxS3+NOEmoMPW/ZVVPCWkN7Kajf7VYMwpqeYgJVlHHQnLmvdPVVxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YJAGM2uz; arc=none smtp.client-ip=209.85.128.54
+	 Content-Disposition; b=IUjT5z/WCn/U6dbv3uDy+bzHJ1Z751A17sRKY2fg7sYv5GCy7TPyHUWMzXxlX/T4TWrI82qkJTF0yRJhUYDswmUUEcWb2RKpgk0D7flmqBeZrdSUtRZmKvdAf+TWM61MhaZ7dZW3ZtQUqRKaFNogGrVjJUeHGT8XCpJ61c0Ck0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qthyGVDk; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YJAGM2uz"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434a1fe2b43so41391105e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 08 Dec 2024 21:50:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qthyGVDk"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3862d16b4f5so1430898f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 08 Dec 2024 22:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733723455; x=1734328255; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1733725251; x=1734330051; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=34kuMtFF1sUeZLabUgIRjLsTCdR/lMtQjrJoQQn6+wc=;
-        b=YJAGM2uzqt7RT741bGtJBRM37m3td5+J09oHoOQONmrflMSOetHQXmM63n02hN8W9a
-         DEhZFXpYIhGToBnIYWoWpncgtOnjvw3fqYuSv16ggLdbpB2t26PULj8UnCTYuC5yeg7T
-         +VaKdRb6pLgBWiuJIbCq/+ekbgsHNe6+CW9Qo5k47DgecrdUoUt/qdjO142SovW6uP5q
-         INQU3Z9xIoUtAtCeW3wP2OCnpGXhQbOyRAYd6d76RPovo1vRjYD35VP6q7PiWH6g/74J
-         g1lNGllKQFAvs1x3LCCzmP9ZdXKxerXKBaUaG8KhAY6dmzr+OLSiQvm5ku3RYQBiHn+l
-         xxwg==
+        bh=7jJkWSBwztPHLc8SnWGYUODZCuX3iLbpG5bezmk5dRU=;
+        b=qthyGVDkUM8Zcjo1kemnGMSZE1HENnQUW14t6refeKW4TUpeCCmXC2kyHkYWI7uRUy
+         P3ry7Mct0rWgQVrBrUvdytS2y5SLQOYko1h2Jhec7RhRVluz4vCvUCwVekBIDih0xg9n
+         ankduYb3pyupy5Cyuioduyxu0Q8OqngJar65vG5pGwCLAD5jIeMAIXCONzRcGwP9Nznw
+         qosVte1p3EYzvqdxjJAwyG3GCm9Mm1wdykQqgjYmvaRhOA6MC/g3SIKA2kM0pUV4S+6X
+         TvyGbOB2Sj+kbygm2etSs662OcLGuE9aoOZ8b9C4tVixKQ2klBAvj+3NRWc62CNOwkmC
+         Cccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733723455; x=1734328255;
+        d=1e100.net; s=20230601; t=1733725251; x=1734330051;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=34kuMtFF1sUeZLabUgIRjLsTCdR/lMtQjrJoQQn6+wc=;
-        b=VuiefOId+RpLrIiUJf2BNgrFV5btK7TSMeLJ91Pcjim/dy9/u+VJZu3r4xWDKHHi2H
-         78Go8ETg6ImgOWUQQ+xvhOavvgpfk67dEY6Po0nbgsecmt88ZnKPCQVqPoJ6NMOweMEb
-         zCUlaBQ0Vda9wqI3w7XJYEZGL2qXJwPPnvUpxa3cpX3Q2n+mMHP/OD7dxYy3b5z6nd2n
-         8tErRbp1g0kNd1JQBO6A+m1vLmOB4AVp7bHg/eqyh0+/uqM7VFPkjzMe0xXxR+q6KXUN
-         VOhVXYrOSJtzf8bBDANy8r8JaQQMRFtttqDAatpfv7u++53FpLpfVBnMpTfazOKxDwc/
-         CqZQ==
-X-Gm-Message-State: AOJu0YzQtqKg8mjuJDWhB14srK62KzS7KqkwH3SgcCE1cveqiruwVfwF
-	UmXLXGBdfNqr9yqco/2FkxREWbF7L43Vqn0cO5m7D6OZcjESB2W/9mVVZ+Lj/0ylJqBwqc4K96/
-	L
-X-Gm-Gg: ASbGncvnMW3+/pTvd+30kDsa0qbuoNcRpvw1Aj4lkMxDD4BcNizew5WLxlNq5XN1ziU
-	QSCMHCEECUDi23NMvYO21LymY5+T+RQA9Oyn7zJmK/F4alC/h5N+DkB1xSVYv0/BTM8NsBCZoW/
-	tG+6/mKf+F0dGmj0uctF737SJ832+KBxtfzSOomEKObPBsxtIrfhHVIsj8OogG/O+JHsGLWSsSd
-	HHYBPJuLysLu0Hr/7Wn1CrlgSYRo5OiESR8OyJ0lu6eI/7an89nH5Q=
-X-Google-Smtp-Source: AGHT+IFLydXe9P5ouMDMbpX+VeEQbmBrKpmOflmaHL4GIGHpH96FEk93rDRJfKrGEEdnAUJfQ10o0A==
-X-Received: by 2002:a05:600c:4f84:b0:434:a04d:166f with SMTP id 5b1f17b1804b1-434dde4dd11mr102110715e9.0.1733723455408;
-        Sun, 08 Dec 2024 21:50:55 -0800 (PST)
+        bh=7jJkWSBwztPHLc8SnWGYUODZCuX3iLbpG5bezmk5dRU=;
+        b=euqGq8n3j6sgT8B354Mz60Rd57D4PN7Ay5or81P9neoWLQ3E0Qzbmf0Ds/7vgdl4OQ
+         h6CA79VZ7ZaeK8v3YSyU0m2P3U+pTuBN3IGpka8Gs4tLjQzeTT9lm7Wu6od44+/OYv2X
+         YhVAXbg7RzzeMWyqOoz6ww2BqaTHYUnN7U2EHH8q4E5TeUnju0n1mQhwrpuyON3THL02
+         glTYHToq1DcfLc0A4dT6lHSUBEk7W5/FcljpIhZtdHaiGi7RO8GRyyCdm14jwHtPxRd9
+         3Ifcgk6LpTABXJQZy8b12cM/tdYLD5CW0LRK5P58uXmeOmcq9LtIgmGcZEi2tK0J7kd6
+         ZffA==
+X-Gm-Message-State: AOJu0YwniLPrfkbEIJZowvFUduw0CyeCdGfE3IJG8CWueEhLLEmY8QrP
+	8lO3j6xm+bFSuyHSVewdsCUEJMxO5CDDQ0w4jsOY/CnTrKYW9wwRAL8c9sFEErfyGl3jsHAYg21
+	c
+X-Gm-Gg: ASbGncv8o97yVEmcjQRZrDWvhKk/bWZ0TjGhKDNh9lsGmqDVKnZK1E28qO9Rc2zCN/B
+	eyxfuAfI7rdHl4dWvbVlW2A6PKNQDfCAp8cDvHUZIvQJZzkB83pkgC8TWAFsbTzctKwIDWPGvM5
+	9MYGWseNiPmTD0osruzF6KfrmdoTj96arYZsqimIGg/KTzsbW7G++5HI0ASNyJCjgPOIrPTEx5E
+	HEBYB6JlnbBrlIr2491phCUCXj7Z3PKPZKnJCYJX7XcxSoB69Cp5TE=
+X-Google-Smtp-Source: AGHT+IG7w4/4RKpd6Mi9/6A3a434elfjyRGJzlFv7WKBL0P6cJmpxGL1+tFZA6BscihXHw4JGki09A==
+X-Received: by 2002:a05:6000:2ac:b0:385:f7e5:de88 with SMTP id ffacd0b85a97d-3862a7722d0mr7780821f8f.3.1733725251254;
+        Sun, 08 Dec 2024 22:20:51 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f95bd258sm22788045e9.14.2024.12.08.21.50.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3862190989fsm12360852f8f.73.2024.12.08.22.20.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 21:50:54 -0800 (PST)
-Date: Mon, 9 Dec 2024 08:50:50 +0300
+        Sun, 08 Dec 2024 22:20:50 -0800 (PST)
+Date: Mon, 9 Dec 2024 09:20:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ranjan Kumar <ranjan.kumar@broadcom.com>
+To: oe-kbuild@lists.linux.dev, Cosmin Ratiu <cratiu@nvidia.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>
-Subject: [linux-next:pending-fixes 350/550]
- drivers/scsi/mpi3mr/mpi3mr_app.c:2834 mpi3mr_bsg_process_mpt_cmds() warn:
- inconsistent returns '&mrioc->bsg_cmds.mutex'.
-Message-ID: <a3a72581-8e19-4322-90df-dce744db701d@stanley.mountain>
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:173
+ mlx5_fc_stats_query_all_counters() error: uninitialized symbol
+ 'bulk_query_time'.
+Message-ID: <1ce44712-7b81-4ace-aae8-7284974b11f1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,83 +73,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   2152e8397622d3783e947ca02ff62d94bc5b8f9e
-commit: 367ac16e5ff2dcd6b7f00a8f94e6ba98875cb397 [350/550] scsi: mpi3mr: Synchronize access to ioctl data buffer
-config: i386-randconfig-141-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071034.OF3x0CTb-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
+commit: 918af0219a4d6a89cf02839005ede24e91f13bf6 net/mlx5: hw counters: Replace IDR+lists with xarray
+config: openrisc-randconfig-r072-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071312.oNFnyT9f-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412071034.OF3x0CTb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412071312.oNFnyT9f-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_app.c:2834 mpi3mr_bsg_process_mpt_cmds() warn: inconsistent returns '&mrioc->bsg_cmds.mutex'.
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:173 mlx5_fc_stats_query_all_counters() error: uninitialized symbol 'bulk_query_time'.
+drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c:174 mlx5_fc_stats_query_all_counters() error: uninitialized symbol 'bulk_base_id'.
 
-vim +2834 drivers/scsi/mpi3mr/mpi3mr_app.c
+vim +/bulk_query_time +173 drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c
 
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2298  static long mpi3mr_bsg_process_mpt_cmds(struct bsg_job *job)
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2299  {
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2300  	long rval = -EINVAL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2301  	struct mpi3mr_ioc *mrioc = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2302  	u8 *mpi_req = NULL, *sense_buff_k = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2303  	u8 mpi_msg_size = 0;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2304  	struct mpi3mr_bsg_packet *bsg_req = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2305  	struct mpi3mr_bsg_mptcmd *karg;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2306  	struct mpi3mr_buf_entry *buf_entries = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2307  	struct mpi3mr_buf_map *drv_bufs = NULL, *drv_buf_iter = NULL;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2308  	u8 count, bufcnt = 0, is_rmcb = 0, is_rmrb = 0;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2309  	u8 din_cnt = 0, dout_cnt = 0;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2310  	u8 invalid_be = 0, erb_offset = 0xFF, mpirep_offset = 0xFF;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2311  	u8 block_io = 0, nvme_fmt = 0, resp_code = 0;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2312  	struct mpi3_request_header *mpi_header = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2313  	struct mpi3_status_reply_descriptor *status_desc;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2314  	struct mpi3_scsi_task_mgmt_request *tm_req;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2315  	u32 erbsz = MPI3MR_SENSE_BUF_SZ, tmplen;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2316  	u16 dev_handle;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2317  	struct mpi3mr_tgt_dev *tgtdev;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2318  	struct mpi3mr_stgt_priv_data *stgt_priv = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2319  	struct mpi3mr_bsg_in_reply_buf *bsg_reply_buf = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2320  	u32 din_size = 0, dout_size = 0;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2321  	u8 *din_buf = NULL, *dout_buf = NULL;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2322  	u8 *sgl_iter = NULL, *sgl_din_iter = NULL, *sgl_dout_iter = NULL;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2323  	u16 rmc_size  = 0, desc_count = 0;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2324  
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2325  	bsg_req = job->request;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2326  	karg = (struct mpi3mr_bsg_mptcmd *)&bsg_req->cmd.mptcmd;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2327  
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2328  	mrioc = mpi3mr_bsg_verify_adapter(karg->mrioc_id);
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2329  	if (!mrioc)
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2330  		return -ENODEV;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2331  
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2332  	if (mutex_lock_interruptible(&mrioc->bsg_cmds.mutex))
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2333  		return -ERESTARTSYS;
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2334  
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2335  	if (mrioc->bsg_cmds.state & MPI3MR_CMD_PENDING) {
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2336  		dprint_bsg_err(mrioc, "%s: command is in use\n", __func__);
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2337  		mutex_unlock(&mrioc->bsg_cmds.mutex);
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2338  		return -EAGAIN;
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2339  	}
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2340  
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2341  	if (!mrioc->ioctl_sges_allocated) {
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2342  		dprint_bsg_err(mrioc, "%s: DMA memory was not allocated\n",
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2343  			       __func__);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  138  static void mlx5_fc_stats_query_all_counters(struct mlx5_core_dev *dev)
+a351a1b03bf169f Amir Vadai   2016-07-14  139  {
+5acd957a986c167 Cosmin Ratiu 2024-10-01  140  	struct mlx5_fc_stats *fc_stats = dev->priv.fc_stats;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  141  	u32 bulk_len = fc_stats->bulk_query_len;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  142  	XA_STATE(xas, &fc_stats->counters, 0);
+6f06e04b67baa1c Gavi Teitz   2019-07-29  143  	u32 *data = fc_stats->bulk_query_out;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  144  	struct mlx5_fc *counter;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  145  	u32 last_bulk_id = 0;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  146  	u64 bulk_query_time;
+6f06e04b67baa1c Gavi Teitz   2019-07-29  147  	u32 bulk_base_id;
+a351a1b03bf169f Amir Vadai   2016-07-14  148  	int err;
+a8ffcc741acb3c7 Rabie Loulou 2017-07-09  149  
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  150  	xas_lock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  151  	xas_for_each(&xas, counter, U32_MAX) {
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  152  		if (xas_retry(&xas, counter))
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  153  			continue;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  154  		if (unlikely(counter->id >= last_bulk_id)) {
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  155  			/* Start new bulk query. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  156  			/* First id must be aligned to 4 when using bulk query. */
+6f06e04b67baa1c Gavi Teitz   2019-07-29  157  			bulk_base_id = counter->id & ~0x3;
+                                                                ^^^^^^^^^^^^
 
-mutex_unlock(&mrioc->bsg_cmds.mutex) before returning
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  158  			last_bulk_id = bulk_base_id + bulk_len;
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  159  			/* The lock is released while querying the hw and reacquired after. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  160  			xas_unlock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  161  			/* The same id needs to be processed again in the next loop iteration. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  162  			xas_reset(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  163  			bulk_query_time = jiffies;
 
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2344  		return -ENOMEM;
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2345  	}
-fb231d7deffb41 Chandrakanth patil   2023-12-06  2346  
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2347  	if (karg->timeout < MPI3MR_APP_DEFAULT_TIMEOUT)
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2348  		karg->timeout = MPI3MR_APP_DEFAULT_TIMEOUT;
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2349  
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2350  	mpi_req = kzalloc(MPI3MR_ADMIN_REQ_FRAME_SZ, GFP_KERNEL);
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2351  	if (!mpi_req) {
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2352  		mutex_unlock(&mrioc->bsg_cmds.mutex);
-506bc1a0d6ba62 Sumit Saxena         2022-04-29  2353  		return -ENOMEM;
-367ac16e5ff2dc Ranjan Kumar         2024-11-11  2354  	}
+bulk_query_time is only initialized on this path which is marked as unlikely()
+and not initialized on the else statement.
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  164  			err = mlx5_cmd_fc_bulk_query(dev, bulk_base_id, bulk_len, data);
+a351a1b03bf169f Amir Vadai   2016-07-14  165  			if (err) {
+a351a1b03bf169f Amir Vadai   2016-07-14  166  				mlx5_core_err(dev, "Error doing bulk query: %d\n", err);
+6f06e04b67baa1c Gavi Teitz   2019-07-29  167  				return;
+a351a1b03bf169f Amir Vadai   2016-07-14  168  			}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  169  			xas_lock(&xas);
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  170  			continue;
+6f06e04b67baa1c Gavi Teitz   2019-07-29  171  		}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  172  		/* Do not update counters added after bulk query was started. */
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01 @173  		if (time_after64(bulk_query_time, counter->cache.lastuse))
+                                                                         ^^^^^^^^^^^^^^^
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01 @174  			update_counter_cache(counter->id - bulk_base_id, data,
+                                                                                                   ^^^^^^^^^^^^
+
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  175  					     &counter->cache);
+a351a1b03bf169f Amir Vadai   2016-07-14  176  	}
+918af0219a4d6a8 Cosmin Ratiu 2024-10-01  177  	xas_unlock(&xas);
+a351a1b03bf169f Amir Vadai   2016-07-14  178  }
 
 -- 
 0-DAY CI Kernel Test Service
