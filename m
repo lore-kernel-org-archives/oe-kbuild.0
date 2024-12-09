@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08E815625A
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71625156677
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717531; cv=none; b=jwIYDZhaU9P34Ie9k6/m/3psAADNdczq5n5n2luUzoAjrHPvYByIwVIYsBwQXsbCeu2tV47yqoQ8s46EXod49zfziI1bTopSL03ZAwXLIThj1RYdtBE4ltToJitMxljlf3ZShBgXCS57wfiy0FtuwPoVYBu0Pq9g4w8HZog0R5w=
+	t=1733717533; cv=none; b=t+94WJkTvU7UlGOaftSLIq77d8XCAr3SvSQRIVTes9qx/oeEcTb+wFm56Z+WvFwXoIqXJyath18KfflIHszcr92lf275jwG+Evn7ks02Z/kMS+RK3AqVS7ekzwEi4hMfWwNgnL5EiYp5biY7FMB8BzrWazWxJoJrpel9Im80XAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717531; c=relaxed/simple;
-	bh=Lga/ssee0/e2AK2TRY8ybDPfVx7+bunkn648UXNE7po=;
+	s=arc-20240116; t=1733717533; c=relaxed/simple;
+	bh=CI4HDwjJnAUb1DXOtrkMJKVqUY7GivVPFLt94QT9ePM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VPZPM+ENZIK2rjZh38io8smPwMEgmSAHvuqTZj/lUzg5zEleAUo7VAoZnmK9rRylJ73FJjSsz/jyxM2AG60Jnabi6x7IDerXXVDXogUumPI64aCFiBlCy6oBB8EB82y+P6zcRk7pUxDS4jyVGme/AdpfX136vkCSQsxNHTukMKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWlfVZ5m; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=APHnTdZZAKpXwy9eTpKmdrNsgSWCKJu+pLm2iDcbTRc9l9vEg4AJneKegPuMDC/pJt3N7HJ5uj3zCblRVAxbTXAfY8ggIEOSggEPCBGqWYk3KX7uTzlET0mMWaNv8pV6cr2st7bxS598Gq8RxQD1YZUGjMQLfJ8BbfbU48Tw33A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+sKn/mt; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWlfVZ5m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+sKn/mt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717530; x=1765253530;
+  t=1733717532; x=1765253532;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lga/ssee0/e2AK2TRY8ybDPfVx7+bunkn648UXNE7po=;
-  b=KWlfVZ5mGW30Ka6yo1+cvLk93P7WlhZP/PWENVgOUhv5q13DrA/c4NSu
-   LQO/isXniIP3euH7oVb7MKXWKZeQj2+rjM3Gc1745Rr8ul309Yn8tyesy
-   SdkY4LA6kIBptksy/HOVJ1aJB6WLJzlEgcapdZmB35KhN0twgp8/Tv4ol
-   53c94BGH0WFLVqm7ocfXulFHqztrUabxkMWy6S0fkUtEKblaEOao/Hg6y
-   4Hk8srnLtBpfndVEPsettxCQzzWx6ITqZp9JtYnOadbVTXRfn1yWdLDSt
-   cKRe+VfkOoBZ/CnxlDVQjZGbfGCpX2dBbfAk3s91YXUDysmXWp9H4DqAg
-   A==;
-X-CSE-ConnectionGUID: V96TdD2ZTBi4lGeb2vTNOg==
-X-CSE-MsgGUID: jTL52OYvQsC8SBt2oB8A1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33891389"
+  bh=CI4HDwjJnAUb1DXOtrkMJKVqUY7GivVPFLt94QT9ePM=;
+  b=V+sKn/mtB/lFKA8gwlIS5KJsfWDbJIKDB1vzZHhOqc1jq3/hEHhpeqK3
+   u4sCk5wsa14sw/ah3M9ZaHsv7CvSZuJZNblk1KcDdYgj7d7eg6V2FfQj/
+   gNBu2cuf2Xvy8mx6Kcy2t1aSWFhC1kmH19uC5tNW9f/3o2+T2vgJgTccC
+   XA13ng5kKWRLvViX0znQ2WSZpepxoz3djmrNWG5nzKPTiWbEOpAhWiQzn
+   sKjKd9jt/QGfbp5uvrQBFA+RdnHjizts2quFddiVuoItRwXc00roG8cTo
+   880gt/PmUBJI/DAcPa9/7IlUQ02R1A1A3o2X7s8XsP7+L7SipVWqs+1c/
+   w==;
+X-CSE-ConnectionGUID: RxN1/kuRRICHRDfbKB3f4Q==
+X-CSE-MsgGUID: ExfDJwsZQ32+1fOnTREnMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33891391"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="33891389"
+   d="scan'208";a="33891391"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:12:10 -0800
-X-CSE-ConnectionGUID: 7bab7SODRCytzwQoEs07xA==
-X-CSE-MsgGUID: ZO3ulOfPRXyhfB6407hlYA==
+X-CSE-ConnectionGUID: c2sLZt/sRaqvJ7Ngt/R2gw==
+X-CSE-MsgGUID: /tXK2I7GRWSRXYhuaOagJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99775554"
+   d="scan'208";a="99775555"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 08 Dec 2024 20:12:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV7t-0003oL-2X;
+	id 1tKV7t-0003oF-29;
 	Mon, 09 Dec 2024 04:12:05 +0000
-Date: Mon, 9 Dec 2024 12:11:21 +0800
+Date: Mon, 9 Dec 2024 12:11:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error:
- uninitialized symbol 'cpu_id'.
-Message-ID: <202412071537.ce5eoTOq-lkp@intel.com>
+Subject: Re: [PATCH V5 net-next 1/8] debugfs: Add debugfs_create_devm_dir()
+ helper
+Message-ID: <202412071523.XnSXmPPZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,73 +64,88 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241206111629.3521865-2-shaojijie@huawei.com>
+References: <20241206111629.3521865-2-shaojijie@huawei.com>
+TO: Jijie Shao <shaojijie@huawei.com>
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: andrew+netdev@lunn.ch
+TO: horms@kernel.org
+TO: gregkh@linuxfoundation.org
+CC: shenjian15@huawei.com
+CC: wangpeiyang1@huawei.com
+CC: liuyonglong@huawei.com
+CC: chenhao418@huawei.com
+CC: sudongming1@huawei.com
+CC: xujunsheng@huawei.com
+CC: shiyongbang@huawei.com
+CC: libaihan@huawei.com
+CC: jonathan.cameron@huawei.com
+CC: shameerali.kolothum.thodi@huawei.com
+CC: salil.mehta@huawei.com
+CC: netdev@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Andrew Jones <ajones@ventanamicro.com>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
+CC: shaojijie@huawei.com
+CC: hkelam@marvell.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-commit: 53b2b22850e1ff9e2729ce8efe2d846ed7d3bff4 RISC-V: Move the hwprobe syscall to its own file
-date:   11 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071537.ce5eoTOq-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
+Hi Jijie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jijie-Shao/debugfs-Add-debugfs_create_devm_dir-helper/20241206-192734
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241206111629.3521865-2-shaojijie%40huawei.com
+patch subject: [PATCH V5 net-next 1/8] debugfs: Add debugfs_create_devm_dir() helper
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: i386-randconfig-141-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071523.XnSXmPPZ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412071537.ce5eoTOq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412071523.XnSXmPPZ-lkp@intel.com/
 
 smatch warnings:
-arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error: uninitialized symbol 'cpu_id'.
+fs/debugfs/inode.c:643 debugfs_create_devm_dir() warn: unchecked 'ERR_PTR'
 
-vim +/cpu_id +42 arch/riscv/kernel/sys_hwprobe.c
+vim +/ERR_PTR +643 fs/debugfs/inode.c
 
-53b2b22850e1ff Andrew Jones 2023-11-22  17  
-53b2b22850e1ff Andrew Jones 2023-11-22  18  
-53b2b22850e1ff Andrew Jones 2023-11-22  19  static void hwprobe_arch_id(struct riscv_hwprobe *pair,
-53b2b22850e1ff Andrew Jones 2023-11-22  20  			    const struct cpumask *cpus)
-53b2b22850e1ff Andrew Jones 2023-11-22  21  {
-53b2b22850e1ff Andrew Jones 2023-11-22  22  	u64 id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  23  	bool first = true;
-53b2b22850e1ff Andrew Jones 2023-11-22  24  	int cpu;
-53b2b22850e1ff Andrew Jones 2023-11-22  25  
-53b2b22850e1ff Andrew Jones 2023-11-22  26  	for_each_cpu(cpu, cpus) {
-53b2b22850e1ff Andrew Jones 2023-11-22  27  		u64 cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  28  
-53b2b22850e1ff Andrew Jones 2023-11-22  29  		switch (pair->key) {
-53b2b22850e1ff Andrew Jones 2023-11-22  30  		case RISCV_HWPROBE_KEY_MVENDORID:
-53b2b22850e1ff Andrew Jones 2023-11-22  31  			cpu_id = riscv_cached_mvendorid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  32  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  33  		case RISCV_HWPROBE_KEY_MIMPID:
-53b2b22850e1ff Andrew Jones 2023-11-22  34  			cpu_id = riscv_cached_mimpid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  35  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  36  		case RISCV_HWPROBE_KEY_MARCHID:
-53b2b22850e1ff Andrew Jones 2023-11-22  37  			cpu_id = riscv_cached_marchid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  38  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  39  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  40  
-53b2b22850e1ff Andrew Jones 2023-11-22  41  		if (first) {
-53b2b22850e1ff Andrew Jones 2023-11-22 @42  			id = cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  43  			first = false;
-53b2b22850e1ff Andrew Jones 2023-11-22  44  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  45  
-53b2b22850e1ff Andrew Jones 2023-11-22  46  		/*
-53b2b22850e1ff Andrew Jones 2023-11-22  47  		 * If there's a mismatch for the given set, return -1 in the
-53b2b22850e1ff Andrew Jones 2023-11-22  48  		 * value.
-53b2b22850e1ff Andrew Jones 2023-11-22  49  		 */
-53b2b22850e1ff Andrew Jones 2023-11-22  50  		if (id != cpu_id) {
-53b2b22850e1ff Andrew Jones 2023-11-22  51  			id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  52  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  53  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  54  	}
-53b2b22850e1ff Andrew Jones 2023-11-22  55  
-53b2b22850e1ff Andrew Jones 2023-11-22  56  	pair->value = id;
-53b2b22850e1ff Andrew Jones 2023-11-22  57  }
-53b2b22850e1ff Andrew Jones 2023-11-22  58  
+d44644eefac450 Jijie Shao 2024-12-06  619  
+d44644eefac450 Jijie Shao 2024-12-06  620  /**
+d44644eefac450 Jijie Shao 2024-12-06  621   * debugfs_create_devm_dir - Managed debugfs_create_dir()
+d44644eefac450 Jijie Shao 2024-12-06  622   * @dev: Device that owns the action
+d44644eefac450 Jijie Shao 2024-12-06  623   * @name: a pointer to a string containing the name of the directory to
+d44644eefac450 Jijie Shao 2024-12-06  624   *        create.
+d44644eefac450 Jijie Shao 2024-12-06  625   * @parent: a pointer to the parent dentry for this file.  This should be a
+d44644eefac450 Jijie Shao 2024-12-06  626   *          directory dentry if set.  If this parameter is NULL, then the
+d44644eefac450 Jijie Shao 2024-12-06  627   *          directory will be created in the root of the debugfs filesystem.
+d44644eefac450 Jijie Shao 2024-12-06  628   * Managed debugfs_create_dir(). dentry will automatically be remove on
+d44644eefac450 Jijie Shao 2024-12-06  629   * driver detach.
+d44644eefac450 Jijie Shao 2024-12-06  630   */
+d44644eefac450 Jijie Shao 2024-12-06  631  struct dentry *debugfs_create_devm_dir(struct device *dev, const char *name,
+d44644eefac450 Jijie Shao 2024-12-06  632  				       struct dentry *parent)
+d44644eefac450 Jijie Shao 2024-12-06  633  {
+d44644eefac450 Jijie Shao 2024-12-06  634  	struct dentry *dentry;
+d44644eefac450 Jijie Shao 2024-12-06  635  	int ret;
+d44644eefac450 Jijie Shao 2024-12-06  636  
+d44644eefac450 Jijie Shao 2024-12-06  637  	dentry = debugfs_create_dir(name, parent);
+d44644eefac450 Jijie Shao 2024-12-06  638  	if (IS_ERR(dentry))
+d44644eefac450 Jijie Shao 2024-12-06  639  		return dentry;
+d44644eefac450 Jijie Shao 2024-12-06  640  
+d44644eefac450 Jijie Shao 2024-12-06  641  	ret = devm_add_action_or_reset(dev, debugfs_remove_devm, dentry);
+d44644eefac450 Jijie Shao 2024-12-06  642  	if (ret)
+d44644eefac450 Jijie Shao 2024-12-06 @643  		ERR_PTR(ret);
+d44644eefac450 Jijie Shao 2024-12-06  644  
+d44644eefac450 Jijie Shao 2024-12-06  645  	return dentry;
+d44644eefac450 Jijie Shao 2024-12-06  646  }
+d44644eefac450 Jijie Shao 2024-12-06  647  EXPORT_SYMBOL_GPL(debugfs_create_devm_dir);
+d44644eefac450 Jijie Shao 2024-12-06  648  
 
 -- 
 0-DAY CI Kernel Test Service
