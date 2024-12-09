@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE022156225
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08E815625A
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717413; cv=none; b=cGN4jbHB8j5hVESCclPxJakZOXxVTDfBVyK1tIs9F/3oYHaD+564rmFJYM+pDrNo8Rcd1Id6qj3x44EeonEqBF3wPqmlZQkEugfZKQR/ksmu2biGAzJNX3g5DroPY3cHBCEV0X/BZrAVdORZ3W284hVnMlOr7EiSwtU3D8IGW2w=
+	t=1733717531; cv=none; b=jwIYDZhaU9P34Ie9k6/m/3psAADNdczq5n5n2luUzoAjrHPvYByIwVIYsBwQXsbCeu2tV47yqoQ8s46EXod49zfziI1bTopSL03ZAwXLIThj1RYdtBE4ltToJitMxljlf3ZShBgXCS57wfiy0FtuwPoVYBu0Pq9g4w8HZog0R5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717413; c=relaxed/simple;
-	bh=CM4rKc50p9LRgK1MiVwF7uOfSal1S+T2MAH/2R2UaP4=;
+	s=arc-20240116; t=1733717531; c=relaxed/simple;
+	bh=Lga/ssee0/e2AK2TRY8ybDPfVx7+bunkn648UXNE7po=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QFYuGKnJT7D0bZv1Spk1BSToOp4WHLmERn+3YCGkgSjl5RpgleBpimCNkmszXy03GBBlgkoRDgCBzVm74xpSZoUtIOHUeXu7R7OAtZ+20koLc/o69wQEQoRmYf7fN5OEWCn1cDWkainRzlUELvt/j1vACRlOVUmU2sr7ck+mm6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFKCZpOk; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=VPZPM+ENZIK2rjZh38io8smPwMEgmSAHvuqTZj/lUzg5zEleAUo7VAoZnmK9rRylJ73FJjSsz/jyxM2AG60Jnabi6x7IDerXXVDXogUumPI64aCFiBlCy6oBB8EB82y+P6zcRk7pUxDS4jyVGme/AdpfX136vkCSQsxNHTukMKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWlfVZ5m; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFKCZpOk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWlfVZ5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717410; x=1765253410;
+  t=1733717530; x=1765253530;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CM4rKc50p9LRgK1MiVwF7uOfSal1S+T2MAH/2R2UaP4=;
-  b=KFKCZpOkIwpx6MO2PRy7LeTxLQWJ1fYXMiL9zEmEBg+Rf6nKRz8MdPmA
-   lDn2V3xIZLDkWLl1LcKp1vnfPnh7x0VX+KFOQKLD6zA+YXCTPX8WIjSgy
-   TdYTjpZmXlWnp9dtV+NvoSywqAF9Ed6l66WnNBQNZ2SvdY8Rw6Z1I6MC0
-   x/Tqnv5jSh+aoWFUM0J6HWpIkltkxQlG3S9BrnWklfR0Ufo0evfYa+8KQ
-   TB5ek36a92HKyXDtND4O+/KcyyadQmwjYq7SIYf3ajtxCWG+Yhi5F44GY
-   EDSy0uejnPZy1Rtp6TPeebeUIxeJCtez3P+ugSpjlKFK60T9QW8zkr0R4
-   Q==;
-X-CSE-ConnectionGUID: Mi3KQ5YjTOeH9vfy/n8mRA==
-X-CSE-MsgGUID: AkEulwH9RBiirsHf4ApgYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33330601"
+  bh=Lga/ssee0/e2AK2TRY8ybDPfVx7+bunkn648UXNE7po=;
+  b=KWlfVZ5mGW30Ka6yo1+cvLk93P7WlhZP/PWENVgOUhv5q13DrA/c4NSu
+   LQO/isXniIP3euH7oVb7MKXWKZeQj2+rjM3Gc1745Rr8ul309Yn8tyesy
+   SdkY4LA6kIBptksy/HOVJ1aJB6WLJzlEgcapdZmB35KhN0twgp8/Tv4ol
+   53c94BGH0WFLVqm7ocfXulFHqztrUabxkMWy6S0fkUtEKblaEOao/Hg6y
+   4Hk8srnLtBpfndVEPsettxCQzzWx6ITqZp9JtYnOadbVTXRfn1yWdLDSt
+   cKRe+VfkOoBZ/CnxlDVQjZGbfGCpX2dBbfAk3s91YXUDysmXWp9H4DqAg
+   A==;
+X-CSE-ConnectionGUID: V96TdD2ZTBi4lGeb2vTNOg==
+X-CSE-MsgGUID: jTL52OYvQsC8SBt2oB8A1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33891389"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="33330601"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:10:09 -0800
-X-CSE-ConnectionGUID: ZDLVPlN7TSufh1SYQQE6Sg==
-X-CSE-MsgGUID: wckoKzn1R1e/djN+/qHESQ==
+   d="scan'208";a="33891389"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:12:10 -0800
+X-CSE-ConnectionGUID: 7bab7SODRCytzwQoEs07xA==
+X-CSE-MsgGUID: ZO3ulOfPRXyhfB6407hlYA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99988586"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
+   d="scan'208";a="99775554"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2024 20:10:08 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 08 Dec 2024 20:12:08 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKV5x-0003nh-0N;
-	Mon, 09 Dec 2024 04:10:05 +0000
-Date: Mon, 9 Dec 2024 12:09:54 +0800
+	id 1tKV7t-0003oL-2X;
+	Mon, 09 Dec 2024 04:12:05 +0000
+Date: Mon, 9 Dec 2024 12:11:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 1/6] dt-bindings: net: dwmac: Convert socfpga dwmac to
- DT schema
-Message-ID: <202412071429.4iR2RyYZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error:
+ uninitialized symbol 'cpu_id'.
+Message-ID: <202412071537.ce5eoTOq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,487 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241205-v6-12-topic-socfpga-agilex5-v3-1-2a8cdf73f50a@pengutronix.de>
-References: <20241205-v6-12-topic-socfpga-agilex5-v3-1-2a8cdf73f50a@pengutronix.de>
-TO: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-TO: Dinh Nguyen <dinguyen@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Richard Cochran <richardcochran@gmail.com>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: netdev@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: kernel@pengutronix.de
-CC: Steffen Trumtrar <s.trumtrar@pengutronix.de>
+TO: Andrew Jones <ajones@ventanamicro.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
-Hi Steffen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steffen-Trumtrar/dt-bindings-net-dwmac-Convert-socfpga-dwmac-to-DT-schema/20241205-171143
-base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/20241205-v6-12-topic-socfpga-agilex5-v3-1-2a8cdf73f50a%40pengutronix.de
-patch subject: [PATCH v3 1/6] dt-bindings: net: dwmac: Convert socfpga dwmac to DT schema
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-051-20241205 (https://download.01.org/0day-ci/archive/20241207/202412071429.4iR2RyYZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071429.4iR2RyYZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
+commit: 53b2b22850e1ff9e2729ce8efe2d846ed7d3bff4 RISC-V: Move the hwprobe syscall to its own file
+date:   11 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 11 months ago
+config: riscv-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071537.ce5eoTOq-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412071429.4iR2RyYZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412071537.ce5eoTOq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria5_socdk.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/i2c@ffc02200/audio-codec@1a: failed to match any schema with compatible: ['adi,ssm2603']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: isl12022@6f: $nodename:0: 'isl12022@6f' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/rtc/intersil,isl12022.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000: 'ranges' is a required property
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: ethernet@ff800000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: isl12022@6f: $nodename:0: 'isl12022@6f' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/rtc/intersil,isl12022.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: sram@ffe00000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: sram@ffe00000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: sram@ffe00000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff800000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
-   	True was expected
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'null'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff800000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
-   	True was expected
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'null'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff800000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
-   	True was expected
-   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'null'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: i2c@ffc04000: Unevaluated properties are not allowed ('label' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/snps,designware-i2c.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: i2c@ffc05000: Unevaluated properties are not allowed ('label' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/snps,designware-i2c.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_chameleon96.dtb: i2c@ffc07000: Unevaluated properties are not allowed ('label' was unexpected)
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: ethernet@ff700000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: stmpe811@41: '#address-cells', '#size-cells', 'blocks', 'id', 'irq-gpio', 'stmpe_touchscreen' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dtb: stmpe811@41: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socdk.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de0_nano_soc.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sockit.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_socrates.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_sodia.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: ethernet@ff702000: phy-mode:0: 'rgmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: ethernet@ff700000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: ethernet@ff700000: phy-mode:0: 'gmii' is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: ethernet@ff702000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac'] is too long
-   	'altr,socfpga-stmmac' is not one of ['altr,socfpga-stmmac-a10-s10']
-   	'snps,dwmac-3.72a' was expected
-   	'snps,dwmac-3.74a' was expected
-   	from schema $id: http://devicetree.org/schemas/net/socfpga-dwmac.yaml#
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
-   arch/arm/boot/dts/intel/socfpga/socfpga_vt.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+smatch warnings:
+arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error: uninitialized symbol 'cpu_id'.
+
+vim +/cpu_id +42 arch/riscv/kernel/sys_hwprobe.c
+
+53b2b22850e1ff Andrew Jones 2023-11-22  17  
+53b2b22850e1ff Andrew Jones 2023-11-22  18  
+53b2b22850e1ff Andrew Jones 2023-11-22  19  static void hwprobe_arch_id(struct riscv_hwprobe *pair,
+53b2b22850e1ff Andrew Jones 2023-11-22  20  			    const struct cpumask *cpus)
+53b2b22850e1ff Andrew Jones 2023-11-22  21  {
+53b2b22850e1ff Andrew Jones 2023-11-22  22  	u64 id = -1ULL;
+53b2b22850e1ff Andrew Jones 2023-11-22  23  	bool first = true;
+53b2b22850e1ff Andrew Jones 2023-11-22  24  	int cpu;
+53b2b22850e1ff Andrew Jones 2023-11-22  25  
+53b2b22850e1ff Andrew Jones 2023-11-22  26  	for_each_cpu(cpu, cpus) {
+53b2b22850e1ff Andrew Jones 2023-11-22  27  		u64 cpu_id;
+53b2b22850e1ff Andrew Jones 2023-11-22  28  
+53b2b22850e1ff Andrew Jones 2023-11-22  29  		switch (pair->key) {
+53b2b22850e1ff Andrew Jones 2023-11-22  30  		case RISCV_HWPROBE_KEY_MVENDORID:
+53b2b22850e1ff Andrew Jones 2023-11-22  31  			cpu_id = riscv_cached_mvendorid(cpu);
+53b2b22850e1ff Andrew Jones 2023-11-22  32  			break;
+53b2b22850e1ff Andrew Jones 2023-11-22  33  		case RISCV_HWPROBE_KEY_MIMPID:
+53b2b22850e1ff Andrew Jones 2023-11-22  34  			cpu_id = riscv_cached_mimpid(cpu);
+53b2b22850e1ff Andrew Jones 2023-11-22  35  			break;
+53b2b22850e1ff Andrew Jones 2023-11-22  36  		case RISCV_HWPROBE_KEY_MARCHID:
+53b2b22850e1ff Andrew Jones 2023-11-22  37  			cpu_id = riscv_cached_marchid(cpu);
+53b2b22850e1ff Andrew Jones 2023-11-22  38  			break;
+53b2b22850e1ff Andrew Jones 2023-11-22  39  		}
+53b2b22850e1ff Andrew Jones 2023-11-22  40  
+53b2b22850e1ff Andrew Jones 2023-11-22  41  		if (first) {
+53b2b22850e1ff Andrew Jones 2023-11-22 @42  			id = cpu_id;
+53b2b22850e1ff Andrew Jones 2023-11-22  43  			first = false;
+53b2b22850e1ff Andrew Jones 2023-11-22  44  		}
+53b2b22850e1ff Andrew Jones 2023-11-22  45  
+53b2b22850e1ff Andrew Jones 2023-11-22  46  		/*
+53b2b22850e1ff Andrew Jones 2023-11-22  47  		 * If there's a mismatch for the given set, return -1 in the
+53b2b22850e1ff Andrew Jones 2023-11-22  48  		 * value.
+53b2b22850e1ff Andrew Jones 2023-11-22  49  		 */
+53b2b22850e1ff Andrew Jones 2023-11-22  50  		if (id != cpu_id) {
+53b2b22850e1ff Andrew Jones 2023-11-22  51  			id = -1ULL;
+53b2b22850e1ff Andrew Jones 2023-11-22  52  			break;
+53b2b22850e1ff Andrew Jones 2023-11-22  53  		}
+53b2b22850e1ff Andrew Jones 2023-11-22  54  	}
+53b2b22850e1ff Andrew Jones 2023-11-22  55  
+53b2b22850e1ff Andrew Jones 2023-11-22  56  	pair->value = id;
+53b2b22850e1ff Andrew Jones 2023-11-22  57  }
+53b2b22850e1ff Andrew Jones 2023-11-22  58  
 
 -- 
 0-DAY CI Kernel Test Service
