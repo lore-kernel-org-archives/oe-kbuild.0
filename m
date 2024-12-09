@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D9A74068
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 03:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB47A76410
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 03:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733715486; cv=none; b=ILRCVARBvRUucOB2YjD/FQopgVEdOhndcxzYZUyQLFVV1F5U2bav1xsJJBEZJTDDcb1FZsed9ze+xhPlSfkOlJLz03LhYukDg2rXvUBE7R18E+pm1BTPQh+oxi55PREnSVBZo0pL/zS5SuPgby8ztBDliRewEmvyfQsAByEBTAQ=
+	t=1733716566; cv=none; b=lxs+6+3kzKPzNYwBxUOSOeZw6ABRD4r8keRrIxDYyK0zOvP68NmXtTxLy/fYsTfagVBk8L3Ie/h+Lhflunlj8SjlHuRa/UkCBwTrirGhjwYF491YH08HQmd49HAExXbb+1avVXYzIH9ZJCVhAYFsbfMpMs4+lSDRjVgx7ERH65Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733715486; c=relaxed/simple;
-	bh=/Zs+Gcfxy9DT7B3RNuYFfMXk9TqRyzJwtj4ocw2kApE=;
+	s=arc-20240116; t=1733716566; c=relaxed/simple;
+	bh=0/19eRdru0ZQrs2mMGLSt5hvUNlPZesZfnUiFKdk/c8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mk2JEWOPMYHuJBqI8BPJvw68P72CxKJD0bEQTI6K3xlo/6jhME+p/Gh+RWsvWoUvW0H0Xt36kRLd0HjijBM4L5tSfMtM8jGGESm2i7yRCXKfCA8DK3hT0h+8DZaY0zVAN6uOlQK9z7oIgwb6ib5ub4/FepeTqJaKSE10bYNQxGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8S+DG4m; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Yi/gIOcyQcQrx6jsi8JDjVEfxBmCbElxCKE64TAhzN426vdzBQIXpjCrxBq0GLH5E8XH1X5Bb/iJzl5t4CEnhT34boYmCQxdToLPXbLr4chSIxS2K8MpAGzxfXiuj/o+fmdUzn420YGTMzjuK2pYmZr/vycyh2Op87r0E1hq/2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEamw6Ed; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8S+DG4m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEamw6Ed"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733715484; x=1765251484;
+  t=1733716565; x=1765252565;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Zs+Gcfxy9DT7B3RNuYFfMXk9TqRyzJwtj4ocw2kApE=;
-  b=d8S+DG4mCWt8QXbrat5l+gpN0VcdJ/JrkwXiS9h9Ikj0el50YzxGgx76
-   XqSeFl4MB1TS0/K8r4FUOGo3v118KzUbFI35OIvoxKVq4ossj6y9OhC5J
-   ej0HXGEJfjs6Vid1zwHpGXQtwdL64rxor1iqQrLBKABBdmzaBLJxurBXR
-   bbz7WludEsPZmqGETraYtitHLlPVCNjXKxd2dvkIga0GHPKw9DVQdafLx
-   Ipcx34eJY8KFlltaP7tv/bY8Z9lM5RovN+wGYDIyN16vRVr+nlvc7ICCq
-   hMMLkYp2ID/T/iXGvv2whKcuqqowwb15+6lqjoRYvUlFp0JheCcyDeFPw
-   A==;
-X-CSE-ConnectionGUID: zmYl4uv5RUSfRPkukMSi8g==
-X-CSE-MsgGUID: YVXWDro5SDCVwM8rDn2l3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51413039"
+  bh=0/19eRdru0ZQrs2mMGLSt5hvUNlPZesZfnUiFKdk/c8=;
+  b=XEamw6EdLvNUWP9sKuOBQUz1lbk3KoxF9Q7AB2NwuSxegB+buW2e5OW+
+   n0L2/Wmpw3YRHBz7BeFJgRBjt48xQHtkdL1q78RbJLvtakUDv5QoNprOt
+   t7d1CaGjlp2t+eFg3hmjgRW6HnbKYVAFwZpsd1wRqQzMc7SvDR2uzo7i/
+   QGFz+6CYePrU/c+NfGG18iqScW5/9+DNj4QJFkuzbCJZv+6XPH7i+mf90
+   8N3cgvdXIH/+x48LBpth2O/NpoEQcCXnnjVj4cxwLpwIyjJSNl9QDYTgh
+   jdEXJYquo75hnwPAvPRD1GYaEpH20Uty6dWlwcBGNHl7yQunihAuFTziT
+   Q==;
+X-CSE-ConnectionGUID: FvgjbC+6QZOQqbSJnqL12w==
+X-CSE-MsgGUID: ZIYu02EUQxKVTV/145yA8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33889955"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="51413039"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:38:02 -0800
-X-CSE-ConnectionGUID: vwBL8NSQQcSD1NqoPoKw8A==
-X-CSE-MsgGUID: wNYbCFY1QxO8p4/JsC3i0Q==
+   d="scan'208";a="33889955"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:56:05 -0800
+X-CSE-ConnectionGUID: Www2lysDSuS+lUtKDFZQgw==
+X-CSE-MsgGUID: SKkCn2ShRWCYzxy7FN9hDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95422827"
+   d="scan'208";a="95297801"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Dec 2024 19:38:01 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 19:56:03 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUas-0003jx-2S;
-	Mon, 09 Dec 2024 03:37:58 +0000
-Date: Mon, 9 Dec 2024 11:37:43 +0800
+	id 1tKUsK-0003lW-3B;
+	Mon, 09 Dec 2024 03:56:00 +0000
+Date: Mon, 9 Dec 2024 11:55:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: io_uring/rsrc.c:1060:2-8: preceding lock on line 1055
-Message-ID: <202412070654.2UoRLjPm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:366
+ mlx5_devcom_get_next_peer_data() error: uninitialized symbol 'data'.
+Message-ID: <202412070931.gIXUE178-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,108 +65,91 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jens Axboe <axboe@kernel.dk>
+TO: Wei Yang <richard.weiyang@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b8f52214c61a5b99a54168145378e91b40d10c90
-commit: 7029acd8a950393ee3a3d8e1a7ee1a9b77808a3b io_uring/rsrc: get rid of per-ring io_rsrc_node list
-date:   5 weeks ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 5 weeks ago
-config: csky-randconfig-r053-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070654.2UoRLjPm-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+head:   f3ddc438a29f78f0642bfcf84407c236a0b2bdc7
+commit: 2932fb0a927d30690b8cb70c71d511fd9054bb61 list: leverage list_is_head() for list_entry_is_head()
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
+config: openrisc-randconfig-r072-20241206 (https://download.01.org/0day-ci/archive/20241207/202412070931.gIXUE178-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412070654.2UoRLjPm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412070931.gIXUE178-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/rsrc.c:1060:2-8: preceding lock on line 1055
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:366 mlx5_devcom_get_next_peer_data() error: uninitialized symbol 'data'.
+drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c:395 mlx5_devcom_get_next_peer_data_rcu() error: uninitialized symbol 'data'.
 
-vim +1060 io_uring/rsrc.c
+vim +/data +366 drivers/net/ethernet/mellanox/mlx5/core/lib/devcom.c
 
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1008  
-636119af94f2fbf Jens Axboe 2024-09-14  1009  static int io_clone_buffers(struct io_ring_ctx *ctx, struct io_ring_ctx *src_ctx)
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1010  {
-7029acd8a950393 Jens Axboe 2024-10-25  1011  	struct io_rsrc_node **user_bufs;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1012  	struct io_rsrc_data *data;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1013  	int i, ret, nbufs;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1014  
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1015  	/*
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1016  	 * Drop our own lock here. We'll setup the data we need and reference
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1017  	 * the source buffers, then re-grab, check, and assign at the end.
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1018  	 */
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1019  	mutex_unlock(&ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1020  
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1021  	mutex_lock(&src_ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1022  	ret = -ENXIO;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1023  	nbufs = src_ctx->nr_user_bufs;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1024  	if (!nbufs)
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1025  		goto out_unlock;
-7029acd8a950393 Jens Axboe 2024-10-25  1026  	ret = io_rsrc_data_alloc(ctx, nbufs, &data);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1027  	if (ret)
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1028  		goto out_unlock;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1029  
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1030  	ret = -ENOMEM;
-7029acd8a950393 Jens Axboe 2024-10-25  1031  	user_bufs = kvmalloc_array(nbufs, sizeof(struct io_rsrc_node *),
-7029acd8a950393 Jens Axboe 2024-10-25  1032  					GFP_KERNEL | __GFP_ZERO);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1033  	if (!user_bufs)
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1034  		goto out_free_data;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1035  
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1036  	for (i = 0; i < nbufs; i++) {
-7029acd8a950393 Jens Axboe 2024-10-25  1037  		struct io_mapped_ubuf *imu = src_ctx->user_bufs[i]->buf;
-7029acd8a950393 Jens Axboe 2024-10-25  1038  		struct io_rsrc_node *dst_node;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1039  
-7029acd8a950393 Jens Axboe 2024-10-25  1040  		dst_node = io_rsrc_node_alloc(ctx, IORING_RSRC_BUFFER);
-7029acd8a950393 Jens Axboe 2024-10-25  1041  		if (!dst_node)
-7029acd8a950393 Jens Axboe 2024-10-25  1042  			goto out_put_free;
-7029acd8a950393 Jens Axboe 2024-10-25  1043  
-7029acd8a950393 Jens Axboe 2024-10-25  1044  		if (imu == &dummy_ubuf) {
-7029acd8a950393 Jens Axboe 2024-10-25  1045  			dst_node->buf = (struct io_mapped_ubuf *) &dummy_ubuf;
-7029acd8a950393 Jens Axboe 2024-10-25  1046  		} else {
-7029acd8a950393 Jens Axboe 2024-10-25  1047  			refcount_inc(&imu->refs);
-7029acd8a950393 Jens Axboe 2024-10-25  1048  			dst_node->buf = imu;
-7029acd8a950393 Jens Axboe 2024-10-25  1049  		}
-7029acd8a950393 Jens Axboe 2024-10-25  1050  		user_bufs[i] = dst_node;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1051  	}
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1052  
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1053  	/* Have a ref on the bufs now, drop src lock and re-grab our own lock */
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1054  	mutex_unlock(&src_ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11 @1055  	mutex_lock(&ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1056  	if (!ctx->user_bufs) {
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1057  		ctx->user_bufs = user_bufs;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1058  		ctx->buf_data = data;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1059  		ctx->nr_user_bufs = nbufs;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11 @1060  		return 0;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1061  	}
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1062  
-7029acd8a950393 Jens Axboe 2024-10-25  1063  	mutex_unlock(&ctx->uring_lock);
-7029acd8a950393 Jens Axboe 2024-10-25  1064  	mutex_lock(&src_ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1065  	/* someone raced setting up buffers, dump ours */
-7029acd8a950393 Jens Axboe 2024-10-25  1066  	ret = -EBUSY;
-7029acd8a950393 Jens Axboe 2024-10-25  1067  	i = nbufs;
-7029acd8a950393 Jens Axboe 2024-10-25  1068  out_put_free:
-7029acd8a950393 Jens Axboe 2024-10-25  1069  	while (i--) {
-7029acd8a950393 Jens Axboe 2024-10-25  1070  		io_buffer_unmap(src_ctx, user_bufs[i]);
-7029acd8a950393 Jens Axboe 2024-10-25  1071  		kfree(user_bufs[i]);
-7029acd8a950393 Jens Axboe 2024-10-25  1072  	}
-7029acd8a950393 Jens Axboe 2024-10-25  1073  	kvfree(user_bufs);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1074  out_free_data:
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1075  	io_rsrc_data_free(data);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1076  out_unlock:
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1077  	mutex_unlock(&src_ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1078  	mutex_lock(&ctx->uring_lock);
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1079  	return ret;
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1080  }
-7cc2a6eadcd7a5a Jens Axboe 2024-09-11  1081  
+691c041bf20899f Vlad Buslov    2023-03-31  344  
+88d162b479815f5 Roi Dayan      2023-05-04  345  void *mlx5_devcom_get_next_peer_data(struct mlx5_devcom_comp_dev *devcom,
+88d162b479815f5 Roi Dayan      2023-05-04  346  				     struct mlx5_devcom_comp_dev **pos)
+691c041bf20899f Vlad Buslov    2023-03-31  347  {
+88d162b479815f5 Roi Dayan      2023-05-04  348  	struct mlx5_devcom_comp *comp = devcom->comp;
+88d162b479815f5 Roi Dayan      2023-05-04  349  	struct mlx5_devcom_comp_dev *tmp;
+88d162b479815f5 Roi Dayan      2023-05-04  350  	void *data;
+691c041bf20899f Vlad Buslov    2023-03-31  351  
+88d162b479815f5 Roi Dayan      2023-05-04  352  	tmp = list_prepare_entry(*pos, &comp->comp_dev_list_head, list);
+691c041bf20899f Vlad Buslov    2023-03-31  353  
+88d162b479815f5 Roi Dayan      2023-05-04  354  	list_for_each_entry_continue(tmp, &comp->comp_dev_list_head, list) {
+88d162b479815f5 Roi Dayan      2023-05-04  355  		if (tmp != devcom) {
+88d162b479815f5 Roi Dayan      2023-05-04  356  			data = rcu_dereference_protected(tmp->data, lockdep_is_held(&comp->sem));
+88d162b479815f5 Roi Dayan      2023-05-04  357  			if (data)
+691c041bf20899f Vlad Buslov    2023-03-31  358  				break;
+90ca127c62e9963 Saeed Mahameed 2023-06-02  359  		}
+90ca127c62e9963 Saeed Mahameed 2023-06-02  360  	}
+90ca127c62e9963 Saeed Mahameed 2023-06-02  361  
+88d162b479815f5 Roi Dayan      2023-05-04  362  	if (list_entry_is_head(tmp, &comp->comp_dev_list_head, list))
+90ca127c62e9963 Saeed Mahameed 2023-06-02  363  		return NULL;
+90ca127c62e9963 Saeed Mahameed 2023-06-02  364  
+88d162b479815f5 Roi Dayan      2023-05-04  365  	*pos = tmp;
+88d162b479815f5 Roi Dayan      2023-05-04 @366  	return data;
+90ca127c62e9963 Saeed Mahameed 2023-06-02  367  }
+90ca127c62e9963 Saeed Mahameed 2023-06-02  368  
+88d162b479815f5 Roi Dayan      2023-05-04  369  void *mlx5_devcom_get_next_peer_data_rcu(struct mlx5_devcom_comp_dev *devcom,
+88d162b479815f5 Roi Dayan      2023-05-04  370  					 struct mlx5_devcom_comp_dev **pos)
+90ca127c62e9963 Saeed Mahameed 2023-06-02  371  {
+88d162b479815f5 Roi Dayan      2023-05-04  372  	struct mlx5_devcom_comp *comp = devcom->comp;
+88d162b479815f5 Roi Dayan      2023-05-04  373  	struct mlx5_devcom_comp_dev *tmp;
+88d162b479815f5 Roi Dayan      2023-05-04  374  	void *data;
+691c041bf20899f Vlad Buslov    2023-03-31  375  
+88d162b479815f5 Roi Dayan      2023-05-04  376  	tmp = list_prepare_entry(*pos, &comp->comp_dev_list_head, list);
+90ca127c62e9963 Saeed Mahameed 2023-06-02  377  
+88d162b479815f5 Roi Dayan      2023-05-04  378  	list_for_each_entry_continue(tmp, &comp->comp_dev_list_head, list) {
+88d162b479815f5 Roi Dayan      2023-05-04  379  		if (tmp != devcom) {
+691c041bf20899f Vlad Buslov    2023-03-31  380  			/* This can change concurrently, however 'data' pointer will remain
+691c041bf20899f Vlad Buslov    2023-03-31  381  			 * valid for the duration of RCU read section.
+691c041bf20899f Vlad Buslov    2023-03-31  382  			 */
+e67f928a5204cc5 Shay Drory     2023-02-07  383  			if (!READ_ONCE(comp->ready))
+691c041bf20899f Vlad Buslov    2023-03-31  384  				return NULL;
+88d162b479815f5 Roi Dayan      2023-05-04  385  			data = rcu_dereference(tmp->data);
+88d162b479815f5 Roi Dayan      2023-05-04  386  			if (data)
+90ca127c62e9963 Saeed Mahameed 2023-06-02  387  				break;
+90ca127c62e9963 Saeed Mahameed 2023-06-02  388  		}
+fadd59fc50d0101 Aviv Heller    2018-12-04  389  	}
+fadd59fc50d0101 Aviv Heller    2018-12-04  390  
+88d162b479815f5 Roi Dayan      2023-05-04  391  	if (list_entry_is_head(tmp, &comp->comp_dev_list_head, list))
+90ca127c62e9963 Saeed Mahameed 2023-06-02  392  		return NULL;
+fadd59fc50d0101 Aviv Heller    2018-12-04  393  
+88d162b479815f5 Roi Dayan      2023-05-04  394  	*pos = tmp;
+88d162b479815f5 Roi Dayan      2023-05-04 @395  	return data;
+fadd59fc50d0101 Aviv Heller    2018-12-04  396  }
+e534552c92a4469 Shay Drory     2023-10-12  397  
 
-:::::: The code at line 1060 was first introduced by commit
-:::::: 7cc2a6eadcd7a5aa36ac63e6659f5c6138c7f4d2 io_uring: add IORING_REGISTER_COPY_BUFFERS method
+:::::: The code at line 366 was first introduced by commit
+:::::: 88d162b479815f5d6b6a4ff5fdb07aec9dc6280c net/mlx5: Devcom, Infrastructure changes
 
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+:::::: TO: Roi Dayan <roid@nvidia.com>
+:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
