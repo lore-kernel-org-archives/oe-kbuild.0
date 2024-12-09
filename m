@@ -1,121 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F2121519C
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 08:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7608221505F
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 09:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733734334; cv=none; b=ntMYfOfmQK+Q7M3cOKORDLnCETz3//OJmqK6vrG3GHXr59ZMlzrYa6uu+sMWKJl/0IZJIPFRQJO3c8cf+ofSb2thWVC4+1yjr/srFx/YcaKdsoyJaIcPXyvoPjcHFBfKhghd9ZB03nf0VfvC2kLjWXSb24lDHiIX7RHw7T0vm88=
+	t=1733735319; cv=none; b=eU+w5RPX6vk1h2+dyzfrXKiuK//Lg4jQd/Lfp5MnW91xTEjm4/ojcT0J2kmLWmOIvlfI2gyEJ147Hm07E7KIyxF6UL2JmzL6MbfRcoKaSEqOJC2TG55cnRRbTrLQMm4z0apq7yp0GY1jo6SyrLhg5mFA+iT5h2TmbtJQX29aJPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733734334; c=relaxed/simple;
-	bh=OX5xXaNWU4ShGdY9GnrnaUAG7ZIcBJMApYiNQjQReqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uGF9KBjYLEv2F/eRsyX4alL8gOJsH4zObjHxFxwnLxga7gKMquQSUsLUxbaezUSldadaTPYb6E6H/wGIbs/7vTbUpKPEh1S3taPeTCZ73OTmPYJoM9ufiKRKx1OddRN5SuktmfZ/lgRl8BZrK5mUc4TcH1nTfLaZ3cKTSg+B3cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jssV/ui5; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733735319; c=relaxed/simple;
+	bh=RGRaiSPrJ4Fjoa4wWn+D2mUhO0ZTQN9y2c6gK5ph/fM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n3zaYJM4nik66WRQwfHPkJd3S9HcHpo2pB5D6t8z2z6vjZGduRzu4rXi8OCd6Ux78Z6aLj3F19UBFYC2FiydmYHo+zH0wy7VOP/MJpPgUEZgYYNiH6JdQRogvK6Lr18kaneApEBNTxt8dGjXEN3gAb+1yQa7g7k3gJ5BtMHB/Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GAwWSu8e; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jssV/ui5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733734331; x=1765270331;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OX5xXaNWU4ShGdY9GnrnaUAG7ZIcBJMApYiNQjQReqs=;
-  b=jssV/ui5QD1nLJB4LF6DMfZDewcHI8q1QIX6EmWnW5lVAdNmMq01Ujz6
-   vFusLtEz0r2ReOYr23zZEp+i3aMEalH5ANOptNzp39RHEEyTddfte1QSd
-   lWlfzofOYdzv/0eRPJgFHTlQlseL2t62/yAgX5RYcmejyhaWaPYQO81c/
-   X4WN+uUIvdGQYxpGk4QbDNDZpUIkQ+LXKpLHHy9dXLiMxi1yqDUgB1m6+
-   2nSSIpQBs887z5tOFQjuoBQqqySrsX2aDD94y4R43pXRPT5KzBUyKTur7
-   owIJcPBbFRtNKEmBj5Gq966hGQJIOYbqrOPJs8x/bRRBYxKuqddyoytxp
-   A==;
-X-CSE-ConnectionGUID: itovjyTyTrKpSlus3IAUBw==
-X-CSE-MsgGUID: cXoACUB2T+WswcrCbZVQPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="44490414"
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="44490414"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 00:52:11 -0800
-X-CSE-ConnectionGUID: WqhStjMjQOeWtTtJ7sttMQ==
-X-CSE-MsgGUID: AwwznWrySRSaX0/FuQPheg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99464644"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Dec 2024 00:52:09 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKZUs-000469-21;
-	Mon, 09 Dec 2024 08:52:06 +0000
-Date: Mon, 9 Dec 2024 16:50:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 27/186]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema
- with compatible: ['apple,j274-macaudio', 'apple,macaudio']
-Message-ID: <202412091655.K9kOkTZl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GAwWSu8e"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-434aa222d96so44226055e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 09 Dec 2024 01:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733735315; x=1734340115; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZsJTx3PH9goQcoDcessIJUZiUDgu6MKdF7cPS5GqSak=;
+        b=GAwWSu8emM6WwS2oIXdqL05EBTTaWHeaR9wGlry3kXlwueUavAHdnb3OwyKcVSdYHC
+         uhg+VyKNfDAqeujRWyJFCHhxn+2uzFkBL2KeLG107V0LJ7fnPN1LZo7F2udvufq31/Tj
+         +nykqQikdU4uNxBx+xKplF3g7VzVWzr23iIVpK45wlC9u24RYKjRAwSr7nvFm1abIDVJ
+         W4IjGe++YxTimQlXr5K+g4jcDyWlknmFHlSpRy1TbdT3UkJRqziAADXTqg7k8Qm6/HMv
+         ofzddx71oeqf5Z148bTUzIeLfGmSZmYZWl5DCN9x4TyVt+hc909Vb41fDDboMTatnK9K
+         BeEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733735315; x=1734340115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZsJTx3PH9goQcoDcessIJUZiUDgu6MKdF7cPS5GqSak=;
+        b=Gg/CDJ0vXt9r9Dxx5A7R//ye4QklPF9nw79F423OQNvrfGfyOKY/PHVjnkOCY69zVT
+         lm7ElX7b5jMW6cIc3R/kIwkP9Z4E9hWZgQCq1iaqetINKk6jGunRDWOKq435zcoKsLdO
+         BT7WtSCofelgqJLAkxOHbzt3zH8NoYFdB8TFHUZeNgZBKYCjssHFgYnwlVaY7kuV+4fT
+         XeyIEOcFo3eUQlqgQBm2qMGDb/H14AXZZ0tZp4iFeIf1FHDMwD52hZXctWZW4ohqcyO8
+         XF3umskyy3eKz46AUQWFvCiYpD6yo3mf820IHMfK+QJBJ3j1ufIVQDnBBs44QZALgY+Z
+         FeYg==
+X-Gm-Message-State: AOJu0YzbpFxDTEy2wnQHgIlDzT6giSvGNxyoVIHVcDkslM+x9dTgDn3A
+	hWQvMQPJJVDMFp5/pxZNpTC4UBPeFOjXspFs3EENFWGu/GUplcSJecE+4dK7acyLlfNIgbAFDCj
+	v
+X-Gm-Gg: ASbGncuK7PljBorFZgc5XotLPMp1iVY8A4VJpMcr7WTEEcjdFcnxu9Ha2u4Nrm+xy7F
+	d1taXOpYbBfa85StNbU8vtDFm4pEH7eUjVuD/VwM4TJlm52GJHgdubZjFDrQfI9jCwS82w7bFIf
+	rgLq1Hio/etk5uAaLCQAi8DBa0ogSt+kzS40ndWa5ZgWS6w90DzuasfvWimQaqZnvnc6YBj93WT
+	i56mg4o2jtGgdzujzSJwEiuLJSq2q7gTW0rkQslnjSrfLDwlIaPm70=
+X-Google-Smtp-Source: AGHT+IHwHqNdsCzlg9RIis7WzBaAxcQt1cpiTsM/IaFi643v+MgHZjlMz6/EDDZGZNLcoK/eGnRCDg==
+X-Received: by 2002:a05:600c:1f91:b0:434:a26c:8291 with SMTP id 5b1f17b1804b1-434dded8240mr96456195e9.24.1733735315514;
+        Mon, 09 Dec 2024 01:08:35 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861ecf4087sm12827984f8f.5.2024.12.09.01.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 01:08:34 -0800 (PST)
+Date: Mon, 9 Dec 2024 12:08:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: drivers/staging/gpib/common/gpib_os.c:871 ibioctl() warn:
+ inconsistent returns '&board->big_gpib_mutex'.
+Message-ID: <d19c29ac-a084-4feb-a272-5ae6361732db@stanley.mountain>
+References: <869e62e1-cdcb-47b3-8092-2d5c203ecf1a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <869e62e1-cdcb-47b3-8092-2d5c203ecf1a@stanley.mountain>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Mon, Dec 09, 2024 at 09:50:15AM +0300, Dan Carpenter wrote:
+> 9dde4559e93955 Dave Penkler 2024-09-18  757  	switch (cmd) {
+> 9dde4559e93955 Dave Penkler 2024-09-18  758  	case IBEVENT:
+> 9dde4559e93955 Dave Penkler 2024-09-18  759  		retval = event_ioctl(board, arg);
+> 9dde4559e93955 Dave Penkler 2024-09-18  760  		goto done;
+> 9dde4559e93955 Dave Penkler 2024-09-18  761  	case IBCLOSEDEV:
+> 9dde4559e93955 Dave Penkler 2024-09-18  762  		retval = close_dev_ioctl(filep, board, arg);
+> 9dde4559e93955 Dave Penkler 2024-09-18  763  		goto done;
+> 9dde4559e93955 Dave Penkler 2024-09-18  764  	case IBOPENDEV:
+> 9dde4559e93955 Dave Penkler 2024-09-18  765  		retval = open_dev_ioctl(filep, board, arg);
+> 9dde4559e93955 Dave Penkler 2024-09-18  766  		goto done;
+> 9dde4559e93955 Dave Penkler 2024-09-18  767  	case IBSPOLL_BYTES:
+> 9dde4559e93955 Dave Penkler 2024-09-18  768  		retval = status_bytes_ioctl(board, arg);
+> 9dde4559e93955 Dave Penkler 2024-09-18  769  		goto done;
+> 9dde4559e93955 Dave Penkler 2024-09-18  770  	case IBWAIT:
+> 9dde4559e93955 Dave Penkler 2024-09-18  771  		retval = wait_ioctl(file_priv, board, arg);
+> 9dde4559e93955 Dave Penkler 2024-09-18  772  		if (retval == -ERESTARTSYS)
+> 9dde4559e93955 Dave Penkler 2024-09-18  773  			return retval;
+> 
+> mutex_unlock(&board->big_gpib_mutex) before returning.
+> 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
+Sorry, this is a false positive.  The kbuild-bot can't use cross function
+analysis because it doesn't scale.  But if you had cross function analysis
+enabled then it wouldn't have printed this false positive.
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   02d1d4710aa34dc69aed451dab7a261932418c95
-commit: 98ede3ed179db03789953777432b719cca16d60d [27/186] arm64: dts: apple: t8103*: Put in audio nodes
-:::::: branch date: 2 days ago
-:::::: commit date: 11 days ago
-config: arm64-randconfig-051-20241208 (https://download.01.org/0day-ci/archive/20241209/202412091655.K9kOkTZl-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241209/202412091655.K9kOkTZl-lkp@intel.com/reproduce)
+regards,
+dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412091655.K9kOkTZl-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000: iommus: [[100, 0], [101, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: usb@502280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /sound: failed to match any schema with compatible: ['apple,j274-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@382280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000: iommus: [[100, 0], [101, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: usb@502280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/usb@502280000: failed to match any schema with compatible: ['apple,t8103-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /sound: failed to match any schema with compatible: ['apple,j293-macaudio', 'apple,macaudio']
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
