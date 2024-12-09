@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6525949625
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44A549625
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719724; cv=none; b=ibh/ityA/M/q2rlYubBKl/c8ffLZ52gth34kW1EbgVFAxBRBwEB6TuOR64EoftQ3BKo5pcLTMIa/ra6XCHc+y/xExwxGspqZUisV1ByWPt9KmP9h8LwaHEVZr5vfge0KSyQSXNRAq79E8/eJJ+UFJdIfaz4ZKGnnTVZdABhdsrM=
+	t=1733719785; cv=none; b=lWdJ3/Q5qevAN21XP3nb3cltTtjg10vYSVux/XDLyWfYR3hycsWj31fAkNumgrGGCr7p19Y0Exs0tjVSEZV5iEXv8kK/DHlNRdpG2UGtzF+Sr2llZ4q7q66teyDMQ1yUSRdjbNc6nOQ3jpzUxWUnaZOPQeJeuHox9teggBWC7ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719724; c=relaxed/simple;
-	bh=mkLNLYlQnlbW2ehEKDi+Xt9tPiaEDozEF204jSEnxJY=;
+	s=arc-20240116; t=1733719785; c=relaxed/simple;
+	bh=XIPxEw3lNAKNcsQA+jA4Y7zrOh4uzr4JTIv1iMC39eQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IFXhbqmjHaJt2NHp67YytHcNdx30bPBBozTg5K7TicUdCbqAU1rl/vPapbPgq29zkkY+F9dz91maVysgPojiCPa9plNuBYiC3lurMYDiLcSFgD37iIqXUgfwiWOOTtBLXHYxf2m0ZMVQj9nG0/AcfCuZZPbzuLq4JcdK4utrAjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cl6m9L47; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=clddObGVSBcsTtOBSwKV0+PreScMKruZ1viNX8/++6oFgz1ztlUAx3tW/L198nnjveAAvcN0yyznjvGGKgn2nmJMqtR+jik5QKmYglIAbs8kvyAc7heNYWt3NlSWWtzq6NbPh6BwjLprlRyCDllavWWJskJZxjuGco0TMiqsZKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOV41jbz; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cl6m9L47"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOV41jbz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733719722; x=1765255722;
+  t=1733719784; x=1765255784;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mkLNLYlQnlbW2ehEKDi+Xt9tPiaEDozEF204jSEnxJY=;
-  b=cl6m9L47A29RzcrsWYh3oXyEXZsLEjQLsC46qELQ1XSp1u/mgLPNCo3v
-   nC34Slu5f9fBAWUGpztTzP9kUNHmJQvB05RHK/KglszpXgIsgpfoqcVby
-   eEORVRrITEBn6de/kUwsaURvBIUl6W816swLt3swh6ESNbI2L04FhW1Fd
-   VztrMV2sCZdhPU6UX+tv8Xtao65DftYXkEiVSdiRYnHwmvEl22qKWCVJ+
-   fyzGpb9sz2Wf6Z07iYUAG9oaI5Pj99s0CUnxpwsC62zS/G3tP2LJ63FWT
-   AIH2gjZ+3yUFswu+CuBnqi9nRY4pCaoXjOxt4bYI+BHepdtHHowSIu/vs
-   g==;
-X-CSE-ConnectionGUID: ZAZ2LR1lQp+vUyDkVDsdlA==
-X-CSE-MsgGUID: qE2WXkplTCK4gV6/yO+p5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="44471512"
+  bh=XIPxEw3lNAKNcsQA+jA4Y7zrOh4uzr4JTIv1iMC39eQ=;
+  b=QOV41jbzhu0OHZK3icVA+DHly0BP0U0eQqhQK4pNExXUbll6i7caOosg
+   bouRuVLjW0d1X6DjMM5MDIoBqb/spRYNoLF5HRKOdCBVDU0dialgK1+sv
+   SiYCZbstK+q/HcSWaJdUT5Ar3wVLqSrspF/z93R1WNWSbK0Qy4jAEq6lU
+   TqTHfv/gdpDW8pw1CrvgPrKX9/xXCRJL5PS9i/LO32/TG3E5+pAlWcTFM
+   q2bexGZukqbMfw9YdXZUYLYTDodzBvCXxz86ofE7npof34QrFm7dXzvp4
+   jeOgfK4v4mA4WlDM+sn6cLwgtha006Y8+S17yd8dyCC/psneROQYuqqSO
+   Q==;
+X-CSE-ConnectionGUID: tJMkhhDLThi93lEDUH+DZg==
+X-CSE-MsgGUID: apwLhVbiR1+0Lw3XlyS2zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="51416430"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="44471512"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:48:41 -0800
-X-CSE-ConnectionGUID: azDzI9KsSUKog+NAGyxxWw==
-X-CSE-MsgGUID: U2dCrTYTTFKKkvsVmddlMw==
+   d="scan'208";a="51416430"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:49:41 -0800
+X-CSE-ConnectionGUID: FBNiUKQrTuexYDpSD/a+cA==
+X-CSE-MsgGUID: oAhlyioLSGajlibEYTkasA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="132341804"
+   d="scan'208";a="94802119"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2024 20:48:40 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 08 Dec 2024 20:49:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVhF-0003vR-0V;
-	Mon, 09 Dec 2024 04:48:37 +0000
-Date: Mon, 9 Dec 2024 12:48:28 +0800
+	id 1tKViD-0003vg-1C;
+	Mon, 09 Dec 2024 04:49:37 +0000
+Date: Mon, 9 Dec 2024 12:48:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kernel/ipl.c:805 sys_reipl_fcp_scp_data_store() warn:
- potential user controlled sizeof overflow '(636) + scpdata_len' '636 +
- 0-u64max'
-Message-ID: <202412082106.XjmsqpJ6-lkp@intel.com>
+Subject: drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk()
+ warn: passing zero to 'PTR_ERR'
+Message-ID: <202412082206.Fm2XEo5q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,168 +65,83 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alexander Egorenkov <egorenar@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
+TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
-commit: 005ca0133375a68fbbe4244cc7399b640d78dd91 s390/ipl: Introduce macros for (re)ipl sysfs attribute 'scp_data'
-date:   7 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 7 months ago
-config: s390-randconfig-r071-20241208 (https://download.01.org/0day-ci/archive/20241208/202412082106.XjmsqpJ6-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
+commit: dd22e56217495e2d392ded86a1e11a908e424e64 clk: renesas: Add family-specific clock driver for RZ/V2H(P)
+date:   4 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 4 months ago
+config: powerpc-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241208/202412082206.Fm2XEo5q-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412082106.XjmsqpJ6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412082206.Fm2XEo5q-lkp@intel.com/
 
-New smatch warnings:
-arch/s390/kernel/ipl.c:805 sys_reipl_fcp_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:929 sys_reipl_nvme_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:1028 sys_reipl_eckd_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
+smatch warnings:
+drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-arch/s390/kernel/ipl.c:1893 sys_vmcmd_on_reboot_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1894 sys_vmcmd_on_panic_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1895 sys_vmcmd_on_halt_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1896 sys_vmcmd_on_poff_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1897 sys_vmcmd_on_restart_store() warn: unsigned 'len' is never less than zero.
+vim +/PTR_ERR +269 drivers/clk/renesas/rzv2h-cpg.c
 
-vim +805 arch/s390/kernel/ipl.c
-
-ff6b8ea68f4b73 Michael Holzheu     2006-09-20  804  
-005ca0133375a6 Alexander Egorenkov 2024-05-10 @805  DEFINE_IPL_ATTR_SCP_DATA_RW(reipl_fcp, reipl_block_fcp->hdr,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  806  			    reipl_block_fcp->fcp,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  807  			    IPL_BP_FCP_LEN, IPL_BP0_FCP_LEN,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  808  			    DIAG308_SCPDATA_SIZE);
-684d2fd48e718e Hendrik Brueckner   2009-09-11  809  
-22d557abf75ce3 Sebastian Ott       2015-03-17  810  static struct bin_attribute *reipl_fcp_bin_attrs[] = {
-22d557abf75ce3 Sebastian Ott       2015-03-17  811  	&sys_reipl_fcp_scp_data_attr,
-22d557abf75ce3 Sebastian Ott       2015-03-17  812  	NULL,
-684d2fd48e718e Hendrik Brueckner   2009-09-11  813  };
-684d2fd48e718e Hendrik Brueckner   2009-09-11  814  
-eda4ddf7e3a224 Michael Holzheu     2013-06-21  815  DEFINE_IPL_ATTR_RW(reipl_fcp, wwpn, "0x%016llx\n", "%llx\n",
-86c74d869d321b Martin Schwidefsky  2019-02-20  816  		   reipl_block_fcp->fcp.wwpn);
-eda4ddf7e3a224 Michael Holzheu     2013-06-21  817  DEFINE_IPL_ATTR_RW(reipl_fcp, lun, "0x%016llx\n", "%llx\n",
-86c74d869d321b Martin Schwidefsky  2019-02-20  818  		   reipl_block_fcp->fcp.lun);
-ff6b8ea68f4b73 Michael Holzheu     2006-09-20  819  DEFINE_IPL_ATTR_RW(reipl_fcp, bootprog, "%lld\n", "%lld\n",
-86c74d869d321b Martin Schwidefsky  2019-02-20  820  		   reipl_block_fcp->fcp.bootprog);
-ff6b8ea68f4b73 Michael Holzheu     2006-09-20  821  DEFINE_IPL_ATTR_RW(reipl_fcp, br_lba, "%lld\n", "%lld\n",
-86c74d869d321b Martin Schwidefsky  2019-02-20  822  		   reipl_block_fcp->fcp.br_lba);
-ff6b8ea68f4b73 Michael Holzheu     2006-09-20  823  DEFINE_IPL_ATTR_RW(reipl_fcp, device, "0.0.%04llx\n", "0.0.%llx\n",
-86c74d869d321b Martin Schwidefsky  2019-02-20  824  		   reipl_block_fcp->fcp.devno);
-ff6b8ea68f4b73 Michael Holzheu     2006-09-20  825  
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  826  static void reipl_get_ascii_loadparm(char *loadparm,
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  827  				     struct ipl_parameter_block *ibp)
-03a4d2087644f5 Michael Holzheu     2006-12-04  828  {
-5f1207fbe74450 Martin Schwidefsky  2019-02-20  829  	memcpy(loadparm, ibp->common.loadparm, LOADPARM_LEN);
-03a4d2087644f5 Michael Holzheu     2006-12-04  830  	EBCASC(loadparm, LOADPARM_LEN);
-03a4d2087644f5 Michael Holzheu     2006-12-04  831  	loadparm[LOADPARM_LEN] = 0;
-1d802e24774c94 Heiko Carstens      2009-12-18  832  	strim(loadparm);
-03a4d2087644f5 Michael Holzheu     2006-12-04  833  }
-03a4d2087644f5 Michael Holzheu     2006-12-04  834  
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  835  static ssize_t reipl_generic_loadparm_show(struct ipl_parameter_block *ipb,
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  836  					   char *page)
-03a4d2087644f5 Michael Holzheu     2006-12-04  837  {
-03a4d2087644f5 Michael Holzheu     2006-12-04  838  	char buf[LOADPARM_LEN + 1];
-03a4d2087644f5 Michael Holzheu     2006-12-04  839  
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  840  	reipl_get_ascii_loadparm(buf, ipb);
-03a4d2087644f5 Michael Holzheu     2006-12-04  841  	return sprintf(page, "%s\n", buf);
-03a4d2087644f5 Michael Holzheu     2006-12-04  842  }
-03a4d2087644f5 Michael Holzheu     2006-12-04  843  
-a0443fbb467af5 Hendrik Brueckner   2008-07-14  844  static ssize_t reipl_generic_loadparm_store(struct ipl_parameter_block *ipb,
-03a4d2087644f5 Michael Holzheu     2006-12-04  845  					    const char *buf, size_t len)
-03a4d2087644f5 Michael Holzheu     2006-12-04  846  {
-03a4d2087644f5 Michael Holzheu     2006-12-04  847  	int i, lp_len;
-03a4d2087644f5 Michael Holzheu     2006-12-04  848  
-03a4d2087644f5 Michael Holzheu     2006-12-04  849  	/* ignore trailing newline */
-03a4d2087644f5 Michael Holzheu     2006-12-04  850  	lp_len = len;
-03a4d2087644f5 Michael Holzheu     2006-12-04  851  	if ((len > 0) && (buf[len - 1] == '\n'))
-03a4d2087644f5 Michael Holzheu     2006-12-04  852  		lp_len--;
-03a4d2087644f5 Michael Holzheu     2006-12-04  853  	/* loadparm can have max 8 characters and must not start with a blank */
-03a4d2087644f5 Michael Holzheu     2006-12-04  854  	if ((lp_len > LOADPARM_LEN) || ((lp_len > 0) && (buf[0] == ' ')))
-03a4d2087644f5 Michael Holzheu     2006-12-04  855  		return -EINVAL;
-03a4d2087644f5 Michael Holzheu     2006-12-04  856  	/* loadparm can only contain "a-z,A-Z,0-9,SP,." */
-03a4d2087644f5 Michael Holzheu     2006-12-04  857  	for (i = 0; i < lp_len; i++) {
-03a4d2087644f5 Michael Holzheu     2006-12-04  858  		if (isalpha(buf[i]) || isdigit(buf[i]) || (buf[i] == ' ') ||
-03a4d2087644f5 Michael Holzheu     2006-12-04  859  		    (buf[i] == '.'))
-03a4d2087644f5 Michael Holzheu     2006-12-04  860  			continue;
-03a4d2087644f5 Michael Holzheu     2006-12-04  861  		return -EINVAL;
-03a4d2087644f5 Michael Holzheu     2006-12-04  862  	}
-03a4d2087644f5 Michael Holzheu     2006-12-04  863  	/* initialize loadparm with blanks */
-5f1207fbe74450 Martin Schwidefsky  2019-02-20  864  	memset(ipb->common.loadparm, ' ', LOADPARM_LEN);
-03a4d2087644f5 Michael Holzheu     2006-12-04  865  	/* copy and convert to ebcdic */
-5f1207fbe74450 Martin Schwidefsky  2019-02-20  866  	memcpy(ipb->common.loadparm, buf, lp_len);
-5f1207fbe74450 Martin Schwidefsky  2019-02-20  867  	ASCEBC(ipb->common.loadparm, LOADPARM_LEN);
-5f1207fbe74450 Martin Schwidefsky  2019-02-20  868  	ipb->common.flags |= IPL_PB0_FLAG_LOADPARM;
-03a4d2087644f5 Michael Holzheu     2006-12-04  869  	return len;
-03a4d2087644f5 Michael Holzheu     2006-12-04  870  }
-03a4d2087644f5 Michael Holzheu     2006-12-04  871  
-c676aac66f5b2b Sven Schnelle       2023-01-29  872  #define DEFINE_GENERIC_LOADPARM(name)							\
-c676aac66f5b2b Sven Schnelle       2023-01-29  873  static ssize_t reipl_##name##_loadparm_show(struct kobject *kobj,			\
-c676aac66f5b2b Sven Schnelle       2023-01-29  874  					    struct kobj_attribute *attr, char *page)	\
-c676aac66f5b2b Sven Schnelle       2023-01-29  875  {											\
-c676aac66f5b2b Sven Schnelle       2023-01-29  876  	return reipl_generic_loadparm_show(reipl_block_##name, page);			\
-c676aac66f5b2b Sven Schnelle       2023-01-29  877  }											\
-c676aac66f5b2b Sven Schnelle       2023-01-29  878  static ssize_t reipl_##name##_loadparm_store(struct kobject *kobj,			\
-c676aac66f5b2b Sven Schnelle       2023-01-29  879  					     struct kobj_attribute *attr,		\
-c676aac66f5b2b Sven Schnelle       2023-01-29  880  					     const char *buf, size_t len)		\
-c676aac66f5b2b Sven Schnelle       2023-01-29  881  {											\
-c676aac66f5b2b Sven Schnelle       2023-01-29  882  	return reipl_generic_loadparm_store(reipl_block_##name, buf, len);		\
-c676aac66f5b2b Sven Schnelle       2023-01-29  883  }											\
-c676aac66f5b2b Sven Schnelle       2023-01-29  884  static struct kobj_attribute sys_reipl_##name##_loadparm_attr =				\
-c676aac66f5b2b Sven Schnelle       2023-01-29  885  	__ATTR(loadparm, 0644, reipl_##name##_loadparm_show,				\
-c676aac66f5b2b Sven Schnelle       2023-01-29  886  	       reipl_##name##_loadparm_store)
-69928601676ff6 Michael Holzheu     2014-08-26  887  
-c676aac66f5b2b Sven Schnelle       2023-01-29  888  DEFINE_GENERIC_LOADPARM(fcp);
-c676aac66f5b2b Sven Schnelle       2023-01-29  889  DEFINE_GENERIC_LOADPARM(nvme);
-c676aac66f5b2b Sven Schnelle       2023-01-29  890  DEFINE_GENERIC_LOADPARM(ccw);
-c676aac66f5b2b Sven Schnelle       2023-01-29  891  DEFINE_GENERIC_LOADPARM(nss);
-6bb361d5d8eb1d Sven Schnelle       2023-01-29  892  DEFINE_GENERIC_LOADPARM(eckd);
-69928601676ff6 Michael Holzheu     2014-08-26  893  
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  894  static ssize_t reipl_fcp_clear_show(struct kobject *kobj,
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  895  				    struct kobj_attribute *attr, char *page)
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  896  {
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  897  	return sprintf(page, "%u\n", reipl_fcp_clear);
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  898  }
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  899  
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  900  static ssize_t reipl_fcp_clear_store(struct kobject *kobj,
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  901  				     struct kobj_attribute *attr,
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  902  				     const char *buf, size_t len)
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  903  {
-d9b25bdf57e4ab Christophe JAILLET  2022-11-01  904  	if (kstrtobool(buf, &reipl_fcp_clear) < 0)
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  905  		return -EINVAL;
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  906  	return len;
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  907  }
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  908  
-69928601676ff6 Michael Holzheu     2014-08-26  909  static struct attribute *reipl_fcp_attrs[] = {
-69928601676ff6 Michael Holzheu     2014-08-26  910  	&sys_reipl_fcp_device_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  911  	&sys_reipl_fcp_wwpn_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  912  	&sys_reipl_fcp_lun_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  913  	&sys_reipl_fcp_bootprog_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  914  	&sys_reipl_fcp_br_lba_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  915  	&sys_reipl_fcp_loadparm_attr.attr,
-69928601676ff6 Michael Holzheu     2014-08-26  916  	NULL,
-69928601676ff6 Michael Holzheu     2014-08-26  917  };
-69928601676ff6 Michael Holzheu     2014-08-26  918  
-69928601676ff6 Michael Holzheu     2014-08-26  919  static struct attribute_group reipl_fcp_attr_group = {
-69928601676ff6 Michael Holzheu     2014-08-26  920  	.attrs = reipl_fcp_attrs,
-22d557abf75ce3 Sebastian Ott       2015-03-17  921  	.bin_attrs = reipl_fcp_bin_attrs,
-69928601676ff6 Michael Holzheu     2014-08-26  922  };
-69928601676ff6 Michael Holzheu     2014-08-26  923  
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  924  static struct kobj_attribute sys_reipl_fcp_clear_attr =
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  925  	__ATTR(clear, 0644, reipl_fcp_clear_show, reipl_fcp_clear_store);
-1a2ae03b1938b0 Gerald Schaefer     2020-02-20  926  
-23a457b8d57dc8 Jason J. Herne      2020-03-03  927  /* NVME reipl device attributes */
-23a457b8d57dc8 Jason J. Herne      2020-03-03  928  
-005ca0133375a6 Alexander Egorenkov 2024-05-10 @929  DEFINE_IPL_ATTR_SCP_DATA_RW(reipl_nvme, reipl_block_nvme->hdr,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  930  			    reipl_block_nvme->nvme,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  931  			    IPL_BP_NVME_LEN, IPL_BP0_NVME_LEN,
-005ca0133375a6 Alexander Egorenkov 2024-05-10  932  			    DIAG308_SCPDATA_SIZE);
-23a457b8d57dc8 Jason J. Herne      2020-03-03  933  
+dd22e56217495e Lad Prabhakar 2024-07-29  219  
+dd22e56217495e Lad Prabhakar 2024-07-29  220  static void __init
+dd22e56217495e Lad Prabhakar 2024-07-29  221  rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
+dd22e56217495e Lad Prabhakar 2024-07-29  222  			    struct rzv2h_cpg_priv *priv)
+dd22e56217495e Lad Prabhakar 2024-07-29  223  {
+dd22e56217495e Lad Prabhakar 2024-07-29  224  	struct clk *clk = ERR_PTR(-EOPNOTSUPP), *parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  225  	unsigned int id = core->id, div = core->div;
+dd22e56217495e Lad Prabhakar 2024-07-29  226  	struct device *dev = priv->dev;
+dd22e56217495e Lad Prabhakar 2024-07-29  227  	const char *parent_name;
+dd22e56217495e Lad Prabhakar 2024-07-29  228  	struct clk_hw *clk_hw;
+dd22e56217495e Lad Prabhakar 2024-07-29  229  
+dd22e56217495e Lad Prabhakar 2024-07-29  230  	WARN_DEBUG(id >= priv->num_core_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  231  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
+dd22e56217495e Lad Prabhakar 2024-07-29  232  
+dd22e56217495e Lad Prabhakar 2024-07-29  233  	switch (core->type) {
+dd22e56217495e Lad Prabhakar 2024-07-29  234  	case CLK_TYPE_IN:
+dd22e56217495e Lad Prabhakar 2024-07-29  235  		clk = of_clk_get_by_name(priv->dev->of_node, core->name);
+dd22e56217495e Lad Prabhakar 2024-07-29  236  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  237  	case CLK_TYPE_FF:
+dd22e56217495e Lad Prabhakar 2024-07-29  238  		WARN_DEBUG(core->parent >= priv->num_core_clks);
+dd22e56217495e Lad Prabhakar 2024-07-29  239  		parent = priv->clks[core->parent];
+dd22e56217495e Lad Prabhakar 2024-07-29  240  		if (IS_ERR(parent)) {
+dd22e56217495e Lad Prabhakar 2024-07-29  241  			clk = parent;
+dd22e56217495e Lad Prabhakar 2024-07-29  242  			goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  243  		}
+dd22e56217495e Lad Prabhakar 2024-07-29  244  
+dd22e56217495e Lad Prabhakar 2024-07-29  245  		parent_name = __clk_get_name(parent);
+dd22e56217495e Lad Prabhakar 2024-07-29  246  		clk_hw = devm_clk_hw_register_fixed_factor(dev, core->name,
+dd22e56217495e Lad Prabhakar 2024-07-29  247  							   parent_name, CLK_SET_RATE_PARENT,
+dd22e56217495e Lad Prabhakar 2024-07-29  248  							   core->mult, div);
+dd22e56217495e Lad Prabhakar 2024-07-29  249  		if (IS_ERR(clk_hw))
+dd22e56217495e Lad Prabhakar 2024-07-29  250  			clk = ERR_CAST(clk_hw);
+dd22e56217495e Lad Prabhakar 2024-07-29  251  		else
+dd22e56217495e Lad Prabhakar 2024-07-29  252  			clk = clk_hw->clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  253  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  254  	case CLK_TYPE_PLL:
+dd22e56217495e Lad Prabhakar 2024-07-29  255  		clk = rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
+dd22e56217495e Lad Prabhakar 2024-07-29  256  		break;
+dd22e56217495e Lad Prabhakar 2024-07-29  257  	default:
+dd22e56217495e Lad Prabhakar 2024-07-29  258  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  259  	}
+dd22e56217495e Lad Prabhakar 2024-07-29  260  
+dd22e56217495e Lad Prabhakar 2024-07-29  261  	if (IS_ERR_OR_NULL(clk))
+dd22e56217495e Lad Prabhakar 2024-07-29  262  		goto fail;
+dd22e56217495e Lad Prabhakar 2024-07-29  263  
+dd22e56217495e Lad Prabhakar 2024-07-29  264  	dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  265  	priv->clks[id] = clk;
+dd22e56217495e Lad Prabhakar 2024-07-29  266  	return;
+dd22e56217495e Lad Prabhakar 2024-07-29  267  
+dd22e56217495e Lad Prabhakar 2024-07-29  268  fail:
+dd22e56217495e Lad Prabhakar 2024-07-29 @269  	dev_err(dev, "Failed to register core clock %s: %ld\n",
+dd22e56217495e Lad Prabhakar 2024-07-29  270  		core->name, PTR_ERR(clk));
+dd22e56217495e Lad Prabhakar 2024-07-29  271  }
+dd22e56217495e Lad Prabhakar 2024-07-29  272  
 
 -- 
 0-DAY CI Kernel Test Service
