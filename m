@@ -1,77 +1,67 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988F02101AA
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 06:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E8120FA9A
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 06:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733727117; cv=none; b=VsJRs3ThgIo9RuTYS7nsTqU4RwBANDZ3Gq6glPLr/SiT9HNdXG7vcmU5XYebYv539QeeTNmSETj99aaSk/8zrNamHevEUWM9+9Id0yPhTyyM/1KzPaFiYhALQfKsS5ZKMzae/96gsFXTR1Lo1Pw8luLSmNWw9C8SjxBW8bUJjG4=
+	t=1733727280; cv=none; b=YdJnu/ZeW+UFZh9vRi+fk57EWtElVqDYRsQbMpoccxKvqkp1UFLFdQzljIAOLY7SEOU7tYTIAsbr/6ku0OnuO/yhrEhaMEjY4OHbxP4iA5sK3S5/6qF3lrwaSboYiMv7EnfzrM9/rGQ8rJoT0V2pwQ3wwQ+epWQ7Qo/mXgWScdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733727117; c=relaxed/simple;
-	bh=gjWi9UfQlY8GyExiw+avsaQCZ/mlkQOOqNPCHaN/8Mc=;
+	s=arc-20240116; t=1733727280; c=relaxed/simple;
+	bh=RqUneqpUhmcrSoHGXpMo7Z8F82JswvQ1xbaMFu8kxRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mEkJmC7qAFD7SnT/8+2sk1BNZhFYEAKhmb2ER29jGRTZj1e5A9DNC4ptOXxcC/YYMqQJUJjVFQPVCsazse6pSE9UVT2EikBUSASbwyZBmlWfSbZg6xXqs5ex69emkzu4/05D61IHoJtmiN9jSwmTHZqgaJJz3IzIecu0JVjXM0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pNg01lwq; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition; b=smWj1GnsmsAqalDLVBHhSVgYOzFb+sgs9DdGn7SO3ax+xUQt1C/5+S26m3Yieuk1ozDmA4JF7GkD0U4L6I8lx5XFJrhOq5ZZhpT7F1J5bGV5CVTNjw5eRU93bIbjruyZdxCxrtdN0FXjw31urlHbj9c4BZFYJ24v+XWdFNrUDPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O6n0O32m; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pNg01lwq"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-434e8aa84f7so15029765e9.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 08 Dec 2024 22:51:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O6n0O32m"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434f094c636so7174855e9.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 08 Dec 2024 22:54:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733727113; x=1734331913; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UU+rFrYBqU+HyZU9fxW7fsHHwD25k+Ib4ntmd1sD3tw=;
-        b=pNg01lwqUFlMO6A9LWuyqvPoxgEie92HsWKRticCtFslBED4CFt7PYCaDR3LpX1m+4
-         vXi8cjcTLOvKGFEv6DICW+/IdDzXJ36HWWe+Yo0I3FMO63eaA19c201Wl0iLrdApkbzm
-         3Eas+eDCfc3bEgyZMk5XH67Vz524El48PwO5VU//+g+noeCuECm9VuvdQ17WE3hDEg/N
-         exzcvc1h+8pek1ugVyJ6SS9TPUAC0xQPIRoEDB2AT9hH7VOHvuw1yL2M9BZTDYFi6pUP
-         M3dzEiek1KkADtceWcedqFyppxRsn8qDrwi/z+1h57RdpPmEt6Ay2A3ao6w4bAeLisi+
-         o6kg==
+        d=linaro.org; s=google; t=1733727276; x=1734332076; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1XkYmMcglmPJPLj7yIBMaRqPFFNs7AsBNyFGLW7rqPA=;
+        b=O6n0O32mC90j4H5WWGZDLUDn8U34uJPe+m/UyzRPFV93gJWmi15l4rDZNK8thW2ZR9
+         pK4IJGExHTE1A08Rn/qku5L51ViQvrAYbDBOJPK11JN2geCr5Yzr4JrvogqP9S5RlL2h
+         Z23qfRdwM4WQvxT6zIDy/xWVuNNlV9kwDeegCyoPiv21IYztGOXhqeAZBSw3ErwBwUlF
+         37tbRXTh1jM1H4RpaGaqmlIW0miMI4qL95jCLkI2I8/njO4JjlwgTl5dUyuQBCHwNfpL
+         03OdZXZsq4op1pA9C3Pii7OAM6FykCuoOewoG/VQACpKH/llxDuMPUvwRgL5tr4S0l55
+         Icjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733727113; x=1734331913;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UU+rFrYBqU+HyZU9fxW7fsHHwD25k+Ib4ntmd1sD3tw=;
-        b=TaFXVYSsvQoNCyHPhFgOJMuKzZppJC2Y1KxjbPQTwOaIRMx6d9rijD2bCHtPW0v9L3
-         pFjUfN1xLORA2hehSioHHJulpCMAv/B2dZLrCkkqSq8hoAb0qdllALxHpm5mU0l+knd1
-         uQc8B4x0jlx3yAN1DtFyoJi5m68fyprFP0feKSnrOyprfAQd48rHlBOk6wLi0SFN6S4D
-         qCoqrwFyGzKdPeO3Zi5s9CuzaWdU5ZbGmg7AD2w8cmy9bIuDdohe/7I65CfOvTfEzljV
-         L26R3O6qFIdfLSl3JDat8BIskOEE2hnvNVundG2TpoFox3GnVCEDyMU+1KZoJ/+CBGQC
-         YKiQ==
-X-Gm-Message-State: AOJu0YxDhrtcrFKoAGTu+CLX7+1ymw1egvolvGu6+FN9PH+Gat4s9UG/
-	l/LHQ8iWwDZmBR2ipCrisZVAOD+tTFsEkNmK1TXts4Mz4FMRNauWA2CX7YEZRp/JVOTG5aqv5TW
-	A
-X-Gm-Gg: ASbGncv72yeLt1dp9nZc7dZwEu0zN5vBS+yawQxnAjgEbSA4Cm0EzdXcYqhaFCnQZnU
-	gfq9ckYHFsPIyr6X+k+lcKxl9Kc9cizG9yyNCW6rhMrUlR02oLb/or0Agk1VFQZ1ons12b8AIJa
-	8t+YbxGFEe98+1L5j4aTK1W0fwgSisx1M9cNwO9rZIQo8N8VVOb5j3ka9u62GSDaUFraIAJ6k94
-	MkKUR43jW/Xjzkfj9LLkAwZMxv6AIixmQMleS8ptqT91DkNtUVJF6M=
-X-Google-Smtp-Source: AGHT+IGEzc4vwHmaIfvTMIfIV37e15tsohqeHODjPaefoObT5Iz92AFnPqv8LysQYDOG0yI6+qlhwA==
-X-Received: by 2002:a05:600c:3155:b0:431:52b7:a499 with SMTP id 5b1f17b1804b1-434dded67b1mr79239335e9.20.1733727112718;
-        Sun, 08 Dec 2024 22:51:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733727276; x=1734332076;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1XkYmMcglmPJPLj7yIBMaRqPFFNs7AsBNyFGLW7rqPA=;
+        b=pxm49rhWAGDVPCbZXVkDnbPQ7mMjcJsl7g10qp6Eykm8vdqzGWQfyltqHh7bXwCdj5
+         jZvdo9/XwMvz0ALciMme6Xo79C2kxRJ/vmAyZhP+dPnspkTUkaTV8Z/LL7Vt4lqXkHIW
+         KrKPXL6nB7o4m/3nCY0GrazMILMje6EIzlN1AQEHq/TlkWSMSpEmwdqNxNK2jxX+JvmC
+         t4hyfVvmJycgqtUjRzYJoMsCrN+ElRpr2Ja1f0B4Jxp2xlIqsjhA9XiOWQuDETQo+RjQ
+         W6wJjfr+orGmAPed+z+Y9aeyEy7ubBGsjmV12mRbzNQctJYbMwGO0/Dfs3KRZh0FnTxl
+         575Q==
+X-Gm-Message-State: AOJu0YwtKIy4Uwkdm0swLHO0hJmj6oqN8W7knlkUZUazi8SJK27Ondo2
+	LSLkfFIfyCezOXkzlT0dM3MbwrrwH8dymSXCy5Z+GCHEcjM71nM3w5qyhKzwqqWBLsnBuVCksxT
+	G
+X-Gm-Gg: ASbGnctYgNlUp+3y+rwalPhzew1K0lhjQihsoD5zFscSs+pdC2WstucNj2R523AyAkD
+	hR14AbIonetAezrAZHBnHDKhXjP8U2sJqkikST9fjDn+QmyG+Q8lkOXhkXNknJpBbOjw/0maYNq
+	T6vllhjbE0jZOHaJoDXdZ/CZlEDWtvbv45/k55cQppDa7jkGSeNDUVrveqFlAgZ1jDUz2z5/2rJ
+	j4GGSNhYP9CZdEtWB1GfgahNQaFEEZ5U56I+7xAosN0TY/Cq3twzis=
+X-Google-Smtp-Source: AGHT+IEqObb+yJVuKMo10u1GICUj6PlIqe4BQ2nSUX3aEAQCyQiZ5zXPlE4klQPttrFDLRgVLcapJA==
+X-Received: by 2002:a05:6000:184d:b0:385:ef39:6cd5 with SMTP id ffacd0b85a97d-3862b33ef3dmr7644466f8f.1.1733727274905;
+        Sun, 08 Dec 2024 22:54:34 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434eb8f18fcsm72397395e9.24.2024.12.08.22.51.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3862190966bsm12523537f8f.75.2024.12.08.22.54.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 22:51:52 -0800 (PST)
-Date: Mon, 9 Dec 2024 09:51:48 +0300
+        Sun, 08 Dec 2024 22:54:34 -0800 (PST)
+Date: Mon, 9 Dec 2024 09:54:30 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Haylen Chu <heylenay@4d2.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Haylen Chu <heylenay@outlook.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Chen Wang <unicornxdotw@foxmail.com>,
-	Jisheng Zhang <jszhang@kernel.org>
-Subject: Re: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1
- SoC
-Message-ID: <9a3f6975-d99d-430b-9a09-697638667e97@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	leoliu-oc <leoliu-oc@zhaoxin.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1590/1590] drivers/cpufreq/acpi-cpufreq.c:661
+ get_max_boost_ratio() error: uninitialized symbol 'highest_perf'.
+Message-ID: <3f07747f-0a5d-4b4c-8e14-ab6bc0c8d31b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -80,78 +70,93 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126143125.9980-7-heylenay@4d2.org>
 
-Hi Haylen,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haylen-Chu/dt-bindings-clock-spacemit-Add-clock-controllers-of-Spacemit-K1-SoC/20241128-101248
-base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
-patch link:    https://lore.kernel.org/r/20241126143125.9980-7-heylenay%404d2.org
-patch subject: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1 SoC
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241207/202412072123.ne7GnRyJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   330348879858de86a15cef38738cbf022633f403
+commit: a5456c60ffb4f5d4147d8b8da36b81f729cac83b [1590/1590] cpufreq: ACPI: add ITMT support when CPPC enabled
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241208/202412080814.UU32PXsv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412072123.ne7GnRyJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412080814.UU32PXsv-lkp@intel.com/
 
 smatch warnings:
-drivers/clk/spacemit/ccu-k1.c:1686 k1_ccu_probe() error: uninitialized symbol 'lock_map'.
+drivers/cpufreq/acpi-cpufreq.c:661 get_max_boost_ratio() error: uninitialized symbol 'highest_perf'.
+drivers/cpufreq/acpi-cpufreq.c:661 get_max_boost_ratio() error: uninitialized symbol 'nominal_perf'.
+drivers/cpufreq/acpi-cpufreq.c:689 cpufreq_set_itmt_prio() error: uninitialized symbol 'highest_perf'.
 
-vim +/lock_map +1686 drivers/clk/spacemit/ccu-k1.c
+vim +/highest_perf +661 drivers/cpufreq/acpi-cpufreq.c
 
-e71e4621b06cd42 Haylen Chu 2024-11-26  1651  static int k1_ccu_probe(struct platform_device *pdev)
-e71e4621b06cd42 Haylen Chu 2024-11-26  1652  {
-e71e4621b06cd42 Haylen Chu 2024-11-26  1653  	const struct spacemit_ccu_data *data;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1654  	struct regmap *base_map, *lock_map;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1655  	struct device *dev = &pdev->dev;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1656  	struct spacemit_ccu_priv *priv;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1657  	struct device_node *parent;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1658  	int ret;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1659  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1660  	data = of_device_get_match_data(dev);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1661  	if (WARN_ON(!data))
-e71e4621b06cd42 Haylen Chu 2024-11-26  1662  		return -EINVAL;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1663  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1664  	parent   = of_get_parent(dev->of_node);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1665  	base_map = syscon_node_to_regmap(parent);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1666  	of_node_put(parent);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1667  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1668  	if (IS_ERR(base_map))
-e71e4621b06cd42 Haylen Chu 2024-11-26  1669  		return dev_err_probe(dev, PTR_ERR(base_map),
-e71e4621b06cd42 Haylen Chu 2024-11-26  1670  				     "failed to get regmap\n");
-e71e4621b06cd42 Haylen Chu 2024-11-26  1671  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1672  	if (data->need_pll_lock) {
-e71e4621b06cd42 Haylen Chu 2024-11-26  1673  		lock_map = syscon_regmap_lookup_by_phandle(dev->of_node,
-e71e4621b06cd42 Haylen Chu 2024-11-26  1674  							   "spacemit,mpmu");
-e71e4621b06cd42 Haylen Chu 2024-11-26  1675  		if (IS_ERR(lock_map))
-e71e4621b06cd42 Haylen Chu 2024-11-26  1676  			return dev_err_probe(dev, PTR_ERR(lock_map),
-e71e4621b06cd42 Haylen Chu 2024-11-26  1677  					     "failed to get lock regmap\n");
-e71e4621b06cd42 Haylen Chu 2024-11-26  1678  	}
+a5456c60ffb4f5 leoliu-oc         2024-07-10  652  static u64 get_max_boost_ratio(unsigned int cpu)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  653  {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  654  	u64 highest_perf, nominal_perf;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  655  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  656  	if (acpi_pstate_strict)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  657  		return 0;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  658  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  659  	cppc_get_highest_nominal_perf(cpu, &highest_perf, &nominal_perf);
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  660  
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04 @661  	if (!highest_perf || !nominal_perf) {
 
-lock_map not initialized on else path.
+I don't have context outside this email, but I guess that
+cppc_get_highest_nominal_perf() must not initialize these on error.
 
-e71e4621b06cd42 Haylen Chu 2024-11-26  1679  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1680  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1681  	if (!priv)
-e71e4621b06cd42 Haylen Chu 2024-11-26  1682  		return -ENOMEM;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1683  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1684  	priv->data	= data;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1685  	priv->base	= base_map;
-e71e4621b06cd42 Haylen Chu 2024-11-26 @1686  	priv->lock_base	= lock_map;
-                                                                  ^^^^^^^^^
-
-e71e4621b06cd42 Haylen Chu 2024-11-26  1687  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1688  	ret = spacemit_ccu_register(dev, priv);
-e71e4621b06cd42 Haylen Chu 2024-11-26  1689  	if (ret)
-e71e4621b06cd42 Haylen Chu 2024-11-26  1690  		return dev_err_probe(dev, ret, "failed to register clocks\n");
-e71e4621b06cd42 Haylen Chu 2024-11-26  1691  
-e71e4621b06cd42 Haylen Chu 2024-11-26  1692  	return 0;
-e71e4621b06cd42 Haylen Chu 2024-11-26  1693  }
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  662  		pr_debug("CPU%d: highest or nominal performance missing\n", cpu);
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  663  		return 0;
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  664  	}
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  665  
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  666  	if (highest_perf < nominal_perf) {
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  667  		pr_debug("CPU%d: nominal performance above highest\n", cpu);
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  668  		return 0;
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  669  	}
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  670  
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  671  	return div_u64(highest_perf << SCHED_CAPACITY_SHIFT, nominal_perf);
+3c55e94c0adea4 Rafael J. Wysocki 2021-02-04  672  }
+a5456c60ffb4f5 leoliu-oc         2024-07-10  673  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  674  /* The work item is needed to avoid CPU hotplug locking issues */
+a5456c60ffb4f5 leoliu-oc         2024-07-10  675  static void cpufreq_sched_itmt_work_fn(struct work_struct *work)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  676  {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  677  	sched_set_itmt_support();
+a5456c60ffb4f5 leoliu-oc         2024-07-10  678  }
+a5456c60ffb4f5 leoliu-oc         2024-07-10  679  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  680  static DECLARE_WORK(sched_itmt_work, cpufreq_sched_itmt_work_fn);
+a5456c60ffb4f5 leoliu-oc         2024-07-10  681  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  682  static void cpufreq_set_itmt_prio(int cpu)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  683  {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  684  	u64 highest_perf, nominal_perf;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  685  	static u64 max_highest_perf = 0, min_highest_perf = U64_MAX;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  686  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  687  	cppc_get_highest_nominal_perf(cpu, &highest_perf, &nominal_perf);
+a5456c60ffb4f5 leoliu-oc         2024-07-10  688  
+a5456c60ffb4f5 leoliu-oc         2024-07-10 @689  	sched_set_itmt_core_prio(highest_perf, cpu);
+a5456c60ffb4f5 leoliu-oc         2024-07-10  690  	cpumask_set_cpu(cpu, &core_prior_mask);
+a5456c60ffb4f5 leoliu-oc         2024-07-10  691  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  692  	if (max_highest_perf <= min_highest_perf) {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  693  		if (highest_perf > max_highest_perf)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  694  			max_highest_perf = highest_perf;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  695  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  696  		if (highest_perf < min_highest_perf)
+a5456c60ffb4f5 leoliu-oc         2024-07-10  697  			min_highest_perf = highest_perf;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  698  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  699  		if (max_highest_perf > min_highest_perf) {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  700  			/*
+a5456c60ffb4f5 leoliu-oc         2024-07-10  701  			 * This code can be run during CPU online under the
+a5456c60ffb4f5 leoliu-oc         2024-07-10  702  			 * CPU hotplug locks, so sched_set_itmt_support()
+a5456c60ffb4f5 leoliu-oc         2024-07-10  703  			 * cannot be called from here.  Queue up a work item
+a5456c60ffb4f5 leoliu-oc         2024-07-10  704  			 * to invoke it.
+a5456c60ffb4f5 leoliu-oc         2024-07-10  705  			 */
+a5456c60ffb4f5 leoliu-oc         2024-07-10  706  			cppc_highest_perf_diff = true;
+a5456c60ffb4f5 leoliu-oc         2024-07-10  707  		}
+a5456c60ffb4f5 leoliu-oc         2024-07-10  708  	}
+a5456c60ffb4f5 leoliu-oc         2024-07-10  709  
+a5456c60ffb4f5 leoliu-oc         2024-07-10  710  	if (cppc_highest_perf_diff && cpumask_equal(&core_prior_mask, cpu_online_mask)) {
+a5456c60ffb4f5 leoliu-oc         2024-07-10  711  		pr_debug("queue a work to set itmt enabled\n");
+a5456c60ffb4f5 leoliu-oc         2024-07-10  712  		schedule_work(&sched_itmt_work);
+a5456c60ffb4f5 leoliu-oc         2024-07-10  713  	}
+a5456c60ffb4f5 leoliu-oc         2024-07-10  714  }
 
 -- 
 0-DAY CI Kernel Test Service
