@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B8F16C451
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAD0155756
 	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719665; cv=none; b=KR0NnjMwQhAgxzuI0qIVDo5dphqSLbFBEL+45fZLVoFCZnT4T+hSueUGXRGErrUUGzUtbTgjujFPqrV8UP0ekuCxJ+dAngYKLMy0zZm3J4D5HMJNDXxQ1fyrjCfWtFO9aUCnRmL8sOYgoWQbm7Bztk05Sr9eeduQwN9D4QKxEyA=
+	t=1733719665; cv=none; b=Vz92PQrS9dGWjdBAZ4vf0mjaYM3enC8eLRNtiUcBBlqcabMjCilT9/LMg8A8NlHuNK19h1g+zhAWoRJJSKLvG1juVJjamnuWh6ZU4auFnFSPqguZw4oqgbkmGkr2R1IJxX7nEoQdplamsMEOWAg/TRyQKoAnq1q3dC3xSggS7N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733719665; c=relaxed/simple;
-	bh=18hyyQIy5TZlCpVf4WyWHRw8PrMDqU+N8ALuU0qtEs0=;
+	bh=3g6FS2O2Cet2BFekcgkNcKcGZKQ0YGxMajjg1dkMAas=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DsZ2JvVwJ8IaaVqxIOMXhcP0BSY0mvAOl9aLcQDgdivU2NkoUvEH6qDYwHeW24f8SsP489Rl8UXIt0Z4nyJtx06jtRUPj2g44aJ8OM8fy1dBBgHGfgQ60prv5kU+yaBF8wDQBFp842+yj9OIWAaUVjknkUBn25WhWHUeEoDHnSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhyoh4DP; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=HMyWHJK2OFjZRB9LJuUvOA/B4GTh98TPXQ0XosWo+DGE77yJG1qkvxPpTZWmTsURb5C9gc/iDiED82F5cHDly3LikLJmUJRYPnh+WfEfNjAD4Ui9yg4LEkWq6NysEwUqx4JrlRW6g4FQzlBGz0O2mBM8PuUjv6j7jYq2vNAVKvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHtI8RL+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhyoh4DP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHtI8RL+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733719663; x=1765255663;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18hyyQIy5TZlCpVf4WyWHRw8PrMDqU+N8ALuU0qtEs0=;
-  b=hhyoh4DPeYvm4Y+slzOWknWOQS03d1TJCt8rdwKiuHN9SEpBtdm2y42h
-   HlbRf0gCL2N1ioCq8/Yxkb5aZ06uaPzaeWjL/L7UHTLoqeCpXJNALi5Oc
-   YqMdNQTIfapXiPZT6/oy6XSpwN6wHH99vSFEONHKpk8fWSadZZOC+53vn
-   U7+5DrnBMDvox+x5ZwvA0zrz5IRX2tpqc2eqS6IPoF5fzusO7OtNrtHmk
-   aCcUie2wXmDHwTiMd81WF20RXidmo+JDTwbbFiVGoKdUJIrjVr9z65xAH
-   ey8+EHg3ZIuFObiAXJkKbNSE5vy6wtodwPyDSyIvxDLRfVBmZUGzJNZkR
-   Q==;
-X-CSE-ConnectionGUID: Rt42qIowQ6WECuwdmxXalQ==
-X-CSE-MsgGUID: WGVrrvX8QA2jZruXTE0bAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34060163"
+  bh=3g6FS2O2Cet2BFekcgkNcKcGZKQ0YGxMajjg1dkMAas=;
+  b=QHtI8RL+rygEZwuelRuKxJ8vhoDI9S/xxGNo+hdRO/t8IoNahKMTzlBj
+   D9BZLrehJIF1VZnpQ/9ZlG2pmT8SqCi5+aXnmp0gLJqlgrAU3YOGrIeG0
+   xycxfdYHHTF7fJXnQyg6pNhrlFPlwsx60Cp1Usm/WF7ebC0JKkJOGgP+H
+   52Jx8Dc/KxpcDjMW3h9oY5ioUSFXVrcKQ+N/E1otHgkwQ++a6g99hfsW+
+   q0rjo2QHw6/llTor1iaGGaOIR89FSWZp9GlqdBM8aF3VJWQpONM/XSRRd
+   jS0MOw6uBxIL+cxy7LBtfXjmIE73b7R/h786RkeGMvhP14OfNU9XKKRjz
+   A==;
+X-CSE-ConnectionGUID: gMLFNXG+RVKUULXAverFOw==
+X-CSE-MsgGUID: KbRYK7KfQSOnLGQY9ZOcNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34123927"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34060163"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:41 -0800
-X-CSE-ConnectionGUID: wKQXPZzPQGS995/0l2+sdw==
-X-CSE-MsgGUID: l0ggwh7tQ8u8y90fg7bznQ==
+   d="scan'208";a="34123927"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:40 -0800
+X-CSE-ConnectionGUID: hfNjjbs0RVuPj1kDvIFaAw==
+X-CSE-MsgGUID: iZ6AiueSRcGL5xN6W2jhrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99012431"
+   d="scan'208";a="95304474"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVgH-0003vD-0F;
-	Mon, 09 Dec 2024 04:47:37 +0000
-Date: Mon, 9 Dec 2024 12:47:32 +0800
+	id 1tKVgG-0003v4-3D;
+	Mon, 09 Dec 2024 04:47:36 +0000
+Date: Mon, 9 Dec 2024 12:47:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/sdw_utils/soc_sdw_rt_amp.c:202
- asoc_sdw_rt_amp_spk_rtd_init() error: uninitialized symbol 'ret'.
-Message-ID: <202412082018.GUvC80wl-lkp@intel.com>
+Subject: arch/arm64/kvm/mmu.c:1570 user_mem_abort() error: uninitialized
+ symbol 'fault_granule'.
+Message-ID: <202412081742.hKhGHRT8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,66 +65,248 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Marc Zyngier <maz@kernel.org>
+
+Hi Ard,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
-commit: cb8ea62e6402067ba092d4c1d66a9440513a572b ASoC: amd/sdw_utils: add sof based soundwire generic machine driver
-date:   4 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-141-20241208 (https://download.01.org/0day-ci/archive/20241208/202412082018.GUvC80wl-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+commit: 11e5ea5242e38d44fcede879473566bb6d68f954 KVM: arm64: Use helpers to classify exception types reported via ESR
+date:   1 year ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 1 year ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241208/202412081742.hKhGHRT8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412082018.GUvC80wl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412081742.hKhGHRT8-lkp@intel.com/
 
 smatch warnings:
-sound/soc/sdw_utils/soc_sdw_rt_amp.c:202 asoc_sdw_rt_amp_spk_rtd_init() error: uninitialized symbol 'ret'.
+arch/arm64/kvm/mmu.c:1570 user_mem_abort() error: uninitialized symbol 'fault_granule'.
 
-vim +/ret +202 sound/soc/sdw_utils/soc_sdw_rt_amp.c
+vim +/fault_granule +1570 arch/arm64/kvm/mmu.c
 
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  177  
-bd5838c8999838 sound/soc/intel/boards/sof_sdw_rt_amp.c Vijendar Mukunda     2024-08-01  178  int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  179  {
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  180  	struct snd_soc_card *card = rtd->card;
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  181  	const struct snd_soc_dapm_route *rt_amp_map;
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  182  	char codec_name[CODEC_NAME_SIZE];
-84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  183  	struct snd_soc_dai *codec_dai;
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  184  	int ret;
-9f3763b3628def sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-02-08  185  	int i;
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  186  
-4c11132a886ea9 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  187  	rt_amp_map = get_codec_name_and_route(dai, codec_name);
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  188  
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  189  	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  190  					  "%s spk:%s",
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  191  					  card->components, codec_name);
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  192  	if (!card->components)
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  193  		return -ENOMEM;
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  194  
-84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  195  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  196  		if (strstr(codec_dai->component->name_prefix, "-1"))
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  197  			ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map, 2);
-84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  198  		else if (strstr(codec_dai->component->name_prefix, "-2"))
-5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  199  			ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map + 2, 2);
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  200  	}
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  201  
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25 @202  	return ret;
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  203  }
-ccc96ae2814a7f sound/soc/sdw_utils/soc_sdw_rt_amp.c    Vijendar Mukunda     2024-08-01  204  EXPORT_SYMBOL_NS(asoc_sdw_rt_amp_spk_rtd_init, SND_SOC_SDW_UTILS);
-52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  205  
-
-:::::: The code at line 202 was first introduced by commit
-:::::: 52db12d193d45728e738df6119702cba08fd46a2 ASoC: Intel: boards: add sof_sdw machine driver
-
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+ea7fc1bb1cd1b92 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1376  
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1377  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+98047888bb9fd57 arch/arm/kvm/mmu.c   Christoffer Dall    2014-08-19  1378  			  struct kvm_memory_slot *memslot, unsigned long hva,
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1379  			  bool fault_is_perm)
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1380  {
+ffd1b63a5860968 arch/arm64/kvm/mmu.c Will Deacon         2020-09-30  1381  	int ret = 0;
+6396b852e46e562 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1382  	bool write_fault, writable, force_pte = false;
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1383  	bool exec_fault, mte_allowed;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1384  	bool device = false;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1385  	unsigned long mmu_seq;
+ad361f093c1e31d arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1386  	struct kvm *kvm = vcpu->kvm;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1387  	struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
+ad361f093c1e31d arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1388  	struct vm_area_struct *vma;
+1559b7583ff6ed0 virt/kvm/arm/mmu.c   James Morse         2019-12-17  1389  	short vma_shift;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1390  	gfn_t gfn;
+ba049e93aef7e8c arch/arm/kvm/mmu.c   Dan Williams        2016-01-15  1391  	kvm_pfn_t pfn;
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1392  	bool logging_active = memslot_is_logging(memslot);
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1393  	long vma_pagesize, fault_granule;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1394  	enum kvm_pgtable_prot prot = KVM_PGTABLE_PROT_R;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1395  	struct kvm_pgtable *pgt;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1396  
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1397  	if (fault_is_perm)
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1398  		fault_granule = kvm_vcpu_trap_get_perm_fault_granule(vcpu);
+a7d079cea2dffb1 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-09  1399  	write_fault = kvm_is_write_fault(vcpu);
+c4ad98e4b72cb5b arch/arm64/kvm/mmu.c Marc Zyngier        2020-09-15  1400  	exec_fault = kvm_vcpu_trap_is_exec_fault(vcpu);
+d0e22b4ac3ba23c virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1401  	VM_BUG_ON(write_fault && exec_fault);
+d0e22b4ac3ba23c virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1402  
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1403  	if (fault_is_perm && !write_fault && !exec_fault) {
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1404  		kvm_err("Unexpected L2 read permission error\n");
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1405  		return -EFAULT;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1406  	}
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1407  
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1408  	/*
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1409  	 * Permission faults just need to update the existing leaf entry,
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1410  	 * and so normally don't require allocations from the memcache. The
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1411  	 * only exception to this is when dirty logging is enabled at runtime
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1412  	 * and a write fault needs to collapse a block entry into a table.
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1413  	 */
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1414  	if (!fault_is_perm || (logging_active && write_fault)) {
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1415  		ret = kvm_mmu_topup_memory_cache(memcache,
+fe49fd940e22592 arch/arm64/kvm/mmu.c Marc Zyngier        2023-10-12  1416  						 kvm_mmu_cache_min_pages(vcpu->arch.hw_mmu));
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1417  		if (ret)
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1418  			return ret;
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1419  	}
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1420  
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1421  	/*
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1422  	 * Let's check if we will get back a huge page backed by hugetlbfs, or
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1423  	 * get block mapping for device MMIO region.
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1424  	 */
+89154dd5313f774 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1425  	mmap_read_lock(current->mm);
+09eef83a801512a arch/arm64/kvm/mmu.c Liam Howlett        2021-06-28  1426  	vma = vma_lookup(current->mm, hva);
+37b544087ef3f65 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1427  	if (unlikely(!vma)) {
+37b544087ef3f65 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1428  		kvm_err("Failed to find VMA for hva 0x%lx\n", hva);
+89154dd5313f774 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1429  		mmap_read_unlock(current->mm);
+37b544087ef3f65 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1430  		return -EFAULT;
+37b544087ef3f65 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1431  	}
+37b544087ef3f65 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1432  
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1433  	/*
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1434  	 * logging_active is guaranteed to never be true for VM_PFNMAP
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1435  	 * memslots.
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1436  	 */
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1437  	if (logging_active) {
+a80868f39855484 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1438  		force_pte = true;
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1439  		vma_shift = PAGE_SHIFT;
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1440  	} else {
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1441  		vma_shift = get_vma_page_shift(vma, hva);
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1442  	}
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1443  
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1444  	switch (vma_shift) {
+faf000397e7f103 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1445  #ifndef __PAGETABLE_PMD_FOLDED
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1446  	case PUD_SHIFT:
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1447  		if (fault_supports_stage2_huge_mapping(memslot, hva, PUD_SIZE))
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1448  			break;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1449  		fallthrough;
+faf000397e7f103 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1450  #endif
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1451  	case CONT_PMD_SHIFT:
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1452  		vma_shift = PMD_SHIFT;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1453  		fallthrough;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1454  	case PMD_SHIFT:
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1455  		if (fault_supports_stage2_huge_mapping(memslot, hva, PMD_SIZE))
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1456  			break;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1457  		fallthrough;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1458  	case CONT_PTE_SHIFT:
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1459  		vma_shift = PAGE_SHIFT;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1460  		force_pte = true;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1461  		fallthrough;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1462  	case PAGE_SHIFT:
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1463  		break;
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1464  	default:
+2f40c46021bbb3e arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1465  		WARN_ONCE(1, "Unknown vma_shift %d", vma_shift);
+a80868f39855484 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1466  	}
+a80868f39855484 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1467  
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1468  	vma_pagesize = 1UL << vma_shift;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1469  	if (vma_pagesize == PMD_SIZE || vma_pagesize == PUD_SIZE)
+523b3999e5f620c arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1470  		fault_ipa &= ~(vma_pagesize - 1);
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1471  
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1472  	gfn = fault_ipa >> PAGE_SHIFT;
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1473  	mte_allowed = kvm_vma_mte_allowed(vma);
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1474  
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1475  	/* Don't use the VMA after the unlock -- it may have vanished */
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1476  	vma = NULL;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1477  
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1478  	/*
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1479  	 * Read mmu_invalidate_seq so that KVM can detect if the results of
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1480  	 * vma_lookup() or __gfn_to_pfn_memslot() become stale prior to
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1481  	 * acquiring kvm->mmu_lock.
+10ba2d17d297292 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1482  	 *
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1483  	 * Rely on mmap_read_unlock() for an implicit smp_rmb(), which pairs
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1484  	 * with the smp_wmb() in kvm_mmu_invalidate_end().
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1485  	 */
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1486  	mmu_seq = vcpu->kvm->mmu_invalidate_seq;
+13ec9308a85702a arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1487  	mmap_read_unlock(current->mm);
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1488  
+c8b88b332bedf47 arch/arm64/kvm/mmu.c Peter Xu            2022-10-11  1489  	pfn = __gfn_to_pfn_memslot(memslot, gfn, false, false, NULL,
+10ba2d17d297292 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1490  				   write_fault, &writable, NULL);
+196f878a7ac2e72 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1491  	if (pfn == KVM_PFN_ERR_HWPOISON) {
+1559b7583ff6ed0 virt/kvm/arm/mmu.c   James Morse         2019-12-17  1492  		kvm_send_hwpoison_signal(hva, vma_shift);
+196f878a7ac2e72 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1493  		return 0;
+196f878a7ac2e72 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1494  	}
+9ac715954682b23 arch/arm/kvm/mmu.c   Christoffer Dall    2016-08-17  1495  	if (is_error_noslot_pfn(pfn))
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1496  		return -EFAULT;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1497  
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1498  	if (kvm_is_device_pfn(pfn)) {
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1499  		/*
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1500  		 * If the page was identified as device early by looking at
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1501  		 * the VMA flags, vma_pagesize is already representing the
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1502  		 * largest quantity we can map.  If instead it was mapped
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1503  		 * via gfn_to_pfn_prot(), vma_pagesize is set to PAGE_SIZE
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1504  		 * and must not be upgraded.
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1505  		 *
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1506  		 * In both cases, we don't let transparent_hugepage_adjust()
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1507  		 * change things at the last minute.
+2aa53d68cee6603 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1508  		 */
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1509  		device = true;
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1510  	} else if (logging_active && !write_fault) {
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1511  		/*
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1512  		 * Only actually map the page as writable if this was a write
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1513  		 * fault.
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1514  		 */
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1515  		writable = false;
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1516  	}
+b88657674d39fc2 arch/arm/kvm/mmu.c   Kim Phillips        2014-06-26  1517  
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1518  	if (exec_fault && device)
+6d674e28f642e3f virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1519  		return -ENOEXEC;
+6d674e28f642e3f virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1520  
+f783ef1c0e82e4f arch/arm64/kvm/mmu.c Jing Zhang          2022-01-18  1521  	read_lock(&kvm->mmu_lock);
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1522  	pgt = vcpu->arch.hw_mmu->pgt;
+20ec3ebd707c77f arch/arm64/kvm/mmu.c Chao Peng           2022-08-16  1523  	if (mmu_invalidate_retry(kvm, mmu_seq))
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1524  		goto out_unlock;
+15a49a44fc36209 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1525  
+3f58bf63455588a virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1526  	/*
+0529c9021252a58 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1527  	 * If we are not forced to use page mapping, check if we are
+0529c9021252a58 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1528  	 * backed by a THP and thus use block mapping if possible.
+3f58bf63455588a virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1529  	 */
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1530  	if (vma_pagesize == PAGE_SIZE && !(force_pte || device)) {
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1531  		if (fault_is_perm && fault_granule > PAGE_SIZE)
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1532  			vma_pagesize = fault_granule;
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1533  		else
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1534  			vma_pagesize = transparent_hugepage_adjust(kvm, memslot,
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1535  								   hva, &pfn,
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1536  								   &fault_ipa);
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1537  
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1538  		if (vma_pagesize < 0) {
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1539  			ret = vma_pagesize;
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1540  			goto out_unlock;
+e86fc1a3a3e9b48 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1541  		}
+f2cc327303b13a7 arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1542  	}
+a9c0e12ebee56ef virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1543  
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1544  	if (!fault_is_perm && !device && kvm_has_mte(kvm)) {
+d89585fbb308690 arch/arm64/kvm/mmu.c Peter Collingbourne 2022-11-03  1545  		/* Check the VMM hasn't introduced a new disallowed VMA */
+8c2e8ac8ad4be68 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1546  		if (mte_allowed) {
+2dbf12ae132cc78 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1547  			sanitise_mte_tags(kvm, pfn, vma_pagesize);
+2dbf12ae132cc78 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1548  		} else {
+9f03db6673598f6 arch/arm64/kvm/mmu.c Marc Zyngier        2021-06-22  1549  			ret = -EFAULT;
+ea7fc1bb1cd1b92 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1550  			goto out_unlock;
+ea7fc1bb1cd1b92 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1551  		}
+2dbf12ae132cc78 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1552  	}
+3f58bf63455588a virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1553  
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1554  	if (writable)
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1555  		prot |= KVM_PGTABLE_PROT_W;
+a9c0e12ebee56ef virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1556  
+25aa28691bb960a arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1557  	if (exec_fault)
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1558  		prot |= KVM_PGTABLE_PROT_X;
+a9c0e12ebee56ef virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1559  
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1560  	if (device)
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1561  		prot |= KVM_PGTABLE_PROT_DEVICE;
+d8569fba13850bb arch/arm64/kvm/mmu.c Mark Rutland        2023-10-16  1562  	else if (cpus_have_final_cap(ARM64_HAS_CACHE_DIC))
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1563  		prot |= KVM_PGTABLE_PROT_X;
+a15f693935a9f1f virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1564  
+7d894834a305568 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1565  	/*
+7d894834a305568 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1566  	 * Under the premise of getting a FSC_PERM fault, we just need to relax
+7d894834a305568 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1567  	 * permissions only if vma_pagesize equals fault_granule. Otherwise,
+7d894834a305568 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1568  	 * kvm_pgtable_stage2_map() should be called to change block size.
+7d894834a305568 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1569  	 */
+11e5ea5242e38d4 arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28 @1570  	if (fault_is_perm && vma_pagesize == fault_granule)
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1571  		ret = kvm_pgtable_stage2_relax_perms(pgt, fault_ipa, prot);
+1577cb5823cefdf arch/arm64/kvm/mmu.c Oliver Upton        2022-11-07  1572  	else
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1573  		ret = kvm_pgtable_stage2_map(pgt, fault_ipa, vma_pagesize,
+6f745f1bb5bf291 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1574  					     __pfn_to_phys(pfn), prot,
+ddcadb297ce5cc1 arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1575  					     memcache,
+ddcadb297ce5cc1 arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1576  					     KVM_PGTABLE_WALK_HANDLE_FAULT |
+ddcadb297ce5cc1 arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1577  					     KVM_PGTABLE_WALK_SHARED);
+ad361f093c1e31d arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1578  
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1579  	/* Mark the page dirty only if the fault is handled successfully */
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1580  	if (writable && !ret) {
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1581  		kvm_set_pfn_dirty(pfn);
+10ba2d17d297292 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1582  		mark_page_dirty_in_slot(kvm, memslot, gfn);
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1583  	}
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1584  
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1585  out_unlock:
+f783ef1c0e82e4f arch/arm64/kvm/mmu.c Jing Zhang          2022-01-18  1586  	read_unlock(&kvm->mmu_lock);
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1587  	kvm_release_pfn_clean(pfn);
+509552e65ae8287 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1588  	return ret != -EAGAIN ? ret : 0;
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1589  }
+94f8e6418d3915d arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1590  
 
 -- 
 0-DAY CI Kernel Test Service
