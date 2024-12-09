@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C3715573D
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00201C6A3
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719487; cv=none; b=Rj30oii6hQLTxN4tsD7VL7+kWohSIWjnnOCf7Waoc5WlrNFlqJpUcmX7vk5CPzPAWeHtJzdn4EsrSGdGrJ7iKYrWG7Ejb6WGQAvikzQX8fkzSfbsQebFKIncetJIqbewxCaVwGoEweBCVak7ingg4xYB9lCDPfr+wQAC+HhTfO4=
+	t=1733719542; cv=none; b=F8/FHe2Em8HUfpT+DILk/3Reqq3m1G0LSHONyK0l2lp+uMmglbY11O5ngpCVvxGvmDRLUejMHwPN2qSF2/isyTqV1htbTK209BjCnS13WrRCT8WPwoPxbxPmEjtm8I8uu4PObZmwVkAo7PcfLfN/A49N3XSBnBODtoJLr2uKIcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719487; c=relaxed/simple;
-	bh=8pSYb8nm4sWJAkizwDVyKUgEUUqyYWSTr0+KebmZHrs=;
+	s=arc-20240116; t=1733719542; c=relaxed/simple;
+	bh=ZZ6gpuE5Kv6HJFnSUTCe3kzivWw9Xcrwsnw15npDbGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j8OnBbyHATQS2yhOOwWgSBh2cvcr8+ydMwd5fPpAF3YHAn6H+OpoPbC5+tgvaZ79w2HptiaB3E1FDoeQxBAOMkNXJ2RJCCkn/kCFVG/cpr6ArLQ78tNSUXrE1TVpJC8TAMzH4OzUFhPwxzdDg4fos4wCiTZ3aLvzBlZv18wKkFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcnf9wXl; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ecbeRPWPMRvdopxFIxWqbl89KIkNwaKj12yBFrFibDHELaIUq1AQ9y54sY9PFCFvcA78xmbTeqMa/NxTNgeeq79JsJ/afvxhIG1m8BxSsl+fEJmNxwkNoHBCn51GnNV92FxK1wRBmPwDTSMET4z+dkhVrtkaOngkhJpc32Gl6I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9Qm7kjv; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcnf9wXl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9Qm7kjv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733719483; x=1765255483;
+  t=1733719541; x=1765255541;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8pSYb8nm4sWJAkizwDVyKUgEUUqyYWSTr0+KebmZHrs=;
-  b=bcnf9wXl+ar/BV2WyovMkt8Qb5etrcRLp/MVQZnzTuqPSkSdtRj6ooyu
-   YZkZjbYwY/i3KudXIpc6tAeZyEA+NZg79HAr0o/v96YqfCnhdQCfVP7ro
-   +xGTOLkr4NcTpqdc2oM1l0GtUW5JAqewFafJRIce2th9BiNRRG+UBF32I
-   f4xXGCiKrq3y314JMKGXNoT8RvWADcW+QMqgBPHYOgW12wLTWOWoG/N32
-   vZmcwfwns2pAjLY+/ypS5lm+wQZYL03Wu7m7iOlDyjCXkM5fTKZxzRWKg
-   zzoX2ZTDMLPTUMrWhze0ojyD6eP6DBOTo/JbdPdNBC35mEE3gKw/2ZRbj
+  bh=ZZ6gpuE5Kv6HJFnSUTCe3kzivWw9Xcrwsnw15npDbGc=;
+  b=C9Qm7kjvAmbVUXAXxi38G5SjFQJVGaS5o5zonVHeBbRK6mb8dZyBetmM
+   jZvZ28JdvFOA0XDAETRm1Y2aUGgNwD7+V0fI7z3UKrHjjl8Ffv7gSBWER
+   HbQI+uLwREINgH4F/uKt4Q32+Tr0j6MexA6JtI1/vFV3dlP9wgGF9V4GR
+   qm7hv7J+FbC1+UWDJel91qH+0T0Tv0RolXF/W5kQNzuwufqZeZsCZvObd
+   fIQ/G6ymULjc3kQFPwm5qcUTGLz1Kkew8mPhboeE+0tuOheDi6kcZhYEV
+   JUiqilGonEyP0fKxZjjV/Zu+ZDEfGF2vRIv4paUoIvx0PChl78L7ErsuG
    Q==;
-X-CSE-ConnectionGUID: hLdeZrM2SFG771hMTS9qwg==
-X-CSE-MsgGUID: E8WagfvUS/Cxi5iKv35l8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="45015209"
+X-CSE-ConnectionGUID: vlKui+cYRaSUYWEH8x+Qgw==
+X-CSE-MsgGUID: TFnmJk/yRb+7BKVFWtkjuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="56484232"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="45015209"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:44:41 -0800
-X-CSE-ConnectionGUID: m59jGsaWTvSvXc+8bUS2gw==
-X-CSE-MsgGUID: z5NxrlBTQUOd4YFAk17msw==
+   d="scan'208";a="56484232"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:45:40 -0800
+X-CSE-ConnectionGUID: L9oGYi8xR+Wpfe0QBGbsqw==
+X-CSE-MsgGUID: aMjC4GJLRwmIi/xpPWzDQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94760111"
+   d="scan'208";a="100012726"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 20:44:39 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Dec 2024 20:45:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVdM-0003uJ-1U;
-	Mon, 09 Dec 2024 04:44:36 +0000
-Date: Mon, 9 Dec 2024 12:43:43 +0800
+	id 1tKVeK-0003uf-29;
+	Mon, 09 Dec 2024 04:45:36 +0000
+Date: Mon, 9 Dec 2024 12:44:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [akpm-mm:mm-unstable 124/172] fs/proc/vmcore.c:1542:1-7: preceding
- lock on line 1525
-Message-ID: <202412081528.zlH1seWK-lkp@intel.com>
+Subject: mm/huge_memory.c:3788:6-11: ERROR: iterator variable bound on line
+ 3750 cannot be NULL
+Message-ID: <202412081636.HRRlFH6T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,112 +64,114 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Hildenbrand <david@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Hugh Dickins <hughd@google.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: David Hildenbrand <david@redhat.com>
+CC: Baolin Wang <baolin.wang@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   6e165f54437931f329d09dca6c19d99af08a36e1
-commit: 18d6602e1b51dfe86dc0d16a0c2eb4ac0b0413e2 [124/172] fs/proc/vmcore: disallow vmcore modifications while the vmcore is open
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: i386-randconfig-052-20241208 (https://download.01.org/0day-ci/archive/20241208/202412081528.zlH1seWK-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
+commit: e66f3185fa04ccb807c6fbf0ea066574f4308831 mm/thp: fix deferred split queue not partially_mapped
+date:   5 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 5 weeks ago
+config: i386-randconfig-051-20241208 (https://download.01.org/0day-ci/archive/20241208/202412081636.HRRlFH6T-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412081528.zlH1seWK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412081636.HRRlFH6T-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/proc/vmcore.c:1542:1-7: preceding lock on line 1525
+>> mm/huge_memory.c:3788:6-11: ERROR: iterator variable bound on line 3750 cannot be NULL
 
-vim +1542 fs/proc/vmcore.c
+vim +3788 mm/huge_memory.c
 
-7efe48df8a3df6 Rahul Lakkireddy  2018-05-02  1470  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1471  /**
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1472   * vmcore_add_device_dump - Add a buffer containing device dump to vmcore
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1473   * @data: dump info.
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1474   *
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1475   * Allocate a buffer and invoke the calling driver's dump collect routine.
-70e79866ab36fe Alexey Dobriyan   2023-02-28  1476   * Write ELF note at the beginning of the buffer to indicate vmcore device
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1477   * dump and add the dump to global list.
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1478   */
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1479  int vmcore_add_device_dump(struct vmcoredd_data *data)
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1480  {
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1481  	struct vmcoredd_node *dump;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1482  	void *buf = NULL;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1483  	size_t data_size;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1484  	int ret;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1485  
-c6c405336bd3b0 Kairui Song       2019-07-16  1486  	if (vmcoredd_disabled) {
-c6c405336bd3b0 Kairui Song       2019-07-16  1487  		pr_err_once("Device dump is disabled\n");
-c6c405336bd3b0 Kairui Song       2019-07-16  1488  		return -EINVAL;
-c6c405336bd3b0 Kairui Song       2019-07-16  1489  	}
-c6c405336bd3b0 Kairui Song       2019-07-16  1490  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1491  	if (!data || !strlen(data->dump_name) ||
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1492  	    !data->vmcoredd_callback || !data->size)
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1493  		return -EINVAL;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1494  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1495  	dump = vzalloc(sizeof(*dump));
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1496  	if (!dump) {
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1497  		ret = -ENOMEM;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1498  		goto out_err;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1499  	}
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1500  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1501  	/* Keep size of the buffer page aligned so that it can be mmaped */
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1502  	data_size = roundup(sizeof(struct vmcoredd_header) + data->size,
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1503  			    PAGE_SIZE);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1504  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1505  	/* Allocate buffer for driver's to write their dumps */
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1506  	buf = vmcore_alloc_buf(data_size);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1507  	if (!buf) {
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1508  		ret = -ENOMEM;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1509  		goto out_err;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1510  	}
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1511  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1512  	vmcoredd_write_header(buf, data, data_size -
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1513  			      sizeof(struct vmcoredd_header));
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1514  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1515  	/* Invoke the driver's dump collection routing */
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1516  	ret = data->vmcoredd_callback(data, buf +
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1517  				      sizeof(struct vmcoredd_header));
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1518  	if (ret)
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1519  		goto out_err;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1520  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1521  	dump->buf = buf;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1522  	dump->size = data_size;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1523  
-18d6602e1b51df David Hildenbrand 2024-12-04  1524  	/* Add the dump to driver sysfs list and update the elfcore hdr */
-92208a87f99b93 David Hildenbrand 2024-12-04 @1525  	mutex_lock(&vmcore_mutex);
-18d6602e1b51df David Hildenbrand 2024-12-04  1526  	if (vmcore_opened)
-18d6602e1b51df David Hildenbrand 2024-12-04  1527  		pr_warn_once("Unexpected adding of device dump\n");
-18d6602e1b51df David Hildenbrand 2024-12-04  1528  	if (vmcore_open) {
-18d6602e1b51df David Hildenbrand 2024-12-04  1529  		ret = -EBUSY;
-18d6602e1b51df David Hildenbrand 2024-12-04  1530  		goto out_err;
-18d6602e1b51df David Hildenbrand 2024-12-04  1531  	}
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1532  
-18d6602e1b51df David Hildenbrand 2024-12-04  1533  	list_add_tail(&dump->list, &vmcoredd_list);
-7efe48df8a3df6 Rahul Lakkireddy  2018-05-02  1534  	vmcoredd_update_size(data_size);
-18d6602e1b51df David Hildenbrand 2024-12-04  1535  	mutex_unlock(&vmcore_mutex);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1536  	return 0;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1537  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1538  out_err:
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1539  	vfree(buf);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1540  	vfree(dump);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1541  
-2724273e8fd00b Rahul Lakkireddy  2018-05-02 @1542  	return ret;
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1543  }
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1544  EXPORT_SYMBOL(vmcore_add_device_dump);
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1545  #endif /* CONFIG_PROC_VMCORE_DEVICE_DUMP */
-2724273e8fd00b Rahul Lakkireddy  2018-05-02  1546  
-
-:::::: The code at line 1542 was first introduced by commit
-:::::: 2724273e8fd00b512596a77ee063f49b25f36507 vmcore: add API to collect hardware dump in second kernel
-
-:::::: TO: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+87eaceb3faa59b Yang Shi                2019-09-23  3728  
+364c1eebe453f0 Yang Shi                2019-09-23  3729  	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3730  	/* Take pin on all head pages to avoid freeing them under us */
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3731) 	list_for_each_entry_safe(folio, next, &ds_queue->split_queue,
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3732) 							_deferred_list) {
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3733) 		if (folio_try_get(folio)) {
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3734) 			list_move(&folio->_deferred_list, &list);
+e3ae19535c6657 Kirill A. Shutemov      2016-02-02  3735  		} else {
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3736) 			/* We lost race with folio_put() */
+8422acdc97ed58 Usama Arif              2024-08-30  3737  			if (folio_test_partially_mapped(folio)) {
+8422acdc97ed58 Usama Arif              2024-08-30  3738  				__folio_clear_partially_mapped(folio);
+8422acdc97ed58 Usama Arif              2024-08-30  3739  				mod_mthp_stat(folio_order(folio),
+8422acdc97ed58 Usama Arif              2024-08-30  3740  					      MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, -1);
+8422acdc97ed58 Usama Arif              2024-08-30  3741  			}
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3742) 			list_del_init(&folio->_deferred_list);
+364c1eebe453f0 Yang Shi                2019-09-23  3743  			ds_queue->split_queue_len--;
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3744  		}
+e3ae19535c6657 Kirill A. Shutemov      2016-02-02  3745  		if (!--sc->nr_to_scan)
+e3ae19535c6657 Kirill A. Shutemov      2016-02-02  3746  			break;
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3747  	}
+364c1eebe453f0 Yang Shi                2019-09-23  3748  	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3749  
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11 @3750) 	list_for_each_entry_safe(folio, next, &list, _deferred_list) {
+dafff3f4c850c9 Usama Arif              2024-08-30  3751  		bool did_split = false;
+dafff3f4c850c9 Usama Arif              2024-08-30  3752  		bool underused = false;
+dafff3f4c850c9 Usama Arif              2024-08-30  3753  
+dafff3f4c850c9 Usama Arif              2024-08-30  3754  		if (!folio_test_partially_mapped(folio)) {
+dafff3f4c850c9 Usama Arif              2024-08-30  3755  			underused = thp_underused(folio);
+dafff3f4c850c9 Usama Arif              2024-08-30  3756  			if (!underused)
+dafff3f4c850c9 Usama Arif              2024-08-30  3757  				goto next;
+dafff3f4c850c9 Usama Arif              2024-08-30  3758  		}
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3759) 		if (!folio_trylock(folio))
+fa41b900c30b45 Kirill A. Shutemov      2018-03-22  3760  			goto next;
+dafff3f4c850c9 Usama Arif              2024-08-30  3761  		if (!split_folio(folio)) {
+dafff3f4c850c9 Usama Arif              2024-08-30  3762  			did_split = true;
+dafff3f4c850c9 Usama Arif              2024-08-30  3763  			if (underused)
+dafff3f4c850c9 Usama Arif              2024-08-30  3764  				count_vm_event(THP_UNDERUSED_SPLIT_PAGE);
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3765  			split++;
+dafff3f4c850c9 Usama Arif              2024-08-30  3766  		}
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3767) 		folio_unlock(folio);
+fa41b900c30b45 Kirill A. Shutemov      2018-03-22  3768  next:
+dafff3f4c850c9 Usama Arif              2024-08-30  3769  		/*
+dafff3f4c850c9 Usama Arif              2024-08-30  3770  		 * split_folio() removes folio from list on success.
+dafff3f4c850c9 Usama Arif              2024-08-30  3771  		 * Only add back to the queue if folio is partially mapped.
+dafff3f4c850c9 Usama Arif              2024-08-30  3772  		 * If thp_underused returns false, or if split_folio fails
+dafff3f4c850c9 Usama Arif              2024-08-30  3773  		 * in the case it was underused, then consider it used and
+dafff3f4c850c9 Usama Arif              2024-08-30  3774  		 * don't add it back to split_queue.
+dafff3f4c850c9 Usama Arif              2024-08-30  3775  		 */
+dafff3f4c850c9 Usama Arif              2024-08-30  3776  		if (!did_split && !folio_test_partially_mapped(folio)) {
+dafff3f4c850c9 Usama Arif              2024-08-30  3777  			list_del_init(&folio->_deferred_list);
+e66f3185fa04cc Hugh Dickins            2024-10-27  3778  			removed++;
+e66f3185fa04cc Hugh Dickins            2024-10-27  3779  		} else {
+e66f3185fa04cc Hugh Dickins            2024-10-27  3780  			/*
+e66f3185fa04cc Hugh Dickins            2024-10-27  3781  			 * That unlocked list_del_init() above would be unsafe,
+e66f3185fa04cc Hugh Dickins            2024-10-27  3782  			 * unless its folio is separated from any earlier folios
+e66f3185fa04cc Hugh Dickins            2024-10-27  3783  			 * left on the list (which may be concurrently unqueued)
+e66f3185fa04cc Hugh Dickins            2024-10-27  3784  			 * by one safe folio with refcount still raised.
+e66f3185fa04cc Hugh Dickins            2024-10-27  3785  			 */
+e66f3185fa04cc Hugh Dickins            2024-10-27  3786  			swap(folio, prev);
+dafff3f4c850c9 Usama Arif              2024-08-30  3787  		}
+e66f3185fa04cc Hugh Dickins            2024-10-27 @3788  		if (folio)
+4375a553f46c6c Matthew Wilcox (Oracle  2023-01-11  3789) 			folio_put(folio);
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3790  	}
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3791  
+364c1eebe453f0 Yang Shi                2019-09-23  3792  	spin_lock_irqsave(&ds_queue->split_queue_lock, flags);
+364c1eebe453f0 Yang Shi                2019-09-23  3793  	list_splice_tail(&list, &ds_queue->split_queue);
+e66f3185fa04cc Hugh Dickins            2024-10-27  3794  	ds_queue->split_queue_len -= removed;
+364c1eebe453f0 Yang Shi                2019-09-23  3795  	spin_unlock_irqrestore(&ds_queue->split_queue_lock, flags);
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3796  
+e66f3185fa04cc Hugh Dickins            2024-10-27  3797  	if (prev)
+e66f3185fa04cc Hugh Dickins            2024-10-27  3798  		folio_put(prev);
+e66f3185fa04cc Hugh Dickins            2024-10-27  3799  
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3800  	/*
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3801  	 * Stop shrinker if we didn't split any page, but the queue is empty.
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3802  	 * This can happen if pages were freed under us.
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3803  	 */
+364c1eebe453f0 Yang Shi                2019-09-23  3804  	if (!split && list_empty(&ds_queue->split_queue))
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3805  		return SHRINK_STOP;
+cb8d68ec16a511 Kirill A. Shutemov      2016-02-02  3806  	return split;
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3807  }
+9a982250f773cc Kirill A. Shutemov      2016-01-15  3808  
 
 -- 
 0-DAY CI Kernel Test Service
