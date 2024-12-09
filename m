@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2F61B041C
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 15:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A5535975
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 15:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733756758; cv=none; b=SJmiebZ8yE4zcAr/maIlXhCC4G9bi52Hz1yNLMSjJ/2DdgE6HUSArAkvqzxlDHWPNo83KCo8loi6ahVD+/Ua98dIzmdryY78jKRBwsrbxGkFVJfaj51lW7cuGBxbEVoL1lP19bCSQkCRzsXn+OUSU2zqf83CBB+5PXQ5EMi5/Bs=
+	t=1733757359; cv=none; b=PN0vANJCuCg7EBsCZNQr5IZip9tPazdsh6nS1z4Jw5jVzBdLwAvJqalikI5aud425p6XgAVdV9GcxJPIy1EJZa0xAbEU8jssAimeeH2wjYc5u06bxEYY18ImuaNJBxR8C8H6glDVUpDtFkQqeK4UqXee71s+hodECs3Zq9bQLUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733756758; c=relaxed/simple;
-	bh=bfs2vx0bRljjl8m7sF4B39+qsK5Aw9N/pWr3cLoFtp4=;
+	s=arc-20240116; t=1733757359; c=relaxed/simple;
+	bh=pVLo6Jpp8I1hVhsWeYJULLEEwzME6mNOb5xq8g5yoiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p5n0kGjlSoSJiQMgzL4wxvX1tyDF9tdQpzh2m7MZJgGN+SW0espZK0pacDflhaXHo9SmLxdulPWzlaItzYLqXBw5mAG1b5choWO7iFr06Os7XkMMCuZKq8SGaZs3Gxec3HT2iYTJxEuR1mPfH4tuHm9jdz4BA4+GAwROUp0dx4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFyJk6VR; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=UcvGrzTxCUnn1gxIvXOXOiUCHIWXliRSx6n5l8i0/lfss/pSHnkp4zy0tSDHu8Eeb9voOjA4YNuNCIqBi8cmC2qt+CUIlSFaXsE46l40Fud79JbV1o/EEE/RxL1bK0aqsick2s7IVG1scw6WI31LLP6wLIjThKmpHOClaKjIHwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCrUi82e; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFyJk6VR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCrUi82e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733756755; x=1765292755;
+  t=1733757357; x=1765293357;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bfs2vx0bRljjl8m7sF4B39+qsK5Aw9N/pWr3cLoFtp4=;
-  b=VFyJk6VRvqk6EeQdgWDyw+tyNGOPbB7SMW7/tMjioXnIuj41aA+WS8CU
-   DabBeJRphUI7ot/NbTSHJ6QPyzOpFYCy6b9Lx81hYRH8UigtU4icRSrk3
-   hSvwQ4a2iP3CxRXXZAbctpV2hXEj8LcFe1Hq3ONlGo4/aMApBkdEpv5Lt
-   RjF2Uv0QKD0LO3kemtmlCYsMCJDbc64fXcr5WZi7ZhfPA7xf7k0E/H0lX
-   pAi/cLiw8PhJDfbFdWWisEIHajMSnlgk1K2rDXTV+wKsLZEI6v7KE0CIB
-   y/aNSzgbUwFToMsIX6e54J+Vq2V2IfUQ5NWpym5yUioFn/7Sudyn+bxv+
+  bh=pVLo6Jpp8I1hVhsWeYJULLEEwzME6mNOb5xq8g5yoiI=;
+  b=BCrUi82eVtURKngPfLnDd7IZe5dW51gFFJyHveGzYRX+JnyMWZ5xA+Mu
+   k447CGQGwosTLmu5W645OfwvVJw1xZMujHmx/5a63GTZ/b/oiC7Wh5lN2
+   w6hrbSZeO2ILS/oUJCmY4CwF1JR6Of30yyoS+xWWI+5GZIzsOko24lax8
+   25NWbwCHF6KINo4xP+7rpDiJSxNLhNKl+FjuMFb/vNwIVu9ounfU4OgGY
+   x/k7d8+knTZ31S6dyMcZBh3ly1vXLGqUH5BB/N+yX3GU0GaUpIkIcaHMv
+   Dkhy2jqChyxS6tWGtwjqHFsOUalNyA2LlwIbTTaPEI2dSXqR5FYMn6Pw+
    Q==;
-X-CSE-ConnectionGUID: 83olkDtAQhuQSXHQ5oDbqg==
-X-CSE-MsgGUID: cvLigI+oStyMmZkIUzTzmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="51477096"
+X-CSE-ConnectionGUID: pOoFOeGGSNa0TkKwsDZmnQ==
+X-CSE-MsgGUID: 0gMV0Kf+R5uUOowos1WP+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33403027"
 X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="51477096"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 07:05:54 -0800
-X-CSE-ConnectionGUID: fXMTb51SS2qsgB1lFfhE9w==
-X-CSE-MsgGUID: 6gUQoeV+RkCsVHY4zVAJ3A==
+   d="scan'208";a="33403027"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 07:15:56 -0800
+X-CSE-ConnectionGUID: Krbyn9bNRciV1EAJwXEylQ==
+X-CSE-MsgGUID: 1CVbmp3kRwOJMy1xkqXYIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="100143734"
+   d="scan'208";a="99156771"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Dec 2024 07:05:53 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 09 Dec 2024 07:15:55 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKfKY-0004Tw-0D;
-	Mon, 09 Dec 2024 15:05:50 +0000
-Date: Mon, 9 Dec 2024 23:04:50 +0800
+	id 1tKfUH-0004UZ-0D;
+	Mon, 09 Dec 2024 15:15:53 +0000
+Date: Mon, 9 Dec 2024 23:15:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/thunderbolt/usb4.c:221:4-8: opportunity for str_yes_no(tbt3)
-Message-ID: <202412092309.9WyxMQKd-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
+ uninitialized symbol 'val'.
+Message-ID: <202412092300.kuTfOTLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,98 +65,148 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-
-Hi Mika,
-
-First bad commit (maybe != root cause):
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Joey Gouly <joey.gouly@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 690ac0d20d4022bb3c7d84e0e3760eb40aa8028d thunderbolt: Update Kconfig entries to USB4
-date:   5 years ago
+commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
+date:   10 months ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 5 years ago
-config: x86_64-randconfig-101-20241111 (https://download.01.org/0day-ci/archive/20241209/202412092309.9WyxMQKd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: commit date: 10 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241209/202412092300.kuTfOTLT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412092309.9WyxMQKd-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412092300.kuTfOTLT-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/thunderbolt/usb4.c:221:4-8: opportunity for str_yes_no(tbt3)
->> drivers/thunderbolt/usb4.c:221:25-29: opportunity for str_yes_no(xhci)
+smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-vim +221 drivers/thunderbolt/usb4.c
+vim +/val +2083 arch/arm64/kvm/emulate-nested.c
 
-b04079837b2094 Mika Westerberg 2019-12-17  191  
-b04079837b2094 Mika Westerberg 2019-12-17  192  /**
-b04079837b2094 Mika Westerberg 2019-12-17  193   * usb4_switch_setup() - Additional setup for USB4 device
-b04079837b2094 Mika Westerberg 2019-12-17  194   * @sw: USB4 router to setup
-b04079837b2094 Mika Westerberg 2019-12-17  195   *
-b04079837b2094 Mika Westerberg 2019-12-17  196   * USB4 routers need additional settings in order to enable all the
-b04079837b2094 Mika Westerberg 2019-12-17  197   * tunneling. This function enables USB and PCIe tunneling if it can be
-b04079837b2094 Mika Westerberg 2019-12-17  198   * enabled (e.g the parent switch also supports them). If USB tunneling
-b04079837b2094 Mika Westerberg 2019-12-17  199   * is not available for some reason (like that there is Thunderbolt 3
-b04079837b2094 Mika Westerberg 2019-12-17  200   * switch upstream) then the internal xHCI controller is enabled
-b04079837b2094 Mika Westerberg 2019-12-17  201   * instead.
-b04079837b2094 Mika Westerberg 2019-12-17  202   */
-b04079837b2094 Mika Westerberg 2019-12-17  203  int usb4_switch_setup(struct tb_switch *sw)
-b04079837b2094 Mika Westerberg 2019-12-17  204  {
-b04079837b2094 Mika Westerberg 2019-12-17  205  	struct tb_switch *parent;
-b04079837b2094 Mika Westerberg 2019-12-17  206  	bool tbt3, xhci;
-b04079837b2094 Mika Westerberg 2019-12-17  207  	u32 val = 0;
-b04079837b2094 Mika Westerberg 2019-12-17  208  	int ret;
-b04079837b2094 Mika Westerberg 2019-12-17  209  
-b04079837b2094 Mika Westerberg 2019-12-17  210  	if (!tb_route(sw))
-b04079837b2094 Mika Westerberg 2019-12-17  211  		return 0;
-b04079837b2094 Mika Westerberg 2019-12-17  212  
-b04079837b2094 Mika Westerberg 2019-12-17  213  	ret = tb_sw_read(sw, &val, TB_CFG_SWITCH, ROUTER_CS_6, 1);
-b04079837b2094 Mika Westerberg 2019-12-17  214  	if (ret)
-b04079837b2094 Mika Westerberg 2019-12-17  215  		return ret;
-b04079837b2094 Mika Westerberg 2019-12-17  216  
-b04079837b2094 Mika Westerberg 2019-12-17  217  	xhci = val & ROUTER_CS_6_HCI;
-b04079837b2094 Mika Westerberg 2019-12-17  218  	tbt3 = !(val & ROUTER_CS_6_TNS);
-b04079837b2094 Mika Westerberg 2019-12-17  219  
-b04079837b2094 Mika Westerberg 2019-12-17  220  	tb_sw_dbg(sw, "TBT3 support: %s, xHCI: %s\n",
-b04079837b2094 Mika Westerberg 2019-12-17 @221  		  tbt3 ? "yes" : "no", xhci ? "yes" : "no");
-b04079837b2094 Mika Westerberg 2019-12-17  222  
-b04079837b2094 Mika Westerberg 2019-12-17  223  	ret = tb_sw_read(sw, &val, TB_CFG_SWITCH, ROUTER_CS_5, 1);
-b04079837b2094 Mika Westerberg 2019-12-17  224  	if (ret)
-b04079837b2094 Mika Westerberg 2019-12-17  225  		return ret;
-b04079837b2094 Mika Westerberg 2019-12-17  226  
-b04079837b2094 Mika Westerberg 2019-12-17  227  	parent = tb_switch_parent(sw);
-b04079837b2094 Mika Westerberg 2019-12-17  228  
-b04079837b2094 Mika Westerberg 2019-12-17  229  	/* Only enable PCIe tunneling if the parent router supports it */
-b04079837b2094 Mika Westerberg 2019-12-17  230  	if (tb_switch_find_port(parent, TB_TYPE_PCIE_DOWN)) {
-b04079837b2094 Mika Westerberg 2019-12-17  231  		val |= ROUTER_CS_5_PTO;
-b04079837b2094 Mika Westerberg 2019-12-17  232  		/* xHCI can be enabled if PCIe tunneling is supported */
-b04079837b2094 Mika Westerberg 2019-12-17  233  		if (xhci & ROUTER_CS_6_HCI)
-b04079837b2094 Mika Westerberg 2019-12-17  234  			val |= ROUTER_CS_5_HCO;
-b04079837b2094 Mika Westerberg 2019-12-17  235  	}
-b04079837b2094 Mika Westerberg 2019-12-17  236  
-b04079837b2094 Mika Westerberg 2019-12-17  237  	/* TBT3 supported by the CM */
-b04079837b2094 Mika Westerberg 2019-12-17  238  	val |= ROUTER_CS_5_C3S;
-b04079837b2094 Mika Westerberg 2019-12-17  239  	/* Tunneling configuration is ready now */
-b04079837b2094 Mika Westerberg 2019-12-17  240  	val |= ROUTER_CS_5_CV;
-b04079837b2094 Mika Westerberg 2019-12-17  241  
-b04079837b2094 Mika Westerberg 2019-12-17  242  	ret = tb_sw_write(sw, &val, TB_CFG_SWITCH, ROUTER_CS_5, 1);
-b04079837b2094 Mika Westerberg 2019-12-17  243  	if (ret)
-b04079837b2094 Mika Westerberg 2019-12-17  244  		return ret;
-b04079837b2094 Mika Westerberg 2019-12-17  245  
-b04079837b2094 Mika Westerberg 2019-12-17  246  	return usb4_switch_wait_for_bit(sw, ROUTER_CS_6, ROUTER_CS_6_CR,
-b04079837b2094 Mika Westerberg 2019-12-17  247  					ROUTER_CS_6_CR, 50);
-b04079837b2094 Mika Westerberg 2019-12-17  248  }
-b04079837b2094 Mika Westerberg 2019-12-17  249  
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2009  
+085eabaa74a1234 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2011  {
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2012  	union trap_config tc;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2014  	bool is_read;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2015  	u32 sysreg;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2016  	u64 esr, val;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2017  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2021  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2023  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2024  	/*
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2028  	 */
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2029  	if (!tc.val)
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2030  		goto local;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2031  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2032  	/*
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2035  	 */
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2037  		goto local;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2038  
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2041  		break;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2042  
+5a24ea786985725 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
+5a24ea786985725 Marc Zyngier 2023-08-15  2044  		if (is_read)
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
+5a24ea786985725 Marc Zyngier 2023-08-15  2046  		else
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
+5a24ea786985725 Marc Zyngier 2023-08-15  2048  		break;
+5a24ea786985725 Marc Zyngier 2023-08-15  2049  
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2051  		if (is_read)
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2053  		else
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2055  		break;
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2056  
+676f482354886ca Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
+676f482354886ca Fuad Tabba   2023-12-14  2059  		break;
+676f482354886ca Fuad Tabba   2023-12-14  2060  
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2064  			u64 tmp;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2065  
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2067  			break;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2068  
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2073  		}
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2074  		break;
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2075  
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2079  		goto local;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2080  	}
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2081  
+9958d58779c92b7 Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
+9958d58779c92b7 Marc Zyngier 2024-02-14 @2083  							val, tc))
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2084  		goto inject;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2085  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2087  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2090  		goto inject;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2091  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2092  local:
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2095  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2097  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2098  		/*
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2102  		 */
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2108  		return true;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2109  	}
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2110  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2112  	return false;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2113  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2114  inject:
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2116  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2118  	return true;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2119  }
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2120  
 
-:::::: The code at line 221 was first introduced by commit
-:::::: b04079837b2094f09e145676eec4b9a56ae8a6aa thunderbolt: Add initial support for USB4
+:::::: The code at line 2083 was first introduced by commit
+:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
 
-:::::: TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
