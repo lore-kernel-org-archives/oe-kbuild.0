@@ -1,145 +1,130 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3C643AA8
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:16:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E674915623A
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:17:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733717821; cv=none; b=ahcnQbhTe24EQ9UFxwdFeVbvGs3vmUm2NpAWvCuIygQGicvMWYWzE7BTt56eWX9LE2OE0VT3Yj90gKiktX0kQcH7Gia9myRlbHDn4oWxAdPf7heObEQV//dG/Ui5YM6lMsf41Hf245KZsjKokZ+C3Shdaa7nRcD/+CPhqQZv0SY=
+	t=1733717823; cv=none; b=qDeTAWAqm2R0DCcpAAxUdXe8b1qLK+/9NaFh1naJlzqfHXbJDpyH8/yNjmyppxvgVl0LIojA5tYxqAcXcTlK/FldKxXkwadZas+IBwPPYCh0hsLyCcRdr1GndBn/DsHwTarWvoOpyzGzVYMSVyd/eH0GZqB59KvjwiCsu+CoR78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733717821; c=relaxed/simple;
-	bh=kuiQoG97j+CjGl2ooZ5sf62hJjkv9SKF/0OIScvYYZE=;
+	s=arc-20240116; t=1733717823; c=relaxed/simple;
+	bh=hJAwvK0yqqll6cNk549ZpTtSpI1kaUeav1VoXBW6lyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=huTqvLtKXzW3tUgdXSVlgMcnUOQK5Sv49U6nZJXxsW9bLHR8VOh3WxFxXNsPI9MhuiMWXXWx0nNkEVxeFIkUcr3ZRUqjdsLcEBu3Okh1rjlJfYhJu8bEQMrBMNpxPemmMeaFaFEfVPeWojUSnIhHUmPW7uJ9JvFXn0hmuu6TGXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EqpwXX/x; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=UV9vyoU0DFTRmYDs8+61OGeuEKlsYAFjYl/R0c2YrC6qHsjqOeh2HOE+XnF/qPL8EeByc8ZVRyN5/fM+i06gmguSd4PRCjGK0fOQA5Ozr/lvs5lQeFphyjD8xwGpoqCAbXHSzD5jUwFEsUZb5JpkDfIfsVdyhDIZjcbuYF0zG1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CcFs6ntR; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EqpwXX/x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CcFs6ntR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733717820; x=1765253820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kuiQoG97j+CjGl2ooZ5sf62hJjkv9SKF/0OIScvYYZE=;
-  b=EqpwXX/xmgeU3z4lsNjINflW0luYb4Y0/mNDbC4leZ7Bch0teUNiDasK
-   6ATUCogqXvIjKrWHCajoo7A+KIX2g1QVbvz8KfbCQ+rj1GAfdZVXVOJzl
-   8J5KpS2DFg6ftI24ThwPGdUADuG7+qgcPXTDWnOUUf8x0k29MSmJuZDeu
-   YKkMwNnUUfleIqrDpT/3U69jPfSne9W3eLJT29eg+uX27ALATG+HG6cCG
-   foPwWMtf5W8FGFR7C9wUCc0SED4Vkun+KQ4iXycNMQjh1c3K52vYQA5oa
-   E+YSJTSc8sT6ObFdwUEh7syLhOWQA3uK03jCWgC59a7Y7MO+aFCfSmZNc
-   A==;
-X-CSE-ConnectionGUID: YxC3HO2TSUC/rG5u/f6Y/A==
-X-CSE-MsgGUID: ERzPaUo9TK6C7Q8ANbHGFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34235962"
+  t=1733717822; x=1765253822;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hJAwvK0yqqll6cNk549ZpTtSpI1kaUeav1VoXBW6lyk=;
+  b=CcFs6ntR8oxUV4VLXpqdYXUOH7k+HvIcK8TD13nZiPHiOEakLMhOTSNR
+   SG6UVVJDgLfozKdXs8YquvwVJYGRIfxJ3R8IZH8OA59JUxerNQ4UYV8nx
+   DYPHIfOxkdqFV3OqTtnJ33rnup6eq63Ip0fhFwFpjRI72pEvbuZ2dqx7w
+   P6T+E2itvRe7ZB7V2iK1CTHHMZrjitBaojc/q3kXDL4FzavbvSM28EOKU
+   EKtW5yN2BM2a+/6FdoqZXz3eF8Y0z0Ek8RO4Qj1ZbHInjqV6ZNAYruOSm
+   sixo/iB3tbwjzbIc8ZwwUr2BkEYMZLRowgJIvtSM3hk+4mcQ6FsWLR5sZ
+   w==;
+X-CSE-ConnectionGUID: vnY5S4ZPTgezuSI5h/dcDQ==
+X-CSE-MsgGUID: y44592gETtWtlWhFcW2t/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34235961"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34235962"
+   d="scan'208";a="34235961"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:16:10 -0800
-X-CSE-ConnectionGUID: N/KaVUH/TjWnmflC7yV8/w==
-X-CSE-MsgGUID: VZMuc3kmRd2GpN0cmGvwTg==
+X-CSE-ConnectionGUID: X2lB8VkfR1KiwNTlorZF9A==
+X-CSE-MsgGUID: gRm5rg4iQxmbEVjT0wNlsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94823958"
+   d="scan'208";a="94823952"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 20:16:09 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVBm-0003p9-1C;
+	id 1tKVBm-0003p3-0v;
 	Mon, 09 Dec 2024 04:16:06 +0000
-Date: Mon, 9 Dec 2024 12:15:47 +0800
+Date: Mon, 9 Dec 2024 12:15:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume()
- warn: 'ctx->hdmi' from clk_prepare_enable() not released on lines:
- 1308,1317.
-Message-ID: <202412071907.QYwoBgnU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 2/7] dt-bindings: phy: samsung,usb3-drd-phy: gs101:
+ require Type-C properties
+Message-ID: <202412071956.CjjEGCcI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241206-gs101-phy-lanes-orientation-phy-v4-2-f5961268b149@linaro.org>
+References: <20241206-gs101-phy-lanes-orientation-phy-v4-2-f5961268b149@linaro.org>
+TO: "André Draszik" <andre.draszik@linaro.org>
+TO: Vinod Koul <vkoul@kernel.org>
+TO: Kishon Vijay Abraham I <kishon@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Marek Szyprowski <m.szyprowski@samsung.com>
+TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+CC: Peter Griffin <peter.griffin@linaro.org>
+CC: Tudor Ambarus <tudor.ambarus@linaro.org>
+CC: Sam Protsenko <semen.protsenko@linaro.org>
+CC: Will McVicker <willmcvicker@google.com>
+CC: Roy Luo <royluo@google.com>
+CC: kernel-team@android.com
+CC: linux-phy@lists.infradead.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-samsung-soc@vger.kernel.org
+CC: "André Draszik" <andre.draszik@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b5f217084ab3ddd4bdd03cd437f8e3b7e2d1f5b6
-commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
-date:   8 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
-config: xtensa-randconfig-r072-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071907.QYwoBgnU-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c245a7a79602ccbee780c004c1e4abcda66aec32]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Draszik/dt-bindings-phy-samsung-usb3-drd-phy-add-blank-lines-between-DT-properties/20241207-003504
+base:   c245a7a79602ccbee780c004c1e4abcda66aec32
+patch link:    https://lore.kernel.org/r/20241206-gs101-phy-lanes-orientation-phy-v4-2-f5961268b149%40linaro.org
+patch subject: [PATCH v4 2/7] dt-bindings: phy: samsung,usb3-drd-phy: gs101: require Type-C properties
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-randconfig-051-20241207 (https://download.01.org/0day-ci/archive/20241207/202412071956.CjjEGCcI-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412071956.CjjEGCcI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412071907.QYwoBgnU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412071956.CjjEGCcI-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->hdmi' from clk_prepare_enable() not released on lines: 1308,1317.
-drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->mixer' from clk_prepare_enable() not released on lines: 1300,1308,1317.
-drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->vp' from clk_prepare_enable() not released on lines: 1317.
-
-vim +1322 drivers/gpu/drm/exynos/exynos_mixer.c
-
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1282  
-e0fea7e7b63108 Arnd Bergmann   2015-11-17  1283  static int __maybe_unused exynos_mixer_resume(struct device *dev)
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1284  {
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1285  	struct mixer_context *ctx = dev_get_drvdata(dev);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1286  	int ret;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1287  
-524c59f1b79885 Andrzej Hajda   2017-09-29  1288  	ret = clk_prepare_enable(ctx->mixer);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1289  	if (ret < 0) {
-6f83d20838c099 Inki Dae        2019-04-15  1290  		DRM_DEV_ERROR(ctx->dev,
-6f83d20838c099 Inki Dae        2019-04-15  1291  			      "Failed to prepare_enable the mixer clk [%d]\n",
-6f83d20838c099 Inki Dae        2019-04-15  1292  			      ret);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1293  		return ret;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1294  	}
-524c59f1b79885 Andrzej Hajda   2017-09-29  1295  	ret = clk_prepare_enable(ctx->hdmi);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1296  	if (ret < 0) {
-6f83d20838c099 Inki Dae        2019-04-15  1297  		DRM_DEV_ERROR(dev,
-6f83d20838c099 Inki Dae        2019-04-15  1298  			      "Failed to prepare_enable the hdmi clk [%d]\n",
-6f83d20838c099 Inki Dae        2019-04-15  1299  			      ret);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1300  		return ret;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1301  	}
-adeb6f44858c7b Tobias Jakobi   2016-09-22  1302  	if (test_bit(MXR_BIT_VP_ENABLED, &ctx->flags)) {
-524c59f1b79885 Andrzej Hajda   2017-09-29  1303  		ret = clk_prepare_enable(ctx->vp);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1304  		if (ret < 0) {
-6f83d20838c099 Inki Dae        2019-04-15  1305  			DRM_DEV_ERROR(dev,
-6f83d20838c099 Inki Dae        2019-04-15  1306  				      "Failed to prepare_enable the vp clk [%d]\n",
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1307  				      ret);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1308  			return ret;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1309  		}
-adeb6f44858c7b Tobias Jakobi   2016-09-22  1310  		if (test_bit(MXR_BIT_HAS_SCLK, &ctx->flags)) {
-524c59f1b79885 Andrzej Hajda   2017-09-29  1311  			ret = clk_prepare_enable(ctx->sclk_mixer);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1312  			if (ret < 0) {
-6f83d20838c099 Inki Dae        2019-04-15  1313  				DRM_DEV_ERROR(dev,
-6f83d20838c099 Inki Dae        2019-04-15  1314  					   "Failed to prepare_enable the " \
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1315  					   "sclk_mixer clk [%d]\n",
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1316  					   ret);
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1317  				return ret;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1318  			}
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1319  		}
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1320  	}
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1321  
-ccf034a9adb7aa Gustavo Padovan 2015-09-04 @1322  	return 0;
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1323  }
-ccf034a9adb7aa Gustavo Padovan 2015-09-04  1324  
-
-:::::: The code at line 1322 was first introduced by commit
-:::::: ccf034a9adb7aaca2ee8e5433f80191090f7d923 drm/exynos: add pm_runtime to Mixer
-
-:::::: TO: Gustavo Padovan <gustavo.padovan@collabora.co.uk>
-:::::: CC: Inki Dae <daeinki@gmail.com>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb: phy@11100000: 'oneOf' conditional failed, one must be fixed:
+   	'port' is a required property
+   	'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/samsung,usb3-drd-phy.yaml#
+>> arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb: phy@11100000: 'orientation-switch' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/samsung,usb3-drd-phy.yaml#
+>> arch/arm64/boot/dts/exynos/google/gs101-oriole.dtb: phy@11100000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/samsung,usb3-drd-phy.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
