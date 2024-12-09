@@ -1,183 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E6C15B99E
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B8F16C451
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733719664; cv=none; b=HmVy67/513hle6ewZFeXbC0GyOfFc+cunkkYqhgLjLG+WgCmokEhCJGCtimukHzD4LciIOrjecJEcTBGRiU9T8yd0o7CxrNBrTgbY0aXadjCmbx0mQ0wJj65CLXleRhxHaPrHqKKYc8tgZE8eLXFb2hwrkICHuN46qN9neAFJ7U=
+	t=1733719665; cv=none; b=KR0NnjMwQhAgxzuI0qIVDo5dphqSLbFBEL+45fZLVoFCZnT4T+hSueUGXRGErrUUGzUtbTgjujFPqrV8UP0ekuCxJ+dAngYKLMy0zZm3J4D5HMJNDXxQ1fyrjCfWtFO9aUCnRmL8sOYgoWQbm7Bztk05Sr9eeduQwN9D4QKxEyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733719664; c=relaxed/simple;
-	bh=8ZFUVrI8m4law4JIprEIstbvitxPmvOCDHKpYvRrpZ8=;
+	s=arc-20240116; t=1733719665; c=relaxed/simple;
+	bh=18hyyQIy5TZlCpVf4WyWHRw8PrMDqU+N8ALuU0qtEs0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hF6+7TZR57Je3xJyE9fjaZh3kem1Ee0KYrV/AFMIl+Svv4wGNS8JgI5kdgELDeSdxZ2KOgbvC3SQAuPpTc7/QQN9mIn8V/hf4SsWA/Q7Uph/w9Lw/eb1RF1hrxvFch3lLM+MHS/2tPNehYn48ecuSGAbvfKgspVQrwV5TBJln2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DdzCgR5Y; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=DsZ2JvVwJ8IaaVqxIOMXhcP0BSY0mvAOl9aLcQDgdivU2NkoUvEH6qDYwHeW24f8SsP489Rl8UXIt0Z4nyJtx06jtRUPj2g44aJ8OM8fy1dBBgHGfgQ60prv5kU+yaBF8wDQBFp842+yj9OIWAaUVjknkUBn25WhWHUeEoDHnSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhyoh4DP; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdzCgR5Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhyoh4DP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733719663; x=1765255663;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8ZFUVrI8m4law4JIprEIstbvitxPmvOCDHKpYvRrpZ8=;
-  b=DdzCgR5YncRGl9qyw0T1l3p78nLMhta2WthoUghLHU+UU1khfKSywD+w
-   TUL87bp0WVHkt8Wdu/rYnvqKSCs5a0/zUxO6u3ZIRo8SOQinQ5Wbk244Q
-   815wsQPSmLF8kGye2sIl6I0NjNnHgt0Zq12TNv7shSTggSgEMZNVgiN4J
-   goYfHfecDWVSExRaZV6cVDNwCAzlKxKzztN3eAEGWioqRVP+QUEMuytZn
-   YlLjxVFC5E40edZLkljL/Ev/ugeUZj2nbCWa3fDjyANRLcTrw4f1L1M0n
-   oOxs+94x8VscG9z2DLiZjqGurIJAYtaQg4oDI5TabMYz9ZBHUkh7E/q6+
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=18hyyQIy5TZlCpVf4WyWHRw8PrMDqU+N8ALuU0qtEs0=;
+  b=hhyoh4DPeYvm4Y+slzOWknWOQS03d1TJCt8rdwKiuHN9SEpBtdm2y42h
+   HlbRf0gCL2N1ioCq8/Yxkb5aZ06uaPzaeWjL/L7UHTLoqeCpXJNALi5Oc
+   YqMdNQTIfapXiPZT6/oy6XSpwN6wHH99vSFEONHKpk8fWSadZZOC+53vn
+   U7+5DrnBMDvox+x5ZwvA0zrz5IRX2tpqc2eqS6IPoF5fzusO7OtNrtHmk
+   aCcUie2wXmDHwTiMd81WF20RXidmo+JDTwbbFiVGoKdUJIrjVr9z65xAH
+   ey8+EHg3ZIuFObiAXJkKbNSE5vy6wtodwPyDSyIvxDLRfVBmZUGzJNZkR
    Q==;
-X-CSE-ConnectionGUID: 6FY31Wj0QTy0dz4vnIKlsQ==
-X-CSE-MsgGUID: eYVDKKnxTM6BMLhzTeqvfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34123924"
+X-CSE-ConnectionGUID: Rt42qIowQ6WECuwdmxXalQ==
+X-CSE-MsgGUID: WGVrrvX8QA2jZruXTE0bAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34060163"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34123924"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:40 -0800
-X-CSE-ConnectionGUID: Efg1FUL2R6uN5ZczSiBq6w==
-X-CSE-MsgGUID: +eaORdMnS4+Ocy5m/+R2wg==
+   d="scan'208";a="34060163"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:47:41 -0800
+X-CSE-ConnectionGUID: wKQXPZzPQGS995/0l2+sdw==
+X-CSE-MsgGUID: l0ggwh7tQ8u8y90fg7bznQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95304472"
+   d="scan'208";a="99012431"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 08 Dec 2024 20:47:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVgH-0003v7-04;
+	id 1tKVgH-0003vD-0F;
 	Mon, 09 Dec 2024 04:47:37 +0000
-Date: Mon, 9 Dec 2024 12:47:27 +0800
+Date: Mon, 9 Dec 2024 12:47:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/xe_uc_fw.c:675 uc_fw_request() error: we
- previously assumed 'uc_fw->path' could be null (see line 662)
-Message-ID: <202412081850.lGq38EAE-lkp@intel.com>
+Subject: sound/soc/sdw_utils/soc_sdw_rt_amp.c:202
+ asoc_sdw_rt_amp_spk_rtd_init() error: uninitialized symbol 'ret'.
+Message-ID: <202412082018.GUvC80wl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: Matt Roper <matthew.d.roper@intel.com>
+TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Bard Liao <yung-chuan.liao@linux.intel.com>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   7503345ac5f5e82fd9a36d6e6b447c016376403a
-commit: 237412e45390805e14a6936fb998d756c4eac9d8 drm/xe: Enable 32bits build
-date:   10 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-141-20241208 (https://download.01.org/0day-ci/archive/20241208/202412081850.lGq38EAE-lkp@intel.com/config)
+commit: cb8ea62e6402067ba092d4c1d66a9440513a572b ASoC: amd/sdw_utils: add sof based soundwire generic machine driver
+date:   4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-141-20241208 (https://download.01.org/0day-ci/archive/20241208/202412082018.GUvC80wl-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412081850.lGq38EAE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412082018.GUvC80wl-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_uc_fw.c:675 uc_fw_request() error: we previously assumed 'uc_fw->path' could be null (see line 662)
-drivers/gpu/drm/xe/tests/xe_migrate.c:276 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+sound/soc/sdw_utils/soc_sdw_rt_amp.c:202 asoc_sdw_rt_amp_spk_rtd_init() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_migrate.c:808 xe_migrate_copy() error: uninitialized symbol 'ccs_ofs'.
-drivers/gpu/drm/xe/tests/xe_migrate.c:306 xe_migrate_sanity_test() warn: passing zero to 'PTR_ERR'
+vim +/ret +202 sound/soc/sdw_utils/soc_sdw_rt_amp.c
 
-vim +675 drivers/gpu/drm/xe/xe_uc_fw.c
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  177  
+bd5838c8999838 sound/soc/intel/boards/sof_sdw_rt_amp.c Vijendar Mukunda     2024-08-01  178  int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  179  {
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  180  	struct snd_soc_card *card = rtd->card;
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  181  	const struct snd_soc_dapm_route *rt_amp_map;
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  182  	char codec_name[CODEC_NAME_SIZE];
+84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  183  	struct snd_soc_dai *codec_dai;
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  184  	int ret;
+9f3763b3628def sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-02-08  185  	int i;
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  186  
+4c11132a886ea9 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  187  	rt_amp_map = get_codec_name_and_route(dai, codec_name);
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  188  
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  189  	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  190  					  "%s spk:%s",
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  191  					  card->components, codec_name);
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  192  	if (!card->components)
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  193  		return -ENOMEM;
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  194  
+84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  195  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  196  		if (strstr(codec_dai->component->name_prefix, "-1"))
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  197  			ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map, 2);
+84e0a19adb73d7 sound/soc/intel/boards/sof_sdw_rt_amp.c Bard Liao            2024-05-09  198  		else if (strstr(codec_dai->component->name_prefix, "-2"))
+5c10da436ebd93 sound/soc/intel/boards/sof_sdw_rt_amp.c Gongjun Song         2022-12-06  199  			ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map + 2, 2);
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  200  	}
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  201  
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25 @202  	return ret;
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  203  }
+ccc96ae2814a7f sound/soc/sdw_utils/soc_sdw_rt_amp.c    Vijendar Mukunda     2024-08-01  204  EXPORT_SYMBOL_NS(asoc_sdw_rt_amp_spk_rtd_init, SND_SOC_SDW_UTILS);
+52db12d193d457 sound/soc/intel/boards/sof_sdw_rt1308.c Pierre-Louis Bossart 2020-03-25  205  
 
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  643  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  644  static int uc_fw_request(struct xe_uc_fw *uc_fw, const struct firmware **firmware_p)
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  645  {
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  646  	struct xe_device *xe = uc_fw_to_xe(uc_fw);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  647  	struct device *dev = xe->drm.dev;
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  648  	struct drm_printer p = drm_info_printer(dev);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  649  	const struct firmware *fw = NULL;
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  650  	int err;
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  651  
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  652  	/*
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  653  	 * we use FIRMWARE_UNINITIALIZED to detect checks against uc_fw->status
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  654  	 * before we're looked at the HW caps to see if we have uc support
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  655  	 */
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  656  	BUILD_BUG_ON(XE_UC_FIRMWARE_UNINITIALIZED);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  657  	xe_assert(xe, !uc_fw->status);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  658  	xe_assert(xe, !uc_fw->path);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  659  
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  660  	uc_fw_auto_select(xe, uc_fw);
-45883418969c44 Lucas De Marchi        2024-02-01  661  	uc_fw_override(uc_fw);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25 @662  	xe_uc_fw_change_status(uc_fw, uc_fw->path ?
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  663  			       XE_UC_FIRMWARE_SELECTED :
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  664  			       XE_UC_FIRMWARE_NOT_SUPPORTED);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  665  
-6badfc463d609a Lucas De Marchi        2024-02-01  666  	if (!xe_uc_fw_is_supported(uc_fw)) {
-6badfc463d609a Lucas De Marchi        2024-02-01  667  		if (uc_fw->type == XE_UC_FW_TYPE_GUC) {
-6badfc463d609a Lucas De Marchi        2024-02-01  668  			drm_err(&xe->drm, "No GuC firmware defined for platform\n");
-6badfc463d609a Lucas De Marchi        2024-02-01  669  			return -ENOENT;
-6badfc463d609a Lucas De Marchi        2024-02-01  670  		}
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  671  		return 0;
-6badfc463d609a Lucas De Marchi        2024-02-01  672  	}
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  673  
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  674  	/* an empty path means the firmware is disabled */
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25 @675  	if (!xe_device_uc_enabled(xe) || !(*uc_fw->path)) {
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  676  		xe_uc_fw_change_status(uc_fw, XE_UC_FIRMWARE_DISABLED);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  677  		drm_dbg(&xe->drm, "%s disabled", xe_uc_fw_type_repr(uc_fw->type));
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  678  		return 0;
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  679  	}
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  680  
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  681  	err = request_firmware(&fw, uc_fw->path, dev);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  682  	if (err)
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  683  		goto fail;
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  684  
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  685  	err = parse_headers(uc_fw, fw);
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  686  	if (err)
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  687  		goto fail;
-a9a95523c84957 Daniele Ceraolo Spurio 2023-10-25  688  
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  689  	print_uc_fw_version(&p,
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  690  			    &uc_fw->versions.found[XE_UC_FW_VER_RELEASE],
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  691  			    "Using %s firmware from %s",
-2e7227b4b73322 Daniele Ceraolo Spurio 2023-11-17  692  			    xe_uc_fw_type_repr(uc_fw->type), uc_fw->path);
-61e72e77b66259 Lucas De Marchi        2023-04-05  693  
-0881cbe0407778 Daniele Ceraolo Spurio 2023-11-17  694  	/* for GSC FW we want the compatibility version, which we query after load */
-0881cbe0407778 Daniele Ceraolo Spurio 2023-11-17  695  	if (uc_fw->type != XE_UC_FW_TYPE_GSC) {
-0881cbe0407778 Daniele Ceraolo Spurio 2023-11-17  696  		err = xe_uc_fw_check_version_requirements(uc_fw);
-ad55ead7f3c7b0 Lucas De Marchi        2023-03-23  697  		if (err)
-dd08ebf6c3525a Matthew Brost          2023-03-30  698  			goto fail;
-0881cbe0407778 Daniele Ceraolo Spurio 2023-11-17  699  	}
-dd08ebf6c3525a Matthew Brost          2023-03-30  700  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  701  	*firmware_p = fw;
-c93ea05191c5b6 Michał Winiarski       2023-12-05  702  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  703  	return 0;
-c93ea05191c5b6 Michał Winiarski       2023-12-05  704  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  705  fail:
-c93ea05191c5b6 Michał Winiarski       2023-12-05  706  	xe_uc_fw_change_status(uc_fw, err == -ENOENT ?
-c93ea05191c5b6 Michał Winiarski       2023-12-05  707  			       XE_UC_FIRMWARE_MISSING :
-c93ea05191c5b6 Michał Winiarski       2023-12-05  708  			       XE_UC_FIRMWARE_ERROR);
-c93ea05191c5b6 Michał Winiarski       2023-12-05  709  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  710  	drm_notice(&xe->drm, "%s firmware %s: fetch failed with error %d\n",
-c93ea05191c5b6 Michał Winiarski       2023-12-05  711  		   xe_uc_fw_type_repr(uc_fw->type), uc_fw->path, err);
-c93ea05191c5b6 Michał Winiarski       2023-12-05  712  	drm_info(&xe->drm, "%s firmware(s) can be downloaded from %s\n",
-c93ea05191c5b6 Michał Winiarski       2023-12-05  713  		 xe_uc_fw_type_repr(uc_fw->type), XE_UC_FIRMWARE_URL);
-c93ea05191c5b6 Michał Winiarski       2023-12-05  714  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  715  	release_firmware(fw);		/* OK even if fw is NULL */
-c93ea05191c5b6 Michał Winiarski       2023-12-05  716  
-c93ea05191c5b6 Michał Winiarski       2023-12-05  717  	return err;
-c93ea05191c5b6 Michał Winiarski       2023-12-05  718  }
-c93ea05191c5b6 Michał Winiarski       2023-12-05  719  
+:::::: The code at line 202 was first introduced by commit
+:::::: 52db12d193d45728e738df6119702cba08fd46a2 ASoC: Intel: boards: add sof_sdw machine driver
 
-:::::: The code at line 675 was first introduced by commit
-:::::: a9a95523c84957b7863796b5d1df2f3f5dca4519 drm/xe/uc: Prepare for parsing of different header types
-
-:::::: TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
