@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A5535975
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 15:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3070425777
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 15:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733757359; cv=none; b=PN0vANJCuCg7EBsCZNQr5IZip9tPazdsh6nS1z4Jw5jVzBdLwAvJqalikI5aud425p6XgAVdV9GcxJPIy1EJZa0xAbEU8jssAimeeH2wjYc5u06bxEYY18ImuaNJBxR8C8H6glDVUpDtFkQqeK4UqXee71s+hodECs3Zq9bQLUQ=
+	t=1733759249; cv=none; b=i6dSFLcppa/JUDLPKyDfzCSS9PYQWHaL8yvjzz6oBmW+2bIVbt2aOgmqMwDdOTC1NwKKJykSsZpZrtaSWXDfgXudJlGwRUESqmSUGuDIa1ZLBzvOxtNqFpOz3hUYoPvOwdRBZ57ycCbOVDZ2OKrMu4cJznzfYcxoPUb5c5w3gUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733757359; c=relaxed/simple;
-	bh=pVLo6Jpp8I1hVhsWeYJULLEEwzME6mNOb5xq8g5yoiI=;
+	s=arc-20240116; t=1733759249; c=relaxed/simple;
+	bh=UZDgkA7H4Nz5DZ7OId4/HoqQZ4OUhjZyeoB9GiSG2WY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UcvGrzTxCUnn1gxIvXOXOiUCHIWXliRSx6n5l8i0/lfss/pSHnkp4zy0tSDHu8Eeb9voOjA4YNuNCIqBi8cmC2qt+CUIlSFaXsE46l40Fud79JbV1o/EEE/RxL1bK0aqsick2s7IVG1scw6WI31LLP6wLIjThKmpHOClaKjIHwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCrUi82e; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=eJqha0TIKELW4lP8I27l+DFIdhOT3GKrE8X0kqSxYaVO4v1xyEBfF8o7NCet150MVQEfs7uba4iHRxboB10XFhYfiPtTsAjdPCluiKQIYpZnk1qPSSsmcTyiw1RYeA7YGf6tDoAdL3rc29iOM5yvrjxvrk5pL+BAymAYPI+k2ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZcy0v/v; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCrUi82e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZcy0v/v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733757357; x=1765293357;
+  t=1733759247; x=1765295247;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pVLo6Jpp8I1hVhsWeYJULLEEwzME6mNOb5xq8g5yoiI=;
-  b=BCrUi82eVtURKngPfLnDd7IZe5dW51gFFJyHveGzYRX+JnyMWZ5xA+Mu
-   k447CGQGwosTLmu5W645OfwvVJw1xZMujHmx/5a63GTZ/b/oiC7Wh5lN2
-   w6hrbSZeO2ILS/oUJCmY4CwF1JR6Of30yyoS+xWWI+5GZIzsOko24lax8
-   25NWbwCHF6KINo4xP+7rpDiJSxNLhNKl+FjuMFb/vNwIVu9ounfU4OgGY
-   x/k7d8+knTZ31S6dyMcZBh3ly1vXLGqUH5BB/N+yX3GU0GaUpIkIcaHMv
-   Dkhy2jqChyxS6tWGtwjqHFsOUalNyA2LlwIbTTaPEI2dSXqR5FYMn6Pw+
-   Q==;
-X-CSE-ConnectionGUID: pOoFOeGGSNa0TkKwsDZmnQ==
-X-CSE-MsgGUID: 0gMV0Kf+R5uUOowos1WP+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33403027"
+  bh=UZDgkA7H4Nz5DZ7OId4/HoqQZ4OUhjZyeoB9GiSG2WY=;
+  b=UZcy0v/vn/894TR2p7pUdsKNXKLHgOn9GJy6MivaJvF149g7z5NKD6rh
+   vajCsbqUREExrYz6ygv2YwP/Lu9TYwa/nuQWpFQWHRMTjCCa43ni4CT7j
+   sCByrIW4aALz9/bdW59up7DPQHF1gh1gUK2Rqshdpil5QrcW6scVvUE3u
+   eIgTxevDOTZRIRmcP+bA6yX8aocQvBk0OwG0YzmNfeEThuXczJPguNApr
+   oTD6A1RI3CT7mrXsUljzWXqGFdf9BLZbP1xbagjsjQqlfbBfY1watHRHK
+   HG7RaH/CJXkSwLoVSd/2+KlrWj8g3jvvXjf2C3KNGZ9k22YG6GYpaT/uD
+   g==;
+X-CSE-ConnectionGUID: lFIIU9SkSWiAwebnmHHWhg==
+X-CSE-MsgGUID: vnJITQ75QOu6CZMafCyBhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="44668756"
 X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="33403027"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 07:15:56 -0800
-X-CSE-ConnectionGUID: Krbyn9bNRciV1EAJwXEylQ==
-X-CSE-MsgGUID: 1CVbmp3kRwOJMy1xkqXYIw==
+   d="scan'208";a="44668756"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 07:47:26 -0800
+X-CSE-ConnectionGUID: ljRY+W1OTwSWFl41cbqr0g==
+X-CSE-MsgGUID: AulplJbeTreHC1bb+GJqlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
-   d="scan'208";a="99156771"
+   d="scan'208";a="95182432"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Dec 2024 07:15:55 -0800
+  by orviesa006.jf.intel.com with ESMTP; 09 Dec 2024 07:47:24 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKfUH-0004UZ-0D;
-	Mon, 09 Dec 2024 15:15:53 +0000
-Date: Mon, 9 Dec 2024 23:15:39 +0800
+	id 1tKfyj-0004Wf-36;
+	Mon, 09 Dec 2024 15:47:21 +0000
+Date: Mon, 9 Dec 2024 23:46:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
- uninitialized symbol 'val'.
-Message-ID: <202412092300.kuTfOTLT-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/i915/display/intel_display_driver.c:269:6-27:
+ opportunity for str_plural(INTEL_NUM_PIPES ( i915 ))
+Message-ID: <202412092325.5iKc86zb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,148 +65,102 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Oliver Upton <oliver.upton@linux.dev>
-CC: Joey Gouly <joey.gouly@arm.com>
+TO: Jani Nikula <jani.nikula@intel.com>
+CC: Gustavo Sousa <gustavo.sousa@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
-date:   10 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241209/202412092300.kuTfOTLT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+commit: 40053823baadce4e300cb011ac4e3d16be93bf6a drm/i915/display: move modeset probe/remove functions to intel_display_driver.c
+date:   1 year, 8 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 1 year, 8 months ago
+config: i386-randconfig-051-20241209 (https://download.01.org/0day-ci/archive/20241209/202412092325.5iKc86zb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412092300.kuTfOTLT-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412092325.5iKc86zb-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_display_driver.c:269:6-27: opportunity for str_plural(INTEL_NUM_PIPES ( i915 ))
 
-vim +/val +2083 arch/arm64/kvm/emulate-nested.c
+vim +269 drivers/gpu/drm/i915/display/intel_display_driver.c
 
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2009  
-085eabaa74a1234 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2011  {
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2012  	union trap_config tc;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2014  	bool is_read;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2015  	u32 sysreg;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2016  	u64 esr, val;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2017  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2021  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2023  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2024  	/*
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2028  	 */
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2029  	if (!tc.val)
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2030  		goto local;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2031  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2032  	/*
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2035  	 */
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2037  		goto local;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2038  
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2041  		break;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2042  
-5a24ea786985725 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
-5a24ea786985725 Marc Zyngier 2023-08-15  2044  		if (is_read)
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
-5a24ea786985725 Marc Zyngier 2023-08-15  2046  		else
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
-5a24ea786985725 Marc Zyngier 2023-08-15  2048  		break;
-5a24ea786985725 Marc Zyngier 2023-08-15  2049  
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2051  		if (is_read)
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2053  		else
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2055  		break;
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2056  
-676f482354886ca Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
-676f482354886ca Fuad Tabba   2023-12-14  2059  		break;
-676f482354886ca Fuad Tabba   2023-12-14  2060  
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2064  			u64 tmp;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2065  
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2067  			break;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2068  
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2073  		}
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2074  		break;
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2075  
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2079  		goto local;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2080  	}
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2081  
-9958d58779c92b7 Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
-9958d58779c92b7 Marc Zyngier 2024-02-14 @2083  							val, tc))
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2084  		goto inject;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2085  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2087  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2090  		goto inject;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2091  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2092  local:
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2095  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2097  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2098  		/*
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2102  		 */
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2108  		return true;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2109  	}
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2110  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2112  	return false;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2113  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2114  inject:
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2116  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2118  	return true;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2119  }
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2120  
-
-:::::: The code at line 2083 was first introduced by commit
-:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+40053823baadce Jani Nikula 2023-04-14  247  
+40053823baadce Jani Nikula 2023-04-14  248  /* part #2: call after irq install, but before gem init */
+40053823baadce Jani Nikula 2023-04-14  249  int intel_modeset_init_nogem(struct drm_i915_private *i915)
+40053823baadce Jani Nikula 2023-04-14  250  {
+40053823baadce Jani Nikula 2023-04-14  251  	struct drm_device *dev = &i915->drm;
+40053823baadce Jani Nikula 2023-04-14  252  	enum pipe pipe;
+40053823baadce Jani Nikula 2023-04-14  253  	struct intel_crtc *crtc;
+40053823baadce Jani Nikula 2023-04-14  254  	int ret;
+40053823baadce Jani Nikula 2023-04-14  255  
+40053823baadce Jani Nikula 2023-04-14  256  	if (!HAS_DISPLAY(i915))
+40053823baadce Jani Nikula 2023-04-14  257  		return 0;
+40053823baadce Jani Nikula 2023-04-14  258  
+40053823baadce Jani Nikula 2023-04-14  259  	intel_wm_init(i915);
+40053823baadce Jani Nikula 2023-04-14  260  
+40053823baadce Jani Nikula 2023-04-14  261  	intel_panel_sanitize_ssc(i915);
+40053823baadce Jani Nikula 2023-04-14  262  
+40053823baadce Jani Nikula 2023-04-14  263  	intel_pps_setup(i915);
+40053823baadce Jani Nikula 2023-04-14  264  
+40053823baadce Jani Nikula 2023-04-14  265  	intel_gmbus_setup(i915);
+40053823baadce Jani Nikula 2023-04-14  266  
+40053823baadce Jani Nikula 2023-04-14  267  	drm_dbg_kms(&i915->drm, "%d display pipe%s available.\n",
+40053823baadce Jani Nikula 2023-04-14  268  		    INTEL_NUM_PIPES(i915),
+40053823baadce Jani Nikula 2023-04-14 @269  		    INTEL_NUM_PIPES(i915) > 1 ? "s" : "");
+40053823baadce Jani Nikula 2023-04-14  270  
+40053823baadce Jani Nikula 2023-04-14  271  	for_each_pipe(i915, pipe) {
+40053823baadce Jani Nikula 2023-04-14  272  		ret = intel_crtc_init(i915, pipe);
+40053823baadce Jani Nikula 2023-04-14  273  		if (ret) {
+40053823baadce Jani Nikula 2023-04-14  274  			intel_mode_config_cleanup(i915);
+40053823baadce Jani Nikula 2023-04-14  275  			return ret;
+40053823baadce Jani Nikula 2023-04-14  276  		}
+40053823baadce Jani Nikula 2023-04-14  277  	}
+40053823baadce Jani Nikula 2023-04-14  278  
+40053823baadce Jani Nikula 2023-04-14  279  	intel_plane_possible_crtcs_init(i915);
+40053823baadce Jani Nikula 2023-04-14  280  	intel_shared_dpll_init(i915);
+40053823baadce Jani Nikula 2023-04-14  281  	intel_fdi_pll_freq_update(i915);
+40053823baadce Jani Nikula 2023-04-14  282  
+40053823baadce Jani Nikula 2023-04-14  283  	intel_update_czclk(i915);
+40053823baadce Jani Nikula 2023-04-14  284  	intel_modeset_init_hw(i915);
+40053823baadce Jani Nikula 2023-04-14  285  	intel_dpll_update_ref_clks(i915);
+40053823baadce Jani Nikula 2023-04-14  286  
+40053823baadce Jani Nikula 2023-04-14  287  	intel_hdcp_component_init(i915);
+40053823baadce Jani Nikula 2023-04-14  288  
+40053823baadce Jani Nikula 2023-04-14  289  	if (i915->display.cdclk.max_cdclk_freq == 0)
+40053823baadce Jani Nikula 2023-04-14  290  		intel_update_max_cdclk(i915);
+40053823baadce Jani Nikula 2023-04-14  291  
+40053823baadce Jani Nikula 2023-04-14  292  	intel_hti_init(i915);
+40053823baadce Jani Nikula 2023-04-14  293  
+40053823baadce Jani Nikula 2023-04-14  294  	/* Just disable it once at startup */
+40053823baadce Jani Nikula 2023-04-14  295  	intel_vga_disable(i915);
+40053823baadce Jani Nikula 2023-04-14  296  	intel_setup_outputs(i915);
+40053823baadce Jani Nikula 2023-04-14  297  
+40053823baadce Jani Nikula 2023-04-14  298  	drm_modeset_lock_all(dev);
+40053823baadce Jani Nikula 2023-04-14  299  	intel_modeset_setup_hw_state(i915, dev->mode_config.acquire_ctx);
+40053823baadce Jani Nikula 2023-04-14  300  	intel_acpi_assign_connector_fwnodes(i915);
+40053823baadce Jani Nikula 2023-04-14  301  	drm_modeset_unlock_all(dev);
+40053823baadce Jani Nikula 2023-04-14  302  
+40053823baadce Jani Nikula 2023-04-14  303  	for_each_intel_crtc(dev, crtc) {
+40053823baadce Jani Nikula 2023-04-14  304  		if (!to_intel_crtc_state(crtc->base.state)->uapi.active)
+40053823baadce Jani Nikula 2023-04-14  305  			continue;
+40053823baadce Jani Nikula 2023-04-14  306  		intel_crtc_initial_plane_config(crtc);
+40053823baadce Jani Nikula 2023-04-14  307  	}
+40053823baadce Jani Nikula 2023-04-14  308  
+40053823baadce Jani Nikula 2023-04-14  309  	/*
+40053823baadce Jani Nikula 2023-04-14  310  	 * Make sure hardware watermarks really match the state we read out.
+40053823baadce Jani Nikula 2023-04-14  311  	 * Note that we need to do this after reconstructing the BIOS fb's
+40053823baadce Jani Nikula 2023-04-14  312  	 * since the watermark calculation done here will use pstate->fb.
+40053823baadce Jani Nikula 2023-04-14  313  	 */
+40053823baadce Jani Nikula 2023-04-14  314  	if (!HAS_GMCH(i915))
+40053823baadce Jani Nikula 2023-04-14  315  		ilk_wm_sanitize(i915);
+40053823baadce Jani Nikula 2023-04-14  316  
+40053823baadce Jani Nikula 2023-04-14  317  	return 0;
+40053823baadce Jani Nikula 2023-04-14  318  }
+40053823baadce Jani Nikula 2023-04-14  319  
 
 -- 
 0-DAY CI Kernel Test Service
