@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4917080B
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 18:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDADB184556
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 20:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733769278; cv=none; b=rsjiIxdp3gQiPvKfwP3i/FRR1MUbL+3q7Jyv96uGAXP7I7T+DdvHku+X7jUm7dHYzmubcbmQsuGR4W3wuLahsNpJaTJSCntQH1YPRPwla3kn2OFlWY7Bl8Pquq+iMB+LAF79pj+q2dj0YNkEPTkKRh/qA8PoatAFf+/RbsTlP78=
+	t=1733774943; cv=none; b=cNCaTR7L0aG134Zb4+Ka/wH4aJywnQ0inrwBZ9TIVi56ohZnc/GgRDPH84dOq5DLFU/ID23+ybByMijnwgSHYYZzJum1pjP8IwisKb0dcZmssd1505mX0txBrpcN0tvR7Oq7gyaWuRgywpMp4dIBbTUpdjZKq7tFgavPcDmXa6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733769278; c=relaxed/simple;
-	bh=xdSlSTNMcxaaSu7Ardys/DOcDvfDagYNPu/sBhTtfVc=;
+	s=arc-20240116; t=1733774943; c=relaxed/simple;
+	bh=HKuUjVMOpVdAYgVYucOrokrRMLyFRITVybGOi2yVyCY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aaYWl0KALhCZyybnpf/4lu4Dto9mwhqUQ5CtTib/zlqXVzsS9hteU33ONaNRoA0ZyK3KDngn1X2S8bGyH77gEE5VMXmmhHfwB6TzQvUC+eGSy6v3FEYDLE25iUUmM+B37+tC+WsmJ73gIlA1miTEUX2lSjlCr37DFmWxS1udX64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efGtiyij; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=QUy2JIbA4OTKwy5IhqsaJ/01TeAjHgxHHxJ0z3yyIRePpA4Z8bB8DroyRoEBteYG/pfyjABOxJJKYzOgOmtjwa/YCZWfJLPULS9CGC1OJv4TgdsTII23zlnRu13Qej+CKgFvmUx3BjLHNUApWPfzBvZMaqyHBgWyxAD6FelsFJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SfgB29I+; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efGtiyij"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SfgB29I+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733769277; x=1765305277;
+  t=1733774941; x=1765310941;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xdSlSTNMcxaaSu7Ardys/DOcDvfDagYNPu/sBhTtfVc=;
-  b=efGtiyijM6wHNlSBFDy1+/oT4z3qHdXOJVwqJxgVPLl6M6U5sR+JdgmT
-   JP4YSyUtVZ/1ztb5QWwWMxk/UelcH5sCBxEETP7ZtIgouXX4KDaggf/4e
-   tHIajHd2BskK8Yn5vb7Awkdqu7B050ePdHT+sJath3loIfoofaXZns8Vu
-   Tm5vpb/nWu/QxGNEszTagH6PeTG3+zdW0UsPeB98L3Bn9ZnVQ4sl3GGfn
-   zvDWsLxgK4x88Z6D75Y8Js4HfH7B30tOW5C9IldrT4NQ8KUaCOQtrdX7v
-   2w993NrzN3ZLWPv3/51WtmimHYwdog8sPYVrVi5reCV+1WD3vX+DjJ7mG
-   w==;
-X-CSE-ConnectionGUID: +FJd7saXR666PTcX0rtXIw==
-X-CSE-MsgGUID: GmUf8SJKTnmSgdHEgrlVKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34231148"
+  bh=HKuUjVMOpVdAYgVYucOrokrRMLyFRITVybGOi2yVyCY=;
+  b=SfgB29I+6Yu6dbrNmcr3aztls2YA6TvuhD4Mcl+TniJO1P25lALz8PnZ
+   z7NtV5qmvl4SbXQiP+dOzRPGJgZAEzChAaZoVmXnMWwcBV3ZsGi0PQ/Hz
+   MDeeyGuHQV3IZSW61LyFRh1kyDQWNYQASswPrD3PUBh7DX1pHObDOmusb
+   RHOfoQM5rHsibbkA+HIk+4ftKjJ9NzEUvJUItkTwhSyj+8uHI9vf+ltKm
+   qQVqq/53uKnEFK/urhSMYgDz0oknuo7/1gnwlWQ4MH3BiknEi9RNNao/X
+   HNHEr1uiZLnVIUwCkZpc7PqVuotxscmQ2wl58F4k1WqAqdElWpu8qDmDU
+   Q==;
+X-CSE-ConnectionGUID: zzdzj2kURZ6W8nWoZO1hgQ==
+X-CSE-MsgGUID: ByuXFBL2SxW3B8P3H2loHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="44697375"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="34231148"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 10:34:36 -0800
-X-CSE-ConnectionGUID: Vv9d54VxRret0mziGW6k0Q==
-X-CSE-MsgGUID: wAbGM2BnQy6t5B8MQjbTCQ==
+   d="scan'208";a="44697375"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 12:09:01 -0800
+X-CSE-ConnectionGUID: oFFxL/8zSQC2a3RFM+N6kQ==
+X-CSE-MsgGUID: eFHq2A0lSzGq5IhFyeO99w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="99970595"
+   d="scan'208";a="99659082"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2024 10:34:34 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 09 Dec 2024 12:09:00 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKiaW-0004hx-2V;
-	Mon, 09 Dec 2024 18:34:32 +0000
-Date: Tue, 10 Dec 2024 02:33:57 +0800
+	id 1tKk3t-0004mS-26;
+	Mon, 09 Dec 2024 20:08:57 +0000
+Date: Tue, 10 Dec 2024 04:08:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid
- reference to the index variable of the iterator on line 1219
-Message-ID: <202412100248.IRl1qnuh-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <202412100319.Y5vv98P8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,82 +64,148 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Amir Goldstein <amir73il@gmail.com>
-CC: Jan Kara <jack@suse.cz>
+In-Reply-To: <20241206221801.790690-12-kbusch@meta.com>
+References: <20241206221801.790690-12-kbusch@meta.com>
+TO: Keith Busch <kbusch@meta.com>
+TO: axboe@kernel.dk
+TO: hch@lst.de
+TO: linux-block@vger.kernel.org
+TO: linux-nvme@lists.infradead.org
+TO: linux-fsdevel@vger.kernel.org
+TO: io-uring@vger.kernel.org
+CC: sagi@grimberg.me
+CC: asml.silence@gmail.com
+CC: anuj20.g@samsung.com
+CC: joshi.k@samsung.com
+CC: Keith Busch <kbusch@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 30ad1938326bf9303ca38090339d948975a626f5 fanotify: allow "weak" fsid when watching a single filesystem
-date:   1 year ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 1 year ago
-config: i386-randconfig-053-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100248.IRl1qnuh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Keith,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20241209]
+[cannot apply to brauner-vfs/vfs.all hch-configfs/for-next linus/master v6.13-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-write-stream-information-to-statx/20241207-063826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241206221801.790690-12-kbusch%40meta.com
+patch subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: csky-randconfig-r072-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100319.Y5vv98P8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412100248.IRl1qnuh-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412100319.Y5vv98P8-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid reference to the index variable of the iterator on line 1219
+New smatch warnings:
+drivers/nvme/host/core.c:2187 nvme_check_fdp() error: uninitialized symbol 'i'.
+drivers/nvme/host/core.c:2232 nvme_query_fdp_info() warn: missing error code 'ret'
 
-vim +1233 fs/notify/fanotify/fanotify_user.c
+Old smatch warnings:
+drivers/nvme/host/core.c:4864 nvme_free_cels() warn: iterator 'i' not incremented
 
-30ad1938326bf93 Amir Goldstein 2023-11-30  1200  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1201  static int fanotify_set_mark_fsid(struct fsnotify_group *group,
-30ad1938326bf93 Amir Goldstein 2023-11-30  1202  				  struct fsnotify_mark *mark,
-30ad1938326bf93 Amir Goldstein 2023-11-30  1203  				  struct fan_fsid *fsid)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1204  {
-30ad1938326bf93 Amir Goldstein 2023-11-30  1205  	struct fsnotify_mark_connector *conn;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1206  	struct fsnotify_mark *old;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1207  	struct super_block *old_sb = NULL;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1208  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1209  	FANOTIFY_MARK(mark)->fsid = fsid->id;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1210  	mark->flags |= FSNOTIFY_MARK_FLAG_HAS_FSID;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1211  	if (fsid->weak)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1212  		mark->flags |= FSNOTIFY_MARK_FLAG_WEAK_FSID;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1213  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1214  	/* First mark added will determine if group is single or multi fsid */
-30ad1938326bf93 Amir Goldstein 2023-11-30  1215  	if (list_empty(&group->marks_list))
-30ad1938326bf93 Amir Goldstein 2023-11-30  1216  		return 0;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1217  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1218  	/* Find sb of an existing mark */
-30ad1938326bf93 Amir Goldstein 2023-11-30 @1219  	list_for_each_entry(old, &group->marks_list, g_list) {
-30ad1938326bf93 Amir Goldstein 2023-11-30  1220  		conn = READ_ONCE(old->connector);
-30ad1938326bf93 Amir Goldstein 2023-11-30  1221  		if (!conn)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1222  			continue;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1223  		old_sb = fsnotify_connector_sb(conn);
-30ad1938326bf93 Amir Goldstein 2023-11-30  1224  		if (old_sb)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1225  			break;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1226  	}
-30ad1938326bf93 Amir Goldstein 2023-11-30  1227  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1228  	/* Only detached marks left? */
-30ad1938326bf93 Amir Goldstein 2023-11-30  1229  	if (!old_sb)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1230  		return 0;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1231  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1232  	/* Do not allow mixing of marks with weak and strong fsid */
-30ad1938326bf93 Amir Goldstein 2023-11-30 @1233  	if ((mark->flags ^ old->flags) & FSNOTIFY_MARK_FLAG_WEAK_FSID)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1234  		return -EXDEV;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1235  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1236  	/* Allow mixing of marks with strong fsid from different fs */
-30ad1938326bf93 Amir Goldstein 2023-11-30  1237  	if (!fsid->weak)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1238  		return 0;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1239  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1240  	/* Do not allow mixing marks with weak fsid from different fs */
-30ad1938326bf93 Amir Goldstein 2023-11-30  1241  	if (old_sb != fsid->sb)
-30ad1938326bf93 Amir Goldstein 2023-11-30  1242  		return -EXDEV;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1243  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1244  	/* Do not allow mixing marks from different btrfs sub-volumes */
-30ad1938326bf93 Amir Goldstein 2023-11-30  1245  	if (!fanotify_fsid_equal(&FANOTIFY_MARK(old)->fsid,
-30ad1938326bf93 Amir Goldstein 2023-11-30  1246  				 &FANOTIFY_MARK(mark)->fsid))
-30ad1938326bf93 Amir Goldstein 2023-11-30  1247  		return -EXDEV;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1248  
-30ad1938326bf93 Amir Goldstein 2023-11-30  1249  	return 0;
-30ad1938326bf93 Amir Goldstein 2023-11-30  1250  }
-30ad1938326bf93 Amir Goldstein 2023-11-30  1251  
+vim +/i +2187 drivers/nvme/host/core.c
+
+eb867ee995bd68 Joel Granados 2022-07-12  2153  
+04ca0849938146 Keith Busch   2024-12-06  2154  static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
+04ca0849938146 Keith Busch   2024-12-06  2155  			  u8 fdp_idx)
+04ca0849938146 Keith Busch   2024-12-06  2156  {
+04ca0849938146 Keith Busch   2024-12-06  2157  	struct nvme_fdp_config_log hdr, *h;
+04ca0849938146 Keith Busch   2024-12-06  2158  	struct nvme_fdp_config_desc *desc;
+04ca0849938146 Keith Busch   2024-12-06  2159  	size_t size = sizeof(hdr);
+04ca0849938146 Keith Busch   2024-12-06  2160  	int i, n, ret;
+04ca0849938146 Keith Busch   2024-12-06  2161  	void *log;
+04ca0849938146 Keith Busch   2024-12-06  2162  
+04ca0849938146 Keith Busch   2024-12-06  2163  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2164  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2165  			   (void *)&hdr, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2166  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2167  		return ret;
+04ca0849938146 Keith Busch   2024-12-06  2168  
+04ca0849938146 Keith Busch   2024-12-06  2169  	size = le32_to_cpu(hdr.sze);
+04ca0849938146 Keith Busch   2024-12-06  2170  	h = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2171  	if (!h)
+04ca0849938146 Keith Busch   2024-12-06  2172  		return 0;
+04ca0849938146 Keith Busch   2024-12-06  2173  
+04ca0849938146 Keith Busch   2024-12-06  2174  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2175  			   h, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2176  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2177  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2178  
+04ca0849938146 Keith Busch   2024-12-06  2179  	n = le16_to_cpu(h->numfdpc) + 1;
+04ca0849938146 Keith Busch   2024-12-06  2180  	if (fdp_idx > n)
+04ca0849938146 Keith Busch   2024-12-06  2181  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2182  
+04ca0849938146 Keith Busch   2024-12-06  2183  	log = h + 1;
+04ca0849938146 Keith Busch   2024-12-06  2184  	do {
+04ca0849938146 Keith Busch   2024-12-06  2185  		desc = log;
+04ca0849938146 Keith Busch   2024-12-06  2186  		log += le16_to_cpu(desc->dsze);
+04ca0849938146 Keith Busch   2024-12-06 @2187  	} while (i++ < fdp_idx);
+04ca0849938146 Keith Busch   2024-12-06  2188  
+04ca0849938146 Keith Busch   2024-12-06  2189  	info->runs = le64_to_cpu(desc->runs);
+04ca0849938146 Keith Busch   2024-12-06  2190  out:
+04ca0849938146 Keith Busch   2024-12-06  2191  	kfree(h);
+04ca0849938146 Keith Busch   2024-12-06  2192  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2193  }
+04ca0849938146 Keith Busch   2024-12-06  2194  
+04ca0849938146 Keith Busch   2024-12-06  2195  static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+04ca0849938146 Keith Busch   2024-12-06  2196  {
+04ca0849938146 Keith Busch   2024-12-06  2197  	struct nvme_ns_head *head = ns->head;
+04ca0849938146 Keith Busch   2024-12-06  2198  	struct nvme_fdp_ruh_status *ruhs;
+04ca0849938146 Keith Busch   2024-12-06  2199  	struct nvme_fdp_config fdp;
+04ca0849938146 Keith Busch   2024-12-06  2200  	struct nvme_command c = {};
+04ca0849938146 Keith Busch   2024-12-06  2201  	int size, ret;
+04ca0849938146 Keith Busch   2024-12-06  2202  
+04ca0849938146 Keith Busch   2024-12-06  2203  	ret = nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
+04ca0849938146 Keith Busch   2024-12-06  2204  				&fdp);
+04ca0849938146 Keith Busch   2024-12-06  2205  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2206  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2207  
+04ca0849938146 Keith Busch   2024-12-06  2208  	if (!(fdp.flags & FDPCFG_FDPE))
+04ca0849938146 Keith Busch   2024-12-06  2209  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2210  
+04ca0849938146 Keith Busch   2024-12-06  2211  	ret = nvme_check_fdp(ns, info, fdp.fdpcidx);
+04ca0849938146 Keith Busch   2024-12-06  2212  	if (ret || !info->runs)
+04ca0849938146 Keith Busch   2024-12-06  2213  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2214  
+04ca0849938146 Keith Busch   2024-12-06  2215  	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
+04ca0849938146 Keith Busch   2024-12-06  2216  	ruhs = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2217  	if (!ruhs) {
+04ca0849938146 Keith Busch   2024-12-06  2218  		ret = -ENOMEM;
+04ca0849938146 Keith Busch   2024-12-06  2219  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2220  	}
+04ca0849938146 Keith Busch   2024-12-06  2221  
+04ca0849938146 Keith Busch   2024-12-06  2222  	c.imr.opcode = nvme_cmd_io_mgmt_recv;
+04ca0849938146 Keith Busch   2024-12-06  2223  	c.imr.nsid = cpu_to_le32(head->ns_id);
+04ca0849938146 Keith Busch   2024-12-06  2224  	c.imr.mo = NVME_IO_MGMT_RECV_MO_RUHS;
+04ca0849938146 Keith Busch   2024-12-06  2225  	c.imr.numd = cpu_to_le32(nvme_bytes_to_numd(size));
+04ca0849938146 Keith Busch   2024-12-06  2226  	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
+04ca0849938146 Keith Busch   2024-12-06  2227  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2228  		goto free;
+04ca0849938146 Keith Busch   2024-12-06  2229  
+04ca0849938146 Keith Busch   2024-12-06  2230  	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
+04ca0849938146 Keith Busch   2024-12-06  2231  	if (!head->nr_plids)
+04ca0849938146 Keith Busch   2024-12-06 @2232  		goto free;
+04ca0849938146 Keith Busch   2024-12-06  2233  
+04ca0849938146 Keith Busch   2024-12-06  2234  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2235  	return 0;
+04ca0849938146 Keith Busch   2024-12-06  2236  
+04ca0849938146 Keith Busch   2024-12-06  2237  free:
+04ca0849938146 Keith Busch   2024-12-06  2238  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2239  err:
+04ca0849938146 Keith Busch   2024-12-06  2240  	head->nr_plids = 0;
+04ca0849938146 Keith Busch   2024-12-06  2241  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2242  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2243  }
+04ca0849938146 Keith Busch   2024-12-06  2244  
 
 -- 
 0-DAY CI Kernel Test Service
