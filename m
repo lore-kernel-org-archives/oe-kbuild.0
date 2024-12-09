@@ -1,141 +1,233 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956A51991DB
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C869D197A7F
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720264; cv=none; b=a8qb70EttMJmHUErRaNZ7LjSfgiUo8LKM7oAeN5y8cVuOhLcd1pspfz7ddVoTkfS7IXvzSoo6C+ErfivfkJRS7eeetnsaK2PIyxkI0+CKWggAaD6WtDr2rC5EqTr7IDIcuoc71QpKqvpTOZERi1UFAPnc3n+3zGKknhp4r1boDQ=
+	t=1733720384; cv=none; b=R2T45i6fK62v9hBM6I669VkDIplAy9bIhunV+jKee5YfVJmuss1VrxgiJ94ksNgnhHtIRz5KksI78U7ZJjp6H3Rwpi8Mxxq0QZvm2dRYEXyHkI/RuGBee8+rdXBJRHqcoFTuTOOWI5Bue/8c7+O0O4TZwETrlsK0+7CGe2CIZUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720264; c=relaxed/simple;
-	bh=X9JL55Y7JnZFCSMEULYKwH3f0iDmQ0yXqqPJTch5V5U=;
+	s=arc-20240116; t=1733720384; c=relaxed/simple;
+	bh=iiA1viA1gBrYZwVOl71l2cuR4hQawu4slPYbdBA2IME=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FbtLkCBj4ZwTGXqOwdugAYrN6tsJrBKa3pY7TJe/tR91EcZusRD2UfgZkerDZcNsbIBrOG5drjlHczVjeL12FpV06JU2+v8YFZFJIENn9yuo6GSvdz6t3PM/Je5azKCKMsmyviXmYGr+yJLXN8E+mL4E977NIgBC3qpaZ3irHu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPun6WQX; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=qeGwwiF6r7zgyjB7IBRtLvGiCi70eFcRzIKPl1CTQI8TA0Uj622on48H9hkR5QOQd6wTVY6gR4pwfUw2XaJo76tiv1vOqLZqU+GmGkwSnuhlgxjtFDIFQGKZoOZgvecZxHQZXqccDnU1ksHiTBMl2dvA3Tv+84He5oHJqp3bMT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m35fayoN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPun6WQX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m35fayoN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733720262; x=1765256262;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X9JL55Y7JnZFCSMEULYKwH3f0iDmQ0yXqqPJTch5V5U=;
-  b=nPun6WQXEI5+MxfbbWzpI29Nl3takD+QZ271JFAst5kpo4Pjh+D3uHjP
-   rV286zgYLfmFN52rT81VRD/mzhtqk709XwWDezQ/H11xsYfASGFK/Jytk
-   8ucSDobkzyKbvwChTSFjOyzVt0a720s4QO0aU31atTdh9dWFrbbbRzO2r
-   abxW62oCoCCqy61DLbVjZAyogiXaFlCUfqavZPtyyXVvvgv5ACAc9YCfL
-   2DcxNYtHx16IhYaRLE2FRiEAHsoPcBhugIggnZk3Mbt7wIS8uIWTuj/p0
-   NzUtm2mIMlSngLBy13oPj9ZHD8EjVGVzUihqkB/lcUfpaRCgWOAPeCvp5
-   g==;
-X-CSE-ConnectionGUID: CU7QJ2MPQ4KXtba4/BmAeA==
-X-CSE-MsgGUID: P6BH7SeSQGSPC7xXpp94Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="45016259"
+  t=1733720383; x=1765256383;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iiA1viA1gBrYZwVOl71l2cuR4hQawu4slPYbdBA2IME=;
+  b=m35fayoNbieC9atsiAIIHSaSh3fgBLDH0fI/VChy25Uca/xNQ+03fNXH
+   LW2XRvPnTrx5YnRTSsGXe7pz7WrIhrPpX2vWDK5AGruECiEtxlzYLiKO+
+   SZ18p2jGJx5eThYgY3hWMcX0xB+JGLm5wX7XNPh1xobOLDaWZ3O9yMw8p
+   6D9KJsZlgFGhxRYYzfKWAc0P/G1lI8gE7RzJZS35M/zI9neSg3CdZac4P
+   +ZxdGJ/PQiI1Q25cGFTQtm7bO432ST/nB7oNqV+diikbzGj+PgTSshyse
+   n6x/gyGloGrvH9QdcPo25cbTXg5mxbKCMbwcVkBqD784G6jXWjBksoW1E
+   w==;
+X-CSE-ConnectionGUID: rSlJrZELRJatRXiH9a4hDg==
+X-CSE-MsgGUID: R0vOQeB+Sh+x4ldTL4lWDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34139626"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="45016259"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:57:42 -0800
-X-CSE-ConnectionGUID: NV9OLPAvSb6T+pjBUG96gg==
-X-CSE-MsgGUID: ayrLJ8c3TNalAIXkmmQLWA==
+   d="scan'208";a="34139626"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:59:43 -0800
+X-CSE-ConnectionGUID: eSEeF+1gSSCtDI6E535HMw==
+X-CSE-MsgGUID: Qn0z1MFpQmmO7uk/mIe2Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="94830413"
+   d="scan'208";a="99412291"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 20:57:40 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 20:59:42 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVpy-0003wj-1G;
-	Mon, 09 Dec 2024 04:57:38 +0000
-Date: Mon, 9 Dec 2024 12:56:46 +0800
+	id 1tKVru-0003ww-26;
+	Mon, 09 Dec 2024 04:59:38 +0000
+Date: Mon, 9 Dec 2024 12:59:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/misc/mrvl_cn10k_dpi.c:231 dpi_queue_init() error:
- uninitialized symbol 'reg'.
-Message-ID: <202412090848.aNybV8pK-lkp@intel.com>
+Subject: drivers/crypto/stm32/stm32-hash.c:732 stm32_hash_dma_send() error:
+ uninitialized symbol 'last_word'.
+Message-ID: <202412090823.2dUZdYLr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vamsi Attunuru <vattunuru@marvell.com>
-CC: Srujana Challa <schalla@marvell.com>
+TO: "Maxime Méré" <maxime.mere@foss.st.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 5f67eef6dff39421215e9134f1eaae51b67a73b7 misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver
-date:   5 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 5 months ago
-config: s390-randconfig-r071-20241208 (https://download.01.org/0day-ci/archive/20241209/202412090848.aNybV8pK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
+commit: 3525fe475245ec5e8bc119749d31a727bc8f41ab crypto: stm32/hash - add full DMA support for stm32mpx
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-r071-20241209 (https://download.01.org/0day-ci/archive/20241209/202412090823.2dUZdYLr-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412090848.aNybV8pK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412090823.2dUZdYLr-lkp@intel.com/
 
 smatch warnings:
-drivers/misc/mrvl_cn10k_dpi.c:231 dpi_queue_init() error: uninitialized symbol 'reg'.
+drivers/crypto/stm32/stm32-hash.c:732 stm32_hash_dma_send() error: uninitialized symbol 'last_word'.
 
-vim +/reg +231 drivers/misc/mrvl_cn10k_dpi.c
+vim +/last_word +732 drivers/crypto/stm32/stm32-hash.c
 
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  208  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  209  static int dpi_queue_init(struct dpipf *dpi, struct dpipf_vf *dpivf, u8 vf)
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  210  {
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  211  	u16 sso_pf_func = dpivf->vf_config.sso_pf_func;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  212  	u16 npa_pf_func = dpivf->vf_config.npa_pf_func;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  213  	u16 csize = dpivf->vf_config.csize;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  214  	u32 aura = dpivf->vf_config.aura;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  215  	unsigned long timeout;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  216  	u64 reg;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  217  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  218  	dpi_reg_write(dpi, DPI_DMAX_QRST(vf), DPI_DMA_QRST);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  219  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  220  	/* Wait for a maximum of 3 sec */
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  221  	timeout = jiffies + msecs_to_jiffies(3000);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  222  	while (!time_after(jiffies, timeout)) {
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  223  		reg = dpi_reg_read(dpi, DPI_DMAX_QRST(vf));
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  224  		if (!(reg & DPI_DMA_QRST))
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  225  			break;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  226  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  227  		/* Reset would take time for the request cache to drain */
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  228  		usleep_range(500, 1000);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  229  	}
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  230  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06 @231  	if (reg & DPI_DMA_QRST) {
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  232  		dev_err(&dpi->pdev->dev, "Queue reset failed\n");
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  233  		return -EBUSY;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  234  	}
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  235  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  236  	dpi_reg_write(dpi, DPI_DMAX_IDS2(vf), 0);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  237  	dpi_reg_write(dpi, DPI_DMAX_IDS(vf), 0);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  238  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  239  	reg = DPI_DMA_IBUFF_CSIZE_CSIZE(csize) | DPI_DMA_IBUFF_CSIZE_NPA_FREE;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  240  	dpi_reg_write(dpi, DPI_DMAX_IBUFF_CSIZE(vf), reg);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  241  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  242  	reg = dpi_reg_read(dpi, DPI_DMAX_IDS2(vf));
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  243  	reg |= DPI_DMA_IDS2_INST_AURA(aura);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  244  	dpi_reg_write(dpi, DPI_DMAX_IDS2(vf), reg);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  245  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  246  	reg = dpi_reg_read(dpi, DPI_DMAX_IDS(vf));
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  247  	reg |= DPI_DMA_IDS_DMA_NPA_PF_FUNC(npa_pf_func);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  248  	reg |= DPI_DMA_IDS_DMA_SSO_PF_FUNC(sso_pf_func);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  249  	reg |= DPI_DMA_IDS_DMA_STRM(vf + 1);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  250  	reg |= DPI_DMA_IDS_INST_STRM(vf + 1);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  251  	dpi_reg_write(dpi, DPI_DMAX_IDS(vf), reg);
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  252  
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  253  	return 0;
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  254  }
-5f67eef6dff3942 Vamsi Attunuru 2024-07-06  255  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  655  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  656  static int stm32_hash_dma_send(struct stm32_hash_dev *hdev)
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  657  {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  658  	struct stm32_hash_request_ctx *rctx = ahash_request_ctx(hdev->req);
+c0c5d6428b3888b Herbert Xu            2023-03-11  659  	u32 *buffer = (void *)rctx->state.buffer;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  660  	struct scatterlist sg[1], *tsg;
+a10618f39706282 Thomas Bourgoin       2023-07-13  661  	int err = 0, reg, ncp = 0;
+a10618f39706282 Thomas Bourgoin       2023-07-13  662  	unsigned int i, len = 0, bufcnt = 0;
+3525fe475245ec5 Maxime Méré           2024-04-12  663  	bool final = hdev->flags & HASH_FLAGS_FINAL;
+a10618f39706282 Thomas Bourgoin       2023-07-13  664  	bool is_last = false;
+3525fe475245ec5 Maxime Méré           2024-04-12  665  	u32 last_word;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  666  
+3525fe475245ec5 Maxime Méré           2024-04-12  667  	dev_dbg(hdev->dev, "%s total: %d bufcnt: %d final: %d\n",
+3525fe475245ec5 Maxime Méré           2024-04-12  668  		__func__, rctx->total, rctx->state.bufcnt, final);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  669  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  670  	if (rctx->nents < 0)
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  671  		return -EINVAL;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  672  
+0e99d38ff6ad4ba Thomas Bourgoin       2023-07-13  673  	stm32_hash_write_ctrl(hdev);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  674  
+3525fe475245ec5 Maxime Méré           2024-04-12  675  	if (hdev->flags & HASH_FLAGS_HMAC && (!(hdev->flags & HASH_FLAGS_HMAC_KEY))) {
+3525fe475245ec5 Maxime Méré           2024-04-12  676  		hdev->flags |= HASH_FLAGS_HMAC_KEY;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  677  		err = stm32_hash_hmac_dma_send(hdev);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  678  		if (err != -EINPROGRESS)
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  679  			return err;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  680  	}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  681  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  682  	for_each_sg(rctx->sg, tsg, rctx->nents, i) {
+d9c83f71eeceed2 Thomas Bourgoin       2023-07-13  683  		sg[0] = *tsg;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  684  		len = sg->length;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  685  
+a10618f39706282 Thomas Bourgoin       2023-07-13  686  		if (sg_is_last(sg) || (bufcnt + sg[0].length) >= rctx->total) {
+3525fe475245ec5 Maxime Méré           2024-04-12  687  			if (!final) {
+3525fe475245ec5 Maxime Méré           2024-04-12  688  				/* Always manually put the last word of a non-final transfer. */
+3525fe475245ec5 Maxime Méré           2024-04-12  689  				len -= sizeof(u32);
+3525fe475245ec5 Maxime Méré           2024-04-12  690  				sg_pcopy_to_buffer(rctx->sg, rctx->nents, &last_word, 4, len);
+3525fe475245ec5 Maxime Méré           2024-04-12  691  				sg->length -= sizeof(u32);
+3525fe475245ec5 Maxime Méré           2024-04-12  692  			} else {
+3525fe475245ec5 Maxime Méré           2024-04-12  693  				/*
+3525fe475245ec5 Maxime Méré           2024-04-12  694  				 * In Multiple DMA mode, DMA must be aborted before the final
+3525fe475245ec5 Maxime Méré           2024-04-12  695  				 * transfer.
+3525fe475245ec5 Maxime Méré           2024-04-12  696  				 */
+a10618f39706282 Thomas Bourgoin       2023-07-13  697  				sg->length = rctx->total - bufcnt;
+3525fe475245ec5 Maxime Méré           2024-04-12  698  				if (hdev->dma_mode > 0) {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  699  					len = (ALIGN(sg->length, 16) - 16);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  700  
+3525fe475245ec5 Maxime Méré           2024-04-12  701  					ncp = sg_pcopy_to_buffer(rctx->sg, rctx->nents,
+3525fe475245ec5 Maxime Méré           2024-04-12  702  								 rctx->state.buffer,
+3525fe475245ec5 Maxime Méré           2024-04-12  703  								 sg->length - len,
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  704  								 rctx->total - sg->length + len);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  705  
+3525fe475245ec5 Maxime Méré           2024-04-12  706  					if (!len)
+3525fe475245ec5 Maxime Méré           2024-04-12  707  						break;
+3525fe475245ec5 Maxime Méré           2024-04-12  708  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  709  					sg->length = len;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  710  				} else {
+3525fe475245ec5 Maxime Méré           2024-04-12  711  					is_last = true;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  712  					if (!(IS_ALIGNED(sg->length, sizeof(u32)))) {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  713  						len = sg->length;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  714  						sg->length = ALIGN(sg->length,
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  715  								   sizeof(u32));
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  716  					}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  717  				}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  718  			}
+3525fe475245ec5 Maxime Méré           2024-04-12  719  		}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  720  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  721  		rctx->dma_ct = dma_map_sg(hdev->dev, sg, 1,
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  722  					  DMA_TO_DEVICE);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  723  		if (rctx->dma_ct == 0) {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  724  			dev_err(hdev->dev, "dma_map_sg error\n");
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  725  			return -ENOMEM;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  726  		}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  727  
+a10618f39706282 Thomas Bourgoin       2023-07-13  728  		err = stm32_hash_xmit_dma(hdev, sg, len, !is_last);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  729  
+3525fe475245ec5 Maxime Méré           2024-04-12  730  		/* The last word of a non final transfer is sent manually. */
+3525fe475245ec5 Maxime Méré           2024-04-12  731  		if (!final) {
+3525fe475245ec5 Maxime Méré           2024-04-12 @732  			stm32_hash_write(hdev, HASH_DIN, last_word);
+3525fe475245ec5 Maxime Méré           2024-04-12  733  			len += sizeof(u32);
+3525fe475245ec5 Maxime Méré           2024-04-12  734  		}
+3525fe475245ec5 Maxime Méré           2024-04-12  735  
+3525fe475245ec5 Maxime Méré           2024-04-12  736  		rctx->total -= len;
+3525fe475245ec5 Maxime Méré           2024-04-12  737  
+a10618f39706282 Thomas Bourgoin       2023-07-13  738  		bufcnt += sg[0].length;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  739  		dma_unmap_sg(hdev->dev, sg, 1, DMA_TO_DEVICE);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  740  
+3525fe475245ec5 Maxime Méré           2024-04-12  741  		if (err == -ENOMEM || err == -ETIMEDOUT)
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  742  			return err;
+a10618f39706282 Thomas Bourgoin       2023-07-13  743  		if (is_last)
+a10618f39706282 Thomas Bourgoin       2023-07-13  744  			break;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  745  	}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  746  
+3525fe475245ec5 Maxime Méré           2024-04-12  747  	/*
+3525fe475245ec5 Maxime Méré           2024-04-12  748  	 * When the second last block transfer of 4 words is performed by the DMA,
+3525fe475245ec5 Maxime Méré           2024-04-12  749  	 * the software must set the DMA Abort bit (DMAA) to 1 before completing the
+3525fe475245ec5 Maxime Méré           2024-04-12  750  	 * last transfer of 4 words or less.
+3525fe475245ec5 Maxime Méré           2024-04-12  751  	 */
+3525fe475245ec5 Maxime Méré           2024-04-12  752  	if (final) {
+3525fe475245ec5 Maxime Méré           2024-04-12  753  		if (hdev->dma_mode > 0) {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  754  			if (stm32_hash_wait_busy(hdev))
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  755  				return -ETIMEDOUT;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  756  			reg = stm32_hash_read(hdev, HASH_CR);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  757  			reg &= ~HASH_CR_DMAE;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  758  			reg |= HASH_CR_DMAA;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  759  			stm32_hash_write(hdev, HASH_CR, reg);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  760  
+532f419cde077ff Arnd Bergmann         2017-09-12  761  			if (ncp) {
+3525fe475245ec5 Maxime Méré           2024-04-12  762  				memset(buffer + ncp, 0, 4 - DIV_ROUND_UP(ncp, sizeof(u32)));
+532f419cde077ff Arnd Bergmann         2017-09-12  763  				writesl(hdev->io_base + HASH_DIN, buffer,
+532f419cde077ff Arnd Bergmann         2017-09-12  764  					DIV_ROUND_UP(ncp, sizeof(u32)));
+532f419cde077ff Arnd Bergmann         2017-09-12  765  			}
+3525fe475245ec5 Maxime Méré           2024-04-12  766  
+d03d29bd1857b2d Lionel Debieve        2018-01-29  767  			stm32_hash_set_nblw(hdev, ncp);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  768  			reg = stm32_hash_read(hdev, HASH_STR);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  769  			reg |= HASH_STR_DCAL;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  770  			stm32_hash_write(hdev, HASH_STR, reg);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  771  			err = -EINPROGRESS;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  772  		}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  773  
+3525fe475245ec5 Maxime Méré           2024-04-12  774  		/*
+3525fe475245ec5 Maxime Méré           2024-04-12  775  		 * The hash processor needs the key to be loaded a second time in order
+3525fe475245ec5 Maxime Méré           2024-04-12  776  		 * to process the HMAC.
+3525fe475245ec5 Maxime Méré           2024-04-12  777  		 */
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  778  		if (hdev->flags & HASH_FLAGS_HMAC) {
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  779  			if (stm32_hash_wait_busy(hdev))
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  780  				return -ETIMEDOUT;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  781  			err = stm32_hash_hmac_dma_send(hdev);
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  782  		}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  783  
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  784  		return err;
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  785  	}
+8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  786  
+3525fe475245ec5 Maxime Méré           2024-04-12  787  	if (err != -EINPROGRESS)
+3525fe475245ec5 Maxime Méré           2024-04-12  788  		return err;
+3525fe475245ec5 Maxime Méré           2024-04-12  789  
+3525fe475245ec5 Maxime Méré           2024-04-12  790  	return 0;
+3525fe475245ec5 Maxime Méré           2024-04-12  791  }
+3525fe475245ec5 Maxime Méré           2024-04-12  792  
 
 -- 
 0-DAY CI Kernel Test Service
