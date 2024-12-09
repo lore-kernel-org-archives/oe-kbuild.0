@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CF61662FA
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 05:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08BA20C023
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 05:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720990; cv=none; b=Fn/Bjve/MiTUxVLnGqdHjHjA/YCPDZYUeodxzPZSSvTCCwjOO+Mjls4HaLNi8kKfhjOPEsGZA5w1mrYqDiBYbtaawhqCBZuA48U+VvWLReM9DfAM6vl7vR6N4zpELBfAfwZf0zFke3d7vBuVNi24Xb+Oncr3IURCAg6cJcrwiX0=
+	t=1733723459; cv=none; b=IYZ4j5iF1felH3+yTzN4XAZsjkzapYnKIL88ruOCbd4TQxGO3ppZu34Fk+bCWURTThh6alY53oaLM/Vs1VB86AZUJPUxr5m4aGz2dZFYC93qGRCbQOilE26ZletKG+uMLABXrkDZ2ExaRYiml6Nw91D+riDqOinSfjOJ7N4SsyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720990; c=relaxed/simple;
-	bh=ZPUo7zXsg5jrwJJEN3/0eg0MpKNxsvGYmY7cJODJtFM=;
+	s=arc-20240116; t=1733723459; c=relaxed/simple;
+	bh=MviEnYY+yN4NlL5Ybvu7cgCpvIJDFNrAjhE7HsAKz8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=njueXs5j9Oq1t7vkVkmYoTvYj/J01RvA7Xa32E5L25l3Ik6M58q1ugz1e/X1NCp1+7JUvYZFVaL0YjVkztSPAHLd7vGNdYKQoFtHFHRq/UVrs1b8gtD+B4iAg+8+qEjdXlqCBe8NytulfIGiOqeTt3sKKLLpLrCqe+F8SlXya7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bhykxHOK; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=r64bbEgppBfeR6kn0/kw1Ea5tMdf2k9TUMgFsU1OdQ54aNfLBEk2/R38xmwxNP7ANp1HppG70x4d484L3FtiHvWArxmdumXy3rc26N7CRt+1qH6Qu/57iHdxS3+NOEmoMPW/ZVVPCWkN7Kajf7VYMwpqeYgJVlHHQnLmvdPVVxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YJAGM2uz; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bhykxHOK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733720989; x=1765256989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZPUo7zXsg5jrwJJEN3/0eg0MpKNxsvGYmY7cJODJtFM=;
-  b=bhykxHOKft4rtNmNb0WkEHxuH/vDTpBusgKREmJN6bGkMMctNXe2FXvp
-   Bh7Dc9eUHdjZTRqdaz2t1w9sZlgwBATHsNHlOxFQFAvSOj2IPSudnZcmz
-   lDNBPGEEf+d68KZdP1mtwI9Von/p7+tr9YE75TsnOdsuFHZ/TM46u6sdk
-   liezy5/ROJi73b8xncZ0v2DoCCdFyyHinrkmVjqmWQmxUCtba0pTVVKR1
-   eY8NvhiOVd6THopLl5SbjChoLUG2K098jNlR/SVnw2FJ6ySzmFksaY0k0
-   JSWl2LwAtt2VWaWVNP5fqefT608fOn+iXpN9PSTzg473qdu2Fue7ruxVa
-   g==;
-X-CSE-ConnectionGUID: 9Y3+azLXSuG6AwTkQohJSg==
-X-CSE-MsgGUID: OXRvHuWLRuefZOmkeTCLCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45383758"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45383758"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:09:46 -0800
-X-CSE-ConnectionGUID: lJHd0SeMQhqk9gmzUOnoPA==
-X-CSE-MsgGUID: frF+NXFKQaSa4As9XRGdJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95053909"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Dec 2024 21:09:45 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKW1e-0003yZ-2P;
-	Mon, 09 Dec 2024 05:09:42 +0000
-Date: Mon, 9 Dec 2024 13:08:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/soc/samsung/exynos-pmu.c:129 tensor_set_bits_atomic() error:
- uninitialized symbol 'ret'.
-Message-ID: <202412091216.nj9gDyNa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YJAGM2uz"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434a1fe2b43so41391105e9.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 08 Dec 2024 21:50:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733723455; x=1734328255; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=34kuMtFF1sUeZLabUgIRjLsTCdR/lMtQjrJoQQn6+wc=;
+        b=YJAGM2uzqt7RT741bGtJBRM37m3td5+J09oHoOQONmrflMSOetHQXmM63n02hN8W9a
+         DEhZFXpYIhGToBnIYWoWpncgtOnjvw3fqYuSv16ggLdbpB2t26PULj8UnCTYuC5yeg7T
+         +VaKdRb6pLgBWiuJIbCq/+ekbgsHNe6+CW9Qo5k47DgecrdUoUt/qdjO142SovW6uP5q
+         INQU3Z9xIoUtAtCeW3wP2OCnpGXhQbOyRAYd6d76RPovo1vRjYD35VP6q7PiWH6g/74J
+         g1lNGllKQFAvs1x3LCCzmP9ZdXKxerXKBaUaG8KhAY6dmzr+OLSiQvm5ku3RYQBiHn+l
+         xxwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733723455; x=1734328255;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=34kuMtFF1sUeZLabUgIRjLsTCdR/lMtQjrJoQQn6+wc=;
+        b=VuiefOId+RpLrIiUJf2BNgrFV5btK7TSMeLJ91Pcjim/dy9/u+VJZu3r4xWDKHHi2H
+         78Go8ETg6ImgOWUQQ+xvhOavvgpfk67dEY6Po0nbgsecmt88ZnKPCQVqPoJ6NMOweMEb
+         zCUlaBQ0Vda9wqI3w7XJYEZGL2qXJwPPnvUpxa3cpX3Q2n+mMHP/OD7dxYy3b5z6nd2n
+         8tErRbp1g0kNd1JQBO6A+m1vLmOB4AVp7bHg/eqyh0+/uqM7VFPkjzMe0xXxR+q6KXUN
+         VOhVXYrOSJtzf8bBDANy8r8JaQQMRFtttqDAatpfv7u++53FpLpfVBnMpTfazOKxDwc/
+         CqZQ==
+X-Gm-Message-State: AOJu0YzQtqKg8mjuJDWhB14srK62KzS7KqkwH3SgcCE1cveqiruwVfwF
+	UmXLXGBdfNqr9yqco/2FkxREWbF7L43Vqn0cO5m7D6OZcjESB2W/9mVVZ+Lj/0ylJqBwqc4K96/
+	L
+X-Gm-Gg: ASbGncvnMW3+/pTvd+30kDsa0qbuoNcRpvw1Aj4lkMxDD4BcNizew5WLxlNq5XN1ziU
+	QSCMHCEECUDi23NMvYO21LymY5+T+RQA9Oyn7zJmK/F4alC/h5N+DkB1xSVYv0/BTM8NsBCZoW/
+	tG+6/mKf+F0dGmj0uctF737SJ832+KBxtfzSOomEKObPBsxtIrfhHVIsj8OogG/O+JHsGLWSsSd
+	HHYBPJuLysLu0Hr/7Wn1CrlgSYRo5OiESR8OyJ0lu6eI/7an89nH5Q=
+X-Google-Smtp-Source: AGHT+IFLydXe9P5ouMDMbpX+VeEQbmBrKpmOflmaHL4GIGHpH96FEk93rDRJfKrGEEdnAUJfQ10o0A==
+X-Received: by 2002:a05:600c:4f84:b0:434:a04d:166f with SMTP id 5b1f17b1804b1-434dde4dd11mr102110715e9.0.1733723455408;
+        Sun, 08 Dec 2024 21:50:55 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f95bd258sm22788045e9.14.2024.12.08.21.50.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 21:50:54 -0800 (PST)
+Date: Mon, 9 Dec 2024 08:50:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Ranjan Kumar <ranjan.kumar@broadcom.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>
+Subject: [linux-next:pending-fixes 350/550]
+ drivers/scsi/mpi3mr/mpi3mr_app.c:2834 mpi3mr_bsg_process_mpt_cmds() warn:
+ inconsistent returns '&mrioc->bsg_cmds.mutex'.
+Message-ID: <a3a72581-8e19-4322-90df-dce744db701d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,69 +73,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Peter Griffin <peter.griffin@linaro.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Sam Protsenko <semen.protsenko@linaro.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 0b7c6075022ccff529318597dc6b165dd6a25c8f soc: samsung: exynos-pmu: Add regmap support for SoCs that protect PMU regs
-date:   10 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241209/202412091216.nj9gDyNa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+head:   2152e8397622d3783e947ca02ff62d94bc5b8f9e
+commit: 367ac16e5ff2dcd6b7f00a8f94e6ba98875cb397 [350/550] scsi: mpi3mr: Synchronize access to ioctl data buffer
+config: i386-randconfig-141-20241206 (https://download.01.org/0day-ci/archive/20241207/202412071034.OF3x0CTb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412091216.nj9gDyNa-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412071034.OF3x0CTb-lkp@intel.com/
 
-smatch warnings:
-drivers/soc/samsung/exynos-pmu.c:129 tensor_set_bits_atomic() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_app.c:2834 mpi3mr_bsg_process_mpt_cmds() warn: inconsistent returns '&mrioc->bsg_cmds.mutex'.
 
-vim +/ret +129 drivers/soc/samsung/exynos-pmu.c
+vim +2834 drivers/scsi/mpi3mr/mpi3mr_app.c
 
-0b7c6075022ccff Peter Griffin 2024-02-20   97  
-0b7c6075022ccff Peter Griffin 2024-02-20   98  /*
-0b7c6075022ccff Peter Griffin 2024-02-20   99   * For SoCs that have set/clear bit hardware this function can be used when
-0b7c6075022ccff Peter Griffin 2024-02-20  100   * the PMU register will be accessed by multiple masters.
-0b7c6075022ccff Peter Griffin 2024-02-20  101   *
-0b7c6075022ccff Peter Griffin 2024-02-20  102   * For example, to set bits 13:8 in PMU reg offset 0x3e80
-0b7c6075022ccff Peter Griffin 2024-02-20  103   * tensor_set_bits_atomic(ctx, 0x3e80, 0x3f00, 0x3f00);
-0b7c6075022ccff Peter Griffin 2024-02-20  104   *
-0b7c6075022ccff Peter Griffin 2024-02-20  105   * Set bit 8, and clear bits 13:9 PMU reg offset 0x3e80
-0b7c6075022ccff Peter Griffin 2024-02-20  106   * tensor_set_bits_atomic(0x3e80, 0x100, 0x3f00);
-0b7c6075022ccff Peter Griffin 2024-02-20  107   */
-0b7c6075022ccff Peter Griffin 2024-02-20  108  static int tensor_set_bits_atomic(void *ctx, unsigned int offset, u32 val,
-0b7c6075022ccff Peter Griffin 2024-02-20  109  				  u32 mask)
-0b7c6075022ccff Peter Griffin 2024-02-20  110  {
-0b7c6075022ccff Peter Griffin 2024-02-20  111  	int ret;
-0b7c6075022ccff Peter Griffin 2024-02-20  112  	unsigned int i;
-0b7c6075022ccff Peter Griffin 2024-02-20  113  
-0b7c6075022ccff Peter Griffin 2024-02-20  114  	for (i = 0; i < 32; i++) {
-0b7c6075022ccff Peter Griffin 2024-02-20  115  		if (!(mask & BIT(i)))
-0b7c6075022ccff Peter Griffin 2024-02-20  116  			continue;
-0b7c6075022ccff Peter Griffin 2024-02-20  117  
-0b7c6075022ccff Peter Griffin 2024-02-20  118  		offset &= ~TENSOR_SET_BITS;
-0b7c6075022ccff Peter Griffin 2024-02-20  119  
-0b7c6075022ccff Peter Griffin 2024-02-20  120  		if (val & BIT(i))
-0b7c6075022ccff Peter Griffin 2024-02-20  121  			offset |= TENSOR_SET_BITS;
-0b7c6075022ccff Peter Griffin 2024-02-20  122  		else
-0b7c6075022ccff Peter Griffin 2024-02-20  123  			offset |= TENSOR_CLR_BITS;
-0b7c6075022ccff Peter Griffin 2024-02-20  124  
-0b7c6075022ccff Peter Griffin 2024-02-20  125  		ret = tensor_sec_reg_write(ctx, offset, i);
-0b7c6075022ccff Peter Griffin 2024-02-20  126  		if (ret)
-0b7c6075022ccff Peter Griffin 2024-02-20  127  			return ret;
-0b7c6075022ccff Peter Griffin 2024-02-20  128  	}
-0b7c6075022ccff Peter Griffin 2024-02-20 @129  	return ret;
-0b7c6075022ccff Peter Griffin 2024-02-20  130  }
-0b7c6075022ccff Peter Griffin 2024-02-20  131  
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2298  static long mpi3mr_bsg_process_mpt_cmds(struct bsg_job *job)
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2299  {
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2300  	long rval = -EINVAL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2301  	struct mpi3mr_ioc *mrioc = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2302  	u8 *mpi_req = NULL, *sense_buff_k = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2303  	u8 mpi_msg_size = 0;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2304  	struct mpi3mr_bsg_packet *bsg_req = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2305  	struct mpi3mr_bsg_mptcmd *karg;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2306  	struct mpi3mr_buf_entry *buf_entries = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2307  	struct mpi3mr_buf_map *drv_bufs = NULL, *drv_buf_iter = NULL;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2308  	u8 count, bufcnt = 0, is_rmcb = 0, is_rmrb = 0;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2309  	u8 din_cnt = 0, dout_cnt = 0;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2310  	u8 invalid_be = 0, erb_offset = 0xFF, mpirep_offset = 0xFF;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2311  	u8 block_io = 0, nvme_fmt = 0, resp_code = 0;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2312  	struct mpi3_request_header *mpi_header = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2313  	struct mpi3_status_reply_descriptor *status_desc;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2314  	struct mpi3_scsi_task_mgmt_request *tm_req;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2315  	u32 erbsz = MPI3MR_SENSE_BUF_SZ, tmplen;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2316  	u16 dev_handle;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2317  	struct mpi3mr_tgt_dev *tgtdev;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2318  	struct mpi3mr_stgt_priv_data *stgt_priv = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2319  	struct mpi3mr_bsg_in_reply_buf *bsg_reply_buf = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2320  	u32 din_size = 0, dout_size = 0;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2321  	u8 *din_buf = NULL, *dout_buf = NULL;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2322  	u8 *sgl_iter = NULL, *sgl_din_iter = NULL, *sgl_dout_iter = NULL;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2323  	u16 rmc_size  = 0, desc_count = 0;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2324  
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2325  	bsg_req = job->request;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2326  	karg = (struct mpi3mr_bsg_mptcmd *)&bsg_req->cmd.mptcmd;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2327  
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2328  	mrioc = mpi3mr_bsg_verify_adapter(karg->mrioc_id);
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2329  	if (!mrioc)
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2330  		return -ENODEV;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2331  
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2332  	if (mutex_lock_interruptible(&mrioc->bsg_cmds.mutex))
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2333  		return -ERESTARTSYS;
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2334  
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2335  	if (mrioc->bsg_cmds.state & MPI3MR_CMD_PENDING) {
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2336  		dprint_bsg_err(mrioc, "%s: command is in use\n", __func__);
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2337  		mutex_unlock(&mrioc->bsg_cmds.mutex);
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2338  		return -EAGAIN;
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2339  	}
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2340  
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2341  	if (!mrioc->ioctl_sges_allocated) {
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2342  		dprint_bsg_err(mrioc, "%s: DMA memory was not allocated\n",
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2343  			       __func__);
+
+mutex_unlock(&mrioc->bsg_cmds.mutex) before returning
+
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2344  		return -ENOMEM;
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2345  	}
+fb231d7deffb41 Chandrakanth patil   2023-12-06  2346  
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2347  	if (karg->timeout < MPI3MR_APP_DEFAULT_TIMEOUT)
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2348  		karg->timeout = MPI3MR_APP_DEFAULT_TIMEOUT;
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2349  
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2350  	mpi_req = kzalloc(MPI3MR_ADMIN_REQ_FRAME_SZ, GFP_KERNEL);
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2351  	if (!mpi_req) {
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2352  		mutex_unlock(&mrioc->bsg_cmds.mutex);
+506bc1a0d6ba62 Sumit Saxena         2022-04-29  2353  		return -ENOMEM;
+367ac16e5ff2dc Ranjan Kumar         2024-11-11  2354  	}
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
