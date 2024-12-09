@@ -1,233 +1,290 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C869D197A7F
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 04:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221DD15AD9C
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 05:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720384; cv=none; b=R2T45i6fK62v9hBM6I669VkDIplAy9bIhunV+jKee5YfVJmuss1VrxgiJ94ksNgnhHtIRz5KksI78U7ZJjp6H3Rwpi8Mxxq0QZvm2dRYEXyHkI/RuGBee8+rdXBJRHqcoFTuTOOWI5Bue/8c7+O0O4TZwETrlsK0+7CGe2CIZUQ=
+	t=1733720951; cv=none; b=aiidJ609mAbragSgxZcn+viUyNEnXiPsFlt1ivIgjJRie88+8t4dLUqx89pVmxmPsbi2c3G84g2AzPsz+UNdWwKFencgm64CvEzPyhPyTfEXfu6UAWGQZvczc2Gu3xcX5Fwj+6lfj+q1LqWVfP7ZGbQXhU7H5ZmwuVfhguuye7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720384; c=relaxed/simple;
-	bh=iiA1viA1gBrYZwVOl71l2cuR4hQawu4slPYbdBA2IME=;
+	s=arc-20240116; t=1733720951; c=relaxed/simple;
+	bh=bNUEiGkn6iHtQiIn1CoYk66YmMS8lfZzrUwLONM5jgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qeGwwiF6r7zgyjB7IBRtLvGiCi70eFcRzIKPl1CTQI8TA0Uj622on48H9hkR5QOQd6wTVY6gR4pwfUw2XaJo76tiv1vOqLZqU+GmGkwSnuhlgxjtFDIFQGKZoOZgvecZxHQZXqccDnU1ksHiTBMl2dvA3Tv+84He5oHJqp3bMT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m35fayoN; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=PbKBy076qVF2DauXAEBhTJD70bqLeGLNwDed3nTJk2bvCiv7SHdDlcns6JPCmf9MtcEI5akleM+lOImafKcgZyoh7+PrvnLIYJtC9UkIYGeV7PaOlphIwcCviJCaS4qqZPbqgaey6Li939dfI2vzPO/NWSAVJP/zLlGvJvpq57g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m+nmkW0L; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m35fayoN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+nmkW0L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733720383; x=1765256383;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iiA1viA1gBrYZwVOl71l2cuR4hQawu4slPYbdBA2IME=;
-  b=m35fayoNbieC9atsiAIIHSaSh3fgBLDH0fI/VChy25Uca/xNQ+03fNXH
-   LW2XRvPnTrx5YnRTSsGXe7pz7WrIhrPpX2vWDK5AGruECiEtxlzYLiKO+
-   SZ18p2jGJx5eThYgY3hWMcX0xB+JGLm5wX7XNPh1xobOLDaWZ3O9yMw8p
-   6D9KJsZlgFGhxRYYzfKWAc0P/G1lI8gE7RzJZS35M/zI9neSg3CdZac4P
-   +ZxdGJ/PQiI1Q25cGFTQtm7bO432ST/nB7oNqV+diikbzGj+PgTSshyse
-   n6x/gyGloGrvH9QdcPo25cbTXg5mxbKCMbwcVkBqD784G6jXWjBksoW1E
-   w==;
-X-CSE-ConnectionGUID: rSlJrZELRJatRXiH9a4hDg==
-X-CSE-MsgGUID: R0vOQeB+Sh+x4ldTL4lWDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34139626"
+  t=1733720949; x=1765256949;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bNUEiGkn6iHtQiIn1CoYk66YmMS8lfZzrUwLONM5jgQ=;
+  b=m+nmkW0LsMAU9OtgWrRykiErV/qVydWhDZF7x7A92fJTQQyUzEJOtgS0
+   pAToFP7aJjX3jDWsAjQ81HOakO5VLgqHiykeywH8vqbPq8fSRQ6SqQJVt
+   YpPFIQfh+gINgSMQfRGXduhVwsHFV/JaBN2urnwz3vCBO372B1Be285lN
+   0PBWNuHia+96Ups9/vcuuNAXW8Xu3Iu8j2oShMpx4RfRG6OwqYKa6AkIN
+   hFq27uVz00aB3B2G57eVnDLt6l59ik8KXgPzK5EV9tpxXxLSXKGTAnPwA
+   pImAjGXDJ1k4Z1gR27i/i1H+pwvBDGBDCLsUsqCTwM5mrFDsskNbQkUZ7
+   Q==;
+X-CSE-ConnectionGUID: UYXmGbUmTo+BY5VhlS1nlg==
+X-CSE-MsgGUID: hjulMOu3SkibVebbJ2xdGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="45017457"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34139626"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 20:59:43 -0800
-X-CSE-ConnectionGUID: eSEeF+1gSSCtDI6E535HMw==
-X-CSE-MsgGUID: Qn0z1MFpQmmO7uk/mIe2Sg==
+   d="scan'208";a="45017457"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 21:08:46 -0800
+X-CSE-ConnectionGUID: jBGsrPMOT9CuEdqyhj6Phg==
+X-CSE-MsgGUID: Y1e/p0ChRdq4l/kCNZtEbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="99412291"
+   d="scan'208";a="94833952"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2024 20:59:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2024 21:08:44 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKVru-0003ww-26;
-	Mon, 09 Dec 2024 04:59:38 +0000
-Date: Mon, 9 Dec 2024 12:59:05 +0800
+	id 1tKW0f-0003xv-2X;
+	Mon, 09 Dec 2024 05:08:41 +0000
+Date: Mon, 9 Dec 2024 13:08:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/crypto/stm32/stm32-hash.c:732 stm32_hash_dma_send() error:
- uninitialized symbol 'last_word'.
-Message-ID: <202412090823.2dUZdYLr-lkp@intel.com>
+Subject: [bigeasy-staging:futex_local_v4.5 6/11] kernel/futex/pi.c:1205
+ futex_unlock_pi() warn: bitwise AND condition is false here
+Message-ID: <202412091000.qtDSxcrs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Maxime Méré" <maxime.mere@foss.st.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-commit: 3525fe475245ec5e8bc119749d31a727bc8f41ab crypto: stm32/hash - add full DMA support for stm32mpx
-date:   8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-r071-20241209 (https://download.01.org/0day-ci/archive/20241209/202412090823.2dUZdYLr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git futex_local_v4.5
+head:   9d2ce92c85945509103b52a80a01735d48490c96
+commit: 40d4ad3aa9b6cc1645e51d06dadca2f39fc72e9d [6/11] futex: Allow to re-allocate the private hash bucket.
+:::::: branch date: 3 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-r071-20241209 (https://download.01.org/0day-ci/archive/20241209/202412091000.qtDSxcrs-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412090823.2dUZdYLr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412091000.qtDSxcrs-lkp@intel.com/
 
 smatch warnings:
-drivers/crypto/stm32/stm32-hash.c:732 stm32_hash_dma_send() error: uninitialized symbol 'last_word'.
+kernel/futex/pi.c:1205 futex_unlock_pi() warn: bitwise AND condition is false here
 
-vim +/last_word +732 drivers/crypto/stm32/stm32-hash.c
+vim +1205 kernel/futex/pi.c
 
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  655  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  656  static int stm32_hash_dma_send(struct stm32_hash_dev *hdev)
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  657  {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  658  	struct stm32_hash_request_ctx *rctx = ahash_request_ctx(hdev->req);
-c0c5d6428b3888b Herbert Xu            2023-03-11  659  	u32 *buffer = (void *)rctx->state.buffer;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  660  	struct scatterlist sg[1], *tsg;
-a10618f39706282 Thomas Bourgoin       2023-07-13  661  	int err = 0, reg, ncp = 0;
-a10618f39706282 Thomas Bourgoin       2023-07-13  662  	unsigned int i, len = 0, bufcnt = 0;
-3525fe475245ec5 Maxime Méré           2024-04-12  663  	bool final = hdev->flags & HASH_FLAGS_FINAL;
-a10618f39706282 Thomas Bourgoin       2023-07-13  664  	bool is_last = false;
-3525fe475245ec5 Maxime Méré           2024-04-12  665  	u32 last_word;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  666  
-3525fe475245ec5 Maxime Méré           2024-04-12  667  	dev_dbg(hdev->dev, "%s total: %d bufcnt: %d final: %d\n",
-3525fe475245ec5 Maxime Méré           2024-04-12  668  		__func__, rctx->total, rctx->state.bufcnt, final);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  669  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  670  	if (rctx->nents < 0)
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  671  		return -EINVAL;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  672  
-0e99d38ff6ad4ba Thomas Bourgoin       2023-07-13  673  	stm32_hash_write_ctrl(hdev);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  674  
-3525fe475245ec5 Maxime Méré           2024-04-12  675  	if (hdev->flags & HASH_FLAGS_HMAC && (!(hdev->flags & HASH_FLAGS_HMAC_KEY))) {
-3525fe475245ec5 Maxime Méré           2024-04-12  676  		hdev->flags |= HASH_FLAGS_HMAC_KEY;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  677  		err = stm32_hash_hmac_dma_send(hdev);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  678  		if (err != -EINPROGRESS)
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  679  			return err;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  680  	}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  681  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  682  	for_each_sg(rctx->sg, tsg, rctx->nents, i) {
-d9c83f71eeceed2 Thomas Bourgoin       2023-07-13  683  		sg[0] = *tsg;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  684  		len = sg->length;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  685  
-a10618f39706282 Thomas Bourgoin       2023-07-13  686  		if (sg_is_last(sg) || (bufcnt + sg[0].length) >= rctx->total) {
-3525fe475245ec5 Maxime Méré           2024-04-12  687  			if (!final) {
-3525fe475245ec5 Maxime Méré           2024-04-12  688  				/* Always manually put the last word of a non-final transfer. */
-3525fe475245ec5 Maxime Méré           2024-04-12  689  				len -= sizeof(u32);
-3525fe475245ec5 Maxime Méré           2024-04-12  690  				sg_pcopy_to_buffer(rctx->sg, rctx->nents, &last_word, 4, len);
-3525fe475245ec5 Maxime Méré           2024-04-12  691  				sg->length -= sizeof(u32);
-3525fe475245ec5 Maxime Méré           2024-04-12  692  			} else {
-3525fe475245ec5 Maxime Méré           2024-04-12  693  				/*
-3525fe475245ec5 Maxime Méré           2024-04-12  694  				 * In Multiple DMA mode, DMA must be aborted before the final
-3525fe475245ec5 Maxime Méré           2024-04-12  695  				 * transfer.
-3525fe475245ec5 Maxime Méré           2024-04-12  696  				 */
-a10618f39706282 Thomas Bourgoin       2023-07-13  697  				sg->length = rctx->total - bufcnt;
-3525fe475245ec5 Maxime Méré           2024-04-12  698  				if (hdev->dma_mode > 0) {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  699  					len = (ALIGN(sg->length, 16) - 16);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  700  
-3525fe475245ec5 Maxime Méré           2024-04-12  701  					ncp = sg_pcopy_to_buffer(rctx->sg, rctx->nents,
-3525fe475245ec5 Maxime Méré           2024-04-12  702  								 rctx->state.buffer,
-3525fe475245ec5 Maxime Méré           2024-04-12  703  								 sg->length - len,
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  704  								 rctx->total - sg->length + len);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  705  
-3525fe475245ec5 Maxime Méré           2024-04-12  706  					if (!len)
-3525fe475245ec5 Maxime Méré           2024-04-12  707  						break;
-3525fe475245ec5 Maxime Méré           2024-04-12  708  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  709  					sg->length = len;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  710  				} else {
-3525fe475245ec5 Maxime Méré           2024-04-12  711  					is_last = true;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  712  					if (!(IS_ALIGNED(sg->length, sizeof(u32)))) {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  713  						len = sg->length;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  714  						sg->length = ALIGN(sg->length,
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  715  								   sizeof(u32));
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  716  					}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  717  				}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  718  			}
-3525fe475245ec5 Maxime Méré           2024-04-12  719  		}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  720  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  721  		rctx->dma_ct = dma_map_sg(hdev->dev, sg, 1,
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  722  					  DMA_TO_DEVICE);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  723  		if (rctx->dma_ct == 0) {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  724  			dev_err(hdev->dev, "dma_map_sg error\n");
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  725  			return -ENOMEM;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  726  		}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  727  
-a10618f39706282 Thomas Bourgoin       2023-07-13  728  		err = stm32_hash_xmit_dma(hdev, sg, len, !is_last);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  729  
-3525fe475245ec5 Maxime Méré           2024-04-12  730  		/* The last word of a non final transfer is sent manually. */
-3525fe475245ec5 Maxime Méré           2024-04-12  731  		if (!final) {
-3525fe475245ec5 Maxime Méré           2024-04-12 @732  			stm32_hash_write(hdev, HASH_DIN, last_word);
-3525fe475245ec5 Maxime Méré           2024-04-12  733  			len += sizeof(u32);
-3525fe475245ec5 Maxime Méré           2024-04-12  734  		}
-3525fe475245ec5 Maxime Méré           2024-04-12  735  
-3525fe475245ec5 Maxime Méré           2024-04-12  736  		rctx->total -= len;
-3525fe475245ec5 Maxime Méré           2024-04-12  737  
-a10618f39706282 Thomas Bourgoin       2023-07-13  738  		bufcnt += sg[0].length;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  739  		dma_unmap_sg(hdev->dev, sg, 1, DMA_TO_DEVICE);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  740  
-3525fe475245ec5 Maxime Méré           2024-04-12  741  		if (err == -ENOMEM || err == -ETIMEDOUT)
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  742  			return err;
-a10618f39706282 Thomas Bourgoin       2023-07-13  743  		if (is_last)
-a10618f39706282 Thomas Bourgoin       2023-07-13  744  			break;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  745  	}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  746  
-3525fe475245ec5 Maxime Méré           2024-04-12  747  	/*
-3525fe475245ec5 Maxime Méré           2024-04-12  748  	 * When the second last block transfer of 4 words is performed by the DMA,
-3525fe475245ec5 Maxime Méré           2024-04-12  749  	 * the software must set the DMA Abort bit (DMAA) to 1 before completing the
-3525fe475245ec5 Maxime Méré           2024-04-12  750  	 * last transfer of 4 words or less.
-3525fe475245ec5 Maxime Méré           2024-04-12  751  	 */
-3525fe475245ec5 Maxime Méré           2024-04-12  752  	if (final) {
-3525fe475245ec5 Maxime Méré           2024-04-12  753  		if (hdev->dma_mode > 0) {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  754  			if (stm32_hash_wait_busy(hdev))
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  755  				return -ETIMEDOUT;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  756  			reg = stm32_hash_read(hdev, HASH_CR);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  757  			reg &= ~HASH_CR_DMAE;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  758  			reg |= HASH_CR_DMAA;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  759  			stm32_hash_write(hdev, HASH_CR, reg);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  760  
-532f419cde077ff Arnd Bergmann         2017-09-12  761  			if (ncp) {
-3525fe475245ec5 Maxime Méré           2024-04-12  762  				memset(buffer + ncp, 0, 4 - DIV_ROUND_UP(ncp, sizeof(u32)));
-532f419cde077ff Arnd Bergmann         2017-09-12  763  				writesl(hdev->io_base + HASH_DIN, buffer,
-532f419cde077ff Arnd Bergmann         2017-09-12  764  					DIV_ROUND_UP(ncp, sizeof(u32)));
-532f419cde077ff Arnd Bergmann         2017-09-12  765  			}
-3525fe475245ec5 Maxime Méré           2024-04-12  766  
-d03d29bd1857b2d Lionel Debieve        2018-01-29  767  			stm32_hash_set_nblw(hdev, ncp);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  768  			reg = stm32_hash_read(hdev, HASH_STR);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  769  			reg |= HASH_STR_DCAL;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  770  			stm32_hash_write(hdev, HASH_STR, reg);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  771  			err = -EINPROGRESS;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  772  		}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  773  
-3525fe475245ec5 Maxime Méré           2024-04-12  774  		/*
-3525fe475245ec5 Maxime Méré           2024-04-12  775  		 * The hash processor needs the key to be loaded a second time in order
-3525fe475245ec5 Maxime Méré           2024-04-12  776  		 * to process the HMAC.
-3525fe475245ec5 Maxime Méré           2024-04-12  777  		 */
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  778  		if (hdev->flags & HASH_FLAGS_HMAC) {
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  779  			if (stm32_hash_wait_busy(hdev))
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  780  				return -ETIMEDOUT;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  781  			err = stm32_hash_hmac_dma_send(hdev);
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  782  		}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  783  
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  784  		return err;
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  785  	}
-8a1012d3f2abcef lionel.debieve@st.com 2017-07-13  786  
-3525fe475245ec5 Maxime Méré           2024-04-12  787  	if (err != -EINPROGRESS)
-3525fe475245ec5 Maxime Méré           2024-04-12  788  		return err;
-3525fe475245ec5 Maxime Méré           2024-04-12  789  
-3525fe475245ec5 Maxime Méré           2024-04-12  790  	return 0;
-3525fe475245ec5 Maxime Méré           2024-04-12  791  }
-3525fe475245ec5 Maxime Méré           2024-04-12  792  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1187  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1188  /*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1189   * Userspace attempted a TID -> 0 atomic transition, and failed.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1190   * This is the in-kernel slowpath: we look up the PI state (if any),
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1191   * and do the rt-mutex unlock.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1192   */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1193  int futex_unlock_pi(u32 __user *uaddr, unsigned int flags)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1194  {
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1195  	u32 curval, uval, vpid = task_pid_vnr(current);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1196  	union futex_key key = FUTEX_KEY_INIT;
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1197  	struct rw_semaphore *futex_hash_lock = NULL;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1198  	struct futex_hash_bucket *hb;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1199  	struct futex_q *top_waiter;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1200  	int ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1201  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1202  	if (!IS_ENABLED(CONFIG_FUTEX_PI))
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1203  		return -ENOSYS;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1204  
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15 @1205  	if (!(flags & FLAGS_SHARED))
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1206  		futex_hash_lock = &current->mm->futex_hash_lock;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1207  retry:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1208  	if (get_user(uval, uaddr))
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1209  		return -EFAULT;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1210  	/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1211  	 * We release only a lock we actually own:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1212  	 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1213  	if ((uval & FUTEX_TID_MASK) != vpid)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1214  		return -EPERM;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1215  
+3b63a55f498b763 peterz@infradead.org      2023-09-21  1216  	ret = get_futex_key(uaddr, flags, &key, FUTEX_WRITE);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1217  	if (ret)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1218  		return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1219  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1220  	hb = futex_hash(&key);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1221  	spin_lock(&hb->lock);
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1222  retry_hb:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1223  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1224  	/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1225  	 * Check waiters first. We do not trust user space values at
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1226  	 * all and we at least want to know if user space fiddled
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1227  	 * with the futex value instead of blindly unlocking.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1228  	 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1229  	top_waiter = futex_top_waiter(hb, &key);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1230  	if (top_waiter) {
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1231  		struct futex_pi_state *pi_state = top_waiter->pi_state;
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1232  		struct rt_mutex_waiter *rt_waiter;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1233  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1234  		ret = -EINVAL;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1235  		if (!pi_state)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1236  			goto out_unlock;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1237  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1238  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1239  		 * If current does not own the pi_state then the futex is
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1240  		 * inconsistent and user space fiddled with the futex value.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1241  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1242  		if (pi_state->owner != current)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1243  			goto out_unlock;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1244  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1245  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1246  		 * By taking wait_lock while still holding hb->lock, we ensure
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1247  		 * there is no point where we hold neither; and thereby
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1248  		 * wake_futex_pi() must observe any new waiters.
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1249  		 *
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1250  		 * Since the cleanup: case in futex_lock_pi() removes the
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1251  		 * rt_waiter without holding hb->lock, it is possible for
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1252  		 * wake_futex_pi() to not find a waiter while the above does,
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1253  		 * in this case the waiter is on the way out and it can be
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1254  		 * ignored.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1255  		 *
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1256  		 * In particular; this forces __rt_mutex_start_proxy() to
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1257  		 * complete such that we're guaranteed to observe the
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1258  		 * rt_waiter.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1259  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1260  		raw_spin_lock_irq(&pi_state->pi_mutex.wait_lock);
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1261  
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1262  		/*
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1263  		 * Futex vs rt_mutex waiter state -- if there are no rt_mutex
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1264  		 * waiters even though futex thinks there are, then the waiter
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1265  		 * is leaving. The entry needs to be removed from the list so a
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1266  		 * new futex_lock_pi() is not using this stale PI-state while
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1267  		 * the futex is available in user space again.
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1268  		 * There can be more than one task on its way out so it needs
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1269  		 * to retry.
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1270  		 */
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1271  		rt_waiter = rt_mutex_top_waiter(&pi_state->pi_mutex);
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1272  		if (!rt_waiter) {
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1273  			__futex_unqueue(top_waiter);
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1274  			raw_spin_unlock_irq(&pi_state->pi_mutex.wait_lock);
+e626cb02ee8399f Sebastian Andrzej Siewior 2024-01-18  1275  			goto retry_hb;
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1276  		}
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1277  
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1278  		get_pi_state(pi_state);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1279  		spin_unlock(&hb->lock);
+6df37a9175b2332 Sebastian Andrzej Siewior 2024-11-14  1280  		futex_hash_put(hb);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1281  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1282  		/* drops pi_state->pi_mutex.wait_lock */
+fbeb558b0dd0d63 Peter Zijlstra            2023-09-15  1283  		ret = wake_futex_pi(uaddr, uval, pi_state, rt_waiter);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1284  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1285  		put_pi_state(pi_state);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1286  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1287  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1288  		 * Success, we're done! No tricky corner cases.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1289  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1290  		if (!ret)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1291  			return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1292  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1293  		 * The atomic access to the futex value generated a
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1294  		 * pagefault, so retry the user-access and the wakeup:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1295  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1296  		if (ret == -EFAULT)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1297  			goto pi_faulted;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1298  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1299  		 * A unconditional UNLOCK_PI op raced against a waiter
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1300  		 * setting the FUTEX_WAITERS bit. Try again.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1301  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1302  		if (ret == -EAGAIN)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1303  			goto pi_retry;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1304  		/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1305  		 * wake_futex_pi has detected invalid state. Tell user
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1306  		 * space.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1307  		 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1308  		return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1309  	}
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1310  
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1311  	/*
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1312  	 * If the hb changed before the following cmpxchg finished then the
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1313  	 * situtation gets complicated as we don't own the lock anymore but
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1314  	 * there could be an internal state recorded under our name by the
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1315  	 * waiter under a different hb->lock. Also the PI-lock could be snuck in
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1316  	 * userland so there is no guarantee that we get it back.
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1317  	 * To avoid the mess due to this tiny race, ensure that the HB can not
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1318  	 * be resized while the PI lock with no owner is unlocked.
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1319  	 */
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1320  	if (futex_hash_lock) {
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1321  		spin_unlock(&hb->lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1322  		down_read(futex_hash_lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1323  		spin_lock(&hb->lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1324  
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1325  		if (!futex_check_hb_valid(hb)) {
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1326  			spin_unlock(&hb->lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1327  			up_read(futex_hash_lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1328  			futex_hash_put(hb);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1329  			goto retry;
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1330  		}
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1331  		if (futex_top_waiter(hb, &key)) {
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1332  			up_read(futex_hash_lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1333  			goto retry_hb;
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1334  		}
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1335  	}
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1336  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1337  	/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1338  	 * We have no kernel internal state, i.e. no waiters in the
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1339  	 * kernel. Waiters which are about to queue themselves are stuck
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1340  	 * on hb->lock. So we can safely ignore them. We do neither
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1341  	 * preserve the WAITERS bit not the OWNER_DIED one. We are the
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1342  	 * owner.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1343  	 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1344  	if ((ret = futex_cmpxchg_value_locked(&curval, uaddr, uval, 0))) {
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1345  		spin_unlock(&hb->lock);
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1346  		if (futex_hash_lock)
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1347  			up_read(futex_hash_lock);
+6df37a9175b2332 Sebastian Andrzej Siewior 2024-11-14  1348  		futex_hash_put(hb);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1349  		switch (ret) {
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1350  		case -EFAULT:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1351  			goto pi_faulted;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1352  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1353  		case -EAGAIN:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1354  			goto pi_retry;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1355  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1356  		default:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1357  			WARN_ON_ONCE(1);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1358  			return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1359  		}
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1360  	}
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1361  	if (futex_hash_lock)
+40d4ad3aa9b6cc1 Sebastian Andrzej Siewior 2024-11-15  1362  		up_read(futex_hash_lock);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1363  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1364  	/*
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1365  	 * If uval has changed, let user space handle it.
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1366  	 */
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1367  	ret = (curval == uval) ? 0 : -EAGAIN;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1368  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1369  out_unlock:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1370  	spin_unlock(&hb->lock);
+6df37a9175b2332 Sebastian Andrzej Siewior 2024-11-14  1371  	futex_hash_put(hb);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1372  	return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1373  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1374  pi_retry:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1375  	cond_resched();
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1376  	goto retry;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1377  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1378  pi_faulted:
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1379  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1380  	ret = fault_in_user_writeable(uaddr);
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1381  	if (!ret)
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1382  		goto retry;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1383  
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1384  	return ret;
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1385  }
+85dc28fa4ec0586 Peter Zijlstra            2021-09-23  1386  
 
 -- 
 0-DAY CI Kernel Test Service
