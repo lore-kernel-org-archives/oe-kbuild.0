@@ -1,120 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B51E515
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 20:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E41223C77
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Dec 2024 23:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733777563; cv=none; b=VbLc/4CGmNZRwEkH+JrD/+nGZhhr3Pk6IUUtBl15xko2VHGKJNIpoxl0QyxbRzA2ecutqPhCQB46AQt+YYAvAjHj4wCxTI8rnAQ/huE5Srwc++QQKZ81k+3v+r5JO/kIBfxCinvonAMw8V+nN9HZmcMcApfZMNWwZEfOYxB7mAU=
+	t=1733787599; cv=none; b=QvpouwGa93uUgU+5NfOA4Qk5j2o2YBhD27k9GIcj2ePl+QiW9zYsKze05kEdrH/mo1G6PV/OlpAWSOh5JOTCuRTCNyqnTJiY41lxYDq2H+dJpWnmcMH/lke14Mj8zDJD6ZzmlsutMp4baIP9RANgtvq8ba+x8PIShV/36tVGDvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733777563; c=relaxed/simple;
-	bh=Zyy0COcS5nz9wVkgaXb3lGGEKB+emCxKE5ROp/INBd4=;
+	s=arc-20240116; t=1733787599; c=relaxed/simple;
+	bh=phQ3KbYR2FfdY4JtcwGfWZjBxyGToPKwHAJAXWljHRE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s+WvSpuOsJRs7tmnymqvy/Na+ZqQ6SBgfrQW0nOXxRtl52fu2XbvG1pfWeskH5o/te7+Fgxr9dnoj4UwN94V9L5PrsQxwdG2KMdbJW03/ES0crgJ2yUy/dzQ+BzTyAAwT2aXE89+2n7p8flpvlKXT8vIsmURMUThq2xomyhzV/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSV/wGIb; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Q/VwLfRPvYnRk7NBZ/EMdhEg98RBBdwGTb8BThna4Xne3Qa67TR5EDjROaL9i0uIrOM/VL4NQlckQKUs4ijxKrxckvtaOxZpT0DlVpcKueDaY1cbmeg9av/XOMPYvfv3qnIZtyiblIoePyYnbtb6itA1GOkmALZjiLGEppKcuAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djZJ5NZi; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSV/wGIb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djZJ5NZi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733777561; x=1765313561;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Zyy0COcS5nz9wVkgaXb3lGGEKB+emCxKE5ROp/INBd4=;
-  b=GSV/wGIbaeWSqV0vAhvruwLU+PNsHldQ8JEs3/vc0VMcvoDbScuKeVSZ
-   u30pYSbyjcNX1N3MGEwQgjR8701AIEP94cn8IZAjR92zQTk7ozdX1uY3f
-   gESZgVT5Idr2kbfiX12g7ojOuRx6vChQmCtHfs2iudxPYcrtLdTTbk81i
-   pKyAM6JpDWdH0ceSsFFmDxh1rKA8KGxLBCocqJjYRyxdNG4OKBYNO55GP
-   THUyKRmaIWzb+5wnRFamax9AA3b3Mt7GLZfYRM7veyC2rbmn/7w5+8Sjz
-   LmpopcS9iog5aQuIGId25kdisPlFvrFSaB0qb0BIcR4GkxzTx2ACzWkXx
+  t=1733787597; x=1765323597;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=phQ3KbYR2FfdY4JtcwGfWZjBxyGToPKwHAJAXWljHRE=;
+  b=djZJ5NZi6NYASS3EcyQj+Ihk4YJaONpwxJLARfs7qwAfvWycLRHjHsXV
+   n8IXIdwFr0TJFQlPBjI/vZ2CbRqh9Wws40OYgFDmD1G8o6FHNoo8iKyuo
+   /ZYfom/2YunieoDfybi/b/vq8uQsWDd4A7upE8Y+r3DgpQBJ8N2IERx3a
+   nhQwCJWZAj68/4IYajywtqv7Cy4tUtAHrQf7jBBccqJrmvsti+5ENY5k/
+   B3uT7OTSNif+/AO+mGS5DSZGoLCQtLKAnUtEIHynXI8cFBdyq2A1ErSPZ
+   AMBGWfra5dIkCA1Bj/3f1yh4hGO/NTqRzuuQrn477xjLL7y0paxz8LhOg
    A==;
-X-CSE-ConnectionGUID: QjkX5xctQ+enUoYUWv8+vw==
-X-CSE-MsgGUID: 9Y3gckKNSQS4LyUzOGVn/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="44568136"
+X-CSE-ConnectionGUID: TeGob2c7TECKWThKg1q6RQ==
+X-CSE-MsgGUID: x3mUHLzhS3mgLZuwEfa3nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34244955"
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="44568136"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 12:52:40 -0800
-X-CSE-ConnectionGUID: 8LCJOyOXTEiz+1df3yWWHg==
-X-CSE-MsgGUID: ppDRJ6caQsKgHli3/qRrNA==
+   d="scan'208";a="34244955"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 15:39:56 -0800
+X-CSE-ConnectionGUID: vypH357+QSKPZ1/7B+WBFg==
+X-CSE-MsgGUID: p6UmtmEaQwWq+n8IaJkSlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="95640981"
+   d="scan'208";a="126048892"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Dec 2024 12:52:39 -0800
+  by orviesa002.jf.intel.com with ESMTP; 09 Dec 2024 15:39:55 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKkk8-0004o1-2S;
-	Mon, 09 Dec 2024 20:52:36 +0000
-Date: Tue, 10 Dec 2024 04:51:59 +0800
+	id 1tKnM0-0004vJ-2C;
+	Mon, 09 Dec 2024 23:39:52 +0000
+Date: Tue, 10 Dec 2024 07:39:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 28/187]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any
- schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
-Message-ID: <202412100427.sNA0n8YR-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/i915/display/intel_display_debugfs.c:1510:2-29:
+ opportunity for str_true_false(( dsc_fractional_bpp_enable ))
+Message-ID: <202412100726.6DTkXbAQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: Swati Sharma <swati2.sharma@intel.com>
+CC: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+CC: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+CC: Suraj Kandpal <suraj.kandpal@intel.com>
+CC: Sui Jingfeng <suijingfeng@loongson.cn>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   5553f8f1fe2a6f02eded3969869311b465aeb258
-commit: 1dd6eacb938db7f46e9c03ab89282456bd4a40a4 [28/187] arm64: dts: apple: t600x-jxxx: Put in audio nodes
-:::::: branch date: 4 hours ago
-:::::: commit date: 12 days ago
-config: arm64-randconfig-051-20241208 (https://download.01.org/0day-ci/archive/20241210/202412100427.sNA0n8YR-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412100427.sNA0n8YR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
+commit: 680c1e31a59b223d677a22b508017d26b71a636a drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+date:   1 year, 1 month ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: x86_64-randconfig-103-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100726.6DTkXbAQ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412100427.sNA0n8YR-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412100726.6DTkXbAQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@f02280000: iommus: [[140, 0], [141, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@1302280000: iommus: [[144, 0], [145, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
---
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@f02280000: iommus: [[154, 0], [155, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@1302280000: iommus: [[158, 0], [159, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /sound: failed to match any schema with compatible: ['apple,j314-macaudio', 'apple,macaudio']
+cocci warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/i915/display/intel_display_debugfs.c:1298:2-14: opportunity for str_true_false(( dsc_enable ))
+>> drivers/gpu/drm/i915/display/intel_display_debugfs.c:1510:2-29: opportunity for str_true_false(( dsc_fractional_bpp_enable ))
+
+vim +1510 drivers/gpu/drm/i915/display/intel_display_debugfs.c
+
+680c1e31a59b223 Swati Sharma 2023-11-10  1486  
+680c1e31a59b223 Swati Sharma 2023-11-10  1487  static ssize_t i915_dsc_fractional_bpp_write(struct file *file,
+680c1e31a59b223 Swati Sharma 2023-11-10  1488  					     const char __user *ubuf,
+680c1e31a59b223 Swati Sharma 2023-11-10  1489  					     size_t len, loff_t *offp)
+680c1e31a59b223 Swati Sharma 2023-11-10  1490  {
+680c1e31a59b223 Swati Sharma 2023-11-10  1491  	struct drm_connector *connector =
+680c1e31a59b223 Swati Sharma 2023-11-10  1492  		((struct seq_file *)file->private_data)->private;
+680c1e31a59b223 Swati Sharma 2023-11-10  1493  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+680c1e31a59b223 Swati Sharma 2023-11-10  1494  	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
+680c1e31a59b223 Swati Sharma 2023-11-10  1495  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+680c1e31a59b223 Swati Sharma 2023-11-10  1496  	bool dsc_fractional_bpp_enable = false;
+680c1e31a59b223 Swati Sharma 2023-11-10  1497  	int ret;
+680c1e31a59b223 Swati Sharma 2023-11-10  1498  
+680c1e31a59b223 Swati Sharma 2023-11-10  1499  	if (len == 0)
+680c1e31a59b223 Swati Sharma 2023-11-10  1500  		return 0;
+680c1e31a59b223 Swati Sharma 2023-11-10  1501  
+680c1e31a59b223 Swati Sharma 2023-11-10  1502  	drm_dbg(&i915->drm,
+680c1e31a59b223 Swati Sharma 2023-11-10  1503  		"Copied %zu bytes from user to force fractional bpp for DSC\n", len);
+680c1e31a59b223 Swati Sharma 2023-11-10  1504  
+680c1e31a59b223 Swati Sharma 2023-11-10  1505  	ret = kstrtobool_from_user(ubuf, len, &dsc_fractional_bpp_enable);
+680c1e31a59b223 Swati Sharma 2023-11-10  1506  	if (ret < 0)
+680c1e31a59b223 Swati Sharma 2023-11-10  1507  		return ret;
+680c1e31a59b223 Swati Sharma 2023-11-10  1508  
+680c1e31a59b223 Swati Sharma 2023-11-10  1509  	drm_dbg(&i915->drm, "Got %s for DSC Fractional BPP Enable\n",
+680c1e31a59b223 Swati Sharma 2023-11-10 @1510  		(dsc_fractional_bpp_enable) ? "true" : "false");
+680c1e31a59b223 Swati Sharma 2023-11-10  1511  	intel_dp->force_dsc_fractional_bpp_en = dsc_fractional_bpp_enable;
+680c1e31a59b223 Swati Sharma 2023-11-10  1512  
+680c1e31a59b223 Swati Sharma 2023-11-10  1513  	*offp += len;
+680c1e31a59b223 Swati Sharma 2023-11-10  1514  
+680c1e31a59b223 Swati Sharma 2023-11-10  1515  	return len;
+680c1e31a59b223 Swati Sharma 2023-11-10  1516  }
+680c1e31a59b223 Swati Sharma 2023-11-10  1517  
 
 -- 
 0-DAY CI Kernel Test Service
