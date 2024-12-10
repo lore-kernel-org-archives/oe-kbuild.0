@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E72194C6A
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 08:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934ED12DD88
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 08:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733818806; cv=none; b=eow9sUQIyuE2+Lehki2WJur191mIV12N2M8UH5KfZhHDTht118oCMY9OkVLFVCGIZ4Uz3XfVQt7njuyVeXcnNEivy7IPrA+KFSw8fEID+qdntkv7C21xTkmwgd/SHJz6rwIZxylmf6Gf1lUMQkLO1A2uD8tGpDYCoMegI8S2i7c=
+	t=1733820350; cv=none; b=WHs1dopCIUS75Q6zzIZxwPACW3jYPwq53q/WMvTfAQAPwf9n3rUAml+4XWXFnPbPJ2Pzyr9H+hvIAsaRwaprVD9cf+0k3Py86QrC//H18qRuVT2sV7fD6ANIF92aYmjuCyaHVZZYv0eRQvkSAcIU7ZvTcUFblFJ6vyoxERkTD8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733818806; c=relaxed/simple;
-	bh=wGqrlTAFmnEtPpcAJYG1ns+IKPo4HkHGJIZtkTBIZx0=;
+	s=arc-20240116; t=1733820350; c=relaxed/simple;
+	bh=WIWAsIkTD/ygTaEqJZlgomNhVL+0e/j6V2MWkNKDLuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pyjvNpp3Gku1nAQYjlMK7JhinIULKXgaNtL+1oLZOR+SfR+dWuoN79jfW5wXAVIr08hfXIbVwCQgZuVMviWzC1fTT+2bx9KT2lFIHttabL49E6Obsb+wxs7o9ty7Bmtr040aUwK6ponkUY3Vu6N0i84ft5GTtn7ikMkfX+NCyq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmCFx2Qw; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=tMyGlfMxnyla+CjceZNxSY/iaOMSZ/MbYAYsiYdZjr305X8MgzaxIN3BgfHi9N1D4XALmq2XJBxqdCaJRWctZswZ9/QxMT33xNzN/i+XANaG8UYkuxyX9BIiJMqa/zKzLdHe2b5Z/JwIk29StZiGDvTirGMGPGF3iZONuKSp7PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M25dtMEM; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmCFx2Qw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733818805; x=1765354805;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wGqrlTAFmnEtPpcAJYG1ns+IKPo4HkHGJIZtkTBIZx0=;
-  b=VmCFx2QwB82A6nsaUxiH74RQSSPNxa7or97/feNoMeMgRT/vJis85MIM
-   GODQoRXJfEkQiS9TTLmtoeUCCYqgXrzRjp4agjwancsQYj5pT/IH4+OVD
-   0zAFusDC7bmQG4+ErWlk44254EEh7o+f7JGs3eO5brhxS7kfJR0GAw3k+
-   l32J6HDZXq+ANnspHQUjJZmsS4WP8i0s19YAANyeDyAFSLvrOx6lBuA/p
-   ZH5viyP7OJFFxgPdSWZQZahmD2QtS8H4mzpbkL7buxt3HX/NwWvVatCeN
-   nA8xsY11rykQ6UDx1V04VdgJC5J154dJZ3YA31AiOUZjX3RnqkEgSSNML
-   w==;
-X-CSE-ConnectionGUID: dVxue/5mRyqDU2WvsMLC6A==
-X-CSE-MsgGUID: mxktf9I2TFakMCnukZbR8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="33486201"
-X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
-   d="scan'208";a="33486201"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 00:20:04 -0800
-X-CSE-ConnectionGUID: snBFwrGmQAKZAFLRgzUEnw==
-X-CSE-MsgGUID: LpLddbViQwedimIc84GRuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
-   d="scan'208";a="95782569"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Dec 2024 00:20:03 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tKvTM-0005HD-27;
-	Tue, 10 Dec 2024 08:20:00 +0000
-Date: Tue, 10 Dec 2024 16:19:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/virtio/virtio_mmio.c:526 vm_find_vqs() warn: 'irq' from
- request_irq() not released on lines: 522.
-Message-ID: <202412101647.WsCQufot-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M25dtMEM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-432d86a3085so34732955e9.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 00:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733820347; x=1734425147; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
+        b=M25dtMEM1mOLpnSN187i8K3dWrxAjSOr8d52wocLtIUOfiLB7OdQ6e4hruGDb2iESL
+         5tyjVCFbCRFkSHNu1HI0sgNHMZsGTmdv1hknOXK/1RXVJ5VEUq4KRHvtDeeUYm5xbkU8
+         o9XWHLkK3rSjxji7vqIrBBUVCE7qXybRc5DgIiIgeVQUJ22sERyKNFw25AJiyzyUgMAt
+         MC++PAiKh+DCd/soiwN/xIJRY6K/vtbtb+pGBwoXK3wLYMk3y5gWwmzgBH4FwIBM8LS1
+         XQPnezI1DDUSM1p3Oi6xV7wFSSHT1AFt3/L8q4y/Wv9NrcoGkVgW/rsHN8Okn9VZis7S
+         Ue8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733820347; x=1734425147;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jblJqgnONYB3Ttb04kcM1REB0r64XNYjHV8iVLuGuGg=;
+        b=mS+GSwsK5F6XkdUhFYQ1OTrWVJNK+NME3c+IS5VX9h8ZWgPiumN2gSdMmGv3JZBmEj
+         4gdy3QSuaEwuQXBcbo1zSDBidbJ/sQD7ZjvBNK6MwnK1neBSc8r+hb51TpP9Bv5+eroR
+         892KobaHC24Dm4Jh4RzRgFWUBD8Vhs60rZvndH3xV9oJQPuGzyrVUHcgNYeKCDKRkwD+
+         CmcXiGszcCMPGHTlzZ57AAetPzDPWit7076i2vM0Rk7lhXAsgQYeLIgaPzNbyK2QUNZw
+         9Lr4273Kz4lDCA9h4kNtDsifo01kc3rgVTaEfJzDoYoVOzg88YA9qyDjgl8N73vnO5TU
+         8gHQ==
+X-Gm-Message-State: AOJu0YySGw3qZWZp0qeG4DH9XZLPCidyU7PRYQdmbS/s+uCOTbF1BEHR
+	RhuB0SKxD6gA4hStBMsfkkYSo+mM8knarCZzIlUMXQCSaMSi8AjR6t0gD8v6ozNjIB8VbKzrGhe
+	m
+X-Gm-Gg: ASbGncuukbHqIyxqyOLscK58vHCawqzNC2oq15IlIEclDwKVaWN+SX6H1OLqh3lSamI
+	g+wxBp5HoJtP4Eo16AL6LYUkQM3IkT8aeiHVASLp4IBq24jf0Q6eq8rKjPUc7t+pydEHcHSVkyQ
+	yvG+pO2SUfTKsdYtGU/xggT84KPpKP34RqzCQjdXH11wR21QJt2LrURm0RGDoBvAegmRUpZAQ1H
+	+6PC0AKs33vjiGylg2szPJPp2uS6h9xTMVggWIyrAtKxVLlQCivSaYYav0=
+X-Google-Smtp-Source: AGHT+IHBg7FH0RfI63+Vg3g5RF/j5aX39c5DAnNY2YHqX7RE5+k+C41N38XjDYzZeGnDTOmqptoH7w==
+X-Received: by 2002:a05:600c:4e8a:b0:434:ffd7:6fca with SMTP id 5b1f17b1804b1-434fff36e7cmr31129635e9.2.1733820346746;
+        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526b577sm224504225e9.3.2024.12.10.00.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 00:45:46 -0800 (PST)
+Date: Tue, 10 Dec 2024 11:45:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>,
+	axboe@kernel.dk, hch@lst.de, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	asml.silence@gmail.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv12 11/12] nvme: register fdp parameters with the block
+ layer
+Message-ID: <8d69680a-a958-4e9d-a1ba-097489fe98d1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,84 +75,131 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241206221801.790690-12-kbusch@meta.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+Hi Keith,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
-commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
-date:   8 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 months ago
-config: sparc-randconfig-r073-20241209 (https://download.01.org/0day-ci/archive/20241210/202412101647.WsCQufot-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/fs-add-write-stream-information-to-statx/20241207-063826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20241206221801.790690-12-kbusch%40meta.com
+patch subject: [PATCHv12 11/12] nvme: register fdp parameters with the block layer
+config: csky-randconfig-r072-20241209 (https://download.01.org/0day-ci/archive/20241210/202412100319.Y5vv98P8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412101647.WsCQufot-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412100319.Y5vv98P8-lkp@intel.com/
 
-smatch warnings:
-drivers/virtio/virtio_mmio.c:526 vm_find_vqs() warn: 'irq' from request_irq() not released on lines: 522.
-drivers/scsi/myrb.c:3150 DAC960_PD_hw_init() warn: 'cb->io_addr' from __request_region() not released on lines: 3130,3137,3143.
-drivers/scsi/myrb.c:3316 DAC960_P_hw_init() warn: 'cb->io_addr' from __request_region() not released on lines: 3296,3303,3309.
-drivers/scsi/BusLogic.c:2395 blogic_init() warn: 'myadapter->io_addr' from __request_region() not released on lines: 2395.
-drivers/scsi/BusLogic.c:2395 blogic_init() warn: 'probeinfo->io_addr' from __request_region() not released on lines: 2395.
+New smatch warnings:
+drivers/nvme/host/core.c:2187 nvme_check_fdp() error: uninitialized symbol 'i'.
+drivers/nvme/host/core.c:2232 nvme_query_fdp_info() warn: missing error code 'ret'
 
-vim +/irq +526 drivers/virtio/virtio_mmio.c
+vim +/i +2187 drivers/nvme/host/core.c
 
-edfd52e6367270 Pawel Moll         2011-10-24  489  
-3153234097f6a0 Solomon Tan        2022-04-18  490  static int vm_find_vqs(struct virtio_device *vdev, unsigned int nvqs,
-edfd52e6367270 Pawel Moll         2011-10-24  491  		       struct virtqueue *vqs[],
-edfd52e6367270 Pawel Moll         2011-10-24  492  		       vq_callback_t *callbacks[],
-fb5e31d970ce8b Christoph Hellwig  2017-02-05  493  		       const char * const names[],
-f94682dde5ed23 Michael S. Tsirkin 2017-03-06  494  		       const bool *ctx,
-fb5e31d970ce8b Christoph Hellwig  2017-02-05  495  		       struct irq_affinity *desc)
-edfd52e6367270 Pawel Moll         2011-10-24  496  {
-edfd52e6367270 Pawel Moll         2011-10-24  497  	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
-5e663f0410fa2f Ihor Matushchak    2019-07-02  498  	int irq = platform_get_irq(vm_dev->pdev, 0);
-a229989d975eb9 Wei Wang           2018-12-28  499  	int i, err, queue_idx = 0;
-edfd52e6367270 Pawel Moll         2011-10-24  500  
-0c35c67412f0ae Markus Elfring     2020-04-05  501  	if (irq < 0)
-5e663f0410fa2f Ihor Matushchak    2019-07-02  502  		return irq;
-5e663f0410fa2f Ihor Matushchak    2019-07-02  503  
-edfd52e6367270 Pawel Moll         2011-10-24  504  	err = request_irq(irq, vm_interrupt, IRQF_SHARED,
-edfd52e6367270 Pawel Moll         2011-10-24  505  			dev_name(&vdev->dev), vm_dev);
-edfd52e6367270 Pawel Moll         2011-10-24  506  	if (err)
-edfd52e6367270 Pawel Moll         2011-10-24  507  		return err;
-edfd52e6367270 Pawel Moll         2011-10-24  508  
-02213273f72a43 Minghao Xue        2022-06-10  509  	if (of_property_read_bool(vm_dev->pdev->dev.of_node, "wakeup-source"))
-02213273f72a43 Minghao Xue        2022-06-10  510  		enable_irq_wake(irq);
-02213273f72a43 Minghao Xue        2022-06-10  511  
-edfd52e6367270 Pawel Moll         2011-10-24  512  	for (i = 0; i < nvqs; ++i) {
-a229989d975eb9 Wei Wang           2018-12-28  513  		if (!names[i]) {
-a229989d975eb9 Wei Wang           2018-12-28  514  			vqs[i] = NULL;
-a229989d975eb9 Wei Wang           2018-12-28  515  			continue;
-a229989d975eb9 Wei Wang           2018-12-28  516  		}
-a229989d975eb9 Wei Wang           2018-12-28  517  
-a229989d975eb9 Wei Wang           2018-12-28  518  		vqs[i] = vm_setup_vq(vdev, queue_idx++, callbacks[i], names[i],
-f94682dde5ed23 Michael S. Tsirkin 2017-03-06  519  				     ctx ? ctx[i] : false);
-edfd52e6367270 Pawel Moll         2011-10-24  520  		if (IS_ERR(vqs[i])) {
-edfd52e6367270 Pawel Moll         2011-10-24  521  			vm_del_vqs(vdev);
-edfd52e6367270 Pawel Moll         2011-10-24  522  			return PTR_ERR(vqs[i]);
-edfd52e6367270 Pawel Moll         2011-10-24  523  		}
-edfd52e6367270 Pawel Moll         2011-10-24  524  	}
-edfd52e6367270 Pawel Moll         2011-10-24  525  
-edfd52e6367270 Pawel Moll         2011-10-24 @526  	return 0;
-edfd52e6367270 Pawel Moll         2011-10-24  527  }
-edfd52e6367270 Pawel Moll         2011-10-24  528  
+04ca0849938146 Keith Busch   2024-12-06  2154  static int nvme_check_fdp(struct nvme_ns *ns, struct nvme_ns_info *info,
+04ca0849938146 Keith Busch   2024-12-06  2155  			  u8 fdp_idx)
+04ca0849938146 Keith Busch   2024-12-06  2156  {
+04ca0849938146 Keith Busch   2024-12-06  2157  	struct nvme_fdp_config_log hdr, *h;
+04ca0849938146 Keith Busch   2024-12-06  2158  	struct nvme_fdp_config_desc *desc;
+04ca0849938146 Keith Busch   2024-12-06  2159  	size_t size = sizeof(hdr);
+04ca0849938146 Keith Busch   2024-12-06  2160  	int i, n, ret;
+04ca0849938146 Keith Busch   2024-12-06  2161  	void *log;
+04ca0849938146 Keith Busch   2024-12-06  2162  
+04ca0849938146 Keith Busch   2024-12-06  2163  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2164  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2165  			   (void *)&hdr, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2166  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2167  		return ret;
+04ca0849938146 Keith Busch   2024-12-06  2168  
+04ca0849938146 Keith Busch   2024-12-06  2169  	size = le32_to_cpu(hdr.sze);
+04ca0849938146 Keith Busch   2024-12-06  2170  	h = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2171  	if (!h)
+04ca0849938146 Keith Busch   2024-12-06  2172  		return 0;
+04ca0849938146 Keith Busch   2024-12-06  2173  
+04ca0849938146 Keith Busch   2024-12-06  2174  	ret = nvme_get_log_lsi(ns->ctrl, 0, NVME_LOG_FDP_CONFIGS, 0, NVME_CSI_NVM,
+04ca0849938146 Keith Busch   2024-12-06  2175  			   h, size, 0, info->endgid);
+04ca0849938146 Keith Busch   2024-12-06  2176  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2177  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2178  
+04ca0849938146 Keith Busch   2024-12-06  2179  	n = le16_to_cpu(h->numfdpc) + 1;
+04ca0849938146 Keith Busch   2024-12-06  2180  	if (fdp_idx > n)
+04ca0849938146 Keith Busch   2024-12-06  2181  		goto out;
+04ca0849938146 Keith Busch   2024-12-06  2182  
+04ca0849938146 Keith Busch   2024-12-06  2183  	log = h + 1;
+04ca0849938146 Keith Busch   2024-12-06  2184  	do {
+04ca0849938146 Keith Busch   2024-12-06  2185  		desc = log;
+04ca0849938146 Keith Busch   2024-12-06  2186  		log += le16_to_cpu(desc->dsze);
+04ca0849938146 Keith Busch   2024-12-06 @2187  	} while (i++ < fdp_idx);
+                                                         ^
+i needs to be initialized to zero at the start.
 
-:::::: The code at line 526 was first introduced by commit
-:::::: edfd52e6367270c90f3fd7cc302b375ffa89f91e virtio: Add platform bus driver for memory mapped virtio device
+04ca0849938146 Keith Busch   2024-12-06  2188  
+04ca0849938146 Keith Busch   2024-12-06  2189  	info->runs = le64_to_cpu(desc->runs);
+04ca0849938146 Keith Busch   2024-12-06  2190  out:
+04ca0849938146 Keith Busch   2024-12-06  2191  	kfree(h);
+04ca0849938146 Keith Busch   2024-12-06  2192  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2193  }
+04ca0849938146 Keith Busch   2024-12-06  2194  
+04ca0849938146 Keith Busch   2024-12-06  2195  static int nvme_query_fdp_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+04ca0849938146 Keith Busch   2024-12-06  2196  {
+04ca0849938146 Keith Busch   2024-12-06  2197  	struct nvme_ns_head *head = ns->head;
+04ca0849938146 Keith Busch   2024-12-06  2198  	struct nvme_fdp_ruh_status *ruhs;
+04ca0849938146 Keith Busch   2024-12-06  2199  	struct nvme_fdp_config fdp;
+04ca0849938146 Keith Busch   2024-12-06  2200  	struct nvme_command c = {};
+04ca0849938146 Keith Busch   2024-12-06  2201  	int size, ret;
+04ca0849938146 Keith Busch   2024-12-06  2202  
+04ca0849938146 Keith Busch   2024-12-06  2203  	ret = nvme_get_features(ns->ctrl, NVME_FEAT_FDP, info->endgid, NULL, 0,
+04ca0849938146 Keith Busch   2024-12-06  2204  				&fdp);
+04ca0849938146 Keith Busch   2024-12-06  2205  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2206  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2207  
+04ca0849938146 Keith Busch   2024-12-06  2208  	if (!(fdp.flags & FDPCFG_FDPE))
+04ca0849938146 Keith Busch   2024-12-06  2209  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2210  
+04ca0849938146 Keith Busch   2024-12-06  2211  	ret = nvme_check_fdp(ns, info, fdp.fdpcidx);
+04ca0849938146 Keith Busch   2024-12-06  2212  	if (ret || !info->runs)
+04ca0849938146 Keith Busch   2024-12-06  2213  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2214  
+04ca0849938146 Keith Busch   2024-12-06  2215  	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
+04ca0849938146 Keith Busch   2024-12-06  2216  	ruhs = kzalloc(size, GFP_KERNEL);
+04ca0849938146 Keith Busch   2024-12-06  2217  	if (!ruhs) {
+04ca0849938146 Keith Busch   2024-12-06  2218  		ret = -ENOMEM;
+04ca0849938146 Keith Busch   2024-12-06  2219  		goto err;
+04ca0849938146 Keith Busch   2024-12-06  2220  	}
+04ca0849938146 Keith Busch   2024-12-06  2221  
+04ca0849938146 Keith Busch   2024-12-06  2222  	c.imr.opcode = nvme_cmd_io_mgmt_recv;
+04ca0849938146 Keith Busch   2024-12-06  2223  	c.imr.nsid = cpu_to_le32(head->ns_id);
+04ca0849938146 Keith Busch   2024-12-06  2224  	c.imr.mo = NVME_IO_MGMT_RECV_MO_RUHS;
+04ca0849938146 Keith Busch   2024-12-06  2225  	c.imr.numd = cpu_to_le32(nvme_bytes_to_numd(size));
+04ca0849938146 Keith Busch   2024-12-06  2226  	ret = nvme_submit_sync_cmd(ns->queue, &c, ruhs, size);
+04ca0849938146 Keith Busch   2024-12-06  2227  	if (ret)
+04ca0849938146 Keith Busch   2024-12-06  2228  		goto free;
+04ca0849938146 Keith Busch   2024-12-06  2229  
+04ca0849938146 Keith Busch   2024-12-06  2230  	head->nr_plids = le16_to_cpu(ruhs->nruhsd);
+04ca0849938146 Keith Busch   2024-12-06  2231  	if (!head->nr_plids)
+04ca0849938146 Keith Busch   2024-12-06 @2232  		goto free;
 
-:::::: TO: Pawel Moll <pawel.moll@arm.com>
-:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
+ret = -EINVAL?
+
+04ca0849938146 Keith Busch   2024-12-06  2233  
+04ca0849938146 Keith Busch   2024-12-06  2234  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2235  	return 0;
+04ca0849938146 Keith Busch   2024-12-06  2236  
+04ca0849938146 Keith Busch   2024-12-06  2237  free:
+04ca0849938146 Keith Busch   2024-12-06  2238  	kfree(ruhs);
+04ca0849938146 Keith Busch   2024-12-06  2239  err:
+04ca0849938146 Keith Busch   2024-12-06  2240  	head->nr_plids = 0;
+04ca0849938146 Keith Busch   2024-12-06  2241  	info->runs = 0;
+04ca0849938146 Keith Busch   2024-12-06  2242  	return ret;
+04ca0849938146 Keith Busch   2024-12-06  2243  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
