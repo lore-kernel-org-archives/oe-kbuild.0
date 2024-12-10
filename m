@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4328230D21
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 08:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4390423DE85
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 10:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733820759; cv=none; b=rQ50sKrr+MUoutV7GhfXPhCSSbEuFtiHbxDAM+129haRaScak6EpVxChJ7fmdDgDlGtwWG06fdti/84mpP4xp9chuewsC5GNGp7JyZ4ktJuMBenFZAicmG0HOcDWDOHrS+tEsNs8UiQDYNmVxQw1IicQfnWJPrtEPtbPi0BNWDY=
+	t=1733824916; cv=none; b=sQf/Qz0EHCazU03W5dxQzKji3O1AiHNTwXllEAqJkNGSLNsZyDaqIyHKU23Uhwi5nbaJxq23sDthvvYvn7iw8+bqejUsNos4MvxyhQfCdYIv00A+fDpzhu0xhYn430WkIz2p8Svto9at+h5CEOCH2zhO2QwyyUBTcG6LLOjv6QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733820759; c=relaxed/simple;
-	bh=WVIKOTT0FPKaE0iSSyl75ZToJcF0ld37vWw90dADYI8=;
+	s=arc-20240116; t=1733824916; c=relaxed/simple;
+	bh=n/PkbFqSE0BNAw0ZRA98NSKth3yBkewJQxa42A2AoJ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OAoayAvUyfOw3w2ktyx9QtxnBf5Mua+UwIUpD6oi+bjyauaweOhVpNXbK7q4LzM1KjZ+sOtdYZ5sCwurOKToahACNmJA1by1ak9p3ysm3qen6OWV8gbdf6sCp3VCYcmj97OUMZcuoCYHA1vDOSFyyvVTb4p2kPSYW9/rb5vcnHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxxamIDt; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=u5fjybgqpvw+AuMBsXKVUcc+WlmneQDO8tuXq2bR28QgXeQkXG7GWtZqb8gFEasXCy046EXB9TjRu5Nv4q5bjRlY4576NKQT1CZmVO8f42gMowbbRlCQjLMYnwBf2TQsN564StTFr699DDoVAV8Q/kmABM+cl2RrXDUqbpnsyC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xm+dSbGV; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxxamIDt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xm+dSbGV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733820757; x=1765356757;
+  t=1733824914; x=1765360914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WVIKOTT0FPKaE0iSSyl75ZToJcF0ld37vWw90dADYI8=;
-  b=gxxamIDt0GJUaE6EATECgbOwrMHDZzyYLMwouC1mNEQfrtwCrlOAlrTi
-   BI+rCN5zPpXEa3MXWUC90IR5Xh5XsCryhydS6RvdzPkuc4SOUiPA/Pxqn
-   CTuizMmgelbwALjxvUIX+ONLAmwibRXYTlhpO2gmvJlANrExcfkAh8jIR
-   GsU+cx9TLnmbiFbwnH5DQxAF34T2uuem5Jb5tJxvNoDmRGzhSqvTsvgcN
-   lBdHkB26lEEHYIk1rShC+l6geJqSnxetIwf8kNzWF/XhwRedycuzEtRwm
-   8k07D3OAKTNs+IVxJUZhq92RCelH4TGR27iMwgFQiWvqs/2pffeDDIOKL
-   w==;
-X-CSE-ConnectionGUID: HJVSTHP1SVWN4d9bdR/t6A==
-X-CSE-MsgGUID: vEYBjzMUQjCRa7oyFtyxjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34205806"
+  bh=n/PkbFqSE0BNAw0ZRA98NSKth3yBkewJQxa42A2AoJ8=;
+  b=Xm+dSbGVvcPYjLs1j9el90md4A56dEmdxceU+DyKhYVXcQaHp857ebnt
+   RtN/UwacYjrkEs+cVSwNw9dhGNPBifvf0zTXZ3NRIuu+gk9BWgAt1RlUR
+   EF6g5CxFmY358hk0IzYy+FnBgX+BkrZiUlrHsllZdV4yhKfqDmMGe3o3k
+   NuZ08WPdqiOc11KCCBRySPLsnkG97gux9SdyB3JrQxMjEmg4q6naA8AN1
+   EREMOXzukIjgu9mbGwTowHLtqwWXBRinz4Kdb324yReCmHnmKYhSfnBJL
+   ymw7bIktpL4tbW0tS0EPAAnfK6ZhCMauh06n/UwZR6g0/fa3HJS0TfqlH
+   A==;
+X-CSE-ConnectionGUID: 7W2VXp+GTqqUD6eJ4b4GTw==
+X-CSE-MsgGUID: 3EmGZnrbSdq7UnHBCJ93RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="56640718"
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="34205806"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 00:52:25 -0800
-X-CSE-ConnectionGUID: xA+bY8ymTLapP1TlmCvHoA==
-X-CSE-MsgGUID: QrYokekGRuijhKRvZOfejg==
+   d="scan'208";a="56640718"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 02:01:54 -0800
+X-CSE-ConnectionGUID: JADx7k10QOCS+sbbtoefyA==
+X-CSE-MsgGUID: w47eveIuRJeYyFF2T2HaYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="99402771"
+   d="scan'208";a="95703328"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Dec 2024 00:52:24 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 10 Dec 2024 02:01:52 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKvyf-0005If-1n;
-	Tue, 10 Dec 2024 08:52:21 +0000
-Date: Tue, 10 Dec 2024 16:51:32 +0800
+	id 1tKx3t-0005NH-2E;
+	Tue, 10 Dec 2024 10:01:49 +0000
+Date: Tue, 10 Dec 2024 18:00:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 65/187]
- arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000:
- power-controller@4000: 'apple,force-disable' does not match any of the
- regexes: 'pinctrl-[0-9]+'
-Message-ID: <202412101642.NXkbHtPc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can
+ 'pgtable' even be NULL?
+Message-ID: <202412101745.E2pIhRjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,74 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Vasant Hegde <vasant.hegde@amd.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   5553f8f1fe2a6f02eded3969869311b465aeb258
-commit: 96052369dda9091a4eebc55f3e3f71f36dcb618f [65/187] arm64: dts: apple: Add initial t602x device trees
-:::::: branch date: 16 hours ago
-:::::: commit date: 12 days ago
-config: arm64-randconfig-051-20241208 (https://download.01.org/0day-ci/archive/20241210/202412101642.NXkbHtPc-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101642.NXkbHtPc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
+commit: e8e1aac33458d80545e5ad37b2a3e4243eee278e iommu/amd: Refactor helper function for setting / clearing GCR3
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241210/202412101745.E2pIhRjQ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412101642.NXkbHtPc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412101745.E2pIhRjQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@418:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@420:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@428:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@c00:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4000:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4000: 'apple,force-disable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4008:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4010:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4018:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4020:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@290280000: power-controller@4028:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
---
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@420: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@428: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@428: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@c00: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@c00: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4000: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
->> arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4000: 'apple,force-disable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@4000: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4008: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@4008: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4010: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/power-management@290280000/power-controller@4010: failed to match any schema with compatible: ['apple,t6020-pmgr-pwrstate', 'apple,pmgr-pwrstate']
-   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-controller@4018: compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
-   	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
+smatch warnings:
+drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can 'pgtable' even be NULL?
+
+vim +/pgtable +355 drivers/iommu/amd/io_pgtable_v2.c
+
+aaac38f614871d Vasant Hegde          2022-08-25  350  
+aaac38f614871d Vasant Hegde          2022-08-25  351  static void v2_free_pgtable(struct io_pgtable *iop)
+aaac38f614871d Vasant Hegde          2022-08-25  352  {
+aaac38f614871d Vasant Hegde          2022-08-25  353  	struct amd_io_pgtable *pgtable = container_of(iop, struct amd_io_pgtable, iop);
+aaac38f614871d Vasant Hegde          2022-08-25  354  
+e8e1aac33458d8 Suravee Suthikulpanit 2024-02-05 @355  	if (!pgtable || !pgtable->pgd)
+aaac38f614871d Vasant Hegde          2022-08-25  356  		return;
+aaac38f614871d Vasant Hegde          2022-08-25  357  
+aaac38f614871d Vasant Hegde          2022-08-25  358  	/* Free page table */
+aaac38f614871d Vasant Hegde          2022-08-25  359  	free_pgtable(pgtable->pgd, get_pgtable_level());
+e8e1aac33458d8 Suravee Suthikulpanit 2024-02-05  360  	pgtable->pgd = NULL;
+aaac38f614871d Vasant Hegde          2022-08-25  361  }
+aaac38f614871d Vasant Hegde          2022-08-25  362  
 
 -- 
 0-DAY CI Kernel Test Service
