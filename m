@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE89B1DC986
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 11:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273433C30
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Dec 2024 11:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828989; cv=none; b=pOdTT9uhEskZLtxpu2u2bWq4O9cVIWnT+vz5itD5/tONHFhVNACxkzaaBp3JQbYVZEoUJtwZE2RTdXCAgmZYpSKsUux1hfy5/C8Bu4ttCIWh9NfhF6CqLMJGIvjA9m4LsaYtt/1gMmAMrafmPUqw3sIPc4Bq607vUzrAye2+RMg=
+	t=1733830535; cv=none; b=udTi9FQjffTPiG2kFcOjKRs5KLLBIkQLQdWa59S1uvzpkBgpmBNQI2vIPKur6zx4G2znGySmdq0EtEXMmV/a+CX6hLdqA6vg2tiQiN5U/X0Hhw7EHgfD2DcEGZUFiaMS8zN9HPnVjTksqhFRdWXE23CYLfV9amO15aEZV4ZAcXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828989; c=relaxed/simple;
-	bh=pMKlfHYhPmOwcGk+9RyNg+sSTEiOk5iKhHdqGoAsiJc=;
+	s=arc-20240116; t=1733830535; c=relaxed/simple;
+	bh=VTGmZxWjwt7NMgYBBgo0v6Sn1YPfebcY94fi3vhRZwA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OyTBQc/h3SlYX/PmrsZzcXnUesj/lFhfzlS5yUVoop/9U10I1CJuD0tgMe33HzKEWD8iXIopJxRgyeg7nQBnNfMrV/E2bObeI+mIcP3dEPa9EuaeOO9NIJDBHTUCM1J8vThWy8HV1dOmSwYep6kue6GXAgSqFYtmYBomPwbLZxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkrqLYJh; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=LD/V7sclypZf7VK18PbokVq3DJuE3PIBMkbleIYu6ShrPGlHt+Nx1zypeGz2bF8+jeaUzG7+8LiZSI3K8yQt8NLwojjD2LsxU+VDx6Eno12y26Ly4bwF8ePTSiR5im8EN8xj6q19kWO6jvVcUGNj5HN6LbSog/T8UoPFiydwYtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CfjKl/dc; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkrqLYJh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CfjKl/dc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733828987; x=1765364987;
+  t=1733830533; x=1765366533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pMKlfHYhPmOwcGk+9RyNg+sSTEiOk5iKhHdqGoAsiJc=;
-  b=IkrqLYJhvMo0tsxwBawyXESHhfl7ru4tX7m3MyOwZA0+igcg858U2yKe
-   EJaZ74JhguzXLvnENYUOHG2tVNohciAmZcQ5PbFRTEQVg68ppsR+m8Yau
-   7Ir0DG32uk8M8NISLSbPiDmrgyUZuEpM8Ah3WjN8COy8PA0pWkd392pJe
-   X0ZPrzZjGqIGH2mXRBgBWfRldoqSJjd4JmOcmRnsmEHRLMYTUdQlkmHiW
-   9zV6ZGdRSmjpIXwq92JAWqGejcVUptX6BscRx2DQ5bgGEkxXorWgCBJI2
-   ay1cnSq5iyH9ZywMZU59+bn7M8Pfhm7m+mIyQi2XmEy7XWOEQMAyAYKs6
+  bh=VTGmZxWjwt7NMgYBBgo0v6Sn1YPfebcY94fi3vhRZwA=;
+  b=CfjKl/dc5w850Rl5GCIe+E6uuktuOwtV1bF9XZ6vGNXSqEGbjowOi79v
+   /ZV8QKRNDwodFOnwxrOUM2zxipQpgVcp3IBMla8gwFZNOr84DHT0byKH3
+   NCNETbweB3Xd9UtoqUFDZGWJn4TXgFM8d/clppjNIPMrwxDYVwcN9TUW4
+   ewUeK7GcmRv3Swc/UkFsBF99C4vuWNeOq37so63kyG/6wzXDBr3TncyGG
+   0t+5FEGk9Qst37H/MQlZcrIHfJKwWrVmeDx77NMsXJ1QQ/MtpWFq4BPn3
+   JCNAlYrbJ49IkTP0dUGcrDmOhWtKM3pYJn7TKKrNFsaCO4+LlL6nueo2z
    g==;
-X-CSE-ConnectionGUID: fjbHySZUQTaiF3NoTXjhgQ==
-X-CSE-MsgGUID: gKZSF0jqSsGS+cG5koM+qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="59558676"
+X-CSE-ConnectionGUID: XLbmjn5qT1aa/C3KNIcqNA==
+X-CSE-MsgGUID: w6298hCvTNK7KdEJTQ9/kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="37953211"
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="59558676"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 03:09:46 -0800
-X-CSE-ConnectionGUID: t/pGEQM2SVCEWh1WxFCX7Q==
-X-CSE-MsgGUID: 6mvEEq1LQpWq252fO2hIXw==
+   d="scan'208";a="37953211"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 03:35:33 -0800
+X-CSE-ConnectionGUID: 80Ao4e/PRxKeGCZfluHq6w==
+X-CSE-MsgGUID: Vmjm6A5ZSB2KO271QCn/yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="99864559"
+   d="scan'208";a="95206416"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Dec 2024 03:09:45 -0800
+  by orviesa010.jf.intel.com with ESMTP; 10 Dec 2024 03:35:32 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKy7b-0005SD-01;
-	Tue, 10 Dec 2024 11:09:43 +0000
-Date: Tue, 10 Dec 2024 19:09:12 +0800
+	id 1tKyWX-0005TT-0d;
+	Tue, 10 Dec 2024 11:35:29 +0000
+Date: Tue, 10 Dec 2024 19:34:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v8 09/14] arm64: dts: qcom: sdm845-starqltechn: add
- max77705 PMIC
-Message-ID: <202412101848.jAceE9WH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret()
+ error: uninitialized symbol 'elr'.
+Message-ID: <202412101932.Ydls7pED-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,123 +62,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241209-starqltechn_integration_upstream-v8-9-ec604481d691@gmail.com>
-References: <20241209-starqltechn_integration_upstream-v8-9-ec604481d691@gmail.com>
-TO: Dzmitry Sankouski <dsankouski@gmail.com>
-TO: cros-qcom-dts-watchers@chromium.org
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Jaroslav Kysela <perex@perex.cz>
-TO: Takashi Iwai <tiwai@suse.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-sound@vger.kernel.org
-CC: Dzmitry Sankouski <dsankouski@gmail.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Joey Gouly <joey.gouly@arm.com>
+CC: Oliver Upton <oliver.upton@linux.dev>
 
-Hi Dzmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d1486dca38afd08ca279ae94eb3a397f10737824]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/ASoC-dt-bindings-Add-bindings-for-WCD934x-DAIs/20241209-201427
-base:   d1486dca38afd08ca279ae94eb3a397f10737824
-patch link:    https://lore.kernel.org/r/20241209-starqltechn_integration_upstream-v8-9-ec604481d691%40gmail.com
-patch subject: [PATCH v8 09/14] arm64: dts: qcom: sdm845-starqltechn: add max77705 PMIC
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: arm64-randconfig-003-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101848.jAceE9WH-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241210/202412101848.jAceE9WH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7cb1b466315004af98f6ba6c2546bb713ca3c237
+commit: 213b3d1ea1612c6d26153be446923831c4534689 KVM: arm64: nv: Handle ERETA[AB] instructions
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241210/202412101932.Ydls7pED-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412101848.jAceE9WH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412101932.Ydls7pED-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts:434.10-488.4: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4686.27-4737.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4758.27-4809.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1221.44-1224.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
+New smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret() error: uninitialized symbol 'elr'.
 
-vim +434 arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
+Old smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2082 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-d711b22eee55ce Dzmitry Sankouski 2022-10-12  430  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  431  &i2c14 {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  432  	status = "okay";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  433  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09 @434  	pmic@66 {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  435  		compatible = "maxim,max77705";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  436  		reg = <0x66>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  437  		interrupt-parent = <&pm8998_gpios>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  438  		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  439  		pinctrl-0 = <&pmic_int_default>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  440  		pinctrl-names = "default";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  441  		#address-cells = <1>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  442  		#size-cells = <0>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  443  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  444  		leds {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  445  			compatible = "maxim,max77705-rgb";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  446  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  447  			multi-led {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  448  				color = <LED_COLOR_ID_RGB>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  449  				function = LED_FUNCTION_STATUS;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  450  				#address-cells = <1>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  451  				#size-cells = <0>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  452  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  453  				led@1 {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  454  					reg = <1>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  455  					color = <LED_COLOR_ID_RED>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  456  				};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  457  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  458  				led@2 {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  459  					reg = <2>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  460  					color = <LED_COLOR_ID_GREEN>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  461  				};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  462  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  463  				led@3 {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  464  					reg = <3>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  465  					color = <LED_COLOR_ID_BLUE>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  466  				};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  467  			};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  468  		};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  469  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  470  		max77705_charger: charger {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  471  			compatible = "maxim,max77705-charger";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  472  			monitored-battery = <&battery>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  473  		};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  474  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  475  		fuel-gauge {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  476  			compatible = "maxim,max77705-battery";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  477  			power-supplies = <&max77705_charger>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  478  			maxim,rsns-microohm = <5000>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  479  			interrupt-parent = <&pm8998_gpios>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  480  			interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  481  		};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  482  
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  483  		haptic {
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  484  			compatible = "maxim,max77705-haptic";
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  485  			haptic-supply = <&vib_regulator>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  486  			pwms = <&vib_pwm 0 100000>;
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  487  		};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  488  	};
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  489  };
-15bfffff5a361d Dzmitry Sankouski 2024-12-09  490  
+vim +/elr +2209 arch/arm64/kvm/emulate-nested.c
+
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2172  
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2173  void kvm_emulate_nested_eret(struct kvm_vcpu *vcpu)
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2174  {
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2175  	u64 spsr, elr, esr;
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2176  
+95537f06b9e8267 Marc Zyngier 2024-04-19  2177  	/*
+95537f06b9e8267 Marc Zyngier 2024-04-19  2178  	 * Forward this trap to the virtual EL2 if the virtual
+95537f06b9e8267 Marc Zyngier 2024-04-19  2179  	 * HCR_EL2.NV bit is set and this is coming from !EL2.
+95537f06b9e8267 Marc Zyngier 2024-04-19  2180  	 */
+95537f06b9e8267 Marc Zyngier 2024-04-19  2181  	if (forward_traps(vcpu, HCR_NV))
+95537f06b9e8267 Marc Zyngier 2024-04-19  2182  		return;
+95537f06b9e8267 Marc Zyngier 2024-04-19  2183  
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2184  	/* Check for an ERETAx */
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2185  	esr = kvm_vcpu_get_esr(vcpu);
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2186  	if (esr_iss_is_eretax(esr) && !kvm_auth_eretax(vcpu, &elr)) {
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2187  		/*
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2188  		 * Oh no, ERETAx failed to authenticate.  If we have
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2189  		 * FPACCOMBINE, deliver an exception right away.  If we
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2190  		 * don't, then let the mangled ELR value trickle down the
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2191  		 * ERET handling, and the guest will have a little surprise.
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2192  		 */
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2193  		if (kvm_has_pauth(vcpu->kvm, FPACCOMBINE)) {
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2194  			esr &= ESR_ELx_ERET_ISS_ERETA;
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2195  			esr |= FIELD_PREP(ESR_ELx_EC_MASK, ESR_ELx_EC_FPAC);
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2196  			kvm_inject_nested_sync(vcpu, esr);
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2197  			return;
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2198  		}
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2199  	}
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2200  
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2201  	preempt_disable();
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2202  	kvm_arch_vcpu_put(vcpu);
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2203  
+dd0717a998f77f4 Marc Zyngier 2024-04-19  2204  	spsr = __vcpu_sys_reg(vcpu, SPSR_EL2);
+dd0717a998f77f4 Marc Zyngier 2024-04-19  2205  	spsr = kvm_check_illegal_exception_return(vcpu, spsr);
+213b3d1ea1612c6 Marc Zyngier 2024-04-19  2206  	if (!esr_iss_is_eretax(esr))
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2207  		elr = __vcpu_sys_reg(vcpu, ELR_EL2);
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2208  
+47f3a2fc765ae27 Jintack Lim  2023-02-09 @2209  	trace_kvm_nested_eret(vcpu, elr, spsr);
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2210  
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2211  	/*
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2212  	 * Note that the current exception level is always the virtual EL2,
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2213  	 * since we set HCR_EL2.NV bit only when entering the virtual EL2.
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2214  	 */
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2215  	*vcpu_pc(vcpu) = elr;
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2216  	*vcpu_cpsr(vcpu) = spsr;
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2217  
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2218  	kvm_arch_vcpu_load(vcpu, smp_processor_id());
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2219  	preempt_enable();
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2220  }
+47f3a2fc765ae27 Jintack Lim  2023-02-09  2221  
+
+:::::: The code at line 2209 was first introduced by commit
+:::::: 47f3a2fc765ae2719e6daf39c0a1c757934b152e KVM: arm64: nv: Support virtual EL2 exceptions
+
+:::::: TO: Jintack Lim <jintack.lim@linaro.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
