@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD7F1C1AD4
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 07:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61701D61AF
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 08:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733900824; cv=none; b=lonShuCtKwMgS6rWS6a4nTve9O08tVyw/6E2ybcHJVM8a9/cNjUIib7xA2U9Lb1vVPwXHF37zbJukR5Il7JGItHaQBaIngkdgTrn4QZsj2kv0tnZZe66KumN2orykPly7fdNTCNPRrnLdPhRlYke+bK1L7IUb41UhdKCvcA6+Xk=
+	t=1733905225; cv=none; b=b3beTcZGgGrcQZ9+4xJr2dRwVNrFYUBHZr99Td/9ucRswmG2Gl2zj+kPKWBkNxB5cZDLjdqNPIrSEiQdcW7egXCLiP+6RkdgqgbVyMzJrhBsGnCEDB7qbavkdHctHsq9E6+8AEjdFfsBunjXSQNKTG8FCOmtp5LaYM+9N1WIuCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733900824; c=relaxed/simple;
-	bh=4BpRmNw1kP9YQILyt3kzz4zc3WooNvYns0ZWCTs/lmQ=;
+	s=arc-20240116; t=1733905225; c=relaxed/simple;
+	bh=cSBoc4PfltcggdxB9G53GDYRk+0kCa7K76OYppAKcAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u8jIpImPeYtf4V2E9WFB3gPGCVmTIjYxk46Gdtxcc8+ZlnyyRQW21NU6jnr1QtHrNV7BfjGsXSJRXLKAeuUWUePIeAJY2Fmh8z8w0uVrcwDtEVEelOKyYqtbM6T4STCwVFSzgyIq1bgfI0Olmnfeu0Hop5KKsaln3bkhtfbEhwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gY61sjKG; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=hPj3ED5WdulxNqAgbeE6DbquR92OQrglPbJU7lfco/SWo3e2v7fz/x0fVvUK8jT/mayZee+IMgGKWOgEpGscnFhyxZRaCcOYCgStNfVAENHLT3J5nigEicgsGN7duO/fMxN97wl4D0xZTSckqvw5SAalEP1aTCeqDtugbYarCWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7HgDKkm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gY61sjKG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7HgDKkm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733900823; x=1765436823;
+  t=1733905224; x=1765441224;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4BpRmNw1kP9YQILyt3kzz4zc3WooNvYns0ZWCTs/lmQ=;
-  b=gY61sjKGEmk2F5lWd3OvRgvUcaV8erUo0t6hR+yBo0/H91D/PbKT/ZHx
-   g4wmLol8dbO9bSvkf/cbO9Gg92K9ih6Nnil3GSCvWkpa4L1uClrBmR1ZY
-   fPMtXn5rM6m1vi/xDaCZlDOhSY9EfVbf+Ja+762BAw6ibRCt9WaiEAoit
-   kHy70gvVBA3BGCqWdOtFE6qvrZHO2n7jmzh/3+os0Ag9AiYW5n6H/nPq4
-   JEN10NZ6RQK6BWsRY2rw0PVyR2Pegyyx67HNkRdKyCRQz2vnfEIRnrOy0
-   /oVicshR9zDprtUXtEq1Z50bLDpn2xmtZUAsnOY9rsOAi3Thi5dL45EfN
+  bh=cSBoc4PfltcggdxB9G53GDYRk+0kCa7K76OYppAKcAI=;
+  b=H7HgDKkm6wgmD/NQcBY7fO3G9frCePQ/9XuRU0nSGWP7v7l4sfWQjdcB
+   vBvgXMiFkIHDf7SqvqPg9MSuEq7k2Uf2itfBH1+WjL7zFbFdidUCy+US/
+   mUgeYoMWM55DdqfXq4+n1azT79/Q7IMqjrybisIHTmgBXo8x8ndoPItDd
+   p5cltMFufHWZOy4OXOnZoToDDp1yI+6t6wHOMcGVAv1PXAOBaLBJ7spZb
+   7R8/6GEd3I+8kzy9Cfv681SIwhYkYmnPeVUNoYolcGiDxnM7Zja0x1YXp
+   N6zA5SQQ/ET0QqafW34iWMz/oOnFPG8Qm9dzXPNWXMWmV6YYjUwp78gyo
    Q==;
-X-CSE-ConnectionGUID: i67uGGi0RuKzgulbDh2UPw==
-X-CSE-MsgGUID: j84o20+RTSaaEzNmW8DB0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="34408205"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="34408205"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 23:07:03 -0800
-X-CSE-ConnectionGUID: MN05LsWVRtGc4E3Zy62Oig==
-X-CSE-MsgGUID: QDurJrfJSI+JwBcK7CwJBg==
+X-CSE-ConnectionGUID: Vmu1uUY7ThOoYwXcEbtFTw==
+X-CSE-MsgGUID: Anw8giuFThqRNxJGAn3otg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="59667354"
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="59667354"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 00:20:23 -0800
+X-CSE-ConnectionGUID: 9lUnTl6ZTJGqYIYjgnFe+Q==
+X-CSE-MsgGUID: LDxrtkDhQPqsyK1Qwst6Pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="126524578"
+   d="scan'208";a="95532843"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2024 23:07:01 -0800
+  by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 00:20:22 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLGoE-0006O1-1c;
-	Wed, 11 Dec 2024 07:06:58 +0000
-Date: Wed, 11 Dec 2024 15:06:31 +0800
+	id 1tLHxD-0006Qz-1A;
+	Wed, 11 Dec 2024 08:20:19 +0000
+Date: Wed, 11 Dec 2024 16:19:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/wireless/ath/ath12k/mac.c:2552:21-27: opportunity for
- str_enable_disable(psmode)
-Message-ID: <202412111439.BQZKWZM7-lkp@intel.com>
+Subject: Re: [PATCHv2] block: Fix potential deadlock while freezing queue and
+ acquiring sysfs_lock
+Message-ID: <202412111553.XzRIWedS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,78 +64,142 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Baochen Qiang <quic_bqiang@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+In-Reply-To: <20241210144222.1066229-1-nilay@linux.ibm.com>
+References: <20241210144222.1066229-1-nilay@linux.ibm.com>
+TO: Nilay Shroff <nilay@linux.ibm.com>
+TO: linux-block@vger.kernel.org
+CC: Nilay Shroff <nilay@linux.ibm.com>
+CC: kjain@linux.ibm.com
+CC: hch@lst.de
+CC: axboe@kernel.dk
+CC: ritesh.list@gmail.com
+CC: ming.lei@redhat.com
+CC: gjoyce@linux.ibm.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f92f4749861b06fed908d336b4dee1326003291b
-commit: 54ca3308a23c5fc0cd5c53d86918217834626c44 wifi: ath12k: enable 802.11 power save mode in station mode
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-r054-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111439.BQZKWZM7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+Hi Nilay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc2 next-20241211]
+[cannot apply to axboe-block/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilay-Shroff/block-Fix-potential-deadlock-while-freezing-queue-and-acquiring-sysfs_lock/20241210-224435
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241210144222.1066229-1-nilay%40linux.ibm.com
+patch subject: [PATCHv2] block: Fix potential deadlock while freezing queue and acquiring sysfs_lock
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-101-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111553.XzRIWedS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412111439.BQZKWZM7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412111553.XzRIWedS-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath12k/mac.c:2552:21-27: opportunity for str_enable_disable(psmode)
+>> block/blk-mq.c:4997:2-12: second lock on line 4997
+   block/blk-mq.c:4998:2-12: second lock on line 4998
+--
+>> block/blk-mq.c:5065:0-1: preceding lock on line 4997
+   block/blk-mq.c:5065:0-1: preceding lock on line 4998
 
-vim +2552 drivers/net/wireless/ath/ath12k/mac.c
+vim +4997 block/blk-mq.c
 
-d889913205cf7eb Kalle Valo    2022-11-28  2512  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2513  static void ath12k_mac_vif_setup_ps(struct ath12k_vif *arvif)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2514  {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2515  	struct ath12k *ar = arvif->ar;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2516  	struct ieee80211_vif *vif = arvif->vif;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2517  	struct ieee80211_conf *conf = &ath12k_ar_to_hw(ar)->conf;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2518  	enum wmi_sta_powersave_param param;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2519  	enum wmi_sta_ps_mode psmode;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2520  	int ret;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2521  	int timeout;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2522  	bool enable_ps;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2523  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2524  	lockdep_assert_held(&ar->conf_mutex);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2525  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2526  	if (vif->type != NL80211_IFTYPE_STATION)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2527  		return;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2528  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2529  	enable_ps = arvif->ps;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2530  	if (enable_ps) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2531  		psmode = WMI_STA_PS_MODE_ENABLED;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2532  		param = WMI_STA_PS_PARAM_INACTIVITY_TIME;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2533  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2534  		timeout = conf->dynamic_ps_timeout;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2535  		if (timeout == 0) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2536  			/* firmware doesn't like 0 */
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2537  			timeout = ieee80211_tu_to_usec(vif->bss_conf.beacon_int) / 1000;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2538  		}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2539  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2540  		ret = ath12k_wmi_set_sta_ps_param(ar, arvif->vdev_id, param,
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2541  						  timeout);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2542  		if (ret) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2543  			ath12k_warn(ar->ab, "failed to set inactivity time for vdev %d: %i\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2544  				    arvif->vdev_id, ret);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2545  			return;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2546  		}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2547  	} else {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2548  		psmode = WMI_STA_PS_MODE_DISABLED;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2549  	}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2550  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2551  	ath12k_dbg(ar->ab, ATH12K_DBG_MAC, "mac vdev %d psmode %s\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01 @2552  		   arvif->vdev_id, psmode ? "enable" : "disable");
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2553  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2554  	ret = ath12k_wmi_pdev_set_ps_mode(ar, arvif->vdev_id, psmode);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2555  	if (ret)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2556  		ath12k_warn(ar->ab, "failed to set sta power save mode %d for vdev %d: %d\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2557  			    psmode, arvif->vdev_id, ret);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2558  }
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2559  
+d48ece209f82c9c Jianchao Wang     2018-08-21  4978  
+e4dc2b32df5573b Keith Busch       2017-05-30  4979  static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+e4dc2b32df5573b Keith Busch       2017-05-30  4980  							int nr_hw_queues)
+868f2f0b72068a0 Keith Busch       2015-12-17  4981  {
+868f2f0b72068a0 Keith Busch       2015-12-17  4982  	struct request_queue *q;
+d48ece209f82c9c Jianchao Wang     2018-08-21  4983  	LIST_HEAD(head);
+6be6d1124197133 Chengming Zhou    2023-09-08  4984  	int prev_nr_hw_queues = set->nr_hw_queues;
+6be6d1124197133 Chengming Zhou    2023-09-08  4985  	int i;
+868f2f0b72068a0 Keith Busch       2015-12-17  4986  
+705cda97ee3abb6 Bart Van Assche   2017-04-07  4987  	lockdep_assert_held(&set->tag_list_lock);
+705cda97ee3abb6 Bart Van Assche   2017-04-07  4988  
+392546aed220090 Jens Axboe        2018-10-29  4989  	if (set->nr_maps == 1 && nr_hw_queues > nr_cpu_ids)
+868f2f0b72068a0 Keith Busch       2015-12-17  4990  		nr_hw_queues = nr_cpu_ids;
+fe35ec58f0d3392 Weiping Zhang     2020-06-17  4991  	if (nr_hw_queues < 1)
+fe35ec58f0d3392 Weiping Zhang     2020-06-17  4992  		return;
+fe35ec58f0d3392 Weiping Zhang     2020-06-17  4993  	if (set->nr_maps == 1 && nr_hw_queues == set->nr_hw_queues)
+868f2f0b72068a0 Keith Busch       2015-12-17  4994  		return;
+868f2f0b72068a0 Keith Busch       2015-12-17  4995  
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  4996  	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10 @4997  		mutex_lock(&q->sysfs_dir_lock);
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  4998  		mutex_lock(&q->sysfs_lock);
+868f2f0b72068a0 Keith Busch       2015-12-17  4999  		blk_mq_freeze_queue(q);
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  5000  	}
+d48ece209f82c9c Jianchao Wang     2018-08-21  5001  	/*
+d48ece209f82c9c Jianchao Wang     2018-08-21  5002  	 * Switch IO scheduler to 'none', cleaning up the data associated
+d48ece209f82c9c Jianchao Wang     2018-08-21  5003  	 * with the previous scheduler. We will switch back once we are done
+d48ece209f82c9c Jianchao Wang     2018-08-21  5004  	 * updating the new sw to hw queue mappings.
+d48ece209f82c9c Jianchao Wang     2018-08-21  5005  	 */
+d48ece209f82c9c Jianchao Wang     2018-08-21  5006  	list_for_each_entry(q, &set->tag_list, tag_set_list)
+d48ece209f82c9c Jianchao Wang     2018-08-21  5007  		if (!blk_mq_elv_switch_none(&head, q))
+d48ece209f82c9c Jianchao Wang     2018-08-21  5008  			goto switch_back;
+868f2f0b72068a0 Keith Busch       2015-12-17  5009  
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5010  	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5011  		blk_mq_debugfs_unregister_hctxs(q);
+eaa870f97544668 Christoph Hellwig 2022-06-28  5012  		blk_mq_sysfs_unregister_hctxs(q);
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5013  	}
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5014  
+ee9d55210c2fe40 Christoph Hellwig 2022-11-09  5015  	if (blk_mq_realloc_tag_set_tags(set, nr_hw_queues) < 0)
+f7e76dbc24df695 Bart Van Assche   2019-10-25  5016  		goto reregister;
+f7e76dbc24df695 Bart Van Assche   2019-10-25  5017  
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5018  fallback:
+aa880ad690ab6d4 Weiping Zhang     2020-05-13  5019  	blk_mq_update_queue_map(set);
+868f2f0b72068a0 Keith Busch       2015-12-17  5020  	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5021  		struct queue_limits lim;
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5022  
+868f2f0b72068a0 Keith Busch       2015-12-17  5023  		blk_mq_realloc_hw_ctxs(set, q);
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5024  
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5025  		if (q->nr_hw_queues != set->nr_hw_queues) {
+a846a8e6c9a5949 Ye Bin            2021-11-08  5026  			int i = prev_nr_hw_queues;
+a846a8e6c9a5949 Ye Bin            2021-11-08  5027  
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5028  			pr_warn("Increasing nr_hw_queues to %d fails, fallback to %d\n",
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5029  					nr_hw_queues, prev_nr_hw_queues);
+a846a8e6c9a5949 Ye Bin            2021-11-08  5030  			for (; i < set->nr_hw_queues; i++)
+a846a8e6c9a5949 Ye Bin            2021-11-08  5031  				__blk_mq_free_map_and_rqs(set, i);
+a846a8e6c9a5949 Ye Bin            2021-11-08  5032  
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5033  			set->nr_hw_queues = prev_nr_hw_queues;
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5034  			goto fallback;
+e01ad46d53b5972 Jianchao Wang     2018-10-12  5035  		}
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5036  		lim = queue_limits_start_update(q);
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5037  		if (blk_mq_can_poll(set))
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5038  			lim.features |= BLK_FEAT_POLL;
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5039  		else
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5040  			lim.features &= ~BLK_FEAT_POLL;
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5041  		if (queue_limits_commit_update(q, &lim) < 0)
+8023e144f9d6e35 Christoph Hellwig 2024-06-17  5042  			pr_warn("updating the poll flag failed\n");
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5043  		blk_mq_map_swqueue(q);
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5044  	}
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5045  
+f7e76dbc24df695 Bart Van Assche   2019-10-25  5046  reregister:
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5047  	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+eaa870f97544668 Christoph Hellwig 2022-06-28  5048  		blk_mq_sysfs_register_hctxs(q);
+477e19dedc9d3e1 Jianchao Wang     2018-10-12  5049  		blk_mq_debugfs_register_hctxs(q);
+868f2f0b72068a0 Keith Busch       2015-12-17  5050  	}
+868f2f0b72068a0 Keith Busch       2015-12-17  5051  
+d48ece209f82c9c Jianchao Wang     2018-08-21  5052  switch_back:
+d48ece209f82c9c Jianchao Wang     2018-08-21  5053  	list_for_each_entry(q, &set->tag_list, tag_set_list)
+d48ece209f82c9c Jianchao Wang     2018-08-21  5054  		blk_mq_elv_switch_back(&head, q);
+d48ece209f82c9c Jianchao Wang     2018-08-21  5055  
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  5056  	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+868f2f0b72068a0 Keith Busch       2015-12-17  5057  		blk_mq_unfreeze_queue(q);
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  5058  		mutex_unlock(&q->sysfs_lock);
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  5059  		mutex_unlock(&q->sysfs_dir_lock);
+38bfa3ab3c72c15 Nilay Shroff      2024-12-10  5060  	}
+6be6d1124197133 Chengming Zhou    2023-09-08  5061  
+6be6d1124197133 Chengming Zhou    2023-09-08  5062  	/* Free the excess tags when nr_hw_queues shrink. */
+6be6d1124197133 Chengming Zhou    2023-09-08  5063  	for (i = set->nr_hw_queues; i < prev_nr_hw_queues; i++)
+6be6d1124197133 Chengming Zhou    2023-09-08  5064  		__blk_mq_free_map_and_rqs(set, i);
+868f2f0b72068a0 Keith Busch       2015-12-17 @5065  }
+e4dc2b32df5573b Keith Busch       2017-05-30  5066  
 
 -- 
 0-DAY CI Kernel Test Service
