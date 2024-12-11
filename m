@@ -1,103 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D1C1DE2DF
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 18:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28041C548F;
+	Wed, 11 Dec 2024 19:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733940812; cv=none; b=k9t9X1koO7oPtT3bPtzQRdGRHsb4yBcZMid1hfeM6gw1fjSpyDKoEqfFL53Nme12szQPxJWpOgZFWxE0VU1+4M1YcYAFZgjh2yAYeGmjPbUCbUaP77xloUy8Y4Jmj86tyQ9wpC3h8oSMt+zKMQFJQVm5zS1UQ+0/+kszh9tRKnI=
+	t=1733944545; cv=none; b=q+t2p2ckj+Ra58jLtfTwTlkQVGsN8viJMuUwEJhlVZzE7YxmEJzjcmTAOw1NiCfEIHBNh+JelVmtg0HKnhbK5oMECnmS3wFvtWIgtW2h8aFybOQlRrf4Ze6eXDW6Fbgz1/ov0IW3ehnpsXf3s7oLdhUB3+Attih/gbdV0e8YvpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733940812; c=relaxed/simple;
-	bh=U8Nx56AN5txcPTsIeJy6SIjIYOAlce/+WW3c8JLKmJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P1WcLk+NmiDOK5fBolwtDIldRzRsdFVgFrNprzsH/B1EdrbI2vMibu9DAqZ2lSApVc0WQduLkfGCw8aulZC/0/2+8q+LKFL9yqX2CAxTHy3ZvQESc05rbyMEviOShGYwHu7J08j/vH1Go3D5hbf06U0avlGQ/feWy4ZD5/SZqRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqxAdUw5; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733944545; c=relaxed/simple;
+	bh=TycHuwKOqMmwmgXtlpvbcP6Cd7VjA6M0ekrYMGO/yEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c6y1JWkehDF55nFYy2PR64XUvjwRi66AiyGf4ZPJR4XIqNR8olrd/m4YVx+DqrNjw2eD+q9OpZnEPEUH22ddIDCrd73SBkaklOFwS5fSx6e1awqkU+920srK6LYlgDQRuoRgsNLjRHwuavTAWalSIwHg1mRuWm94gh2CsF0tbhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HOKrypyn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqxAdUw5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733940810; x=1765476810;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U8Nx56AN5txcPTsIeJy6SIjIYOAlce/+WW3c8JLKmJg=;
-  b=SqxAdUw5OwAUHix1YUBlFo4bjQisKPbfzGn6UL99Qc/5cw34RrNkljn9
-   Nd5u0ntgOEjgPtCtNP/w3DTJ55oP0OiMEOo5+Qs7ODWbmV8MRViRzSRQg
-   h7gnX5H0ZWzNo3jyc1fRyQbKRGSGksHWuBEp2Cr0CfJFAKMUcRwMapEUf
-   nMh3HJHNsGPFMgs+kPlk7h7bJctX0TyBfNmYIvvThbadUEjPTRlcGWXyP
-   hlYFjQeYifJbt8VayJeXDO+tVOXTcRzjujQQmUu7/vrlL4BovT/StRRHO
-   rfcHpCUqqbfO1PZv3hJ8xJAILoY3CH6IuGyOzuLTFbNqTUvB1lE4nEBIc
-   Q==;
-X-CSE-ConnectionGUID: IvYgpVD4SQuB0SVcJRg+JQ==
-X-CSE-MsgGUID: 3LDQeiQbQsi9T6EdgOm4sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="38021384"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="38021384"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 10:13:30 -0800
-X-CSE-ConnectionGUID: vcg95bNES1Ou+H/UpUyOgQ==
-X-CSE-MsgGUID: C4xQO2dGQo2e4277vAuU6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
-   d="scan'208";a="100734353"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Dec 2024 10:13:28 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLRDB-0006yP-3C;
-	Wed, 11 Dec 2024 18:13:25 +0000
-Date: Thu, 12 Dec 2024 02:12:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol
- '.L.str'; recompile with -fPIC
-Message-ID: <202412120234.ojVNPuHQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HOKrypyn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F2E1C4CED2;
+	Wed, 11 Dec 2024 19:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733944545;
+	bh=TycHuwKOqMmwmgXtlpvbcP6Cd7VjA6M0ekrYMGO/yEk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HOKrypynG4At1cB14qOLL/okQZnfH9pGms2vTOQTsuWpmc3DqdEVOuG5Acsxv+faT
+	 j4Haut7R+d2d1Kz+QdZoJa3LEq4Qkwhg872K9rTqXE7LDiQPIB9Nw07pAdNEtBA4K1
+	 gF02VL4duNd5yPCfVqAVN1C5XyUSm8NI0hiIomaJNqEX+Y9S1G+gg8t+PrYesTkJDQ
+	 Df33m49aHVpa9hMpxr1GsrHr/8yhcOVraVRpWAxINJmSCWzezSVSVS+P9FPiteXI87
+	 3LNpR3cQd3i8rBHtUyAuaihf9RZfY5bJ822lk6zEUzHpNS0nlQEkoIsH9JAlEDebU4
+	 M+1PVhiLgEpMA==
+Date: Wed, 11 Dec 2024 19:15:36 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Lothar Rubusch <l.rubusch@gmail.com>,
+ lars@metafoo.de, Michael.Hennerich@analog.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ eraretuya@gmail.com
+Subject: Re: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark
+ events
+Message-ID: <20241211191536.224c89e9@jic23-huawei>
+In-Reply-To: <dc914326-7eae-4e4a-8c93-ae1a7007bcc9@stanley.mountain>
+References: <20241205171343.308963-11-l.rubusch@gmail.com>
+	<dc914326-7eae-4e4a-8c93-ae1a7007bcc9@stanley.mountain>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "only scripts/Makefile.* file changed"
-:::::: 
+On Tue, 10 Dec 2024 11:47:37 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
+> Hi Lothar,
+> 
+> kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f92f4749861b06fed908d336b4dee1326003291b
-commit: bede169618c68379e1be7ace14e8ac85b964a9ec kbuild: enable objtool for *.mod.o and additional kernel objects
-date:   2 weeks ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-r054-20241209 (https://download.01.org/0day-ci/archive/20241212/202412120234.ojVNPuHQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120234.ojVNPuHQ-lkp@intel.com/reproduce)
+Ah. This was the report you were referring to I guess.  Just fix these in v6 version
+of this patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412120234.ojVNPuHQ-lkp@intel.com/
+Thanks,
 
-All errors (new ones prefixed by >>):
+Jonathan
 
->> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol '.L.str'; recompile with -fPIC
-   >>> defined in vmlinux.o
-   >>> referenced by errata.c:72 (arch/riscv/errata/sifive/errata.c:72)
-   >>>               vmlinux.o:(sifive_errata_patch_func)
---
->> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol '.L.str'; recompile with -fPIC
-   >>> defined in vmlinux.o
-   >>> referenced by errata.c:72 (arch/riscv/errata/sifive/errata.c:72)
-   >>>               vmlinux.o:(sifive_errata_patch_func)
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-refrase-comment-on-probe/20241206-011802
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20241205171343.308963-11-l.rubusch%40gmail.com
+> patch subject: [PATCH v5 10/10] iio: accel: adxl345: add FIFO with watermark events
+> config: nios2-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241210/202412101132.Kj6R6i3h-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202412101132.Kj6R6i3h-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/accel/adxl345_core.c:441 adxl345_event_handler() warn: unsigned 'int_stat' is never less than zero.
+> 
+> vim +/ret +321 drivers/iio/accel/adxl345_core.c
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  433  static irqreturn_t adxl345_event_handler(int irq, void *p)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  434  {
+> 55d2386488598bb Lothar Rubusch 2024-12-05  435  	struct iio_dev *indio_dev = p;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  436  	struct adxl345_state *st = iio_priv(indio_dev);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  437  	u8 int_stat;
+>                                                         ^^^^^^^^^^^
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  438  	int samples;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  439  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  440  	int_stat = adxl345_get_status(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05 @441  	if (int_stat < 0)
+>                                                             ^^^^^^^^^^^^
+> signedness bug
+> 
+> 55d2386488598bb Lothar Rubusch 2024-12-05  442  		return IRQ_NONE;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  443  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  444  	if (int_stat == 0x0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  445  		goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  446  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  447  	if (int_stat & ADXL345_INT_OVERRUN)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  448  		goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  449  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  450  	if (int_stat & (ADXL345_INT_DATA_READY | ADXL345_INT_WATERMARK)) {
+> 55d2386488598bb Lothar Rubusch 2024-12-05  451  		samples = adxl345_get_samples(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  452  		if (samples < 0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  453  			goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  454  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  455  		if (adxl345_fifo_push(indio_dev, samples) < 0)
+> 55d2386488598bb Lothar Rubusch 2024-12-05  456  			goto err;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  457  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  458  	}
+> 55d2386488598bb Lothar Rubusch 2024-12-05  459  	return IRQ_HANDLED;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  460  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  461  err:
+> 55d2386488598bb Lothar Rubusch 2024-12-05  462  	adxl345_fifo_reset(st);
+> 55d2386488598bb Lothar Rubusch 2024-12-05  463  
+> 55d2386488598bb Lothar Rubusch 2024-12-05  464  	return IRQ_HANDLED;
+> 55d2386488598bb Lothar Rubusch 2024-12-05  465  }
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
