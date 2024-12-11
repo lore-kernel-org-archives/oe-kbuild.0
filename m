@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E075236FA9
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 10:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E05187872
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 11:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733912568; cv=none; b=Wgj+QUeITtqdDdkacIMkiZTOIaTUNHmar99+ss3TCwGAKzWA/9hpq2AWdLaoFA3W8h+wNISNUy+TVRNr7SoxTAswxeZ+2le5lI3DEHEMdSaDUj++82oxx/YJiMItTGhdi7tfQnmmWQu1HTd1NT10nbJHx5816YMAzrNsmxYRYjc=
+	t=1733915990; cv=none; b=mAEC0FmbEX4Mg/XlE+EIH/YrTRwnvhj5+ZIJGB01lBIIg8jM4q7vI46VnSc7zt+mwEuWUQpfF2gYbxGX71g8ECl1aHG2Fwzljo8YcSq0LTBmZ0Ce9NR9UYaQTEsJnp/6GuTLlq24Blm2cXmlXFPdft+QMj87c3mZ5R/HaWQgXCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733912568; c=relaxed/simple;
-	bh=Rq5IQHZ6WXvMiJ4V+Ohxlm7RRCbfHVAfThPMeQ2u0kU=;
+	s=arc-20240116; t=1733915990; c=relaxed/simple;
+	bh=llL5moX2KHW/2uRXH4i/uDRDdwusbGBqMi0xZB7sRO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b42664jlCoM3pbmnUPE+eAXwG4HqR5J+N1jZGkv2hVfZPRXvxxTG/g3v+0QJ0xwNHW2a2XXKRXVK4k/FvwKzH+ObqZ/tvH8l88pity7gC3XYJ2FnQZ+X55hxjryckiNYDRJSFOvhq6FwwIAtDsoEkHHNp3rXPixipyzufl4xkWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UP6Y/xay; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jbIPkhoAlrH0MvgNQ9cLzrS4XEtHHqIFQdeehqMyV9wLxyqehLw4OsFUhiXmqZRAu4ZIwN7pl7sazogStzE5bM2Dt61wgaUTRKPwMpKj3p9fW6NT8QULyv/87sJnzCXQhsfu4VCDDQR3305YtGzMDNv52QpmbmouN1zjLlF/a8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hVYyjiOq; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UP6Y/xay"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733912566; x=1765448566;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Rq5IQHZ6WXvMiJ4V+Ohxlm7RRCbfHVAfThPMeQ2u0kU=;
-  b=UP6Y/xayepD+VU/zyKbnG0FKhRZexbEAovrDES1sFwili4wzG3riuEHV
-   6ptLTNs29yFYwh/zW+OVOMJT9DYgTQwZUEja13vhh6kzPWok58Tkkw06T
-   Ih7Z6XqsVb5Vou/GT70mYKfMzIWeVSNbJtL+cAFF5892LtZmX6PCk6kys
-   hOSE4Fsf7xfZSsbfZohmhdrNCMMkV6w4g479W7mXIrjYPjpMy8mepMr/D
-   /P7Wv4sbH5S/36iQl0tE83/Zkp4T2nAvt+YdO+5QStKx5RfrozXrY3ebW
-   Nnf6vHjtHVfkBSZ6uUxnNPjHYI1LmQpYsv4WW+cXyUWPOfXe2P/ZtvTDY
-   A==;
-X-CSE-ConnectionGUID: cvBHp3vhSbiBX4CW+w8D8g==
-X-CSE-MsgGUID: zs1/JYFCRvWlgtEjRIrSPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="59679124"
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="59679124"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 02:22:45 -0800
-X-CSE-ConnectionGUID: 65w+vzWBRUykXnvve+RqTw==
-X-CSE-MsgGUID: 2+veR/BLT+mM2LpuRaK+vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="95570724"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 02:22:44 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLJrd-0006Xq-0v;
-	Wed, 11 Dec 2024 10:22:41 +0000
-Date: Wed, 11 Dec 2024 18:21:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hVYyjiOq"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a742481aso57088685e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 03:19:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733915985; x=1734520785; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j1A1dVjoRY77904gapHqEsiXi2lpddJRpqr9FUQAz+U=;
+        b=hVYyjiOq2HRSnCy0a0x80d3zshoPg1CSYjxOB+ujL0p/Nb9uwhxvDJNeZC/PjUNaY5
+         F/VLmuTMrqVRAVrSXxFL070/hMmfKN/y4EgIdzbUefCfUchTKXAT5/7dr25/5Pv5FYFf
+         eif+trnbPJfYwSZuOFBC18ohm8E7iRzcForA8Vra7KXtp+1XIIz6mbkrZUDqYdOgNUyw
+         S/CDPna8yvfEIEoIDXn8N/pyv1cNqxtC8/Eu2WpZze3nzPcr1q1e97FtEyHZHr8f6HaP
+         rQtcoavlvmvO9DD8X0rRjxZmaj0qMFORlt9ubYWPuIETXKLxpXuZV2h1JzRf6j4fUlh4
+         nJVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733915985; x=1734520785;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j1A1dVjoRY77904gapHqEsiXi2lpddJRpqr9FUQAz+U=;
+        b=LiRgFR3UQduzBmjPfpSuJ9ZzO/4/23U+vSXmAQLO6K0lHFHx4bXQ6Ik9irxmmbdn8T
+         45l+Ss1gV9ajQnVbB3htG+dPT9d6FgbYSz08ZMdEzx6iRsSLxOd20h9i0uCVNx7rCMwi
+         np34GaXQoCEGYyulEvZO6ogN7kh0A9SzlYVgFps4CV1XawqDWGojS0GqYFza9httU8nZ
+         w+NePxFuq4hQG0As09jUV8oIrqgDSE1xlYEaNV6VU05DRLHl0kqXRBjZFKrSf6LxQgpT
+         Pa5NP1blVl+NMN0E0Ue4Z34ro9zz/BRFUZAiF5Xf5zjeoQOgsOoBsS6xzii9RGRuhVQD
+         yjHA==
+X-Gm-Message-State: AOJu0Yw6EHDOL3QRKSq7JfZWQb+CW1lT0rWV+EEJ9YkuRhlk4yQU7oCo
+	mbE9iCq5u+7ibY4yiGq1xkkf2kpgFl+nM9abNf6Av24HSKY8STHFQi3COPca88ki8UrYTRiI7UP
+	7
+X-Gm-Gg: ASbGncuDfYV10kW5mSCcup9630kW8Sbq1bTWJKLRo3YjOzHd4b9Qpee48LL7CEuqrfo
+	l3TB7Nb3bh6htRxV/H54ztezLxuRHEJRw+AxCY5Jjmg2PpIMTFtYeb3SMd6gL+nRNv4hVg0vWLt
+	1qEGyH+M9go/FidAMml2kXj0Li57lEi/O6ELPJVXm/sG9SfDU4WtRZtpnAQgR7qq5TOZY56TvPs
+	RygpeChIPrfV8KCU7q3BQakpdGp/F+nDS6jG+g1VbtWitrZKBEV9d0rvQg=
+X-Google-Smtp-Source: AGHT+IFP+aS2ClpF97EDzKTojdZ/hl9L3cPsB1kFHpBoO+gM/gTEXUGkcMGYBlD5G06OE1m/VfsNvw==
+X-Received: by 2002:a05:600c:3108:b0:434:f953:eed with SMTP id 5b1f17b1804b1-4361c4406bdmr20145565e9.30.1733915985287;
+        Wed, 11 Dec 2024 03:19:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782527520sm1035110f8f.109.2024.12.11.03.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 03:19:44 -0800 (PST)
+Date: Wed, 11 Dec 2024 14:19:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eduard Zingerman <eddyz87@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>
 Subject: [linux-next:master 2974/3192] kernel/bpf/verifier.c:22231
  bpf_check_attach_target() error: we previously assumed 'aux->func' could be
  null (see line 22212)
-Message-ID: <202412111822.qGw6tOyB-lkp@intel.com>
+Message-ID: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,23 +75,16 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Eduard Zingerman <eddyz87@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   91e71d606356e50f238d7a87aacdee4abc427f07
 commit: 81f6d0530ba031b5f038a091619bf2ff29568852 [2974/3192] bpf: check changes_pkt_data property for extension programs
-:::::: branch date: 6 hours ago
-:::::: commit date: 16 hours ago
 config: i386-randconfig-141-20241211 (https://download.01.org/0day-ci/archive/20241211/202412111822.qGw6tOyB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202412111822.qGw6tOyB-lkp@intel.com/
 
 smatch warnings:
@@ -89,7 +92,6 @@ kernel/bpf/verifier.c:22231 bpf_check_attach_target() error: we previously assum
 
 vim +22231 kernel/bpf/verifier.c
 
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22154  
 f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22155  int bpf_check_attach_target(struct bpf_verifier_log *log,
 f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22156  			    const struct bpf_prog *prog,
 f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22157  			    const struct bpf_prog *tgt_prog,
@@ -148,6 +150,9 @@ efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22209  			bpf_log(log, "Subp
 5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22210  			return -EINVAL;
 5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22211  		}
 fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13 @22212  		if (aux->func && aux->func[subprog]->aux->exception_cb) {
+                                                                            ^^^^^^^^^
+This code assumes "aux->func" can be NULL
+
 fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22213  			bpf_log(log,
 fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22214  				"%s programs cannot attach to exception callback\n",
 fd548e1a4618500 Kumar Kartikeya Dwivedi 2023-09-13  22215  				prog_extension ? "Extension" : "FENTRY/FEXIT");
@@ -167,6 +172,9 @@ be8704ff07d2374 Alexei Starovoitov      2020-01-20  22228  				return -EINVAL;
 be8704ff07d2374 Alexei Starovoitov      2020-01-20  22229  			}
 81f6d0530ba031b Eduard Zingerman        2024-12-09  22230  			if (prog->aux->changes_pkt_data &&
 81f6d0530ba031b Eduard Zingerman        2024-12-09 @22231  			    !aux->func[subprog]->aux->changes_pkt_data) {
+                                                                                     ^^^^^^^^^
+But this code does an unchecked dereference
+
 81f6d0530ba031b Eduard Zingerman        2024-12-09  22232  				bpf_log(log,
 81f6d0530ba031b Eduard Zingerman        2024-12-09  22233  					"Extension program changes packet data, while original does not\n");
 81f6d0530ba031b Eduard Zingerman        2024-12-09  22234  				return -EINVAL;
@@ -326,6 +334,11 @@ e9eeec58c992c47 Yonghong Song           2019-12-04  22387  			if (subprog == 0)
 e9eeec58c992c47 Yonghong Song           2019-12-04  22388  				addr = (long) tgt_prog->bpf_func;
 e9eeec58c992c47 Yonghong Song           2019-12-04  22389  			else
 5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22390  				addr = (long) tgt_prog->aux->func[subprog]->bpf_func;
+                                                                                                      ^^^^^^^^^^^^^^
+There is another unchecked dereference here so perhaps the NULL check
+is unnecessary.  Or possibly there are some other rules outside this
+email with determine when the NULL check is needed.
+
 31bf1dbccfb0a98 Viktor Malik            2023-03-10  22391  		} else {
 31bf1dbccfb0a98 Viktor Malik            2023-03-10  22392  			if (btf_is_module(btf)) {
 31bf1dbccfb0a98 Viktor Malik            2023-03-10  22393  				mod = btf_try_get_module(btf);
@@ -336,79 +349,8 @@ e9eeec58c992c47 Yonghong Song           2019-12-04  22389  			else
 5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22398  			} else {
 fec56f5890d93fc Alexei Starovoitov      2019-11-14  22399  				addr = kallsyms_lookup_name(tname);
 31bf1dbccfb0a98 Viktor Malik            2023-03-10  22400  			}
-fec56f5890d93fc Alexei Starovoitov      2019-11-14  22401  			if (!addr) {
-31bf1dbccfb0a98 Viktor Malik            2023-03-10  22402  				module_put(mod);
-efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22403  				bpf_log(log,
-fec56f5890d93fc Alexei Starovoitov      2019-11-14  22404  					"The address of function %s cannot be found\n",
-fec56f5890d93fc Alexei Starovoitov      2019-11-14  22405  					tname);
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22406  				return -ENOENT;
-fec56f5890d93fc Alexei Starovoitov      2019-11-14  22407  			}
-5b92a28aae4dd0f Alexei Starovoitov      2019-11-14  22408  		}
-18644cec714aabb Alexei Starovoitov      2020-05-28  22409  
-66c8473135c62f4 Andrii Nakryiko         2024-03-08  22410  		if (prog->sleepable) {
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22411  			ret = -EINVAL;
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22412  			switch (prog->type) {
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22413  			case BPF_PROG_TYPE_TRACING:
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22414  
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22415  				/* fentry/fexit/fmod_ret progs can be sleepable if they are
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22416  				 * attached to ALLOW_ERROR_INJECTION and are not in denylist.
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22417  				 */
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22418  				if (!check_non_sleepable_error_inject(btf_id) &&
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22419  				    within_error_injection_list(addr))
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22420  					ret = 0;
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22421  				/* fentry/fexit/fmod_ret progs can also be sleepable if they are
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22422  				 * in the fmodret id set with the KF_SLEEPABLE flag.
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22423  				 */
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22424  				else {
-e924e80ee6a39bc Aditi Ghag              2023-05-19  22425  					u32 *flags = btf_kfunc_is_modify_return(btf, btf_id,
-e924e80ee6a39bc Aditi Ghag              2023-05-19  22426  										prog);
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22427  
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22428  					if (flags && (*flags & KF_SLEEPABLE))
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22429  						ret = 0;
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22430  				}
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22431  				break;
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22432  			case BPF_PROG_TYPE_LSM:
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22433  				/* LSM progs check that they are attached to bpf_lsm_*() funcs.
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22434  				 * Only some of them are sleepable.
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22435  				 */
-423f16108c9d832 KP Singh                2020-11-13  22436  				if (bpf_lsm_is_sleepable_hook(btf_id))
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22437  					ret = 0;
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22438  				break;
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22439  			default:
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22440  				break;
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22441  			}
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22442  			if (ret) {
-31bf1dbccfb0a98 Viktor Malik            2023-03-10  22443  				module_put(mod);
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22444  				bpf_log(log, "%s is not sleepable\n", tname);
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22445  				return ret;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22446  			}
-1e6c62a88215577 Alexei Starovoitov      2020-08-27  22447  		} else if (prog->expected_attach_type == BPF_MODIFY_RETURN) {
-1af9270e908cd50 Toke Høiland-Jørgensen  2020-09-25  22448  			if (tgt_prog) {
-31bf1dbccfb0a98 Viktor Malik            2023-03-10  22449  				module_put(mod);
-efc68158c429f37 Toke Høiland-Jørgensen  2020-09-25  22450  				bpf_log(log, "can't modify return codes of BPF programs\n");
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22451  				return -EINVAL;
-1af9270e908cd50 Toke Høiland-Jørgensen  2020-09-25  22452  			}
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22453  			ret = -EINVAL;
-e924e80ee6a39bc Aditi Ghag              2023-05-19  22454  			if (btf_kfunc_is_modify_return(btf, btf_id, prog) ||
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22455  			    !check_attach_modify_return(addr, tname))
-5b481acab4ce017 Benjamin Tissoires      2022-12-06  22456  				ret = 0;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22457  			if (ret) {
-31bf1dbccfb0a98 Viktor Malik            2023-03-10  22458  				module_put(mod);
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22459  				bpf_log(log, "%s() is not modifiable\n", tname);
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22460  				return ret;
-18644cec714aabb Alexei Starovoitov      2020-05-28  22461  			}
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22462  		}
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22463  
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22464  		break;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22465  	}
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22466  	tgt_info->tgt_addr = addr;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22467  	tgt_info->tgt_name = tname;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22468  	tgt_info->tgt_type = t;
-31bf1dbccfb0a98 Viktor Malik            2023-03-10  22469  	tgt_info->tgt_mod = mod;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22470  	return 0;
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22471  }
-f7b12b6fea00988 Toke Høiland-Jørgensen  2020-09-25  22472  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
