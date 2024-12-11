@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81B8246327
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 14:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB24218BC3F
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Dec 2024 15:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733926752; cv=none; b=hK1mfnTgyBWTq3M4e0yxzTP7dIlnzg1nqbcTT8KNqG+tE3pUpEBnpFGBzoEsyUMJonXpzgb3UwPDrKJyx/9sQErIPW+g1+8d/jxVeMqua5VJiTfHxbragTIdjoiVR30lwd7BTa1QaVFyetPUifzT9uG2h5ZHe34REDvFLy6ZBsg=
+	t=1733931877; cv=none; b=mbGayvRFIzgBpUWs9OzkjBT34/K3LqeztXeNYuONpubdI7Epdx1L925tPOkHGJHytPNb4BD+FvT/AYJirEfBdf2E+piX0DDmsX54UEqd5MSm3wodDjJUWnh4ET4nOG3ggrabfqFbxPIdJsS0EPo6hjy5RUCryam1sF6gO1Nre4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733926752; c=relaxed/simple;
-	bh=tjy+obzRoE5tR3T7Khx0CCdywqU13ZJXLG4tlhbJW0E=;
+	s=arc-20240116; t=1733931877; c=relaxed/simple;
+	bh=loRCIDbkMNvgV6wsOzNB9X4kzQW+KAxfwOL+q4r910Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RacC0YAOjAgkaq3m3Yuddq0GQy2mf7BIplDbDxUlrArh5W54GPDIas8xMAJbOoQ0vjguzlnz21WeIyIOZOn7TgkTUg7JEsBU9UaZMbzc+VyeosrpC/SWoRw/Yhhsr410ylRvbj7bJKu+eIrS+7NuBllA5m7CiL72U32+Iq3A/yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZCw8P0T8; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=RmBd+xrG3kMPCZSoTi2ymRCDUJTnjFE6DLW7Gp/kM9IgmqrKizpenmG8pHNuRDJ70piTY7oIWF5Jweog8irIIFjzCpeEkNrOuwQz59utts+Bvb2TfaBQ8elZv3q0q+LRcGvpg27cCk39sB0CeMIe1CG3mUNY5ZQpGo7bDDu8UCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxdgKebz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZCw8P0T8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxdgKebz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733926748; x=1765462748;
+  t=1733931875; x=1765467875;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tjy+obzRoE5tR3T7Khx0CCdywqU13ZJXLG4tlhbJW0E=;
-  b=ZCw8P0T8L9AOxhecO2dF91odIhXBpl5RRPoWI9iUkxGg4dhN1Rhjtr8D
-   FABc4AXwVwvVJ4LsDNJhll2VdaTmWfGTiek+Xyh7iFgZZFZOavEHxt6z1
-   J95l7kkTdZlwRcSmivvttOkkh4Y/88Yk38VwVOXmwQL7Ojx5BqFyq5PR2
-   NiEbd1sQ5ZkznfuS+rAzyd9uyB+9+l8TsucKfzdeYk7Fb0/zl1EWv8DoE
-   iAMKnRC88YVtco5WjL58L6mpp1UcqktQhYrTBpCkpX+QsYgxDe1RtR8K4
-   RO42ZPq0PLdRv9X4BZX9POuVnKw/5QUAwVaj+K8+PTL0PGana7haiOCxz
-   w==;
-X-CSE-ConnectionGUID: ithdtYucTCCeZmDBNRAgFA==
-X-CSE-MsgGUID: Bfy2Tie2QMC+SFlgDApmLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38239157"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="38239157"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 06:19:08 -0800
-X-CSE-ConnectionGUID: hd/gdwGWQiizKeutl4Bp5Q==
-X-CSE-MsgGUID: iyuV7sIhR+yy/4W/1/zMJA==
+  bh=loRCIDbkMNvgV6wsOzNB9X4kzQW+KAxfwOL+q4r910Q=;
+  b=YxdgKebziu6QyZ/pcBk+CnOFkYvOLfb+m4+IB3Id3kZMQD1CxJu90TfL
+   +5VXquPlrJW8NqjlK9JFV1Dd9wIjBgfy4D5yBgOpij+1rJs9Qc6He9U6U
+   qxj2PrZD2cbTFeuHgOFZ1TKOQkvznmG5Rz9qa6NDGb29SLmv6eny5p5B5
+   1fOwZefL9asMAX920tsqCaLqyB9Ka/nqMWBXBtsifgO+Gm1EG9g8F1mOY
+   0xL53a6rai9jXKrwsRZa+e4kC+tpkAWHjTjq05CoObShAfAI5QhIVN07u
+   DjIlm996Os9C9CwuxSacCM4C//k2tr45dVV/y1m7A09unha99Jq9jtAe7
+   Q==;
+X-CSE-ConnectionGUID: xOTtUqnJREmhNpswGs3NKQ==
+X-CSE-MsgGUID: sa3VKAH2Q2Wktp6tt5nSFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="44928569"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
+   d="scan'208";a="44928569"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 07:44:34 -0800
+X-CSE-ConnectionGUID: 4DtL0k72ScOrPUpe4rWW8Q==
+X-CSE-MsgGUID: 6XTLZNLARziShHrVNkKAcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="95885466"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="126794384"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2024 06:19:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2024 07:44:33 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLNYO-0006jj-1T;
-	Wed, 11 Dec 2024 14:19:04 +0000
-Date: Wed, 11 Dec 2024 22:18:45 +0800
+	id 1tLOt4-0006pD-1N;
+	Wed, 11 Dec 2024 15:44:30 +0000
+Date: Wed, 11 Dec 2024 23:43:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 23/187]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to
- match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3',
- 'snps,dwc3']
-Message-ID: <202412112219.VUtS3z9K-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/mediatek/mtk_drm_drv.c:1016
+ mtk_drm_of_ddp_path_build() error: uninitialized symbol 'ret'.
+Message-ID: <202412112300.L1cv0fpw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,211 +62,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+CC: Dave Airlie <airlied@redhat.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   5553f8f1fe2a6f02eded3969869311b465aeb258
-commit: 868ad8bfae524d07c5499a61f90ad16e830382df [23/187] arm64: dts: apple: t600x: Add dwc3 nodes
-:::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
-config: arm64-randconfig-051-20241208 (https://download.01.org/0day-ci/archive/20241211/202412112219.VUtS3z9K-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241211/202412112219.VUtS3z9K-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f92f4749861b06fed908d336b4dee1326003291b
+commit: 9bed494cd627cecab1114ce0416c9ddb3ad66064 Merge tag 'mediatek-drm-next-6.13' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-next
+date:   5 weeks ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 weeks ago
+config: microblaze-randconfig-r073-20241210 (https://download.01.org/0day-ci/archive/20241211/202412112300.L1cv0fpw-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412112219.VUtS3z9K-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412112300.L1cv0fpw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000: iommus: [[131, 0], [132, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@b02280000: iommus: [[135, 0], [136, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@f02280000: iommus: [[139, 0], [140, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: usb@1302280000: iommus: [[143, 0], [144, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000: iommus: [[145, 0], [146, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@b02280000: iommus: [[149, 0], [150, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@f02280000: iommus: [[153, 0], [154, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: usb@1302280000: iommus: [[157, 0], [158, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000: iommus: [[131, 0], [132, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@b02280000: iommus: [[135, 0], [136, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@f02280000: iommus: [[139, 0], [140, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: usb@1302280000: iommus: [[143, 0], [144, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000: iommus: [[145, 0], [146, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@b02280000: iommus: [[149, 0], [150, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@f02280000: iommus: [[153, 0], [154, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: usb@1302280000: iommus: [[157, 0], [158, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000: iommus: [[146, 0], [147, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@b02280000: iommus: [[150, 0], [151, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@f02280000: iommus: [[154, 0], [155, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@1302280000: iommus: [[158, 0], [159, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: usb@1302280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
---
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spmi@2920a1300/pmu@f/legacy_nvmem@6000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spmi@2920a1300/pmu@f/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000: iommus: [[165, 0], [166, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@702280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@b02280000: iommus: [[169, 0], [170, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@b02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@b02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@f02280000: iommus: [[173, 0], [174, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@f02280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@f02280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000: iommus: [[177, 0], [178, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@1302280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/usb@1302280000: failed to match any schema with compatible: ['apple,t6000-dwc3', 'apple,dwc3', 'snps,dwc3']
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000: iommus: [[248, 0], [249, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/apple/t6002-j375d.dtb: usb@702280000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+smatch warnings:
+drivers/gpu/drm/mediatek/mtk_drm_drv.c:1016 mtk_drm_of_ddp_path_build() error: uninitialized symbol 'ret'.
+
+vim +/ret +1016 drivers/gpu/drm/mediatek/mtk_drm_drv.c
+
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   991  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   992  static int mtk_drm_of_ddp_path_build(struct device *dev, struct device_node *node,
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   993  				     struct mtk_mmsys_driver_data *data)
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   994  {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   995  	struct device_node *ep_node;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   996  	struct of_endpoint of_ep;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   997  	bool output_present[MAX_CRTC] = { false };
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   998  	int ret;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17   999  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1000  	for_each_endpoint_of_node(node, ep_node) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1001  		ret = of_graph_parse_endpoint(ep_node, &of_ep);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1002  		if (ret) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1003  			dev_err_probe(dev, ret, "Cannot parse endpoint\n");
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1004  			break;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1005  		}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1006  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1007  		if (of_ep.id >= MAX_CRTC) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1008  			ret = dev_err_probe(dev, -EINVAL,
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1009  					    "Invalid endpoint%u number\n", of_ep.port);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1010  			break;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1011  		}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1012  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1013  		output_present[of_ep.id] = true;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1014  	}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1015  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17 @1016  	if (ret) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1017  		of_node_put(ep_node);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1018  		return ret;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1019  	}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1020  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1021  	if (output_present[CRTC_MAIN]) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1022  		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_MAIN,
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1023  						    &data->main_path, &data->main_len);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1024  		if (ret && ret != -ENODEV)
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1025  			return ret;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1026  	}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1027  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1028  	if (output_present[CRTC_EXT]) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1029  		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_EXT,
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1030  						    &data->ext_path, &data->ext_len);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1031  		if (ret && ret != -ENODEV)
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1032  			return ret;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1033  	}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1034  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1035  	if (output_present[CRTC_THIRD]) {
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1036  		ret = mtk_drm_of_ddp_path_build_one(dev, CRTC_THIRD,
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1037  						    &data->third_path, &data->third_len);
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1038  		if (ret && ret != -ENODEV)
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1039  			return ret;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1040  	}
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1041  
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1042  	return 0;
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1043  }
+4c932840db1de4e AngeloGioacchino Del Regno 2024-10-17  1044  
+
+:::::: The code at line 1016 was first introduced by commit
+:::::: 4c932840db1de4ea9639eceaaf6d59415b8a7d59 drm/mediatek: Implement OF graphs support for display paths
+
+:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+:::::: CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
