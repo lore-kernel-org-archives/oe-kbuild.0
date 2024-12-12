@@ -1,136 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8CF257D
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 04:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C10126BEE;
+	Thu, 12 Dec 2024 04:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733976576; cv=none; b=t8nObn+CObTpH2wCU5uIMzMAIz1RvSMxBzR15homsqF9mXPZdFU58TghVunKsPdNF/bwc6aTR/BgKjs+5hrIqJwVj2uFSzI408qiwZ5QJgLBIozToopbeKc5W6GfibaGcbCQDL+poPoCeNc3k+hIASj0mJFVquXBrkyLgWbodpc=
+	t=1733978356; cv=none; b=GA7qk+NTEYXyn0dd09VliKgEShIAWZFz89gFG5m8s+mQGQppzOf5hN89IxkBZpjcLVr3PG4ICdPtASUcawW3vyZbz5TUCtLTSWqhVoHlPePs6DKc7FZpFcQTX4kbAMyYRexJn6jqlhOhA6tsCJQxvFvOIjebnhf6tGGhkRP0Tg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733976576; c=relaxed/simple;
-	bh=JUlx6SEpN49zJcW/NyDWHkwohkdofOcVhk9e+Oh59H0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VZa2wJx9Z/0rHRC+4ISG+/6eBHTxylGrUQx0NF1n8ND6GILlxLJII6igXtSgjH7QSs1YMopcEDa4WNTXbxiS8T/OR0aPGzw+oXzF0glqSyy9oj035H3msk/XCWcAj9eCRJFLDTnNww7JmTyU1QJedj5bDIBgxmpzic0wjh8e+98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWEgf28U; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733978356; c=relaxed/simple;
+	bh=nss5JaMp+JaD36ryepYq/7ZKvmQIDAKaBxMN35EcrIk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RE3kQRDpXX08DzSHvRRHdfhpHhEZYGSXmA3t93PwDlvaHexnJGZGY9k/2atL3UtoC4/rReXDO5IXKva94UqFIaNe0Sqe1DebPYmhzPDi5LEFGrzkQQbIAILf0xGpp4a/XxFj4h3WsKqqjxPMweN/iGavOg3NC4NyovCoi4CDG4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIX0YkVc; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWEgf28U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733976575; x=1765512575;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JUlx6SEpN49zJcW/NyDWHkwohkdofOcVhk9e+Oh59H0=;
-  b=jWEgf28U7ToAzEByXy3+3eLjlvimGy20oHS16cAMju8f4V4r0tTYwh9i
-   JebFzOfYLl5v6HWYnADcBOlRAt87Plcbmh45EIhbnO3sohZCiKSRwiux1
-   Ws4JsX238Tnh4hevldekTMx6sPnMVLMuLDDQ3djjmsnfCkDmS8Zu3wmo5
-   4qYUp7+JqUhCru/ijuQMQtvzVMA1SsJILVGqY+gHhGjRcVLf5xuBiuHaX
-   F3fUoFGkaKX3EUuti399nIUX0CfvgrizeXVNJrAkP/qYxD9WFikpgL8ed
-   e5e78H8a97YBwm/M5lPg2Nu0lqMTosOZt+ONmkI2ZRQ7UnLpisuGerRnY
-   A==;
-X-CSE-ConnectionGUID: PiSaAT7VQw2siWf0whJRtw==
-X-CSE-MsgGUID: GwhfI0nARQqAj6m8gN9eFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34104665"
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34104665"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 20:09:34 -0800
-X-CSE-ConnectionGUID: oHGm8/YURDODOMd29ad5Cg==
-X-CSE-MsgGUID: 3zvjxHewQJGv3fMrZOcLvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96892227"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Dec 2024 20:09:33 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLaW2-0007Q7-1V;
-	Thu, 12 Dec 2024 04:09:30 +0000
-Date: Thu, 12 Dec 2024 12:08:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/dma/idxd/sysfs.c:391 engine_group_id_store() warn: potential
- spectre issue 'idxd->groups' [r] (local cap)
-Message-ID: <202412121245.nQWWI1H7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIX0YkVc"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2163dc5155fso1364295ad.0;
+        Wed, 11 Dec 2024 20:39:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733978354; x=1734583154; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=euoOkejvzC05isEf8AF+KcO5aHTUbvu/T0nkeSpJLWs=;
+        b=jIX0YkVco6TkzxgvV3XxU0namDOYuu+tM0/Uv+dNniVSlHs77+xGldbLEeqJnd9MJ9
+         R7oDxoReC2u9EZt9uCI7GoFqAlRRqtJ5Y48I6jYg+OVISUzvUNx0H65mVhEMeHD3HDz8
+         NDXonbQO6+SI7rnWEnayEo8dKSzOVfLP/B8vV4oCBHZobWRmY6m6CtFN4OI95BTCxBS8
+         FiSj6Krw7xKq3MCf28bdlfB4um1fsxMBhprpvSqWcdoBSbGx/bXBf5nGYTDZN1JQWx+U
+         sfkf7T1I0i6tTrX1+bjuzoKWYeeQ2/K2fDOp7xZoyJU2VcV7aPGG0GbnJe1Nh+dRDzbG
+         ukBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733978354; x=1734583154;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=euoOkejvzC05isEf8AF+KcO5aHTUbvu/T0nkeSpJLWs=;
+        b=bRbBrUlzbtb7o7rj7k6Cznp0pn9loVT9SXXsWP7+ERCShN1wdjUwOCZwycQWOzJdsv
+         MID8jxwV1YThJ6M+oFGUFaqsSomlt2RPqxbkPrGrvTBF2hMr7zihoNcidGqYBnSLC9b/
+         RIyh5QRG1J0sK6+4kz73KBtxpbTguUFlmo4AknOHqWMIvreJYyjDa85w+0GfHaYlNo84
+         lOQ5LTfBVLSUrI1QDS/nFdanhC42SSLWaNUi3cHUla4A6MRTtKNavyWfBzQWr+qZVp0Q
+         85WXDxxysq6omydmsumRSXE/9KkiaX/NiV+3R/8v1N4+aBaJTU8PZFNmfuPnB06vjC6G
+         OsGw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8HqwkUkDkLuN8idwQsXwI/DJKeLMpSEl7f7289G3zSlOt4yQltSMWgJlqjUYRmhKmDGdTNK/LYF7s@lists.linux.dev, AJvYcCWlUJvvtffhtzuxLRPBu2oRY9WBCTPrzZoO7wQdysHNB/NKJT8aWQ05dYxw2ltSIcgwGGtqo5sSmh3aJNlg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yys+/L2VLEPEPJV7QjZ/jnEuTuZDEi4sZERBb3xe7uiwlIqQlld
+	bKiAsF3nSpgZE9inpCOetLc9RE9hD0wgNZ7GOtNeIFDYUg/ZGMRL
+X-Gm-Gg: ASbGnct6EizfWl417AaCX2vhD8ldC43r6xYGpC6DvPciZw3W3i5dB4dA5iAMp1ltUut
+	8jusF7mberzcMRk1vNW0VJazAXUcc4HCfr9l9fsEsF593htt9qWvCCC2IgPbFEqRdzVuAGZmHaQ
+	xKh/KBYGi+tZHMZRiAqKO4Ht0wgJlr/jnjFfmS1OcwYxNB5Varf6Y8AKu8NfcdP8I9hHT/fGFeU
+	5shSRZWbhV41fxeU60KGQN44JlZ+0/oLiMAQEOPytALoRTfSE3djg==
+X-Google-Smtp-Source: AGHT+IHWxG4p54sXcyb1D1FA9kvdR8NaYo4jsAu0T9OABuOjLtKSkIaC19PQswAxdueWU4kpH+mBEg==
+X-Received: by 2002:a17:902:e746:b0:215:b8b6:d2ea with SMTP id d9443c01a7336-217783ab359mr89354455ad.15.1733978353651;
+        Wed, 11 Dec 2024 20:39:13 -0800 (PST)
+Received: from [192.168.0.235] ([38.34.87.7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2162d266d77sm79395475ad.201.2024.12.11.20.39.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 20:39:13 -0800 (PST)
+Message-ID: <d60f66e78d651e5c6a4120720581f91c4f9a1599.camel@gmail.com>
+Subject: Re: [linux-next:master 2974/3192] kernel/bpf/verifier.c:22231
+ bpf_check_attach_target() error: we previously assumed 'aux->func' could be
+ null (see line 22212)
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Alexei Starovoitov
+	 <ast@kernel.org>
+Date: Wed, 11 Dec 2024 20:39:08 -0800
+In-Reply-To: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
+References: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dave Jiang <dave.jiang@intel.com>
-CC: Vinod Koul <vkoul@kernel.org>
+On Wed, 2024-12-11 at 14:19 +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   91e71d606356e50f238d7a87aacdee4abc427f07
+> commit: 81f6d0530ba031b5f038a091619bf2ff29568852 [2974/3192] bpf: check c=
+hanges_pkt_data property for extension programs
+> config: i386-randconfig-141-20241211 (https://download.01.org/0day-ci/arc=
+hive/20241211/202412111822.qGw6tOyB-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/r/202412111822.qGw6tOyB-lkp@intel.com/
+>=20
+> smatch warnings:
+> kernel/bpf/verifier.c:22231 bpf_check_attach_target() error: we previousl=
+y assumed 'aux->func' could be null (see line 22212)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f92f4749861b06fed908d336b4dee1326003291b
-commit: c52ca478233c172b2d322b5241d6279a8661cbba dmaengine: idxd: add configuration component of driver
-date:   4 years, 11 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 4 years, 11 months ago
-config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241212/202412121245.nQWWI1H7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412121245.nQWWI1H7-lkp@intel.com/
+Thank you for reporting this. This is an issue indeed, the null
+pointer dereference could be triggered if I try to replace main
+sub-program of a program with one sub-program.
 
-smatch warnings:
-drivers/dma/idxd/sysfs.c:391 engine_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
-drivers/dma/idxd/sysfs.c:800 wq_group_id_store() warn: potential spectre issue 'idxd->groups' [r] (local cap)
+Thanks,
+Eduard
 
-vim +391 drivers/dma/idxd/sysfs.c
-
-c52ca478233c17 Dave Jiang 2020-01-21  361  
-c52ca478233c17 Dave Jiang 2020-01-21  362  static ssize_t engine_group_id_store(struct device *dev,
-c52ca478233c17 Dave Jiang 2020-01-21  363  				     struct device_attribute *attr,
-c52ca478233c17 Dave Jiang 2020-01-21  364  				     const char *buf, size_t count)
-c52ca478233c17 Dave Jiang 2020-01-21  365  {
-c52ca478233c17 Dave Jiang 2020-01-21  366  	struct idxd_engine *engine =
-c52ca478233c17 Dave Jiang 2020-01-21  367  		container_of(dev, struct idxd_engine, conf_dev);
-c52ca478233c17 Dave Jiang 2020-01-21  368  	struct idxd_device *idxd = engine->idxd;
-c52ca478233c17 Dave Jiang 2020-01-21  369  	long id;
-c52ca478233c17 Dave Jiang 2020-01-21  370  	int rc;
-c52ca478233c17 Dave Jiang 2020-01-21  371  	struct idxd_group *prevg, *group;
-c52ca478233c17 Dave Jiang 2020-01-21  372  
-c52ca478233c17 Dave Jiang 2020-01-21  373  	rc = kstrtol(buf, 10, &id);
-c52ca478233c17 Dave Jiang 2020-01-21  374  	if (rc < 0)
-c52ca478233c17 Dave Jiang 2020-01-21  375  		return -EINVAL;
-c52ca478233c17 Dave Jiang 2020-01-21  376  
-c52ca478233c17 Dave Jiang 2020-01-21  377  	if (!test_bit(IDXD_FLAG_CONFIGURABLE, &idxd->flags))
-c52ca478233c17 Dave Jiang 2020-01-21  378  		return -EPERM;
-c52ca478233c17 Dave Jiang 2020-01-21  379  
-c52ca478233c17 Dave Jiang 2020-01-21  380  	if (id > idxd->max_groups - 1 || id < -1)
-c52ca478233c17 Dave Jiang 2020-01-21  381  		return -EINVAL;
-c52ca478233c17 Dave Jiang 2020-01-21  382  
-c52ca478233c17 Dave Jiang 2020-01-21  383  	if (id == -1) {
-c52ca478233c17 Dave Jiang 2020-01-21  384  		if (engine->group) {
-c52ca478233c17 Dave Jiang 2020-01-21  385  			engine->group->num_engines--;
-c52ca478233c17 Dave Jiang 2020-01-21  386  			engine->group = NULL;
-c52ca478233c17 Dave Jiang 2020-01-21  387  		}
-c52ca478233c17 Dave Jiang 2020-01-21  388  		return count;
-c52ca478233c17 Dave Jiang 2020-01-21  389  	}
-c52ca478233c17 Dave Jiang 2020-01-21  390  
-c52ca478233c17 Dave Jiang 2020-01-21 @391  	group = &idxd->groups[id];
-c52ca478233c17 Dave Jiang 2020-01-21  392  	prevg = engine->group;
-c52ca478233c17 Dave Jiang 2020-01-21  393  
-c52ca478233c17 Dave Jiang 2020-01-21  394  	if (prevg)
-c52ca478233c17 Dave Jiang 2020-01-21  395  		prevg->num_engines--;
-c52ca478233c17 Dave Jiang 2020-01-21  396  	engine->group = &idxd->groups[id];
-c52ca478233c17 Dave Jiang 2020-01-21  397  	engine->group->num_engines++;
-c52ca478233c17 Dave Jiang 2020-01-21  398  
-c52ca478233c17 Dave Jiang 2020-01-21  399  	return count;
-c52ca478233c17 Dave Jiang 2020-01-21  400  }
-c52ca478233c17 Dave Jiang 2020-01-21  401  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
