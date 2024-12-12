@@ -1,199 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66864211471
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 11:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755B72144BA
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 13:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734002096; cv=none; b=f3wRDzTcNTBNO2k9+gGe7U0xpogllNx0ixg2q0tUCxaNNREuYCCXKaaiJu3KIeVygEVlZii0AHGFsDVfDCqueJTbSmz8qxU32wvTXEqubtEWeD/M5zP/eayctV6iXm+MTkBs8w1pm8WmL/qYnHOjw/kAZ8jclJZsHuq4EUrtNvg=
+	t=1734010476; cv=none; b=owCGuhRXbKN2Um4SIyyYtrZEmbYgaaL8azH/9JM44fdsVZa6mJdS+WSxO48F/rrjOhesArlVcv8dbGsKzKpCEDYopu+zcMsC1EouX+X/81FsEe/JCQIqLEm013Bk+zRzv4XdmpBpt+2Hnal5Bs4ZE1Hmh3JiaETT6zg/uMmE0Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734002096; c=relaxed/simple;
-	bh=KFa4M3e3mL5+iWpxecYO/uEOeU0e533vL8XpSVF8v/E=;
+	s=arc-20240116; t=1734010476; c=relaxed/simple;
+	bh=Bq8pK9a2Yn25hDbf/YggtgK4miQ93f7DyiebCfix3h0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E9yUV0E/wU+scscpNpO+X9l4V/NJxraRGs0boca0bhrdQAW7sueQTHricOA1omjn+CRgI1VAXWU/i0Zoe4mr2MLK35qvEnyxvNuvICeRMmLD6SiBdJdH6Zilg1wekAqskRMGKosu+En9jGVpgncSJy3rE1doUixbJ/P2IwkAK7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G9BQLEiM; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=HltHVaHe0ec/p7C6bSmvoAU3nG76LuQHNrLXXYHLhbflzwn1LfNn0CRoqE1DiFMWznrievdIyc0nDoMf7l6rFKPV8/d8RSjExxNKVjbuKXgnODCRR5kyRPmrG3edbh9wwHvZeeic89FiHZnRHvCVGlhe2onIgXE9ASUMAgUC5cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVC6zWCp; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G9BQLEiM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVC6zWCp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734002095; x=1765538095;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KFa4M3e3mL5+iWpxecYO/uEOeU0e533vL8XpSVF8v/E=;
-  b=G9BQLEiMjt3yr8sURqldXbQzIDHma9pHLSnvabxPVBiJxWg4YAliHAa0
-   aR+UZzZQjPYI3YlAcuAPv03oCE2bi8ehJMJAHFRM7/YMyAq7kR94i/yHV
-   uyVqzRwOyhUxOzDi0QWgcDqSThfpSV4fvhBvGpBmjeKg9ZYU+JAwZRpBj
-   qqBvup6wGabkt5udOq79MPQBKQfyvrlYZVa56FYhX6SuVm5AapzNeafWg
-   Mn8Aub4027ZprJ3wfnzHBcR9KPurPLa8swlp95rDGYPUWR8mIsr9apRGm
-   c4NzPeu1kPZmHBdbtdM8MTLWIZpizL5tju53TjDgT+6445DfkZEvbGKko
+  t=1734010474; x=1765546474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bq8pK9a2Yn25hDbf/YggtgK4miQ93f7DyiebCfix3h0=;
+  b=AVC6zWCpZevqwA5NrW74poJp1pwRfSUNIrI9F6ah3ROkkIn8vgYY4aDp
+   oyoE2Yh4gMoC6U1ijdYY53fSd4ac9Sv1ZmBz/oJZNENDtgIPJ0bi38dzl
+   qBMdoRnpL8fc+T6u4mWTNDyDnxjYEsKzUDMvF+JztQeeeoQWjujGzWtFi
+   M2/rLoesH8j1argbm3OPXClzHRlydxT/RqbVU/moElUftdaeJg92JhhZZ
+   DtbmaDGFDat9T7rObQ/b6X4wJNTRpFffAfY51iHCD/rb3dZ6U/93Gv6Vg
+   keB7RddOzyaMApJAulRm7nXWmR2TBNoeJ2XwsxJvpz/sz6cpai7Wfw2gq
    A==;
-X-CSE-ConnectionGUID: QP9UUpPIT8GneKvtO82aAg==
-X-CSE-MsgGUID: LvbA1tBoQV2btIweVs0Jow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34542753"
+X-CSE-ConnectionGUID: XslfEFF+SwiyFsNifRry+w==
+X-CSE-MsgGUID: s9c6iiFuSqmju8HmpKxLyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34332642"
 X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="34542753"
+   d="scan'208";a="34332642"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 03:14:54 -0800
-X-CSE-ConnectionGUID: JIIzyVyqRdq6forV1pVAGQ==
-X-CSE-MsgGUID: b6A3f0xBRgSaeBifesfMRA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:34:33 -0800
+X-CSE-ConnectionGUID: ZyOesoUZSY6/BdtjmukAdw==
+X-CSE-MsgGUID: HcPeLKD5RqSI9/jM8CUE0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96993791"
+   d="scan'208";a="97026141"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2024 03:14:53 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2024 05:34:33 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLh9e-0007lb-0F;
-	Thu, 12 Dec 2024 11:14:50 +0000
-Date: Thu, 12 Dec 2024 19:14:21 +0800
+	id 1tLjKn-0007s9-2z;
+	Thu, 12 Dec 2024 13:34:29 +0000
+Date: Thu, 12 Dec 2024 21:34:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/platform/x86/intel/pmc/core_ssram.c:141
- pmc_core_get_lpm_req() error: uninitialized symbol 'ret'.
-Message-ID: <202412121902.TbNaC8UJ-lkp@intel.com>
+Subject: arch/arm64/kvm/../../../virt/kvm/kvm_main.c:327
+ kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+Message-ID: <202412122149.3N9zBbXb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Xi Pardee <xi.pardee@intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: "David E. Box" <david.e.box@linux.intel.com>
-CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+TO: Venkatesh Srinivas <venkateshs@chromium.org>
+CC: Sean Christopherson <seanjc@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
-commit: 4d621c3f02ba71cb8ed48b7c32ecb0910000cc28 platform/x86/intel/pmc: Retrieve LPM information using Intel PMT
-date:   1 year ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241212/202412121902.TbNaC8UJ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
+date:   7 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241212/202412122149.3N9zBbXb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412121902.TbNaC8UJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412122149.3N9zBbXb-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/x86/intel/pmc/core_ssram.c:141 pmc_core_get_lpm_req() error: uninitialized symbol 'ret'.
+New smatch warnings:
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
 
-vim +/ret +141 drivers/platform/x86/intel/pmc/core_ssram.c
+Old smatch warnings:
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
+include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/arm64/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
 
-4d621c3f02ba71c Xi Pardee 2023-11-29   42  
-4d621c3f02ba71c Xi Pardee 2023-11-29   43  static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc)
-4d621c3f02ba71c Xi Pardee 2023-11-29   44  {
-4d621c3f02ba71c Xi Pardee 2023-11-29   45  	struct telem_endpoint *ep;
-4d621c3f02ba71c Xi Pardee 2023-11-29   46  	const u8 *lpm_indices;
-4d621c3f02ba71c Xi Pardee 2023-11-29   47  	int num_maps, mode_offset = 0;
-4d621c3f02ba71c Xi Pardee 2023-11-29   48  	int ret, mode, i;
-4d621c3f02ba71c Xi Pardee 2023-11-29   49  	int lpm_size;
-4d621c3f02ba71c Xi Pardee 2023-11-29   50  	u32 guid;
-4d621c3f02ba71c Xi Pardee 2023-11-29   51  
-4d621c3f02ba71c Xi Pardee 2023-11-29   52  	lpm_indices = pmc->map->lpm_reg_index;
-4d621c3f02ba71c Xi Pardee 2023-11-29   53  	num_maps = pmc->map->lpm_num_maps;
-4d621c3f02ba71c Xi Pardee 2023-11-29   54  	lpm_size = LPM_MAX_NUM_MODES * num_maps;
-4d621c3f02ba71c Xi Pardee 2023-11-29   55  
-4d621c3f02ba71c Xi Pardee 2023-11-29   56  	guid = pmc_core_find_guid(pmcdev->regmap_list, pmc->map);
-4d621c3f02ba71c Xi Pardee 2023-11-29   57  	if (!guid)
-4d621c3f02ba71c Xi Pardee 2023-11-29   58  		return -ENXIO;
-4d621c3f02ba71c Xi Pardee 2023-11-29   59  
-4d621c3f02ba71c Xi Pardee 2023-11-29   60  	ep = pmt_telem_find_and_register_endpoint(pmcdev->ssram_pcidev, guid, 0);
-4d621c3f02ba71c Xi Pardee 2023-11-29   61  	if (IS_ERR(ep)) {
-4d621c3f02ba71c Xi Pardee 2023-11-29   62  		dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %ld",
-4d621c3f02ba71c Xi Pardee 2023-11-29   63  			PTR_ERR(ep));
-4d621c3f02ba71c Xi Pardee 2023-11-29   64  		return -EPROBE_DEFER;
-4d621c3f02ba71c Xi Pardee 2023-11-29   65  	}
-4d621c3f02ba71c Xi Pardee 2023-11-29   66  
-4d621c3f02ba71c Xi Pardee 2023-11-29   67  	pmc->lpm_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
-4d621c3f02ba71c Xi Pardee 2023-11-29   68  					 lpm_size * sizeof(u32),
-4d621c3f02ba71c Xi Pardee 2023-11-29   69  					 GFP_KERNEL);
-4d621c3f02ba71c Xi Pardee 2023-11-29   70  	if (!pmc->lpm_req_regs) {
-4d621c3f02ba71c Xi Pardee 2023-11-29   71  		ret = -ENOMEM;
-4d621c3f02ba71c Xi Pardee 2023-11-29   72  		goto unregister_ep;
-4d621c3f02ba71c Xi Pardee 2023-11-29   73  	}
-4d621c3f02ba71c Xi Pardee 2023-11-29   74  
-4d621c3f02ba71c Xi Pardee 2023-11-29   75  	/*
-4d621c3f02ba71c Xi Pardee 2023-11-29   76  	 * PMC Low Power Mode (LPM) table
-4d621c3f02ba71c Xi Pardee 2023-11-29   77  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29   78  	 * In telemetry space, the LPM table contains a 4 byte header followed
-4d621c3f02ba71c Xi Pardee 2023-11-29   79  	 * by 8 consecutive mode blocks (one for each LPM mode). Each block
-4d621c3f02ba71c Xi Pardee 2023-11-29   80  	 * has a 4 byte header followed by a set of registers that describe the
-4d621c3f02ba71c Xi Pardee 2023-11-29   81  	 * IP state requirements for the given mode. The IP mapping is platform
-4d621c3f02ba71c Xi Pardee 2023-11-29   82  	 * specific but the same for each block, making for easy analysis.
-4d621c3f02ba71c Xi Pardee 2023-11-29   83  	 * Platforms only use a subset of the space to track the requirements
-4d621c3f02ba71c Xi Pardee 2023-11-29   84  	 * for their IPs. Callers provide the requirement registers they use as
-4d621c3f02ba71c Xi Pardee 2023-11-29   85  	 * a list of indices. Each requirement register is associated with an
-4d621c3f02ba71c Xi Pardee 2023-11-29   86  	 * IP map that's maintained by the caller.
-4d621c3f02ba71c Xi Pardee 2023-11-29   87  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29   88  	 * Header
-4d621c3f02ba71c Xi Pardee 2023-11-29   89  	 * +----+----------------------------+----------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29   90  	 * |  0 |      REVISION              |      ENABLED MODES         |
-4d621c3f02ba71c Xi Pardee 2023-11-29   91  	 * +----+--------------+-------------+-------------+--------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29   92  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29   93  	 * Low Power Mode 0 Block
-4d621c3f02ba71c Xi Pardee 2023-11-29   94  	 * +----+--------------+-------------+-------------+--------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29   95  	 * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-4d621c3f02ba71c Xi Pardee 2023-11-29   96  	 * +----+--------------+-------------+-------------+--------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29   97  	 * |  2 |           LPM0 Requirements 0                           |
-4d621c3f02ba71c Xi Pardee 2023-11-29   98  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29   99  	 * |    |                  ...                                    |
-4d621c3f02ba71c Xi Pardee 2023-11-29  100  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  101  	 * | 29 |           LPM0 Requirements 27                          |
-4d621c3f02ba71c Xi Pardee 2023-11-29  102  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  103  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29  104  	 * ...
-4d621c3f02ba71c Xi Pardee 2023-11-29  105  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29  106  	 * Low Power Mode 7 Block
-4d621c3f02ba71c Xi Pardee 2023-11-29  107  	 * +----+--------------+-------------+-------------+--------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  108  	 * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
-4d621c3f02ba71c Xi Pardee 2023-11-29  109  	 * +----+--------------+-------------+-------------+--------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  110  	 * | 60 |           LPM7 Requirements 0                           |
-4d621c3f02ba71c Xi Pardee 2023-11-29  111  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  112  	 * |    |                  ...                                    |
-4d621c3f02ba71c Xi Pardee 2023-11-29  113  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  114  	 * | 87 |           LPM7 Requirements 27                          |
-4d621c3f02ba71c Xi Pardee 2023-11-29  115  	 * +----+---------------------------------------------------------+
-4d621c3f02ba71c Xi Pardee 2023-11-29  116  	 *
-4d621c3f02ba71c Xi Pardee 2023-11-29  117  	 */
-4d621c3f02ba71c Xi Pardee 2023-11-29  118  	mode_offset = LPM_HEADER_OFFSET + LPM_MODE_OFFSET;
-4d621c3f02ba71c Xi Pardee 2023-11-29  119  	pmc_for_each_mode(i, mode, pmcdev) {
-4d621c3f02ba71c Xi Pardee 2023-11-29  120  		u32 *req_offset = pmc->lpm_req_regs + (mode * num_maps);
-4d621c3f02ba71c Xi Pardee 2023-11-29  121  		int m;
-4d621c3f02ba71c Xi Pardee 2023-11-29  122  
-4d621c3f02ba71c Xi Pardee 2023-11-29  123  		for (m = 0; m < num_maps; m++) {
-4d621c3f02ba71c Xi Pardee 2023-11-29  124  			u8 sample_id = lpm_indices[m] + mode_offset;
-4d621c3f02ba71c Xi Pardee 2023-11-29  125  
-4d621c3f02ba71c Xi Pardee 2023-11-29  126  			ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
-4d621c3f02ba71c Xi Pardee 2023-11-29  127  			if (ret) {
-4d621c3f02ba71c Xi Pardee 2023-11-29  128  				dev_err(&pmcdev->pdev->dev,
-4d621c3f02ba71c Xi Pardee 2023-11-29  129  					"couldn't read Low Power Mode requirements: %d\n", ret);
-4d621c3f02ba71c Xi Pardee 2023-11-29  130  				devm_kfree(&pmcdev->pdev->dev, pmc->lpm_req_regs);
-4d621c3f02ba71c Xi Pardee 2023-11-29  131  				goto unregister_ep;
-4d621c3f02ba71c Xi Pardee 2023-11-29  132  			}
-4d621c3f02ba71c Xi Pardee 2023-11-29  133  			++req_offset;
-4d621c3f02ba71c Xi Pardee 2023-11-29  134  		}
-4d621c3f02ba71c Xi Pardee 2023-11-29  135  		mode_offset += LPM_REG_COUNT + LPM_MODE_OFFSET;
-4d621c3f02ba71c Xi Pardee 2023-11-29  136  	}
-4d621c3f02ba71c Xi Pardee 2023-11-29  137  
-4d621c3f02ba71c Xi Pardee 2023-11-29  138  unregister_ep:
-4d621c3f02ba71c Xi Pardee 2023-11-29  139  	pmt_telem_unregister_endpoint(ep);
-4d621c3f02ba71c Xi Pardee 2023-11-29  140  
-4d621c3f02ba71c Xi Pardee 2023-11-29 @141  	return ret;
-4d621c3f02ba71c Xi Pardee 2023-11-29  142  }
-4d621c3f02ba71c Xi Pardee 2023-11-29  143  
+vim +/i +327 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
+
+7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
+82e9c84d8712e8d virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
+7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
+baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
+46808a4cb89708c virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
+7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
+46808a4cb89708c virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
+7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
+baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
+baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
+baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
+82e9c84d8712e8d virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
+b56bd8e03cf4d59 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
+ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
+7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
+498468961ed6f62 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
+d9e368d61263055 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
+a2486020a82eefa virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
+54163a346d4a0a1 virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
 
 -- 
 0-DAY CI Kernel Test Service
