@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD9220A5D1
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 07:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B73520ADE7
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 07:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987576; cv=none; b=uQ/XLTui1XW8tqdKP32HMUf7Sz8tNHAQM5u4NMwGbbRTUWmQOn9zFaqYDe6IIa+JNsbdSrFm028yHzf7iI+bZ+qnwyWhULiwbirrZtekYETRFvr9rmXMHijL9c1Um+icAz60KPNXidhZXXzqUDZO7eWyfsrUheosh8QNLJmEnNs=
+	t=1733988181; cv=none; b=C/CXBr+K0nCCx6G/NN1cr6o0ib+9390YFfY9alAPLCf1ZFm5UPi5LhXKKz7lUCq+IUfLcBZF5rQ9UBwqu+yToQ+1qZ2uQt5zEqcDOIwQAu/Vejni/6XoeV0prqac/Zex64LPwFzm9io9MINBXIkBRJCZpds1oddQnB3/3DkeD1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987576; c=relaxed/simple;
-	bh=xO797+OqZO8NhVb8g63t6/JyhJCeKeK78Tue6QMTdXM=;
+	s=arc-20240116; t=1733988181; c=relaxed/simple;
+	bh=L/l0MQue1xPzabz1tCaGsICZLv0uNyVuCZhjVKc5kRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dm7X6SwhI9+1a7IqvYqrDLkPxLOfe6lkAHEb850eMsTGXt3M7/XZGz+3Upbqyel4PRwTw2on+hK8QSqDiQw3L5em8daGXVGDc5IMegUx9pgGG7E6SQU0MecNocdDmLyVHvYUy1HFPVSb7PyIBV9aa2amq9Ek6KrlJOSHD1HOFRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CsAgOvKH; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=LX3ctpqSajPgOg5X0kS5LoYzU1XqFDwiSf/zxz64YYrFs7i3Dqygv8yCuL4DXoiD4QxeXIUrm8mcWjskOpRrjiK0lUmF2nix8dxwVUuQZ9fvDTONw+qN1cAz0BEv8UGcq8Lx1vBjqfRgsdO2jMCH4UHOFgpvUp0YXhGAmyGXi5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAJ+F1On; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CsAgOvKH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAJ+F1On"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733987575; x=1765523575;
+  t=1733988179; x=1765524179;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xO797+OqZO8NhVb8g63t6/JyhJCeKeK78Tue6QMTdXM=;
-  b=CsAgOvKHlOVP7vSgNPIJWuUIGFJCrTMOp1WRMFLGBMyLJHKAPzkaiNQg
-   Mcgy/8akU5LqLAukIcA6la3G74rV/fL+SZNefYyd9EMFpfLX1jWSnemIS
-   mh1V8+hGS6+eGN9C0uRTMte8ZhNoXFhsWAZJPpC8k3ODQPJHrgufSIKHo
-   hpZD2ukKBF14yJ1J1qDV2BgD7EWnVMvlOYY33Fj7UifZcH3YisyVW04T2
-   ntfvi2mmX3lVYSQ+oPMXVlGVuoHFuP/8OObRvU6MeWEnFguaDIDZeNO08
-   Gji0MJUJOTjnuTHe7WbCP3bWN3Gvqhx0jeSouMK1MNOh/zKTDVx6CT4ov
-   Q==;
-X-CSE-ConnectionGUID: TkmZRkT8TvGM7/01+ZBCww==
-X-CSE-MsgGUID: CjkoQA6OTcCUAgx6VYZ8yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34518991"
+  bh=L/l0MQue1xPzabz1tCaGsICZLv0uNyVuCZhjVKc5kRM=;
+  b=nAJ+F1OnC7s0LMe0aW6jmmNF7nW4ZMDXzR+qeaPlIdefqYIQVHNU0UdH
+   6GUcA1Qdv2TrebIwG6CV/Kba3mNwSc2tegUYzMirSve11LQYBVr39gojw
+   GgBMRzZqxLhNAHysvaAofv8qv3gn5TGoSi3RZ6gpb1f0P+C2XFZg3EXbY
+   HsNU9B+LxepdclQmxVdtMzkZMwrcOK7zJsJO46CefvUreDL/ih5BJfCZe
+   kay40a1gtNp9BDjRFZu9JTYXE7Pf4gf6eb+6XfkX+V4ceBXx/2jW7j7Rd
+   8WDzzZZ7EUKNnXlINHxO6AwerctA2w8/FE9zdFzknhaMMerh87WNwxdZ9
+   A==;
+X-CSE-ConnectionGUID: XvFPY0XrTAukwwOIaFNXpg==
+X-CSE-MsgGUID: BEh8iaEiRwSBhwVA1tOEBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="51921970"
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34518991"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:12:54 -0800
-X-CSE-ConnectionGUID: 7O17zWzKQM6bG5OEwdlBMA==
-X-CSE-MsgGUID: eC+nfikOQjuaL2jH1N9iGg==
+   d="scan'208";a="51921970"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:22:55 -0800
+X-CSE-ConnectionGUID: 2peo+0rITtesGxvZUg9VMA==
+X-CSE-MsgGUID: hZaL313JRbOQKWY7teh8KQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100293299"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="101247844"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2024 23:12:52 -0800
+  by orviesa003.jf.intel.com with ESMTP; 11 Dec 2024 23:22:53 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLdNR-0007Z1-0G;
-	Thu, 12 Dec 2024 07:12:49 +0000
-Date: Thu, 12 Dec 2024 15:11:52 +0800
+	id 1tLdX7-0007ZL-2z;
+	Thu, 12 Dec 2024 07:22:49 +0000
+Date: Thu, 12 Dec 2024 15:22:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/nvmem/zynqmp_nvmem.c:123 zynqmp_efuse_access() error:
- uninitialized symbol 'ret'.
-Message-ID: <202412121555.Fp663tyH-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/acpi/numa/srat.c:178:5-41: opportunity for
+ str_enabled_disabled(( p -> flags & ACPI_SRAT_RINTC_ENABLED ))
+Message-ID: <202412121554.ld4S90Hf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,117 +65,145 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+TO: Haibo Xu <haibo1.xu@intel.com>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Sunil V L <sunilvl@ventanamicro.com>
+CC: Hanjun Guo <guohanjun@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
-commit: 737c0c8d07b5f671c0a33cec95965fcb2d2ea893 nvmem: zynqmp_nvmem: Add support to access efuse
-date:   9 months ago
+commit: 39494aec8a0454f9e8a68d2422d3bd4e5c5ee0c7 ACPI: NUMA: Add handler for SRAT RINTC affinity structure
+date:   5 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 9 months ago
-config: arm64-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241212/202412121555.Fp663tyH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-104-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121554.ld4S90Hf-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412121555.Fp663tyH-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412121554.ld4S90Hf-lkp@intel.com/
 
-smatch warnings:
-drivers/nvmem/zynqmp_nvmem.c:123 zynqmp_efuse_access() error: uninitialized symbol 'ret'.
+cocci warnings: (new ones prefixed by >>)
+   drivers/acpi/numa/srat.c:94:5-39: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_CPU_ENABLED ))
+   drivers/acpi/numa/srat.c:123:5-39: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_CPU_ENABLED ))
+   drivers/acpi/numa/srat.c:154:5-52: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED ))
+   drivers/acpi/numa/srat.c:165:4-51: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED ))
+   drivers/acpi/numa/srat.c:135:5-40: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_GICC_ENABLED ))
+   drivers/acpi/numa/srat.c:107:5-39: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_MEM_ENABLED ))
+>> drivers/acpi/numa/srat.c:178:5-41: opportunity for str_enabled_disabled(( p -> flags & ACPI_SRAT_RINTC_ENABLED ))
 
-vim +/ret +123 drivers/nvmem/zynqmp_nvmem.c
+vim +178 drivers/acpi/numa/srat.c
 
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   58  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   59  static int zynqmp_efuse_access(void *context, unsigned int offset,
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   60  			       void *val, size_t bytes, enum efuse_access flag,
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   61  			       unsigned int pufflag)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   62  {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   63  	struct device *dev = context;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   64  	struct xilinx_efuse *efuse;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   65  	dma_addr_t dma_addr;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   66  	dma_addr_t dma_buf;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   67  	size_t words = bytes / WORD_INBYTES;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   68  	int ret;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   69  	int value;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   70  	char *data;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   71  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   72  	if (bytes % WORD_INBYTES != 0) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   73  		dev_err(dev, "Bytes requested should be word aligned\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   74  		return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   75  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   76  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   77  	if (pufflag == 0 && offset % WORD_INBYTES) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   78  		dev_err(dev, "Offset requested should be word aligned\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   79  		return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   80  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   81  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   82  	if (pufflag == 1 && flag == EFUSE_WRITE) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   83  		memcpy(&value, val, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   84  		if ((offset == EFUSE_PUF_START_OFFSET ||
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   85  		     offset == EFUSE_PUF_MID_OFFSET) &&
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   86  		    value & P_USER_0_64_UPPER_MASK) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   87  			dev_err(dev, "Only lower 4 bytes are allowed to be programmed in P_USER_0 & P_USER_64\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   88  			return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   89  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   90  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   91  		if (offset == EFUSE_PUF_END_OFFSET &&
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   92  		    (value & P_USER_127_LOWER_4_BIT_MASK)) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   93  			dev_err(dev, "Only MSB 28 bits are allowed to be programmed for P_USER_127\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   94  			return -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   95  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   96  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   97  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   98  	efuse = dma_alloc_coherent(dev, sizeof(struct xilinx_efuse),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24   99  				   &dma_addr, GFP_KERNEL);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  100  	if (!efuse)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  101  		return -ENOMEM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  102  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  103  	data = dma_alloc_coherent(dev, sizeof(bytes),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  104  				  &dma_buf, GFP_KERNEL);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  105  	if (!data) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  106  		ret = -ENOMEM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  107  		goto efuse_data_fail;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  108  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  109  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  110  	if (flag == EFUSE_WRITE) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  111  		memcpy(data, val, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  112  		efuse->flag = EFUSE_WRITE;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  113  	} else {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  114  		efuse->flag = EFUSE_READ;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  115  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  116  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  117  	efuse->src = dma_buf;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  118  	efuse->size = words;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  119  	efuse->offset = offset;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  120  	efuse->pufuserfuse = pufflag;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  121  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  122  	zynqmp_pm_efuse_access(dma_addr, (u32 *)&ret);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24 @123  	if (ret != 0) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  124  		if (ret == EFUSE_NOT_ENABLED) {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  125  			dev_err(dev, "efuse access is not enabled\n");
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  126  			ret = -EOPNOTSUPP;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  127  		} else {
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  128  			dev_err(dev, "Error in efuse read %x\n", ret);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  129  			ret = -EPERM;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  130  		}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  131  		goto efuse_access_err;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  132  	}
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  133  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  134  	if (flag == EFUSE_READ)
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  135  		memcpy(val, data, bytes);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  136  efuse_access_err:
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  137  	dma_free_coherent(dev, sizeof(bytes),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  138  			  data, dma_buf);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  139  efuse_data_fail:
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  140  	dma_free_coherent(dev, sizeof(struct xilinx_efuse),
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  141  			  efuse, dma_addr);
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  142  
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  143  	return ret;
-737c0c8d07b5f67 Praveen Teja Kundanala 2024-02-24  144  }
-4640fa1833fe857 Nava kishore Manne     2019-02-06  145  
+762834e8bf46bf drivers/acpi/numa.c      Yasunori Goto       2006-06-23   82  
+ae2c6dcf90c5a9 drivers/acpi/numa.c      David Rientjes      2007-07-21   83  static void __init
+ae2c6dcf90c5a9 drivers/acpi/numa.c      David Rientjes      2007-07-21   84  acpi_table_print_srat_entry(struct acpi_subtable_header *header)
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   85  {
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   86  	switch (header->type) {
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   87  	case ACPI_SRAT_TYPE_CPU_AFFINITY:
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   88  		{
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   89  			struct acpi_srat_cpu_affinity *p =
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   90  			    (struct acpi_srat_cpu_affinity *)header;
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24   91  			pr_debug("SRAT Processor (id[0x%02x] eid[0x%02x]) in proximity domain %d %s\n",
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   92  				 p->apic_id, p->local_sapic_eid,
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   93  				 p->proximity_domain_lo,
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   94  				 (p->flags & ACPI_SRAT_CPU_ENABLED) ?
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24   95  				 "enabled" : "disabled");
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   96  		}
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   97  		break;
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16   98  
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02   99  	case ACPI_SRAT_TYPE_MEMORY_AFFINITY:
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  100  		{
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02  101  			struct acpi_srat_mem_affinity *p =
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02  102  			    (struct acpi_srat_mem_affinity *)header;
+b9ced18acf68df drivers/acpi/numa.c      Chao Fan            2018-12-26  103  			pr_debug("SRAT Memory (0x%llx length 0x%llx) in proximity domain %d %s%s%s\n",
+b9ced18acf68df drivers/acpi/numa.c      Chao Fan            2018-12-26  104  				 (unsigned long long)p->base_address,
+b9ced18acf68df drivers/acpi/numa.c      Chao Fan            2018-12-26  105  				 (unsigned long long)p->length,
+19d0cfe9ddfdf7 drivers/acpi/numa.c      Bob Moore           2008-06-10  106  				 p->proximity_domain,
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02  107  				 (p->flags & ACPI_SRAT_MEM_ENABLED) ?
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02  108  				 "enabled" : "disabled",
+15a58ed1214293 drivers/acpi/numa.c      Alexey Starikovskiy 2007-02-02  109  				 (p->flags & ACPI_SRAT_MEM_HOT_PLUGGABLE) ?
+208f6cc9e5f83c drivers/acpi/numa.c      Davidlohr Bueso     2013-01-09  110  				 " hot-pluggable" : "",
+208f6cc9e5f83c drivers/acpi/numa.c      Davidlohr Bueso     2013-01-09  111  				 (p->flags & ACPI_SRAT_MEM_NON_VOLATILE) ?
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24  112  				 " non-volatile" : "");
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  113  		}
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  114  		break;
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  115  
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  116  	case ACPI_SRAT_TYPE_X2APIC_CPU_AFFINITY:
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  117  		{
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  118  			struct acpi_srat_x2apic_cpu_affinity *p =
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  119  			    (struct acpi_srat_x2apic_cpu_affinity *)header;
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24  120  			pr_debug("SRAT Processor (x2apicid[0x%08x]) in proximity domain %d %s\n",
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  121  				 p->apic_id,
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  122  				 p->proximity_domain,
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  123  				 (p->flags & ACPI_SRAT_CPU_ENABLED) ?
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24  124  				 "enabled" : "disabled");
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  125  		}
+7237d3de78ff89 drivers/acpi/numa.c      Suresh Siddha       2009-03-30  126  		break;
+3dda448189af1c drivers/acpi/numa.c      Hanjun Guo          2016-05-24  127  
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  128  	case ACPI_SRAT_TYPE_GICC_AFFINITY:
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  129  		{
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  130  			struct acpi_srat_gicc_affinity *p =
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  131  			    (struct acpi_srat_gicc_affinity *)header;
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  132  			pr_debug("SRAT Processor (acpi id[0x%04x]) in proximity domain %d %s\n",
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  133  				 p->acpi_processor_uid,
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  134  				 p->proximity_domain,
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  135  				 (p->flags & ACPI_SRAT_GICC_ENABLED) ?
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  136  				 "enabled" : "disabled");
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  137  		}
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  138  		break;
+4bac6fa73db77d drivers/acpi/numa.c      Hanjun Guo          2016-06-17  139  
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  140  	case ACPI_SRAT_TYPE_GENERIC_AFFINITY:
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  141  	{
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  142  		struct acpi_srat_generic_affinity *p =
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  143  			(struct acpi_srat_generic_affinity *)header;
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  144  
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  145  		if (p->device_handle_type == 0) {
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  146  			/*
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  147  			 * For pci devices this may be the only place they
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  148  			 * are assigned a proximity domain
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  149  			 */
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  150  			pr_debug("SRAT Generic Initiator(Seg:%u BDF:%u) in proximity domain %d %s\n",
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  151  				 *(u16 *)(&p->device_handle[0]),
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  152  				 *(u16 *)(&p->device_handle[2]),
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  153  				 p->proximity_domain,
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  154  				 (p->flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED) ?
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  155  				"enabled" : "disabled");
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  156  		} else {
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  157  			/*
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  158  			 * In this case we can rely on the device having a
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  159  			 * proximity domain reference
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  160  			 */
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  161  			pr_debug("SRAT Generic Initiator(HID=%.8s UID=%.4s) in proximity domain %d %s\n",
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  162  				(char *)(&p->device_handle[0]),
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  163  				(char *)(&p->device_handle[8]),
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  164  				p->proximity_domain,
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  165  				(p->flags & ACPI_SRAT_GENERIC_AFFINITY_ENABLED) ?
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  166  				"enabled" : "disabled");
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  167  		}
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  168  	}
+894c26a1c274b8 drivers/acpi/numa/srat.c Jonathan Cameron    2020-09-30  169  	break;
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  170  
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  171  	case ACPI_SRAT_TYPE_RINTC_AFFINITY:
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  172  		{
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  173  			struct acpi_srat_rintc_affinity *p =
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  174  			    (struct acpi_srat_rintc_affinity *)header;
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  175  			pr_debug("SRAT Processor (acpi id[0x%04x]) in proximity domain %d %s\n",
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  176  				 p->acpi_processor_uid,
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  177  				 p->proximity_domain,
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13 @178  				 (p->flags & ACPI_SRAT_RINTC_ENABLED) ?
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  179  				 "enabled" : "disabled");
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  180  		}
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  181  		break;
+39494aec8a0454 drivers/acpi/numa/srat.c Haibo Xu            2024-06-13  182  
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  183  	default:
+ac906a6d56b742 drivers/acpi/numa.c      Hanjun Guo          2016-05-24  184  		pr_warn("Found unsupported SRAT entry (type = 0x%x)\n",
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  185  			header->type);
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  186  		break;
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  187  	}
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  188  }
+^1da177e4c3f41 drivers/acpi/numa.c      Linus Torvalds      2005-04-16  189  
 
 -- 
 0-DAY CI Kernel Test Service
