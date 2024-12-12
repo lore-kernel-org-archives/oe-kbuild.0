@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755B72144BA
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 13:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9096F307
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 14:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734010476; cv=none; b=owCGuhRXbKN2Um4SIyyYtrZEmbYgaaL8azH/9JM44fdsVZa6mJdS+WSxO48F/rrjOhesArlVcv8dbGsKzKpCEDYopu+zcMsC1EouX+X/81FsEe/JCQIqLEm013Bk+zRzv4XdmpBpt+2Hnal5Bs4ZE1Hmh3JiaETT6zg/uMmE0Qs=
+	t=1734013064; cv=none; b=hNh3YmrrOKUweyOEdWbnug+USktL/6Wft0B5os3XOr8avMiCIkq26HQUHi6YjIh0OqAzm10uJzi+EXzjsm8Ea8+QkmF6J875TEZvh4uzfjaDy38+mAvCCjK8C5RZsSDDJ9Cnh0JLTRu8uUGCb07RYPmN2ILz2Y63aUR3OiYvMYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734010476; c=relaxed/simple;
-	bh=Bq8pK9a2Yn25hDbf/YggtgK4miQ93f7DyiebCfix3h0=;
+	s=arc-20240116; t=1734013064; c=relaxed/simple;
+	bh=7WfUs2l5AcSQPsb+lSyN6W7D9O4KPqlqqOogNQvw9EM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HltHVaHe0ec/p7C6bSmvoAU3nG76LuQHNrLXXYHLhbflzwn1LfNn0CRoqE1DiFMWznrievdIyc0nDoMf7l6rFKPV8/d8RSjExxNKVjbuKXgnODCRR5kyRPmrG3edbh9wwHvZeeic89FiHZnRHvCVGlhe2onIgXE9ASUMAgUC5cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVC6zWCp; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=UEWByo87cD91anwUkoIb7o+82d2B/goyUVkZznwodwwaCs+kjOoCtoZtw1/UTyVYuSLyDSUTvkyg2K9Ed2YLrFAYH1bxzuMm/+EXCjNtx0GrJfgSkZfusw+krAZez9cwrXqaNcnPPFP57lEM9XgmmlgyvmZ8DnC2Q8W/6HoZfiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHw/txfy; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVC6zWCp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHw/txfy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734010474; x=1765546474;
+  t=1734013063; x=1765549063;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bq8pK9a2Yn25hDbf/YggtgK4miQ93f7DyiebCfix3h0=;
-  b=AVC6zWCpZevqwA5NrW74poJp1pwRfSUNIrI9F6ah3ROkkIn8vgYY4aDp
-   oyoE2Yh4gMoC6U1ijdYY53fSd4ac9Sv1ZmBz/oJZNENDtgIPJ0bi38dzl
-   qBMdoRnpL8fc+T6u4mWTNDyDnxjYEsKzUDMvF+JztQeeeoQWjujGzWtFi
-   M2/rLoesH8j1argbm3OPXClzHRlydxT/RqbVU/moElUftdaeJg92JhhZZ
-   DtbmaDGFDat9T7rObQ/b6X4wJNTRpFffAfY51iHCD/rb3dZ6U/93Gv6Vg
-   keB7RddOzyaMApJAulRm7nXWmR2TBNoeJ2XwsxJvpz/sz6cpai7Wfw2gq
-   A==;
-X-CSE-ConnectionGUID: XslfEFF+SwiyFsNifRry+w==
-X-CSE-MsgGUID: s9c6iiFuSqmju8HmpKxLyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34332642"
+  bh=7WfUs2l5AcSQPsb+lSyN6W7D9O4KPqlqqOogNQvw9EM=;
+  b=OHw/txfyr0kvD2DVa6j/IcjMzRhusaZS9/3nWyvaeOGE5O+PeB69P5Gt
+   HjIzJMcoz2yL1J2OsSZ79SxW/1pev/eiyc+Uh3P+FSXrCitYhvOFyoV0q
+   8AFXgJBTTWGFju03hcsHhlcUHq4WHmbuwqX/TbE631egN0HmYlzId/t77
+   gPiNcHG6TZ3QFFSxa/bIQerJN/bvqnOKj+910KxFiuv6jfd2Fx8QXIzlU
+   dikwoa/plMESi2HQQfdBmoRsJoXQ51HGStZI1bJfceuQfDyDQI6FwnJL6
+   EhhSzjRCsfj47sfxqL9z4SFnBEiTW9nwxehi/U1/XDrfPVo+oR5RSJDFC
+   g==;
+X-CSE-ConnectionGUID: YNcHQ4jCTbqxlm3CVFMAIQ==
+X-CSE-MsgGUID: 4T7qeIRdTzaM+l68zN++WA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34157134"
 X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="34332642"
+   d="scan'208";a="34157134"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:34:33 -0800
-X-CSE-ConnectionGUID: ZyOesoUZSY6/BdtjmukAdw==
-X-CSE-MsgGUID: HcPeLKD5RqSI9/jM8CUE0w==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:17:41 -0800
+X-CSE-ConnectionGUID: qrJUTdDhQniGwB7X79WEuQ==
+X-CSE-MsgGUID: QlxwyH9dSreDrVZKyvLpkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97026141"
+   d="scan'208";a="97034248"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2024 05:34:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2024 06:17:39 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLjKn-0007s9-2z;
-	Thu, 12 Dec 2024 13:34:29 +0000
-Date: Thu, 12 Dec 2024 21:34:14 +0800
+	id 1tLk0W-0007vG-05;
+	Thu, 12 Dec 2024 14:17:36 +0000
+Date: Thu, 12 Dec 2024 22:17:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/../../../virt/kvm/kvm_main.c:327
- kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-Message-ID: <202412122149.3N9zBbXb-lkp@intel.com>
+Subject: mm/kfence/kfence_test.c:397 test_use_after_free_read_nofault() warn:
+ passing freed memory 'addr' (line 395)
+Message-ID: <202412122208.LmoUHCba-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,62 +65,49 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Venkatesh Srinivas <venkateshs@chromium.org>
-CC: Sean Christopherson <seanjc@google.com>
+TO: Nirjhar Roy <nirjhar@linux.ibm.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+CC: Marco Elver <elver@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
-commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
-date:   7 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 7 months ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241212/202412122149.3N9zBbXb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+commit: 811808d365398680b628d2b88aafeba77c88691a mm/kfence: add a new kunit test test_use_after_free_read_nofault()
+date:   4 weeks ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-r072-20241210 (https://download.01.org/0day-ci/archive/20241212/202412122208.LmoUHCba-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412122149.3N9zBbXb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412122208.LmoUHCba-lkp@intel.com/
 
-New smatch warnings:
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+smatch warnings:
+mm/kfence/kfence_test.c:397 test_use_after_free_read_nofault() warn: passing freed memory 'addr' (line 395)
 
-Old smatch warnings:
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
-include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/arm64/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+vim +/addr +397 mm/kfence/kfence_test.c
 
-vim +/i +327 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
-
-7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
-82e9c84d8712e8d virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
-7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
-baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
-46808a4cb89708c virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
-7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
-46808a4cb89708c virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
-7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
-baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
-baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
-baff59ccdc657d2 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
-82e9c84d8712e8d virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
-b56bd8e03cf4d59 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
-ae0946cd3601752 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
-7053df4edb3ae3a virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
-498468961ed6f62 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
-d9e368d61263055 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
-a2486020a82eefa virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
-54163a346d4a0a1 virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
+bc8fbc5f305aecf Marco Elver 2021-02-25  385  
+811808d36539868 Nirjhar Roy 2024-10-18  386  static void test_use_after_free_read_nofault(struct kunit *test)
+811808d36539868 Nirjhar Roy 2024-10-18  387  {
+811808d36539868 Nirjhar Roy 2024-10-18  388  	const size_t size = 32;
+811808d36539868 Nirjhar Roy 2024-10-18  389  	char *addr;
+811808d36539868 Nirjhar Roy 2024-10-18  390  	char dst;
+811808d36539868 Nirjhar Roy 2024-10-18  391  	int ret;
+811808d36539868 Nirjhar Roy 2024-10-18  392  
+811808d36539868 Nirjhar Roy 2024-10-18  393  	setup_test_cache(test, size, 0, NULL);
+811808d36539868 Nirjhar Roy 2024-10-18  394  	addr = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
+811808d36539868 Nirjhar Roy 2024-10-18 @395  	test_free(addr);
+811808d36539868 Nirjhar Roy 2024-10-18  396  	/* Use after free with *_nofault() */
+811808d36539868 Nirjhar Roy 2024-10-18 @397  	ret = copy_from_kernel_nofault(&dst, addr, 1);
+811808d36539868 Nirjhar Roy 2024-10-18  398  	KUNIT_EXPECT_EQ(test, ret, -EFAULT);
+811808d36539868 Nirjhar Roy 2024-10-18  399  	KUNIT_EXPECT_FALSE(test, report_available());
+811808d36539868 Nirjhar Roy 2024-10-18  400  }
+811808d36539868 Nirjhar Roy 2024-10-18  401  
 
 -- 
 0-DAY CI Kernel Test Service
