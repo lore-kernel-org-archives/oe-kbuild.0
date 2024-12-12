@@ -1,109 +1,113 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C10126BEE;
-	Thu, 12 Dec 2024 04:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB4117C230
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 06:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733978356; cv=none; b=GA7qk+NTEYXyn0dd09VliKgEShIAWZFz89gFG5m8s+mQGQppzOf5hN89IxkBZpjcLVr3PG4ICdPtASUcawW3vyZbz5TUCtLTSWqhVoHlPePs6DKc7FZpFcQTX4kbAMyYRexJn6jqlhOhA6tsCJQxvFvOIjebnhf6tGGhkRP0Tg4=
+	t=1733983660; cv=none; b=lcVboKl/PKtL4t4FZvy1QV0Nuw1ZpZt6kMW3FsNUzBM2UD6lxa7vazNTUBWZhoM6J2N18Q2rVS+5FHwvze4hUg7pVzPsvFac5OZ5dw9jJbORDffwaDodmdlliyHjAQWyDn5Obmib0gZZn+mZdoODU7UKOehdF+STei+eIPDgHA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733978356; c=relaxed/simple;
-	bh=nss5JaMp+JaD36ryepYq/7ZKvmQIDAKaBxMN35EcrIk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RE3kQRDpXX08DzSHvRRHdfhpHhEZYGSXmA3t93PwDlvaHexnJGZGY9k/2atL3UtoC4/rReXDO5IXKva94UqFIaNe0Sqe1DebPYmhzPDi5LEFGrzkQQbIAILf0xGpp4a/XxFj4h3WsKqqjxPMweN/iGavOg3NC4NyovCoi4CDG4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIX0YkVc; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733983660; c=relaxed/simple;
+	bh=4ZogS1RfOuiLpJQ2N1wMM6SdvD42E8SJhmdwq/WEbgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NWXbUPFHz8ad/ZnbXccecuWtKRjwyHXwK6aKEQrTzUsEn2BENdK1uhyRfELKNyEnecasKZFrZjp85Gt8MzgxH4OcsFSZBp/XJqSExKxODnD6fvHKwi4swtTkoWkJhQH3NG8IpenuKKPPLJQxjjrPasRjM7rtUHXmaQTmyvDXwZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhxeIpjc; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIX0YkVc"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2163dc5155fso1364295ad.0;
-        Wed, 11 Dec 2024 20:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733978354; x=1734583154; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=euoOkejvzC05isEf8AF+KcO5aHTUbvu/T0nkeSpJLWs=;
-        b=jIX0YkVco6TkzxgvV3XxU0namDOYuu+tM0/Uv+dNniVSlHs77+xGldbLEeqJnd9MJ9
-         R7oDxoReC2u9EZt9uCI7GoFqAlRRqtJ5Y48I6jYg+OVISUzvUNx0H65mVhEMeHD3HDz8
-         NDXonbQO6+SI7rnWEnayEo8dKSzOVfLP/B8vV4oCBHZobWRmY6m6CtFN4OI95BTCxBS8
-         FiSj6Krw7xKq3MCf28bdlfB4um1fsxMBhprpvSqWcdoBSbGx/bXBf5nGYTDZN1JQWx+U
-         sfkf7T1I0i6tTrX1+bjuzoKWYeeQ2/K2fDOp7xZoyJU2VcV7aPGG0GbnJe1Nh+dRDzbG
-         ukBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733978354; x=1734583154;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=euoOkejvzC05isEf8AF+KcO5aHTUbvu/T0nkeSpJLWs=;
-        b=bRbBrUlzbtb7o7rj7k6Cznp0pn9loVT9SXXsWP7+ERCShN1wdjUwOCZwycQWOzJdsv
-         MID8jxwV1YThJ6M+oFGUFaqsSomlt2RPqxbkPrGrvTBF2hMr7zihoNcidGqYBnSLC9b/
-         RIyh5QRG1J0sK6+4kz73KBtxpbTguUFlmo4AknOHqWMIvreJYyjDa85w+0GfHaYlNo84
-         lOQ5LTfBVLSUrI1QDS/nFdanhC42SSLWaNUi3cHUla4A6MRTtKNavyWfBzQWr+qZVp0Q
-         85WXDxxysq6omydmsumRSXE/9KkiaX/NiV+3R/8v1N4+aBaJTU8PZFNmfuPnB06vjC6G
-         OsGw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8HqwkUkDkLuN8idwQsXwI/DJKeLMpSEl7f7289G3zSlOt4yQltSMWgJlqjUYRmhKmDGdTNK/LYF7s@lists.linux.dev, AJvYcCWlUJvvtffhtzuxLRPBu2oRY9WBCTPrzZoO7wQdysHNB/NKJT8aWQ05dYxw2ltSIcgwGGtqo5sSmh3aJNlg@lists.linux.dev
-X-Gm-Message-State: AOJu0Yys+/L2VLEPEPJV7QjZ/jnEuTuZDEi4sZERBb3xe7uiwlIqQlld
-	bKiAsF3nSpgZE9inpCOetLc9RE9hD0wgNZ7GOtNeIFDYUg/ZGMRL
-X-Gm-Gg: ASbGnct6EizfWl417AaCX2vhD8ldC43r6xYGpC6DvPciZw3W3i5dB4dA5iAMp1ltUut
-	8jusF7mberzcMRk1vNW0VJazAXUcc4HCfr9l9fsEsF593htt9qWvCCC2IgPbFEqRdzVuAGZmHaQ
-	xKh/KBYGi+tZHMZRiAqKO4Ht0wgJlr/jnjFfmS1OcwYxNB5Varf6Y8AKu8NfcdP8I9hHT/fGFeU
-	5shSRZWbhV41fxeU60KGQN44JlZ+0/oLiMAQEOPytALoRTfSE3djg==
-X-Google-Smtp-Source: AGHT+IHWxG4p54sXcyb1D1FA9kvdR8NaYo4jsAu0T9OABuOjLtKSkIaC19PQswAxdueWU4kpH+mBEg==
-X-Received: by 2002:a17:902:e746:b0:215:b8b6:d2ea with SMTP id d9443c01a7336-217783ab359mr89354455ad.15.1733978353651;
-        Wed, 11 Dec 2024 20:39:13 -0800 (PST)
-Received: from [192.168.0.235] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2162d266d77sm79395475ad.201.2024.12.11.20.39.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 20:39:13 -0800 (PST)
-Message-ID: <d60f66e78d651e5c6a4120720581f91c4f9a1599.camel@gmail.com>
-Subject: Re: [linux-next:master 2974/3192] kernel/bpf/verifier.c:22231
- bpf_check_attach_target() error: we previously assumed 'aux->func' could be
- null (see line 22212)
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Alexei Starovoitov
-	 <ast@kernel.org>
-Date: Wed, 11 Dec 2024 20:39:08 -0800
-In-Reply-To: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
-References: <7de4b716-f0de-4cad-8cd9-3d6b0862644b@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhxeIpjc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733983658; x=1765519658;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4ZogS1RfOuiLpJQ2N1wMM6SdvD42E8SJhmdwq/WEbgk=;
+  b=OhxeIpjc8vbs5+X1guI26LI8Ck6Q3qBct5rnO6cXSzViKEmLtcv0lIc8
+   +w291ToexMuvbD9D34xIEakct281iphDyKmDoT4go17f8moJFPyKHVLaa
+   D9pYBs5vtmvt8ndTDmMoZBMK9YU77lll+MSO62OhAUki+PZLMgBqpY7iR
+   xsux0v1TMUT5+D3k5+s/2fTyZ0VYaGtVBV3M8N6/asvUz/IvuVqWF64l0
+   IvCrHLYvWzz9gt7c5UP4ENw2UtEo9XCx3fKRxaGIyrWS7zk1r4keIrM8J
+   HHfjWO45ZwmhIrcM9TGtYCQF4lIzjZnzp/H36YaGdZopABbWfOA7Dciez
+   A==;
+X-CSE-ConnectionGUID: Vup9CxvVROCqWlEmdNwXdQ==
+X-CSE-MsgGUID: 76w4yOSWRWysjs171EVeFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34513496"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="34513496"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 22:07:38 -0800
+X-CSE-ConnectionGUID: L6/2HQqUQVeo2CywajutlQ==
+X-CSE-MsgGUID: ZHhavwSZSeeUq96nesYvtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="95967180"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 22:07:36 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLcMI-0007US-0h;
+	Thu, 12 Dec 2024 06:07:34 +0000
+Date: Thu, 12 Dec 2024 14:07:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/st/cw1200/cw1200_spi.c:440
+ cw1200_spi_disconnect() error: we previously assumed 'self' could be null
+ (see line 433)
+Message-ID: <202412121336.V5NwlFsb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-12-11 at 14:19 +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   91e71d606356e50f238d7a87aacdee4abc427f07
-> commit: 81f6d0530ba031b5f038a091619bf2ff29568852 [2974/3192] bpf: check c=
-hanges_pkt_data property for extension programs
-> config: i386-randconfig-141-20241211 (https://download.01.org/0day-ci/arc=
-hive/20241211/202412111822.qGw6tOyB-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Closes: https://lore.kernel.org/r/202412111822.qGw6tOyB-lkp@intel.com/
->=20
-> smatch warnings:
-> kernel/bpf/verifier.c:22231 bpf_check_attach_target() error: we previousl=
-y assumed 'aux->func' could be null (see line 22212)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Linus Walleij <linus.walleij@linaro.org>
+CC: Kalle Valo <kvalo@kernel.org>
 
-Hi Dan,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   231825b2e1ff6ba799c5eaf396d3ab2354e37c6b
+commit: 2719a9e7156c4b3983b43db467c1ff96801bda99 wifi: cw1200: Convert to GPIO descriptors
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20241210 (https://download.01.org/0day-ci/archive/20241212/202412121336.V5NwlFsb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
-Thank you for reporting this. This is an issue indeed, the null
-pointer dereference could be triggered if I try to replace main
-sub-program of a program with one sub-program.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412121336.V5NwlFsb-lkp@intel.com/
 
-Thanks,
-Eduard
+smatch warnings:
+drivers/net/wireless/st/cw1200/cw1200_spi.c:440 cw1200_spi_disconnect() error: we previously assumed 'self' could be null (see line 433)
 
+vim +/self +440 drivers/net/wireless/st/cw1200/cw1200_spi.c
+
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  427  
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  428  /* Disconnect Function to be called by SPI stack when device is disconnected */
+a0386bba70934d drivers/net/wireless/st/cw1200/cw1200_spi.c Uwe Kleine-König 2022-01-23  429  static void cw1200_spi_disconnect(struct spi_device *func)
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  430  {
+911373cca1b455 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-06-01  431  	struct hwbus_priv *self = spi_get_drvdata(func);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  432  
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24 @433  	if (self) {
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  434  		cw1200_spi_irq_unsubscribe(self);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  435  		if (self->core) {
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  436  			cw1200_core_release(self->core);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  437  			self->core = NULL;
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  438  		}
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  439  	}
+2719a9e7156c4b drivers/net/wireless/st/cw1200/cw1200_spi.c Linus Walleij    2024-01-31 @440  	cw1200_spi_off(self, dev_get_platdata(&func->dev));
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  441  }
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  442  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
