@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5CB18643
-	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 02:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A0F2F44
+	for <oe-kbuild@lists.linux.dev>; Thu, 12 Dec 2024 03:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733970855; cv=none; b=g9usvWs/4izt9cRwEQJb+wIK38Yq5T2+SQW7SoMLkoWFSGVWjOIRCB9JXOdh1A+Fyb87gia5ufTWf83f7pDJtNQOpuw4UwXJYj+Gpkd59RyDM2URyjE3Kk3Ubg/jaohz9kHhk9ly5tLLfPy6PgVlzUYmmp/sNhJ37yCJ1VxI/fQ=
+	t=1733974007; cv=none; b=AfbjHBz9w4T0YqWx7TMXIfHOv55QQovONbihEPGEmR6Z5LNvOkiJHucKsiBoQ7U7BdT6PWmWojA/WnDOhAtrFhI7vyoHpKHXcWKbpu/S3lpqpeJfvWdL1hdTTd6llWcGAoufSyzQ+Jec+HYcYVQNUpW5oVhv5VaitIc3CXmZ4dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733970855; c=relaxed/simple;
-	bh=DMvnDBQp4mkFhQZEWJzzFqCC6gbY4RmxmC/2+25cKOY=;
+	s=arc-20240116; t=1733974007; c=relaxed/simple;
+	bh=dceJKhesH9rEwQZf0QXJS4OK/GbWGmZah2brnRorOGw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dt1FDysJ1LNnlvKoSvo5URH4Lp2AIZvPpCMd0S7jXwuMkx5PGLm2O3/B9X6QZlOKrRl+63Sd6bIapQCHd6+U0So0HtgPa1CmGzKx8YhDYTew9j+HD7H8q8MHFeZsC42t/Q8PrVstsCvBqZI4K3mhW8qgnNkwFZOl9MSaaIkV11k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SiARsS4o; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=C5CeRygdDgUa9y868bfXMc/pwsrjTXomtIj+9drgsI0lTbXr/LvR4q/FI1oAsNLC9GJO8a4pARlcoWwEGOysEHDheFhJ1vs7FS6mr72onYzDpypXvcHWpobJUNOIA03ZrMAKlc18LjcByHQn1mNBrFGIwJtEsp5j5aF77f7O01o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Somw+zcs; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiARsS4o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Somw+zcs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733970853; x=1765506853;
+  t=1733974005; x=1765510005;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DMvnDBQp4mkFhQZEWJzzFqCC6gbY4RmxmC/2+25cKOY=;
-  b=SiARsS4oA0zTQ91yxjS+oI2j9fGOe+vTjY15HIpecswJ4Xsc14lA5rJm
-   1lD5pWMd/GSuxF4Z54ECJl1N1fwvTtXAfmytk2c57/SNPlSh6Nlw/pW4J
-   yoMgVsHLMCMB1JWKkAJr5zq2IyyNKinO1yTXbAA3vjioQYZgarUUixUtz
-   l4XEGCQRQycU5gXrZgWlA1KVgLoEU4xufvPUSvco2dYPZkQTdH2kkVXCy
-   oPKdBMb6gsvURY8mA2U0A7LSiJ861VfUZptNQdVCvvtY88jFfBZ+mfGJT
-   n+3ke+pKTkdS3ShhfEi1h3wjW3GfSkvwnTakiENWPo3KKZlxZz286twDA
-   Q==;
-X-CSE-ConnectionGUID: enUk8yhISiKcokvOw/R7Qg==
-X-CSE-MsgGUID: VklciQ7rSbyM6UUhZoHRow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45758642"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45758642"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 18:34:12 -0800
-X-CSE-ConnectionGUID: Ow5JI2qyQGO9mMc8c3Mcxw==
-X-CSE-MsgGUID: /dAsLAtXRlSkdmNf3z9CWw==
+  bh=dceJKhesH9rEwQZf0QXJS4OK/GbWGmZah2brnRorOGw=;
+  b=Somw+zcsBd4Z9tTRGFzGhpqBy9IDhRJydHEwfAuhmKElt/oXgGJsO2CV
+   J5J2Q7+MSbuHs3HkG6bRUr9MH5Sq12Zhj4EUoC7h++zBmplXZqES9kSRa
+   an5dswIPlVc2S8lAo0m3cPMLS3urg7I5Eron0q8lFzlwemGJCE4Z3DJr+
+   ReBZp0oGFoaIgFz7DOi3fEyxQfLgpnww9SHfiztyEwvvmnWyQBXmpS6Lx
+   Dia2Ri8CUQ5DbIXYayUTtofamOsVbgts+q704AwUEF9Cx5iKAoFGzBhrU
+   IbZsVbksNku5uKsjQh6kLVFoLAJFwIErypBwyt5MdCgoQDVBfKDdwOQoL
+   w==;
+X-CSE-ConnectionGUID: XAR6U3NFQpqGhspXt49j5w==
+X-CSE-MsgGUID: cS/TBuXnRlefjNXS9Y7h2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34297831"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="34297831"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 19:26:28 -0800
+X-CSE-ConnectionGUID: 2OaBenfZT3OdUu/7PFftlw==
+X-CSE-MsgGUID: wcgEGyG4R8uff9v5VqoZiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100173861"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="96153067"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2024 18:34:10 -0800
+  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2024 19:26:27 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tLZ1k-0007LV-1a;
-	Thu, 12 Dec 2024 02:34:08 +0000
-Date: Thu, 12 Dec 2024 10:33:52 +0800
+	id 1tLZqK-0007OL-25;
+	Thu, 12 Dec 2024 03:26:24 +0000
+Date: Thu, 12 Dec 2024 11:25:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v8 09/14] arm64: dts: qcom: sdm845-starqltechn: add
- max77705 PMIC
-Message-ID: <202412121043.V3aWcoge-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jarkko-tpmdd:v4l2-loopback 2/2]
+ drivers/media/v4l2-core/v4l2-loopback.c:1276 vidioc_querycap() error:
+ snprintf() chops off the last chars of 'dev->vdev->name': 64 vs 32
+Message-ID: <202412121124.HGf5C5yR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,64 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241209-starqltechn_integration_upstream-v8-9-ec604481d691@gmail.com>
-References: <20241209-starqltechn_integration_upstream-v8-9-ec604481d691@gmail.com>
-TO: Dzmitry Sankouski <dsankouski@gmail.com>
-TO: cros-qcom-dts-watchers@chromium.org
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-TO: Liam Girdwood <lgirdwood@gmail.com>
-TO: Mark Brown <broonie@kernel.org>
-TO: Jaroslav Kysela <perex@perex.cz>
-TO: Takashi Iwai <tiwai@suse.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-sound@vger.kernel.org
-CC: Dzmitry Sankouski <dsankouski@gmail.com>
+TO: Jarkko Sakkinen <jarkko@kernel.org>
 
-Hi Dzmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d1486dca38afd08ca279ae94eb3a397f10737824]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/ASoC-dt-bindings-Add-bindings-for-WCD934x-DAIs/20241209-201427
-base:   d1486dca38afd08ca279ae94eb3a397f10737824
-patch link:    https://lore.kernel.org/r/20241209-starqltechn_integration_upstream-v8-9-ec604481d691%40gmail.com
-patch subject: [PATCH v8 09/14] arm64: dts: qcom: sdm845-starqltechn: add max77705 PMIC
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20241210 (https://download.01.org/0day-ci/archive/20241212/202412121043.V3aWcoge-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121043.V3aWcoge-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git v4l2-loopback
+head:   a3f82e653c46a6e972edb5f623ab83190db10758
+commit: a3f82e653c46a6e972edb5f623ab83190db10758 [2/2] media: v4l2-loopback
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: microblaze-randconfig-r073-20241210 (https://download.01.org/0day-ci/archive/20241212/202412121124.HGf5C5yR-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121124.HGf5C5yR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412121043.V3aWcoge-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412121124.HGf5C5yR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts:434.10-488.4: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4686.27-4737.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4758.27-4809.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1221.44-1224.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: failed to match any schema with compatible: ['maxim,max77705']
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/leds: failed to match any schema with compatible: ['maxim,max77705-rgb']
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/charger: failed to match any schema with compatible: ['maxim,max77705-charger']
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/fuel-gauge: failed to match any schema with compatible: ['maxim,max77705-battery']
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/haptic: failed to match any schema with compatible: ['maxim,max77705-haptic']
+All errors (new ones prefixed by >>):
+
+   microblaze-linux-ld: drivers/media/v4l2-core/v4l2-loopback.o: in function `buffer_written':
+>> (.text+0xb48): undefined reference to `__moddi3'
+   microblaze-linux-ld: drivers/media/v4l2-core/v4l2-loopback.o: in function `vidioc_reqbufs':
+   (.text+0x36b4): undefined reference to `__moddi3'
+   microblaze-linux-ld: drivers/media/v4l2-core/v4l2-loopback.o: in function `v4l2_loopback_write':
+   (.text+0x382c): undefined reference to `__moddi3'
+   microblaze-linux-ld: drivers/media/v4l2-core/v4l2-loopback.o: in function `get_capture_buffer':
+   (.text+0x3c24): undefined reference to `__moddi3'
+>> microblaze-linux-ld: (.text+0x3e5c): undefined reference to `__moddi3'
+
+smatch warnings:
+drivers/media/v4l2-core/v4l2-loopback.c:1276 vidioc_querycap() error: snprintf() chops off the last chars of 'dev->vdev->name': 64 vs 32
+drivers/media/v4l2-core/v4l2-loopback.c:2644 v4l2l_control_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
+
+vim +1276 drivers/media/v4l2-core/v4l2-loopback.c
+
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1261  
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1262  /* V4L2 ioctl caps and params calls */
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1263  /* returns device capabilities
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1264   * called on VIDIOC_QUERYCAP
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1265   */
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1266  static int vidioc_querycap(struct file *file, void *priv,
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1267  			   struct v4l2_capability *cap)
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1268  {
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1269  	struct v4l2_loopback_device *dev = v4l2l_getdevice(file);
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1270  	int device_nr =
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1271  		((struct v4l2l_private *)video_get_drvdata(dev->vdev))
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1272  			->device_nr;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1273  	__u32 capabilities = V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1274  
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1275  	strscpy(cap->driver, "v4l2 loopback", sizeof(cap->driver));
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22 @1276  	snprintf(cap->card, sizeof(cap->card), "%s", dev->vdev->name);
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1277  	snprintf(cap->bus_info, sizeof(cap->bus_info),
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1278  		 "platform:v4l2loopback-%03d", device_nr);
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1279  
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1280  	if (dev->announce_all_caps) {
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1281  		capabilities |= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1282  	} else {
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1283  		if (dev->ready_for_capture) {
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1284  			capabilities |= V4L2_CAP_VIDEO_CAPTURE;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1285  		}
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1286  		if (dev->ready_for_output) {
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1287  			capabilities |= V4L2_CAP_VIDEO_OUTPUT;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1288  		}
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1289  	}
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1290  
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1291  	dev->vdev->device_caps = cap->device_caps = cap->capabilities = capabilities;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1292  	cap->capabilities |= V4L2_CAP_DEVICE_CAPS;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1293  	memset(cap->reserved, 0, sizeof(cap->reserved));
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1294  	return 0;
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1295  }
+a3f82e653c46a6e Jarkko Sakkinen 2024-11-22  1296  
 
 -- 
 0-DAY CI Kernel Test Service
