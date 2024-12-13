@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7220E1E47C6
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Dec 2024 17:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DC61E47DB
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Dec 2024 18:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734112298; cv=none; b=Zx79tRyT89412ooisGv4onCcTvIG2L74d8xkmMBV0/KK9kijbUCZMZL7CUs9rzfaZXeceD7YAkunB98ECurI4WUUL2XOlscVZxQ/7PXRmkdbRC43SgeuquIkn6/2bZMw+3siDcJm8pR9FC5fsiBXF0wwrv2hAJMYu+U8Gopp1HE=
+	t=1734114403; cv=none; b=sQ9tAky3JFTS4Dg99y5Fdk/wjLwcIs1YbHcw5hJyWIBycJOrPldyBG8cIkMM6JxXBcOLdFOxFCiWKfg6RCAbRdTRD5fF1OfOAbCX0M/AL0GTK0JdHzcSjKSj/gTsvkF2UwZsHDwPzfUcyOM8Er5SdPkrXbThcpZDPYVLZdVyv8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734112298; c=relaxed/simple;
-	bh=VQt94/rY5wTnWEzspYmKqZ1m++jWD417Du5sOcocTGo=;
+	s=arc-20240116; t=1734114403; c=relaxed/simple;
+	bh=U/FiV0ex1+5PMYn6gW10LPgKq8bceGh2QDJ6QMMgvaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NCpgYlcHrQDg9lwqoJUj0bDH4DElJVhNlVxTvzn+vGUVXVheglTXbA85yh4JbZCxVwhUn4YtsTeiRdFXSXnGsHMSFNXONfqACghNnzqhVEV04amgsr5xCG5Whyll+6w1uBREy57hrrg5O7QfG7tIuur2nzuAaijdoe93nJWEvJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpBcyYtY; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=E9UXydDgiGJTtvfiBy37NOZS1smHH+Im0SkyS43622nvPRE08tMSVkZImkSop6I9mPSnJUTqPdJeG2z3Og5ZXx1YLgMghcN3bYhJzdKY5b6ARiUm/1ZX3H0BbOIvEfKaHVVfB52EqrPcIJ+ud+V1ApqeJusxKYdWFHhaLxpLrQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ls2gMrcB; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpBcyYtY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ls2gMrcB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734112296; x=1765648296;
+  t=1734114401; x=1765650401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VQt94/rY5wTnWEzspYmKqZ1m++jWD417Du5sOcocTGo=;
-  b=LpBcyYtYVlmCCZFxHnKZ0TbNapGmEC7m2j3enYVc7Kq4LoYsUP12iaUo
-   hUAUR9LYkqy08GQaBCiO3oVXnyHLB8+Z/BJ0gs0JqeSuhRzAG/5xm1AZ+
-   e4Jvy0YaZehL40WPp1WrAe7SxEcgkHC5EnkHrwpwgHr9Fw3UX5RN5I1Wz
-   9VFZ6edI/mmPbUQBP2qLMucHmq/y/AxCJnzsvyqR0zA8mO2GjDEjqwCS7
-   m0XfPs3BhqwBhCZMMwCswo/0yg6Nbyz+m/AFkwNGR7pLJ8JFSKEYMLFty
-   vwfZ1tkIoipd7S2VH9BvcxW5TMEmEPU97oHUgBpZdYce943NOv6hJEiqQ
+  bh=U/FiV0ex1+5PMYn6gW10LPgKq8bceGh2QDJ6QMMgvaA=;
+  b=Ls2gMrcBY9jjlaBeb/qYEhdgoTe730ek/lVLT4TraYH/lbYlOD0f7P77
+   BOZ7V7iyxTWjuhiRQ8prVROl8mMVB8kfWSx9hRu4ixrzxn2qnWXoQd3k/
+   raQmfgqWpkmVZivH/6qs0giDBQq02g+oeHApTDIUYnGQPfA5VzYn19T5w
+   BYSxGpts8lsNowtrDUHs4z24aRynGlray7x6xI9kv+tCy0H5gSoQbq2q+
+   6eFDAH8mci2SQvXpUCLw976IFgs7enDFS6j9hnI+rWdu+zOIsYDJU1vV5
+   Gy3Dt+mKQ09Cb+onkoIoB/rRsTHtd7MQhUSaa95vlOV/DohemDEqNHaHZ
    A==;
-X-CSE-ConnectionGUID: W4TLa+l1STGbk1fXhxPS+Q==
-X-CSE-MsgGUID: 9SdTAg2BSp2aMKcbQsvCNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="33871183"
+X-CSE-ConnectionGUID: 5BUKAgnlQMymCqeftOP5jA==
+X-CSE-MsgGUID: QCjYhr7oQ6mJRziGcMAFSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22162926"
 X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="33871183"
+   d="scan'208";a="22162926"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 09:51:36 -0800
-X-CSE-ConnectionGUID: h7EXr1sQQ0qqpt/LKzIhhg==
-X-CSE-MsgGUID: GEBgcC8/TEy4Yq2O9aQtoQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 10:26:40 -0800
+X-CSE-ConnectionGUID: jXIxAVDJRXCz8V90OEMsAw==
+X-CSE-MsgGUID: 7RilqiQsTvuCJYGdRFQv1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97028871"
+   d="scan'208";a="97039553"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2024 09:51:34 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2024 10:26:40 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tM9p6-000CI9-0t;
-	Fri, 13 Dec 2024 17:51:32 +0000
-Date: Sat, 14 Dec 2024 01:51:10 +0800
+	id 1tMAN3-000CJJ-0J;
+	Fri, 13 Dec 2024 18:26:37 +0000
+Date: Sat, 14 Dec 2024 02:26:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [djiang:cxl/features 11/15] drivers/cxl/core/mbox.c:775
- cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line
- 767)
-Message-ID: <202412140111.UkB1YSO2-lkp@intel.com>
+Subject: drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn:
+ missing error code 'ret'
+Message-ID: <202412140235.cXqs4CTm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,80 +64,95 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Jianbo Liu <jianbol@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/features
-head:   f0a6d114e94c15c348733978c4dad4ecdae16d16
-commit: 96d766b4e53edf0c9ef84fa447b7afe6fbeeb743 [11/15] cxl: Enumerate feature commands
-:::::: branch date: 21 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-141-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140111.UkB1YSO2-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f932fb9b40749d1c9a539d89bb3e288c077aafe5
+commit: 638420115cc4ad6c3a2683bf46a052b505abb202 IB/mlx5: Create UMR QP just before first reg_mr occurs
+date:   6 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-161-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140235.cXqs4CTm-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412140111.UkB1YSO2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412140235.cXqs4CTm-lkp@intel.com/
 
 smatch warnings:
-drivers/cxl/core/mbox.c:775 cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line 767)
+drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn: missing error code 'ret'
 
-vim +/cmd +775 drivers/cxl/core/mbox.c
+vim +/ret +153 drivers/infiniband/hw/mlx5/umr.c
 
-4faf31b43468c58 Dan Williams     2021-09-08  742  
-4faf31b43468c58 Dan Williams     2021-09-08  743  /**
-4faf31b43468c58 Dan Williams     2021-09-08  744   * cxl_walk_cel() - Walk through the Command Effects Log.
-59f8d1510739e92 Dan Williams     2023-06-14  745   * @mds: The driver data for the operation
-4faf31b43468c58 Dan Williams     2021-09-08  746   * @size: Length of the Command Effects Log.
-4faf31b43468c58 Dan Williams     2021-09-08  747   * @cel: CEL
-4faf31b43468c58 Dan Williams     2021-09-08  748   *
-4faf31b43468c58 Dan Williams     2021-09-08  749   * Iterate over each entry in the CEL and determine if the driver supports the
-4faf31b43468c58 Dan Williams     2021-09-08  750   * command. If so, the command is enabled for the device and can be used later.
-4faf31b43468c58 Dan Williams     2021-09-08  751   */
-59f8d1510739e92 Dan Williams     2023-06-14  752  static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
-4faf31b43468c58 Dan Williams     2021-09-08  753  {
-e624d105c460e56 Dave Jiang       2024-06-17  754  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
-49be6dd807511db Dan Williams     2021-09-08  755  	struct cxl_cel_entry *cel_entry;
-4faf31b43468c58 Dan Williams     2021-09-08  756  	const int cel_entries = size / sizeof(*cel_entry);
-59f8d1510739e92 Dan Williams     2023-06-14  757  	struct device *dev = mds->cxlds.dev;
-4faf31b43468c58 Dan Williams     2021-09-08  758  	int i;
-4faf31b43468c58 Dan Williams     2021-09-08  759  
-49be6dd807511db Dan Williams     2021-09-08  760  	cel_entry = (struct cxl_cel_entry *) cel;
-4faf31b43468c58 Dan Williams     2021-09-08  761  
-4faf31b43468c58 Dan Williams     2021-09-08  762  	for (i = 0; i < cel_entries; i++) {
-4faf31b43468c58 Dan Williams     2021-09-08  763  		u16 opcode = le16_to_cpu(cel_entry[i].opcode);
-4faf31b43468c58 Dan Williams     2021-09-08  764  		struct cxl_mem_command *cmd = cxl_mem_find_command(opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  765  		int enabled = 0;
-4faf31b43468c58 Dan Williams     2021-09-08  766  
-d2f706058826b80 Ira Weiny        2023-09-03 @767  		if (cmd) {
-e624d105c460e56 Dave Jiang       2024-06-17  768  			set_bit(cmd->info.id, cxl_mbox->enabled_cmds);
-d2f706058826b80 Ira Weiny        2023-09-03  769  			enabled++;
-96d766b4e53edf0 Dave Jiang       2024-12-11  770  		} else {
-96d766b4e53edf0 Dave Jiang       2024-12-11  771  			struct cxl_mem_command *fcmd =
-96d766b4e53edf0 Dave Jiang       2024-12-11  772  				cxl_find_feature_command(opcode);
-96d766b4e53edf0 Dave Jiang       2024-12-11  773  
-96d766b4e53edf0 Dave Jiang       2024-12-11  774  			if (fcmd) {
-96d766b4e53edf0 Dave Jiang       2024-12-11 @775  				set_bit(cmd->info.id, cxl_mbox->feature_cmds);
-96d766b4e53edf0 Dave Jiang       2024-12-11  776  				enabled++;
-96d766b4e53edf0 Dave Jiang       2024-12-11  777  			}
-d2f706058826b80 Ira Weiny        2023-09-03  778  		}
-d0abf5787adc034 Alison Schofield 2023-04-18  779  
-d2f706058826b80 Ira Weiny        2023-09-03  780  		if (cxl_is_poison_command(opcode)) {
-59f8d1510739e92 Dan Williams     2023-06-14  781  			cxl_set_poison_cmd_enabled(&mds->poison, opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  782  			enabled++;
-d2f706058826b80 Ira Weiny        2023-09-03  783  		}
-d0abf5787adc034 Alison Schofield 2023-04-18  784  
-d2f706058826b80 Ira Weiny        2023-09-03  785  		if (cxl_is_security_command(opcode)) {
-ad64f5952ce3ea5 Davidlohr Bueso  2023-07-25  786  			cxl_set_security_cmd_enabled(&mds->security, opcode);
-d2f706058826b80 Ira Weiny        2023-09-03  787  			enabled++;
-d2f706058826b80 Ira Weiny        2023-09-03  788  		}
-ad64f5952ce3ea5 Davidlohr Bueso  2023-07-25  789  
-d2f706058826b80 Ira Weiny        2023-09-03  790  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
-d2f706058826b80 Ira Weiny        2023-09-03  791  			enabled ? "enabled" : "unsupported by driver");
-4faf31b43468c58 Dan Williams     2021-09-08  792  	}
-4faf31b43468c58 Dan Williams     2021-09-08  793  }
-4faf31b43468c58 Dan Williams     2021-09-08  794  
+04876c12c19e94b Aharon Landau 2022-04-12  134  
+04876c12c19e94b Aharon Landau 2022-04-12  135  int mlx5r_umr_resource_init(struct mlx5_ib_dev *dev)
+04876c12c19e94b Aharon Landau 2022-04-12  136  {
+04876c12c19e94b Aharon Landau 2022-04-12  137  	struct ib_qp_init_attr init_attr = {};
+04876c12c19e94b Aharon Landau 2022-04-12  138  	struct ib_cq *cq;
+04876c12c19e94b Aharon Landau 2022-04-12  139  	struct ib_qp *qp;
+638420115cc4ad6 Jianbo Liu    2024-06-03  140  	int ret = 0;
+04876c12c19e94b Aharon Landau 2022-04-12  141  
+638420115cc4ad6 Jianbo Liu    2024-06-03  142  
+638420115cc4ad6 Jianbo Liu    2024-06-03  143  	/*
+638420115cc4ad6 Jianbo Liu    2024-06-03  144  	 * UMR qp is set once, never changed until device unload.
+638420115cc4ad6 Jianbo Liu    2024-06-03  145  	 * Avoid taking the mutex if initialization is already done.
+638420115cc4ad6 Jianbo Liu    2024-06-03  146  	 */
+638420115cc4ad6 Jianbo Liu    2024-06-03  147  	if (dev->umrc.qp)
+638420115cc4ad6 Jianbo Liu    2024-06-03  148  		return 0;
+638420115cc4ad6 Jianbo Liu    2024-06-03  149  
+638420115cc4ad6 Jianbo Liu    2024-06-03  150  	mutex_lock(&dev->umrc.init_lock);
+638420115cc4ad6 Jianbo Liu    2024-06-03  151  	/* First user allocates the UMR resources. Skip if already allocated. */
+638420115cc4ad6 Jianbo Liu    2024-06-03  152  	if (dev->umrc.qp)
+638420115cc4ad6 Jianbo Liu    2024-06-03 @153  		goto unlock;
+04876c12c19e94b Aharon Landau 2022-04-12  154  
+04876c12c19e94b Aharon Landau 2022-04-12  155  	cq = ib_alloc_cq(&dev->ib_dev, NULL, 128, 0, IB_POLL_SOFTIRQ);
+04876c12c19e94b Aharon Landau 2022-04-12  156  	if (IS_ERR(cq)) {
+04876c12c19e94b Aharon Landau 2022-04-12  157  		mlx5_ib_dbg(dev, "Couldn't create CQ for sync UMR QP\n");
+04876c12c19e94b Aharon Landau 2022-04-12  158  		ret = PTR_ERR(cq);
+638420115cc4ad6 Jianbo Liu    2024-06-03  159  		goto unlock;
+04876c12c19e94b Aharon Landau 2022-04-12  160  	}
+04876c12c19e94b Aharon Landau 2022-04-12  161  
+04876c12c19e94b Aharon Landau 2022-04-12  162  	init_attr.send_cq = cq;
+04876c12c19e94b Aharon Landau 2022-04-12  163  	init_attr.recv_cq = cq;
+04876c12c19e94b Aharon Landau 2022-04-12  164  	init_attr.sq_sig_type = IB_SIGNAL_ALL_WR;
+04876c12c19e94b Aharon Landau 2022-04-12  165  	init_attr.cap.max_send_wr = MAX_UMR_WR;
+04876c12c19e94b Aharon Landau 2022-04-12  166  	init_attr.cap.max_send_sge = 1;
+04876c12c19e94b Aharon Landau 2022-04-12  167  	init_attr.qp_type = MLX5_IB_QPT_REG_UMR;
+04876c12c19e94b Aharon Landau 2022-04-12  168  	init_attr.port_num = 1;
+638420115cc4ad6 Jianbo Liu    2024-06-03  169  	qp = ib_create_qp(dev->umrc.pd, &init_attr);
+04876c12c19e94b Aharon Landau 2022-04-12  170  	if (IS_ERR(qp)) {
+04876c12c19e94b Aharon Landau 2022-04-12  171  		mlx5_ib_dbg(dev, "Couldn't create sync UMR QP\n");
+04876c12c19e94b Aharon Landau 2022-04-12  172  		ret = PTR_ERR(qp);
+04876c12c19e94b Aharon Landau 2022-04-12  173  		goto destroy_cq;
+04876c12c19e94b Aharon Landau 2022-04-12  174  	}
+04876c12c19e94b Aharon Landau 2022-04-12  175  
+04876c12c19e94b Aharon Landau 2022-04-12  176  	ret = mlx5r_umr_qp_rst2rts(dev, qp);
+04876c12c19e94b Aharon Landau 2022-04-12  177  	if (ret)
+04876c12c19e94b Aharon Landau 2022-04-12  178  		goto destroy_qp;
+04876c12c19e94b Aharon Landau 2022-04-12  179  
+04876c12c19e94b Aharon Landau 2022-04-12  180  	dev->umrc.cq = cq;
+04876c12c19e94b Aharon Landau 2022-04-12  181  
+04876c12c19e94b Aharon Landau 2022-04-12  182  	sema_init(&dev->umrc.sem, MAX_UMR_WR);
+158e71bb69e368b Aharon Landau 2022-05-15  183  	mutex_init(&dev->umrc.lock);
+9b7d4be967f16f7 Maor Gottlieb 2022-08-29  184  	dev->umrc.state = MLX5_UMR_STATE_ACTIVE;
+638420115cc4ad6 Jianbo Liu    2024-06-03  185  	dev->umrc.qp = qp;
+04876c12c19e94b Aharon Landau 2022-04-12  186  
+638420115cc4ad6 Jianbo Liu    2024-06-03  187  	mutex_unlock(&dev->umrc.init_lock);
+04876c12c19e94b Aharon Landau 2022-04-12  188  	return 0;
+04876c12c19e94b Aharon Landau 2022-04-12  189  
+04876c12c19e94b Aharon Landau 2022-04-12  190  destroy_qp:
+04876c12c19e94b Aharon Landau 2022-04-12  191  	ib_destroy_qp(qp);
+04876c12c19e94b Aharon Landau 2022-04-12  192  destroy_cq:
+04876c12c19e94b Aharon Landau 2022-04-12  193  	ib_free_cq(cq);
+638420115cc4ad6 Jianbo Liu    2024-06-03  194  unlock:
+638420115cc4ad6 Jianbo Liu    2024-06-03  195  	mutex_unlock(&dev->umrc.init_lock);
+04876c12c19e94b Aharon Landau 2022-04-12  196  	return ret;
+04876c12c19e94b Aharon Landau 2022-04-12  197  }
+04876c12c19e94b Aharon Landau 2022-04-12  198  
 
 -- 
 0-DAY CI Kernel Test Service
