@@ -1,159 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DC61E47DB
-	for <oe-kbuild@lists.linux.dev>; Fri, 13 Dec 2024 18:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FF2190471
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Dec 2024 20:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734114403; cv=none; b=sQ9tAky3JFTS4Dg99y5Fdk/wjLwcIs1YbHcw5hJyWIBycJOrPldyBG8cIkMM6JxXBcOLdFOxFCiWKfg6RCAbRdTRD5fF1OfOAbCX0M/AL0GTK0JdHzcSjKSj/gTsvkF2UwZsHDwPzfUcyOM8Er5SdPkrXbThcpZDPYVLZdVyv8Q=
+	t=1734120905; cv=none; b=eu/X0C48r6xZ9wYa08U8bwN54OyGvI/ceiQhwei8aoKjdDVY/r2XZ1QmHM/izKtQsf30lUn2JDVddsDQ8lZQKxZr+S/AOMv+vISLIM4BmNhk3/csbqDab51IPrbdcZFAtBhLz2712oyTbDQrmZ0RThtIvQSTSp29MGknGEYK6VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734114403; c=relaxed/simple;
-	bh=U/FiV0ex1+5PMYn6gW10LPgKq8bceGh2QDJ6QMMgvaA=;
+	s=arc-20240116; t=1734120905; c=relaxed/simple;
+	bh=mVFNhNssm5GYbWmRNECdS3MApZkXPZWi+LvvIcMDYQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E9UXydDgiGJTtvfiBy37NOZS1smHH+Im0SkyS43622nvPRE08tMSVkZImkSop6I9mPSnJUTqPdJeG2z3Og5ZXx1YLgMghcN3bYhJzdKY5b6ARiUm/1ZX3H0BbOIvEfKaHVVfB52EqrPcIJ+ud+V1ApqeJusxKYdWFHhaLxpLrQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ls2gMrcB; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=NDFJ21DCEHxKTWm6wR5SYBjsAOtOFZ899gN15KBRJ6vqeZXYqMPA/53Ob0vUk4I+fC9hcD9xQpoYqGYEpV8fiW1hz4KXWWjIZot6fxUnuElc8nyczH5b3M9IL+YPKGnfnX6dBnS4NwLaPGpTzp5fnXTy9v7L6kD7VFwW0UC1cWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SBOa2sCJ; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ls2gMrcB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734114401; x=1765650401;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U/FiV0ex1+5PMYn6gW10LPgKq8bceGh2QDJ6QMMgvaA=;
-  b=Ls2gMrcBY9jjlaBeb/qYEhdgoTe730ek/lVLT4TraYH/lbYlOD0f7P77
-   BOZ7V7iyxTWjuhiRQ8prVROl8mMVB8kfWSx9hRu4ixrzxn2qnWXoQd3k/
-   raQmfgqWpkmVZivH/6qs0giDBQq02g+oeHApTDIUYnGQPfA5VzYn19T5w
-   BYSxGpts8lsNowtrDUHs4z24aRynGlray7x6xI9kv+tCy0H5gSoQbq2q+
-   6eFDAH8mci2SQvXpUCLw976IFgs7enDFS6j9hnI+rWdu+zOIsYDJU1vV5
-   Gy3Dt+mKQ09Cb+onkoIoB/rRsTHtd7MQhUSaa95vlOV/DohemDEqNHaHZ
-   A==;
-X-CSE-ConnectionGUID: 5BUKAgnlQMymCqeftOP5jA==
-X-CSE-MsgGUID: QCjYhr7oQ6mJRziGcMAFSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22162926"
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="22162926"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 10:26:40 -0800
-X-CSE-ConnectionGUID: jXIxAVDJRXCz8V90OEMsAw==
-X-CSE-MsgGUID: 7RilqiQsTvuCJYGdRFQv1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97039553"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2024 10:26:40 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tMAN3-000CJJ-0J;
-	Fri, 13 Dec 2024 18:26:37 +0000
-Date: Sat, 14 Dec 2024 02:26:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn:
- missing error code 'ret'
-Message-ID: <202412140235.cXqs4CTm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SBOa2sCJ"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d0ac27b412so2955485a12.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 13 Dec 2024 12:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734120901; x=1734725701; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qbyeVTn0akQOWVmaHujDlsyrhHqpLk6KxXOvye9WaRs=;
+        b=SBOa2sCJ1tH/n6MLoCidqpAKYgatZi4yzZTWsebtBOGBKJGOf7TUaR8DCDMbZ/povS
+         ncGJf+kftlt39j4jynO3W/oPCqJIszoE27Ol8jnVJgL0mbqxweo/JvMGOcXlptmxL/yi
+         DjafS9v1NbadeMNFn94y+zL43J1UhJjYMnvPhRArqK3lQxjYLHgQ6kb4wqccEAja+isA
+         RIogFjCw395ki+UB4b6JIY40lbX+xBHhzeh2lxzWFkX6hKcvVeipntviHjz2STt1H6qp
+         hDScgSPcju64baCprja9vwudkIT6KCxiVsW9dX+DpuCrgA+320TI+r0kPEptNEvz1Ye+
+         7e6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734120901; x=1734725701;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qbyeVTn0akQOWVmaHujDlsyrhHqpLk6KxXOvye9WaRs=;
+        b=TOE2ngP8amDo044keo33JxRGqDxboy/9iiBr2eDqz9syE88iQuLkCfAaT1DLT2hwMy
+         NN+kOWE+2AJnM96wfoiZ+n4y3pH5uDcdX4c1OYHY+bbBT9GGy/VT979nJlhWx+B6CwgY
+         68CH7uLhBibchYFd8N3VXvLqxWsRnfmWbT0cZ8PCFhoI7B50Y+30p+HBftR7ArEbbiff
+         zEGtXRRGyBhRqR9E1jzLuMJKSBD2OwpclYfIwA+3Yki/aEH5nUw90r00XoMbXrbHfQRD
+         4GEz46c+70F2iNr1cIlh6lNvxb6jh4gFl0sD36/zPXPVllOwJrFIFkuGsLQ3CpGmPIts
+         Mgeg==
+X-Gm-Message-State: AOJu0YyCi8fw/B9/TbMnPcEnjiZNpCEnl33ln7jEcSjjukLcWi0riYAY
+	eLLLcoBbKzwBt7EwM5nNFdfw5uH8xiegDa4Vd5IZMtNJpt4r3Ji5HnB9OunFianEFF4hCxB23yZ
+	A
+X-Gm-Gg: ASbGnctPo7h4QKfubyDm8uT5YOtX/nhnptxt2UMnDb4slYsRIofi1kh14bKdNqslQOQ
+	gdbKsZvBno8Dfhdb0njvAtTG14Ie3um0IIv6MvdftksCtz+UIHFbpow8+Bi+r4ZWnJjgoA/YMiy
+	PRxph8UDnn/4PXD2YtNWA4M4+oWIM8r4RDbq12Tciafvfi7IsOOeE19P5Qvv2Wa4vfyJMkN1tVJ
+	zQO7Qg3fXFB3OoD1+/eG+WvwKgAeStY3GpxFHvYR1BMIiabQ+p8jT8VPC3MXg==
+X-Google-Smtp-Source: AGHT+IGASeFnfwqt+fly8jRgLFop8gYvWkPu1Qr5DGjecdtgQkcPsBcE4VhsCfrWoKaLixITYBN7TA==
+X-Received: by 2002:a05:6402:358d:b0:5d3:bc03:cb7a with SMTP id 4fb4d7f45d1cf-5d63c3b170dmr4011736a12.27.1734120901635;
+        Fri, 13 Dec 2024 12:15:01 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ad1929sm178661a12.31.2024.12.13.12.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 12:15:01 -0800 (PST)
+Date: Fri, 13 Dec 2024 23:14:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/power-supply-extensions 8/8]
+ drivers/power/supply/power_supply_core.c:1409
+ power_supply_unregister_extension() error: dereferencing freed memory 'reg'
+ (line 1406)
+Message-ID: <0a1e2e1f-8d3a-4a3b-b621-efa173f52089@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jianbo Liu <jianbol@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f932fb9b40749d1c9a539d89bb3e288c077aafe5
-commit: 638420115cc4ad6c3a2683bf46a052b505abb202 IB/mlx5: Create UMR QP just before first reg_mr occurs
-date:   6 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-161-20241213 (https://download.01.org/0day-ci/archive/20241214/202412140235.cXqs4CTm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/power-supply-extensions
+head:   e3b31151b3d4283ae04910bec3e7688b7a6bf375
+commit: e3b31151b3d4283ae04910bec3e7688b7a6bf375 [8/8] power: supply: core: add UAPI to discover currently used extensions
+config: x86_64-randconfig-161-20241213 (https://download.01.org/0day-ci/archive/20241213/202412132302.wpJdjWnk-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412140235.cXqs4CTm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412132302.wpJdjWnk-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn: missing error code 'ret'
+drivers/power/supply/power_supply_core.c:1409 power_supply_unregister_extension() error: dereferencing freed memory 'reg' (line 1406)
 
-vim +/ret +153 drivers/infiniband/hw/mlx5/umr.c
+vim +/reg +1409 drivers/power/supply/power_supply_core.c
 
-04876c12c19e94b Aharon Landau 2022-04-12  134  
-04876c12c19e94b Aharon Landau 2022-04-12  135  int mlx5r_umr_resource_init(struct mlx5_ib_dev *dev)
-04876c12c19e94b Aharon Landau 2022-04-12  136  {
-04876c12c19e94b Aharon Landau 2022-04-12  137  	struct ib_qp_init_attr init_attr = {};
-04876c12c19e94b Aharon Landau 2022-04-12  138  	struct ib_cq *cq;
-04876c12c19e94b Aharon Landau 2022-04-12  139  	struct ib_qp *qp;
-638420115cc4ad6 Jianbo Liu    2024-06-03  140  	int ret = 0;
-04876c12c19e94b Aharon Landau 2022-04-12  141  
-638420115cc4ad6 Jianbo Liu    2024-06-03  142  
-638420115cc4ad6 Jianbo Liu    2024-06-03  143  	/*
-638420115cc4ad6 Jianbo Liu    2024-06-03  144  	 * UMR qp is set once, never changed until device unload.
-638420115cc4ad6 Jianbo Liu    2024-06-03  145  	 * Avoid taking the mutex if initialization is already done.
-638420115cc4ad6 Jianbo Liu    2024-06-03  146  	 */
-638420115cc4ad6 Jianbo Liu    2024-06-03  147  	if (dev->umrc.qp)
-638420115cc4ad6 Jianbo Liu    2024-06-03  148  		return 0;
-638420115cc4ad6 Jianbo Liu    2024-06-03  149  
-638420115cc4ad6 Jianbo Liu    2024-06-03  150  	mutex_lock(&dev->umrc.init_lock);
-638420115cc4ad6 Jianbo Liu    2024-06-03  151  	/* First user allocates the UMR resources. Skip if already allocated. */
-638420115cc4ad6 Jianbo Liu    2024-06-03  152  	if (dev->umrc.qp)
-638420115cc4ad6 Jianbo Liu    2024-06-03 @153  		goto unlock;
-04876c12c19e94b Aharon Landau 2022-04-12  154  
-04876c12c19e94b Aharon Landau 2022-04-12  155  	cq = ib_alloc_cq(&dev->ib_dev, NULL, 128, 0, IB_POLL_SOFTIRQ);
-04876c12c19e94b Aharon Landau 2022-04-12  156  	if (IS_ERR(cq)) {
-04876c12c19e94b Aharon Landau 2022-04-12  157  		mlx5_ib_dbg(dev, "Couldn't create CQ for sync UMR QP\n");
-04876c12c19e94b Aharon Landau 2022-04-12  158  		ret = PTR_ERR(cq);
-638420115cc4ad6 Jianbo Liu    2024-06-03  159  		goto unlock;
-04876c12c19e94b Aharon Landau 2022-04-12  160  	}
-04876c12c19e94b Aharon Landau 2022-04-12  161  
-04876c12c19e94b Aharon Landau 2022-04-12  162  	init_attr.send_cq = cq;
-04876c12c19e94b Aharon Landau 2022-04-12  163  	init_attr.recv_cq = cq;
-04876c12c19e94b Aharon Landau 2022-04-12  164  	init_attr.sq_sig_type = IB_SIGNAL_ALL_WR;
-04876c12c19e94b Aharon Landau 2022-04-12  165  	init_attr.cap.max_send_wr = MAX_UMR_WR;
-04876c12c19e94b Aharon Landau 2022-04-12  166  	init_attr.cap.max_send_sge = 1;
-04876c12c19e94b Aharon Landau 2022-04-12  167  	init_attr.qp_type = MLX5_IB_QPT_REG_UMR;
-04876c12c19e94b Aharon Landau 2022-04-12  168  	init_attr.port_num = 1;
-638420115cc4ad6 Jianbo Liu    2024-06-03  169  	qp = ib_create_qp(dev->umrc.pd, &init_attr);
-04876c12c19e94b Aharon Landau 2022-04-12  170  	if (IS_ERR(qp)) {
-04876c12c19e94b Aharon Landau 2022-04-12  171  		mlx5_ib_dbg(dev, "Couldn't create sync UMR QP\n");
-04876c12c19e94b Aharon Landau 2022-04-12  172  		ret = PTR_ERR(qp);
-04876c12c19e94b Aharon Landau 2022-04-12  173  		goto destroy_cq;
-04876c12c19e94b Aharon Landau 2022-04-12  174  	}
-04876c12c19e94b Aharon Landau 2022-04-12  175  
-04876c12c19e94b Aharon Landau 2022-04-12  176  	ret = mlx5r_umr_qp_rst2rts(dev, qp);
-04876c12c19e94b Aharon Landau 2022-04-12  177  	if (ret)
-04876c12c19e94b Aharon Landau 2022-04-12  178  		goto destroy_qp;
-04876c12c19e94b Aharon Landau 2022-04-12  179  
-04876c12c19e94b Aharon Landau 2022-04-12  180  	dev->umrc.cq = cq;
-04876c12c19e94b Aharon Landau 2022-04-12  181  
-04876c12c19e94b Aharon Landau 2022-04-12  182  	sema_init(&dev->umrc.sem, MAX_UMR_WR);
-158e71bb69e368b Aharon Landau 2022-05-15  183  	mutex_init(&dev->umrc.lock);
-9b7d4be967f16f7 Maor Gottlieb 2022-08-29  184  	dev->umrc.state = MLX5_UMR_STATE_ACTIVE;
-638420115cc4ad6 Jianbo Liu    2024-06-03  185  	dev->umrc.qp = qp;
-04876c12c19e94b Aharon Landau 2022-04-12  186  
-638420115cc4ad6 Jianbo Liu    2024-06-03  187  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94b Aharon Landau 2022-04-12  188  	return 0;
-04876c12c19e94b Aharon Landau 2022-04-12  189  
-04876c12c19e94b Aharon Landau 2022-04-12  190  destroy_qp:
-04876c12c19e94b Aharon Landau 2022-04-12  191  	ib_destroy_qp(qp);
-04876c12c19e94b Aharon Landau 2022-04-12  192  destroy_cq:
-04876c12c19e94b Aharon Landau 2022-04-12  193  	ib_free_cq(cq);
-638420115cc4ad6 Jianbo Liu    2024-06-03  194  unlock:
-638420115cc4ad6 Jianbo Liu    2024-06-03  195  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94b Aharon Landau 2022-04-12  196  	return ret;
-04876c12c19e94b Aharon Landau 2022-04-12  197  }
-04876c12c19e94b Aharon Landau 2022-04-12  198  
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1397  void power_supply_unregister_extension(struct power_supply *psy, const struct power_supply_ext *ext)
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1398  {
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1399  	struct power_supply_ext_registration *reg;
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1400  
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1401  	guard(rwsem_write)(&psy->extensions_sem);
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1402  
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1403  	power_supply_for_each_extension(reg, psy) {
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1404  		if (reg->ext == ext) {
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1405  			list_del(&reg->list_head);
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02 @1406  			kfree(reg);
+                                                                        ^^^^^^^^^^^
+This needs to be done after
+
+e3b31151b3d4283 Thomas Weiﬂschuh 2024-12-08  1407  			sysfs_remove_link_from_group(&psy->dev.kobj,
+e3b31151b3d4283 Thomas Weiﬂschuh 2024-12-08  1408  						     power_supply_extension_group.name,
+e3b31151b3d4283 Thomas Weiﬂschuh 2024-12-08 @1409  						     reg->ext->name);
+                                                                                                     ^^^^^^^^
+this dereference
+
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1410  			power_supply_update_sysfs_and_hwmon(psy);
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1411  			return;
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1412  		}
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1413  	}
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1414  
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1415  	dev_warn(&psy->dev, "Trying to unregister invalid extension");
+ec84a02d125cbf1 Thomas Weiﬂschuh 2024-06-02  1416  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
