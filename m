@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209FE19FA7C
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 19:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD43178C6D
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 20:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734205751; cv=none; b=PwPp/NOwv6BCDIEJSmn9dZcCd/XGzyApGTPqqXc9lR+k1y2PRKi9iR88YydRDR8WShlWHOf479XdYy59WIFnpSRfcNjXyb5qINNd/NTnZ+840bWT53pCJHawYqvyDm8YhyYylqJNoe5IecyNfN/3w2WdfL+4pDSQg2n0r7b6hps=
+	t=1734209544; cv=none; b=e7K17FY8q4mCa1tqxLS7ESzWfg71spTyWcQnftyvKKUEq4cg1fKNTrhpyoCYSXnn8TdAEin+d+M8hLp9yVVwPMEqfaBhgyaNvROe7jK2X46G3cDV3g9dPDQ/NWUidQtQNt76qrxxqY33/opK1tMKytNK+mrEGKpLAqqZcMyXdpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734205751; c=relaxed/simple;
-	bh=o/6ko2oysUVJI8No6cwC9kPnw6hEFr1LOtP+41bqfiE=;
+	s=arc-20240116; t=1734209544; c=relaxed/simple;
+	bh=WnlxsU1V4gOV3f4i21wOmrbJHn0rUogn0EtqZgSMHto=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IqG+Z5WOiU6Ht/GFM1jF3tuz5LbKhFo+OwmlgWAMBabFi8etWZFCJ1GoW5H4SqWydW0pB4cT1wPSPpW+La9Qy5hW6TIrXzdOnSQFBuX8yAxEtqnuAR0VD/b4/PYlLCjsLGaw2RA1y/GWIkIE63XLhrkBnvTBERr7izRWH7WrWkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcWyC2Un; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=qFVQ6WtRfpRk8dDYo5Ah+6LPRDPhIHSO1PiEFllwTh/zfDdSG+tE9iijx3lQS31lr1mGzgyrYfnwuTwb0aq21KIwymSt/SUySc94xbcSGnaLnS2N+7qI4tNOfITlFUUwn7nTy829t9BLD8QlqYnzbNBDjCbMKSSL0hZZ1Ge/+5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ADIFB84t; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcWyC2Un"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ADIFB84t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734205749; x=1765741749;
+  t=1734209543; x=1765745543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/6ko2oysUVJI8No6cwC9kPnw6hEFr1LOtP+41bqfiE=;
-  b=bcWyC2UnqWFYUesxhmd4gsaUqStYLQ9/c3UNqo9nnFL8volkzm62UJNV
-   Z9w1Jkkv6FkWTA47a6jvZrf1WIvCl0BMRP92G/9EtM4nVO10We8bEreq4
-   6kJ9DNdtDniRP54red7GLmRGsbsJ9NJkmOYNHyQuxzLDz4nZaQFDGW/bR
-   LJkhV7LD9/+gxEDILS50BB7y155c+iA39E5bpi5bblAz445Ef7JLBUC6K
-   pSl6Bo+2sf5zaI8M0e9d/FSh6906mQCy2ENXJyfPWWNgt3WlSb7yXGRuK
-   GtnWv7Bvuyj8L1YOsL7TajoDgK6otTj7BzGjAGktbexYUIO7vCK4kGOOf
-   A==;
-X-CSE-ConnectionGUID: X92zYISzR1SMKliQaSEsQg==
-X-CSE-MsgGUID: a/9hnnGzQFuZl44dWtORCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="33965419"
+  bh=WnlxsU1V4gOV3f4i21wOmrbJHn0rUogn0EtqZgSMHto=;
+  b=ADIFB84t+B1FYADFIHvNnY4uqoFkP7mLCliH+lHLTl3Wm/aVqJtynGgD
+   xtD5MmAPpLJzDoN4YSMbu5gBe1jz7GJCGwb5DXCHMbIxhzqVOeddizJuS
+   aOk3Ldm1lydr9ohzqfdv6bPlNm6vwu+lbLy7tCvt24j0K8xvghsDeWcgp
+   OaOBaCJHk9J3k45BPLioi24Wju0KjWSEv3VNDVHD1kjdA6WMmq0SyOQup
+   adA4EP+bET8Yv8o467XkfuMIAJUMlf1YJOBXaDGf/teHsFKYBkOWlcFER
+   WEZZKeYTl9ry2QqtQoGKbT+/Yq/kFIsCem3LrM/ObRqhgAwNI01+Od2Gr
+   w==;
+X-CSE-ConnectionGUID: 6DAFEJm9T6eLl9E+3X+6YQ==
+X-CSE-MsgGUID: jfrHYrmfR3KxFKLP0AA+CQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45242393"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="33965419"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 11:49:08 -0800
-X-CSE-ConnectionGUID: Y8QbUQ9MR7SvLX46540b6w==
-X-CSE-MsgGUID: hD8ppABjRpu7YojVEVkBKg==
+   d="scan'208";a="45242393"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 12:52:22 -0800
+X-CSE-ConnectionGUID: 9i2ncwkCSqyKJhNKfWc+bA==
+X-CSE-MsgGUID: udlvOhBoRm+Sg5P40pfZ0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="96582200"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="97273002"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Dec 2024 11:49:07 -0800
+  by orviesa007.jf.intel.com with ESMTP; 14 Dec 2024 12:52:20 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMY8P-000DBU-2H;
-	Sat, 14 Dec 2024 19:49:05 +0000
-Date: Sun, 15 Dec 2024 03:48:17 +0800
+	id 1tMZ7a-000DDg-13;
+	Sat, 14 Dec 2024 20:52:18 +0000
+Date: Sun, 15 Dec 2024 04:52:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2579/2579] fs/udf/file.c:175
- udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
-Message-ID: <202412150352.4zRZ3ksW-lkp@intel.com>
+Subject: drivers/iommu/amd/iommu.c:2011 init_gcr3_table() warn: missing error
+ code? 'ret'
+Message-ID: <202412150452.bS7b6cyM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,78 +64,70 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: sanglipeng <sanglipeng1@jd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Vasant Hegde <vasant.hegde@amd.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   6c3413fbf8c430b89f5d23f465e10e99ea145199
-commit: a0756b79ccafa25037fa57d5afd50dc12ad230b6 [2579/2579] udf: Do not update file length for failed writes to inline files
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year, 2 months ago
-config: x86_64-randconfig-161-20241213 (https://download.01.org/0day-ci/archive/20241215/202412150352.4zRZ3ksW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a0e3919a2df29b373b19a8fbd6e4c4c38fc10d87
+commit: c9e8701132e6cc162d082e7dad8a2e9110f5f8fd iommu/amd: Setup GCR3 table in advance if domain is SVA capable
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241215/202412150452.bS7b6cyM-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412150352.4zRZ3ksW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412150452.bS7b6cyM-lkp@intel.com/
 
 smatch warnings:
-fs/udf/file.c:175 udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
+drivers/iommu/amd/iommu.c:2011 init_gcr3_table() warn: missing error code? 'ret'
 
-vim +175 fs/udf/file.c
+vim +/ret +2011 drivers/iommu/amd/iommu.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  134  
-d4637bc18f3bf8 Al Viro           2014-04-03  135  static ssize_t udf_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  136  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  137  	ssize_t retval;
-543ade1fc901db Badari Pulavarty  2006-09-30  138  	struct file *file = iocb->ki_filp;
-496ad9aa8ef448 Al Viro           2013-01-23  139  	struct inode *inode = file_inode(file);
-48d6d8ff7dca80 Marcin Slusarz    2008-02-08  140  	struct udf_inode_info *iinfo = UDF_I(inode);
-165f1a6e300d5a Al Viro           2015-04-07  141  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  142  
-5955102c9984fa Al Viro           2016-01-22  143  	inode_lock(inode);
-165f1a6e300d5a Al Viro           2015-04-07  144  
-3309dd04cbcd2c Al Viro           2015-04-09  145  	retval = generic_write_checks(iocb, from);
-3309dd04cbcd2c Al Viro           2015-04-09  146  	if (retval <= 0)
-165f1a6e300d5a Al Viro           2015-04-07  147  		goto out;
-165f1a6e300d5a Al Viro           2015-04-07  148  
-8754a3f718f08d Jan Kara          2010-11-16  149  	down_write(&iinfo->i_data_sem);
-a0756b79ccafa2 Jan Kara          2023-01-02  150  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB &&
-a0756b79ccafa2 Jan Kara          2023-01-02  151  	    inode->i_sb->s_blocksize < (udf_file_entry_alloc_offset(inode) +
-a0756b79ccafa2 Jan Kara          2023-01-02  152  				 iocb->ki_pos + iov_iter_count(from))) {
-7e49b6f2480cb9 Jan Kara          2010-10-22  153  		err = udf_expand_file_adinicb(inode);
-7e49b6f2480cb9 Jan Kara          2010-10-22  154  		if (err) {
-5955102c9984fa Al Viro           2016-01-22  155  			inode_unlock(inode);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  156  			udf_debug("udf_expand_adinicb: err=%d\n", err);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  157  			return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  158  		}
-d2eb8c359309ec Jan Kara          2011-12-10  159  	} else
-8754a3f718f08d Jan Kara          2010-11-16  160  		up_write(&iinfo->i_data_sem);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  161  
-d4637bc18f3bf8 Al Viro           2014-04-03  162  	retval = __generic_file_write_iter(iocb, from);
-5f380c7fa7e01f Al Viro           2015-04-07  163  out:
-a0756b79ccafa2 Jan Kara          2023-01-02  164  	down_write(&iinfo->i_data_sem);
-a0756b79ccafa2 Jan Kara          2023-01-02  165  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB && retval > 0)
-a0756b79ccafa2 Jan Kara          2023-01-02  166  		iinfo->i_lenAlloc = inode->i_size;
-a0756b79ccafa2 Jan Kara          2023-01-02  167  	up_write(&iinfo->i_data_sem);
-5955102c9984fa Al Viro           2016-01-22  168  	inode_unlock(inode);
-09ebb17ab476b6 Jan Kara          2014-02-18  169  
-09ebb17ab476b6 Jan Kara          2014-02-18  170  	if (retval > 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  171  		mark_inode_dirty(inode);
-e259221763a404 Christoph Hellwig 2016-04-07  172  		retval = generic_write_sync(iocb, retval);
-09ebb17ab476b6 Jan Kara          2014-02-18  173  	}
-28de7948a89676 Cyrill Gorcunov   2007-07-21  174  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @175  	return retval;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  176  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  177  
-
-:::::: The code at line 175 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+c5ebd0962539100 Vasant Hegde 2024-04-18  1981  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1982  /*
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1983   * If domain is SVA capable then initialize GCR3 table. Also if domain is
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1984   * in v2 page table mode then update GCR3[0].
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1985   */
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1986  static int init_gcr3_table(struct iommu_dev_data *dev_data,
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1987  			   struct protection_domain *pdom)
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1988  {
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1989  	struct amd_iommu *iommu = get_amd_iommu_from_dev_data(dev_data);
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1990  	int max_pasids = dev_data->max_pasids;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1991  	int ret = 0;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1992  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1993  	 /*
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1994  	  * If domain is in pt mode then setup GCR3 table only if device
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1995  	  * is PASID capable
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1996  	  */
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1997  	if (pdom_is_in_pt_mode(pdom) && !pdev_pasid_supported(dev_data))
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1998  		return ret;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  1999  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2000  	/*
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2001  	 * By default, setup GCR3 table to support MAX PASIDs
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2002  	 * supported by the device/IOMMU.
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2003  	 */
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2004  	ret = setup_gcr3_table(&dev_data->gcr3_info, iommu,
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2005  			       max_pasids > 0 ?  max_pasids : 1);
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2006  	if (ret)
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2007  		return ret;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2008  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2009  	/* Setup GCR3[0] only if domain is setup with v2 page table mode */
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2010  	if (!pdom_is_v2_pgtbl_mode(pdom))
+c9e8701132e6cc1 Vasant Hegde 2024-04-18 @2011  		return ret;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2012  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2013  	ret = update_gcr3(dev_data, 0, iommu_virt_to_phys(pdom->iop.pgd), true);
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2014  	if (ret)
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2015  		free_gcr3_table(&dev_data->gcr3_info);
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2016  
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2017  	return ret;
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2018  }
+c9e8701132e6cc1 Vasant Hegde 2024-04-18  2019  
 
 -- 
 0-DAY CI Kernel Test Service
