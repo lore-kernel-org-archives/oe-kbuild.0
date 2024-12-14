@@ -1,115 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C085F194C78
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 18:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209FE19FA7C
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 19:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734199885; cv=none; b=CDLXY5V2QhNzfgcK9IsSuZP8A6QmGB9R1jWCUHWBIrmenLkKWiKLnQxmMIVUCUOj9BJ24FujvJYiVgcV7C1ZEZM5QQy8g0718pkc9Qmj4X9P6CTdzkrr9METh8Ykcse9k1N50d3gV5F7QO1J6teXUmURryvFeUSekTZ8mgb1MyY=
+	t=1734205751; cv=none; b=PwPp/NOwv6BCDIEJSmn9dZcCd/XGzyApGTPqqXc9lR+k1y2PRKi9iR88YydRDR8WShlWHOf479XdYy59WIFnpSRfcNjXyb5qINNd/NTnZ+840bWT53pCJHawYqvyDm8YhyYylqJNoe5IecyNfN/3w2WdfL+4pDSQg2n0r7b6hps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734199885; c=relaxed/simple;
-	bh=tF+JuWEZKlOrgGzcNvYaIzYY0VmmSFo+IU+c5s5MDe8=;
+	s=arc-20240116; t=1734205751; c=relaxed/simple;
+	bh=o/6ko2oysUVJI8No6cwC9kPnw6hEFr1LOtP+41bqfiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f2GmVg6pViIMRwr7ytOFawzBfWh6m96Hysi5gmg+2JqoHHn3wtmaigs//ARx3D9NwsJwzPlbuyk6aGCtwQO60R/DQwj1bucR3mvN1WJaYXRCCcfbRiC8z9Q3ovAl67TqEWqe5UbFH7QLvprssMT9N5gw3O5ya8Bbh2BwbTlzCuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkgQ253z; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=IqG+Z5WOiU6Ht/GFM1jF3tuz5LbKhFo+OwmlgWAMBabFi8etWZFCJ1GoW5H4SqWydW0pB4cT1wPSPpW+La9Qy5hW6TIrXzdOnSQFBuX8yAxEtqnuAR0VD/b4/PYlLCjsLGaw2RA1y/GWIkIE63XLhrkBnvTBERr7izRWH7WrWkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcWyC2Un; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkgQ253z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcWyC2Un"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734199884; x=1765735884;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tF+JuWEZKlOrgGzcNvYaIzYY0VmmSFo+IU+c5s5MDe8=;
-  b=FkgQ253zJ6TSGbkddIgJNp4xiK62tpERTbNbGHwDkH47WNwfylH/mPOd
-   XidD9SZGW01jjKzBjJbqVGca7tF/Q7ECdm9jOwKvztY3VeVXkxia76asV
-   nDmTVcvUR89Ky99zdg5y1YkUoRL1HpzoM/LzmL/CLoB6z7ve6WUgW/9Fq
-   cnAULXVV+2K62CfNIeT9c5pKp8VCl+wG2+kD5KFq1avEQxjCwRzoKx4PX
-   AN8DReJLVOmUEp/k/dcGgwft3mPqh4oU/i93DkgIMAjkZouQaQXnWg7jL
-   wv2rftsYOhe15RaLiGWnCcDbU/1ifVCek//+JI/ZALZM98o8QZdeP++Km
-   g==;
-X-CSE-ConnectionGUID: 3MmYsg2RRB+kObsQAidpuQ==
-X-CSE-MsgGUID: CG29KuagSAaf44WqLBcgQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="57115462"
-X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="57115462"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 10:11:23 -0800
-X-CSE-ConnectionGUID: 7McrYqXBTSu5kcSeFBFOCQ==
-X-CSE-MsgGUID: dhH4z1rjS9+9BQVEBQcgnQ==
+  t=1734205749; x=1765741749;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o/6ko2oysUVJI8No6cwC9kPnw6hEFr1LOtP+41bqfiE=;
+  b=bcWyC2UnqWFYUesxhmd4gsaUqStYLQ9/c3UNqo9nnFL8volkzm62UJNV
+   Z9w1Jkkv6FkWTA47a6jvZrf1WIvCl0BMRP92G/9EtM4nVO10We8bEreq4
+   6kJ9DNdtDniRP54red7GLmRGsbsJ9NJkmOYNHyQuxzLDz4nZaQFDGW/bR
+   LJkhV7LD9/+gxEDILS50BB7y155c+iA39E5bpi5bblAz445Ef7JLBUC6K
+   pSl6Bo+2sf5zaI8M0e9d/FSh6906mQCy2ENXJyfPWWNgt3WlSb7yXGRuK
+   GtnWv7Bvuyj8L1YOsL7TajoDgK6otTj7BzGjAGktbexYUIO7vCK4kGOOf
+   A==;
+X-CSE-ConnectionGUID: X92zYISzR1SMKliQaSEsQg==
+X-CSE-MsgGUID: a/9hnnGzQFuZl44dWtORCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="33965419"
+X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
+   d="scan'208";a="33965419"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 11:49:08 -0800
+X-CSE-ConnectionGUID: Y8QbUQ9MR7SvLX46540b6w==
+X-CSE-MsgGUID: hD8ppABjRpu7YojVEVkBKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97613938"
+X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
+   d="scan'208";a="96582200"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Dec 2024 10:11:22 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 14 Dec 2024 11:49:07 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMWbn-000D7z-2G;
-	Sat, 14 Dec 2024 18:11:19 +0000
-Date: Sun, 15 Dec 2024 02:11:17 +0800
+	id 1tMY8P-000DBU-2H;
+	Sat, 14 Dec 2024 19:49:05 +0000
+Date: Sun, 15 Dec 2024 03:48:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/xe_guc_relay.c:598 relay_handle_failure() warn:
- passing zero to 'ERR_PTR'
-Message-ID: <202412150254.vl3tkK75-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2579/2579] fs/udf/file.c:175
+ udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
+Message-ID: <202412150352.4zRZ3ksW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: "José Roberto de Souza" <jose.souza@intel.com>
+TO: kernel@openeuler.org
+TO: sanglipeng <sanglipeng1@jd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a446e965a188ee8f745859e63ce046fe98577d45
-commit: 2b35ae108c7f5486adbc9e70377110ab8c91f61b drm/xe: Fix compilation without CONFIG_KUNIT
-date:   11 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241215/202412150254.vl3tkK75-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   6c3413fbf8c430b89f5d23f465e10e99ea145199
+commit: a0756b79ccafa25037fa57d5afd50dc12ad230b6 [2579/2579] udf: Do not update file length for failed writes to inline files
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year, 2 months ago
+config: x86_64-randconfig-161-20241213 (https://download.01.org/0day-ci/archive/20241215/202412150352.4zRZ3ksW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412150254.vl3tkK75-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412150352.4zRZ3ksW-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/xe/xe_guc_relay.c:598 relay_handle_failure() warn: passing zero to 'ERR_PTR'
+fs/udf/file.c:175 udf_file_write_iter() warn: inconsistent returns '&iinfo->i_data_sem'.
 
-vim +/ERR_PTR +598 drivers/gpu/drm/xe/xe_guc_relay.c
+vim +175 fs/udf/file.c
 
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  590  
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  591  static int relay_handle_failure(struct xe_guc_relay *relay, u32 origin,
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  592  				u32 rid, const u32 *msg, u32 len)
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  593  {
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  594  	int error = FIELD_GET(GUC_HXG_FAILURE_MSG_0_ERROR, msg[0]);
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  595  	u32 hint __maybe_unused = FIELD_GET(GUC_HXG_FAILURE_MSG_0_HINT, msg[0]);
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  596  
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  597  	relay_assert(relay, len);
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04 @598  	relay_debug(relay, "%u.%u error %#x (%pe) hint %u debug %*ph\n",
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  599  		    origin, rid, error, ERR_PTR(-error), hint, 4 * (len - 1), msg + 1);
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  600  
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  601  	return relay_handle_reply(relay, origin, rid, error ?: -EREMOTEIO, NULL, 0);
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  602  }
-811fe9f556fcb28 Michal Wajdeczko 2024-01-04  603  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  134  
+d4637bc18f3bf8 Al Viro           2014-04-03  135  static ssize_t udf_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  136  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  137  	ssize_t retval;
+543ade1fc901db Badari Pulavarty  2006-09-30  138  	struct file *file = iocb->ki_filp;
+496ad9aa8ef448 Al Viro           2013-01-23  139  	struct inode *inode = file_inode(file);
+48d6d8ff7dca80 Marcin Slusarz    2008-02-08  140  	struct udf_inode_info *iinfo = UDF_I(inode);
+165f1a6e300d5a Al Viro           2015-04-07  141  	int err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  142  
+5955102c9984fa Al Viro           2016-01-22  143  	inode_lock(inode);
+165f1a6e300d5a Al Viro           2015-04-07  144  
+3309dd04cbcd2c Al Viro           2015-04-09  145  	retval = generic_write_checks(iocb, from);
+3309dd04cbcd2c Al Viro           2015-04-09  146  	if (retval <= 0)
+165f1a6e300d5a Al Viro           2015-04-07  147  		goto out;
+165f1a6e300d5a Al Viro           2015-04-07  148  
+8754a3f718f08d Jan Kara          2010-11-16  149  	down_write(&iinfo->i_data_sem);
+a0756b79ccafa2 Jan Kara          2023-01-02  150  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB &&
+a0756b79ccafa2 Jan Kara          2023-01-02  151  	    inode->i_sb->s_blocksize < (udf_file_entry_alloc_offset(inode) +
+a0756b79ccafa2 Jan Kara          2023-01-02  152  				 iocb->ki_pos + iov_iter_count(from))) {
+7e49b6f2480cb9 Jan Kara          2010-10-22  153  		err = udf_expand_file_adinicb(inode);
+7e49b6f2480cb9 Jan Kara          2010-10-22  154  		if (err) {
+5955102c9984fa Al Viro           2016-01-22  155  			inode_unlock(inode);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  156  			udf_debug("udf_expand_adinicb: err=%d\n", err);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  157  			return err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  158  		}
+d2eb8c359309ec Jan Kara          2011-12-10  159  	} else
+8754a3f718f08d Jan Kara          2010-11-16  160  		up_write(&iinfo->i_data_sem);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  161  
+d4637bc18f3bf8 Al Viro           2014-04-03  162  	retval = __generic_file_write_iter(iocb, from);
+5f380c7fa7e01f Al Viro           2015-04-07  163  out:
+a0756b79ccafa2 Jan Kara          2023-01-02  164  	down_write(&iinfo->i_data_sem);
+a0756b79ccafa2 Jan Kara          2023-01-02  165  	if (iinfo->i_alloc_type == ICBTAG_FLAG_AD_IN_ICB && retval > 0)
+a0756b79ccafa2 Jan Kara          2023-01-02  166  		iinfo->i_lenAlloc = inode->i_size;
+a0756b79ccafa2 Jan Kara          2023-01-02  167  	up_write(&iinfo->i_data_sem);
+5955102c9984fa Al Viro           2016-01-22  168  	inode_unlock(inode);
+09ebb17ab476b6 Jan Kara          2014-02-18  169  
+09ebb17ab476b6 Jan Kara          2014-02-18  170  	if (retval > 0) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  171  		mark_inode_dirty(inode);
+e259221763a404 Christoph Hellwig 2016-04-07  172  		retval = generic_write_sync(iocb, retval);
+09ebb17ab476b6 Jan Kara          2014-02-18  173  	}
+28de7948a89676 Cyrill Gorcunov   2007-07-21  174  
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @175  	return retval;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  176  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  177  
 
-:::::: The code at line 598 was first introduced by commit
-:::::: 811fe9f556fcb281ea2db1b0fff3bab20f0a4d42 drm/xe/guc: Introduce Relay Communication for SR-IOV
+:::::: The code at line 175 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-:::::: CC: Michal Wajdeczko <michal.wajdeczko@intel.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
