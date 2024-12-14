@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5105A154C00
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 11:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBFB63C
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 13:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734177415; cv=none; b=LV2/V9KURGlHI8q7Nwrvwwj+SmAIQ0xY4t32cwSbt70MlPCm+HAwbh6IDN+F8jFBlbPQoKM5qXgqJnfoagkaSwkOLotnYCkqIPRzykaVIV+VvfKjmygumwnbEu6yWUZPQ4cI6JCjW4SPeAZ7jokrg5fXbdZrBbqnQpyjWCN0hBQ=
+	t=1734183170; cv=none; b=FSzsF8Wg+x4/kEQozjTaCbJEnEtQ9U6MblxPwGzCWC9VgqP5A5tCL+lUs+gLE56N+mMUTrMhC0xGy6A4bzYSQLhR+mebzb96ph4MvNFbx0grtvFBL18k8JI+8URSG5PyROFpyQwc4WoRkf85RlkUvjKLaDgUN46B4q+bn3pWS8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734177415; c=relaxed/simple;
-	bh=Jo0hWCXliStolmKgu0A7112bEsQHqbiFk698rJXdvkY=;
+	s=arc-20240116; t=1734183170; c=relaxed/simple;
+	bh=gs+feSx451B2wg4slf0M7OE60JnNF0Dl4gS4KEPIDd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qTX3soyOSf+gXmdYpMkO5dKy2aA3hHBW3u4WDGupOXwDKGD0QVWQc51MqYPkwpqTq8QB9KGdFLBsMn2Ldb1TyquLFxCZRhuzAQF01eP00eHW3AfIQKONbH/KlazkoaUcFqTTglo2nwsADBq/CNuOBX5oE8AYSIzV6BYdsW9Xn6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NIU/xLfm; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=tm4N6FIQruqd/6ptWxN/si/REUwcK3OzfiFQhDrB7RS9vOYMaKA8hufZz2++oIgY1hffuTizvTDKABdixM1xw8R5Xi5Wk/AyY0uWBOmx25JUXmWBqPPrBUt5ibN3sikuw+8TLaLj93ltiZCs/3iBYDENLoiP4lYqdaiEqlx2grg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNVvQz3w; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIU/xLfm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNVvQz3w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734177414; x=1765713414;
+  t=1734183168; x=1765719168;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jo0hWCXliStolmKgu0A7112bEsQHqbiFk698rJXdvkY=;
-  b=NIU/xLfm8vu6rmsFrjrnzrA5F7+ZZuL296NnjT8eRgvEZTN4PuR73EOa
-   aKwRxiXy6HvalSzAz4QXmJteBecVs3BLGTRl/XVkgI9GsCXSW5ix8RGs3
-   IJzgCYCWuuhujAKYtfIb/jSi59hzHUoGbc87o1GRMyi0b8cjoAuw7lFrp
-   fF7dfnegJJ+MKTBWqxqsR5nGHpxJ/u8tzkwy+6mUIXrwkAOP+DYwpWNnP
-   mKBLZLWBzZV/UHcjnb/+3wCcEN/IIjcNG56WC15pNInGfQ7KoJMPtva4m
-   e1gSZBABy+jlQWOUx7kqhvNfxXx7ZsGXnGYwUWkcSe8BNdYYYTLyzpFy6
-   w==;
-X-CSE-ConnectionGUID: M7B33YHsSEemkHs0IxkLYA==
-X-CSE-MsgGUID: xtai8ofxSduMms5Kgn9GNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34765427"
+  bh=gs+feSx451B2wg4slf0M7OE60JnNF0Dl4gS4KEPIDd8=;
+  b=ZNVvQz3whEhers2LuWtWNcJtyUkDvNaPTd0y/UWLStZNP8pmi82t/tmf
+   rjFxCFSXfK1v1meGara1Wi7Owwx3Kq/fGH5ZUSa59DkJ40l5tnMWyn3Tq
+   8w4/M5rH8dEpp4eEdMZxl9J0u41Oj00sD17+ZPGDhtwA6kZgPYSOKm5Ig
+   74GrJ/9y63szYay7cq/ZFTUzbafT5dZjP+svCbT4lLrqmkc8CyEtqleRP
+   P03LrU0c6/FuW5XTmdBazSnAPCi7nw00CM4LvrpgKWXOfXH1Mc2+BmlYX
+   UG2ljOe7BomDQZzKhh4tQbk+Ap4Mx62GulFpl94DoGwp45pzAgaWwqkSf
+   g==;
+X-CSE-ConnectionGUID: fmZ55ombTaG3ULp6xB4Opw==
+X-CSE-MsgGUID: VQ0M4xiqRL29Dogm9R2SrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34670837"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="34765427"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 03:56:53 -0800
-X-CSE-ConnectionGUID: yJzHD7QWRkmMgiBYLDWo5A==
-X-CSE-MsgGUID: WOF81qYlRh+ytfrp/B8iOw==
+   d="scan'208";a="34670837"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:32:47 -0800
+X-CSE-ConnectionGUID: z8RIRpCpQw+uMAi+H65rUg==
+X-CSE-MsgGUID: qbRwwDbrQbS6xchVN3K23g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97559049"
+X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
+   d="scan'208";a="96657242"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Dec 2024 03:56:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2024 05:32:46 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMQlN-000CtX-1l;
-	Sat, 14 Dec 2024 11:56:49 +0000
-Date: Sat, 14 Dec 2024 19:56:01 +0800
+	id 1tMSGC-000CxD-03;
+	Sat, 14 Dec 2024 13:32:44 +0000
+Date: Sat, 14 Dec 2024 21:32:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [broonie-ci:file9XuPpf 65/68]
- arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a:
- 'DBVDD-supply' is a required property
-Message-ID: <202412141922.EpkjzQnt-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can
+ 'pgtable' even be NULL?
+Message-ID: <202412142124.wxOrOpUF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,73 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Mark Brown <broonie@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Vasant Hegde <vasant.hegde@amd.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git file9XuPpf
-head:   f851b987f39121bb73d110c8508cac5ea60cfdc5
-commit: ab20bcb2d0c80b4df9f9a6ef86c6e47d5d10cba0 [65/68] ASoC: dt-bindings: convert rt5682.txt to dt-schema
-:::::: branch date: 22 hours ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20241212 (https://download.01.org/0day-ci/archive/20241214/202412141922.EpkjzQnt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241214/202412141922.EpkjzQnt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a446e965a188ee8f745859e63ce046fe98577d45
+commit: e8e1aac33458d80545e5ad37b2a3e4243eee278e iommu/amd: Refactor helper function for setting / clearing GCR3
+date:   10 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241214/202412142124.wxOrOpUF-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412141922.EpkjzQnt-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412142124.wxOrOpUF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic: regulators: 'compatible' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic: 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pmic@34: #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a: 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: codec@1a: 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic: regulators: 'compatible' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic: 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pmic@34: #interrupt-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a: 'DBVDD-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
->> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: codec@1a: 'LDO1-IN-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
+smatch warnings:
+drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can 'pgtable' even be NULL?
+
+vim +/pgtable +355 drivers/iommu/amd/io_pgtable_v2.c
+
+aaac38f614871df Vasant Hegde          2022-08-25  350  
+aaac38f614871df Vasant Hegde          2022-08-25  351  static void v2_free_pgtable(struct io_pgtable *iop)
+aaac38f614871df Vasant Hegde          2022-08-25  352  {
+aaac38f614871df Vasant Hegde          2022-08-25  353  	struct amd_io_pgtable *pgtable = container_of(iop, struct amd_io_pgtable, iop);
+aaac38f614871df Vasant Hegde          2022-08-25  354  
+e8e1aac33458d80 Suravee Suthikulpanit 2024-02-05 @355  	if (!pgtable || !pgtable->pgd)
+aaac38f614871df Vasant Hegde          2022-08-25  356  		return;
+aaac38f614871df Vasant Hegde          2022-08-25  357  
+aaac38f614871df Vasant Hegde          2022-08-25  358  	/* Free page table */
+aaac38f614871df Vasant Hegde          2022-08-25  359  	free_pgtable(pgtable->pgd, get_pgtable_level());
+e8e1aac33458d80 Suravee Suthikulpanit 2024-02-05  360  	pgtable->pgd = NULL;
+aaac38f614871df Vasant Hegde          2022-08-25  361  }
+aaac38f614871df Vasant Hegde          2022-08-25  362  
 
 -- 
 0-DAY CI Kernel Test Service
