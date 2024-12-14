@@ -1,108 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBFB63C
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 13:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8DE26AFF
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Dec 2024 16:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734183170; cv=none; b=FSzsF8Wg+x4/kEQozjTaCbJEnEtQ9U6MblxPwGzCWC9VgqP5A5tCL+lUs+gLE56N+mMUTrMhC0xGy6A4bzYSQLhR+mebzb96ph4MvNFbx0grtvFBL18k8JI+8URSG5PyROFpyQwc4WoRkf85RlkUvjKLaDgUN46B4q+bn3pWS8E=
+	t=1734195076; cv=none; b=Wmjrt+2PBWBT6segpWkmpdj/ixBflgsDz/JHmayObdxspx7Y4g9r6h32zrwClhauYdkefyCykXrfm7VuLhAFyjhJEwNDQFu/dFdNg+ISbpSNh4VKIrod621W1PIGiF3SRy5DJfjmNNVl7zS2T69Zh2yA4L91Vw86245bm57zavI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734183170; c=relaxed/simple;
-	bh=gs+feSx451B2wg4slf0M7OE60JnNF0Dl4gS4KEPIDd8=;
+	s=arc-20240116; t=1734195076; c=relaxed/simple;
+	bh=SPdj5WzWxFoQqxED9/dmi6yY09ty4UpY6pgTtYJC2Z8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tm4N6FIQruqd/6ptWxN/si/REUwcK3OzfiFQhDrB7RS9vOYMaKA8hufZz2++oIgY1hffuTizvTDKABdixM1xw8R5Xi5Wk/AyY0uWBOmx25JUXmWBqPPrBUt5ibN3sikuw+8TLaLj93ltiZCs/3iBYDENLoiP4lYqdaiEqlx2grg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNVvQz3w; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CMV9MWcM68ijBEFpTTLw71uLda+zeS3MwsLIFNGPD+rGfYW5ufOtbys+LvfoXbzv4L8rU4vplkHACrdi9VFFoEs2TrJWH8WTl6CFyjkmjKV6jajM1rSC3yyCuaCv9Qe457B7qaZUwDIEDdzfvqT+TN4OyApN2OANO67CGeaPF9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ufu0Xjbu; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNVvQz3w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ufu0Xjbu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734183168; x=1765719168;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gs+feSx451B2wg4slf0M7OE60JnNF0Dl4gS4KEPIDd8=;
-  b=ZNVvQz3whEhers2LuWtWNcJtyUkDvNaPTd0y/UWLStZNP8pmi82t/tmf
-   rjFxCFSXfK1v1meGara1Wi7Owwx3Kq/fGH5ZUSa59DkJ40l5tnMWyn3Tq
-   8w4/M5rH8dEpp4eEdMZxl9J0u41Oj00sD17+ZPGDhtwA6kZgPYSOKm5Ig
-   74GrJ/9y63szYay7cq/ZFTUzbafT5dZjP+svCbT4lLrqmkc8CyEtqleRP
-   P03LrU0c6/FuW5XTmdBazSnAPCi7nw00CM4LvrpgKWXOfXH1Mc2+BmlYX
-   UG2ljOe7BomDQZzKhh4tQbk+Ap4Mx62GulFpl94DoGwp45pzAgaWwqkSf
-   g==;
-X-CSE-ConnectionGUID: fmZ55ombTaG3ULp6xB4Opw==
-X-CSE-MsgGUID: VQ0M4xiqRL29Dogm9R2SrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34670837"
+  t=1734195074; x=1765731074;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SPdj5WzWxFoQqxED9/dmi6yY09ty4UpY6pgTtYJC2Z8=;
+  b=Ufu0XjbuNtcORtytiK3F1sFmoW05eFdEydBu38ogI/Rl2+SAGzFy6gdI
+   kezBJVtli7XHGhI0iP8oLOrEYTmv+60FZATErTMP+LKtLtCTUw4aQgwDv
+   NYaO1clq4jjeh/qxPwDe0k2fQy6W8aaGWCUFCQ0VnrdgZnQadxhW8EwYg
+   Z70bSGQeYzNJkOYoOE2H4waUxwqgCzmRS7GKC0RAAZXz5Gfk6u15J4zRP
+   MWq04DHKOzlh+Al316ygWg2oxDZsjigyq0zMWnPWlLmtiL5ZhgtvQkHTZ
+   dQ5ZD1SojqWIsxx+0LE01OrzI0KnHEGbp0ATUPr7wLnYsUjlC48xKsFun
+   w==;
+X-CSE-ConnectionGUID: 1juOOTSNScmaWTyWr3ajzg==
+X-CSE-MsgGUID: tuiJL42ETp+j09w3T+ap+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34780696"
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="34670837"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 05:32:47 -0800
-X-CSE-ConnectionGUID: z8RIRpCpQw+uMAi+H65rUg==
-X-CSE-MsgGUID: qbRwwDbrQbS6xchVN3K23g==
+   d="scan'208";a="34780696"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 08:51:13 -0800
+X-CSE-ConnectionGUID: khJaw3kiRYGO2mPnYyOgdA==
+X-CSE-MsgGUID: z+b5wyi8SfGsLNy1jTZaCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,234,1728975600"; 
-   d="scan'208";a="96657242"
+   d="scan'208";a="127632886"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2024 05:32:46 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2024 08:51:13 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMSGC-000CxD-03;
-	Sat, 14 Dec 2024 13:32:44 +0000
-Date: Sat, 14 Dec 2024 21:32:12 +0800
+	id 1tMVMD-000D57-36;
+	Sat, 14 Dec 2024 16:51:09 +0000
+Date: Sun, 15 Dec 2024 00:50:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can
- 'pgtable' even be NULL?
-Message-ID: <202412142124.wxOrOpUF-lkp@intel.com>
+Subject: drivers/net/ethernet/via/via-velocity.c:3615 velocity_get_strings()
+ error: __builtin_memcpy() '*velocity_gstrings' too small (32 vs 1024)
+Message-ID: <202412150045.roY0gOfb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Vasant Hegde <vasant.hegde@amd.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Andrey Konovalov <andreyknvl@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Marco Elver <elver@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a446e965a188ee8f745859e63ce046fe98577d45
-commit: e8e1aac33458d80545e5ad37b2a3e4243eee278e iommu/amd: Refactor helper function for setting / clearing GCR3
-date:   10 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241214/202412142124.wxOrOpUF-lkp@intel.com/config)
+commit: 2e577732e8d28b9183df701fb90cb7943aa4ed16 kasan, fortify: properly rename memintrinsics
+date:   7 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161-20241212 (https://download.01.org/0day-ci/archive/20241215/202412150045.roY0gOfb-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412142124.wxOrOpUF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412150045.roY0gOfb-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/amd/io_pgtable_v2.c:355 v2_free_pgtable() warn: can 'pgtable' even be NULL?
+drivers/net/ethernet/via/via-velocity.c:3615 velocity_get_strings() error: __builtin_memcpy() '*velocity_gstrings' too small (32 vs 1024)
 
-vim +/pgtable +355 drivers/iommu/amd/io_pgtable_v2.c
+vim +3615 drivers/net/ethernet/via/via-velocity.c
 
-aaac38f614871df Vasant Hegde          2022-08-25  350  
-aaac38f614871df Vasant Hegde          2022-08-25  351  static void v2_free_pgtable(struct io_pgtable *iop)
-aaac38f614871df Vasant Hegde          2022-08-25  352  {
-aaac38f614871df Vasant Hegde          2022-08-25  353  	struct amd_io_pgtable *pgtable = container_of(iop, struct amd_io_pgtable, iop);
-aaac38f614871df Vasant Hegde          2022-08-25  354  
-e8e1aac33458d80 Suravee Suthikulpanit 2024-02-05 @355  	if (!pgtable || !pgtable->pgd)
-aaac38f614871df Vasant Hegde          2022-08-25  356  		return;
-aaac38f614871df Vasant Hegde          2022-08-25  357  
-aaac38f614871df Vasant Hegde          2022-08-25  358  	/* Free page table */
-aaac38f614871df Vasant Hegde          2022-08-25  359  	free_pgtable(pgtable->pgd, get_pgtable_level());
-e8e1aac33458d80 Suravee Suthikulpanit 2024-02-05  360  	pgtable->pgd = NULL;
-aaac38f614871df Vasant Hegde          2022-08-25  361  }
-aaac38f614871df Vasant Hegde          2022-08-25  362  
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3610  
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3611  static void velocity_get_strings(struct net_device *dev, u32 sset, u8 *data)
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3612  {
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3613  	switch (sset) {
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3614  	case ETH_SS_STATS:
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04 @3615  		memcpy(data, *velocity_gstrings, sizeof(velocity_gstrings));
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3616  		break;
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3617  	}
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3618  }
+ad66fa7a704f179 drivers/net/via-velocity.c françois romieu 2011-08-04  3619  
+
+:::::: The code at line 3615 was first introduced by commit
+:::::: ad66fa7a704f179fd3f88dece544e2d18078860f via-velocity : ethtool statistics support.
+
+:::::: TO: françois romieu <romieu@fr.zoreil.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
