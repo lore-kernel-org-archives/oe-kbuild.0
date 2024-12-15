@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E4318039
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 15:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120EB18FDAF
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 15:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734274971; cv=none; b=q2YXRZFx1rDAS2o1wuTcs516scOC724bunhj/zUDbMp4lDNIr7JYl5c1a3TwojQ1Skg8hY9i+Kc/7PoM7oi4bE1sYgscZ/lBrruHavAbv0JSIQ3+uVb0iEHDlGBWzv4kR/7bn7AQ1GnKXiqz3OgWUuBoIVybFOODroi9f9u6bwc=
+	t=1734277494; cv=none; b=C4gokteoYRrakqo0vwBEfKnoQi8dBIIaEmE4717ZB/NSuaQyAr4YQPITAjxamnCXVSxp3uGd5DG0K+/lCujmg3iMYuVMxghqvmaxTZGvln27dM+lOyfbQ7BL4Z9xONz98q4OVqb40X8FxOkIxJapg0CZE7F3HNXtFSC1Ebh1dXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734274971; c=relaxed/simple;
-	bh=M/hdQbn8SlYML6u7QFNVf3bfBJeigw4KJ39Rpo0Htes=;
+	s=arc-20240116; t=1734277494; c=relaxed/simple;
+	bh=Yh/t2LPp18ZRqNsnENaq7d705ORpkzl2iJG2R2lwXpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ae3GoL20HTCWtFqY1zSV4YTw47641iGStpX48ZegrhPojPtahPzB9Fh6FrddBaPc+CcOLICy4KIsjQP/KIyT+Ep1LPNkWdTwh0kGqb5goTQVfsaGzSvmieG3KMB8BisnHjhDEPoujb8YF2xG0iWK/tWqj2CscmZ73Hzyvdbij3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DovG2YxU; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=RlKfP00HxCWDKA12d/Il/hHwUJ5Iq4Ilw2jAV6vdbjlAcbMj7Fj+UEethd/1vcV3O0eowiLwWEUY3S1vnnd0WTEr/miadenPRPRDl7pJ+KNISFLUkbwybsPm3vsq8A4iNOpJDX3YLcgpXnyFxl8gkf/t+7nriMsTc8ToYayJxPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ELkwlCoJ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DovG2YxU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELkwlCoJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734274970; x=1765810970;
+  t=1734277492; x=1765813492;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M/hdQbn8SlYML6u7QFNVf3bfBJeigw4KJ39Rpo0Htes=;
-  b=DovG2YxUVPPcLgVT5p2Ft/pWDeu9R3JBGDiZFR3rnpw67kK9O0qQyhE3
-   e1jb43lhPPWRhkZX6kXZ16Ij/JNyNVSN8yxQAM/CUHRjUDPahXYhMqCEi
-   yf2Gc7k0/PeajHoj4k35bDMGIzok74L3fUkBifDCyioFjs3ZJD+xbmyDz
-   WoyfP5lCrQn+QwsVuTfoFZI0mw3WrEVkQv+oBniHRrSO7sm0j18ealnpC
-   TNCpwBmyzee7ZuDmaMluiA281KHLN2NlvNEm7bpaFShD0CV7rJLToacWv
-   vapRD2kRWkTnF289bFcbkZBSmL8q4Pk68EmNSpT37mIu53Kum1N63BLYU
+  bh=Yh/t2LPp18ZRqNsnENaq7d705ORpkzl2iJG2R2lwXpE=;
+  b=ELkwlCoJqN4+JR0eHEF8ajA371swPFYhP9aFzEUma2JDSqhemKPzuLVF
+   SjQY1TRxnBNmXM55301dsbEHD/ka4UAsuaapUw7WGCNJTHxVdjssiKPqI
+   o8P8HQ2fudfMLTrII3FiAmYlzuqw2f9SueMxp1Cu2za1/SKMtCH5o09jQ
+   3D7O+VfV2f08v91INBMhNjtpypXYWIpHyPuW91iR1ph86AY3JvmaBytna
+   ftAyd5rKCxBsd8wXeFPIIrQ/Lg3nbm3BireXsTKY42Ya9j5+y8tkAik3c
+   5sqJvFbNOGcTDHrgxKypPOBnhH67USMYMZwRuNFXd4jT1PGhk3OMWRLxe
    Q==;
-X-CSE-ConnectionGUID: JsaHDZcISL6GM+YSYUbFsA==
-X-CSE-MsgGUID: TdzISESpRoSLZCZ6Lmc0LQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34394794"
+X-CSE-ConnectionGUID: OKQVkgzfRtCiBuJ5tUdYkA==
+X-CSE-MsgGUID: /yR68ah3QWSRq2mLicnTlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34816522"
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="34394794"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 07:02:49 -0800
-X-CSE-ConnectionGUID: zroajbECRbyOhE7tuvd/jw==
-X-CSE-MsgGUID: WO+frBhcSoeV/M4JwHhBSg==
+   d="scan'208";a="34816522"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 07:44:51 -0800
+X-CSE-ConnectionGUID: ixRls94HTvK7vepcnjO6uQ==
+X-CSE-MsgGUID: iSXdLd1kSi+44NYc4ilQuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,236,1728975600"; 
-   d="scan'208";a="127793221"
+   d="scan'208";a="101830256"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Dec 2024 07:02:48 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 15 Dec 2024 07:44:51 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMq8r-000Dg6-0x;
-	Sun, 15 Dec 2024 15:02:45 +0000
-Date: Sun, 15 Dec 2024 23:02:30 +0800
+	id 1tMqnY-000Dh2-19;
+	Sun, 15 Dec 2024 15:44:48 +0000
+Date: Sun, 15 Dec 2024 23:44:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid
- reference to the index variable of the iterator on line 207
-Message-ID: <202412152253.mPrDQYGU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/x86/include/asm/pgtable_32.h:68:5: warning: "PTRS_PER_PMD" is
+ not defined, evaluates to 0
+Message-ID: <202412152358.l9RJiVaH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,56 +62,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Yang Wang <kevinyang.wang@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+
+Hi Masahiro,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
-commit: f5e4cc8461c408dcb679bb1f7c3bd8a586406709 drm/amdgpu: implement RAS ACA driver framework
-date:   11 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-052-20241214 (https://download.01.org/0day-ci/archive/20241215/202412152253.mPrDQYGU-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+commit: 80b6093b55e31c2c40ff082fb32523d4e852954f kbuild: add -Wundef to KBUILD_CPPFLAGS for W=1 builds
+date:   2 years ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 years ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20241215/202412152358.l9RJiVaH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412152358.l9RJiVaH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412152253.mPrDQYGU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412152358.l9RJiVaH-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid reference to the index variable of the iterator on line 207
+All warnings (new ones prefixed by >>):
 
-vim +219 drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
+   In file included from arch/x86/kernel/head_32.S:29:
+>> arch/x86/include/asm/pgtable_32.h:68:5: warning: "PTRS_PER_PMD" is not defined, evaluates to 0 [-Wundef]
+      68 | #if PTRS_PER_PMD > 1
+         |     ^~~~~~~~~~~~
 
-f5e4cc8461c408d Yang Wang 2023-11-13  199  
-f5e4cc8461c408d Yang Wang 2023-11-13  200  static struct aca_bank_error *find_bank_error(struct aca_error *aerr, struct aca_bank_info *info)
-f5e4cc8461c408d Yang Wang 2023-11-13  201  {
-f5e4cc8461c408d Yang Wang 2023-11-13  202  	struct aca_bank_error *bank_error = NULL;
-f5e4cc8461c408d Yang Wang 2023-11-13  203  	struct aca_bank_info *tmp_info;
-f5e4cc8461c408d Yang Wang 2023-11-13  204  	bool found = false;
-f5e4cc8461c408d Yang Wang 2023-11-13  205  
-f5e4cc8461c408d Yang Wang 2023-11-13  206  	mutex_lock(&aerr->lock);
-f5e4cc8461c408d Yang Wang 2023-11-13 @207  	list_for_each_entry(bank_error, &aerr->list, node) {
-f5e4cc8461c408d Yang Wang 2023-11-13  208  		tmp_info = &bank_error->info;
-f5e4cc8461c408d Yang Wang 2023-11-13  209  		if (tmp_info->socket_id == info->socket_id &&
-f5e4cc8461c408d Yang Wang 2023-11-13  210  		    tmp_info->die_id == info->die_id) {
-f5e4cc8461c408d Yang Wang 2023-11-13  211  			found = true;
-f5e4cc8461c408d Yang Wang 2023-11-13  212  			goto out_unlock;
-f5e4cc8461c408d Yang Wang 2023-11-13  213  		}
-f5e4cc8461c408d Yang Wang 2023-11-13  214  	}
-f5e4cc8461c408d Yang Wang 2023-11-13  215  
-f5e4cc8461c408d Yang Wang 2023-11-13  216  out_unlock:
-f5e4cc8461c408d Yang Wang 2023-11-13  217  	mutex_unlock(&aerr->lock);
-f5e4cc8461c408d Yang Wang 2023-11-13  218  
-f5e4cc8461c408d Yang Wang 2023-11-13 @219  	return found ? bank_error : NULL;
-f5e4cc8461c408d Yang Wang 2023-11-13  220  }
-f5e4cc8461c408d Yang Wang 2023-11-13  221  
+
+vim +/PTRS_PER_PMD +68 arch/x86/include/asm/pgtable_32.h
+
+^1da177e4c3f415 include/asm-i386/pgtable.h        Linus Torvalds  2005-04-16  58  
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  59  /*
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  60   * This is used to calculate the .brk reservation for initial pagetables.
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  61   * Enough space is reserved to allocate pagetables sufficient to cover all
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  62   * of LOWMEM_PAGES, which is an upper bound on the size of the direct map of
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  63   * lowmem.
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  64   *
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  65   * With PAE paging (PTRS_PER_PMD > 1), we allocate PTRS_PER_PGD == 4 pages for
+ea3186b9572a1b0 arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  66   * the PMD's in addition to the pages required for the last level pagetables.
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  67   */
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08 @68  #if PTRS_PER_PMD > 1
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  69  #define PAGE_TABLE_SIZE(pages) (((pages) / PTRS_PER_PMD) + PTRS_PER_PGD)
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  70  #else
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  71  #define PAGE_TABLE_SIZE(pages) ((pages) / PTRS_PER_PGD)
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  72  #endif
+1e620f9b23e598a arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  73  
+
+:::::: The code at line 68 was first introduced by commit
+:::::: 1e620f9b23e598ab936ece12233e98e97930b692 x86/boot/32: Convert the 32-bit pgtable setup code from assembly to C
+
+:::::: TO: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
