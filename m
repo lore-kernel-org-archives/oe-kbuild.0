@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31821653
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 02:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF98F40
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 04:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734229673; cv=none; b=WwsGKDPZJOi6TuWCdazkszlkp9OMs+REck195n78PaWy97mjrVpshyg1i//kzFTtbBVr3JlSbXGUHux0KEC8f0KAfey12v1/1G4M8YREZpJrzk41Veka8EatAxF7TzFj6Vnyzgqqjx5HoVAF1C3oE894ASAIL1Xiz+u2ZVFUrSk=
+	t=1734237003; cv=none; b=jBDOhnF3pJwoVs9KSTjO3NxokXsxEbfkEscx0Xm2qGWbvtMKyGmczVqPjqm6+LOVENxcWliD6rRHcRMjJHClZMBC2v/UyJh1szMkB1Djt2bu+wMYU6qQ5Jq90k7OK+SLsj/BspH3HP6Djwws/5RHnYD16MCe9ed8gSE/2k7utlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734229673; c=relaxed/simple;
-	bh=Kr5kdHM3wFSyHa2enVC4qwaNRvTlOcVopDNHMbmlRuQ=;
+	s=arc-20240116; t=1734237003; c=relaxed/simple;
+	bh=gPSEEWL3wOpm8c37VbgHlxCinVYc2LyGHgMxOqO4mYA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p6k0cQ/P+mmC9bFHYGLno1SRFvDIU7OQQ01TNtpTODWnmUgt4ir2NSrWFQLv2Z8FkFCBpE5AvTERKT9xn88w6o2QN9l2uQDIVfmSMv0nU43fk+JrEUGbeo0PPu5CoPZWk23x7HVAdXV3imcz5vk5MH6WQ2A4dmqByCAgpupDm3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a04YLgMK; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=MzlQB9jd5ut14V+MRbQk6FPwQcjD0bkuKyw+5xrlXh5ONh86PSy4jF/EJWsjSfJj3IIfhqg92uI6DGv6s2QBvITQTbdmv2BrZ9xEYpwrki2/A0lw5b4/LdDXtkuFj5LdCGSwU86osN6hG8WPem60VbcQFUF9t1hP7bKk/h5Q5Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhexpCr8; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a04YLgMK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhexpCr8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734229671; x=1765765671;
+  t=1734237002; x=1765773002;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kr5kdHM3wFSyHa2enVC4qwaNRvTlOcVopDNHMbmlRuQ=;
-  b=a04YLgMKJgKM+9tEI26iegk4/OA1Aiv2vDX/8dDa2r80mQGlB9ABJEv+
-   mjO6oz0v2b4/mWXLvc1tpas0Ot6JQIAscxH/9TYjvUmCIbnW8vfMUwtSb
-   27fLsJOKtN1z+asVLgHCrvmhtbZpIJyQmfiHexF90sdtTqmqFabxeFpEf
-   4G8+aC5n5qFIlZsF5b29Qz+ITEXiMLgISuJngxBCDL3ABWgum6JSy+/Sp
-   PNa9h8EHcRd8riXEXs3T3RozRg2YIvZ8AAtVEK1efGJmB6+Sg4ptarBSu
-   Hg0G20xdHZn7FboYk89mznCpjIgRHRH3DJH8F1VIkCFWofkZET0O8gutp
+  bh=gPSEEWL3wOpm8c37VbgHlxCinVYc2LyGHgMxOqO4mYA=;
+  b=YhexpCr8E0K9iZ3cbZcww7qRIHHMeR2qHr36iZFDPrC3kRMl88kV/DUi
+   W3rT9TKBRBRG9Yk1kkHChN4VZmYdcFlL/y5gJRXzGtuxO556OClmXTqRK
+   p3ljW3sQ6IQDVf1/IcQ9wQPpN+/WIqYG2CwNVBS7mWDD+/c4i/r4dERDK
+   BBgxHldPwTw8lv9loSjOmEkmIMab2CUNzIU/vM8f4iRM/tnHgpei+yLXl
+   uYUl0JQBDXQ3MjuwCKVWX/tNCrSo8P+4EIYIcEC38MQH2UHB1JLvCn0X3
+   9tbFl8kfbUQGDuRs7p0IXvx0o+VDiwwcRrhp0vgc1cLh6vRtpVd77KUWz
    Q==;
-X-CSE-ConnectionGUID: uci08jbHSbuUwbxlskmvpw==
-X-CSE-MsgGUID: pFiAj0Y8SJiVpSNtmYWAZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38331262"
+X-CSE-ConnectionGUID: q1LMyBhxT+CZ26YW87E1yg==
+X-CSE-MsgGUID: DsqVoXL5S3yc6ojNBg7drw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="60039731"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="38331262"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 18:27:51 -0800
-X-CSE-ConnectionGUID: CYyTueh4SuqRqWyHTkf/Ew==
-X-CSE-MsgGUID: xVkkqkWaTiWqL03ivkwHQQ==
+   d="scan'208";a="60039731"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 20:30:01 -0800
+X-CSE-ConnectionGUID: SVRdbW4KTVSg8Bp4+l6akA==
+X-CSE-MsgGUID: li6ArfGSRzmpXLIiungR8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="101969040"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134233418"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Dec 2024 18:27:49 -0800
+  by orviesa001.jf.intel.com with ESMTP; 14 Dec 2024 20:30:00 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMeMF-000DNw-15;
-	Sun, 15 Dec 2024 02:27:47 +0000
-Date: Sun, 15 Dec 2024 10:27:32 +0800
+	id 1tMgGT-000DQw-1g;
+	Sun, 15 Dec 2024 04:29:57 +0000
+Date: Sun, 15 Dec 2024 12:29:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
- uninitialized symbol 'val'.
-Message-ID: <202412151057.AY8nrNVJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid
+ reference to the index variable of the iterator on line 207
+Message-ID: <202412151259.oCDDxELc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,148 +65,53 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Oliver Upton <oliver.upton@linux.dev>
-CC: Joey Gouly <joey.gouly@arm.com>
+TO: Yang Wang <kevinyang.wang@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a0e3919a2df29b373b19a8fbd6e4c4c38fc10d87
-commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
-date:   10 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241215/202412151057.AY8nrNVJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
+commit: f5e4cc8461c408dcb679bb1f7c3bd8a586406709 drm/amdgpu: implement RAS ACA driver framework
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: i386-randconfig-052-20241214 (https://download.01.org/0day-ci/archive/20241215/202412151259.oCDDxELc-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412151057.AY8nrNVJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412151259.oCDDxELc-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid reference to the index variable of the iterator on line 207
 
-vim +/val +2083 arch/arm64/kvm/emulate-nested.c
+vim +219 drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
 
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2009  
-085eabaa74a1234 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2011  {
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2012  	union trap_config tc;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2014  	bool is_read;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2015  	u32 sysreg;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2016  	u64 esr, val;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2017  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2021  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2023  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2024  	/*
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2028  	 */
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2029  	if (!tc.val)
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2030  		goto local;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2031  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2032  	/*
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2035  	 */
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2037  		goto local;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2038  
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2041  		break;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2042  
-5a24ea786985725 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
-5a24ea786985725 Marc Zyngier 2023-08-15  2044  		if (is_read)
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
-5a24ea786985725 Marc Zyngier 2023-08-15  2046  		else
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
-5a24ea786985725 Marc Zyngier 2023-08-15  2048  		break;
-5a24ea786985725 Marc Zyngier 2023-08-15  2049  
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2051  		if (is_read)
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2053  		else
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2055  		break;
-d0be0b2ede13247 Marc Zyngier 2023-08-15  2056  
-676f482354886ca Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
-676f482354886ca Fuad Tabba   2023-12-14  2059  		break;
-676f482354886ca Fuad Tabba   2023-12-14  2060  
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2064  			u64 tmp;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2065  
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2067  			break;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2068  
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
-76b457a5cdeae45 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
-03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2073  		}
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2074  		break;
-039f9f12de5fc76 Marc Zyngier 2023-08-15  2075  
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2079  		goto local;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2080  	}
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2081  
-9958d58779c92b7 Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
-9958d58779c92b7 Marc Zyngier 2024-02-14 @2083  							val, tc))
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2084  		goto inject;
-15b4d82d69d7b0e Marc Zyngier 2023-08-15  2085  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2087  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2090  		goto inject;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2091  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2092  local:
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2095  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2097  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2098  		/*
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2102  		 */
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2108  		return true;
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2109  	}
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2110  
-cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2112  	return false;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2113  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2114  inject:
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2116  
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2118  	return true;
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2119  }
-e58ec47bf68d2bc Marc Zyngier 2023-08-15  2120  
-
-:::::: The code at line 2083 was first introduced by commit
-:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+f5e4cc8461c408d Yang Wang 2023-11-13  199  
+f5e4cc8461c408d Yang Wang 2023-11-13  200  static struct aca_bank_error *find_bank_error(struct aca_error *aerr, struct aca_bank_info *info)
+f5e4cc8461c408d Yang Wang 2023-11-13  201  {
+f5e4cc8461c408d Yang Wang 2023-11-13  202  	struct aca_bank_error *bank_error = NULL;
+f5e4cc8461c408d Yang Wang 2023-11-13  203  	struct aca_bank_info *tmp_info;
+f5e4cc8461c408d Yang Wang 2023-11-13  204  	bool found = false;
+f5e4cc8461c408d Yang Wang 2023-11-13  205  
+f5e4cc8461c408d Yang Wang 2023-11-13  206  	mutex_lock(&aerr->lock);
+f5e4cc8461c408d Yang Wang 2023-11-13 @207  	list_for_each_entry(bank_error, &aerr->list, node) {
+f5e4cc8461c408d Yang Wang 2023-11-13  208  		tmp_info = &bank_error->info;
+f5e4cc8461c408d Yang Wang 2023-11-13  209  		if (tmp_info->socket_id == info->socket_id &&
+f5e4cc8461c408d Yang Wang 2023-11-13  210  		    tmp_info->die_id == info->die_id) {
+f5e4cc8461c408d Yang Wang 2023-11-13  211  			found = true;
+f5e4cc8461c408d Yang Wang 2023-11-13  212  			goto out_unlock;
+f5e4cc8461c408d Yang Wang 2023-11-13  213  		}
+f5e4cc8461c408d Yang Wang 2023-11-13  214  	}
+f5e4cc8461c408d Yang Wang 2023-11-13  215  
+f5e4cc8461c408d Yang Wang 2023-11-13  216  out_unlock:
+f5e4cc8461c408d Yang Wang 2023-11-13  217  	mutex_unlock(&aerr->lock);
+f5e4cc8461c408d Yang Wang 2023-11-13  218  
+f5e4cc8461c408d Yang Wang 2023-11-13 @219  	return found ? bank_error : NULL;
+f5e4cc8461c408d Yang Wang 2023-11-13  220  }
+f5e4cc8461c408d Yang Wang 2023-11-13  221  
 
 -- 
 0-DAY CI Kernel Test Service
