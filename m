@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4198C8FE
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 02:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31821653
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 02:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734229073; cv=none; b=lB9xGel9tmGvh5MsKrSr10JkVX2Bh9RjeAivhKAa2HAbBno5ovDbSnrCdnbgbb5qZYFhP2kCCbD6lbXR89PgomBuhvxG0vAEBhwIcDkSYJsLj831BM0saaUbwPFy3oqO6RbVxQisrNuz/q88MqL0U4D40V2YqWnpztHIbt0ckRA=
+	t=1734229673; cv=none; b=WwsGKDPZJOi6TuWCdazkszlkp9OMs+REck195n78PaWy97mjrVpshyg1i//kzFTtbBVr3JlSbXGUHux0KEC8f0KAfey12v1/1G4M8YREZpJrzk41Veka8EatAxF7TzFj6Vnyzgqqjx5HoVAF1C3oE894ASAIL1Xiz+u2ZVFUrSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734229073; c=relaxed/simple;
-	bh=YaCJBzcvDfbxY6nqIoEEQ6O30NZZA6YRl6/BHTVE7rU=;
+	s=arc-20240116; t=1734229673; c=relaxed/simple;
+	bh=Kr5kdHM3wFSyHa2enVC4qwaNRvTlOcVopDNHMbmlRuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sSPmncBOLrUHZuOky0FrGVa6/rDVtBGnTaFGPIC739nMTf4aNwqd078W4fYl62YPuzkX1JgVZOg9H5Zd9qwOWXmHJ//t9c7NM1lLKJg1JmK3/hGLXzl77OHKoZGBrlFBg+gp54n5OXkES6/c3ZrRKhg4xrfxOrwecGekSKKsH2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACvj3yDn; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=p6k0cQ/P+mmC9bFHYGLno1SRFvDIU7OQQ01TNtpTODWnmUgt4ir2NSrWFQLv2Z8FkFCBpE5AvTERKT9xn88w6o2QN9l2uQDIVfmSMv0nU43fk+JrEUGbeo0PPu5CoPZWk23x7HVAdXV3imcz5vk5MH6WQ2A4dmqByCAgpupDm3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a04YLgMK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACvj3yDn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a04YLgMK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734229071; x=1765765071;
+  t=1734229671; x=1765765671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YaCJBzcvDfbxY6nqIoEEQ6O30NZZA6YRl6/BHTVE7rU=;
-  b=ACvj3yDnDGrTLhNCR7jcp2UjsjdWuayrGksWYM3BtrsMtIXkrPd4hhb6
-   k8ZuCYPEULD7h+hMa+hfeYaC1I32qPQEAwEBMvTCsIwGB4Zyb31LRQboe
-   EBrpzwdin27ncOByJkeVWuMXXrnFn1RVDDPpa+ym+z8ah8LZlHj1yDBHZ
-   tkkAsJ9uI4qf8YXUA4x8EIqshV71nAry2DLyl1410jtcEEfwe7khoqlsS
-   apkAGwFpwgZXbhrpH/T1S9aPEFAOOhZazFl3ep+U5sFdxJwgLYDD/qJ6E
-   tMZqbdQUBYg4LJhiGXmboHVBxWFpDCXhXBnGRK+Frnlyo7FrAwbVwZJFA
+  bh=Kr5kdHM3wFSyHa2enVC4qwaNRvTlOcVopDNHMbmlRuQ=;
+  b=a04YLgMKJgKM+9tEI26iegk4/OA1Aiv2vDX/8dDa2r80mQGlB9ABJEv+
+   mjO6oz0v2b4/mWXLvc1tpas0Ot6JQIAscxH/9TYjvUmCIbnW8vfMUwtSb
+   27fLsJOKtN1z+asVLgHCrvmhtbZpIJyQmfiHexF90sdtTqmqFabxeFpEf
+   4G8+aC5n5qFIlZsF5b29Qz+ITEXiMLgISuJngxBCDL3ABWgum6JSy+/Sp
+   PNa9h8EHcRd8riXEXs3T3RozRg2YIvZ8AAtVEK1efGJmB6+Sg4ptarBSu
+   Hg0G20xdHZn7FboYk89mznCpjIgRHRH3DJH8F1VIkCFWofkZET0O8gutp
    Q==;
-X-CSE-ConnectionGUID: IV3rsMCGRS+RjebDyLtaDg==
-X-CSE-MsgGUID: eMP6EHJ/TFauzhnhRzkKog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="33974786"
+X-CSE-ConnectionGUID: uci08jbHSbuUwbxlskmvpw==
+X-CSE-MsgGUID: pFiAj0Y8SJiVpSNtmYWAZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="38331262"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="33974786"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 18:17:50 -0800
-X-CSE-ConnectionGUID: s9hlnsVYTUubFEXcPZceOQ==
-X-CSE-MsgGUID: 8n4xDO6JROy7VFon7PeMBQ==
+   d="scan'208";a="38331262"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 18:27:51 -0800
+X-CSE-ConnectionGUID: CYyTueh4SuqRqWyHTkf/Ew==
+X-CSE-MsgGUID: xVkkqkWaTiWqL03ivkwHQQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120131113"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="101969040"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Dec 2024 18:17:48 -0800
+  by orviesa003.jf.intel.com with ESMTP; 14 Dec 2024 18:27:49 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMeCY-000DNe-1X;
-	Sun, 15 Dec 2024 02:17:46 +0000
-Date: Sun, 15 Dec 2024 10:17:05 +0800
+	id 1tMeMF-000DNw-15;
+	Sun, 15 Dec 2024 02:27:47 +0000
+Date: Sun, 15 Dec 2024 10:27:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/amd/iommu.c:1269 domain_flush_complete() warn:
- iterator 'i' not incremented
-Message-ID: <202412151033.KDRnBHPp-lkp@intel.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
+ uninitialized symbol 'val'.
+Message-ID: <202412151057.AY8nrNVJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,250 +65,148 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Vasant Hegde <vasant.hegde@amd.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Joey Gouly <joey.gouly@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a0e3919a2df29b373b19a8fbd6e4c4c38fc10d87
-commit: d16041124de1dea4389b5e6b330657f34f8c0492 iommu/amd: xarray to track protection_domain->iommu list
-date:   7 weeks ago
+commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
+date:   10 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-r073-20241208 (https://download.01.org/0day-ci/archive/20241215/202412151033.KDRnBHPp-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: commit date: 10 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241215/202412151057.AY8nrNVJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412151033.KDRnBHPp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412151057.AY8nrNVJ-lkp@intel.com/
 
-New smatch warnings:
-drivers/iommu/amd/iommu.c:1269 domain_flush_complete() warn: iterator 'i' not incremented
-drivers/iommu/amd/iommu.c:1462 domain_flush_pages_v1() warn: iterator 'i' not incremented
+smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-Old smatch warnings:
-drivers/iommu/amd/iommu.c:1996 init_gcr3_table() warn: missing error code? 'ret'
+vim +/val +2083 arch/arm64/kvm/emulate-nested.c
 
-vim +/i +1269 drivers/iommu/amd/iommu.c
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2009  
+085eabaa74a1234 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2011  {
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2012  	union trap_config tc;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2014  	bool is_read;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2015  	u32 sysreg;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2016  	u64 esr, val;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2017  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2021  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2023  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2024  	/*
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2028  	 */
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2029  	if (!tc.val)
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2030  		goto local;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2031  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2032  	/*
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2035  	 */
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2037  		goto local;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2038  
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2041  		break;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2042  
+5a24ea786985725 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
+5a24ea786985725 Marc Zyngier 2023-08-15  2044  		if (is_read)
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
+5a24ea786985725 Marc Zyngier 2023-08-15  2046  		else
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
+5a24ea786985725 Marc Zyngier 2023-08-15  2048  		break;
+5a24ea786985725 Marc Zyngier 2023-08-15  2049  
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2051  		if (is_read)
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2053  		else
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2055  		break;
+d0be0b2ede13247 Marc Zyngier 2023-08-15  2056  
+676f482354886ca Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
+676f482354886ca Fuad Tabba   2023-12-14  2059  		break;
+676f482354886ca Fuad Tabba   2023-12-14  2060  
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2064  			u64 tmp;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2065  
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2067  			break;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2068  
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
+76b457a5cdeae45 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
+03fb54d0aa73cc1 Marc Zyngier 2023-08-15  2073  		}
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2074  		break;
+039f9f12de5fc76 Marc Zyngier 2023-08-15  2075  
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2079  		goto local;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2080  	}
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2081  
+9958d58779c92b7 Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
+9958d58779c92b7 Marc Zyngier 2024-02-14 @2083  							val, tc))
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2084  		goto inject;
+15b4d82d69d7b0e Marc Zyngier 2023-08-15  2085  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2087  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2090  		goto inject;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2091  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2092  local:
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2095  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2097  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2098  		/*
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2102  		 */
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2108  		return true;
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2109  	}
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2110  
+cc5f84fbb008ff0 Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2112  	return false;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2113  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2114  inject:
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2116  
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2118  	return true;
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2119  }
+e58ec47bf68d2bc Marc Zyngier 2023-08-15  2120  
 
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1257  
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1258  static void domain_flush_complete(struct protection_domain *domain)
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1259  {
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1260  	struct pdom_iommu_info *pdom_iommu_info;
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1261  	unsigned long i;
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1262  
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1263  	lockdep_assert_held(&domain->lock);
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1264  
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1265  	/*
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1266  	 * Devices of this domain are behind this IOMMU
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1267  	 * We need to wait for completion of all commands.
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1268  	 */
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30 @1269  	 xa_for_each(&domain->iommu_array, i, pdom_iommu_info)
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1270  		iommu_completion_wait(pdom_iommu_info->iommu);
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1271  }
-964877dc2623283 drivers/iommu/amd/iommu.c   Vasant Hegde          2024-08-28  1272  
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1273  static int iommu_flush_dte(struct amd_iommu *iommu, u16 devid)
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1274  {
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1275  	struct iommu_cmd cmd;
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1276  
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1277  	build_inv_dte(&cmd, devid);
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1278  
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1279  	return iommu_queue_command(iommu, &cmd);
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1280  }
-d8c13085775c72e arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1281  
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1282  static void amd_iommu_flush_dte_all(struct amd_iommu *iommu)
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1283  {
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1284  	u32 devid;
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1285  	u16 last_bdf = iommu->pci_seg->last_bdf;
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1286  
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1287  	for (devid = 0; devid <= last_bdf; ++devid)
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1288  		iommu_flush_dte(iommu, devid);
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1289  
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1290  	iommu_completion_wait(iommu);
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1291  }
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1292  
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1293  /*
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1294   * This function uses heavy locking and may disable irqs for some time. But
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1295   * this is no issue because it is only called during resume.
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1296   */
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1297  static void amd_iommu_flush_tlb_all(struct amd_iommu *iommu)
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1298  {
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1299  	u32 dom_id;
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1300  	u16 last_bdf = iommu->pci_seg->last_bdf;
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1301  
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1302  	for (dom_id = 0; dom_id <= last_bdf; ++dom_id) {
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1303  		struct iommu_cmd cmd;
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1304  		build_inv_iommu_pages(&cmd, 0, CMD_INV_IOMMU_ALL_PAGES_ADDRESS,
-4f0a600799237ed drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1305  				      dom_id, IOMMU_NO_PASID, false);
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1306  		iommu_queue_command(iommu, &cmd);
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1307  	}
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1308  
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1309  	iommu_completion_wait(iommu);
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1310  }
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1311  
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1312  static void amd_iommu_flush_tlb_domid(struct amd_iommu *iommu, u32 dom_id)
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1313  {
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1314  	struct iommu_cmd cmd;
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1315  
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1316  	build_inv_iommu_pages(&cmd, 0, CMD_INV_IOMMU_ALL_PAGES_ADDRESS,
-4f0a600799237ed drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1317  			      dom_id, IOMMU_NO_PASID, false);
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1318  	iommu_queue_command(iommu, &cmd);
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1319  
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1320  	iommu_completion_wait(iommu);
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1321  }
-36b7200f67dfe75 drivers/iommu/amd_iommu.c   Stuart Hayes          2019-09-05  1322  
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1323  static void amd_iommu_flush_all(struct amd_iommu *iommu)
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1324  {
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1325  	struct iommu_cmd cmd;
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1326  
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1327  	build_inv_all(&cmd);
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1328  
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1329  	iommu_queue_command(iommu, &cmd);
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1330  	iommu_completion_wait(iommu);
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1331  }
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1332  
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1333  static void iommu_flush_irt(struct amd_iommu *iommu, u16 devid)
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1334  {
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1335  	struct iommu_cmd cmd;
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1336  
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1337  	build_inv_irt(&cmd, devid);
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1338  
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1339  	iommu_queue_command(iommu, &cmd);
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1340  }
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1341  
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1342  static void amd_iommu_flush_irt_all(struct amd_iommu *iommu)
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1343  {
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1344  	u32 devid;
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1345  	u16 last_bdf = iommu->pci_seg->last_bdf;
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1346  
-98aeb4ea5599c5f drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2023-05-30  1347  	if (iommu->irtcachedis_enabled)
-98aeb4ea5599c5f drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2023-05-30  1348  		return;
-98aeb4ea5599c5f drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2023-05-30  1349  
-a3cf6ab35751ea7 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1350  	for (devid = 0; devid <= last_bdf; devid++)
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1351  		iommu_flush_irt(iommu, devid);
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1352  
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1353  	iommu_completion_wait(iommu);
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1354  }
-7ef2798deb695f1 drivers/iommu/amd_iommu.c   Joerg Roedel          2012-06-21  1355  
-af3263758bf0b65 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1356  void amd_iommu_flush_all_caches(struct amd_iommu *iommu)
-7d0c5cc5be73f7c arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-07  1357  {
-7b7563a93437ef9 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2023-09-21  1358  	if (check_feature(FEATURE_IA)) {
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1359  		amd_iommu_flush_all(iommu);
-58fc7f1419560ef arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-11  1360  	} else {
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1361  		amd_iommu_flush_dte_all(iommu);
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1362  		amd_iommu_flush_irt_all(iommu);
-0688a09990986cd drivers/iommu/amd_iommu.c   Joerg Roedel          2017-08-23  1363  		amd_iommu_flush_tlb_all(iommu);
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1364  	}
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1365  }
-0518a3a4585cb3e arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-20  1366  
-431b2a201533753 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-11  1367  /*
-cb41ed85efa01e6 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-05  1368   * Command send function for flushing on-device TLB
-431b2a201533753 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-11  1369   */
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1370  static int device_flush_iotlb(struct iommu_dev_data *dev_data, u64 address,
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1371  			      size_t size, ioasid_t pasid, bool gn)
-3fa43655d81d471 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1372  {
-6f35fe5d8a0ad01 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2024-02-05  1373  	struct amd_iommu *iommu = get_amd_iommu_from_dev_data(dev_data);
-b00d3bcff4d996f arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1374  	struct iommu_cmd cmd;
-6f35fe5d8a0ad01 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2024-02-05  1375  	int qdep = dev_data->ats_qdep;
-3fa43655d81d471 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1376  
-bbf85fe10faadbd drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1377  	build_inv_iotlb_pages(&cmd, dev_data->devid, qdep, address,
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1378  			      size, pasid, gn);
-b00d3bcff4d996f arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1379  
-b00d3bcff4d996f arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1380  	return iommu_queue_command(iommu, &cmd);
-3fa43655d81d471 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1381  }
-3fa43655d81d471 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1382  
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1383  static int device_flush_dte_alias(struct pci_dev *pdev, u16 alias, void *data)
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1384  {
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1385  	struct amd_iommu *iommu = data;
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1386  
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1387  	return iommu_flush_dte(iommu, alias);
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1388  }
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1389  
-431b2a201533753 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-11  1390  /*
-431b2a201533753 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-11  1391   * Command send function for invalidating a device table entry
-431b2a201533753 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-11  1392   */
-6c542047937ad66 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-06-09  1393  static int device_flush_dte(struct iommu_dev_data *dev_data)
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1394  {
-6f35fe5d8a0ad01 drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2024-02-05  1395  	struct amd_iommu *iommu = get_amd_iommu_from_dev_data(dev_data);
-d02674d71c5a625 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1396  	struct pci_dev *pdev = NULL;
-99fc4ac3d2978ce drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2022-07-06  1397  	struct amd_iommu_pci_seg *pci_seg;
-e25bfb56ea7f046 drivers/iommu/amd_iommu.c   Joerg Roedel          2015-10-20  1398  	u16 alias;
-ee2fa7435b6dddf arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-09-17  1399  	int ret;
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1400  
-d02674d71c5a625 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1401  	if (dev_is_pci(dev_data->dev))
-d02674d71c5a625 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1402  		pdev = to_pci_dev(dev_data->dev);
-3fa43655d81d471 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-26  1403  
-d02674d71c5a625 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1404  	if (pdev)
-d02674d71c5a625 drivers/iommu/amd/iommu.c   Vasant Hegde          2022-07-06  1405  		ret = pci_for_each_dma_alias(pdev,
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1406  					     device_flush_dte_alias, iommu);
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1407  	else
-f62dda66b560139 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-06-09  1408  		ret = iommu_flush_dte(iommu, dev_data->devid);
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1409  	if (ret)
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1410  		return ret;
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1411  
-99fc4ac3d2978ce drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2022-07-06  1412  	pci_seg = iommu->pci_seg;
-99fc4ac3d2978ce drivers/iommu/amd/iommu.c   Suravee Suthikulpanit 2022-07-06  1413  	alias = pci_seg->alias_table[dev_data->devid];
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1414  	if (alias != dev_data->devid) {
-e25bfb56ea7f046 drivers/iommu/amd_iommu.c   Joerg Roedel          2015-10-20  1415  		ret = iommu_flush_dte(iommu, alias);
-cb41ed85efa01e6 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-05  1416  		if (ret)
-cb41ed85efa01e6 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-05  1417  			return ret;
-3332364e4ebc058 drivers/iommu/amd_iommu.c   Logan Gunthorpe       2019-10-22  1418  	}
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1419  
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1420  	if (dev_data->ats_enabled) {
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1421  		/* Invalidate the entire contents of an IOTLB */
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1422  		ret = device_flush_iotlb(dev_data, 0, ~0UL,
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1423  					 IOMMU_NO_PASID, false);
-c7fc12354be0ba4 drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1424  	}
-ee2fa7435b6dddf arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-09-17  1425  
-ee2fa7435b6dddf arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-09-17  1426  	return ret;
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1427  }
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1428  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1429  static int domain_flush_pages_v2(struct protection_domain *pdom,
-a976da66e8e547c drivers/iommu/amd/iommu.c   Vasant Hegde          2023-11-22  1430  				 u64 address, size_t size)
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1431  {
-cb41ed85efa01e6 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-05  1432  	struct iommu_dev_data *dev_data;
-11b6402c6673b53 arch/x86/kernel/amd_iommu.c Joerg Roedel          2011-04-06  1433  	struct iommu_cmd cmd;
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1434  	int ret = 0;
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1435  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1436  	list_for_each_entry(dev_data, &pdom->dev_list, list) {
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1437  		struct amd_iommu *iommu = get_amd_iommu_from_dev(dev_data->dev);
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1438  		u16 domid = dev_data->gcr3_info.domid;
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1439  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1440  		build_inv_iommu_pages(&cmd, address, size,
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1441  				      domid, IOMMU_NO_PASID, true);
-a19ae1eccfb2d97 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-06-26  1442  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1443  		ret |= iommu_queue_command(iommu, &cmd);
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1444  	}
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1445  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1446  	return ret;
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1447  }
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1448  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1449  static int domain_flush_pages_v1(struct protection_domain *pdom,
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1450  				 u64 address, size_t size)
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1451  {
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1452  	struct pdom_iommu_info *pdom_iommu_info;
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1453  	struct iommu_cmd cmd;
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1454  	int ret = 0;
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1455  	unsigned long i;
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1456  
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1457  	lockdep_assert_held(&pdom->lock);
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1458  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1459  	build_inv_iommu_pages(&cmd, address, size,
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1460  			      pdom->id, IOMMU_NO_PASID, false);
-999ba417cc1a438 arch/x86/kernel/amd_iommu.c Joerg Roedel          2008-07-03  1461  
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30 @1462  	xa_for_each(&pdom->iommu_array, i, pdom_iommu_info) {
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1463  		/*
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1464  		 * Devices of this domain are behind this IOMMU
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1465  		 * We need a TLB flush
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1466  		 */
-d16041124de1dea drivers/iommu/amd/iommu.c   Vasant Hegde          2024-10-30  1467  		ret |= iommu_queue_command(pdom_iommu_info->iommu, &cmd);
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1468  	}
-6de8ad9b9ee0ec5 arch/x86/kernel/amd_iommu.c Joerg Roedel          2009-11-23  1469  
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1470  	return ret;
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1471  }
-87a6f1f22c9781b drivers/iommu/amd/iommu.c   Vasant Hegde          2024-02-05  1472  
+:::::: The code at line 2083 was first introduced by commit
+:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
+
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
