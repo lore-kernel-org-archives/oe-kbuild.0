@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF98F40
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 04:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8078BE5
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Dec 2024 05:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734237003; cv=none; b=jBDOhnF3pJwoVs9KSTjO3NxokXsxEbfkEscx0Xm2qGWbvtMKyGmczVqPjqm6+LOVENxcWliD6rRHcRMjJHClZMBC2v/UyJh1szMkB1Djt2bu+wMYU6qQ5Jq90k7OK+SLsj/BspH3HP6Djwws/5RHnYD16MCe9ed8gSE/2k7utlg=
+	t=1734239527; cv=none; b=hoM3qtvTYM/bT7y8k3hStWdlcqY6FSwbTVoiaSaQAFjPR2uxR82LvVyGyVdw5xpxR9S4KP4MOLYuzYR3Leqw8mG84JjXfvTsXutZL3Xm1MFFy0i5CSBOY3jmWvNndREN64HMmmeZ6rUh9mhCDe+eBgFOcuJFyCyE9zi2xBOTzcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734237003; c=relaxed/simple;
-	bh=gPSEEWL3wOpm8c37VbgHlxCinVYc2LyGHgMxOqO4mYA=;
+	s=arc-20240116; t=1734239527; c=relaxed/simple;
+	bh=UjicLU9mnkZWrNtD66aZt2xpBPScEkwlcQpds6ZNid0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MzlQB9jd5ut14V+MRbQk6FPwQcjD0bkuKyw+5xrlXh5ONh86PSy4jF/EJWsjSfJj3IIfhqg92uI6DGv6s2QBvITQTbdmv2BrZ9xEYpwrki2/A0lw5b4/LdDXtkuFj5LdCGSwU86osN6hG8WPem60VbcQFUF9t1hP7bKk/h5Q5Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhexpCr8; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=MKzExn1fYhuDuUXUwiRUxMbvPZ3R/8qkhEwCqgGoB55g74f1NF71sA2Tt6LWMnbTSmBibhfky+XU5cO/dEQ12SPf7D688co5BdBMm4NM1a0MQTY851/RTzmIGlgVuSax6Z1eUKhpTo5ZrvfDCKaFfCrw5u9HA5R/KbaONXqPUDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KI/De/St; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhexpCr8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KI/De/St"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734237002; x=1765773002;
+  t=1734239525; x=1765775525;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gPSEEWL3wOpm8c37VbgHlxCinVYc2LyGHgMxOqO4mYA=;
-  b=YhexpCr8E0K9iZ3cbZcww7qRIHHMeR2qHr36iZFDPrC3kRMl88kV/DUi
-   W3rT9TKBRBRG9Yk1kkHChN4VZmYdcFlL/y5gJRXzGtuxO556OClmXTqRK
-   p3ljW3sQ6IQDVf1/IcQ9wQPpN+/WIqYG2CwNVBS7mWDD+/c4i/r4dERDK
-   BBgxHldPwTw8lv9loSjOmEkmIMab2CUNzIU/vM8f4iRM/tnHgpei+yLXl
-   uYUl0JQBDXQ3MjuwCKVWX/tNCrSo8P+4EIYIcEC38MQH2UHB1JLvCn0X3
-   9tbFl8kfbUQGDuRs7p0IXvx0o+VDiwwcRrhp0vgc1cLh6vRtpVd77KUWz
-   Q==;
-X-CSE-ConnectionGUID: q1LMyBhxT+CZ26YW87E1yg==
-X-CSE-MsgGUID: DsqVoXL5S3yc6ojNBg7drw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="60039731"
+  bh=UjicLU9mnkZWrNtD66aZt2xpBPScEkwlcQpds6ZNid0=;
+  b=KI/De/Stwo8QeN87l8hs7IknzUtIn11MxgXuSluQB2/NnHwca3UAOLgP
+   yAETPt/49YyY7j/kwHkEF8pSkUPfP6verB9eQpCqLcIzbC6WlZqbwgB2N
+   eTh7u35SlEF/uwJfodTKYa6r1M+7WhiN6EDbDgk9ztOOqv+xGLH/8yaoN
+   Tka93rnXoyhYeH8mE5aFjTU7AxitipsH7zZAYNgLR3iRRkhlZEBakYUF6
+   CaxRrfUugbfIT/El9jD3foYUkPY1w/lLicLh3pQvKBQ+E6u1/VRQq07Au
+   4DkSkImwPA3rzAZ2cBrJp+BiyGK25lTFIsCJobTUlIOExAtgMydLGnR8b
+   g==;
+X-CSE-ConnectionGUID: gh2kca7eQQGhia6zJxNU3g==
+X-CSE-MsgGUID: 5CnilRB+RiSALIWTdezb1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45339697"
 X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="60039731"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 20:30:01 -0800
-X-CSE-ConnectionGUID: SVRdbW4KTVSg8Bp4+l6akA==
-X-CSE-MsgGUID: li6ArfGSRzmpXLIiungR8g==
+   d="scan'208";a="45339697"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 21:12:04 -0800
+X-CSE-ConnectionGUID: 0y7ZjCSNTt6WDCCshjH0Gw==
+X-CSE-MsgGUID: KmjXicwCSxOVhACQJHsjfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134233418"
+   d="scan'208";a="97693865"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Dec 2024 20:30:00 -0800
+  by orviesa008.jf.intel.com with ESMTP; 14 Dec 2024 21:12:03 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tMgGT-000DQw-1g;
-	Sun, 15 Dec 2024 04:29:57 +0000
-Date: Sun, 15 Dec 2024 12:29:46 +0800
+	id 1tMgvB-000DRv-0H;
+	Sun, 15 Dec 2024 05:12:01 +0000
+Date: Sun, 15 Dec 2024 13:11:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid
- reference to the index variable of the iterator on line 207
-Message-ID: <202412151259.oCDDxELc-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.13-rc1 8/159]
+ arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory: False schema does not allow
+ {'device_type': ['memory'], 'reg': [[0, 268435456], [805306368, 268435456]],
+ 'phandle': 57}
+Message-ID: <202412151328.RhroNubJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,56 +64,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Yang Wang <kevinyang.wang@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+CC: linux-renesas-soc@vger.kernel.org
+TO: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2d8308bf5b67dff50262d8a9260a50113b3628c6
-commit: f5e4cc8461c408dcb679bb1f7c3bd8a586406709 drm/amdgpu: implement RAS ACA driver framework
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-052-20241214 (https://download.01.org/0day-ci/archive/20241215/202412151259.oCDDxELc-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.13-rc1
+head:   a48936ee46cd2afd08e4b81aaae14c8e791fdfe6
+commit: bcbede4b77f674b6140af1faaab0308872bc7136 [8/159] kbuild: Enable DT symbols when CONFIG_OF_OVERLAY is used
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: mips-randconfig-052-20241215 (https://download.01.org/0day-ci/archive/20241215/202412151328.RhroNubJ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412151328.RhroNubJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412151259.oCDDxELc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412151328.RhroNubJ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c:219:16-26: ERROR: invalid reference to the index variable of the iterator on line 207
-
-vim +219 drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-
-f5e4cc8461c408d Yang Wang 2023-11-13  199  
-f5e4cc8461c408d Yang Wang 2023-11-13  200  static struct aca_bank_error *find_bank_error(struct aca_error *aerr, struct aca_bank_info *info)
-f5e4cc8461c408d Yang Wang 2023-11-13  201  {
-f5e4cc8461c408d Yang Wang 2023-11-13  202  	struct aca_bank_error *bank_error = NULL;
-f5e4cc8461c408d Yang Wang 2023-11-13  203  	struct aca_bank_info *tmp_info;
-f5e4cc8461c408d Yang Wang 2023-11-13  204  	bool found = false;
-f5e4cc8461c408d Yang Wang 2023-11-13  205  
-f5e4cc8461c408d Yang Wang 2023-11-13  206  	mutex_lock(&aerr->lock);
-f5e4cc8461c408d Yang Wang 2023-11-13 @207  	list_for_each_entry(bank_error, &aerr->list, node) {
-f5e4cc8461c408d Yang Wang 2023-11-13  208  		tmp_info = &bank_error->info;
-f5e4cc8461c408d Yang Wang 2023-11-13  209  		if (tmp_info->socket_id == info->socket_id &&
-f5e4cc8461c408d Yang Wang 2023-11-13  210  		    tmp_info->die_id == info->die_id) {
-f5e4cc8461c408d Yang Wang 2023-11-13  211  			found = true;
-f5e4cc8461c408d Yang Wang 2023-11-13  212  			goto out_unlock;
-f5e4cc8461c408d Yang Wang 2023-11-13  213  		}
-f5e4cc8461c408d Yang Wang 2023-11-13  214  	}
-f5e4cc8461c408d Yang Wang 2023-11-13  215  
-f5e4cc8461c408d Yang Wang 2023-11-13  216  out_unlock:
-f5e4cc8461c408d Yang Wang 2023-11-13  217  	mutex_unlock(&aerr->lock);
-f5e4cc8461c408d Yang Wang 2023-11-13  218  
-f5e4cc8461c408d Yang Wang 2023-11-13 @219  	return found ? bank_error : NULL;
-f5e4cc8461c408d Yang Wang 2023-11-13  220  }
-f5e4cc8461c408d Yang Wang 2023-11-13  221  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/mips/boot/dts/ingenic/gcw0.dts:41.26-49.4: Warning (unit_address_vs_reg): /regulator@1: node has a unit name, but no reg or ranges property
+   arch/mips/boot/dts/ingenic/gcw0.dts:51.37-58.4: Warning (unit_address_vs_reg): /analog-amplifier@0: node has a unit name, but no reg or ranges property
+   arch/mips/boot/dts/ingenic/gcw0.dts:60.34-66.4: Warning (unit_address_vs_reg): /analog-amplifier@1: node has a unit name, but no reg or ranges property
+   arch/mips/boot/dts/ingenic/gcw0.dts:239.25-317.4: Warning (unit_address_vs_reg): /i2c-controller@3: node has a unit name, but no reg or ranges property
+   arch/mips/boot/dts/ingenic/gcw0.dts:32.19-39.4: Warning (unique_unit_address_if_enabled): /regulator@0: duplicate unit-address (also used in node /analog-amplifier@0)
+   arch/mips/boot/dts/ingenic/gcw0.dts:41.26-49.4: Warning (unique_unit_address_if_enabled): /regulator@1: duplicate unit-address (also used in node /analog-amplifier@1)
+   arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory@1fc00000: 'bank-width', 'compatible', 'device-width' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory@1fc00000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+>> arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 268435456], [805306368, 268435456]], 'phandle': 57}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/mips/boot/dts/ingenic/gcw0.dtb: /: regulator@0: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/mips/boot/dts/ingenic/gcw0.dtb: /: regulator@1: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/mips/boot/dts/ingenic/gcw0.dtb: /: analog-amplifier@0: 'anyOf' conditional failed, one must be fixed:
 
 -- 
 0-DAY CI Kernel Test Service
