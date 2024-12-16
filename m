@@ -1,67 +1,58 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903FE206F2D
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 19:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996101D2785
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 20:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734376299; cv=none; b=rOxt++7zgizXC/1WYEsIqmOwhKIq7YlsydVJ49kpcOGWak/ujz/Ymp8kHR1T0MuYAL7T8Z6SfuOL5cpyXzZfNRaDpPgwMkts1NNS05MkJzIei5A/75utNRnHIqEYTiAY6QdfCeBIhFxkUSWXhL6cORcQdOoyaGADWUvgtREgirU=
+	t=1734381215; cv=none; b=PC3aorIM3NAyvxLiPLbXcIVheaguBjppRM88CzlqnG+D+T97XMyCAntQNuiYsoRriSzxmmVhphNTRs0HOl5qHfIsTA6fFQ7deV+fWdsr096wU+WXrfQ6A0Mf8YsRtlIiqxNsvB8wXdyVJqm+Ua3Tkrhy1lf8n6AojR/kaLP5FUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734376299; c=relaxed/simple;
-	bh=LgcU+yhBh+l9bhiN7Hfb7J+u/TgkVqvrmLWzYxBo0Y8=;
+	s=arc-20240116; t=1734381215; c=relaxed/simple;
+	bh=/EhfWH2oscXMKu4kZc6M+YiTfn8GXSrYCgEAbfWlh8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OPYH4vYIVcot764ph5p9e6LRvqkl3Nx0uon6iNvheSd5vaYBZT5sH3oK+q0AQd8FDCeZNi6+Gl+OsbZefbq1YETd+dodz3QwOqTfKtnztG8Ef0obKCCwpF2y6lYYzMggJgSPVmZhDpfnNBH6xUZ5DL0iZ1WtKGd1rtjlUlW/qGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tsvkjtLh; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=JXjGe2qMt1YJc2wGz+fiiZjaugAhTlDRh51HFhzDKi351NL9XIe89/fMIgFMXOHl+c43hzDlsSYAwr8K2yluIkFlpt8Y9iX0YdDtSInbgX6q2b8GTZInlBs/j6s5kuP+tIS1B2hFOlPRFPo7SqXWG4jxfNLLrkRXOOYb0obBJ2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oC6NXj0S; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tsvkjtLh"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4363ae65100so20810455e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 11:11:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734376295; x=1734981095; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9QvW0jkfS25+nFNI+R7Ffi822G44SGFCgigfQrXIBDg=;
-        b=tsvkjtLhdaBxhRjd1/degqQC1kKib91TdxhOSbhnq9x70elHJs8JSy3F4XCGtEFpuI
-         yj3f3s4hpubplvutuTgHXPfrudipQGw+o/BkFTpTS8lHNol09dxF6RWmlAyMBg+7c6RA
-         Pz2ZrK9PjVibfnRAZ8Ey6oB+rmRnN6OtQiZv6u0dUva/Bxlr1NVn9kjvgv0Z6fmGOEMj
-         dlUlIn/3HSFK4m1PvOoPFoNdrM2SduPkhxF5DXKyBPhbrUDyBeBtMimo3iYydTRFP8hl
-         DznYdhLI30UeGadRkaEa1LJWXaYFP2Vv1f/aDHvR3KZGtkrOg86dlz+7y2QCt8zAjKpg
-         AAyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734376295; x=1734981095;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9QvW0jkfS25+nFNI+R7Ffi822G44SGFCgigfQrXIBDg=;
-        b=jG7fX2HRK+0hsoIULSA6u+IhuU5R5p7UN0xw/pspVCtp4TGh8hK3dWuBHnjrz8o6RW
-         yQWAtlQNMTkDaU0icaE8J8zD1sTBEdC/TwphumI8Xno1E6Ed1pHyyR/AMdhrizA3l3Ua
-         eOkz+nJ2vDjRdzZ2NooBHmgzoCc8yvZpLpGMx+xJsIKY11SwPv1N9ZZhULsvos09Ka0V
-         RPY/r6tuiXwB1HngP9PseUhQP6y6xfh0B/5P5XdJIhKLd7PpSm2pk7tHiQ+bhsyN7yDI
-         kS1UxM+WDW966/m327K4io7xWHsEm41REWKXBOXUkwQp68mbbHTczzikGpRGh+BrUpUZ
-         pztQ==
-X-Gm-Message-State: AOJu0YwDJ5tSeCLOfPKZ/QQbuzdIE5NwYsYd+xs+hgJbHtkSLIpLha74
-	dvdW7j9oFC02k9c620KU4t1YbakPL16fnxK8ORvPzO3salJT855k+W9vfT9SSsTughbLxejM/MJ
-	S
-X-Gm-Gg: ASbGnctHhKbtAq/7kqF58fxY+0PGYl4iOmJIxCgVbyusazjnFT0RYwbo5cm1hy7RIYu
-	VsfrUrOv6o4NW9FymVWi9016ZfHzhXai2jYEhbtWD9Is3/G83qQgpr9a8LpGcB4ujRHeItJxrud
-	qpsRdm5PX+xhKwSD3VjXqJew+wmdcc4bEJbJL/dIajlbQZU56XxHc7XnTENaEcxROgbl0wJWVpx
-	KmgxWlWR3iBkQ5YQ6H1H90OsRolK7bwI3wo3ApxmqXH4pOLe8tSUZQcceTOQw==
-X-Google-Smtp-Source: AGHT+IEWdLiJi+hIFthpOfwPjqDTJWFjuwayxyhejQvoaoLgBHnoK7ivRp5Q6olDqLBBY2j+5eHMtQ==
-X-Received: by 2002:a05:6000:1acf:b0:385:dc88:8214 with SMTP id ffacd0b85a97d-3888e0b876dmr11429157f8f.43.1734376295261;
-        Mon, 16 Dec 2024 11:11:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96359c8dsm360697466b.130.2024.12.16.11.11.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 11:11:34 -0800 (PST)
-Date: Mon, 16 Dec 2024 22:11:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 3274/4379] kernel/trace/trace.c:3879
- trace_check_vprintf() error: we previously assumed 'buf' could be null (see
- line 3864)
-Message-ID: <990caf3a-2f9f-4b77-b87b-f1d509a7c6a3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oC6NXj0S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734381214; x=1765917214;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/EhfWH2oscXMKu4kZc6M+YiTfn8GXSrYCgEAbfWlh8Q=;
+  b=oC6NXj0SFS7LrBBMNR1GchknnjkB988Szh9SKPleOJvcXGBIBXmMNumS
+   5JX5MCCJ1umW2JBL6knHGGoug5EEc7coaZ01CdMUJFFq6onAJp5SOeUfn
+   MEAxob1c5W+gXREab5ZwpmbQTzwbSg7i/rY0kMcuvK2P3y1LN1CGNX67u
+   h9CsitNiuQePVUsqS8GYfPrUPQuBMLIrVgoTlMB+3s8ka7Ox/S9j/im/Y
+   DInyoiPOH+Rk3QhBlMZ2jA/vCp4ba246E669Wi0vUq7E/eP9oA2jLT+m1
+   kfcXEkPtyUTjW1A88xXN1EpyDO6mjkT89HgYoI+zEhTU9VxaiyOl6SjIe
+   A==;
+X-CSE-ConnectionGUID: LHRYNIf9TEWAvmJvAqinMQ==
+X-CSE-MsgGUID: gTyFsTH3RdusAcTunnQYOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38559890"
+X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
+   d="scan'208";a="38559890"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 12:33:33 -0800
+X-CSE-ConnectionGUID: H1rZp+UUQ+uLrwuq8AXeAw==
+X-CSE-MsgGUID: O4UmbZymTXmT1UXAZbczlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134644322"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2024 12:33:32 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNHmT-000ESq-2a;
+	Mon, 16 Dec 2024 20:33:29 +0000
+Date: Tue, 17 Dec 2024 04:32:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3646/4379] kernel/bpf/verifier.c:19553
+ add_used_map() warn: fd re-used after fget(): 'fd'
+Message-ID: <202412170403.3hSZLClK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,72 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Anton Protopopov <aspsk@isovalent.com>
+CC: Andrii Nakryiko <andrii@kernel.org>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   e25c8d66f6786300b680866c0e0139981273feba
-commit: ff54c8dc3f7ada7f204081d4d1876108eef1e8c0 [3274/4379] tracing: Fix trace output when pointer hash is disabled
-config: x86_64-randconfig-161-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170122.KuGhPElA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 4d3ae294f900fb7232fb6c890dbd3176b8a5f121 [3646/4379] bpf: Add fd_array_cnt attribute for prog_load
+:::::: branch date: 14 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170403.3hSZLClK-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412170122.KuGhPElA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412170403.3hSZLClK-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/trace.c:3879 trace_check_vprintf() error: we previously assumed 'buf' could be null (see line 3864)
+kernel/bpf/verifier.c:19553 add_used_map() warn: fd re-used after fget(): 'fd'
+kernel/bpf/verifier.c:22887 add_fd_from_fd_array() warn: fd re-used after fget(): 'fd'
 
-vim +/buf +3879 kernel/trace/trace.c
+vim +/fd +19553 kernel/bpf/verifier.c
 
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12 @3864  			if (!buf) {
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3865  				char *buf = kmalloc(TEMP_BUFSIZ, GFP_KERNEL);
-
-"buf" is re-declared as a shadow variable.
-
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3866  				if (!buf) {
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3867  					/* Need buffer to read address */
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3868  					trace_seq_printf(&iter->seq, "(0x%px)[UNSAFE-MEMORY]", str);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3869  					p += j + 1;
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3870  					goto print;
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3871  				}
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3872  			}
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3873  			if (len >= TEMP_BUFSIZ)
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3874  				len = TEMP_BUFSIZ - 1;
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3875) 
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3876) 			/* Try to safely read the string */
-eb01f5353bdaa59 Steven Rostedt (VMware  2021-05-13  3877) 			if (star) {
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3878  				ret = copy_from_kernel_nofault(buf, str, len);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12 @3879  				buf[len] = 0;
-eb01f5353bdaa59 Steven Rostedt (VMware  2021-05-13  3880) 			} else {
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3881  				ret = strncpy_from_kernel_nofault(buf, str, TEMP_BUFSIZ);
-eb01f5353bdaa59 Steven Rostedt (VMware  2021-05-13  3882) 			}
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3883) 			if (ret < 0)
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3884) 				trace_seq_printf(&iter->seq, "(0x%px)", str);
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3885) 			else
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3886  				trace_seq_printf(&iter->seq, "(0x%px:%s)", str, buf);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3887  			trace_seq_puts(&iter->seq, "[UNSAFE-MEMORY]");
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3888) 		} else {
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3889  			save_ch = p[j + 1];
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3890  			p[j + 1] = '\0';
-eb01f5353bdaa59 Steven Rostedt (VMware  2021-05-13  3891) 			if (star)
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3892  				trace_seq_printf(&iter->seq, p, len, str);
-eb01f5353bdaa59 Steven Rostedt (VMware  2021-05-13  3893) 			else
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3894  				trace_seq_printf(&iter->seq, p, str);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3895  			p[j + 1] = save_ch;
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3896  		}
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3897) 
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3898  		p += j + 1;
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3899) 	}
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3900)  print:
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3901) 	if (*p)
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3902) 		trace_seq_vprintf(&iter->seq, p, ap);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3903  	kfree(buf);
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3904  	return;
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3905   print_fmt:
-ff54c8dc3f7ada7 Steven Rostedt          2024-12-12  3906  	trace_seq_vprintf(&iter->seq, fmt, ap);
-9a6944fee68e250 Steven Rostedt (VMware  2021-02-25  3907) }
+535ead44ffd0847 Andrii Nakryiko  2024-08-06  19541  
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19542  /* Add map behind fd to used maps list, if it's not already there, and return
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19543   * its index.
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19544   * Returns <0 on error, or >= 0 index, on success.
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19545   */
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19546  static int add_used_map(struct bpf_verifier_env *env, int fd)
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19547  {
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19548  	struct bpf_map *map;
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19549  	CLASS(fd, f)(fd);
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19550  
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19551  	map = __bpf_map_get(f);
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19552  	if (IS_ERR(map)) {
+4d3ae294f900fb7 Anton Protopopov 2024-12-13 @19553  		verbose(env, "fd %d is not pointing to valid bpf_map\n", fd);
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19554  		return PTR_ERR(map);
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19555  	}
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19556  
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19557  	return __add_used_map(env, map);
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19558  }
+4d3ae294f900fb7 Anton Protopopov 2024-12-13  19559  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
