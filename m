@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996101D2785
-	for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 20:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDCE1D618E
+	for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 22:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734381215; cv=none; b=PC3aorIM3NAyvxLiPLbXcIVheaguBjppRM88CzlqnG+D+T97XMyCAntQNuiYsoRriSzxmmVhphNTRs0HOl5qHfIsTA6fFQ7deV+fWdsr096wU+WXrfQ6A0Mf8YsRtlIiqxNsvB8wXdyVJqm+Ua3Tkrhy1lf8n6AojR/kaLP5FUA=
+	t=1734387751; cv=none; b=sS1/VkrA4Zu1X+87Z7nC8Q15+/zKF6iTPwaI7/EjCSxVGY8QLiTB5F2bmnEEJXpLwAKPEERlA7W02dlddSoiuc8rS1LpKlpk6NxEqR4TImzeomUrsBuHvvJgcvQ/awXvgN31bZzzmLwolqE+m7iMEpt3VCudsnkm1Mu/T4Ggkks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734381215; c=relaxed/simple;
-	bh=/EhfWH2oscXMKu4kZc6M+YiTfn8GXSrYCgEAbfWlh8Q=;
+	s=arc-20240116; t=1734387751; c=relaxed/simple;
+	bh=2pTvX26I+hgbWuEmf4GvciUIU0+mh+OI/aoOo+xQep8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JXjGe2qMt1YJc2wGz+fiiZjaugAhTlDRh51HFhzDKi351NL9XIe89/fMIgFMXOHl+c43hzDlsSYAwr8K2yluIkFlpt8Y9iX0YdDtSInbgX6q2b8GTZInlBs/j6s5kuP+tIS1B2hFOlPRFPo7SqXWG4jxfNLLrkRXOOYb0obBJ2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oC6NXj0S; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=GzK7l2o16BgRwTAbdc1XD9ZzVTwFAhw0P96xKDAFk6UlW2nFjLCbQX9emZIy4IUJ370QKBYS5rXri301H9kVfCQ/NEsjKm79axuYtQxVvBd4OnvDyKAtifLKp8qxc9WiGuF4HSj8OZJTCV8ylCie92sSTn7a0NelV53UZG/TPWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCQyCAh8; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oC6NXj0S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCQyCAh8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734381214; x=1765917214;
+  t=1734387748; x=1765923748;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/EhfWH2oscXMKu4kZc6M+YiTfn8GXSrYCgEAbfWlh8Q=;
-  b=oC6NXj0SFS7LrBBMNR1GchknnjkB988Szh9SKPleOJvcXGBIBXmMNumS
-   5JX5MCCJ1umW2JBL6knHGGoug5EEc7coaZ01CdMUJFFq6onAJp5SOeUfn
-   MEAxob1c5W+gXREab5ZwpmbQTzwbSg7i/rY0kMcuvK2P3y1LN1CGNX67u
-   h9CsitNiuQePVUsqS8GYfPrUPQuBMLIrVgoTlMB+3s8ka7Ox/S9j/im/Y
-   DInyoiPOH+Rk3QhBlMZ2jA/vCp4ba246E669Wi0vUq7E/eP9oA2jLT+m1
-   kfcXEkPtyUTjW1A88xXN1EpyDO6mjkT89HgYoI+zEhTU9VxaiyOl6SjIe
-   A==;
-X-CSE-ConnectionGUID: LHRYNIf9TEWAvmJvAqinMQ==
-X-CSE-MsgGUID: gTyFsTH3RdusAcTunnQYOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38559890"
+  bh=2pTvX26I+hgbWuEmf4GvciUIU0+mh+OI/aoOo+xQep8=;
+  b=lCQyCAh84H7ZUAt7kL1mBENGJZa28PfLNrDlNI2wmyccBplAh4eafwPe
+   WCABZa5lPdFiGXwx6TWx+0fhUE+yR8VcZmYt3qi863vTM4ayJRP2RUw0d
+   xyxIBGXYx/SyL5bacgk+DcfqLV3i9wJxthCNxluHzlFzUP+DmXNd3m9sP
+   qL162SgyG+SQzK/pVGmpPcivUgQBwsmat8scv90Se3qlpYkqfxIguJvQS
+   85uerPd9n/HcqHt35w+p6U430ZocgrdjU/Ba7d8cwVLhTsWCs6U1AnK52
+   Nuw+jsTOGHjUrDP0u8Fc5miDqsiKFviLdZw4Mip6m5voTVur6YH3fWj4S
+   Q==;
+X-CSE-ConnectionGUID: CAKDGe/XTOenkK3+Wj1r2g==
+X-CSE-MsgGUID: E9Ehs4VHT2ud0JKgJiGIcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34828089"
 X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
-   d="scan'208";a="38559890"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 12:33:33 -0800
-X-CSE-ConnectionGUID: H1rZp+UUQ+uLrwuq8AXeAw==
-X-CSE-MsgGUID: O4UmbZymTXmT1UXAZbczlQ==
+   d="scan'208";a="34828089"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 14:22:28 -0800
+X-CSE-ConnectionGUID: ELaOwjvNRGCSVxvtRGMORw==
+X-CSE-MsgGUID: 4Df3ig2CT2eXSL7Itj/d9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134644322"
+X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; 
+   d="scan'208";a="97773905"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2024 12:33:32 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Dec 2024 14:22:26 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNHmT-000ESq-2a;
-	Mon, 16 Dec 2024 20:33:29 +0000
-Date: Tue, 17 Dec 2024 04:32:53 +0800
+	id 1tNJTr-000EWE-2q;
+	Mon, 16 Dec 2024 22:22:23 +0000
+Date: Tue, 17 Dec 2024 06:21:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3646/4379] kernel/bpf/verifier.c:19553
- add_used_map() warn: fd re-used after fget(): 'fd'
-Message-ID: <202412170403.3hSZLClK-lkp@intel.com>
+Subject: fs/proc/task_mmu.c:467 do_procmap_query() warn: comparison of a
+ potentially tagged address (do_procmap_query, -2, usize)
+Message-ID: <202412170634.DRhrET92-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,48 +64,212 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Anton Protopopov <aspsk@isovalent.com>
-CC: Andrii Nakryiko <andrii@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Andrii Nakryiko <andrii@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e25c8d66f6786300b680866c0e0139981273feba
-commit: 4d3ae294f900fb7232fb6c890dbd3176b8a5f121 [3646/4379] bpf: Add fd_array_cnt attribute for prog_load
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170403.3hSZLClK-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Andrii,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+commit: bfc69fd05ef9b6416f4811aafafb7f2b34daa000 fs/procfs: add build ID fetching to PROCMAP_QUERY API
+date:   5 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241217/202412170634.DRhrET92-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412170403.3hSZLClK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412170634.DRhrET92-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/verifier.c:19553 add_used_map() warn: fd re-used after fget(): 'fd'
-kernel/bpf/verifier.c:22887 add_fd_from_fd_array() warn: fd re-used after fget(): 'fd'
+New smatch warnings:
+fs/proc/task_mmu.c:467 do_procmap_query() warn: comparison of a potentially tagged address (do_procmap_query, -2, usize)
 
-vim +/fd +19553 kernel/bpf/verifier.c
+Old smatch warnings:
+fs/proc/task_mmu.c:2675 pagemap_scan_get_args() warn: potential user controlled sizeof overflow 'arg->vec_len * 24' '0-u64max * 24'
 
-535ead44ffd0847 Andrii Nakryiko  2024-08-06  19541  
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19542  /* Add map behind fd to used maps list, if it's not already there, and return
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19543   * its index.
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19544   * Returns <0 on error, or >= 0 index, on success.
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19545   */
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19546  static int add_used_map(struct bpf_verifier_env *env, int fd)
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19547  {
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19548  	struct bpf_map *map;
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19549  	CLASS(fd, f)(fd);
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19550  
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19551  	map = __bpf_map_get(f);
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19552  	if (IS_ERR(map)) {
-4d3ae294f900fb7 Anton Protopopov 2024-12-13 @19553  		verbose(env, "fd %d is not pointing to valid bpf_map\n", fd);
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19554  		return PTR_ERR(map);
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19555  	}
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19556  
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19557  	return __add_used_map(env, map);
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19558  }
-4d3ae294f900fb7 Anton Protopopov 2024-12-13  19559  
+vim +467 fs/proc/task_mmu.c
+
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  453  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  454  static int do_procmap_query(struct proc_maps_private *priv, void __user *uarg)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  455  {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  456  	struct procmap_query karg;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  457  	struct vm_area_struct *vma;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  458  	struct mm_struct *mm;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  459  	const char *name = NULL;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  460  	char build_id_buf[BUILD_ID_SIZE_MAX], *name_buf = NULL;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  461  	__u64 usize;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  462  	int err;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  463  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  464  	if (copy_from_user(&usize, (void __user *)uarg, sizeof(usize)))
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  465  		return -EFAULT;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  466  	/* argument struct can never be that large, reject abuse */
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27 @467  	if (usize > PAGE_SIZE)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  468  		return -E2BIG;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  469  	/* argument struct should have at least query_flags and query_addr fields */
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  470  	if (usize < offsetofend(struct procmap_query, query_addr))
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  471  		return -EINVAL;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  472  	err = copy_struct_from_user(&karg, sizeof(karg), uarg, usize);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  473  	if (err)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  474  		return err;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  475  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  476  	/* reject unknown flags */
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  477  	if (karg.query_flags & ~PROCMAP_QUERY_VALID_FLAGS_MASK)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  478  		return -EINVAL;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  479  	/* either both buffer address and size are set, or both should be zero */
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  480  	if (!!karg.vma_name_size != !!karg.vma_name_addr)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  481  		return -EINVAL;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  482  	if (!!karg.build_id_size != !!karg.build_id_addr)
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  483  		return -EINVAL;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  484  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  485  	mm = priv->mm;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  486  	if (!mm || !mmget_not_zero(mm))
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  487  		return -ESRCH;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  488  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  489  	err = query_vma_setup(mm);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  490  	if (err) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  491  		mmput(mm);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  492  		return err;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  493  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  494  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  495  	vma = query_matching_vma(mm, karg.query_addr, karg.query_flags);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  496  	if (IS_ERR(vma)) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  497  		err = PTR_ERR(vma);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  498  		vma = NULL;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  499  		goto out;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  500  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  501  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  502  	karg.vma_start = vma->vm_start;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  503  	karg.vma_end = vma->vm_end;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  504  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  505  	karg.vma_flags = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  506  	if (vma->vm_flags & VM_READ)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  507  		karg.vma_flags |= PROCMAP_QUERY_VMA_READABLE;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  508  	if (vma->vm_flags & VM_WRITE)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  509  		karg.vma_flags |= PROCMAP_QUERY_VMA_WRITABLE;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  510  	if (vma->vm_flags & VM_EXEC)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  511  		karg.vma_flags |= PROCMAP_QUERY_VMA_EXECUTABLE;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  512  	if (vma->vm_flags & VM_MAYSHARE)
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  513  		karg.vma_flags |= PROCMAP_QUERY_VMA_SHARED;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  514  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  515  	karg.vma_page_size = vma_kernel_pagesize(vma);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  516  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  517  	if (vma->vm_file) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  518  		const struct inode *inode = file_user_inode(vma->vm_file);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  519  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  520  		karg.vma_offset = ((__u64)vma->vm_pgoff) << PAGE_SHIFT;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  521  		karg.dev_major = MAJOR(inode->i_sb->s_dev);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  522  		karg.dev_minor = MINOR(inode->i_sb->s_dev);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  523  		karg.inode = inode->i_ino;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  524  	} else {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  525  		karg.vma_offset = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  526  		karg.dev_major = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  527  		karg.dev_minor = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  528  		karg.inode = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  529  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  530  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  531  	if (karg.build_id_size) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  532  		__u32 build_id_sz;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  533  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  534  		err = build_id_parse(vma, build_id_buf, &build_id_sz);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  535  		if (err) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  536  			karg.build_id_size = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  537  		} else {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  538  			if (karg.build_id_size < build_id_sz) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  539  				err = -ENAMETOOLONG;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  540  				goto out;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  541  			}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  542  			karg.build_id_size = build_id_sz;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  543  		}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  544  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  545  
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  546  	if (karg.build_id_size) {
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  547  		__u32 build_id_sz;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  548  
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  549  		err = build_id_parse(vma, build_id_buf, &build_id_sz);
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  550  		if (err) {
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  551  			karg.build_id_size = 0;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  552  		} else {
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  553  			if (karg.build_id_size < build_id_sz) {
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  554  				err = -ENAMETOOLONG;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  555  				goto out;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  556  			}
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  557  			karg.build_id_size = build_id_sz;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  558  		}
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  559  	}
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  560  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  561  	if (karg.vma_name_size) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  562  		size_t name_buf_sz = min_t(size_t, PATH_MAX, karg.vma_name_size);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  563  		const struct path *path;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  564  		const char *name_fmt;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  565  		size_t name_sz = 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  566  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  567  		get_vma_name(vma, &path, &name, &name_fmt);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  568  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  569  		if (path || name_fmt || name) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  570  			name_buf = kmalloc(name_buf_sz, GFP_KERNEL);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  571  			if (!name_buf) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  572  				err = -ENOMEM;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  573  				goto out;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  574  			}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  575  		}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  576  		if (path) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  577  			name = d_path(path, name_buf, name_buf_sz);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  578  			if (IS_ERR(name)) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  579  				err = PTR_ERR(name);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  580  				goto out;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  581  			}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  582  			name_sz = name_buf + name_buf_sz - name;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  583  		} else if (name || name_fmt) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  584  			name_sz = 1 + snprintf(name_buf, name_buf_sz, name_fmt ?: "%s", name);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  585  			name = name_buf;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  586  		}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  587  		if (name_sz > name_buf_sz) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  588  			err = -ENAMETOOLONG;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  589  			goto out;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  590  		}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  591  		karg.vma_name_size = name_sz;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  592  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  593  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  594  	/* unlock vma or mmap_lock, and put mm_struct before copying data to user */
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  595  	query_vma_teardown(mm, vma);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  596  	mmput(mm);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  597  
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  598  	if (karg.vma_name_size && copy_to_user(u64_to_user_ptr(karg.vma_name_addr),
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  599  					       name, karg.vma_name_size)) {
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  600  		kfree(name_buf);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  601  		return -EFAULT;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  602  	}
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  603  	kfree(name_buf);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  604  
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  605  	if (karg.build_id_size && copy_to_user(u64_to_user_ptr(karg.build_id_addr),
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  606  					       build_id_buf, karg.build_id_size))
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  607  		return -EFAULT;
+bfc69fd05ef9b64 Andrii Nakryiko 2024-06-27  608  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  609  	if (copy_to_user(uarg, &karg, min_t(size_t, sizeof(karg), usize)))
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  610  		return -EFAULT;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  611  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  612  	return 0;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  613  
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  614  out:
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  615  	query_vma_teardown(mm, vma);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  616  	mmput(mm);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  617  	kfree(name_buf);
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  618  	return err;
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  619  }
+ed5d583a88a9207 Andrii Nakryiko 2024-06-27  620  
+
+:::::: The code at line 467 was first introduced by commit
+:::::: ed5d583a88a9207b866c14ba834984c6f3c51d23 fs/procfs: implement efficient VMA querying API for /proc/<pid>/maps
+
+:::::: TO: Andrii Nakryiko <andrii@kernel.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
