@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090751DDA34
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 22:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0540A13B792
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 23:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734475790; cv=none; b=KUZFt8SV4IaJLYT+vmOaoArBRD+Zppivd4ac8Kb9tTp2TZVoraASLJTeKy5Iz9lPRxhfKqnZ9gsPb3qAQpyVd9MpWHJLoDUD405EU1DuUEuuD9QqHeE7kFKDH5B5cdY7LNo8KsjA1yp9reuLGD3sieJWWe/Q9iyT3NOrxTTn4cg=
+	t=1734476467; cv=none; b=upsOwAJcbmm9ChC5LubLAlmAnMDgI9A2yMQRonO+k9cMC3Z28qvNM45tfUa8AevqUnzGjWKtEeIthVZiWDbZmd16kvvLyGE7acF8oo0vrovrK2lJWnD/+IBesf5L4EYQ6tMw8dCTD7jztFa9KdVjgNEp5unc4mmH8/oX7QoVXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734475790; c=relaxed/simple;
-	bh=mHfjJItvDYf2yGVQDnMTNcyvLxSe8zpA5nfgrTbIvDI=;
+	s=arc-20240116; t=1734476467; c=relaxed/simple;
+	bh=zc8ruqt9qCbhRodMD5OirZo9zwsV6OrLhm7vGsO0gDI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=atifJ2TIsrb2PvnbSaOzrgvTj+vQVxKT9NYXWwksD/fXa/ffPthhbsMb8F0c7P28LErR5bRGOsLaOd24v31Wm85gxi16M73Rru3ogAZTRlL+vsnX3ImGaiBr/BZghVwmqI5WXwnGwNLhTzD3Xti58ZnXCOhU9Bz2AYGa6Azbq3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iD4nq0wY; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=HPiJLpDqzpSvjl+5ql3LLRbwJ/M4PtPuZq9xTW7fVYVbP3VF5TbinqL00RIqWUaF6cjSzBZ/NU7QOotzweV0dTH3jB2Qe1GmEXiX5+JlPkBFYR+FK6oVOUlR1305XM6Bq7pu2h/QCxpLt7+eyyEhyDCv8Wz5k73/TmCXTUeqRU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ll0AJC6c; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iD4nq0wY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ll0AJC6c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734475789; x=1766011789;
+  t=1734476465; x=1766012465;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mHfjJItvDYf2yGVQDnMTNcyvLxSe8zpA5nfgrTbIvDI=;
-  b=iD4nq0wYgpzPIlDWCsyCm9VX+QTyWSLw/P5qScA70ms44bm4t1wKT6jF
-   7kgasH7bEIi+/VcN5RpSMl3UcsGcSk/F9TZZSqOg6yQ+iIm11/frB54Bw
-   K0Lz9I/MRlGHjRsPINqp5wzI6MR/+AVNa1OloFvO/t97Dw9nyZcaEAL8d
-   4HAKdMOgaFWnPRPPnHwScDG/Q3mOyZu6kSCJvRcG703cgwbTouQIMZJ+z
-   Y/LVfMAYQaDI5XOlwoQU6o06wXinD1h1Ob0OiWLFFuLbYlsujDP+R9bkJ
-   Yht4Yx8e9XfVTpE+OdWa8gh7MN9p2t8rfEns0mq261aW7dhDOCksjHYl7
-   Q==;
-X-CSE-ConnectionGUID: CEFv/5u+T6W4MaoHfoibLg==
-X-CSE-MsgGUID: OWAX3aRhQ1ONRr8osQuhWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45620953"
+  bh=zc8ruqt9qCbhRodMD5OirZo9zwsV6OrLhm7vGsO0gDI=;
+  b=Ll0AJC6cpjVvIa+4rluvJRlN5Jt7ggsympUAWWWoeDeunFu2wlcdhgFg
+   nCqDnZBgl/8AZ0Yy2S86ctRZJL2TU7Se9vyLDEk/ieGCFrHclHzQ+B07J
+   mxF4WQ7YLlHNhJMOjV0uo6FMOaUIyChQz46M07A4aHoMNgMFAfVL1sK9Z
+   4L24B//NGXBaaUC3BOrJkNi0kIJELE2qHYe5piqDTwMmEI+DtfdyEaYNL
+   Jok7vl2ENqPkJdeb2jfZTl9Q/P29dGtEdI/BIiOaIMPnh8CvzFXu5lyVf
+   z6kFjS8D+whErT7ZkDXJzjK1hPjmOyTBigpEO3dxYDk3mcXotYyPDDhqs
+   A==;
+X-CSE-ConnectionGUID: 33/WtrImSoCNEBnF2ECbwg==
+X-CSE-MsgGUID: jge+Fu3sRAKO2BGdhfLFKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="34961083"
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="45620953"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 14:49:48 -0800
-X-CSE-ConnectionGUID: VABSIB1cTLyo3ehA57yz2Q==
-X-CSE-MsgGUID: kf+Od+swRc2Ww60IejTMqQ==
+   d="scan'208";a="34961083"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 15:00:53 -0800
+X-CSE-ConnectionGUID: hUwibVxNRQqw+cvX0XLnVQ==
+X-CSE-MsgGUID: duaM8NBtTci4ax0PB9lQ8w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="98249822"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="101807198"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2024 14:49:47 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 17 Dec 2024 15:00:51 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNgNs-000Fry-3D;
-	Tue, 17 Dec 2024 22:49:44 +0000
-Date: Wed, 18 Dec 2024 06:49:02 +0800
+	id 1tNgYb-000FsU-01;
+	Tue, 17 Dec 2024 23:00:49 +0000
+Date: Wed, 18 Dec 2024 07:00:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kernel/rsi.c:57 arm64_rsi_setup_memory() warn: iterator
- 'i' not incremented
-Message-ID: <202412180643.8K3zAvzB-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1640/1640] drivers/ata/ahci_zhaoxin_sgpio.c:36
+ ahci_wait_em_reset() warn: variable dereferenced before check
+ 'sgpio_zhaoxin' (see line 33)
+Message-ID: <202412180610.tvT1b9wN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,57 +65,59 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Suzuki K Poulose <suzuki.poulose@arm.com>
-CC: Catalin Marinas <catalin.marinas@arm.com>
-CC: Gavin Shan <gshan@redhat.com>
-CC: Steven Price <steven.price@arm.com>
+TO: kernel@openeuler.org
+TO: "LeoLiu-oc" <leoliu-oc@zhaoxin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5529876063e110ea49326138149fdf2a28a484dd
-commit: c077711f718be7cebcc8b987eac2ebfd17447e9f arm64: Detect if in a realm and set RIPAS RAM
-date:   8 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241218/202412180643.8K3zAvzB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   46064348cc445799cf9e8fd030323a0426fbb5e4
+commit: fb43492008c11fe89e510dd63383a2d37ea3cf8e [1640/1640] ata: ahci: Add support for AHCI SGPIO Enclosure Management
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241218/202412180610.tvT1b9wN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412180643.8K3zAvzB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412180610.tvT1b9wN-lkp@intel.com/
 
 smatch warnings:
-arch/arm64/kernel/rsi.c:57 arm64_rsi_setup_memory() warn: iterator 'i' not incremented
+drivers/ata/ahci_zhaoxin_sgpio.c:36 ahci_wait_em_reset() warn: variable dereferenced before check 'sgpio_zhaoxin' (see line 33)
+drivers/ata/ahci_zhaoxin_sgpio.c:335 ahci_transmit_sgpio_indicator_gp() warn: inconsistent returns '&sgpio_zhaoxin->wr_lock'.
 
-vim +/i +57 arch/arm64/kernel/rsi.c
+vim +/sgpio_zhaoxin +36 drivers/ata/ahci_zhaoxin_sgpio.c
 
-c077711f718be7c Suzuki K Poulose 2024-10-17  40  
-c077711f718be7c Suzuki K Poulose 2024-10-17  41  static void __init arm64_rsi_setup_memory(void)
-c077711f718be7c Suzuki K Poulose 2024-10-17  42  {
-c077711f718be7c Suzuki K Poulose 2024-10-17  43  	u64 i;
-c077711f718be7c Suzuki K Poulose 2024-10-17  44  	phys_addr_t start, end;
-c077711f718be7c Suzuki K Poulose 2024-10-17  45  
-c077711f718be7c Suzuki K Poulose 2024-10-17  46  	/*
-c077711f718be7c Suzuki K Poulose 2024-10-17  47  	 * Iterate over the available memory ranges and convert the state to
-c077711f718be7c Suzuki K Poulose 2024-10-17  48  	 * protected memory. We should take extra care to ensure that we DO NOT
-c077711f718be7c Suzuki K Poulose 2024-10-17  49  	 * permit any "DESTROYED" pages to be converted to "RAM".
-c077711f718be7c Suzuki K Poulose 2024-10-17  50  	 *
-c077711f718be7c Suzuki K Poulose 2024-10-17  51  	 * panic() is used because if the attempt to switch the memory to
-c077711f718be7c Suzuki K Poulose 2024-10-17  52  	 * protected has failed here, then future accesses to the memory are
-c077711f718be7c Suzuki K Poulose 2024-10-17  53  	 * simply going to be reflected as a SEA (Synchronous External Abort)
-c077711f718be7c Suzuki K Poulose 2024-10-17  54  	 * which we can't handle.  Bailing out early prevents the guest limping
-c077711f718be7c Suzuki K Poulose 2024-10-17  55  	 * on and dying later.
-c077711f718be7c Suzuki K Poulose 2024-10-17  56  	 */
-c077711f718be7c Suzuki K Poulose 2024-10-17 @57  	for_each_mem_range(i, &start, &end) {
-c077711f718be7c Suzuki K Poulose 2024-10-17  58  		if (rsi_set_memory_range_protected_safe(start, end)) {
-c077711f718be7c Suzuki K Poulose 2024-10-17  59  			panic("Failed to set memory range to protected: %pa-%pa",
-c077711f718be7c Suzuki K Poulose 2024-10-17  60  			      &start, &end);
-c077711f718be7c Suzuki K Poulose 2024-10-17  61  		}
-c077711f718be7c Suzuki K Poulose 2024-10-17  62  	}
-c077711f718be7c Suzuki K Poulose 2024-10-17  63  }
-c077711f718be7c Suzuki K Poulose 2024-10-17  64  
+fb43492008c11f leoliu-oc 2024-06-18  25  
+fb43492008c11f leoliu-oc 2024-06-18  26  static unsigned int zhaoxin_em_type __read_mostly = AHCI_EM_MSG_LED_MODE; /*LED protocol*/
+fb43492008c11f leoliu-oc 2024-06-18  27  module_param(zhaoxin_em_type, int, 0644);
+fb43492008c11f leoliu-oc 2024-06-18  28  MODULE_PARM_DESC(zhaoxin_em_type,
+fb43492008c11f leoliu-oc 2024-06-18  29  	"AHCI Enclosure Management Message type control (1 = led on, 2 = sgpio on,3 = sgpio gp on)");
+fb43492008c11f leoliu-oc 2024-06-18  30  
+fb43492008c11f leoliu-oc 2024-06-18  31  int ahci_wait_em_reset(struct sgpio_zhaoxin *sgpio_zhaoxin, u32 retry)
+fb43492008c11f leoliu-oc 2024-06-18  32  {
+fb43492008c11f leoliu-oc 2024-06-18 @33  	void __iomem *mmio = sgpio_zhaoxin->mmio;
+fb43492008c11f leoliu-oc 2024-06-18  34  	u32 em_ctl;
+fb43492008c11f leoliu-oc 2024-06-18  35  
+fb43492008c11f leoliu-oc 2024-06-18 @36  	if (!sgpio_zhaoxin || retry == 0) {
+fb43492008c11f leoliu-oc 2024-06-18  37  		pr_err("In ahci wait em reset, invalid param\n");
+fb43492008c11f leoliu-oc 2024-06-18  38  		return -EINVAL;
+fb43492008c11f leoliu-oc 2024-06-18  39  	}
+fb43492008c11f leoliu-oc 2024-06-18  40  
+fb43492008c11f leoliu-oc 2024-06-18  41  	while (retry--) { /*EM_CTL needs reset at least 64ms*/
+fb43492008c11f leoliu-oc 2024-06-18  42  		em_ctl = readl(mmio + HOST_EM_CTL);
+fb43492008c11f leoliu-oc 2024-06-18  43  		if (em_ctl & EM_CTL_RST)
+fb43492008c11f leoliu-oc 2024-06-18  44  			usleep_range(10000, 20000); /*EM_CTL still in reset, usleep 10ms*/
+fb43492008c11f leoliu-oc 2024-06-18  45  		else
+fb43492008c11f leoliu-oc 2024-06-18  46  			break;
+fb43492008c11f leoliu-oc 2024-06-18  47  
+fb43492008c11f leoliu-oc 2024-06-18  48  		if (!retry)
+fb43492008c11f leoliu-oc 2024-06-18  49  			pr_err("Wait for EM_CTL reset, time out\n");
+fb43492008c11f leoliu-oc 2024-06-18  50  	}
+fb43492008c11f leoliu-oc 2024-06-18  51  
+fb43492008c11f leoliu-oc 2024-06-18  52  	return 0;
+fb43492008c11f leoliu-oc 2024-06-18  53  }
+fb43492008c11f leoliu-oc 2024-06-18  54  
 
 -- 
 0-DAY CI Kernel Test Service
