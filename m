@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAA81F3D59
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 13:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBDA1DB52D
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 15:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734442753; cv=none; b=P9WDv7slWzA81/3dJuXozJh8r9rJSFasWGcW2sBmpQcZELonyvT4qXrzGakB+iuwmy3n/iZnfV2GkbZXEHJJQlr5EKSrrJM8b6vOtrhS1u9mDondYP2+XHxcVg4f7VpX1nt002+mZmNaVB5L9sttm7a1k+n+aBdaluJJd2SeaWs=
+	t=1734448000; cv=none; b=WA2CnLlGAMDj4P4gWx0CCvpbP/5XqqLVg6/ThXMrlmez2mus3Vn6LHtsJWeqPvOBz6b7VXj46I9qOoPkl4TWD/WaJOSHlW2HA5QtVZnTs56xfbRzMSSsffNd58zUWqCUl45c5vxAADzcuBG8VFl9vE66SBb1IAifsbWsW5J5Qr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734442753; c=relaxed/simple;
-	bh=KbON/IyCyHgs+Ki/zOn82+m71OLsB7WBDfxtme+uOcc=;
+	s=arc-20240116; t=1734448000; c=relaxed/simple;
+	bh=KW3ga5nnV+MxRiFvRCi00C15Qk0uzo8H05OrteeJGOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tmA/3h6CZIum8dwj5N6Rn5S5gh5t8nd24Cb0uN8uys3pHC6zwHJPTDiZgXPVO3tBgoDuFj6J3RRCHUkjN3oJ4Sj9ekavclyqyx30SSqYHRV7tlHIZB48iJQuRMaS6autaziFPtkg8f1Muw6jl5WOR4nKkFHexlJjKCxRrF6aOJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CiNBzYXn; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=hBPhqY3X5bj85aAbxt8DYz+pubZhaiQ5qmB00f3CqfDExGeP4FKnzI7S3Suw4POnpGmOFpsbFSjEO3zmbEDhrZMb9CEGmJp4QIUMJ/HDcaeoeoodLkBrALgHN13YlqXP4bp/n09olIbkti+HPoelmXWQni3PgLTZIkTcJnZjrKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zdkcfphz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CiNBzYXn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zdkcfphz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734442752; x=1765978752;
+  t=1734447998; x=1765983998;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KbON/IyCyHgs+Ki/zOn82+m71OLsB7WBDfxtme+uOcc=;
-  b=CiNBzYXnN9KkgVp7R6WWFin4jgDNQUea3cV1mBZte4lBYzlZrL9OeP4j
-   lEtkhVUqDlNXRxnH5NHR6OsConGhHCPYwQY4Q3VN0Coukk5dj7FIvEPWO
-   Q0KRcLhkjVTa7ZFKmSjJT9+XYlVh7zT/rXW5bW26o0Z0h7QN4P6J3FluF
-   cRITrsZH51BoVVYG4qF4InHSzHtbA9p1jILlMYjRMCTLOAZ39Swu30zFx
-   XmErLVRpKK7A1cJRnLj8bOdlWP6yhPMh/OYJfGRNzS7cC5nkpUzHLbey3
-   96dK7WOTnkfT1PImeZB70eTpKo7UuLPcuXrxKE2MOrJN6EYQR5uBjVore
-   w==;
-X-CSE-ConnectionGUID: 0k20xFH4S3+zC0BJWkROrQ==
-X-CSE-MsgGUID: nmT8cPOrQiajzGBty/vong==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="46262783"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="46262783"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 05:39:11 -0800
-X-CSE-ConnectionGUID: ghhrVx0kSW2zhl+AhGIrag==
-X-CSE-MsgGUID: KfvTjonyTS2fndcXhSY9mg==
+  bh=KW3ga5nnV+MxRiFvRCi00C15Qk0uzo8H05OrteeJGOc=;
+  b=ZdkcfphzRM5jG7Yrb924FNqnMsZ2SpG5CBqNAO4WgL5EUwJVW/z5kNFr
+   xbKzdwnvVEfuY6nuHFaW3jutdfWPKNJe8AZabYM0PM0eN8Bh9+mgHN5ys
+   boc9Xju5C9t8ngker0kVOWSWshYbdJqJfDirqm2gOepuHQX1dx72Avht7
+   l2GRZ2HLFAmutg3FRYiEwICdEHgBcjguRFjlW+ynQDf0YtDSQPyoIbnQ8
+   2Q5EoRRJUVS9/SbUHce/QDFJ0bFWDZVh7U0uhRvE2nweTOc7j1WFejjJT
+   axN9D5o87MS6Ktx5CgsoZYx5JzgKjFWG8VsDqkZbSq/oP6rjzjoqNF26l
+   A==;
+X-CSE-ConnectionGUID: fUhsELH6RNaEUg7kHQ/T9w==
+X-CSE-MsgGUID: AhYNQeUlTQerSqVKCOsnsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38655499"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="38655499"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 07:06:38 -0800
+X-CSE-ConnectionGUID: VUUiQCxeQziVBiXiRaP7wQ==
+X-CSE-MsgGUID: zK+yLwdpSGKcKIRggI8PyA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="102631726"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="102572043"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Dec 2024 05:39:09 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2024 07:06:37 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNXn1-000F1c-0w;
-	Tue, 17 Dec 2024 13:39:07 +0000
-Date: Tue, 17 Dec 2024 21:39:03 +0800
+	id 1tNZ9e-000F5M-02;
+	Tue, 17 Dec 2024 15:06:34 +0000
+Date: Tue, 17 Dec 2024 23:06:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android15-6.6 1/1] kernel/time/tick-sched.c:212
- tick_sched_do_timer() error: uninitialized symbol 'tick_cpu'.
-Message-ID: <202412172110.IbsQbVfV-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/i2c/muxes/i2c-mux-mule.c:98:1-23: WARNING: Function
+ "for_each_child_of_node" should have of_node_put() before return around line
+ 103.
+Message-ID: <202412172333.KjRpCGLb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,53 +65,119 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Farouk Bouabid <farouk.bouabid@cherry.de>
+CC: Andi Shyti <andi.shyti@kernel.org>
+CC: Wolfram Sang <wsa-dev@sang-engineering.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   4c2c65ff08ee9a0f8d838770b1e921da2adf3fa2
-commit: a94ba5ab288780f141d741107751b4866bc24be3 [1/1] BACKPORT: timekeeping: Use READ/WRITE_ONCE() for tick_do_timer_cpu
-:::::: branch date: 16 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241217/202412172110.IbsQbVfV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
+commit: d0f8e97866bf258b420ebf2b46755399ca01e585 i2c: muxes: add support for tsd,mule-i2c multiplexer
+date:   3 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-104-20241217 (https://download.01.org/0day-ci/archive/20241217/202412172333.KjRpCGLb-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412172110.IbsQbVfV-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412172333.KjRpCGLb-lkp@intel.com/
 
-smatch warnings:
-kernel/time/tick-sched.c:212 tick_sched_do_timer() error: uninitialized symbol 'tick_cpu'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/i2c/muxes/i2c-mux-mule.c:98:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 103.
+   drivers/i2c/muxes/i2c-mux-mule.c:98:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 122.
 
-vim +/tick_cpu +212 kernel/time/tick-sched.c
+vim +/for_each_child_of_node +98 drivers/i2c/muxes/i2c-mux-mule.c
 
-5bb962269c29cb Frederic Weisbecker 2012-10-15  210  
-5bb962269c29cb Frederic Weisbecker 2012-10-15  211  	/* Check, if the jiffies need an update */
-a94ba5ab288780 Thomas Gleixner     2024-08-12 @212  	if (tick_cpu == cpu) {
-5bb962269c29cb Frederic Weisbecker 2012-10-15  213  		tick_do_update_jiffies64(now);
-9bdaa3fa874dbe Amir Vajid          2020-10-20  214  		trace_android_vh_jiffies_update(NULL);
-9bdaa3fa874dbe Amir Vajid          2020-10-20  215  	}
-ff7de6203131e3 Rafael J. Wysocki   2018-04-06  216  
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  217  	/*
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  218  	 * If jiffies update stalled for too long (timekeeper in stop_machine()
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  219  	 * or VMEXIT'ed for several msecs), force an update.
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  220  	 */
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  221  	if (ts->last_tick_jiffies != jiffies) {
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  222  		ts->stalled_jiffies = 0;
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  223  		ts->last_tick_jiffies = READ_ONCE(jiffies);
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  224  	} else {
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  225  		if (++ts->stalled_jiffies == MAX_STALLED_JIFFIES) {
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  226  			tick_do_update_jiffies64(now);
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  227  			ts->stalled_jiffies = 0;
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  228  			ts->last_tick_jiffies = READ_ONCE(jiffies);
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  229  		}
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  230  	}
-a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  231  
-ff7de6203131e3 Rafael J. Wysocki   2018-04-06  232  	if (ts->inidle)
-ff7de6203131e3 Rafael J. Wysocki   2018-04-06  233  		ts->got_idle_tick = 1;
-5bb962269c29cb Frederic Weisbecker 2012-10-15  234  }
-5bb962269c29cb Frederic Weisbecker 2012-10-15  235  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   43  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   44  static int mule_i2c_mux_probe(struct platform_device *pdev)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   45  {
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   46  	struct device *mux_dev = &pdev->dev;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   47  	struct mule_i2c_reg_mux *priv;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   48  	struct i2c_client *client;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   49  	struct i2c_mux_core *muxc;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   50  	struct device_node *dev;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   51  	unsigned int readback;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   52  	int ndev, ret;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   53  	bool old_fw;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   54  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   55  	/* Count devices on the mux */
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   56  	ndev = of_get_child_count(mux_dev->of_node);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   57  	dev_dbg(mux_dev, "%d devices on the mux\n", ndev);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   58  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   59  	client = to_i2c_client(mux_dev->parent);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   60  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   61  	muxc = i2c_mux_alloc(client->adapter, mux_dev, ndev, sizeof(*priv),
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   62  			     I2C_MUX_LOCKED, mule_i2c_mux_select, mule_i2c_mux_deselect);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   63  	if (!muxc)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   64  		return -ENOMEM;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   65  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   66  	priv = i2c_mux_priv(muxc);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   67  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   68  	priv->regmap = dev_get_regmap(mux_dev->parent, NULL);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   69  	if (IS_ERR(priv->regmap))
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   70  		return dev_err_probe(mux_dev, PTR_ERR(priv->regmap),
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   71  				     "No parent i2c register map\n");
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   72  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   73  	platform_set_drvdata(pdev, muxc);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   74  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   75  	/*
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   76  	 * MULE_I2C_MUX_DEFAULT_DEV is guaranteed to exist on all old and new
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   77  	 * mule fw. Mule fw without mux support will accept write ops to the
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   78  	 * config register, but readback returns 0xff (register not updated).
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   79  	 */
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   80  	ret = mule_i2c_mux_select(muxc, MULE_I2C_MUX_DEFAULT_DEV);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   81  	if (ret)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   82  		return dev_err_probe(mux_dev, ret,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   83  				     "Failed to write config register\n");
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   84  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   85  	ret = regmap_read(priv->regmap, MULE_I2C_MUX_CONFIG_REG, &readback);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   86  	if (ret)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   87  		return dev_err_probe(mux_dev, ret,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   88  				     "Failed to read config register\n");
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   89  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   90  	old_fw = (readback != MULE_I2C_MUX_DEFAULT_DEV);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   91  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   92  	ret = devm_add_action_or_reset(mux_dev, mule_i2c_mux_remove, muxc);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   93  	if (ret)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   94  		return dev_err_probe(mux_dev, ret,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   95  				     "Failed to register mux remove\n");
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   96  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   97  	/* Create device adapters */
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  @98  	for_each_child_of_node(mux_dev->of_node, dev) {
+d0f8e97866bf25 Farouk Bouabid 2024-09-06   99  		u32 reg;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  100  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  101  		ret = of_property_read_u32(dev, "reg", &reg);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  102  		if (ret)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06 @103  			return dev_err_probe(mux_dev, ret,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  104  					     "No reg property found for %s\n",
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  105  					     of_node_full_name(dev));
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  106  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  107  		if (old_fw && reg != 0) {
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  108  			dev_warn(mux_dev,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  109  				 "Mux is not supported, please update Mule FW\n");
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  110  			continue;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  111  		}
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  112  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  113  		ret = mule_i2c_mux_select(muxc, reg);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  114  		if (ret) {
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  115  			dev_warn(mux_dev,
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  116  				 "Device %d not supported, please update Mule FW\n", reg);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  117  			continue;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  118  		}
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  119  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  120  		ret = i2c_mux_add_adapter(muxc, 0, reg);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  121  		if (ret)
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  122  			return ret;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  123  	}
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  124  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  125  	mule_i2c_mux_deselect(muxc, MULE_I2C_MUX_DEFAULT_DEV);
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  126  
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  127  	return 0;
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  128  }
+d0f8e97866bf25 Farouk Bouabid 2024-09-06  129  
 
 -- 
 0-DAY CI Kernel Test Service
