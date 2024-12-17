@@ -1,169 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607BE13DB9F
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 18:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91841F893A
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 18:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734458887; cv=none; b=C+GvXe9SK7zWRp+fOFV3PmnRK7SMzfF5HfzUjYQn/LencVlRHEyi6Muupg1Jg+7p2sDKj5GnN2ohpXJ3cMqEdGIjUV3VpkYsTs7AzdPKys2ELMyqgtdYclFiPNBEFWs+8NN+kKiVBBBdJzacMYzpafmvxs2zN7rwv7Y63il6YkY=
+	t=1734460151; cv=none; b=b2SQxnB6yYmwz8ZNAabhxw4h1CChAHoANqGvwbLtZ0K4JPvMug1nmVbXpdrYVr/QvHIQVm7mzfgf+nNC07l6qlEMFqyCFLtbHL93bhMerlTI9Yi53s0sexS27F8JBgXKll2OCOXcPbTDmKI7ruxbX03mNxFu61+lBUhCY5+rrvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734458887; c=relaxed/simple;
-	bh=Rt1x+xA4LtLRAuu9CSJgbOgRnKjv/GwOd/BeV6mkSks=;
+	s=arc-20240116; t=1734460151; c=relaxed/simple;
+	bh=ESxl7YuykLxib7i5efaXIoyqCuINEdp/4LL/wJR6UCQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t94GGyohpBYP9LvSqWnaF2zIqfu4hLE4jflWAf/Osvmvc8bDAi5kUHdTgLiKb08vFGBGAAhlqlCiwaT0Xltx+hStB44jsK2A19fXtGQQR37Tekk2yjM2HGxmI/rHK3+aBPZbUCS16SLK0yaTtaZQTrlG8N/JPvWF3RAWh8BNBBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGAHvyM9; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Y+7tHuKJOrhps+PVJjzJZjeDxXVtuu+KjRgPSS26ScT/Z3OxsxKQnAr2COcDpwtXqY5GuKRCQLfOYK2ocbOCLmPz05o4i4fkel2LDrDtEn/6BLW6HmeyNdgfmfZ+GbsKs9xcgyyFcr41QLwmr4OxT8RVKWqgM5VMClVNJeTBRAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gYSfTgyu; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGAHvyM9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYSfTgyu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734458885; x=1765994885;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rt1x+xA4LtLRAuu9CSJgbOgRnKjv/GwOd/BeV6mkSks=;
-  b=dGAHvyM9xoF3n6tiN4LNTQ7kenKC7EyFyb4PSLAHjDufKD1WH57rH01c
-   Qg6uzJyF0AFo1GUeXQNfi0QFqwjwryMKhQaRTahqxFuhvgHCZiactETI2
-   FodwZoSsGNTMMJWpaDPqrCvAl8AGg6BujkMEOanS0St5aBPSZTzPajll7
-   WmvOmet1I3MU+8ihIE43zlK98hIa+IbEMaB3K/KwilD/Jo8TlMTO7F+Q5
-   7v7WxT7IH9ZDnpeoAwe/2GO8AleWf0L82zCW0XwFfA3CSZRjKG6Pft1bK
-   7qAHyg97va4zKXpJmE0ZITMBqj0xHAz1MFKA1LEWMr8+Tnum+J41lA1t5
-   A==;
-X-CSE-ConnectionGUID: CcDvPCEETF6UY7Abl/QLeA==
-X-CSE-MsgGUID: 0vzOZBPVRZOyB5mIaZwZgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38837491"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="38837491"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 10:08:04 -0800
-X-CSE-ConnectionGUID: up8ADDK8Q+mI1OtiueXy0Q==
-X-CSE-MsgGUID: DfYlDImPSkSzDBl3METWrQ==
+  t=1734460149; x=1765996149;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ESxl7YuykLxib7i5efaXIoyqCuINEdp/4LL/wJR6UCQ=;
+  b=gYSfTgyunNSnC0qoYJtVO2jFGxJZm593ZeqTHY908HbVDEYZAQLsXHPK
+   rWdYr/ulouiTqaGACWu3QHY1MMCO6gxRbuqGaz6WQvK/UQfI0BTmIDJh/
+   8vloIw6Vyj8xkitxbkv048icnrEiLmApZUkNlHHqMqPkkTNVftsXpgFc5
+   PcOQxZUHHVSR9QRe/Bnrrw0QNFzckkwixU6/a8gAxXCv7q8QjcwACLIWI
+   WpvAs+CHVeggZbUq0m+YwV402Nav5yo73PWwAhmlT0UDsQpOCvs+sd2lq
+   EJNMrGeZS7Rlz6tcvOMyJLs1BT4NkJLBLI+UMBQc02rO6uqX+FjvFAgHg
+   Q==;
+X-CSE-ConnectionGUID: tsxs+q9HT1Sv3OroNlyc1w==
+X-CSE-MsgGUID: u0ZMbyO8RXeXpD7Cb2Zkew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="37740733"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="37740733"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 10:29:08 -0800
+X-CSE-ConnectionGUID: ZrrG9PpcRpqVSGsSgc1ppg==
+X-CSE-MsgGUID: SnDIVthbTTG6M36qyeI3bQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="98045734"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; 
+   d="scan'208";a="98040598"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Dec 2024 10:08:03 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 17 Dec 2024 10:29:07 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNbzF-000FiQ-0g;
-	Tue, 17 Dec 2024 18:08:01 +0000
-Date: Wed, 18 Dec 2024 02:07:04 +0800
+	id 1tNcJc-000FjI-2Y;
+	Tue, 17 Dec 2024 18:29:04 +0000
+Date: Wed, 18 Dec 2024 02:28:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/scsi/mpi3mr/mpi3mr_app.c:1096:14-15: WARNING opportunity for
- min()
-Message-ID: <202412180102.cbjJZsnI-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/xattr.c:731 __do_sys_setxattrat() warn: comparison of a
+ potentially tagged address (__do_sys_setxattrat, 5, usize)
+Message-ID: <202412180241.kDSztuxg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Chandrakanth patil <chandrakanth.patil@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Sathya Prakash <sathya.prakash@broadcom.com>
+TO: "Christian Göttsche" <cgzones@googlemail.com>
+CC: Al Viro <viro@zeniv.linux.org.uk>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Christian Brauner <brauner@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   59dbb9d81adfe07a6f8483269146b407cf9d44d7
-commit: fb231d7deffb41fd445929a3b79815277b883fec scsi: mpi3mr: Support for preallocation of SGL BSG data buffers part-2
-date:   1 year ago
-:::::: branch date: 89 minutes ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-101-20241217 (https://download.01.org/0day-ci/archive/20241218/202412180102.cbjJZsnI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 6140be90ec70c39fa844741ca3cc807dd0866394 fs/xattr: add *at family syscalls
+date:   6 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241218/202412180241.kDSztuxg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412180102.cbjJZsnI-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412180241.kDSztuxg-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/scsi/mpi3mr/mpi3mr_app.c:1096:14-15: WARNING opportunity for min()
+smatch warnings:
+fs/xattr.c:731 __do_sys_setxattrat() warn: comparison of a potentially tagged address (__do_sys_setxattrat, 5, usize)
+fs/xattr.c:731 __do_sys_setxattrat() warn: comparison of a potentially tagged address (__do_sys_setxattrat, 5, usize)
+fs/xattr.c:874 __do_sys_getxattrat() warn: comparison of a potentially tagged address (__do_sys_getxattrat, 5, usize)
+fs/xattr.c:874 __do_sys_getxattrat() warn: comparison of a potentially tagged address (__do_sys_getxattrat, 5, usize)
 
-vim +1096 drivers/scsi/mpi3mr/mpi3mr_app.c
+vim +731 fs/xattr.c
 
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1057  
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1058  /**
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1059   * mpi3mr_map_data_buffer_dma - build dma descriptors for data
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1060   *                              buffers
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1061   * @mrioc: Adapter instance reference
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1062   * @drv_buf: buffer map descriptor
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1063   * @desc_count: Number of already consumed dma descriptors
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1064   *
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1065   * This function computes how many pre-allocated DMA descriptors
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1066   * are required for the given data buffer and if those number of
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1067   * descriptors are free, then setup the mapping of the scattered
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1068   * DMA address to the given data buffer, if the data direction
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1069   * of the buffer is DMA_TO_DEVICE then the actual data is copied to
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1070   * the DMA buffers
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1071   *
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1072   * Return: 0 on success, -1 on failure
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1073   */
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1074  static int mpi3mr_map_data_buffer_dma(struct mpi3mr_ioc *mrioc,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1075  				      struct mpi3mr_buf_map *drv_buf,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1076  				      u16 desc_count)
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1077  {
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1078  	u16 i, needed_desc = drv_buf->kern_buf_len / MPI3MR_IOCTL_SGE_SIZE;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1079  	u32 buf_len = drv_buf->kern_buf_len, copied_len = 0;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1080  
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1081  	if (drv_buf->kern_buf_len % MPI3MR_IOCTL_SGE_SIZE)
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1082  		needed_desc++;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1083  	if ((needed_desc + desc_count) > MPI3MR_NUM_IOCTL_SGE) {
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1084  		dprint_bsg_err(mrioc, "%s: DMA descriptor mapping error %d:%d:%d\n",
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1085  			       __func__, needed_desc, desc_count, MPI3MR_NUM_IOCTL_SGE);
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1086  		return -1;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1087  	}
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1088  	drv_buf->dma_desc = kzalloc(sizeof(*drv_buf->dma_desc) * needed_desc,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1089  				    GFP_KERNEL);
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1090  	if (!drv_buf->dma_desc)
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1091  		return -1;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1092  	for (i = 0; i < needed_desc; i++, desc_count++) {
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1093  		drv_buf->dma_desc[i].addr = mrioc->ioctl_sge[desc_count].addr;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1094  		drv_buf->dma_desc[i].dma_addr =
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1095  		    mrioc->ioctl_sge[desc_count].dma_addr;
-fb231d7deffb41f Chandrakanth patil 2023-12-06 @1096  		if (buf_len < mrioc->ioctl_sge[desc_count].size)
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1097  			drv_buf->dma_desc[i].size = buf_len;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1098  		else
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1099  			drv_buf->dma_desc[i].size =
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1100  			    mrioc->ioctl_sge[desc_count].size;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1101  		buf_len -= drv_buf->dma_desc[i].size;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1102  		memset(drv_buf->dma_desc[i].addr, 0,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1103  		       mrioc->ioctl_sge[desc_count].size);
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1104  		if (drv_buf->data_dir == DMA_TO_DEVICE) {
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1105  			memcpy(drv_buf->dma_desc[i].addr,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1106  			       drv_buf->bsg_buf + copied_len,
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1107  			       drv_buf->dma_desc[i].size);
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1108  			copied_len += drv_buf->dma_desc[i].size;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1109  		}
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1110  	}
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1111  	drv_buf->num_dma_desc = needed_desc;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1112  	return 0;
-fb231d7deffb41f Chandrakanth patil 2023-12-06  1113  }
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1114  /**
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1115   * mpi3mr_bsg_process_mpt_cmds - MPI Pass through BSG handler
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1116   * @job: BSG job reference
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1117   *
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1118   * This function is the top level handler for MPI Pass through
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1119   * command, this does basic validation of the input data buffers,
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1120   * identifies the given buffer types and MPI command, allocates
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1121   * DMAable memory for user given buffers, construstcs SGL
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1122   * properly and passes the command to the firmware.
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1123   *
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1124   * Once the MPI command is completed the driver copies the data
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1125   * if any and reply, sense information to user provided buffers.
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1126   * If the command is timed out then issues controller reset
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1127   * prior to returning.
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1128   *
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1129   * Return: 0 on success and proper error codes on failure
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1130   */
-506bc1a0d6ba626 Sumit Saxena       2022-04-29  1131  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  718  
+6140be90ec70c3 Christian Göttsche 2024-04-26  719  SYSCALL_DEFINE6(setxattrat, int, dfd, const char __user *, pathname, unsigned int, at_flags,
+6140be90ec70c3 Christian Göttsche 2024-04-26  720  		const char __user *, name, const struct xattr_args __user *, uargs,
+6140be90ec70c3 Christian Göttsche 2024-04-26  721  		size_t, usize)
+6140be90ec70c3 Christian Göttsche 2024-04-26  722  {
+6140be90ec70c3 Christian Göttsche 2024-04-26  723  	struct xattr_args args = {};
+6140be90ec70c3 Christian Göttsche 2024-04-26  724  	int error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  725  
+6140be90ec70c3 Christian Göttsche 2024-04-26  726  	BUILD_BUG_ON(sizeof(struct xattr_args) < XATTR_ARGS_SIZE_VER0);
+6140be90ec70c3 Christian Göttsche 2024-04-26  727  	BUILD_BUG_ON(sizeof(struct xattr_args) != XATTR_ARGS_SIZE_LATEST);
+6140be90ec70c3 Christian Göttsche 2024-04-26  728  
+6140be90ec70c3 Christian Göttsche 2024-04-26  729  	if (unlikely(usize < XATTR_ARGS_SIZE_VER0))
+6140be90ec70c3 Christian Göttsche 2024-04-26  730  		return -EINVAL;
+6140be90ec70c3 Christian Göttsche 2024-04-26 @731  	if (usize > PAGE_SIZE)
+6140be90ec70c3 Christian Göttsche 2024-04-26  732  		return -E2BIG;
+6140be90ec70c3 Christian Göttsche 2024-04-26  733  
+6140be90ec70c3 Christian Göttsche 2024-04-26  734  	error = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+6140be90ec70c3 Christian Göttsche 2024-04-26  735  	if (error)
+6140be90ec70c3 Christian Göttsche 2024-04-26  736  		return error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  737  
+6140be90ec70c3 Christian Göttsche 2024-04-26  738  	return path_setxattrat(dfd, pathname, at_flags, name,
+6140be90ec70c3 Christian Göttsche 2024-04-26  739  			       u64_to_user_ptr(args.value), args.size,
+6140be90ec70c3 Christian Göttsche 2024-04-26  740  			       args.flags);
+6140be90ec70c3 Christian Göttsche 2024-04-26  741  }
+6140be90ec70c3 Christian Göttsche 2024-04-26  742  
+8cc431165d8fbd Eric Biggers       2014-10-12  743  SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
+64fd1de3d82165 Heiko Carstens     2009-01-14  744  		const char __user *, name, const void __user *, value,
+64fd1de3d82165 Heiko Carstens     2009-01-14  745  		size_t, size, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  746  {
+6140be90ec70c3 Christian Göttsche 2024-04-26  747  	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags);
+18f335aff86913 Dave Hansen        2008-02-15  748  }
+8cc431165d8fbd Eric Biggers       2014-10-12  749  
+8cc431165d8fbd Eric Biggers       2014-10-12  750  SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
+8cc431165d8fbd Eric Biggers       2014-10-12  751  		const char __user *, name, const void __user *, value,
+8cc431165d8fbd Eric Biggers       2014-10-12  752  		size_t, size, int, flags)
+8cc431165d8fbd Eric Biggers       2014-10-12  753  {
+6140be90ec70c3 Christian Göttsche 2024-04-26  754  	return path_setxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
+6140be90ec70c3 Christian Göttsche 2024-04-26  755  			       value, size, flags);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  756  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  757  
+64fd1de3d82165 Heiko Carstens     2009-01-14  758  SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
+64fd1de3d82165 Heiko Carstens     2009-01-14  759  		const void __user *,value, size_t, size, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  760  {
+6140be90ec70c3 Christian Göttsche 2024-04-26  761  	return path_setxattrat(fd, NULL, AT_EMPTY_PATH, name,
+6140be90ec70c3 Christian Göttsche 2024-04-26  762  			       value, size, flags);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  763  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  764  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  765  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  766   * Extended attribute GET operations
+^1da177e4c3f41 Linus Torvalds     2005-04-16  767   */
+0158005aaa3c94 Al Viro            2024-09-26  768  static ssize_t
+5a6f52d20ce3cd Christian Brauner  2022-10-28  769  do_getxattr(struct mnt_idmap *idmap, struct dentry *d,
+537c76629d7855 Christian Göttsche 2024-04-26  770  	struct kernel_xattr_ctx *ctx)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  771  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  772  	ssize_t error;
+c975cad9315700 Stefan Roesch      2022-04-24  773  	char *kname = ctx->kname->name;
+0158005aaa3c94 Al Viro            2024-09-26  774  	void *kvalue = NULL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  775  
+c975cad9315700 Stefan Roesch      2022-04-24  776  	if (ctx->size) {
+c975cad9315700 Stefan Roesch      2022-04-24  777  		if (ctx->size > XATTR_SIZE_MAX)
+c975cad9315700 Stefan Roesch      2022-04-24  778  			ctx->size = XATTR_SIZE_MAX;
+0158005aaa3c94 Al Viro            2024-09-26  779  		kvalue = kvzalloc(ctx->size, GFP_KERNEL);
+0158005aaa3c94 Al Viro            2024-09-26  780  		if (!kvalue)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  781  			return -ENOMEM;
+779302e67835fe Sasha Levin        2012-07-30  782  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  783  
+0158005aaa3c94 Al Viro            2024-09-26  784  	if (is_posix_acl_xattr(kname))
+0158005aaa3c94 Al Viro            2024-09-26  785  		error = do_get_acl(idmap, d, kname, kvalue, ctx->size);
+318e66856ddec0 Christian Brauner  2022-09-22  786  	else
+0158005aaa3c94 Al Viro            2024-09-26  787  		error = vfs_getxattr(idmap, d, kname, kvalue, ctx->size);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  788  	if (error > 0) {
+0158005aaa3c94 Al Viro            2024-09-26  789  		if (ctx->size && copy_to_user(ctx->value, kvalue, error))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  790  			error = -EFAULT;
+c975cad9315700 Stefan Roesch      2022-04-24  791  	} else if (error == -ERANGE && ctx->size >= XATTR_SIZE_MAX) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  792  		/* The file system tried to returned a value bigger
+^1da177e4c3f41 Linus Torvalds     2005-04-16  793  		   than XATTR_SIZE_MAX bytes. Not possible. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  794  		error = -E2BIG;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  795  	}
+0b2a6f231dcbc7 Richard Weinberger 2016-01-02  796  
+0158005aaa3c94 Al Viro            2024-09-26  797  	kvfree(kvalue);
+c975cad9315700 Stefan Roesch      2022-04-24  798  	return error;
+c975cad9315700 Stefan Roesch      2022-04-24  799  }
+0b2a6f231dcbc7 Richard Weinberger 2016-01-02  800  
+0158005aaa3c94 Al Viro            2024-09-26  801  ssize_t file_getxattr(struct file *f, struct kernel_xattr_ctx *ctx)
+c975cad9315700 Stefan Roesch      2022-04-24  802  {
+0158005aaa3c94 Al Viro            2024-09-26  803  	audit_file(f);
+0158005aaa3c94 Al Viro            2024-09-26  804  	return do_getxattr(file_mnt_idmap(f), f->f_path.dentry, ctx);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  805  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  806  
+0158005aaa3c94 Al Viro            2024-09-26  807  /* unconditionally consumes filename */
+0158005aaa3c94 Al Viro            2024-09-26  808  ssize_t filename_getxattr(int dfd, struct filename *filename,
+0158005aaa3c94 Al Viro            2024-09-26  809  			  unsigned int lookup_flags, struct kernel_xattr_ctx *ctx)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  810  {
+2d8f30380ab8c7 Al Viro            2008-07-22  811  	struct path path;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  812  	ssize_t error;
+60e66b48ca2081 Jeff Layton        2012-12-11  813  retry:
+0158005aaa3c94 Al Viro            2024-09-26  814  	error = filename_lookup(dfd, filename, lookup_flags, &path, NULL);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  815  	if (error)
+0158005aaa3c94 Al Viro            2024-09-26  816  		goto out;
+0158005aaa3c94 Al Viro            2024-09-26  817  	error = do_getxattr(mnt_idmap(path.mnt), path.dentry, ctx);
+2d8f30380ab8c7 Al Viro            2008-07-22  818  	path_put(&path);
+60e66b48ca2081 Jeff Layton        2012-12-11  819  	if (retry_estale(error, lookup_flags)) {
+60e66b48ca2081 Jeff Layton        2012-12-11  820  		lookup_flags |= LOOKUP_REVAL;
+60e66b48ca2081 Jeff Layton        2012-12-11  821  		goto retry;
+60e66b48ca2081 Jeff Layton        2012-12-11  822  	}
+0158005aaa3c94 Al Viro            2024-09-26  823  out:
+0158005aaa3c94 Al Viro            2024-09-26  824  	putname(filename);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  825  	return error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  826  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  827  
+6140be90ec70c3 Christian Göttsche 2024-04-26  828  static ssize_t path_getxattrat(int dfd, const char __user *pathname,
+6140be90ec70c3 Christian Göttsche 2024-04-26  829  			       unsigned int at_flags, const char __user *name,
+6140be90ec70c3 Christian Göttsche 2024-04-26  830  			       void __user *value, size_t size)
+0158005aaa3c94 Al Viro            2024-09-26  831  {
+0158005aaa3c94 Al Viro            2024-09-26  832  	struct xattr_name kname;
+0158005aaa3c94 Al Viro            2024-09-26  833  	struct kernel_xattr_ctx ctx = {
+0158005aaa3c94 Al Viro            2024-09-26  834  		.value    = value,
+0158005aaa3c94 Al Viro            2024-09-26  835  		.size     = size,
+0158005aaa3c94 Al Viro            2024-09-26  836  		.kname    = &kname,
+0158005aaa3c94 Al Viro            2024-09-26  837  		.flags    = 0,
+0158005aaa3c94 Al Viro            2024-09-26  838  	};
+6140be90ec70c3 Christian Göttsche 2024-04-26  839  	struct filename *filename;
+6140be90ec70c3 Christian Göttsche 2024-04-26  840  	ssize_t error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  841  
+6140be90ec70c3 Christian Göttsche 2024-04-26  842  	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+6140be90ec70c3 Christian Göttsche 2024-04-26  843  		return -EINVAL;
+0158005aaa3c94 Al Viro            2024-09-26  844  
+0158005aaa3c94 Al Viro            2024-09-26  845  	error = import_xattr_name(&kname, name);
+0158005aaa3c94 Al Viro            2024-09-26  846  	if (error)
+0158005aaa3c94 Al Viro            2024-09-26  847  		return error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  848  
+6140be90ec70c3 Christian Göttsche 2024-04-26  849  	filename = getname_maybe_null(pathname, at_flags);
+6140be90ec70c3 Christian Göttsche 2024-04-26  850  	if (!filename) {
+6140be90ec70c3 Christian Göttsche 2024-04-26  851  		CLASS(fd, f)(dfd);
+6140be90ec70c3 Christian Göttsche 2024-04-26  852  		if (fd_empty(f))
+6140be90ec70c3 Christian Göttsche 2024-04-26  853  			return -EBADF;
+6140be90ec70c3 Christian Göttsche 2024-04-26  854  		return file_getxattr(fd_file(f), &ctx);
+6140be90ec70c3 Christian Göttsche 2024-04-26  855  	} else {
+6140be90ec70c3 Christian Göttsche 2024-04-26  856  		int lookup_flags = 0;
+6140be90ec70c3 Christian Göttsche 2024-04-26  857  		if (!(at_flags & AT_SYMLINK_NOFOLLOW))
+6140be90ec70c3 Christian Göttsche 2024-04-26  858  			lookup_flags = LOOKUP_FOLLOW;
+6140be90ec70c3 Christian Göttsche 2024-04-26  859  		return filename_getxattr(dfd, filename, lookup_flags, &ctx);
+6140be90ec70c3 Christian Göttsche 2024-04-26  860  	}
+6140be90ec70c3 Christian Göttsche 2024-04-26  861  }
+6140be90ec70c3 Christian Göttsche 2024-04-26  862  
+6140be90ec70c3 Christian Göttsche 2024-04-26  863  SYSCALL_DEFINE6(getxattrat, int, dfd, const char __user *, pathname, unsigned int, at_flags,
+6140be90ec70c3 Christian Göttsche 2024-04-26  864  		const char __user *, name, struct xattr_args __user *, uargs, size_t, usize)
+6140be90ec70c3 Christian Göttsche 2024-04-26  865  {
+6140be90ec70c3 Christian Göttsche 2024-04-26  866  	struct xattr_args args = {};
+6140be90ec70c3 Christian Göttsche 2024-04-26  867  	int error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  868  
+6140be90ec70c3 Christian Göttsche 2024-04-26  869  	BUILD_BUG_ON(sizeof(struct xattr_args) < XATTR_ARGS_SIZE_VER0);
+6140be90ec70c3 Christian Göttsche 2024-04-26  870  	BUILD_BUG_ON(sizeof(struct xattr_args) != XATTR_ARGS_SIZE_LATEST);
+6140be90ec70c3 Christian Göttsche 2024-04-26  871  
+6140be90ec70c3 Christian Göttsche 2024-04-26  872  	if (unlikely(usize < XATTR_ARGS_SIZE_VER0))
+6140be90ec70c3 Christian Göttsche 2024-04-26  873  		return -EINVAL;
+6140be90ec70c3 Christian Göttsche 2024-04-26 @874  	if (usize > PAGE_SIZE)
+6140be90ec70c3 Christian Göttsche 2024-04-26  875  		return -E2BIG;
+6140be90ec70c3 Christian Göttsche 2024-04-26  876  
+6140be90ec70c3 Christian Göttsche 2024-04-26  877  	error = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+6140be90ec70c3 Christian Göttsche 2024-04-26  878  	if (error)
+6140be90ec70c3 Christian Göttsche 2024-04-26  879  		return error;
+6140be90ec70c3 Christian Göttsche 2024-04-26  880  
+6140be90ec70c3 Christian Göttsche 2024-04-26  881  	if (args.flags != 0)
+6140be90ec70c3 Christian Göttsche 2024-04-26  882  		return -EINVAL;
+6140be90ec70c3 Christian Göttsche 2024-04-26  883  
+6140be90ec70c3 Christian Göttsche 2024-04-26  884  	return path_getxattrat(dfd, pathname, at_flags, name,
+6140be90ec70c3 Christian Göttsche 2024-04-26  885  			       u64_to_user_ptr(args.value), args.size);
+0158005aaa3c94 Al Viro            2024-09-26  886  }
+0158005aaa3c94 Al Viro            2024-09-26  887  
 
 -- 
 0-DAY CI Kernel Test Service
