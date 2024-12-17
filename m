@@ -1,67 +1,58 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC3F14F9FF
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 07:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7709E189521
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 08:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734419556; cv=none; b=e3fhyqPfWqXhdbHlQtsWt8kPRtizF2FENXzussXL1VW9IcSU2j0GMwlKuyMM3v9oALAeGTWwtOZ17f4ldImdOmtFfEJvNkXwwISeAw611C4HJ48vVwmai+v6aQSHWVqTYTwm2VCNo/XWtNiO0eI6B5VFBDDumwErLi63hIiBaK0=
+	t=1734423388; cv=none; b=Pv+HjbrmHS/lKFuGyxX+Xcl3lGn/ZChPzWt1SZjr+4cFrELVUsPFDyVXaOoT1bqCDCc2i4ykbIyeFhnc91mqWOpRTLFjJhvToAnCGB3WKQfejPVuY/1U4FNTriFy9IvZX43QVxjsTz770/BtuJEvVv5jjjhw3nFG5AjJFHPXsUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734419556; c=relaxed/simple;
-	bh=TURptmBM/FLUdfELDDkcC2+g4ASAyoJePGU2shoQNTU=;
+	s=arc-20240116; t=1734423388; c=relaxed/simple;
+	bh=pJ0xilkCd3ALDAJI5Ju7Ge8PWNLU1noTcIB8wETEHaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z2lZy3aiLpeD2w3IS3SZN+KxI2anaspZ243IjCyQ3Q9MzdWOtmnqP/fzwHbmJmcVGE81QVluyk6OhSrZgKTaRmDfNnJXcK+BnNmUAvvzuL95j2mfB+bBt7jACaxXbbq+IYnZej1DO7OjgzWMB8hLeZUCNaUXGwyqGlnqYOi46Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lxaUnGoX; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=fkKUrVFhdlnQ1C54ck8ZRDzB/DBvpsElLB00ad7caWT6CTce8/uvcDXxA8W0ar4zcNXNmEZRLT/jJADJfBjpBTlXQKvdHGwYOvTR6SfC5TSjdM+kEYTn8tnJmIkdIYCG+piuVJZpWb/vzCJz7bGgXbiuC1oXZSSew2IcqrVOSus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwwSZuR9; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lxaUnGoX"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d7e527becaso27486a12.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 16 Dec 2024 23:12:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734419551; x=1735024351; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r+TO7XReO9X11psi/58J8hAaiwLnwK22VeNHe3swrts=;
-        b=lxaUnGoXs5e0rlYeUh1OA92etuaRL+5nR/ysA0YtJarScgWMm7Gz7cJ7odPrB84Ou8
-         ntQ6OJ7OHVVfhEiaicnSPylXRSGUTNYuHbRFyoEG7pJGmhaKfXnrdn5SDL+maS/2Vsdf
-         Y/YA1f/kH69MIPlgtBQMpkRBRmChzwxPouBC5JvjbkcUGErl8BlVczZ1OKeXvjJSDZC+
-         zK8RCg3Yf1vC2aDH07XwcOIVgezzkwlgTuE2mkN6RoarC6qEJbESFne/nTZx5OMDCrmM
-         N5wQMy+fmrz7vBKmb5tI4TbTDjPJR14jTLkNYUijLC1oXLEPVJRa/oP4i4vjx3TgG+OB
-         qtDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734419551; x=1735024351;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+TO7XReO9X11psi/58J8hAaiwLnwK22VeNHe3swrts=;
-        b=tSKWdABkJXrQ0W8hExwTTWikpKQQvkyw8QDxOeDL6Iu+D6BwH4DMUH/XZS4KvDQshP
-         EVZ5WXW8ZswLLPeHyUlRemr/P74Zu5+csx6w0NGy6LyZPB8ZsxAsOkDnpd9vmMcSSuwp
-         meQQQiA1jwL6yRKBvfg1ZqFlyPUhcE/raH/f0OC4RdbQehdFL2HZqHMJCxSZvKg8EiqM
-         qTXxJ/t5rcPX6pDibPpRafL5VRW0njSgNXCVoCg3lWKNPjXGk0f5s0Ffehi4WxSKSwRa
-         aT/1DrmNWnU8Bc0nyBvGEHuvelwpeuTPimgnEPQzTjdbay2zHEK2rm9IoUH3MER/NP+V
-         jaLQ==
-X-Gm-Message-State: AOJu0YxZHcEj9thEahDXQKryUHy3CTXj0j2NNTH3TA2rhWCn6fN467Kb
-	gHXaSVM9BC8+NLee55CLyKMjnstuXJdz+pKAOn4EtFLpJZBJRwCUUMqYKSa1mXeNOrrSnVON1EC
-	8
-X-Gm-Gg: ASbGnctwuXii22WBlL1SDtEHE9yQhdjYgKLf2Rxn3V+X3Y5bBfldcCU9b5uB7ZHEiHz
-	jRu1YE6Z1Ss8bH+cuZclDaYE13XI6M+9HPYi/aGaiJUm04oFhll4qKRr7OICU2rgNu/k3EuQ6DW
-	nwfiLiKTwsdVaQ++dwy/6EJqpPcMOIZEkWSBwKfAXCjqMOONiKazzGmE2JI4CriDiIhHr+DBtmJ
-	KaR1fYPVP3LrCCicTG44B4kbEaNY6NSR+Qkf61KaEGmeSV/q6coCAg/QPw02A==
-X-Google-Smtp-Source: AGHT+IHITdtg4ygRJIIQ6mzSoawvvsx80UGxVtQ/xkblfqWiNj2dMDYJGh5iMWKH/SRkoa/IgEqejg==
-X-Received: by 2002:a05:6402:1e89:b0:5d0:81f5:a398 with SMTP id 4fb4d7f45d1cf-5d63c30109emr29586113a12.1.1734419550795;
-        Mon, 16 Dec 2024 23:12:30 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab9606b540sm409806066b.80.2024.12.16.23.12.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 23:12:30 -0800 (PST)
-Date: Tue, 17 Dec 2024 10:12:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	"Jia, Yingbao" <yingbao.jia@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2583/2583] drivers/platform/x86/intel_vsec.c:194
- intel_vsec_add_dev() warn: possible memory leak of 'intel_vsec_dev'
-Message-ID: <68e421cb-fcce-4b0d-8768-260b0b528925@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwwSZuR9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734423387; x=1765959387;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pJ0xilkCd3ALDAJI5Ju7Ge8PWNLU1noTcIB8wETEHaY=;
+  b=fwwSZuR9uhSqgyz2LFY/4b6kTbcfK9DZZG+jNzQyL3YK76UDclLpEKnT
+   gQe3VB3uZAjGNa68bWhKlJ2V87lhcrHeLS6NbeIND2+kFgUiHDvO4zzfj
+   cnTQAnyn2REzNRfyVV06w+MnBYm08P2HQY1rSYk2asWfgopnFcRcznwVa
+   aHTP7RdO+SFXtww20i7q5T2l4IMxtZUD5k9NdTGaRL1qtRkm3FR2rNUM1
+   SQ25qpJo7/Tt8LekBSxNQNpo/0ORtDfSDgDxcZ/C4s9oJYlCECyt9+sPu
+   UmVQi4Jzqa3+74ZiBhVyvQv+0Kb/gQJkqfK8gZwZNQaa0ZhEESe+03DWT
+   g==;
+X-CSE-ConnectionGUID: feLc550JSLeHYKpP0nzf7A==
+X-CSE-MsgGUID: 3jO5vi7BSSiNyzMuw3SBtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="52248214"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="52248214"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 00:16:26 -0800
+X-CSE-ConnectionGUID: eLE5xUN2SQ2GgvWEWHoLEA==
+X-CSE-MsgGUID: F9nw6BDtRryNxxYU5Eb2TQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="97355384"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 17 Dec 2024 00:16:25 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNSkg-000EpU-1C;
+	Tue, 17 Dec 2024 08:16:22 +0000
+Date: Tue, 17 Dec 2024 16:15:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/cpufreq/pxa2xx-cpufreq.c:195 pxa_set_target() error:
+ uninitialized symbol 'pxa_freq_settings'.
+Message-ID: <202412171607.PucBl8DE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,95 +62,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   dd14d8eb16732508135cd386c09cc747615571f7
-commit: 045360f5c497cbbb84804a5026eeb1eb26bccab1 [2583/2583] platform/x86/intel/vsec: Add intel_vsec_register
-config: x86_64-randconfig-161-20241216 (https://download.01.org/0day-ci/archive/20241217/202412170934.0YmShlea-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Viresh Kumar <viresh.kumar@linaro.org>
+
+Hi Rob,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f44d154d6e3d633d4c49a5d6aed8a0e4684ae25e
+commit: 3f66425a4fc8663ad074cf70f432c681953bfcb7 cpufreq: Enable COMPILE_TEST on Arm drivers
+date:   3 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241217/202412171607.PucBl8DE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412170934.0YmShlea-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412171607.PucBl8DE-lkp@intel.com/
 
 smatch warnings:
-drivers/platform/x86/intel_vsec.c:194 intel_vsec_add_dev() warn: possible memory leak of 'intel_vsec_dev'
+drivers/cpufreq/pxa2xx-cpufreq.c:195 pxa_set_target() error: uninitialized symbol 'pxa_freq_settings'.
 
-vim +/intel_vsec_dev +194 drivers/platform/x86/intel_vsec.c
+vim +/pxa_freq_settings +195 drivers/cpufreq/pxa2xx-cpufreq.c
 
-4e17cb1a523bb79 David E. Box        2021-12-07  141  static int intel_vsec_add_dev(struct pci_dev *pdev, struct intel_vsec_header *header,
-5f30bf18c574ead David E. Box        2022-06-29  142  			      struct intel_vsec_platform_info *info)
-4e17cb1a523bb79 David E. Box        2021-12-07  143  {
-4e17cb1a523bb79 David E. Box        2021-12-07  144  	struct intel_vsec_device *intel_vsec_dev;
-4e17cb1a523bb79 David E. Box        2021-12-07  145  	struct resource *res, *tmp;
-045360f5c497cbb Gayatri Kammela     2023-11-29  146  	struct device *parent;
-5f30bf18c574ead David E. Box        2022-06-29  147  	unsigned long quirks = info->quirks;
-4e17cb1a523bb79 David E. Box        2021-12-07  148  	int i;
-4e17cb1a523bb79 David E. Box        2021-12-07  149  
-045360f5c497cbb Gayatri Kammela     2023-11-29  150  	if (info->parent)
-045360f5c497cbb Gayatri Kammela     2023-11-29  151  		parent = info->parent;
-045360f5c497cbb Gayatri Kammela     2023-11-29  152  	else
-045360f5c497cbb Gayatri Kammela     2023-11-29  153  		parent = &pdev->dev;
-045360f5c497cbb Gayatri Kammela     2023-11-29  154  
-ab1a3aedda0fd8b David E. Box        2023-03-16  155  	if (!intel_vsec_supported(header->id, info->caps))
-4e17cb1a523bb79 David E. Box        2021-12-07  156  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  157  
-4e17cb1a523bb79 David E. Box        2021-12-07  158  	if (!header->num_entries) {
-4e17cb1a523bb79 David E. Box        2021-12-07  159  		dev_dbg(&pdev->dev, "Invalid 0 entry count for header id %d\n", header->id);
-4e17cb1a523bb79 David E. Box        2021-12-07  160  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  161  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  162  
-4e17cb1a523bb79 David E. Box        2021-12-07  163  	if (!header->entry_size) {
-4e17cb1a523bb79 David E. Box        2021-12-07  164  		dev_dbg(&pdev->dev, "Invalid 0 entry size for header id %d\n", header->id);
-4e17cb1a523bb79 David E. Box        2021-12-07  165  		return -EINVAL;
-4e17cb1a523bb79 David E. Box        2021-12-07  166  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  167  
-4e17cb1a523bb79 David E. Box        2021-12-07  168  	intel_vsec_dev = kzalloc(sizeof(*intel_vsec_dev), GFP_KERNEL);
-4e17cb1a523bb79 David E. Box        2021-12-07  169  	if (!intel_vsec_dev)
-4e17cb1a523bb79 David E. Box        2021-12-07  170  		return -ENOMEM;
-4e17cb1a523bb79 David E. Box        2021-12-07  171  
-4e17cb1a523bb79 David E. Box        2021-12-07  172  	res = kcalloc(header->num_entries, sizeof(*res), GFP_KERNEL);
-4e17cb1a523bb79 David E. Box        2021-12-07  173  	if (!res) {
-4e17cb1a523bb79 David E. Box        2021-12-07  174  		kfree(intel_vsec_dev);
-4e17cb1a523bb79 David E. Box        2021-12-07  175  		return -ENOMEM;
-4e17cb1a523bb79 David E. Box        2021-12-07  176  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  177  
-4e17cb1a523bb79 David E. Box        2021-12-07  178  	if (quirks & VSEC_QUIRK_TABLE_SHIFT)
-4e17cb1a523bb79 David E. Box        2021-12-07  179  		header->offset >>= TABLE_OFFSET_SHIFT;
-4e17cb1a523bb79 David E. Box        2021-12-07  180  
-4e17cb1a523bb79 David E. Box        2021-12-07  181  	/*
-4e17cb1a523bb79 David E. Box        2021-12-07  182  	 * The DVSEC/VSEC contains the starting offset and count for a block of
-4e17cb1a523bb79 David E. Box        2021-12-07  183  	 * discovery tables. Create a resource array of these tables to the
-4e17cb1a523bb79 David E. Box        2021-12-07  184  	 * auxiliary device driver.
-4e17cb1a523bb79 David E. Box        2021-12-07  185  	 */
-4e17cb1a523bb79 David E. Box        2021-12-07  186  	for (i = 0, tmp = res; i < header->num_entries; i++, tmp++) {
-4e17cb1a523bb79 David E. Box        2021-12-07  187  		tmp->start = pdev->resource[header->tbir].start +
-4e17cb1a523bb79 David E. Box        2021-12-07  188  			     header->offset + i * (header->entry_size * sizeof(u32));
-4e17cb1a523bb79 David E. Box        2021-12-07  189  		tmp->end = tmp->start + (header->entry_size * sizeof(u32)) - 1;
-4e17cb1a523bb79 David E. Box        2021-12-07  190  		tmp->flags = IORESOURCE_MEM;
-045360f5c497cbb Gayatri Kammela     2023-11-29  191  
-045360f5c497cbb Gayatri Kammela     2023-11-29  192  		/* Check resource is not in use */
-045360f5c497cbb Gayatri Kammela     2023-11-29  193  		if (!request_mem_region(tmp->start, resource_size(tmp), ""))
-045360f5c497cbb Gayatri Kammela     2023-11-29 @194  			return -EBUSY;
+592eb9997dc89cd arch/arm/mach-pxa/cpu-pxa.c        Robert Jarzmik   2008-05-07  183  
+9c0ebcf78fde0ff drivers/cpufreq/pxa2xx-cpufreq.c   Viresh Kumar     2013-10-25  184  static int pxa_set_target(struct cpufreq_policy *policy, unsigned int idx)
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  185  {
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  186  	struct cpufreq_frequency_table *pxa_freqs_table;
+03c229906311f3b drivers/cpufreq/pxa2xx-cpufreq.c   Fabian Frederick 2015-05-01  187  	const struct pxa_freqs *pxa_freq_settings;
+d9278077385fd92 drivers/cpufreq/pxa2xx-cpufreq.c   Robert Jarzmik   2017-10-14  188  	struct pxa_cpufreq_data *data = cpufreq_get_driver_data();
+d9278077385fd92 drivers/cpufreq/pxa2xx-cpufreq.c   Robert Jarzmik   2017-10-14  189  	unsigned int new_freq_cpu;
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  190  	int ret = 0;
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  191  
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  192  	/* Get the current policy */
+65587f7d154ac58 arch/arm/mach-pxa/cpufreq-pxa2xx.c Marc Zyngier     2008-11-04  193  	find_freq_tables(&pxa_freqs_table, &pxa_freq_settings);
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  194  
+592eb9997dc89cd arch/arm/mach-pxa/cpu-pxa.c        Robert Jarzmik   2008-05-07 @195  	new_freq_cpu = pxa_freq_settings[idx].khz;
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  196  
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  197  	if (freq_debug)
+d9278077385fd92 drivers/cpufreq/pxa2xx-cpufreq.c   Robert Jarzmik   2017-10-14  198  		pr_debug("Changing CPU frequency from %d Mhz to %d Mhz\n",
+d9278077385fd92 drivers/cpufreq/pxa2xx-cpufreq.c   Robert Jarzmik   2017-10-14  199  			 policy->cur / 1000,  new_freq_cpu / 1000);
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  200  
+d4019f0a92ab802 drivers/cpufreq/pxa2xx-cpufreq.c   Viresh Kumar     2013-08-14  201  	if (vcc_core && new_freq_cpu > policy->cur) {
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  202  		ret = pxa_cpufreq_change_voltage(&pxa_freq_settings[idx]);
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  203  		if (ret)
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  204  			return ret;
+d4019f0a92ab802 drivers/cpufreq/pxa2xx-cpufreq.c   Viresh Kumar     2013-08-14  205  	}
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  206  
+d9278077385fd92 drivers/cpufreq/pxa2xx-cpufreq.c   Robert Jarzmik   2017-10-14  207  	clk_set_rate(data->clk_core, new_freq_cpu * 1000);
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  208  
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  209  	/*
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  210  	 * Even if voltage setting fails, we don't report it, as the frequency
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  211  	 * change succeeded. The voltage reduction is not a critical failure,
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  212  	 * only power savings will suffer from this.
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  213  	 *
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  214  	 * Note: if the voltage change fails, and a return value is returned, a
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  215  	 * bug is triggered (seems a deadlock). Should anybody find out where,
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  216  	 * the "return 0" should become a "return ret".
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  217  	 */
+d4019f0a92ab802 drivers/cpufreq/pxa2xx-cpufreq.c   Viresh Kumar     2013-08-14  218  	if (vcc_core && new_freq_cpu < policy->cur)
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  219  		ret = pxa_cpufreq_change_voltage(&pxa_freq_settings[idx]);
+3dbeef231e2247f arch/arm/mach-pxa/cpufreq-pxa2xx.c Robert Jarzmik   2009-05-17  220  
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  221  	return 0;
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  222  }
+9e2697ff371b438 arch/arm/mach-pxa/cpu-pxa.c        Russell King     2007-12-14  223  
 
-Needs some clean up.
+:::::: The code at line 195 was first introduced by commit
+:::::: 592eb9997dc89cd0c8f89a505e5348bbddce70f6 [ARM] 5032/1: Added cpufreq support for pxa27x CPU
 
-045360f5c497cbb Gayatri Kammela     2023-11-29  195  
-045360f5c497cbb Gayatri Kammela     2023-11-29  196  		release_mem_region(tmp->start, resource_size(tmp));
-4e17cb1a523bb79 David E. Box        2021-12-07  197  	}
-4e17cb1a523bb79 David E. Box        2021-12-07  198  
-4e17cb1a523bb79 David E. Box        2021-12-07  199  	intel_vsec_dev->pcidev = pdev;
-4e17cb1a523bb79 David E. Box        2021-12-07  200  	intel_vsec_dev->resource = res;
-4e17cb1a523bb79 David E. Box        2021-12-07  201  	intel_vsec_dev->num_resources = header->num_entries;
-f46f38183f3a2db David E. Box        2023-11-29  202  	intel_vsec_dev->quirks = info->quirks;
-4e17cb1a523bb79 David E. Box        2021-12-07  203  	intel_vsec_dev->ida = &intel_vsec_ida;
-4e17cb1a523bb79 David E. Box        2021-12-07  204  
-045360f5c497cbb Gayatri Kammela     2023-11-29  205  	return intel_vsec_add_aux(pdev, parent, intel_vsec_dev,
-fbced3ac8b6a0cc Srinivas Pandruvada 2023-02-01  206  				  intel_vsec_name(header->id));
-4e17cb1a523bb79 David E. Box        2021-12-07  207  }
+:::::: TO: Robert Jarzmik <rjarzmik@free.fr>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
