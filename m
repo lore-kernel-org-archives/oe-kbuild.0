@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72091D1730
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 13:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAA81F3D59
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Dec 2024 13:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734441415; cv=none; b=L8pRhUtpDTca6xZK4dZmh5leXJXYwgtYaiQeDu8CAS/M8X9Aadv7hV5T/34z0P/P17jE6vDC6qlLICq9fIiPcVgmSZTpP1vc1zWqGCFNFuqehsJRjPJJ7cyKAu4s+tnnTlNzfiPt7ueSpFbEOwbLat5pkSRZLEfUlivUz081TFM=
+	t=1734442753; cv=none; b=P9WDv7slWzA81/3dJuXozJh8r9rJSFasWGcW2sBmpQcZELonyvT4qXrzGakB+iuwmy3n/iZnfV2GkbZXEHJJQlr5EKSrrJM8b6vOtrhS1u9mDondYP2+XHxcVg4f7VpX1nt002+mZmNaVB5L9sttm7a1k+n+aBdaluJJd2SeaWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734441415; c=relaxed/simple;
-	bh=G7cT45uA4Ekwe+vGTz8hzxJB8cnushGvchlnh+Mg6r8=;
+	s=arc-20240116; t=1734442753; c=relaxed/simple;
+	bh=KbON/IyCyHgs+Ki/zOn82+m71OLsB7WBDfxtme+uOcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ka161BsRb9VpBLfgWJiHWCXVYb0+oI9XC+cUkQS4r8PXSjfPG2C5lUSQQzoPd7EqgVmD2QEKsJFNPfLupZ6+8kGy9SNosXWQrqWyDJMnvNioVYwVxB5h0Adt5bomB/XAcz77lQ+sMSODjTgTuqcmJoZcuppu4WTBJlItRKTf280=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V4wMFf8S; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=tmA/3h6CZIum8dwj5N6Rn5S5gh5t8nd24Cb0uN8uys3pHC6zwHJPTDiZgXPVO3tBgoDuFj6J3RRCHUkjN3oJ4Sj9ekavclyqyx30SSqYHRV7tlHIZB48iJQuRMaS6autaziFPtkg8f1Muw6jl5WOR4nKkFHexlJjKCxRrF6aOJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CiNBzYXn; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V4wMFf8S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CiNBzYXn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734441413; x=1765977413;
+  t=1734442752; x=1765978752;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G7cT45uA4Ekwe+vGTz8hzxJB8cnushGvchlnh+Mg6r8=;
-  b=V4wMFf8SyuAl8k2Q8AcNurZl76wpuAbKppScKRFwc+ho/DAEHXxhnnIN
-   NNnCWC6l7xVx57nPxs/cBtYwDfP86YXCfnQJAbkmozBA9V09VlcQp++j6
-   sKo5Z3EjzMMXVDoYWkYCducmI8ua8gecnJEfRruOBVG3g4QDKMD9bB2LY
-   UXx6paeqRDKLo5qgbMfM50z4uEGD2ooNb0Vgp5vT9f0B+kxfbXCZJ++bO
-   HLUCD9Z8fzX+Naj2ju7aJumuMQnEq3dxQfjQj1OKgjtKxXlWSFfbzsAwP
-   Vv6IqTTG+61CP3MFHNyCwQ6cf31E+XpAFV72jsQwVMZ5Vz3tpaN5CV3fj
-   Q==;
-X-CSE-ConnectionGUID: XbkSw3aMRq6HKfwUndIUfQ==
-X-CSE-MsgGUID: n4IYcEodR/yKa6mFlGpEYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="35015148"
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="35015148"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 05:16:53 -0800
-X-CSE-ConnectionGUID: NDPQ1WqTS5qoBLkAAFeaEw==
-X-CSE-MsgGUID: Qg7P6TO0TNi+pk4ZD/kHYA==
+  bh=KbON/IyCyHgs+Ki/zOn82+m71OLsB7WBDfxtme+uOcc=;
+  b=CiNBzYXnN9KkgVp7R6WWFin4jgDNQUea3cV1mBZte4lBYzlZrL9OeP4j
+   lEtkhVUqDlNXRxnH5NHR6OsConGhHCPYwQY4Q3VN0Coukk5dj7FIvEPWO
+   Q0KRcLhkjVTa7ZFKmSjJT9+XYlVh7zT/rXW5bW26o0Z0h7QN4P6J3FluF
+   cRITrsZH51BoVVYG4qF4InHSzHtbA9p1jILlMYjRMCTLOAZ39Swu30zFx
+   XmErLVRpKK7A1cJRnLj8bOdlWP6yhPMh/OYJfGRNzS7cC5nkpUzHLbey3
+   96dK7WOTnkfT1PImeZB70eTpKo7UuLPcuXrxKE2MOrJN6EYQR5uBjVore
+   w==;
+X-CSE-ConnectionGUID: 0k20xFH4S3+zC0BJWkROrQ==
+X-CSE-MsgGUID: nmT8cPOrQiajzGBty/vong==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="46262783"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="46262783"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 05:39:11 -0800
+X-CSE-ConnectionGUID: ghhrVx0kSW2zhl+AhGIrag==
+X-CSE-MsgGUID: KfvTjonyTS2fndcXhSY9mg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="97310903"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="102631726"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Dec 2024 05:16:52 -0800
+  by orviesa003.jf.intel.com with ESMTP; 17 Dec 2024 05:39:09 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNXRS-000F0y-0X;
-	Tue, 17 Dec 2024 13:16:50 +0000
-Date: Tue, 17 Dec 2024 21:15:57 +0800
+	id 1tNXn1-000F1c-0w;
+	Tue, 17 Dec 2024 13:39:07 +0000
+Date: Tue, 17 Dec 2024 21:39:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [geert-renesas-devel:renesas-dts-for-v6.14 27/31]
- arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb:
- /soc/i2c@10090400/clock-generator@68: failed to match any schema with
- compatible: ['renesas,5l35023']
-Message-ID: <202412172109.U1wmDz0j-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android15-6.6 1/1] kernel/time/tick-sched.c:212
+ tick_sched_do_timer() error: uninitialized symbol 'tick_cpu'.
+Message-ID: <202412172110.IbsQbVfV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,44 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Biju Das <biju.das.jz@bp.renesas.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.14
-head:   acb247afab5bc2b4462f4dfc17a9d930e1153e52
-commit: a94253232b0454ae3f45e2a941bbc0a1d5bdb955 [27/31] arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-051-20241217 (https://download.01.org/0day-ci/archive/20241217/202412172109.U1wmDz0j-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 2dc22615fd46ab2566d0f26d5ba234ab12dc4bf8)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241217/202412172109.U1wmDz0j-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   4c2c65ff08ee9a0f8d838770b1e921da2adf3fa2
+commit: a94ba5ab288780f141d741107751b4866bc24be3 [1/1] BACKPORT: timekeeping: Use READ/WRITE_ONCE() for tick_do_timer_cpu
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241217/202412172110.IbsQbVfV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412172109.U1wmDz0j-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412172110.IbsQbVfV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: /soc/i2c@10090400/clock-generator@68: failed to match any schema with compatible: ['renesas,5l35023']
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: ssi@100a8000: compatible:0: 'renesas,r9a08g045-ssi' is not one of ['renesas,r9a07g043-ssi', 'renesas,r9a07g044-ssi', 'renesas,r9a07g054-ssi']
-   	from schema $id: http://devicetree.org/schemas/sound/renesas,rz-ssi.yaml#
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: ssi@100a8400: compatible:0: 'renesas,r9a08g045-ssi' is not one of ['renesas,r9a07g043-ssi', 'renesas,r9a07g044-ssi', 'renesas,r9a07g054-ssi']
-   	from schema $id: http://devicetree.org/schemas/sound/renesas,rz-ssi.yaml#
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: ssi@100a8800: compatible:0: 'renesas,r9a08g045-ssi' is not one of ['renesas,r9a07g043-ssi', 'renesas,r9a07g044-ssi', 'renesas,r9a07g054-ssi']
-   	from schema $id: http://devicetree.org/schemas/sound/renesas,rz-ssi.yaml#
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: ssi@100a8c00: compatible:0: 'renesas,r9a08g045-ssi' is not one of ['renesas,r9a07g043-ssi', 'renesas,r9a07g044-ssi', 'renesas,r9a07g054-ssi']
-   	from schema $id: http://devicetree.org/schemas/sound/renesas,rz-ssi.yaml#
-   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: clock-controller@11010000: #power-domain-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#
+smatch warnings:
+kernel/time/tick-sched.c:212 tick_sched_do_timer() error: uninitialized symbol 'tick_cpu'.
+
+vim +/tick_cpu +212 kernel/time/tick-sched.c
+
+5bb962269c29cb Frederic Weisbecker 2012-10-15  210  
+5bb962269c29cb Frederic Weisbecker 2012-10-15  211  	/* Check, if the jiffies need an update */
+a94ba5ab288780 Thomas Gleixner     2024-08-12 @212  	if (tick_cpu == cpu) {
+5bb962269c29cb Frederic Weisbecker 2012-10-15  213  		tick_do_update_jiffies64(now);
+9bdaa3fa874dbe Amir Vajid          2020-10-20  214  		trace_android_vh_jiffies_update(NULL);
+9bdaa3fa874dbe Amir Vajid          2020-10-20  215  	}
+ff7de6203131e3 Rafael J. Wysocki   2018-04-06  216  
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  217  	/*
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  218  	 * If jiffies update stalled for too long (timekeeper in stop_machine()
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  219  	 * or VMEXIT'ed for several msecs), force an update.
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  220  	 */
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  221  	if (ts->last_tick_jiffies != jiffies) {
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  222  		ts->stalled_jiffies = 0;
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  223  		ts->last_tick_jiffies = READ_ONCE(jiffies);
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  224  	} else {
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  225  		if (++ts->stalled_jiffies == MAX_STALLED_JIFFIES) {
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  226  			tick_do_update_jiffies64(now);
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  227  			ts->stalled_jiffies = 0;
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  228  			ts->last_tick_jiffies = READ_ONCE(jiffies);
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  229  		}
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  230  	}
+a1ff03cd6fb9c5 Frederic Weisbecker 2022-02-02  231  
+ff7de6203131e3 Rafael J. Wysocki   2018-04-06  232  	if (ts->inidle)
+ff7de6203131e3 Rafael J. Wysocki   2018-04-06  233  		ts->got_idle_tick = 1;
+5bb962269c29cb Frederic Weisbecker 2012-10-15  234  }
+5bb962269c29cb Frederic Weisbecker 2012-10-15  235  
 
 -- 
 0-DAY CI Kernel Test Service
