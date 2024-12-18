@@ -1,68 +1,58 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D30135949
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Dec 2024 08:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF831591EA
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Dec 2024 08:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508928; cv=none; b=UU+5mExGnekF7DTjsLB0JpV52OCtgO3PUiX9pZoIkRt135CYJBT9NB30m0pgUxKeQF/ga6G/DkHQpAa48gSUonB5MKlCnXaK1eMzEXZhBf+v3BBbcTjYFufW0eNP201OrUX2yMWU578SkgFvWPkgijYZgv2xduTbaW5hu4/eQ7Y=
+	t=1734512130; cv=none; b=UHBAfKx93I4PZI8WX7RFdv4M2oXFE2y3DyUJr4FtMdFtmKBkyJGkggALymKUNTDsbxh5/ucbM7xi3sSb7qeUeUwiYBacZiNlcS/Y3O3Qx+Z7u9e4jQdzjekr4oS8IohxgOXkBFyMA3vtu8DEwUM2cmCuSf4y9kG9kVQhIpRWOaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734508928; c=relaxed/simple;
-	bh=UMuxXBmpsmHCO/vhUXdMl2WDhPOEyrJBHIe1MSZHQVQ=;
+	s=arc-20240116; t=1734512130; c=relaxed/simple;
+	bh=NXgE8znWRXMLg8Bn40rn0/ZUv8ugdp3hCF4xmY+jIfE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Eb0lz8vjqu1wlwd/H7Ruc9X9TO5/cr5AdH8j0GxSn6EUgZSIDdr1E5iW3n8idTyF6gqcLrPXCcThlhfD/Q2gZ8Ds8KyhacWqkMl7DPnaUtGXzg5NDw6iBpF9jwQ61yZea2bN3t8ULsh8bHg/jyzikjj9ZrfPfuod7TgRUMGjcH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XzHmTN7V; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=QWhrFpaC+kpsnA4zkw9wg5CqKgY6YZkrz1dw/52jJj4CrgbFU2F+Ze0CKUdiOCaCAZn/VBVAeE6+EPebJyqMhQu2NznOzK9hknRLUX9kTYf+AWg7Yvsko52/9J3lwaZ9YSyJTWx7AZi7HhflvmiZv7V86NeCK7QEzjz3fpy18yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpT2I4mF; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzHmTN7V"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa684b6d9c7so1016004966b.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 18 Dec 2024 00:02:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734508924; x=1735113724; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KlEFEHh3YGobOCHNpL8Xt4rpq8d3KttiitiL/5xBwUY=;
-        b=XzHmTN7VHpHKA8sPMP92yqukMjkjtRk9Mla/i8zRxd20gpbk2Qy5IVfrHDcnscdsWa
-         FIZ36s7iY+e45iyRh8mzdJ4PBcQvMiyxGFeArFb2XQKk4l0KksiK+wx/tIz7Uw6qy45q
-         lG6czn9VNw2iihvZUA9wvdx+M9g3ZpYVU1WYH0TAWuxeub5WRGNbFaOto+cXCB0yA8nN
-         bUM/DYn0SJUwxIyOCAyK73iohoJdJ+kKKtD3ZE5hwcltF+UiU0zQqwFR26Ms24ZLXe42
-         +00ImrXofTpcCQzo9/Xi+k1+XRoErMy/EvsoA2SycDrbdSzYOFbNSNVkyyS25D66pfwi
-         4x/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734508924; x=1735113724;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KlEFEHh3YGobOCHNpL8Xt4rpq8d3KttiitiL/5xBwUY=;
-        b=KrQryN2Ilmsd4HWXLrHYCmsUNIPlafMcV69FSYq2r4ketLW/uHOAmLx5t8j5innU3u
-         jB/2N8NuiSNjW3cgcE94r3pAWy+wz/xHgIh41hq9eiU80zu/L002oUypyLAaOeYQQ+w8
-         MiwADXVTKmgpB6ELPGr2JZXlH6iglS83w4+mucDFvjGrC8Wb99XhJsa1hdwXn7h3P9KJ
-         Z3U2Z9L73i1ArVtYCfCryJk1GOM3PfHCyzDbEd+Lxrc6ST160Rjuy03APwtCi51vvh4q
-         SV9abHu7oMZOpjs56k/xh8DcmvXrK/Gq5mJgETp/oruUEmaaIYdm0CNb5mxcU74JZYGY
-         g7cg==
-X-Gm-Message-State: AOJu0YyeMQegZsOr+v1x6R7CwZ+AL+sJsD3ZdbHudXwF6xY2D5q0rAhF
-	7USINq3zMx5tlsEuudxRHI9l+FzLVcxP2zRtVHiB4OpT74KtxQEMWzHJlGfVVyq5OoQXKI/13IN
-	Y
-X-Gm-Gg: ASbGncuZZT7AvgU+6k4c9driPnaMiQS6hc0Fdv7se9zE8UsHXhLCz+SSEnVfNC0kgWA
-	hTSqckJbylwUBjJfkCSmdk1Yy328D9wdk2qquF2enMn4KKR7oGPY7AZuHWL1oliDRXQSqkKQ3h5
-	Zd3v8iUOAdRuzIrfhVmKXme8nsRKSxENxFcUvDAi45cPh+QXqjdQUpIj0ooazQLih9s/DGlCiLP
-	/6Mqz7dMK9p9H0PswcOlRg7upuUyNQ5a7JpIaGB8vZZiD/iF6bh/VW2muxkvg==
-X-Google-Smtp-Source: AGHT+IGgllR7abPnG5mVYBFTJjRB4aIBzW/PpB078TBiUQ+5WwP9gxkjuuruJnm0noAZzca8eFWcGQ==
-X-Received: by 2002:a17:907:2d26:b0:aa6:834b:d138 with SMTP id a640c23a62f3a-aabf476eb86mr131377466b.19.1734508924075;
-        Wed, 18 Dec 2024 00:02:04 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96087424sm523896166b.83.2024.12.18.00.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 00:02:03 -0800 (PST)
-Date: Wed, 18 Dec 2024 11:02:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	LeoLiu-oc <leoliu-oc@zhaoxin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1640/1640] drivers/ata/ahci_zhaoxin_sgpio.c:36
- ahci_wait_em_reset() warn: variable dereferenced before check
- 'sgpio_zhaoxin' (see line 33)
-Message-ID: <ba9f75b1-9d49-45f8-83b3-e75f45524689@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpT2I4mF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734512128; x=1766048128;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NXgE8znWRXMLg8Bn40rn0/ZUv8ugdp3hCF4xmY+jIfE=;
+  b=HpT2I4mFFRFS/FQmD0INBhXugwaPSbF1w897Rkqak5qG2Yo7jiNu8iUW
+   GRR1KCBryFY8JzJzPsghnLisVr9AxQggxEs8raU39dpNWQC71HAojHDuf
+   RyEI+bIYrCsOK243ac6mo+VQnjI3Yfd/28QfjA1Ci9Fnr8/THhmQITJY3
+   t+UeGteJbSDq0gtnHw9VXlntHKXMYk3V30WL8Ylbd5vPgEvxeQxRrs/yT
+   Z04ZGG6vwHjN497eDdeUfK6AlKQ7wf9cu84S1cllhfi96kkdR45SSE6UN
+   XcU154aqHxXAE6i543Rznn7KTsjCcYBg4mxHBKyT4wk5VReh0lGueCU6+
+   g==;
+X-CSE-ConnectionGUID: OYffg8y0SjmEa6LGNrQsBw==
+X-CSE-MsgGUID: zGpUq10ATiSec5vZq/g88g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35131934"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="35131934"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:55:27 -0800
+X-CSE-ConnectionGUID: MCnLxZu3QSe8yTccwgvRlQ==
+X-CSE-MsgGUID: 0Yizpye8R0WdqxzoR5VU9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
+   d="scan'208";a="102796495"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Dec 2024 00:55:27 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tNpq0-000GDs-0i;
+	Wed, 18 Dec 2024 08:55:24 +0000
+Date: Wed, 18 Dec 2024 16:54:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: llvm-objcopy: error: Link field value 83 in section .rela.plt is not
+ a symbol table
+Message-ID: <202412181651.ZY2nZCnO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,55 +62,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   46064348cc445799cf9e8fd030323a0426fbb5e4
-commit: fb43492008c11fe89e510dd63383a2d37ea3cf8e [1640/1640] ata: ahci: Add support for AHCI SGPIO Enclosure Management
-config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241218/202412180610.tvT1b9wN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: 
+:::::: Manual check reason: "only scripts/mod/modpost.c file changed"
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+
+Hi Nathan,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aef25be35d23ec768eed08bfcf7ca3cf9685bc28
+commit: 397586506c3da005b9333ce5947ad01e8018a3be modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+date:   11 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 months ago
+config: um-randconfig-r133-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181651.ZY2nZCnO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241218/202412181651.ZY2nZCnO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412180610.tvT1b9wN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412181651.ZY2nZCnO-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/ahci_zhaoxin_sgpio.c:36 ahci_wait_em_reset() warn: variable dereferenced before check 'sgpio_zhaoxin' (see line 33)
-drivers/ata/ahci_zhaoxin_sgpio.c:335 ahci_transmit_sgpio_indicator_gp() warn: inconsistent returns '&sgpio_zhaoxin->wr_lock'.
+All errors (new ones prefixed by >>):
 
-vim +/sgpio_zhaoxin +36 drivers/ata/ahci_zhaoxin_sgpio.c
-
-fb43492008c11f leoliu-oc 2024-06-18  31  int ahci_wait_em_reset(struct sgpio_zhaoxin *sgpio_zhaoxin, u32 retry)
-fb43492008c11f leoliu-oc 2024-06-18  32  {
-fb43492008c11f leoliu-oc 2024-06-18 @33  	void __iomem *mmio = sgpio_zhaoxin->mmio;
-                                                                     ^^^^^^^^^^^^^^^
-Dereferenced
-
-fb43492008c11f leoliu-oc 2024-06-18  34  	u32 em_ctl;
-fb43492008c11f leoliu-oc 2024-06-18  35  
-fb43492008c11f leoliu-oc 2024-06-18 @36  	if (!sgpio_zhaoxin || retry == 0) {
-                                                     ^^^^^^^^^^^^^
-Checked too late
-
-fb43492008c11f leoliu-oc 2024-06-18  37  		pr_err("In ahci wait em reset, invalid param\n");
-fb43492008c11f leoliu-oc 2024-06-18  38  		return -EINVAL;
-fb43492008c11f leoliu-oc 2024-06-18  39  	}
-fb43492008c11f leoliu-oc 2024-06-18  40  
-fb43492008c11f leoliu-oc 2024-06-18  41  	while (retry--) { /*EM_CTL needs reset at least 64ms*/
-fb43492008c11f leoliu-oc 2024-06-18  42  		em_ctl = readl(mmio + HOST_EM_CTL);
-fb43492008c11f leoliu-oc 2024-06-18  43  		if (em_ctl & EM_CTL_RST)
-fb43492008c11f leoliu-oc 2024-06-18  44  			usleep_range(10000, 20000); /*EM_CTL still in reset, usleep 10ms*/
-fb43492008c11f leoliu-oc 2024-06-18  45  		else
-fb43492008c11f leoliu-oc 2024-06-18  46  			break;
-fb43492008c11f leoliu-oc 2024-06-18  47  
-fb43492008c11f leoliu-oc 2024-06-18  48  		if (!retry)
-fb43492008c11f leoliu-oc 2024-06-18  49  			pr_err("Wait for EM_CTL reset, time out\n");
-fb43492008c11f leoliu-oc 2024-06-18  50  	}
-fb43492008c11f leoliu-oc 2024-06-18  51  
-fb43492008c11f leoliu-oc 2024-06-18  52  	return 0;
-fb43492008c11f leoliu-oc 2024-06-18  53  }
+   /usr/bin/ld: warning: .tmp_vmlinux.btf has a LOAD segment with RWX permissions
+>> llvm-objcopy: error: Link field value 83 in section .rela.plt is not a symbol table
+   btf_encoder__write_elf: failed to add .BTF section to '.tmp_vmlinux.btf': 2!
+   Failed to encode BTF
+   .btf.vmlinux.bin.o: file not recognized: file format not recognized
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
