@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A61487A5
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Dec 2024 02:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE15D35974
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Dec 2024 04:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734490312; cv=none; b=GGhQjt7Tkf81bwk6DHiDs4h+Xu60UeouFhlYIZC6x+cXj6A6q/GNs2mZUSCNn7uj/SEQuYn1Tt9npZ8kzvtFM4lPnUE235zZHIeJDH1kDj04SCW4NAv7QWw5WcCP5ZorxQL5JnsK2gMq+oPd86sk60THpbNoAj6L5zMouo29SaY=
+	t=1734497232; cv=none; b=ZwOoGwJIWql3g3VD4IH4EhIQ9zRaBTFhrrtdjIY7vH9j2w8Sn41agBe1oR8wWjY1aIKzN+VwyMI0Dhhay2kCWNBZwkkYTcDq08pIla9wcbNexmP6apYgvIsZ1fB9pim4rFq1AHuCN7LMHodPXkm6bIz1HyoQPQ2txMKxcIo9D9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734490312; c=relaxed/simple;
-	bh=1GT/T4kTjhm1+bkpdmnHBzVmmoJmgiG41fOzNLScVw8=;
+	s=arc-20240116; t=1734497232; c=relaxed/simple;
+	bh=5GuUfznWtf4Y+ipPxvtyem6pY+61PIMBM4vSkezfu08=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q8gBNVki7jYpC6knUY4dCi3G8QU+5QGLU9IfNWWP1Qe/VVWKXDk0Emc20T8WfZVx3UDxMnhC9NM2pKfihGbNek6RQU06pHXZ3C0OtdvNkf8ifUHugSBpp1EEp9UJrEw+4jcJSLtac9ruC2BNDotIvcvvvjJpD9a1io0AVvm65bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUy7E0mk; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=SMWKiQdDg8ulRIw5cpv7a5MCisKVNftSq6bL9HBG810wIDPdMjo5VTS1sEFegGoVVxnkXLhKIVMLIMootv+zqcyz4KLkrgS5PjY59SfUOZfHvG7fGhAQC19+1TR5xEmPO4GNdAXce41RueiO9Iv0DblnsJJkzmMC5HQoUZsak38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHFzaDjE; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUy7E0mk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHFzaDjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734490311; x=1766026311;
+  t=1734497230; x=1766033230;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1GT/T4kTjhm1+bkpdmnHBzVmmoJmgiG41fOzNLScVw8=;
-  b=mUy7E0mklfEsUxTJKbinRueC2OarTWJ4mt/cxwsAF7/wnvxokac9TKt4
-   ruu+wxQQnOuhnUBBJvfyRyV8olmu8ypBd7+ZFogqbw/cRWHtDzxsCHSAN
-   l6M7rhpAsvdzGOqfTshHk/fY/zW0jDohRkZer8zmrEon6B10hle504BSi
-   E0S9VGDKOlgrBbkF/h+AaxcjW2E7FfO4yf6xNl+aoZfvwsCVVzoUDE8sg
-   +FGd0v6MQMd2N33FUcvcyqFHTBP3P9+dL7Vc31Z0BaOC1HFF99A+fqDl9
-   UiaKrjPWj1z7eMzZ2ySK0dUXoyYdex1+O4ULMGRXueOP7YqlyrOGu70s0
-   A==;
-X-CSE-ConnectionGUID: RNq8+bkTR+mVHvFSWhXoVQ==
-X-CSE-MsgGUID: 4ZF7RHVlT0a6edyQITBE9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="38625753"
+  bh=5GuUfznWtf4Y+ipPxvtyem6pY+61PIMBM4vSkezfu08=;
+  b=JHFzaDjEDQh8E1w5+HCwv8aXSl23ygzcLhqva9+gKH6fmdrYyatX8zHF
+   CM1UjmmHfFDIGv6vb+AYb0elFyjxxjxwo7zJdSc79a5/nmOG/Vyp1DMGf
+   0OB0yZb093X+LCE4yMkMznKDqiL48tQHoDz5t4RTt6cwrM+pyMDzUyXZX
+   dECae6fkD+Yy7oTFFH6+0OO3FeB0G9GKyvYh15j7cvckTc979USt3RLtI
+   CGS6lDBJuAq+2uUIPY0zBRcmzhUv4CodQFoQ/XpHy482M9Yb5El32JgcG
+   0v9LKqmiVvIjJZIE6vgsMR5ly7Mzt4ika6jYDp2hoFiye6INos2JdJIVz
+   g==;
+X-CSE-ConnectionGUID: AGMHSOVnSZSs1DzfI5LNnA==
+X-CSE-MsgGUID: LhoNJOwXSaOwPAT5uIeXlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="60344353"
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="38625753"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 18:51:49 -0800
-X-CSE-ConnectionGUID: zG70kA9jRJO6bnS7kSVD7A==
-X-CSE-MsgGUID: egovEkxJTaiwoyTUHV8nhw==
+   d="scan'208";a="60344353"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 20:47:07 -0800
+X-CSE-ConnectionGUID: 1vFSG4CyRJKLFNBHgReaNg==
+X-CSE-MsgGUID: 9KSKJHSdSqKnqMFU11iL6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,243,1728975600"; 
-   d="scan'208";a="97780689"
+   d="scan'208";a="102747428"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Dec 2024 18:51:47 -0800
+  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2024 20:47:04 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tNkA5-000G0a-1E;
-	Wed, 18 Dec 2024 02:51:45 +0000
-Date: Wed, 18 Dec 2024 10:51:27 +0800
+	id 1tNlxd-000G4k-3D;
+	Wed, 18 Dec 2024 04:47:01 +0000
+Date: Wed, 18 Dec 2024 12:46:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/hyp/nvhe/pkvm.c:334 pkvm_init_features_from_host()
- warn: should this be a bitwise op?
-Message-ID: <202412181019.5u4EbwmC-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1334/1334]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202412181259.6Uotx9YF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,78 +64,151 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Fuad Tabba <tabba@google.com>
-CC: Oliver Upton <oliver.upton@linux.dev>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aef25be35d23ec768eed08bfcf7ca3cf9685bc28
-commit: cb0c272acebdf099431c34972963377f83872a08 KVM: arm64: Initialize the hypervisor's VM state at EL2
-date:   7 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 weeks ago
-config: arm64-randconfig-r073-20241207 (https://download.01.org/0day-ci/archive/20241218/202412181019.5u4EbwmC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e04cbbbd0efe0fdfa887f1b6da3fdedb33778daf
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1334/1334] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 years, 9 months ago
+config: x86_64-randconfig-101-20241218 (https://download.01.org/0day-ci/archive/20241218/202412181259.6Uotx9YF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412181019.5u4EbwmC-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202412181259.6Uotx9YF-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/hyp/nvhe/pkvm.c:334 pkvm_init_features_from_host() warn: should this be a bitwise op?
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-vim +334 arch/arm64/kvm/hyp/nvhe/pkvm.c
+vim +2306 block/blk-throttle.c
 
-be66e67f175096 Will Deacon 2022-11-10  294  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  295  static void pkvm_init_features_from_host(struct pkvm_hyp_vm *hyp_vm, const struct kvm *host_kvm)
-cb0c272acebdf0 Fuad Tabba  2024-10-18  296  {
-cb0c272acebdf0 Fuad Tabba  2024-10-18  297  	struct kvm *kvm = &hyp_vm->kvm;
-cb0c272acebdf0 Fuad Tabba  2024-10-18  298  	DECLARE_BITMAP(allowed_features, KVM_VCPU_MAX_FEATURES);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  299  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  300  	/* No restrictions for non-protected VMs. */
-cb0c272acebdf0 Fuad Tabba  2024-10-18  301  	if (!kvm_vm_is_protected(kvm)) {
-cb0c272acebdf0 Fuad Tabba  2024-10-18  302  		bitmap_copy(kvm->arch.vcpu_features,
-cb0c272acebdf0 Fuad Tabba  2024-10-18  303  			    host_kvm->arch.vcpu_features,
-cb0c272acebdf0 Fuad Tabba  2024-10-18  304  			    KVM_VCPU_MAX_FEATURES);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  305  		return;
-cb0c272acebdf0 Fuad Tabba  2024-10-18  306  	}
-cb0c272acebdf0 Fuad Tabba  2024-10-18  307  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  308  	bitmap_zero(allowed_features, KVM_VCPU_MAX_FEATURES);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  309  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  310  	/*
-cb0c272acebdf0 Fuad Tabba  2024-10-18  311  	 * For protected VMs, always allow:
-cb0c272acebdf0 Fuad Tabba  2024-10-18  312  	 * - CPU starting in poweroff state
-cb0c272acebdf0 Fuad Tabba  2024-10-18  313  	 * - PSCI v0.2
-cb0c272acebdf0 Fuad Tabba  2024-10-18  314  	 */
-cb0c272acebdf0 Fuad Tabba  2024-10-18  315  	set_bit(KVM_ARM_VCPU_POWER_OFF, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  316  	set_bit(KVM_ARM_VCPU_PSCI_0_2, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  317  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  318  	/*
-cb0c272acebdf0 Fuad Tabba  2024-10-18  319  	 * Check if remaining features are allowed:
-cb0c272acebdf0 Fuad Tabba  2024-10-18  320  	 * - Performance Monitoring
-cb0c272acebdf0 Fuad Tabba  2024-10-18  321  	 * - Scalable Vectors
-cb0c272acebdf0 Fuad Tabba  2024-10-18  322  	 * - Pointer Authentication
-cb0c272acebdf0 Fuad Tabba  2024-10-18  323  	 */
-cb0c272acebdf0 Fuad Tabba  2024-10-18  324  	if (FIELD_GET(ARM64_FEATURE_MASK(ID_AA64DFR0_EL1_PMUVer), PVM_ID_AA64DFR0_ALLOW))
-cb0c272acebdf0 Fuad Tabba  2024-10-18  325  		set_bit(KVM_ARM_VCPU_PMU_V3, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  326  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  327  	if (FIELD_GET(ARM64_FEATURE_MASK(ID_AA64PFR0_EL1_SVE), PVM_ID_AA64PFR0_ALLOW))
-cb0c272acebdf0 Fuad Tabba  2024-10-18  328  		set_bit(KVM_ARM_VCPU_SVE, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  329  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  330  	if (FIELD_GET(ARM64_FEATURE_MASK(ID_AA64ISAR1_EL1_API), PVM_ID_AA64ISAR1_RESTRICT_UNSIGNED) &&
-cb0c272acebdf0 Fuad Tabba  2024-10-18  331  	    FIELD_GET(ARM64_FEATURE_MASK(ID_AA64ISAR1_EL1_APA), PVM_ID_AA64ISAR1_RESTRICT_UNSIGNED))
-cb0c272acebdf0 Fuad Tabba  2024-10-18  332  		set_bit(KVM_ARM_VCPU_PTRAUTH_ADDRESS, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  333  
-cb0c272acebdf0 Fuad Tabba  2024-10-18 @334  	if (FIELD_GET(ARM64_FEATURE_MASK(ID_AA64ISAR1_EL1_GPI), PVM_ID_AA64ISAR1_ALLOW) &&
-cb0c272acebdf0 Fuad Tabba  2024-10-18  335  	    FIELD_GET(ARM64_FEATURE_MASK(ID_AA64ISAR1_EL1_GPA), PVM_ID_AA64ISAR1_ALLOW))
-cb0c272acebdf0 Fuad Tabba  2024-10-18  336  		set_bit(KVM_ARM_VCPU_PTRAUTH_GENERIC, allowed_features);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  337  
-cb0c272acebdf0 Fuad Tabba  2024-10-18  338  	bitmap_and(kvm->arch.vcpu_features, host_kvm->arch.vcpu_features,
-cb0c272acebdf0 Fuad Tabba  2024-10-18  339  		   allowed_features, KVM_VCPU_MAX_FEATURES);
-cb0c272acebdf0 Fuad Tabba  2024-10-18  340  }
-cb0c272acebdf0 Fuad Tabba  2024-10-18  341  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
