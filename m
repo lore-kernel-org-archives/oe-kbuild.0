@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E1F222D6B
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 11:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDA522371F
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 11:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734606305; cv=none; b=GwpjHgXc+Yq0KliPSU2k5HWJSyNfEFRqde4EyMJJDFIaFYeBFdSG64fCc7sOvukKA0w6P2pkk07C/g7mAt+07qfYKZVXkMfZcBM5ovtfgk97qAzYEOefU1EkVa44Scxg4y472XfRyARt2b/GAxgj+kJtUfvtzdbADXzGMzrcUcY=
+	t=1734607718; cv=none; b=Qp9TiYstz3L18RKuQ68kLWkA+vOSj4t0cA6hhG8WqEhKb6PcHNxJmarKmdgTT6zpKK+9fi2SRgsGRsKWp2NNUioUjZV5Bj+/UfLDqaBmdTEmEFrK3J8xveN7k6BJOsyEewmtNjYT6ejDTzQjr352XSsmfx8EwrMAs+96DiLPJ9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734606305; c=relaxed/simple;
-	bh=5rLPKLskZRhbkyF3fDnp5h7z0QePNH8kcFmcZhcghn4=;
+	s=arc-20240116; t=1734607718; c=relaxed/simple;
+	bh=Rn2ZpBXFJSkcrBt0bHzy2Hci5m3Vfg3h/UGKwBmkFL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p23/kK7gFjXVRhTbYFvt01RpP04zpxrqcFx8xm+d/MgLFad163viwWIkQUfIsIdAdzbUsdRwfR4r+O56kcq2U4EwZWbE8NJkoh3kknzf7bxqoZWGRanoekM+m8CY6NfMou32PjNR3KQ8sDj0Oud5mhMMKGnlvxY3Lg2vo6PNIis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ft3ikrs/; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=rR8wJ/WLMoj9O7hdRHGbY93xf+8Glhb3FR5yLW1D0wouBjKMimq9I12Fr6cdEOvZ8atmnJaU3pAgFoiQxWPAoDm0kcgF/ky+1xuyZIm9pYMqgyA6Es/MjAXxVwcln6lwzd6sd6CWOG0kMOVGk3Jx5FsG0U2JecZXxZZLn4FB/wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XkrTn7wc; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ft3ikrs/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734606304; x=1766142304;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5rLPKLskZRhbkyF3fDnp5h7z0QePNH8kcFmcZhcghn4=;
-  b=ft3ikrs//ydqqJ5ha+27h7uQZ9kDW6cQtqMH8UxfyQRYjpFOOwE46Hbx
-   2AmagCmtVpviozLViSn/h90UA4OM8CVrMPtJEWlDQLG+DDdmayR9wn61+
-   dz+lFzqqR2oq8TyAIOTrq0zcNnptJyH79PkD12EemK8CYc5yhN5G4xv0G
-   2BS0Ikp6P1z+stBz6WADfGTvzv9leGTqNTYPb7GcP31oO1tOd+jsQp4x3
-   AcMAGR/IpqmdxR9sqtqfubaJFGbCtpxvS8x9Cp1L5nd25PlDuSXnfWKNR
-   tqHexiQuTnyN3vizCYdzPqGFJQK4fu6/SOMjjFr0mo0pWpBf2jnkrePsL
-   Q==;
-X-CSE-ConnectionGUID: NxcJ6CK2SGiZ9i1KzsrydQ==
-X-CSE-MsgGUID: kWyocUcHQ0efYmF8K0WVDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35140008"
-X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="35140008"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 03:05:02 -0800
-X-CSE-ConnectionGUID: EyD4Y1i+SYyOYY4UlX4uyw==
-X-CSE-MsgGUID: wA59PlErR7WuT2ZUrm4dMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103166935"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Dec 2024 03:04:58 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOEKu-0000Br-0Y;
-	Thu, 19 Dec 2024 11:04:56 +0000
-Date: Thu, 19 Dec 2024 19:04:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XkrTn7wc"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3e9a88793so1086115a12.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 03:28:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734607714; x=1735212514; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OOeztBILv3pJs8OslB3gpiwKZSWXXwGxwA1Hj/M2nz0=;
+        b=XkrTn7wciK6T9Dh0cETjbxrK7NMeYmJHs/hHBZbcPWM/3thbWxvW59h+hm+PvF4Rw1
+         RG9iQaTtcIjTUNr40/9XqO+q0AKY+frTMfE2ujxXRm4K5gG5n446adHVoxbtyPDPjYJo
+         4DX666z8odd2kK0pmyIy0hN4aBVAuhxvnpG8XQ9yuukvLy99ysFqBbchzHgCk7vHLN2T
+         qc+aMS7f4T9nrRsitrMcxKBjS6L/kdn3H5kmN6lnzp64Bxi6SdSva4WX7JL9urCsEw8G
+         brWG9P5Q5RYlLV8Gn34ykk8M8y2LP5EexELDPQeuHnM+qXKEw9tGwnldzKxo50bgXP3B
+         +ARw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734607714; x=1735212514;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OOeztBILv3pJs8OslB3gpiwKZSWXXwGxwA1Hj/M2nz0=;
+        b=H01RXGo5UFSwDMyNNST1M2q2Vc7SCS3v+zLR5O1w/QHWIq73sZPwV1ZHrTsRWW2L/1
+         HOpaqIzj4OY8dsipZxAkOKt8kDkLaiQIpXvAfrDMwPHGTs6uEofMm7t6879pfqQjQmce
+         MWn+oAtGrHniYJpfNWKhPJ1yimJbBHJYxciQ/lgew37Zw0rJdgnF+TipRs5pfH9EAeaF
+         uZLx8pnGXa8uYpbKPF87Wmx0yZT93Hu4JKWJR81NH4hBCT2Xqqv1b8pyMVhTSNy5YvFZ
+         VyyX/xP0Q/ccG1fTN+Vm/h4CefjgAWdmTf0GNNlgVKPqoEU8pBA6bA2rb70gwbdiz4jG
+         XumA==
+X-Gm-Message-State: AOJu0YzgiVEBVfMEYIlgFOccmk4FbNCUWJG6R7pCQ//rZ1a7rrlsv/tQ
+	NzTMDPCb2t4EpZctTr7ddWupbegXmvQ2RkKHf7jhQX52mxac/2PxhsdY+I1KJkz6xqqlJhC9ml4
+	r
+X-Gm-Gg: ASbGncuzfX1mtJAuVia/o8yq6lbSkTJ+5Hb5edMUoREWjzif20LdhCbaMegyOvjPdMv
+	7RPbf55Ans0wmDDVn/855GtHm7aDyRcLlb+DCp4DMTcakYCyTkGpOvnobHkp2gTlTSKqE9HHDpY
+	YOe3zJJMZuuRV6I3B644L5wt1IX8MuQ73w6kq5PRx1O0F9clM4LGNhrxxsfdov07NT9KMOvSP6e
+	tak87wxG903Kn8SAy2rvlb2nxL8BnplxAIvlORseuE1R60+MPgCA5YE7F1hHg==
+X-Google-Smtp-Source: AGHT+IFYWlKPrlMPHYtzOzC5RXOXIxvlzii7QxWTWtpsaIvsQ6CcdA3QHj09PwSdK/kjpbIBT0HhWg==
+X-Received: by 2002:a05:6402:2801:b0:5d0:8359:7a49 with SMTP id 4fb4d7f45d1cf-5d80246fbdamr2511850a12.0.1734607714301;
+        Thu, 19 Dec 2024 03:28:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679efc9sm550366a12.47.2024.12.19.03.28.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 03:28:33 -0800 (PST)
+Date: Thu, 19 Dec 2024 14:28:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	jic23@kernel.org, robh@kernel.org, conor+dt@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
 Subject: Re: [PATCH v2 3/3] iio: frequency: adf4371: add ref doubler
-Message-ID: <202412191811.lAia02sc-lkp@intel.com>
+Message-ID: <bc42978f-e86a-4560-bb4b-8a5fb2df4f4c@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,44 +75,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20241209104201.25205-3-antoniu.miclaus@analog.com>
-References: <20241209104201.25205-3-antoniu.miclaus@analog.com>
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-TO: jic23@kernel.org
-TO: robh@kernel.org
-TO: conor+dt@kernel.org
-TO: linux-iio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-pwm@vger.kernel.org
-CC: Antoniu Miclaus <antoniu.miclaus@analog.com>
 
 Hi Antoniu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.13-rc3 next-20241218]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-frequency-adf4371-add-differential-ref/20241209-184437
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
 patch link:    https://lore.kernel.org/r/20241209104201.25205-3-antoniu.miclaus%40analog.com
 patch subject: [PATCH v2 3/3] iio: frequency: adf4371: add ref doubler
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
 config: parisc-randconfig-r073-20241219 (https://download.01.org/0day-ci/archive/20241219/202412191811.lAia02sc-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202412191811.lAia02sc-lkp@intel.com/
 
 smatch warnings:
@@ -107,7 +101,6 @@ drivers/iio/frequency/adf4371.c:545 adf4371_setup() error: uninitialized symbol 
 
 vim +/ref_doubler_en +545 drivers/iio/frequency/adf4371.c
 
-7f699bd14913423 Stefan Popa     2019-06-04  486  
 7f699bd14913423 Stefan Popa     2019-06-04  487  static int adf4371_setup(struct adf4371_state *st)
 7f699bd14913423 Stefan Popa     2019-06-04  488  {
 7f699bd14913423 Stefan Popa     2019-06-04  489  	unsigned int synth_timeout = 2, timeout = 1, vco_alc_timeout = 1;
@@ -150,6 +143,9 @@ def914a4c3899b6 Stefan Popa     2019-06-24  512
 347e385fdd6ecda Antoniu Miclaus 2024-12-09  526  	if (st->clkin_freq < ADF4371_MAX_CLKIN_DOUB_FREQ &&
 347e385fdd6ecda Antoniu Miclaus 2024-12-09  527  	    st->clkin_freq > ADF4371_MIN_CLKIN_DOUB_FREQ)
 347e385fdd6ecda Antoniu Miclaus 2024-12-09  528  		ref_doubler_en = 1;
+
+Uninitialized on else path.
+
 347e385fdd6ecda Antoniu Miclaus 2024-12-09  529  
 011032df594999f Antoniu Miclaus 2024-12-09  530  	ret = regmap_update_bits(st->regmap,  ADF4371_REG(0x22),
 011032df594999f Antoniu Miclaus 2024-12-09  531  				 ADF4371_REFIN_MODE_MASK,
@@ -194,8 +190,8 @@ def914a4c3899b6 Stefan Popa     2019-06-24  512
 7f699bd14913423 Stefan Popa     2019-06-04  570  
 7f699bd14913423 Stefan Popa     2019-06-04  571  	return regmap_bulk_write(st->regmap, ADF4371_REG(0x30), st->buf, 5);
 7f699bd14913423 Stefan Popa     2019-06-04  572  }
-7f699bd14913423 Stefan Popa     2019-06-04  573  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
