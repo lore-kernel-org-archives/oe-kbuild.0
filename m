@@ -1,70 +1,58 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423C91CDFD3
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 13:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240E586337
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 16:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734616066; cv=none; b=OJebexFr68VqSHQoE6y/c3REAJz5rimDgZNYGlsnNE7zBuomX/6DbGxQYz+zW5AfO1g3vrI73jOUekbSY6c+/FG0zaTkV2AjtyyGQJRkpBQ4Gj10QKSapZJV19wcjVcjKJBQ+rd4LdEVYTEgJfqhON5180oqcKXQn6Zmhgz6dj0=
+	t=1734627395; cv=none; b=X5yG9RjhAfUc+o1IQkaTVTze2YOyGE3Q1d7mOdFgkSA8hAwdQW6tcsEVt0jkC8tEh8maU/MpofhkeR1T6mtzT3csjSY+u0qzxUxUrDjHzH183qErLz64+HNu5l/vh1fBZQkFgZNEkqYZxhWX7UbhgzWY6aB/L4Xr5Y6ewgyW3Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734616066; c=relaxed/simple;
-	bh=acK0hHjKw3F+aYkk1dcDWtZ+xaVjOCwBXMe1ZtgZRAY=;
+	s=arc-20240116; t=1734627395; c=relaxed/simple;
+	bh=JeFLwFm4AmNg1GPK4d/fE0uLt3JltaiTqjPsu5t92+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=kII2bgbplWNjDU7ar3OuXxY87ucmGWUrsRGSEOFFt35h+LPoR54En3h4I2sShy6sQ002FyJPUot0uCSSVOuSp36fN4mwnVWLn66AMePr6OetZESYubLDguV+oaVPmzwDKWFJo0TtC3Y3HAxqfvULZ0vBc9ynUP1d2dQiDp4bJsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KAeRiJxQ; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=kIhInzauEeOn97M49d3hS0pfcQvdcUNdjjrhkDoJUTCLOPOktHc3vQhU9rc2yGDJickRlcXYifA6ukLHKxwpw/YDkbaaUX2BsZdR+LIdDgsjjY+m+5VvPv8UZti/3lMbBhg0iiAFM9cCzk8LWGs/W8qcip24v89NKZmkCJhyEcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbHdzDvc; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KAeRiJxQ"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso1211596a12.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 05:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734616062; x=1735220862; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
-        b=KAeRiJxQBiJAma1NSrm9vMUp/ga85oBlluUTnHNNApeKt1Vk13GBv3XodQamNAiVrc
-         3n8R+3ufMrzIND48Cto6q59jXTIHuqhPnYMxo6CQumsPBwJihy5+xcOiVlwhNROXf6i9
-         oBIWKkMYVnuSdFbClvK5MrclHnenPvGbqWA5eQhFmCxgThsR/KBr2r7xES5BnLZgosl4
-         Rfd+IwdWn5oaKzm4ps2m09MSMIOyCndSkQwWWGE7/uQ40sNdwMJPHmeZ276VLIWAs3Mf
-         4IvFqGFd0hiZGeBmDvyRMWVDrSwbDiW4UdEjry0SKFPXVo8GQU9n21Df5L3tlMggce0m
-         CaWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734616062; x=1735220862;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
-        b=KZ736hQCxLQ4izZn2sfN4OZ4tktaD9HiaazH2PaaZVNraVhGMYUop9ZPIJ5cDR3CI6
-         Z/YTrLBju1jXR2aF3ZOQocSlzFU2QOgDkztwtg6efCAQW/AvH4qfTxM+JYz5EtYqx1vG
-         ny/tRFLijvIPqn0HrOB8hFssLG7IChc1x6rOp5UQYQuUe7jFcTgghBqcmK8QQsz4XI/D
-         8OfIUresYSkrJJ/1YGheCjStef7n41CM/a9CboUcpAc+YEplc6E8F6pRk5Xs73cEd6p+
-         lSudBkhuJrx+AGb42lIkMNJViUqqNVw2o1zjd6/BYucCeZIOJ2k7YB95MI3VD8pPScP4
-         eE+A==
-X-Gm-Message-State: AOJu0YxB7+NjpL5QrFq4mxtbtOhcIz08vf7Dll7yqOxICfZZ8GLDJ1kg
-	1uw0MMRZYTms+t1KhG40XrTHmXluXPzI00fjNf1io3ekT/u+Eh8g8I4RYTpelQlBwVGBjptqXX2
-	7
-X-Gm-Gg: ASbGncs1/JnP2MQtPVvi2Pyfqks2+5boxehWCUmay7zmIekcZNVhGxGgcljWsJ0wzd+
-	OoPzKhnr5ZjDR6iMCc4tMZL2/sMWjCJCwFKjbIwLDP255Zfbj/4b2tCeUYg7VPnlgO5An6GybeF
-	dUW6IiLAVfbiuExfa79O3MSodVuoCi5gtoQolnhMx4Y/lzH/y82JLMMWozmYCBxUP1bYqm3octR
-	2NEa8A7pltRq27k11UJYNpnGS+sY7kKZN/b2gvNwCw85/6mhakwnUlcR7ICTw==
-X-Google-Smtp-Source: AGHT+IGsAFEMmOn8yfDvN6T2urlg0GTVfsukfftnbE1YSf5u37EqmGlhKJLLx7eviYZw/rCCQ2q3xA==
-X-Received: by 2002:a05:6402:2807:b0:5d3:e766:6140 with SMTP id 4fb4d7f45d1cf-5d7ee3f5590mr6788805a12.24.1734616062067;
-        Thu, 19 Dec 2024 05:47:42 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80676f397sm705444a12.22.2024.12.19.05.47.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 05:47:41 -0800 (PST)
-Date: Thu, 19 Dec 2024 16:47:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	Homura Akemi <a1134123566@gmail.com>
-Subject: Re: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
-Message-ID: <d9f6af01-7a20-45aa-b6f1-380711aaec92@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbHdzDvc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734627394; x=1766163394;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JeFLwFm4AmNg1GPK4d/fE0uLt3JltaiTqjPsu5t92+U=;
+  b=AbHdzDvccrwaqmxWbbsQP39woRUTsqSw21l75c0AYbLezKh+izEEh5tb
+   uMP1Y0aY+onrCTM377tZTlHDjiUh/Iwc4y7e3UrfFinyBIGEdwA7iW2hM
+   2eA/FYxlhOraO5Qxc6Oid9YIoubr6ObFOzzosUKmxQ9A1gflN/nR/Tb+p
+   jcz+Ij3XYFXQopThGMtbP881ytAAnwBQ8GyRwTBCBjI1+UDCd217rdyMN
+   7AM4+IfBQRznHdfOjf1ygI21wtHp3INhpwuarUGi+F/Px6HZoP66eodj8
+   Ozy+rjXWK/FA1bjfeNTcRJyP8f0JLBfA7oxDMSo1SfjA8pXUklQF+zpxu
+   w==;
+X-CSE-ConnectionGUID: L9tuW5JtToK2B13XAiFYrg==
+X-CSE-MsgGUID: 5IKzai7wRD+5TokugW3LXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="38930085"
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="38930085"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 08:56:33 -0800
+X-CSE-ConnectionGUID: KEFKTJL2Rr2t65J/UBvmhg==
+X-CSE-MsgGUID: ilwnb4DzSzOSvIGgQEu7TQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="98452262"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Dec 2024 08:56:31 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tOJp7-0000Mp-0n;
+	Thu, 19 Dec 2024 16:56:29 +0000
+Date: Fri, 20 Dec 2024 00:55:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/s390/kvm/../../../virt/kvm/kvm_main.c:327
+ kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+Message-ID: <202412200028.n2wzB9WK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,130 +61,67 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen@synopsys.com>
 
-Hi Thinh,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Venkatesh Srinivas <venkateshs@chromium.org>
+CC: Sean Christopherson <seanjc@google.com>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thinh-Nguyen/usb-gadget-f_tcm-Don-t-free-command-immediately/20241211-092317
-base:   d8d936c51388442f769a81e512b505dcf87c6a51
-patch link:    https://lore.kernel.org/r/6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen%40synopsys.com
-patch subject: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
-config: nios2-randconfig-r071-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192132.XB16SilM-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eabcdba3ad4098460a376538df2ae36500223c1e
+commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
+date:   8 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 8 months ago
+config: s390-randconfig-r073-20241218 (https://download.01.org/0day-ci/archive/20241220/202412200028.n2wzB9WK-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412192132.XB16SilM-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412200028.n2wzB9WK-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we previously assumed 'active_cmd' could be null (see line 1265)
+New smatch warnings:
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
 
-vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
+Old smatch warnings:
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
+include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/s390/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
 
-287b3d115e5351 Thinh Nguyen          2024-12-11  1227  static void usbg_cmd_work(struct work_struct *work)
-287b3d115e5351 Thinh Nguyen          2024-12-11  1228  {
-287b3d115e5351 Thinh Nguyen          2024-12-11  1229  	struct usbg_cmd *cmd = container_of(work, struct usbg_cmd, work);
-287b3d115e5351 Thinh Nguyen          2024-12-11  1230  
-287b3d115e5351 Thinh Nguyen          2024-12-11  1231  	/*
-287b3d115e5351 Thinh Nguyen          2024-12-11  1232  	 * Failure is detected by f_tcm here. Skip submitting the command to the
-287b3d115e5351 Thinh Nguyen          2024-12-11  1233  	 * target core if we already know the failing response and send the usb
-287b3d115e5351 Thinh Nguyen          2024-12-11  1234  	 * response to the host directly.
-287b3d115e5351 Thinh Nguyen          2024-12-11  1235  	 */
-287b3d115e5351 Thinh Nguyen          2024-12-11  1236  	if (cmd->tmr_rsp != RC_RESPONSE_UNKNOWN)
-287b3d115e5351 Thinh Nguyen          2024-12-11  1237  		goto skip;
-287b3d115e5351 Thinh Nguyen          2024-12-11  1238  
-287b3d115e5351 Thinh Nguyen          2024-12-11  1239  	if (cmd->tmr_func)
-287b3d115e5351 Thinh Nguyen          2024-12-11  1240  		usbg_submit_tmr(cmd);
-287b3d115e5351 Thinh Nguyen          2024-12-11  1241  	else
-287b3d115e5351 Thinh Nguyen          2024-12-11  1242  		usbg_submit_cmd(cmd);
-287b3d115e5351 Thinh Nguyen          2024-12-11  1243  
-287b3d115e5351 Thinh Nguyen          2024-12-11  1244  	return;
-287b3d115e5351 Thinh Nguyen          2024-12-11  1245  
-287b3d115e5351 Thinh Nguyen          2024-12-11  1246  skip:
-7735c10c74d903 Thinh Nguyen          2024-12-11  1247  	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
-7735c10c74d903 Thinh Nguyen          2024-12-11  1248  		struct f_uas *fu = cmd->fu;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1249  		struct se_session *se_sess;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1250  		struct uas_stream *stream = NULL;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1251  		struct hlist_node *tmp;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1252  		struct usbg_cmd *active_cmd = NULL;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1253  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1254  		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1255  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1256  		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
-7735c10c74d903 Thinh Nguyen          2024-12-11  1257  			int i = stream - &fu->stream[0];
-7735c10c74d903 Thinh Nguyen          2024-12-11  1258  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1259  			active_cmd = &((struct usbg_cmd *)se_sess->sess_cmd_map)[i];
-7735c10c74d903 Thinh Nguyen          2024-12-11  1260  			if (active_cmd->tag == cmd->tag)
-7735c10c74d903 Thinh Nguyen          2024-12-11  1261  				break;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1262  		}
-7735c10c74d903 Thinh Nguyen          2024-12-11  1263  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1264  		/* Sanity check */
-7735c10c74d903 Thinh Nguyen          2024-12-11 @1265  		if (!stream || (active_cmd && active_cmd->tag != cmd->tag)) {
+vim +/i +327 arch/s390/kvm/../../../virt/kvm/kvm_main.c
 
-Testing for !stream is sufficient.  Another option would be to write this
-as:
-	if (!stream || !active_cmd || active_cmd->tag != cmd->tag)) {
-
-7735c10c74d903 Thinh Nguyen          2024-12-11  1266  			usbg_submit_command(cmd->fu, cmd->req);
-7735c10c74d903 Thinh Nguyen          2024-12-11  1267  			return;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1268  		}
-7735c10c74d903 Thinh Nguyen          2024-12-11  1269  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1270  		reinit_completion(&stream->cmd_completion);
-7735c10c74d903 Thinh Nguyen          2024-12-11  1271  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1272  		/*
-7735c10c74d903 Thinh Nguyen          2024-12-11  1273  		 * A UASP command consists of the command, data, and status
-7735c10c74d903 Thinh Nguyen          2024-12-11  1274  		 * stages, each operating sequentially from different endpoints.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1275  		 *
-7735c10c74d903 Thinh Nguyen          2024-12-11  1276  		 * Each USB endpoint operates independently, and depending on
-7735c10c74d903 Thinh Nguyen          2024-12-11  1277  		 * hardware implementation, a completion callback for a transfer
-7735c10c74d903 Thinh Nguyen          2024-12-11  1278  		 * from one endpoint may not reflect the order of completion on
-7735c10c74d903 Thinh Nguyen          2024-12-11  1279  		 * the wire. This is particularly true for devices with
-7735c10c74d903 Thinh Nguyen          2024-12-11  1280  		 * endpoints that have independent interrupts and event buffers.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1281  		 *
-7735c10c74d903 Thinh Nguyen          2024-12-11  1282  		 * The driver must still detect misbehaving hosts and respond
-7735c10c74d903 Thinh Nguyen          2024-12-11  1283  		 * with an overlap status. To reduce false overlap failures,
-7735c10c74d903 Thinh Nguyen          2024-12-11  1284  		 * allow the active and matching stream ID a brief 1ms to
-7735c10c74d903 Thinh Nguyen          2024-12-11  1285  		 * complete before responding with an overlap command failure.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1286  		 * Overlap failure should be rare.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1287  		 */
-7735c10c74d903 Thinh Nguyen          2024-12-11  1288  		wait_for_completion_timeout(&stream->cmd_completion, msecs_to_jiffies(1));
-7735c10c74d903 Thinh Nguyen          2024-12-11  1289  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1290  		/* If the previous stream is completed, retry the command. */
-7735c10c74d903 Thinh Nguyen          2024-12-11  1291  		if (!hash_hashed(&stream->node)) {
-7735c10c74d903 Thinh Nguyen          2024-12-11  1292  			usbg_submit_command(cmd->fu, cmd->req);
-7735c10c74d903 Thinh Nguyen          2024-12-11  1293  			return;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1294  		}
-7735c10c74d903 Thinh Nguyen          2024-12-11  1295  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1296  		/*
-7735c10c74d903 Thinh Nguyen          2024-12-11  1297  		 * The command isn't submitted to the target core, so we're safe
-7735c10c74d903 Thinh Nguyen          2024-12-11  1298  		 * to remove the bitmap index from the session tag pool.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1299  		 */
-7735c10c74d903 Thinh Nguyen          2024-12-11  1300  		sbitmap_queue_clear(&se_sess->sess_tag_pool,
-7735c10c74d903 Thinh Nguyen          2024-12-11  1301  				    cmd->se_cmd.map_tag,
-7735c10c74d903 Thinh Nguyen          2024-12-11  1302  				    cmd->se_cmd.map_cpu);
-7735c10c74d903 Thinh Nguyen          2024-12-11  1303  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1304  		/*
-7735c10c74d903 Thinh Nguyen          2024-12-11  1305  		 * Overlap command tag detected. Cancel any pending transfer of
-7735c10c74d903 Thinh Nguyen          2024-12-11  1306  		 * the command submitted to target core.
-7735c10c74d903 Thinh Nguyen          2024-12-11  1307  		 */
-7735c10c74d903 Thinh Nguyen          2024-12-11 @1308  		active_cmd->tmr_rsp = RC_OVERLAPPED_TAG;
-
-The inconsistent NULL check triggers a warning here.
-
-7735c10c74d903 Thinh Nguyen          2024-12-11  1309  		usbg_aborted_task(&active_cmd->se_cmd);
-7735c10c74d903 Thinh Nguyen          2024-12-11  1310  
-7735c10c74d903 Thinh Nguyen          2024-12-11  1311  		/* Send the response after the transfer is aborted. */
-7735c10c74d903 Thinh Nguyen          2024-12-11  1312  		return;
-7735c10c74d903 Thinh Nguyen          2024-12-11  1313  	}
-7735c10c74d903 Thinh Nguyen          2024-12-11  1314  
-287b3d115e5351 Thinh Nguyen          2024-12-11  1315  	uasp_send_tm_response(cmd);
-287b3d115e5351 Thinh Nguyen          2024-12-11  1316  }
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
+82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
+46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
+46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
+82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
+b56bd8e03cf4d5 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
+498468961ed6f6 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
+d9e368d6126305 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
+a2486020a82eef virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
+54163a346d4a0a virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
