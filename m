@@ -1,57 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3D7226165
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 13:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423C91CDFD3
+	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 13:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734614898; cv=none; b=tozCf6BK5C9hu2b94YneiG6/1hFcDENplmOVuWOVJ+/jTljiiuV6MQPSgLrH3BE+aM2CODUUgV9dlYV7l6mzH00r399HYToDD4OsdRfmSre0nGI5GoexBK+f6gdorH1irtTf7DDT/nqCIlSiS7fUBsc43GvT5ww21rhQihN2qBU=
+	t=1734616066; cv=none; b=OJebexFr68VqSHQoE6y/c3REAJz5rimDgZNYGlsnNE7zBuomX/6DbGxQYz+zW5AfO1g3vrI73jOUekbSY6c+/FG0zaTkV2AjtyyGQJRkpBQ4Gj10QKSapZJV19wcjVcjKJBQ+rd4LdEVYTEgJfqhON5180oqcKXQn6Zmhgz6dj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734614898; c=relaxed/simple;
-	bh=n0dIh9IMFmb1kzkIoQI/7+dwDbIH/ZKb8ijbdLGsQUA=;
+	s=arc-20240116; t=1734616066; c=relaxed/simple;
+	bh=acK0hHjKw3F+aYkk1dcDWtZ+xaVjOCwBXMe1ZtgZRAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XTz/ZFweZpVjR4VxHQASxNQggPhaLH5tfgg8HYn5XaXjkdiTFrHXWIPaX5Tx5GU09oupetsCxMouzGk6fOCPQH0cXjrPicX4xCw9lEptS6GaOkhav8C0MwLUWrL70/THCABVq5r9Ou9HHOBhkv1TDQTIR4CRDlyllK8W9CgBL8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bKmYLtSV; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=kII2bgbplWNjDU7ar3OuXxY87ucmGWUrsRGSEOFFt35h+LPoR54En3h4I2sShy6sQ002FyJPUot0uCSSVOuSp36fN4mwnVWLn66AMePr6OetZESYubLDguV+oaVPmzwDKWFJo0TtC3Y3HAxqfvULZ0vBc9ynUP1d2dQiDp4bJsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KAeRiJxQ; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKmYLtSV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734614896; x=1766150896;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n0dIh9IMFmb1kzkIoQI/7+dwDbIH/ZKb8ijbdLGsQUA=;
-  b=bKmYLtSVppppQOoB1da+0/k5I8QNNHGn/OxXoWSlW6hU1vs846AxOxy6
-   25fKYnbZMUshaUSEo5jfQ+reVLWexlT1iTE+NyY2+pIzflZCKh+fTFqHS
-   4QEoF1zQWmx+FZbGmaTZWjoBEv0eiYW9WHsyYIGg9HLbJrRwIXUC5ix/Y
-   LzW6KY0dSaGOmMPLTVAtV/jAYDbvHpCg+F6tlODa5qWoNBP3HCUSDtnqp
-   W2iYGzvH2QREJhljv4/CTZJp3ExRFATq+ji0Xvzfx9UTj5bds1IjR6eDk
-   j8u93vbZZa7ZO3c/6sYDcjSML6qaWOb6/c5K23vwq7c9uslgx1TpkB2Cb
-   Q==;
-X-CSE-ConnectionGUID: nxVE5kaoTo6cAz5bU9cJ5w==
-X-CSE-MsgGUID: a1Uud95gS8yt/LyJEZE4aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="38902192"
-X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="38902192"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 05:28:13 -0800
-X-CSE-ConnectionGUID: uAKkxxjhSq2cB2qu+1PExQ==
-X-CSE-MsgGUID: 5bbAWY4sQnexJMH1ZepKsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121461398"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Dec 2024 05:28:12 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOGZW-0000G7-0N;
-	Thu, 19 Dec 2024 13:28:10 +0000
-Date: Thu, 19 Dec 2024 21:27:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KAeRiJxQ"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso1211596a12.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 05:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734616062; x=1735220862; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
+        b=KAeRiJxQBiJAma1NSrm9vMUp/ga85oBlluUTnHNNApeKt1Vk13GBv3XodQamNAiVrc
+         3n8R+3ufMrzIND48Cto6q59jXTIHuqhPnYMxo6CQumsPBwJihy5+xcOiVlwhNROXf6i9
+         oBIWKkMYVnuSdFbClvK5MrclHnenPvGbqWA5eQhFmCxgThsR/KBr2r7xES5BnLZgosl4
+         Rfd+IwdWn5oaKzm4ps2m09MSMIOyCndSkQwWWGE7/uQ40sNdwMJPHmeZ276VLIWAs3Mf
+         4IvFqGFd0hiZGeBmDvyRMWVDrSwbDiW4UdEjry0SKFPXVo8GQU9n21Df5L3tlMggce0m
+         CaWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734616062; x=1735220862;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=atWjUMEd1NNeNbg7ZVaVBFb5YQIp4j939hl5v/bh6OY=;
+        b=KZ736hQCxLQ4izZn2sfN4OZ4tktaD9HiaazH2PaaZVNraVhGMYUop9ZPIJ5cDR3CI6
+         Z/YTrLBju1jXR2aF3ZOQocSlzFU2QOgDkztwtg6efCAQW/AvH4qfTxM+JYz5EtYqx1vG
+         ny/tRFLijvIPqn0HrOB8hFssLG7IChc1x6rOp5UQYQuUe7jFcTgghBqcmK8QQsz4XI/D
+         8OfIUresYSkrJJ/1YGheCjStef7n41CM/a9CboUcpAc+YEplc6E8F6pRk5Xs73cEd6p+
+         lSudBkhuJrx+AGb42lIkMNJViUqqNVw2o1zjd6/BYucCeZIOJ2k7YB95MI3VD8pPScP4
+         eE+A==
+X-Gm-Message-State: AOJu0YxB7+NjpL5QrFq4mxtbtOhcIz08vf7Dll7yqOxICfZZ8GLDJ1kg
+	1uw0MMRZYTms+t1KhG40XrTHmXluXPzI00fjNf1io3ekT/u+Eh8g8I4RYTpelQlBwVGBjptqXX2
+	7
+X-Gm-Gg: ASbGncs1/JnP2MQtPVvi2Pyfqks2+5boxehWCUmay7zmIekcZNVhGxGgcljWsJ0wzd+
+	OoPzKhnr5ZjDR6iMCc4tMZL2/sMWjCJCwFKjbIwLDP255Zfbj/4b2tCeUYg7VPnlgO5An6GybeF
+	dUW6IiLAVfbiuExfa79O3MSodVuoCi5gtoQolnhMx4Y/lzH/y82JLMMWozmYCBxUP1bYqm3octR
+	2NEa8A7pltRq27k11UJYNpnGS+sY7kKZN/b2gvNwCw85/6mhakwnUlcR7ICTw==
+X-Google-Smtp-Source: AGHT+IGsAFEMmOn8yfDvN6T2urlg0GTVfsukfftnbE1YSf5u37EqmGlhKJLLx7eviYZw/rCCQ2q3xA==
+X-Received: by 2002:a05:6402:2807:b0:5d3:e766:6140 with SMTP id 4fb4d7f45d1cf-5d7ee3f5590mr6788805a12.24.1734616062067;
+        Thu, 19 Dec 2024 05:47:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80676f397sm705444a12.22.2024.12.19.05.47.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 05:47:41 -0800 (PST)
+Date: Thu, 19 Dec 2024 16:47:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Homura Akemi <a1134123566@gmail.com>
 Subject: Re: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
-Message-ID: <202412192132.XB16SilM-lkp@intel.com>
+Message-ID: <d9f6af01-7a20-45aa-b6f1-380711aaec92@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,37 +73,23 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen@synopsys.com>
-References: <6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen@synopsys.com>
-TO: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC: Homura Akemi <a1134123566@gmail.com>
 
 Hi Thinh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on d8d936c51388442f769a81e512b505dcf87c6a51]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Thinh-Nguyen/usb-gadget-f_tcm-Don-t-free-command-immediately/20241211-092317
 base:   d8d936c51388442f769a81e512b505dcf87c6a51
 patch link:    https://lore.kernel.org/r/6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen%40synopsys.com
 patch subject: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
 config: nios2-randconfig-r071-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192132.XB16SilM-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202412192132.XB16SilM-lkp@intel.com/
 
 smatch warnings:
@@ -98,7 +97,6 @@ drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we previously as
 
 vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 
-08a1cb0f65fde6 Andrzej Pietrasiewicz 2015-12-11  1226  
 287b3d115e5351 Thinh Nguyen          2024-12-11  1227  static void usbg_cmd_work(struct work_struct *work)
 287b3d115e5351 Thinh Nguyen          2024-12-11  1228  {
 287b3d115e5351 Thinh Nguyen          2024-12-11  1229  	struct usbg_cmd *cmd = container_of(work, struct usbg_cmd, work);
@@ -138,6 +136,11 @@ vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 7735c10c74d903 Thinh Nguyen          2024-12-11  1263  
 7735c10c74d903 Thinh Nguyen          2024-12-11  1264  		/* Sanity check */
 7735c10c74d903 Thinh Nguyen          2024-12-11 @1265  		if (!stream || (active_cmd && active_cmd->tag != cmd->tag)) {
+
+Testing for !stream is sufficient.  Another option would be to write this
+as:
+	if (!stream || !active_cmd || active_cmd->tag != cmd->tag)) {
+
 7735c10c74d903 Thinh Nguyen          2024-12-11  1266  			usbg_submit_command(cmd->fu, cmd->req);
 7735c10c74d903 Thinh Nguyen          2024-12-11  1267  			return;
 7735c10c74d903 Thinh Nguyen          2024-12-11  1268  		}
@@ -181,6 +184,9 @@ vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 7735c10c74d903 Thinh Nguyen          2024-12-11  1306  		 * the command submitted to target core.
 7735c10c74d903 Thinh Nguyen          2024-12-11  1307  		 */
 7735c10c74d903 Thinh Nguyen          2024-12-11 @1308  		active_cmd->tmr_rsp = RC_OVERLAPPED_TAG;
+
+The inconsistent NULL check triggers a warning here.
+
 7735c10c74d903 Thinh Nguyen          2024-12-11  1309  		usbg_aborted_task(&active_cmd->se_cmd);
 7735c10c74d903 Thinh Nguyen          2024-12-11  1310  
 7735c10c74d903 Thinh Nguyen          2024-12-11  1311  		/* Send the response after the transfer is aborted. */
@@ -189,8 +195,8 @@ vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
 7735c10c74d903 Thinh Nguyen          2024-12-11  1314  
 287b3d115e5351 Thinh Nguyen          2024-12-11  1315  	uasp_send_tm_response(cmd);
 287b3d115e5351 Thinh Nguyen          2024-12-11  1316  }
-287b3d115e5351 Thinh Nguyen          2024-12-11  1317  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
