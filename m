@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97541BB6A0
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 12:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD81CEACB
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 13:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734698903; cv=none; b=gq10IDxrg780rih7j9DcoVpwUUV989EM0ffxKPZ1F/qGouk3TsKsNGL1zgMKJ9RwZIenSzeaOptOUJjNCehzzCiJb/gjIOVRA44YgLwvYhj/KawsbbY4HvG10TB6UkcSjdqQmEJJPL5ECDWDsbxtIUo+dCIcv9mvV5Uc430Vxl8=
+	t=1734701488; cv=none; b=BtvMbMn0ZqQWrJXH3xWQf2WFuDzKBveIOvTdnvh/5Y0Z7SxlV9DXFYbsEQ6+EX9sn4dcwtBK/hSnkxWa/6brkjjFu2NsX9XsCTyncPo1uFYD9/etlz+JAOW5qvbAOiC0WU+uDzkZGbM6JS0dPiyvuooqoDUkdn//hNMPWxR+OE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734698903; c=relaxed/simple;
-	bh=eCoLY2kt7ViRxoai97oG/aqQYDGN+X4Gl2yohOtNZd4=;
+	s=arc-20240116; t=1734701488; c=relaxed/simple;
+	bh=1ovXekMd16lIsEOhuTEUMg6pL7yMHQcw6vR41d+fxjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sQsnWCTPqjYJkE/bhX4NO7cnz/ETlI17WcOVvT6Ww7h9ZMwNxSycMhAGJi641RMe12BqIwn5tdry38IbIOuHy5lbXbTQYKCC0agjDeCtoegcSbvAmB6f+X6tkMh8MazRE9KltcquwFbh7DFkT4JSlpyyK/nzFvvZ4BMVqGQgT+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYKa6076; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=YiTtG6ynbO9M8pXDRKH1/neWRQkcbcSMzk5P8sSuKD751ELR9J7QeG0KQeIj/E3BO4FYiXuxMGygHQyO3/DSSNa4aBy/s097rblQ8g+2odw5rUn7OqquUwSxjmNTDTRusnhzhq9qviLNWbjAsO7+zbzctjipSETKVdXAuSD/Q2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdUHqBXI; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYKa6076"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdUHqBXI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734698902; x=1766234902;
+  t=1734701486; x=1766237486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eCoLY2kt7ViRxoai97oG/aqQYDGN+X4Gl2yohOtNZd4=;
-  b=lYKa6076DBAKVt8WSYo3nrf5qhFT1+axuWZr7w6o5QRtkhiZvxXFTGH5
-   xandxaXP1KTqK4R7DKkrbI7GJFDVOeRzSvkw1Mhf5PYRA+0aoo1UUoDm1
-   2R0V1mZ+gIA40gdsVfHuGA6ovx0C8b+OdCOSYKKosq9YcwN0ALVTugBP0
-   mr9yD7VAvnWQ9WjjAdued/WwJnlBS/hDOgpU2k4Ecc3b3QOpEln/j9c9f
-   F1UNbwq7ppLzDDDiNYQ6n2FLASzB9Wakg3E98ZYh0E4ipogMdb30x7jLF
-   yEtP1gXAHr8Ou+eZnpR3MatrwmolKLeUeCiCZKaukB3ySF/pFOsf17l/V
-   w==;
-X-CSE-ConnectionGUID: GBRrIRCfShGVUWsk9jDz+w==
-X-CSE-MsgGUID: 2OWfedpuS7Gm0ZQ4q04ZMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39029689"
+  bh=1ovXekMd16lIsEOhuTEUMg6pL7yMHQcw6vR41d+fxjM=;
+  b=OdUHqBXIFYOURljsKcQySYOnZEVo2/14Pk0YXBs027nqUoxOVsUySdWq
+   0gafXWZcVUAr/cBg0//zjpHz/hnDK320UpUsdrXvTIE4soyr4CCatS3BR
+   vm3LKGgxwsfT81EG/EaB7Izg2q+0UUul0svaEg9izvlyk1IEHP74uIfGY
+   Sd9gOeRyz8/nvebObLLZMVeNqdbYCmVAUPytOuIbpouyDBg01A+zYPQmn
+   VBEmyu32gL1eZGkpDXni6JXzGoE2WtXAXhkzWHlUZpXfvKYyOur2LxCKZ
+   kid7nyMZ5wUQxzYUHAUIUC/Oryk8Jy1B0ZfFBLGDIDi6sKyfgOCoWIX2t
+   Q==;
+X-CSE-ConnectionGUID: P7EaByobTXKWNy6hy3IeXA==
+X-CSE-MsgGUID: S7MbWSsMQJ+5n5tUFxzxgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45740729"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="39029689"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 04:48:22 -0800
-X-CSE-ConnectionGUID: eedExRJPQ7CRS0eBklk4tw==
-X-CSE-MsgGUID: PcEQgiYqT0+S6BfQNCzZjQ==
+   d="scan'208";a="45740729"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:31:26 -0800
+X-CSE-ConnectionGUID: GQE3qlOKQTeKmKEd84x1tA==
+X-CSE-MsgGUID: ck/PeSLbQ6yJoVUr6g9jSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121782543"
+   d="scan'208";a="103502797"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Dec 2024 04:48:20 -0800
+  by orviesa005.jf.intel.com with ESMTP; 20 Dec 2024 05:31:24 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOcQT-00019F-31;
-	Fri, 20 Dec 2024 12:48:17 +0000
-Date: Fri, 20 Dec 2024 20:47:31 +0800
+	id 1tOd6A-0001BP-1f;
+	Fri, 20 Dec 2024 13:31:22 +0000
+Date: Fri, 20 Dec 2024 21:31:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186
- mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
-Message-ID: <202412202025.smbk8Wf5-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/2] dt-bindings: memory-controllers: Add mediatek
+ common-dramc dt-bindings
+Message-ID: <202412202152.7WyYu0Y6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,155 +62,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241212090029.13692-3-crystal.guo@mediatek.com>
+References: <20241212090029.13692-3-crystal.guo@mediatek.com>
+TO: Crystal Guo <crystal.guo@mediatek.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Crystal Guo <crystal.guo@mediatek.com>
 CC: linux-kernel@vger.kernel.org
-TO: Sujuan Chen <sujuan.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group@mediatek.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8faabc041a001140564f718dabe37753e88b37fa
-commit: 83eafc9251d6d30574b629ac637c56d168fcbdd9 wifi: mt76: mt7996: add wed tx support
-date:   1 year ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241220/202412202025.smbk8Wf5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Crystal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk-mem-ctrl/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.13-rc3 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Crystal-Guo/memory-mediatek-Add-an-interface-to-get-current-DDR-data-rate/20241212-170306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20241212090029.13692-3-crystal.guo%40mediatek.com
+patch subject: [PATCH 2/2] dt-bindings: memory-controllers: Add mediatek common-dramc dt-bindings
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: csky-randconfig-052-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202152.7WyYu0Y6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202152.7WyYu0Y6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412202025.smbk8Wf5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412202152.7WyYu0Y6-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186 mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
-
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/pci.c:192 mt7996_pci_probe() error: uninitialized symbol 'hif2_dev'.
-
-vim +/hif2_irq +186 drivers/net/wireless/mediatek/mt76/mt7996/pci.c
-
-98686cd21624c75 Shayne Chen 2022-11-22   90  
-98686cd21624c75 Shayne Chen 2022-11-22   91  static int mt7996_pci_probe(struct pci_dev *pdev,
-98686cd21624c75 Shayne Chen 2022-11-22   92  			    const struct pci_device_id *id)
-98686cd21624c75 Shayne Chen 2022-11-22   93  {
-98686cd21624c75 Shayne Chen 2022-11-22   94  	struct pci_dev *hif2_dev;
-83eafc9251d6d30 Sujuan Chen 2023-10-20   95  	struct mt7996_hif *hif2;
-98686cd21624c75 Shayne Chen 2022-11-22   96  	struct mt7996_dev *dev;
-83eafc9251d6d30 Sujuan Chen 2023-10-20   97  	int irq, hif2_irq, ret;
-98686cd21624c75 Shayne Chen 2022-11-22   98  	struct mt76_dev *mdev;
-98686cd21624c75 Shayne Chen 2022-11-22   99  
-98686cd21624c75 Shayne Chen 2022-11-22  100  	ret = pcim_enable_device(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  101  	if (ret)
-98686cd21624c75 Shayne Chen 2022-11-22  102  		return ret;
-98686cd21624c75 Shayne Chen 2022-11-22  103  
-98686cd21624c75 Shayne Chen 2022-11-22  104  	ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
-98686cd21624c75 Shayne Chen 2022-11-22  105  	if (ret)
-98686cd21624c75 Shayne Chen 2022-11-22  106  		return ret;
-98686cd21624c75 Shayne Chen 2022-11-22  107  
-98686cd21624c75 Shayne Chen 2022-11-22  108  	pci_set_master(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  109  
-98686cd21624c75 Shayne Chen 2022-11-22  110  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-98686cd21624c75 Shayne Chen 2022-11-22  111  	if (ret)
-98686cd21624c75 Shayne Chen 2022-11-22  112  		return ret;
-98686cd21624c75 Shayne Chen 2022-11-22  113  
-98686cd21624c75 Shayne Chen 2022-11-22  114  	mt76_pci_disable_aspm(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  115  
-98686cd21624c75 Shayne Chen 2022-11-22  116  	if (id->device == 0x7991)
-98686cd21624c75 Shayne Chen 2022-11-22  117  		return mt7996_pci_hif2_probe(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  118  
-98686cd21624c75 Shayne Chen 2022-11-22  119  	dev = mt7996_mmio_probe(&pdev->dev, pcim_iomap_table(pdev)[0],
-98686cd21624c75 Shayne Chen 2022-11-22  120  				id->device);
-98686cd21624c75 Shayne Chen 2022-11-22  121  	if (IS_ERR(dev))
-98686cd21624c75 Shayne Chen 2022-11-22  122  		return PTR_ERR(dev);
-98686cd21624c75 Shayne Chen 2022-11-22  123  
-98686cd21624c75 Shayne Chen 2022-11-22  124  	mdev = &dev->mt76;
-98686cd21624c75 Shayne Chen 2022-11-22  125  	mt7996_wfsys_reset(dev);
-98686cd21624c75 Shayne Chen 2022-11-22  126  	hif2 = mt7996_pci_init_hif2(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  127  
-83eafc9251d6d30 Sujuan Chen 2023-10-20  128  	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  129  	if (ret < 0)
-83eafc9251d6d30 Sujuan Chen 2023-10-20  130  		goto free_wed_or_irq_vector;
-83eafc9251d6d30 Sujuan Chen 2023-10-20  131  
-83eafc9251d6d30 Sujuan Chen 2023-10-20  132  	if (!ret) {
-98686cd21624c75 Shayne Chen 2022-11-22  133  		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-98686cd21624c75 Shayne Chen 2022-11-22  134  		if (ret < 0)
-98686cd21624c75 Shayne Chen 2022-11-22  135  			goto free_device;
-98686cd21624c75 Shayne Chen 2022-11-22  136  
-98686cd21624c75 Shayne Chen 2022-11-22  137  		irq = pdev->irq;
-83eafc9251d6d30 Sujuan Chen 2023-10-20  138  	}
-83eafc9251d6d30 Sujuan Chen 2023-10-20  139  
-98686cd21624c75 Shayne Chen 2022-11-22  140  	ret = devm_request_irq(mdev->dev, irq, mt7996_irq_handler,
-98686cd21624c75 Shayne Chen 2022-11-22  141  			       IRQF_SHARED, KBUILD_MODNAME, dev);
-98686cd21624c75 Shayne Chen 2022-11-22  142  	if (ret)
-83eafc9251d6d30 Sujuan Chen 2023-10-20  143  		goto free_wed_or_irq_vector;
-98686cd21624c75 Shayne Chen 2022-11-22  144  
-98686cd21624c75 Shayne Chen 2022-11-22  145  	mt76_wr(dev, MT_INT_MASK_CSR, 0);
-98686cd21624c75 Shayne Chen 2022-11-22  146  	/* master switch of PCIe tnterrupt enable */
-98686cd21624c75 Shayne Chen 2022-11-22  147  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
-98686cd21624c75 Shayne Chen 2022-11-22  148  
-98686cd21624c75 Shayne Chen 2022-11-22  149  	if (hif2) {
-98686cd21624c75 Shayne Chen 2022-11-22  150  		hif2_dev = container_of(hif2->dev, struct pci_dev, dev);
-98686cd21624c75 Shayne Chen 2022-11-22  151  		dev->hif2 = hif2;
-98686cd21624c75 Shayne Chen 2022-11-22  152  
-83eafc9251d6d30 Sujuan Chen 2023-10-20  153  		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  154  		if (ret < 0)
-83eafc9251d6d30 Sujuan Chen 2023-10-20  155  			goto free_hif2_wed_irq_vector;
-83eafc9251d6d30 Sujuan Chen 2023-10-20  156  
-83eafc9251d6d30 Sujuan Chen 2023-10-20  157  		if (!ret) {
-83eafc9251d6d30 Sujuan Chen 2023-10-20  158  			ret = pci_alloc_irq_vectors(hif2_dev, 1, 1,
-83eafc9251d6d30 Sujuan Chen 2023-10-20  159  						    PCI_IRQ_ALL_TYPES);
-98686cd21624c75 Shayne Chen 2022-11-22  160  			if (ret < 0)
-98686cd21624c75 Shayne Chen 2022-11-22  161  				goto free_hif2;
-98686cd21624c75 Shayne Chen 2022-11-22  162  
-98686cd21624c75 Shayne Chen 2022-11-22  163  			dev->hif2->irq = hif2_dev->irq;
-83eafc9251d6d30 Sujuan Chen 2023-10-20  164  			hif2_irq = dev->hif2->irq;
-83eafc9251d6d30 Sujuan Chen 2023-10-20  165  		}
-83eafc9251d6d30 Sujuan Chen 2023-10-20  166  
-83eafc9251d6d30 Sujuan Chen 2023-10-20  167  		ret = devm_request_irq(mdev->dev, hif2_irq, mt7996_irq_handler,
-83eafc9251d6d30 Sujuan Chen 2023-10-20  168  				       IRQF_SHARED, KBUILD_MODNAME "-hif",
-83eafc9251d6d30 Sujuan Chen 2023-10-20  169  				       dev);
-98686cd21624c75 Shayne Chen 2022-11-22  170  		if (ret)
-83eafc9251d6d30 Sujuan Chen 2023-10-20  171  			goto free_hif2_wed_irq_vector;
-98686cd21624c75 Shayne Chen 2022-11-22  172  
-98686cd21624c75 Shayne Chen 2022-11-22  173  		mt76_wr(dev, MT_INT1_MASK_CSR, 0);
-98686cd21624c75 Shayne Chen 2022-11-22  174  		/* master switch of PCIe tnterrupt enable */
-98686cd21624c75 Shayne Chen 2022-11-22  175  		mt76_wr(dev, MT_PCIE1_MAC_INT_ENABLE, 0xff);
-98686cd21624c75 Shayne Chen 2022-11-22  176  	}
-98686cd21624c75 Shayne Chen 2022-11-22  177  
-98686cd21624c75 Shayne Chen 2022-11-22  178  	ret = mt7996_register_device(dev);
-98686cd21624c75 Shayne Chen 2022-11-22  179  	if (ret)
-98686cd21624c75 Shayne Chen 2022-11-22  180  		goto free_hif2_irq;
-98686cd21624c75 Shayne Chen 2022-11-22  181  
-98686cd21624c75 Shayne Chen 2022-11-22  182  	return 0;
-98686cd21624c75 Shayne Chen 2022-11-22  183  
-98686cd21624c75 Shayne Chen 2022-11-22  184  free_hif2_irq:
-98686cd21624c75 Shayne Chen 2022-11-22  185  	if (dev->hif2)
-83eafc9251d6d30 Sujuan Chen 2023-10-20 @186  		devm_free_irq(mdev->dev, hif2_irq, dev);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  187  free_hif2_wed_irq_vector:
-83eafc9251d6d30 Sujuan Chen 2023-10-20  188  	if (dev->hif2) {
-83eafc9251d6d30 Sujuan Chen 2023-10-20  189  		if (mtk_wed_device_active(&dev->mt76.mmio.wed_hif2))
-83eafc9251d6d30 Sujuan Chen 2023-10-20  190  			mtk_wed_device_detach(&dev->mt76.mmio.wed_hif2);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  191  		else
-98686cd21624c75 Shayne Chen 2022-11-22  192  			pci_free_irq_vectors(hif2_dev);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  193  	}
-98686cd21624c75 Shayne Chen 2022-11-22  194  free_hif2:
-98686cd21624c75 Shayne Chen 2022-11-22  195  	if (dev->hif2)
-98686cd21624c75 Shayne Chen 2022-11-22  196  		put_device(dev->hif2->dev);
-98686cd21624c75 Shayne Chen 2022-11-22  197  	devm_free_irq(mdev->dev, irq, dev);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  198  free_wed_or_irq_vector:
-83eafc9251d6d30 Sujuan Chen 2023-10-20  199  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
-83eafc9251d6d30 Sujuan Chen 2023-10-20  200  		mtk_wed_device_detach(&dev->mt76.mmio.wed);
-83eafc9251d6d30 Sujuan Chen 2023-10-20  201  	else
-98686cd21624c75 Shayne Chen 2022-11-22  202  		pci_free_irq_vectors(pdev);
-98686cd21624c75 Shayne Chen 2022-11-22  203  free_device:
-98686cd21624c75 Shayne Chen 2022-11-22  204  	mt76_free_device(&dev->mt76);
-98686cd21624c75 Shayne Chen 2022-11-22  205  
-98686cd21624c75 Shayne Chen 2022-11-22  206  	return ret;
-98686cd21624c75 Shayne Chen 2022-11-22  207  }
-98686cd21624c75 Shayne Chen 2022-11-22  208  
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: support-ch-cnt: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: fmeter-version: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: crystal-freq: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: shu-of: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: pll-id: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: shu-lv: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: sdmpcw: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: posdiv: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: fbksel: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: dqsopen: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: async-ca: missing type definition
+>> Documentation/devicetree/bindings/memory-controllers/mediatek,common-dramc.yaml: dq-ser-mode: missing type definition
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
