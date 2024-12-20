@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD6822CBD8
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 17:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EC6219A74
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 17:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714775; cv=none; b=mJJHseMmYazT8wJ2+1lBLzExoME0g+GaJzhKjy9r2jXF2rfj8F+S2IYAor2yJnlxruy/ecjmBtPANywis4cuqbdgcYBb2RsynPrnhI7aKXILZlABOGfo39aU8EltiVQppQFHcMBfSFcJI1xe5Mwer9WjbFNYENAZ1NRNGwRtUrY=
+	t=1734716638; cv=none; b=CeNFkvcWYNCNtjyQZ4lLYInQU3ZVWUVsxRzdkWBKpAcOqsrYs1Moxzk5E2uKU4L92TfGVOMC83eF1dnMqGaEpn19n1MCDBhndkc76KzZ+JJ/0TGSnnzCbELrT3YRG79UePT1NcfNAerRZhOwV6myvpfHEOBvMH2bmdpSTPg9DBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714775; c=relaxed/simple;
-	bh=thaMJOE94nhs6yK5FJy5BjtBfkiVOUNbJR84F1NNV3s=;
+	s=arc-20240116; t=1734716638; c=relaxed/simple;
+	bh=KpGt9podNz/ylgzAoNVNaG98JVAR+WHRABX5UrQBVUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QyH/D3BJfxtZNKkh9ZmOHuV9T3h9MT7EeHNPRvLXig3GUiwJglHeNXhaAZG20pmhnzDXoXddfXmC9xkvx6Q5kovnDSyVG17eXTHFA3MBJCk1pcCE2romHiENlyErQsRBgIXzcwr/GSlE6osF1P6k2+aj4AHjyyp6c5QzKD+77AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XC+UatdJ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=UzLD0ofFKsq8i7NScwKe4QdLYi0deaq4V8KYM9/3Oq/hY/ddZFNsmX3EqNflpUY7yoMo5L4ZdhuFWDE2dDuLc1mDnor8ZHTVaQ1noJ5HZUhmQSux11oydWPlXOvHNNVv8wY7JAx1N1k8mozIQhRoJusF/s9KcyfkuGE5eIDb7FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Igp++zDE; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XC+UatdJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Igp++zDE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734714774; x=1766250774;
+  t=1734716637; x=1766252637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=thaMJOE94nhs6yK5FJy5BjtBfkiVOUNbJR84F1NNV3s=;
-  b=XC+UatdJ1/QGsL2SGHAB6dhg6yx2FOlVlTuS46EOcRteKByU9CKz8BVu
-   NiGgHdR8ZR2I6Ywn/89ahja5gLOhfYHts4BuLbXEMEZPZC9ISZT3i5yug
-   QQcGpxFvAmOXDz7SOpakNyonoxIodewp9yZsPtXNSn9bw8nANWyH3mc+1
-   iSLpqGFz0b2+v9e4Au/+00sP9YmNNoXrawwYwzOxSRPue+nN5nfUULXWu
-   Xedj3CkAWxJd+sLDeC5osCQWi+V0kbQiQ4hTZd3r4t2QTyzkHOnfJrkqZ
-   qUeZ5KdvBGdCG0JxYXYSESfyrQEFtlubH9g6Kj/BJc35oKJdTM69sflvP
-   A==;
-X-CSE-ConnectionGUID: jBeiP7M7SxeZkwGy4VANrg==
-X-CSE-MsgGUID: S8+nd+I2Qj+2xwiM16wVpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="39205593"
+  bh=KpGt9podNz/ylgzAoNVNaG98JVAR+WHRABX5UrQBVUs=;
+  b=Igp++zDElcHEy3wG6CUKEZiFoTUgZZ8MJUFSUAg8yZAIHZ4Vu3K/mTFg
+   HN8gD9QRUyIiCGkQvmgvM6mk3vnEEVh9i2lzwdIkgv5RnCWWK+A9McraQ
+   xGCLmtuv8xy9E6jMfG7RZGEC63KFKZ7TU3CuS2KzcVf2yOdGMBKpyowxs
+   75ri7Zi2Yg7crCQ3Pmn4yXfG77AlWnheMMGzE+TUL4R3I725w7iQkPjP0
+   Tii5LM3eWvWUeoGEaHYbAhFp1MinKd01NgFKc7gULLQtEatL6huoy+hsp
+   aBASTQjwE9yS4iWDHvqokT7wZHM9nK14RAwwclkzfXfmrpWGtPp5T8j3r
+   Q==;
+X-CSE-ConnectionGUID: +Lt4eBFQSD2fvCdQGsYpbA==
+X-CSE-MsgGUID: LwuUPASTT4KMkMoa1MZsKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35394886"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="39205593"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 09:12:53 -0800
-X-CSE-ConnectionGUID: bfqziU6AR3ChotYBARIPsQ==
-X-CSE-MsgGUID: QQ65GR+UQc651YVrtgn18g==
+   d="scan'208";a="35394886"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 09:43:56 -0800
+X-CSE-ConnectionGUID: x+U4dpTJSjeb3jtzjYLCeg==
+X-CSE-MsgGUID: g/2zculER3yUfeTNbvYW5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="98340035"
+   d="scan'208";a="98464856"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2024 09:12:50 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Dec 2024 09:43:55 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOgYT-0001Sx-1Q;
-	Fri, 20 Dec 2024 17:12:49 +0000
-Date: Sat, 21 Dec 2024 01:12:10 +0800
+	id 1tOh2W-0001UR-1i;
+	Fri, 20 Dec 2024 17:43:52 +0000
+Date: Sat, 21 Dec 2024 01:42:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381
- agilent_82357a_attach() warn: inconsistent returns 'global
- &agilent_82357a_hotplug_lock'.
-Message-ID: <202412210143.WJhYzXfD-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553
+ mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid'
+ [r] (local cap)
+Message-ID: <202412210114.Ie2o2eLO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,113 +66,109 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Dave Penkler <dpenkler@gmail.com>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Sujuan Chen <sujuan.chen@mediatek.com>
+CC: Bo Jiao <Bo.Jiao@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8faabc041a001140564f718dabe37753e88b37fa
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-date:   2 months ago
+commit: a5d028d668360db991e6da67cd48b9b4443198ed wifi: mt76: mt7996: add wed rro delete session garbage collector
+date:   1 year ago
 :::::: branch date: 24 hours ago
-:::::: commit date: 2 months ago
-config: i386-randconfig-141-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210143.WJhYzXfD-lkp@intel.com/config)
+:::::: commit date: 1 year ago
+config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241221/202412210114.Ie2o2eLO-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412210143.WJhYzXfD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412210114.Ie2o2eLO-lkp@intel.com/
 
-smatch warnings:
-drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_attach() warn: inconsistent returns 'global &agilent_82357a_hotplug_lock'.
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:560 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'wcid->aggr' [r] (local cap)
 
-vim +1381 drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:349 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:429 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:436 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:441 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2300 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2292 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
 
-4c41fe886a56c5b Dave Penkler 2024-09-18  1305  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1306  static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t *config)
-4c41fe886a56c5b Dave Penkler 2024-09-18  1307  {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1308  	int retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1309  	int i;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1310  	unsigned int product_id;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1311  	struct agilent_82357a_priv *a_priv;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1312  	struct usb_device *usb_dev;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1313  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1314  	if (mutex_lock_interruptible(&agilent_82357a_hotplug_lock))
-4c41fe886a56c5b Dave Penkler 2024-09-18  1315  		return -ERESTARTSYS;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1316  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1317  	retval = agilent_82357a_allocate_private(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1318  	if (retval < 0) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1319  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1320  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1321  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1322  	a_priv = board->private_data;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1323  	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1324  		if (agilent_82357a_driver_interfaces[i] &&
-4c41fe886a56c5b Dave Penkler 2024-09-18  1325  		    !usb_get_intfdata(agilent_82357a_driver_interfaces[i]) &&
-4c41fe886a56c5b Dave Penkler 2024-09-18  1326  		    agilent_82357a_device_match(agilent_82357a_driver_interfaces[i], config)) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1327  			a_priv->bus_interface = agilent_82357a_driver_interfaces[i];
-4c41fe886a56c5b Dave Penkler 2024-09-18  1328  			usb_set_intfdata(agilent_82357a_driver_interfaces[i], board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1329  			usb_dev = interface_to_usbdev(a_priv->bus_interface);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1330  			dev_info(&usb_dev->dev,
-4c41fe886a56c5b Dave Penkler 2024-09-18  1331  				 "bus %d dev num %d attached to gpib minor %d, agilent usb interface %i\n",
-4c41fe886a56c5b Dave Penkler 2024-09-18  1332  				 usb_dev->bus->busnum, usb_dev->devnum, board->minor, i);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1333  			break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1334  		}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1335  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1336  	if (i == MAX_NUM_82357A_INTERFACES) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1337  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1338  		pr_err("No Agilent 82357 gpib adapters found, have you loaded its firmware?\n");
-4c41fe886a56c5b Dave Penkler 2024-09-18  1339  		return -ENODEV;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1340  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1341  	product_id = le16_to_cpu(interface_to_usbdev(a_priv->bus_interface)->descriptor.idProduct);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1342  	switch (product_id) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1343  	case USB_DEVICE_ID_AGILENT_82357A:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1344  		a_priv->bulk_out_endpoint = AGILENT_82357A_BULK_OUT_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1345  		a_priv->interrupt_in_endpoint = AGILENT_82357A_INTERRUPT_IN_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1346  		break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1347  	case USB_DEVICE_ID_AGILENT_82357B:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1348  		a_priv->bulk_out_endpoint = AGILENT_82357B_BULK_OUT_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1349  		a_priv->interrupt_in_endpoint = AGILENT_82357B_INTERRUPT_IN_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1350  		break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1351  	default:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1352  		pr_err("bug, unhandled product_id in switch?\n");
-4c41fe886a56c5b Dave Penkler 2024-09-18  1353  		return -EIO;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1354  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1355  #ifdef RESET_USB_CONFIG
-4c41fe886a56c5b Dave Penkler 2024-09-18  1356  	retval = agilent_82357a_reset_usb_configuration(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1357  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1358  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1359  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1360  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1361  #endif
-4c41fe886a56c5b Dave Penkler 2024-09-18  1362  	retval = agilent_82357a_setup_urbs(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1363  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1364  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1365  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1366  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1367  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1368  	timer_setup(&a_priv->bulk_timer, agilent_82357a_timeout_handler, 0);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1369  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1370  	board->t1_nano_sec = 800;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1371  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1372  	retval = agilent_82357a_init(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1373  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1374  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1375  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1376  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1377  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1378  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1379  	pr_info("%s: attached\n", __func__);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1380  	mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18 @1381  	return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1382  }
-4c41fe886a56c5b Dave Penkler 2024-09-18  1383  
+vim +553 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-:::::: The code at line 1381 was first introduced by commit
-:::::: 4c41fe886a56c5b4ef9695243b0ddb9d7d2c432c staging: gpib: Add Agilent/Keysight 82357x USB GPIB driver
-
-:::::: TO: Dave Penkler <dpenkler@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+98686cd21624c75 Shayne Chen      2022-11-22  528  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  529  static void
+a5d028d668360db Lorenzo Bianconi 2023-10-20  530  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  531  {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  532  	struct mt7996_mcu_wed_rro_event *event = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  533  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  534  	if (!dev->has_rro)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  535  		return;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  536  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  537  	skb_pull(skb, sizeof(struct mt7996_mcu_rxd) + 4);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  538  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  539  	switch (le16_to_cpu(event->tag)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  540  	case UNI_WED_RRO_BA_SESSION_STATUS: {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  541  		struct mt7996_mcu_wed_rro_ba_event *e;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  542  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  543  		while (skb->len >= sizeof(*e)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  544  			struct mt76_rx_tid *tid;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  545  			struct mt76_wcid *wcid;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  546  			u16 idx;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  547  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  548  			e = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  549  			idx = le16_to_cpu(e->wlan_id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  550  			if (idx >= ARRAY_SIZE(dev->mt76.wcid))
+a5d028d668360db Lorenzo Bianconi 2023-10-20  551  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  552  
+a5d028d668360db Lorenzo Bianconi 2023-10-20 @553  			wcid = rcu_dereference(dev->mt76.wcid[idx]);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  554  			if (!wcid || !wcid->sta)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  555  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  556  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  557  			if (e->tid >= ARRAY_SIZE(wcid->aggr))
+a5d028d668360db Lorenzo Bianconi 2023-10-20  558  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  559  
+a5d028d668360db Lorenzo Bianconi 2023-10-20 @560  			tid = rcu_dereference(wcid->aggr[e->tid]);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  561  			if (!tid)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  562  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  563  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  564  			tid->id = le16_to_cpu(e->id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  565  			skb_pull(skb, sizeof(*e));
+a5d028d668360db Lorenzo Bianconi 2023-10-20  566  		}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  567  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  568  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  569  	case UNI_WED_RRO_BA_SESSION_DELETE: {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  570  		struct mt7996_mcu_wed_rro_ba_delete_event *e;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  571  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  572  		while (skb->len >= sizeof(*e)) {
+a5d028d668360db Lorenzo Bianconi 2023-10-20  573  			struct mt7996_wed_rro_session_id *session;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  574  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  575  			e = (void *)skb->data;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  576  			session = kzalloc(sizeof(*session), GFP_ATOMIC);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  577  			if (!session)
+a5d028d668360db Lorenzo Bianconi 2023-10-20  578  				break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  579  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  580  			session->id = le16_to_cpu(e->session_id);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  581  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  582  			spin_lock_bh(&dev->wed_rro.lock);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  583  			list_add_tail(&session->list, &dev->wed_rro.poll_list);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  584  			spin_unlock_bh(&dev->wed_rro.lock);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  585  
+a5d028d668360db Lorenzo Bianconi 2023-10-20  586  			ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
+a5d028d668360db Lorenzo Bianconi 2023-10-20  587  			skb_pull(skb, sizeof(*e));
+a5d028d668360db Lorenzo Bianconi 2023-10-20  588  		}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  589  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  590  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  591  	default:
+a5d028d668360db Lorenzo Bianconi 2023-10-20  592  		break;
+a5d028d668360db Lorenzo Bianconi 2023-10-20  593  	}
+a5d028d668360db Lorenzo Bianconi 2023-10-20  594  }
+a5d028d668360db Lorenzo Bianconi 2023-10-20  595  
 
 -- 
 0-DAY CI Kernel Test Service
