@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A03221D009
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 18:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C424E221D90
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 21:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734721150; cv=none; b=S0LRT15Pqqfc85nYUbQEjOUulhe/Ta+DKSx4gu7mxR5Mtz+UOYDFo/uVrtuLZOkZG4GJnpoz+ACdB6t8XZU94fKXImMhF9qdoDNsrZ8UL+ZDpkWMLbD+OoD/6K2Fg1ZYQo2C+etbGrEdQRmyfemSYUdqKGh2SzCDpvsyWJlF0h4=
+	t=1734731364; cv=none; b=JbXDdO67HG4aT6damyN16OycVtdK57BcFMvRARcWF6ijWoocQQDqphPFjhLDPmlk28QaKebbj8rzNAiq1nJ3K5TO9x4aRqR8ZDdzJhjNIMSLIk2Fd5Ywwzji7xsRRWA7+iHzxMEAYau4XOwxUxns6tik9OpFeK8FQKyyLm1ffKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734721150; c=relaxed/simple;
-	bh=INWKbpwBY+lpOeiEMQD2PdoxpIeobjRc4XuraV+fWdU=;
+	s=arc-20240116; t=1734731364; c=relaxed/simple;
+	bh=HDmyGwS7YjDG/dqQpbhDRve2sQJDO1eXKPFTVLztN7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lFQ7avAG+1fM8nTK878rF5KpSJJsr8Ei6kk+UBCoxHYoH7wDs7bxzU8GYhx8CbsPzXiwpgpXwEKOVO4GIUNXtS4nukabNbb0nqP/BB2Nl5WHA6V8dOSx1yXlT9oNgbB24yqZUszDcIDjP9j3KYPYcoLmiutG6V3wtdzCyEbwT7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7XdGo3I; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=XD9Jqt4OoSIEH/yPZGkp77l4T2kVIK8a6/0/3ZjS6jD66WtnOs4K1kmksqEcITODf4FPNV5K+kuGnReR4n7YGawsqcKWj1jLOR+HEmQvdDpxrFhulDLxlpZhB8TaHslZ4Hk9xSqCj1sE9hvZcLCgYvxK4v6/73J/BlMleVirSQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7e1SgLg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7XdGo3I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7e1SgLg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734721147; x=1766257147;
+  t=1734731363; x=1766267363;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=INWKbpwBY+lpOeiEMQD2PdoxpIeobjRc4XuraV+fWdU=;
-  b=N7XdGo3IVdW1aKycuVDIelJ9Set1MEU1J8fdcfMVPakqb/9mmjIlSrMQ
-   nuQ2g5F0rTAHwIPh9xEk2BEEfxsmwjb3Puxe+7Qy2NEBqGuEya+T7YHuo
-   2vsLHR++VJP9ayMU0nntws1AgTtIQ+M+kHZf/IXgx9lBzXXMbIEMqwIvR
-   TLYdY4q4GnCHwbRtEU8I7lfN9nLJvWuQ2bJGjFMdDh0KcDrw2HdEJOOOK
-   Cdh9KXDOBT35KiXFqu4ucSUvDsqL5lHNybirZ3YrspMqtDWTaku187Xga
-   2rsj40eXP4etqRO1Z4LIZt3lMfPxg7NMllVAgISRQcjFw/hYB+mXgODzq
+  bh=HDmyGwS7YjDG/dqQpbhDRve2sQJDO1eXKPFTVLztN7E=;
+  b=R7e1SgLgoCsQ/1aR7WYmLSeaOFhigIO2y+HWp6nwa/TAYSAksRuvfNIG
+   wVLu6UsLaD8s+OfiIJHiCtwY0tXlVWZi6WAIfcjXfH0ntBKjrE98hcfNI
+   3He31Hw/pVC9d84YNZtc8VLSmv9Po5xitdKnMQnx6VM6/TuXQ+xGAFyhv
+   XjSLgW7Ee9lTRBIQKu7hLMjrswiecEqBRjqQJ5FwjToDVnkaVUJIZcibn
+   hAK3QIiyWnmmmb2SH96unDW8tq7B7byIY9IiVZqrMU1R/DfYdN55b3a63
+   fhuPFLNQJd6utj0GvhQQgw/DzD0MaTl6rJ7nXnTiIqVUHwvuVTZDqU5ih
    w==;
-X-CSE-ConnectionGUID: eKSEnSFQQN2XyA/6am1nzA==
-X-CSE-MsgGUID: OgGwVSlsSLu0tkRMXXVFHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34598298"
+X-CSE-ConnectionGUID: jmIJ8uUCRfy+cfBCmXjDog==
+X-CSE-MsgGUID: 1sm6EFPLTJKlJIpLuyBtwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="38973175"
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="34598298"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 10:59:05 -0800
-X-CSE-ConnectionGUID: OM8i0OidSIa70IxwaZnz3g==
-X-CSE-MsgGUID: R5NWpv1cQaSpdsJV1W/V+Q==
+   d="scan'208";a="38973175"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 13:49:21 -0800
+X-CSE-ConnectionGUID: VZPnTbQiS3Cno0nwszMd6A==
+X-CSE-MsgGUID: 17enZQvZQFS3VJci3RhL+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; 
-   d="scan'208";a="99110437"
+   d="scan'208";a="98678562"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2024 10:59:03 -0800
+  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2024 13:49:20 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOiDF-0001ai-1N;
-	Fri, 20 Dec 2024 18:59:01 +0000
-Date: Sat, 21 Dec 2024 02:58:41 +0800
+	id 1tOks1-0001h0-1P;
+	Fri, 20 Dec 2024 21:49:17 +0000
+Date: Sat, 21 Dec 2024 05:48:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:8.30-13.4: Warning
- (simple_bus_reg): /smb/clk100mhz_0: missing or empty reg/ranges property
-Message-ID: <202412210256.zs3hXSxD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
+ we previously assumed 'fwspec' could be null (see line 465)
+Message-ID: <202412210511.NH6EZqN3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,316 +62,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Rob Herring <robh@kernel.org>
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jerry Snitselaar <jsnitsel@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8faabc041a001140564f718dabe37753e88b37fa
-commit: c2e7075ca83036317cee4a564729eb82a5433169 scripts/dtc: Update to upstream version v1.4.7-57-gf267e674d145
-date:   6 years ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 6 years ago
-config: arm64-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241221/202412210256.zs3hXSxD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210256.zs3hXSxD-lkp@intel.com/reproduce)
+head:   e9b8ffafd20ad21357a789cc58ffaa162b3ad074
+commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
+date:   1 year, 1 month ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm-randconfig-r072-20241219 (https://download.01.org/0day-ci/archive/20241221/202412210511.NH6EZqN3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412210256.zs3hXSxD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412210511.NH6EZqN3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:8.30-13.4: Warning (simple_bus_reg): /smb/clk100mhz_0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:15.27-20.4: Warning (simple_bus_reg): /smb/clk375mhz: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:22.28-27.4: Warning (simple_bus_reg): /smb/clk333mhz: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:29.30-34.4: Warning (simple_bus_reg): /smb/clk500mhz_0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:36.29-41.4: Warning (simple_bus_reg): /smb/clk500mhz_1: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:43.30-48.4: Warning (simple_bus_reg): /smb/clk250mhz_4: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:50.33-55.4: Warning (simple_bus_reg): /smb/clk100mhz_1: missing or empty reg/ranges property
---
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:8.30-13.4: Warning (simple_bus_reg): /smb/clk100mhz_0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:15.27-20.4: Warning (simple_bus_reg): /smb/clk375mhz: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:22.28-27.4: Warning (simple_bus_reg): /smb/clk333mhz: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:29.30-34.4: Warning (simple_bus_reg): /smb/clk500mhz_0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:36.29-41.4: Warning (simple_bus_reg): /smb/clk500mhz_1: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:43.30-48.4: Warning (simple_bus_reg): /smb/clk250mhz_4: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi:50.33-55.4: Warning (simple_bus_reg): /smb/clk100mhz_1: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-xgbe-b.dtsi:8.36-13.4: Warning (simple_bus_reg): /smb/clk250mhz_0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-xgbe-b.dtsi:15.36-20.4: Warning (simple_bus_reg): /smb/clk250mhz_1: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-xgbe-b.dtsi:22.36-27.4: Warning (simple_bus_reg): /smb/clk250mhz_2: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amd/amd-seattle-xgbe-b.dtsi:29.36-34.4: Warning (simple_bus_reg): /smb/clk250mhz_3: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:283.14-285.5: Warning (unit_address_vs_reg): /sound/dai-link@2: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:287.14-289.5: Warning (unit_address_vs_reg): /sound/dai-link@3: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:291.14-293.5: Warning (unit_address_vs_reg): /sound/dai-link@4: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:295.14-297.5: Warning (unit_address_vs_reg): /sound/dai-link@5: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:299.14-318.5: Warning (unit_address_vs_reg): /sound/dai-link@6: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:306.12-308.6: Warning (unit_address_vs_reg): /sound/dai-link@6/codec@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:310.12-312.6: Warning (unit_address_vs_reg): /sound/dai-link@6/codec@1: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:314.12-316.6: Warning (unit_address_vs_reg): /sound/dai-link@6/codec@2: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:320.14-326.5: Warning (unit_address_vs_reg): /sound/dai-link@7: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:328.14-334.5: Warning (unit_address_vs_reg): /sound/dai-link@8: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-axg.dtsi:181.33-956.6: Warning (simple_bus_reg): /soc/bus@ff634000/pinctrl@480: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/meson-axg.dtsi:1222.30-1318.6: Warning (simple_bus_reg): /soc/bus@ff800000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-axg.dtsi:23.30-32.4: Warning (unique_unit_address): /audio-controller@0: duplicate unit-address (also used in node /audio-codec@0)
-   arch/arm64/boot/dts/amlogic/meson-axg.dtsi:34.30-43.4: Warning (unique_unit_address): /audio-controller@1: duplicate unit-address (also used in node /audio-codec@1)
-   arch/arm64/boot/dts/amlogic/meson-axg.dtsi:45.30-54.4: Warning (unique_unit_address): /audio-controller@2: duplicate unit-address (also used in node /audio-codec@2)
-   arch/arm64/boot/dts/amlogic/meson-axg.dtsi:23.30-32.4: Warning (unique_unit_address): /audio-controller@0: duplicate unit-address (also used in node /memory@0)
-   arch/arm64/boot/dts/amlogic/meson-axg-s400.dts:63.24-71.4: Warning (unique_unit_address): /audio-codec@0: duplicate unit-address (also used in node /memory@0)
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dts:48.12-52.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dts:42.19-53.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dts:36.12-40.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:64.28-222.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:339.31-659.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dts:30.19-41.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dts:40.12-44.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dts:34.19-45.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dts:37.12-41.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dts:31.19-42.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dts:70.12-74.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dts:64.19-75.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxm-q200.dts:37.12-41.5: Warning (unit_address_vs_reg): /gpio-keys-polled/button@0: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxm-q200.dts:31.19-42.4: Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
---
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:164.29-169.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (unit_address_vs_reg): /soc/periphs@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/pinctrl@4b0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (unit_address_vs_reg): /soc/periphs@c8834000/eth-phy-mux: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (unit_address_vs_reg): /soc/usb@c9000000: node has a unit name, but no reg property
->> arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:95.28-232.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:420.15-423.6: Warning (simple_bus_reg): /soc/periphs@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:286.31-632.4: Warning (simple_bus_reg): /soc/periphs@c8834000/pinctrl@4b0: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:634.14-660.4: Warning (simple_bus_reg): /soc/periphs@c8834000/eth-phy-mux: simple-bus unit address format error, expected "55c"
-   arch/arm64/boot/dts/amlogic/meson-gxl.dtsi:17.22-38.5: Warning (simple_bus_reg): /soc/usb@c9000000: missing or empty reg/ranges property
+smatch warnings:
+drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
 
-vim +8 arch/arm64/boot/dts/amd/amd-seattle-clks.dtsi
+vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
 
-419043609689d0 Suravee Suthikulpanit 2014-11-26  @8  	adl3clk_100mhz: clk100mhz_0 {
-419043609689d0 Suravee Suthikulpanit 2014-11-26   9  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  10  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  11  		clock-frequency = <100000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  12  		clock-output-names = "adl3clk_100mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  13  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  14  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @15  	ccpclk_375mhz: clk375mhz {
-419043609689d0 Suravee Suthikulpanit 2014-11-26  16  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  17  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  18  		clock-frequency = <375000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  19  		clock-output-names = "ccpclk_375mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  20  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  21  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @22  	sataclk_333mhz: clk333mhz {
-419043609689d0 Suravee Suthikulpanit 2014-11-26  23  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  24  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  25  		clock-frequency = <333000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  26  		clock-output-names = "sataclk_333mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  27  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  28  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @29  	pcieclk_500mhz: clk500mhz_0 {
-419043609689d0 Suravee Suthikulpanit 2014-11-26  30  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  31  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  32  		clock-frequency = <500000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  33  		clock-output-names = "pcieclk_500mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  34  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  35  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @36  	dmaclk_500mhz: clk500mhz_1 {
-419043609689d0 Suravee Suthikulpanit 2014-11-26  37  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  38  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  39  		clock-frequency = <500000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  40  		clock-output-names = "dmaclk_500mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  41  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  42  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @43  	miscclk_250mhz: clk250mhz_4 {
-419043609689d0 Suravee Suthikulpanit 2014-11-26  44  		compatible = "fixed-clock";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  45  		#clock-cells = <0>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  46  		clock-frequency = <250000000>;
-419043609689d0 Suravee Suthikulpanit 2014-11-26  47  		clock-output-names = "miscclk_250mhz";
-419043609689d0 Suravee Suthikulpanit 2014-11-26  48  	};
-419043609689d0 Suravee Suthikulpanit 2014-11-26  49  
-419043609689d0 Suravee Suthikulpanit 2014-11-26 @50  	uartspiclk_100mhz: clk100mhz_1 {
+b17336c55d8928c Honghui Zhang 2016-06-08  451  
+ad9b10e533f6fb3 Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
+b17336c55d8928c Honghui Zhang 2016-06-08  453  {
+a9bf2eec5a6fc01 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+b17336c55d8928c Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
+ad9b10e533f6fb3 Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
+635319a4a7444ca Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
+635319a4a7444ca Yong Wu       2022-01-17  458  	struct device_link *link;
+635319a4a7444ca Yong Wu       2022-01-17  459  	struct device *larbdev;
+b17336c55d8928c Honghui Zhang 2016-06-08  460  
+822a2ed8c606caf Yong Wu       2022-01-17  461  	/*
+822a2ed8c606caf Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
+822a2ed8c606caf Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
+822a2ed8c606caf Yong Wu       2022-01-17  464  	 */
+822a2ed8c606caf Yong Wu       2022-01-17 @465  	if (fwspec) {
+822a2ed8c606caf Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
+822a2ed8c606caf Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
+822a2ed8c606caf Yong Wu       2022-01-17  468  	}
+822a2ed8c606caf Yong Wu       2022-01-17  469  
+f90a9a85fb946e1 Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+f90a9a85fb946e1 Yong Wu       2021-04-12  471  					   "#iommu-cells",
+f90a9a85fb946e1 Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
+b17336c55d8928c Honghui Zhang 2016-06-08  473  
+ad9b10e533f6fb3 Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
+f90a9a85fb946e1 Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
+f90a9a85fb946e1 Yong Wu       2021-04-12  476  		if (err)
+f90a9a85fb946e1 Yong Wu       2021-04-12  477  			return ERR_PTR(err);
+da5d2748e4a4512 Joerg Roedel  2019-01-23  478  
+da5d2748e4a4512 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
+da5d2748e4a4512 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
+f90a9a85fb946e1 Yong Wu       2021-04-12  481  		idx++;
+b17336c55d8928c Honghui Zhang 2016-06-08  482  	}
+b17336c55d8928c Honghui Zhang 2016-06-08  483  
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
+b17336c55d8928c Honghui Zhang 2016-06-08  485  
+635319a4a7444ca Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
+635319a4a7444ca Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+de78657e16f4141 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
+de78657e16f4141 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
+de78657e16f4141 Miles Chen    2022-05-05  490  
+635319a4a7444ca Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
+635319a4a7444ca Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
+635319a4a7444ca Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
+635319a4a7444ca Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
+635319a4a7444ca Yong Wu       2022-01-17  495  				larbid, larbidx);
+635319a4a7444ca Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
+635319a4a7444ca Yong Wu       2022-01-17  497  		}
+635319a4a7444ca Yong Wu       2022-01-17  498  	}
+635319a4a7444ca Yong Wu       2022-01-17  499  
+635319a4a7444ca Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
+de78657e16f4141 Miles Chen    2022-05-05  501  	if (!larbdev)
+de78657e16f4141 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
+de78657e16f4141 Miles Chen    2022-05-05  503  
+635319a4a7444ca Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
+635319a4a7444ca Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+635319a4a7444ca Yong Wu       2022-01-17  506  	if (!link)
+635319a4a7444ca Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+635319a4a7444ca Yong Wu       2022-01-17  508  
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  509  	return &data->iommu;
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  510  }
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  511  
 
-:::::: The code at line 8 was first introduced by commit
-:::::: 419043609689d0aba9f727a6faf1ff406e269ecf arm64: amd-seattle: Adding device tree for AMD Seattle platform
+:::::: The code at line 487 was first introduced by commit
+:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
 
-:::::: TO: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Yong Wu <yong.wu@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
