@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CF919DF60
-	for <oe-kbuild@lists.linux.dev>; Thu, 19 Dec 2024 17:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C6F2594A9
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Dec 2024 00:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734628699; cv=none; b=EaZ2oa+ArucWH1HasB0M4pMoeVc4vQTQej9IUKaGHP9Hec99evv2WRkjzF1V/EbVqVXO1oopqqKqZ/IfpOcB8GocjtCc9vqtjlmVNstyBPcMIyU5ObXD1DRlcZBwW+Z3HQhPc84gDvhXaA68TFMkm/ZJW1mXIUTraoQp7tj9cj0=
+	t=1734654615; cv=none; b=HM1RnbygCPqB3QA555uDHdKUmq0c2jQoEo8Gdr1ti3qISiIlaKb2dwd4Zwms6Wmd6rCCEZV5DGyKGneNtub7K/mXDlaOTfoPF7P9iHRXwTH44c+s7hOYueoiGbm+6r4F1DX8TmwBMr0Hfn2qPSjpZ3hVVTNdC7QtqzWprP1C624=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734628699; c=relaxed/simple;
-	bh=rjsI5O1cRlTdKHHCSIMrmlJmgszbJuafDPFV21dLsG4=;
+	s=arc-20240116; t=1734654615; c=relaxed/simple;
+	bh=2YnVQaWevmvktt7B0wyB9KDz+753nX7hSrtDdP/qy/4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TZTCphEY2+9qySAqdavP5bOShNkouvN/D+7KDsuPE1Ks9erkzLoh0ZHnXizbf02s+NXFUx35CsSlI0qfUy8rzOhe4y6PJvagkreIXZqeewtjOTDd2g0M+eb/81Ba/lEBdvQFJD3ctxrVVlY7qzk4RxBjs86trslB0bmTjACn0Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0tvU/Lt; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=JWYpLPLSZi5fsmwtPdO5tA7CimFTMcHtCtUOsFinN8oGrifzDE+mdB+igiN2sCbRtC/jcPpmqH/GnVHual4cNoi2l0HGUFEzZlYfg+d43OAt40Cl17Jm5Zr4OrDOK0OICqwD0nbBqeLGu4pl0nqIcCbhgzUL74yHqZKHQd2RRak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyqZbFgk; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0tvU/Lt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyqZbFgk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734628697; x=1766164697;
+  t=1734654613; x=1766190613;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rjsI5O1cRlTdKHHCSIMrmlJmgszbJuafDPFV21dLsG4=;
-  b=U0tvU/LtTc+XnwvmKAsO9+VZ6aM/w7JJA/Ljp1bLpaF+fIe56RJmw1f9
-   5zrOOySUPplkNJBQudfSe+u0I00rrY5V0kgDbRuYxEtSzSCUY346XHFzJ
-   LlBBpamcyrTwDFxnf3y7k9zpQIybia9tdawOTCk+Wmu9Dwu6IMCmgqpZJ
-   92uArXX6+FHM4DYL5Gd6ZSvN4Y3DhgXUvoCcyI1o/hVhOlabYiiDKUYW1
-   y0w1FZbeOrHwHiZDnMQ1qtB8SD9VJTRGfZkmgCwJrzjHNjexHZEDPYL8J
-   GYkyX3+A1BNorZanuHgxcR7ePevd8dDWBYAwRFrre2m+V6A7gEBLgfJ6W
-   Q==;
-X-CSE-ConnectionGUID: cv9SPW2pTTiPHMlA7lcjDw==
-X-CSE-MsgGUID: bC9TUSqQQT+ot4pjLREgPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46161799"
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="46161799"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 09:17:34 -0800
-X-CSE-ConnectionGUID: VjkL1n2uTI+y8S2EpUvE3A==
-X-CSE-MsgGUID: x92WvlOxTAuBBJUaEpH++g==
+  bh=2YnVQaWevmvktt7B0wyB9KDz+753nX7hSrtDdP/qy/4=;
+  b=jyqZbFgkng3ZzY7OGnc9UtDqoMZKrwpX1Vzbyz9kja0UWXZoNkd9mNcz
+   Db4As76IJPbs5GbpH4HFKiasnPbp81+H89fWDqR4owkkOjdFkIUcM5909
+   iOYMtFdueStCaJpY0NF85rcZy9c2/8am+xdgfV5x7WIEBkzCGTJb5sxia
+   OBFP5KRudZttEnYfB/RC8N0s6Re1edqw+7Uo0hd9t2jLBK68SH3yHn2R0
+   AeeFn1j57qoWebyJyjiLbj+PR5zFAOtz8iPLAjPfFiEImaKploWxvjujC
+   kymTXZZK/U313I6mlvWtlCDKnDwq4ka9oqRe7bkCHaOP1v3rmqWu1WG33
+   A==;
+X-CSE-ConnectionGUID: S4Dl/vpuR1uJQx+h5zgvAg==
+X-CSE-MsgGUID: vhHsMMfdRFCNGEja/E9SMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="34914341"
+X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
+   d="scan'208";a="34914341"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 16:30:12 -0800
+X-CSE-ConnectionGUID: FaD0XmweS2miT3a0mzxuHg==
+X-CSE-MsgGUID: 9R2s0VNPScOkgBzSj5z2aQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="98056473"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="98189301"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Dec 2024 09:17:33 -0800
+  by orviesa010.jf.intel.com with ESMTP; 19 Dec 2024 16:30:10 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOK9S-0000Nb-2D;
-	Thu, 19 Dec 2024 17:17:30 +0000
-Date: Fri, 20 Dec 2024 01:16:51 +0800
+	id 1tOQu8-0000dT-0i;
+	Fri, 20 Dec 2024 00:30:08 +0000
+Date: Fri, 20 Dec 2024 08:29:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/scsi/advansys.c:2671 advansys_info() warn: argument 5 to %lX
- specifier is cast from pointer
-Message-ID: <202412200157.BiIY7yVk-lkp@intel.com>
+Subject: mm/mempolicy.c:2303 vma_alloc_folio_noprof() warn: bitwise AND
+ condition is false here
+Message-ID: <202412200851.9ru9XHjS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,106 +65,63 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   eabcdba3ad4098460a376538df2ae36500223c1e
-commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
-date:   8 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 8 months ago
-config: sparc64-randconfig-r071-20241219 (https://download.01.org/0day-ci/archive/20241220/202412200157.BiIY7yVk-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 9651fcedf7b92d3f7f1ab179e8ab55b85ee10fc1 mm: add MAP_DROPPABLE for designating always lazily freeable mappings
+date:   5 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-141-20241219 (https://download.01.org/0day-ci/archive/20241220/202412200851.9ru9XHjS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412200157.BiIY7yVk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412200851.9ru9XHjS-lkp@intel.com/
 
 smatch warnings:
-drivers/scsi/advansys.c:2671 advansys_info() warn: argument 5 to %lX specifier is cast from pointer
-drivers/net/ethernet/dec/tulip/winbond-840.c:653 netdev_open() warn: 'np->pci_dev->irq' from request_irq() not released on lines: 653.
+mm/mempolicy.c:2303 vma_alloc_folio_noprof() warn: bitwise AND condition is false here
 
-vim +2671 drivers/scsi/advansys.c
+vim +2303 mm/mempolicy.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2608  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2609  /*
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2610   * advansys_info()
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2611   *
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2612   * Return suitable for printing on the console with the argument
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2613   * adapter's configuration information.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2614   *
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2615   * Note: The information line should not exceed ASC_INFO_SIZE bytes,
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2616   * otherwise the static 'info' array will be overrun.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2617   */
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2618  static const char *advansys_info(struct Scsi_Host *shost)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2619  {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2620  	static char info[ASC_INFO_SIZE];
-d24114955846c3 Matthew Wilcox    2007-10-02  2621  	struct asc_board *boardp = shost_priv(shost);
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2622  	ASC_DVC_VAR *asc_dvc_varp;
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2623  	ADV_DVC_VAR *adv_dvc_varp;
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2624  	char *busname;
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2625  	char *widename = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2626  
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2627  	if (ASC_NARROW_BOARD(boardp)) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2628  		asc_dvc_varp = &boardp->dvc_var.asc_dvc_var;
-b352f9237622c6 Matthew Wilcox    2007-10-02  2629  		ASC_DBG(1, "begin\n");
-9b4c8eaa68d0ce Christoph Hellwig 2021-03-31  2630  
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2631  		if (asc_dvc_varp->bus_type & ASC_IS_VL) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2632  			busname = "VL";
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2633  		} else if (asc_dvc_varp->bus_type & ASC_IS_EISA) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2634  			busname = "EISA";
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2635  		} else if (asc_dvc_varp->bus_type & ASC_IS_PCI) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2636  			if ((asc_dvc_varp->bus_type & ASC_IS_PCI_ULTRA)
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2637  			    == ASC_IS_PCI_ULTRA) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2638  				busname = "PCI Ultra";
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2639  			} else {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2640  				busname = "PCI";
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2641  			}
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2642  		} else {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2643  			busname = "?";
-9d0e96eba19e99 Matthew Wilcox    2007-10-02  2644  			shost_printk(KERN_ERR, shost, "unknown bus "
-9d0e96eba19e99 Matthew Wilcox    2007-10-02  2645  				"type %d\n", asc_dvc_varp->bus_type);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2646  		}
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2647  		sprintf(info,
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2648  			"AdvanSys SCSI %s: %s: IO 0x%lX-0x%lX, IRQ 0x%X",
-ecec1947479e52 Matthew Wilcox    2007-07-30  2649  			ASC_VERSION, busname, (ulong)shost->io_port,
-4a2d31c811542d Matthew Wilcox    2007-07-26  2650  			(ulong)shost->io_port + ASC_IOADR_GAP - 1,
-d361db48324148 Matthew Wilcox    2007-10-02  2651  			boardp->irq);
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2652  	} else {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2653  		/*
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2654  		 * Wide Adapter Information
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2655  		 *
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2656  		 * Memory-mapped I/O is used instead of I/O space to access
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2657  		 * the adapter, but display the I/O Port range. The Memory
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2658  		 * I/O address is displayed through the driver /proc file.
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2659  		 */
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2660  		adv_dvc_varp = &boardp->dvc_var.adv_dvc_var;
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2661  		if (adv_dvc_varp->chip_type == ADV_CHIP_ASC3550) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2662  			widename = "Ultra-Wide";
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2663  		} else if (adv_dvc_varp->chip_type == ADV_CHIP_ASC38C0800) {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2664  			widename = "Ultra2-Wide";
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2665  		} else {
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2666  			widename = "Ultra3-Wide";
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2667  		}
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2668  		sprintf(info,
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2669  			"AdvanSys SCSI %s: PCI %s: PCIMEM 0x%lX-0x%lX, IRQ 0x%X",
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2670  			ASC_VERSION, widename, (ulong)adv_dvc_varp->iop_base,
-d361db48324148 Matthew Wilcox    2007-10-02 @2671  			(ulong)adv_dvc_varp->iop_base + boardp->asc_n_io_port - 1, boardp->irq);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2672  	}
-b009bef6cd2c6c Matthew Wilcox    2007-09-09  2673  	BUG_ON(strlen(info) >= ASC_INFO_SIZE);
-b352f9237622c6 Matthew Wilcox    2007-10-02  2674  	ASC_DBG(1, "end\n");
-27c868c2233fe0 Matthew Wilcox    2007-07-26  2675  	return info;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2676  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2677  
-
-:::::: The code at line 2671 was first introduced by commit
-:::::: d361db483241489fc4b37cd168c2ce7940a7845b [SCSI] advansys: Sort out irq number mess
-
-:::::: TO: Matthew Wilcox <matthew@wil.cx>
-:::::: CC: James Bottomley <jejb@mulgrave.localdomain>
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2279  
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2280  /**
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2281   * vma_alloc_folio - Allocate a folio for a VMA.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2282   * @gfp: GFP flags.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2283   * @order: Order of the folio.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2284   * @vma: Pointer to VMA.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2285   * @addr: Virtual address of the allocation.  Must be inside @vma.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2286   * @hugepage: Unused (was: For hugepages try only preferred node if possible).
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2287   *
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2288   * Allocate a folio for a specific address in @vma, using the appropriate
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2289   * NUMA policy.  The caller must hold the mmap_lock of the mm_struct of the
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2290   * VMA to prevent it from going away.  Should be used for all allocations
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2291   * for folios that will be mapped into user space, excepting hugetlbfs, and
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2292   * excepting where direct use of alloc_pages_mpol() is more appropriate.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2293   *
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2294   * Return: The folio on success or NULL if allocation fails.
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2295   */
+b951aaff503502 Suren Baghdasaryan      2024-03-21  2296  struct folio *vma_alloc_folio_noprof(gfp_t gfp, int order, struct vm_area_struct *vma,
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2297  		unsigned long addr, bool hugepage)
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2298  {
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2299  	struct mempolicy *pol;
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2300  	pgoff_t ilx;
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2301  	struct page *page;
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2302  
+9651fcedf7b92d Jason A. Donenfeld      2022-12-08 @2303  	if (vma->vm_flags & VM_DROPPABLE)
+9651fcedf7b92d Jason A. Donenfeld      2022-12-08  2304  		gfp |= __GFP_NOWARN;
+9651fcedf7b92d Jason A. Donenfeld      2022-12-08  2305  
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2306  	pol = get_vma_policy(vma, addr, order, &ilx);
+b951aaff503502 Suren Baghdasaryan      2024-03-21  2307  	page = alloc_pages_mpol_noprof(gfp | __GFP_COMP, order,
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2308  				       pol, ilx, numa_node_id());
+d51e9894d27492 Vlastimil Babka         2017-01-24  2309  	mpol_cond_put(pol);
+ddc1a5cbc05dc6 Hugh Dickins            2023-10-19  2310  	return page_rmappable_folio(page);
+f584b68005ac78 Matthew Wilcox (Oracle  2022-04-04  2311) }
+b951aaff503502 Suren Baghdasaryan      2024-03-21  2312  EXPORT_SYMBOL(vma_alloc_folio_noprof);
+f584b68005ac78 Matthew Wilcox (Oracle  2022-04-04  2313) 
 
 -- 
 0-DAY CI Kernel Test Service
