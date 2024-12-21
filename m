@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EE41DD877
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Dec 2024 22:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148A11D9320
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Dec 2024 22:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734819417; cv=none; b=JHVekuukcLooILMrhSIdvmeex5dMaJtmcY3EXRn1q5BJkJ7+mz3wOAVRUUJMfzDSsFuaqrHhWRIB6zqacXVI7LuBxCAIjZVsVJMaAjW2iZ12yMVUPA3Jc4nqLkVsqq40vSqqRRSXdy0gR3658Tcubsg5od0OygSudXD0hyW13r0=
+	t=1734821217; cv=none; b=E6QqS2kHs11KBmW1OdxZah6dVNkfwVS9HxL6yqV2FB+Pe9sVnc/lF1xwym5k4lPhgD/kH7Twb+dc3AoqvD2WB+2EOPR1NfQmUW3Txp0FniQ0MY56WED+iw+8nI6saKiQXjcQspZKioJw7xE+azr+clLuf4F/EJHdsaE2wvq+Xxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734819417; c=relaxed/simple;
-	bh=ucC3l5pI4AnRtZMcpMEp/kJoAxjBDtAD80sD+Zul8TQ=;
+	s=arc-20240116; t=1734821217; c=relaxed/simple;
+	bh=aHNDGrPksuwmByvbJ9KjJP/0DmgnLg2rsi3C4xQyDx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VA4oNr1NIDKQWuzRMKWAMsLYTW3C+JAbMQ7WT32Xl1beMT53ybXRklp8u1eWMcZkeDyamSsfoiaxtbNAuHNwZ1e+k2Y5c8o3ZsC5jM0vWeA1QoI0AzS4Z+9ZFGv9SbBtVB4jzXJ7WIuiVM+s439fVs8xMLuxUygf11RZlGM1rSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PnXq9Umm; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=HqWnB56Be/+DHsZWmHukGc0u3DJUG7m9XOESKSXdq/nqJGIKdDeUa1mTrvS3Nu5u+uAPKFrOFCBVEiY22gsjJp5HfWqSIWuSvB3n+m41lmTIznJFN5iijXvBhSHIfKdKQeCVkCK13+1qjohx0d0XrP9F0TxPo16wFWs7UjSv3mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6FwyqzI; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnXq9Umm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6FwyqzI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734819415; x=1766355415;
+  t=1734821215; x=1766357215;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ucC3l5pI4AnRtZMcpMEp/kJoAxjBDtAD80sD+Zul8TQ=;
-  b=PnXq9Umm1RWqYpT4tMuDCU4QbQMBac9iHvt8rkEK5npiCwlrjjBrmAoo
-   ownDrKp+XOU06NsNhhVQowGSWJ0o4irMeip6/uzlXci8Evzw9upwaiUVc
-   q3ZuGLdzDEexPki+uX3yY5rgybbNRxvH9KQH8OQsw9+JgVtICTf0obdCm
-   mJC+3K80NpitlB22aoEe0ysmgNpEJvKvX+LPk00dX/23nF6Zg6gL3iJRv
-   +7InCnLJh5oro+4JSYvZoBXWGxPTke6e5Sl/53R+gcXrH+m1SCL974KoI
-   GbpQSYvevOeHoJGilhjSbRyhMT22OKG3oJzpEhbcAPMmKpCI5PsF7yGY6
-   w==;
-X-CSE-ConnectionGUID: tzCetgBeQV6bOXfcljJckQ==
-X-CSE-MsgGUID: L7BAdTJaRfeBmKkAOVLFJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35362722"
+  bh=aHNDGrPksuwmByvbJ9KjJP/0DmgnLg2rsi3C4xQyDx8=;
+  b=C6FwyqzILT6Hn8AwTrdrDBeJLZu9JsiIHfDOBKM7y8OPjCMIX60N9dB3
+   B0LuB1JGStIjE2gIMJYApwJ0rNVMyztbYataSkmiaSF5ZX46S7OrxRDNR
+   2l6SUtxvAMNy+J9GeKgHPx1kbAXadMLhUYRzJJQ2AVcrWxI4gLB9xjGU2
+   3RutoFdmdhGDHmW1WyqmTMpUq5+GWu+ekmtnyAUFOsooBs7k9FrC0ad+i
+   5wtiEx20mbbmj3WiXowlAgtl/g7Ez0YPJka3YuRFV+DZoTepcfPuQi2UH
+   6d+mSlZGDeeyhstaRq/O5qm24WJXgSCxjYfDbSg1bGKUQ/DotbaEtTb6Q
+   g==;
+X-CSE-ConnectionGUID: tyctWDl8RlS88xBFwzrvkQ==
+X-CSE-MsgGUID: Mfw4q/sQTS2CkYQZFV8USw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="22924000"
 X-IronPort-AV: E=Sophos;i="6.12,254,1728975600"; 
-   d="scan'208";a="35362722"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 14:16:52 -0800
-X-CSE-ConnectionGUID: jh4WIBQqQci+l8gZmNbvdA==
-X-CSE-MsgGUID: G3aXHQ/PSQud9TnzML0FkA==
+   d="scan'208";a="22924000"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 14:46:54 -0800
+X-CSE-ConnectionGUID: zPZxTmAdQFW9OK4/D25YuQ==
+X-CSE-MsgGUID: HgkTyd/NRt666YxJz+SF4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102950657"
+   d="scan'208";a="129805467"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Dec 2024 14:16:51 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Dec 2024 14:46:53 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tP7mC-0002XX-38;
-	Sat, 21 Dec 2024 22:16:48 +0000
-Date: Sun, 22 Dec 2024 06:16:03 +0800
+	id 1tP8FH-0002Xz-05;
+	Sat, 21 Dec 2024 22:46:51 +0000
+Date: Sun, 22 Dec 2024 06:46:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] drivers: hwmon: add driver for max42500
-Message-ID: <202412220556.U9kI8Oix-lkp@intel.com>
+Subject: [android-common:android16-6.12 7230/7786]
+ kernel/sched/deadline.c:2548 find_later_rq() error: we previously assumed
+ 'exec_ctx' could be null (see line 2541)
+Message-ID: <202412220603.ZrMZILYo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,253 +65,121 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241220012003.9568-3-Kent.Libetario@analog.com>
-References: <20241220012003.9568-3-Kent.Libetario@analog.com>
-TO: Kent Libetario <Kent.Libetario@analog.com>
-TO: linux-hwmon@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Kent,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on de076198d1e4934c5fc17aa52d5f1884f469ce1a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Libetario/dt-bindings-hwmon-add-adi-max42500-yaml/20241220-092728
-base:   de076198d1e4934c5fc17aa52d5f1884f469ce1a
-patch link:    https://lore.kernel.org/r/20241220012003.9568-3-Kent.Libetario%40analog.com
-patch subject: [PATCH 2/2] drivers: hwmon: add driver for max42500
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-r071-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220556.U9kI8Oix-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0ad60853620e2bd7a2f165162fde4729cba0b46d
+commit: a70dd213296b2f2524c2b4440cb60d46f85ab2e4 [7230/7786] ANDROID: sched: Add find_exec_ctx helper
+:::::: branch date: 24 hours ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220603.ZrMZILYo-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412220556.U9kI8Oix-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412220603.ZrMZILYo-lkp@intel.com/
 
-New smatch warnings:
-drivers/hwmon/max42500.c:312 max42500_set_nominal_voltage() warn: impossible condition '(voltage > 255) => (0-255 > 255)'
-drivers/hwmon/max42500.c:427 max42500_set_ov_thresh2() warn: impossible condition '(thresh > 255) => (0-255 > 255)'
-drivers/hwmon/max42500.c:482 max42500_set_uv_thresh2() warn: impossible condition '(thresh > 255) => (0-255 > 255)'
+smatch warnings:
+kernel/sched/deadline.c:2548 find_later_rq() error: we previously assumed 'exec_ctx' could be null (see line 2541)
 
-Old smatch warnings:
-drivers/hwmon/max42500.c:318 max42500_set_nominal_voltage() warn: impossible condition '(voltage > 255) => (0-255 > 255)'
+vim +/exec_ctx +2548 kernel/sched/deadline.c
 
-vim +312 drivers/hwmon/max42500.c
+1baca4ce16b8cc Juri Lelli        2013-11-07  2529  
+eb7630f95f837d Connor O'Brien    2023-11-08  2530  static int find_later_rq(struct task_struct *sched_ctx, struct task_struct *exec_ctx)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2531  {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2532  	struct sched_domain *sd;
+4ba2968420fa9d Christoph Lameter 2014-08-26  2533  	struct cpumask *later_mask = this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2534  	int this_cpu = smp_processor_id();
+eb7630f95f837d Connor O'Brien    2023-11-08  2535  	int cpu = task_cpu(sched_ctx);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2536  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2537  	/* Make sure the mask is initialized first */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2538  	if (unlikely(!later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2539  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2540  
+a70dd213296b2f Connor O'Brien    2023-11-08 @2541  	if (exec_ctx && exec_ctx->nr_cpus_allowed == 1)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2542  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2543  
+91ec6778ec4f96 Juri Lelli        2014-09-19  2544  	/*
+91ec6778ec4f96 Juri Lelli        2014-09-19  2545  	 * We have to consider system topology and task affinity
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2546  	 * first, then we can look for a suitable CPU.
+91ec6778ec4f96 Juri Lelli        2014-09-19  2547  	 */
+eb7630f95f837d Connor O'Brien    2023-11-08 @2548  	if (!cpudl_find(&task_rq(exec_ctx)->rd->cpudl, sched_ctx, exec_ctx, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2549  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2550  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2551  	/*
+b18c3ca11c20ca Byungchul Park    2017-05-23  2552  	 * If we are here, some targets have been found, including
+b18c3ca11c20ca Byungchul Park    2017-05-23  2553  	 * the most suitable which is, among the runqueues where the
+b18c3ca11c20ca Byungchul Park    2017-05-23  2554  	 * current tasks have later deadlines than the task's one, the
+b18c3ca11c20ca Byungchul Park    2017-05-23  2555  	 * rq with the latest possible one.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2556  	 *
+1baca4ce16b8cc Juri Lelli        2013-11-07  2557  	 * Now we check how well this matches with task's
+1baca4ce16b8cc Juri Lelli        2013-11-07  2558  	 * affinity and system topology.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2559  	 *
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2560  	 * The last CPU where the task run is our first
+1baca4ce16b8cc Juri Lelli        2013-11-07  2561  	 * guess, since it is most likely cache-hot there.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2562  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2563  	if (cpumask_test_cpu(cpu, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2564  		return cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2565  	/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2566  	 * Check if this_cpu is to be skipped (i.e., it is
+1baca4ce16b8cc Juri Lelli        2013-11-07  2567  	 * not in the mask) or not.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2568  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2569  	if (!cpumask_test_cpu(this_cpu, later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2570  		this_cpu = -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2571  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2572  	rcu_read_lock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2573  	for_each_domain(cpu, sd) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2574  		if (sd->flags & SD_WAKE_AFFINE) {
+b18c3ca11c20ca Byungchul Park    2017-05-23  2575  			int best_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2576  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2577  			/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2578  			 * If possible, preempting this_cpu is
+1baca4ce16b8cc Juri Lelli        2013-11-07  2579  			 * cheaper than migrating.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2580  			 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2581  			if (this_cpu != -1 &&
+1baca4ce16b8cc Juri Lelli        2013-11-07  2582  			    cpumask_test_cpu(this_cpu, sched_domain_span(sd))) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2583  				rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2584  				return this_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2585  			}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2586  
+14e292f8d45380 Peter Zijlstra    2020-10-01  2587  			best_cpu = cpumask_any_and_distribute(later_mask,
+b18c3ca11c20ca Byungchul Park    2017-05-23  2588  							      sched_domain_span(sd));
+1baca4ce16b8cc Juri Lelli        2013-11-07  2589  			/*
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2590  			 * Last chance: if a CPU being in both later_mask
+b18c3ca11c20ca Byungchul Park    2017-05-23  2591  			 * and current sd span is valid, that becomes our
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2592  			 * choice. Of course, the latest possible CPU is
+b18c3ca11c20ca Byungchul Park    2017-05-23  2593  			 * already under consideration through later_mask.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2594  			 */
+b18c3ca11c20ca Byungchul Park    2017-05-23  2595  			if (best_cpu < nr_cpu_ids) {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2596  				rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2597  				return best_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2598  			}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2599  		}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2600  	}
+1baca4ce16b8cc Juri Lelli        2013-11-07  2601  	rcu_read_unlock();
+1baca4ce16b8cc Juri Lelli        2013-11-07  2602  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2603  	/*
+1baca4ce16b8cc Juri Lelli        2013-11-07  2604  	 * At this point, all our guesses failed, we just return
+1baca4ce16b8cc Juri Lelli        2013-11-07  2605  	 * 'something', and let the caller sort the things out.
+1baca4ce16b8cc Juri Lelli        2013-11-07  2606  	 */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2607  	if (this_cpu != -1)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2608  		return this_cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2609  
+14e292f8d45380 Peter Zijlstra    2020-10-01  2610  	cpu = cpumask_any_distribute(later_mask);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2611  	if (cpu < nr_cpu_ids)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2612  		return cpu;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2613  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2614  	return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2615  }
+1baca4ce16b8cc Juri Lelli        2013-11-07  2616  
 
-38dfb309423437 Kent Libetario 2024-12-20  296  
-38dfb309423437 Kent Libetario 2024-12-20  297  /**
-38dfb309423437 Kent Libetario 2024-12-20  298   * @brief Set nominal voltage for VM1 to VM5.
-38dfb309423437 Kent Libetario 2024-12-20  299   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  300   */
-38dfb309423437 Kent Libetario 2024-12-20  301  static int max42500_set_nominal_voltage(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  302  	enum max42500_vm_input vm_in, u8 voltage)
-38dfb309423437 Kent Libetario 2024-12-20  303  {
-38dfb309423437 Kent Libetario 2024-12-20  304  	u8 reg_addr;
-38dfb309423437 Kent Libetario 2024-12-20  305  
-38dfb309423437 Kent Libetario 2024-12-20  306  	switch (vm_in) {
-38dfb309423437 Kent Libetario 2024-12-20  307  	case MAX42500_VM1:
-38dfb309423437 Kent Libetario 2024-12-20  308  	case MAX42500_VM2:
-38dfb309423437 Kent Libetario 2024-12-20  309  	case MAX42500_VM3:
-38dfb309423437 Kent Libetario 2024-12-20  310  	case MAX42500_VM4:
-38dfb309423437 Kent Libetario 2024-12-20  311  		if (voltage < MAX42500_MIN_VNOM ||
-38dfb309423437 Kent Libetario 2024-12-20 @312  			voltage > MAX42500_VNOM_MAX_VM1_VM4)
-38dfb309423437 Kent Libetario 2024-12-20  313  			return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  314  		reg_addr = MAX42500_REG_VIN1 + vm_in;
-38dfb309423437 Kent Libetario 2024-12-20  315  		break;
-38dfb309423437 Kent Libetario 2024-12-20  316  	case MAX42500_VM5:
-38dfb309423437 Kent Libetario 2024-12-20  317  		if (voltage < MAX42500_MIN_VNOM ||
-38dfb309423437 Kent Libetario 2024-12-20  318  			voltage > MAX42500_VNOM_MAX_VM5)
-38dfb309423437 Kent Libetario 2024-12-20  319  			return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  320  		reg_addr = MAX42500_REG_VIN5;
-38dfb309423437 Kent Libetario 2024-12-20  321  		break;
-38dfb309423437 Kent Libetario 2024-12-20  322  	default:
-38dfb309423437 Kent Libetario 2024-12-20  323  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  324  	}
-38dfb309423437 Kent Libetario 2024-12-20  325  
-38dfb309423437 Kent Libetario 2024-12-20  326  	st->nominal_volt[vm_in] = voltage;
-38dfb309423437 Kent Libetario 2024-12-20  327  	return max42500_reg_write(st, reg_addr, voltage);
-38dfb309423437 Kent Libetario 2024-12-20  328  }
-38dfb309423437 Kent Libetario 2024-12-20  329  
-38dfb309423437 Kent Libetario 2024-12-20  330  /**
-38dfb309423437 Kent Libetario 2024-12-20  331   * @brief Get the status of the voltage monitor input.
-38dfb309423437 Kent Libetario 2024-12-20  332   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  333   */
-38dfb309423437 Kent Libetario 2024-12-20  334  static int max42500_get_comp_status(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  335  									u8 vm_in, u8 *status)
-38dfb309423437 Kent Libetario 2024-12-20  336  {
-38dfb309423437 Kent Libetario 2024-12-20  337  	int ret;
-38dfb309423437 Kent Libetario 2024-12-20  338  	u8 reg_addr;
-38dfb309423437 Kent Libetario 2024-12-20  339  	u8 vm_in_status;
-38dfb309423437 Kent Libetario 2024-12-20  340  
-38dfb309423437 Kent Libetario 2024-12-20  341  	switch (vm_in % MAX42500_COMP_STAT_MAX) {
-38dfb309423437 Kent Libetario 2024-12-20  342  	case MAX42500_COMP_STAT_OFF:
-38dfb309423437 Kent Libetario 2024-12-20  343  		reg_addr = MAX42500_REG_STATOFF;
-38dfb309423437 Kent Libetario 2024-12-20  344  		break;
-38dfb309423437 Kent Libetario 2024-12-20  345  	case MAX42500_COMP_STAT_UV:
-38dfb309423437 Kent Libetario 2024-12-20  346  		reg_addr = MAX42500_REG_STATUV;
-38dfb309423437 Kent Libetario 2024-12-20  347  		break;
-38dfb309423437 Kent Libetario 2024-12-20  348  	case MAX42500_COMP_STAT_OV:
-38dfb309423437 Kent Libetario 2024-12-20  349  		reg_addr = MAX42500_REG_STATOV;
-38dfb309423437 Kent Libetario 2024-12-20  350  		break;
-38dfb309423437 Kent Libetario 2024-12-20  351  	default:
-38dfb309423437 Kent Libetario 2024-12-20  352  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  353  	}
-38dfb309423437 Kent Libetario 2024-12-20  354  
-38dfb309423437 Kent Libetario 2024-12-20  355  	ret = max42500_reg_read(st, reg_addr, &vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  356  	if (ret)
-38dfb309423437 Kent Libetario 2024-12-20  357  		return ret;
-38dfb309423437 Kent Libetario 2024-12-20  358  
-38dfb309423437 Kent Libetario 2024-12-20  359  	switch (vm_in % MAX42500_VM_MAX) {
-38dfb309423437 Kent Libetario 2024-12-20  360  	case MAX42500_VM1:
-38dfb309423437 Kent Libetario 2024-12-20  361  		*status = (u8)FIELD_GET(BIT(MAX42500_VM1), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  362  		break;
-38dfb309423437 Kent Libetario 2024-12-20  363  	case MAX42500_VM2:
-38dfb309423437 Kent Libetario 2024-12-20  364  		*status = (u8)FIELD_GET(BIT(MAX42500_VM2), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  365  		break;
-38dfb309423437 Kent Libetario 2024-12-20  366  	case MAX42500_VM3:
-38dfb309423437 Kent Libetario 2024-12-20  367  		*status = (u8)FIELD_GET(BIT(MAX42500_VM3), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  368  		break;
-38dfb309423437 Kent Libetario 2024-12-20  369  	case MAX42500_VM4:
-38dfb309423437 Kent Libetario 2024-12-20  370  		*status = (u8)FIELD_GET(BIT(MAX42500_VM4), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  371  		break;
-38dfb309423437 Kent Libetario 2024-12-20  372  	case MAX42500_VM5:
-38dfb309423437 Kent Libetario 2024-12-20  373  		*status = (u8)FIELD_GET(BIT(MAX42500_VM5), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  374  		break;
-38dfb309423437 Kent Libetario 2024-12-20  375  	case MAX42500_VM6:
-38dfb309423437 Kent Libetario 2024-12-20  376  		*status = (u8)FIELD_GET(BIT(MAX42500_VM6), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  377  		break;
-38dfb309423437 Kent Libetario 2024-12-20  378  	case MAX42500_VM7:
-38dfb309423437 Kent Libetario 2024-12-20  379  		*status = (u8)FIELD_GET(BIT(MAX42500_VM7), vm_in_status);
-38dfb309423437 Kent Libetario 2024-12-20  380  		break;
-38dfb309423437 Kent Libetario 2024-12-20  381  	default:
-38dfb309423437 Kent Libetario 2024-12-20  382  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  383  	}
-38dfb309423437 Kent Libetario 2024-12-20  384  	st->comp_status[vm_in] = *status;
-38dfb309423437 Kent Libetario 2024-12-20  385  
-38dfb309423437 Kent Libetario 2024-12-20  386  	return 0;
-38dfb309423437 Kent Libetario 2024-12-20  387  }
-38dfb309423437 Kent Libetario 2024-12-20  388  
-38dfb309423437 Kent Libetario 2024-12-20  389  /**
-38dfb309423437 Kent Libetario 2024-12-20  390   * @brief Set the overvoltage threshold of VM1 to VM5.
-38dfb309423437 Kent Libetario 2024-12-20  391   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  392   */
-38dfb309423437 Kent Libetario 2024-12-20  393  static int max42500_set_ov_thresh1(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  394  	enum max42500_vm_input vm_in, u8 thresh)
-38dfb309423437 Kent Libetario 2024-12-20  395  {
-38dfb309423437 Kent Libetario 2024-12-20  396  	if (thresh < MAX42500_MIN_THRESH_VM1_VM5 ||
-38dfb309423437 Kent Libetario 2024-12-20  397  		thresh > MAX42500_MAX_THRESH_VM1_VM5)
-38dfb309423437 Kent Libetario 2024-12-20  398  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  399  
-38dfb309423437 Kent Libetario 2024-12-20  400  	switch (vm_in) {
-38dfb309423437 Kent Libetario 2024-12-20  401  	case MAX42500_VM1:
-38dfb309423437 Kent Libetario 2024-12-20  402  	case MAX42500_VM2:
-38dfb309423437 Kent Libetario 2024-12-20  403  	case MAX42500_VM3:
-38dfb309423437 Kent Libetario 2024-12-20  404  	case MAX42500_VM4:
-38dfb309423437 Kent Libetario 2024-12-20  405  	case MAX42500_VM5:
-38dfb309423437 Kent Libetario 2024-12-20  406  		st->ov_thresh1[vm_in] = thresh;
-38dfb309423437 Kent Libetario 2024-12-20  407  		return max42500_reg_update(st,
-38dfb309423437 Kent Libetario 2024-12-20  408  								MAX42500_REG_OVUV1 + vm_in,
-38dfb309423437 Kent Libetario 2024-12-20  409  								GENMASK(7, 4),
-38dfb309423437 Kent Libetario 2024-12-20  410  								FIELD_PREP(GENMASK(7, 4),
-38dfb309423437 Kent Libetario 2024-12-20  411  								thresh));
-38dfb309423437 Kent Libetario 2024-12-20  412  	default:
-38dfb309423437 Kent Libetario 2024-12-20  413  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  414  	}
-38dfb309423437 Kent Libetario 2024-12-20  415  }
-38dfb309423437 Kent Libetario 2024-12-20  416  
-38dfb309423437 Kent Libetario 2024-12-20  417  /**
-38dfb309423437 Kent Libetario 2024-12-20  418   * @brief Set the overvoltage threshold of VM6 and VM7.
-38dfb309423437 Kent Libetario 2024-12-20  419   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  420   */
-38dfb309423437 Kent Libetario 2024-12-20  421  static int max42500_set_ov_thresh2(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  422  	enum max42500_vm_input vm_in, u8 thresh)
-38dfb309423437 Kent Libetario 2024-12-20  423  {
-38dfb309423437 Kent Libetario 2024-12-20  424  	u8 reg_addr;
-38dfb309423437 Kent Libetario 2024-12-20  425  
-38dfb309423437 Kent Libetario 2024-12-20  426  	if (thresh < MAX42500_MIN_THRESH_VM6_V7 ||
-38dfb309423437 Kent Libetario 2024-12-20 @427  		thresh > MAX42500_MAX_THRESH_VM6_V7)
-38dfb309423437 Kent Libetario 2024-12-20  428  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  429  
-38dfb309423437 Kent Libetario 2024-12-20  430  	switch (vm_in) {
-38dfb309423437 Kent Libetario 2024-12-20  431  	case MAX42500_VM6:
-38dfb309423437 Kent Libetario 2024-12-20  432  		reg_addr = MAX42500_REG_VINO6;
-38dfb309423437 Kent Libetario 2024-12-20  433  		break;
-38dfb309423437 Kent Libetario 2024-12-20  434  	case MAX42500_VM7:
-38dfb309423437 Kent Libetario 2024-12-20  435  		reg_addr = MAX42500_REG_VINO7;
-38dfb309423437 Kent Libetario 2024-12-20  436  		break;
-38dfb309423437 Kent Libetario 2024-12-20  437  	default:
-38dfb309423437 Kent Libetario 2024-12-20  438  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  439  	}
-38dfb309423437 Kent Libetario 2024-12-20  440  
-38dfb309423437 Kent Libetario 2024-12-20  441  	st->ov_thresh2[vm_in] = thresh;
-38dfb309423437 Kent Libetario 2024-12-20  442  	return max42500_reg_write(st, reg_addr, thresh);
-38dfb309423437 Kent Libetario 2024-12-20  443  }
-38dfb309423437 Kent Libetario 2024-12-20  444  
-38dfb309423437 Kent Libetario 2024-12-20  445  /**
-38dfb309423437 Kent Libetario 2024-12-20  446   * @brief Set the undervoltage threshold of VM1 to VM5.
-38dfb309423437 Kent Libetario 2024-12-20  447   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  448   */
-38dfb309423437 Kent Libetario 2024-12-20  449  static int max42500_set_uv_thresh1(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  450  	enum max42500_vm_input vm_in, u8 thresh)
-38dfb309423437 Kent Libetario 2024-12-20  451  {
-38dfb309423437 Kent Libetario 2024-12-20  452  	if (thresh < MAX42500_MIN_THRESH_VM1_VM5 ||
-38dfb309423437 Kent Libetario 2024-12-20  453  		thresh > MAX42500_MAX_THRESH_VM1_VM5)
-38dfb309423437 Kent Libetario 2024-12-20  454  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  455  
-38dfb309423437 Kent Libetario 2024-12-20  456  	switch (vm_in) {
-38dfb309423437 Kent Libetario 2024-12-20  457  	case MAX42500_VM1:
-38dfb309423437 Kent Libetario 2024-12-20  458  	case MAX42500_VM2:
-38dfb309423437 Kent Libetario 2024-12-20  459  	case MAX42500_VM3:
-38dfb309423437 Kent Libetario 2024-12-20  460  	case MAX42500_VM4:
-38dfb309423437 Kent Libetario 2024-12-20  461  	case MAX42500_VM5:
-38dfb309423437 Kent Libetario 2024-12-20  462  		st->uv_thresh1[vm_in] = thresh;
-38dfb309423437 Kent Libetario 2024-12-20  463  		return max42500_reg_update(st,
-38dfb309423437 Kent Libetario 2024-12-20  464  					MAX42500_REG_OVUV1 + vm_in,
-38dfb309423437 Kent Libetario 2024-12-20  465  					GENMASK(3, 0),
-38dfb309423437 Kent Libetario 2024-12-20  466  					thresh);
-38dfb309423437 Kent Libetario 2024-12-20  467  	default:
-38dfb309423437 Kent Libetario 2024-12-20  468  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  469  	}
-38dfb309423437 Kent Libetario 2024-12-20  470  }
-38dfb309423437 Kent Libetario 2024-12-20  471  
-38dfb309423437 Kent Libetario 2024-12-20  472  /**
-38dfb309423437 Kent Libetario 2024-12-20  473   * @brief Set the undervoltage threshold of VM6 and VM7.
-38dfb309423437 Kent Libetario 2024-12-20  474   * @return 0 in case of success, negative error code otherwise.
-38dfb309423437 Kent Libetario 2024-12-20  475   */
-38dfb309423437 Kent Libetario 2024-12-20  476  static int max42500_set_uv_thresh2(struct max42500_state *st,
-38dfb309423437 Kent Libetario 2024-12-20  477  	enum max42500_vm_input vm_in, u8 thresh)
-38dfb309423437 Kent Libetario 2024-12-20  478  {
-38dfb309423437 Kent Libetario 2024-12-20  479  	u8 reg_addr;
-38dfb309423437 Kent Libetario 2024-12-20  480  
-38dfb309423437 Kent Libetario 2024-12-20  481  	if (thresh < MAX42500_MIN_THRESH_VM6_V7 ||
-38dfb309423437 Kent Libetario 2024-12-20 @482  		thresh > MAX42500_MAX_THRESH_VM6_V7)
-38dfb309423437 Kent Libetario 2024-12-20  483  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  484  
-38dfb309423437 Kent Libetario 2024-12-20  485  	switch (vm_in) {
-38dfb309423437 Kent Libetario 2024-12-20  486  	case MAX42500_VM6:
-38dfb309423437 Kent Libetario 2024-12-20  487  		reg_addr = MAX42500_REG_VINU6;
-38dfb309423437 Kent Libetario 2024-12-20  488  		break;
-38dfb309423437 Kent Libetario 2024-12-20  489  	case MAX42500_VM7:
-38dfb309423437 Kent Libetario 2024-12-20  490  		reg_addr = MAX42500_REG_VINU7;
-38dfb309423437 Kent Libetario 2024-12-20  491  		break;
-38dfb309423437 Kent Libetario 2024-12-20  492  	default:
-38dfb309423437 Kent Libetario 2024-12-20  493  		return -EINVAL;
-38dfb309423437 Kent Libetario 2024-12-20  494  	}
-38dfb309423437 Kent Libetario 2024-12-20  495  
-38dfb309423437 Kent Libetario 2024-12-20  496  	st->uv_thresh2[vm_in] = thresh;
-38dfb309423437 Kent Libetario 2024-12-20  497  	return max42500_reg_write(st, reg_addr, thresh);
-38dfb309423437 Kent Libetario 2024-12-20  498  }
-38dfb309423437 Kent Libetario 2024-12-20  499  
+:::::: The code at line 2548 was first introduced by commit
+:::::: eb7630f95f837de97eee0f6e1fb9c2f96fc90742 ANDROID: sched: Push execution and scheduler context split into deadline and rt
+
+:::::: TO: Connor O'Brien <connoro@google.com>
+:::::: CC: John Stultz <jstultz@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
