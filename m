@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E601F2C47
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Dec 2024 13:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2A02E64A
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Dec 2024 13:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734787122; cv=none; b=s424C90/BlOcg6aF1TirxHWiAwreVaAxo7Z48DtSJ53trOn4f5RGIN0DYp8HUWpYK+a4jX5Z8TyfrcHgkdRuyZZwIaEsRPA2/2ll8nRxupXFbNgKMP8JRgxf31cDM4bEcZy3gbsPi0IGAyfst4YxckRRfZeZRf++6PzrW7Wtahw=
+	t=1734788983; cv=none; b=JZif5sY15FdbB/BIu19hEAN+XObspRc9imI2+42B3pdUzJU09PCnLqpBTqLi1HJpROxh7n8qHWv58Osn9BoS5bGSGTMhOC53xO+hkpWWeu/lzqBLPiLFHHqbMpRJlEnsla8x0fnwrN9ORH/G+8atOKiEY2yXzZ+CC9fghI1ytCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734787122; c=relaxed/simple;
-	bh=wlwuzy8q156KRmvKnPL+x++k4+gfZqk81GEFcbwKgb4=;
+	s=arc-20240116; t=1734788983; c=relaxed/simple;
+	bh=T4EgV+d2FNdZNyzdyZa2YTsU7qwuuf3LnF27QSElKZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OsDPx+gKO+RT/J5Tc2rCBXri8Do8UkAoEI2Q0m5Biu9nhcqCgBAUBkmbkMyp2XKN7j8N2XubMwY6pFH+Ft1glCZpxdjOFKdDkuO0L3n/lyRN/Cl4XsWPxnaAX/mTsLVTOw5X35ogt5My+6yIkDXD08VglEpmdGQPWANxR9ckiJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YabM4jMp; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=emkdvp2nqy2PqFve70Endnr/d228yMMMmMy9YUUNdGlDjuLz5LCs7qwPnYOPWppoJv+xMpUj3vBHQI6rl7XElkI7MoB6GyS2zdGNaXFbRf/p8eq7/1vnVEfDtBPzUMpcj7GAkreVO+PQJ5R/Y+odeR99fSz/1Mrm1NokKmf8Omg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnz4iaUS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YabM4jMp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnz4iaUS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734787121; x=1766323121;
+  t=1734788980; x=1766324980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wlwuzy8q156KRmvKnPL+x++k4+gfZqk81GEFcbwKgb4=;
-  b=YabM4jMplQ6OeRIbsF4CpLefM4r/UQkFb4F3qUiHepQB/8ngO+dYWZpU
-   fCnVJLRA6sIOF31741yoo1kPS1vgPO/pZKXyOZmWIFh5S8kD4pGQKEolP
-   Sntp/rEifHs/J/GyFJbLocnQySwsC7YYg0Jlw/RJqQnNC+hX8MRn/NdKB
-   oYUDW2d/DA9hZeMsObbj9ix3eRSmoLlxnZNDur5QqniqSmGQLQ8g2NO4Z
-   jcL8saEDEvz8NgsE//arP1gAiTqt0ID5mmZ7ijGEHA2Tm3Y+sx1oHLa58
-   jpf1MOMTk9d458l5ToaKAd42PuQKwN6tJGThAqUnOP19+qWC9j2GmN7mZ
+  bh=T4EgV+d2FNdZNyzdyZa2YTsU7qwuuf3LnF27QSElKZM=;
+  b=jnz4iaUSfwggVZBDmnAlVl9ecl9COuWYDR8CR67gsTQ7C5SHc9ErykD6
+   rJ8azJDGy6TSvXvFam9WSbj5JD/P4Wp2V/WTBZhDUDGKAZAgF3OeNy6eZ
+   65bzDxyP/U2F+dAvUjBQ+T8+A4Qg2JME3wphdUbcImwv0AlUWFe5Z89Gz
+   fSjE7MksRt32huoGL5KhMCLECUAE4dJtEGkq1Ctnov3f1LoPXejZe0y/L
+   nKG9AySC/7o9GYxj1BfPUTaTLB004D1+mAy2oa1VaxTzAYC7Sktl1/K73
+   KHDVnHhzI28X2p7SRqm4Ob+Nx/WKWsA6GCNW0ESkPt0T2boLig6t6qLko
    Q==;
-X-CSE-ConnectionGUID: bj8Ngst9ShGQPDL0is6Krg==
-X-CSE-MsgGUID: T1TWjI6oTvawniAezvo7/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35031360"
+X-CSE-ConnectionGUID: gv/2V+XMREGpL0YdD0pT/A==
+X-CSE-MsgGUID: 7ztn+3dfRMOprP/qA6Re7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35484488"
 X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
-   d="scan'208";a="35031360"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 05:18:38 -0800
-X-CSE-ConnectionGUID: zhzL5VUWTDSGIofyq1LP5A==
-X-CSE-MsgGUID: XmSm9KKfSmiNym3HC/js5w==
+   d="scan'208";a="35484488"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2024 05:49:40 -0800
+X-CSE-ConnectionGUID: fE5XnKfoT7qyD5IMW4CytQ==
+X-CSE-MsgGUID: U+wRWZ9ZTteYGKOoxv6ewA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="99619656"
+X-IronPort-AV: E=Sophos;i="6.12,253,1728975600"; 
+   d="scan'208";a="99170298"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Dec 2024 05:18:36 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2024 05:49:38 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tOzNJ-0002Bh-2o;
-	Sat, 21 Dec 2024 13:18:33 +0000
-Date: Sat, 21 Dec 2024 21:17:53 +0800
+	id 1tOzrM-0002Cl-0k;
+	Sat, 21 Dec 2024 13:49:36 +0000
+Date: Sat, 21 Dec 2024 21:49:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/crypto/intel/iaa/iaa_crypto_main.c:1826
- iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
-Message-ID: <202412212125.eMiLtccg-lkp@intel.com>
+Subject: Re: [PATCH v2] drm/bridge: display-connector: implement the error
+ path of .probe()
+Message-ID: <202412212129.OT9Bt8p0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,85 +64,249 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tom Zanussi <tom.zanussi@linux.intel.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+In-Reply-To: <20241214012652.2104807-1-joe@pf.is.s.u-tokyo.ac.jp>
+References: <20241214012652.2104807-1-joe@pf.is.s.u-tokyo.ac.jp>
+TO: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+TO: andrzej.hajda@intel.com
+TO: neil.armstrong@linaro.org
+TO: rfoss@kernel.org
+TO: Laurent.pinchart@ideasonboard.com
+TO: jonas@kwiboo.se
+TO: jernej.skrabec@gmail.com
+TO: maarten.lankhorst@linux.intel.com
+TO: mripard@kernel.org
+TO: tzimmermann@suse.de
+TO: airlied@gmail.com
+TO: simona@ffwll.ch
+CC: dri-devel@lists.freedesktop.org
+CC: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   499551201b5f4fd3c0618a3e95e3d0d15ea18f31
-commit: 2ec6761df889fdf896fde761abd447596dd8f8c2 crypto: iaa - Add support for deflate-iaa compression algorithm
-date:   1 year ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-161-20241221 (https://download.01.org/0day-ci/archive/20241221/202412212125.eMiLtccg-lkp@intel.com/config)
+Hi Joe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on drm-misc/drm-misc-next v6.13-rc3 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/drm-bridge-display-connector-implement-the-error-path-of-probe/20241214-230605
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241214012652.2104807-1-joe%40pf.is.s.u-tokyo.ac.jp
+patch subject: [PATCH v2] drm/bridge: display-connector: implement the error path of .probe()
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/archive/20241221/202412212129.OT9Bt8p0-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412212125.eMiLtccg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412212129.OT9Bt8p0-lkp@intel.com/
 
-New smatch warnings:
-drivers/crypto/intel/iaa/iaa_crypto_main.c:1826 iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/gpu/drm/bridge/display-connector.c:397 display_connector_probe() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/crypto/intel/iaa/iaa_crypto_main.c:435 init_device_compression_mode() error: not allocating enough for = 'device_mode->aecs_decomp_table' 5352 vs 1600
-drivers/crypto/intel/iaa/iaa_crypto_main.c:508 remove_device_compression_modes() error: double free of 'device_mode' (line 505)
+vim +/ret +397 drivers/gpu/drm/bridge/display-connector.c
 
-vim +/PTR_ERR +1826 drivers/crypto/intel/iaa/iaa_crypto_main.c
-
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1813  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1814  static int __init iaa_crypto_init_module(void)
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1815  {
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1816  	int ret = 0;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1817  
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1818  	nr_cpus = num_online_cpus();
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1819  	nr_nodes = num_online_nodes();
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1820  	nr_cpus_per_node = nr_cpus / nr_nodes;
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1821  
-2ec6761df889fd Tom Zanussi 2023-12-05  1822  	if (crypto_has_comp("deflate-generic", 0, 0))
-2ec6761df889fd Tom Zanussi 2023-12-05  1823  		deflate_generic_tfm = crypto_alloc_comp("deflate-generic", 0, 0);
-2ec6761df889fd Tom Zanussi 2023-12-05  1824  
-2ec6761df889fd Tom Zanussi 2023-12-05  1825  	if (IS_ERR_OR_NULL(deflate_generic_tfm)) {
-2ec6761df889fd Tom Zanussi 2023-12-05 @1826  		pr_err("IAA could not alloc %s tfm: errcode = %ld\n",
-2ec6761df889fd Tom Zanussi 2023-12-05  1827  		       "deflate-generic", PTR_ERR(deflate_generic_tfm));
-2ec6761df889fd Tom Zanussi 2023-12-05  1828  		return -ENOMEM;
-2ec6761df889fd Tom Zanussi 2023-12-05  1829  	}
-2ec6761df889fd Tom Zanussi 2023-12-05  1830  
-b190447e0fa3ef Tom Zanussi 2023-12-05  1831  	ret = iaa_aecs_init_fixed();
-b190447e0fa3ef Tom Zanussi 2023-12-05  1832  	if (ret < 0) {
-b190447e0fa3ef Tom Zanussi 2023-12-05  1833  		pr_debug("IAA fixed compression mode init failed\n");
-2ec6761df889fd Tom Zanussi 2023-12-05  1834  		goto err_aecs_init;
-b190447e0fa3ef Tom Zanussi 2023-12-05  1835  	}
-b190447e0fa3ef Tom Zanussi 2023-12-05  1836  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1837  	ret = idxd_driver_register(&iaa_crypto_driver);
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1838  	if (ret) {
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1839  		pr_debug("IAA wq sub-driver registration failed\n");
-b190447e0fa3ef Tom Zanussi 2023-12-05  1840  		goto err_driver_reg;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1841  	}
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1842  
-2ec6761df889fd Tom Zanussi 2023-12-05  1843  	ret = driver_create_file(&iaa_crypto_driver.drv,
-2ec6761df889fd Tom Zanussi 2023-12-05  1844  				 &driver_attr_verify_compress);
-2ec6761df889fd Tom Zanussi 2023-12-05  1845  	if (ret) {
-2ec6761df889fd Tom Zanussi 2023-12-05  1846  		pr_debug("IAA verify_compress attr creation failed\n");
-2ec6761df889fd Tom Zanussi 2023-12-05  1847  		goto err_verify_attr_create;
-2ec6761df889fd Tom Zanussi 2023-12-05  1848  	}
-2ec6761df889fd Tom Zanussi 2023-12-05  1849  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1850  	pr_debug("initialized\n");
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1851  out:
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1852  	return ret;
-b190447e0fa3ef Tom Zanussi 2023-12-05  1853  
-2ec6761df889fd Tom Zanussi 2023-12-05  1854  err_verify_attr_create:
-2ec6761df889fd Tom Zanussi 2023-12-05  1855  	idxd_driver_unregister(&iaa_crypto_driver);
-b190447e0fa3ef Tom Zanussi 2023-12-05  1856  err_driver_reg:
-b190447e0fa3ef Tom Zanussi 2023-12-05  1857  	iaa_aecs_cleanup_fixed();
-2ec6761df889fd Tom Zanussi 2023-12-05  1858  err_aecs_init:
-2ec6761df889fd Tom Zanussi 2023-12-05  1859  	crypto_free_comp(deflate_generic_tfm);
-b190447e0fa3ef Tom Zanussi 2023-12-05  1860  
-b190447e0fa3ef Tom Zanussi 2023-12-05  1861  	goto out;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1862  }
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1863  
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  204  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  205  static int display_connector_probe(struct platform_device *pdev)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  206  {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  207  	struct display_connector *conn;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  208  	unsigned int type;
+189723fbe9aca18 Dan Carpenter        2021-10-13  209  	const char *label = NULL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  210  	int ret;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  211  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  212  	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  213  	if (!conn)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  214  		return -ENOMEM;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  215  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  216  	platform_set_drvdata(pdev, conn);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  217  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  218  	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  219  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  220  	/* Get the exact connector type. */
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  221  	switch (type) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  222  	case DRM_MODE_CONNECTOR_DVII: {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  223  		bool analog, digital;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  224  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  225  		analog = of_property_read_bool(pdev->dev.of_node, "analog");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  226  		digital = of_property_read_bool(pdev->dev.of_node, "digital");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  227  		if (analog && !digital) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  228  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  229  		} else if (!analog && digital) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  230  			conn->bridge.type = DRM_MODE_CONNECTOR_DVID;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  231  		} else if (analog && digital) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  232  			conn->bridge.type = DRM_MODE_CONNECTOR_DVII;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  233  		} else {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  234  			dev_err(&pdev->dev, "DVI connector with no type\n");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  235  			return -EINVAL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  236  		}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  237  		break;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  238  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  239  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  240  	case DRM_MODE_CONNECTOR_HDMIA: {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  241  		const char *hdmi_type;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  242  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  243  		ret = of_property_read_string(pdev->dev.of_node, "type",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  244  					      &hdmi_type);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  245  		if (ret < 0) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  246  			dev_err(&pdev->dev, "HDMI connector with no type\n");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  247  			return -EINVAL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  248  		}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  249  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  250  		if (!strcmp(hdmi_type, "a") || !strcmp(hdmi_type, "c") ||
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  251  		    !strcmp(hdmi_type, "d") || !strcmp(hdmi_type, "e")) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  252  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  253  		} else if (!strcmp(hdmi_type, "b")) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  254  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIB;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  255  		} else {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  256  			dev_err(&pdev->dev,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  257  				"Unsupported HDMI connector type '%s'\n",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  258  				hdmi_type);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  259  			return -EINVAL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  260  		}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  261  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  262  		break;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  263  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  264  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  265  	default:
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  266  		conn->bridge.type = type;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  267  		break;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  268  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  269  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  270  	/* All the supported connector types support interlaced modes. */
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  271  	conn->bridge.interlace_allowed = true;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  272  
+d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  273  	if (type == DRM_MODE_CONNECTOR_HDMIA ||
+d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  274  	    type == DRM_MODE_CONNECTOR_DisplayPort)
+d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  275  		conn->bridge.ycbcr_420_allowed = true;
+d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  276  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  277  	/* Get the optional connector label. */
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  278  	of_property_read_string(pdev->dev.of_node, "label", &label);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  279  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  280  	/*
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  281  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  282  	 * edge interrupts, register an interrupt handler.
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  283  	 */
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  284  	if (type == DRM_MODE_CONNECTOR_DVII ||
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  285  	    type == DRM_MODE_CONNECTOR_HDMIA ||
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  286  	    type == DRM_MODE_CONNECTOR_DisplayPort) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  287  		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  288  							 GPIOD_IN);
+ed8f4e1002781c4 Ye Xingchen          2023-03-22  289  		if (IS_ERR(conn->hpd_gpio))
+ed8f4e1002781c4 Ye Xingchen          2023-03-22  290  			return dev_err_probe(&pdev->dev, PTR_ERR(conn->hpd_gpio),
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  291  					     "Unable to retrieve HPD GPIO\n");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  292  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  293  		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  294  	} else {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  295  		conn->hpd_irq = -EINVAL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  296  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  297  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  298  	if (conn->hpd_irq >= 0) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  299  		ret = devm_request_threaded_irq(&pdev->dev, conn->hpd_irq,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  300  						NULL, display_connector_hpd_irq,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  301  						IRQF_TRIGGER_RISING |
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  302  						IRQF_TRIGGER_FALLING |
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  303  						IRQF_ONESHOT,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  304  						"HPD", conn);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  305  		if (ret) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  306  			dev_info(&pdev->dev,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  307  				 "Failed to request HPD edge interrupt, falling back to polling\n");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  308  			conn->hpd_irq = -EINVAL;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  309  		}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  310  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  311  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  312  	/* Retrieve the DDC I2C adapter for DVI, HDMI and VGA connectors. */
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  313  	if (type == DRM_MODE_CONNECTOR_DVII ||
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  314  	    type == DRM_MODE_CONNECTOR_HDMIA ||
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  315  	    type == DRM_MODE_CONNECTOR_VGA) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  316  		struct device_node *phandle;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  317  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  318  		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  319  		if (phandle) {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  320  			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  321  			of_node_put(phandle);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  322  			if (!conn->bridge.ddc)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  323  				return -EPROBE_DEFER;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  324  		} else {
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  325  			dev_dbg(&pdev->dev,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  326  				"No I2C bus specified, disabling EDID readout\n");
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  327  		}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  328  	}
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  329  
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  330  	/* Get the DP PWR for DP connector. */
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  331  	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  332  		int ret;
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  333  
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  334  		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
+a7afd1756ad7c06 Joe Hattori          2024-12-14  335  		if (ret < 0) {
+a7afd1756ad7c06 Joe Hattori          2024-12-14  336  			ret = dev_err_probe(&pdev->dev, ret,
+a7afd1756ad7c06 Joe Hattori          2024-12-14  337  					    "failed to get DP PWR regulator\n");
+a7afd1756ad7c06 Joe Hattori          2024-12-14  338  			goto err_put;
+a7afd1756ad7c06 Joe Hattori          2024-12-14  339  		}
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  340  	}
+2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  341  
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  342  	/* enable DDC */
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  343  	if (type == DRM_MODE_CONNECTOR_HDMIA) {
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  344  		int ret;
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  345  
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  346  		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  347  						       GPIOD_OUT_HIGH);
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  348  
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  349  		if (IS_ERR(conn->ddc_en)) {
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  350  			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
+a7afd1756ad7c06 Joe Hattori          2024-12-14  351  			ret = PTR_ERR(conn->ddc_en);
+a7afd1756ad7c06 Joe Hattori          2024-12-14  352  			goto err_put;
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  353  		}
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  354  
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  355  		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
+a7afd1756ad7c06 Joe Hattori          2024-12-14  356  		if (ret < 0) {
+a7afd1756ad7c06 Joe Hattori          2024-12-14  357  			ret = dev_err_probe(
+a7afd1756ad7c06 Joe Hattori          2024-12-14  358  				&pdev->dev, ret,
+a7afd1756ad7c06 Joe Hattori          2024-12-14  359  				"failed to get HDMI +5V Power regulator\n");
+a7afd1756ad7c06 Joe Hattori          2024-12-14  360  			goto err_put;
+a7afd1756ad7c06 Joe Hattori          2024-12-14  361  		}
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  362  	}
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  363  
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  364  	if (conn->supply) {
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  365  		ret = regulator_enable(conn->supply);
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  366  		if (ret) {
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  367  			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
+a7afd1756ad7c06 Joe Hattori          2024-12-14  368  			goto err_put;
+6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  369  		}
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  370  	}
+6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  371  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  372  	conn->bridge.funcs = &display_connector_bridge_funcs;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  373  	conn->bridge.of_node = pdev->dev.of_node;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  374  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  375  	if (conn->bridge.ddc)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  376  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  377  				 |  DRM_BRIDGE_OP_DETECT;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  378  	if (conn->hpd_gpio)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  379  		conn->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  380  	if (conn->hpd_irq >= 0)
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  381  		conn->bridge.ops |= DRM_BRIDGE_OP_HPD;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  382  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  383  	dev_dbg(&pdev->dev,
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  384  		"Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  385  		drm_get_connector_type_name(conn->bridge.type),
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  386  		label ? label : "<unlabelled>",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  387  		conn->bridge.ddc ? "with" : "without",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  388  		conn->hpd_gpio ? "with" : "without",
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  389  		conn->bridge.ops);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  390  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  391  	drm_bridge_add(&conn->bridge);
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  392  
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  393  	return 0;
+a7afd1756ad7c06 Joe Hattori          2024-12-14  394  
+a7afd1756ad7c06 Joe Hattori          2024-12-14  395  err_put:
+a7afd1756ad7c06 Joe Hattori          2024-12-14  396  	i2c_put_adapter(conn->bridge.ddc);
+a7afd1756ad7c06 Joe Hattori          2024-12-14 @397  	return ret;
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  398  }
+0c275c30176b2e7 Laurent Pinchart     2020-02-26  399  
 
 -- 
 0-DAY CI Kernel Test Service
