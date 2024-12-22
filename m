@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4CD148FF5
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Dec 2024 10:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5893D188722
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Dec 2024 10:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734863273; cv=none; b=Wf3NMnQn7p/9FGqfV0E8ADtx9hLUMK6xvVlNcgX5lQC5SoCQVf1vESKtA4gFD6UqlgnTV6AnKL1Tn5fhd/nPn3ImeY4DTJM2J+dLf296Vu4uoCFwXdDsa3wN74d7/Okx6LdPLhOeXdIE4qkDH+NuE7HmVCOPMbuTliAYsPusPHg=
+	t=1734864474; cv=none; b=W6R8bmGMGH52Os3QbvtDr85O4Ua3XLI8j8jxFMXZYyeFwS1dh8j2IeFOt+lFQaoaUH2X5uGps8pWlY9XNQuMmhBcalxfOyzKSLSuoZhdkYqT1biM1ekGK6atCbAzJeNffL1XxxbwWYS32cR89u54Z0hW0EdmQjMragjh7VCUn3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734863273; c=relaxed/simple;
-	bh=ZVAvBn3Ew2Q9W70TlAwqIkxw2WM/awJVy0B/KWuaHQY=;
+	s=arc-20240116; t=1734864474; c=relaxed/simple;
+	bh=7GHVhzALZfHqS5rdFB99aetCrNRl/FjfwICTIiJcPII=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oq+GAHUSMVrMraAKKxoYypWakTylMHkJDPqDhFcygFVPfBTVqQDmwqdJKA/3yfgF5OIFNPmyb5KcfYcXjTLJ3dCsBM3Wzp2aKuPNFRGrgkcNsKamjmWW/H5FIztcrOzxYo2ZHakDGiszYl+R7fsgbWsYRhQE3HL2ubL/7+5wr8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JC0WXiYs; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=XadV9a8oJOxCFqiFJ0+UvdpHIaYVuoanJxFRoZmeasX/creYS42ZaqUj+6rnXde6GABXbg1xx4UolRAHJsUUAFYBSai3hlT8eM+96MhjuTMS8aoak2ge+vXkusi5K6ZkwmVLngQq/fUwVdU2422/CfbpmD+D/OOAhI6Brw27jec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALYBhd4H; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JC0WXiYs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALYBhd4H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734863270; x=1766399270;
+  t=1734864472; x=1766400472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZVAvBn3Ew2Q9W70TlAwqIkxw2WM/awJVy0B/KWuaHQY=;
-  b=JC0WXiYsKBWQMaNrwkektpjYIqKFyXwYtAu6n8Mt+RoEplxqcC01/VwY
-   8QfLEIFL2XlXB7PPRqofZ0al032NtsAVzBd9pN1iBXxeX4MpA4t0UCjta
-   y+r7RjlW6ltGFUsRnlIMdwIfdO5dgE3hsKDkv5VNgcFgDLgDD9VdNjWgi
-   XcOK0wJWGtUkPt810uoHdcx2LnljjZm0fqTtVLTHqu5+Nl82TyUusyDqH
-   tRMuQ5QzlFGsScnI4PhjUsxMzyL0ICsA69cuwBwdINaiEFFYBoaThlnFC
-   jsXeLgcLFtZn4TaK8FcuXMUoUUDn/A9mlZRiVr/xcS0Lp8fw7jg07Pe9Q
-   Q==;
-X-CSE-ConnectionGUID: kc3RvKE7RTaMWVMT/8VzBA==
-X-CSE-MsgGUID: zQqRoihNTfyLPUTR+olXtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="35233907"
+  bh=7GHVhzALZfHqS5rdFB99aetCrNRl/FjfwICTIiJcPII=;
+  b=ALYBhd4HZ/YlMQAia+qvixutRYmaQAOQG410rX9vgLcRhNei28L/+Z6d
+   rlXXTq46tv84X6WPD+ZM+OdAks+LBvOW+f8Ix6nfjzM1iMF9+3fONN5uh
+   VTLdI9E/0tyC8LwS3se9RRgprRndLgWkz12Y1bMaDfmprfMaQMialHMkC
+   lMMonwVvfC7kmnt+K/ly9lwB5b/dx3C1l91Gi4wIIjvkf/m5GjMsTRf2k
+   B2A8wF4wo/tWtYWV5Aui+fpSda/X7jtswxJJrFT9fsIF01BJmsUe4kJIY
+   AOu075m7T8QL5agTLWLZOXl6IEDCoxw5eqSla7ZrqwwQkf3fxg4FlMVvD
+   w==;
+X-CSE-ConnectionGUID: h0O6hI9mRlOcAhufJuYULg==
+X-CSE-MsgGUID: 13QT8rmtT5CeDzdxuCFusw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11293"; a="34673137"
 X-IronPort-AV: E=Sophos;i="6.12,255,1728975600"; 
-   d="scan'208";a="35233907"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 02:27:50 -0800
-X-CSE-ConnectionGUID: OJHBgUTAQJK3HKuQDcpMCw==
-X-CSE-MsgGUID: l0I+zuhAQKmSBHIhETkaGQ==
+   d="scan'208";a="34673137"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 02:47:51 -0800
+X-CSE-ConnectionGUID: 9dR1qaH2Srezpkk8Gq3smw==
+X-CSE-MsgGUID: tCg7d3+yTpW+Re/FoBANtA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="104007868"
+X-IronPort-AV: E=Sophos;i="6.12,255,1728975600"; 
+   d="scan'208";a="99162270"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2024 02:27:49 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2024 02:47:50 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPJBa-0002qt-2A;
-	Sun, 22 Dec 2024 10:27:46 +0000
-Date: Sun, 22 Dec 2024 18:27:25 +0800
+	id 1tPJUy-0002rt-0d;
+	Sun, 22 Dec 2024 10:47:48 +0000
+Date: Sun, 22 Dec 2024 18:47:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553
- mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid'
- [r] (local cap)
-Message-ID: <202412221811.kAk2yte1-lkp@intel.com>
+Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
+ we previously assumed 'fwspec' could be null (see line 465)
+Message-ID: <202412221827.sqvR5wz9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,109 +65,98 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Sujuan Chen <sujuan.chen@mediatek.com>
-CC: Bo Jiao <Bo.Jiao@mediatek.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jerry Snitselaar <jsnitsel@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   48f506ad0b683d3e7e794efa60c5785c4fdc86fa
-commit: a5d028d668360db991e6da67cd48b9b4443198ed wifi: mt76: mt7996: add wed rro delete session garbage collector
+commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
 date:   1 year, 1 month ago
 :::::: branch date: 11 hours ago
 :::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241222/202412221811.kAk2yte1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+config: arm-randconfig-r072-20241219 (https://download.01.org/0day-ci/archive/20241222/202412221827.sqvR5wz9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412221811.kAk2yte1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412221827.sqvR5wz9-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:553 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'dev->mt76.wcid' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:560 mt7996_mcu_wed_rro_event() warn: potential spectre issue 'wcid->aggr' [r] (local cap)
+smatch warnings:
+drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:349 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:429 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:436 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:441 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2300 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2292 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
+vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
 
-vim +553 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
+b17336c55d8928c Honghui Zhang 2016-06-08  451  
+ad9b10e533f6fb3 Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
+b17336c55d8928c Honghui Zhang 2016-06-08  453  {
+a9bf2eec5a6fc01 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+b17336c55d8928c Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
+ad9b10e533f6fb3 Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
+635319a4a7444ca Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
+635319a4a7444ca Yong Wu       2022-01-17  458  	struct device_link *link;
+635319a4a7444ca Yong Wu       2022-01-17  459  	struct device *larbdev;
+b17336c55d8928c Honghui Zhang 2016-06-08  460  
+822a2ed8c606caf Yong Wu       2022-01-17  461  	/*
+822a2ed8c606caf Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
+822a2ed8c606caf Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
+822a2ed8c606caf Yong Wu       2022-01-17  464  	 */
+822a2ed8c606caf Yong Wu       2022-01-17 @465  	if (fwspec) {
+822a2ed8c606caf Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
+822a2ed8c606caf Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
+822a2ed8c606caf Yong Wu       2022-01-17  468  	}
+822a2ed8c606caf Yong Wu       2022-01-17  469  
+f90a9a85fb946e1 Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+f90a9a85fb946e1 Yong Wu       2021-04-12  471  					   "#iommu-cells",
+f90a9a85fb946e1 Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
+b17336c55d8928c Honghui Zhang 2016-06-08  473  
+ad9b10e533f6fb3 Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
+f90a9a85fb946e1 Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
+f90a9a85fb946e1 Yong Wu       2021-04-12  476  		if (err)
+f90a9a85fb946e1 Yong Wu       2021-04-12  477  			return ERR_PTR(err);
+da5d2748e4a4512 Joerg Roedel  2019-01-23  478  
+da5d2748e4a4512 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
+da5d2748e4a4512 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
+f90a9a85fb946e1 Yong Wu       2021-04-12  481  		idx++;
+b17336c55d8928c Honghui Zhang 2016-06-08  482  	}
+b17336c55d8928c Honghui Zhang 2016-06-08  483  
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
+b17336c55d8928c Honghui Zhang 2016-06-08  485  
+635319a4a7444ca Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
+635319a4a7444ca Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+de78657e16f4141 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
+de78657e16f4141 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
+de78657e16f4141 Miles Chen    2022-05-05  490  
+635319a4a7444ca Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
+635319a4a7444ca Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
+635319a4a7444ca Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
+635319a4a7444ca Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
+635319a4a7444ca Yong Wu       2022-01-17  495  				larbid, larbidx);
+635319a4a7444ca Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
+635319a4a7444ca Yong Wu       2022-01-17  497  		}
+635319a4a7444ca Yong Wu       2022-01-17  498  	}
+635319a4a7444ca Yong Wu       2022-01-17  499  
+635319a4a7444ca Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
+de78657e16f4141 Miles Chen    2022-05-05  501  	if (!larbdev)
+de78657e16f4141 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
+de78657e16f4141 Miles Chen    2022-05-05  503  
+635319a4a7444ca Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
+635319a4a7444ca Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+635319a4a7444ca Yong Wu       2022-01-17  506  	if (!link)
+635319a4a7444ca Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+635319a4a7444ca Yong Wu       2022-01-17  508  
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  509  	return &data->iommu;
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  510  }
+57dbf81f50c82a0 Joerg Roedel  2020-04-29  511  
 
-98686cd21624c75 Shayne Chen      2022-11-22  528  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  529  static void
-a5d028d668360db Lorenzo Bianconi 2023-10-20  530  mt7996_mcu_wed_rro_event(struct mt7996_dev *dev, struct sk_buff *skb)
-a5d028d668360db Lorenzo Bianconi 2023-10-20  531  {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  532  	struct mt7996_mcu_wed_rro_event *event = (void *)skb->data;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  533  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  534  	if (!dev->has_rro)
-a5d028d668360db Lorenzo Bianconi 2023-10-20  535  		return;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  536  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  537  	skb_pull(skb, sizeof(struct mt7996_mcu_rxd) + 4);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  538  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  539  	switch (le16_to_cpu(event->tag)) {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  540  	case UNI_WED_RRO_BA_SESSION_STATUS: {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  541  		struct mt7996_mcu_wed_rro_ba_event *e;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  542  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  543  		while (skb->len >= sizeof(*e)) {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  544  			struct mt76_rx_tid *tid;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  545  			struct mt76_wcid *wcid;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  546  			u16 idx;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  547  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  548  			e = (void *)skb->data;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  549  			idx = le16_to_cpu(e->wlan_id);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  550  			if (idx >= ARRAY_SIZE(dev->mt76.wcid))
-a5d028d668360db Lorenzo Bianconi 2023-10-20  551  				break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  552  
-a5d028d668360db Lorenzo Bianconi 2023-10-20 @553  			wcid = rcu_dereference(dev->mt76.wcid[idx]);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  554  			if (!wcid || !wcid->sta)
-a5d028d668360db Lorenzo Bianconi 2023-10-20  555  				break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  556  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  557  			if (e->tid >= ARRAY_SIZE(wcid->aggr))
-a5d028d668360db Lorenzo Bianconi 2023-10-20  558  				break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  559  
-a5d028d668360db Lorenzo Bianconi 2023-10-20 @560  			tid = rcu_dereference(wcid->aggr[e->tid]);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  561  			if (!tid)
-a5d028d668360db Lorenzo Bianconi 2023-10-20  562  				break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  563  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  564  			tid->id = le16_to_cpu(e->id);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  565  			skb_pull(skb, sizeof(*e));
-a5d028d668360db Lorenzo Bianconi 2023-10-20  566  		}
-a5d028d668360db Lorenzo Bianconi 2023-10-20  567  		break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  568  	}
-a5d028d668360db Lorenzo Bianconi 2023-10-20  569  	case UNI_WED_RRO_BA_SESSION_DELETE: {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  570  		struct mt7996_mcu_wed_rro_ba_delete_event *e;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  571  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  572  		while (skb->len >= sizeof(*e)) {
-a5d028d668360db Lorenzo Bianconi 2023-10-20  573  			struct mt7996_wed_rro_session_id *session;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  574  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  575  			e = (void *)skb->data;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  576  			session = kzalloc(sizeof(*session), GFP_ATOMIC);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  577  			if (!session)
-a5d028d668360db Lorenzo Bianconi 2023-10-20  578  				break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  579  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  580  			session->id = le16_to_cpu(e->session_id);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  581  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  582  			spin_lock_bh(&dev->wed_rro.lock);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  583  			list_add_tail(&session->list, &dev->wed_rro.poll_list);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  584  			spin_unlock_bh(&dev->wed_rro.lock);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  585  
-a5d028d668360db Lorenzo Bianconi 2023-10-20  586  			ieee80211_queue_work(mt76_hw(dev), &dev->wed_rro.work);
-a5d028d668360db Lorenzo Bianconi 2023-10-20  587  			skb_pull(skb, sizeof(*e));
-a5d028d668360db Lorenzo Bianconi 2023-10-20  588  		}
-a5d028d668360db Lorenzo Bianconi 2023-10-20  589  		break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  590  	}
-a5d028d668360db Lorenzo Bianconi 2023-10-20  591  	default:
-a5d028d668360db Lorenzo Bianconi 2023-10-20  592  		break;
-a5d028d668360db Lorenzo Bianconi 2023-10-20  593  	}
-a5d028d668360db Lorenzo Bianconi 2023-10-20  594  }
-a5d028d668360db Lorenzo Bianconi 2023-10-20  595  
+:::::: The code at line 487 was first introduced by commit
+:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
+
+:::::: TO: Yong Wu <yong.wu@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
