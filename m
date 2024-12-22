@@ -1,141 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CEE2B2CF
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Dec 2024 22:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BC5192D67
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Dec 2024 23:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734905563; cv=none; b=LL/QKW8VTotFauP1JQY88Vo2I4hnNjrxzXvGmcymgGLGWm4XiMpGEkuoLeooxUcoGhg71rquKeB0eohIt/OPmpKgymVWUZTNB1K2dAR3omHarRnOorYgSu8x//C/qox4HAp42V1AB7SuRmpeZa8QtZu+05/nWJ7fAgrCK1TvNeE=
+	t=1734909971; cv=none; b=UyXR9c8SVoCHaDnvVyDQ3YsnYxxlA3jxh8Wv4f5NLybjW5dRaaE4mkib9zrKG292uwDqTLw9hQ7lwyBRheQ/AFQWpe4MmpN23ILEyQkFC9S+CCOMujcxBXxJcwXNER3wVLmvTseToqG+n9dqRKiPm36C94x2V0YUZeMV257IdcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734905563; c=relaxed/simple;
-	bh=p/+T4Hw7mymsiZ0tuKLqtgs9m2lHnLWwkICa/+XsDSE=;
+	s=arc-20240116; t=1734909971; c=relaxed/simple;
+	bh=S2k/U5RC0NQxf5+xmzaj8NWwb9xpjL2QmwDxwbG0Wao=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NkdHLGX0uC0WlDQKtTyzg/lvLc2se5KdAuVo851AGt0Pft8jlZvyW5YvkBqm9H2X04Dyeq16MNfphy/nYWlbeOY7Rc80/4y5PkcM8kv4pJLFN0Hg2zHea2EDKOSajriRs3ZbJYYKPLUG2XfpXTa33L2lhDaK5I3sH1PmQo8kUug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MeOcbJQq; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=PTUQgE6K8R6urSGdOd8xIYm8qD1DXOVk7W7dHe0XRNjJ5DSYOrwlItYEt7XblDAHzWQQc141SY3EaLLDGblNywQUnAEKMKOvxmVO/ERsGRrFVfJnEBwArjbWoyluulC9XR1XlJz7QJOFigN7SH/gWtnhG9IJXjcAAIHzOppo4w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lp0LGRTG; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeOcbJQq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lp0LGRTG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734905561; x=1766441561;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=p/+T4Hw7mymsiZ0tuKLqtgs9m2lHnLWwkICa/+XsDSE=;
-  b=MeOcbJQqbJtWV4gxQC3IG1Nb/GQFQsIJEiPcohXljnmgAxMuemhrOvjw
-   CSbOQAWoCwQCHUPk1KQOXX7u0ZdGSHmekd3M2wewF2iXbY7StnegYpOoG
-   iOFZG1Cu4dp5pWMOd1ZiDvpQvu7fCf6ZHFnu0XrBxUDajhFGekoi72Xz8
-   YX2XA06Rqh1i5Xwu3/5FovkuqU3aH9Wvq/lhw+a/0VxNe67W8oyjGlbEB
-   6zAKM+VJ1JC48BAvcJgdKpzo4lGJRy1/1Hgq9K2noehGSfkdwTNUg8bks
-   NODhH78Aqw0DCbZhjf4bOYlFlZtEPP6u6M75nw/mrlzsPnu+OFPNsu6Od
+  t=1734909969; x=1766445969;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S2k/U5RC0NQxf5+xmzaj8NWwb9xpjL2QmwDxwbG0Wao=;
+  b=lp0LGRTGfrbR9BMkxfn6nUdcO7S+ET0RwBqyZlQSzWVqD987tKO1UzCx
+   /zGjZYAX1yYzCstDqkx/wZcRCd1XT0vJRGX63HQqwt+Lx5Vv5555VT1eY
+   7cCrHmhTww0gWmCIM9xW75UB5UR0+1yGwXzfLzz6AlpGTwZIPGJAjvlkB
+   iuxrfBpYM6TtCOZtRLmP3kYjbqUMUzvbr8YR5ksz2LqqzlKQNn0cF5m2q
+   aW/fBdK93KdcatkqmAHGkVBrTsWwOJutIEQZXztDLy2sKZzZYnP9ams6G
+   LQsOm9gD/Y6GuK04J5scPWu5Knu6FWoXjEa59bmDGIVLLrHpAt6B77neo
    A==;
-X-CSE-ConnectionGUID: Un770oBeSj+NUDbp4RcwTQ==
-X-CSE-MsgGUID: +u6Jb8I3T6y+R2lgAP0cIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="45976929"
+X-CSE-ConnectionGUID: XL16xpNBSo+QgbKAD4zP8g==
+X-CSE-MsgGUID: UBqvy8bsSISR/YjFdXN4rA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="46384746"
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="45976929"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 14:12:40 -0800
-X-CSE-ConnectionGUID: QDKVFcNPQ2Gn/MK/bdaPIA==
-X-CSE-MsgGUID: zqPGCChwSEi9HYvS8Y2L1A==
+   d="scan'208";a="46384746"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 15:26:06 -0800
+X-CSE-ConnectionGUID: VIpVwDL0QBqm7hyKRplCdA==
+X-CSE-MsgGUID: yAeMa9l9RGKSGyIE2ttnjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="98909642"
+   d="scan'208";a="99264096"
 Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 Dec 2024 14:12:39 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2024 15:26:05 -0800
 Received: from kbuild by a46f226878e0 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPUBh-0003Cl-12;
-	Sun, 22 Dec 2024 22:12:37 +0000
-Date: Mon, 23 Dec 2024 06:12:16 +0800
+	id 1tPVKk-0003Ge-2q;
+	Sun, 22 Dec 2024 23:26:02 +0000
+Date: Mon, 23 Dec 2024 07:25:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-Message-ID: <202412230526.xbsyoRYK-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305
+ mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
+Message-ID: <202412230726.9ZbWL1ed-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
-References: <20241219-mdb-max7360-support-v1-5-8e8317584121@bootlin.com>
-TO: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Kamel Bouhara <kamel.bouhara@bootlin.com>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-TO: "Uwe Kleine-König" <ukleinek@kernel.org>
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-gpio@vger.kernel.org
-CC: linux-input@vger.kernel.org
-CC: linux-pwm@vger.kernel.org
-CC: "Grégory Clement" <gregory.clement@bootlin.com>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+TO: Maher Sanalla <msanalla@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Tariq Toukan <tariqt@nvidia.com>
+CC: Simon Horman <horms@kernel.org>
 
-Hi Mathieu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-Add-MAX7360-MFD-device/20241220-002541
-base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-patch link:    https://lore.kernel.org/r/20241219-mdb-max7360-support-v1-5-8e8317584121%40bootlin.com
-patch subject: [PATCH 5/8] gpio: max7360: Add MAX7360 gpio support
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: loongarch-randconfig-r071-20241222 (https://download.01.org/0day-ci/archive/20241223/202412230526.xbsyoRYK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcde95ce32b666478d6737219caa4f8005a8f201
+commit: 0f06228d4a2dcc1fca5b3ddb0eefa09c05b102c4 net/mlx5: Reload only IB representors upon lag disable/enable
+date:   8 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-161-20241215 (https://download.01.org/0day-ci/archive/20241223/202412230726.9ZbWL1ed-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412230526.xbsyoRYK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412230726.9ZbWL1ed-lkp@intel.com/
 
-smatch warnings:
-drivers/gpio/gpio-max7360.c:56 max7360_gpio_set_value() error: uninitialized symbol 'val'.
-drivers/gpio/gpio-max7360.c:388 max7360_gpio_probe() warn: inconsistent indenting
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305 mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
 
-vim +/val +56 drivers/gpio/gpio-max7360.c
+Old smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2210 mlx5_eswitch_inline_mode_get() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2388 esw_offloads_cleanup_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2401 esw_offloads_init_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2528 __unload_reps_all_vport() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2885 mlx5_esw_offloads_rep_event_unpair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2919 mlx5_esw_offloads_pair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3190 esw_offloads_metadata_uninit() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3203 esw_offloads_metadata_init() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4047 mlx5_eswitch_register_vport_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4065 mlx5_eswitch_unregister_vport_reps() warn: iterator 'i' not incremented
 
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  37  
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  38  static void max7360_gpio_set_value(struct gpio_chip *gc,
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  39  				   unsigned int pin, int state)
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  40  {
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  41  	struct max7360_gpio *max7360_gpio = gpiochip_get_data(gc);
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  42  	unsigned int val;
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  43  	int ret;
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  44  
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  45  	if (max7360_gpio->gpio_function == MAX7360_GPIO_COL) {
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  46  		int off = MAX7360_MAX_GPIO - (gc->ngpio - pin);
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  47  
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  48  		ret = regmap_write_bits(max7360_gpio->regmap, MAX7360_REG_PORTS,
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  49  					BIT(off), state ? BIT(off) : 0);
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  50  	} else {
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  51  		ret = regmap_write(max7360_gpio->regmap,
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  52  				   MAX7360_REG_PWMBASE + pin, state ? 0xFF : 0);
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  53  	}
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  54  
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  55  	if (ret)
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19 @56  		dev_err(max7360_gpio->dev,
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  57  			"failed to set value %d on gpio-%d", val, pin);
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  58  }
-19f89f1d3446db Mathieu Dubois-Briand 2024-12-19  59  
+vim +/i +3305 drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+
+184867373d8c6bc Eli Britstein 2019-03-04  3287  
+0f06228d4a2dcc1 Maher Sanalla 2024-05-09  3288  int mlx5_eswitch_reload_ib_reps(struct mlx5_eswitch *esw)
+db202995f5035f1 Mark Bloch    2021-08-03  3289  {
+db202995f5035f1 Mark Bloch    2021-08-03  3290  	struct mlx5_eswitch_rep *rep;
+db202995f5035f1 Mark Bloch    2021-08-03  3291  	unsigned long i;
+db202995f5035f1 Mark Bloch    2021-08-03  3292  	int ret;
+db202995f5035f1 Mark Bloch    2021-08-03  3293  
+db202995f5035f1 Mark Bloch    2021-08-03  3294  	if (!esw || esw->mode != MLX5_ESWITCH_OFFLOADS)
+db202995f5035f1 Mark Bloch    2021-08-03  3295  		return 0;
+db202995f5035f1 Mark Bloch    2021-08-03  3296  
+db202995f5035f1 Mark Bloch    2021-08-03  3297  	rep = mlx5_eswitch_get_rep(esw, MLX5_VPORT_UPLINK);
+db202995f5035f1 Mark Bloch    2021-08-03  3298  	if (atomic_read(&rep->rep_data[REP_ETH].state) != REP_LOADED)
+db202995f5035f1 Mark Bloch    2021-08-03  3299  		return 0;
+db202995f5035f1 Mark Bloch    2021-08-03  3300  
+0f06228d4a2dcc1 Maher Sanalla 2024-05-09  3301  	ret = __esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f1 Mark Bloch    2021-08-03  3302  	if (ret)
+db202995f5035f1 Mark Bloch    2021-08-03  3303  		return ret;
+db202995f5035f1 Mark Bloch    2021-08-03  3304  
+db202995f5035f1 Mark Bloch    2021-08-03 @3305  	mlx5_esw_for_each_rep(esw, i, rep) {
+db202995f5035f1 Mark Bloch    2021-08-03  3306  		if (atomic_read(&rep->rep_data[REP_ETH].state) == REP_LOADED)
+0f06228d4a2dcc1 Maher Sanalla 2024-05-09  3307  			__esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f1 Mark Bloch    2021-08-03  3308  	}
+db202995f5035f1 Mark Bloch    2021-08-03  3309  
+db202995f5035f1 Mark Bloch    2021-08-03  3310  	return 0;
+db202995f5035f1 Mark Bloch    2021-08-03  3311  }
+db202995f5035f1 Mark Bloch    2021-08-03  3312  
+
+:::::: The code at line 3305 was first introduced by commit
+:::::: db202995f5035f13a11df48a0af05edbb3720659 net/mlx5: E-Switch, add logic to enable shared FDB
+
+:::::: TO: Mark Bloch <mbloch@nvidia.com>
+:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
