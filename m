@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9653E28FF
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Dec 2024 13:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050A7219FF
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Dec 2024 15:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734960954; cv=none; b=k2zXpXMe63UBuNLCTKyUl8oRn7PopdPpCsUcfgKq7dNJLhUIOJFl2gJElEhMkf0cme482M5Snal1CaBAnWDNl6VXNkgdEBZNF7klPlLbVfJA8BiBs2L5ioXCOi40rRln/W6wH3JZ6Golowv2n1flE2WW8xJ/tQ4gDvVxvU4jZRI=
+	t=1734966586; cv=none; b=QdsLXftDWKILDqePtmXVtqDwaFRbJmoapRajQdg/DKnEA0frK5kcy/lYDTgtIIf56HVWkbE45h9Xi7Qc1DU+42WlUlVG1R753NdAmhHHjBucwF40sVVdd8BCMLU5aMtw+M3ZbWt5qd/CVyV/W4GYJU5bwJdXSaE4erhdcuGwt2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734960954; c=relaxed/simple;
-	bh=MSoiyJYW7kex9xdnqgikyrHVWGZueu1STkk+423OMH8=;
+	s=arc-20240116; t=1734966586; c=relaxed/simple;
+	bh=PX5fL94blGF79HkR8mOZ23+B9n9Ut4S/7k1lGGMSTs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zh2a3ML7xZF6RKhsivIRF6QUqsAEObJiPiG37UkcYTWGmy0e+rBjeYQvqddw/Sv5rkdnZbjkrcgbHQT3R5Mao47NuT8rtfGIUT3dsJuf1hpBlO4V8Kr3WkAD4b6i+iygU+5JPRUK/NSQqxda2lac/uefjp8IaHT4BieMPCaufTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hvs8VJIO; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=U1N10ncigGOdizTh583wola8dslR9B5vqFBg5AxOBmNZ34hA/V64lCscigp5fZGepuc1iMcuZrQFSkPPW3JhwVpsQlg7MfqWx3fn2flpAh/8sqFYGBhX3CV83Q/qZRVQcd4vzgMA5nfdyBqCU7KBt1pE3l+ewrZE68wZmQJzdxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSb8wKyh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hvs8VJIO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSb8wKyh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734960952; x=1766496952;
+  t=1734966584; x=1766502584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MSoiyJYW7kex9xdnqgikyrHVWGZueu1STkk+423OMH8=;
-  b=hvs8VJIO5dX/6YWBtH4BecHXTrOUmo5nKAVjuU0o/cqXXvNLNdCJqBoO
-   OdL6LerGGwV2zuf9bCBOnuF5I/Ji9S2hT2q+md0OMBunoueMGOe09OWSP
-   xlLeMyKtQYs/fbVpUybymXFNW2ytVQcOttrUq5qfmTLjZGJfqolmTMWvn
-   bhYE6FDgFRSQR2tfqFTgX/eDjnuBiJg5tRnHvoDtFLG7JrdzpPA/1OeS/
-   ogRXZthKJa8mK0ytq9M6hDhdUJFks4ccA9pKhp3z3Fgbk9yJAXslQrDgf
-   5+W9MAOISOlMojkiCHDDw4TUZXpIaU+ZuHPu8CsYtYaR5EZ/bu5wMqosy
-   g==;
-X-CSE-ConnectionGUID: nblzeAstS6eaD6e3rG/T4A==
-X-CSE-MsgGUID: mE6QMC6fTpSLL0imx9GZ7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="46846213"
+  bh=PX5fL94blGF79HkR8mOZ23+B9n9Ut4S/7k1lGGMSTs4=;
+  b=CSb8wKyhPYObrCt5/kZF2oMkOkwhaFXsqO3zcuP8sOn/9FaHxSYpaEoY
+   cOdbCVbHiGlHmrZfDVYDU3NL2kbVwW2QZ2SYWAtY9rN5VLqBiLFz9MtHi
+   VrG5NTYnizy3OC5MlMF4cDVkHe9fKedmYZvNzwUf344CNM6Ma+++fkmnK
+   Re0KTjaB4IMjeqewKSYqNm29do/BoEDijUO23OP+aDqXLeoWm0URZeyk6
+   zYRJMX570V/x10uPoMYxsfh4h4rxCNkelA3q1ZJiSz5r1rC7CjupeevS8
+   wniHP2OLLZb09Hx7/4Lnm6fm+WPbkEun6jUEWiRCJfIOC6zIKj6X5Sx4l
+   w==;
+X-CSE-ConnectionGUID: SAr7toB1QUG1BS3KyedJAw==
+X-CSE-MsgGUID: Y+rJStnbSaGkqrLX0mwfkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="57897506"
 X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
-   d="scan'208";a="46846213"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 05:35:51 -0800
-X-CSE-ConnectionGUID: 4A1prn0sRja6Sw1v5RC1VQ==
-X-CSE-MsgGUID: rOX15KVQTYiSNS/+zNW2Zw==
+   d="scan'208";a="57897506"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 07:09:44 -0800
+X-CSE-ConnectionGUID: 87CnCYsNQrGYwfLdo+wmig==
+X-CSE-MsgGUID: 1HLXlcgQTeiM3T39SGZdmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103828524"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Dec 2024 05:35:49 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; 
+   d="scan'208";a="104212165"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 23 Dec 2024 07:09:43 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tPib5-0003cd-28;
-	Mon, 23 Dec 2024 13:35:47 +0000
-Date: Mon, 23 Dec 2024 21:35:07 +0800
+	id 1tPk3w-00004V-0S;
+	Mon, 23 Dec 2024 15:09:40 +0000
+Date: Mon, 23 Dec 2024 23:08:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3205/5236]
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2666 vop2_setup_layer_mixer()
- error: uninitialized symbol 'old_win'.
-Message-ID: <202412232121.J7FqM7Ct-lkp@intel.com>
+Subject: Re: [PATCH v2 1/5] drm/msm: register a fault handler for display mmu
+ faults
+Message-ID: <202412232320.jOVlNH6W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,168 +64,77 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Andy Yan <andy.yan@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
+In-Reply-To: <20241217-abhinavk-smmu-fault-handler-v2-1-451377666cad@quicinc.com>
+References: <20241217-abhinavk-smmu-fault-handler-v2-1-451377666cad@quicinc.com>
+TO: Jessica Zhang <quic_jesszhan@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-commit: 0ca953ac226eaffbe1a795f5e517095a8d494921 [3205/5236] drm/rockchip: vop2: Fix the windows switch between different layers
-:::::: branch date: 3 days ago
-:::::: commit date: 9 days ago
-config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232121.J7FqM7Ct-lkp@intel.com/config)
+Hi Jessica,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 86313a9cd152330c634b25d826a281c6a002eb77]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jessica-Zhang/drm-msm-register-a-fault-handler-for-display-mmu-faults/20241218-082950
+base:   86313a9cd152330c634b25d826a281c6a002eb77
+patch link:    https://lore.kernel.org/r/20241217-abhinavk-smmu-fault-handler-v2-1-451377666cad%40quicinc.com
+patch subject: [PATCH v2 1/5] drm/msm: register a fault handler for display mmu faults
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241223/202412232320.jOVlNH6W-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412232121.J7FqM7Ct-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412232320.jOVlNH6W-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2666 vop2_setup_layer_mixer() error: uninitialized symbol 'old_win'.
+smatch warnings:
+drivers/gpu/drm/msm/msm_kms.c:211 msm_kms_init_aspace() error: 'aspace' dereferencing possible ERR_PTR()
 
-Old smatch warnings:
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:692 vop2_afbc_transform_offset() error: uninitialized symbol 'tx'.
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:693 vop2_afbc_transform_offset() error: uninitialized symbol 'ty'.
+vim +/aspace +211 drivers/gpu/drm/msm/msm_kms.c
 
-vim +/old_win +2666 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-
-604be85547ce4d Andy Yan 2022-04-22  2537  
-604be85547ce4d Andy Yan 2022-04-22  2538  static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
-604be85547ce4d Andy Yan 2022-04-22  2539  {
-604be85547ce4d Andy Yan 2022-04-22  2540  	struct vop2 *vop2 = vp->vop2;
-604be85547ce4d Andy Yan 2022-04-22  2541  	struct drm_plane *plane;
-604be85547ce4d Andy Yan 2022-04-22  2542  	u32 layer_sel = 0;
-604be85547ce4d Andy Yan 2022-04-22  2543  	u32 port_sel;
-0ca953ac226eaf Andy Yan 2024-12-14  2544  	u8 layer_id;
-0ca953ac226eaf Andy Yan 2024-12-14  2545  	u8 old_layer_id;
-0ca953ac226eaf Andy Yan 2024-12-14  2546  	u8 layer_sel_id;
-0ca953ac226eaf Andy Yan 2024-12-14  2547  	unsigned int ofs;
-dd49ee4614cfb0 Andy Yan 2023-12-11  2548  	u32 ovl_ctrl;
-604be85547ce4d Andy Yan 2022-04-22  2549  	int i;
-604be85547ce4d Andy Yan 2022-04-22  2550  	struct vop2_video_port *vp0 = &vop2->vps[0];
-604be85547ce4d Andy Yan 2022-04-22  2551  	struct vop2_video_port *vp1 = &vop2->vps[1];
-604be85547ce4d Andy Yan 2022-04-22  2552  	struct vop2_video_port *vp2 = &vop2->vps[2];
-dd49ee4614cfb0 Andy Yan 2023-12-11  2553  	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(vp->crtc.state);
-604be85547ce4d Andy Yan 2022-04-22  2554  
-dd49ee4614cfb0 Andy Yan 2023-12-11  2555  	ovl_ctrl = vop2_readl(vop2, RK3568_OVL_CTRL);
-dd49ee4614cfb0 Andy Yan 2023-12-11  2556  	ovl_ctrl |= RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD;
-dd49ee4614cfb0 Andy Yan 2023-12-11  2557  	if (vcstate->yuv_overlay)
-dd49ee4614cfb0 Andy Yan 2023-12-11  2558  		ovl_ctrl |= RK3568_OVL_CTRL__YUV_MODE(vp->id);
-dd49ee4614cfb0 Andy Yan 2023-12-11  2559  	else
-dd49ee4614cfb0 Andy Yan 2023-12-11  2560  		ovl_ctrl &= ~RK3568_OVL_CTRL__YUV_MODE(vp->id);
-dd49ee4614cfb0 Andy Yan 2023-12-11  2561  
-dd49ee4614cfb0 Andy Yan 2023-12-11  2562  	vop2_writel(vop2, RK3568_OVL_CTRL, ovl_ctrl);
-dd49ee4614cfb0 Andy Yan 2023-12-11  2563  
-604be85547ce4d Andy Yan 2022-04-22  2564  	port_sel = vop2_readl(vop2, RK3568_OVL_PORT_SEL);
-604be85547ce4d Andy Yan 2022-04-22  2565  	port_sel &= RK3568_OVL_PORT_SEL__SEL_PORT;
-604be85547ce4d Andy Yan 2022-04-22  2566  
-604be85547ce4d Andy Yan 2022-04-22  2567  	if (vp0->nlayers)
-604be85547ce4d Andy Yan 2022-04-22  2568  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT0_MUX,
-604be85547ce4d Andy Yan 2022-04-22  2569  				     vp0->nlayers - 1);
-604be85547ce4d Andy Yan 2022-04-22  2570  	else
-604be85547ce4d Andy Yan 2022-04-22  2571  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT0_MUX, 8);
-604be85547ce4d Andy Yan 2022-04-22  2572  
-604be85547ce4d Andy Yan 2022-04-22  2573  	if (vp1->nlayers)
-604be85547ce4d Andy Yan 2022-04-22  2574  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT1_MUX,
-604be85547ce4d Andy Yan 2022-04-22  2575  				     (vp0->nlayers + vp1->nlayers - 1));
-604be85547ce4d Andy Yan 2022-04-22  2576  	else
-604be85547ce4d Andy Yan 2022-04-22  2577  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT1_MUX, 8);
-604be85547ce4d Andy Yan 2022-04-22  2578  
-604be85547ce4d Andy Yan 2022-04-22  2579  	if (vp2->nlayers)
-604be85547ce4d Andy Yan 2022-04-22  2580  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT2_MUX,
-604be85547ce4d Andy Yan 2022-04-22  2581  			(vp2->nlayers + vp1->nlayers + vp0->nlayers - 1));
-604be85547ce4d Andy Yan 2022-04-22  2582  	else
-2bdb481bf7a93c Andy Yan 2024-04-22  2583  		port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT2_MUX, 8);
-604be85547ce4d Andy Yan 2022-04-22  2584  
-604be85547ce4d Andy Yan 2022-04-22  2585  	layer_sel = vop2_readl(vop2, RK3568_OVL_LAYER_SEL);
-604be85547ce4d Andy Yan 2022-04-22  2586  
-604be85547ce4d Andy Yan 2022-04-22  2587  	ofs = 0;
-604be85547ce4d Andy Yan 2022-04-22  2588  	for (i = 0; i < vp->id; i++)
-604be85547ce4d Andy Yan 2022-04-22  2589  		ofs += vop2->vps[i].nlayers;
-604be85547ce4d Andy Yan 2022-04-22  2590  
-604be85547ce4d Andy Yan 2022-04-22  2591  	drm_atomic_crtc_for_each_plane(plane, &vp->crtc) {
-604be85547ce4d Andy Yan 2022-04-22  2592  		struct vop2_win *win = to_vop2_win(plane);
-0ca953ac226eaf Andy Yan 2024-12-14  2593  		struct vop2_win *old_win;
-0ca953ac226eaf Andy Yan 2024-12-14  2594  
-0ca953ac226eaf Andy Yan 2024-12-14  2595  		layer_id = (u8)(plane->state->normalized_zpos + ofs);
-0ca953ac226eaf Andy Yan 2024-12-14  2596  
-0ca953ac226eaf Andy Yan 2024-12-14  2597  		/*
-0ca953ac226eaf Andy Yan 2024-12-14  2598  		 * Find the layer this win bind in old state.
-0ca953ac226eaf Andy Yan 2024-12-14  2599  		 */
-0ca953ac226eaf Andy Yan 2024-12-14  2600  		for (old_layer_id = 0; old_layer_id < vop2->data->win_size; old_layer_id++) {
-0ca953ac226eaf Andy Yan 2024-12-14  2601  			layer_sel_id = (layer_sel >> (4 * old_layer_id)) & 0xf;
-0ca953ac226eaf Andy Yan 2024-12-14  2602  			if (layer_sel_id == win->data->layer_sel_id)
-0ca953ac226eaf Andy Yan 2024-12-14  2603  				break;
-0ca953ac226eaf Andy Yan 2024-12-14  2604  		}
-0ca953ac226eaf Andy Yan 2024-12-14  2605  
-0ca953ac226eaf Andy Yan 2024-12-14  2606  		/*
-0ca953ac226eaf Andy Yan 2024-12-14  2607  		 * Find the win bind to this layer in old state
-0ca953ac226eaf Andy Yan 2024-12-14  2608  		 */
-0ca953ac226eaf Andy Yan 2024-12-14  2609  		for (i = 0; i < vop2->data->win_size; i++) {
-0ca953ac226eaf Andy Yan 2024-12-14  2610  			old_win = &vop2->win[i];
-0ca953ac226eaf Andy Yan 2024-12-14  2611  			layer_sel_id = (layer_sel >> (4 * layer_id)) & 0xf;
-0ca953ac226eaf Andy Yan 2024-12-14  2612  			if (layer_sel_id == old_win->data->layer_sel_id)
-0ca953ac226eaf Andy Yan 2024-12-14  2613  				break;
-0ca953ac226eaf Andy Yan 2024-12-14  2614  		}
-604be85547ce4d Andy Yan 2022-04-22  2615  
-604be85547ce4d Andy Yan 2022-04-22  2616  		switch (win->data->phys_id) {
-604be85547ce4d Andy Yan 2022-04-22  2617  		case ROCKCHIP_VOP2_CLUSTER0:
-604be85547ce4d Andy Yan 2022-04-22  2618  			port_sel &= ~RK3568_OVL_PORT_SEL__CLUSTER0;
-604be85547ce4d Andy Yan 2022-04-22  2619  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__CLUSTER0, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2620  			break;
-604be85547ce4d Andy Yan 2022-04-22  2621  		case ROCKCHIP_VOP2_CLUSTER1:
-604be85547ce4d Andy Yan 2022-04-22  2622  			port_sel &= ~RK3568_OVL_PORT_SEL__CLUSTER1;
-604be85547ce4d Andy Yan 2022-04-22  2623  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__CLUSTER1, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2624  			break;
-5a028e8f062fc8 Andy Yan 2023-12-11  2625  		case ROCKCHIP_VOP2_CLUSTER2:
-5a028e8f062fc8 Andy Yan 2023-12-11  2626  			port_sel &= ~RK3588_OVL_PORT_SEL__CLUSTER2;
-5a028e8f062fc8 Andy Yan 2023-12-11  2627  			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__CLUSTER2, vp->id);
-5a028e8f062fc8 Andy Yan 2023-12-11  2628  			break;
-5a028e8f062fc8 Andy Yan 2023-12-11  2629  		case ROCKCHIP_VOP2_CLUSTER3:
-5a028e8f062fc8 Andy Yan 2023-12-11  2630  			port_sel &= ~RK3588_OVL_PORT_SEL__CLUSTER3;
-5a028e8f062fc8 Andy Yan 2023-12-11  2631  			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__CLUSTER3, vp->id);
-5a028e8f062fc8 Andy Yan 2023-12-11  2632  			break;
-604be85547ce4d Andy Yan 2022-04-22  2633  		case ROCKCHIP_VOP2_ESMART0:
-604be85547ce4d Andy Yan 2022-04-22  2634  			port_sel &= ~RK3568_OVL_PORT_SEL__ESMART0;
-604be85547ce4d Andy Yan 2022-04-22  2635  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__ESMART0, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2636  			break;
-604be85547ce4d Andy Yan 2022-04-22  2637  		case ROCKCHIP_VOP2_ESMART1:
-604be85547ce4d Andy Yan 2022-04-22  2638  			port_sel &= ~RK3568_OVL_PORT_SEL__ESMART1;
-604be85547ce4d Andy Yan 2022-04-22  2639  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__ESMART1, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2640  			break;
-5a028e8f062fc8 Andy Yan 2023-12-11  2641  		case ROCKCHIP_VOP2_ESMART2:
-5a028e8f062fc8 Andy Yan 2023-12-11  2642  			port_sel &= ~RK3588_OVL_PORT_SEL__ESMART2;
-5a028e8f062fc8 Andy Yan 2023-12-11  2643  			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__ESMART2, vp->id);
-5a028e8f062fc8 Andy Yan 2023-12-11  2644  			break;
-5a028e8f062fc8 Andy Yan 2023-12-11  2645  		case ROCKCHIP_VOP2_ESMART3:
-5a028e8f062fc8 Andy Yan 2023-12-11  2646  			port_sel &= ~RK3588_OVL_PORT_SEL__ESMART3;
-5a028e8f062fc8 Andy Yan 2023-12-11  2647  			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__ESMART3, vp->id);
-5a028e8f062fc8 Andy Yan 2023-12-11  2648  			break;
-604be85547ce4d Andy Yan 2022-04-22  2649  		case ROCKCHIP_VOP2_SMART0:
-604be85547ce4d Andy Yan 2022-04-22  2650  			port_sel &= ~RK3568_OVL_PORT_SEL__SMART0;
-604be85547ce4d Andy Yan 2022-04-22  2651  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__SMART0, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2652  			break;
-604be85547ce4d Andy Yan 2022-04-22  2653  		case ROCKCHIP_VOP2_SMART1:
-604be85547ce4d Andy Yan 2022-04-22  2654  			port_sel &= ~RK3568_OVL_PORT_SEL__SMART1;
-604be85547ce4d Andy Yan 2022-04-22  2655  			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__SMART1, vp->id);
-604be85547ce4d Andy Yan 2022-04-22  2656  			break;
-604be85547ce4d Andy Yan 2022-04-22  2657  		}
-604be85547ce4d Andy Yan 2022-04-22  2658  
-0ca953ac226eaf Andy Yan 2024-12-14  2659  		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(layer_id, 0x7);
-0ca953ac226eaf Andy Yan 2024-12-14  2660  		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(layer_id, win->data->layer_sel_id);
-0ca953ac226eaf Andy Yan 2024-12-14  2661  		/*
-0ca953ac226eaf Andy Yan 2024-12-14  2662  		 * When we bind a window from layerM to layerN, we also need to move the old
-0ca953ac226eaf Andy Yan 2024-12-14  2663  		 * window on layerN to layerM to avoid one window selected by two or more layers.
-0ca953ac226eaf Andy Yan 2024-12-14  2664  		 */
-0ca953ac226eaf Andy Yan 2024-12-14  2665  		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(old_layer_id, 0x7);
-0ca953ac226eaf Andy Yan 2024-12-14 @2666  		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(old_layer_id, old_win->data->layer_sel_id);
-604be85547ce4d Andy Yan 2022-04-22  2667  	}
-604be85547ce4d Andy Yan 2022-04-22  2668  
-604be85547ce4d Andy Yan 2022-04-22  2669  	vop2_writel(vop2, RK3568_OVL_LAYER_SEL, layer_sel);
-604be85547ce4d Andy Yan 2022-04-22  2670  	vop2_writel(vop2, RK3568_OVL_PORT_SEL, port_sel);
-604be85547ce4d Andy Yan 2022-04-22  2671  }
-604be85547ce4d Andy Yan 2022-04-22  2672  
+0752a7416c0b8f Abhinav Kumar    2024-12-17  175  
+506efcba31296e Dmitry Baryshkov 2023-10-09  176  struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
+506efcba31296e Dmitry Baryshkov 2023-10-09  177  {
+506efcba31296e Dmitry Baryshkov 2023-10-09  178  	struct msm_gem_address_space *aspace;
+506efcba31296e Dmitry Baryshkov 2023-10-09  179  	struct msm_mmu *mmu;
+506efcba31296e Dmitry Baryshkov 2023-10-09  180  	struct device *mdp_dev = dev->dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  181  	struct device *mdss_dev = mdp_dev->parent;
+0752a7416c0b8f Abhinav Kumar    2024-12-17  182  	struct msm_drm_private *priv = dev->dev_private;
+0752a7416c0b8f Abhinav Kumar    2024-12-17  183  	struct msm_kms *kms = priv->kms;
+506efcba31296e Dmitry Baryshkov 2023-10-09  184  	struct device *iommu_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  185  
+506efcba31296e Dmitry Baryshkov 2023-10-09  186  	/*
+506efcba31296e Dmitry Baryshkov 2023-10-09  187  	 * IOMMUs can be a part of MDSS device tree binding, or the
+506efcba31296e Dmitry Baryshkov 2023-10-09  188  	 * MDP/DPU device.
+506efcba31296e Dmitry Baryshkov 2023-10-09  189  	 */
+506efcba31296e Dmitry Baryshkov 2023-10-09  190  	if (device_iommu_mapped(mdp_dev))
+506efcba31296e Dmitry Baryshkov 2023-10-09  191  		iommu_dev = mdp_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  192  	else
+506efcba31296e Dmitry Baryshkov 2023-10-09  193  		iommu_dev = mdss_dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  194  
+506efcba31296e Dmitry Baryshkov 2023-10-09  195  	mmu = msm_iommu_new(iommu_dev, 0);
+506efcba31296e Dmitry Baryshkov 2023-10-09  196  	if (IS_ERR(mmu))
+506efcba31296e Dmitry Baryshkov 2023-10-09  197  		return ERR_CAST(mmu);
+506efcba31296e Dmitry Baryshkov 2023-10-09  198  
+506efcba31296e Dmitry Baryshkov 2023-10-09  199  	if (!mmu) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  200  		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
+506efcba31296e Dmitry Baryshkov 2023-10-09  201  		return NULL;
+506efcba31296e Dmitry Baryshkov 2023-10-09  202  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  203  
+506efcba31296e Dmitry Baryshkov 2023-10-09  204  	aspace = msm_gem_address_space_create(mmu, "mdp_kms",
+506efcba31296e Dmitry Baryshkov 2023-10-09  205  		0x1000, 0x100000000 - 0x1000);
+506efcba31296e Dmitry Baryshkov 2023-10-09  206  	if (IS_ERR(aspace)) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  207  		dev_err(mdp_dev, "aspace create, error %pe\n", aspace);
+506efcba31296e Dmitry Baryshkov 2023-10-09  208  		mmu->funcs->destroy(mmu);
+506efcba31296e Dmitry Baryshkov 2023-10-09  209  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  210  
+0752a7416c0b8f Abhinav Kumar    2024-12-17 @211  	msm_mmu_set_fault_handler(aspace->mmu, kms, msm_kms_fault_handler);
+0752a7416c0b8f Abhinav Kumar    2024-12-17  212  
+506efcba31296e Dmitry Baryshkov 2023-10-09  213  	return aspace;
+506efcba31296e Dmitry Baryshkov 2023-10-09  214  }
+506efcba31296e Dmitry Baryshkov 2023-10-09  215  
 
 -- 
 0-DAY CI Kernel Test Service
