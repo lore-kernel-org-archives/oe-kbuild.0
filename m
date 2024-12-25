@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A218F2B9A6
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Dec 2024 21:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D691BC3F
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Dec 2024 22:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735160585; cv=none; b=pHIF/0j2Z5uvewJoltTgCTyOG0OK4vgN+2QiLzLQO8UmuoUmuXkodnhGLzEfSM5u5NS0udvDd46WrVQ+4DnuLkK3il0GeANhYK5nJD3Dhbhu9+en0XbRWwDhUTouIly7lb9HMVlnyeh5uwkwAexxOoFf5tIUfS35H2+hO6MXt/o=
+	t=1735167401; cv=none; b=T1kh7bQYf+rZ7L7lsCmrtXFMLHijrUd4nP+erzpqs/q13MiXv0aV6zWY+pZiF/KdZGPevFR5lZ+GYKSEKcldaL1QchDUmECdyO5W2fSbDw95QhGy4UO/qa/nxj/PrwfYO2vf7nIimqsC1a4LSWNArKeiaZrLrR6JaUEC5FQ+jFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735160585; c=relaxed/simple;
-	bh=euKILrllvfs1TA1DePj6hFCuKWQK3F5OtITTXnh2J7c=;
+	s=arc-20240116; t=1735167401; c=relaxed/simple;
+	bh=5m2swc4dR8KLv8u4B1jYydmui7yr/2peXv9m9o8wgZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DOqwM0RQ1iz2wkbhHgAJVWzqolqBH1D0kXuumazPLxWDjrDGUmfNyPec2CY3mchA3Dy+5O2Xp+1bomEfeUmgwH00zOnApvo5ZEAyGpqERbOOko+YvKqPJTxqbrx0Sh6Tv/syva1BfDPVmHu0LQ1mXA+nrlCYaWrHfIOA65sGe+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxNrBAFX; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=RGddTEDwoIUpXS70w5/rJrHKmQRhNe2YXsxgCnJQtOMlQlGkedkDfrZ+PluSj6g96xqlA6GtbCy317VetISo5L4GtPueRb+K6+l+mjggzihsL/eqByqP6dISfKGzlFW3bAk1mLb4fSWhz/K/5AHoY3yKA5n8+04Z0fD9FFe68/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGSsLfco; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxNrBAFX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGSsLfco"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735160583; x=1766696583;
+  t=1735167398; x=1766703398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=euKILrllvfs1TA1DePj6hFCuKWQK3F5OtITTXnh2J7c=;
-  b=fxNrBAFXFrk9DbF0yF+F71rFsOA21UO6ivjmDU7HcWQ8ka1jppGK4ccq
-   HiOBgIwtjzHiSGhHtvXyFYSSJ4cjHR6KFLE5kFIVAlhYgxjDPJnAt9v4D
-   iK6UwOVqKnKWPfW6DakT0j4g715PSpeF9qvCgnYEXsut2Qefn6IieWLoD
-   1Qw8X++3AHY8PiNOWR6IzBNVseNdsxlP0fNAOSrkrg+swvFEtuSksP6sz
-   s2WNBTGNQW4XynbD1UPHtdnto9NLacYzVsVKiE1eRPZw9q4RyzmZls1Os
-   M4oHKy5bMlFKolW2KSbxMf/nzOJViqBu0G66sYkrE/E13kxfqgvT7n9so
-   w==;
-X-CSE-ConnectionGUID: s5TbYDhNR72inUAGX+01Zg==
-X-CSE-MsgGUID: UMZVMHVTSYW0ZG0kMeaZww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35712082"
+  bh=5m2swc4dR8KLv8u4B1jYydmui7yr/2peXv9m9o8wgZ0=;
+  b=jGSsLfcoEfA8vd8RZgTlG/kPmjct2A7OgnD2e2Gvy5JXwmP1BeD3rfTW
+   JeS0XATDmGw/mQ0ASynG49FE0YFPyhD5higJWK5HbUmCkHpeAeBG2kiQm
+   5OlUSsoNgIRwuBEpz9TekaUKJ1WdLidMbWDVXozZRksbtc6dhqjgxZxEB
+   sC0XwGYOoB4/678UiN3/AX6gG0WtiCMqbEQwrVDis4+GMQMEHcx2eKuwP
+   8Eh9/cpVvSpbizhDS2x2H7OQ644NTuJom2swEQhTk7L7n6fiJrEwUIM9a
+   6zCwE9Dxwew8kQffKV/W+duZCx5tDUvzhKrOS0EFIMlYLgUzq2ql/uPxS
+   A==;
+X-CSE-ConnectionGUID: OGwntAHoQJySkF708eHDfw==
+X-CSE-MsgGUID: QMBxGR9WRLObuXKgyLAxWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35627373"
 X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
-   d="scan'208";a="35712082"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 13:03:02 -0800
-X-CSE-ConnectionGUID: dvELh8H0S0OP2wOf49mC2A==
-X-CSE-MsgGUID: nAMgu3LXSh+bT0vtx0lXSA==
+   d="scan'208";a="35627373"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 14:56:38 -0800
+X-CSE-ConnectionGUID: EiSk4KSVSQqMPNO/4tjaGA==
+X-CSE-MsgGUID: bd4nZXXlTJmTKc5oAVngVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
-   d="scan'208";a="130624833"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130776165"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Dec 2024 13:03:01 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Dec 2024 14:56:35 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQYWw-000296-1g;
-	Wed, 25 Dec 2024 21:02:58 +0000
-Date: Thu, 26 Dec 2024 05:02:20 +0800
+	id 1tQaIr-0002Cg-38;
+	Wed, 25 Dec 2024 22:56:33 +0000
+Date: Thu, 26 Dec 2024 06:55:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/bpf/kmem_cache_iter.c:13:7-15: WARNING use flexible-array
- member instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-Message-ID: <202412260400.BelOqEz4-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1662/1662] arch/loongarch/kernel/smp.c:292:6-9:
+ WARNING: Unsigned expression compared with zero: cpu < 0
+Message-ID: <202412260650.f6qSIlDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,36 +64,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Namhyung Kim <namhyung@kernel.org>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: kernel@openeuler.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-commit: 2e9a548009c2d804e55cdd5b0e9903756cf7d9b3 bpf: Add open coded version of kmem_cache iterator
-date:   8 weeks ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 8 weeks ago
-config: powerpc-randconfig-r052-20241225 (https://download.01.org/0day-ci/archive/20241226/202412260400.BelOqEz4-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   17d734cf11b0235f16580f53a6cb52660a38c77d
+commit: 083374f2b20d03f184ce6430fea68d64de4a05a5 [1662/1662] LoongArch: Fix cpu hotplug issue
+:::::: branch date: 14 hours ago
+:::::: commit date: 3 weeks ago
+config: loongarch-randconfig-r052-20241226 (https://download.01.org/0day-ci/archive/20241226/202412260650.f6qSIlDO-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412260400.BelOqEz4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412260650.f6qSIlDO-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/bpf/kmem_cache_iter.c:13:7-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+>> arch/loongarch/kernel/smp.c:292:6-9: WARNING: Unsigned expression compared with zero: cpu < 0
 
-vim +13 kernel/bpf/kmem_cache_iter.c
+vim +292 arch/loongarch/kernel/smp.c
 
-4971266e1595f7 Namhyung Kim 2024-10-10  10  
-2e9a548009c2d8 Namhyung Kim 2024-10-30  11  /* open-coded version */
-2e9a548009c2d8 Namhyung Kim 2024-10-30  12  struct bpf_iter_kmem_cache {
-2e9a548009c2d8 Namhyung Kim 2024-10-30 @13  	__u64 __opaque[1];
-2e9a548009c2d8 Namhyung Kim 2024-10-30  14  } __attribute__((aligned(8)));
-2e9a548009c2d8 Namhyung Kim 2024-10-30  15  
+c79c0a45da4cfa Bibo Mao    2024-03-25  276  
+88d4d957edc707 Binbin Zhou 2022-12-10  277  static void __init fdt_smp_setup(void)
+88d4d957edc707 Binbin Zhou 2022-12-10  278  {
+88d4d957edc707 Binbin Zhou 2022-12-10  279  #ifdef CONFIG_OF
+88d4d957edc707 Binbin Zhou 2022-12-10  280  	unsigned int cpu, cpuid;
+88d4d957edc707 Binbin Zhou 2022-12-10  281  	struct device_node *node = NULL;
+88d4d957edc707 Binbin Zhou 2022-12-10  282  
+88d4d957edc707 Binbin Zhou 2022-12-10  283  	for_each_of_cpu_node(node) {
+88d4d957edc707 Binbin Zhou 2022-12-10  284  		if (!of_device_is_available(node))
+88d4d957edc707 Binbin Zhou 2022-12-10  285  			continue;
+88d4d957edc707 Binbin Zhou 2022-12-10  286  
+88d4d957edc707 Binbin Zhou 2022-12-10  287  		cpuid = of_get_cpu_hwid(node, 0);
+88d4d957edc707 Binbin Zhou 2022-12-10  288  		if (cpuid >= nr_cpu_ids)
+88d4d957edc707 Binbin Zhou 2022-12-10  289  			continue;
+88d4d957edc707 Binbin Zhou 2022-12-10  290  
+083374f2b20d03 Xianglai Li 2024-10-28  291  		cpu = topo_add_cpu(cpuid);
+083374f2b20d03 Xianglai Li 2024-10-28 @292  		if (cpu < 0)
+083374f2b20d03 Xianglai Li 2024-10-28  293  			continue;
+88d4d957edc707 Binbin Zhou 2022-12-10  294  
+88d4d957edc707 Binbin Zhou 2022-12-10  295  		num_processors++;
+88d4d957edc707 Binbin Zhou 2022-12-10  296  		set_cpu_possible(cpu, true);
+88d4d957edc707 Binbin Zhou 2022-12-10  297  		set_cpu_present(cpu, true);
+88d4d957edc707 Binbin Zhou 2022-12-10  298  		__cpu_number_map[cpuid] = cpu;
+88d4d957edc707 Binbin Zhou 2022-12-10  299  		__cpu_logical_map[cpu] = cpuid;
+0812d278e7ec00 Jiaxun Yang 2024-07-29  300  
+083374f2b20d03 Xianglai Li 2024-10-28  301  		early_numa_add_cpu(cpuid, 0);
+0812d278e7ec00 Jiaxun Yang 2024-07-29  302  		set_cpuid_to_node(cpuid, 0);
+88d4d957edc707 Binbin Zhou 2022-12-10  303  	}
+88d4d957edc707 Binbin Zhou 2022-12-10  304  
+88d4d957edc707 Binbin Zhou 2022-12-10  305  	loongson_sysconf.nr_cpus = num_processors;
+872b368b228260 Huacai Chen 2023-06-29  306  	set_bit(0, &(loongson_sysconf.cores_io_master));
+88d4d957edc707 Binbin Zhou 2022-12-10  307  #endif
+88d4d957edc707 Binbin Zhou 2022-12-10  308  }
+88d4d957edc707 Binbin Zhou 2022-12-10  309  
 
 -- 
 0-DAY CI Kernel Test Service
