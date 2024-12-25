@@ -1,172 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C906117996
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Dec 2024 23:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7485836C
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Dec 2024 00:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735083269; cv=none; b=hAV6mjk082M16sbMwrUHAcn1m0tTtwZ68dEXgvI+Qz6Pt1au51YWDyM7kJXjan1kTg50MKA8/R6oC8n7Idp7HdHUC/xc9Yc52lLTGz1GFi//fOMSGKqGKwMa9p6smRHG1TFSxYY6OBO0cpo4jBDargG5Ws5MfPRhdNSXXHkQnns=
+	t=1735087596; cv=none; b=O2bCG9+RYUxjQm4BV9Lt9qRMdyO3Jq7vNWGc35EM5hBRAYNwudbxz2boOOY21pQ0lv4AV1g4mL6pYL+bCmUfrUt9cUMKfLE/ArXPKO2hOPRW6eXJ41P1IDbqj1cYOrVKyh3rwCxuDvzDgIl4Xj7OPiOWH1GI8w7ygXN853c0sUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735083269; c=relaxed/simple;
-	bh=fHErgxcYc8xd9HSiDfOa55BB0ZA7e5W0DI/Y9dxRYsM=;
+	s=arc-20240116; t=1735087596; c=relaxed/simple;
+	bh=bAeP08NzrhvLJ3cOcXKNalBXijI8sU6YHhZ+QjRqgxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g4imZygZCsIHE8aJCORs+184Q/O95BRHfP/iTfcbR7ZahMlRBI5q9PpN3wHNwNIux36S3M8mIH9pm0Padhr0OdufvlndcXXYr5KwKfKtOIUjiHeXjdHeeUEJHyNRpCPSAHn72uOuFyC7oOoVgQCocBuNWvvX//t65Yu1uVj3Xnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/rXbCk4; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Ml9uWGF2WHzBkWMgvrJJth8KEK8qjcIhJowQVgZNE24z03bMmfaczM0JAn9UzKXBtkzxTMLKIXhHboMwsdrx3iSNUegcGTHl3lj9AUhSHit5Io/KFxS6TSn0dzSk9VHRrIwEFH42r3pFXsAhAMWFKdh9GbIWVyKYe9hIv2YYYl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgXHomXa; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/rXbCk4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgXHomXa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735083268; x=1766619268;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fHErgxcYc8xd9HSiDfOa55BB0ZA7e5W0DI/Y9dxRYsM=;
-  b=V/rXbCk4HtbM9VguzE1LCz+bbXBtPAzI9m6O9TcCG01hwoNPGgcstyqK
-   9fKrPa/nPgW05yZXWR+HiTc36EFsBDGC4NYHr6MTO3hakMMI/FTyQWYZs
-   sK6Iz6T3x1gXS+qWBjhtimdJJPTBUS10FT4rbuNfQ5i2wtayPDSYLjH5P
-   MkLVySEQJE0VIcygQqBRfjpnBueCqcG10EQmA7dCqVcoQJbKmDaMU77uA
-   8gpzzaei7KRYXDGQXFn5boZ8lwpqetxSSJZ9VyRODz+D7yTDoutN8yOpW
-   CYli5a9yBp5JUbSReLNpqyH7T81JlxjkwqxLCRQHCWG/jNjcbIHIugTPb
-   g==;
-X-CSE-ConnectionGUID: jJX7FALvSDmTbB44y4bZjg==
-X-CSE-MsgGUID: wE/W/n74Sl+HJgvbsnr46w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35666607"
+  t=1735087594; x=1766623594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bAeP08NzrhvLJ3cOcXKNalBXijI8sU6YHhZ+QjRqgxs=;
+  b=QgXHomXaZjXeScwmPC4ST+alAPS8cTGZc65QhO95HMIVCkfzVblpYdUW
+   DogmWc+5lu3BxtjEJlq5Rk5RWWh7N4MwF+pEVmddTfQiPacRg7vAsGb4C
+   aRAByQfvffwIoGFoqW3j2JEautnKXOpup+ITfst9kLhephwz4xGz3U199
+   8M4+tAN/TOgPx6iHDruxdhbl7sncTYW9ec0A91esCM/qR0dtDg1Wn7ho2
+   illEfcXGjH1sfoM9kQKZd03tMMEG9NpNwVbF4lMA4H0j17pQguNQ9tFRS
+   G8BQX9aeZwDueUWE4WZ6u1kG2s1F2ptl7dLbMfFhWJnIdMyxXXf3AuwOX
+   Q==;
+X-CSE-ConnectionGUID: PDmvzg41QAStmtLsFZz0kg==
+X-CSE-MsgGUID: pNBxJ72BQ8C7xASvYOMcHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="58011342"
 X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
-   d="scan'208";a="35666607"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 15:34:26 -0800
-X-CSE-ConnectionGUID: j0zbzgFUSeyDlDous8GLMw==
-X-CSE-MsgGUID: y++BOlIuTxyXT00KVyX4jw==
+   d="scan'208";a="58011342"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 16:46:34 -0800
+X-CSE-ConnectionGUID: mB5kk+qfTsKc7V3omxmm1A==
+X-CSE-MsgGUID: Xs/5IJ5xRRu/bkIIqb1PaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="100057213"
+X-IronPort-AV: E=Sophos;i="6.12,261,1728975600"; 
+   d="scan'208";a="99817018"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 24 Dec 2024 15:34:26 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 24 Dec 2024 16:46:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQEPu-0001X6-2y;
-	Tue, 24 Dec 2024 23:34:22 +0000
-Date: Wed, 25 Dec 2024 07:33:42 +0800
+	id 1tQFXh-0001Yp-2U;
+	Wed, 25 Dec 2024 00:46:29 +0000
+Date: Wed, 25 Dec 2024 08:46:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/mediatek/mtk_dsi.c:1173 mtk_dsi_host_transfer()
- warn: check sign expansion for 'ret'
-Message-ID: <202412250704.SHuB9Vq8-lkp@intel.com>
+Subject: [android-common:android15-6.6 2/2] fs/incfs/data_mgmt.c:510
+ log_read_one_record() error: uninitialized symbol 'record_size'.
+Message-ID: <202412250844.U4BGBYsX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-CC: CK Hu <ck.hu@mediatek.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-commit: d2db0b8fd70bb216eb96ad1a32c158889e247c16 drm/mediatek: Allow build with COMPILE_TEST=y
-date:   9 weeks ago
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   cc2a6cb2e3103c2718274f27b95bf61fb8225ab6
+commit: fe2917fdb90f6d5513202ed424b446d2dd0f15eb [2/2] ANDROID: Incremental fs: Finer readlog compression internally
 :::::: branch date: 6 hours ago
-:::::: commit date: 9 weeks ago
-config: s390-randconfig-r073-20241219 (https://download.01.org/0day-ci/archive/20241225/202412250704.SHuB9Vq8-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
+:::::: commit date: 3 years, 10 months ago
+config: x86_64-randconfig-161-20241217 (https://download.01.org/0day-ci/archive/20241225/202412250844.U4BGBYsX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412250704.SHuB9Vq8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412250844.U4BGBYsX-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/mediatek/mtk_dsi.c:1173 mtk_dsi_host_transfer() warn: check sign expansion for 'ret'
+fs/incfs/data_mgmt.c:510 log_read_one_record() error: uninitialized symbol 'record_size'.
 
-vim +/ret +1173 drivers/gpu/drm/mediatek/mtk_dsi.c
+vim +/record_size +510 fs/incfs/data_mgmt.c
 
-21898816831fc6 shaoming chen  2017-03-31  1105  
-21898816831fc6 shaoming chen  2017-03-31  1106  static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
-21898816831fc6 shaoming chen  2017-03-31  1107  				     const struct mipi_dsi_msg *msg)
-21898816831fc6 shaoming chen  2017-03-31  1108  {
-21898816831fc6 shaoming chen  2017-03-31  1109  	struct mtk_dsi *dsi = host_to_dsi(host);
-21898816831fc6 shaoming chen  2017-03-31  1110  	u32 recv_cnt, i;
-21898816831fc6 shaoming chen  2017-03-31  1111  	u8 read_data[16];
-21898816831fc6 shaoming chen  2017-03-31  1112  	void *src_addr;
-21898816831fc6 shaoming chen  2017-03-31  1113  	u8 irq_flag = CMD_DONE_INT_FLAG;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1114  	u32 dsi_mode;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1115  	int ret;
-21898816831fc6 shaoming chen  2017-03-31  1116  
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1117  	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1118  	if (dsi_mode & MODE) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1119  		mtk_dsi_stop(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1120  		ret = mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1121  		if (ret)
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1122  			goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  1123  	}
-21898816831fc6 shaoming chen  2017-03-31  1124  
-21898816831fc6 shaoming chen  2017-03-31  1125  	if (MTK_DSI_HOST_IS_READ(msg->type))
-21898816831fc6 shaoming chen  2017-03-31  1126  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
-21898816831fc6 shaoming chen  2017-03-31  1127  
-39e8d062b03c3d Jitao Shi      2022-05-20  1128  	mtk_dsi_lane_ready(dsi);
-39e8d062b03c3d Jitao Shi      2022-05-20  1129  
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1130  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1131  	if (ret)
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1132  		goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  1133  
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1134  	if (!MTK_DSI_HOST_IS_READ(msg->type)) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1135  		recv_cnt = 0;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1136  		goto restore_dsi_mode;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1137  	}
-21898816831fc6 shaoming chen  2017-03-31  1138  
-21898816831fc6 shaoming chen  2017-03-31  1139  	if (!msg->rx_buf) {
-21898816831fc6 shaoming chen  2017-03-31  1140  		DRM_ERROR("dsi receive buffer size may be NULL\n");
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1141  		ret = -EINVAL;
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1142  		goto restore_dsi_mode;
-21898816831fc6 shaoming chen  2017-03-31  1143  	}
-21898816831fc6 shaoming chen  2017-03-31  1144  
-21898816831fc6 shaoming chen  2017-03-31  1145  	for (i = 0; i < 16; i++)
-21898816831fc6 shaoming chen  2017-03-31  1146  		*(read_data + i) = readb(dsi->regs + DSI_RX_DATA0 + i);
-21898816831fc6 shaoming chen  2017-03-31  1147  
-21898816831fc6 shaoming chen  2017-03-31  1148  	recv_cnt = mtk_dsi_recv_cnt(read_data[0], read_data);
-21898816831fc6 shaoming chen  2017-03-31  1149  
-21898816831fc6 shaoming chen  2017-03-31  1150  	if (recv_cnt > 2)
-21898816831fc6 shaoming chen  2017-03-31  1151  		src_addr = &read_data[4];
-21898816831fc6 shaoming chen  2017-03-31  1152  	else
-21898816831fc6 shaoming chen  2017-03-31  1153  		src_addr = &read_data[1];
-21898816831fc6 shaoming chen  2017-03-31  1154  
-21898816831fc6 shaoming chen  2017-03-31  1155  	if (recv_cnt > 10)
-21898816831fc6 shaoming chen  2017-03-31  1156  		recv_cnt = 10;
-21898816831fc6 shaoming chen  2017-03-31  1157  
-21898816831fc6 shaoming chen  2017-03-31  1158  	if (recv_cnt > msg->rx_len)
-21898816831fc6 shaoming chen  2017-03-31  1159  		recv_cnt = msg->rx_len;
-21898816831fc6 shaoming chen  2017-03-31  1160  
-21898816831fc6 shaoming chen  2017-03-31  1161  	if (recv_cnt)
-21898816831fc6 shaoming chen  2017-03-31  1162  		memcpy(msg->rx_buf, src_addr, recv_cnt);
-21898816831fc6 shaoming chen  2017-03-31  1163  
-21898816831fc6 shaoming chen  2017-03-31  1164  	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
-21898816831fc6 shaoming chen  2017-03-31  1165  		 recv_cnt, *((u8 *)(msg->tx_buf)));
-21898816831fc6 shaoming chen  2017-03-31  1166  
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1167  restore_dsi_mode:
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1168  	if (dsi_mode & MODE) {
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1169  		mtk_dsi_set_mode(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1170  		mtk_dsi_start(dsi);
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1171  	}
-81cc7e51c4f168 Julien STEPHAN 2022-02-14  1172  
-81cc7e51c4f168 Julien STEPHAN 2022-02-14 @1173  	return ret < 0 ? ret : recv_cnt;
-21898816831fc6 shaoming chen  2017-03-31  1174  }
-21898816831fc6 shaoming chen  2017-03-31  1175  
+c6819dd77861f22 Eugene Zemtsov 2019-11-18  457  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  458  static void log_read_one_record(struct read_log *rl, struct read_log_state *rs)
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  459  {
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  460  	union log_record *record =
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  461  		(union log_record *)((u8 *)rl->rl_ring_buf + rs->next_offset);
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  462  	size_t record_size;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  463  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  464  	switch (record->full_record.type) {
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  465  	case FULL:
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  466  		rs->base_record = record->full_record;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  467  		record_size = sizeof(record->full_record);
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  468  		break;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  469  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  470  	case SAME_FILE:
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  471  		rs->base_record.block_index =
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  472  			record->same_file.block_index;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  473  		rs->base_record.absolute_ts_us +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  474  			record->same_file.relative_ts_us;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  475  		rs->base_record.uid = record->same_file.uid;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  476  		record_size = sizeof(record->same_file);
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  477  		break;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  478  
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  479  	case SAME_FILE_CLOSE_BLOCK:
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  480  		rs->base_record.block_index +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  481  			record->same_file_close_block.block_index_delta;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  482  		rs->base_record.absolute_ts_us +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  483  			record->same_file_close_block.relative_ts_us;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  484  		record_size = sizeof(record->same_file_close_block);
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  485  		break;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  486  
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  487  	case SAME_FILE_CLOSE_BLOCK_SHORT:
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  488  		rs->base_record.block_index +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  489  			record->same_file_close_block_short.block_index_delta;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  490  		rs->base_record.absolute_ts_us +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  491  		   record->same_file_close_block_short.relative_ts_tens_us * 10;
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  492  		record_size = sizeof(record->same_file_close_block_short);
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  493  		break;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  494  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  495  	case SAME_FILE_NEXT_BLOCK:
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  496  		++rs->base_record.block_index;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  497  		rs->base_record.absolute_ts_us +=
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  498  			record->same_file_next_block.relative_ts_us;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  499  		record_size = sizeof(record->same_file_next_block);
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  500  		break;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  501  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  502  	case SAME_FILE_NEXT_BLOCK_SHORT:
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  503  		++rs->base_record.block_index;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  504  		rs->base_record.absolute_ts_us +=
+fe2917fdb90f6d5 Paul Lawrence  2021-03-08  505  		    record->same_file_next_block_short.relative_ts_tens_us * 10;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  506  		record_size = sizeof(record->same_file_next_block_short);
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  507  		break;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  508  	}
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  509  
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22 @510  	rs->next_offset += record_size;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  511  	if (rs->next_offset > rl->rl_size - sizeof(*record)) {
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  512  		rs->next_offset = 0;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  513  		++rs->current_pass_no;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  514  	}
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  515  	++rs->current_record_no;
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  516  }
+b6b4a3a404ccd9c Paul Lawrence  2020-04-22  517  
 
-:::::: The code at line 1173 was first introduced by commit
-:::::: 81cc7e51c4f1686b71e30046437056ece6b2cb4d drm/mediatek: Allow commands to be sent during video mode
+:::::: The code at line 510 was first introduced by commit
+:::::: b6b4a3a404ccd9c62347e27c4fc7883d776c2cbb ANDROID: Incremental fs: Use simple compression in log buffer
 
-:::::: TO: Julien STEPHAN <jstephan@baylibre.com>
-:::::: CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+:::::: TO: Paul Lawrence <paullawrence@google.com>
+:::::: CC: Paul Lawrence <paullawrence@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
