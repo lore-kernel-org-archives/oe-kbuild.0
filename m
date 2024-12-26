@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A881B1D5143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F3E1D416B
 	for <oe-kbuild@lists.linux.dev>; Thu, 26 Dec 2024 11:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735212610; cv=none; b=JRcVfdtFsxnHi5IQLTFK99WS2RM1QcoFYoXkILFzHVQYDjhOoardL2w5TFymQtMWMMbDjrFfowdOg67OprSkOFfQ44LmKVU9xMnRT0mjstu9ut3gOLfIVII+A/AT3OaYDeakHsyrwbbgOk32Ikh33xv3FOib80hkIYV01J9ctTY=
+	t=1735212611; cv=none; b=FVgHqd3OT1w6rB/Lg1JyDnbu1VDm/Yalk1ODDE9HNu0EitibY6c3G0qeF7Fd2oJJV/Ek/rDGXEIKnVIGi7NdG0Y6oG35T7K2XlkO0bHmLU+LazULQtNzwd0ZeHdQV6cVynqfY2mapau6cCSqoHAtg/S0pgYmIW3d6X6aiB378p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735212610; c=relaxed/simple;
-	bh=fALPwc7oLcV7CBMDVM3v+DJ79wSZvWBQZtcHVM5pKq8=;
+	s=arc-20240116; t=1735212611; c=relaxed/simple;
+	bh=7J/t94IqnXn8dhrKd3u4034edTwuT50sDK2AOW2LUjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KA3BwDxxF98w9Mjpu5Z4uKcVFI5Du12oJ8Xs2aVeu993O7rEbdZzYmeQBbOT8Gi2ECU2EY8D+iZIHgeWpdg+YgXoAILvvi3w+3/LaKcU+m4RLhMzwqWX9k2MEMFoJiXE3XpOlrmC5dWfpV8nEkj6B5hXHS6sgLhBwaajuE19Ya8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/4Pi7+Y; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=D1rsHopP85ElEx1ahA6C7SSha8pOPAEbLuEXRLsqjS/PjJPyMTgGH1/mCrspQV5n3I6h3oPG7CCth0gv07TzjZZ13n2lvymME4N008d4tQ3IDqreJu1WWkNN5A2JqCqtLQs6v46MG4cWIhQSbQLKMpBjXQ+EYxfkiOYrqreqcBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJei3fb6; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/4Pi7+Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJei3fb6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735212609; x=1766748609;
+  t=1735212608; x=1766748608;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fALPwc7oLcV7CBMDVM3v+DJ79wSZvWBQZtcHVM5pKq8=;
-  b=i/4Pi7+YNHpEXaZSrQRCwczeHP9m07H9sPc7OHuzb3nfY1VzNAhnR8vQ
-   Vla+Qwo3c53O61+SeVHUx0qOrenXwPSbNj1G2OhBM/iiIbDVQK0oJpn5f
-   CekrDHc8kUBjHIZKU3g9G5lAbFAaAUJJHm010cEuDmHr1QVuW87qcqe5h
-   hSvOMX6+cnEkBH1rDf/6lTRjoLvVX9X9CQnqn2WrJ0aX+NtHLbcqn/oLZ
-   xqFJqSUmFwS6KogLhQK0uvLXX5lf9CTR7khLFwFcmcq8yI+ZPOm46BCCB
-   L7zmOyiavLBZj5kjh2OnwOMJNrbUgXAfC9w0SAGdceiCVHQTl6nDC0cnI
-   A==;
-X-CSE-ConnectionGUID: bj39QMQzTOy9+wPH0azNKA==
-X-CSE-MsgGUID: QNQlENYOQFu4D1UD1BSIvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46312049"
+  bh=7J/t94IqnXn8dhrKd3u4034edTwuT50sDK2AOW2LUjw=;
+  b=eJei3fb6fMiZS4GnmQO7kAstEuv/OTyTZgHoz3pF6evULnCuIibc25DU
+   Yk098/+OhbSZYFcLXT9TBfJ+qI2iwiO3seoCN2Mcf8cZ5V0cNUm4orr4X
+   8x4NA1keDQV4OhetX9X7EGcZw+ohJK+NGmNGrhKy9+r9DziGyetjxpBm3
+   8NXtU7jk8qibAN179rYv0njg0yYwuIbTGK98cARYpsA4yY1CGQLGIgZgl
+   9vKQcgrjLWHnYzdxF96OKhsntVfpbvUxbeip9ZReErqXD890uXG97tSoK
+   gcAcdAxFYB+WhteOKUaTbX0wxvDSfmxQaVoV1KJPlorS6ZOj85TEX1dzP
+   g==;
+X-CSE-ConnectionGUID: k+X/2m+PQwmtayBdBeTwXQ==
+X-CSE-MsgGUID: zefX/HaRQcCxMZcU3xD9Eg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="39568076"
 X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
-   d="scan'208";a="46312049"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 03:30:08 -0800
-X-CSE-ConnectionGUID: WPBeYLjdT9Wl8QrKuhz29A==
-X-CSE-MsgGUID: lcPYd62pTy2uVBihXITLAQ==
+   d="scan'208";a="39568076"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 03:30:08 -0800
+X-CSE-ConnectionGUID: QY9VN2G6RayAY6TfX52F4w==
+X-CSE-MsgGUID: qXJnUrRcSnitLDeCVfO16A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137242440"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="104990853"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Dec 2024 03:30:07 -0800
+  by orviesa003.jf.intel.com with ESMTP; 26 Dec 2024 03:30:06 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQm44-0002Xo-1G;
+	id 1tQm44-0002Xm-1A;
 	Thu, 26 Dec 2024 11:30:04 +0000
-Date: Thu, 26 Dec 2024 19:29:28 +0800
+Date: Thu, 26 Dec 2024 19:29:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpio/gpio-davinci.c:599 davinci_gpio_save_context() error:
- potentially dereferencing uninitialized 'g'.
-Message-ID: <202412261936.Ab2roJgJ-lkp@intel.com>
+Subject: arch/riscv/kernel/signal.c:126 __restore_v_state() warn: maybe
+ return -EFAULT instead of the bytes remaining?
+Message-ID: <202412261919.8WV3iSqf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,60 +65,82 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Andy Chiu <andybnac@gmail.com>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-commit: 56d6ff4b8faf1c2d5c850ed8b4e5dfa6cd81413b gpio: davinci: allow building the module with COMPILE_TEST=y
-date:   2 months ago
+commit: 3aff0c459e77ac0fb1c4d6884433467f797f7357 RISC-V: Drop invalid test from CONFIG_AS_HAS_OPTION_ARCH
+date:   10 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 months ago
-config: sh-randconfig-r071-20241225 (https://download.01.org/0day-ci/archive/20241226/202412261936.Ab2roJgJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
+:::::: commit date: 10 months ago
+config: riscv-randconfig-r073-20241225 (https://download.01.org/0day-ci/archive/20241226/202412261919.8WV3iSqf-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412261936.Ab2roJgJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412261919.8WV3iSqf-lkp@intel.com/
 
-smatch warnings:
-drivers/gpio/gpio-davinci.c:599 davinci_gpio_save_context() error: potentially dereferencing uninitialized 'g'.
+New smatch warnings:
+arch/riscv/kernel/signal.c:126 __restore_v_state() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/g +599 drivers/gpio/gpio-davinci.c
+Old smatch warnings:
+arch/riscv/kernel/signal.c:50 restore_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:64 save_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:138 __restore_v_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/riscv/kernel/signal.c:158 restore_sigcontext() warn: maybe return -EFAULT instead of the bytes remaining?
 
-118150f22d6b44 KV Sujith       2013-08-18  577  
-0651a730924b17 Devarsh Thakkar 2022-06-13  578  static void davinci_gpio_save_context(struct davinci_gpio_controller *chips,
-0651a730924b17 Devarsh Thakkar 2022-06-13  579  				      u32 nbank)
-0651a730924b17 Devarsh Thakkar 2022-06-13  580  {
-0651a730924b17 Devarsh Thakkar 2022-06-13  581  	struct davinci_gpio_regs __iomem *g;
-0651a730924b17 Devarsh Thakkar 2022-06-13  582  	struct davinci_gpio_regs *context;
-0651a730924b17 Devarsh Thakkar 2022-06-13  583  	u32 bank;
-0651a730924b17 Devarsh Thakkar 2022-06-13  584  	void __iomem *base;
-0651a730924b17 Devarsh Thakkar 2022-06-13  585  
-0651a730924b17 Devarsh Thakkar 2022-06-13  586  	base = chips->regs[0] - offset_array[0];
-0651a730924b17 Devarsh Thakkar 2022-06-13  587  	chips->binten_context = readl_relaxed(base + BINTEN);
-0651a730924b17 Devarsh Thakkar 2022-06-13  588  
-0651a730924b17 Devarsh Thakkar 2022-06-13  589  	for (bank = 0; bank < nbank; bank++) {
-0651a730924b17 Devarsh Thakkar 2022-06-13  590  		g = chips->regs[bank];
-0651a730924b17 Devarsh Thakkar 2022-06-13  591  		context = &chips->context[bank];
-0651a730924b17 Devarsh Thakkar 2022-06-13  592  		context->dir = readl_relaxed(&g->dir);
-0651a730924b17 Devarsh Thakkar 2022-06-13  593  		context->set_data = readl_relaxed(&g->set_data);
-0651a730924b17 Devarsh Thakkar 2022-06-13  594  		context->set_rising = readl_relaxed(&g->set_rising);
-0651a730924b17 Devarsh Thakkar 2022-06-13  595  		context->set_falling = readl_relaxed(&g->set_falling);
-0651a730924b17 Devarsh Thakkar 2022-06-13  596  	}
-0651a730924b17 Devarsh Thakkar 2022-06-13  597  
-0651a730924b17 Devarsh Thakkar 2022-06-13  598  	/* Clear all interrupt status registers */
-0651a730924b17 Devarsh Thakkar 2022-06-13 @599  	writel_relaxed(GENMASK(31, 0), &g->intstat);
-0651a730924b17 Devarsh Thakkar 2022-06-13  600  }
-0651a730924b17 Devarsh Thakkar 2022-06-13  601  
+vim +126 arch/riscv/kernel/signal.c
 
-:::::: The code at line 599 was first introduced by commit
-:::::: 0651a730924b172476f67c7c6e01e898f84cd8f3 gpio: davinci: Add support for system suspend/resume PM
+8ee0b41898fa26f Greentime Hu 2023-06-05  110  
+8ee0b41898fa26f Greentime Hu 2023-06-05  111  /*
+8ee0b41898fa26f Greentime Hu 2023-06-05  112   * Restore Vector extension context from the user's signal frame. This function
+8ee0b41898fa26f Greentime Hu 2023-06-05  113   * assumes a valid extension header. So magic and size checking must be done by
+8ee0b41898fa26f Greentime Hu 2023-06-05  114   * the caller.
+8ee0b41898fa26f Greentime Hu 2023-06-05  115   */
+8ee0b41898fa26f Greentime Hu 2023-06-05  116  static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
+8ee0b41898fa26f Greentime Hu 2023-06-05  117  {
+8ee0b41898fa26f Greentime Hu 2023-06-05  118  	long err;
+8ee0b41898fa26f Greentime Hu 2023-06-05  119  	struct __sc_riscv_v_state __user *state = sc_vec;
+8ee0b41898fa26f Greentime Hu 2023-06-05  120  	void __user *datap;
+8ee0b41898fa26f Greentime Hu 2023-06-05  121  
+8ee0b41898fa26f Greentime Hu 2023-06-05  122  	/* Copy everything of __sc_riscv_v_state except datap. */
+8ee0b41898fa26f Greentime Hu 2023-06-05  123  	err = __copy_from_user(&current->thread.vstate, &state->v_state,
+8ee0b41898fa26f Greentime Hu 2023-06-05  124  			       offsetof(struct __riscv_v_ext_state, datap));
+8ee0b41898fa26f Greentime Hu 2023-06-05  125  	if (unlikely(err))
+8ee0b41898fa26f Greentime Hu 2023-06-05 @126  		return err;
+8ee0b41898fa26f Greentime Hu 2023-06-05  127  
+8ee0b41898fa26f Greentime Hu 2023-06-05  128  	/* Copy the pointer datap itself. */
+8ee0b41898fa26f Greentime Hu 2023-06-05  129  	err = __get_user(datap, &state->v_state.datap);
+8ee0b41898fa26f Greentime Hu 2023-06-05  130  	if (unlikely(err))
+8ee0b41898fa26f Greentime Hu 2023-06-05  131  		return err;
+8ee0b41898fa26f Greentime Hu 2023-06-05  132  	/*
+8ee0b41898fa26f Greentime Hu 2023-06-05  133  	 * Copy the whole vector content from user space datap. Use
+8ee0b41898fa26f Greentime Hu 2023-06-05  134  	 * copy_from_user to prevent information leak.
+8ee0b41898fa26f Greentime Hu 2023-06-05  135  	 */
+8ee0b41898fa26f Greentime Hu 2023-06-05  136  	err = copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
+8ee0b41898fa26f Greentime Hu 2023-06-05  137  	if (unlikely(err))
+8ee0b41898fa26f Greentime Hu 2023-06-05  138  		return err;
+8ee0b41898fa26f Greentime Hu 2023-06-05  139  
+7df56cbc27e4239 Andy Chiu    2024-01-15  140  	riscv_v_vstate_set_restore(current, regs);
+8ee0b41898fa26f Greentime Hu 2023-06-05  141  
+8ee0b41898fa26f Greentime Hu 2023-06-05  142  	return err;
+8ee0b41898fa26f Greentime Hu 2023-06-05  143  }
+8ee0b41898fa26f Greentime Hu 2023-06-05  144  #else
+8ee0b41898fa26f Greentime Hu 2023-06-05  145  #define save_v_state(task, regs) (0)
+8ee0b41898fa26f Greentime Hu 2023-06-05  146  #define __restore_v_state(task, regs) (0)
+8ee0b41898fa26f Greentime Hu 2023-06-05  147  #endif
+8ee0b41898fa26f Greentime Hu 2023-06-05  148  
 
-:::::: TO: Devarsh Thakkar <devarsht@ti.com>
-:::::: CC: Bartosz Golaszewski <brgl@bgdev.pl>
+:::::: The code at line 126 was first introduced by commit
+:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigcontext save/restore for vector
+
+:::::: TO: Greentime Hu <greentime.hu@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
