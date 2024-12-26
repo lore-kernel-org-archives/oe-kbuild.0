@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D8720EB
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Dec 2024 01:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F6120EB
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Dec 2024 01:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735176712; cv=none; b=RcIynr+Zw1Hl7cUKfeggkBM4rf89HrOWnQ6L7HtRgLHFFM3CMXs/SFhrjL8xRPWqrvHrUiMuOIsqvq2+3113JYH2jUwTaONEWEcg/mqm1m6JKMsv9mvI2Fon2yCvLUgE5FXVtd2C8JHzvPx9sGp8U2dlUus5EUdKVWaM+6EKyHE=
+	t=1735177373; cv=none; b=t1NpkRPlMSWdar3X5jedk4w54zZe6X/6swwPlPimyXYRIjzSCQYmwUZ9XqSYv/9nIsXGb3a4sG52WY7adn2Sx6rdj34GA/w9uBCYqhbJl/imghc1+iBSME4yLR3RvskZSJBJpc4jurJg9QeDm3+qwuAST23tk3p69hmpr0j37KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735176712; c=relaxed/simple;
-	bh=ASdkR6/NHAhx2cL7czQHrbD1xAlS6wcQx7MMUol/emM=;
+	s=arc-20240116; t=1735177373; c=relaxed/simple;
+	bh=rD/oikV9Ev1rMQFPAn6je6z6glTazKMjMfgB9SGFeJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UWSJIuo3Zpvzg1EfmTsagP11l9ID8nYJJfspWNMxSSDVHP6owtlAtsUDCypvgPtNsDyTGlGBIaUAznWoox3bMHol+xoVovr36LBfO+9crkJNuopmVNEPwCfOgpOy36RJs7OoBX4mf8XGlWJ2ytkheD7d6M4n86k0OSpb+3TLLhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkVeRprY; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=C07RAFnL7B1j+h28cYbO6nLkViN9wujKlpa2lq3mgo1muC7PHpWmJxr3ElRuexOIKXWAQNOMykRVU9PoWVebM4areN5H0NAW3mQbwN7npHwJFLaq/Wqf92emjQVuaAH3uQAlFSQKMGnRkAU8BlB6UDek2+4WPg/YhaX9Q8kzs6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrPbdl+l; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkVeRprY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrPbdl+l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735176710; x=1766712710;
+  t=1735177372; x=1766713372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ASdkR6/NHAhx2cL7czQHrbD1xAlS6wcQx7MMUol/emM=;
-  b=RkVeRprYxw0oVTvrEySaABizJLXsTR/h2HyOxg58GtUJOEvo4Mnv3MWU
-   BJ4xa2/LuQqE0dShLoUr8M4SPmJ3NsTO2JOGr5R35JwUoaWqBbDOGgs2C
-   19gb0NUE/shyuO2QPYlOyeOvLFyB7qmmP3yAz/3Y59UczCoead2UvVNH6
-   QhEAkYuXKe+N0xGwjvIfjBrgMYAVVLK79OuqGBzNtj7kiZu09QOkH4wv6
-   POEu3/Egm6tKWbGVVgZK0HCo4ItvUD4OZhdKclYvfMXggScpe1RG8Ps/L
-   ul4L+L/Fav88Ejz5T2a69o/fokWJ+3awZt2JVEPJrXoKA8QWx5ju2E49H
+  bh=rD/oikV9Ev1rMQFPAn6je6z6glTazKMjMfgB9SGFeJc=;
+  b=IrPbdl+l0yc/MMgPON3Ha7xOeEMxhETzRbd6GH/aIT4+q6CHbN1HiOBC
+   jLfAoCQyIqnYizvF+0JhHEDIWwf4aERUeyPa4SFfreiSbiwTeg/r4qqKO
+   U6M8aXhmxXr96nHUbxyvBOGv7rci+2ffucOaUz8h5r0gt7c83wyCUK5LD
+   m1w3+zjOVy38RWDV2kWB2c78e/CyQBRkloehLeSQd4225zNRIdEitv1cp
+   tT8iJSlAKJP2kbRHvjl73xtaeUZK3Qanp3il5zI4sdayEXDkokeyapwnd
+   Br7LolGhRtEJlRl4cc//O4KFMJT8Xp3pw/5BZQri1R5yeCTF3b7FCEjkf
    g==;
-X-CSE-ConnectionGUID: PPuYYCPfRiWkSmU7gXDehg==
-X-CSE-MsgGUID: XvCMFGfESt+l6rx+CfSocA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35478792"
+X-CSE-ConnectionGUID: J3ya+E9mQ1u/pq9mq740wg==
+X-CSE-MsgGUID: aOGKgFMrSduzIZ5cFzk2jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46285125"
 X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
-   d="scan'208";a="35478792"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 17:31:49 -0800
-X-CSE-ConnectionGUID: YanYMf0VTpizerVk62gx/Q==
-X-CSE-MsgGUID: fNmLpXbmQg+49khAesPCEg==
+   d="scan'208";a="46285125"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2024 17:42:52 -0800
+X-CSE-ConnectionGUID: 1yPsa9PhSnakdUoy0hvibQ==
+X-CSE-MsgGUID: qBKSyTTpTCaoj6znSwXHFQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,264,1728975600"; 
-   d="scan'208";a="99559145"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="100640241"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Dec 2024 17:31:48 -0800
+  by orviesa008.jf.intel.com with ESMTP; 25 Dec 2024 17:42:49 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQcj4-0002GM-0K;
-	Thu, 26 Dec 2024 01:31:46 +0000
-Date: Thu, 26 Dec 2024 09:31:19 +0800
+	id 1tQctj-0002Gs-0b;
+	Thu, 26 Dec 2024 01:42:47 +0000
+Date: Thu, 26 Dec 2024 09:42:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v6 1/7] dt-bindings: can: m_can: Add wakeup properties
-Message-ID: <202412260921.w4xw4IaN-lkp@intel.com>
+Subject: [arm-integrator:b4/ixp4xx-netgear-wgr826v 3/9]
+ arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb:
+ /soc/usb@c800b000: failed to match any schema with compatible:
+ ['intel,ixp4xx-udc']
+Message-ID: <202412260929.yhVzecDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,152 +70,28 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241219-topic-mcan-wakeup-source-v6-12-v6-1-1356c7f7cfda@baylibre.com>
-References: <20241219-topic-mcan-wakeup-source-v6-12-v6-1-1356c7f7cfda@baylibre.com>
-TO: "Markus Schneider-Pargmann" <msp@baylibre.com>
-TO: Chandrasekar Ramakrishnan <rcsekar@samsung.com>
-TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
-TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Nishanth Menon <nm@ti.com>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: Tero Kristo <kristo@kernel.org>
-CC: linux-can@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-CC: Vishal Mahaveer <vishalm@ti.com>
-CC: Kevin Hilman <khilman@baylibre.com>
-CC: Dhruva Gole <d-gole@ti.com>
-CC: Simon Horman <horms@kernel.org>
-CC: "Markus Schneider-Pargmann" <msp@baylibre.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Markus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-can-m_can-Add-wakeup-properties/20241220-040614
-base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/20241219-topic-mcan-wakeup-source-v6-12-v6-1-1356c7f7cfda%40baylibre.com
-patch subject: [PATCH v6 1/7] dt-bindings: can: m_can: Add wakeup properties
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-053-20241221 (https://download.01.org/0day-ci/archive/20241226/202412260921.w4xw4IaN-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/ixp4xx-netgear-wgr826v
+head:   417131a0c509bba7b4db3f1301a0205ebb4ab0d6
+commit: 6eb7bf44970b29ea5202340d81c9af406f0cf7c9 [3/9] ARM: dts: Add Netgear WGR826V Device Tree
+:::::: branch date: 5 days ago
+:::::: commit date: 2 weeks ago
+config: arm-randconfig-051-20241221 (https://download.01.org/0day-ci/archive/20241226/202412260929.yhVzecDO-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412260921.w4xw4IaN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412260929.yhVzecDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412260921.w4xw4IaN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412260929.yhVzecDO-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48004000: adc@0:interrupts: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
-   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48003000: adc@0:interrupts: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
->> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
->> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: can@4400e000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: can@4400e000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
---
-   arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: touch@44: touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: can@4400f000: pinctrl-names:1: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
->> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: can@4400f000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+   arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb: ethernet@c800c000: 'intel,npe' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml#
+>> arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb: /soc/usb@c800b000: failed to match any schema with compatible: ['intel,ixp4xx-udc']
+>> arch/arm/boot/dts/intel/ixp/intel-ixp42x-netgear-wgr826v.dtb: /spi/switch@0: failed to match any schema with compatible: ['micrel,ks8995']
 
 -- 
 0-DAY CI Kernel Test Service
