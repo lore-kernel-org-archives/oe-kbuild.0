@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BB623DE
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Dec 2024 20:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8729818B46E
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Dec 2024 22:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735243333; cv=none; b=qGHQDYNRwu24AKzbM1atQNU1YY2knaj+RQDAL3Rc+QBijEZ8jJrGpet6Cx73F7N/Eoc7hBlfTlrgkDFgJHXvFMKffKCmacMF2/bPoabPmVzVLE7JSGZbG0eRdm9Fl372cjYg0MgbvBxeNNBsPonA+gV+qLAYfCsWjLsVIJHb1r0=
+	t=1735252829; cv=none; b=Ycum0Ey6Vp8EdMZ7VTYzMKj5F0oGCbggtvEEflj7vLCx6mjzH3iKMQtq8F3n3AC0Howr0iTGEIUhN4dxIIbH6NYKrN0uqmseiQ7OkF7oi8t+ACBNNdXzSMmfsuHeyOf8WYMXapRKvwAlJmSOK4H8D7e+QVZXF4kdqe5XgwQ350k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735243333; c=relaxed/simple;
-	bh=GT+mz3VZhmhPCoWtIzNFfxq5d5QdS6iPROtSC/YmwI0=;
+	s=arc-20240116; t=1735252829; c=relaxed/simple;
+	bh=ut4+4KW/zTfmANTpkdc6JROs0/O1h+WV6EhoXJrug8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RFg/nx0b9yATSdtyxdynorXrI5d4VGWLuMwq9dEsTT4je3b5PuraYXfBAtlbW3W0X9hX4awV8uNekf5BZn7/RDHHXVzADxGime0Dof01Xv+YBeXWyRB1gjfS8nE0kgr6KKuifn4TpI/OH22j+VyD3kbsNtWbJ0AoUQVDjaSKFpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KtUA65D1; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=lWNeK6AjGN2a3fCj5HX+BTuRdQ7jdQhla2mN/7yIexLq+VB3hDX01WBZQwLi/GfBojXTVcadRgjKQXGmJGH8hJ3uC1uRlBgwbBH51UCbZPkEuCOJXGONlFxE1kht0bd/Cy0KBGqESMllo3kn45FAGArYjP5Zc2b6uGBIPT5A4W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxpWFUzI; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KtUA65D1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxpWFUzI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735243332; x=1766779332;
+  t=1735252827; x=1766788827;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GT+mz3VZhmhPCoWtIzNFfxq5d5QdS6iPROtSC/YmwI0=;
-  b=KtUA65D1/VjZIrzxdADL5zI+YQLB16tsA3oT/gWAzPJr3W925jDx8mPw
-   p6FtvFhTvev4MLxnIMd2rQSME61erGxchbIcoHaMvNqU38FBg2+hoLU/c
-   AHegUiJ9Y0XBvYe1PnGZk5rlzadSBmY+VbqxFCJgojnYJDHKbpXYIZu8N
-   f6G0+LHFrB+sLWgPfedEot7i7iBVJOpcSNDZSg13QV+b4BbWCXza9rEVc
-   RyiOgZjtGwDv/jltEHaNkP5x5mfc5lvCXTe66dJouCxd6ERiF56+Mz4iH
-   r4mD9ocw26QQbt/Hey0/h6LjKSwr0KoBs8AAzKkeAFyvzHFA9aJehdfX+
-   g==;
-X-CSE-ConnectionGUID: k49A3p2BS72HIDoN0c9ZEg==
-X-CSE-MsgGUID: Tsx/uSo9SemIvdAHoM9FTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="35549102"
+  bh=ut4+4KW/zTfmANTpkdc6JROs0/O1h+WV6EhoXJrug8k=;
+  b=TxpWFUzI8HTVRAMQDVIm+mpxst9oYtsNbfq+GG7YUO3YB3mDAUXDfPKQ
+   Ll9e8shOs/yxHWPQC6bZCHGn5mgVDvYxiGP9tEAKVt9jbJ7T+yQp1pwBN
+   ynavdZYoxeQvCbxJxkEv5lW2sdFuPOsN5lvtl9T6DxQTJu30jv2+i6vLA
+   O4BdG8Q9h+kSTKol41nWg16WS0hWeZGAI/ytLUT633THG42cEyGFGdFA2
+   x6L/LzOPcTi0KQaTa0V9ht6WEzSTo+dPQOi4SjbJ+0X/x3Hw26LQB0XGB
+   4HNi2LrExTSePGyoMHCum7dfDDgkMsY27fVXaA7FNr2xGP1mD07cgva9H
+   A==;
+X-CSE-ConnectionGUID: BSHaRL/1S1iRQPJnKZyqUQ==
+X-CSE-MsgGUID: egD+Vt6eQWGh56i41qLsyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="35574347"
 X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="35549102"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 12:02:10 -0800
-X-CSE-ConnectionGUID: jotKDXMtTnKya6BjykaUeg==
-X-CSE-MsgGUID: 6LAK5BXmSCaGiiQjIMC//Q==
+   d="scan'208";a="35574347"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 14:40:27 -0800
+X-CSE-ConnectionGUID: QNQK04nPTUGQJ0cz9gmU0w==
+X-CSE-MsgGUID: b1yODJOvTbaON3q3rMTEpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,267,1728975600"; 
-   d="scan'208";a="99851097"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="99868254"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Dec 2024 12:02:08 -0800
+  by orviesa010.jf.intel.com with ESMTP; 26 Dec 2024 14:40:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tQu3a-0002lW-0y;
-	Thu, 26 Dec 2024 20:02:06 +0000
-Date: Fri, 27 Dec 2024 04:02:04 +0800
+	id 1tQwWl-0002pu-2A;
+	Thu, 26 Dec 2024 22:40:23 +0000
+Date: Fri, 27 Dec 2024 06:39:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-Message-ID: <202412270320.Aydp9B4U-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [qcom:arm64-for-6.14 8/55] arch/arm64/boot/dts/qcom/qcs615-ride.dtb:
+ watchdog@17c10000: compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202412270640.PTdwIdqT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,78 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241216161042.42108-7-alejandro.lucero-palau@amd.com>
-References: <20241216161042.42108-7-alejandro.lucero-palau@amd.com>
-TO: alejandro.lucero-palau@amd.com
-TO: linux-cxl@vger.kernel.org
-TO: netdev@vger.kernel.org
-TO: dan.j.williams@intel.com
-TO: martin.habets@xilinx.com
-TO: edward.cree@amd.com
-TO: davem@davemloft.net
-TO: kuba@kernel.org
-TO: pabeni@redhat.com
-TO: edumazet@google.com
-TO: dave.jiang@intel.com
-CC: Alejandro Lucero <alucerop@amd.com>
+TO: Lijuan Gao <quic_lijuang@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241217-001923
-base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-patch link:    https://lore.kernel.org/r/20241216161042.42108-7-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: arm64-randconfig-r072-20241225 (https://download.01.org/0day-ci/archive/20241227/202412270320.Aydp9B4U-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
+head:   cc47b123159dbad9c8a7e977e977e410de090418
+commit: d1fdad9911e269998e63c60fdeb7ffb378785387 [8/55] arm64: dts: qcom: qcs615: add base RIDE board
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: arm64-randconfig-051-20241227 (https://download.01.org/0day-ci/archive/20241227/202412270640.PTdwIdqT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412270640.PTdwIdqT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412270320.Aydp9B4U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412270640.PTdwIdqT-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/pci.c:1134 cxl_pci_accel_setup_regs() warn: missing error code? 'rc'
-
-vim +/rc +1134 drivers/cxl/core/pci.c
-
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1117  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1118  int cxl_pci_accel_setup_regs(struct pci_dev *pdev, struct cxl_dev_state *cxlds)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1119  {
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1120  	int rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1121  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1122  	rc = cxl_pci_setup_memdev_regs(pdev, cxlds);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1123  	if (rc)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1124  		return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1125  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1126  	rc = cxl_pci_setup_regs(pdev, CXL_REGLOC_RBI_COMPONENT,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1127  				&cxlds->reg_map, cxlds->capabilities);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1128  	if (rc) {
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1129  		dev_warn(&pdev->dev, "No component registers (%d)\n", rc);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1130  		return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1131  	}
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1132  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1133  	if (!test_bit(CXL_CM_CAP_CAP_ID_RAS, cxlds->capabilities))
-cfbd1d00295bff Alejandro Lucero 2024-12-16 @1134  		return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1135  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1136  	rc = cxl_map_component_regs(&cxlds->reg_map,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1137  				    &cxlds->regs.component,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1138  				    BIT(CXL_CM_CAP_CAP_ID_RAS));
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1139  	if (rc)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1140  		dev_dbg(&pdev->dev, "Failed to map RAS capability.\n");
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1141  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1142  	return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1143  }
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1144  EXPORT_SYMBOL_NS_GPL(cxl_pci_accel_setup_regs, "CXL");
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1145  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: clock-controller@100000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,qcs615-gcc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: compatible:0: 'qcom,qcs615-qfprom' is not one of ['qcom,apq8064-qfprom', 'qcom,apq8084-qfprom', 'qcom,ipq5332-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,msm8226-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qcs404-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfprom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qcom,sm8550-qfprom', 'qcom,sm8650-qfprom']
+   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/efuse@780000: failed to match any schema with compatible: ['qcom,qcs615-qfprom', 'qcom,qfprom']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: interrupt-controller@b220000: compatible:0: 'qcom,qcs615-pdc' is not one of ['qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,x1e80100-pdc']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,qcs615-pdc', 'qcom,pdc']
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: watchdog@17c10000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt'] is too long
+   	['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt'] is too short
+   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-ipq4019', 'qcom,apss-wdt-ipq5018', 'qcom,apss-wdt-ipq5332', 'qcom,apss-wdt-ipq9574', 'qcom,apss-wdt-msm8226', 'qcom,apss-wdt-msm8974', 'qcom,apss-wdt-msm8994', 'qcom,apss-wdt-qcm2290', 'qcom,apss-wdt-qcs404', 'qcom,apss-wdt-sa8255p', 'qcom,apss-wdt-sa8775p', 'qcom,apss-wdt-sc7180', 'qcom,apss-wdt-sc7280', 'qcom,apss-wdt-sc8180x', 'qcom,apss-wdt-sc8280xp', 'qcom,apss-wdt-sdm845', 'qcom,apss-wdt-sdx55', 'qcom,apss-wdt-sdx65', 'qcom,apss-wdt-sm6115', 'qcom,apss-wdt-sm6350', 'qcom,apss-wdt-sm8150', 'qcom,apss-wdt-sm8250']
+   	'qcom,kpss-wdt' was expected
+   	'qcom,scss-timer' was expected
+   	'qcom,apss-wdt-qcs615' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+   	'qcom,msm-timer' was expected
+   	'qcom,kpss-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/watchdog@17c10000: failed to match any schema with compatible: ['qcom,apss-wdt-qcs615', 'qcom,kpss-wdt']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: rsc@18200000: clock-controller:compatible:0: 'qcom,qcs615-rpmh-clk' is not one of ['qcom,qdu1000-rpmh-clk', 'qcom,sa8775p-rpmh-clk', 'qcom,sar2130p-rpmh-clk', 'qcom,sc7180-rpmh-clk', 'qcom,sc7280-rpmh-clk', 'qcom,sc8180x-rpmh-clk', 'qcom,sc8280xp-rpmh-clk', 'qcom,sdm670-rpmh-clk', 'qcom,sdm845-rpmh-clk', 'qcom,sdx55-rpmh-clk', 'qcom,sdx65-rpmh-clk', 'qcom,sdx75-rpmh-clk', 'qcom,sm4450-rpmh-clk', 'qcom,sm6350-rpmh-clk', 'qcom,sm8150-rpmh-clk', 'qcom,sm8250-rpmh-clk', 'qcom,sm8350-rpmh-clk', 'qcom,sm8450-rpmh-clk', 'qcom,sm8550-rpmh-clk', 'qcom,sm8650-rpmh-clk', 'qcom,x1e80100-rpmh-clk']
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/rsc@18200000/clock-controller: failed to match any schema with compatible: ['qcom,qcs615-rpmh-clk']
 
 -- 
 0-DAY CI Kernel Test Service
