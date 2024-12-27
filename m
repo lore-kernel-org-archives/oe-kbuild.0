@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60C21F8AD9
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 18:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3424A1F5F6
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 19:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735324342; cv=none; b=lX/IHvjT5vl32D2K7G6mI7seB0gWVzD941T8VYXaj/YzMCcdyZmmeae/npvDAf8RFbWNEsE7c8uMaaQrRrZF6rJG9DKFmQ9DAeijuFWa03eIIqx8zzuEZTFWfC0VQTtEl4wwQ4xFFKhQnJQDDqbl2PZ9xjSp2qedbAFkGD1609I=
+	t=1735326329; cv=none; b=XqjAIL9cSQ2pomwxZV+/MigA6Pqxkr7mj2l400TR3QTnfxBv0p6mDonWvM7rhuJGtoMkfQzBnrZPYqDsWdIx6efwP5cK+zXuF0+34Nb3mPH3qFmhDqcj1kvQ8gTY5r5lB2yDRLOFWVue49d6IcTNZF04S3MVY5B/oislge2BNVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735324342; c=relaxed/simple;
-	bh=h7tKw+NxW/TDHsekL7U4H179R3RROuEHnoElfmb4LNc=;
+	s=arc-20240116; t=1735326329; c=relaxed/simple;
+	bh=8HzOkXTZ9/wwVEPQ40/na4OoXgkHuBl7p1S3mVzqVE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UEAVLpuqCJHkdVw0lEAdaSS1C6Ct6gr6XrSrAfPZF1hrXUgCBCCGMAYqp65HNrrrrEvhgWMkhIWHy2cHcZwt1/b/zaIvyPEzQk+3kz8e0jDfM68sb1FbeoXmu9RheslN1MYSgjb0xZy0qmbSVc/xmX+bSfO3BWek/6k9W8xDgRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W+9CEhF7; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Ph0hrXOmq+VXZZvEZta6x3HCjAFsXpTt4sTD6wZPiVFXFb/HYABGpAOvOeGVe6mfetTpsPX8Mz313YuqCkGju8RLct/GllSOrETfAyPdliPr8jieaX7vjPhj+evozuyb8Hq7enhSby/ZMqbeUeMpFstTirFJfcABZbruPEWlBvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDFLpFjF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W+9CEhF7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDFLpFjF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735324340; x=1766860340;
+  t=1735326328; x=1766862328;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h7tKw+NxW/TDHsekL7U4H179R3RROuEHnoElfmb4LNc=;
-  b=W+9CEhF7dDO0I8qsZacwIkkBk6wSODnVfieiJiwWise8UuVbd1wqKJZV
-   1rQKbNeoWjVqSPBZnPONV+WFmF+wobWtjDK15L3b2WZqsccXw9NIKD/bw
-   qxYSZdHcvEfHfmprxNBMYKEnqcto6iLah9QiP+Lkg3CSSGnQxp+j+LRua
-   2uti1NUxmpXFTekWHnoYy9Wd8ODaU0i2O8vnuRTVD4ok/RkilQHE5B/RL
-   XAjR2qEEqKYMMc5Uj8Ge541HV93lbig+TeoxZeV9mmdLgHgbs0gnGUn1F
-   iGyzmHGUpyptG1gqcYy+lWEztMu7YWrioZjj71pPWgo8SpTPvrf7omPpK
+  bh=8HzOkXTZ9/wwVEPQ40/na4OoXgkHuBl7p1S3mVzqVE0=;
+  b=XDFLpFjFK0IIXbyOKcNiBJDZMCRiC5748xQsZfnZF9EbvslHCWAd3Q8+
+   cHdQjp0J54APluAwxW4PK0LgbaR08po5CGOxafREubvZJAyHaTfZp3duO
+   sOE2i8/NAPSrjOW240hgRMTQOuD/wOK1teeLVBy7IfOGvMkuvEszbjFNf
+   stUujV1xgD178swAZK87KoH9nzoAFqOL+D3mS1DrOaXK3FvTeqzvUy7Co
+   kkCv7k3ft7dnjjrvcQhx51kuVNaTWBsfP3I0Iuy4QIBbGXJwIXd47fwht
+   QL7wt7KK60DeUpjGLnKW9CXIWKSt8BG9f6sDqEVprGqKYjeWcQ59h+CKj
    A==;
-X-CSE-ConnectionGUID: yswVWsOLR+iIMNVXI/sE0w==
-X-CSE-MsgGUID: NdHMdPMzSlWRJifNANHBFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35863514"
+X-CSE-ConnectionGUID: pROd8xTOQgGQWgeIsnaDQQ==
+X-CSE-MsgGUID: IFPWOYJQSmK/30hohGMfrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35843238"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="35863514"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 10:32:18 -0800
-X-CSE-ConnectionGUID: C7CW+qVTT0+9Sj8WVE74FQ==
-X-CSE-MsgGUID: ng/wTo3vQleeFW1wnOI73Q==
+   d="scan'208";a="35843238"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 11:05:25 -0800
+X-CSE-ConnectionGUID: HOUBKLcoSHSPE35V9T7JcQ==
+X-CSE-MsgGUID: wzD8tK5sQbGYahenZKSHGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105222821"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
+   d="scan'208";a="105067751"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 27 Dec 2024 10:32:17 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Dec 2024 11:05:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRF8B-0003Rk-10;
-	Fri, 27 Dec 2024 18:32:15 +0000
-Date: Sat, 28 Dec 2024 02:32:14 +0800
+	id 1tRFeC-0003Ud-1e;
+	Fri, 27 Dec 2024 19:05:20 +0000
+Date: Sat, 28 Dec 2024 03:05:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.14 96/123]
- arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: display-subsystem@ae00000:
- interconnects: [[177, 3, 0, 31, 1, 0]] is too short
-Message-ID: <202412280218.wa9XZY8c-lkp@intel.com>
+Subject: [qcom:arm64-for-6.14 73/123]
+ arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: panel: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202412280235.Ldmicq7A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,64 +69,35 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+TO: Maud Spierings <maud_spierings@hotmail.com>
 CC: Bjorn Andersson <andersson@kernel.org>
 CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
 head:   1caf6149c3bf41a2ee07869449c4ea1ec8bbc2f8
-commit: b8591df49cde459e3b84cdc0517d7bf92053d244 [96/123] arm64: dts: qcom: sm8550: correct MDSS interconnects
-:::::: branch date: 14 hours ago
-:::::: commit date: 20 hours ago
-config: arm64-randconfig-052-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280218.wa9XZY8c-lkp@intel.com/config)
+commit: 9861aefc51102c8f4b419b57af451b63af0dd79c [73/123] arm64: dts: qcom: x1e80100-vivobook-s15: Use the samsung,atna33xc20 panel driver
+:::::: branch date: 15 hours ago
+:::::: commit date: 21 hours ago
+config: arm64-randconfig-051-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280235.Ldmicq7A-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280218.wa9XZY8c-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280235.Ldmicq7A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412280218.wa9XZY8c-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412280235.Ldmicq7A-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: display-subsystem@ae00000: interconnects: [[177, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3058.27-3132.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: display-subsystem@ae00000: interconnects: [[199, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: display-subsystem@ae00000: interconnects: [[183, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: display-subsystem@ae00000: interconnects: [[190, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3058.27-3132.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: display-subsystem@ae00000: interconnects: [[170, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3058.27-3132.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3153.27-3208.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: display-subsystem@ae00000: interconnects: [[174, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4662.11-4672.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: panel: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['samsung,atna56ac03', 'samsung,atna33xc20'] is too long
+   	'samsung,atna33xc20' was expected
+   	'samsung,atna56ac03' is not one of ['samsung,atna45af01', 'samsung,atna45dc02']
+   	from schema $id: http://devicetree.org/schemas/display/panel/samsung,atna33xc20.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@aea0000/aux-bus/panel: failed to match any schema with compatible: ['samsung,atna56ac03', 'samsung,atna33xc20']
 
 -- 
 0-DAY CI Kernel Test Service
