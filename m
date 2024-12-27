@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5303112C475
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 20:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9936212C475
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 22:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735332765; cv=none; b=htpD9V02VgEUf7NRiEOzf4eZ6VDX52XAkdRX7IoBRF1QE7DmhbEvn2tg/onKgWySiCLcZII7OfhJeuCOY34PnhEN3TY6CI5iZ0PjH4qt5OcUe+/6EeVDHm+Q0xhRp+GW3ZZm+F6Z/uJd2XUBEZ4jzMiR91HCYMy+AFELbW0Kf24=
+	t=1735337334; cv=none; b=GneSe7jY/AUNopGgR236QtziKDVWpshtzyxAdxYVHMk9bR1d+3cg6g4jcd1AWSLcTVyec9NHj2YajRG9B1TmG6KR3bBx32akYwMGXz2SN8RxI59vqwsCVGqQKNiHMSX5NtO+axFPFbVGXP793Ra2obPwTgkVc3P/I48nnSHeHS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735332765; c=relaxed/simple;
-	bh=+PU+Whnb1ODiVJysALPLI2Vp+TBnLmlI62ATTK5Rc9s=;
+	s=arc-20240116; t=1735337334; c=relaxed/simple;
+	bh=wV4PE4N5ZzstwUfKadxsAz4FdkqXOlmXKno0BPUm9Dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hsJzIR72lGNDYSaQciEJ1AbSM1g9tsIlPh8zpd45qCRSgoxLpTFvYpsmI98mvoF5oVfEV4x9GbErAwwgGitRgSJ3Vd8dlq3/+AjSbgCIwW+mlvoFvj89V1KGNgvui0SSuDqhZSCGLigQ69A2l27lkTpI/DovUcurtdM1nvADOys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+k82Atx; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=YecSZRthvWgHt5qmIxAkfTqswZcmxS1j5TkjpbyzFjoROeNvJSsd4w60jjCM6XFObIc6REPqP5aCvhiUiYhYZhuvXnRBF4HFbKd2CrXErMUOam/tcffq+DhLBjRzcNGWUuRgzk3y9OsrkkiEfva4n1kBaEi2x2600yTCzyB5sc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOwa47vn; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+k82Atx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOwa47vn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735332763; x=1766868763;
+  t=1735337333; x=1766873333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+PU+Whnb1ODiVJysALPLI2Vp+TBnLmlI62ATTK5Rc9s=;
-  b=g+k82Atx47AN9G8aR2GvIjeQadhdH4emUILPKoJDfSHRrHC93b7qjwUb
-   6zcznakPHzoRzUH3TOvPxoSI11CP/r3cFEigTKe6UVNjWjDo5NjJlb2r8
-   S1wq1atQY++8/270UoiXcnp+ZjtBMfXUexn5mMGVkPvS/2dK4ZZRa1FQt
-   vg9f8KZZlzhZs1yWLHF5FEcuEwumvuzsCtD9+5LL87w7pCAllRo/yIPg8
-   fzRNbWoxEIvuupNL5KdEC+Mn4rA4b7S3104hWMcuXcnpnhBPvFSkfvrl8
-   mCea4xJyQ9NCs05uwBkRo5OoT9pNdSy5IrRKPvbQJ6paSWkOmK8nfCP78
+  bh=wV4PE4N5ZzstwUfKadxsAz4FdkqXOlmXKno0BPUm9Dk=;
+  b=jOwa47vnOw2jKD5/0WrIr6f6Fj1/FJY19Qu7RkIEP1mKBRafeLsHSx/a
+   dPiQQ8lfjwqDid/Mdtnsc0JsSWrbiTBc3D92iA4v3x9bQ6eaKp2UfzrFN
+   YlRJl17fctbh/r22GAhC47Agn3ZVq3ZVonDuCyyIpgs0XSFyyescwTE+d
+   Imy9ifJAOHj3jY1LnNG42FjKe/kpC4sp0ze3KUA0yIQnc1jhcbt6L3fQs
+   u+dB/6ohHSjoeNU2FBa8HLKDja8r54mKrervmcmFZyoq2mQ/kl773fZmx
+   Knc5qKz2aNkAYXrW+pD0+geM6OOnpA13O5zVZIFHk5MHlizHPEvl8vlWg
    Q==;
-X-CSE-ConnectionGUID: LrYIzf8LRxmTKbhy1UltVQ==
-X-CSE-MsgGUID: /D9mU0a8Tj2RzWE+ipU0Fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="53260899"
+X-CSE-ConnectionGUID: 3PGknTA8ThmBswgoH3Wx9w==
+X-CSE-MsgGUID: hr/ILZF4T5qL2GEAf3mjug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="61109375"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="53260899"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 12:52:42 -0800
-X-CSE-ConnectionGUID: BfSDw9fvQiuuo2f+B/0XRA==
-X-CSE-MsgGUID: fLdxGUhVQDm1twdnkiBLyg==
+   d="scan'208";a="61109375"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 14:08:52 -0800
+X-CSE-ConnectionGUID: yIAu8FalRyCZCszN1AF7MQ==
+X-CSE-MsgGUID: arTasgBCR7iE95xRiOP6NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104299420"
+   d="scan'208";a="137591376"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Dec 2024 12:52:41 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Dec 2024 14:08:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tRHK2-0003au-36;
-	Fri, 27 Dec 2024 20:52:38 +0000
-Date: Sat, 28 Dec 2024 04:51:53 +0800
+	id 1tRIVk-0003fv-1U;
+	Fri, 27 Dec 2024 22:08:48 +0000
+Date: Sat, 28 Dec 2024 06:08:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:OLK-5.10 2601/2601] kernel/stackleak.c:42:5-10:
- opportunity for str_enabled_disabled(state)
-Message-ID: <202412280419.SeKIgBFA-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [qcom:arm64-for-6.14 45/123]
+ arch/arm64/boot/dts/qcom/ipq5424-rdp466.dtb: watchdog@f410000: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202412280609.o7pFlfvz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,61 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
+TO: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   053a6b6f8e4c86200cdb20bc80c063c3bb119859
-commit: 9d423ac5414e69a36e95dc0b77392429c507cbe1 [2601/2601] gcc-plugins: simplify GCC plugin-dev capability test
-:::::: branch date: 15 hours ago
-:::::: commit date: 2 years, 11 months ago
-config: x86_64-randconfig-101-20241228 (https://download.01.org/0day-ci/archive/20241228/202412280419.SeKIgBFA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
+head:   1caf6149c3bf41a2ee07869449c4ea1ec8bbc2f8
+commit: 825b203296a845a1093722062ac6e5b655825704 [45/123] arm64: dts: qcom: ipq5424: Add watchdog node
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280609.o7pFlfvz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280609.o7pFlfvz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202412280419.SeKIgBFA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412280609.o7pFlfvz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/stackleak.c:42:5-10: opportunity for str_enabled_disabled(state)
-
-vim +42 kernel/stackleak.c
-
-964c9dff009189 Alexander Popov 2018-08-17  21  
-964c9dff009189 Alexander Popov 2018-08-17  22  int stack_erasing_sysctl(struct ctl_table *table, int write,
-4773ef33fc6e59 Tobias Klauser  2020-09-18  23  			void *buffer, size_t *lenp, loff_t *ppos)
-964c9dff009189 Alexander Popov 2018-08-17  24  {
-964c9dff009189 Alexander Popov 2018-08-17  25  	int ret = 0;
-964c9dff009189 Alexander Popov 2018-08-17  26  	int state = !static_branch_unlikely(&stack_erasing_bypass);
-964c9dff009189 Alexander Popov 2018-08-17  27  	int prev_state = state;
-964c9dff009189 Alexander Popov 2018-08-17  28  
-964c9dff009189 Alexander Popov 2018-08-17  29  	table->data = &state;
-964c9dff009189 Alexander Popov 2018-08-17  30  	table->maxlen = sizeof(int);
-964c9dff009189 Alexander Popov 2018-08-17  31  	ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-964c9dff009189 Alexander Popov 2018-08-17  32  	state = !!state;
-964c9dff009189 Alexander Popov 2018-08-17  33  	if (ret || !write || state == prev_state)
-964c9dff009189 Alexander Popov 2018-08-17  34  		return ret;
-964c9dff009189 Alexander Popov 2018-08-17  35  
-964c9dff009189 Alexander Popov 2018-08-17  36  	if (state)
-964c9dff009189 Alexander Popov 2018-08-17  37  		static_branch_disable(&stack_erasing_bypass);
-964c9dff009189 Alexander Popov 2018-08-17  38  	else
-964c9dff009189 Alexander Popov 2018-08-17  39  		static_branch_enable(&stack_erasing_bypass);
-964c9dff009189 Alexander Popov 2018-08-17  40  
-964c9dff009189 Alexander Popov 2018-08-17  41  	pr_warn("stackleak: kernel stack erasing is %s\n",
-964c9dff009189 Alexander Popov 2018-08-17 @42  					state ? "enabled" : "disabled");
-964c9dff009189 Alexander Popov 2018-08-17  43  	return ret;
-964c9dff009189 Alexander Popov 2018-08-17  44  }
-964c9dff009189 Alexander Popov 2018-08-17  45  
-
-:::::: The code at line 42 was first introduced by commit
-:::::: 964c9dff0091893a9a74a88edf984c6da0b779f7 stackleak: Allow runtime disabling of kernel stack erasing
-
-:::::: TO: Alexander Popov <alex.popov@linux.com>
-:::::: CC: Kees Cook <keescook@chromium.org>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/ipq5424-rdp466.dtb: watchdog@f410000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,apss-wdt-ipq5424', 'qcom,kpss-wdt'] is too long
+   	['qcom,apss-wdt-ipq5424', 'qcom,kpss-wdt'] is too short
+   	'qcom,apss-wdt-ipq5424' is not one of ['qcom,kpss-wdt-ipq4019', 'qcom,apss-wdt-ipq5018', 'qcom,apss-wdt-ipq5332', 'qcom,apss-wdt-ipq9574', 'qcom,apss-wdt-msm8226', 'qcom,apss-wdt-msm8974', 'qcom,apss-wdt-msm8994', 'qcom,apss-wdt-qcm2290', 'qcom,apss-wdt-qcs404', 'qcom,apss-wdt-sa8255p', 'qcom,apss-wdt-sa8775p', 'qcom,apss-wdt-sc7180', 'qcom,apss-wdt-sc7280', 'qcom,apss-wdt-sc8180x', 'qcom,apss-wdt-sc8280xp', 'qcom,apss-wdt-sdm845', 'qcom,apss-wdt-sdx55', 'qcom,apss-wdt-sdx65', 'qcom,apss-wdt-sm6115', 'qcom,apss-wdt-sm6350', 'qcom,apss-wdt-sm8150', 'qcom,apss-wdt-sm8250']
+   	'qcom,kpss-wdt' was expected
+   	'qcom,scss-timer' was expected
+   	'qcom,apss-wdt-ipq5424' is not one of ['qcom,kpss-wdt-apq8064', 'qcom,kpss-wdt-ipq8064', 'qcom,kpss-wdt-mdm9615', 'qcom,kpss-wdt-msm8960']
+   	'qcom,msm-timer' was expected
+   	'qcom,kpss-timer' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+>> arch/arm64/boot/dts/qcom/ipq5424-rdp466.dtb: /soc@0/watchdog@f410000: failed to match any schema with compatible: ['qcom,apss-wdt-ipq5424', 'qcom,kpss-wdt']
 
 -- 
 0-DAY CI Kernel Test Service
