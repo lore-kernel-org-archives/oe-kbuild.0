@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269C942070
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 11:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5EA42070
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 11:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735300062; cv=none; b=nu6EDjzlV0/PNbnJKL0zQjFUPFALJ439MZ1YcYYOZGJ/gsk1Mn4yVUOxInqbRiLmFGFML0K8Ylwc7FJsatuwpZcnwDabY5GNvHaiJct4aLXIa6kaabgu/q/zuIISPZVMi2zzeKS3wQZMt6wGR1VVqJzcpJTf6RGVAXCGTW+QQiE=
+	t=1735300783; cv=none; b=CwlXRdhtGgYTLrt/Kide1AlQzZQECAQ6ZVHOeI4ClMSVDihxkbZjUqEz2sj5MQEoHSdqoTymH0ceiC55lvExROpALMKcD5+zddh0t+AOdqXRpBv42iEAt9t1G8qxVLnePJt+X+AyRv3SlbcDHCIkaezh3iIsiYhdGGbp0zEChRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735300062; c=relaxed/simple;
-	bh=SEVmTyCjU4B1elbdMrmLEDOOBK3Ubtv0QH8/gAvYAWs=;
+	s=arc-20240116; t=1735300783; c=relaxed/simple;
+	bh=QNkiGjAg2IEwJHZ/HzGY3E0B+3QXZXh+h3/S5/6ssqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mNU7BbM0Z+98wrKyQPgdxfVWyL4ACe/cQw+vlpVaZdZMwhnIcjRWQ+5hQRm7cfxANP2Ww28vRlvp9CA1atPFSt97P1ktBaFJpRHFc7IqBkxyPBnRgcRTVZwlk09ySq9p//4MkoSRPJef5Sogbn3SyWbcCNAFjhuS6/5FAwLW9Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDrBv/3p; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=T+Smlw3EoSx9VrQ6ObRpFQ5UtIsu/onc9bmwGyV1xnZz7WqOahnUAghQQBXN0JRKAoPBD1svNRDGbx3EDLh+8fMGbRqY0q743v7T8o6ILlEVwDNDFpytTV7h149/IMXcrbIz+tNEl1zJeDyzVf58+kum0JK0n1nPl9Hldsz/O3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqsewB9P; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDrBv/3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqsewB9P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735300060; x=1766836060;
+  t=1735300781; x=1766836781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SEVmTyCjU4B1elbdMrmLEDOOBK3Ubtv0QH8/gAvYAWs=;
-  b=hDrBv/3p345g7aDHdpo7XvvqCAKjSdRb25+y4z5FB78878VGpoPbhrOW
-   iNibVsMPu9NLlx4BVK45TVCfV/I9dWX6niu/whiUqP5pdHoaqJS89Y7Ki
-   J1SHyCEm76Fw/nb7gVICzuvkfJ1XHmdzAGMS8kanZh4RfF7Xjf3tea/GV
-   AX6iPwKCDE9YH3yYEggx/8+VP/Lf5IQCBNLmEyK0PUzVgiNfQQaINoBdi
-   BTljL6izoR5/97M0Ii9jrC/6INrcFGKZ0GoIe+5A3Xd4DsGBfrEfB+6B0
-   eDLFouWl7l5T4IR1ZOhYF5PfgBBM2Of9UolhkRFAY0Z0mtqHA8jkqj0R2
-   w==;
-X-CSE-ConnectionGUID: DEqJxLAMS+uNzRx2MkXj9g==
-X-CSE-MsgGUID: hnEjhkOhQLWWoZh8+Efpgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="53103594"
+  bh=QNkiGjAg2IEwJHZ/HzGY3E0B+3QXZXh+h3/S5/6ssqQ=;
+  b=YqsewB9P+WInF/plVKmePhzsV0YvFMSpDVe5iJYl4JnavrgRL5rJ+S2y
+   t/igGkIX5vAJc4p9fToXvP87MajPPgzX1T++nuvlWnFZdLfjekapzGxq6
+   Zx3rCh94n2ctGihcPXrP1vkJQam2f4mKm6eXBktdINU+asE/DEXTWpUCr
+   7zIfKxEodxtjwehTKHqVtTti3Lv/lwDoxZsEoxVlciajE0wJuH+74Cakn
+   Zio4GsAhM9JC/6eNkcP+4/sFZ9rzHKuDcsFPdEWNEC7tzz6rIRNm5UJZU
+   aom/90C7EBl3ZWrtUPuG97QWEAz9FmpL3y7GQbs47lUu2aJV6ZHyJMIJH
+   g==;
+X-CSE-ConnectionGUID: Os8ChUmtRoSLwBD7pXRaeQ==
+X-CSE-MsgGUID: oSpbcbgSRca/qdHy5Gz+SQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="47072089"
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="53103594"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 03:47:39 -0800
-X-CSE-ConnectionGUID: xplv48QNS5GVlhwQJJgG0w==
-X-CSE-MsgGUID: vYFnj5hCTbWEhZSYBbzP+A==
+   d="scan'208";a="47072089"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2024 03:59:40 -0800
+X-CSE-ConnectionGUID: 71YRQDs2RNOL7tASKO3L+Q==
+X-CSE-MsgGUID: b0WOdyHmTj6aY3I44pUvYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; 
-   d="scan'208";a="130984159"
+   d="scan'208";a="105003381"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Dec 2024 03:47:38 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Dec 2024 03:59:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tR8oa-0003AM-0Q;
-	Fri, 27 Dec 2024 11:47:36 +0000
-Date: Fri, 27 Dec 2024 19:47:04 +0800
+	id 1tR90D-0003Ag-0K;
+	Fri, 27 Dec 2024 11:59:37 +0000
+Date: Fri, 27 Dec 2024 19:59:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 1/2] alloc_tag: avoid current->alloc_tag manipulations
- when profiling is disabled
-Message-ID: <202412271903.leG6fSFl-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [dinguyen:socfpga_dts_for_v6.14_v1 2/5]
+ arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb:
+ ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202412271957.Thgh2EKl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,150 +64,191 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241226211639.1357704-1-surenb@google.com>
-References: <20241226211639.1357704-1-surenb@google.com>
-TO: Suren Baghdasaryan <surenb@google.com>
+TO: Mamta Shukla <mamta.shukla@leica-geosystems.com>
+CC: Dinh Nguyen <dinguyen@kernel.org>
+CC: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
-Hi Suren,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 431614f1580a03c1a653340c55ea76bd12a9403f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/alloc_tag-skip-pgalloc_tag_swap-if-profiling-is-disabled/20241227-051744
-base:   431614f1580a03c1a653340c55ea76bd12a9403f
-patch link:    https://lore.kernel.org/r/20241226211639.1357704-1-surenb%40google.com
-patch subject: [PATCH 1/2] alloc_tag: avoid current->alloc_tag manipulations when profiling is disabled
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: arc-randconfig-r073-20241227 (https://download.01.org/0day-ci/archive/20241227/202412271903.leG6fSFl-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_dts_for_v6.14_v1
+head:   91e8b7cff8e9445c56b0e433a51f2fd360a9b070
+commit: 62a40a0d5634834790f7166ab592be247390d857 [2/5] arm: dts: socfpga: use reset-name "stmmaceth-ocp" instead of "ahb"
+:::::: branch date: 10 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-052-20241220 (https://download.01.org/0day-ci/archive/20241227/202412271957.Thgh2EKl-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412271957.Thgh2EKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412271903.leG6fSFl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412271957.Thgh2EKl-lkp@intel.com/
 
-New smatch warnings:
-fs/overlayfs/namei.c:658 ovl_verify_index() warn: passing zero to 'PTR_ERR'
-
-Old smatch warnings:
-fs/overlayfs/namei.c:44 ovl_check_redirect() warn: passing zero to 'PTR_ERR'
-fs/overlayfs/namei.c:479 ovl_check_origin() warn: passing zero to 'PTR_ERR'
-fs/overlayfs/namei.c:581 ovl_index_upper() warn: passing zero to 'ERR_CAST'
-
-vim +/PTR_ERR +658 fs/overlayfs/namei.c
-
-e8f9e5b780b040 Amir Goldstein   2018-01-11  598  
-415543d5c64fe4 Amir Goldstein   2017-06-21  599  /*
-415543d5c64fe4 Amir Goldstein   2017-06-21  600   * Verify that an index entry name matches the origin file handle stored in
-415543d5c64fe4 Amir Goldstein   2017-06-21  601   * OVL_XATTR_ORIGIN and that origin file handle can be decoded to lower path.
-415543d5c64fe4 Amir Goldstein   2017-06-21  602   * Return 0 on match, -ESTALE on mismatch or stale origin, < 0 on error.
-415543d5c64fe4 Amir Goldstein   2017-06-21  603   */
-1eff1a1deec727 Amir Goldstein   2017-12-12  604  int ovl_verify_index(struct ovl_fs *ofs, struct dentry *index)
-415543d5c64fe4 Amir Goldstein   2017-06-21  605  {
-415543d5c64fe4 Amir Goldstein   2017-06-21  606  	struct ovl_fh *fh = NULL;
-415543d5c64fe4 Amir Goldstein   2017-06-21  607  	size_t len;
-b93436320c1e90 Chandan Rajendra 2017-07-24  608  	struct ovl_path origin = { };
-b93436320c1e90 Chandan Rajendra 2017-07-24  609  	struct ovl_path *stack = &origin;
-e8f9e5b780b040 Amir Goldstein   2018-01-11  610  	struct dentry *upper = NULL;
-415543d5c64fe4 Amir Goldstein   2017-06-21  611  	int err;
-415543d5c64fe4 Amir Goldstein   2017-06-21  612  
-415543d5c64fe4 Amir Goldstein   2017-06-21  613  	if (!d_inode(index))
-415543d5c64fe4 Amir Goldstein   2017-06-21  614  		return 0;
-415543d5c64fe4 Amir Goldstein   2017-06-21  615  
-fa0096e3bad69e Amir Goldstein   2017-10-24  616  	err = -EINVAL;
-cbe7fba8edfc8c Amir Goldstein   2019-11-15  617  	if (index->d_name.len < sizeof(struct ovl_fb)*2)
-415543d5c64fe4 Amir Goldstein   2017-06-21  618  		goto fail;
-415543d5c64fe4 Amir Goldstein   2017-06-21  619  
-415543d5c64fe4 Amir Goldstein   2017-06-21  620  	err = -ENOMEM;
-415543d5c64fe4 Amir Goldstein   2017-06-21  621  	len = index->d_name.len / 2;
-cbe7fba8edfc8c Amir Goldstein   2019-11-15  622  	fh = kzalloc(len + OVL_FH_WIRE_OFFSET, GFP_KERNEL);
-415543d5c64fe4 Amir Goldstein   2017-06-21  623  	if (!fh)
-415543d5c64fe4 Amir Goldstein   2017-06-21  624  		goto fail;
-415543d5c64fe4 Amir Goldstein   2017-06-21  625  
-415543d5c64fe4 Amir Goldstein   2017-06-21  626  	err = -EINVAL;
-cbe7fba8edfc8c Amir Goldstein   2019-11-15  627  	if (hex2bin(fh->buf, index->d_name.name, len))
-2e1a532883cf77 Amir Goldstein   2017-10-24  628  		goto fail;
-2e1a532883cf77 Amir Goldstein   2017-10-24  629  
-cbe7fba8edfc8c Amir Goldstein   2019-11-15  630  	err = ovl_check_fb_len(&fh->fb, len);
-2e1a532883cf77 Amir Goldstein   2017-10-24  631  	if (err)
-415543d5c64fe4 Amir Goldstein   2017-06-21  632  		goto fail;
-415543d5c64fe4 Amir Goldstein   2017-06-21  633  
-7db25d36d9253c Amir Goldstein   2018-01-11  634  	/*
-7db25d36d9253c Amir Goldstein   2018-01-11  635  	 * Whiteout index entries are used as an indication that an exported
-7db25d36d9253c Amir Goldstein   2018-01-11  636  	 * overlay file handle should be treated as stale (i.e. after unlink
-7db25d36d9253c Amir Goldstein   2018-01-11  637  	 * of the overlay inode). These entries contain no origin xattr.
-7db25d36d9253c Amir Goldstein   2018-01-11  638  	 */
-7db25d36d9253c Amir Goldstein   2018-01-11  639  	if (ovl_is_whiteout(index))
-7db25d36d9253c Amir Goldstein   2018-01-11  640  		goto out;
-7db25d36d9253c Amir Goldstein   2018-01-11  641  
-e8f9e5b780b040 Amir Goldstein   2018-01-11  642  	/*
-e8f9e5b780b040 Amir Goldstein   2018-01-11  643  	 * Verifying directory index entries are not stale is expensive, so
-e8f9e5b780b040 Amir Goldstein   2018-01-11  644  	 * only verify stale dir index if NFS export is enabled.
-e8f9e5b780b040 Amir Goldstein   2018-01-11  645  	 */
-e8f9e5b780b040 Amir Goldstein   2018-01-11  646  	if (d_is_dir(index) && !ofs->config.nfs_export)
-e8f9e5b780b040 Amir Goldstein   2018-01-11  647  		goto out;
-e8f9e5b780b040 Amir Goldstein   2018-01-11  648  
-e8f9e5b780b040 Amir Goldstein   2018-01-11  649  	/*
-e8f9e5b780b040 Amir Goldstein   2018-01-11  650  	 * Directory index entries should have 'upper' xattr pointing to the
-e8f9e5b780b040 Amir Goldstein   2018-01-11  651  	 * real upper dir. Non-dir index entries are hardlinks to the upper
-e8f9e5b780b040 Amir Goldstein   2018-01-11  652  	 * real inode. For non-dir index, we can read the copy up origin xattr
-e8f9e5b780b040 Amir Goldstein   2018-01-11  653  	 * directly from the index dentry, but for dir index we first need to
-e8f9e5b780b040 Amir Goldstein   2018-01-11  654  	 * decode the upper directory.
-e8f9e5b780b040 Amir Goldstein   2018-01-11  655  	 */
-8ea2876577b578 Amir Goldstein   2022-10-04  656  	upper = ovl_index_upper(ofs, index, false);
-e8f9e5b780b040 Amir Goldstein   2018-01-11  657  	if (IS_ERR_OR_NULL(upper)) {
-e8f9e5b780b040 Amir Goldstein   2018-01-11 @658  		err = PTR_ERR(upper);
-24f0b17203691d Amir Goldstein   2018-01-11  659  		/*
-24f0b17203691d Amir Goldstein   2018-01-11  660  		 * Directory index entries with no 'upper' xattr need to be
-24f0b17203691d Amir Goldstein   2018-01-11  661  		 * removed. When dir index entry has a stale 'upper' xattr,
-24f0b17203691d Amir Goldstein   2018-01-11  662  		 * we assume that upper dir was removed and we treat the dir
-24f0b17203691d Amir Goldstein   2018-01-11  663  		 * index as orphan entry that needs to be whited out.
-24f0b17203691d Amir Goldstein   2018-01-11  664  		 */
-24f0b17203691d Amir Goldstein   2018-01-11  665  		if (err == -ESTALE)
-24f0b17203691d Amir Goldstein   2018-01-11  666  			goto orphan;
-24f0b17203691d Amir Goldstein   2018-01-11  667  		else if (!err)
-e8f9e5b780b040 Amir Goldstein   2018-01-11  668  			err = -ESTALE;
-e8f9e5b780b040 Amir Goldstein   2018-01-11  669  		goto fail;
-e8f9e5b780b040 Amir Goldstein   2018-01-11  670  	}
-e8f9e5b780b040 Amir Goldstein   2018-01-11  671  
-610afc0bd40882 Miklos Szeredi   2020-09-02  672  	err = ovl_verify_fh(ofs, upper, OVL_XATTR_ORIGIN, fh);
-e8f9e5b780b040 Amir Goldstein   2018-01-11  673  	dput(upper);
-415543d5c64fe4 Amir Goldstein   2017-06-21  674  	if (err)
-415543d5c64fe4 Amir Goldstein   2017-06-21  675  		goto fail;
-415543d5c64fe4 Amir Goldstein   2017-06-21  676  
-e8f9e5b780b040 Amir Goldstein   2018-01-11  677  	/* Check if non-dir index is orphan and don't warn before cleaning it */
-e8f9e5b780b040 Amir Goldstein   2018-01-11  678  	if (!d_is_dir(index) && d_inode(index)->i_nlink == 1) {
-8a22efa15b46d5 Amir Goldstein   2018-03-09  679  		err = ovl_check_origin_fh(ofs, fh, false, index, &stack);
-415543d5c64fe4 Amir Goldstein   2017-06-21  680  		if (err)
-415543d5c64fe4 Amir Goldstein   2017-06-21  681  			goto fail;
-415543d5c64fe4 Amir Goldstein   2017-06-21  682  
-610afc0bd40882 Miklos Szeredi   2020-09-02  683  		if (ovl_get_nlink(ofs, origin.dentry, index, 0) == 0)
-24f0b17203691d Amir Goldstein   2018-01-11  684  			goto orphan;
-e8f9e5b780b040 Amir Goldstein   2018-01-11  685  	}
-caf70cb2ba5dff Amir Goldstein   2017-06-21  686  
-415543d5c64fe4 Amir Goldstein   2017-06-21  687  out:
-e8f9e5b780b040 Amir Goldstein   2018-01-11  688  	dput(origin.dentry);
-415543d5c64fe4 Amir Goldstein   2017-06-21  689  	kfree(fh);
-415543d5c64fe4 Amir Goldstein   2017-06-21  690  	return err;
-415543d5c64fe4 Amir Goldstein   2017-06-21  691  
-415543d5c64fe4 Amir Goldstein   2017-06-21  692  fail:
-1bd0a3aea4357e lijiazi          2019-12-16  693  	pr_warn_ratelimited("failed to verify index (%pd2, ftype=%x, err=%i)\n",
-61b674710cd9af Amir Goldstein   2017-07-18  694  			    index, d_inode(index)->i_mode & S_IFMT, err);
-415543d5c64fe4 Amir Goldstein   2017-06-21  695  	goto out;
-24f0b17203691d Amir Goldstein   2018-01-11  696  
-24f0b17203691d Amir Goldstein   2018-01-11  697  orphan:
-1bd0a3aea4357e lijiazi          2019-12-16  698  	pr_warn_ratelimited("orphan index entry (%pd2, ftype=%x, nlink=%u)\n",
-24f0b17203691d Amir Goldstein   2018-01-11  699  			    index, d_inode(index)->i_mode & S_IFMT,
-24f0b17203691d Amir Goldstein   2018-01-11  700  			    d_inode(index)->i_nlink);
-24f0b17203691d Amir Goldstein   2018-01-11  701  	err = -ENOENT;
-24f0b17203691d Amir Goldstein   2018-01-11  702  	goto out;
-415543d5c64fe4 Amir Goldstein   2017-06-21  703  }
-415543d5c64fe4 Amir Goldstein   2017-06-21  704  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff802000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff804000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/i2c@ffc02200/audio-codec@1a: failed to match any schema with compatible: ['adi,ssm2603']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: isl12022@6f: $nodename:0: 'isl12022@6f' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/rtc/intersil,isl12022.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: sram@ffe00000: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+--
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: ethernet@ff802000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: ethernet@ff804000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: isl12022@6f: $nodename:0: 'isl12022@6f' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/rtc/intersil,isl12022.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: sram@ffe00000: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_pe1.dtb: sram@ffe00000: '#size-cells' is a required property
+--
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff802000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff804000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
+   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
+--
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff802000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff804000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
+   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
+--
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/usb_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/clkmgr@ffd04000/clocks/s2f_usr1_clk: failed to match any schema with compatible: ['altr,socfpga-a10-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff800000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/ethernet@ff800000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff802000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/ethernet@ff802000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff804000: reset-names: 'oneOf' conditional failed, one must be fixed:
+   	['stmmaceth', 'stmmaceth-ocp'] is too long
+   	'ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/ethernet@ff804000: failed to match any schema with compatible: ['altr,socfpga-stmmac-a10-s10', 'snps,dwmac-3.72a', 'snps,dwmac']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: spi@ffda5000: Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml#
+   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: resource-manager@0: gpio-controller: 'oneOf' conditional failed, one must be fixed:
+   	{'compatible': ['altr,a10sr-gpio'], 'gpio-controller': True, '#gpio-cells': 2, 'phandle': 48} is not of type 'boolean'
 
 -- 
 0-DAY CI Kernel Test Service
