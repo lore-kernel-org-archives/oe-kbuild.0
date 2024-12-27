@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB2D1E495
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 07:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E086245C14
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Dec 2024 07:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735283178; cv=none; b=m3zWEvXDG9NFs+kKMQT319eb+0UWoATj7NydenvsSXDRYI1B4ZvFjFUi0P5Sfwy5theieI1Kd3nMwdVP6oPOWcT+yfC9OHsX5m+XHMcDEMJM2gp9pa09wWH83zwFTUrcZ2LEDiKg5ULxcO19z12ofNHobvo63f/3rAsyZxAWJs4=
+	t=1735283842; cv=none; b=SfRR9k/J+XQ534nOlRm0IJ0kxUiwZJ5TTEgQVuBBfY0NDDWkyMmuQ+WldfQhwNN6maMg+2WxbxgKAf6dhG51OiCKClDIEgPgtBFcuYd3XNjO1dMJNYXbx8JsXIlIg2AFrqo2CVDbjkZDPoRYhYPtXFD0xXyCC6I9N0vLJCOGzhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735283178; c=relaxed/simple;
-	bh=sqdi0Tmiizx8AOh9mT558yDJ19A2jwS1opUr4I3tZiQ=;
+	s=arc-20240116; t=1735283842; c=relaxed/simple;
+	bh=HvtwTMb/u0/bq8YAKMYgnIgoE0fKcGfiJxkwWjKsA7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dy+UTRahbF4xtrLTI2/gD+hfQjIgDTRAgDXkEdO9WalM/3BlTYD/GG156vi3jUZakiWQd+8izRf+9/7wRwC8jXuhqBPkza1mLuJzc6CUQzMkT+ZqABFowanzjPo9oduWWv2UJLJxbqTeYaMQTDLh+lEma647Vq6ee78Y+NcsY1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOYlOLNp; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=JrUCBCB5JkDnKePkHkDXa1apRep0Yk78kOrOxJJesFc7k3Ylu4f1NGfOo4Yd7AvYJL8DlFRLcbRT9bbB6bN1OrwwZPKo8KxXXYCcNz47K0BRq8hxgqT9+fKkjKinaacfMpJAhAhBlOK9GCXtHMsEtGjzjTlU4HxFPNc2NuOuGnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXE8F2AK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOYlOLNp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXE8F2AK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735283176; x=1766819176;
+  t=1735283840; x=1766819840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sqdi0Tmiizx8AOh9mT558yDJ19A2jwS1opUr4I3tZiQ=;
-  b=AOYlOLNpi+Pza6bw/DjaVzgCtVFnrHQ+00Y3BpU8BCjbH2N6ARmq9b3V
-   fgTj0x0bzt23cCEj9jEzonyQnBax9osws2uc8MUN2HsIs+xx9ZYwEGcXi
-   MfipFkG4Zsz5JZ3kpohd2TZYMBt00qgbPDlx0vPFTU0nFqC9jbAmmqiAa
-   3vsEUYA1K+/KeykqAIKuj8NcJrHxRohoNP6900PSbxb2A3Fi9v86JwB/q
-   g81sKTDeLxofmaAqoaMMmEevG5i1XA6OwH0oUHgvEPLn/8AcgEttdDhwg
-   saWHQmqghHUUBd9DwFMjT3ekLC567iqqP5/VYyGMib8KVcHw/xPRcq/7k
+  bh=HvtwTMb/u0/bq8YAKMYgnIgoE0fKcGfiJxkwWjKsA7I=;
+  b=TXE8F2AK6Brc7adhiklhDI1Q00zcM4ri/tXgkATYoHkiYvqnQNZZeNrU
+   0ReV5cXlixoFkRNSRHa+tIqNwmqZ7GPNlrHCwTeE+yGxijym6bAjN4fKU
+   y4E46vntlbTZQak5gLSxrkmeNU1ycELRunn2xFX41nXE2BDTme1EDzooG
+   9FExAqEnLalgWd9d3uUelsDhltI1nM4rK1QoU29T1oTCcLCD0MEf5sxyc
+   19H0okTk78GlkCkWTtRd8z0vSeanYWDNZQ+rffflMc+7wW5aUHXxVLXeu
+   0uWHsW3E+zi7Il8yN64X4/rz5aYU+Mj+ngAqmX+26AsIGqbXLklQMWGY4
    Q==;
-X-CSE-ConnectionGUID: EGosx+huSwu+sCsol/k6PA==
-X-CSE-MsgGUID: TuAJZPdiSZWCBxVTYJBYzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="34999620"
+X-CSE-ConnectionGUID: 2FQfu1qLSg2OB5RNeP7nhg==
+X-CSE-MsgGUID: peUuTII1R/WvG4DrdHFNVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11297"; a="46183339"
 X-IronPort-AV: E=Sophos;i="6.12,268,1728975600"; 
-   d="scan'208";a="34999620"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 23:06:16 -0800
-X-CSE-ConnectionGUID: qDB2hWpjRYmzBH8kqGu/Kg==
-X-CSE-MsgGUID: n8A8POHBRgmYgi26EHlmJA==
+   d="scan'208";a="46183339"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 23:17:19 -0800
+X-CSE-ConnectionGUID: GrS/QYsESD62tIF/Jzgz9w==
+X-CSE-MsgGUID: 43cjd+lQShWby5RBc0KGDQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123365322"
+X-IronPort-AV: E=Sophos;i="6.12,268,1728975600"; 
+   d="scan'208";a="99931909"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Dec 2024 23:06:15 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 26 Dec 2024 23:17:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tR4QG-00032w-2s;
-	Fri, 27 Dec 2024 07:06:12 +0000
-Date: Fri, 27 Dec 2024 15:05:59 +0800
+	id 1tR4ax-00033G-2H;
+	Fri, 27 Dec 2024 07:17:15 +0000
+Date: Fri, 27 Dec 2024 15:17:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/2] arm64: dts: rockchip: Add BigTreeTech CB2 and Pi2
-Message-ID: <202412271441.Mt4c7rFL-lkp@intel.com>
+Subject: [qcom:arm64-for-6.14 22/123]
+ arch/arm64/boot/dts/qcom/qcs615-ride.dtb: pmu@90b6300: compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202412271506.aT8jAK6Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,95 +68,66 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241227-bigtreetech-cb2-v3-2-91c556adcffe@gmail.com>
-References: <20241227-bigtreetech-cb2-v3-2-91c556adcffe@gmail.com>
-TO: Ivan Sergeev <ivan8215145640@gmail.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Ivan Sergeev <ivan8215145640@gmail.com>
+TO: Lijuan Gao <quic_lijuang@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Hi Ivan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4bbf9020becbfd8fc2c3da790855b7042fad455b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Sergeev/dt-bindings-arm-rockchip-Add-BigTreeTech-CB2-and-Pi2/20241227-111114
-base:   4bbf9020becbfd8fc2c3da790855b7042fad455b
-patch link:    https://lore.kernel.org/r/20241227-bigtreetech-cb2-v3-2-91c556adcffe%40gmail.com
-patch subject: [PATCH v3 2/2] arm64: dts: rockchip: Add BigTreeTech CB2 and Pi2
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: arm64-randconfig-004-20241227 (https://download.01.org/0day-ci/archive/20241227/202412271441.Mt4c7rFL-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412271441.Mt4c7rFL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
+head:   1caf6149c3bf41a2ee07869449c4ea1ec8bbc2f8
+commit: 89fc83a9472812052610970b41fd44de94224b32 [22/123] arm64: dts: qcom: qcs615: Add CPU and LLCC BWMON support
+:::::: branch date: 3 hours ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-051-20241227 (https://download.01.org/0day-ci/archive/20241227/202412271506.aT8jAK6Y-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241227/202412271506.aT8jAK6Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412271441.Mt4c7rFL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412271506.aT8jAK6Y-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:821.3-15: Warning (reg_format): /mmc@fe2c0000/sdio-wifi@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:819.14-828.4: Warning (avoid_default_addr_size): /mmc@fe2c0000/sdio-wifi@1: Relying on default #address-cells value
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:819.14-828.4: Warning (avoid_default_addr_size): /mmc@fe2c0000/sdio-wifi@1: Relying on default #size-cells value
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-pi2.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
---
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:821.3-15: Warning (reg_format): /mmc@fe2c0000/sdio-wifi@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:819.14-828.4: Warning (avoid_default_addr_size): /mmc@fe2c0000/sdio-wifi@1: Relying on default #address-cells value
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi:819.14-828.4: Warning (avoid_default_addr_size): /mmc@fe2c0000/sdio-wifi@1: Relying on default #size-cells value
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
->> arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2-manta.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
-
-vim +821 arch/arm64/boot/dts/rockchip/rk3566-bigtreetech-cb2.dtsi
-
-9644ec4bcae76c Ivan Sergeev 2024-12-27  803  
-9644ec4bcae76c Ivan Sergeev 2024-12-27  804  &sdmmc1 {
-9644ec4bcae76c Ivan Sergeev 2024-12-27  805  	max-frequency = <150000000>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  806  	bus-width = <4>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  807  	disable-wp;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  808  	cap-sd-highspeed;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  809  	cap-sdio-irq;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  810  	keep-power-in-suspend;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  811  	mmc-pwrseq = <&sdio_pwrseq>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  812  	non-removable;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  813  	pinctrl-names = "default";
-9644ec4bcae76c Ivan Sergeev 2024-12-27  814  	pinctrl-0 = <&sdmmc1_bus4 &sdmmc1_cmd &sdmmc1_clk>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  815  	sd-uhs-sdr104;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  816  	status = "okay";
-9644ec4bcae76c Ivan Sergeev 2024-12-27  817  	rockchip,default-sample-phase = <90>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  818  
-9644ec4bcae76c Ivan Sergeev 2024-12-27 @819  	sdio-wifi@1 {
-9644ec4bcae76c Ivan Sergeev 2024-12-27  820  		compatible = "brcm,bcm4329-fmac";
-9644ec4bcae76c Ivan Sergeev 2024-12-27 @821  		reg = <0x1>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  822  		interrupt-parent = <&gpio2>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  823  		interrupts = <9 IRQ_TYPE_LEVEL_HIGH>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  824  		interrupt-names = "host-wake";
-9644ec4bcae76c Ivan Sergeev 2024-12-27  825  		pinctrl-names = "default";
-9644ec4bcae76c Ivan Sergeev 2024-12-27  826  		pinctrl-0 = <&wifi_host_wake>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  827  		brcm,drive-strength = <10>;
-9644ec4bcae76c Ivan Sergeev 2024-12-27  828  	};
-9644ec4bcae76c Ivan Sergeev 2024-12-27  829  };
-9644ec4bcae76c Ivan Sergeev 2024-12-27  830  
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/dma-controller@800000: failed to match any schema with compatible: ['qcom,qcs615-gpi-dma', 'qcom,sdm845-gpi-dma']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: dma-controller@a00000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-gpi-dma', 'qcom,sdm845-gpi-dma'] is too long
+   	'qcom,qcs615-gpi-dma' is not one of ['qcom,sdm845-gpi-dma', 'qcom,sm6350-gpi-dma']
+   	'qcom,qcs615-gpi-dma' is not one of ['qcom,qcm2290-gpi-dma', 'qcom,qdu1000-gpi-dma', 'qcom,sar2130p-gpi-dma', 'qcom,sc7280-gpi-dma', 'qcom,sdx75-gpi-dma', 'qcom,sm6115-gpi-dma', 'qcom,sm6375-gpi-dma', 'qcom,sm8350-gpi-dma', 'qcom,sm8450-gpi-dma', 'qcom,sm8550-gpi-dma', 'qcom,sm8650-gpi-dma', 'qcom,x1e80100-gpi-dma']
+   	'qcom,qcs615-gpi-dma' is not one of ['qcom,sdm670-gpi-dma', 'qcom,sm6125-gpi-dma', 'qcom,sm8150-gpi-dma', 'qcom,sm8250-gpi-dma']
+   	'qcom,sm6350-gpi-dma' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/dma-controller@a00000: failed to match any schema with compatible: ['qcom,qcs615-gpi-dma', 'qcom,sdm845-gpi-dma']
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: pmu@90b6300: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-cpu-bwmon', 'qcom,sdm845-bwmon'] is too long
+   	'qcom,msm8998-bwmon' was expected
+   	'qcom,qcs615-cpu-bwmon' is not one of ['qcom,qcm2290-cpu-bwmon', 'qcom,qcs8300-cpu-bwmon', 'qcom,sa8775p-cpu-bwmon', 'qcom,sc7180-cpu-bwmon', 'qcom,sc7280-cpu-bwmon', 'qcom,sc8280xp-cpu-bwmon', 'qcom,sdm845-cpu-bwmon', 'qcom,sm6115-cpu-bwmon', 'qcom,sm6350-llcc-bwmon', 'qcom,sm8250-cpu-bwmon', 'qcom,sm8550-cpu-bwmon', 'qcom,sm8650-cpu-bwmon', 'qcom,x1e80100-cpu-bwmon']
+   	'qcom,qcs615-cpu-bwmon' is not one of ['qcom,qcs8300-llcc-bwmon', 'qcom,sa8775p-llcc-bwmon', 'qcom,sc7180-llcc-bwmon', 'qcom,sc8280xp-llcc-bwmon', 'qcom,sm6350-cpu-bwmon', 'qcom,sm8250-llcc-bwmon', 'qcom,sm8550-llcc-bwmon', 'qcom,sm8650-llcc-bwmon', 'qcom,x1e80100-llcc-bwmon']
+   	'qcom,sc7280-llcc-bwmon' was expected
+   	'qcom,sdm845-llcc-bwmon' was expected
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/pmu@90b6300: failed to match any schema with compatible: ['qcom,qcs615-cpu-bwmon', 'qcom,sdm845-bwmon']
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: pmu@90cd000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-llcc-bwmon', 'qcom,sc7280-llcc-bwmon'] is too long
+   	'qcom,msm8998-bwmon' was expected
+   	'qcom,qcs615-llcc-bwmon' is not one of ['qcom,qcm2290-cpu-bwmon', 'qcom,qcs8300-cpu-bwmon', 'qcom,sa8775p-cpu-bwmon', 'qcom,sc7180-cpu-bwmon', 'qcom,sc7280-cpu-bwmon', 'qcom,sc8280xp-cpu-bwmon', 'qcom,sdm845-cpu-bwmon', 'qcom,sm6115-cpu-bwmon', 'qcom,sm6350-llcc-bwmon', 'qcom,sm8250-cpu-bwmon', 'qcom,sm8550-cpu-bwmon', 'qcom,sm8650-cpu-bwmon', 'qcom,x1e80100-cpu-bwmon']
+   	'qcom,qcs615-llcc-bwmon' is not one of ['qcom,qcs8300-llcc-bwmon', 'qcom,sa8775p-llcc-bwmon', 'qcom,sc7180-llcc-bwmon', 'qcom,sc8280xp-llcc-bwmon', 'qcom,sm6350-cpu-bwmon', 'qcom,sm8250-llcc-bwmon', 'qcom,sm8550-llcc-bwmon', 'qcom,sm8650-llcc-bwmon', 'qcom,x1e80100-llcc-bwmon']
+   	'qcom,sc7280-llcc-bwmon' was expected
+   	'qcom,sdm845-llcc-bwmon' was expected
+   	'qcom,sdm845-bwmon' was expected
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
+>> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/pmu@90cd000: failed to match any schema with compatible: ['qcom,qcs615-llcc-bwmon', 'qcom,sc7280-llcc-bwmon']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: interrupt-controller@b220000: compatible:0: 'qcom,qcs615-pdc' is not one of ['qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,x1e80100-pdc']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,qcs615-pdc', 'qcom,pdc']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000: compatible:0: 'qcom,qcs615-aoss-qmp' is not one of ['qcom,qcs8300-aoss-qmp', 'qcom,qdu1000-aoss-qmp', 'qcom,sa8255p-aoss-qmp', 'qcom,sa8775p-aoss-qmp', 'qcom,sar2130p-aoss-qmp', 'qcom,sc7180-aoss-qmp', 'qcom,sc7280-aoss-qmp', 'qcom,sc8180x-aoss-qmp', 'qcom,sc8280xp-aoss-qmp', 'qcom,sdx75-aoss-qmp', 'qcom,sdm845-aoss-qmp', 'qcom,sm6350-aoss-qmp', 'qcom,sm8150-aoss-qmp', 'qcom,sm8250-aoss-qmp', 'qcom,sm8350-aoss-qmp', 'qcom,sm8450-aoss-qmp', 'qcom,sm8550-aoss-qmp', 'qcom,sm8650-aoss-qmp', 'qcom,sm8750-aoss-qmp', 'qcom,x1e80100-aoss-qmp']
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,aoss-qmp.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000: '#power-domain-cells' does not match any of the regexes: '^(cx|mx|ebi)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,aoss-qmp.yaml#
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/power-controller@c300000: failed to match any schema with compatible: ['qcom,qcs615-aoss-qmp', 'qcom,aoss-qmp']
+   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: mailbox@17c00000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,qcs615-apss-shared', 'qcom,sdm845-apss-shared'] is too short
 
 -- 
 0-DAY CI Kernel Test Service
