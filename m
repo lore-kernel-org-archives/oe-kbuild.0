@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6AA2904
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Dec 2024 01:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB742F44
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Dec 2024 07:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735521332; cv=none; b=YtaIohUWI5v3kY2aCjhR+kO1PyPEL5CjwqLBIWP3flL01Qmr/POOsslnVeBW7rRhSvkXQWA4Q/qWPoZ2gYfw8QRTFEgJd0HRAJ56JapcQ6GsJZDK5shQFrLTnVjfUJj8U+wZ8ZIYVgZjIFeGKtRZFFDjXeXi0N9uUyqWA3Pbhao=
+	t=1735542159; cv=none; b=I2rKppviS7g7onP/pbkt3h8TP6qMGcGZsA9cFfhoBW6L+r3XThESeTq6B3t/vqUU1Q22nntGrGlgyirtQ78Zi39AghjZZ0giVxg7AlZk85eTL4/8Bl8u/S3woItrAe4cefxKzT3NwxKlfUermycmV1Bwb6UwNMam06GXLLaEbsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735521332; c=relaxed/simple;
-	bh=yxr2oRmjYNz8k+Egi+a7qkvDRq+Cr5OJAfX9HG2VSXY=;
+	s=arc-20240116; t=1735542159; c=relaxed/simple;
+	bh=P2/onzYF2xH+xdD2wv/XwRaBh0/8HdZSroxoF0QU0fk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LmIflndcFRp2YMJtG6c7mW0L9lzHumdd98e+0Umfz4bcqsG2sXaWMpOS/U083ydCxUGZ47no/TwJTElng3QmwqWLx87i33eXqAtlRznJrIerbeO7TwTWKKbQOp8PEzhB6jiJmb/nC+bwQ4mWp2SmvPOe2aTBbzB9GvD87yyjvTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkIyOD8T; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=i0zxYD4ziSC9gFjte9I/64cJKA+KHrcwNtWKzAN838jB8udcWPk1pI6w0D9+45rNjgbG2dDFCN9gzqbR6J1LiNMpzz+Uj+E1E3v2YYnHRoVFnaLTpVHqgM1RR+eK4JT7Lqnt23adq7FWv45ZW8zdL2ItiHGjca59ZKw525CI64o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQ9aL58T; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkIyOD8T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQ9aL58T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735521331; x=1767057331;
+  t=1735542157; x=1767078157;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yxr2oRmjYNz8k+Egi+a7qkvDRq+Cr5OJAfX9HG2VSXY=;
-  b=FkIyOD8THzBKpleW3K6wnCc/iOSSWXxevEynwPpETPMX2TC9XVMjv6rD
-   QlP8qlvV9u5qD+i3DdvEKP8CqcCxFWdkPXudJcm5P+otHyggSvXBwpa3h
-   xOPGIclsp+64Ao9mZmbIfu7ECYxeXuiSS9hiRx+7HvFRd84OMyCW4xN1Z
-   44u3RUZicgsQ2vkstcP6TAgrSVbRLerAyMgn6s1gMd8D0C4oqwv/20HK7
-   jDUlQseaFfPX6ieki+/WPenjU5+lXJdEBDXbd9IJ1L4AHx0jg3bQR4tDj
-   +ROhkPLuNBd5YiouEywcT6ozh6WnigGICo8SRbGZ2lGF39xu0u6da6pMs
-   w==;
-X-CSE-ConnectionGUID: LY2qAa8JTp+bLosBDfD2hg==
-X-CSE-MsgGUID: AH4982RQT8+bE7sSSUPqUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="36031150"
+  bh=P2/onzYF2xH+xdD2wv/XwRaBh0/8HdZSroxoF0QU0fk=;
+  b=cQ9aL58Tic4xOpBLzc51ELw2s4jpuMSd2XIXSjcmRPVO1mwksBvQj2TI
+   8UjHsNgq55NO6I1KEwLq1XFZ5+Q0TaJPBm//7kWz4H9K9/dBUb83ez5uT
+   GwUCq2DeC1wDwVPgHKwrWDYQ8M2nuhin3TLreZWt08vnJFCnIM3MmyvBq
+   7Yt9u6nMxUJuOrdsOc/crJRl8WbLlJRUnPNkt+2qLtplvc7ptB/YaYiXU
+   jLCbLisQq14Gwb8ekMnzj0XIzl91UTnC8Z4X7++TmCirGGMFL3jJx9Csg
+   XRxvXwg4KLRxFeX076xjllcIYfWbX74+1J3ZAQYMQsIUVRLB2NpHdLKq2
+   A==;
+X-CSE-ConnectionGUID: rqerIz/FQWiPfRKqiUPNXw==
+X-CSE-MsgGUID: bWVLnZlcTxeaGwayNPSixA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="39511751"
 X-IronPort-AV: E=Sophos;i="6.12,275,1728975600"; 
-   d="scan'208";a="36031150"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 17:15:30 -0800
-X-CSE-ConnectionGUID: 0RgRQGOfS6C2HF8QyIjl7Q==
-X-CSE-MsgGUID: gd+T/rTOSAOIjP4CXSpToA==
+   d="scan'208";a="39511751"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 23:02:36 -0800
+X-CSE-ConnectionGUID: P4Xid7ZiQ36brOyR6qnQ5Q==
+X-CSE-MsgGUID: OBTBR4EjTqmT+JRFDGRmYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123936486"
+   d="scan'208";a="138067034"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Dec 2024 17:15:28 -0800
+  by orviesa001.jf.intel.com with ESMTP; 29 Dec 2024 23:02:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tS4NS-0005HH-2O;
-	Mon, 30 Dec 2024 01:15:26 +0000
-Date: Mon, 30 Dec 2024 09:14:57 +0800
+	id 1tS9nM-0005VM-31;
+	Mon, 30 Dec 2024 07:02:32 +0000
+Date: Mon, 30 Dec 2024 15:01:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [netdev-net-next:main 3/60]
- drivers/net/ethernet/freescale/enetc/enetc.c:716 enetc_lso_map_data() error:
- uninitialized symbol 'tx_swbd'.
-Message-ID: <202412300923.ayioqjb3-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5 5/6] arm64: dts: qcom: Add support for QCS9075 Ride &
+ Ride-r3
+Message-ID: <202412301412.7hDkuHBZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,104 +62,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wei Fang <wei.fang@nxp.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
-CC: Claudiu Manoil <claudiu.manoil@nxp.com>
+In-Reply-To: <20241229152332.3068172-6-quic_wasimn@quicinc.com>
+References: <20241229152332.3068172-6-quic_wasimn@quicinc.com>
+TO: Wasim Nazir <quic_wasimn@quicinc.com>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: kernel@quicinc.com
+CC: Wasim Nazir <quic_wasimn@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
-head:   9268abe611b09edc975aa27e6ce829f629352ff4
-commit: 69797ff888d3dbab035a0d2516b554285b094e3c [3/60] net: enetc: add LSO support for i.MX95 ENETC PF
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: alpha-randconfig-r072-20241228 (https://download.01.org/0day-ci/archive/20241230/202412300923.ayioqjb3-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
+Hi Wasim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wasim-Nazir/dt-bindings-arm-qcom-ids-add-SoC-ID-for-QCS9075/20241229-232743
+base:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+patch link:    https://lore.kernel.org/r/20241229152332.3068172-6-quic_wasimn%40quicinc.com
+patch subject: [PATCH v5 5/6] arm64: dts: qcom: Add support for QCS9075 Ride & Ride-r3
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arm64-randconfig-051-20241230 (https://download.01.org/0day-ci/archive/20241230/202412301412.7hDkuHBZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev5+gea243eb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241230/202412301412.7hDkuHBZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412300923.ayioqjb3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412301412.7hDkuHBZ-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/freescale/enetc/enetc.c:716 enetc_lso_map_data() error: uninitialized symbol 'tx_swbd'.
-
-vim +/tx_swbd +716 drivers/net/ethernet/freescale/enetc/enetc.c
-
-69797ff888d3dba Wei Fang 2024-12-19  650  
-69797ff888d3dba Wei Fang 2024-12-19  651  static int enetc_lso_map_data(struct enetc_bdr *tx_ring, struct sk_buff *skb,
-69797ff888d3dba Wei Fang 2024-12-19  652  			      int *i, struct enetc_lso_t *lso, int *count)
-69797ff888d3dba Wei Fang 2024-12-19  653  {
-69797ff888d3dba Wei Fang 2024-12-19  654  	union enetc_tx_bd txbd_tmp, *txbd = NULL;
-69797ff888d3dba Wei Fang 2024-12-19  655  	struct enetc_tx_swbd *tx_swbd;
-69797ff888d3dba Wei Fang 2024-12-19  656  	skb_frag_t *frag;
-69797ff888d3dba Wei Fang 2024-12-19  657  	dma_addr_t dma;
-69797ff888d3dba Wei Fang 2024-12-19  658  	u8 flags = 0;
-69797ff888d3dba Wei Fang 2024-12-19  659  	int len, f;
-69797ff888d3dba Wei Fang 2024-12-19  660  
-69797ff888d3dba Wei Fang 2024-12-19  661  	len = skb_headlen(skb) - lso->hdr_len;
-69797ff888d3dba Wei Fang 2024-12-19  662  	if (len > 0) {
-69797ff888d3dba Wei Fang 2024-12-19  663  		dma = dma_map_single(tx_ring->dev, skb->data + lso->hdr_len,
-69797ff888d3dba Wei Fang 2024-12-19  664  				     len, DMA_TO_DEVICE);
-69797ff888d3dba Wei Fang 2024-12-19  665  		if (dma_mapping_error(tx_ring->dev, dma))
-69797ff888d3dba Wei Fang 2024-12-19  666  			return -ENOMEM;
-69797ff888d3dba Wei Fang 2024-12-19  667  
-69797ff888d3dba Wei Fang 2024-12-19  668  		enetc_bdr_idx_inc(tx_ring, i);
-69797ff888d3dba Wei Fang 2024-12-19  669  		txbd = ENETC_TXBD(*tx_ring, *i);
-69797ff888d3dba Wei Fang 2024-12-19  670  		tx_swbd = &tx_ring->tx_swbd[*i];
-69797ff888d3dba Wei Fang 2024-12-19  671  		prefetchw(txbd);
-69797ff888d3dba Wei Fang 2024-12-19  672  		*count += 1;
-69797ff888d3dba Wei Fang 2024-12-19  673  
-69797ff888d3dba Wei Fang 2024-12-19  674  		enetc_clear_tx_bd(&txbd_tmp);
-69797ff888d3dba Wei Fang 2024-12-19  675  		txbd_tmp.addr = cpu_to_le64(dma);
-69797ff888d3dba Wei Fang 2024-12-19  676  		txbd_tmp.buf_len = cpu_to_le16(len);
-69797ff888d3dba Wei Fang 2024-12-19  677  
-69797ff888d3dba Wei Fang 2024-12-19  678  		tx_swbd->dma = dma;
-69797ff888d3dba Wei Fang 2024-12-19  679  		tx_swbd->len = len;
-69797ff888d3dba Wei Fang 2024-12-19  680  		tx_swbd->is_dma_page = 0;
-69797ff888d3dba Wei Fang 2024-12-19  681  		tx_swbd->dir = DMA_TO_DEVICE;
-69797ff888d3dba Wei Fang 2024-12-19  682  	}
-69797ff888d3dba Wei Fang 2024-12-19  683  
-69797ff888d3dba Wei Fang 2024-12-19  684  	frag = &skb_shinfo(skb)->frags[0];
-69797ff888d3dba Wei Fang 2024-12-19  685  	for (f = 0; f < skb_shinfo(skb)->nr_frags; f++, frag++) {
-69797ff888d3dba Wei Fang 2024-12-19  686  		if (txbd)
-69797ff888d3dba Wei Fang 2024-12-19  687  			*txbd = txbd_tmp;
-69797ff888d3dba Wei Fang 2024-12-19  688  
-69797ff888d3dba Wei Fang 2024-12-19  689  		len = skb_frag_size(frag);
-69797ff888d3dba Wei Fang 2024-12-19  690  		dma = skb_frag_dma_map(tx_ring->dev, frag);
-69797ff888d3dba Wei Fang 2024-12-19  691  		if (dma_mapping_error(tx_ring->dev, dma))
-69797ff888d3dba Wei Fang 2024-12-19  692  			return -ENOMEM;
-69797ff888d3dba Wei Fang 2024-12-19  693  
-69797ff888d3dba Wei Fang 2024-12-19  694  		/* Get the next BD */
-69797ff888d3dba Wei Fang 2024-12-19  695  		enetc_bdr_idx_inc(tx_ring, i);
-69797ff888d3dba Wei Fang 2024-12-19  696  		txbd = ENETC_TXBD(*tx_ring, *i);
-69797ff888d3dba Wei Fang 2024-12-19  697  		tx_swbd = &tx_ring->tx_swbd[*i];
-69797ff888d3dba Wei Fang 2024-12-19  698  		prefetchw(txbd);
-69797ff888d3dba Wei Fang 2024-12-19  699  		*count += 1;
-69797ff888d3dba Wei Fang 2024-12-19  700  
-69797ff888d3dba Wei Fang 2024-12-19  701  		enetc_clear_tx_bd(&txbd_tmp);
-69797ff888d3dba Wei Fang 2024-12-19  702  		txbd_tmp.addr = cpu_to_le64(dma);
-69797ff888d3dba Wei Fang 2024-12-19  703  		txbd_tmp.buf_len = cpu_to_le16(len);
-69797ff888d3dba Wei Fang 2024-12-19  704  
-69797ff888d3dba Wei Fang 2024-12-19  705  		tx_swbd->dma = dma;
-69797ff888d3dba Wei Fang 2024-12-19  706  		tx_swbd->len = len;
-69797ff888d3dba Wei Fang 2024-12-19  707  		tx_swbd->is_dma_page = 1;
-69797ff888d3dba Wei Fang 2024-12-19  708  		tx_swbd->dir = DMA_TO_DEVICE;
-69797ff888d3dba Wei Fang 2024-12-19  709  	}
-69797ff888d3dba Wei Fang 2024-12-19  710  
-69797ff888d3dba Wei Fang 2024-12-19  711  	/* Last BD needs 'F' bit set */
-69797ff888d3dba Wei Fang 2024-12-19  712  	flags |= ENETC_TXBD_FLAGS_F;
-69797ff888d3dba Wei Fang 2024-12-19  713  	txbd_tmp.flags = flags;
-69797ff888d3dba Wei Fang 2024-12-19  714  	*txbd = txbd_tmp;
-69797ff888d3dba Wei Fang 2024-12-19  715  
-69797ff888d3dba Wei Fang 2024-12-19 @716  	tx_swbd->is_eof = 1;
-69797ff888d3dba Wei Fang 2024-12-19  717  	tx_swbd->skb = skb;
-69797ff888d3dba Wei Fang 2024-12-19  718  
-69797ff888d3dba Wei Fang 2024-12-19  719  	return 0;
-69797ff888d3dba Wei Fang 2024-12-19  720  }
-69797ff888d3dba Wei Fang 2024-12-19  721  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: bluetooth: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: bluetooth: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
+   	'qcom,crypto-v5.1' was expected
+   	'qcom,crypto-v5.4' was expected
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
+   	'qcom,ipq4019-qce' was expected
+   	'qcom,sm8150-qce' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+--
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: bluetooth: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: bluetooth: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
+   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
+   	'qcom,crypto-v5.1' was expected
+   	'qcom,crypto-v5.4' was expected
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
+   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
+   	'qcom,ipq4019-qce' was expected
+   	'qcom,sm8150-qce' was expected
+   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9075-ride-r3.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
