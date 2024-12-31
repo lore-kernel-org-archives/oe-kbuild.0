@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997932AD21
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Dec 2024 10:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B731AAC9
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Dec 2024 14:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735641874; cv=none; b=tGfZrinAe6Nat7VZ4r5r2LTNJo978ZUAxfTV3HE5NlDtop0PBLwXcBcvbMvbC4eNKYuh8LI0zg/wE2xPEzZOXOid2f6RhBfkbN2E02+fAcHwey5QumMIdm9E9yNg3HNsV1ZjrylCkDZpueDwfEpIFK4rK7yAM7plF4DLiliXmEQ=
+	t=1735656255; cv=none; b=kEDPbEuR2pJC2zaM9nZQeNKT/WH85dQQen7PdwAAkfg01cXjOqTdhhldG5rQWQ4ZPsNB5JHg1OmvNb2PLXv1XVga4fZE1KBghD7SPKGwvIVVY9G1GvhCFHv0KgOhObKWMH/3QNC1SjK7ZhzaujUuOV9gUhzat8qK7xpIPfy2Bag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735641874; c=relaxed/simple;
-	bh=jZiwrlpaYunuj5hpAb2V/F4UBe6R9Qd3gCxY5ZfEWHk=;
+	s=arc-20240116; t=1735656255; c=relaxed/simple;
+	bh=sLZkOVLWLFBtDpQe/oNQDl0IroIGlwEgpd32QwuC0Ls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZTs+zEop5gKfOqJb3LbsVeG3YLi9uKfmYsO7v5C4us6mI7Em4a0KzR/h+BsAN307IRTN0PntZRPs0+YW5KJfkHn7d4GvxxQsP5cz9hPW08GEOT9eg0/DAtvnnAu+nlrXQmjgTJv3TtIq951SkOAtGqOMo6MbEdnlKKN7ccQsGaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6A6Z8De; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=pmtXAA8SBL+XFRCB6CdeFwTl0gQPfCp69bCRTnIqfmRKEK54BXKT3troMPDAU6l6ovfvxivDqAdnrrrym1vBjHIXCHjwL3SnsGVYyyE0EnZ6Nztglx/kP3sRpHlprz5esfgASKaxdoxdtJzjVFr9x9kM2BHqbyFZyuI3+D58c14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8M3liba; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6A6Z8De"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8M3liba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735641872; x=1767177872;
+  t=1735656253; x=1767192253;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jZiwrlpaYunuj5hpAb2V/F4UBe6R9Qd3gCxY5ZfEWHk=;
-  b=H6A6Z8De78LSb8GurlFeRPQdz85AnKpFeMA3q6f6CTlGx3W0IRsKIiBC
-   YbZPPQc+AUCbzv0wuZA7ROFhqOIRGQNc+ISzSYVaSFtRnHBGrp8DJl6lf
-   6vKRHlCnqsbBDn27PJJuAgfrFkCKlAax5WYFutxERwh6FrtvSP39n4XF5
-   jB+Ie0EnaH/7qvhBgUjauuvduxJjRwMf8NPfCndd5vC/TQF3asp+wj231
-   7/Z8tzkd3rLjqQiSbM9HPNXjrpJvJXaXayaJHKkktVxvO95+iWyrqEuQ8
-   BNBJaLe3o5meItrOGbPYx417co5OJ7qr5It2A03kUMa8zf/d8skSnq+9i
-   g==;
-X-CSE-ConnectionGUID: St8F8LlmR1C3MN1TH/jH0w==
-X-CSE-MsgGUID: 1NOBBXiRTiG2bkzvi6nOEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="38754674"
+  bh=sLZkOVLWLFBtDpQe/oNQDl0IroIGlwEgpd32QwuC0Ls=;
+  b=J8M3libaPB/djil/XbkNIg/GOu26+gYxtckmZoJqsVkRnd7CbrUQQIjh
+   tjc8CsDtvY+5AoGXilz4NvDpW1DvoMkN58x8tj19UWqn8b4FcWTFv8ptk
+   HZr5b8uredGPhDh4AMR9J+tRXPUqtFDAnq+fun4fdtxqlCZGrWmSRchWA
+   oqMRQvwC/oD7b3/InSTjD9NprqvPP0/JSsZKKcRMqXtCyTAgX+5RD8jyh
+   QJolfbmjNnntlQNbckrK19RGwsf9azw/F5hSM57WSWWumkW/E3QpIqbrv
+   1ZwmL39UYiUlFflI7uIPJnBhXU4HYthevDAiYJKtGeqAL4InH/q+56Nzp
+   w==;
+X-CSE-ConnectionGUID: 5BQoTmDnQjy6fBkVt/F9Dw==
+X-CSE-MsgGUID: Gi+P/4I2RmSlcJBgAjPWug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="46613382"
 X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="38754674"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 02:44:32 -0800
-X-CSE-ConnectionGUID: dMkiBobgTd+z0zoUtz5Kxw==
-X-CSE-MsgGUID: fYOErUobTCaAFPTGBEQ60w==
+   d="scan'208";a="46613382"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 06:44:11 -0800
+X-CSE-ConnectionGUID: VnPGKdV4QvixBpn+X0uZNg==
+X-CSE-MsgGUID: nnFBbB5NQ1WeflCAk3RP8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="101444338"
+   d="scan'208";a="100923883"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Dec 2024 02:44:30 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 31 Dec 2024 06:44:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSZjg-00074N-2Z;
-	Tue, 31 Dec 2024 10:44:28 +0000
-Date: Tue, 31 Dec 2024 18:44:24 +0800
+	id 1tSdTb-0007Bb-0m;
+	Tue, 31 Dec 2024 14:44:07 +0000
+Date: Tue, 31 Dec 2024 22:43:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] ARM: dts: omap4: panda: cleanup bluetooth
-Message-ID: <202412311852.AflFNKba-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:OLK-5.10 2610/2610] fs/fscache/cookie.c:239
+ fscache_hash_cookie() error: uninitialized symbol 'cursor'.
+Message-ID: <202412312254.AFHU6TIA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,120 +62,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm/boot/dts/ti/omap/omap4-panda.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[117]], 'interrupts-extended': [[1, 0, 73, 4], [115, 220]], 'bluetooth': {'compatible': ['ti,wl1271-st'], 'pinctrl-names': ['default'], 'pinctrl-0': [[118]], 'enable-gpios': [[119, 14, 0]], 'clocks': [[120, 0]], 'clock-names': ['ext_clock']}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241229230125.85787-3-andreas@kemnade.info>
-References: <20241229230125.85787-3-andreas@kemnade.info>
-TO: Andreas Kemnade <andreas@kemnade.info>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: linux-omap@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: Roger Quadros <rogerq@kernel.org>
-TO: Aaro Koskinen <aaro.koskinen@iki.fi>
-TO: Kevin Hilman <khilman@baylibre.com>
-TO: devicetree@vger.kernel.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Tony Lindgren <tony@atomide.com>
-CC: Andreas Kemnade <andreas@kemnade.info>
+TO: kernel@openeuler.org
+TO: Baokun Li <libaokun1@huawei.com>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.13-rc5 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/ARM-dts-omap4-panda-fix-resources-needed-for-Panda/20241230-070349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241229230125.85787-3-andreas%40kemnade.info
-patch subject: [PATCH 2/2] ARM: dts: omap4: panda: cleanup bluetooth
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm-randconfig-052-20241230 (https://download.01.org/0day-ci/archive/20241231/202412311852.AflFNKba-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev5+gea243eb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241231/202412311852.AflFNKba-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   55bf638d3d29c53ddd64ed89efda8b70b47ccbbc
+commit: f4b00ea196389e4fc82cda38e0d6cd3ff8947673 [2610/2610] fscache: add a waiting mechanism when duplicate cookies are detected
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-161-20241231 (https://download.01.org/0day-ci/archive/20241231/202412312254.AFHU6TIA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202412311852.AflFNKba-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202412312254.AFHU6TIA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,omap4-l4-per', 'simple-pm-bus']
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 74, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 74, 4], [115, 260]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/i2c@0/eeprom@50: failed to match any schema with compatible: ['ti,eeprom']
->> arch/arm/boot/dts/ti/omap/omap4-panda.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[117]], 'interrupts-extended': [[1, 0, 73, 4], [115, 220]], 'bluetooth': {'compatible': ['ti,wl1271-st'], 'pinctrl-names': ['default'], 'pinctrl-0': [[118]], 'enable-gpios': [[119, 14, 0]], 'clocks': [[120, 0]], 'clock-names': ['ext_clock']}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 70, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 70, 4], [115, 284]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: twl@48: Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
-   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
---
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,omap4-l4-per', 'simple-pm-bus']
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 74, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 74, 4], [115, 260]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/i2c@0/eeprom@50: failed to match any schema with compatible: ['ti,eeprom']
->> arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[117]], 'interrupts-extended': [[1, 0, 73, 4], [115, 220]], 'bluetooth': {'compatible': ['ti,wl1271-st'], 'pinctrl-names': ['default'], 'pinctrl-0': [[118]], 'enable-gpios': [[119, 14, 0]], 'clocks': [[120, 0]], 'clock-names': ['ext_clock']}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 70, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 70, 4], [115, 284]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: twl@48: Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
-   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
---
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000: failed to match any schema with compatible: ['ti,omap4-l4-per', 'simple-pm-bus']
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 74, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 74, 4], [117, 260]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@60000/i2c@0/eeprom@50: failed to match any schema with compatible: ['ti,eeprom']
->> arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 73, 4]], 'clock-frequency': 48000000, 'pinctrl-names': ['default'], 'pinctrl-0': [[119]], 'interrupts-extended': [[1, 0, 73, 4], [117, 220]], 'bluetooth': {'compatible': ['ti,wl1271-st'], 'pinctrl-names': ['default'], 'pinctrl-0': [[120]], 'enable-gpios': [[121, 14, 0]], 'clocks': [[122, 0]], 'clock-names': ['ext_clock']}, '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: serial@0: {'compatible': ['ti,omap4-uart'], 'reg': [[0, 256]], 'interrupts': [[0, 70, 4]], 'clock-frequency': 48000000, 'interrupts-extended': [[1, 0, 70, 4], [117, 284]], '$nodename': ['serial@0']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
-   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: twl@48: Unevaluated properties are not allowed ('pwm', 'pwmled', 'usb-comparator' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/usb-comparator: failed to match any schema with compatible: ['ti,twl6030-usb']
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwm: failed to match any schema with compatible: ['ti,twl6030-pwm']
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl6030-pwmled']
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@70000/i2c@0/twl@4b: failed to match any schema with compatible: ['ti,twl6040']
-   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@48000000/segment@0/target-module@96000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+New smatch warnings:
+fs/fscache/cookie.c:239 fscache_hash_cookie() error: uninitialized symbol 'cursor'.
+fs/fscache/cookie.c:532 fscache_alloc_object() warn: argument 2 to %lx specifier is cast from pointer
+fs/fscache/cookie.c:588 fscache_attach_object() warn: argument 2 to %lx specifier is cast from pointer
+
+Old smatch warnings:
+fs/fscache/cookie.c:532 fscache_alloc_object() warn: argument 3 to %lx specifier is cast from pointer
+fs/fscache/cookie.c:588 fscache_attach_object() warn: argument 3 to %lx specifier is cast from pointer
+
+vim +/cursor +239 fs/fscache/cookie.c
+
+f4b00ea196389e Zizhi Wo      2024-12-25  200  
+ec0328e46d6e5d David Howells 2018-04-04  201  /*
+ec0328e46d6e5d David Howells 2018-04-04  202   * Attempt to insert the new cookie into the hash.  If there's a collision, we
+ec0328e46d6e5d David Howells 2018-04-04  203   * return the old cookie if it's not in use and an error otherwise.
+ec0328e46d6e5d David Howells 2018-04-04  204   */
+ec0328e46d6e5d David Howells 2018-04-04  205  struct fscache_cookie *fscache_hash_cookie(struct fscache_cookie *candidate)
+ec0328e46d6e5d David Howells 2018-04-04  206  {
+ec0328e46d6e5d David Howells 2018-04-04  207  	struct fscache_cookie *cursor;
+ec0328e46d6e5d David Howells 2018-04-04  208  	struct hlist_bl_head *h;
+ec0328e46d6e5d David Howells 2018-04-04  209  	struct hlist_bl_node *p;
+ec0328e46d6e5d David Howells 2018-04-04  210  	unsigned int bucket;
+ec0328e46d6e5d David Howells 2018-04-04  211  
+ec0328e46d6e5d David Howells 2018-04-04  212  	bucket = candidate->key_hash & (ARRAY_SIZE(fscache_cookie_hash) - 1);
+ec0328e46d6e5d David Howells 2018-04-04  213  	h = &fscache_cookie_hash[bucket];
+ec0328e46d6e5d David Howells 2018-04-04  214  
+ec0328e46d6e5d David Howells 2018-04-04  215  	hlist_bl_lock(h);
+ec0328e46d6e5d David Howells 2018-04-04  216  	hlist_bl_for_each_entry(cursor, p, h, hash_link) {
+f4b00ea196389e Zizhi Wo      2024-12-25  217  		if (fscache_compare_cookie(candidate, cursor) == 0) {
+f4b00ea196389e Zizhi Wo      2024-12-25  218  			if (!test_bit(FSCACHE_COOKIE_RELINQUISHED, &cursor->flags))
+ec0328e46d6e5d David Howells 2018-04-04  219  				goto collision;
+f4b00ea196389e Zizhi Wo      2024-12-25  220  			cursor->collision = candidate;
+f4b00ea196389e Zizhi Wo      2024-12-25  221  			set_bit(FSCACHE_COOKIE_ACQUIRE_PENDING, &candidate->flags);
+f4b00ea196389e Zizhi Wo      2024-12-25  222  			break;
+f4b00ea196389e Zizhi Wo      2024-12-25  223  		}
+ec0328e46d6e5d David Howells 2018-04-04  224  	}
+ec0328e46d6e5d David Howells 2018-04-04  225  
+ec0328e46d6e5d David Howells 2018-04-04  226  	__set_bit(FSCACHE_COOKIE_ACQUIRED, &candidate->flags);
+ec0328e46d6e5d David Howells 2018-04-04  227  	fscache_cookie_get(candidate->parent, fscache_cookie_get_acquire_parent);
+ec0328e46d6e5d David Howells 2018-04-04  228  	atomic_inc(&candidate->parent->n_children);
+ec0328e46d6e5d David Howells 2018-04-04  229  	hlist_bl_add_head(&candidate->hash_link, h);
+ec0328e46d6e5d David Howells 2018-04-04  230  	hlist_bl_unlock(h);
+f4b00ea196389e Zizhi Wo      2024-12-25  231  
+f4b00ea196389e Zizhi Wo      2024-12-25  232  	if (fscache_is_acquire_pending(candidate) &&
+f4b00ea196389e Zizhi Wo      2024-12-25  233  	    fscache_wait_on_cookie_collision(candidate)) {
+f4b00ea196389e Zizhi Wo      2024-12-25  234  		fscache_cookie_put(candidate->parent, fscache_cookie_put_acquire_nobufs);
+f4b00ea196389e Zizhi Wo      2024-12-25  235  		atomic_dec(&candidate->parent->n_children);
+f4b00ea196389e Zizhi Wo      2024-12-25  236  		hlist_bl_lock(h);
+f4b00ea196389e Zizhi Wo      2024-12-25  237  		hlist_bl_del(&candidate->hash_link);
+f4b00ea196389e Zizhi Wo      2024-12-25  238  		if (fscache_is_acquire_pending(candidate))
+f4b00ea196389e Zizhi Wo      2024-12-25 @239  			cursor->collision = NULL;
+f4b00ea196389e Zizhi Wo      2024-12-25  240  		hlist_bl_unlock(h);
+f4b00ea196389e Zizhi Wo      2024-12-25  241  		pr_err("Wait duplicate cookie unhashed interrupted\n");
+f4b00ea196389e Zizhi Wo      2024-12-25  242  		return NULL;
+f4b00ea196389e Zizhi Wo      2024-12-25  243  	}
+ec0328e46d6e5d David Howells 2018-04-04  244  	return candidate;
+ec0328e46d6e5d David Howells 2018-04-04  245  
+ec0328e46d6e5d David Howells 2018-04-04  246  collision:
+ec0328e46d6e5d David Howells 2018-04-04  247  	if (test_and_set_bit(FSCACHE_COOKIE_ACQUIRED, &cursor->flags)) {
+ec0328e46d6e5d David Howells 2018-04-04  248  		trace_fscache_cookie(cursor, fscache_cookie_collision,
+ec0328e46d6e5d David Howells 2018-04-04  249  				     atomic_read(&cursor->usage));
+ec0328e46d6e5d David Howells 2018-04-04  250  		fscache_print_cookie(cursor, 'O');
+ec0328e46d6e5d David Howells 2018-04-04  251  		fscache_print_cookie(candidate, 'N');
+ec0328e46d6e5d David Howells 2018-04-04  252  		hlist_bl_unlock(h);
+f4b00ea196389e Zizhi Wo      2024-12-25  253  		pr_err("Duplicate cookie detected\n");
+ec0328e46d6e5d David Howells 2018-04-04  254  		return NULL;
+ec0328e46d6e5d David Howells 2018-04-04  255  	}
+ec0328e46d6e5d David Howells 2018-04-04  256  
+ec0328e46d6e5d David Howells 2018-04-04  257  	fscache_cookie_get(cursor, fscache_cookie_get_reacquire);
+ec0328e46d6e5d David Howells 2018-04-04  258  	hlist_bl_unlock(h);
+ec0328e46d6e5d David Howells 2018-04-04  259  	return cursor;
+ec0328e46d6e5d David Howells 2018-04-04  260  }
+ec0328e46d6e5d David Howells 2018-04-04  261  
 
 -- 
 0-DAY CI Kernel Test Service
