@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B731AAC9
-	for <oe-kbuild@lists.linux.dev>; Tue, 31 Dec 2024 14:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E367D1990DE
+	for <oe-kbuild@lists.linux.dev>; Tue, 31 Dec 2024 15:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735656255; cv=none; b=kEDPbEuR2pJC2zaM9nZQeNKT/WH85dQQen7PdwAAkfg01cXjOqTdhhldG5rQWQ4ZPsNB5JHg1OmvNb2PLXv1XVga4fZE1KBghD7SPKGwvIVVY9G1GvhCFHv0KgOhObKWMH/3QNC1SjK7ZhzaujUuOV9gUhzat8qK7xpIPfy2Bag=
+	t=1735660160; cv=none; b=qOE8ITaBHwiv7R1Bx1yBOgeVpL/iLE+xDCZsmrY8U2AGL1lpgiWjn+o0NoadMM3BCjOTT1QdUaibNA6PF34v26b4kagySnFRu71zfseao4v6Z0BYs2RQyPiGASm0l1KRNqrynj96j9MX0y/AseDjEGR6TnfcXUUEZWDycvPx+6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735656255; c=relaxed/simple;
-	bh=sLZkOVLWLFBtDpQe/oNQDl0IroIGlwEgpd32QwuC0Ls=;
+	s=arc-20240116; t=1735660160; c=relaxed/simple;
+	bh=SBBQRKcqx4QB0gFsTQfwd+TimkFUZjWKnEe2c/yuHkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pmtXAA8SBL+XFRCB6CdeFwTl0gQPfCp69bCRTnIqfmRKEK54BXKT3troMPDAU6l6ovfvxivDqAdnrrrym1vBjHIXCHjwL3SnsGVYyyE0EnZ6Nztglx/kP3sRpHlprz5esfgASKaxdoxdtJzjVFr9x9kM2BHqbyFZyuI3+D58c14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8M3liba; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=YRaF0yIV4ZrcP0MHR7vtPg6i0W14RzTYAYPlxfuTZknrE16tXo8aqp4up7P2dzP1ih+twjCbsiU2T2YkHhUHInUUDKSXohtUKFXltfF96v+KhRlI6nfDMx97VibTb3eRoaIM1wYGpZy1BzbNcq2+01sQ4zW0LUBZjtco2iNtXbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONs8r71p; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8M3liba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONs8r71p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735656253; x=1767192253;
+  t=1735660158; x=1767196158;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sLZkOVLWLFBtDpQe/oNQDl0IroIGlwEgpd32QwuC0Ls=;
-  b=J8M3libaPB/djil/XbkNIg/GOu26+gYxtckmZoJqsVkRnd7CbrUQQIjh
-   tjc8CsDtvY+5AoGXilz4NvDpW1DvoMkN58x8tj19UWqn8b4FcWTFv8ptk
-   HZr5b8uredGPhDh4AMR9J+tRXPUqtFDAnq+fun4fdtxqlCZGrWmSRchWA
-   oqMRQvwC/oD7b3/InSTjD9NprqvPP0/JSsZKKcRMqXtCyTAgX+5RD8jyh
-   QJolfbmjNnntlQNbckrK19RGwsf9azw/F5hSM57WSWWumkW/E3QpIqbrv
-   1ZwmL39UYiUlFflI7uIPJnBhXU4HYthevDAiYJKtGeqAL4InH/q+56Nzp
-   w==;
-X-CSE-ConnectionGUID: 5BQoTmDnQjy6fBkVt/F9Dw==
-X-CSE-MsgGUID: Gi+P/4I2RmSlcJBgAjPWug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="46613382"
+  bh=SBBQRKcqx4QB0gFsTQfwd+TimkFUZjWKnEe2c/yuHkg=;
+  b=ONs8r71pAgyoRQpD8rJ9pAhO6eQPVzc4tLhjUgohFO8PjOYqiyqZcDl6
+   Mxz8ZE7trxB5xThWSRUOCqJ46sWfztdCIl4lB76cphdy9lvTAdmLNyyKY
+   4IXP/NGfmHUsTUJ6+mWCIzvzmoP1DkjTFkGsyuVg6BQSb+KCkBVboa/DW
+   l5rUYXnRKtc5KBE8zX+yu0ymYifE2xtYVxjmcniwkm3/czTQYnOY4i+9J
+   W/N1oKqUnm63tu6RqT4I0rCPqTxjHQO4XorWPAFszEpduvg5fXac0CvSG
+   H8zBf303v1Vce74lBYuqBrmWLRCPP8ia+wLgot1alPbLZrSOeJte5/5Ak
+   A==;
+X-CSE-ConnectionGUID: 0B+roSLEQ/eCFJDOX5zZoA==
+X-CSE-MsgGUID: COLNbJyVS22Et+sXTkV4ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="61311392"
 X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="46613382"
+   d="scan'208";a="61311392"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 06:44:11 -0800
-X-CSE-ConnectionGUID: VnPGKdV4QvixBpn+X0uZNg==
-X-CSE-MsgGUID: nnFBbB5NQ1WeflCAk3RP8A==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 07:49:17 -0800
+X-CSE-ConnectionGUID: 5v9ynLwDQryjXSuQpb15wA==
+X-CSE-MsgGUID: 8/5oIfOxSCWN6Vpt46SH1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="100923883"
+   d="scan'208";a="100934918"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Dec 2024 06:44:09 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 31 Dec 2024 07:49:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tSdTb-0007Bb-0m;
-	Tue, 31 Dec 2024 14:44:07 +0000
-Date: Tue, 31 Dec 2024 22:43:18 +0800
+	id 1tSeUb-0007Dn-2N;
+	Tue, 31 Dec 2024 15:49:13 +0000
+Date: Tue, 31 Dec 2024 23:48:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2610/2610] fs/fscache/cookie.c:239
- fscache_hash_cookie() error: uninitialized symbol 'cursor'.
-Message-ID: <202412312254.AFHU6TIA-lkp@intel.com>
+Subject: drivers/iommu/intel/iommu.c:760 device_lookup_iommu() error: we
+ previously assumed 'pdev' could be null (see line 733)
+Message-ID: <202412312302.PrwVZ709-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,96 +64,116 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Baokun Li <libaokun1@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Lu Baolu <baolu.lu@linux.intel.com>
+CC: Joerg Roedel <jroedel@suse.de>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   55bf638d3d29c53ddd64ed89efda8b70b47ccbbc
-commit: f4b00ea196389e4fc82cda38e0d6cd3ff8947673 [2610/2610] fscache: add a waiting mechanism when duplicate cookies are detected
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-161-20241231 (https://download.01.org/0day-ci/archive/20241231/202412312254.AFHU6TIA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ccb98ccef0e543c2bd4ef1a72270461957f3d8d0
+commit: 1903ef8f0d77680e6eb36bd0cc3ea3aa6e95a050 iommu/vt-d: Refactor device_to_iommu() to retrieve iommu directly
+date:   1 year ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 1 year ago
+config: x86_64-randconfig-161-20241229 (https://download.01.org/0day-ci/archive/20241231/202412312302.PrwVZ709-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202412312254.AFHU6TIA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412312302.PrwVZ709-lkp@intel.com/
 
 New smatch warnings:
-fs/fscache/cookie.c:239 fscache_hash_cookie() error: uninitialized symbol 'cursor'.
-fs/fscache/cookie.c:532 fscache_alloc_object() warn: argument 2 to %lx specifier is cast from pointer
-fs/fscache/cookie.c:588 fscache_attach_object() warn: argument 2 to %lx specifier is cast from pointer
+drivers/iommu/intel/iommu.c:760 device_lookup_iommu() error: we previously assumed 'pdev' could be null (see line 733)
 
 Old smatch warnings:
-fs/fscache/cookie.c:532 fscache_alloc_object() warn: argument 3 to %lx specifier is cast from pointer
-fs/fscache/cookie.c:588 fscache_attach_object() warn: argument 3 to %lx specifier is cast from pointer
+drivers/iommu/intel/iommu.c:469 domain_update_iommu_coherency() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:240 clear_context_copied() warn: clear_bit() takes a bit number
+drivers/iommu/intel/iommu.c:2164 switch_to_super_page() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:234 set_context_copied() warn: set_bit() takes a bit number
+drivers/iommu/intel/iommu.c:3286 intel_iommu_add() warn: missing unwind goto?
+drivers/iommu/intel/iommu.c:4282 intel_iommu_tlb_sync() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:4720 intel_iommu_iotlb_sync_map() warn: iterator 'i' not incremented
 
-vim +/cursor +239 fs/fscache/cookie.c
+vim +/pdev +760 drivers/iommu/intel/iommu.c
 
-f4b00ea196389e Zizhi Wo      2024-12-25  200  
-ec0328e46d6e5d David Howells 2018-04-04  201  /*
-ec0328e46d6e5d David Howells 2018-04-04  202   * Attempt to insert the new cookie into the hash.  If there's a collision, we
-ec0328e46d6e5d David Howells 2018-04-04  203   * return the old cookie if it's not in use and an error otherwise.
-ec0328e46d6e5d David Howells 2018-04-04  204   */
-ec0328e46d6e5d David Howells 2018-04-04  205  struct fscache_cookie *fscache_hash_cookie(struct fscache_cookie *candidate)
-ec0328e46d6e5d David Howells 2018-04-04  206  {
-ec0328e46d6e5d David Howells 2018-04-04  207  	struct fscache_cookie *cursor;
-ec0328e46d6e5d David Howells 2018-04-04  208  	struct hlist_bl_head *h;
-ec0328e46d6e5d David Howells 2018-04-04  209  	struct hlist_bl_node *p;
-ec0328e46d6e5d David Howells 2018-04-04  210  	unsigned int bucket;
-ec0328e46d6e5d David Howells 2018-04-04  211  
-ec0328e46d6e5d David Howells 2018-04-04  212  	bucket = candidate->key_hash & (ARRAY_SIZE(fscache_cookie_hash) - 1);
-ec0328e46d6e5d David Howells 2018-04-04  213  	h = &fscache_cookie_hash[bucket];
-ec0328e46d6e5d David Howells 2018-04-04  214  
-ec0328e46d6e5d David Howells 2018-04-04  215  	hlist_bl_lock(h);
-ec0328e46d6e5d David Howells 2018-04-04  216  	hlist_bl_for_each_entry(cursor, p, h, hash_link) {
-f4b00ea196389e Zizhi Wo      2024-12-25  217  		if (fscache_compare_cookie(candidate, cursor) == 0) {
-f4b00ea196389e Zizhi Wo      2024-12-25  218  			if (!test_bit(FSCACHE_COOKIE_RELINQUISHED, &cursor->flags))
-ec0328e46d6e5d David Howells 2018-04-04  219  				goto collision;
-f4b00ea196389e Zizhi Wo      2024-12-25  220  			cursor->collision = candidate;
-f4b00ea196389e Zizhi Wo      2024-12-25  221  			set_bit(FSCACHE_COOKIE_ACQUIRE_PENDING, &candidate->flags);
-f4b00ea196389e Zizhi Wo      2024-12-25  222  			break;
-f4b00ea196389e Zizhi Wo      2024-12-25  223  		}
-ec0328e46d6e5d David Howells 2018-04-04  224  	}
-ec0328e46d6e5d David Howells 2018-04-04  225  
-ec0328e46d6e5d David Howells 2018-04-04  226  	__set_bit(FSCACHE_COOKIE_ACQUIRED, &candidate->flags);
-ec0328e46d6e5d David Howells 2018-04-04  227  	fscache_cookie_get(candidate->parent, fscache_cookie_get_acquire_parent);
-ec0328e46d6e5d David Howells 2018-04-04  228  	atomic_inc(&candidate->parent->n_children);
-ec0328e46d6e5d David Howells 2018-04-04  229  	hlist_bl_add_head(&candidate->hash_link, h);
-ec0328e46d6e5d David Howells 2018-04-04  230  	hlist_bl_unlock(h);
-f4b00ea196389e Zizhi Wo      2024-12-25  231  
-f4b00ea196389e Zizhi Wo      2024-12-25  232  	if (fscache_is_acquire_pending(candidate) &&
-f4b00ea196389e Zizhi Wo      2024-12-25  233  	    fscache_wait_on_cookie_collision(candidate)) {
-f4b00ea196389e Zizhi Wo      2024-12-25  234  		fscache_cookie_put(candidate->parent, fscache_cookie_put_acquire_nobufs);
-f4b00ea196389e Zizhi Wo      2024-12-25  235  		atomic_dec(&candidate->parent->n_children);
-f4b00ea196389e Zizhi Wo      2024-12-25  236  		hlist_bl_lock(h);
-f4b00ea196389e Zizhi Wo      2024-12-25  237  		hlist_bl_del(&candidate->hash_link);
-f4b00ea196389e Zizhi Wo      2024-12-25  238  		if (fscache_is_acquire_pending(candidate))
-f4b00ea196389e Zizhi Wo      2024-12-25 @239  			cursor->collision = NULL;
-f4b00ea196389e Zizhi Wo      2024-12-25  240  		hlist_bl_unlock(h);
-f4b00ea196389e Zizhi Wo      2024-12-25  241  		pr_err("Wait duplicate cookie unhashed interrupted\n");
-f4b00ea196389e Zizhi Wo      2024-12-25  242  		return NULL;
-f4b00ea196389e Zizhi Wo      2024-12-25  243  	}
-ec0328e46d6e5d David Howells 2018-04-04  244  	return candidate;
-ec0328e46d6e5d David Howells 2018-04-04  245  
-ec0328e46d6e5d David Howells 2018-04-04  246  collision:
-ec0328e46d6e5d David Howells 2018-04-04  247  	if (test_and_set_bit(FSCACHE_COOKIE_ACQUIRED, &cursor->flags)) {
-ec0328e46d6e5d David Howells 2018-04-04  248  		trace_fscache_cookie(cursor, fscache_cookie_collision,
-ec0328e46d6e5d David Howells 2018-04-04  249  				     atomic_read(&cursor->usage));
-ec0328e46d6e5d David Howells 2018-04-04  250  		fscache_print_cookie(cursor, 'O');
-ec0328e46d6e5d David Howells 2018-04-04  251  		fscache_print_cookie(candidate, 'N');
-ec0328e46d6e5d David Howells 2018-04-04  252  		hlist_bl_unlock(h);
-f4b00ea196389e Zizhi Wo      2024-12-25  253  		pr_err("Duplicate cookie detected\n");
-ec0328e46d6e5d David Howells 2018-04-04  254  		return NULL;
-ec0328e46d6e5d David Howells 2018-04-04  255  	}
-ec0328e46d6e5d David Howells 2018-04-04  256  
-ec0328e46d6e5d David Howells 2018-04-04  257  	fscache_cookie_get(cursor, fscache_cookie_get_reacquire);
-ec0328e46d6e5d David Howells 2018-04-04  258  	hlist_bl_unlock(h);
-ec0328e46d6e5d David Howells 2018-04-04  259  	return cursor;
-ec0328e46d6e5d David Howells 2018-04-04  260  }
-ec0328e46d6e5d David Howells 2018-04-04  261  
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  705  
+1903ef8f0d7768 drivers/iommu/intel/iommu.c Lu Baolu          2023-12-18  706  static struct intel_iommu *device_lookup_iommu(struct device *dev, u8 *bus, u8 *devfn)
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  707  {
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  708  	struct dmar_drhd_unit *drhd = NULL;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  709  	struct pci_dev *pdev = NULL;
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  710  	struct intel_iommu *iommu;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  711  	struct device *tmp;
+aa4d066a2a8041 drivers/iommu/intel-iommu.c Yijing Wang       2014-05-26  712  	u16 segment = 0;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  713  	int i;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  714  
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  715  	if (!dev)
+4ed6a540fab8ea drivers/iommu/intel-iommu.c David Woodhouse   2015-05-11  716  		return NULL;
+4ed6a540fab8ea drivers/iommu/intel-iommu.c David Woodhouse   2015-05-11  717  
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  718  	if (dev_is_pci(dev)) {
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  719  		struct pci_dev *pf_pdev;
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  720  
+e3560ee4cfb29e drivers/iommu/intel-iommu.c Jon Derrick       2020-01-21  721  		pdev = pci_real_dma_dev(to_pci_dev(dev));
+5823e330b58c52 drivers/iommu/intel-iommu.c Jon Derrick       2017-08-30  722  
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  723  		/* VFs aren't listed in scope tables; we need to look up
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  724  		 * the PF instead to find the IOMMU. */
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  725  		pf_pdev = pci_physfn(pdev);
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  726  		dev = &pf_pdev->dev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  727  		segment = pci_domain_nr(pdev->bus);
+ca5b74d2675a44 drivers/iommu/intel-iommu.c Rafael J. Wysocki 2015-03-16  728  	} else if (has_acpi_companion(dev))
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  729  		dev = &ACPI_COMPANION(dev)->dev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  730  
+0e242612d9cdb4 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  731  	rcu_read_lock();
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  732  	for_each_iommu(iommu, drhd) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09 @733  		if (pdev && segment != drhd->segment)
+276dbf997043cb drivers/pci/intel-iommu.c   David Woodhouse   2009-04-04  734  			continue;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  735  
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  736  		for_each_active_dev_scope(drhd->devices,
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  737  					  drhd->devices_cnt, i, tmp) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  738  			if (tmp == dev) {
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  739  				/* For a VF use its original BDF# not that of the PF
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  740  				 * which we used for the IOMMU lookup. Strictly speaking
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  741  				 * we could do this for all PCI devices; we only need to
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  742  				 * get the BDF# from the scope table for ACPI matches. */
+5003ae1e735e6b drivers/iommu/intel-iommu.c Koos Vriezen      2017-03-01  743  				if (pdev && pdev->is_virtfn)
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  744  					goto got_pdev;
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  745  
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  746  				if (bus && devfn) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  747  					*bus = drhd->devices[i].bus;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  748  					*devfn = drhd->devices[i].devfn;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  749  				}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  750  				goto out;
+924b6231edfaf1 drivers/pci/intel-iommu.c   David Woodhouse   2009-04-04  751  			}
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  752  
+b9a7f9816483b1 drivers/iommu/intel-iommu.c Eric Auger        2019-06-03  753  			if (is_downstream_to_pci_bridge(dev, tmp))
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  754  				goto got_pdev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  755  		}
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  756  
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  757  		if (pdev && drhd->include_all) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  758  got_pdev:
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  759  			if (bus && devfn) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09 @760  				*bus = pdev->bus->number;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  761  				*devfn = pdev->devfn;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  762  			}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  763  			goto out;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  764  		}
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  765  	}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  766  	iommu = NULL;
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  767  out:
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  768  	if (iommu_is_dummy(iommu, dev))
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  769  		iommu = NULL;
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  770  
+0e242612d9cdb4 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  771  	rcu_read_unlock();
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  772  
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  773  	return iommu;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  774  }
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  775  
+
+:::::: The code at line 760 was first introduced by commit
+:::::: 156baca8d31e1aced2c8a14262637aef1ab416b9 iommu/vt-d: Make device_to_iommu() cope with non-PCI devices
+
+:::::: TO: David Woodhouse <David.Woodhouse@intel.com>
+:::::: CC: David Woodhouse <David.Woodhouse@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
