@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3A8219E0
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 17:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7371FAC57
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 17:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735924549; cv=none; b=XKE20Y0omEBu/Uy1MphERL13w98wpPMknkMjj3ZCXGB0X6vCJiSnQjOemqHnQ1mE8vB3ej423Pdhl5fsXfKw1iVhOoMUf889tbkPeuStWsBntnnVEtxowDz7JV2xy9SV5twY0mm4tjh1WNVOSp3O3264uw+xZde09vJPPstArmA=
+	t=1735924607; cv=none; b=bHveZlInU7shfI2dDiZKK/Ri4mhejcI22+5G6oWxbCw8Viz6QnEbIBimdcj1uyQwE0fH/ORQaKyNLPzYGkLeDvSHZ/drdVF+ozrsjzv7h9J4zTsGXI2w0cUqa6/qPvAPxL267/JzoAaIS89BQnNucSGdldkmno66TO1OrsfDfTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735924549; c=relaxed/simple;
-	bh=Z/7/+OsAYbXd5dd6EJpaVc8Ir7wSoFvZ+YVwDU2a7eY=;
+	s=arc-20240116; t=1735924607; c=relaxed/simple;
+	bh=bbKIeg1qYMc5K8AL702qUy9nZRGjQ8v2u23R5JsMeFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sq+a2mMA9rOuLlXp9Vuckh013ng6WVYO6VbdpoU7ppmWaUG0KbZk8yFbfFt+YpL2sXz3+vk/5f1lS4W7LJ6SLj9bDNYJeMUe9RPAArSTsgTlMRoxH3KY5SYzSkdGKB0tvZIH6vnQ9CPLvHA84AYI/nrI4jzj/Sg4xIc8KhPHP84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LM2umlK7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Riv3+5DST2pyUsn6Py756GBQzMFEui3FlEL8Q5gqqTsLE9YTjsnTx9+2O4WxneOhRLV1Fz38Pk2UAlnf2Uxc7rz9Gdk/4EhH51qnzW+c/VnfgwLW01EhsFkHwW4OTuTgLvulj+VZIi7bD2z8/p2zukQssiMDLf4g9FRZ3fqJp2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOrK6NAd; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LM2umlK7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOrK6NAd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735924547; x=1767460547;
+  t=1735924606; x=1767460606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z/7/+OsAYbXd5dd6EJpaVc8Ir7wSoFvZ+YVwDU2a7eY=;
-  b=LM2umlK72uxe+HSEg5MocOfs3T0IxOkWNPUwfx8kKiHWuLAd/u/RYpta
-   6vT3mCzAX3WB1HGP0ERn4F01CVVdKadxzND1rc9q8fOZ1der8/uwQI6aq
-   CvP6mzGuqfN0ASdlRh+zzXUPcWJ01n7S7+PCbtblbUJTfNKLpzJZ3xAB/
-   NzkWHL5CAokfNU0oSA/B9YSyNdVMTvAobmf5FwQZpTDbeWswuNfjmsPwn
-   ECwd9sHFRzkFBXqbAnAvkdqkje0xvwakM1znHjBNDD6XoJZdMUrtcysTx
-   W1umhkboNl5qY9Vjz+0ONv6E1yYISjCJVN2W8ghJ2SiHCSWudbvZdY+EK
-   g==;
-X-CSE-ConnectionGUID: 9MrYc8rZSJm4cnqo004BAw==
-X-CSE-MsgGUID: KInTjem0RtGQbzWVoRF/0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="39939280"
+  bh=bbKIeg1qYMc5K8AL702qUy9nZRGjQ8v2u23R5JsMeFI=;
+  b=VOrK6NAdG/MpwoT8gLxcu92f8E+f+Y4TMMSt/QeoENAd0oJNLLfwORot
+   DmjgQbMZiGJs6I2u+ZfzSTCTVHLWx+PRrI01uiUQnSXQdwunbCMZRAIZp
+   tYlqTr7yUTnGXJSnnCbEBHV6RdScBjdGpuI3kzuLYdqlb8T1uGccgG6n1
+   1KUcnO2RMOLVRGQhaNP5OnvqQFWA0J+PU+W9BtvbexWj8RByrmm7Z7DdU
+   f5ACqVQQPMGgNrsdX2ARCWBIVl44iXFS7orFJiv1OLvkPPhPvHvy5n9L6
+   +NIk5EvStLMYpalOvUILPaYXoeBfd0nmCbuDhrwEO1wFzFlMMb4QZyQIG
+   Q==;
+X-CSE-ConnectionGUID: 5KVDff3DQFqJFBCeLduBNw==
+X-CSE-MsgGUID: XSaw9HydQFihXUGssBfPHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47529791"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="39939280"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 09:15:45 -0800
-X-CSE-ConnectionGUID: +ECONeAqTKymFaxrnYCB5A==
-X-CSE-MsgGUID: 81sD6AXhQIOTvjOLp/LkNQ==
+   d="scan'208";a="47529791"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 09:16:45 -0800
+X-CSE-ConnectionGUID: fDhlYvEHTVSEG6hMYcX30A==
+X-CSE-MsgGUID: qwwSv8JTT5W9bxuu+rPacw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="139169408"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="106881476"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Jan 2025 09:15:44 -0800
+  by orviesa003.jf.intel.com with ESMTP; 03 Jan 2025 09:16:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTlGv-000A51-2A;
-	Fri, 03 Jan 2025 17:15:41 +0000
-Date: Sat, 4 Jan 2025 01:15:34 +0800
+	id 1tTlHt-000A58-2d;
+	Fri, 03 Jan 2025 17:16:41 +0000
+Date: Sat, 4 Jan 2025 01:15:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 2/2] vfio/pci: Expose setup ROM at ROM bar when needed
-Message-ID: <202501040038.DNXYu89J-lkp@intel.com>
+Subject: Re: [PATCH v5 05/10] btrfs: add read count tracking for filesystem
+ stats
+Message-ID: <202501040304.Ju24l8yd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,122 +64,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250102185013.15082-3-Yunxiang.Li@amd.com>
-References: <20250102185013.15082-3-Yunxiang.Li@amd.com>
-TO: Yunxiang Li <Yunxiang.Li@amd.com>
-TO: kvm@vger.kernel.org
-TO: alex.williamson@redhat.com
-CC: kevin.tian@intel.com
-CC: yishaih@nvidia.com
-CC: ankita@nvidia.com
-CC: jgg@ziepe.ca
-CC: Yunxiang Li <Yunxiang.Li@amd.com>
+In-Reply-To: <c4010cee5398e35a695def3ad97d4de6f136ae2c.1735748715.git.anand.jain@oracle.com>
+References: <c4010cee5398e35a695def3ad97d4de6f136ae2c.1735748715.git.anand.jain@oracle.com>
+TO: Anand Jain <anand.jain@oracle.com>
+TO: linux-btrfs@vger.kernel.org
+CC: dsterba@suse.com
+CC: Naohiro.Aota@wdc.com
+CC: wqu@suse.com
+CC: hrx@bupt.moe
+CC: waxhead@dirtcellar.net
 
-Hi Yunxiang,
+Hi Anand,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on awilliam-vfio/next]
-[also build test WARNING on awilliam-vfio/for-linus linus/master v6.13-rc5 next-20241220]
+[auto build test WARNING on v6.13-rc5]
+[also build test WARNING on linus/master]
+[cannot apply to kdave/for-next next-20241220]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunxiang-Li/vfio-pci-Remove-shadow-ROM-specific-code-paths/20250103-025418
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20250102185013.15082-3-Yunxiang.Li%40amd.com
-patch subject: [PATCH v2 2/2] vfio/pci: Expose setup ROM at ROM bar when needed
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: alpha-randconfig-r073-20250103 (https://download.01.org/0day-ci/archive/20250104/202501040038.DNXYu89J-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Jain/btrfs-initialize-fs_devices-fs_info-earlier/20250102-021904
+base:   v6.13-rc5
+patch link:    https://lore.kernel.org/r/c4010cee5398e35a695def3ad97d4de6f136ae2c.1735748715.git.anand.jain%40oracle.com
+patch subject: [PATCH v5 05/10] btrfs: add read count tracking for filesystem stats
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-r072-20250103 (https://download.01.org/0day-ci/archive/20250104/202501040304.Ju24l8yd-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501040038.DNXYu89J-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501040304.Ju24l8yd-lkp@intel.com/
 
 New smatch warnings:
-drivers/vfio/pci/vfio_pci_rdwr.c:301 vfio_pci_bar_rw() warn: 'io' from ioremap() not released on lines: 301.
+fs/btrfs/volumes.c:7691 btrfs_init_dev_stats() warn: inconsistent returns '&fs_devices->device_list_mutex'.
 
 Old smatch warnings:
-drivers/vfio/pci/vfio_pci_rdwr.c:293 vfio_pci_bar_rw() error: testing array offset 'bar' after use.
+fs/btrfs/volumes.c:893 device_list_add() warn: inconsistent indenting
 
-vim +/io +301 drivers/vfio/pci/vfio_pci_rdwr.c
+vim +7691 fs/btrfs/volumes.c
 
-0d77ed3589ac05 Alex Williamson 2018-03-21  232  
-536475109c8284 Max Gurtovoy    2021-08-26  233  ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
-89e1f7d4c66d85 Alex Williamson 2012-07-31  234  			size_t count, loff_t *ppos, bool iswrite)
-89e1f7d4c66d85 Alex Williamson 2012-07-31  235  {
-89e1f7d4c66d85 Alex Williamson 2012-07-31  236  	struct pci_dev *pdev = vdev->pdev;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  237  	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  238  	int bar = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
-906ee99dd2a5c8 Alex Williamson 2013-02-14  239  	size_t x_start = 0, x_end = 0;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  240  	resource_size_t end;
-906ee99dd2a5c8 Alex Williamson 2013-02-14  241  	void __iomem *io;
-abafbc551fdded Alex Williamson 2020-04-22  242  	struct resource *res = &vdev->pdev->resource[bar];
-906ee99dd2a5c8 Alex Williamson 2013-02-14  243  	ssize_t done;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  244  
-a13b64591747e8 Alex Williamson 2016-02-22  245  	if (pci_resource_start(pdev, bar))
-89e1f7d4c66d85 Alex Williamson 2012-07-31  246  		end = pci_resource_len(pdev, bar);
-3f7f36450a2152 Yunxiang Li     2025-01-02  247  	else if (bar == PCI_ROM_RESOURCE && pdev->rom && pdev->romlen)
-3f7f36450a2152 Yunxiang Li     2025-01-02  248  		end = roundup_pow_of_two(pdev->romlen);
-a13b64591747e8 Alex Williamson 2016-02-22  249  	else
-a13b64591747e8 Alex Williamson 2016-02-22  250  		return -EINVAL;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  251  
-906ee99dd2a5c8 Alex Williamson 2013-02-14  252  	if (pos >= end)
-89e1f7d4c66d85 Alex Williamson 2012-07-31  253  		return -EINVAL;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  254  
-906ee99dd2a5c8 Alex Williamson 2013-02-14  255  	count = min(count, (size_t)(end - pos));
-89e1f7d4c66d85 Alex Williamson 2012-07-31  256  
-89e1f7d4c66d85 Alex Williamson 2012-07-31  257  	if (bar == PCI_ROM_RESOURCE) {
-906ee99dd2a5c8 Alex Williamson 2013-02-14  258  		/*
-906ee99dd2a5c8 Alex Williamson 2013-02-14  259  		 * The ROM can fill less space than the BAR, so we start the
-906ee99dd2a5c8 Alex Williamson 2013-02-14  260  		 * excluded range at the end of the actual ROM.  This makes
-906ee99dd2a5c8 Alex Williamson 2013-02-14  261  		 * filling large ROM BARs much faster.
-906ee99dd2a5c8 Alex Williamson 2013-02-14  262  		 */
-3f7f36450a2152 Yunxiang Li     2025-01-02  263  		if (pci_resource_start(pdev, bar)) {
-89e1f7d4c66d85 Alex Williamson 2012-07-31  264  			io = pci_map_rom(pdev, &x_start);
-3f7f36450a2152 Yunxiang Li     2025-01-02  265  		} else {
-3f7f36450a2152 Yunxiang Li     2025-01-02  266  			io = ioremap(pdev->rom, pdev->romlen);
-3f7f36450a2152 Yunxiang Li     2025-01-02  267  			x_start = pdev->romlen;
-abafbc551fdded Alex Williamson 2020-04-22  268  		}
-3f7f36450a2152 Yunxiang Li     2025-01-02  269  		if (!io)
-3f7f36450a2152 Yunxiang Li     2025-01-02  270  			return -ENOMEM;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  271  		x_end = end;
-0d77ed3589ac05 Alex Williamson 2018-03-21  272  	} else {
-8bccc5b80678c6 Yishai Hadas    2023-12-19  273  		int ret = vfio_pci_core_setup_barmap(vdev, bar);
-abafbc551fdded Alex Williamson 2020-04-22  274  		if (ret) {
-abafbc551fdded Alex Williamson 2020-04-22  275  			done = ret;
-abafbc551fdded Alex Williamson 2020-04-22  276  			goto out;
-abafbc551fdded Alex Williamson 2020-04-22  277  		}
-89e1f7d4c66d85 Alex Williamson 2012-07-31  278  
-89e1f7d4c66d85 Alex Williamson 2012-07-31  279  		io = vdev->barmap[bar];
-0d77ed3589ac05 Alex Williamson 2018-03-21  280  	}
-89e1f7d4c66d85 Alex Williamson 2012-07-31  281  
-89e1f7d4c66d85 Alex Williamson 2012-07-31  282  	if (bar == vdev->msix_bar) {
-89e1f7d4c66d85 Alex Williamson 2012-07-31  283  		x_start = vdev->msix_offset;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  284  		x_end = vdev->msix_offset + vdev->msix_size;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  285  	}
-89e1f7d4c66d85 Alex Williamson 2012-07-31  286  
-4de676d494cd8f Ankit Agrawal   2024-02-20  287  	done = vfio_pci_core_do_io_rw(vdev, res->flags & IORESOURCE_MEM, io, buf, pos,
-bc93b9ae0151ae Alex Williamson 2020-08-17  288  				      count, x_start, x_end, iswrite);
-89e1f7d4c66d85 Alex Williamson 2012-07-31  289  
-906ee99dd2a5c8 Alex Williamson 2013-02-14  290  	if (done >= 0)
-89e1f7d4c66d85 Alex Williamson 2012-07-31  291  		*ppos += done;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  292  
-3f7f36450a2152 Yunxiang Li     2025-01-02  293  	if (bar == PCI_ROM_RESOURCE) {
-3f7f36450a2152 Yunxiang Li     2025-01-02  294  		if (pci_resource_start(pdev, bar))
-89e1f7d4c66d85 Alex Williamson 2012-07-31  295  			pci_unmap_rom(pdev, io);
-3f7f36450a2152 Yunxiang Li     2025-01-02  296  		else
-3f7f36450a2152 Yunxiang Li     2025-01-02  297  			iounmap(io);
-3f7f36450a2152 Yunxiang Li     2025-01-02  298  	}
-3f7f36450a2152 Yunxiang Li     2025-01-02  299  
-abafbc551fdded Alex Williamson 2020-04-22  300  out:
-906ee99dd2a5c8 Alex Williamson 2013-02-14 @301  	return done;
-89e1f7d4c66d85 Alex Williamson 2012-07-31  302  }
-84237a826b261d Alex Williamson 2013-02-18  303  
+124604eb50f88e Josef Bacik    2020-09-18  7662  
+124604eb50f88e Josef Bacik    2020-09-18  7663  int btrfs_init_dev_stats(struct btrfs_fs_info *fs_info)
+124604eb50f88e Josef Bacik    2020-09-18  7664  {
+124604eb50f88e Josef Bacik    2020-09-18  7665  	struct btrfs_fs_devices *fs_devices = fs_info->fs_devices, *seed_devs;
+124604eb50f88e Josef Bacik    2020-09-18  7666  	struct btrfs_device *device;
+124604eb50f88e Josef Bacik    2020-09-18  7667  	struct btrfs_path *path = NULL;
+92e26df43b1a97 Josef Bacik    2020-09-18  7668  	int ret = 0;
+124604eb50f88e Josef Bacik    2020-09-18  7669  
+124604eb50f88e Josef Bacik    2020-09-18  7670  	path = btrfs_alloc_path();
+124604eb50f88e Josef Bacik    2020-09-18  7671  	if (!path)
+124604eb50f88e Josef Bacik    2020-09-18  7672  		return -ENOMEM;
+124604eb50f88e Josef Bacik    2020-09-18  7673  
+124604eb50f88e Josef Bacik    2020-09-18  7674  	mutex_lock(&fs_devices->device_list_mutex);
+92e26df43b1a97 Josef Bacik    2020-09-18  7675  	list_for_each_entry(device, &fs_devices->devices, dev_list) {
+92e26df43b1a97 Josef Bacik    2020-09-18  7676  		ret = btrfs_device_init_dev_stats(device, path);
+92e26df43b1a97 Josef Bacik    2020-09-18  7677  		if (ret)
+ec90aa75ef29fb Anand Jain     2025-01-02  7678  			return ret;
+92e26df43b1a97 Josef Bacik    2020-09-18  7679  	}
+124604eb50f88e Josef Bacik    2020-09-18  7680  	list_for_each_entry(seed_devs, &fs_devices->seed_list, seed_list) {
+92e26df43b1a97 Josef Bacik    2020-09-18  7681  		list_for_each_entry(device, &seed_devs->devices, dev_list) {
+92e26df43b1a97 Josef Bacik    2020-09-18  7682  			ret = btrfs_device_init_dev_stats(device, path);
+92e26df43b1a97 Josef Bacik    2020-09-18  7683  			if (ret)
+92e26df43b1a97 Josef Bacik    2020-09-18  7684  				goto out;
+124604eb50f88e Josef Bacik    2020-09-18  7685  		}
+92e26df43b1a97 Josef Bacik    2020-09-18  7686  	}
+92e26df43b1a97 Josef Bacik    2020-09-18  7687  out:
+733f4fbbc1083a Stefan Behrens 2012-05-25  7688  	mutex_unlock(&fs_devices->device_list_mutex);
+733f4fbbc1083a Stefan Behrens 2012-05-25  7689  
+733f4fbbc1083a Stefan Behrens 2012-05-25  7690  	btrfs_free_path(path);
+92e26df43b1a97 Josef Bacik    2020-09-18 @7691  	return ret;
+733f4fbbc1083a Stefan Behrens 2012-05-25  7692  }
+733f4fbbc1083a Stefan Behrens 2012-05-25  7693  
 
 -- 
 0-DAY CI Kernel Test Service
