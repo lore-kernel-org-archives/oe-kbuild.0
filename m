@@ -1,158 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651CD1F9A95
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 14:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4B011CA0
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 15:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735913420; cv=none; b=ChmTJdE+w5/GL0Y0G+GjpDhu8ucdVPEPhikuWn3KHnTiw6rnSUt5CDx2kccTft6Q/xzU5cy/GApcNntugMkk4McPKp3i+B5GLpE4twuva7yz9QOABhCerOm+n1bwiZv9vDxoXNXidXZLZUIdU1j6UcVwuec5MVhfUoBzDC8oUbY=
+	t=1735917447; cv=none; b=IiVDkQsaMLbszKydbvJ2GKAv7y0nafuq6h3shtAAzoYzp2XaZTvK5yn7CiSORboFTQRPr3RcDZXw3NdGnqKImEZkuG+FcIGuQrnaijWb6jDBxa6sfbNaM3bCnkyIdg6NRtgF6y+3geBdOQqiobZITLwPp0J6UTw5ChwBLkh4LJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735913420; c=relaxed/simple;
-	bh=vY62/OZeAMYZP5k6nh5J9IcRCZcUq8YaRbtM3S/CQJc=;
+	s=arc-20240116; t=1735917447; c=relaxed/simple;
+	bh=+hQghwKfslDZfT0P20mZFRq3MJyrWhSUGlsiDjvvnEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T6FLGeHGLhilM9teFDNRvJIkvkGZPh6REiPQsMWVzDDVZn1HmCiV95cPdzhCMs9gQ0r2h+ZSTZbdOJa7qbtLXMp283wCaMygHuDeWK2mE0oewpxQB9No28WjjccytNSVSougg7HjC13TwtWKLyYD3oB9rzKEysb8SWpH/WVHixM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bmmyQyFW; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=OjAFWvnBTp1iIgvpNr1FlDt9rCj4xuN+PRWKFY7T7yZ8lzIVMTFEUaSUfskq7YeXKPfFd7eua8FjtF03SbKFa9PcCGtTHmttTvOs3CxILTLWOasnkitWyNKosHjCR9vSIf+dul4o1TH26rM/Yyd+gUEuJO92VOv4RIDfRrYvh/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwtAKN/b; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bmmyQyFW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwtAKN/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735913419; x=1767449419;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vY62/OZeAMYZP5k6nh5J9IcRCZcUq8YaRbtM3S/CQJc=;
-  b=bmmyQyFWfBt9Ep4XnsnIt21FX6mrij4x3qameIzJipvMR5OUjE2axVUH
-   x7NVWmYZKPt280KGPfHXjKy5vDWVVDSo7xZLYp5M7RAddEXnN/2EqPl2g
-   JspBRWe7PwpHnshvrEMWT1YUUFiiu62qS5s5O7Qf5lUtqFoLsT/miaj+B
-   cqCpQZupLSb25ITTwMMHNWJCwQyGoIKb6QCDZNwAWGdeXIppF2YTvdS9A
-   Uoxz1GUX1p2wPxd22ttXabTQIJGfQz2OA97tJCiSeY4iP6C18J9qVZTxT
-   GbIUDlHt+72T9vaODS/7K6H0vpbUg540jIgLP2lOFIESMOzSZKTZ87E/3
-   w==;
-X-CSE-ConnectionGUID: Y9uF05XlS3aQR2mgNvX6zA==
-X-CSE-MsgGUID: Tojr4lCqSImJQog/mTc+Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36180066"
+  t=1735917445; x=1767453445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+hQghwKfslDZfT0P20mZFRq3MJyrWhSUGlsiDjvvnEo=;
+  b=hwtAKN/bZkF5W1D54qhpT3jlF2jaPUf6Py2iEvQn40SmLa/sGp1VZj50
+   4bOPK/PEmK8P3roBHOGTSzmEdgZ88MEYlj9qgQf3ZuXRHpbj4yGK61iw2
+   IDsO1lyIpLE98yZJtvseBSUTBFveoXnRfNJI7jf9i7n9UqFU8ySwe6n8N
+   fIm3RvsFAoQnuHXAKY7WoczPHK9ekknZuQZNJeDyWcc0l2VnIX/rXCYOf
+   9Hbbw4j5Y7nymYnA0dk1bGccM6XTTSWGNqt0QoW9j0HVhKzNNF5d3LUQk
+   Fj+8GBPNiiVUp3tBSuGmTqyPh4S3vuCTMms21QL4uyHSamu+3Jw1EBZZX
+   g==;
+X-CSE-ConnectionGUID: bRRGfuzoQLeGRec+DLnJwQ==
+X-CSE-MsgGUID: eQrdMaghRzGYjZUbj8a2qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47153334"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="36180066"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 06:10:15 -0800
-X-CSE-ConnectionGUID: 4EllgIrhT+qndgWXA4IbOg==
-X-CSE-MsgGUID: wOhrau+9SL+nuWFjgwA2Hw==
+   d="scan'208";a="47153334"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 07:17:25 -0800
+X-CSE-ConnectionGUID: L9dbcXqwRQq9znEclLVEug==
+X-CSE-MsgGUID: 87EGX+j5TyqrjlpXAemKjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="101664575"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106440212"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jan 2025 06:10:13 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 03 Jan 2025 07:17:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTiNP-0009oB-2H;
-	Fri, 03 Jan 2025 14:10:11 +0000
-Date: Fri, 3 Jan 2025 22:09:12 +0800
+	id 1tTjQP-0009tD-1f;
+	Fri, 03 Jan 2025 15:17:21 +0000
+Date: Fri, 3 Jan 2025 23:16:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 02/19] powerpc: dts: Extract mpc8315e.dtsi from
- mpc8315erdb.dts
-Message-ID: <202501032132.t3R37vmZ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: lib/fortify_kunit.c:161:8-9: ERROR: reference preceded by free on
+ line 158
+Message-ID: <202501032333.LvwsEwsA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250102-mpc83xx-v1-2-86f78ba2a7af@posteo.net>
-References: <20250102-mpc83xx-v1-2-86f78ba2a7af@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Nicholas Piggin <npiggin@gmail.com>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Naveen N Rao <naveen@kernel.org>
-TO: Madhavan Srinivasan <maddy@linux.ibm.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Frank Li <Frank.Li@nxp.com>
-CC: linuxppc-dev@lists.ozlabs.org
 CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-gpio@vger.kernel.org
-CC: "J. Neuschäfer" <j.ne@posteo.net>
+TO: Kees Cook <keescook@chromium.org>
 
-Hi Neuschäfer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fc033cf25e612e840e545f8d5ad2edd6ba613ed5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/powerpc-Generalize-MPC831x-platform-support/20250103-023455
-base:   fc033cf25e612e840e545f8d5ad2edd6ba613ed5
-patch link:    https://lore.kernel.org/r/20250102-mpc83xx-v1-2-86f78ba2a7af%40posteo.net
-patch subject: [PATCH 02/19] powerpc: dts: Extract mpc8315e.dtsi from mpc8315erdb.dts
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: powerpc-randconfig-052-20250103 (https://download.01.org/0day-ci/archive/20250103/202501032132.t3R37vmZ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250103/202501032132.t3R37vmZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 1a78f8cb5daac77405e449f5305ad72c01818a46 fortify: Allow KUnit test to build without FORTIFY
+date:   10 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 10 months ago
+config: hexagon-randconfig-r054-20250102 (https://download.01.org/0day-ci/archive/20250103/202501032333.LvwsEwsA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ed572f2003275da8e06a634b4d6658b7921e8334)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501032132.t3R37vmZ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501032333.LvwsEwsA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/powerpc/boot/dts/mpc8315e.dtsi:41.9-44.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/powerpc/boot/dts/mpc8315erdb.dts:36.13-43.5: Warning (simple_bus_reg): /localbus@e0005000/flash@0,0: simple-bus unit address format error, expected "0"
-   arch/powerpc/boot/dts/mpc8315erdb.dts:45.12-63.5: Warning (simple_bus_reg): /localbus@e0005000/nand@1,0: simple-bus unit address format error, expected "100000000"
-   arch/powerpc/boot/dts/mpc8315erdb.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/mpc8315erdb.dtb: /: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/mpc8315erdb.dtb: /: failed to match any schema with compatible: ['fsl,mpc8315erdb']
-   arch/powerpc/boot/dts/mpc8315erdb.dtb: localbus@e0005000: nand@1,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> lib/fortify_kunit.c:161:8-9: ERROR: reference preceded by free on line 158
+   lib/fortify_kunit.c:163:8-9: ERROR: reference preceded by free on line 161
+   lib/fortify_kunit.c:166:8-9: ERROR: reference preceded by free on line 163
+   lib/fortify_kunit.c:168:8-9: ERROR: reference preceded by free on line 166
+   lib/fortify_kunit.c:170:8-9: ERROR: reference preceded by free on line 168
+   lib/fortify_kunit.c:173:8-9: ERROR: reference preceded by free on line 170
+   lib/fortify_kunit.c:176:8-9: ERROR: reference preceded by free on line 173
+   lib/fortify_kunit.c:178:8-9: ERROR: reference preceded by free on line 176
+   lib/fortify_kunit.c:180:8-9: ERROR: reference preceded by free on line 178
+   lib/fortify_kunit.c:183:8-9: ERROR: reference preceded by free on line 180
+   lib/fortify_kunit.c:186:8-9: ERROR: reference preceded by free on line 183
+   lib/fortify_kunit.c:188:8-9: ERROR: reference preceded by free on line 186
+   lib/fortify_kunit.c:191:8-9: ERROR: reference preceded by free on line 188
+   lib/fortify_kunit.c:197:8-9: ERROR: reference preceded by free on line 191
+   lib/fortify_kunit.c:202:8-9: ERROR: reference preceded by free on line 197
+   lib/fortify_kunit.c:207:8-9: ERROR: reference preceded by free on line 202
+   lib/fortify_kunit.c:213:54-55: ERROR: reference preceded by free on line 207
 
-vim +41 arch/powerpc/boot/dts/mpc8315e.dtsi
+vim +161 lib/fortify_kunit.c
 
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  15  
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  16  / {
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  17  	compatible = "fsl,mpc8315e";
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  18  	#address-cells = <1>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  19  	#size-cells = <1>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  20  
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  21  	aliases {
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  22  	};
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  23  
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  24  	cpus {
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  25  		#address-cells = <1>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  26  		#size-cells = <0>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  27  
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  28  		PowerPC,8315@0 {
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  29  			device_type = "cpu";
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  30  			reg = <0x0>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  31  			d-cache-line-size = <32>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  32  			i-cache-line-size = <32>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  33  			d-cache-size = <16384>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  34  			i-cache-size = <16384>;
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  35  			timebase-frequency = <0>;	// from bootloader
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  36  			bus-frequency = <0>;		// from bootloader
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  37  			clock-frequency = <0>;		// from bootloader
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  38  		};
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  39  	};
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02  40  
-b3479ebf4de8b2 J. Neuschäfer 2025-01-02 @41  	memory {
+9124a26401483b Kees Cook 2022-09-29  151  
+9124a26401483b Kees Cook 2022-09-29  152  #define TEST_kmalloc(checker, expected_size, alloc_size)	do {	\
+9124a26401483b Kees Cook 2022-09-29  153  	gfp_t gfp = GFP_KERNEL | __GFP_NOWARN;				\
+9124a26401483b Kees Cook 2022-09-29  154  	void *orig;							\
+9124a26401483b Kees Cook 2022-09-29  155  	size_t len;							\
+9124a26401483b Kees Cook 2022-09-29  156  									\
+9124a26401483b Kees Cook 2022-09-29  157  	checker(expected_size, kmalloc(alloc_size, gfp),		\
+9124a26401483b Kees Cook 2022-09-29 @158  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  159  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  160  		kmalloc_node(alloc_size, gfp, NUMA_NO_NODE),		\
+9124a26401483b Kees Cook 2022-09-29 @161  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  162  	checker(expected_size, kzalloc(alloc_size, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  163  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  164  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  165  		kzalloc_node(alloc_size, gfp, NUMA_NO_NODE),		\
+9124a26401483b Kees Cook 2022-09-29  166  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  167  	checker(expected_size, kcalloc(1, alloc_size, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  168  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  169  	checker(expected_size, kcalloc(alloc_size, 1, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  170  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  171  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  172  		kcalloc_node(1, alloc_size, gfp, NUMA_NO_NODE),		\
+9124a26401483b Kees Cook 2022-09-29  173  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  174  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  175  		kcalloc_node(alloc_size, 1, gfp, NUMA_NO_NODE),		\
+9124a26401483b Kees Cook 2022-09-29  176  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  177  	checker(expected_size, kmalloc_array(1, alloc_size, gfp),	\
+9124a26401483b Kees Cook 2022-09-29  178  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  179  	checker(expected_size, kmalloc_array(alloc_size, 1, gfp),	\
+9124a26401483b Kees Cook 2022-09-29  180  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  181  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  182  		kmalloc_array_node(1, alloc_size, gfp, NUMA_NO_NODE),	\
+9124a26401483b Kees Cook 2022-09-29  183  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  184  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  185  		kmalloc_array_node(alloc_size, 1, gfp, NUMA_NO_NODE),	\
+9124a26401483b Kees Cook 2022-09-29  186  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  187  	checker(expected_size, __kmalloc(alloc_size, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  188  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  189  	checker(expected_size,						\
+9124a26401483b Kees Cook 2022-09-29  190  		__kmalloc_node(alloc_size, gfp, NUMA_NO_NODE),		\
+9124a26401483b Kees Cook 2022-09-29  191  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  192  									\
+9124a26401483b Kees Cook 2022-09-29  193  	orig = kmalloc(alloc_size, gfp);				\
+9124a26401483b Kees Cook 2022-09-29  194  	KUNIT_EXPECT_TRUE(test, orig != NULL);				\
+9124a26401483b Kees Cook 2022-09-29  195  	checker((expected_size) * 2,					\
+9124a26401483b Kees Cook 2022-09-29  196  		krealloc(orig, (alloc_size) * 2, gfp),			\
+9124a26401483b Kees Cook 2022-09-29  197  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  198  	orig = kmalloc(alloc_size, gfp);				\
+9124a26401483b Kees Cook 2022-09-29  199  	KUNIT_EXPECT_TRUE(test, orig != NULL);				\
+9124a26401483b Kees Cook 2022-09-29  200  	checker((expected_size) * 2,					\
+9124a26401483b Kees Cook 2022-09-29  201  		krealloc_array(orig, 1, (alloc_size) * 2, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  202  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  203  	orig = kmalloc(alloc_size, gfp);				\
+9124a26401483b Kees Cook 2022-09-29  204  	KUNIT_EXPECT_TRUE(test, orig != NULL);				\
+9124a26401483b Kees Cook 2022-09-29  205  	checker((expected_size) * 2,					\
+9124a26401483b Kees Cook 2022-09-29  206  		krealloc_array(orig, (alloc_size) * 2, 1, gfp),		\
+9124a26401483b Kees Cook 2022-09-29  207  		kfree(p));						\
+9124a26401483b Kees Cook 2022-09-29  208  									\
+9124a26401483b Kees Cook 2022-09-29  209  	len = 11;							\
+9124a26401483b Kees Cook 2022-09-29  210  	/* Using memdup() with fixed size, so force unknown length. */	\
+9124a26401483b Kees Cook 2022-09-29  211  	if (!__builtin_constant_p(expected_size))			\
+9124a26401483b Kees Cook 2022-09-29  212  		len += zero_size;					\
+9124a26401483b Kees Cook 2022-09-29  213  	checker(len, kmemdup("hello there", len, gfp), kfree(p));	\
+9124a26401483b Kees Cook 2022-09-29  214  } while (0)
+9124a26401483b Kees Cook 2022-09-29  215  DEFINE_ALLOC_SIZE_TEST_PAIR(kmalloc)
+9124a26401483b Kees Cook 2022-09-29  216  
+
+:::::: The code at line 161 was first introduced by commit
+:::::: 9124a26401483bf2b13a99cb4317dce3f677060f kunit/fortify: Validate __alloc_size attribute results
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
