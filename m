@@ -1,299 +1,332 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E065F188CCA
-	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 18:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B691B21B9
+	for <oe-kbuild@lists.linux.dev>; Fri,  3 Jan 2025 19:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735928395; cv=none; b=hQLXOMDMtUZFu1ePLT3TYDuNbeFOzBjrTyhGHUZhtomkKBYGw5LjGID4EFA2puDANhRuowM5UbtaRirG8RpiWD8gqU4dFm91VcTDlpYZQYSca5/1I6NwXSaFJdPiU77RkqDM0pwjZaXwZF6tBotITCKXylsZqhJWwzMEfF+77vI=
+	t=1735931581; cv=none; b=EHiqwajZgfm8I8DWpVQaHxEDHxC+GdtuJVZrqE2e6ymRfamFidAt2m2WNsJedFSW98MEz55KDD5wta45pnLnA74J47UoJNID/RgTIsPuedTBorg0cP8iwL9CSF0LR+WhFKZ/qSOHRrRVsQqkYNzMpH5bmI0DCE20xbHF2YRxaLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735928395; c=relaxed/simple;
-	bh=MwoJMaLGIrVvjQwmgTCgHt5QcRnR5iP3TY9rGr/5BYg=;
+	s=arc-20240116; t=1735931581; c=relaxed/simple;
+	bh=O++jXP4Lni2XMDCSi6dNcrXsECbTeRxwPz+myfuR3CE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B3LkHjOIILyg06dtqtDrgLmmxraMHoqbyIM3I7T3jr6HxI2RuVW6qKe0JQyzVVCvrnP+fFurF34eUy2Xc2T0YlUpMeTfmBTbpILLDcBV7cIICHMZc+0a/Jg4IuyBq/XAM+0fc7DCsbQPKDoSqXY+KZbuOar1L3+r+NsL8CgqtM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jua83P8w; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=D+V3C55nIJzht6rZfEAjF3l99ibkmIBtjNjCJo4xxu18l33Hdq603vyHrzk5TgahEt1tztlA4M4EzWF2ymqxU3i7rZQRQrQRF+gtW4lQF3FMHTlgNNwVhdJstWoJvRiiQtGhqRriQbe8Wz0NIDPgI4B8Rk58D+Pp0k3gcREqm5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LgrQ1BpA; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jua83P8w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LgrQ1BpA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735928393; x=1767464393;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MwoJMaLGIrVvjQwmgTCgHt5QcRnR5iP3TY9rGr/5BYg=;
-  b=Jua83P8wgvPIkZNQBGuhywG2VBnyQ93uRwsVvwoDnPggnUEqsYHScM3M
-   CpTXn96gfR1A6wMs9+bN1urzEKCUtuyK9oauj9ZQKk27+FngFJb70Y/ED
-   bNVxtNLmeNFfWnJ4WjFYwbg5RFbYygUixzk1UCvDbCd4hOxhrE/d4Wej2
-   xRabgoO91+I4lHd1ft3CGbdNqbdnJac6ehxEpE1Canay91TslmX5/+2qK
-   5t9YWvzGNDxspTIiW2K7LAcsojRwKyMN7motJeY1qOF2SIvTyCwX13wDu
-   mI4HUaUeH6EI1Uj71vyZYCcVOr3uYL+WzaSIisUUcShwg83kLKJOTeKpQ
+  t=1735931579; x=1767467579;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O++jXP4Lni2XMDCSi6dNcrXsECbTeRxwPz+myfuR3CE=;
+  b=LgrQ1BpAzgq9avln57Cbua6+TTrw2b3Bt57VH9LMHFi4kGqJqTIA6kdy
+   ATpFDQwzl0SWg0YBDKOAgKTfOr0r1/qs4sxknL4nI9Fi5WCXFuAILLE2i
+   0cI2FZnu4s42A7S2+UkUPIwfB6CSPfqCi+mnNwph3XxvhfMmdaYIObrdV
+   nANqY44zG28iJQhvXkc0gAv/2cwIlXh1VfY2FfRrIKIKEnpA4/oSYA8bS
+   SEeGa5rafMDcuMgvkNtunSdFGKvtvVG/dhPIA2eZIV4XcrPEGtgZ0hdm2
+   bfmgFu5zR3hW9A0wegZOd/nv5sZDFScKSCxfU3JFp8xeRSP9CuiMA7nKp
    w==;
-X-CSE-ConnectionGUID: kh3V7h9zQDaSIFtUsd2DzQ==
-X-CSE-MsgGUID: Y7rwc/UrTWy2U1DJfPStlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47533937"
+X-CSE-ConnectionGUID: x+Eq0oLzRW2d+cdkdb/0zQ==
+X-CSE-MsgGUID: 6fVWU51CS/+BZn9tk+4cbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="47537503"
 X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="47533937"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 10:19:53 -0800
-X-CSE-ConnectionGUID: f54DkD0PQ0CplWReazdb4g==
-X-CSE-MsgGUID: 06RViazFQSO6Ab3AyVdVNg==
+   d="scan'208";a="47537503"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 11:12:59 -0800
+X-CSE-ConnectionGUID: p6D8Qxc4Rrm6FhfvIR6A5g==
+X-CSE-MsgGUID: liu6PZS9S4yAri1x+x09zQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="101686670"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="106905361"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Jan 2025 10:19:51 -0800
+  by orviesa003.jf.intel.com with ESMTP; 03 Jan 2025 11:12:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTmGz-000A9b-0V;
-	Fri, 03 Jan 2025 18:19:49 +0000
-Date: Sat, 4 Jan 2025 02:18:56 +0800
+	id 1tTn6N-000ACv-0P;
+	Fri, 03 Jan 2025 19:12:55 +0000
+Date: Sat, 4 Jan 2025 03:12:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 16/19] powerpc: dts: Add LANCOM NWAPP2 board devicetree
-Message-ID: <202501040247.XnHHJ5Kj-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
+Message-ID: <202501040350.oXVheB0H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250102-mpc83xx-v1-16-86f78ba2a7af@posteo.net>
-References: <20250102-mpc83xx-v1-16-86f78ba2a7af@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Nicholas Piggin <npiggin@gmail.com>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Naveen N Rao <naveen@kernel.org>
-TO: Madhavan Srinivasan <maddy@linux.ibm.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Frank Li <Frank.Li@nxp.com>
-CC: linuxppc-dev@lists.ozlabs.org
 CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-gpio@vger.kernel.org
-CC: "J. Neuschäfer" <j.ne@posteo.net>
+TO: Edward Cree <ecree.xilinx@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
 
-Hi Neuschäfer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fc033cf25e612e840e545f8d5ad2edd6ba613ed5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/powerpc-Generalize-MPC831x-platform-support/20250103-023455
-base:   fc033cf25e612e840e545f8d5ad2edd6ba613ed5
-patch link:    https://lore.kernel.org/r/20250102-mpc83xx-v1-16-86f78ba2a7af%40posteo.net
-patch subject: [PATCH 16/19] powerpc: dts: Add LANCOM NWAPP2 board devicetree
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 87925151191b64d9623e63ccf11e517eacc99d7d net: ethtool: add a mutex protecting RSS contexts
+date:   6 months ago
 :::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: powerpc-randconfig-052-20250103 (https://download.01.org/0day-ci/archive/20250104/202501040247.XnHHJ5Kj-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501040247.XnHHJ5Kj-lkp@intel.com/reproduce)
+:::::: commit date: 6 months ago
+config: hexagon-randconfig-r054-20250102 (https://download.01.org/0day-ci/archive/20250104/202501040350.oXVheB0H-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ed572f2003275da8e06a634b4d6658b7921e8334)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501040247.XnHHJ5Kj-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501040350.oXVheB0H-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/mpc8315e.dtsi:42.9-45.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/powerpc/boot/dts/lancom-nwapp2.dts:177.11-220.4: Warning (simple_bus_reg): /localbus@e0005000/nand@0,0: simple-bus unit address format error, expected "0"
->> arch/powerpc/boot/dts/lancom-nwapp2.dts:177.11-220.4: Warning (avoid_unnecessary_addr_size): /localbus@e0005000/nand@0,0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /: failed to match any schema with compatible: ['lancom,nwapp2', 'fsl,mpc8314e']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /: failed to match any schema with compatible: ['lancom,nwapp2', 'fsl,mpc8314e']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: localbus@e0005000: nand@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8315-elbc', 'fsl,elbc', 'simple-bus']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8315-elbc', 'fsl,elbc', 'simple-bus']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /localbus@e0005000/nand@0,0: failed to match any schema with compatible: ['fsl,mpc8315-fcm-nand', 'fsl,elbc-fcm-nand']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /localbus@e0005000/nand@0,0: failed to match any schema with compatible: ['fsl,mpc8315-fcm-nand', 'fsl,elbc-fcm-nand']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: immr@e0000000: $nodename:0: 'immr@e0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000: failed to match any schema with compatible: ['fsl,mpc8315-immr', 'simple-bus']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/wdt@200: failed to match any schema with compatible: ['mpc83xx_wdt']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/spi@7000: failed to match any schema with compatible: ['fsl,spi']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/spi@7000/gpio-controller@0: failed to match any schema with compatible: ['onnn,74hc595a']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8: failed to match any schema with compatible: ['fsl,mpc8315-dma', 'fsl,elo-dma']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8: failed to match any schema with compatible: ['fsl,mpc8315-dma', 'fsl,elo-dma']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@0: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@0: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@80: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@80: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@100: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@100: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@180: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/dma@82a8/dma-channel@180: failed to match any schema with compatible: ['fsl,mpc8315-dma-channel', 'fsl,elo-dma-channel']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/ethernet@24000: failed to match any schema with compatible: ['gianfar']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/ethernet@24000/mdio@520: failed to match any schema with compatible: ['fsl,gianfar-mdio']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/ethernet@25000: failed to match any schema with compatible: ['gianfar']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/ethernet@25000/mdio@520: failed to match any schema with compatible: ['fsl,gianfar-tbi']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
-   	'ns16550' was expected
-   	'ns16550a' was expected
-   	'ns16850' was expected
-   	'aspeed,ast2400-vuart' was expected
-   	'aspeed,ast2500-vuart' was expected
-   	'intel,xscale-uart' was expected
---
-   	'fsl,ns16550' is not one of ['exar,xr16l2552', 'exar,xr16l2551', 'exar,xr16l2550']
-   	'fsl,ns16550' is not one of ['ns16750', 'cavium,octeon-3860-uart', 'xlnx,xps-uart16550-2.00.b', 'ralink,rt2880-uart']
-   	'fsl,ns16550' is not one of ['nuvoton,npcm845-uart']
-   	'fsl,ns16550' is not one of ['ralink,mt7620a-uart', 'ralink,rt3052-uart', 'ralink,rt3883-uart']
-   	'fsl,ns16550' is not one of ['mediatek,mt7622-btif', 'mediatek,mt7623-btif']
-   	'mrvl,mmp-uart' was expected
-   	'fsl,ns16550' is not one of ['nvidia,tegra30-uart', 'nvidia,tegra114-uart', 'nvidia,tegra124-uart', 'nvidia,tegra210-uart', 'nvidia,tegra186-uart', 'nvidia,tegra194-uart', 'nvidia,tegra234-uart']
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: serial@4500: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: serial@4600: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
-   	'ns16550' was expected
-   	'ns16550a' was expected
-   	'ns16850' was expected
-   	'aspeed,ast2400-vuart' was expected
---
-   	'fsl,ns16550' is not one of ['exar,xr16l2552', 'exar,xr16l2551', 'exar,xr16l2550']
-   	'fsl,ns16550' is not one of ['ns16750', 'cavium,octeon-3860-uart', 'xlnx,xps-uart16550-2.00.b', 'ralink,rt2880-uart']
-   	'fsl,ns16550' is not one of ['nuvoton,npcm845-uart']
-   	'fsl,ns16550' is not one of ['ralink,mt7620a-uart', 'ralink,rt3052-uart', 'ralink,rt3883-uart']
-   	'fsl,ns16550' is not one of ['mediatek,mt7622-btif', 'mediatek,mt7623-btif']
-   	'mrvl,mmp-uart' was expected
-   	'fsl,ns16550' is not one of ['nvidia,tegra30-uart', 'nvidia,tegra114-uart', 'nvidia,tegra124-uart', 'nvidia,tegra210-uart', 'nvidia,tegra186-uart', 'nvidia,tegra194-uart', 'nvidia,tegra234-uart']
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/timer@500: failed to match any schema with compatible: ['fsl,mpc8315-gtm', 'fsl,gtm']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/timer@500: failed to match any schema with compatible: ['fsl,mpc8315-gtm', 'fsl,gtm']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/timer@600: failed to match any schema with compatible: ['fsl,mpc8315-gtm', 'fsl,gtm']
-   arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/timer@600: failed to match any schema with compatible: ['fsl,mpc8315-gtm', 'fsl,gtm']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/ipic-msi@7c0: failed to match any schema with compatible: ['fsl,ipic-msi']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8315-pmc', 'fsl,mpc8313-pmc', 'fsl,mpc8349-pmc']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8315-pmc', 'fsl,mpc8313-pmc', 'fsl,mpc8349-pmc']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8315-pmc', 'fsl,mpc8313-pmc', 'fsl,mpc8349-pmc']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /pci@e0008500: failed to match any schema with compatible: ['fsl,mpc8349-pci']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8315-pcie', 'fsl,mpc8314-pcie']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8315-pcie', 'fsl,mpc8314-pcie']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /pcie@e000a000: failed to match any schema with compatible: ['fsl,mpc8315-pcie', 'fsl,mpc8314-pcie']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: /pcie@e000a000: failed to match any schema with compatible: ['fsl,mpc8315-pcie', 'fsl,mpc8314-pcie']
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: gpio-watchdog: $nodename:0: 'gpio-watchdog' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/linux,wdt-gpio.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-power: $nodename:0: 'led-power' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-power: Unevaluated properties are not allowed ('color', 'function', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-link: $nodename:0: 'led-wlan-link' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-link: Unevaluated properties are not allowed ('color', 'function', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-data: $nodename:0: 'led-wlan-data' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-data: Unevaluated properties are not allowed ('color', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-eth: $nodename:0: 'led-eth' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-eth: Unevaluated properties are not allowed ('color', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-power-top: $nodename:0: 'led-power-top' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-power-top: Unevaluated properties are not allowed ('color', 'function', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-top: $nodename:0: 'led-wlan-top' does not match '^multi-led(@[0-9a-f])?$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
->> arch/powerpc/boot/dts/lancom-nwapp2.dtb: led-wlan-top: Unevaluated properties are not allowed ('color', 'label' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/leds/leds-group-multicolor.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
 
-vim +/0 +177 arch/powerpc/boot/dts/lancom-nwapp2.dts
+vim +1506 net/ethtool/ioctl.c
 
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  172  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  173  &localbus {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  174  	status = "okay";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  175  	ranges = <0x0 0x0 0xfe000000 0x00008000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  176  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02 @177  	nand@0,0 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  178  		#address-cells = <1>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  179  		#size-cells = <1>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  180  		compatible = "fsl,mpc8315-fcm-nand",
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  181  			     "fsl,elbc-fcm-nand";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  182  		reg = <0x0 0x0 0x2000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  183  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  184  		partitions {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  185  			compatible = "fixed-partitions";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  186  			#address-cells = <1>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  187  			#size-cells = <1>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  188  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  189  			partition@0 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  190  				label = "loader1";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  191  				reg = <0x0 0x8000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  192  				read-only;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  193  			};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  194  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  195  			partition@8000 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  196  				label = "loader2";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  197  				reg = <0x8000 0x78000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  198  				read-only;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  199  			};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  200  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  201  			// 0x80000:0xf80000 is designated "loader spare" by
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  202  			// vendor firmware, but we re-use it for our purposes.
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  203  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  204  			partition@80000 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  205  				label = "u-boot-env";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  206  				reg = <0x80000 0x80000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  207  			};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  208  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  209  			partition@100000 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  210  				label = "loader-spare";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  211  				reg = <0x100000 0xf00000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  212  			};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  213  
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  214  			partition@1000000 {
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  215  				label = "fs";
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  216  				reg = <0x1000000 0xf000000>;
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  217  				/* YAFFS2 filesystem */
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  218  			};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  219  		};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  220  	};
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  221  };
-0c1e3a5b21529a J. Neuschäfer 2025-01-02  222  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1276  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1277  static noinline_for_stack int ethtool_set_rxfh(struct net_device *dev,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1278  					       void __user *useraddr)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1279  {
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1280  	u32 rss_cfg_offset = offsetof(struct ethtool_rxfh, rss_config[0]);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1281  	const struct ethtool_ops *ops = dev->ethtool_ops;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1282  	u32 dev_indir_size = 0, dev_key_size = 0, i;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1283  	struct ethtool_rxfh_param rxfh_dev = {};
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1284  	struct ethtool_rxfh_context *ctx = NULL;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1285  	struct netlink_ext_ack *extack = NULL;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1286  	struct ethtool_rxnfc rx_rings;
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1287  	struct ethtool_rxfh rxfh;
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1288  	bool locked = false; /* dev->ethtool->rss_lock taken */
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1289  	u32 indir_bytes = 0;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1290  	bool create = false;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1291  	u8 *rss_config;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1292  	int ret;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1293  
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1294  	if (!ops->get_rxnfc || !ops->set_rxfh)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1295  		return -EOPNOTSUPP;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1296  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1297  	if (ops->get_rxfh_indir_size)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1298  		dev_indir_size = ops->get_rxfh_indir_size(dev);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1299  	if (ops->get_rxfh_key_size)
+d340c862e76081 net/core/ethtool.c  Dan Carpenter   2015-02-20  1300  		dev_key_size = ops->get_rxfh_key_size(dev);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1301  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1302  	if (copy_from_user(&rxfh, useraddr, sizeof(rxfh)))
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1303  		return -EFAULT;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1304  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1305  	/* Check that reserved fields are 0 for now */
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1306  	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd32)
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1307  		return -EINVAL;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1308  	/* Most drivers don't handle rss_context, check it's 0 as well */
+dcd8dbf9e734eb net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1309  	if (rxfh.rss_context && !ops->cap_rss_ctx_supported)
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1310  		return -EOPNOTSUPP;
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1311  	/* Check input data transformation capabilities */
+948f97f9d8d2aa net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1312  	if (rxfh.input_xfrm && rxfh.input_xfrm != RXH_XFRM_SYM_XOR &&
+948f97f9d8d2aa net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1313  	    rxfh.input_xfrm != RXH_XFRM_NO_CHANGE)
+948f97f9d8d2aa net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1314  		return -EINVAL;
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1315  	if ((rxfh.input_xfrm & RXH_XFRM_SYM_XOR) &&
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1316  	    !ops->cap_rss_sym_xor_supported)
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1317  		return -EOPNOTSUPP;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1318  	create = rxfh.rss_context == ETH_RXFH_CONTEXT_ALLOC;
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1319  
+892311f66f2411 net/core/ethtool.c  Eyal Perry      2014-12-02  1320  	/* If either indir, hash key or function is valid, proceed further.
+0dd415d155050f net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1321  	 * Must request at least one change: indir size, hash key, function
+0dd415d155050f net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1322  	 * or input transformation.
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1323  	 */
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1324  	if ((rxfh.indir_size &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1325  	     rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1326  	     rxfh.indir_size != dev_indir_size) ||
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1327  	    (rxfh.key_size && (rxfh.key_size != dev_key_size)) ||
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1328  	    (rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE &&
+0dd415d155050f net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1329  	     rxfh.key_size == 0 && rxfh.hfunc == ETH_RSS_HASH_NO_CHANGE &&
+0dd415d155050f net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1330  	     rxfh.input_xfrm == RXH_XFRM_NO_CHANGE))
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1331  		return -EINVAL;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1332  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1333  	if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1334  		indir_bytes = dev_indir_size * sizeof(rxfh_dev.indir[0]);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1335  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1336  	rss_config = kzalloc(indir_bytes + rxfh.key_size, GFP_USER);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1337  	if (!rss_config)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1338  		return -ENOMEM;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1339  
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1340  	rx_rings.cmd = ETHTOOL_GRXRINGS;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1341  	ret = ops->get_rxnfc(dev, &rx_rings, NULL);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1342  	if (ret)
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1343  		goto out;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1344  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1345  	/* rxfh.indir_size == 0 means reset the indir table to default (master
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1346  	 * context) or delete the context (other RSS contexts).
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1347  	 * rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE means leave it unchanged.
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1348  	 */
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1349  	if (rxfh.indir_size &&
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1350  	    rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE) {
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1351  		rxfh_dev.indir = (u32 *)rss_config;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1352  		rxfh_dev.indir_size = dev_indir_size;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1353  		ret = ethtool_copy_validate_indir(rxfh_dev.indir,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1354  						  useraddr + rss_cfg_offset,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1355  						  &rx_rings,
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1356  						  rxfh.indir_size);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1357  		if (ret)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1358  			goto out;
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1359  	} else if (rxfh.indir_size == 0) {
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1360  		if (rxfh.rss_context == 0) {
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1361  			u32 *indir;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1362  
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1363  			rxfh_dev.indir = (u32 *)rss_config;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1364  			rxfh_dev.indir_size = dev_indir_size;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1365  			indir = rxfh_dev.indir;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1366  			for (i = 0; i < dev_indir_size; i++)
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1367  				indir[i] = ethtool_rxfh_indir_default(i, rx_rings.data);
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1368  		} else {
+dcd8dbf9e734eb net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1369  			rxfh_dev.rss_delete = true;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1370  		}
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1371  	}
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1372  
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1373  	if (rxfh.key_size) {
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1374  		rxfh_dev.key_size = dev_key_size;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1375  		rxfh_dev.key = rss_config + indir_bytes;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1376  		if (copy_from_user(rxfh_dev.key,
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1377  				   useraddr + rss_cfg_offset + indir_bytes,
+f062a3844845d2 net/core/ethtool.c  Ben Hutchings   2014-05-15  1378  				   rxfh.key_size)) {
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1379  			ret = -EFAULT;
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1380  			goto out;
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1381  		}
+278bc4296bd64f net/core/ethtool.c  Ben Hutchings   2011-12-15  1382  	}
+7850f63f162051 net/core/ethtool.c  Ben Hutchings   2011-12-15  1383  
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1384  	if (rxfh.rss_context) {
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27 @1385  		mutex_lock(&dev->ethtool->rss_lock);
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1386  		locked = true;
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1387  	}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1388  	if (create) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1389  		if (rxfh_dev.rss_delete) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1390  			ret = -EINVAL;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1391  			goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1392  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1393  		ctx = kzalloc(ethtool_rxfh_context_size(dev_indir_size,
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1394  							dev_key_size,
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1395  							ops->rxfh_priv_size),
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1396  			      GFP_KERNEL_ACCOUNT);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1397  		if (!ctx) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1398  			ret = -ENOMEM;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1399  			goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1400  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1401  		ctx->indir_size = dev_indir_size;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1402  		ctx->key_size = dev_key_size;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1403  		ctx->priv_size = ops->rxfh_priv_size;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1404  		/* Initialise to an empty context */
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1405  		ctx->hfunc = ETH_RSS_HASH_NO_CHANGE;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1406  		ctx->input_xfrm = RXH_XFRM_NO_CHANGE;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1407  		if (ops->create_rxfh_context) {
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1408  			u32 limit = ops->rxfh_max_context_id ?: U32_MAX;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1409  			u32 ctx_id;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1410  
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1411  			/* driver uses new API, core allocates ID */
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1412  			ret = xa_alloc(&dev->ethtool->rss_ctx, &ctx_id, ctx,
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1413  				       XA_LIMIT(1, limit), GFP_KERNEL_ACCOUNT);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1414  			if (ret < 0) {
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1415  				kfree(ctx);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1416  				goto out;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1417  			}
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1418  			WARN_ON(!ctx_id); /* can't happen */
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1419  			rxfh.rss_context = ctx_id;
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1420  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1421  	} else if (rxfh.rss_context) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1422  		ctx = xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1423  		if (!ctx) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1424  			ret = -ENOENT;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1425  			goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1426  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1427  	}
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1428  	rxfh_dev.hfunc = rxfh.hfunc;
+dcd8dbf9e734eb net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1429  	rxfh_dev.rss_context = rxfh.rss_context;
+13e59344fb9d3c net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1430  	rxfh_dev.input_xfrm = rxfh.input_xfrm;
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1431  
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1432  	if (rxfh.rss_context && ops->create_rxfh_context) {
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1433  		if (create)
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1434  			ret = ops->create_rxfh_context(dev, ctx, &rxfh_dev,
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1435  						       extack);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1436  		else if (rxfh_dev.rss_delete)
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1437  			ret = ops->remove_rxfh_context(dev, ctx,
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1438  						       rxfh.rss_context,
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1439  						       extack);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1440  		else
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1441  			ret = ops->modify_rxfh_context(dev, ctx, &rxfh_dev,
+30a32cdf6b1303 net/ethtool/ioctl.c Edward Cree     2024-06-27  1442  						       extack);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1443  	} else {
+fb6e30a72539ce net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1444  		ret = ops->set_rxfh(dev, &rxfh_dev, extack);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1445  	}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1446  	if (ret) {
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1447  		if (create) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1448  			/* failed to create, free our new tracking entry */
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1449  			if (ops->create_rxfh_context)
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1450  				xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1451  			kfree(ctx);
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1452  		}
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1453  		goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1454  	}
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1455  
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1456  	if (copy_to_user(useraddr + offsetof(struct ethtool_rxfh, rss_context),
+dcd8dbf9e734eb net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1457  			 &rxfh_dev.rss_context, sizeof(rxfh_dev.rss_context)))
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1458  		ret = -EFAULT;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1459  
+dcd8dbf9e734eb net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1460  	if (!rxfh_dev.rss_context) {
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1461  		/* indicate whether rxfh was set to default */
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1462  		if (rxfh.indir_size == 0)
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1463  			dev->priv_flags &= ~IFF_RXFH_CONFIGURED;
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1464  		else if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+d4ab4286276fcd net/core/ethtool.c  Keller, Jacob E 2016-02-08  1465  			dev->priv_flags |= IFF_RXFH_CONFIGURED;
+84a1d9c4820080 net/core/ethtool.c  Edward Cree     2018-03-08  1466  	}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1467  	/* Update rss_ctx tracking */
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1468  	if (create && !ops->create_rxfh_context) {
+847a8ab186767b net/ethtool/ioctl.c Edward Cree     2024-06-27  1469  		/* driver uses old API, it chose context ID */
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1470  		if (WARN_ON(xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context))) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1471  			/* context ID reused, our tracking is screwed */
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1472  			kfree(ctx);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1473  			goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1474  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1475  		/* Allocate the exact ID the driver gave us */
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1476  		if (xa_is_err(xa_store(&dev->ethtool->rss_ctx, rxfh.rss_context,
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1477  				       ctx, GFP_KERNEL))) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1478  			kfree(ctx);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1479  			goto out;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1480  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1481  	}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1482  	if (rxfh_dev.rss_delete) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1483  		WARN_ON(xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context) != ctx);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1484  		kfree(ctx);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1485  	} else if (ctx) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1486  		if (rxfh_dev.indir) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1487  			for (i = 0; i < dev_indir_size; i++)
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1488  				ethtool_rxfh_context_indir(ctx)[i] = rxfh_dev.indir[i];
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1489  			ctx->indir_configured = 1;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1490  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1491  		if (rxfh_dev.key) {
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1492  			memcpy(ethtool_rxfh_context_key(ctx), rxfh_dev.key,
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1493  			       dev_key_size);
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1494  			ctx->key_configured = 1;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1495  		}
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1496  		if (rxfh_dev.hfunc != ETH_RSS_HASH_NO_CHANGE)
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1497  			ctx->hfunc = rxfh_dev.hfunc;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1498  		if (rxfh_dev.input_xfrm != RXH_XFRM_NO_CHANGE)
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1499  			ctx->input_xfrm = rxfh_dev.input_xfrm;
+eac9122f0c41b8 net/ethtool/ioctl.c Edward Cree     2024-06-27  1500  	}
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1501  
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1502  out:
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1503  	if (locked)
+87925151191b64 net/ethtool/ioctl.c Edward Cree     2024-06-27  1504  		mutex_unlock(&dev->ethtool->rss_lock);
+3de0b592394d17 net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1505  	kfree(rss_config);
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30 @1506  	return ret;
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1507  }
+a5b6ee291e39e2 net/core/ethtool.c  Ben Hutchings   2010-06-30  1508  
+
+:::::: The code at line 1506 was first introduced by commit
+:::::: a5b6ee291e39e285e021cf251dbcf770c83cd74e ethtool: Add support for control of RX flow hash indirection
+
+:::::: TO: Ben Hutchings <bhutchings@solarflare.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
