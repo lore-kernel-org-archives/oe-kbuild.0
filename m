@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE06020311
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 Jan 2025 03:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75EB1C687
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 Jan 2025 06:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735961274; cv=none; b=Znz0Qhdg6X/JIYYHogBiBQhQegM/LlLINH5j/pP5ObFLbLq9UuCiOIDIwoLcVFuTEkfztW+zqO+lVsrgfTLHeaCzzbP26r7vTH56Ll5OBb1ntZgW2xD+nNRD9kWD46IMe5GKx7ZEGR4E2Z3maHavakqfNed/LBASMl7MTIuGLBs=
+	t=1735970827; cv=none; b=Q4NrPCGZ4cGvjkFYhWiveqo4gj0JJldp8V8nZBGYZ9YasL8sA7+ybzpNUxWAwgrBzG1BBtc/eMBNua4q1wLjN3HgLHPK62DP20N7DElA0hAZSVFf9/uZeCkw8xznspXdraaQpKGWIsr2EzFQql13qzokrTaVHOIwtez0XNalUqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735961274; c=relaxed/simple;
-	bh=dFxWsF2J0MnHe0xdcpq47mIzEzyZaQj37YFYKWnfT/0=;
+	s=arc-20240116; t=1735970827; c=relaxed/simple;
+	bh=yrKwikA36Xl0BpqgAnAsK4OwcXWbAbnSBYcuUG6B4pI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eFHtIOATD0fLFaYPRsTILgEge16y2eijZrA6MpWFijHsi2Zaz8nJSFgIfsfRqN7hhW0bMYKT8BFIWxGHHwLHdtid07+2/fWEhZFu4HhBmFoao/iClOrQsvLTQm4y0Y0BAyQGiQ0Dcgb1hC4YwqwWtHGB/3LFCimFrY3UeCY4X30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OoZnU+ul; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=OKsPUwnvJsFury3Y9zOtsxDIfM5YzFRbTvsTw47Wn6MG1lFkpewW4IHr12qsBfwDmGpmovi+AV589XIk1ABsJ+T7lYHkJmxtP0CkPzbsswhuhsvlZRSv8hN20CFto/N74Aydx8gbwcdQLaQS0fsuPn5Ok08xaYKg/rWviCufaHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhznaSBT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OoZnU+ul"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhznaSBT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735961273; x=1767497273;
+  t=1735970826; x=1767506826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dFxWsF2J0MnHe0xdcpq47mIzEzyZaQj37YFYKWnfT/0=;
-  b=OoZnU+uls8Js/4g0jFxAJ5vriT3oldBg5vIF4ZCbDsF25s2mNkoYra0g
-   fGruah+Dho/CCbpmTa5ySHr3HaTiX+KbF6zF+lEwG2fRxsvZYCVGgdDEc
-   xiJWb8hcG/lpAQM6C1kSKaWpC5V1Cen0hctIG4ce9CGYiBglgvSpS8PHZ
-   18jdCKU2ZS8+MNRQTiAhwIw7RGj1ZJJWXl5xxGtfs6wBAbb70pyZt3ZPe
-   nSwoGcJioHiF5un6m5yz+kzlBwvGX9V6k/4HRgTrQ6PHpOUhiPJ7jLZso
-   tohoZfmMk/gkFsHL/x/e1kOJAG2XjCI1GDaPOS6SUKdMdtEQj8fFwxEYS
-   w==;
-X-CSE-ConnectionGUID: ra3r7q/MSwKYcJQ12Mz6LQ==
-X-CSE-MsgGUID: 71lmCzoeR6Kj+e1iNXfNRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="39885108"
-X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="39885108"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 19:27:52 -0800
-X-CSE-ConnectionGUID: rraJM64pSsStLoih+DLTYQ==
-X-CSE-MsgGUID: c0yxrBjxQxmce+ah7u8LKg==
+  bh=yrKwikA36Xl0BpqgAnAsK4OwcXWbAbnSBYcuUG6B4pI=;
+  b=RhznaSBTZcRIlo6CLX2wQXd67CDgQJY29iAK+t7z/EiGnLS2O7GVpfzk
+   6y21aa61ob/Kd9KRqrZbYtlAMAwrJdWzIBXPGsPaMTr2dBqvERKYdKkyK
+   taVsxbHjGS/OEmFy45oQ0dB5+7sO2mgUu3LqVBEvSkFxCG2ySmKOmJals
+   JW4gl0D30oOnPwVZgioUCEel31czUEgwizCKO0VsLYguHH5BmbbpY+UER
+   I5ss0F7HJAcJN78f0VHq04Z4TXrBnIGvukQkGfFnatFgy7rcddb+Zosfs
+   6boOZBfiQT7QKsLeXMcn6JL9lb6oNz/G414wJ0/goMYm3C7dHuOe7thye
+   Q==;
+X-CSE-ConnectionGUID: 7AV52oMMSeaJ3fslfziRGw==
+X-CSE-MsgGUID: RBzAskMhRgae3jcLYYacOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="53620411"
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="53620411"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 22:07:06 -0800
+X-CSE-ConnectionGUID: 9BL5l2iNQN+TJLpj4bjJ/g==
+X-CSE-MsgGUID: Hes/9dAWSH6/UCVeX6ISng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="101770217"
+X-IronPort-AV: E=Sophos;i="6.12,288,1728975600"; 
+   d="scan'208";a="101818453"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Jan 2025 19:27:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jan 2025 22:07:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tTupI-000AZz-3C;
-	Sat, 04 Jan 2025 03:27:48 +0000
-Date: Sat, 4 Jan 2025 11:27:45 +0800
+	id 1tTxJO-000Afc-1Y;
+	Sat, 04 Jan 2025 06:07:02 +0000
+Date: Sat, 4 Jan 2025 14:06:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH V1 1/6] arm64: tegra: Configure QSPI clocks and add DMA
-Message-ID: <202501041124.8SMfHws1-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/pci/ymfpci/ymfpci_main.c:2054 snd_ymfpci_request_firmware()
+ warn: 'chip->controller_microcode' from request_firmware() not released on
+ lines: 2053.
+Message-ID: <202501041407.Aacdl029-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,141 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250103060407.1064107-2-va@nvidia.com>
-References: <20250103060407.1064107-2-va@nvidia.com>
-TO: Vishwaroop A <va@nvidia.com>
-TO: thierry.reding@gmail.com
-TO: jonathanh@nvidia.com
-TO: skomatineni@nvidia.com
-TO: ldewangan@nvidia.com
-TO: broonie@kernel.org
-TO: linux-spi@vger.kernel.org
-TO: linux-tegra@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: kyarlagadda@nvidia.com
-TO: smangipudi@nvidia.com
-CC: va@nvidia.com
+CC: linux-kernel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
 
-Hi Vishwaroop,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on robh/for-next linus/master v6.13-rc5 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishwaroop-A/arm64-tegra-Configure-QSPI-clocks-and-add-DMA/20250103-141217
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250103060407.1064107-2-va%40nvidia.com
-patch subject: [PATCH V1 1/6] arm64: tegra: Configure QSPI clocks and add DMA
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-randconfig-051-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041124.8SMfHws1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250104/202501041124.8SMfHws1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   63676eefb7a026d04b51dcb7aaf54f358517a2ec
+commit: a4184174be36369c3af8d937e165f28a43ef1e02 alpha: drop pre-EV56 support
+date:   8 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 8 months ago
+config: alpha-randconfig-r071-20250104 (https://download.01.org/0day-ci/archive/20250104/202501041407.Aacdl029-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501041124.8SMfHws1-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501041407.Aacdl029-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: gpio@2200000: 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
->> arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: spi@3270000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: spi@3300000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra234-hda'] is too short
-   	'nvidia,tegra30-hda' was expected
-   	'nvidia,tegra132-hda' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-sim-vdk.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c: realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c: Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
->> arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: spi@3270000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/nvidia,tegra210-quad.yaml#
->> arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: spi@3270000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: spi@3300000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra234-hda'] is too short
-   	'nvidia,tegra30-hda' was expected
-   	'nvidia,tegra132-hda' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c: realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c: Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
->> arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: spi@3270000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/nvidia,tegra210-quad.yaml#
->> arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: spi@3270000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: spi@3300000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra234-hda'] is too short
-   	'nvidia,tegra30-hda' was expected
-   	'nvidia,tegra132-hda' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
---
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: gpio@2200000: 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
->> arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: spi@3270000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/nvidia,tegra210-quad.yaml#
->> arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: spi@3270000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: spi@3300000: 'dmas' is a dependency of 'dma-names'
-   	from schema $id: http://devicetree.org/schemas/dma/dma.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra234-hda'] is too short
-   	'nvidia,tegra30-hda' was expected
-   	'nvidia,tegra132-hda' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
-   arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767-0000.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+New smatch warnings:
+sound/pci/ymfpci/ymfpci_main.c:2054 snd_ymfpci_request_firmware() warn: 'chip->controller_microcode' from request_firmware() not released on lines: 2053.
+sound/pci/ymfpci/ymfpci_main.c:2054 snd_ymfpci_request_firmware() warn: 'chip->dsp_microcode' from request_firmware() not released on lines: 2037,2053.
+
+Old smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:70 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:70 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+
+vim +2054 sound/pci/ymfpci/ymfpci_main.c
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2021  
+102fa9060e114a Clemens Ladisch 2006-10-11  2022  static int snd_ymfpci_request_firmware(struct snd_ymfpci *chip)
+102fa9060e114a Clemens Ladisch 2006-10-11  2023  {
+102fa9060e114a Clemens Ladisch 2006-10-11  2024  	int err, is_1e;
+102fa9060e114a Clemens Ladisch 2006-10-11  2025  	const char *name;
+102fa9060e114a Clemens Ladisch 2006-10-11  2026  
+102fa9060e114a Clemens Ladisch 2006-10-11  2027  	err = request_firmware(&chip->dsp_microcode, "yamaha/ds1_dsp.fw",
+102fa9060e114a Clemens Ladisch 2006-10-11  2028  			       &chip->pci->dev);
+102fa9060e114a Clemens Ladisch 2006-10-11  2029  	if (err >= 0) {
+b82a82d0a90af7 David Woodhouse 2008-05-29  2030  		if (chip->dsp_microcode->size != YDSXG_DSPLENGTH) {
+6436bcf6a4a35a Takashi Iwai    2014-02-26  2031  			dev_err(chip->card->dev,
+6436bcf6a4a35a Takashi Iwai    2014-02-26  2032  				"DSP microcode has wrong size\n");
+102fa9060e114a Clemens Ladisch 2006-10-11  2033  			err = -EINVAL;
+102fa9060e114a Clemens Ladisch 2006-10-11  2034  		}
+102fa9060e114a Clemens Ladisch 2006-10-11  2035  	}
+b7dd2b349a9fa9 Takashi Iwai    2007-04-26  2036  	if (err < 0)
+102fa9060e114a Clemens Ladisch 2006-10-11  2037  		return err;
+102fa9060e114a Clemens Ladisch 2006-10-11  2038  	is_1e = chip->device_id == PCI_DEVICE_ID_YAMAHA_724F ||
+102fa9060e114a Clemens Ladisch 2006-10-11  2039  		chip->device_id == PCI_DEVICE_ID_YAMAHA_740C ||
+102fa9060e114a Clemens Ladisch 2006-10-11  2040  		chip->device_id == PCI_DEVICE_ID_YAMAHA_744 ||
+102fa9060e114a Clemens Ladisch 2006-10-11  2041  		chip->device_id == PCI_DEVICE_ID_YAMAHA_754;
+102fa9060e114a Clemens Ladisch 2006-10-11  2042  	name = is_1e ? "yamaha/ds1e_ctrl.fw" : "yamaha/ds1_ctrl.fw";
+102fa9060e114a Clemens Ladisch 2006-10-11  2043  	err = request_firmware(&chip->controller_microcode, name,
+102fa9060e114a Clemens Ladisch 2006-10-11  2044  			       &chip->pci->dev);
+102fa9060e114a Clemens Ladisch 2006-10-11  2045  	if (err >= 0) {
+b82a82d0a90af7 David Woodhouse 2008-05-29  2046  		if (chip->controller_microcode->size != YDSXG_CTRLLENGTH) {
+6436bcf6a4a35a Takashi Iwai    2014-02-26  2047  			dev_err(chip->card->dev,
+6436bcf6a4a35a Takashi Iwai    2014-02-26  2048  				"controller microcode has wrong size\n");
+102fa9060e114a Clemens Ladisch 2006-10-11  2049  			err = -EINVAL;
+102fa9060e114a Clemens Ladisch 2006-10-11  2050  		}
+102fa9060e114a Clemens Ladisch 2006-10-11  2051  	}
+b7dd2b349a9fa9 Takashi Iwai    2007-04-26  2052  	if (err < 0)
+102fa9060e114a Clemens Ladisch 2006-10-11  2053  		return err;
+102fa9060e114a Clemens Ladisch 2006-10-11 @2054  	return 0;
+102fa9060e114a Clemens Ladisch 2006-10-11  2055  }
+7e0af29d6f3964 Clemens Ladisch 2007-05-03  2056  
+
+:::::: The code at line 2054 was first introduced by commit
+:::::: 102fa9060e114a53628a6594034b6ecf624dffc6 [ALSA] ymfpci: add request_firmware()
+
+:::::: TO: Clemens Ladisch <clemens@ladisch.de>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
