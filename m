@@ -1,223 +1,132 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DF9156237;
-	Mon,  6 Jan 2025 15:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736176797; cv=fail; b=jT3coXgi3C4sfuqYtS01XOkVEfn/QLejR3+FZ0NGoKUQuXA5X9ZL38UjhSrSlqJfFqhm+vQcox//5nenHTOxQh9oeLJZDTk3MgXIEOr/2GTLg6ldmm+gZ0IpUE23oshRBDFwKnA3l+TQjNDnNtnAwi5gq/tgkNfzgrjZTwff0LA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736176797; c=relaxed/simple;
-	bh=HDvOx7h/VYYT/dweSETmF3/paSddEAWCkiIF8Fardj8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qn+fMLJG8oR4fgoJxm3++8Kb/8YAyw7dq6zHwHnO/xzZx/ytRSO0PLD4LJGPnf6g0MyzmZUGvsg6AqwD740SpgE6Htg4a+Sbkevy6YEWSHXSm/I7TX+jLStRU/RHvUYoSJgcEQ4ZIkHNnuT1mvk1zNe2I157i6fXtnJQZYMkThE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MNfqiJ5B; arc=fail smtp.client-ip=40.107.93.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBEC156886;
+	Mon,  6 Jan 2025 15:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736177959; cv=none; b=KBiT4VnOV1AwTDKVV4Yl3bVj0ds18MvBWKYUBfJQ6cQieqhewzZE86l4GnlQfRNmRN1iG7PQi/cvpEzoXi/qegbtNz7on/mOpU8eERxDJWtscC50czWur0at5ERgb8nh84S0JUNht/tKKWajh8pp7Ok/aCR7GipY3BQc6K/xPZM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736177959; c=relaxed/simple;
+	bh=6FTeL7J9W/8v/MFftWkYANi3oEghJQhAORIbcFv+bpg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d2Nv2E7yWpldRjAHZ9iKVSz0AEN1C90fVYUIqM4MQyJJl/fDdHiGaOlGB1Pb8jo4ghTk3I00qUDIUnN7H+QZ+k1fsSzZxYol5NsyTj0zKkB8gcdnBoPH8F0bcgALVmVCxEdUG7fN/k8s7TIzQlLm6ZdcEo5LLM4ovMzUzI27rU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=domJMjmE; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MNfqiJ5B"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LV7je2Vk7n7KinoGo8t+P8xBEP67yKg5V/ELDCfMOBT1uOyygVNey+/Af9jdNvaUJXCGchElGxsmjEnfx0hbPSbNW0x6SF4bJdIpSzSKqgAuoNh6ABYWsUSCDXMukQ7o9HE4D4ZYuZ/FDvMqkmWuvSpQBmffL0lj2CgU+Eg/jaCYB9VyewqZ5Wb89CdnSZdbkv6oD6KJh/93DqameLKWfy612WtWIboP7kS/BivjI2I4KL4CUsBRu81TItjU6FY+VkEFYXc8khlOOWlodHQ3bi3e9CE9rjhqKc7AVqdyV+85VI9TJuBwKUWqXhI4jD0IqahnCQduj3M+710ehbS2dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rw9/mYWZt/6ANyfyVUQlabJTp27jPYaHXFgBlyMcbJc=;
- b=jsfFLDBQxNWcjfrfewLmz8wcJfkzrXSy7bN+2mSIDYdVZkmNgTBf0eo3ctEzmwGNVu/U67jPiGLfIhXrS3Xe3+qEnLzC5j5zvvKq1muMIu6dM/A26YasY05axGsrNoucRiqi7jegVSlJYgaKDT5204XO308BsTAZy61HKztqbX+PUO3/KnL+3tXcM8UvccCBY8M8/xPQpeNxCr/UJCS1PVboMQZiiC47UsuRQtx1v2U/1jy8HViKWJBgODWHSBz3fpJB8vKb554ZJt17oFYJHPZVym5ASeh8El9SaTW3xRpLfLdRsT17AsozeVLMmJKpL7jc0OcILXT3FvwMQnbbFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rw9/mYWZt/6ANyfyVUQlabJTp27jPYaHXFgBlyMcbJc=;
- b=MNfqiJ5BjdGKhamaKk5tW0SsGcEf6Pbo7dJ/sjiM3N33nxEpw/fSRT5lQPlV7IBOrruPfTxMwRg2TDX9V/yvtPUxS1a+8tf3SQ6m6QGxNqUSjUkTSfgCDylV0M6zXRFIC7TsZV9uIfyxjW15DlmEDpWAmSWHDr1bJNq5MlDjERg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
- by PH7PR12MB5733.namprd12.prod.outlook.com (2603:10b6:510:1e0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.16; Mon, 6 Jan
- 2025 15:19:47 +0000
-Received: from DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79]) by DM6PR12MB4202.namprd12.prod.outlook.com
- ([fe80::f943:600c:2558:af79%6]) with mapi id 15.20.8314.015; Mon, 6 Jan 2025
- 15:19:47 +0000
-Message-ID: <9d9f8f11-e008-634d-b125-dbf822b00c25@amd.com>
-Date: Mon, 6 Jan 2025 15:19:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
- netdev@vger.kernel.org, dan.j.williams@intel.com, martin.habets@xilinx.com,
- edward.cree@amd.com, davem@davemloft.net, kuba@kernel.org,
- pabeni@redhat.com, edumazet@google.com, dave.jiang@intel.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <0fe103b3-76d5-47a0-900b-3769b9c59cee@stanley.mountain>
-From: Alejandro Lucero Palau <alucerop@amd.com>
-In-Reply-To: <0fe103b3-76d5-47a0-900b-3769b9c59cee@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0390.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::18) To DM6PR12MB4202.namprd12.prod.outlook.com
- (2603:10b6:5:219::22)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="domJMjmE"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3e9f60bf4so26056423a12.3;
+        Mon, 06 Jan 2025 07:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736177956; x=1736782756; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DjInjQ8EYFWqvY7RVufEqpVSTgGfiOzA1xoY/iPL4eM=;
+        b=domJMjmEsItMLkEY/YMtv52I+UtD9TWCRZLyvY7C2vHnX6Wf3SGOvfcKWxlKZLzMgY
+         R8Q50WL8vJ66tR92x5xn65fWzqTFRjmY6dZX1fwxT5/pirdbHm7y1Vh+uBkMT13uCGse
+         yjoBsATdARUW5QgQ5Alc3euVl6aevaolMlcfQMGm6GbcJMmuM9yqGiMF56Ip195cYz1O
+         EteDESrGsqw2J+WUzJWwuvRF2CGy124cfAK0bJQM2NR7ZxP/9TC/hjwMPMqX+ESxc0Sm
+         jJfjONil47d5Cge0x5KAlnaQHhzzLFEnxphdaAdz5Va0fG0dPeWXSw6xPI0K9wzm9zIh
+         CChQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736177956; x=1736782756;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DjInjQ8EYFWqvY7RVufEqpVSTgGfiOzA1xoY/iPL4eM=;
+        b=lKYRFeujm48IX/jiHbzgr5h3AWjUsU3Nya8SsR+gpDnA1xfiq/nBkBgBYKQXL+gBIw
+         0LrRk84sEEAoEnPJadYLh97ew9iJXInQ28emTM4yT9HBzs2RwfBmpNdaFZ55plG/8ta4
+         0e6W+qc9B+5b76zYNIgg1xYQb7/ZYVtRsTCLe3n7oTWY7Xlj7CkMVkUQe2US1mmeGypV
+         0poItYJCr5Spy9ppDGqw+8sM0cKgPJO+hFHQxAJKXmAWe4k0tJlShPFpZ3QGl02WRCzO
+         EEQEFiWrbHcxCldP/prnneTShDj+4nzKbGfa5EavVt572T0L4C/4QFQXnebsR1oJSuES
+         JEoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXl7setoc9tuWdafbXB2aqyMLbhivo+atPx1Mth0ZNbKMmetBgn+Y3rf6uAM54kPFyzZcHdOYnY9M6eV6kN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyBH7KDKO5ZQsi/G0VJjZmdDakfjvtA3dbL62EjfUEVxtiK7U5
+	XCggYvqtoZCPhFT5XLGDFeDWx3Fsg7+1jMUU25KZgJNvwudeksxTepI5EFj6QYiovbeSGMqVdHe
+	D5RhWxy6YyXDUkNTLRXy6iSJBDDU=
+X-Gm-Gg: ASbGncsKxMvLF8EUoHv9qOO7MNCAiRnOqlAlUmf77+OBgmWqTXJ9TsUq55ztPPAmUzz
+	VewgrJstH2Vn52oRD4YStgyZHeCpyIoJlGeIqMg==
+X-Google-Smtp-Source: AGHT+IEGN1GdG+i3TIHVGvpAsiqTdVpoXIFMSYU+j0qxRCJAVqb+OjpdIo8gZVE36TK6MxTksPlnEo2hd8k6w5btTAA=
+X-Received: by 2002:a50:cc04:0:b0:5d8:a46f:110b with SMTP id
+ 4fb4d7f45d1cf-5d8a46f1123mr28655123a12.17.1736177955405; Mon, 06 Jan 2025
+ 07:39:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|PH7PR12MB5733:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7fe6a41-2b05-4af0-f00d-08dd2e658e1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RnEyU2NZMmVuSHBQSTIvdXloRWhabDlJWXdSN3d5T3paZDdpaXhwcnhOOFJI?=
- =?utf-8?B?MVh6bHFJQ2VQUlZpM204LzBnZSs0cFRTWUJSU1RxbzlVZmZ6TU8yZGh6bWNK?=
- =?utf-8?B?RFZzU1grTWdLTkhwVU1jdlZxVzVlS2hqY3p2Z2d6MXdlVDZSbElhL0VaUXdC?=
- =?utf-8?B?S0hUU2pjSG1ic3h4Skc5VURYVzdwbnhRcXo1UnNOZXRxNWVsQnhPSkp4UHVw?=
- =?utf-8?B?bTFFUm42SkgzKzUwOFZXc2J3T1pwdWRpTy9PMDV2QkJ2Z1dIcnZqWFlPdEU4?=
- =?utf-8?B?NVhNdHVqUUIrbVhJRGw1WmZ3dkhpdUR6ZnQvc0xTSkN2YVRtY1hlbEZKNCtD?=
- =?utf-8?B?L3JNVW9YODVhRkZ4MDBHdDJjNzlPVVlSYy9TSlZsSSs4clFBYW5qMGl1QlpO?=
- =?utf-8?B?cW5ZL1pCWGQvU1BCMm0vSm96YkN5a05oZU9IcWRQdlFPU0dDZHFzZkNzSDNU?=
- =?utf-8?B?aURXcVh6dUFEUDVXYkF2UTRNeWNaVFZhUVU3UGtqNTg1WUJFaWcxRm5paFg4?=
- =?utf-8?B?azkzOFl1K3JkTSs5NzlEa3EvaS91N1VZQWdZQ08vK0p5MVlJY1RqQnlLVVFs?=
- =?utf-8?B?dE5Md2VyblIrUWc1bElWWEJKeXNMeFpyZHNlWlk3NW51NFRYekRlZEV2WXZ5?=
- =?utf-8?B?WnZYblZ1UVpMa3RzT2l6VXF3L0NVUlhoa0NGMEllTTNPbHlJWkJRZTZ3Zlcx?=
- =?utf-8?B?bkpDcUFrcmJ0UWR1djZObStIVkRMWmRhTXozaFJnbmxBaUZuc3JHVjdKYzh5?=
- =?utf-8?B?emFuUGlSQW9sYkhqeFlwNnVEUDNIWHZja2pYcTU0Sys3NzNWaHFQTUFsbUVK?=
- =?utf-8?B?ZFA5cjQ2bjdjMXdqclJkdGlIeThtbXlESU1RbHMxbXJhNTEyTWl5TXNhN2wz?=
- =?utf-8?B?eGROSVd6TEZ6S0tHVzNHdmE2NkM1TmFNdldqaEx5d3hQSmRJOFhkbWZiNkEr?=
- =?utf-8?B?eUFSV0RORXBjVWxVaDRZWHVmdjhTbTlKaDR5RjAzQkNzQksya2oxZDN0NU5H?=
- =?utf-8?B?TGhEUEp2SkQ0V1V4R0hDYm41R05qNDRCKzBRWnF3VUpLT2Q0c3lrUHc1ZnZi?=
- =?utf-8?B?RWdrWXgzeWNaM1NsK0YrWUpNNUlLTXBHZ0pBSHlLNUVzczVmalV3OEg5VFFC?=
- =?utf-8?B?V3d0UzZ5Qkl6MzE2QmQ5Rzl0VkNxSEZ1aFdPSnZwazdYL3FJcUcrWXpWV0tP?=
- =?utf-8?B?UGpDQnM5QTQ0VjFWTURGbjQ3OXNaNFMrTG5XdmdPNko1RGpaT25rdXRHc2Rt?=
- =?utf-8?B?UGlqemZlM1dqeENNZ0krdGE4WHREOTFjNnRzcjNUak5iTjVlMXhTSUhLUUQ5?=
- =?utf-8?B?UGt6ZkJnOEhsTXQ2bWNFZWZ6bllkcGhxMk1sWEtlNURSNlMySnNTMmpSb3k4?=
- =?utf-8?B?enJNNmZpMXpKYXBSYVRCVnZQY3B0UVcwK3dBbjQ4YzhCTFpMSUx6OWRiZnJK?=
- =?utf-8?B?Y0VINEFmNWZOeHhZSVgyYm1HV1lyNjBmc3RBNjVBOFk4Yy9vanR1Q0V0eS9U?=
- =?utf-8?B?YWZyWWNjazlCRG5WRmk4azlSY1pUMVVwNXl4UmZiRnc5ckoxbGE0Z2ZhM1g5?=
- =?utf-8?B?TFBqR3B6ZTBScHlTdzFwSHNXMGljSklOSXdoanI1eFRlLzNYYnlaZVZKRGU3?=
- =?utf-8?B?N2dXMHNWenRZV0tPZ2ltRTMwaEQ4bW9RcDR1bVhhdWZSWHZzM1lnMlRLbWw5?=
- =?utf-8?B?azduUlFOWm5JR2RndUg4NmRiOXdvL3RxZWdOL0RTNFc1QmY1anltK2Q0Ymk5?=
- =?utf-8?B?azBPYUcrcFRYQnc4RnR1aE9LN1NDVUtOcjkyelo2ZHBVUURoM2xPL0ZXWjA3?=
- =?utf-8?B?Z2gvalk4WUNpc0J0Zkk5OFF0SFRZZlZKY3gwOWpJOUdqUCtmbEF5c2M1bUVF?=
- =?utf-8?Q?i77ArDL0XuwgC?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z0VjUUhmMnZIVEU2N1lQcHA1dW5tcmZCaExBWXVNRkR0dk1WeG1QajNxTHhP?=
- =?utf-8?B?TFBJU1BROG9VLzJ0a2c5OVVOcUJpSkNuNmF4OEVXeHh6eHZKZnhDVDdSdFNz?=
- =?utf-8?B?YS9tdGN3elZxZ2NDd2MwYWVUMFpLaEtRTDN5Y2VtZ2hjTi9wYTZGbGtXV0hs?=
- =?utf-8?B?bTRFRFByUmd3eVNCSnpjUmh0eTRyNUsxNFRQSHZGTW9Hc2pVVHJrbkxHVm9Q?=
- =?utf-8?B?dkJ6RlkwQlZXemtRcWF3LzNqOHlTUEIvSVNpZGN2SG4vaU1ScmFmV3Iyd3FU?=
- =?utf-8?B?bDhUcjg5NEhkMEVqUEFTYjhpZG55Q1o4d29DWklhaEhwcGk0djNKTVZjM0Fp?=
- =?utf-8?B?R095a3crOWU1cjBYTmUrMDhFdHdLdFVwTDhpQlozUmQrWHFlMCtYMWVvWFZD?=
- =?utf-8?B?K2tyb0F3V2l4UENzM3ZjUm81aGVUWXRFUUdpa0VFYS9BU2dId0s3Z0NDSkZS?=
- =?utf-8?B?cG1lOUdZZFNzQmFUZ2Q5N1NqZGJHWTJWNFloQUx3bGlFWWxZUFlqVXVQbDBT?=
- =?utf-8?B?WUN1QkpkbWxxUG9EditXNmFGSllDU2lYbG9rS0lpQ1grTHBzZno3dTZ6MzJU?=
- =?utf-8?B?Vmo3T05QMjFRTTJwY3A0eVRtMHd2dWFobHN1T01ra1dVNUhOQTRRSmNQV2pu?=
- =?utf-8?B?WXdHZ2J6OHVyeFZjYUkzN1lQOWM1RVVneDZSUSt2dTJ0dHd6OGQ1elUrK0dl?=
- =?utf-8?B?UDhUNFZQZ2FvellNSkJvM1hEUjlZR2FTTWU0ZUN4NUgrUVZIbXNka1FDQ0hP?=
- =?utf-8?B?bWlGM3lIa0pTRkZMSHdkWW1ac0tiVTdSelcwNitqWkFvVHZJR1ZGL0lTRWFv?=
- =?utf-8?B?VlM2YjdUZnUxTlNRKzNFbGF1RGJySnFQWHhBQytseVRDVGR6RS9Wa05tbjhS?=
- =?utf-8?B?eXFZSHRwS2RJV2NTNFI1Q0Z3NFVNNFhuWTA0ZUlVU1Q1QjJWQi94U2h5QXNu?=
- =?utf-8?B?MmNhekZBblQ5MVJueURDN2NaWnA2Z0tMaHNQQnphbDRjK0QzSS84UnFrdXJv?=
- =?utf-8?B?US9ITGN0YWQ0SHpOZ0RpSjdhRk1Ha0k2a3lFMndRV2ROdUZBbnh4V25CelpL?=
- =?utf-8?B?b1J4bm1QL1ZjYkVsKzhVY1lzQ3FuT1JKS3JsaHdCUGtBNEJkdTRtcFhnbE1J?=
- =?utf-8?B?UXM0dFlnVnJEbDVtL3ZJUGczcEl0UTlGUTd1RCtLdW93Y0dNUXFBUkZMQ0dP?=
- =?utf-8?B?S24vb1psRUtPdVVyQTdRRDJDRm1MOTVzYlI5TEp0c2IzQnA3WVBjeGNXV3JL?=
- =?utf-8?B?YXBBblQ2L0dTYjdjTk1jVkZHa2dTTWdRMTVuR3lrYmFPdFpvWGloR2RocTBI?=
- =?utf-8?B?eVhqYkhLRTNKNmMvTjJBQkl1TldBUTA4NVpvajRqUzNoRW15U0JzU0svRlVM?=
- =?utf-8?B?T1pOZFRBNzA2RXNsY0RsRlJZUXNDcDMrTGVKZmVSVWpKeXA1bWhkWDd3alUx?=
- =?utf-8?B?UlhNeHdFdndqL0w2clpheWZSYW5SaTJOdjA0VHBTdzBZeVZaTlhiOFJpbnVv?=
- =?utf-8?B?bUtoQnowdHQ4YVBrZ3hYajVzOFJvZ05vYnprR1pkL1ZZMGh2SUM5Y3cyR1RS?=
- =?utf-8?B?WHRPbDlCSWVqM0cyZllyd2laRk82OTZaeHlZZVRaYjA3MnlaVTR0dnBkMzEv?=
- =?utf-8?B?cUFzR1Mvc0VIemZ1RDJQdStLR0dBYnFFamdwSC9pZWlEeExjKzZaVFNJSnBJ?=
- =?utf-8?B?djlMUXdaOTJ3bXcxMXZENllIYWU2YnY2T3hNMmdRVDBxK2RTbWVXOUFwYlNI?=
- =?utf-8?B?Q1h1M3oxUWpEVlYvMk55VzRUbE9EQTdYd2JGbU9CUUpzOVhYYnpBSHFnUHpx?=
- =?utf-8?B?R3BxMmpUWE5VUUFSbXBLWW9MY1ZiakNLbDQ4YmUvZC9tMUtMczdvZ0ZKeG1h?=
- =?utf-8?B?VmpNYzFEUHc1WDd0VWFnamRURWo2dGF1eVA1YXRScEVtOVBGWUpDTllZbjQv?=
- =?utf-8?B?R3p3R0paYmZqaUJRajB1R1pFQWgvTEpuRE91eGZxNkR4aUllWU9sN1dVa29v?=
- =?utf-8?B?Y3IwcFRCTXFsOG92YTJqU2pYQlNIbWVBanhKTFlJczhhSVcxOGVQRXBwY211?=
- =?utf-8?B?cFJDRHE5SjRGUUNpVko1anpOcjNxbTVmVWtpSzNwQ3I4dzZvbkxGQUVaNkdJ?=
- =?utf-8?Q?OUryW649N0yF58ozKdAvwy+aA?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7fe6a41-2b05-4af0-f00d-08dd2e658e1a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2025 15:19:47.2027
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r2vYS3cH4P107w4K1SNHRbsMaozmNRanTe616q2syzDhs/9407nbHknrTBpei6xS7tpfDvnHzYF56ro/dwU4Xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5733
+References: <dc020ef3-e48a-42cb-aa4c-81d46ebac338@stanley.mountain>
+In-Reply-To: <dc020ef3-e48a-42cb-aa4c-81d46ebac338@stanley.mountain>
+From: Anand Moon <linux.amoon@gmail.com>
+Date: Mon, 6 Jan 2025 21:08:44 +0530
+Message-ID: <CANAwSgRzexcPSwJxORxG9FSuCXCeKHSCa90brmG0bX-jD9DoZQ@mail.gmail.com>
+Subject: Re: [pci:controller/rockchip 1/3] drivers/pci/controller/pcie-rockchip.c:134
+ rockchip_pcie_parse_dt() warn: passing zero to 'dev_err_probe'
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-pci@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Dan
 
-On 1/6/25 10:41, Dan Carpenter wrote:
-> Hi,
+On Mon, 6 Jan 2025 at 17:09, Dan Carpenter <dan.carpenter@linaro.org> wrote:
 >
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241217-001923
-> base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-> patch link:    https://lore.kernel.org/r/20241216161042.42108-7-alejandro.lucero-palau%40amd.com
-> patch subject: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-> config: arm64-randconfig-r072-20241225 (https://download.01.org/0day-ci/archive/20241227/202412270320.Aydp9B4U-lkp@intel.com/config)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
+> head:   8261bf695c47b98a2d8f63e04e2fc2e4a8c6b12b
+> commit: fa0ce454cd4ee35703d4126c5b8e4a9a398cf198 [1/3] PCI: rockchip: Simplify clock handling by using clk_bulk*() function
+> config: arm64-randconfig-r073-20250102 (https://download.01.org/0day-ci/archive/20250104/202501040409.SUV09R80-lkp@intel.com/config)
 > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
 > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202412270320.Aydp9B4U-lkp@intel.com/
+> | Closes: https://lore.kernel.org/r/202501040409.SUV09R80-lkp@intel.com/
 >
 > smatch warnings:
-> drivers/cxl/core/pci.c:1134 cxl_pci_accel_setup_regs() warn: missing error code? 'rc'
+> drivers/pci/controller/pcie-rockchip.c:134 rockchip_pcie_parse_dt() warn: passing zero to 'dev_err_probe'
 >
-> vim +/rc +1134 drivers/cxl/core/pci.c
+> vim +/dev_err_probe +134 drivers/pci/controller/pcie-rockchip.c
 >
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1118  int cxl_pci_accel_setup_regs(struct pci_dev *pdev, struct cxl_dev_state *cxlds)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1119  {
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1120  	int rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1121
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1122  	rc = cxl_pci_setup_memdev_regs(pdev, cxlds);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1123  	if (rc)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1124  		return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1125
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1126  	rc = cxl_pci_setup_regs(pdev, CXL_REGLOC_RBI_COMPONENT,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1127  				&cxlds->reg_map, cxlds->capabilities);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1128  	if (rc) {
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1129  		dev_warn(&pdev->dev, "No component registers (%d)\n", rc);
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1130  		return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1131  	}
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1132
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1133  	if (!test_bit(CXL_CM_CAP_CAP_ID_RAS, cxlds->capabilities))
-> cfbd1d00295bff Alejandro Lucero 2024-12-16 @1134  		return rc;
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  115     rockchip->aclk_rst = devm_reset_control_get_exclusive(dev, "aclk");
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  116     if (IS_ERR(rockchip->aclk_rst)) {
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  117             if (PTR_ERR(rockchip->aclk_rst) != -EPROBE_DEFER)
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  118                     dev_err(dev, "missing aclk reset property in node\n");
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  119             return PTR_ERR(rockchip->aclk_rst);
+> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  120     }
+> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  121
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  122     if (rockchip->is_rc)
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  123             rockchip->perst_gpio = devm_gpiod_get_optional(dev, "ep",
+> 840b7a5edf88fe drivers/pci/controller/pcie-rockchip.c Manivannan Sadhasivam 2024-04-16  124                                                            GPIOD_OUT_LOW);
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  125     else
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  126             rockchip->perst_gpio = devm_gpiod_get_optional(dev, "reset",
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  127                                                            GPIOD_IN);
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  128     if (IS_ERR(rockchip->perst_gpio))
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  129             return dev_err_probe(dev, PTR_ERR(rockchip->perst_gpio),
+> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  130                                  "failed to get PERST# GPIO\n");
+> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  131
+> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02  132     rockchip->num_clks = devm_clk_bulk_get_all(dev, &rockchip->clks);
+> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02  133     if (rockchip->num_clks < 0)
+> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02 @134             return dev_err_probe(dev, err, "failed to get clocks\n");
 >
-> This looks like it's supposed to be return -EPERM.
+>
+> "err" is zero.  It should be "rockchip->num_clks".
+>
+> 4816c4c7b82b55 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-12-07  135
+> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  136     return 0;
+> 4816c4c7b82b55 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-12-07  137  }
+>
+Thanks for the report I have submitted this fix for this.
 
-
-Not really. It is not an error if the device does not advertise it, and 
-this return should be a return 0. It was pointed out by another review 
-and it will be fixed in v10.
+[0] https://lore.kernel.org/linux-pci/20250106153041.55267-1-linux.amoon@gmail.com/
 
 Thanks
+-Anand
 
-
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1135
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1136  	rc = cxl_map_component_regs(&cxlds->reg_map,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1137  				    &cxlds->regs.component,
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1138  				    BIT(CXL_CM_CAP_CAP_ID_RAS));
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1139  	if (rc)
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1140  		dev_dbg(&pdev->dev, "Failed to map RAS capability.\n");
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1141
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1142  	return rc;
-> cfbd1d00295bff Alejandro Lucero 2024-12-16  1143  }
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 >
