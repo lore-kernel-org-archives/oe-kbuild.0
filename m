@@ -1,74 +1,59 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26831DB346
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 11:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B2F1DDA2D
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 13:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736163775; cv=none; b=ViaY/vcpPka96Aw7wzxKYASxDHEkMz5S7JOQQimznZoaBSXeMrzIkrx1cVaxarJ3U6S8PCnP2W89ddlrr3yozgMSTyttGu6KS6vMsLPWlKMT/hacpdB+Fb+IJADLAl9+xc0sTPWnDukjfoTmA0NFI9B+RRz/CAQ0yIva3UM7h+8=
+	t=1736170380; cv=none; b=IwWHCMw4ccUCtazRcZLJu0iuTtJkspAUKmQLElJ8McPBxOfBABcyGg3Wxz2HrmGsJGqEzdWWKtwIzPrjqAwnRPBn9BaxLq9duM3LL8rLsQIiwzUR1VmPw8lMK7cHKIoEVuzpD+44VZ5L8Vcc6xz7UYjkN9Z+Zv9eXTvj3eCgsRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736163775; c=relaxed/simple;
-	bh=qW4wObHyuTrT4Zir2rUK748yTIQfQRMYqu6TyI7Ae5g=;
+	s=arc-20240116; t=1736170380; c=relaxed/simple;
+	bh=6rYaSaUOKDgln149WpBRJZpMJaTNO5CydlVRt4HBza4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QCDbsdZ0o1oOLEOwW3FwWihG2xMBmOWxA/UP2qgb20icUgIVHfF22MeBhMYTiN3UumR69cOwUS4PKMsAtS0v8Aql8j4WxUCNLaHIvwccLRGc+bDHJ2pb1avXjqqb83SaQsTVYTEdyjgk7nm1Q0SfUv81MhEnoJAaqHYlxJiaXj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tljCNQ38; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=HDBUUestQKXKG/uk3pmVjy3lcpj2jFxhT8d77qB6uQjSo/GdR11/8QYPYe5CWgW54NaVvw2N6elEFUAXVne8iqH3bWp2U2N5dWKsmaQE/FBAwAlxl4y58Bs1fgKO8eVbCUUWpkkuK9XDvC9y8tRgm78W/JgxC0nEawKGTVzCBIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yj+IDn76; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tljCNQ38"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso149655085e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 03:42:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736163772; x=1736768572; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7YG3GOy+g/NwAsJ5y2aA9Pj10HoYNeBxwmK3RuNDKnA=;
-        b=tljCNQ38X2xzlJDsz6wkOmtIeNpyxnY8V1S+C+MU9CMJE/ZDFJ0KITPcZYq2zh+8sa
-         vZ+gRgXHuSCBvALLw108PeWo6JZKseO9IN1f+lCJMcvQEmklBgBu1+TY6oXmCGcC13oY
-         6cMPpABDuXaudkVt4TPzZJYjSpl04F9ASbqa94gQNuEAfsaMagytKqJEeZIdAecaR/bI
-         5QiYjt+kRlmZZzheLInhesk1ZSkrNVJer/fFL4IzFWcPdsPjoIHK0C0aZLoTBuvfOkhC
-         f2ghiNMzIcLaUZiOiMjcel3pZcOai8XFE1CDXtV0uHnxTv7lthxtKBksWpjAJd1mWQC5
-         HW2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736163772; x=1736768572;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7YG3GOy+g/NwAsJ5y2aA9Pj10HoYNeBxwmK3RuNDKnA=;
-        b=XWiUPQVpMEoTnkeVEmQe7d21FOLLiCHZe6Iyq9/CFsHwzFerwWBiFruPacPhPhhWKa
-         MH2UzE6Ve5cr/5wpHt0yKlHNDk2ofRO29YTd2uJbPMZP1dplisvLAn5Iz6VJCioArDBC
-         lAnJncN7L7iCTkSRJhcrrIYP4tyDCk/1y8CeQ5RvuEtSa61rIHy69wnFJLxyF9owwqEf
-         FdqtBoRY38pHVgQYRQ8BRJ88kVO4IV+3o8VvIVxCJfqgvzQxnGSbcfBSdMm7nGqWGSn1
-         GWcrfipxacBcv/hPkNIdt1W4gvsMjqq2yQ+/sIzejMJqTTMeYQTLUPBRepMXHEVM+dCX
-         GEdA==
-X-Gm-Message-State: AOJu0YxRDJFhHdj/wy6D1r8jhOy5GdyGhI2Lew7qaUOvJMw2CJoDLScp
-	xpZljtbkRJ53CNEM5H23Gnz9EcUdE0gyOlT2KxGdyyeM+gRPnSomrad6COOUH07dCuRb2ETd2zZ
-	X
-X-Gm-Gg: ASbGncvbFU7Ba8oelAJ/gXt0/scGv+h7hKwfhD8JYzvCBbDXr/kW2FGJiq9fysfAbt8
-	yDYXZl8neinihWtXY227l9Qt5Dz0SOaR6XTIkS3/1rqnArecD+sW3VIAKoR4V3WZpMq/GgBJJTQ
-	2RBF65gQsJ2846pZytRjzdbvjT3L5RTE4zgLb6k3V3Rg11lcdddbuG8DPcdTnNEQO3aalumJ1AQ
-	YsMtXMMpQjoGOGzG9PPXGKKGbGPtwftRlUXpUuXvSNlLy+eqHUg2r4fwwC1Ag==
-X-Google-Smtp-Source: AGHT+IG58q8cr4ocVDcWdFjGoPg3w6C7BABpHxOy8yDsyEhI0WRiV8e3ntHXum0mHI3s5vxK/9Yb1w==
-X-Received: by 2002:a5d:584f:0:b0:386:399a:7f17 with SMTP id ffacd0b85a97d-38a221f2ed2mr38603926f8f.24.1736163771738;
-        Mon, 06 Jan 2025 03:42:51 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a6abesm47655764f8f.90.2025.01.06.03.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 03:42:51 -0800 (PST)
-Date: Mon, 6 Jan 2025 14:42:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ahmed Zaki <ahmed.zaki@intel.com>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	intel-wired-lan@lists.osuosl.org, andrew+netdev@lunn.ch,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	davem@davemloft.net, michael.chan@broadcom.com, tariqt@nvidia.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	jdamato@fastly.com, shayd@nvidia.com, akpm@linux-foundation.org,
-	Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v3 3/6] net: napi: add CPU
- affinity to napi_config
-Message-ID: <e602748b-4376-433f-b864-066afa11daf5@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yj+IDn76"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736170378; x=1767706378;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6rYaSaUOKDgln149WpBRJZpMJaTNO5CydlVRt4HBza4=;
+  b=Yj+IDn76VpJe0qP6JJLVsjbD518g8zDprrVRV8pc/WPyquNkTLyrn7Jq
+   aQfAYgymWW/dlNtSASASsRfmGKG1G/1qakjd1MEGKXiqhms+FJP4ZFY3y
+   AWpt+8pMYXF7GX+ANdbuiCjFkmpNxV2RPTSZTMeBFVEEI41byaY6TvGLQ
+   7Iys/r4PwPx97vHy5xSdbYolsCpmPq//Tr329A4knGK0hgqH6JB5ciND9
+   pYwLe2C3JqDBhtlPVGM3rk/oAMlBhEcPLxIgbCVDiKLIcQsyUlNoqJWpo
+   e4B8WJkaAAWDvuhsTzA9Ez+19HHubuANQnJQOLE7T16LVvaTtD3asPUmJ
+   g==;
+X-CSE-ConnectionGUID: ntNTX+mLRGaU+0x6Ttf/5w==
+X-CSE-MsgGUID: bSsz8mRRT/+ox999wt1Uwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36543907"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="36543907"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 05:32:57 -0800
+X-CSE-ConnectionGUID: 2PP7y36nQJSgCgCz8GG6kg==
+X-CSE-MsgGUID: D1r0OWdJQt2xyHjuC6fmSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106473721"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jan 2025 05:32:56 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUnDy-000Cet-2m;
+	Mon, 06 Jan 2025 13:32:54 +0000
+Date: Mon, 6 Jan 2025 21:31:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 2/191]
+ arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@235100000: failed to
+ match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+Message-ID: <202501062126.BRyz4XtS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,73 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250104004314.208259-4-ahmed.zaki@intel.com>
 
-Hi Ahmed,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Janne Grunau <j@jannau.net>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Zaki/net-move-ARFS-rmap-management-to-core/20250104-084501
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250104004314.208259-4-ahmed.zaki%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v3 3/6] net: napi: add CPU affinity to napi_config
-config: i386-randconfig-141-20250104 (https://download.01.org/0day-ci/archive/20250105/202501050625.nY1c97EX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   3579121c157a4c56e00b67dbb6eb45d963046590
+commit: 56e1d91181f0494381b4b82de16e844fa873df43 [2/191] arm64: dts: apple: t8103: Add spi controller nodes
+:::::: branch date: 29 hours ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-051-20250106 (https://download.01.org/0day-ci/archive/20250106/202501062126.BRyz4XtS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250106/202501062126.BRyz4XtS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501050625.nY1c97EX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501062126.BRyz4XtS-lkp@intel.com/
 
-smatch warnings:
-net/core/dev.c:6835 napi_restore_config() warn: variable dereferenced before check 'n->config' (see line 6831)
-net/core/dev.c:6855 napi_save_config() warn: variable dereferenced before check 'n->config' (see line 6850)
-
-vim +6835 net/core/dev.c
-
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6829  static void napi_restore_config(struct napi_struct *n)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6830  {
-86e25f40aa1e9e5 Joe Damato     2024-10-11 @6831  	n->defer_hard_irqs = n->config->defer_hard_irqs;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6832  	n->gro_flush_timeout = n->config->gro_flush_timeout;
-5dc51ec86df6e22 Martin Karsten 2024-11-09  6833  	n->irq_suspend_timeout = n->config->irq_suspend_timeout;
-                                                                                 ^^^^^^^^^
-These lines all dereference n->config.
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6834  
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03 @6835  	if (n->irq > 0 && n->config && n->dev->irq_affinity_auto)
-                                                                          ^^^^^^^^^
-This code assumes it can be NULL
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6836  		irq_set_affinity(n->irq, &n->config->affinity_mask);
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6837  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6838  	/* a NAPI ID might be stored in the config, if so use it. if not, use
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6839  	 * napi_hash_add to generate one for us. It will be saved to the config
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6840  	 * in napi_disable.
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6841  	 */
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6842  	if (n->config->napi_id)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6843  		napi_hash_add_with_id(n, n->config->napi_id);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6844  	else
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6845  		napi_hash_add(n);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6846  }
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6847  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6848  static void napi_save_config(struct napi_struct *n)
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6849  {
-86e25f40aa1e9e5 Joe Damato     2024-10-11 @6850  	n->config->defer_hard_irqs = n->defer_hard_irqs;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6851  	n->config->gro_flush_timeout = n->gro_flush_timeout;
-5dc51ec86df6e22 Martin Karsten 2024-11-09  6852  	n->config->irq_suspend_timeout = n->irq_suspend_timeout;
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6853  	n->config->napi_id = n->napi_id;
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6854  
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03 @6855  	if (n->irq > 0 && n->config && n->dev->irq_affinity_auto)
-
-Same
-
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6856  		irq_set_affinity_notifier(n->irq, NULL);
-d6b43b8a2e5297b Ahmed Zaki     2025-01-03  6857  
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6858  	napi_hash_del(n);
-86e25f40aa1e9e5 Joe Damato     2024-10-11  6859  }
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j313.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j456.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+--
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@235100000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8103-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8103-j457.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
