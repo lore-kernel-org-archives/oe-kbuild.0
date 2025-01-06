@@ -1,132 +1,174 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBEC156886;
-	Mon,  6 Jan 2025 15:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E8D1547F3;
+	Mon,  6 Jan 2025 17:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736177959; cv=none; b=KBiT4VnOV1AwTDKVV4Yl3bVj0ds18MvBWKYUBfJQ6cQieqhewzZE86l4GnlQfRNmRN1iG7PQi/cvpEzoXi/qegbtNz7on/mOpU8eERxDJWtscC50czWur0at5ERgb8nh84S0JUNht/tKKWajh8pp7Ok/aCR7GipY3BQc6K/xPZM=
+	t=1736183029; cv=none; b=K7VdEeS4V5FtOGbPyXhEn66kXGJckpZOW7G31l1nTjcDlNR8+cdcR2ygytzZ9S0R+5dv/T8l7Qru/8At943+HA6wth4/4Am04Ds1hGWZRZdNeJgacZFPZMptV+XLnjVv0+A8AhmyV+1FKWUAScqbp7EILVC6wPsALUpks9fkEFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736177959; c=relaxed/simple;
-	bh=6FTeL7J9W/8v/MFftWkYANi3oEghJQhAORIbcFv+bpg=;
+	s=arc-20240116; t=1736183029; c=relaxed/simple;
+	bh=OmZH5DFI3ydMZxsFlgjunTH5iT8WY/3SKlvaV8ZTqOE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2Nv2E7yWpldRjAHZ9iKVSz0AEN1C90fVYUIqM4MQyJJl/fDdHiGaOlGB1Pb8jo4ghTk3I00qUDIUnN7H+QZ+k1fsSzZxYol5NsyTj0zKkB8gcdnBoPH8F0bcgALVmVCxEdUG7fN/k8s7TIzQlLm6ZdcEo5LLM4ovMzUzI27rU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=domJMjmE; arc=none smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=PlRetqONASqjwbjbKeXuohRopWcgaZjA+/yRBJJjzwqeN1Kh1uRmMTWXqzLeTpyeo1PMTPSTFDTvs6dFfR2Rk+XhO82JIBS93ARAmJGLNHBKsseIo1O9YVqLlq2MYBjVNpcKhF6a6MXriFE6XTtGD/nUBx5YOuFEJGAhi/mupZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPualMu4; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="domJMjmE"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3e9f60bf4so26056423a12.3;
-        Mon, 06 Jan 2025 07:39:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPualMu4"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53f22fd6832so16135800e87.1;
+        Mon, 06 Jan 2025 09:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736177956; x=1736782756; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DjInjQ8EYFWqvY7RVufEqpVSTgGfiOzA1xoY/iPL4eM=;
-        b=domJMjmEsItMLkEY/YMtv52I+UtD9TWCRZLyvY7C2vHnX6Wf3SGOvfcKWxlKZLzMgY
-         R8Q50WL8vJ66tR92x5xn65fWzqTFRjmY6dZX1fwxT5/pirdbHm7y1Vh+uBkMT13uCGse
-         yjoBsATdARUW5QgQ5Alc3euVl6aevaolMlcfQMGm6GbcJMmuM9yqGiMF56Ip195cYz1O
-         EteDESrGsqw2J+WUzJWwuvRF2CGy124cfAK0bJQM2NR7ZxP/9TC/hjwMPMqX+ESxc0Sm
-         jJfjONil47d5Cge0x5KAlnaQHhzzLFEnxphdaAdz5Va0fG0dPeWXSw6xPI0K9wzm9zIh
-         CChQ==
+        d=gmail.com; s=20230601; t=1736183025; x=1736787825; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDewTj+7tUroBMoex5nb7sNODcMKrxnRD7GW3YVIuh0=;
+        b=KPualMu4M0BCIAIT7+5p42XpVyYHI0Ib9/gm6pAf8eUX42Zi9hK99O5s1ohMAjtp39
+         AdE3jgxxt1tWdReGYCZz+vmZWtQJMua2MN9YN3/aQ/q4i3UdSYw3aZSZ8SrjIygYE0DD
+         MuoqFnrmLTJr+Coi4IwuqQMgI7jzThkdxQzZyEbwe5ppBU84tcMzsEm9CcbM1WQPQZIh
+         7KcJsgmySkMSKpO4ut9wdIhLPio4diiKMcZdhSDYv5zzyYSoRMrH0TiIOyTRZIgcY4XA
+         tJG2MxaDqo7fV7qHe0GTLK8rvx6K8SL8v7cGtA+sTR9h5Yi5wnGzYLnt6OQiVLDT/p9Z
+         Ta7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736177956; x=1736782756;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DjInjQ8EYFWqvY7RVufEqpVSTgGfiOzA1xoY/iPL4eM=;
-        b=lKYRFeujm48IX/jiHbzgr5h3AWjUsU3Nya8SsR+gpDnA1xfiq/nBkBgBYKQXL+gBIw
-         0LrRk84sEEAoEnPJadYLh97ew9iJXInQ28emTM4yT9HBzs2RwfBmpNdaFZ55plG/8ta4
-         0e6W+qc9B+5b76zYNIgg1xYQb7/ZYVtRsTCLe3n7oTWY7Xlj7CkMVkUQe2US1mmeGypV
-         0poItYJCr5Spy9ppDGqw+8sM0cKgPJO+hFHQxAJKXmAWe4k0tJlShPFpZ3QGl02WRCzO
-         EEQEFiWrbHcxCldP/prnneTShDj+4nzKbGfa5EavVt572T0L4C/4QFQXnebsR1oJSuES
-         JEoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXl7setoc9tuWdafbXB2aqyMLbhivo+atPx1Mth0ZNbKMmetBgn+Y3rf6uAM54kPFyzZcHdOYnY9M6eV6kN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyBH7KDKO5ZQsi/G0VJjZmdDakfjvtA3dbL62EjfUEVxtiK7U5
-	XCggYvqtoZCPhFT5XLGDFeDWx3Fsg7+1jMUU25KZgJNvwudeksxTepI5EFj6QYiovbeSGMqVdHe
-	D5RhWxy6YyXDUkNTLRXy6iSJBDDU=
-X-Gm-Gg: ASbGncsKxMvLF8EUoHv9qOO7MNCAiRnOqlAlUmf77+OBgmWqTXJ9TsUq55ztPPAmUzz
-	VewgrJstH2Vn52oRD4YStgyZHeCpyIoJlGeIqMg==
-X-Google-Smtp-Source: AGHT+IEGN1GdG+i3TIHVGvpAsiqTdVpoXIFMSYU+j0qxRCJAVqb+OjpdIo8gZVE36TK6MxTksPlnEo2hd8k6w5btTAA=
-X-Received: by 2002:a50:cc04:0:b0:5d8:a46f:110b with SMTP id
- 4fb4d7f45d1cf-5d8a46f1123mr28655123a12.17.1736177955405; Mon, 06 Jan 2025
- 07:39:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736183025; x=1736787825;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vDewTj+7tUroBMoex5nb7sNODcMKrxnRD7GW3YVIuh0=;
+        b=YY5PkRe5JbjjYJUvCW1dQiI9OaKbnybKjWUUrPQIPtwQosHR04anVSxS6mkEHyxW5x
+         8KQ09bLgDn1rjWG3OwpW/2OHu2/MrplsTyOfBgZYXJW05iHPsIa2GzOleaC0V6pNRoOk
+         oZ/BJb/KRt1S5iFbMwOGNdc/YECTVEsC1P4pEx/aPSDuVJyJkLH3IDIX5GTFVcL3vdUy
+         27jvY+2ugnyy8n394tJOJ4Fiat/rR9D+YjlkzDqB1XJ6D44RBMcWhIcvh8naalVfOocs
+         0DtYJebLF/riwopXJhmolxE9OSmHDyY6mNfakb5sNsMyOuRe7rhErD1adYcQg+AM0M01
+         VbEg==
+X-Forwarded-Encrypted: i=1; AJvYcCXR5aFuxkPLByPgoapteqLa0yyNGa4QIuflXyfqEMTSGM9mJ29WXkac8W1RTJSsBbOJ082hyf30DFL3PBg9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyvf83wzern5otFZADgJo7wWhmhLPNbt+4AXEYl3K9lh5o5u8od
+	ZtY3cLbbFil2U2ieg91Y19L2VnlHMnIa/rStRFXljE35qHdQz+01hN1ulR6quqBhe1VKzneo6gN
+	HI7cdHR/wdJaLTmIG80Ng1pt+sO8=
+X-Gm-Gg: ASbGncuRGz9YWlOkiwKI5fF/9EViuW0zdBEC3lVTei1AlVEcY4Fr2g34S4aML7aRfjW
+	1NHAATx0q3VDB7QQAjSoM3L/+OZXi/uAaDE4C9aeoC+1vGR6nV1Gif2FV7TnPIdZKctx+TDzH
+X-Google-Smtp-Source: AGHT+IHWwDPZme6hk8Wj9ukxP3B8UmlenwQzmdI5fIXFykX8VP3n3kaWiQt6dUCPVmPlY6BHdfeJVoKcPjKJHpxIId4=
+X-Received: by 2002:a05:6512:1313:b0:540:2ef4:9cf0 with SMTP id
+ 2adb3069b0e04-54229532f62mr16976471e87.18.1736183025029; Mon, 06 Jan 2025
+ 09:03:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <dc020ef3-e48a-42cb-aa4c-81d46ebac338@stanley.mountain>
-In-Reply-To: <dc020ef3-e48a-42cb-aa4c-81d46ebac338@stanley.mountain>
-From: Anand Moon <linux.amoon@gmail.com>
-Date: Mon, 6 Jan 2025 21:08:44 +0530
-Message-ID: <CANAwSgRzexcPSwJxORxG9FSuCXCeKHSCa90brmG0bX-jD9DoZQ@mail.gmail.com>
-Subject: Re: [pci:controller/rockchip 1/3] drivers/pci/controller/pcie-rockchip.c:134
- rockchip_pcie_parse_dt() warn: passing zero to 'dev_err_probe'
+References: <a376beb3-c362-4b73-b2e6-9104d4df6978@stanley.mountain>
+In-Reply-To: <a376beb3-c362-4b73-b2e6-9104d4df6978@stanley.mountain>
+From: Steve French <smfrench@gmail.com>
+Date: Mon, 6 Jan 2025 11:03:33 -0600
+Message-ID: <CAH2r5ms7EkWfEmane-V+4fd-_7Y+qpLc_+-y=nDucjo1aG3RnA@mail.gmail.com>
+Subject: Re: [cifs:for-next-next 13/13] fs/smb/client/fs_context.c:1466
+ smb3_fs_context_parse_param() warn: statement has no effect 22
 To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-pci@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dan
+buggy patch removed
 
-On Mon, 6 Jan 2025 at 17:09, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+On Mon, Jan 6, 2025 at 3:24=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
-> head:   8261bf695c47b98a2d8f63e04e2fc2e4a8c6b12b
-> commit: fa0ce454cd4ee35703d4126c5b8e4a9a398cf198 [1/3] PCI: rockchip: Simplify clock handling by using clk_bulk*() function
-> config: arm64-randconfig-r073-20250102 (https://download.01.org/0day-ci/archive/20250104/202501040409.SUV09R80-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next-next
+> head:   8f97b4a68ea216bad142a5391e30fa63c8efce30
+> commit: 8f97b4a68ea216bad142a5391e30fa63c8efce30 [13/13] smb3 client: min=
+or cleanup of username parsing on mount
+> config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/a=
+rchive/20241222/202412220354.ZyCvciEy-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
+eccf88f5321e7c60591c5546b254b6afab99)
 >
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
 > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202501040409.SUV09R80-lkp@intel.com/
+> | Closes: https://lore.kernel.org/r/202412220354.ZyCvciEy-lkp@intel.com/
 >
 > smatch warnings:
-> drivers/pci/controller/pcie-rockchip.c:134 rockchip_pcie_parse_dt() warn: passing zero to 'dev_err_probe'
+> fs/smb/client/fs_context.c:1466 smb3_fs_context_parse_param() warn: state=
+ment has no effect 22
 >
-> vim +/dev_err_probe +134 drivers/pci/controller/pcie-rockchip.c
+> vim +1466 fs/smb/client/fs_context.c
 >
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  115     rockchip->aclk_rst = devm_reset_control_get_exclusive(dev, "aclk");
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  116     if (IS_ERR(rockchip->aclk_rst)) {
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  117             if (PTR_ERR(rockchip->aclk_rst) != -EPROBE_DEFER)
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  118                     dev_err(dev, "missing aclk reset property in node\n");
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  119             return PTR_ERR(rockchip->aclk_rst);
-> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  120     }
-> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  121
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  122     if (rockchip->is_rc)
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  123             rockchip->perst_gpio = devm_gpiod_get_optional(dev, "ep",
-> 840b7a5edf88fe drivers/pci/controller/pcie-rockchip.c Manivannan Sadhasivam 2024-04-16  124                                                            GPIOD_OUT_LOW);
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  125     else
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  126             rockchip->perst_gpio = devm_gpiod_get_optional(dev, "reset",
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  127                                                            GPIOD_IN);
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  128     if (IS_ERR(rockchip->perst_gpio))
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  129             return dev_err_probe(dev, PTR_ERR(rockchip->perst_gpio),
-> a7137cbf6bd53a drivers/pci/controller/pcie-rockchip.c Damien Le Moal        2024-10-17  130                                  "failed to get PERST# GPIO\n");
-> e77f847df54c6b drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-09-03  131
-> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02  132     rockchip->num_clks = devm_clk_bulk_get_all(dev, &rockchip->clks);
-> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02  133     if (rockchip->num_clks < 0)
-> fa0ce454cd4ee3 drivers/pci/controller/pcie-rockchip.c Anand Moon            2024-12-02 @134             return dev_err_probe(dev, err, "failed to get clocks\n");
+> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
+452            /* if first character is null, then anonymous auth */
+> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
+453            if (*(param->string) =3D=3D 0) {
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+454                    /* null user, ie. anonymous authentication */
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+455                    ctx->nullauth =3D 1;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+456                    break;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+457            }
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+458
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+459            if (strnlen(param->string, CIFS_MAX_USERNAME_LEN) >
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+460                CIFS_MAX_USERNAME_LEN) {
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+461                    pr_warn("username too long\n");
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+462                    goto cifs_parse_mount_err;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+463            }
+> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
+464            ctx->username =3D param->string, GFP_KERNEL;
+> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23  1=
+465            /* streal string from caller, but set to NULL so caller does=
+n't free */
+>
+> Typo: "streal" should be "steal".
+>
+> 8f97b4a68ea216b fs/smb/client/fs_context.c Steve French     2024-10-23 @1=
+466            param->string =3D=3D NULL;
 >
 >
-> "err" is zero.  It should be "rockchip->num_clks".
+> It should be =3D instead of =3D=3D.  It's surprising this compiles...
 >
-> 4816c4c7b82b55 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-12-07  135
-> 964bac9455bee7 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2018-05-09  136     return 0;
-> 4816c4c7b82b55 drivers/pci/host/pcie-rockchip.c       Shawn Lin             2016-12-07  137  }
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+467            break;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+468    case Opt_pass:
+> a4e430c8c8ba96b fs/cifs/fs_context.c       Enzo Matsumiya   2022-09-20  1=
+469            kfree_sensitive(ctx->password);
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+470            ctx->password =3D NULL;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+471            if (strlen(param->string) =3D=3D 0)
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+472                    break;
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+473
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+474            ctx->password =3D kstrdup(param->string, GFP_KERNEL);
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+475            if (ctx->password =3D=3D NULL) {
+> 24fedddc954ed16 fs/cifs/fs_context.c       Aurelien Aptel   2021-03-01  1=
+476                    cifs_errorf(fc, "OOM when copying password string\n"=
+);
+> 24e0a1eff9e2b98 fs/cifs/fs_context.c       Ronnie Sahlberg  2020-12-10  1=
+477                    goto cifs_parse_mount_err;
 >
-Thanks for the report I have submitted this fix for this.
-
-[0] https://lore.kernel.org/linux-pci/20250106153041.55267-1-linux.amoon@gmail.com/
-
-Thanks
--Anand
-
 > --
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
 >
+>
+
+
+--=20
+Thanks,
+
+Steve
