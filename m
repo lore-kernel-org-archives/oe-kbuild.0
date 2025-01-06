@@ -1,66 +1,69 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3083E1D935E
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 10:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36271DB522
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 10:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736158125; cv=none; b=kQ+lOp+ouvPWAbULb1MZ7ybJ5FHG8dZSGN1/AVjPdZARHMRZdY8FiSiIEVSncMpHoNtaVYrcI4GwtVhpaDmGSaneDmQFXKkVsFlUR9kh1grqdFiJoucdM1tmcrGvJdZkMTRl66dIqNmY8oL3C1PDq8PmLOc9kqrGhIaVsnLtUow=
+	t=1736159863; cv=none; b=L2+W5EGPpFYfUx0dVqXzpaGC7qvn59RnEkvxQu5wfY7qr/LAxboJgTWp4lI38I4kp+MW0zLJnanVJwGtYisbIxxUn9c4g+azjQ+3Bx+7e7Syh8mK8kxmzsrm4rYqqeSOYCLgXCn+TBu0xrOAF2LE/KScLLUBoYR9GtwJ9XYcoms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736158125; c=relaxed/simple;
-	bh=bK2ZK6YEoiVpV6s0bXqetQps2Vmy4XXLJAdQvoOYHUA=;
+	s=arc-20240116; t=1736159863; c=relaxed/simple;
+	bh=quRPf5+PfHdlHnEA5M8N5dGuP+LWwVuW1Fda+pYW0vU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GwYGh7tmrEnW1BywUHxzP9LOgHQHf+K33GQXTDMZrqSuDB4AZN2G2MF2SafjhjWlHpPluEFjBeRUiPcjsCCw4DD0DTkjLLeTSI50mJ0gINl7vjritBnAs79y2+heVWGQQonhU4sBRM2Rt2G2gc9sLI7FCGEOl1uiGRK2nwuEgc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uIVHBC8J; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition; b=RGvg6lPRyXHoRWDdtV49byY+C6HsDMQtDhcsRzrio9Pi2Bk8jZ4itCKn8pDc2RRunYiNPFMA+wuDjJxGL42FKUmB0LzXqFECj8Qq/2aRxYzc8AGmEeRnuHEj0u+1XMBWpN4v4Z91rJc6PoOBmRNYmtr9QSYzzJpExEqx7/gXkgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cf0PvqNi; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uIVHBC8J"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-385e06af753so7086574f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 02:08:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cf0PvqNi"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436345cc17bso102651745e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 02:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736158121; x=1736762921; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736159859; x=1736764659; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bekk/anIftJhofyqeEGu2AFER2kwDSN5jrdmfvpEwLo=;
-        b=uIVHBC8JxgG6DutIDG/sMUAvN5v6pw3Pe7UVjzCsAYSpxCfWYigIXh3/b3tXy2cqlb
-         umILRfskUKA0gM4qdKa0pbIQxMEblE2eOR17OetFZahbcwQMIwc9l6AhVIyx/3QQdNeU
-         FK4CKI1KyMVqAMh5BS+1x9mz4LxZJSCeHoFmz1sn3yORuOP3zRlfDcGjq9fxuHd10sAo
-         y+6e+quKnbqzXdo0oK2I5YV59/PJ9Vru72nCnzqCVfh+uQOePcsz2zCK4zIwbJr8uGFC
-         /VEVgt2jHCITxShpdUat3RYlomU+g6Kk4eNzJygaEGFv/BfnShenQs2jjtjtLSMkoOtI
-         jvcw==
+        bh=Jw5iGf3snAWQVAPigHDpYqiFBGsnJPk5BPWBWM1emNU=;
+        b=Cf0PvqNivqoJBAfHyVdiAXeeohWSzQqQhFD3L9dmP4+nSIEHRxcql+bsojck1RILnm
+         qGJ56zEDf1B82N8Z0gUY2qde6zOb58/LhTE4wPmqI8iWgSkchSorNQm9FCzebYJ8zPz+
+         0aVhI0nZjB637+NAGy2VlgR4OCCaDS1OTrjt0aq6SQ2uBvk3IMWJguWpEsgi9GWRSzf4
+         +7bapVDp41VP4/ChpHVN06IsluCTNrwEBHT5rGhUnLDafZA+AOHNUE7QbceMowNVP3i1
+         9IPU35obDX7Z+dGi+qCIw/32DycBoxGqRygbFObnjLh4HResBz7FyOcQpoxSo8Azz+lo
+         9u7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736158121; x=1736762921;
+        d=1e100.net; s=20230601; t=1736159859; x=1736764659;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bekk/anIftJhofyqeEGu2AFER2kwDSN5jrdmfvpEwLo=;
-        b=KmlSP8BAt4oZ2tud8jnyk0EDFxCGmWdrLuERZkPIdlpiRqXA56UOMbTepLT04k7oEa
-         0jiJ5Qn4Kb89ycPH6QEz7pln6wnlAwlfpah3P6Y5vKsOMMjX9TAdrdjxp6iR1eNxVROT
-         TgTWFbCLkjmXyFbn2UQF+iCmAvpfdsi7EGQi9cMP3NeGKGQYSYhzQ8OxQibNinMNGL0R
-         8yW65nMfFZaxBaQfevf54YQ2hK2SgYe8aDNRAV0U0dTK75j1HUXPJibp8WrwgTVIY8bd
-         W5YYkyVuUuMpXzCDGzBL37/cEQc1zoHS28RQPAXmjqXrdsHvqx8jvSG2EmGqp1Yx9T3L
-         rgJw==
-X-Gm-Message-State: AOJu0YyvyEb+d9hxdcwdmr3Qery7EhGWUwO58/se9dcguhZ3XlHzsv8W
-	FE86JVpEn4jfiUXbpruQl8VML/LyAsIQ/cBpi+uMLUTbDKU45LkkooqUUGV6ulNSN2uD9K3RGk4
-	O
-X-Gm-Gg: ASbGnctH58LVym+nSqXKHZQT4RwH8yC0ZA3opeGo3VKjpGL18zq29zp+cAuaJvFNevT
-	0A9flkY6yJ7hzeCMZPg/VNSnUHUD1gBy86BaJqOP6Kwq5teIiFCf7AmK2oRCig0CdC1iDp0j+MM
-	jERaV5AKFj7dQ3so9QaYdjPhPCMSLgSEJE/YPzOh23TIC8+vYAvWXcc9jES4mCWeAf22sSN3EDq
-	ktxCpmuKAiN8KxITVY/YYP5KW9cL+Xc3W8yE6b7BjHlHJ16htwU1epBYuaz2A==
-X-Google-Smtp-Source: AGHT+IFWKbvVq56Omm8+5+8ZoLA1h9dHpLgve5GyrzGmZnD7EJzk2gUUM6zr8C/Du29FRrdAJFhTJw==
-X-Received: by 2002:a05:6000:1ac8:b0:385:faad:bfb9 with SMTP id ffacd0b85a97d-38a221e1827mr48904080f8f.8.1736158121091;
-        Mon, 06 Jan 2025 02:08:41 -0800 (PST)
+        bh=Jw5iGf3snAWQVAPigHDpYqiFBGsnJPk5BPWBWM1emNU=;
+        b=HSgW5DbK3OIMXIGMCtL1652tg4tXkBX0Iyk1E1WC1OVOdL8SMyxQFD1bXthps3v7X3
+         2fcagapBOI23MU/1pM1nGPBq/NeJKuMgK6TUiQmxh9AMLjta+JTFCUh6Puyd1jbETzRg
+         mrFy0iyhkP323fNRSyT96B7b+WeUsEApBItZ//DuzPTQNDljTuC1u6PA4uqROjM+n1h6
+         dqxB00nn2kf2vr/eSJrr/QbDwolgTORyaJ0HzM2E5sx753TJnG2m7twtBuMNEUGm4Pd9
+         svsnop1p7psLIxXWwWpoN7cNcDlsJxgkq0yVdFAVn0MDO53m93a9XiuVUwPqUtBXl3W1
+         qzcQ==
+X-Gm-Message-State: AOJu0YxPCEO0QioMpS6lenu1L5TR34n3ZsSR7B+VW+mvgvfTs9Y1t0VH
+	pa6mbu6AyQ/hSUaEt6oLjCtcdDTye3soeRhH16rnuzAQhiKdOxd0wmocc3WIQlnunb4JRVh/kd2
+	y
+X-Gm-Gg: ASbGncteA9a38G/WCWdDcXIZANkTyVH896vpt18xujo0p7sy7cu34NOKc7Jb+J3qK4m
+	rsTlsT1qgSAKB+l2aB7HSFkJCKTiGVFpVF1dparJBrHrnvlGE/Ja0Fq3vRS7Q09HYLHWYZSx8es
+	9GOowY1HTpYDlCI/EGar4/u+vFbqVXh/bM6dN3ouMkVTqCP9ioEOjURUrMii4iem4sh3YvzSxXu
+	qOcWiVGO6bOZEwvX13A/I+MaluUvyQhuNTO0EosFOIbgGC85297724AqVl+DA==
+X-Google-Smtp-Source: AGHT+IEePWXQ2gEoZC/gxUJ3HOXj7WQzEIrzqvnWBH0X6zcyQZd2MJ+n/a8TkfuQDGr42U2R1w+nPQ==
+X-Received: by 2002:a7b:cd95:0:b0:436:30e4:4590 with SMTP id 5b1f17b1804b1-43668b7a1d0mr424647475e9.32.1736159858799;
+        Mon, 06 Jan 2025 02:37:38 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c848a47sm46931364f8f.62.2025.01.06.02.08.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b013e1sm592162175e9.12.2025.01.06.02.37.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 02:08:40 -0800 (PST)
-Date: Mon, 6 Jan 2025 13:08:37 +0300
+        Mon, 06 Jan 2025 02:37:38 -0800 (PST)
+Date: Mon, 6 Jan 2025 13:37:35 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 197/197] mm/hugetlb.c:6589
- hugetlb_reserve_pages() error: uninitialized symbol 'chg'.
-Message-ID: <95626efa-8178-4b40-97e5-2149f9cdce5f@stanley.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Muhammad Husaini Zulkifli <muhammad.husaini.zulkifli@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Kishor408 <kishorx.buchi@intel.com>,
+	Aravindhan Gunasekaran <aravindhan.gunasekaran@intel.com>
+Subject: [intel-lts:6.12/linux 1/1] net/core/rtnetlink.c:1593 rtnl_xdp_fill()
+ warn: missing error code 'err'
+Message-ID: <ee667823-e39c-4a62-b7ba-f85dad13da5e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,186 +73,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   1e9745a1ca80aa1eaa5db90d17ed4dbbf6ef1bbb
-commit: 8d9bfb2608145cf3e408428c224099e1585471af [197/197] hugetlb: add vma based lock for pmd sharing
-config: i386-randconfig-141-20241219 (https://download.01.org/0day-ci/archive/20241224/202412241840.BySsKCf0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/intel/linux-intel-lts.git 6.12/linux
+head:   af28adffb0fe876a7f6b55f145e6cae4861209a9
+commit: d422faba40f2b00b944ed5ffa9c365bf904c950b [1/1] rtnetlink: Fix unchecked return value of dev_xdp_query_md_btf()
+config: i386-randconfig-141-20241226 (https://download.01.org/0day-ci/archive/20241226/202412261741.KiMk9t5S-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412241840.BySsKCf0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412261741.KiMk9t5S-lkp@intel.com/
 
-smatch warnings:
-mm/hugetlb.c:6589 hugetlb_reserve_pages() error: uninitialized symbol 'chg'.
+New smatch warnings:
+net/core/rtnetlink.c:1593 rtnl_xdp_fill() warn: missing error code 'err'
 
-vim +/chg +6589 mm/hugetlb.c
+vim +/err +1593 net/core/rtnetlink.c
 
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6438  /* Return true if reservation was successful, false otherwise.  */
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6439  bool hugetlb_reserve_pages(struct inode *inode,
-a1e78772d72b26 Mel Gorman      2008-07-23  6440  					long from, long to,
-5a6fe125950676 Mel Gorman      2009-02-10  6441  					struct vm_area_struct *vma,
-ca16d140af91fe KOSAKI Motohiro 2011-05-26  6442  					vm_flags_t vm_flags)
-e4e574b767ba63 Adam Litke      2007-10-16  6443  {
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6444  	long chg, add = -1;
-a5516438959d90 Andi Kleen      2008-07-23  6445  	struct hstate *h = hstate_inode(inode);
-90481622d75715 David Gibson    2012-03-21  6446  	struct hugepage_subpool *spool = subpool_inode(inode);
-9119a41e9091fb Joonsoo Kim     2014-04-03  6447  	struct resv_map *resv_map;
-075a61d07a8eca Mina Almasry    2020-04-01  6448  	struct hugetlb_cgroup *h_cg = NULL;
-0db9d74ed8845a Mina Almasry    2020-04-01  6449  	long gbl_reserve, regions_needed = 0;
-e4e574b767ba63 Adam Litke      2007-10-16  6450  
-63489f8e821144 Mike Kravetz    2018-03-22  6451  	/* This should never happen */
-63489f8e821144 Mike Kravetz    2018-03-22  6452  	if (from > to) {
-63489f8e821144 Mike Kravetz    2018-03-22  6453  		VM_WARN(1, "%s called with a negative range\n", __func__);
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6454  		return false;
-63489f8e821144 Mike Kravetz    2018-03-22  6455  	}
-63489f8e821144 Mike Kravetz    2018-03-22  6456  
-8d9bfb2608145c Mike Kravetz    2022-09-14  6457  	/*
-8d9bfb2608145c Mike Kravetz    2022-09-14  6458  	 * vma specific semaphore used for pmd sharing synchronization
-8d9bfb2608145c Mike Kravetz    2022-09-14  6459  	 */
-8d9bfb2608145c Mike Kravetz    2022-09-14  6460  	hugetlb_vma_lock_alloc(vma);
-8d9bfb2608145c Mike Kravetz    2022-09-14  6461  
-17c9d12e126cb0 Mel Gorman      2009-02-11  6462  	/*
-17c9d12e126cb0 Mel Gorman      2009-02-11  6463  	 * Only apply hugepage reservation if asked. At fault time, an
-17c9d12e126cb0 Mel Gorman      2009-02-11  6464  	 * attempt will be made for VM_NORESERVE to allocate a page
-90481622d75715 David Gibson    2012-03-21  6465  	 * without using reserves
-17c9d12e126cb0 Mel Gorman      2009-02-11  6466  	 */
-ca16d140af91fe KOSAKI Motohiro 2011-05-26  6467  	if (vm_flags & VM_NORESERVE)
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6468  		return true;
-17c9d12e126cb0 Mel Gorman      2009-02-11  6469  
-a1e78772d72b26 Mel Gorman      2008-07-23  6470  	/*
-a1e78772d72b26 Mel Gorman      2008-07-23  6471  	 * Shared mappings base their reservation on the number of pages that
-a1e78772d72b26 Mel Gorman      2008-07-23  6472  	 * are already allocated on behalf of the file. Private mappings need
-a1e78772d72b26 Mel Gorman      2008-07-23  6473  	 * to reserve the full area even if read-only as mprotect() may be
-a1e78772d72b26 Mel Gorman      2008-07-23  6474  	 * called to make the mapping read-write. Assume !vma is a shm mapping
-a1e78772d72b26 Mel Gorman      2008-07-23  6475  	 */
-9119a41e9091fb Joonsoo Kim     2014-04-03  6476  	if (!vma || vma->vm_flags & VM_MAYSHARE) {
-f27a5136f70a8c Mike Kravetz    2019-05-13  6477  		/*
-f27a5136f70a8c Mike Kravetz    2019-05-13  6478  		 * resv_map can not be NULL as hugetlb_reserve_pages is only
-f27a5136f70a8c Mike Kravetz    2019-05-13  6479  		 * called for inodes for which resv_maps were created (see
-f27a5136f70a8c Mike Kravetz    2019-05-13  6480  		 * hugetlbfs_get_inode).
-f27a5136f70a8c Mike Kravetz    2019-05-13  6481  		 */
-4e35f483850ba4 Joonsoo Kim     2014-04-03  6482  		resv_map = inode_resv_map(inode);
-9119a41e9091fb Joonsoo Kim     2014-04-03  6483  
-0db9d74ed8845a Mina Almasry    2020-04-01  6484  		chg = region_chg(resv_map, from, to, &regions_needed);
-9119a41e9091fb Joonsoo Kim     2014-04-03  6485  	} else {
-e9fe92ae0cd28a Mina Almasry    2020-04-01  6486  		/* Private mapping. */
-9119a41e9091fb Joonsoo Kim     2014-04-03  6487  		resv_map = resv_map_alloc();
-17c9d12e126cb0 Mel Gorman      2009-02-11  6488  		if (!resv_map)
-8d9bfb2608145c Mike Kravetz    2022-09-14  6489  			goto out_err;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1554  static int rtnl_xdp_fill(struct sk_buff *skb, struct net_device *dev)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1555  {
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1556  	u32 prog_id, md_btf_id;
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1557  	u8 md_btf_enabled = 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1558  	struct nlattr *xdp;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1559  	int err;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1560  	u8 mode;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1561  
+ae0be8de9a53cd Michal Kubecek            2019-04-26  1562  	xdp = nla_nest_start_noflag(skb, IFLA_XDP);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1563  	if (!xdp)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1564  		return -EMSGSIZE;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1565  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1566  	prog_id = 0;
+a25717d2b60434 Jakub Kicinski            2018-07-11  1567  	mode = XDP_ATTACHED_NONE;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1568  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_SKB,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1569  				  IFLA_XDP_SKB_PROG_ID, rtnl_xdp_prog_skb);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1570  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1571  		goto err_cancel;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1572  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_DRV,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1573  				  IFLA_XDP_DRV_PROG_ID, rtnl_xdp_prog_drv);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1574  	if (err)
+a25717d2b60434 Jakub Kicinski            2018-07-11  1575  		goto err_cancel;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1576  	err = rtnl_xdp_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_HW,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1577  				  IFLA_XDP_HW_PROG_ID, rtnl_xdp_prog_hw);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1578  	if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1579  		goto err_cancel;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1580  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1581  	err = nla_put_u8(skb, IFLA_XDP_ATTACHED, mode);
+b5cdae3291f7be David S. Miller           2017-04-18  1582  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1583  		goto err_cancel;
+d67b9cd28c1d7f Daniel Borkmann           2017-05-12  1584  
+a25717d2b60434 Jakub Kicinski            2018-07-11  1585  	if (prog_id && mode != XDP_ATTACHED_MULTI) {
+58038695e62b44 Martin KaFai Lau          2017-06-15  1586  		err = nla_put_u32(skb, IFLA_XDP_PROG_ID, prog_id);
+58038695e62b44 Martin KaFai Lau          2017-06-15  1587  		if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1588  			goto err_cancel;
+58038695e62b44 Martin KaFai Lau          2017-06-15  1589  	}
+58038695e62b44 Martin KaFai Lau          2017-06-15  1590  
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1591  	md_btf_id = dev_xdp_query_md_btf(dev, &md_btf_enabled);
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30  1592  	if (!md_btf_id)
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30 @1593  		goto err_cancel;
 
-chg is uninitialized on this goto.
+Set err on this path?
 
-17c9d12e126cb0 Mel Gorman      2009-02-11  6490  
-a1e78772d72b26 Mel Gorman      2008-07-23  6491  		chg = to - from;
-84afd99b8398c9 Andy Whitcroft  2008-07-23  6492  
-17c9d12e126cb0 Mel Gorman      2009-02-11  6493  		set_vma_resv_map(vma, resv_map);
-17c9d12e126cb0 Mel Gorman      2009-02-11  6494  		set_vma_resv_flags(vma, HPAGE_RESV_OWNER);
-17c9d12e126cb0 Mel Gorman      2009-02-11  6495  	}
-17c9d12e126cb0 Mel Gorman      2009-02-11  6496  
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6497  	if (chg < 0)
-c50ac050811d64 Dave Hansen     2012-05-29  6498  		goto out_err;
-075a61d07a8eca Mina Almasry    2020-04-01  6499  
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6500  	if (hugetlb_cgroup_charge_cgroup_rsvd(hstate_index(h),
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6501  				chg * pages_per_huge_page(h), &h_cg) < 0)
-075a61d07a8eca Mina Almasry    2020-04-01  6502  		goto out_err;
-075a61d07a8eca Mina Almasry    2020-04-01  6503  
-075a61d07a8eca Mina Almasry    2020-04-01  6504  	if (vma && !(vma->vm_flags & VM_MAYSHARE) && h_cg) {
-075a61d07a8eca Mina Almasry    2020-04-01  6505  		/* For private mappings, the hugetlb_cgroup uncharge info hangs
-075a61d07a8eca Mina Almasry    2020-04-01  6506  		 * of the resv_map.
-075a61d07a8eca Mina Almasry    2020-04-01  6507  		 */
-075a61d07a8eca Mina Almasry    2020-04-01  6508  		resv_map_set_hugetlb_cgroup_uncharge_info(resv_map, h_cg, h);
-075a61d07a8eca Mina Almasry    2020-04-01  6509  	}
-075a61d07a8eca Mina Almasry    2020-04-01  6510  
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6511  	/*
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6512  	 * There must be enough pages in the subpool for the mapping. If
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6513  	 * the subpool has a minimum size, there may be some global
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6514  	 * reservations already in place (gbl_reserve).
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6515  	 */
-1c5ecae3a93fa1 Mike Kravetz    2015-04-15  6516  	gbl_reserve = hugepage_subpool_get_pages(spool, chg);
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6517  	if (gbl_reserve < 0)
-075a61d07a8eca Mina Almasry    2020-04-01  6518  		goto out_uncharge_cgroup;
-5a6fe125950676 Mel Gorman      2009-02-10  6519  
-5a6fe125950676 Mel Gorman      2009-02-10  6520  	/*
-17c9d12e126cb0 Mel Gorman      2009-02-11  6521  	 * Check enough hugepages are available for the reservation.
-90481622d75715 David Gibson    2012-03-21  6522  	 * Hand the pages back to the subpool if there are not
-5a6fe125950676 Mel Gorman      2009-02-10  6523  	 */
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6524  	if (hugetlb_acct_memory(h, gbl_reserve) < 0)
-075a61d07a8eca Mina Almasry    2020-04-01  6525  		goto out_put_pages;
-17c9d12e126cb0 Mel Gorman      2009-02-11  6526  
-17c9d12e126cb0 Mel Gorman      2009-02-11  6527  	/*
-17c9d12e126cb0 Mel Gorman      2009-02-11  6528  	 * Account for the reservations made. Shared mappings record regions
-17c9d12e126cb0 Mel Gorman      2009-02-11  6529  	 * that have reservations as they are shared by multiple VMAs.
-17c9d12e126cb0 Mel Gorman      2009-02-11  6530  	 * When the last VMA disappears, the region map says how much
-17c9d12e126cb0 Mel Gorman      2009-02-11  6531  	 * the reservation was and the page cache tells how much of
-17c9d12e126cb0 Mel Gorman      2009-02-11  6532  	 * the reservation was consumed. Private mappings are per-VMA and
-17c9d12e126cb0 Mel Gorman      2009-02-11  6533  	 * only the consumed reservations are tracked. When the VMA
-17c9d12e126cb0 Mel Gorman      2009-02-11  6534  	 * disappears, the original reservation is the VMA size and the
-17c9d12e126cb0 Mel Gorman      2009-02-11  6535  	 * consumed reservations are stored in the map. Hence, nothing
-17c9d12e126cb0 Mel Gorman      2009-02-11  6536  	 * else has to be done for private mappings here
-17c9d12e126cb0 Mel Gorman      2009-02-11  6537  	 */
-33039678c8da81 Mike Kravetz    2015-06-24  6538  	if (!vma || vma->vm_flags & VM_MAYSHARE) {
-075a61d07a8eca Mina Almasry    2020-04-01  6539  		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
-33039678c8da81 Mike Kravetz    2015-06-24  6540  
-0db9d74ed8845a Mina Almasry    2020-04-01  6541  		if (unlikely(add < 0)) {
-0db9d74ed8845a Mina Almasry    2020-04-01  6542  			hugetlb_acct_memory(h, -gbl_reserve);
-075a61d07a8eca Mina Almasry    2020-04-01  6543  			goto out_put_pages;
-0db9d74ed8845a Mina Almasry    2020-04-01  6544  		} else if (unlikely(chg > add)) {
-33039678c8da81 Mike Kravetz    2015-06-24  6545  			/*
-33039678c8da81 Mike Kravetz    2015-06-24  6546  			 * pages in this range were added to the reserve
-33039678c8da81 Mike Kravetz    2015-06-24  6547  			 * map between region_chg and region_add.  This
-33039678c8da81 Mike Kravetz    2015-06-24  6548  			 * indicates a race with alloc_huge_page.  Adjust
-33039678c8da81 Mike Kravetz    2015-06-24  6549  			 * the subpool and reserve counts modified above
-33039678c8da81 Mike Kravetz    2015-06-24  6550  			 * based on the difference.
-33039678c8da81 Mike Kravetz    2015-06-24  6551  			 */
-33039678c8da81 Mike Kravetz    2015-06-24  6552  			long rsv_adjust;
-33039678c8da81 Mike Kravetz    2015-06-24  6553  
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6554  			/*
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6555  			 * hugetlb_cgroup_uncharge_cgroup_rsvd() will put the
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6556  			 * reference to h_cg->css. See comment below for detail.
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6557  			 */
-075a61d07a8eca Mina Almasry    2020-04-01  6558  			hugetlb_cgroup_uncharge_cgroup_rsvd(
-075a61d07a8eca Mina Almasry    2020-04-01  6559  				hstate_index(h),
-075a61d07a8eca Mina Almasry    2020-04-01  6560  				(chg - add) * pages_per_huge_page(h), h_cg);
-075a61d07a8eca Mina Almasry    2020-04-01  6561  
-33039678c8da81 Mike Kravetz    2015-06-24  6562  			rsv_adjust = hugepage_subpool_put_pages(spool,
-33039678c8da81 Mike Kravetz    2015-06-24  6563  								chg - add);
-33039678c8da81 Mike Kravetz    2015-06-24  6564  			hugetlb_acct_memory(h, -rsv_adjust);
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6565  		} else if (h_cg) {
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6566  			/*
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6567  			 * The file_regions will hold their own reference to
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6568  			 * h_cg->css. So we should release the reference held
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6569  			 * via hugetlb_cgroup_charge_cgroup_rsvd() when we are
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6570  			 * done.
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6571  			 */
-d85aecf2844ff0 Miaohe Lin      2021-03-24  6572  			hugetlb_cgroup_put_rsvd_cgroup(h_cg);
-33039678c8da81 Mike Kravetz    2015-06-24  6573  		}
-33039678c8da81 Mike Kravetz    2015-06-24  6574  	}
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6575  	return true;
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6576  
-075a61d07a8eca Mina Almasry    2020-04-01  6577  out_put_pages:
-075a61d07a8eca Mina Almasry    2020-04-01  6578  	/* put back original number of pages, chg */
-075a61d07a8eca Mina Almasry    2020-04-01  6579  	(void)hugepage_subpool_put_pages(spool, chg);
-075a61d07a8eca Mina Almasry    2020-04-01  6580  out_uncharge_cgroup:
-075a61d07a8eca Mina Almasry    2020-04-01  6581  	hugetlb_cgroup_uncharge_cgroup_rsvd(hstate_index(h),
-075a61d07a8eca Mina Almasry    2020-04-01  6582  					    chg * pages_per_huge_page(h), h_cg);
-c50ac050811d64 Dave Hansen     2012-05-29  6583  out_err:
-8d9bfb2608145c Mike Kravetz    2022-09-14  6584  	hugetlb_vma_lock_free(vma);
-5e9113731a3ce6 Mike Kravetz    2015-09-08  6585  	if (!vma || vma->vm_flags & VM_MAYSHARE)
-0db9d74ed8845a Mina Almasry    2020-04-01  6586  		/* Only call region_abort if the region_chg succeeded but the
-0db9d74ed8845a Mina Almasry    2020-04-01  6587  		 * region_add failed or didn't run.
-0db9d74ed8845a Mina Almasry    2020-04-01  6588  		 */
-0db9d74ed8845a Mina Almasry    2020-04-01 @6589  		if (chg >= 0 && add < 0)
-                                                                    ^^^^^^^^
-warning here
-
-0db9d74ed8845a Mina Almasry    2020-04-01  6590  			region_abort(resv_map, from, to, regions_needed);
-f031dd274ccb70 Joonsoo Kim     2014-04-03  6591  	if (vma && is_vma_resv_set(vma, HPAGE_RESV_OWNER))
-f031dd274ccb70 Joonsoo Kim     2014-04-03  6592  		kref_put(&resv_map->refs, resv_map_release);
-33b8f84a4ee784 Mike Kravetz    2021-02-24  6593  	return false;
-a43a8c39bbb493 Kenneth W Chen  2006-06-23  6594  }
+d422faba40f2b0 Muhammad Husaini Zulkifli 2021-07-30  1594  
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1595  	nla_put_u32(skb, IFLA_XDP_MD_BTF_ID, md_btf_id);
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1596  	nla_put_u8(skb, IFLA_XDP_MD_BTF_STATE, md_btf_enabled);
+32bb8f64a1a821 Muhammad Husaini Zulkifli 2021-06-14  1597  
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1598  	nla_nest_end(skb, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1599  	return 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1600  
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1601  err_cancel:
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1602  	nla_nest_cancel(skb, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1603  	return err;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1604  }
 
 -- 
 0-DAY CI Kernel Test Service
