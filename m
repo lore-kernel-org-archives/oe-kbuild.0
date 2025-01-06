@@ -1,71 +1,67 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EA61D90C5
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 09:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3331D935E
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 09:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736155673; cv=none; b=B1cw3KPzMlHAxQpdxlyhmpsZguxgDrE8c1Gpvq3Exc+0aj6JY0pOzoT7Hdp+Ds+6V0Vk/ycPkhcjWD9Xh+xQP+KQnyd7YX9lqxNeJ9lSrRdf9vHy1ja/DoXIVQWOYoMJ97yCcrFKet0aEd2T3PKyilY9sPlqKydVBIHef0n4K0s=
+	t=1736155771; cv=none; b=SRv/QNhBjFHw/H2l6CslNcHENTNP1Vfc9Vd1LARX8GZr1Mn6n4SDJJX28Hx/8kT0taIP6baiVjnS0RUOKTfd7NC59hGRUF6c+bGb8HJrauYZhJOHu2tUC0chFvPgjHoCVnH4+t2TZrsAIbXsEfPGdCUzRpUWM6krmRhS04+t7so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736155673; c=relaxed/simple;
-	bh=C2Oa+YEhXHBj1sDP307/ttqPJZSGcU79Tpnen9/Ybjw=;
+	s=arc-20240116; t=1736155771; c=relaxed/simple;
+	bh=tyZI4LCtZ3WGAkh2DiMdcJIDnnvlvRWusM2NCGA9vZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ghye1RY4OOHhrLa+fjme2/+sgn/rAwIlCK4oSYEhLPhFpEa62/7TRMGpkYZHELHEPMKvClHKxFW1ohfPgLDoLArMRGVmM7DCiCOLroEdLRUCDKO6XO4M5QXnXymbhSIHsI4a+wvXQmK78DudxId+K0S8KfpZ/oBm9uKd/v+2fOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXjXcd55; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition; b=jQuWpZIWaahdX2LREPDCgdsWZNclR5Nz6mDr0Mr+ckkJrT417KtXlEeaDL9Rh9Zc/bug7InZ96xWemT3tAkb4VWHxBw+JqndsnjQ1/TZPkuvU8tv6yS6m312QY/uQLAyR2pcXhBL44yYZHO1bSvBeVuhuiefqnVVJLkMIge4QEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vr/sQuMB; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXjXcd55"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3863c36a731so10899881f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 01:27:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vr/sQuMB"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3862d16b4f5so8706267f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 01:29:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736155670; x=1736760470; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1736155767; x=1736760567; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cpnOz1N1TAeC9+MC41xtWqOkcPvFTaXHe21eO6iPF/o=;
-        b=gXjXcd55Yz231s3gMn7S0MxUyyqKAK91HEK/yUbJbtP60cDffn0NvHGU33x1HGOG5o
-         /8WeYQ5EeLtb5yWhHqsYOoK5PfPtdZbMMRBIrIue8Pw9OKV8G1cdz1ZEB95br8NszT8u
-         z8SStZquSW/Uhk8DU4lg+u8BjJjZHQT+0jUQnLVACHKlpJJ2TYb4p0NAKTmWhojkuTyY
-         EfnZAUlbD7dX8rDV1/V+MX09SWgZDHiHw9yTJCKC8iuk3OaQ5TIbBBdYDa9A5jZr04x/
-         G+DY8OIwaODrVJN8sVP52nO9InHlhmRIujriSftLA2VezpTwk5lilnbr1STrlGxCQ3Iy
-         ZWIA==
+        bh=WyPdssncH73MkXc63PAeqQ0YMlwhoT9z2JekLq5gQiw=;
+        b=Vr/sQuMB+cez9FswVFhZ/ig+Lwk5NhI9ZblPSxnLHmxx9SRGZAHquVE0bpqWJk6zeD
+         4crGZvehelTleqeChRZvZvb8j9FhyNTDNjRzy7Fu7td4+PHX2Xrd2QOOz9Mp9bodvYhR
+         H3ux1TYlnjArLs9FOUT4ot1ZdFwZgfy9mmGzfH4YdomWSFDSvg/D61C6CTtFoarPmnSq
+         DMeKhuzpfLztgpu+GucfIss/sUkPhohTXi0URf+KYDCq2L6glg8XHcY17nAq2RHf/t4q
+         nOWJGNPPKUVhZVoIAYT53TzbCvJsY7V7puDsfTYVv3rG1mqDJRFvlAKLzJangi7uuRKm
+         ngMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736155670; x=1736760470;
+        d=1e100.net; s=20230601; t=1736155767; x=1736760567;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cpnOz1N1TAeC9+MC41xtWqOkcPvFTaXHe21eO6iPF/o=;
-        b=Sy9fM7G7pFVrd3ld/v8tu6sT42CL05SKXBB8Cs97T4MzNLQqLuvDAGPFpXn4ySv6TJ
-         Slg9mSXBFEJydb8eKzNWErCUAZqfn9NVGczwW4wS+zSajqkLeFlWJjmcYAWiqc7eGymZ
-         Zevw/KkFp2G6fZBKaaLMV151ts+iLELEClVGnZZTtJL6rgS1JwGDJxkTo03GUXmIba04
-         G9HuQXPXeha6Q1bWbBskcmv6Ho1ocloSdPY2sYjwsykpvjR+ta2SpMBMotKQqPF7u8P8
-         aM7qM6Z0UHcT2iY0NzooNGBoUWsGzeBKVXKEJYBXpK9B933JS2xDSm5G4Cy4gBlQI5jI
-         NUXg==
-X-Gm-Message-State: AOJu0YzSJ0TtFbrtjScW6A828fxgIIsIuNsu/JoM47Sxqmb6ltTRduPk
-	RH4lu2MJN0vAzI0uZHp5nVwZQ7EoA8H5x/U3zu8AD5tR/1ph/ARFogDa2pQh7CVigS7bAfYrYB3
-	X
-X-Gm-Gg: ASbGnctH/cJb5g4OasRpiaqBzvesbMS3D8ra3QwhKMyIajK5TuxKkgI8g6xwJd1a2jV
-	Wzv0UTdhy176cTVJEgHrN9KG/FW+2zi/tzU3jXTE1Ho+ake0A/yCETMANqkgfMOwdWvzo/kZnyn
-	Tzq3xPA13pYvg2IfLLJYM/4ZCJPqv4RE4LezqvWFLNjjfhkLEqDeftXEwLV88MayKTRozyXOByR
-	EGDDQF86YBRaE0JFIYePiW+0O8R4KM35tx/xviZ81gOmPO6+lXIRc46nIwjtg==
-X-Google-Smtp-Source: AGHT+IFh4zH5nntZ9t3H+tkXvCfJIEjyQxwmuicbh5Gpwe+lKHMvvNSXc2aiJ0Wzi1GhHtgBBbpwfw==
-X-Received: by 2002:a5d:588b:0:b0:385:de8d:c0f5 with SMTP id ffacd0b85a97d-38a221eabecmr55090621f8f.16.1736155669594;
-        Mon, 06 Jan 2025 01:27:49 -0800 (PST)
+        bh=WyPdssncH73MkXc63PAeqQ0YMlwhoT9z2JekLq5gQiw=;
+        b=i84pgtajd9waG8EkcAeSYPnWeohRm+2F5SZQaopNw+lH5Nuki8t93L32eV2ia3CIMQ
+         IeaOxBQn/0KlsXpJwoY/Yhe/L02NkxuxwciQ9yvlUpW8byYiwgC8Q+vnMKbJNv5KR7qQ
+         adMCbixf7mEaT1WzatbR2LS+bRHcC4/r2s/7BBz4/eSACYojOGLnAwrY1XNxKJDNHea+
+         kKbtkBMk1L7HoYwlCBUXrcNfsplmYDgvEyHKqb85h1TqH8eFOnysCN6am1yJ95v0/PXY
+         8d46Te3Pi/9sCMp9xfC8h08ViqUsbZdykljnifVUpVOzfjh/mz4K90zuln5RV5A/jMpn
+         hX1g==
+X-Gm-Message-State: AOJu0Yyt94wyji/iQVgX5pKjcLk/mjWosfOQfLQbAcnUNFGjYpmAYt+0
+	FxhKby99iueVZhTX1+CuSbNz9l1yBOniusnsiVN7Bjuw+6tBWeAr/JnQq4RRIWktAwTU3xETeLl
+	+
+X-Gm-Gg: ASbGncv0UEMQ66fYlCOzvulPrLYSBZ/nqZRoJ6ELNspwaBRz7lCRVR1jW+U4I/zvL2/
+	555fKfMpCCzRchtMof5dzzOAg54JqmFy9YV0Dk78VWK4tIGwubSF/K0mK5ODpf/CHDQm4quuZk6
+	QKhfTcHVfNYf4uOJvLioeaBoB3UvKidAUI2//BOelT9KWTcnq8/PSq3XJ+5WbFAViSkV2m+NR+M
+	IU2ncmTgUWXcGEvcaYEWMu0yWNtVeP3sacJISQ4JBf74pEbgkyfqVdyFPBZlQ==
+X-Google-Smtp-Source: AGHT+IGtNggRmlvPCJR4KoRWyvraOrwCUpbc1uBXC2o9swnf/BgIhNgjoJM1SsYAlI5F66Nd13dQag==
+X-Received: by 2002:a05:6000:2af:b0:385:e8e7:d09a with SMTP id ffacd0b85a97d-38a229ed1b2mr46352912f8f.2.1736155767389;
+        Mon, 06 Jan 2025 01:29:27 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828d39sm48942690f8f.9.2025.01.06.01.27.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e150sm47310292f8f.66.2025.01.06.01.29.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:27:49 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:27:46 +0300
+        Mon, 06 Jan 2025 01:29:26 -0800 (PST)
+Date: Mon, 6 Jan 2025 12:29:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@intel.com>
-Subject: [thesofproject:topic/sof-dev-rebase 62/66]
- sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error:
- uninitialized symbol 'string'.
-Message-ID: <7f385b60-62f3-42c0-8262-3807f33ceafb@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 7230/7786]
+ kernel/sched/deadline.c:2548 find_later_rq() error: we previously assumed
+ 'exec_ctx' could be null (see line 2541)
+Message-ID: <e527e316-2b2a-4a8f-ade0-c01966a64427@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,72 +71,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
-head:   f8cb4262a32283bd5f380f28e178002d9ab552c5
-commit: 4ee3702773b8965d591600ebba308288dfd498a3 [62/66] ASoC: SOF: debug-dsp-ops: Add a debugfs entry to read current FW status
-config: x86_64-randconfig-161-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220432.yREZa6ba-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0ad60853620e2bd7a2f165162fde4729cba0b46d
+commit: a70dd213296b2f2524c2b4440cb60d46f85ab2e4 [7230/7786] ANDROID: sched: Add find_exec_ctx helper
+config: i386-randconfig-141-20241221 (https://download.01.org/0day-ci/archive/20241222/202412220603.ZrMZILYo-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412220432.yREZa6ba-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412220603.ZrMZILYo-lkp@intel.com/
 
 smatch warnings:
-sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error: uninitialized symbol 'string'.
+kernel/sched/deadline.c:2548 find_later_rq() error: we previously assumed 'exec_ctx' could be null (see line 2541)
 
-vim +/string +174 sound/soc/sof/debug-dsp-ops.c
+vim +/exec_ctx +2548 kernel/sched/deadline.c
 
-554de1577ecc78 Ranjani Sridharan 2024-03-21  142  static ssize_t sof_dsp_ops_tester_dfs_read(struct file *file, char __user *buffer,
-554de1577ecc78 Ranjani Sridharan 2024-03-21  143  					   size_t count, loff_t *ppos)
-554de1577ecc78 Ranjani Sridharan 2024-03-21  144  {
-554de1577ecc78 Ranjani Sridharan 2024-03-21  145  	struct snd_sof_dfsentry *dfse = file->private_data;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  146  	struct snd_sof_dev *sdev = dfse->sdev;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  147  	struct dentry *dentry;
-4ee3702773b896 Ranjani Sridharan 2024-03-25  148  	const char *string;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  149  	size_t size_ret;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  150  
-554de1577ecc78 Ranjani Sridharan 2024-03-21  151  	/* return the FW filename or path */
-554de1577ecc78 Ranjani Sridharan 2024-03-21  152  	dentry = file->f_path.dentry;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  153  	if (!strcmp(dentry->d_name.name, "fw_filename")) {
-554de1577ecc78 Ranjani Sridharan 2024-03-21  154  		string = sdev->test_profile.fw_name;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  155  	} else if (!strcmp(dentry->d_name.name, "fw_path")) {
-554de1577ecc78 Ranjani Sridharan 2024-03-21  156  		string = sdev->test_profile.fw_path;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  157  	} else if (!strcmp(dentry->d_name.name, "dsp_power_state")) {
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  158  		switch (sdev->dsp_power_state.state) {
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  159  		case SOF_DSP_PM_D0:
-4ee3702773b896 Ranjani Sridharan 2024-03-25  160  			string = "D0\n";
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  161  			break;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  162  		case SOF_DSP_PM_D3:
-4ee3702773b896 Ranjani Sridharan 2024-03-25  163  			string = "D3\n";
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  164  			break;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  165  		default:
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  166  			break;
+eb7630f95f837d Connor O'Brien    2023-11-08  2530  static int find_later_rq(struct task_struct *sched_ctx, struct task_struct *exec_ctx)
+1baca4ce16b8cc Juri Lelli        2013-11-07  2531  {
+1baca4ce16b8cc Juri Lelli        2013-11-07  2532  	struct sched_domain *sd;
+4ba2968420fa9d Christoph Lameter 2014-08-26  2533  	struct cpumask *later_mask = this_cpu_cpumask_var_ptr(local_cpu_mask_dl);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2534  	int this_cpu = smp_processor_id();
+eb7630f95f837d Connor O'Brien    2023-11-08  2535  	int cpu = task_cpu(sched_ctx);
+1baca4ce16b8cc Juri Lelli        2013-11-07  2536  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2537  	/* Make sure the mask is initialized first */
+1baca4ce16b8cc Juri Lelli        2013-11-07  2538  	if (unlikely(!later_mask))
+1baca4ce16b8cc Juri Lelli        2013-11-07  2539  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2540  
+a70dd213296b2f Connor O'Brien    2023-11-08 @2541  	if (exec_ctx && exec_ctx->nr_cpus_allowed == 1)
 
-The zero day bot doesn't do cross function analysis.  (Cross function
-analysis is too slow to scale).  So it warns about this break, which is
-potentially never reached if we have enough information.
+This line assumes exec_ctx can be NULL.
 
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  167  		}
-4ee3702773b896 Ranjani Sridharan 2024-03-25  168  	} else if (!strcmp(dentry->d_name.name, "fw_state")) {
-4ee3702773b896 Ranjani Sridharan 2024-03-25  169  		return sof_dsp_ops_fw_state_read(sdev, buffer, count, ppos);
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  170  	} else {
-554de1577ecc78 Ranjani Sridharan 2024-03-21  171  		return 0;
-a9c6044bf2d2d3 Ranjani Sridharan 2024-03-25  172  	}
-554de1577ecc78 Ranjani Sridharan 2024-03-21  173  
-554de1577ecc78 Ranjani Sridharan 2024-03-21 @174  	if (*ppos || !string)
-554de1577ecc78 Ranjani Sridharan 2024-03-21  175  		return 0;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  176  
-554de1577ecc78 Ranjani Sridharan 2024-03-21  177  	count = min_t(size_t, count, strlen(string));
-554de1577ecc78 Ranjani Sridharan 2024-03-21  178  	size_ret = copy_to_user(buffer, string, count);
-554de1577ecc78 Ranjani Sridharan 2024-03-21  179  	if (size_ret)
-554de1577ecc78 Ranjani Sridharan 2024-03-21  180  		return -EFAULT;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  181  
-554de1577ecc78 Ranjani Sridharan 2024-03-21  182  	*ppos += count;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  183  
-554de1577ecc78 Ranjani Sridharan 2024-03-21  184  	return count;
-554de1577ecc78 Ranjani Sridharan 2024-03-21  185  }
+1baca4ce16b8cc Juri Lelli        2013-11-07  2542  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2543  
+91ec6778ec4f96 Juri Lelli        2014-09-19  2544  	/*
+91ec6778ec4f96 Juri Lelli        2014-09-19  2545  	 * We have to consider system topology and task affinity
+97fb7a0a8944bd Ingo Molnar       2018-03-03  2546  	 * first, then we can look for a suitable CPU.
+91ec6778ec4f96 Juri Lelli        2014-09-19  2547  	 */
+eb7630f95f837d Connor O'Brien    2023-11-08 @2548  	if (!cpudl_find(&task_rq(exec_ctx)->rd->cpudl, sched_ctx, exec_ctx, later_mask))
+
+But the next line dereferences it without checking for NULL
+
+1baca4ce16b8cc Juri Lelli        2013-11-07  2549  		return -1;
+1baca4ce16b8cc Juri Lelli        2013-11-07  2550  
+1baca4ce16b8cc Juri Lelli        2013-11-07  2551  	/*
+b18c3ca11c20ca Byungchul Park    2017-05-23  2552  	 * If we are here, some targets have been found, including
 
 -- 
 0-DAY CI Kernel Test Service
