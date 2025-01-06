@@ -1,83 +1,82 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893081D63D7
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 09:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49501A9B43
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 09:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736154192; cv=none; b=FbrUSFEFDqWY1qRSVBAcMW/8ZKZce0c87QIeu8QonlL6cOgGCOhK/t7XJWRA2REZa/FU8zUsaKrHE17Bn7A26rqGRbQwVS/EolJ8BnDFLO2TPdiTf+f6h++OgJD3dh4nNBsYWsv67qnIzJ+nFjIyCKurL4dowUZ+0Cd2OcbyEnI=
+	t=1736154614; cv=none; b=i+P0LjKIbu8aoAAaBnFsj9fKzKtPV6SeaPTU4vk0q3Is6hX+7ZvrUMNuCIS95kjkLoI98lxirQchQY76iN6smpXozpOsAAJ//sWk1+QvhyEANqVe7GnJYnFhAupKA/8FFRI2mbyVvWKHjp24Jb2bzMVCWea0wt9M46uIOssditQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736154192; c=relaxed/simple;
-	bh=juM5YEfDOlWpNld4K35OrSFVfYmtXaaXifTMs8sHTjw=;
+	s=arc-20240116; t=1736154614; c=relaxed/simple;
+	bh=BQCncZH/bE/8WRAjs+9WIqslaOHUmGSoFWaoiI9Xvcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jBFtytPprULA8lLgmJhUOogLRWtqlWDbTNcC4HnkAZxQMuwKCwjt+xc5WAXTxG/ig4CdVQRvttOfbG4GsOD6OjClgh1DFzaqlsRVeCr9O2bGDlnelAwUTO9QBGhJVStJRtljAlHwghhugJU7ewh8R0uoGBRfUh8kbwjFAKsNpC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yb+X6mcU; arc=none smtp.client-ip=209.85.128.50
+	 Content-Disposition:In-Reply-To; b=GW/L2rU413tKPPP0M7Xb06/z4OE/kB8nQZAy1Y8gIRTuY0F2muH6zGhJn62co08o432FRDLKnZiHgNYTAl8TPWjAqSkNwKraaGLMoNMQHMlQuxV7+mFTnHo+F3OmNmSPpwBwwomyYvevewnDMcx5kagEzJjHgaJ7jZDnZd2nCgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m3XLJZ94; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yb+X6mcU"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4368a293339so108035225e9.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 01:03:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m3XLJZ94"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43634b570c1so100975865e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 01:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736154184; x=1736758984; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oL+Jxhui4zRjFC3suo3KlWvwyOpIsU0MH4paHdgkKgo=;
-        b=yb+X6mcU98mBYelU5xgSLJzIownki1JSgWsCM+5rgtXmtpfsOdtgl48/9SxYdE6sEi
-         ZoiKF0C68R2JPGTTNcGilhUgLokLeebb2Ycow3tU7XdIzm/+NUWxMsUIckjAN3+rgrfF
-         sIzV/27FicAxFLC+vttERhEoTqmGjZuB0c8N1/GLP949Ik8LaFYbyQPARuwIQ44pgciM
-         b2zvbGFa5mtHFak5q94Gtf+O65y8y+5+fPD/KumVDILRh22TD7D7O31UVljwaO51YSRC
-         MpqrF9EQGUmRNqjL3NseolhvVKYqr53I/5481YADkO5LYLFWURLcLQhRDDIw/It0LILE
-         kgFg==
+        d=linaro.org; s=google; t=1736154610; x=1736759410; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qBVEkDr22VT/xaAD1SFYVkEdqW8vaJiTZdNPTso+ScE=;
+        b=m3XLJZ94JFnHiFiwDGAwIsmfRusEdOLPZdrJ0FaYQHgsuoeg7hBmrlUarcNfZ94X0s
+         H9kMdfv6XBKyPDRhmgklKNW98TtOPCHMDrCTK8V9TPPOpdj3W4Cr5OzdyCxVf2VmAAiN
+         j8kbEe9IsKC3D2mpDJSmZEVMYprZTGebBgP+5P4C1tlXiQ1eilQjlmsB8eOTuJepyM9w
+         ltQrhlofJs1hqNwOy/AJnSCTiPf/fuA0TLgxdfmwNJzDtCMGR154HHIHSxfV02aK+eAv
+         47hBnTMeSLca8zHAuSomG6TZOeQLWe4pYgTJVRwwglTd/iMokxnF3ILCbAJw9KLJhqaP
+         dQjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736154184; x=1736758984;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oL+Jxhui4zRjFC3suo3KlWvwyOpIsU0MH4paHdgkKgo=;
-        b=jQXZ1hHt9do3DBZJYww0SpM2P8yCCmhY11kUC7H8Pr1K3ShIplC7j0u91CaGYSFXFe
-         XUKgZYam9bSx4FySvnJffxgDiiYia+G6jgNuAkVTVqjOqKfVsJxyTuQMkBcJVeRuIxmi
-         l6MGc6zSeQLif6Z/Av1pT3bOIVDDEQ+6v/bzoiT28x9oc4HINL7b7USmc0OJPOrFT+1q
-         6hKOUhUU0xQh1qj0E3tOHKc4/hRcGbuP+dZYJ7XEaoTp/NYud8JHFonSU4RUu0VQIwNZ
-         BRpsmW9Vn2DIi/HOjj7uZuWlAj+qbXJjkeoWoMzF7WXJeh2RLgr3VJblhu50IwrC8sgg
-         OYvA==
-X-Gm-Message-State: AOJu0YxqOHyty4Pfd1wmnF4VPkS7k3KebtARfLaYsyPk5UPtQ9u9155v
-	vcUciDtHG4n1BMajUtdR0YbOk0DJwwQr2/jlUVVke2IJTewtEV61G5hM/+K1isnXHVNdorufgdH
-	1
-X-Gm-Gg: ASbGncseUjYAWVsblGpVK4m+lKpKzcUUnQZgciUaE0XbQGTWLCS+qvCv58gvJZXNOYM
-	hVnuJoUvPvnFYwWdJT5Dlub+h5iHyyFwCVWlCv9LXXy551rre+IU3DIM8WHY2DKbCMIYuzukJj2
-	enSXOMXnXNVwvW5osiCcJF6ABCLEG4XVrhXRoPNm2TzatTgxKEdDThQjbujkAl9YqLaXQ0XXikU
-	s+JgQKjN8rVD3blZwy3i6c9/ogwYB2r9cQ76jNsHQYIn6EU0/TZ8vvWACZE+Q==
-X-Google-Smtp-Source: AGHT+IEPXIHvrc32OoZtJWsDZGJwq3OSJblgy8U6VR2xjZol+ruFVo1KZnFqsZwfgFL65bu/loXZQg==
-X-Received: by 2002:a05:600c:1c99:b0:434:f218:e1a8 with SMTP id 5b1f17b1804b1-436686476eamr487743045e9.19.1736154183813;
-        Mon, 06 Jan 2025 01:03:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736154610; x=1736759410;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qBVEkDr22VT/xaAD1SFYVkEdqW8vaJiTZdNPTso+ScE=;
+        b=kbUDctyGrtp9ngIvcFttX8GylqgBfB7ZTwhc2Ftrf3NFcGV4I5iE33LvsSlF3323BI
+         m11nx2oxqZzvhWaxOYoFZSUo194J3WEGf78PzfWS4pv3GyrHregYP6okN77BjUeOmlf4
+         ZIg66WnLg7yMT/X4YcptcNHGQdx663zzkA96qqKuzgaRfzneexRLY1Og9+gJ0+cdMbn5
+         B4LeVDnRHoLzz06PchSWzUHesF8IkWz5ogB8QShQLF50PXcgAPT54vtB/d4NrYgzhhp7
+         6h0a9r8MfuIx5wRNOkJOiRKVuglsdiyPguoo6l9kocI5pRMHSejLqthb3ZJj/UshX9kY
+         j8Hw==
+X-Gm-Message-State: AOJu0YwaSkax7zCSa0+djmFTIFV/BMoj/2wd1p4s3uIhSvH28aEQJak0
+	zn4zxe0Ky+O8fS9t/whdGXXeXB5RtxCIR6VYSRm/SLfa1I7vUpqDBPogivFVP2WjUZy3NJj+a29
+	I
+X-Gm-Gg: ASbGncurqloCNWsEY6cT598o1afdoK6LZpAHdZvdMxBtltzU5FMnKjjJWvsWncwexgV
+	5MbA6LCs2pt1YVnnW+QeOnu9Vo3sD4OQOLIxjGyA0zjI8lAcjWnu2xkd8Q1MF381u6lmn48oKkl
+	rltWI75TnpB+PzFMMbx5bvhBHi/HhAMYmgAcgimIl8lyLIaS+Ufac09NVji/X/+0cES+drwX9Id
+	rdlOnmUuYJyfcTBHyyKqm6tepkQKw/6wu2CoZhcW/a789J/Pd5ZUuZvnY5RTw==
+X-Google-Smtp-Source: AGHT+IHSvXa8RR0IpbonnJ7TNb/InQOF/dUDabQ44f5YRwkp/DVFWFtAKKTQRRjvUBuC0bU+GnFFmg==
+X-Received: by 2002:a05:600c:1c28:b0:434:f953:eed with SMTP id 5b1f17b1804b1-43668b78d06mr501866115e9.30.1736154609708;
+        Mon, 06 Jan 2025 01:10:09 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436611ea423sm568734155e9.2.2025.01.06.01.03.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828e3fsm47943829f8f.5.2025.01.06.01.10.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 01:03:03 -0800 (PST)
-Date: Mon, 6 Jan 2025 12:02:59 +0300
+        Mon, 06 Jan 2025 01:10:09 -0800 (PST)
+Date: Mon, 6 Jan 2025 12:10:05 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se, jernej.skrabec@gmail.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: Re: [PATCH v2] drm/bridge: display-connector: implement the error
- path of .probe()
-Message-ID: <7606924f-b3b2-41d2-8617-700bc287d2b5@stanley.mountain>
+	peter.chen@kernel.org, gregkh@linuxfoundation.org,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: chipidea: ci_hdrc_imx: decrement device's refcount
+ on the error path of .probe()
+Message-ID: <911da76b-28b9-4d69-8b3c-f3937d7b80b1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241214012652.2104807-1-joe@pf.is.s.u-tokyo.ac.jp>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241212094945.3784866-1-joe@pf.is.s.u-tokyo.ac.jp>
 
 Hi Joe,
 
@@ -85,229 +84,235 @@ kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/drm-bridge-display-connector-implement-the-error-path-of-probe/20241214-230605
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241214012652.2104807-1-joe%40pf.is.s.u-tokyo.ac.jp
-patch subject: [PATCH v2] drm/bridge: display-connector: implement the error path of .probe()
-config: x86_64-randconfig-161-20241220 (https://download.01.org/0day-ci/archive/20241221/202412212129.OT9Bt8p0-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/usb-chipidea-ci_hdrc_imx-decrement-device-s-refcount-on-the-error-path-of-probe/20241212-175039
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20241212094945.3784866-1-joe%40pf.is.s.u-tokyo.ac.jp
+patch subject: [PATCH] usb: chipidea: ci_hdrc_imx: decrement device's refcount on the error path of .probe()
+config: riscv-randconfig-r072-20241221 (https://download.01.org/0day-ci/archive/20241221/202412211736.mqsiCz0g-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 9daf10ff8f29ba3a88a105aaa9d2379c21b77d35)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412212129.OT9Bt8p0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412211736.mqsiCz0g-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/display-connector.c:397 display_connector_probe() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/usb/chipidea/ci_hdrc_imx.c:537 ci_hdrc_imx_probe() error: we previously assumed 'data->usbmisc_data' could be null (see line 367)
 
-vim +/ret +397 drivers/gpu/drm/bridge/display-connector.c
+vim +537 drivers/usb/chipidea/ci_hdrc_imx.c
 
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  205  static int display_connector_probe(struct platform_device *pdev)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  206  {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  207  	struct display_connector *conn;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  208  	unsigned int type;
-189723fbe9aca18 Dan Carpenter        2021-10-13  209  	const char *label = NULL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  210  	int ret;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  211  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  212  	conn = devm_kzalloc(&pdev->dev, sizeof(*conn), GFP_KERNEL);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  213  	if (!conn)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  214  		return -ENOMEM;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  215  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  216  	platform_set_drvdata(pdev, conn);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  217  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  218  	type = (uintptr_t)of_device_get_match_data(&pdev->dev);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  219  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  220  	/* Get the exact connector type. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  221  	switch (type) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  222  	case DRM_MODE_CONNECTOR_DVII: {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  223  		bool analog, digital;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  224  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  225  		analog = of_property_read_bool(pdev->dev.of_node, "analog");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  226  		digital = of_property_read_bool(pdev->dev.of_node, "digital");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  227  		if (analog && !digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  228  			conn->bridge.type = DRM_MODE_CONNECTOR_DVIA;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  229  		} else if (!analog && digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  230  			conn->bridge.type = DRM_MODE_CONNECTOR_DVID;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  231  		} else if (analog && digital) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  232  			conn->bridge.type = DRM_MODE_CONNECTOR_DVII;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  233  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  234  			dev_err(&pdev->dev, "DVI connector with no type\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  235  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  236  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  237  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  238  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  239  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  240  	case DRM_MODE_CONNECTOR_HDMIA: {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  241  		const char *hdmi_type;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  242  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  243  		ret = of_property_read_string(pdev->dev.of_node, "type",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  244  					      &hdmi_type);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  245  		if (ret < 0) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  246  			dev_err(&pdev->dev, "HDMI connector with no type\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  247  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  248  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  249  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  250  		if (!strcmp(hdmi_type, "a") || !strcmp(hdmi_type, "c") ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  251  		    !strcmp(hdmi_type, "d") || !strcmp(hdmi_type, "e")) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  252  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  253  		} else if (!strcmp(hdmi_type, "b")) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  254  			conn->bridge.type = DRM_MODE_CONNECTOR_HDMIB;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  255  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  256  			dev_err(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  257  				"Unsupported HDMI connector type '%s'\n",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  258  				hdmi_type);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  259  			return -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  260  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  261  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  262  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  263  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  264  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  265  	default:
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  266  		conn->bridge.type = type;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  267  		break;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  268  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  269  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  270  	/* All the supported connector types support interlaced modes. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  271  	conn->bridge.interlace_allowed = true;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  272  
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  273  	if (type == DRM_MODE_CONNECTOR_HDMIA ||
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  274  	    type == DRM_MODE_CONNECTOR_DisplayPort)
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  275  		conn->bridge.ycbcr_420_allowed = true;
-d5cd8280c52bad4 Dmitry Baryshkov     2024-10-19  276  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  277  	/* Get the optional connector label. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  278  	of_property_read_string(pdev->dev.of_node, "label", &label);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  279  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  280  	/*
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  281  	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  282  	 * edge interrupts, register an interrupt handler.
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  283  	 */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  284  	if (type == DRM_MODE_CONNECTOR_DVII ||
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  285  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  286  	    type == DRM_MODE_CONNECTOR_DisplayPort) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  287  		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  288  							 GPIOD_IN);
-ed8f4e1002781c4 Ye Xingchen          2023-03-22  289  		if (IS_ERR(conn->hpd_gpio))
-ed8f4e1002781c4 Ye Xingchen          2023-03-22  290  			return dev_err_probe(&pdev->dev, PTR_ERR(conn->hpd_gpio),
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  291  					     "Unable to retrieve HPD GPIO\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  292  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  293  		conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  294  	} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  295  		conn->hpd_irq = -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  296  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  297  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  298  	if (conn->hpd_irq >= 0) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  299  		ret = devm_request_threaded_irq(&pdev->dev, conn->hpd_irq,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  300  						NULL, display_connector_hpd_irq,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  301  						IRQF_TRIGGER_RISING |
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  302  						IRQF_TRIGGER_FALLING |
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  303  						IRQF_ONESHOT,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  304  						"HPD", conn);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  305  		if (ret) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  306  			dev_info(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  307  				 "Failed to request HPD edge interrupt, falling back to polling\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  308  			conn->hpd_irq = -EINVAL;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  309  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  310  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  311  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  312  	/* Retrieve the DDC I2C adapter for DVI, HDMI and VGA connectors. */
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  313  	if (type == DRM_MODE_CONNECTOR_DVII ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  314  	    type == DRM_MODE_CONNECTOR_HDMIA ||
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  315  	    type == DRM_MODE_CONNECTOR_VGA) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  316  		struct device_node *phandle;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  317  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  318  		phandle = of_parse_phandle(pdev->dev.of_node, "ddc-i2c-bus", 0);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  319  		if (phandle) {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  320  			conn->bridge.ddc = of_get_i2c_adapter_by_node(phandle);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  321  			of_node_put(phandle);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  322  			if (!conn->bridge.ddc)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  323  				return -EPROBE_DEFER;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  324  		} else {
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  325  			dev_dbg(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  326  				"No I2C bus specified, disabling EDID readout\n");
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  327  		}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  328  	}
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  329  
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  330  	/* Get the DP PWR for DP connector. */
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  331  	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  332  		int ret;
+8e22978c57087a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shishkin  2013-06-24  339  static int ci_hdrc_imx_probe(struct platform_device *pdev)
+f6a3b3a37c4772 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-06-13  340  {
+8e22978c57087a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shishkin  2013-06-24  341  	struct ci_hdrc_imx_data *data;
+8e22978c57087a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shishkin  2013-06-24  342  	struct ci_hdrc_platform_data pdata = {
+c844d6c884f372 drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shiyan    2014-03-11  343  		.name		= dev_name(&pdev->dev),
+f6a3b3a37c4772 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-06-13  344  		.capoffset	= DEF_CAPOFFSET,
+ec841b8d73cff3 drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2024-09-23  345  		.flags		= CI_HDRC_HAS_SHORT_PKT_LIMIT,
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  346  		.notify_event	= ci_hdrc_imx_notify_event,
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  347  	};
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  348  	int ret;
+6f51bc340d2a1c drivers/usb/chipidea/ci_hdrc_imx.c LABBE Corentin      2015-11-12  349  	const struct ci_hdrc_imx_platform_flag *imx_platform_flag;
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  350  	struct device_node *np = pdev->dev.of_node;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  351  	struct device *dev = &pdev->dev;
+6f51bc340d2a1c drivers/usb/chipidea/ci_hdrc_imx.c LABBE Corentin      2015-11-12  352  
+59b7c6a8fd6c44 drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2020-11-24  353  	imx_platform_flag = of_device_get_match_data(&pdev->dev);
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  354  
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  355  	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+73529828cf896d drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2014-11-26  356  	if (!data)
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  357  		return -ENOMEM;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  358  
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  359  	data->plat_data = imx_platform_flag;
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  360  	pdata.flags |= imx_platform_flag->flags;
+ae3e57ae26cdcc drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-09-16  361  	platform_set_drvdata(pdev, data);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  362  	data->usbmisc_data = usbmisc_get_init_data(dev);
 
-Shadow variable.
+The usbmisc_get_init_data() function returns error pointers if there is
+an error or it returns NULL if there is no of_property_present() for
+this.
 
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  333  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  334  		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  335  		if (ret < 0) {
-a7afd1756ad7c06 Joe Hattori          2024-12-14  336  			ret = dev_err_probe(&pdev->dev, ret,
-a7afd1756ad7c06 Joe Hattori          2024-12-14  337  					    "failed to get DP PWR regulator\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  338  			goto err_put;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  339  		}
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  340  	}
-2e2bf3a5584de24 Tomi Valkeinen       2020-11-30  341  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  342  	/* enable DDC */
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  343  	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  344  		int ret;
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  363  	if (IS_ERR(data->usbmisc_data))
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  364  		return PTR_ERR(data->usbmisc_data);
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  365  
+8ff396fe56f559 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-01-17  366  	if ((of_usb_get_phy_mode(dev->of_node) == USBPHY_INTERFACE_MODE_HSIC)
+8ff396fe56f559 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-01-17 @367  		&& data->usbmisc_data) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  368  		pdata.flags |= CI_HDRC_IMX_IS_HSIC;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  369  		data->usbmisc_data->hsic = 1;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  370  		data->pinctrl = devm_pinctrl_get(dev);
+3f4aad6e1a4c26 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  371  		if (PTR_ERR(data->pinctrl) == -ENODEV)
+3f4aad6e1a4c26 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  372  			data->pinctrl = NULL;
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  373  		else if (IS_ERR(data->pinctrl)) {
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  374  			ret = dev_err_probe(dev, PTR_ERR(data->pinctrl),
+18171cfc3c236a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2022-06-14  375  					     "pinctrl get failed\n");
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  376  			goto err_put;
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  377  		}
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  378  
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  379  		data->hsic_pad_regulator =
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  380  				devm_regulator_get_optional(dev, "hsic");
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  381  		if (PTR_ERR(data->hsic_pad_regulator) == -ENODEV) {
+9c3959bb4cbf2b drivers/usb/chipidea/ci_hdrc_imx.c Jonathan Neuschäfer 2022-11-04  382  			/* no pad regulator is needed */
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  383  			data->hsic_pad_regulator = NULL;
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  384  		} else if (IS_ERR(data->hsic_pad_regulator)) {
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  385  			ret = dev_err_probe(dev, PTR_ERR(data->hsic_pad_regulator),
+18171cfc3c236a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2022-06-14  386  					     "Get HSIC pad regulator error\n");
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  387  			goto err_put;
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  388  		}
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  389  
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  390  		if (data->hsic_pad_regulator) {
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  391  			ret = regulator_enable(data->hsic_pad_regulator);
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  392  			if (ret) {
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  393  				dev_err(dev,
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  394  					"Failed to enable HSIC pad regulator\n");
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  395  				goto err_put;
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  396  			}
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  397  		}
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  398  	}
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  399  
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  400  	/* HSIC pinctrl handling */
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  401  	if (data->pinctrl) {
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  402  		struct pinctrl_state *pinctrl_hsic_idle;
+4d6141288c33b7 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-10-10  403  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  404  		pinctrl_hsic_idle = pinctrl_lookup_state(data->pinctrl, "idle");
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  405  		if (IS_ERR(pinctrl_hsic_idle)) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  406  			dev_err(dev,
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  407  				"pinctrl_hsic_idle lookup failed, err=%ld\n",
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  408  					PTR_ERR(pinctrl_hsic_idle));
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  409  			ret = PTR_ERR(pinctrl_hsic_idle);
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  410  			goto err_put;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  411  		}
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  412  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  413  		ret = pinctrl_select_state(data->pinctrl, pinctrl_hsic_idle);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  414  		if (ret) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  415  			dev_err(dev, "hsic_idle select failed, err=%d\n", ret);
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  416  			goto err_put;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  417  		}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  418  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  419  		data->pinctrl_hsic_active = pinctrl_lookup_state(data->pinctrl,
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  420  								"active");
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  421  		if (IS_ERR(data->pinctrl_hsic_active)) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  422  			dev_err(dev,
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  423  				"pinctrl_hsic_active lookup failed, err=%ld\n",
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  424  					PTR_ERR(data->pinctrl_hsic_active));
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  425  			ret = PTR_ERR(data->pinctrl_hsic_active);
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  426  			goto err_put;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  427  		}
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  428  	}
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  429  
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  430  	if (pdata.flags & CI_HDRC_PMQOS)
+77b352456941e8 drivers/usb/chipidea/ci_hdrc_imx.c Rafael J. Wysocki   2020-02-12  431  		cpu_latency_qos_add_request(&data->pm_qos_req, 0);
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  432  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  433  	ret = imx_get_clks(dev);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  434  	if (ret)
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  435  		goto disable_hsic_regulator;
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  436  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  437  	ret = imx_prepare_enable_clks(dev);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  438  	if (ret)
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  439  		goto disable_hsic_regulator;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  440  
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  441  	ret = clk_prepare_enable(data->clk_wakeup);
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  442  	if (ret)
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  443  		goto err_wakeup_clk;
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  444  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  445  	data->phy = devm_usb_get_phy_by_phandle(dev, "fsl,usbphy", 0);
+af59a8b120d189 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2013-09-24  446  	if (IS_ERR(data->phy)) {
+af59a8b120d189 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2013-09-24  447  		ret = PTR_ERR(data->phy);
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  448  		if (ret != -ENODEV) {
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  449  			dev_err_probe(dev, ret, "Failed to parse fsl,usbphy\n");
+d4d2e5329ae9df drivers/usb/chipidea/ci_hdrc_imx.c Dan Carpenter       2021-11-17  450  			goto err_clk;
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  451  		}
+8253a34bfae327 drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2021-09-21  452  		data->phy = devm_usb_get_phy_by_phandle(dev, "phys", 0);
+8253a34bfae327 drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2021-09-21  453  		if (IS_ERR(data->phy)) {
+8253a34bfae327 drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2021-09-21  454  			ret = PTR_ERR(data->phy);
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  455  			if (ret == -ENODEV) {
+ed5a419bb0195c drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-05-07  456  				data->phy = NULL;
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  457  			} else {
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  458  				dev_err_probe(dev, ret, "Failed to parse phys\n");
+ea1418b5f1a394 drivers/usb/chipidea/ci13xxx_imx.c Sascha Hauer        2013-06-13  459  				goto err_clk;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  460  			}
+8253a34bfae327 drivers/usb/chipidea/ci_hdrc_imx.c Fabio Estevam       2021-09-21  461  		}
+3a1bd0494352bd drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2023-01-30  462  	}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  463  
+ef44cb4226d132 drivers/usb/chipidea/ci_hdrc_imx.c Antoine Tenart      2014-10-30  464  	pdata.usb_phy = data->phy;
+746f316b753a83 drivers/usb/chipidea/ci_hdrc_imx.c Jun Li              2020-01-23  465  	if (data->usbmisc_data)
+746f316b753a83 drivers/usb/chipidea/ci_hdrc_imx.c Jun Li              2020-01-23  466  		data->usbmisc_data->usb_phy = data->phy;
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  467  
+03e6275ae38108 drivers/usb/chipidea/ci_hdrc_imx.c Andrey Smirnov      2018-05-30  468  	if ((of_device_is_compatible(np, "fsl,imx53-usb") ||
+03e6275ae38108 drivers/usb/chipidea/ci_hdrc_imx.c Andrey Smirnov      2018-05-30  469  	     of_device_is_compatible(np, "fsl,imx51-usb")) && pdata.usb_phy &&
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  470  	    of_usb_get_phy_mode(np) == USBPHY_INTERFACE_MODE_ULPI) {
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  471  		pdata.flags |= CI_HDRC_OVERRIDE_PHY_CONTROL;
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  472  		data->override_phy_control = true;
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  473  		usb_phy_init(pdata.usb_phy);
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  474  	}
+be9cae2479f48d drivers/usb/chipidea/ci_hdrc_imx.c Sebastian Reichel   2018-03-29  475  
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  476  	if (pdata.flags & CI_HDRC_SUPPORTS_RUNTIME_PM)
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  477  		data->supports_runtime_pm = true;
+1071055e2a118a drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2014-01-10  478  
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  479  	ret = imx_usbmisc_init(data->usbmisc_data);
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  480  	if (ret) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  481  		dev_err(dev, "usbmisc init failed, ret=%d\n", ret);
+af59a8b120d189 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2013-09-24  482  		goto err_clk;
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  483  	}
+d142d6be231713 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-09-12  484  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  485  	data->ci_pdev = ci_hdrc_add_device(dev,
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  486  				pdev->resource, pdev->num_resources,
+f6a3b3a37c4772 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-06-13  487  				&pdata);
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  488  	if (IS_ERR(data->ci_pdev)) {
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  489  		ret = PTR_ERR(data->ci_pdev);
+18171cfc3c236a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Stein     2022-06-14  490  		dev_err_probe(dev, ret, "ci_hdrc_add_device failed\n");
+af59a8b120d189 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2013-09-24  491  		goto err_clk;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  492  	}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  493  
+df17aa9fb31f6a drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-10-09  494  	if (data->usbmisc_data) {
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  495  		if (!IS_ERR(pdata.id_extcon.edev) ||
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  496  		    of_property_read_bool(np, "usb-role-switch"))
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  497  			data->usbmisc_data->ext_id = 1;
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  498  
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  499  		if (!IS_ERR(pdata.vbus_extcon.edev) ||
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  500  		    of_property_read_bool(np, "usb-role-switch"))
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  501  			data->usbmisc_data->ext_vbus = 1;
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  502  
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  503  		/* usbmisc needs to know dr mode to choose wakeup setting */
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  504  		data->usbmisc_data->available_role =
+d6f93d21001e43 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2020-07-28  505  			ci_hdrc_query_available_role(data->ci_pdev);
+df17aa9fb31f6a drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-10-09  506  	}
+93c2c7330a3b6d drivers/usb/chipidea/ci_hdrc_imx.c Li Jun              2019-09-09  507  
+05986ba9b025ae drivers/usb/chipidea/ci_hdrc_imx.c Sascha Hauer        2013-08-14  508  	ret = imx_usbmisc_init_post(data->usbmisc_data);
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  509  	if (ret) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  510  		dev_err(dev, "usbmisc post failed, ret=%d\n", ret);
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  511  		goto disable_device;
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  512  	}
+a068533079a0a1 drivers/usb/chipidea/ci13xxx_imx.c Michael Grzeschik   2013-03-30  513  
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  514  	if (data->supports_runtime_pm) {
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  515  		pm_runtime_set_active(dev);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  516  		pm_runtime_enable(dev);
+e14db48dfcf3ab drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  517  	}
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  518  
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  519  	device_set_wakeup_capable(dev, true);
+6d6531104d2069 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2015-02-11  520  
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  521  	return 0;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  522  
+770719df7b2cee drivers/usb/chipidea/ci13xxx_imx.c Fabio Estevam       2013-06-13  523  disable_device:
+8e22978c57087a drivers/usb/chipidea/ci_hdrc_imx.c Alexander Shishkin  2013-06-24  524  	ci_hdrc_remove_device(data->ci_pdev);
+ea1418b5f1a394 drivers/usb/chipidea/ci13xxx_imx.c Sascha Hauer        2013-06-13  525  err_clk:
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  526  	clk_disable_unprepare(data->clk_wakeup);
+5dbe9ac28355fd drivers/usb/chipidea/ci_hdrc_imx.c Xu Yang             2023-12-28  527  err_wakeup_clk:
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  528  	imx_disable_unprepare_clks(dev);
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  529  disable_hsic_regulator:
+7c8e8909417eb6 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2018-10-16  530  	if (data->hsic_pad_regulator)
+141822aa3f79ef drivers/usb/chipidea/ci_hdrc_imx.c André Draszik       2019-08-10  531  		/* don't overwrite original ret (cf. EPROBE_DEFER) */
+141822aa3f79ef drivers/usb/chipidea/ci_hdrc_imx.c André Draszik       2019-08-10  532  		regulator_disable(data->hsic_pad_regulator);
+d1609c312d42f3 drivers/usb/chipidea/ci_hdrc_imx.c Peter Chen          2019-04-28  533  	if (pdata.flags & CI_HDRC_PMQOS)
+77b352456941e8 drivers/usb/chipidea/ci_hdrc_imx.c Rafael J. Wysocki   2020-02-12  534  		cpu_latency_qos_remove_request(&data->pm_qos_req);
+141822aa3f79ef drivers/usb/chipidea/ci_hdrc_imx.c André Draszik       2019-08-10  535  	data->ci_pdev = NULL;
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12  536  err_put:
+686b7eb85418f9 drivers/usb/chipidea/ci_hdrc_imx.c Joe Hattori         2024-12-12 @537  	put_device(data->usbmisc_data->dev);
+                                                                                                   ^^^^^^^^^^^^^^^^^^^^
+Potential NULL dereference.  This should probably be:
 
-This "ret" shadows an earlier declaration and leads to an error code bug.
+	put_device(dev);
 
-I feel like say that ret is one of those variables which should *always*
-be declared with function scope even if we don't return the error code.
-These sorts of bugs aren't super common.  We probably only get a couple
-per year.
-
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  345  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  346  		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  347  						       GPIOD_OUT_HIGH);
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  348  
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  349  		if (IS_ERR(conn->ddc_en)) {
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  350  			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  351  			ret = PTR_ERR(conn->ddc_en);
-a7afd1756ad7c06 Joe Hattori          2024-12-14  352  			goto err_put;
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  353  		}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  354  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  355  		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  356  		if (ret < 0) {
-a7afd1756ad7c06 Joe Hattori          2024-12-14  357  			ret = dev_err_probe(
-a7afd1756ad7c06 Joe Hattori          2024-12-14  358  				&pdev->dev, ret,
-a7afd1756ad7c06 Joe Hattori          2024-12-14  359  				"failed to get HDMI +5V Power regulator\n");
-a7afd1756ad7c06 Joe Hattori          2024-12-14  360  			goto err_put;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  361  		}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  362  	}
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  363  
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  364  	if (conn->supply) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  365  		ret = regulator_enable(conn->supply);
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  366  		if (ret) {
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  367  			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
-a7afd1756ad7c06 Joe Hattori          2024-12-14  368  			goto err_put;
-6eb6b6f0a012993 Dmitry Baryshkov     2023-05-31  369  		}
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  370  	}
-6de79dd3a920a13 H. Nikolaus Schaller 2022-04-07  371  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  372  	conn->bridge.funcs = &display_connector_bridge_funcs;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  373  	conn->bridge.of_node = pdev->dev.of_node;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  374  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  375  	if (conn->bridge.ddc)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  376  		conn->bridge.ops |= DRM_BRIDGE_OP_EDID
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  377  				 |  DRM_BRIDGE_OP_DETECT;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  378  	if (conn->hpd_gpio)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  379  		conn->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  380  	if (conn->hpd_irq >= 0)
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  381  		conn->bridge.ops |= DRM_BRIDGE_OP_HPD;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  382  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  383  	dev_dbg(&pdev->dev,
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  384  		"Found %s display connector '%s' %s DDC bus and %s HPD GPIO (ops 0x%x)\n",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  385  		drm_get_connector_type_name(conn->bridge.type),
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  386  		label ? label : "<unlabelled>",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  387  		conn->bridge.ddc ? "with" : "without",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  388  		conn->hpd_gpio ? "with" : "without",
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  389  		conn->bridge.ops);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  390  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  391  	drm_bridge_add(&conn->bridge);
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  392  
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  393  	return 0;
-a7afd1756ad7c06 Joe Hattori          2024-12-14  394  
-a7afd1756ad7c06 Joe Hattori          2024-12-14  395  err_put:
-a7afd1756ad7c06 Joe Hattori          2024-12-14  396  	i2c_put_adapter(conn->bridge.ddc);
-a7afd1756ad7c06 Joe Hattori          2024-12-14 @397  	return ret;
-0c275c30176b2e7 Laurent Pinchart     2020-02-26  398  }
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  538  	return ret;
+1530280084c390 drivers/usb/chipidea/ci13xxx_imx.c Richard Zhao        2012-07-07  539  }
 
 -- 
 0-DAY CI Kernel Test Service
