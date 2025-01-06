@@ -1,79 +1,68 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385FD1DD0E7
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 11:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F941DC9A8
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 11:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736161602; cv=none; b=UeCwOjiHW/foeuxF7yQT51UUr5A35jtAc9Motf8GjQ5tM+rYrz16TbsjCOkuhcYaa/5pDEdA8TdKqvvy7lqvBs3+fEmvE6dNv0uo+gkn7cGA/Iv3qPfxcwyXhf/ITPsl8W0f5DXY7J67akCHAnIFF/usA0tM33gU6X5eKQ+J0QM=
+	t=1736162174; cv=none; b=jUl3PwfcmKrgcl74Sk+sL0RkhxChw7vmYyVUAh2LY8c6zWm8ve8hfZBHJayWbm4T4MeNcZ6mjBJiN/8X4k3XPgJLzo51VPPNbavJ/7QAodJWqomgXUPOIt1TRhKR4jxJkfEdG7bfyXa/qLZDmOgv4DeNgNqsljiPt8Jhb1UjbTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736161602; c=relaxed/simple;
-	bh=A6JobZoPrq69BuqxXh3qmnmCjaegCYBZNWC2wJ3H0Mw=;
+	s=arc-20240116; t=1736162174; c=relaxed/simple;
+	bh=O6C2GYZ1nSXjyomoMWBLCOezNaTin34/+fcjikzbwuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TP+7jJpS+jQY1rAaeGY0lt3t8PD+uw7i3YVtd86Hio1i4d5h0El/zgfPgEsqDJEPK8DVXQF9NnegFUElPd8GFmFapRd8BZukfCWohmPDnI6bjBFIGMVM6DDdwMcadp60fFltcy6qfW1Nf6HVpYlLAOWADnsRHPXCcTbinwmXScE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zHtDu6xQ; arc=none smtp.client-ip=209.85.128.47
+	 Content-Disposition; b=hwZlAhthdCfJkvy1Rr1i4qxtGoqGb9NQ/KsZk9gYAkZo7MenWbM1rOeyjXSYI309T2kFGb/zUyMxfDGB94dRhpOSaRJPYct8Zz8/I5vjCPnZbr3fscwkQO9MR1L/jVBOteiajrLGGCvu0+mXe+vZSDUeb8rY9SAX+32L2Pu5SnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bTNlDKob; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zHtDu6xQ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361815b96cso94377275e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 03:06:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bTNlDKob"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4368a293339so109366885e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 03:16:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736161598; x=1736766398; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SV0FBVRxpsuCLb/nRDIZe8jsu0IEUwlF/EBuP03LhIc=;
-        b=zHtDu6xQuWK1NgDf79MNeBj4F2cD//Zx8+GQ8QoqIQRPF3w3uYO6JR6DSH7ifXctzy
-         VGNSGrUQ6dFFV1+QCXUirMe6D002LTIzirJQd6lIz4sNv5YAMFTKk3kK4huFfTQx+C6c
-         iVq2opO/vZAsL5LEN6wGJTL31z1O/4XUlMk085pt4C/L5wDqJuNmrt3W3eWo9Q62yHkQ
-         /ydXYKBnjXa5AG20NWdscwZBxolnA2bwDFVjn9F9Hk+5TKXoaXUyA/Lc/8dSpe7ecpWC
-         1YVI2FBO1/yCO2l1Nm0DDnVlQ1AEqvvekF8eudR8Ixs6R0roq7n/DFp2Pi15kRguiT05
-         Tx+Q==
+        d=linaro.org; s=google; t=1736162170; x=1736766970; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RaLAGnL/Jk0mHfwFhTVnY/JknA1BlI/NlBEd64HszCM=;
+        b=bTNlDKobRxpg8JW5kue3HkLXsLbpwKBa25YUuZsJuL34V6NjhUcAegKSIRpIMK1dBc
+         gklxTp5aPgEKL26Eu3lt/kC0I3PkF+kQf60K0X1fOJDa969M0byZs3vpDCLPCOGZhA6i
+         b83S81wV1C5S0m3+xv9e3FZN61ZuPcx+TA8TPlMGnj+XpJRdiw/5LZgfPeg150jykPG0
+         2DjG1pNXFbO3z/ik7iQ/Ak+D0G+8WzI4rYDDHRXdeS/0ChoFV3I0HCTJx7ttG3U3dN+g
+         AhxCNFbF1luPq4NbxFwTL3hjfEu5kWmoFXjOOWdKUNuGB0n9kmkHmXIn5rnM9PJcjtXJ
+         AK/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736161598; x=1736766398;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SV0FBVRxpsuCLb/nRDIZe8jsu0IEUwlF/EBuP03LhIc=;
-        b=bmDl0vJw1h4o8KHBjEOGqixiFLQOX+EvZ5BH1IFdzv1lDZd9SyqOe/Af/DAUMWNy+N
-         Z3sYvyOwGZVuRG+fGU+hXnC0/sM0jc93FsywWM0d9t7f6alUK3oxXjuNBGXpe9WXLss6
-         HuI7FO64pwXC/kb8Xxk8qWCn5ARlzEUqArIFZqQvNkcRDEIXkyLP6NHyWtxiJj+awHSP
-         KNPmjP3ESLePZOmU/oDrBGt/ln2uIEw/NB2UcRmq8ow9vMDW/wI2g8y0qGi4bTPcExUi
-         MMvMfJ2n3//DDz5+5SGSVdSDybQjJAfoL/38fxljM1tL4/dv28D+xfhZC7KD3pTRjeEg
-         W3Vw==
-X-Gm-Message-State: AOJu0YytVz9P6JQK2PTQ6FudRYcdqvBpz8PemKyNrPAzNlj9g9nb7Mns
-	1Hvx+CR7Mrq/3WJ9S1p0V7KRpJJnDe5qIHXlWRahdnYh915A68tP72NAaXktMC+zTn7tgpNbcpQ
-	m
-X-Gm-Gg: ASbGncti0JOhfzPiEUVkLEn2mwej4XHdyc187Ap60n8fJPOaDvdFtsB/GksxdAyyRTD
-	qbLSE/qIjMja3Hvzesdaxx/RCffm0K1quBpfuPTNR0wBx7G+jZa5dHaqMKOz15E88rCDZdqhQ+J
-	5w0YEuzc3l8TkLoUzMLuBx+CCOMGmTXllsEe9lsQJsgny/UTg2T4jnmKEVeFH0RRpgKhmC8wLLo
-	Q0GSe9DswK2EpjjpKyurI6NVqhJ6EmWmfBa9SuL+yV+LrnGHSZo0y6SimSxUw==
-X-Google-Smtp-Source: AGHT+IGYhdHyJQz2T6sQnktrmfPOEHIa+NxQvfHmqaXAv8NSDYeXhh8uDw3YLAg6DXD0ySC+Pw0+TA==
-X-Received: by 2002:a05:600c:1d0c:b0:431:54d9:da57 with SMTP id 5b1f17b1804b1-43668b78e66mr508486965e9.30.1736161598070;
-        Mon, 06 Jan 2025 03:06:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736162170; x=1736766970;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RaLAGnL/Jk0mHfwFhTVnY/JknA1BlI/NlBEd64HszCM=;
+        b=c59uFHtubiUpN/tAa8nnxEg5qska/eq6PREu1ME3RVjbwr/9ve9UuQi/r0HCVw7LN5
+         VjYzzI9pPUzW1x0k9bVerzFc3l8SXNIbIO2UuAlaA4pSNCJqXr2TeDJjVQtoL+F0t+DY
+         6cAiQS1lzrPhmY7oCDP+T4lbT0hfXLEgOjunfbaQkZzgURzFdb+o/oGwb0Lk+OAQCp5n
+         Lj3KAHa3ibqIBU4toJ55iy8nYG+gzv8YH+EajeQgwM/r/VRUcBA0c+GCcu4ECjP6Zm84
+         LFM0Tdbp3atg48SJvQymqJ6su8ibe0oeZ7SuxAqQaJ6Ckcs7m4T2n6RRpPw7JImIb3Ha
+         dlow==
+X-Gm-Message-State: AOJu0Yw1GMtkPIgwgLJVTrdK9pzCV888f01TwntIgBX6wELel3iMo/js
+	4yOj+HBhCbXaJcmSYARbhfWw0vGuG3QIe1RvUoPWkSkjkbxdy9jundJWivOhvPC4gvpF0x/dSGn
+	Z
+X-Gm-Gg: ASbGncuTNod72QDZBQqn49UwuK3UqKf/NMUHTCK7znkl5AKH49U3p8+HhSCOqBqrKNl
+	wn0ChoMdUc0B6xNZqqJ0xXfiaE9zSj/oHyxr8fpgvSM8LttOw+10vwsBWiRHLtREJzpOYNnG8Wd
+	tuUj0aaLE+0RrRn2bhRToRqK3lze3OjTVviUtEz7mXOUjwoj7gMBGCIxwOnyZMyz5XhtF5DjGpF
+	MxoDtbzwdbZrWq7PF2RvDFWORbLmoMQ9cQ0e8YRXBLw7RKvtA44LAMh/yOhug==
+X-Google-Smtp-Source: AGHT+IHHfvB81IlWX1NWKncUq++jCaYtse2JU5NWB0rqvt7+nipEXsqSHdSLvxqbor2rcxEdi4vKZA==
+X-Received: by 2002:a05:6000:1868:b0:38a:4184:1519 with SMTP id ffacd0b85a97d-38a5eed02d2mr13627477f8f.23.1736162169976;
+        Mon, 06 Jan 2025 03:16:09 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4364b0532a6sm577668545e9.1.2025.01.06.03.06.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119ccsm598362825e9.24.2025.01.06.03.16.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 03:06:37 -0800 (PST)
-Date: Mon, 6 Jan 2025 14:06:34 +0300
+        Mon, 06 Jan 2025 03:16:09 -0800 (PST)
+Date: Mon, 6 Jan 2025 14:16:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	linux-kernel@vger.kernel.org
+To: oe-kbuild@lists.linux.dev, Ronak Jain <ronak.jain@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-amarula@amarulasolutions.com,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	Abel Vesa <abelvesa@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 11/18] clk: imx: add support for i.MX8MN anatop clock
- driver
-Message-ID: <a495faf8-6cfb-4d24-b7b5-cd94e1a8b3ca@stanley.mountain>
+	linux-kernel@vger.kernel.org, Michal Simek <monstr@monstr.eu>,
+	Jay Buddhabhatti <jay.buddhabhatti@amd.com>
+Subject: drivers/firmware/xilinx/zynqmp.c:677 zynqmp_pm_query_data() warn:
+ missing error code? 'ret'
+Message-ID: <5e13987d-3bdd-45e9-b16a-b2ece68c4571@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,257 +71,66 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241229145027.3984542-12-dario.binacchi@amarulasolutions.com>
 
-Hi Dario,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-clock-imx8mm-add-VIDEO_PLL-clocks/20241229-225716
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241229145027.3984542-12-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH v8 11/18] clk: imx: add support for i.MX8MN anatop clock driver
-config: arm-randconfig-r071-20241231 (https://download.01.org/0day-ci/archive/20241231/202412311031.781qvq8q-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+commit: 92fb71333d5737d0296fb968a653dfda4b225175 firmware: xilinx: add support for new SMC call format
+date:   3 months ago
+config: arm64-randconfig-r073-20250102 (https://download.01.org/0day-ci/archive/20250103/202501031613.wYttNcqY-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412311031.781qvq8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501031613.wYttNcqY-lkp@intel.com/
 
 smatch warnings:
-drivers/clk/imx/clk-imx8mn-anatop.c:244 imx8mn_anatop_clocks_probe() error: buffer overflow 'hws' 62 <= 62
+drivers/firmware/xilinx/zynqmp.c:677 zynqmp_pm_query_data() warn: missing error code? 'ret'
 
-vim +/hws +244 drivers/clk/imx/clk-imx8mn-anatop.c
+vim +/ret +677 drivers/firmware/xilinx/zynqmp.c
 
-87df58feb5834e Dario Binacchi 2024-12-29   40  static int imx8mn_anatop_clocks_probe(struct platform_device *pdev)
-87df58feb5834e Dario Binacchi 2024-12-29   41  {
-87df58feb5834e Dario Binacchi 2024-12-29   42  	struct device *dev = &pdev->dev;
-87df58feb5834e Dario Binacchi 2024-12-29   43  	struct device_node *np = dev->of_node;
-87df58feb5834e Dario Binacchi 2024-12-29   44  	void __iomem *base;
-87df58feb5834e Dario Binacchi 2024-12-29   45  	int ret;
-87df58feb5834e Dario Binacchi 2024-12-29   46  
-87df58feb5834e Dario Binacchi 2024-12-29   47  	base = devm_platform_ioremap_resource(pdev, 0);
-87df58feb5834e Dario Binacchi 2024-12-29   48  	if (IS_ERR(base)) {
-87df58feb5834e Dario Binacchi 2024-12-29   49  		dev_err(dev, "failed to get base address\n");
-87df58feb5834e Dario Binacchi 2024-12-29   50  		return PTR_ERR(base);
-87df58feb5834e Dario Binacchi 2024-12-29   51  	}
-87df58feb5834e Dario Binacchi 2024-12-29   52  
-87df58feb5834e Dario Binacchi 2024-12-29   53  	clk_hw_data = devm_kzalloc(dev, struct_size(clk_hw_data, hws,
-87df58feb5834e Dario Binacchi 2024-12-29   54  						    IMX8MN_ANATOP_CLK_END),
+6366c1bac3149c Rajan Vaja 2020-04-24  653  int zynqmp_pm_query_data(struct zynqmp_pm_query_data qdata, u32 *out)
+59ecdd778879f1 Rajan Vaja 2018-09-12  654  {
+92fb71333d5737 Ronak Jain 2024-09-19  655  	int ret, i = 0;
+92fb71333d5737 Ronak Jain 2024-09-19  656  	u32 ret_payload[PAYLOAD_ARG_CNT] = {0};
+92fb71333d5737 Ronak Jain 2024-09-19  657  
+92fb71333d5737 Ronak Jain 2024-09-19  658  	if (sip_svc_version >= SIP_SVC_PASSTHROUGH_VERSION) {
+92fb71333d5737 Ronak Jain 2024-09-19  659  		ret = zynqmp_pm_invoke_fw_fn(PM_QUERY_DATA, ret_payload, 4,
+92fb71333d5737 Ronak Jain 2024-09-19  660  					     qdata.qid, qdata.arg1,
+92fb71333d5737 Ronak Jain 2024-09-19  661  					     qdata.arg2, qdata.arg3);
+92fb71333d5737 Ronak Jain 2024-09-19  662  		/* To support backward compatibility */
+92fb71333d5737 Ronak Jain 2024-09-19  663  		if (!ret && !ret_payload[0]) {
+92fb71333d5737 Ronak Jain 2024-09-19  664  			/*
+92fb71333d5737 Ronak Jain 2024-09-19  665  			 * TF-A passes return status on 0th index but
+92fb71333d5737 Ronak Jain 2024-09-19  666  			 * api to get clock name reads data from 0th
+92fb71333d5737 Ronak Jain 2024-09-19  667  			 * index so pass data at 0th index instead of
+92fb71333d5737 Ronak Jain 2024-09-19  668  			 * return status
+92fb71333d5737 Ronak Jain 2024-09-19  669  			 */
+92fb71333d5737 Ronak Jain 2024-09-19  670  			if (qdata.qid == PM_QID_CLOCK_GET_NAME ||
+92fb71333d5737 Ronak Jain 2024-09-19  671  			    qdata.qid == PM_QID_PINCTRL_GET_FUNCTION_NAME)
+92fb71333d5737 Ronak Jain 2024-09-19  672  				i = 1;
+92fb71333d5737 Ronak Jain 2024-09-19  673  
+92fb71333d5737 Ronak Jain 2024-09-19  674  			for (; i < PAYLOAD_ARG_CNT; i++, out++)
+92fb71333d5737 Ronak Jain 2024-09-19  675  				*out = ret_payload[i];
+92fb71333d5737 Ronak Jain 2024-09-19  676  
+92fb71333d5737 Ronak Jain 2024-09-19 @677  			return ret;
 
-IMX8MN_ANATOP_CLK_END is IMX8MN_ANATOP_CLK_CLKOUT2
+Please just return 0 here.
 
-87df58feb5834e Dario Binacchi 2024-12-29   55  				   GFP_KERNEL);
-87df58feb5834e Dario Binacchi 2024-12-29   56  	if (WARN_ON(!clk_hw_data))
-87df58feb5834e Dario Binacchi 2024-12-29   57  		return -ENOMEM;
-87df58feb5834e Dario Binacchi 2024-12-29   58  
-87df58feb5834e Dario Binacchi 2024-12-29   59  	clk_hw_data->num = IMX8MN_ANATOP_CLK_END;
-87df58feb5834e Dario Binacchi 2024-12-29   60  	hws = clk_hw_data->hws;
-87df58feb5834e Dario Binacchi 2024-12-29   61  
-87df58feb5834e Dario Binacchi 2024-12-29   62  	hws[IMX8MN_ANATOP_CLK_DUMMY] = imx_clk_hw_fixed("dummy", 0);
-87df58feb5834e Dario Binacchi 2024-12-29   63  	hws[IMX8MN_ANATOP_CLK_32K] = imx_get_clk_hw_by_name(np, "osc_32k");
-87df58feb5834e Dario Binacchi 2024-12-29   64  	hws[IMX8MN_ANATOP_CLK_24M] = imx_get_clk_hw_by_name(np, "osc_24m");
-87df58feb5834e Dario Binacchi 2024-12-29   65  
-87df58feb5834e Dario Binacchi 2024-12-29   66  	hws[IMX8MN_ANATOP_AUDIO_PLL1_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   67  		imx_clk_hw_mux("audio_pll1_ref_sel", base + 0x0, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   68  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   69  	hws[IMX8MN_ANATOP_AUDIO_PLL2_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   70  		imx_clk_hw_mux("audio_pll2_ref_sel", base + 0x14, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   71  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   72  	hws[IMX8MN_ANATOP_VIDEO_PLL_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   73  		imx_clk_hw_mux("video_pll_ref_sel", base + 0x28, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   74  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   75  	hws[IMX8MN_ANATOP_DRAM_PLL_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   76  		imx_clk_hw_mux("dram_pll_ref_sel", base + 0x50, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   77  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   78  	hws[IMX8MN_ANATOP_GPU_PLL_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   79  		imx_clk_hw_mux("gpu_pll_ref_sel", base + 0x64, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   80  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   81  	hws[IMX8MN_ANATOP_M7_ALT_PLL_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   82  		imx_clk_hw_mux("m7_alt_pll_ref_sel", base + 0x74, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   83  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   84  	hws[IMX8MN_ANATOP_ARM_PLL_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   85  		imx_clk_hw_mux("arm_pll_ref_sel", base + 0x84, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   86  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   87  	hws[IMX8MN_ANATOP_SYS_PLL3_REF_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29   88  		imx_clk_hw_mux("sys_pll3_ref_sel", base + 0x114, 0, 2,
-87df58feb5834e Dario Binacchi 2024-12-29   89  			       pll_ref_sels, ARRAY_SIZE(pll_ref_sels));
-87df58feb5834e Dario Binacchi 2024-12-29   90  
-87df58feb5834e Dario Binacchi 2024-12-29   91  	hws[IMX8MN_ANATOP_AUDIO_PLL1] =
-87df58feb5834e Dario Binacchi 2024-12-29   92  		imx_clk_hw_pll14xx("audio_pll1", "audio_pll1_ref_sel",
-87df58feb5834e Dario Binacchi 2024-12-29   93  				   base, &imx_1443x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29   94  	hws[IMX8MN_ANATOP_AUDIO_PLL2] =
-87df58feb5834e Dario Binacchi 2024-12-29   95  		imx_clk_hw_pll14xx("audio_pll2", "audio_pll2_ref_sel",
-87df58feb5834e Dario Binacchi 2024-12-29   96  				   base + 0x14, &imx_1443x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29   97  	hws[IMX8MN_ANATOP_VIDEO_PLL] =
-87df58feb5834e Dario Binacchi 2024-12-29   98  		imx_clk_hw_pll14xx("video_pll", "video_pll_ref_sel",
-87df58feb5834e Dario Binacchi 2024-12-29   99  				   base + 0x28, &imx_1443x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  100  	hws[IMX8MN_ANATOP_DRAM_PLL] =
-87df58feb5834e Dario Binacchi 2024-12-29  101  		imx_clk_hw_pll14xx("dram_pll", "dram_pll_ref_sel", base + 0x50,
-87df58feb5834e Dario Binacchi 2024-12-29  102  				   &imx_1443x_dram_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  103  	hws[IMX8MN_ANATOP_GPU_PLL] =
-87df58feb5834e Dario Binacchi 2024-12-29  104  		imx_clk_hw_pll14xx("gpu_pll", "gpu_pll_ref_sel", base + 0x64,
-87df58feb5834e Dario Binacchi 2024-12-29  105  				   &imx_1416x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  106  	hws[IMX8MN_ANATOP_M7_ALT_PLL] =
-87df58feb5834e Dario Binacchi 2024-12-29  107  		imx_clk_hw_pll14xx("m7_alt_pll", "m7_alt_pll_ref_sel",
-87df58feb5834e Dario Binacchi 2024-12-29  108  				   base + 0x74, &imx_1416x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  109  	hws[IMX8MN_ANATOP_ARM_PLL] =
-87df58feb5834e Dario Binacchi 2024-12-29  110  		imx_clk_hw_pll14xx("arm_pll", "arm_pll_ref_sel", base + 0x84,
-87df58feb5834e Dario Binacchi 2024-12-29  111  				   &imx_1416x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  112  	hws[IMX8MN_ANATOP_SYS_PLL1] = imx_clk_hw_fixed("sys_pll1", 800000000);
-87df58feb5834e Dario Binacchi 2024-12-29  113  	hws[IMX8MN_ANATOP_SYS_PLL2] = imx_clk_hw_fixed("sys_pll2", 1000000000);
-87df58feb5834e Dario Binacchi 2024-12-29  114  	hws[IMX8MN_ANATOP_SYS_PLL3] =
-87df58feb5834e Dario Binacchi 2024-12-29  115  		imx_clk_hw_pll14xx("sys_pll3", "sys_pll3_ref_sel", base + 0x114,
-87df58feb5834e Dario Binacchi 2024-12-29  116  				   &imx_1416x_pll);
-87df58feb5834e Dario Binacchi 2024-12-29  117  
-87df58feb5834e Dario Binacchi 2024-12-29  118  	/* PLL bypass out */
-87df58feb5834e Dario Binacchi 2024-12-29  119  	hws[IMX8MN_ANATOP_AUDIO_PLL1_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  120  		imx_clk_hw_mux_flags("audio_pll1_bypass", base, 16, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  121  				     audio_pll1_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  122  				     ARRAY_SIZE(audio_pll1_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  123  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  124  	hws[IMX8MN_ANATOP_AUDIO_PLL2_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  125  		imx_clk_hw_mux_flags("audio_pll2_bypass", base + 0x14, 16, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  126  				     audio_pll2_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  127  				     ARRAY_SIZE(audio_pll2_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  128  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  129  	hws[IMX8MN_ANATOP_VIDEO_PLL_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  130  		imx_clk_hw_mux_flags("video_pll_bypass", base + 0x28, 16, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  131  				     video_pll_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  132  				     ARRAY_SIZE(video_pll_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  133  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  134  	hws[IMX8MN_ANATOP_DRAM_PLL_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  135  		imx_clk_hw_mux_flags("dram_pll_bypass", base + 0x50, 16, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  136  				     dram_pll_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  137  				     ARRAY_SIZE(dram_pll_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  138  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  139  	hws[IMX8MN_ANATOP_GPU_PLL_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  140  		imx_clk_hw_mux_flags("gpu_pll_bypass", base + 0x64, 28, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  141  				     gpu_pll_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  142  				     ARRAY_SIZE(gpu_pll_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  143  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  144  	hws[IMX8MN_ANATOP_M7_ALT_PLL_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  145  		imx_clk_hw_mux_flags("m7_alt_pll_bypass", base + 0x74, 28, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  146  				     m7_alt_pll_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  147  				     ARRAY_SIZE(m7_alt_pll_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  148  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  149  	hws[IMX8MN_ANATOP_ARM_PLL_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  150  		imx_clk_hw_mux_flags("arm_pll_bypass", base + 0x84, 28, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  151  				     arm_pll_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  152  				     ARRAY_SIZE(arm_pll_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  153  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  154  	hws[IMX8MN_ANATOP_SYS_PLL3_BYPASS] =
-87df58feb5834e Dario Binacchi 2024-12-29  155  		imx_clk_hw_mux_flags("sys_pll3_bypass", base + 0x114, 28, 1,
-87df58feb5834e Dario Binacchi 2024-12-29  156  				     sys_pll3_bypass_sels,
-87df58feb5834e Dario Binacchi 2024-12-29  157  				     ARRAY_SIZE(sys_pll3_bypass_sels),
-87df58feb5834e Dario Binacchi 2024-12-29  158  				     CLK_SET_RATE_PARENT);
-87df58feb5834e Dario Binacchi 2024-12-29  159  
-87df58feb5834e Dario Binacchi 2024-12-29  160  	/* PLL out gate */
-87df58feb5834e Dario Binacchi 2024-12-29  161  	hws[IMX8MN_ANATOP_AUDIO_PLL1_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  162  		imx_clk_hw_gate("audio_pll1_out", "audio_pll1_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  163  				base, 13);
-87df58feb5834e Dario Binacchi 2024-12-29  164  	hws[IMX8MN_ANATOP_AUDIO_PLL2_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  165  		imx_clk_hw_gate("audio_pll2_out", "audio_pll2_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  166  				base + 0x14, 13);
-87df58feb5834e Dario Binacchi 2024-12-29  167  	hws[IMX8MN_ANATOP_VIDEO_PLL_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  168  		imx_clk_hw_gate("video_pll_out", "video_pll_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  169  				base + 0x28, 13);
-87df58feb5834e Dario Binacchi 2024-12-29  170  	hws[IMX8MN_ANATOP_DRAM_PLL_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  171  		imx_clk_hw_gate("dram_pll_out", "dram_pll_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  172  				base + 0x50, 13);
-87df58feb5834e Dario Binacchi 2024-12-29  173  	hws[IMX8MN_ANATOP_GPU_PLL_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  174  		imx_clk_hw_gate("gpu_pll_out", "gpu_pll_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  175  				base + 0x64, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  176  	hws[IMX8MN_ANATOP_M7_ALT_PLL_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  177  		imx_clk_hw_gate("m7_alt_pll_out", "m7_alt_pll_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  178  				base + 0x74, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  179  	hws[IMX8MN_ANATOP_ARM_PLL_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  180  		imx_clk_hw_gate("arm_pll_out", "arm_pll_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  181  				base + 0x84, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  182  	hws[IMX8MN_ANATOP_SYS_PLL3_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  183  		imx_clk_hw_gate("sys_pll3_out", "sys_pll3_bypass",
-87df58feb5834e Dario Binacchi 2024-12-29  184  				base + 0x114, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  185  
-87df58feb5834e Dario Binacchi 2024-12-29  186  	/* SYS PLL1 fixed output */
-87df58feb5834e Dario Binacchi 2024-12-29  187  	hws[IMX8MN_ANATOP_SYS_PLL1_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  188  		imx_clk_hw_gate("sys_pll1_out", "sys_pll1", base + 0x94, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  189  	hws[IMX8MN_ANATOP_SYS_PLL1_40M] =
-87df58feb5834e Dario Binacchi 2024-12-29  190  		imx_clk_hw_fixed_factor("sys_pll1_40m", "sys_pll1_out", 1, 20);
-87df58feb5834e Dario Binacchi 2024-12-29  191  	hws[IMX8MN_ANATOP_SYS_PLL1_80M] =
-87df58feb5834e Dario Binacchi 2024-12-29  192  		imx_clk_hw_fixed_factor("sys_pll1_80m", "sys_pll1_out", 1, 10);
-87df58feb5834e Dario Binacchi 2024-12-29  193  	hws[IMX8MN_ANATOP_SYS_PLL1_100M] =
-87df58feb5834e Dario Binacchi 2024-12-29  194  		imx_clk_hw_fixed_factor("sys_pll1_100m", "sys_pll1_out", 1, 8);
-87df58feb5834e Dario Binacchi 2024-12-29  195  	hws[IMX8MN_ANATOP_SYS_PLL1_133M] =
-87df58feb5834e Dario Binacchi 2024-12-29  196  		imx_clk_hw_fixed_factor("sys_pll1_133m", "sys_pll1_out", 1, 6);
-87df58feb5834e Dario Binacchi 2024-12-29  197  	hws[IMX8MN_ANATOP_SYS_PLL1_160M] =
-87df58feb5834e Dario Binacchi 2024-12-29  198  		imx_clk_hw_fixed_factor("sys_pll1_160m", "sys_pll1_out", 1, 5);
-87df58feb5834e Dario Binacchi 2024-12-29  199  	hws[IMX8MN_ANATOP_SYS_PLL1_200M] =
-87df58feb5834e Dario Binacchi 2024-12-29  200  		imx_clk_hw_fixed_factor("sys_pll1_200m", "sys_pll1_out", 1, 4);
-87df58feb5834e Dario Binacchi 2024-12-29  201  	hws[IMX8MN_ANATOP_SYS_PLL1_266M] =
-87df58feb5834e Dario Binacchi 2024-12-29  202  		imx_clk_hw_fixed_factor("sys_pll1_266m", "sys_pll1_out", 1, 3);
-87df58feb5834e Dario Binacchi 2024-12-29  203  	hws[IMX8MN_ANATOP_SYS_PLL1_400M] =
-87df58feb5834e Dario Binacchi 2024-12-29  204  		imx_clk_hw_fixed_factor("sys_pll1_400m", "sys_pll1_out", 1, 2);
-87df58feb5834e Dario Binacchi 2024-12-29  205  	hws[IMX8MN_ANATOP_SYS_PLL1_800M] =
-87df58feb5834e Dario Binacchi 2024-12-29  206  		imx_clk_hw_fixed_factor("sys_pll1_800m", "sys_pll1_out", 1, 1);
-87df58feb5834e Dario Binacchi 2024-12-29  207  
-87df58feb5834e Dario Binacchi 2024-12-29  208  	/* SYS PLL2 fixed output */
-87df58feb5834e Dario Binacchi 2024-12-29  209  	hws[IMX8MN_ANATOP_SYS_PLL2_OUT] =
-87df58feb5834e Dario Binacchi 2024-12-29  210  		imx_clk_hw_gate("sys_pll2_out", "sys_pll2", base + 0x104, 11);
-87df58feb5834e Dario Binacchi 2024-12-29  211  	hws[IMX8MN_ANATOP_SYS_PLL2_50M] =
-87df58feb5834e Dario Binacchi 2024-12-29  212  		imx_clk_hw_fixed_factor("sys_pll2_50m", "sys_pll2_out", 1, 20);
-87df58feb5834e Dario Binacchi 2024-12-29  213  	hws[IMX8MN_ANATOP_SYS_PLL2_100M] =
-87df58feb5834e Dario Binacchi 2024-12-29  214  		imx_clk_hw_fixed_factor("sys_pll2_100m", "sys_pll2_out", 1, 10);
-87df58feb5834e Dario Binacchi 2024-12-29  215  	hws[IMX8MN_ANATOP_SYS_PLL2_125M] =
-87df58feb5834e Dario Binacchi 2024-12-29  216  		imx_clk_hw_fixed_factor("sys_pll2_125m", "sys_pll2_out", 1, 8);
-87df58feb5834e Dario Binacchi 2024-12-29  217  	hws[IMX8MN_ANATOP_SYS_PLL2_166M] =
-87df58feb5834e Dario Binacchi 2024-12-29  218  		imx_clk_hw_fixed_factor("sys_pll2_166m", "sys_pll2_out", 1, 6);
-87df58feb5834e Dario Binacchi 2024-12-29  219  	hws[IMX8MN_ANATOP_SYS_PLL2_200M] =
-87df58feb5834e Dario Binacchi 2024-12-29  220  		imx_clk_hw_fixed_factor("sys_pll2_200m", "sys_pll2_out", 1, 5);
-87df58feb5834e Dario Binacchi 2024-12-29  221  	hws[IMX8MN_ANATOP_SYS_PLL2_250M] =
-87df58feb5834e Dario Binacchi 2024-12-29  222  		imx_clk_hw_fixed_factor("sys_pll2_250m", "sys_pll2_out", 1, 4);
-87df58feb5834e Dario Binacchi 2024-12-29  223  	hws[IMX8MN_ANATOP_SYS_PLL2_333M] =
-87df58feb5834e Dario Binacchi 2024-12-29  224  		imx_clk_hw_fixed_factor("sys_pll2_333m", "sys_pll2_out", 1, 3);
-87df58feb5834e Dario Binacchi 2024-12-29  225  	hws[IMX8MN_ANATOP_SYS_PLL2_500M] =
-87df58feb5834e Dario Binacchi 2024-12-29  226  		imx_clk_hw_fixed_factor("sys_pll2_500m", "sys_pll2_out", 1, 2);
-87df58feb5834e Dario Binacchi 2024-12-29  227  	hws[IMX8MN_ANATOP_SYS_PLL2_1000M] =
-87df58feb5834e Dario Binacchi 2024-12-29  228  		imx_clk_hw_fixed_factor("sys_pll2_1000m", "sys_pll2_out", 1, 1);
-87df58feb5834e Dario Binacchi 2024-12-29  229  
-87df58feb5834e Dario Binacchi 2024-12-29  230  	hws[IMX8MN_ANATOP_CLK_CLKOUT1_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29  231  		imx_clk_hw_mux2("clkout1_sel", base + 0x128, 4, 4,
-87df58feb5834e Dario Binacchi 2024-12-29  232  				clkout_sels, ARRAY_SIZE(clkout_sels));
-87df58feb5834e Dario Binacchi 2024-12-29  233  	hws[IMX8MN_ANATOP_CLK_CLKOUT1_DIV] =
-87df58feb5834e Dario Binacchi 2024-12-29  234  		imx_clk_hw_divider("clkout1_div", "clkout1_sel", base + 0x128,
-87df58feb5834e Dario Binacchi 2024-12-29  235  				   0, 4);
-87df58feb5834e Dario Binacchi 2024-12-29  236  	hws[IMX8MN_ANATOP_CLK_CLKOUT1] =
-87df58feb5834e Dario Binacchi 2024-12-29  237  		imx_clk_hw_gate("clkout1", "clkout1_div", base + 0x128, 8);
-87df58feb5834e Dario Binacchi 2024-12-29  238  	hws[IMX8MN_ANATOP_CLK_CLKOUT2_SEL] =
-87df58feb5834e Dario Binacchi 2024-12-29  239  		imx_clk_hw_mux2("clkout2_sel", base + 0x128, 20, 4,
-87df58feb5834e Dario Binacchi 2024-12-29  240  				clkout_sels, ARRAY_SIZE(clkout_sels));
-87df58feb5834e Dario Binacchi 2024-12-29  241  	hws[IMX8MN_ANATOP_CLK_CLKOUT2_DIV] =
-87df58feb5834e Dario Binacchi 2024-12-29  242  		imx_clk_hw_divider("clkout2_div", "clkout2_sel", base + 0x128,
-87df58feb5834e Dario Binacchi 2024-12-29  243  				   16, 4);
-87df58feb5834e Dario Binacchi 2024-12-29 @244  	hws[IMX8MN_ANATOP_CLK_CLKOUT2] =
-                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Corruption.
-
-87df58feb5834e Dario Binacchi 2024-12-29  245  		imx_clk_hw_gate("clkout2", "clkout2_div", base + 0x128, 24);
-87df58feb5834e Dario Binacchi 2024-12-29  246  
-87df58feb5834e Dario Binacchi 2024-12-29  247  	imx_check_clk_hws(hws, IMX8MN_ANATOP_CLK_END);
-87df58feb5834e Dario Binacchi 2024-12-29  248  
-87df58feb5834e Dario Binacchi 2024-12-29  249  	ret = of_clk_add_hw_provider(np, of_clk_hw_onecell_get, clk_hw_data);
-87df58feb5834e Dario Binacchi 2024-12-29  250  	if (ret < 0) {
-87df58feb5834e Dario Binacchi 2024-12-29  251  		imx_unregister_hw_clocks(hws, IMX8MN_ANATOP_CLK_END);
-87df58feb5834e Dario Binacchi 2024-12-29  252  		return dev_err_probe(dev, ret,
-87df58feb5834e Dario Binacchi 2024-12-29  253  				     "failed to register anatop clock provider\n");
-87df58feb5834e Dario Binacchi 2024-12-29  254  	}
-87df58feb5834e Dario Binacchi 2024-12-29  255  
-87df58feb5834e Dario Binacchi 2024-12-29  256  	dev_info(dev, "NXP i.MX8MN anatop clock driver probed\n");
-87df58feb5834e Dario Binacchi 2024-12-29  257  	return 0;
-87df58feb5834e Dario Binacchi 2024-12-29  258  }
+92fb71333d5737 Ronak Jain 2024-09-19  678  		}
+92fb71333d5737 Ronak Jain 2024-09-19  679  	}
+f9627312e20721 Rajan Vaja 2018-09-12  680  
+92fb71333d5737 Ronak Jain 2024-09-19  681  	ret = zynqmp_pm_invoke_fn(PM_QUERY_DATA, out, 4, qdata.qid,
+92fb71333d5737 Ronak Jain 2024-09-19  682  				  qdata.arg1, qdata.arg2, qdata.arg3);
+f9627312e20721 Rajan Vaja 2018-09-12  683  
+f9627312e20721 Rajan Vaja 2018-09-12  684  	/*
+f9627312e20721 Rajan Vaja 2018-09-12  685  	 * For clock name query, all bytes in SMC response are clock name
+f9627312e20721 Rajan Vaja 2018-09-12  686  	 * characters and return code is always success. For invalid clocks,
+f9627312e20721 Rajan Vaja 2018-09-12  687  	 * clock name bytes would be zeros.
+f9627312e20721 Rajan Vaja 2018-09-12  688  	 */
+f9627312e20721 Rajan Vaja 2018-09-12  689  	return qdata.qid == PM_QID_CLOCK_GET_NAME ? 0 : ret;
+f9627312e20721 Rajan Vaja 2018-09-12  690  }
 
 -- 
 0-DAY CI Kernel Test Service
