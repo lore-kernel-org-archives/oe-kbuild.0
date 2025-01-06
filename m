@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AEA1C69D
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 00:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04E91D5CDD
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 07:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736124918; cv=none; b=TT67I9qBqmSVaNkdir8R1Drdhzhc627gLfUvfjy3hhInxtRd/WT+TTrtKYjl8Kn2KXE/9/s0/ex92hRvHW9PcDxYmoQpUMUk1Zn7ja9yH5Y3VSZKJZBayI9bp5VZJuTbyztTWBug75pSkDBInO0ZoL01k4j2znnJsVzknxpDyxw=
+	t=1736147384; cv=none; b=WrpQcH9c0nlmwQLt/scW4haKgNbS6goA2ic/4RKDZSvH0uaZaPpeRtvPuscd2TBQ0RZq8r6hbQiwVL8wXvtonzwwTwmPSWLrtWRy+M3aGeeshzOlFWviISZI4GI1/RQ9jHd+j0LRAp4Tm96AftXqAg5kD2VEbUlEKxPx5gKqzN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736124918; c=relaxed/simple;
-	bh=HDWYPg773iKea0bNvCNvXiAR88vtMscQatA9SbU2lXc=;
+	s=arc-20240116; t=1736147384; c=relaxed/simple;
+	bh=ztlXVC7yO7hJz6FC0eG6OR5kDNx4yBqxg+5Cteup9nU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TFXpG7uq8S48jGHsoKOc6hXQuosuuXUaXPBahcEZ4X14bq5LRuSmIlWly+jxIaCTrkkomrdECFZeA9hMqCe2QfYYrW6QSdoJyRoJEYYAHKEMca2SpTheelKwTJuLktOElOOs637qUPfZ9iXlbEyu9qihSyIyvxPpxVxnVxT9xBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTIrNNVB; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=oUnCGUfeN/ayAk3Xdv3j/nz3Ju9o1/nJgtZw6dPKtNmlgLzHfx4bCT/J1i5SmWsWBlD8yyjOV3A0BfkgdVFi9KCW4uzyiacoMSox3Afki1gihsAWciTRe3q1JlEvLSuonh+5+5lMnNiU7JQslsMIXrh1REBDScA1UjDiNxPE9HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x43xfMR6; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTIrNNVB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736124916; x=1767660916;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HDWYPg773iKea0bNvCNvXiAR88vtMscQatA9SbU2lXc=;
-  b=cTIrNNVBrGqm2zScII6/Nd70wf+egERhy4EqxqSUT1wpr7T/QiLjUuXD
-   RBeWMw4HXJKSUGfYdj8t1ueeBMDRF33HLOk1TCQhOk90JzU6fM/DM7BHa
-   C3+g0XVNOmQUNVstLKbuuplsmw/ZLAgQm60h118+pF5BAJXQ8n9vHaqEN
-   DPMcRZi1isTXyQzwoWBo028w7W7c7ns6ARBnEJSFVKq4WTIuLUhLyrzvC
-   qB+vx0vvHX+j3Oigt1IzhZkpYsfdJfctxjVdwIVR9Fh1rL/nIxotO7JHi
-   WO5Q5CUvempVviB75q8tKQh+nA9MDZJcNq8MQooQC0NgqLwfTM9d7CRJl
-   A==;
-X-CSE-ConnectionGUID: JClvnKaGSeKdQdxIKs2UTw==
-X-CSE-MsgGUID: ieK2gn5GRHW/V6uExvsd6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="47621133"
-X-IronPort-AV: E=Sophos;i="6.12,291,1728975600"; 
-   d="scan'208";a="47621133"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 16:55:15 -0800
-X-CSE-ConnectionGUID: Fp8B200ATMOyq3VrTs5M/w==
-X-CSE-MsgGUID: pGn+3ioRQfCNGwVdphULYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,291,1728975600"; 
-   d="scan'208";a="102780232"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Jan 2025 16:55:14 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tUbOi-000C6j-0R;
-	Mon, 06 Jan 2025 00:55:12 +0000
-Date: Mon, 6 Jan 2025 08:54:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens()
- error: uninitialized symbol 'sg'.
-Message-ID: <202501060849.zdKFIDLf-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x43xfMR6"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4363dc916ceso87157725e9.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 05 Jan 2025 23:09:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736147380; x=1736752180; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
+        b=x43xfMR6tbwS40OmzLJq8v/nvQPpeD8CePqPQfeXhwhUoiA6jnpekTc/aS0QnCkaGY
+         2C5PGPvU/i2rEvmvEzaGGrzyCrH12iog4rqgJyiQmf9Z3Ey5ICYLmX9iQWnwPwH6/6YA
+         2w66w4JN/vqqKM3NJbC4zDMyePNJXWfHyLhcg1ShbinZTpIs4pui/VpSpOCM0dyT5DXS
+         pSXkfHpGtWSSwgC4ZfKC2YApu05HX/NW7Q4Gkifcx2qJiLEm+npHRsw6VFxdDKClkL4w
+         HZd7n6N9gfa0G9k7cbSlP+iPIC94mTrxTs6HNkwwvVvKqO4RYuXJ3ikIZ1XAFg4/N/qG
+         rRWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736147380; x=1736752180;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
+        b=o6Z3Po9Gavod8pvZ/kq5rQ/Y+j+YVSl0+RfR/Yeh0AeXztYx9u0d+5C4IwKazXaqYw
+         SmLpMQc7rScB9cvVui2scsHJDA4KH6EmOamGSr8UNTC+w3HytAKV1uJ+m9k1UM6F0ane
+         SRe4KtQmIAsCVOcPnnq3Sof2vsMY6P00WDSMMgbHXEOYgrG3R54UF7PPM0m7snbx6i7m
+         8ZAhU3QqiQNAm7ZY37NgxQsbqQqxCf6Ck4LUd/pG8SEkWixfy5oabQ6XBULj6Of9wqdf
+         Ka8GI9jH9NomRdg1bn+m4B6AMOpZTyaXiPvn0fgaFrEsO0d0fYIPwR1NCHuNn6MeocMy
+         SnnQ==
+X-Gm-Message-State: AOJu0YzALae0M0Uqj1BH9Xnxagiw3EkdvRnVHIl/JnFyZBbD6LQCqZ0z
+	yXrV1yKJqeiKU/pA4pytzJTi4hrAh5JOC1E6WVMk6KOdivgboN9atai6ZgF9Iz5WBBafXxxJ/du
+	e
+X-Gm-Gg: ASbGncv1Lwyi7cbOVj0l4pnrtD7vp9gx2mmu8Ls3bRjCjNfRi9R9ux5LAf5V1Htxyh4
+	DTEF0ixt+pGW7tUbl0hcVwkpcXjrmiq8jDvjtqOpLawNNEhjGUfERiuLi33iOcBeF3FN76C/0Ss
+	lVRDw8QZeAtcoYsgRfuLyNGWrtrJ40gYi/Y9Jh7tdD0uzwf1Jf4IPcaah1Hk6lB31jaiMEXj14u
+	8wWSF1BbdWnaY7INez/woTwWG8Nt5PyBRsCoZjUihN8hID79IG/UyWuTwPp9w==
+X-Google-Smtp-Source: AGHT+IEGyL0miqJbyxWnjUMeL4aDYo1IwQVWlwe6GF4LurZRepayXVomG0o84ovgMFTmNmQj/TLf6g==
+X-Received: by 2002:a05:6000:2a5:b0:386:3d27:b4f0 with SMTP id ffacd0b85a97d-38a1a221da1mr49526089f8f.14.1736147379663;
+        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8472casm47923323f8f.45.2025.01.05.23.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
+Date: Mon, 6 Jan 2025 10:09:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381
+ agilent_82357a_attach() warn: inconsistent returns 'global
+ &agilent_82357a_hotplug_lock'.
+Message-ID: <affedc44-c822-47a5-8db4-7bfad72dc408@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,148 +72,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: Mark Brown <broonie@kernel.org>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9244696b34f2a626d7468864420ab6a47289bf10
-commit: 36ad9bf1d93d66b901342eab9f8ed6c1537655a6 ASoC: qdsp6: audioreach: add topology support
-date:   3 years, 2 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 3 years, 2 months ago
-config: alpha-randconfig-r072-20241228 (https://download.01.org/0day-ci/archive/20250106/202501060849.zdKFIDLf-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
+head:   8faabc041a001140564f718dabe37753e88b37fa
+commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
+config: i386-randconfig-141-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210143.WJhYzXfD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501060849.zdKFIDLf-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202412210143.WJhYzXfD-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: uninitialized symbol 'sg'.
-sound/soc/qcom/qdsp6/topology.c:382 audioreach_parse_cont_tokens() error: uninitialized symbol 'cont'.
+smatch warnings:
+drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_attach() warn: inconsistent returns 'global &agilent_82357a_hotplug_lock'.
 
-Old smatch warnings:
-sound/soc/qcom/qdsp6/topology.c:339 audioreach_parse_sg_tokens() error: uninitialized symbol 'sg'.
-sound/soc/qcom/qdsp6/topology.c:342 audioreach_parse_sg_tokens() error: uninitialized symbol 'sg'.
-sound/soc/qcom/qdsp6/topology.c:355 audioreach_parse_sg_tokens() error: uninitialized symbol 'sg'.
-sound/soc/qcom/qdsp6/topology.c:357 audioreach_parse_sg_tokens() error: uninitialized symbol 'sg'.
-sound/soc/qcom/qdsp6/topology.c:385 audioreach_parse_cont_tokens() error: uninitialized symbol 'cont'.
-sound/soc/qcom/qdsp6/topology.c:388 audioreach_parse_cont_tokens() error: uninitialized symbol 'cont'.
-sound/soc/qcom/qdsp6/topology.c:391 audioreach_parse_cont_tokens() error: uninitialized symbol 'cont'.
-sound/soc/qcom/qdsp6/topology.c:402 audioreach_parse_cont_tokens() error: uninitialized symbol 'cont'.
+vim +1381 drivers/staging/gpib/agilent_82357a/agilent_82357a.c
 
-vim +/sg +336 sound/soc/qcom/qdsp6/topology.c
+4c41fe886a56c5b Dave Penkler 2024-09-18  1306  static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t *config)
+4c41fe886a56c5b Dave Penkler 2024-09-18  1307  {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1308  	int retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1309  	int i;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1310  	unsigned int product_id;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1311  	struct agilent_82357a_priv *a_priv;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1312  	struct usb_device *usb_dev;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1313  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1314  	if (mutex_lock_interruptible(&agilent_82357a_hotplug_lock))
+4c41fe886a56c5b Dave Penkler 2024-09-18  1315  		return -ERESTARTSYS;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1316  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1317  	retval = agilent_82357a_allocate_private(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1318  	if (retval < 0) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1319  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1320  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1321  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1322  	a_priv = board->private_data;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1323  	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1324  		if (agilent_82357a_driver_interfaces[i] &&
+4c41fe886a56c5b Dave Penkler 2024-09-18  1325  		    !usb_get_intfdata(agilent_82357a_driver_interfaces[i]) &&
+4c41fe886a56c5b Dave Penkler 2024-09-18  1326  		    agilent_82357a_device_match(agilent_82357a_driver_interfaces[i], config)) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1327  			a_priv->bus_interface = agilent_82357a_driver_interfaces[i];
+4c41fe886a56c5b Dave Penkler 2024-09-18  1328  			usb_set_intfdata(agilent_82357a_driver_interfaces[i], board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1329  			usb_dev = interface_to_usbdev(a_priv->bus_interface);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1330  			dev_info(&usb_dev->dev,
+4c41fe886a56c5b Dave Penkler 2024-09-18  1331  				 "bus %d dev num %d attached to gpib minor %d, agilent usb interface %i\n",
+4c41fe886a56c5b Dave Penkler 2024-09-18  1332  				 usb_dev->bus->busnum, usb_dev->devnum, board->minor, i);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1333  			break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1334  		}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1335  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1336  	if (i == MAX_NUM_82357A_INTERFACES) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1337  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1338  		pr_err("No Agilent 82357 gpib adapters found, have you loaded its firmware?\n");
+4c41fe886a56c5b Dave Penkler 2024-09-18  1339  		return -ENODEV;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1340  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1341  	product_id = le16_to_cpu(interface_to_usbdev(a_priv->bus_interface)->descriptor.idProduct);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1342  	switch (product_id) {
+4c41fe886a56c5b Dave Penkler 2024-09-18  1343  	case USB_DEVICE_ID_AGILENT_82357A:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1344  		a_priv->bulk_out_endpoint = AGILENT_82357A_BULK_OUT_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1345  		a_priv->interrupt_in_endpoint = AGILENT_82357A_INTERRUPT_IN_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1346  		break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1347  	case USB_DEVICE_ID_AGILENT_82357B:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1348  		a_priv->bulk_out_endpoint = AGILENT_82357B_BULK_OUT_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1349  		a_priv->interrupt_in_endpoint = AGILENT_82357B_INTERRUPT_IN_ENDPOINT;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1350  		break;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1351  	default:
+4c41fe886a56c5b Dave Penkler 2024-09-18  1352  		pr_err("bug, unhandled product_id in switch?\n");
 
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  302  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  303  static struct audioreach_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  304  						       struct snd_soc_tplg_private *private)
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  305  {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  306  	struct snd_soc_tplg_vendor_value_elem *sg_elem;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  307  	struct snd_soc_tplg_vendor_array *sg_array;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  308  	struct audioreach_graph_info *info = NULL;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  309  	int graph_id, sub_graph_id, tkn_count = 0;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  310  	struct audioreach_sub_graph *sg;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  311  	bool found;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  312  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  313  	sg_array = audioreach_get_sg_array(private);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  314  	sg_elem = sg_array->value;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  315  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  316  	while (tkn_count <= (le32_to_cpu(sg_array->num_elems) - 1)) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  317  		switch (le32_to_cpu(sg_elem->token)) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  318  		case AR_TKN_U32_SUB_GRAPH_INSTANCE_ID:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  319  			sub_graph_id = le32_to_cpu(sg_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  320  			sg = audioreach_tplg_alloc_sub_graph(apm, sub_graph_id, &found);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  321  			if (IS_ERR(sg)) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  322  				return sg;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  323  			} else if (found) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  324  				/* Already parsed data for this sub-graph */
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  325  				return sg;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  326  			}
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  327  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  328  		case AR_TKN_DAI_INDEX:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  329  			/* Sub graph is associated with predefined graph */
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  330  			graph_id = le32_to_cpu(sg_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  331  			info = audioreach_tplg_alloc_graph_info(apm, graph_id, &found);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  332  			if (IS_ERR(info))
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  333  				return ERR_CAST(info);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  334  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  335  		case AR_TKN_U32_SUB_GRAPH_PERF_MODE:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @336  			sg->perf_mode = le32_to_cpu(sg_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  337  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  338  		case AR_TKN_U32_SUB_GRAPH_DIRECTION:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  339  			sg->direction = le32_to_cpu(sg_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  340  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  341  		case AR_TKN_U32_SUB_GRAPH_SCENARIO_ID:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  342  			sg->scenario_id = le32_to_cpu(sg_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  343  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  344  		default:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  345  			dev_err(apm->dev, "Not a valid token %d for graph\n", sg_elem->token);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  346  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  347  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  348  		}
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  349  		tkn_count++;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  350  		sg_elem++;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  351  	}
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  352  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  353  	/* Sub graph is associated with predefined graph */
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  354  	if (info)
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  355  		audioreach_tplg_add_sub_graph(sg, info);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  356  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  357  	return sg;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  358  }
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  359  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  360  static struct audioreach_container *audioreach_parse_cont_tokens(struct q6apm *apm,
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  361  							 struct audioreach_sub_graph *sg,
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  362  							 struct snd_soc_tplg_private *private)
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  363  {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  364  	struct snd_soc_tplg_vendor_value_elem *cont_elem;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  365  	struct snd_soc_tplg_vendor_array *cont_array;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  366  	struct audioreach_container *cont;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  367  	int container_id, tkn_count = 0;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  368  	bool found = false;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  369  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  370  	cont_array = audioreach_get_cont_array(private);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  371  	cont_elem = cont_array->value;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  372  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  373  	while (tkn_count <= (le32_to_cpu(cont_array->num_elems) - 1)) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  374  		switch (le32_to_cpu(cont_elem->token)) {
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  375  		case AR_TKN_U32_CONTAINER_INSTANCE_ID:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  376  			container_id = le32_to_cpu(cont_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  377  			cont = audioreach_tplg_alloc_container(apm, sg, container_id, &found);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  378  			if (IS_ERR(cont) || found)/* Error or Already parsed container data */
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  379  				return cont;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  380  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  381  		case AR_TKN_U32_CONTAINER_CAPABILITY_ID:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26 @382  			cont->capability_id = le32_to_cpu(cont_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  383  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  384  		case AR_TKN_U32_CONTAINER_STACK_SIZE:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  385  			cont->stack_size = le32_to_cpu(cont_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  386  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  387  		case AR_TKN_U32_CONTAINER_GRAPH_POS:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  388  			cont->graph_pos = le32_to_cpu(cont_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  389  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  390  		case AR_TKN_U32_CONTAINER_PROC_DOMAIN:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  391  			cont->proc_domain = le32_to_cpu(cont_elem->value);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  392  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  393  		default:
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  394  			dev_err(apm->dev, "Not a valid token %d for graph\n", cont_elem->token);
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  395  			break;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  396  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  397  		}
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  398  		tkn_count++;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  399  		cont_elem++;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  400  	}
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  401  
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  402  	return cont;
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  403  }
-36ad9bf1d93d66b Srinivas Kandagatla 2021-10-26  404  
+mutex_unlock(&agilent_82357a_hotplug_lock); before returning.
+
+4c41fe886a56c5b Dave Penkler 2024-09-18  1353  		return -EIO;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1354  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1355  #ifdef RESET_USB_CONFIG
+4c41fe886a56c5b Dave Penkler 2024-09-18  1356  	retval = agilent_82357a_reset_usb_configuration(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1357  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1358  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1359  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1360  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1361  #endif
+4c41fe886a56c5b Dave Penkler 2024-09-18  1362  	retval = agilent_82357a_setup_urbs(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1363  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1364  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1365  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1366  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1367  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1368  	timer_setup(&a_priv->bulk_timer, agilent_82357a_timeout_handler, 0);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1369  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1370  	board->t1_nano_sec = 800;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1371  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1372  	retval = agilent_82357a_init(board);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1373  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1374  	if (retval < 0)	{
+4c41fe886a56c5b Dave Penkler 2024-09-18  1375  		mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1376  		return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1377  	}
+4c41fe886a56c5b Dave Penkler 2024-09-18  1378  
+4c41fe886a56c5b Dave Penkler 2024-09-18  1379  	pr_info("%s: attached\n", __func__);
+4c41fe886a56c5b Dave Penkler 2024-09-18  1380  	mutex_unlock(&agilent_82357a_hotplug_lock);
+4c41fe886a56c5b Dave Penkler 2024-09-18 @1381  	return retval;
+4c41fe886a56c5b Dave Penkler 2024-09-18  1382  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
