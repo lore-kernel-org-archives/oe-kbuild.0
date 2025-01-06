@@ -1,103 +1,145 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3652149C42;
-	Mon,  6 Jan 2025 17:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F8186354
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 17:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736184034; cv=none; b=Jk+gqiMYgQqB9bB5eQbbOMaNvriaxsDw37nXuCpTlayY0JVaXItmOkxeR+VoPo0rJXqste8sVbu45M1OePYrzhE0I/+jYBpV6pi7UBJlt612zNR270KfOvKCyldwbjlYKAePjGAzxfNS31a9gUDzCkT6wCSrKBxAcU8u69y0t00=
+	t=1736186118; cv=none; b=NPTPEm3avDpb5ut69uzYNiCfDLvaQ59jTkjVuPT2th+E4Erm4doyqi38Fm6kjeFlO1wbc4trZ2Qq0ST9BqASmvo8hVoMfnxpeyehuxh8NiDC+kFYW6j72hAb4Z26/RG5Jl5Yj4cLJQYkJQHjehdTUQVAfMWBt/rvK3/dxErg5Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736184034; c=relaxed/simple;
-	bh=IEpcYaMf56C9Sf07BJdYcx7X3nhqLd4LLJNoDGAh5xI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IWCv3LPc22DAJ5JQikzYRuJNLoFV0E0vcQNq15FbOAWrt42aC6B88Tm+szeE4YZNYvg8N+KgATZ4XEF1XPQyw1bYZdX++RpvhhViBe+u985J0/2oj/XjzPC2pnR9bfgeZi01r/CbpoX6bfYkQ0XeZiJtX8vGBqG/eJkaLf66Nwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=t16FDDu+; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1736186118; c=relaxed/simple;
+	bh=oJsI7WOnEDSUwHOoQBi0hZ5NvSL5OBTm6mtEofD3qs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YQGXjXq8A+f9AdCm6I4u7FL4aaZsgkcOML51ymUe865U4ZcI4YXIxKnYW6BH7jbnxf4ziYytWlmES4VOlZEQXZT2yri51Ngt/HF9NuqfMyiZdB6IYb1DYiVduSfmmeMpTasuh9I2tcRLbPkgSdeEDK4UDTO3DUMdyoPH86GLmn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azYXj8W7; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="t16FDDu+"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 69CA1A06F3;
-	Mon,  6 Jan 2025 18:20:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=mail; bh=T85dDHQcmfjuBtiWjIc3
-	9bFlaSzOVCbF4UVEp+0Psck=; b=t16FDDu+lf+xIeulbOGCgYc/jrIFotdvmX0H
-	mwSkvIJPpKf7TtvqJBNe/THAMQgEAP5yMpnRzfoVBmSbbuKamiAQyNcjbEZIL6IZ
-	04jrBrDRzPoXrGW/UoV0OyARlK4Gig+KciOmNyLJiNXJlLsaKIDTzroEIDepB+iL
-	+YnlsBJliWo2lCqKm2t2j8CT0ifXrtkm8WS8/1eiIt+SUOWT0mL/B5EZHOvCiTCR
-	Sr7ide7oTrZXHdggaGc91mbHoE459yM02rmwOBsh5PGCgRbPO+A2ojfpmNbSujfr
-	ZL0GaAg8YpCMBtLSx30x2t8ZEXCvsz4MuLpwQoju9Hhc/G+o3wapWxsnH/lvkTMS
-	34Fc10IqLVFi7nxNPOwi8hWJm/ePlUNQTjJsZhGAeS5lUqXO9sVmHk4t6TmwBoz3
-	tABO58GDqYV5y2EFDB9nEwLFfwGYMBCJCcDwiJ2xOQW//eo1AGv0l4tQtRMPWFR3
-	hbbUbiZHpHaZ9w30A2PZkazJea6Lv6mR6nJWXg3Ooy4qZnkTGBlYcrcPWpw5bzDG
-	Jbd3i0ZdlMY/7YfAwy7zLQoii3leO0bYvovynvxgdoAUzCiKSZ9S4G8WdAPKM7+0
-	K3SATY/cn+qL95gFadUaO7L0AYejZXSgu+xJ+FAnjXW7Wbh9rEYNtv3Xwi4p9wDs
-	bmHpZb4=
-Message-ID: <f42ab0c9-2822-446a-9650-23372810de01@prolan.hu>
-Date: Mon, 6 Jan 2025 18:20:26 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azYXj8W7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736186117; x=1767722117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oJsI7WOnEDSUwHOoQBi0hZ5NvSL5OBTm6mtEofD3qs0=;
+  b=azYXj8W7eJNwOWUvO0kwVK+w2Ix1jFw3oqwgSrjI5blC8cRHjn7o8YSE
+   9KIutA4djE1rvGy7VANzET2kD1I6aKH+AY+ntvqjyiVmHe5wsvU4Z68JL
+   vCJVXAXFdBvkrKeO0njEK6YtCAI2GDOQ0AlS1e7S0zKYD3wURU9+qscJI
+   UB9CAy9ZQm8Xft7z5w3rOJKnn0Wu3hf/TKowmtW3ynufyEhYmT3vXT7Vr
+   dlttntWrBqU6NMkpP2jawbqJcuM3aCylLCgz/Dm7VHbCOxiXp0RuGQ8Lh
+   KqtBBWs4XA4nwP6Nsqo+j43eAYGCvm1JYvWv6L5lc5NBkwMexJkZk1f2s
+   A==;
+X-CSE-ConnectionGUID: fVaYVlcWQamk8e4gQuCTcQ==
+X-CSE-MsgGUID: bHcVLRq9T+60iUH4inNhjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47758123"
+X-IronPort-AV: E=Sophos;i="6.12,293,1728975600"; 
+   d="scan'208";a="47758123"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 09:55:16 -0800
+X-CSE-ConnectionGUID: ufrIyRsoS8SPnikshFQzJA==
+X-CSE-MsgGUID: zl7f7BMIQ36Rq5002kMLgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="102365120"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 06 Jan 2025 09:55:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tUrJo-000Dmg-2K;
+	Mon, 06 Jan 2025 17:55:12 +0000
+Date: Tue, 7 Jan 2025 01:54:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/powerpc/kernel/setup-common.c:1020 setup_arch() warn: argument
+ 2 to %lx specifier is cast from pointer
+Message-ID: <202501070132.giG6r1Dp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 3636/5236] drivers/spi/atmel-quadspi.c:1282
- atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Mark Brown
-	<broonie@kernel.org>, Varshini Rajendran <varshini.rajendran@microchip.com>,
-	Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-References: <f3b27d32-1440-4585-9a78-cbd2fd47a992@stanley.mountain>
-Content-Language: en-US
-From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
-In-Reply-To: <f3b27d32-1440-4585-9a78-cbd2fd47a992@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
- ATLAS.intranet.prolan.hu (10.254.0.229)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D94852657067
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-On 2025. 01. 06. 10:32, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-> commit: 5af42209a4d23adc9a09e59e586d1b47fef3cc86 [3636/5236] spi: atmel-quadspi: Add support for sama7g5 QSPI
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   13563da6ffcf49b8b45772e40b35f96926a7ee1e
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   9 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 months ago
+config: powerpc64-randconfig-r072-20250106 (https://download.01.org/0day-ci/archive/20250107/202501070132.giG6r1Dp-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
-> smatch warnings:
-> drivers/spi/atmel-quadspi.c:1282 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
-> 
-> vim +/PTR_ERR +1282 drivers/spi/atmel-quadspi.c
-> 
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1274  static int atmel_qspi_dma_init(struct spi_controller *ctrl)
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1275  {
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1276  	struct atmel_qspi *aq = spi_controller_get_devdata(ctrl);
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1277  	int ret;
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1278
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1279  	aq->rx_chan = dma_request_chan(&aq->pdev->dev, "rx");
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1280  	if (IS_ERR(aq->rx_chan)) {
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28  1281  		aq->rx_chan = NULL;
-> 5af42209a4d23ad drivers/spi/atmel-quadspi.c         Tudor Ambarus   2024-11-28 @1282  		return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
->                                                                                                                                               ^^^^^^^^^^^
-> The error code was over-written with NULL on the previous line.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501070132.giG6r1Dp-lkp@intel.com/
 
-It would appear so. I already have a patch that cleans up this section, 
-but it is dependent on [1] and [2].
+smatch warnings:
+arch/powerpc/kernel/setup-common.c:1020 setup_arch() warn: argument 2 to %lx specifier is cast from pointer
 
-[1] 
-https://lore.kernel.org/dmaengine/0d77f2cc-53e2-4aad-97f5-5dd449691944@prolan.hu/T/
-[2] 
-https://lore.kernel.org/linux-spi/20250106155416.1959803-1-csokas.bence@prolan.hu/T/
+vim +1020 arch/powerpc/kernel/setup-common.c
 
-Bence
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   976  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   977  	/* Print various info about the machine that has been gathered so far. */
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   978  	print_system_info();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   979  
+ed1cd6deb013a1 Christophe Leroy       2019-01-31   980  	klp_init_thread_info(&init_task);
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   981  
+6cd7547b360f1a Kefeng Wang            2021-07-07   982  	setup_initial_init_mm(_stext, _etext, _edata, _end);
+c3c2e93753484b Nicholas Piggin        2023-05-24   983  	/* sched_init() does the mmgrab(&init_mm) for the primary CPU */
+c3c2e93753484b Nicholas Piggin        2023-05-24   984  	VM_WARN_ON(cpumask_test_cpu(smp_processor_id(), mm_cpumask(&init_mm)));
+c3c2e93753484b Nicholas Piggin        2023-05-24   985  	cpumask_set_cpu(smp_processor_id(), mm_cpumask(&init_mm));
+c3c2e93753484b Nicholas Piggin        2023-05-24   986  	inc_mm_active_cpus(&init_mm);
+88f54a3581eb9d Alexey Kardashevskiy   2016-11-30   987  	mm_iommu_init(&init_mm);
+c3c2e93753484b Nicholas Piggin        2023-05-24   988  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   989  	irqstack_early_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   990  	exc_lvl_early_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   991  	emergency_stack_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   992  
+923b3cf00b3ffc Ganesh Goudar          2021-01-28   993  	mce_init();
+3c0b976bf20d23 Jordan Niethe          2020-10-14   994  	smp_release_cpus();
+3c0b976bf20d23 Jordan Niethe          2020-10-14   995  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   996  	initmem_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   997  
+6cf06c17e94f26 Michael Ellerman       2022-06-16   998  	/*
+6cf06c17e94f26 Michael Ellerman       2022-06-16   999  	 * Reserve large chunks of memory for use by CMA for KVM and hugetlb. These must
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1000  	 * be called after initmem_init(), so that pageblock_order is initialised.
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1001  	 */
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1002  	kvm_cma_reserve();
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1003  	gigantic_hugetlb_cma_reserve();
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1004  
+d90fe2acd9b290 Christophe Leroy       2018-09-28  1005  	early_memtest(min_low_pfn << PAGE_SHIFT, max_low_pfn << PAGE_SHIFT);
+d90fe2acd9b290 Christophe Leroy       2018-09-28  1006  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1007  	if (ppc_md.setup_arch)
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1008  		ppc_md.setup_arch();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1009  
+af375eefbfb27c Michael Ellerman       2018-07-28  1010  	setup_barrier_nospec();
+3bc8ea8603ae4c Diana Craciun          2018-12-12  1011  	setup_spectre_v2();
+af375eefbfb27c Michael Ellerman       2018-07-28  1012  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1013  	paging_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1014  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1015  	/* Initialize the MMU context management stuff. */
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1016  	mmu_context_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1017  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1018  	/* Interrupt code needs to be 64K-aligned. */
+65184f2f045abc Christophe Leroy       2019-03-22  1019  	if (IS_ENABLED(CONFIG_PPC64) && (unsigned long)_stext & 0xffff)
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05 @1020  		panic("Kernelbase not 64K-aligned (0x%lx)!\n",
 
-P.S. it seems Krzysztof has also patched this: [3]
+:::::: The code at line 1020 was first introduced by commit
+:::::: b1923caa6e641f3d0a93b5d045aef67ded5aef67 powerpc: Merge 32-bit and 64-bit setup_arch()
 
-[3] 
-https://lore.kernel.org/linux-spi/20250104205437.184782-2-krzysztof.kozlowski@linaro.org/
+:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
