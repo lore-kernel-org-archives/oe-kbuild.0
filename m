@@ -1,71 +1,66 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCFE1DB356
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 10:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F651DB92A
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 10:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736160125; cv=none; b=fGvXT8u7AMGYot25rxbjZeuDXTtHnLmKasvAAbQDY9SFZLzNcKUlgqnOJ2rgtwemVEnR5bcAIbWURgp/aWcIO2gNpUKa/HPoQbbZqWj6YSH+EXOcTxppdErVSNsuXriXx6DeV4udMirRg6YgYHh58Qz/pEn+RkwtQ9ONCAagXKg=
+	t=1736160263; cv=none; b=Flu+JZxsWWbOZiKZVyYuSLTPnFX0FcoyVO6qZ9u7YWeTFRLlp5M+318B3cTJoBl1jnGqshYFgaPJnP1PyBzLjzYPYl+MJDh5REoFyU68X3wjY2i/NGIzcvi1bKtARpmvOj985Z1deNfnBrC54IssQFncMdbBKpopY0T/IiKHAqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736160125; c=relaxed/simple;
-	bh=O4jMmvxObEHgIUe6Et9nnMEU82aa+Erw7nSLDuYzBec=;
+	s=arc-20240116; t=1736160263; c=relaxed/simple;
+	bh=poUBAiTSvLAiLJyNYp7LsnS6buRg1UY5QZnK69KzTgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RnarkIG+/PjMdO/3KEFWt0I21Irh4udW+7sp8+nZe9nlhQnUAJEDDW9Og+eRGzKlPGxh4Uy3SFuCNorsny2HMDCOuqx5iWC1xJYQq3i0ljgmHH5RqMH49nAr04mE8D4gCcKKoxFhqLqX4O8+ZbILhwTr/2nQobghsg5S0m8zlxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vYpoMANb; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition; b=lrK+E0iwmHhcSebTw3KdFw0mDbYWz+dAp2tV7b6VTzyylN0wP4Yc2DoSMmglUUnnw9qCbqF3dn1tNUM+P9G7+U/YbKaN2bG3DKwktOOlRkuANf7BjsdRL9/iOSp0RExjdGWi1okdN2s3DhlmeyoKFmas2zKx+puUVR6y4c0Bt8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iFgfecCG; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vYpoMANb"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso149091645e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 02:42:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iFgfecCG"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso102585755e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 02:44:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736160121; x=1736764921; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yiXs66jKfa7Mc5GaX6CeH3zxabRcvrngKVx2PovGglk=;
-        b=vYpoMANb4qUSBhIVJqDqBaHYus9j4lncuI5qncBdYq6pEWmWao75fYDzKEM2PR3jAq
-         oSFjgQpjBDxfbGmppNoBpy+cePGSgtHuioPft37ikie2AHT07V/x4P0iAbCFc19y3WHk
-         jfSncNfOVAX2lOhp50fwu+SGmuAaf/lFmSImuiyxmkCVOBTOS7g93zp2yJ+hPestzeI4
-         7VUvcBpJZJTSZeYHIsWNKf0J9JrvxLHK23vmZpp8jsKFeAMIrzzIXCqkGlTdasfITSog
-         AlQdnpAmB3YB8+zSWXin28OA3S7Xniqso0KT5xbFD/jyA4A2B2OPV/MjljEFi4OjHevL
-         Lxnw==
+        d=linaro.org; s=google; t=1736160260; x=1736765060; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nfheJ1uq+hnvWsDVQrOZqmjqT98YbiIGmgi6cE5dUGA=;
+        b=iFgfecCG3ABwADsGd3rmjUC7oCgVXptwivwlJzNsClf3/Kc0crg3QMTgCrfka7QaXV
+         UiW3jrW6TAfq/FQ30/6p12DIhPAEl+LYtpBlfdiGL1HlEUZ6zNwZVQ3vNheQzAKWUS4k
+         UsL+9S08EgDoCG0jWjYjO6pKxZqMu0ty3pVmkeCzVJkc8CDhZKKPRsFMcxbWK6kBbrOZ
+         1k8JAI+NzfzIdn4PUY8ogLXFsGcEey8xYA+55Ks7BFDqRyKdIWLfogg6/7BB0VJvC2PF
+         v4uSFjoVvqXc+1r4ZkYJOCfipF/MchaQro+/gh8XLnuSQv/7KP1P6X/nI6M/2Xno5GNw
+         gEIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736160121; x=1736764921;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yiXs66jKfa7Mc5GaX6CeH3zxabRcvrngKVx2PovGglk=;
-        b=bqhe0ovRptwBC/LabwZwi4md0xIVgjKL93Fc4EEMNsz/t+GCn8JaSGf0VDcQiE9Fsp
-         IJ03JvOUUr/SNP8n1jMYIgyfChoRDJe1a2jqpGel6yAFGM3hvH6Ws2LWgIIlVyUsNb1I
-         EbtBCA3yNE0FhqFiEoKQcn7ripFzNd81aRFSuqxSF458M+UuPZFjvWGd3E3LuV+yJHCF
-         ZPiRL055K8SNnxLu17JwldU5v+PgplSlZiFtaUilozEerKYB4AMgyJ+muppQqh/kjBW8
-         vfFqiZPZn3cn7nQzHzQuGequMHDGQ0RaTxPtaINWidX/LR+Hh5HCDiUQ8mVFJOtj14hd
-         Bf7A==
-X-Gm-Message-State: AOJu0YxozKUrHgBt+Q0UukNntbl9euFPkxDdnioYv9/OCfTcZRnB58lh
-	ohId9jGZRkSpS0arKhJg/IPS3e++jHVaEXMp/cPAC14JqwpgUH2uoaXY0VXdMmAYUHFkEB+LKRL
-	f
-X-Gm-Gg: ASbGncsprV5mggPZ34y0ffMMjyZXlY7R+fHrLBKR1e7WpfwrIY0lAcKyQ3K7ygJ39pU
-	rMs/ASEvCjc6K69DaUbN3sj2V68B70l/w5JokH9uxaaoUOx2ra7fS9ls78Fq/JWvqj2pRqd3pjV
-	D0b7kwUCAAnVTSQs23KV2eSjfgJBu7qMwfCotmN555tWnxF0t6l5DsyAwZowOfjiUmn53UWWV+3
-	0wDPR25/lmam1iYvKCkL2PM1THOzfwz/J53o4UTBXbYor6iFuLwXK3HlDri3A==
-X-Google-Smtp-Source: AGHT+IFFbL3/UJS7YOsKC61qAsl6V0MH3eRyKaLo6PWURFKFeqg7gEQ4TfTlsT4jHqAfvgfc7t1paQ==
-X-Received: by 2002:a05:600c:1c12:b0:431:58cd:b259 with SMTP id 5b1f17b1804b1-4366d356dfcmr520636765e9.31.1736160121445;
-        Mon, 06 Jan 2025 02:42:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736160260; x=1736765060;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nfheJ1uq+hnvWsDVQrOZqmjqT98YbiIGmgi6cE5dUGA=;
+        b=vArNotW8Ke3huqQhwvQ0N2W48n2xn2ewsN0Lcq3uiEhBNKdv18HyQOc+jweRWPAZDr
+         vJ0nt3ia9je6qNHqfOmZwRbAaeXMpbLvJz6mNj00MDPTnznKbM0YAE/NwuTkKnB/xQK7
+         5Dh5n9Kb4IW+HyYQ8VY5OJm3LDGrgj9AH41nYPjzl2j7ZlWMDUhrA4HozEerWG5QK4UD
+         jQ4v7MS3Iegj+faiY/udNAlovHXkgEvbwZ0WAyyFaGEsWAp3h+fZeBSx7vWCDXryd2ff
+         idQJZJbsucoBRojoPL7MAidu6lswBHYrmEy5OP/8XRGQ+bQ+At/7FhTK2CuvHgBthPmj
+         kmFA==
+X-Gm-Message-State: AOJu0YzEZbZacAnKkOUtcIvuwC8TymsRty9ePPRLmb9JbScRDAXU8Z8o
+	8DYNebcmW+Tx1/jvItp80V3WwjF5I/j94dj6c9RxPvUy1RMqiPAzmy8OKCYw4zYsxjmpu/x3OkY
+	N
+X-Gm-Gg: ASbGncvzgLmnNrIH+/7S/RZmQy/jdRLOBJbE56JH3BtOsjwZJJsFE4TUrC6P+sleEZQ
+	QTppxaTQzB/exwCNQJczp3cpV6bQgd4Za7F4fRm+z+PcHjCwGa2K/oKg6rqbxkGsEfpWj2TH2kt
+	6wX8h5+RRThS5v/J0MRfsbleMOXbq1dJ7Kujzu5PBnft47m5OTFPsxU0fxuI+odJSsb+FuuzPTE
+	FOlqYCiUA6ovDOjIKGjOPgub4cqJrNgwMu1smCRHGEFq27T+hqWiNyQ1Q1HdQ==
+X-Google-Smtp-Source: AGHT+IEgweQ31mTmzYn5tz13S37h4OM2j/39kLzlIhlEY+9JtccGfECenZXd4Vr/O04ex+Au/odt3Q==
+X-Received: by 2002:a05:600c:3b23:b0:434:9499:9e87 with SMTP id 5b1f17b1804b1-43668b5e194mr425127095e9.25.1736160259588;
+        Mon, 06 Jan 2025 02:44:19 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656af6cbbsm597654505e9.3.2025.01.06.02.42.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436723cb159sm512136895e9.16.2025.01.06.02.44.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 02:42:00 -0800 (PST)
-Date: Mon, 6 Jan 2025 13:41:58 +0300
+        Mon, 06 Jan 2025 02:44:19 -0800 (PST)
+Date: Mon, 6 Jan 2025 13:44:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, alejandro.lucero-palau@amd.com,
-	linux-cxl@vger.kernel.org, netdev@vger.kernel.org,
-	dan.j.williams@intel.com, martin.habets@xilinx.com,
-	edward.cree@amd.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com, dave.jiang@intel.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alejandro Lucero <alucerop@amd.com>
-Subject: Re: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-Message-ID: <0fe103b3-76d5-47a0-900b-3769b9c59cee@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [trace:trace/for-next 1/15] kernel/trace/trace.c:6111
+ tracing_set_tracer() error: uninitialized symbol 'ret'.
+Message-ID: <765f3908-f36c-43ae-bb3e-7693e3a823fb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,59 +69,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216161042.42108-7-alejandro.lucero-palau@amd.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241217-001923
-base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-patch link:    https://lore.kernel.org/r/20241216161042.42108-7-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v8 06/27] cxl: add function for type2 cxl regs setup
-config: arm64-randconfig-r072-20241225 (https://download.01.org/0day-ci/archive/20241227/202412270320.Aydp9B4U-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace trace/for-next
+head:   cff6d93eab00bacf8b6bffdef775fc2de0273c96
+commit: d33b10c0c73adca00f72bf4a153a07b7f5f34715 [1/15] tracing: Switch trace.c code over to use guard()
+config: x86_64-randconfig-161-20241227 (https://download.01.org/0day-ci/archive/20241227/202412271654.nJVBuwmF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412270320.Aydp9B4U-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202412271654.nJVBuwmF-lkp@intel.com/
 
 smatch warnings:
-drivers/cxl/core/pci.c:1134 cxl_pci_accel_setup_regs() warn: missing error code? 'rc'
+kernel/trace/trace.c:6111 tracing_set_tracer() error: uninitialized symbol 'ret'.
 
-vim +/rc +1134 drivers/cxl/core/pci.c
+vim +/ret +6111 kernel/trace/trace.c
 
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1118  int cxl_pci_accel_setup_regs(struct pci_dev *pdev, struct cxl_dev_state *cxlds)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1119  {
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1120  	int rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1121  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1122  	rc = cxl_pci_setup_memdev_regs(pdev, cxlds);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1123  	if (rc)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1124  		return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1125  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1126  	rc = cxl_pci_setup_regs(pdev, CXL_REGLOC_RBI_COMPONENT,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1127  				&cxlds->reg_map, cxlds->capabilities);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1128  	if (rc) {
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1129  		dev_warn(&pdev->dev, "No component registers (%d)\n", rc);
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1130  		return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1131  	}
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1132  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1133  	if (!test_bit(CXL_CM_CAP_CAP_ID_RAS, cxlds->capabilities))
-cfbd1d00295bff Alejandro Lucero 2024-12-16 @1134  		return rc;
+9c5b9d3d65e485 Masami Hiramatsu         2020-01-11  6073  int tracing_set_tracer(struct trace_array *tr, const char *buf)
+09d23a1d8a82e8 Steven Rostedt (Red Hat  2015-02-03  6074) {
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6075  	struct tracer *t;
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6076) #ifdef CONFIG_TRACER_MAX_TRACE
+34600f0e9c33c9 Steven Rostedt           2013-01-22  6077  	bool had_max_tr;
+12883efb670c28 Steven Rostedt (Red Hat  2013-03-05  6078) #endif
+d33b10c0c73adc Steven Rostedt           2024-12-24  6079  	int ret;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6080  
+d33b10c0c73adc Steven Rostedt           2024-12-24  6081  	guard(mutex)(&trace_types_lock);
+1027fcb206a0fb Steven Rostedt           2009-03-12  6082  
+7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6083) 	update_last_data(tr);
+7a1d1e4b9639ff Steven Rostedt (Google   2024-06-12  6084) 
+a1f157c7a3bb34 Zheng Yejian             2023-09-06  6085  	if (!tr->ring_buffer_expanded) {
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6086  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
+438ced1720b584 Vaibhav Nagarnaik        2012-02-02  6087  						RING_BUFFER_ALL_CPUS);
+73c5162aa362a5 Steven Rostedt           2009-03-11  6088  		if (ret < 0)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6089  			return ret;
+73c5162aa362a5 Steven Rostedt           2009-03-11  6090  		ret = 0;
+73c5162aa362a5 Steven Rostedt           2009-03-11  6091  	}
 
-This looks like it's supposed to be return -EPERM.
+ret not initialized on else path
 
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1135  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1136  	rc = cxl_map_component_regs(&cxlds->reg_map,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1137  				    &cxlds->regs.component,
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1138  				    BIT(CXL_CM_CAP_CAP_ID_RAS));
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1139  	if (rc)
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1140  		dev_dbg(&pdev->dev, "Failed to map RAS capability.\n");
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1141  
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1142  	return rc;
-cfbd1d00295bff Alejandro Lucero 2024-12-16  1143  }
+73c5162aa362a5 Steven Rostedt           2009-03-11  6092  
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6093  	for (t = trace_types; t; t = t->next) {
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6094  		if (strcmp(t->name, buf) == 0)
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6095  			break;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6096  	}
+d33b10c0c73adc Steven Rostedt           2024-12-24  6097  	if (!t)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6098  		return -EINVAL;
+d33b10c0c73adc Steven Rostedt           2024-12-24  6099  
+2b6080f28c7cc3 Steven Rostedt           2012-05-11  6100  	if (t == tr->current_trace)
+d33b10c0c73adc Steven Rostedt           2024-12-24  6101  		return 0;
+bc0c38d139ec7f Steven Rostedt           2008-05-12  6102  
+a35873a0993b4d Tom Zanussi              2019-02-13  6103  #ifdef CONFIG_TRACER_SNAPSHOT
+a35873a0993b4d Tom Zanussi              2019-02-13  6104  	if (t->use_max_tr) {
+c0a581d7126c0b Waiman Long              2022-09-22  6105  		local_irq_disable();
+a35873a0993b4d Tom Zanussi              2019-02-13  6106  		arch_spin_lock(&tr->max_lock);
+a35873a0993b4d Tom Zanussi              2019-02-13  6107  		if (tr->cond_snapshot)
+a35873a0993b4d Tom Zanussi              2019-02-13  6108  			ret = -EBUSY;
+a35873a0993b4d Tom Zanussi              2019-02-13  6109  		arch_spin_unlock(&tr->max_lock);
+c0a581d7126c0b Waiman Long              2022-09-22  6110  		local_irq_enable();
+a35873a0993b4d Tom Zanussi              2019-02-13 @6111  		if (ret)
+
+Potentially uninitialized
+
+d33b10c0c73adc Steven Rostedt           2024-12-24  6112  			return ret;
+a35873a0993b4d Tom Zanussi              2019-02-13  6113  	}
+a35873a0993b4d Tom Zanussi              2019-02-13  6114  #endif
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6115) 	/* Some tracers won't work on kernel command line */
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6116) 	if (system_state < SYSTEM_RUNNING && t->noboot) {
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6117) 		pr_warn("Tracer '%s' is not allowed on command line, ignored\n",
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6118) 			t->name);
+d33b10c0c73adc Steven Rostedt           2024-12-24  6119  		return 0;
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6120) 	}
+c7b3ae0bd2ca65 Ziqian SUN (Zamir        2017-09-11  6121) 
+607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6122) 	/* Some tracers are only allowed for the top level buffer */
+d33b10c0c73adc Steven Rostedt           2024-12-24  6123  	if (!trace_ok_for_array(t, tr))
+d33b10c0c73adc Steven Rostedt           2024-12-24  6124  		return -EINVAL;
+607e2ea167e56d Steven Rostedt (Red Hat  2013-11-06  6125) 
+cf6ab6d9143b15 Steven Rostedt (Red Hat  2014-12-15  6126) 	/* If trace pipe files are being read, we can't change the tracer */
 
 -- 
 0-DAY CI Kernel Test Service
