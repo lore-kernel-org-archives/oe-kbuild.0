@@ -1,68 +1,74 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04E91D5CDD
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 07:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AD91D7985
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 Jan 2025 08:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736147384; cv=none; b=WrpQcH9c0nlmwQLt/scW4haKgNbS6goA2ic/4RKDZSvH0uaZaPpeRtvPuscd2TBQ0RZq8r6hbQiwVL8wXvtonzwwTwmPSWLrtWRy+M3aGeeshzOlFWviISZI4GI1/RQ9jHd+j0LRAp4Tm96AftXqAg5kD2VEbUlEKxPx5gKqzN8=
+	t=1736150498; cv=none; b=g6iHu5WfvJl7f6ees0hS0imZEwncRBvLVrCujn91tGkvU3PKUtV0jVZ4CWeWZDMgxuGY0g7Q+H6q12QYQmEG8cuiVoaUOgr4Fvc60bdlGrGmvac0SpXvX9i5F3Wm0d7I3MnGSJ/9oMIWwDKN969Rgo2xU3Lc0QyCDKrH5dQkoSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736147384; c=relaxed/simple;
-	bh=ztlXVC7yO7hJz6FC0eG6OR5kDNx4yBqxg+5Cteup9nU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oUnCGUfeN/ayAk3Xdv3j/nz3Ju9o1/nJgtZw6dPKtNmlgLzHfx4bCT/J1i5SmWsWBlD8yyjOV3A0BfkgdVFi9KCW4uzyiacoMSox3Afki1gihsAWciTRe3q1JlEvLSuonh+5+5lMnNiU7JQslsMIXrh1REBDScA1UjDiNxPE9HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x43xfMR6; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1736150498; c=relaxed/simple;
+	bh=v/5G+PFWEZbU8pDIm5FxvSrH5OEu2vahwkXFvzXmIzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nPRdz5a8kbs/6wPo1v6dKpaOHLodO/VXxjbbUi/OPcUf7t8YODeHXwGh1pJAelyZs5fpt1IG4yRr3K45T5RzkiY36HQ+b0zYO2y6VbD3H1CxC/qvnjfomZn8strqzUCEZxOgsSWLYbg3itGVDw97gvs//Q7QqxBFLGmwRIwcOWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KG91WgCx; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x43xfMR6"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4363dc916ceso87157725e9.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 05 Jan 2025 23:09:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KG91WgCx"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3862b40a6e0so7717636f8f.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 00:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736147380; x=1736752180; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
-        b=x43xfMR6tbwS40OmzLJq8v/nvQPpeD8CePqPQfeXhwhUoiA6jnpekTc/aS0QnCkaGY
-         2C5PGPvU/i2rEvmvEzaGGrzyCrH12iog4rqgJyiQmf9Z3Ey5ICYLmX9iQWnwPwH6/6YA
-         2w66w4JN/vqqKM3NJbC4zDMyePNJXWfHyLhcg1ShbinZTpIs4pui/VpSpOCM0dyT5DXS
-         pSXkfHpGtWSSwgC4ZfKC2YApu05HX/NW7Q4Gkifcx2qJiLEm+npHRsw6VFxdDKClkL4w
-         HZd7n6N9gfa0G9k7cbSlP+iPIC94mTrxTs6HNkwwvVvKqO4RYuXJ3ikIZ1XAFg4/N/qG
-         rRWQ==
+        d=linaro.org; s=google; t=1736150493; x=1736755293; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NA4fve8hGhqXSVITorcQfMkQAMnFkhT3ze3kgb2upiQ=;
+        b=KG91WgCxQ3T2+FioGyy+zFBLI8Gn2gUdaJ28ib3CHWZYmhSxv7r/i2ygH0W+mRw0Rk
+         LLZ7iCqASi36b2CRqtBHOqj5C2f8GU2QiHaD2Qnub34DfL22Isf7x/01I6F2Rn+Rr8Jr
+         I6sLg4EoCzEWqilTYSM4LtwaCG+EaowFEhxyS46bgRpe6Y5a168lZ1ypnlZthsIAkewn
+         YgS9wPovGdSORm7aa1RXPpP+gq7d1xi+ZOS6v50nDF5cPwXVd6E8VFnoIZGjagUu32C6
+         QWeDEMnT73Q1QtL5A9poYvQoERujmwxzvMCos2kdtJpw81uAQaLyTEw4VZBqLbobL+1Z
+         lhug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736147380; x=1736752180;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2WnamjGhXvBMgL8bchnikXP7xxUqq1nXsMC1Inb9MrU=;
-        b=o6Z3Po9Gavod8pvZ/kq5rQ/Y+j+YVSl0+RfR/Yeh0AeXztYx9u0d+5C4IwKazXaqYw
-         SmLpMQc7rScB9cvVui2scsHJDA4KH6EmOamGSr8UNTC+w3HytAKV1uJ+m9k1UM6F0ane
-         SRe4KtQmIAsCVOcPnnq3Sof2vsMY6P00WDSMMgbHXEOYgrG3R54UF7PPM0m7snbx6i7m
-         8ZAhU3QqiQNAm7ZY37NgxQsbqQqxCf6Ck4LUd/pG8SEkWixfy5oabQ6XBULj6Of9wqdf
-         Ka8GI9jH9NomRdg1bn+m4B6AMOpZTyaXiPvn0fgaFrEsO0d0fYIPwR1NCHuNn6MeocMy
-         SnnQ==
-X-Gm-Message-State: AOJu0YzALae0M0Uqj1BH9Xnxagiw3EkdvRnVHIl/JnFyZBbD6LQCqZ0z
-	yXrV1yKJqeiKU/pA4pytzJTi4hrAh5JOC1E6WVMk6KOdivgboN9atai6ZgF9Iz5WBBafXxxJ/du
-	e
-X-Gm-Gg: ASbGncv1Lwyi7cbOVj0l4pnrtD7vp9gx2mmu8Ls3bRjCjNfRi9R9ux5LAf5V1Htxyh4
-	DTEF0ixt+pGW7tUbl0hcVwkpcXjrmiq8jDvjtqOpLawNNEhjGUfERiuLi33iOcBeF3FN76C/0Ss
-	lVRDw8QZeAtcoYsgRfuLyNGWrtrJ40gYi/Y9Jh7tdD0uzwf1Jf4IPcaah1Hk6lB31jaiMEXj14u
-	8wWSF1BbdWnaY7INez/woTwWG8Nt5PyBRsCoZjUihN8hID79IG/UyWuTwPp9w==
-X-Google-Smtp-Source: AGHT+IEGyL0miqJbyxWnjUMeL4aDYo1IwQVWlwe6GF4LurZRepayXVomG0o84ovgMFTmNmQj/TLf6g==
-X-Received: by 2002:a05:6000:2a5:b0:386:3d27:b4f0 with SMTP id ffacd0b85a97d-38a1a221da1mr49526089f8f.14.1736147379663;
-        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736150493; x=1736755293;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NA4fve8hGhqXSVITorcQfMkQAMnFkhT3ze3kgb2upiQ=;
+        b=F32kLwNPlc+q+tbIG0i9QppChFq8lgUy0DihfNpBQZxJ55nnE5P3zfDrg00/gySXf5
+         4VC5QQCuDfRzEfPFk3G49FLI9cAqsrr6qLaq3CRYBMxNKOsYfKxjOGWnsUe6ew7feXtZ
+         4RmQ9EOsOoG5lilHI3VTTPKXirDNdmyWqIkODoVV9DqSijUCuUHmZsDeKSIf/GcMHP2J
+         Uc8q24RTq6V7BaLyZ8zVsidT2hOKI02NkA0sr293/rNr3XnMybml9Y9ObADphwQoNQZh
+         TJmYvriMGqdHzXH0I3Yj4i/nBh17RdiZTAy6X3/XH80RZYZ/6KLUd964N0QnHrChQ28H
+         TEWQ==
+X-Gm-Message-State: AOJu0YzswcB+D3B881G+bxdkjwe9MPjBieOZ8BfZ9V0HIEU7PCF5t7yh
+	rL8NVMMI/PFbybMO8qHDb1mXfvdxf3s7ptoElXA1UcZQZTWLNHCyHp5AObHsDjI=
+X-Gm-Gg: ASbGncupup8bCfi4LPhYOWEW5g8iasJondKQPK+TFSMBIt93x5eohPsCY6ypHoJU0QA
+	R09a7wa8x4qY8DXdG/jEe8kfiB59aqi3W3db+4fxR6xIPmeUU6ddoRfIPIy52PP/kqr5oJbwBmN
+	rC2fUy6fm8N03Wp57lmQGtJBftp/j4C8yuMGVMp5EgdalO/PC2AU5VWCWR910x0k+DcAJItzJ7g
+	KP/RnsFcaace1SIvjEM4Lt4feEwxVvPeSMU7dmOsz9k08Jv/3OZ20NPydlXhQ==
+X-Google-Smtp-Source: AGHT+IHLwJ8zk7mruC75rk0jPcosc1BH3yQdl73ZRyrEh7sIcStX9d22zAj8/rPTATVQ7OjADv+obw==
+X-Received: by 2002:a05:6000:4007:b0:382:4926:98fa with SMTP id ffacd0b85a97d-38a223f5c46mr52412943f8f.40.1736150491587;
+        Mon, 06 Jan 2025 00:01:31 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8472casm47923323f8f.45.2025.01.05.23.09.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4364b0532a6sm573987775e9.1.2025.01.06.00.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 23:09:39 -0800 (PST)
-Date: Mon, 6 Jan 2025 10:09:35 +0300
+        Mon, 06 Jan 2025 00:01:31 -0800 (PST)
+Date: Mon, 6 Jan 2025 11:01:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381
- agilent_82357a_attach() warn: inconsistent returns 'global
- &agilent_82357a_hotplug_lock'.
-Message-ID: <affedc44-c822-47a5-8db4-7bfad72dc408@stanley.mountain>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"lkp@intel.com" <lkp@intel.com>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Homura Akemi <a1134123566@gmail.com>
+Subject: Re: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
+Message-ID: <4279c951-592d-422b-b8b1-0596752b4030@stanley.mountain>
+References: <6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen@synopsys.com>
+ <d9f6af01-7a20-45aa-b6f1-380711aaec92@stanley.mountain>
+ <20241220023105.ruvvhqbzd3m37ce4@synopsys.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,106 +77,155 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241220023105.ruvvhqbzd3m37ce4@synopsys.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8faabc041a001140564f718dabe37753e88b37fa
-commit: 165e8cc3cfec9ef51f3376b0d49b115294f34f3b staging: gpib: Add KBUILD files for GPIB drivers
-config: i386-randconfig-141-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210143.WJhYzXfD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Sorry for the delayed response.  I was on vacation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202412210143.WJhYzXfD-lkp@intel.com/
+On Fri, Dec 20, 2024 at 02:31:20AM +0000, Thinh Nguyen wrote:
+> On Thu, Dec 19, 2024, Dan Carpenter wrote:
+> > Hi Thinh,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Thinh-Nguyen/usb-gadget-f_tcm-Don-t-free-command-immediately/20241211-092317 
+> > base:   d8d936c51388442f769a81e512b505dcf87c6a51
+> > patch link:    https://lore.kernel.org/r/6bffc2903d0cd1e7c7afca837053a48e883d8903.1733876548.git.Thinh.Nguyen%40synopsys.com 
+> > patch subject: [PATCH v3 24/28] usb: gadget: f_tcm: Check overlapped command
+> > config: nios2-randconfig-r071-20241219 (https://download.01.org/0day-ci/archive/20241219/202412192132.XB16SilM-lkp@intel.com/config )
+> > compiler: nios2-linux-gcc (GCC) 14.2.0
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202412192132.XB16SilM-lkp@intel.com/ 
+> > 
+> > smatch warnings:
+> > drivers/usb/gadget/function/f_tcm.c:1308 usbg_cmd_work() error: we previously assumed 'active_cmd' could be null (see line 1265)
+> > 
+> > vim +/active_cmd +1308 drivers/usb/gadget/function/f_tcm.c
+> > 
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1227  static void usbg_cmd_work(struct work_struct *work)
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1228  {
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1229  	struct usbg_cmd *cmd = container_of(work, struct usbg_cmd, work);
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1230  
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1231  	/*
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1232  	 * Failure is detected by f_tcm here. Skip submitting the command to the
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1233  	 * target core if we already know the failing response and send the usb
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1234  	 * response to the host directly.
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1235  	 */
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1236  	if (cmd->tmr_rsp != RC_RESPONSE_UNKNOWN)
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1237  		goto skip;
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1238  
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1239  	if (cmd->tmr_func)
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1240  		usbg_submit_tmr(cmd);
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1241  	else
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1242  		usbg_submit_cmd(cmd);
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1243  
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1244  	return;
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1245  
+> > 287b3d115e5351 Thinh Nguyen          2024-12-11  1246  skip:
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1247  	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1248  		struct f_uas *fu = cmd->fu;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1249  		struct se_session *se_sess;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1250  		struct uas_stream *stream = NULL;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1251  		struct hlist_node *tmp;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1252  		struct usbg_cmd *active_cmd = NULL;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1253  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1254  		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1255  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1256  		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1257  			int i = stream - &fu->stream[0];
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1258  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1259  			active_cmd = &((struct usbg_cmd *)se_sess->sess_cmd_map)[i];
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1260  			if (active_cmd->tag == cmd->tag)
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1261  				break;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1262  		}
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1263  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1264  		/* Sanity check */
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11 @1265  		if (!stream || (active_cmd && active_cmd->tag != cmd->tag)) {
+> > 
+> > Testing for !stream is sufficient.  Another option would be to write this
+> 
+> Just testing for !stream is sufficient to know whether active_cmd is
+> NULL, but we still need to check for matching tag also.
 
-smatch warnings:
-drivers/staging/gpib/agilent_82357a/agilent_82357a.c:1381 agilent_82357a_attach() warn: inconsistent returns 'global &agilent_82357a_hotplug_lock'.
+Yes.  Sorry, I was unclear.  That's what I meant.  We could write it
+as:
 
-vim +1381 drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+	if (!stream || active_cmd->tag != cmd->tag) {
 
-4c41fe886a56c5b Dave Penkler 2024-09-18  1306  static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t *config)
-4c41fe886a56c5b Dave Penkler 2024-09-18  1307  {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1308  	int retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1309  	int i;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1310  	unsigned int product_id;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1311  	struct agilent_82357a_priv *a_priv;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1312  	struct usb_device *usb_dev;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1313  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1314  	if (mutex_lock_interruptible(&agilent_82357a_hotplug_lock))
-4c41fe886a56c5b Dave Penkler 2024-09-18  1315  		return -ERESTARTSYS;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1316  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1317  	retval = agilent_82357a_allocate_private(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1318  	if (retval < 0) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1319  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1320  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1321  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1322  	a_priv = board->private_data;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1323  	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1324  		if (agilent_82357a_driver_interfaces[i] &&
-4c41fe886a56c5b Dave Penkler 2024-09-18  1325  		    !usb_get_intfdata(agilent_82357a_driver_interfaces[i]) &&
-4c41fe886a56c5b Dave Penkler 2024-09-18  1326  		    agilent_82357a_device_match(agilent_82357a_driver_interfaces[i], config)) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1327  			a_priv->bus_interface = agilent_82357a_driver_interfaces[i];
-4c41fe886a56c5b Dave Penkler 2024-09-18  1328  			usb_set_intfdata(agilent_82357a_driver_interfaces[i], board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1329  			usb_dev = interface_to_usbdev(a_priv->bus_interface);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1330  			dev_info(&usb_dev->dev,
-4c41fe886a56c5b Dave Penkler 2024-09-18  1331  				 "bus %d dev num %d attached to gpib minor %d, agilent usb interface %i\n",
-4c41fe886a56c5b Dave Penkler 2024-09-18  1332  				 usb_dev->bus->busnum, usb_dev->devnum, board->minor, i);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1333  			break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1334  		}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1335  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1336  	if (i == MAX_NUM_82357A_INTERFACES) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1337  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1338  		pr_err("No Agilent 82357 gpib adapters found, have you loaded its firmware?\n");
-4c41fe886a56c5b Dave Penkler 2024-09-18  1339  		return -ENODEV;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1340  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1341  	product_id = le16_to_cpu(interface_to_usbdev(a_priv->bus_interface)->descriptor.idProduct);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1342  	switch (product_id) {
-4c41fe886a56c5b Dave Penkler 2024-09-18  1343  	case USB_DEVICE_ID_AGILENT_82357A:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1344  		a_priv->bulk_out_endpoint = AGILENT_82357A_BULK_OUT_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1345  		a_priv->interrupt_in_endpoint = AGILENT_82357A_INTERRUPT_IN_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1346  		break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1347  	case USB_DEVICE_ID_AGILENT_82357B:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1348  		a_priv->bulk_out_endpoint = AGILENT_82357B_BULK_OUT_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1349  		a_priv->interrupt_in_endpoint = AGILENT_82357B_INTERRUPT_IN_ENDPOINT;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1350  		break;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1351  	default:
-4c41fe886a56c5b Dave Penkler 2024-09-18  1352  		pr_err("bug, unhandled product_id in switch?\n");
+There is no need to check if active_cmd is non-NULL since we know that
+stream is non-NULL.  However, if we DO check it, then we should check
+it consistently everywhere.
 
-mutex_unlock(&agilent_82357a_hotplug_lock); before returning.
+> 
+> > as:
+> > 	if (!stream || !active_cmd || active_cmd->tag != cmd->tag)) {
+> 
+> Perhaps we can just do this:
+> 
+> 	if (!active_cmd || active_cmd->tag != cmd->tag)) {
+> 
+> If active_cmd is NULL, then the stream variable must also be NULL. This
+> may not be obvious.
+> 
+> > 
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1266  			usbg_submit_command(cmd->fu, cmd->req);
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1267  			return;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1268  		}
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1269  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1270  		reinit_completion(&stream->cmd_completion);
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1271  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1272  		/*
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1273  		 * A UASP command consists of the command, data, and status
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1274  		 * stages, each operating sequentially from different endpoints.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1275  		 *
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1276  		 * Each USB endpoint operates independently, and depending on
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1277  		 * hardware implementation, a completion callback for a transfer
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1278  		 * from one endpoint may not reflect the order of completion on
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1279  		 * the wire. This is particularly true for devices with
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1280  		 * endpoints that have independent interrupts and event buffers.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1281  		 *
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1282  		 * The driver must still detect misbehaving hosts and respond
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1283  		 * with an overlap status. To reduce false overlap failures,
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1284  		 * allow the active and matching stream ID a brief 1ms to
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1285  		 * complete before responding with an overlap command failure.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1286  		 * Overlap failure should be rare.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1287  		 */
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1288  		wait_for_completion_timeout(&stream->cmd_completion, msecs_to_jiffies(1));
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1289  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1290  		/* If the previous stream is completed, retry the command. */
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1291  		if (!hash_hashed(&stream->node)) {
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1292  			usbg_submit_command(cmd->fu, cmd->req);
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1293  			return;
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1294  		}
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1295  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1296  		/*
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1297  		 * The command isn't submitted to the target core, so we're safe
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1298  		 * to remove the bitmap index from the session tag pool.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1299  		 */
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1300  		sbitmap_queue_clear(&se_sess->sess_tag_pool,
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1301  				    cmd->se_cmd.map_tag,
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1302  				    cmd->se_cmd.map_cpu);
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1303  
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1304  		/*
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1305  		 * Overlap command tag detected. Cancel any pending transfer of
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1306  		 * the command submitted to target core.
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11  1307  		 */
+> > 7735c10c74d903 Thinh Nguyen          2024-12-11 @1308  		active_cmd->tmr_rsp = RC_OVERLAPPED_TAG;
+> > 
+> > The inconsistent NULL check triggers a warning here.
+> > 
+> 
+> We already check for !stream prior, so I didn't check for active_cmd
+> here. This is more of a consistency issue. If possible and if needed, we
+> can make this more consistent after the merge?
 
-4c41fe886a56c5b Dave Penkler 2024-09-18  1353  		return -EIO;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1354  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1355  #ifdef RESET_USB_CONFIG
-4c41fe886a56c5b Dave Penkler 2024-09-18  1356  	retval = agilent_82357a_reset_usb_configuration(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1357  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1358  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1359  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1360  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1361  #endif
-4c41fe886a56c5b Dave Penkler 2024-09-18  1362  	retval = agilent_82357a_setup_urbs(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1363  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1364  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1365  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1366  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1367  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1368  	timer_setup(&a_priv->bulk_timer, agilent_82357a_timeout_handler, 0);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1369  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1370  	board->t1_nano_sec = 800;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1371  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1372  	retval = agilent_82357a_init(board);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1373  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1374  	if (retval < 0)	{
-4c41fe886a56c5b Dave Penkler 2024-09-18  1375  		mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1376  		return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1377  	}
-4c41fe886a56c5b Dave Penkler 2024-09-18  1378  
-4c41fe886a56c5b Dave Penkler 2024-09-18  1379  	pr_info("%s: attached\n", __func__);
-4c41fe886a56c5b Dave Penkler 2024-09-18  1380  	mutex_unlock(&agilent_82357a_hotplug_lock);
-4c41fe886a56c5b Dave Penkler 2024-09-18 @1381  	return retval;
-4c41fe886a56c5b Dave Penkler 2024-09-18  1382  }
+This is not a run time bug, yes.  It's just an inconsistent NULL check,
+but the NULL check is not necessary so that's not a problem.  I don't
+have a vote on how you merge it.  ;)  You can do that however you want.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
