@@ -1,152 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA01487F4
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 08:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C7190688
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 09:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736237664; cv=none; b=ejodOZEZ7UzwidNtdxoZDi7iAUJW5n4Sa7B/IXL4FdjYHiWPrs9raHZMWGISPyMtfG8A1/xPAerjSomUYkCqF1/ReK6JckDtxfki+qnT+YmDbkbOpF3dPzpez8P6YwJe1vXcxn5Gbwq81na/Ty7HMfIyvvmy8MX3IzH+Qpvld8c=
+	t=1736243062; cv=none; b=LCsHoU2WsTvECbAaKCqbb/AKXRYLzLRoyOWeiQFpkI8B93jeosIwyXSFqL0hzBiHwTnC+/L+Ax2QnNxohfuuyieKKl8raOjruDTejgvkjJzlGw6pUd2YKwRSyy0uRYqGLk6gIuyKT2+/dJpmaPM3PWoNFiCEswqzVOoM60tjUSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736237664; c=relaxed/simple;
-	bh=ss9VoIsHgrO7dprRC+UvqcppvbhM5irfk7K/yB9fM4M=;
+	s=arc-20240116; t=1736243062; c=relaxed/simple;
+	bh=7jj3iLRq/11nVKZt46xdflz0zBUc58aP6vquSH6j32Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pv+3la9HmMEHSqMpNsowfkvN5Go4dlKExYdzPW2sZvX19pmVjxKNuK6XbQHpVmx6S+Querv7aY4Ng2E1HNLcK4GSI691AzHGXhuf275gNfZUQhjU/o5AbtCSJFpFwBbQhpH4opdIQ+tCYwsZDZTtO7c0OaAuUwLi2D7xuMWsNYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAKOddG0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=WHjgIJ34P9CYNyk2SvmBouj61WL1F0GdHHjTrV8xH80kgiYp7ZGxGxniCQbffg7n+4k3gAFdJpMCovUPNMsUiM1tATTIvqL7q2bCSsKbHpN3smcXBcbhd/e0DRwlZAIyuBuVr20WWYSsYUBiilD/v8u80bbOfVSXbdqljSbH5Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAOtmvmS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAKOddG0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAOtmvmS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736237661; x=1767773661;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ss9VoIsHgrO7dprRC+UvqcppvbhM5irfk7K/yB9fM4M=;
-  b=AAKOddG06DYLYo0qVvPslaE9TCm0R9GkblxjPtWgdZEBxF1DA8Csmzr0
-   ls0bpa5TyzaTPKDhBNknXH0/fXsv1iHOlea1tV7p4ZQYibb9ywaogX/RY
-   Np5orynKHxSCoI8vGbpAdL1DDQ+ahDGx/HmeZ5L8UDjWez8HFIGEVD6Xm
-   JiCcgHrPLg07nOGcLCKZdUuLSHepiGIW/dw2iQsa/1dhhfP0sSuDK1WDs
-   1Q82Ik/QLAUpsrnYW7OH2j1yhlj1Ayqj7CktwFirR7RnZOyctdrxcDtoL
-   u0HOwblr7jWlWDCuc+IsCYbhuPXEhqCoASodM0BHHBsGRzMbOx0YVIt5i
-   w==;
-X-CSE-ConnectionGUID: D991C9tiQaCvZme2QBBk8g==
-X-CSE-MsgGUID: 0N8KJ3r6R1O6c72iDyS9NA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61783463"
+  t=1736243059; x=1767779059;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7jj3iLRq/11nVKZt46xdflz0zBUc58aP6vquSH6j32Q=;
+  b=LAOtmvmSYj/DjFD6wJ1rp3XmuyOTjgngKvmiOA+4SWQcZfiKggRoldjG
+   5wTZz6mn63RJ9Hjz9oNEJgTuv5fZEd5yheOOj4J8rH3HYzVcGpAdPgfES
+   5qd7I10q/ygq/iU2N7Ncc7FXJvJWiMyiO/p19r1HSklF4IrWb6pcZcfAR
+   qXdxBna0U6U3KdF70SXB4plOHxq4DRrGgUhHRTc2dbGnY/0ujAv2QPgZB
+   l1+DpbFxVmV0Qz6RfvumOTCFhKrSze5NXMwXilRSPhKgRX2FchNUKm1hZ
+   L8fnWsz92BlLuVcXbHjIfgQVDj+SjFU2bo++JheRJ37m/cHgKM6oayjeQ
+   Q==;
+X-CSE-ConnectionGUID: mcDpzrQWTpyPvU0tfrC2Xw==
+X-CSE-MsgGUID: 0Q4/xJyVRIGnLqREd12JMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="58881756"
 X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="61783463"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 00:14:20 -0800
-X-CSE-ConnectionGUID: oq2KK4WhRNe6VAN+HjaJZQ==
-X-CSE-MsgGUID: PpoFvSxnQYOz/mllBOM26w==
+   d="scan'208";a="58881756"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 01:44:19 -0800
+X-CSE-ConnectionGUID: FLJSFBI+RyyP4S5GBrIH8g==
+X-CSE-MsgGUID: kq1qTeWwShW5I61LH2VwBg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="102510130"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="133606373"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jan 2025 00:14:19 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Jan 2025 01:44:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tV4jA-000EPT-1X;
-	Tue, 07 Jan 2025 08:14:16 +0000
-Date: Tue, 7 Jan 2025 16:13:30 +0800
+	id 1tV68F-000EVP-21;
+	Tue, 07 Jan 2025 09:44:15 +0000
+Date: Tue, 7 Jan 2025 17:43:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-kiwi-6.1 203/203]
- net/devlink/leftover.c:7272 devlink_fmsg_prepare_skb() error: uninitialized
- symbol 'err'.
-Message-ID: <202501071608.fvria6Zf-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 10/191]
+ arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@4b:
+ failed to match any schema with compatible: ['cirrus,cs42l84']
+Message-ID: <202501071714.0FBQ6wld-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: "Martin Povišer" <povik+lin@cutebit.org>
+CC: Janne Grunau <j@jannau.net>
 
-Hi Jakub,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   fd2a406d90aed5daa59f286867063b9adba644cb
-commit: 1375d2061204785d592c05f5dec47eb487ec3515 [203/203] devlink: move code to a dedicated directory
-:::::: branch date: 15 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: i386-randconfig-141-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071608.fvria6Zf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   3579121c157a4c56e00b67dbb6eb45d963046590
+commit: 2c404f1cd6dadd8a0e85d42f2c6e6b9ee223a8a4 [10/191] arm64: dts: apple: t8112*: Put in audio nodes
+:::::: branch date: 2 days ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-051-20250106 (https://download.01.org/0day-ci/archive/20250107/202501071714.0FBQ6wld-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071714.0FBQ6wld-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501071608.fvria6Zf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501071714.0FBQ6wld-lkp@intel.com/
 
-smatch warnings:
-net/devlink/leftover.c:7272 devlink_fmsg_prepare_skb() error: uninitialized symbol 'err'.
-
-vim +/err +7272 net/devlink/leftover.c
-
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7224  
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7225  static int
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7226  devlink_fmsg_prepare_skb(struct devlink_fmsg *fmsg, struct sk_buff *skb,
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7227  			 int *start)
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7228  {
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7229  	struct devlink_fmsg_item *item;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7230  	struct nlattr *fmsg_nlattr;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7231  	int i = 0;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7232  	int err;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7233  
-ae0be8de9a53cd net/core/devlink.c Michal Kubecek  2019-04-26  7234  	fmsg_nlattr = nla_nest_start_noflag(skb, DEVLINK_ATTR_FMSG);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7235  	if (!fmsg_nlattr)
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7236  		return -EMSGSIZE;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7237  
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7238  	list_for_each_entry(item, &fmsg->item_list, list) {
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7239  		if (i < *start) {
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7240  			i++;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7241  			continue;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7242  		}
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7243  
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7244  		switch (item->attrtype) {
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7245  		case DEVLINK_ATTR_FMSG_OBJ_NEST_START:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7246  		case DEVLINK_ATTR_FMSG_PAIR_NEST_START:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7247  		case DEVLINK_ATTR_FMSG_ARR_NEST_START:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7248  		case DEVLINK_ATTR_FMSG_NEST_END:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7249  			err = nla_put_flag(skb, item->attrtype);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7250  			break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7251  		case DEVLINK_ATTR_FMSG_OBJ_VALUE_DATA:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7252  			err = devlink_fmsg_item_fill_type(item, skb);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7253  			if (err)
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7254  				break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7255  			err = devlink_fmsg_item_fill_data(item, skb);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7256  			break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7257  		case DEVLINK_ATTR_FMSG_OBJ_NAME:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7258  			err = nla_put_string(skb, item->attrtype,
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7259  					     (char *) &item->value);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7260  			break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7261  		default:
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7262  			err = -EINVAL;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7263  			break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7264  		}
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7265  		if (!err)
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7266  			*start = ++i;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7267  		else
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7268  			break;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7269  	}
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7270  
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7271  	nla_nest_end(skb, fmsg_nlattr);
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07 @7272  	return err;
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7273  }
-1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7274  
-
-:::::: The code at line 7272 was first introduced by commit
-:::::: 1db64e8733f653814f041ffe1428524494ef6123 devlink: Add devlink formatted message (fmsg) API
-
-:::::: TO: Eran Ben Elisha <eranbe@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3b: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: codec@3c: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+--
+   arch/arm64/boot/dts/apple/t8112.dtsi:686.28-762.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
+   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/apple/t8112.dtsi:726.43-729.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: codec@38: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/i2c@235014000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+--
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
 
 -- 
 0-DAY CI Kernel Test Service
