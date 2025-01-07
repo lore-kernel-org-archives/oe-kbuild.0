@@ -1,73 +1,59 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74DE1DE8A0
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 07:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA01487F4
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 08:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736233844; cv=none; b=WPsOHb5q+VsxINh+lmLrpTB1dg1HGAcjG0E3TBL64FjtYp31YsQoPJMT4tjqjEbtNR2i7+dNvpYOTtzOc+BngYK8wSAnsjmHsh9tVaYg/m50nfk6h08O5IggaiJpjTTuhZyXREe/Ym6wXClQPxplh6LVQ6VJWO9bc2+WMsaNpKk=
+	t=1736237664; cv=none; b=ejodOZEZ7UzwidNtdxoZDi7iAUJW5n4Sa7B/IXL4FdjYHiWPrs9raHZMWGISPyMtfG8A1/xPAerjSomUYkCqF1/ReK6JckDtxfki+qnT+YmDbkbOpF3dPzpez8P6YwJe1vXcxn5Gbwq81na/Ty7HMfIyvvmy8MX3IzH+Qpvld8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736233844; c=relaxed/simple;
-	bh=knmlkzZmomk2UGvcFIon1Q9Wd0GhVKMpQAKMHPp8gtk=;
+	s=arc-20240116; t=1736237664; c=relaxed/simple;
+	bh=ss9VoIsHgrO7dprRC+UvqcppvbhM5irfk7K/yB9fM4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VT+z6lxBsq+vxqnALgUuMp2C0O/+Lgw6LOj51CfqI7vmMKK04dnyDR8iLVaecMVB3UKdCAJcjG4UPEyi6RLwsKHHZXwRdU36myjZCRkusfTGe6nEMUGtOyjCBRYrKWCAzG5y73hx5bnvfq8fROTRCj7O81Ro/C/JLtBEjWqwMHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vlPH96pF; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Pv+3la9HmMEHSqMpNsowfkvN5Go4dlKExYdzPW2sZvX19pmVjxKNuK6XbQHpVmx6S+Querv7aY4Ng2E1HNLcK4GSI691AzHGXhuf275gNfZUQhjU/o5AbtCSJFpFwBbQhpH4opdIQ+tCYwsZDZTtO7c0OaAuUwLi2D7xuMWsNYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAKOddG0; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vlPH96pF"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43624b2d453so156241065e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 06 Jan 2025 23:10:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736233839; x=1736838639; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LxC2QvRLaa9fhyMEEmnqLTIucuZnpaiOnMycBsmrjig=;
-        b=vlPH96pFlVWzprGxsw7Gpknbr2VwQt581IbBghkcy4DMBVtD04VZrCjaLAvbXaMlXR
-         5IGVvgvfvTHB2/C0i/+jl0EdcXS4NblJOKxXDoGNIUGUAnEYslNeaZaGAt2/Z+DfJny3
-         GWIXR5UJAsjU46awSKCJH9h5TG9o6RFpEOhLLay/oeLT0b/gq/D5v9QGHeOwmQSRjTb6
-         tXYU8hwyFiwFXiV2viH+t0RtCZWgiUeUtgRifkSM8wfvvlykODG2H1p/wV3NYawuzOIc
-         EK0JbOVHzayyxHyoyR1/FAFUluIvS2weoJS+gwHgiVTju5b7lVBvbGQWpV+6M4YLoY7L
-         HPhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736233839; x=1736838639;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LxC2QvRLaa9fhyMEEmnqLTIucuZnpaiOnMycBsmrjig=;
-        b=RjVW1xse1TnhpWfApY2YcppA2KaHRq4Z5RhPYh0A1EZI28bfOKTVOrGQtUiRM1oZnT
-         YGteZzLT1NkxrAoLnpYiotk9fIOGSFBb4z8hpQmoTFi3JLX4mFvXmjG35wHA/7KjK4eS
-         Eb47jhV6N+KQDnYIpYpLrREwVM6/qsW7LVjIEdt1sqv1aSgMMjCG6Yvuj9as6jMbEH4t
-         CbR5GU3zS9yydNCBGzOrOz4Gb7nJDT5fG+ZoqJP8JtvxWNoQUlxDaU1zt5xe3u+39V/w
-         OtwJqMJYy3rZXA+o50d6qJOF3XvNCjYiQGx/8EsUEI5UooKhQTpTThGwVA8XeYS7QDNA
-         v+2g==
-X-Gm-Message-State: AOJu0Yxr3lIMJvq6GXcTFxZLVkC9Vg/LeoF5MrH4aECHECgD/nfi431H
-	uWARIItTcXGp1eL4Ure50wVEHFEmpxHE62wFyTbo6nSGWRTvkI2+oUeJA7CmPp10CdzZkslhCfC
-	v
-X-Gm-Gg: ASbGnctTooyKsSTXz5DFME7giMuzM3Ku5xw3N5T4fmyN1cK+29WIqTA1UbKjiEYACuy
-	gPogrZ+Kjf575b3cWk8BbfRpijxiXQ+RbrfCvJ5uEXhkC1/nKaEcVdeW7ejfAGpH3QrEnwvDc/7
-	AKsCsBMKCQo/vU69uiRwTTrf0hNas6d9ZSitVF+05wODp2yDKpZvxVGV6GVnq3g/yloSGouWW4r
-	Bxf5iskbsKAkvsXwrMejVTp07tvdubsIJTA2DFJ4r7YdZ0neGSyZHWrABCM9w==
-X-Google-Smtp-Source: AGHT+IFIR4835eW6e7ZZ8gI1DpDQcwGI8R4kehDIZa6LnIgHnu7A7jNtqUCLWF6+KIJF30TnCX1P0g==
-X-Received: by 2002:adf:a445:0:b0:38a:2b39:9205 with SMTP id ffacd0b85a97d-38a2b3993dfmr39812671f8f.33.1736233838547;
-        Mon, 06 Jan 2025 23:10:38 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c829235sm48855108f8f.15.2025.01.06.23.10.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 23:10:38 -0800 (PST)
-Date: Tue, 7 Jan 2025 10:10:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Divya Koppera <divya.koppera@microchip.com>,
-	andrew@lunn.ch, arun.ramadoss@microchip.com,
-	UNGLinuxDriver@microchip.com, hkallweit1@gmail.com,
-	linux@armlinux.org.uk, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, richardcochran@gmail.com,
-	vadim.fedorenko@linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next 3/3] net: phy: microchip_rds_ptp : Add PEROUT
- feature library for RDS PTP supported phys
-Message-ID: <f65330e7-825b-46ff-8e95-c046a2359705@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAKOddG0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736237661; x=1767773661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ss9VoIsHgrO7dprRC+UvqcppvbhM5irfk7K/yB9fM4M=;
+  b=AAKOddG06DYLYo0qVvPslaE9TCm0R9GkblxjPtWgdZEBxF1DA8Csmzr0
+   ls0bpa5TyzaTPKDhBNknXH0/fXsv1iHOlea1tV7p4ZQYibb9ywaogX/RY
+   Np5orynKHxSCoI8vGbpAdL1DDQ+ahDGx/HmeZ5L8UDjWez8HFIGEVD6Xm
+   JiCcgHrPLg07nOGcLCKZdUuLSHepiGIW/dw2iQsa/1dhhfP0sSuDK1WDs
+   1Q82Ik/QLAUpsrnYW7OH2j1yhlj1Ayqj7CktwFirR7RnZOyctdrxcDtoL
+   u0HOwblr7jWlWDCuc+IsCYbhuPXEhqCoASodM0BHHBsGRzMbOx0YVIt5i
+   w==;
+X-CSE-ConnectionGUID: D991C9tiQaCvZme2QBBk8g==
+X-CSE-MsgGUID: 0N8KJ3r6R1O6c72iDyS9NA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61783463"
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
+   d="scan'208";a="61783463"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 00:14:20 -0800
+X-CSE-ConnectionGUID: oq2KK4WhRNe6VAN+HjaJZQ==
+X-CSE-MsgGUID: PpoFvSxnQYOz/mllBOM26w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
+   d="scan'208";a="102510130"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 07 Jan 2025 00:14:19 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tV4jA-000EPT-1X;
+	Tue, 07 Jan 2025 08:14:16 +0000
+Date: Tue, 7 Jan 2025 16:13:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 203/203]
+ net/devlink/leftover.c:7272 devlink_fmsg_prepare_skb() error: uninitialized
+ symbol 'err'.
+Message-ID: <202501071608.fvria6Zf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,68 +62,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250103090731.1355-4-divya.koppera@microchip.com>
 
-Hi Divya,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-kernel test robot noticed the following build warnings:
+Hi Jakub,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Divya-Koppera/net-phy-microchip_rds_ptp-Header-file-library-changes-for-PEROUT/20250103-171126
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250103090731.1355-4-divya.koppera%40microchip.com
-patch subject: [PATCH net-next 3/3] net: phy: microchip_rds_ptp : Add PEROUT feature library for RDS PTP supported phys
-config: arm64-randconfig-r072-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071428.F9gIQY3T-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   fd2a406d90aed5daa59f286867063b9adba644cb
+commit: 1375d2061204785d592c05f5dec47eb487ec3515 [203/203] devlink: move code to a dedicated directory
+:::::: branch date: 15 hours ago
+:::::: commit date: 1 year, 4 months ago
+config: i386-randconfig-141-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071608.fvria6Zf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501071428.F9gIQY3T-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501071608.fvria6Zf-lkp@intel.com/
 
 smatch warnings:
-drivers/net/phy/microchip_rds_ptp.c:247 mchp_rds_ptp_perout_off() error: uninitialized symbol 'event'.
+net/devlink/leftover.c:7272 devlink_fmsg_prepare_skb() error: uninitialized symbol 'err'.
 
-vim +/event +247 drivers/net/phy/microchip_rds_ptp.c
+vim +/err +7272 net/devlink/leftover.c
 
-568c86a861124f Divya Koppera 2025-01-03  228  static int mchp_rds_ptp_perout_off(struct mchp_rds_ptp_clock *clock,
-568c86a861124f Divya Koppera 2025-01-03  229  				   s8 gpio_pin)
-568c86a861124f Divya Koppera 2025-01-03  230  {
-568c86a861124f Divya Koppera 2025-01-03  231  	u16 general_config;
-568c86a861124f Divya Koppera 2025-01-03  232  	int event;
-568c86a861124f Divya Koppera 2025-01-03  233  	int rc;
-568c86a861124f Divya Koppera 2025-01-03  234  
-568c86a861124f Divya Koppera 2025-01-03  235  	if (clock->mchp_rds_ptp_event_a == gpio_pin)
-568c86a861124f Divya Koppera 2025-01-03  236  		event = MCHP_RDS_PTP_EVT_A;
-568c86a861124f Divya Koppera 2025-01-03  237  	else if (clock->mchp_rds_ptp_event_b == gpio_pin)
-568c86a861124f Divya Koppera 2025-01-03  238  		event = MCHP_RDS_PTP_EVT_B;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7224  
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7225  static int
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7226  devlink_fmsg_prepare_skb(struct devlink_fmsg *fmsg, struct sk_buff *skb,
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7227  			 int *start)
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7228  {
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7229  	struct devlink_fmsg_item *item;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7230  	struct nlattr *fmsg_nlattr;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7231  	int i = 0;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7232  	int err;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7233  
+ae0be8de9a53cd net/core/devlink.c Michal Kubecek  2019-04-26  7234  	fmsg_nlattr = nla_nest_start_noflag(skb, DEVLINK_ATTR_FMSG);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7235  	if (!fmsg_nlattr)
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7236  		return -EMSGSIZE;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7237  
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7238  	list_for_each_entry(item, &fmsg->item_list, list) {
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7239  		if (i < *start) {
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7240  			i++;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7241  			continue;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7242  		}
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7243  
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7244  		switch (item->attrtype) {
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7245  		case DEVLINK_ATTR_FMSG_OBJ_NEST_START:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7246  		case DEVLINK_ATTR_FMSG_PAIR_NEST_START:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7247  		case DEVLINK_ATTR_FMSG_ARR_NEST_START:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7248  		case DEVLINK_ATTR_FMSG_NEST_END:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7249  			err = nla_put_flag(skb, item->attrtype);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7250  			break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7251  		case DEVLINK_ATTR_FMSG_OBJ_VALUE_DATA:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7252  			err = devlink_fmsg_item_fill_type(item, skb);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7253  			if (err)
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7254  				break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7255  			err = devlink_fmsg_item_fill_data(item, skb);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7256  			break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7257  		case DEVLINK_ATTR_FMSG_OBJ_NAME:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7258  			err = nla_put_string(skb, item->attrtype,
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7259  					     (char *) &item->value);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7260  			break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7261  		default:
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7262  			err = -EINVAL;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7263  			break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7264  		}
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7265  		if (!err)
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7266  			*start = ++i;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7267  		else
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7268  			break;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7269  	}
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7270  
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7271  	nla_nest_end(skb, fmsg_nlattr);
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07 @7272  	return err;
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7273  }
+1db64e8733f653 net/core/devlink.c Eran Ben Elisha 2019-02-07  7274  
 
-What about: else return -EINVAL;?
+:::::: The code at line 7272 was first introduced by commit
+:::::: 1db64e8733f653814f041ffe1428524494ef6123 devlink: Add devlink formatted message (fmsg) API
 
-568c86a861124f Divya Koppera 2025-01-03  239  
-568c86a861124f Divya Koppera 2025-01-03  240  	/* Set target to too far in the future, effectively disabling it */
-568c86a861124f Divya Koppera 2025-01-03  241  	rc = mchp_set_clock_target(clock, gpio_pin, 0xFFFFFFFF, 0);
-568c86a861124f Divya Koppera 2025-01-03  242  	if (rc < 0)
-568c86a861124f Divya Koppera 2025-01-03  243  		return rc;
-568c86a861124f Divya Koppera 2025-01-03  244  
-568c86a861124f Divya Koppera 2025-01-03  245  	general_config = mchp_rds_phy_read_mmd(clock, MCHP_RDS_PTP_GEN_CFG,
-568c86a861124f Divya Koppera 2025-01-03  246  					       MCHP_RDS_PTP_CLOCK);
-568c86a861124f Divya Koppera 2025-01-03 @247  	general_config |= MCHP_RDS_PTP_GEN_CFG_RELOAD_ADD_X_(event);
-568c86a861124f Divya Koppera 2025-01-03  248  	rc = mchp_rds_phy_write_mmd(clock, MCHP_RDS_PTP_GEN_CFG,
-568c86a861124f Divya Koppera 2025-01-03  249  				    MCHP_RDS_PTP_CLOCK, general_config);
-568c86a861124f Divya Koppera 2025-01-03  250  	if (rc < 0)
-568c86a861124f Divya Koppera 2025-01-03  251  		return rc;
-568c86a861124f Divya Koppera 2025-01-03  252  
-568c86a861124f Divya Koppera 2025-01-03  253  	if (event == MCHP_RDS_PTP_EVT_A)
-568c86a861124f Divya Koppera 2025-01-03  254  		clock->mchp_rds_ptp_event_a = -1;
-568c86a861124f Divya Koppera 2025-01-03  255  
-568c86a861124f Divya Koppera 2025-01-03  256  	if (event == MCHP_RDS_PTP_EVT_B)
-568c86a861124f Divya Koppera 2025-01-03  257  		clock->mchp_rds_ptp_event_b = -1;
-568c86a861124f Divya Koppera 2025-01-03  258  
-568c86a861124f Divya Koppera 2025-01-03  259  	return 0;
-568c86a861124f Divya Koppera 2025-01-03  260  }
+:::::: TO: Eran Ben Elisha <eranbe@mellanox.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
