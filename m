@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9A93596C
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 03:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E737082A
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 04:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736220349; cv=none; b=lkU9Zg+SUEvj4do/4jTlzCc7B2gFxj8zMf0IiKl0tNuLFiFmOqQ+ocGpUl1ljdNxdGM/50s2+sf7Az7odWrN8EkZ1EuSRUdnp/FkUblt6HAEkkyVB228g0B0BQJuCt7+fDAI6czPF464nFYUy1ZoDiy9G5q6ZZaWZFpCJBjnj0Y=
+	t=1736223101; cv=none; b=Ey8v5ltnljQcQBeJ3orqiWLqOLiqJnFYj8j3W6uBljTNj33HCSS6O1jB9aj13qAziC/3G3luN5v+qTgnPaKH9RpLmkJzcUCs0XgAn/ulV+ZUiOdMDZdDr7iNY3IpCtbZNqP7Cj2iStEAuv7+l3zU8A7f7jU4lHaOun0gc/N5xrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736220349; c=relaxed/simple;
-	bh=WIcVdGMXMzH7dMOhpA50oYRIFqt5LqpmJ7cnhUU9nTg=;
+	s=arc-20240116; t=1736223101; c=relaxed/simple;
+	bh=oCWvgl0FrTxADDYlLO5432QcWwStPeSfQ4Lldp4/LU0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z4h2IbSbNTK+9qR+TmrlS5qR9OiZZfy0OLzzoPJRSldibn6k0iQ3+iBl4o/uNcgrcRozYwz+Sof2oF9VECQm8dnqDrRgwEFbdPlPR85WNDjmNCIO3KmuSDKF4UuenBao9zpl4i5AT2/UMGE3yHskKmVYWpJCZHnCsWJz0bmRCPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EnFQ+4xd; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=YfmHr/GrSA0BrcbuF723Yw4VnCi2KC/ws1kw/eOphyVo/6v8eHmZHwCx5sQqi0LrjOJs6ACfdU8uy9jUaSiS0c9NZi7GIOCWveuViW8K3Kv7lXsYt71mE9A8D/QnrScqyg/BB8GnvEDejP5jNMGiJ7UtmpvJQkvABhHfBy1/sOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vyv8sQfp; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EnFQ+4xd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vyv8sQfp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736220347; x=1767756347;
+  t=1736223098; x=1767759098;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WIcVdGMXMzH7dMOhpA50oYRIFqt5LqpmJ7cnhUU9nTg=;
-  b=EnFQ+4xdR49mdTDFqPtM7CS0dMRLgc10+RLFZHx7WFJUoZkwV12N5J9w
-   6PQS8XwRa5wwNnTQ8arSJj4Rxzv9o8AbTmuhcaFze2ht53oA5DQvpenN0
-   rHa7a7oXc/ds5vOBzKIDGc1yPjWxT1/TT0T2PIMtiIGKzFFekw9hXaH+X
-   Hba9fqX7lmUNE22EhI36h9Jwn4V1b6WDgjXWZ8+95Jjm3wzx3NIjR9NPd
-   XwoThST+kJm/JyqFn1NLwSqCzGklNJA1zK2+NN1Zocvrlhq9JitbaiDzT
-   dLfEPxWSccZN8iDqL/aSEguAWRu2DRj5m43gWjBSD3tIJoIubxBn5UZSD
-   Q==;
-X-CSE-ConnectionGUID: gBK6LnbfRZ62kuDZW+0Q5A==
-X-CSE-MsgGUID: 5bRkHP1KR/2dDNRri71xvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="53805138"
+  bh=oCWvgl0FrTxADDYlLO5432QcWwStPeSfQ4Lldp4/LU0=;
+  b=Vyv8sQfpKiP3OOyDLMBJqM5GtsHXJcjzajEnnYA9lBzQui9AXvJ2ORms
+   0vRgYV7BJ2ybDZzDjVJoVooBODCYPXHcnkUaNWZZiPY8EItj2tul6dmrc
+   gFFT9/V7MG/Wtu8tcdlXCWAhDzS+tG8XVjX5QioYH8KwUjcO1ArPfWYzS
+   uP8ML1KxjIHOvbEeQmRws2m538w2bDge0J2hgb0kRQZaVdTCPEQ5QCoe/
+   6pHaC3dkMSK/3K5hRoWI3UMFQjD7FqbkoiNKA3MUdfx4uxTlbZBbKSgZe
+   VM/ftpmHapUk3lcdK4CGq2uHzyxxMsd9d/ieoMBWrQk/F6Fo8S2Wmrv2e
+   w==;
+X-CSE-ConnectionGUID: jYhPvyvxTt2CHcNLo4GOyQ==
+X-CSE-MsgGUID: iYu+hgWFROaXX5amIVSHqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61763365"
 X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="53805138"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 19:25:46 -0800
-X-CSE-ConnectionGUID: GJwzJSQISE6VTXn6DdBhxg==
-X-CSE-MsgGUID: o9xGV8uRTVOHER2lftNtWg==
+   d="scan'208";a="61763365"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 20:11:38 -0800
+X-CSE-ConnectionGUID: 5bNkfy3YReu+839qCwodxw==
+X-CSE-MsgGUID: aj0hUvf+QZO5pRsp+AWSrQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106666850"
+X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
+   d="scan'208";a="102441180"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Jan 2025 19:25:45 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Jan 2025 20:11:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tV0Du-000EBP-2P;
-	Tue, 07 Jan 2025 03:25:42 +0000
-Date: Tue, 7 Jan 2025 11:24:43 +0800
+	id 1tV0wI-000EE9-2a;
+	Tue, 07 Jan 2025 04:11:34 +0000
+Date: Tue, 7 Jan 2025 12:11:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 4/191]
- arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to
- match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
-Message-ID: <202501071101.cE5F4ggc-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [bytedance:5.15-velinux 1347/1347]
+ drivers/nvme/host/qmap.c:208:8-12: ERROR: invalid reference to the index
+ variable of the iterator on line 202
+Message-ID: <202501071221.CmfPsaU3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,59 +63,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+TO: jason.zeng@intel.com
+TO: lin.x.wang@intel.com
+TO: pei.p.jia@intel.com
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   3579121c157a4c56e00b67dbb6eb45d963046590
-commit: be9695ea66f062940c27096ee51cbea2a67d47d4 [4/191] arm64: dts: apple: t600x: Add spi controller nodes
-:::::: branch date: 2 days ago
-:::::: commit date: 6 weeks ago
-config: arm64-randconfig-051-20250106 (https://download.01.org/0day-ci/archive/20250107/202501071101.cE5F4ggc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250107/202501071101.cE5F4ggc-lkp@intel.com/reproduce)
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
+commit: 6e74a414cbefd3f08ab27d0e7ee5b56afa19a7f4 [1347/1347] bytedance: nvme-qmap: modify according advise
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-103-20250107 (https://download.01.org/0day-ci/archive/20250107/202501071221.CmfPsaU3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501071101.cE5F4ggc-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501071221.CmfPsaU3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
---
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
---
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
---
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
---
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6001-j375c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
---
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
->> arch/arm64/boot/dts/apple/t6002-j375d.dtb: /soc@200000000/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+cocci warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/qmap.c:208:8-12: ERROR: invalid reference to the index variable of the iterator on line 202
+
+vim +208 drivers/nvme/host/qmap.c
+
+3a9b973eb8419f dingtao.darren 2024-07-08  196  
+3a9b973eb8419f dingtao.darren 2024-07-08  197  struct nvme_qmap *nvme_qmap_get_qmap_from_ndev(struct nvme_dev *ndev)
+3a9b973eb8419f dingtao.darren 2024-07-08  198  {
+3a9b973eb8419f dingtao.darren 2024-07-08  199  	struct nvme_qmap *qmap = NULL;
+3a9b973eb8419f dingtao.darren 2024-07-08  200  
+6e74a414cbefd3 dingtao.darren 2024-07-16  201  	down_read(&qmap_list.list_rwsem);
+6e74a414cbefd3 dingtao.darren 2024-07-16 @202  	list_for_each_entry(qmap, &qmap_list.qmap_head, qmap_entry) {
+3a9b973eb8419f dingtao.darren 2024-07-08  203  		if (qmap->nvme_dev == ndev)
+6e74a414cbefd3 dingtao.darren 2024-07-16  204  			break;
+3a9b973eb8419f dingtao.darren 2024-07-08  205  	}
+6e74a414cbefd3 dingtao.darren 2024-07-16  206  	up_read(&qmap_list.list_rwsem);
+6e74a414cbefd3 dingtao.darren 2024-07-16  207  
+6e74a414cbefd3 dingtao.darren 2024-07-16 @208  	return qmap;
+3a9b973eb8419f dingtao.darren 2024-07-08  209  }
+3a9b973eb8419f dingtao.darren 2024-07-08  210  EXPORT_SYMBOL_GPL(nvme_qmap_get_qmap_from_ndev);
+3a9b973eb8419f dingtao.darren 2024-07-08  211  
 
 -- 
 0-DAY CI Kernel Test Service
