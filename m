@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416531E22E9
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 16:46:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CBA1F3D2B
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 18:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736268404; cv=none; b=ohh1DL3qupRBduOimYoCIa/uJYD69pNuCud7IeHl4bGvHLwOSYrT+ELR5cmgDpWbZcYmAkQsrPAuYc3MIe2uE+J4ekzVKycOpvGtbdM6dSvJyuMcwrEiQdguI4XpDctlWSoj+DTC5IERKk+uNdWXBbgNT/sKfVnMYzKK8YZFpEQ=
+	t=1736274857; cv=none; b=qke6rKoiyEDw0W0cUE4W6dIEYd8QJFW6AeUjKmatgGaTfcLcbJ1jMjr3HJNxIlN+mOcEU+amn+7Dyw+H238RHX1l3jiRcND5ErLtUtV6m+z3mbX9O5QjP9yFhnA8gB3ZlzL7mM7qnqx8fC3Wj24xz6LDbpA6KttYOB2FtwBl4IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736268404; c=relaxed/simple;
-	bh=CA6QYHtGzZYqXuNAXmO8GCRQGGwTqabutaCN8hdgSrI=;
+	s=arc-20240116; t=1736274857; c=relaxed/simple;
+	bh=2j9nRoP/Uv6E1Q/UJ4BytYh7Q40ehPubdsVrfHLffG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=majQY3kAYFbpcFxUaB0qX77naVk7iGwjxuXZ1q3uri0CbX/Wn3N3j73b4nk9Nw5kbVw7pR/5WbpZOMkRPsEKKfRb4jS3CVD5fHdreUz2OnkJeFncEFnsgJ+yTCYfUmRxxiGtOfu5noU2RycHTN9Q6RXrL5Bu+J5jpRpyzSzzNxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsUxMBIN; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=EzotClgxmdl3EAkZvoysUb+Gyid9Vs7UCoRgGXhACzDo9DmQ95CN23lB9dmhI0v8i2sSTpdTdxvDJxSrnzvGyWaClK5AdMsfL91THg1txT/CTgJYB+uXO4X9NYy2/oIePs0kGIp+vkQlFOfzijXR0FcKIJDEa+urMrqXmiryqxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKKndi1t; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsUxMBIN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKKndi1t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736268400; x=1767804400;
+  t=1736274854; x=1767810854;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CA6QYHtGzZYqXuNAXmO8GCRQGGwTqabutaCN8hdgSrI=;
-  b=hsUxMBINuqyA06ozFkjhUNSGsh4rPZlubFWXQWmIq+8FIqWYRNDRUFtC
-   M8Ag3uuAM0PpA06m0QGiAhixsum9B49NAoA6pHsAz0xyOW9kZVvYRQdel
-   4oPfiRHKvxdOxoTtkoS+xJRbnbb8AjL5jNk4RjcWQJDs5jnJkTVpzMus+
-   E7MnZHLvVRMIFauNxMz4kXdzRfOc+0WYeOkxZqaisD4VWMDqoyG7Ef5G1
-   al5dznbuFm5tCbnF+Et7teFe/D5pTwD6WIJ7UdCM132eUVHkquR63S68L
-   PgGN4plvlfX3rWhE1Cob8aYZwey3L95ZzLPe9d+bnwMS7Yg7tKbMAcCHv
-   g==;
-X-CSE-ConnectionGUID: vp7TB8kWRLevITwAMpKkGw==
-X-CSE-MsgGUID: OxyngUKoT3mt8XmFPUNiwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47041029"
+  bh=2j9nRoP/Uv6E1Q/UJ4BytYh7Q40ehPubdsVrfHLffG8=;
+  b=QKKndi1t6Bb1gE03FmBXZn8dLJ8iIySBaQ5CKehrQEOe3yrMLW6PP811
+   W5gHTuZ+MIcduskTmxdSxcEvT4Mqw2ZFiGYH92llJlWPsdYtIsybhv3bn
+   moDztqkchzDA+NOQ5wt3FXuawtxTek6vqAil04mMHi9XBTqxB4MYbISLo
+   1EtKz/R+2hO7LJggGJYv+5lW5M7NuXPtyo3HF5CwBGWC6ApWH7nDi4tL3
+   blINLhoak6Xs4mYxILHixYu9zCo0JszJb84w6juUo4UYQfjey469u/wkP
+   ZoCfjwH6IpoLFWn67CCTJgOXwzHJ750Dhrc/oUgOVc56PGQVDAlSXJ8Jl
+   w==;
+X-CSE-ConnectionGUID: 5/XUxol7RumCtTVwV63rwg==
+X-CSE-MsgGUID: g7nz9NOiTtWoz1YjEolxjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47051994"
 X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="47041029"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 08:46:39 -0800
-X-CSE-ConnectionGUID: qsHlIgIbR067XRfrFIscDg==
-X-CSE-MsgGUID: j6jDe5xSSNSbdJy0G+x6Pg==
+   d="scan'208";a="47051994"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 10:34:14 -0800
+X-CSE-ConnectionGUID: RqGsa4ToRl6EMvrp8G4yFQ==
+X-CSE-MsgGUID: 8GOVcIT4Q52lw+lujTX4BA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="102882623"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107944755"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Jan 2025 08:46:38 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Jan 2025 10:34:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVCiy-000F0Q-02;
-	Tue, 07 Jan 2025 16:46:36 +0000
-Date: Wed, 8 Jan 2025 00:46:31 +0800
+	id 1tVEP4-000F65-1d;
+	Tue, 07 Jan 2025 18:34:10 +0000
+Date: Wed, 8 Jan 2025 02:34:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/nxp/imx/imx7s.dtsi:192.33-204.6: Warning
- (graph_child_address): /soc/funnel@30041000/in-ports: graph node has single
- child node 'port@0', #address-cells/#size-cells are not necessary
-Message-ID: <202501080040.QScjl87B-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 4803/6768]
+ drivers/mtd/nand/raw/davinci_nand.c:797:22-23: WARNING opportunity for max()
+Message-ID: <202501080245.RMPN2ZFD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,223 +62,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alexander Stein <alexander.stein@ew.tq-group.com>
-CC: Shawn Guo <shawnguo@kernel.org>
+TO: Bastien Curutchet <bastien.curutchet@bootlin.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fbfd64d25c7af3b8695201ebc85efe90be28c5a3
-commit: 0d4ac04fa7c3f6dc263dba6f575a2ec7a2d4eca8 ARM: dts: imx7d: Fix coresight funnel ports
-date:   1 year, 1 month ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm-randconfig-003-20250105 (https://download.01.org/0day-ci/archive/20250108/202501080040.QScjl87B-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250108/202501080040.QScjl87B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7b4b9bf203da94fbeac75ed3116c84aa03e74578
+commit: c7a94e96f8ece5c87d73bfa4751d75eabb971ea6 [4803/6768] mtd: rawnand: davinci: Implement setup_interface() operation
+:::::: branch date: 13 hours ago
+:::::: commit date: 2 weeks ago
+config: parisc-randconfig-r052-20250107 (https://download.01.org/0day-ci/archive/20250108/202501080245.RMPN2ZFD-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501080040.QScjl87B-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501080245.RMPN2ZFD-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/nxp/imx/imx7s.dtsi:192.33-204.6: Warning (graph_child_address): /soc/funnel@30041000/in-ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+cocci warnings: (new ones prefixed by >>)
+>> drivers/mtd/nand/raw/davinci_nand.c:797:22-23: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:801:23-24: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:808:21-22: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:816:18-19: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:819:23-24: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:823:22-23: WARNING opportunity for max()
+   drivers/mtd/nand/raw/davinci_nand.c:832:21-22: WARNING opportunity for max()
 
-vim +192 arch/arm/boot/dts/nxp/imx/imx7s.dtsi
+vim +797 drivers/mtd/nand/raw/davinci_nand.c
 
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   13  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   14  / {
-7f107887d1995c arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2016-11-12   15  	#address-cells = <1>;
-7f107887d1995c arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2016-11-12   16  	#size-cells = <1>;
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   17  	/*
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   18  	 * The decompressor and also some bootloaders rely on a
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   19  	 * pre-existing /chosen node to be available to insert the
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   20  	 * command line and merge other ATAGS info.
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   21  	 */
-a971c5545c3d45 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-01-23   22  	chosen {};
-7f107887d1995c arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2016-11-12   23  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   24  	aliases {
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   25  		gpio0 = &gpio1;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   26  		gpio1 = &gpio2;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   27  		gpio2 = &gpio3;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   28  		gpio3 = &gpio4;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   29  		gpio4 = &gpio5;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   30  		gpio5 = &gpio6;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   31  		gpio6 = &gpio7;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   32  		i2c0 = &i2c1;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   33  		i2c1 = &i2c2;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   34  		i2c2 = &i2c3;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   35  		i2c3 = &i2c4;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   36  		mmc0 = &usdhc1;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   37  		mmc1 = &usdhc2;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   38  		mmc2 = &usdhc3;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   39  		serial0 = &uart1;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   40  		serial1 = &uart2;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   41  		serial2 = &uart3;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   42  		serial3 = &uart4;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   43  		serial4 = &uart5;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   44  		serial5 = &uart6;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   45  		serial6 = &uart7;
-b754af313fb499 arch/arm/boot/dts/imx7d.dtsi Diego Dorta      2016-06-22   46  		spi0 = &ecspi1;
-b754af313fb499 arch/arm/boot/dts/imx7d.dtsi Diego Dorta      2016-06-22   47  		spi1 = &ecspi2;
-b754af313fb499 arch/arm/boot/dts/imx7d.dtsi Diego Dorta      2016-06-22   48  		spi2 = &ecspi3;
-b754af313fb499 arch/arm/boot/dts/imx7d.dtsi Diego Dorta      2016-06-22   49  		spi3 = &ecspi4;
-5c8b3b8a182cbc arch/arm/boot/dts/imx7s.dtsi Peng Fan         2020-11-01   50  		usb0 = &usbotg1;
-5c8b3b8a182cbc arch/arm/boot/dts/imx7s.dtsi Peng Fan         2020-11-01   51  		usb1 = &usbh;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   52  	};
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   53  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   54  	cpus {
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   55  		#address-cells = <1>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   56  		#size-cells = <0>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   57  
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   58  		idle-states {
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   59  			entry-method = "psci";
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   60  
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   61  			cpu_sleep_wait: cpu-sleep-wait {
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   62  				compatible = "arm,idle-state";
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   63  				arm,psci-suspend-param = <0x0010000>;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   64  				local-timer-stop;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   65  				entry-latency-us = <100>;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   66  				exit-latency-us = <50>;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   67  				min-residency-us = <1000>;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   68  			};
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   69  		};
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   70  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   71  		cpu0: cpu@0 {
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   72  			compatible = "arm,cortex-a7";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   73  			device_type = "cpu";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   74  			reg = <0>;
-1c4e2a11bac4b5 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-08-11   75  			clock-frequency = <792000000>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   76  			clock-latency = <61036>; /* two CLK32 periods */
-698e2ac5361f6f arch/arm/boot/dts/imx7d.dtsi Bai Ping         2015-11-24   77  			clocks = <&clks IMX7D_CLK_ARM>;
-6f4ec8842dd2b6 arch/arm/boot/dts/imx7s.dtsi Anson Huang      2018-09-03   78  			cpu-idle-states = <&cpu_sleep_wait>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   79  			operating-points-v2 = <&cpu0_opp_table>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   80  			#cooling-cells = <2>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   81  			nvmem-cells = <&fuse_grade>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   82  			nvmem-cell-names = "speed_grade";
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   83  		};
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   84  	};
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   85  
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   86  	cpu0_opp_table: opp-table {
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   87  		compatible = "operating-points-v2";
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   88  		opp-shared;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   89  
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   90  		opp-792000000 {
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   91  			opp-hz = /bits/ 64 <792000000>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   92  			opp-microvolt = <1000000>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   93  			clock-latency-ns = <150000>;
-4ce9f72e008b50 arch/arm/boot/dts/imx7s.dtsi Denys Drozdov    2022-01-24   94  			opp-supported-hw = <0xf>, <0xf>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   95  		};
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   96  	};
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   97  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   98  	ckil: clock-cki {
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19   99  		compatible = "fixed-clock";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  100  		#clock-cells = <0>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  101  		clock-frequency = <32768>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  102  		clock-output-names = "ckil";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  103  	};
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  104  
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  105  	osc: clock-osc {
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  106  		compatible = "fixed-clock";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  107  		#clock-cells = <0>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  108  		clock-frequency = <24000000>;
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  109  		clock-output-names = "osc";
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  110  	};
-949673450291de arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-05-19  111  
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  112  	usbphynop1: usbphynop1 {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  113  		compatible = "usb-nop-xceiv";
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  114  		clocks = <&clks IMX7D_USB_PHY1_CLK>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  115  		clock-names = "main_clk";
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  116  		#phy-cells = <0>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  117  	};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  118  
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  119  	usbphynop3: usbphynop3 {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  120  		compatible = "usb-nop-xceiv";
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  121  		clocks = <&clks IMX7D_USB_HSIC_ROOT_CLK>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  122  		clock-names = "main_clk";
-552ca27929ab28 arch/arm/boot/dts/imx7s.dtsi Alexander Stein  2022-05-10  123  		power-domains = <&pgc_hsic_phy>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  124  		#phy-cells = <0>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  125  	};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  126  
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  127  	pmu {
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  128  		compatible = "arm,cortex-a7-pmu";
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  129  		interrupt-parent = <&gpc>;
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  130  		interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  131  		interrupt-affinity = <&cpu0>;
-a934a5834d59d8 arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2018-02-27  132  	};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  133  
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  134  	replicator {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  135  		/*
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  136  		 * non-configurable replicators don't show up on the
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  137  		 * AMBA bus.  As such no need to add "arm,primecell"
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  138  		 */
-5d7c5882b94a61 arch/arm/boot/dts/imx7s.dtsi Leo Yan          2019-05-08  139  		compatible = "arm,coresight-static-replicator";
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  140  
-f2e7398987287e arch/arm/boot/dts/imx7s.dtsi Suzuki K Poulose 2018-09-12  141  		out-ports {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  142  			#address-cells = <1>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  143  			#size-cells = <0>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  144  				/* replicator output ports */
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  145  			port@0 {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  146  				reg = <0>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  147  				replicator_out_port0: endpoint {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  148  					remote-endpoint = <&tpiu_in_port>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  149  				};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  150  			};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  151  
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  152  			port@1 {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  153  				reg = <1>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  154  				replicator_out_port1: endpoint {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  155  					remote-endpoint = <&etr_in_port>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  156  				};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  157  			};
-f2e7398987287e arch/arm/boot/dts/imx7s.dtsi Suzuki K Poulose 2018-09-12  158  		};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  159  
-f2e7398987287e arch/arm/boot/dts/imx7s.dtsi Suzuki K Poulose 2018-09-12  160  		in-ports {
-f2e7398987287e arch/arm/boot/dts/imx7s.dtsi Suzuki K Poulose 2018-09-12  161  			port {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  162  				replicator_in_port0: endpoint {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  163  					remote-endpoint = <&etf_out_port>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  164  				};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  165  			};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  166  		};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  167  	};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  168  
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  169  	timer {
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  170  		compatible = "arm,armv7-timer";
-839661a2bbc8cd arch/arm/boot/dts/imx7s.dtsi Marek Vasut      2021-01-07  171  		arm,cpu-registers-not-fw-configured;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  172  		interrupt-parent = <&intc>;
-d7f3894f0e4680 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2018-12-03  173  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-d7f3894f0e4680 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2018-12-03  174  			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-d7f3894f0e4680 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2018-12-03  175  			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>,
-d7f3894f0e4680 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2018-12-03  176  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  177  	};
-dd55cb40a83668 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2017-11-29  178  
-8e82a523151164 arch/arm/boot/dts/imx7s.dtsi Fabio Estevam    2022-06-14  179  	soc: soc {
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  180  		#address-cells = <1>;
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  181  		#size-cells = <1>;
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  182  		compatible = "simple-bus";
-0f90b43ac71b48 arch/arm/boot/dts/imx7s.dtsi Andrey Smirnov   2017-05-15  183  		interrupt-parent = <&gpc>;
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  184  		ranges;
-ecea9fec0f51a3 arch/arm/boot/dts/imx7d.dtsi Frank Li         2016-01-05  185  
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  186  		funnel@30041000 {
-5d7c5882b94a61 arch/arm/boot/dts/imx7s.dtsi Leo Yan          2019-05-08  187  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
-974a3abcffaebc arch/arm/boot/dts/imx7s.dtsi Stefan Agner     2016-07-25  188  			reg = <0x30041000 0x1000>;
-3adab7c796f603 arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-06-30  189  			clocks = <&clks IMX7D_MAIN_AXI_ROOT_CLK>;
-3adab7c796f603 arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-06-30  190  			clock-names = "apb_pclk";
-3adab7c796f603 arch/arm/boot/dts/imx7d.dtsi Frank Li         2015-06-30  191  
-f2e7398987287e arch/arm/boot/dts/imx7s.dtsi Suzuki K Poulose 2018-09-12 @192  			ca_funnel_in_ports: in-ports {
-
-:::::: The code at line 192 was first introduced by commit
-:::::: f2e7398987287ecc55ee60ceeb4617447ea17263 ARM: dts: imx7: Update coresight binding for hardware ports
-
-:::::: TO: Suzuki K Poulose <suzuki.poulose@arm.com>
-:::::: CC: Shawn Guo <shawnguo@kernel.org>
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  780  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  781  static int davinci_nand_setup_interface(struct nand_chip *chip, int chipnr,
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  782  					const struct nand_interface_config *conf)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  783  {
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  784  	struct davinci_nand_info *info = to_davinci_nand(nand_to_mtd(chip));
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  785  	const struct nand_sdr_timings *sdr;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  786  	struct aemif_cs_timings timings;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  787  	s32 cfg, min, cyc_ns;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  788  	int ret;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  789  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  790  	cyc_ns = 1000000000 / clk_get_rate(info->clk);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  791  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  792  	sdr = nand_get_sdr_timings(conf);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  793  	if (IS_ERR(sdr))
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  794  		return PTR_ERR(sdr);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  795  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  796  	cfg = TO_CYCLES(sdr->tCLR_min, cyc_ns) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04 @797  	timings.rsetup = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  798  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  799  	cfg = max_t(s32, TO_CYCLES(sdr->tREA_max + MAX_TSU_PS, cyc_ns),
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  800  		    TO_CYCLES(sdr->tRP_min, cyc_ns)) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  801  	timings.rstrobe = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  802  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  803  	min = TO_CYCLES(sdr->tCEA_max + MAX_TSU_PS, cyc_ns) - 2;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  804  	while ((s32)(timings.rsetup + timings.rstrobe) < min)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  805  		timings.rstrobe++;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  806  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  807  	cfg = TO_CYCLES((s32)(MAX_TH_PS - sdr->tCHZ_max), cyc_ns) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  808  	timings.rhold = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  809  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  810  	min = TO_CYCLES(sdr->tRC_min, cyc_ns) - 3;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  811  	while ((s32)(timings.rsetup + timings.rstrobe + timings.rhold) < min)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  812  		timings.rhold++;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  813  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  814  	cfg = TO_CYCLES((s32)(sdr->tRHZ_max - (timings.rhold + 1) * cyc_ns * 1000), cyc_ns);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  815  	cfg = max_t(s32, cfg, TO_CYCLES(sdr->tCHZ_max, cyc_ns)) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  816  	timings.ta = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  817  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  818  	cfg = TO_CYCLES(sdr->tWP_min, cyc_ns) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  819  	timings.wstrobe = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  820  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  821  	cfg = max_t(s32, TO_CYCLES(sdr->tCLS_min, cyc_ns), TO_CYCLES(sdr->tALS_min, cyc_ns));
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  822  	cfg = max_t(s32, cfg, TO_CYCLES(sdr->tCS_min, cyc_ns)) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  823  	timings.wsetup = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  824  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  825  	min = TO_CYCLES(sdr->tDS_min, cyc_ns) - 2;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  826  	while ((s32)(timings.wsetup + timings.wstrobe) < min)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  827  		timings.wstrobe++;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  828  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  829  	cfg = max_t(s32, TO_CYCLES(sdr->tCLH_min, cyc_ns), TO_CYCLES(sdr->tALH_min, cyc_ns));
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  830  	cfg = max_t(s32, cfg, TO_CYCLES(sdr->tCH_min, cyc_ns));
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  831  	cfg = max_t(s32, cfg, TO_CYCLES(sdr->tDH_min, cyc_ns)) - 1;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  832  	timings.whold = cfg > 0 ? cfg : 0;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  833  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  834  	min = TO_CYCLES(sdr->tWC_min, cyc_ns) - 2;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  835  	while ((s32)(timings.wsetup + timings.wstrobe + timings.whold) < min)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  836  		timings.whold++;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  837  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  838  	dev_dbg(&info->pdev->dev, "RSETUP %x RSTROBE %x RHOLD %x\n",
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  839  		timings.rsetup, timings.rstrobe, timings.rhold);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  840  	dev_dbg(&info->pdev->dev, "TA %x\n", timings.ta);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  841  	dev_dbg(&info->pdev->dev, "WSETUP %x WSTROBE %x WHOLD %x\n",
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  842  		timings.wsetup, timings.wstrobe, timings.whold);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  843  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  844  	ret = aemif_check_cs_timings(&timings);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  845  	if (ret || chipnr == NAND_DATA_IFACE_CHECK_ONLY)
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  846  		return ret;
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  847  
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  848  	return aemif_set_cs_timings(info->aemif, info->core_chipsel, &timings);
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  849  }
+c7a94e96f8ece5 Bastien Curutchet 2024-12-04  850  
 
 -- 
 0-DAY CI Kernel Test Service
