@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8012594B2
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 01:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5BA259498
+	for <oe-kbuild@lists.linux.dev>; Tue,  7 Jan 2025 01:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736213556; cv=none; b=TrQlOWu33w32d4pLlCSbOz5ZACoP3R2DxIKZHTmr1l625ZOkSu/ziYWtSUBkii8OyTYSO3sBLLrzHEYRLD4g0SyEfM9M2S0o2puvwVhXXLuecuko1uKmD78+yF6hM2hCNZK8sUpGdAi0OQnFmY4eBjuhN1ieBqP/sSbaSk+6Dqk=
+	t=1736214276; cv=none; b=RoEG0WfuVeFEYHozFeDk544MvrOj60AQGiToPmz9gr4ldggVKJuEOitzz4eMCL/DNmzKXcv7Ivaqn8r2XX+QsETYj4N7V3Me28z30kTosMOemgq2eHVUYxziQFePSJwBX+zfEk+vXhqimBls5s9qequwOovTbal9bOQFLopqVgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736213556; c=relaxed/simple;
-	bh=6uZPpe/fm6kvmlgjgoA65cfe5rSnJMu9nutic4kcfBA=;
+	s=arc-20240116; t=1736214276; c=relaxed/simple;
+	bh=RcUWzuBeEUoNOqn/EEaaqT8YeE/VZe5/43ulKciy9u8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DqmF6eO4d3hQK6vijQlcu6qHOAxuu0VOwsgY5K0mEinoRdyZOFRFhWUgg9Yu/6EsC/Zmu1a/z2p3tDoTt38TEej4cK2lAW+5egQWx+HbcF2f4LDTwdVAyrpypvNxgmOewLqKAtqCfeVkZQzHDIagZ+glWIcxaVQmVQb84w79SQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ClJ7MVLf; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=CeKBRC4QUf5FZcGXkvugKcYeOD1kXiG9Mdyd3VotG4Vz8EbB/Lw6v20Ki9yF7x84LWnF4hfBDYlp03ZJ6rooxMGJdybcfD7xrbVKm7YOoaBEn4nHttpH9NqufiRr7vvLd4hlgw0s1shXt52aSSCP+DXSp7kXeOC2IceSxLaj9r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwdZfsMv; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ClJ7MVLf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwdZfsMv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736213553; x=1767749553;
+  t=1736214274; x=1767750274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6uZPpe/fm6kvmlgjgoA65cfe5rSnJMu9nutic4kcfBA=;
-  b=ClJ7MVLfCrbxRIwqH7JaKC+Fcdf21KAtIMb9mUBVjKA4jEeali9PvLV7
-   VmciHyXClWCwATnJnpFIr9lyAYLPmWaiwSGzSoctrbdtF3RRQCIB8twr6
-   2sTNS8p8rsaOPAj+yk5fIyEBHARN5D1jHlo3I3hubGPrN+vWnNoNSlpPo
-   DYTMe4X+NowA4z428yBB2Bl+b4PY4Bw41RBPo3rf172m5MGdyac0TlHkl
-   hV0opk6Dyx5kAAN4ZIXJtWMApFXJ8+x91XoI0X6+/8D9vdIZlIUfZWm1T
-   fneH7oFwojf57aFImMC0ani5afJmSHRuBdlhJOfu0+JkO8doYw6ArMs/V
-   w==;
-X-CSE-ConnectionGUID: vPqw9Xv2SNO0u4CaOEKzlA==
-X-CSE-MsgGUID: +wW2OFsOSwOva+2z7M/oiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47734274"
+  bh=RcUWzuBeEUoNOqn/EEaaqT8YeE/VZe5/43ulKciy9u8=;
+  b=DwdZfsMv4m2ZKUoZjh5r/G+b5d3jvCSqB2u9hx8M6e0haIntokaUOLFu
+   ZePX3niTWb3MnUUMWwu4BmZtB4/JxtHq1QazvmsPeXsXO/oFgcPE66b6S
+   ESYGKBtIcKu32hjqa5rxh5GB+eI5YBhOs+MCX5NVEIUgtdHwXwXw9xo+S
+   ExzvsTSAhiXaYEEW1inBUhMqdPevA9xUmPkY7RzZfhCltB9JZt8wAfN0A
+   t27Pir6r2IrLHbZ+q2572KMLaCNATzxVYvL7dTqN0YSAVBY8KYcBx5MhB
+   1EIGNWqF9Izq+a0vupLsm+Ez9C7qNKH9vU8i1XSjTzvAMTDjDTs1BKcGF
+   Q==;
+X-CSE-ConnectionGUID: 2bN8uSgoS2+Iof2gm3PpFA==
+X-CSE-MsgGUID: 3RT0A2fXTK+LlebxDzo3+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36537754"
 X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="47734274"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 17:32:33 -0800
-X-CSE-ConnectionGUID: Iup17qO5TfW+LHRYx+sd4w==
-X-CSE-MsgGUID: ccvojNUSScCslLfVQp5qkQ==
+   d="scan'208";a="36537754"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 17:44:33 -0800
+X-CSE-ConnectionGUID: lDZ3OLGVQX+TTUbsYc5fHA==
+X-CSE-MsgGUID: ve0inYtzS6SqOukmpUHqAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102477424"
+   d="scan'208";a="103116038"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Jan 2025 17:32:31 -0800
+  by orviesa007.jf.intel.com with ESMTP; 06 Jan 2025 17:44:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tUySK-000E6F-2p;
-	Tue, 07 Jan 2025 01:32:28 +0000
-Date: Tue, 7 Jan 2025 09:31:54 +0800
+	id 1tUydx-000E6J-3A;
+	Tue, 07 Jan 2025 01:44:29 +0000
+Date: Tue, 7 Jan 2025 09:43:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH 4/6] powerpc/pseries: Add ibm,set-dynamic-indicator RTAS
- call support
-Message-ID: <202501070900.m80uMe9o-lkp@intel.com>
+Subject: [bytedance:5.15-velinux 1347/1347]
+ drivers/nvme/host/qmap.c:303:5-12: WARNING: Unsigned expression compared
+ with zero: timeout <= 0
+Message-ID: <202501070902.iXCpGKJX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,103 +65,46 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250104204652.388720-5-haren@linux.ibm.com>
-References: <20250104204652.388720-5-haren@linux.ibm.com>
-TO: Haren Myneni <haren@linux.ibm.com>
-TO: linuxppc-dev@lists.ozlabs.org
-CC: maddy@linux.ibm.com
-CC: mpe@ellerman.id.au
-CC: npiggin@gmail.com
-CC: msuchanek@suse.de
-CC: mahesh@linux.ibm.com
-CC: tyreld@linux.ibm.com
-CC: hbabu@us.ibm.com
-CC: haren@linux.ibm.com
+TO: jason.zeng@intel.com
+TO: lin.x.wang@intel.com
+TO: pei.p.jia@intel.com
 
-Hi Haren,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.13-rc6 next-20250106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-HCALLs/20250105-045010
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250104204652.388720-5-haren%40linux.ibm.com
-patch subject: [PATCH 4/6] powerpc/pseries: Add ibm,set-dynamic-indicator RTAS call support
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r061-20250107 (https://download.01.org/0day-ci/archive/20250107/202501070900.m80uMe9o-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   272d9bd3d7e15bb1ad1efac12d9921350f961339
+commit: 3a9b973eb8419fe1dad8585ceb7d4ab6cdcf8da0 [1347/1347] bytedance: nvme: Introduce nvme qmap
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-103-20250107 (https://download.01.org/0day-ci/archive/20250107/202501070902.iXCpGKJX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202501070900.m80uMe9o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501070902.iXCpGKJX-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> arch/powerpc/platforms/pseries/papr-indices.c:410:2-8: preceding lock on line 407
+>> drivers/nvme/host/qmap.c:303:5-12: WARNING: Unsigned expression compared with zero: timeout <= 0
 
-vim +410 arch/powerpc/platforms/pseries/papr-indices.c
+vim +303 drivers/nvme/host/qmap.c
 
-3f48afd07934e4 Haren Myneni 2025-01-04  387  
-3f48afd07934e4 Haren Myneni 2025-01-04  388  /**
-3f48afd07934e4 Haren Myneni 2025-01-04  389   * papr_dynamic_indicator_ioc_set - ibm,set-dynamic-indicator RTAS Call
-3f48afd07934e4 Haren Myneni 2025-01-04  390   * PAPR 2.13 7.3.18
-3f48afd07934e4 Haren Myneni 2025-01-04  391   *
-3f48afd07934e4 Haren Myneni 2025-01-04  392   * @ubuf: Input parameters to RTAS call such as indicator token and
-3f48afd07934e4 Haren Myneni 2025-01-04  393   *        new state.
-3f48afd07934e4 Haren Myneni 2025-01-04  394   *
-3f48afd07934e4 Haren Myneni 2025-01-04  395   * Returns success or -errno.
-3f48afd07934e4 Haren Myneni 2025-01-04  396   */
-3f48afd07934e4 Haren Myneni 2025-01-04  397  static long papr_dynamic_indicator_ioc_set(struct papr_indices_io_block __user *ubuf)
-3f48afd07934e4 Haren Myneni 2025-01-04  398  {
-3f48afd07934e4 Haren Myneni 2025-01-04  399  	struct papr_indices_io_block kbuf;
-3f48afd07934e4 Haren Myneni 2025-01-04  400  	struct rtas_work_area *work_area;
-3f48afd07934e4 Haren Myneni 2025-01-04  401  	s32 fwrc, token, ret;
-3f48afd07934e4 Haren Myneni 2025-01-04  402  
-3f48afd07934e4 Haren Myneni 2025-01-04  403  	token = rtas_function_token(RTAS_FN_IBM_SET_DYNAMIC_INDICATOR);
-3f48afd07934e4 Haren Myneni 2025-01-04  404  	if (token == RTAS_UNKNOWN_SERVICE)
-3f48afd07934e4 Haren Myneni 2025-01-04  405  		return -ENOENT;
-3f48afd07934e4 Haren Myneni 2025-01-04  406  
-3f48afd07934e4 Haren Myneni 2025-01-04 @407  	mutex_lock(&rtas_ibm_set_dynamic_indicator_lock);
-3f48afd07934e4 Haren Myneni 2025-01-04  408  	work_area = papr_dynamic_indice_buf_from_user(ubuf, &kbuf);
-3f48afd07934e4 Haren Myneni 2025-01-04  409  	if (IS_ERR(work_area))
-3f48afd07934e4 Haren Myneni 2025-01-04 @410  		return PTR_ERR(work_area);
-3f48afd07934e4 Haren Myneni 2025-01-04  411  
-3f48afd07934e4 Haren Myneni 2025-01-04  412  	do {
-3f48afd07934e4 Haren Myneni 2025-01-04  413  		fwrc = rtas_call(token, 3, 1, NULL,
-3f48afd07934e4 Haren Myneni 2025-01-04  414  				kbuf.dynamic_param.token,
-3f48afd07934e4 Haren Myneni 2025-01-04  415  				kbuf.dynamic_param.state,
-3f48afd07934e4 Haren Myneni 2025-01-04  416  				rtas_work_area_phys(work_area));
-3f48afd07934e4 Haren Myneni 2025-01-04  417  	} while (rtas_busy_delay(fwrc));
-3f48afd07934e4 Haren Myneni 2025-01-04  418  
-3f48afd07934e4 Haren Myneni 2025-01-04  419  	rtas_work_area_free(work_area);
-3f48afd07934e4 Haren Myneni 2025-01-04  420  	mutex_unlock(&rtas_ibm_set_dynamic_indicator_lock);
-3f48afd07934e4 Haren Myneni 2025-01-04  421  
-3f48afd07934e4 Haren Myneni 2025-01-04  422  	switch (fwrc) {
-3f48afd07934e4 Haren Myneni 2025-01-04  423  	case RTAS_IBM_DYNAMIC_INDICE_SUCCESS:
-3f48afd07934e4 Haren Myneni 2025-01-04  424  		ret = 0;
-3f48afd07934e4 Haren Myneni 2025-01-04  425  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  426  	case RTAS_IBM_DYNAMIC_INDICE_NO_INDICATOR:	/* No such indicator */
-3f48afd07934e4 Haren Myneni 2025-01-04  427  		ret = -EOPNOTSUPP;
-3f48afd07934e4 Haren Myneni 2025-01-04  428  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  429  	default:
-3f48afd07934e4 Haren Myneni 2025-01-04  430  		pr_err("unexpected ibm,set-dynamic-indicator result %d\n",
-3f48afd07934e4 Haren Myneni 2025-01-04  431  			fwrc);
-3f48afd07934e4 Haren Myneni 2025-01-04  432  		fallthrough;
-3f48afd07934e4 Haren Myneni 2025-01-04  433  	case RTAS_IBM_DYNAMIC_INDICE_HW_ERROR:	/* Hardware/platform error */
-3f48afd07934e4 Haren Myneni 2025-01-04  434  		ret = -EIO;
-3f48afd07934e4 Haren Myneni 2025-01-04  435  		break;
-3f48afd07934e4 Haren Myneni 2025-01-04  436  	}
-3f48afd07934e4 Haren Myneni 2025-01-04  437  
-3f48afd07934e4 Haren Myneni 2025-01-04  438  	return ret;
-3f48afd07934e4 Haren Myneni 2025-01-04  439  }
-3f48afd07934e4 Haren Myneni 2025-01-04  440  
+3a9b973eb8419f dingtao.darren 2024-07-08  298  
+3a9b973eb8419f dingtao.darren 2024-07-08  299  static int nvme_qmap_do_cease_io(struct nvme_ctrl *ctrl, unsigned long timeout)
+3a9b973eb8419f dingtao.darren 2024-07-08  300  {
+3a9b973eb8419f dingtao.darren 2024-07-08  301  	nvme_start_freeze(ctrl);
+3a9b973eb8419f dingtao.darren 2024-07-08  302  	timeout = nvme_wait_freeze_timeout(ctrl, timeout);
+3a9b973eb8419f dingtao.darren 2024-07-08 @303  	if (timeout <= 0)
+3a9b973eb8419f dingtao.darren 2024-07-08  304  		return -ETIME;
+3a9b973eb8419f dingtao.darren 2024-07-08  305  
+3a9b973eb8419f dingtao.darren 2024-07-08  306  	/* wait all hw queue dispatch finished */
+3a9b973eb8419f dingtao.darren 2024-07-08  307  	nvme_stop_queues(ctrl);
+3a9b973eb8419f dingtao.darren 2024-07-08  308  
+3a9b973eb8419f dingtao.darren 2024-07-08  309  	/* wait all request completed from blk layer
+3a9b973eb8419f dingtao.darren 2024-07-08  310  	 * work like blk_mq_tagset_wait_completed_request
+3a9b973eb8419f dingtao.darren 2024-07-08  311  	 */
+3a9b973eb8419f dingtao.darren 2024-07-08  312  	return nvme_qmap_wait_mq_completed_timeout(ctrl->tagset, timeout);
+3a9b973eb8419f dingtao.darren 2024-07-08  313  }
+3a9b973eb8419f dingtao.darren 2024-07-08  314  
 
 -- 
 0-DAY CI Kernel Test Service
