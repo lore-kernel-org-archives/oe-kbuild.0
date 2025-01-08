@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108D41FDE3B
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Jan 2025 16:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C70200106
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Jan 2025 17:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736355474; cv=none; b=ntUe8w34hDi8YtxXq7W0qZ5tQTMmq8ZyyUWDQT5jxurVhPZW/CGW3VbgKTzkvv1k6xYdFOgN3FqCxNfMVohtUYO+oyE0r8GTqLUItoiOXW/2nWXran9P061uSw+bZdixZEX99V1BJOt6c8dR/EiAPdPUD97VCBpZ/lytgnhW5TM=
+	t=1736357997; cv=none; b=DfteYs+1D3uL2463DZlsIdE5Eu9ObNQR2RZUIDrWWLTpdGRmuFdLy16i8kMQMPf1FuGJ22a850XXHU/xwClUe64Jjv7pdiBURby4qhi/++SHJktj+P0AdrjTqmDuGK0Twisvme68S1csma55BP4j/8imCcHYMg78M/6JSeJNNu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736355474; c=relaxed/simple;
-	bh=BZ/fNx5lln4tu3Z4ZaktaC6/9LNooj7sMM6RDq7UhO8=;
+	s=arc-20240116; t=1736357997; c=relaxed/simple;
+	bh=Bu4uk13iGE3/ijT8BCHNDBysDC1xl93eA9PO1wWTAmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d7s+gOqLluLfjarlmng/62CcDvQyhvi7VgWFUFxp0KZCihUpv/5+ph8GFQlkLBskra9WR6cDjaSVkNr+/XlwrSo0SBekJn3ty8knPTDIlZbjCw3DbZcG5iAPcPjj2WjRz8G3uOJSKv5Qaybs9oIYmMfU6UAJcExU3enmPUew9zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XwRQcniQ; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=U0UrAw1wRS+BSiEDIMQ+ALxyVA5sB0FgmK5xkH2xMA8LE4vQUIVsT9FYvm/Tbngpt8SzmIbpbLpvhuwQ3Uk1NFPobDrGPEHIKzO1RXKdiiEn+MwxI6pVptxwovEMz6+nAF0m0N4skFvjUPToIv/5mCOmtw3by79iL+V2Z6rQAaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlRn6b2+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XwRQcniQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlRn6b2+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736355472; x=1767891472;
+  t=1736357995; x=1767893995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BZ/fNx5lln4tu3Z4ZaktaC6/9LNooj7sMM6RDq7UhO8=;
-  b=XwRQcniQuLuiYwBLMIvxwXBRs8Kd6eWYNi85RPN4zy4lPVp3dJ5dCJCi
-   y/cr/Mn9LX+KDuyE6I592/Gppp2CvDPEa+s6YiqtmLIfvUgrIJkqSuocQ
-   /FbyrUoo2W4YjMKGalHvZSIczsipTFcpSn7kYTRqjdx1Oj+7tKoS2PFmB
-   ZMylCESy9644SOsWpbLRNMkJTU8RRq98G/BG+i8snqDPr9Tk2PqwN7nyb
-   eDTzjJtUSM6oHyz7t+0qA/pzkIMlpW8+bMZ0EuDvWG2QrlgUGnvFAkF+G
-   N/ASF7DfIa++ZRrBnfVIsGBhh6MFK4N2V/cCPFUZ7zrbGqViMDDmspeUE
-   A==;
-X-CSE-ConnectionGUID: iuRzlh0MTm+Xtc1j6pf6DQ==
-X-CSE-MsgGUID: xYC/8sUDRFis2CDy7nMIiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="35818723"
+  bh=Bu4uk13iGE3/ijT8BCHNDBysDC1xl93eA9PO1wWTAmU=;
+  b=IlRn6b2+JHUEjh+XKPnaldGXgU5OKgj9o//QClYxin3Q5IgO9d/lD+BM
+   N7V3pwH79Om8g1RRxbmSPWHCA8B4zRHHyvVeEMDjc+42iHnrdbFERBF2b
+   +GIy1X+kxaOzuT4diLEVvCCh5BBGZS7L3WZbOxKxnR0ZRdb+LeWzXE7Kq
+   CsUUjiKfhuu3jn5/geLDdV9p2RYhzOKSezysDhsEuF+bCmVMF9cNg9DJe
+   EIwHuUAtG6wHyGj7pCRpUyFhW4femodBHK1wv6hKxB0IfrYpzS8gIg4wy
+   XVyFayvD3andBg54BxgZETCq80WktFXw7gIa/XbR5OA2RcJKndBndEyVm
+   Q==;
+X-CSE-ConnectionGUID: mbI8ex9yTPmlorqXux3Q8A==
+X-CSE-MsgGUID: YG6vNFTjR1a4BhEqhKZZkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36758571"
 X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
-   d="scan'208";a="35818723"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 08:57:50 -0800
-X-CSE-ConnectionGUID: f/JFEu+ZQAy6lMip9LSifg==
-X-CSE-MsgGUID: BSj4cjJKQwiImyxSEvlCMw==
+   d="scan'208";a="36758571"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 09:39:54 -0800
+X-CSE-ConnectionGUID: 48tZLdaiRba/pSMgyQ7GeA==
+X-CSE-MsgGUID: ez1RzkKIRIWGdBhzdfQRrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="140488470"
+   d="scan'208";a="134048261"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Jan 2025 08:57:50 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 08 Jan 2025 09:39:53 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVZNK-000GPz-2J;
-	Wed, 08 Jan 2025 16:57:46 +0000
-Date: Thu, 9 Jan 2025 00:57:33 +0800
+	id 1tVa23-000GSN-1U;
+	Wed, 08 Jan 2025 17:39:51 +0000
+Date: Thu, 9 Jan 2025 01:39:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 4/7] dt-bindings: input: matrix_keypad - add missing
- property
-Message-ID: <202501090014.a9h4XpT9-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 84/191]
+ arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@4b:
+ failed to match any schema with compatible: ['cirrus,cs42l84']
+Message-ID: <202501090157.ueaCbtYM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,61 +69,49 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250107135659.185293-5-markus.burri@mt.com>
-References: <20250107135659.185293-5-markus.burri@mt.com>
-TO: Markus Burri <markus.burri@mt.com>
-TO: linux-kernel@vger.kernel.org
-CC: Markus Burri <markus.burri@mt.com>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Marek Vasut <marek.vasut@gmail.com>
-CC: linux-input@vger.kernel.org
-CC: devicetree@vger.kernel.org
+TO: Janne Grunau <j@jannau.net>
 
-Hi Markus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.13-rc6 next-20250108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Burri/Input-matrix_keypad-use-fsleep-for-variable-delay-duration/20250107-221307
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20250107135659.185293-5-markus.burri%40mt.com
-patch subject: [PATCH v3 4/7] dt-bindings: input: matrix_keypad - add missing property
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: powerpc-randconfig-052-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090014.a9h4XpT9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   3579121c157a4c56e00b67dbb6eb45d963046590
+commit: f9f7b9ccc9c6706af68258c70981b159d6167771 [84/191] arm64: dts: apple: Add devicetree for Macbook Air (15-inch, M2, 2023)
+:::::: branch date: 3 days ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-051-20250106 (https://download.01.org/0day-ci/archive/20250109/202501090157.ueaCbtYM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090014.a9h4XpT9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090157.ueaCbtYM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501090014.a9h4XpT9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501090157.ueaCbtYM-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11700: failed to match any schema with compatible: ['fsl,mpc5121-psc-uart', 'fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11700: failed to match any schema with compatible: ['fsl,mpc5121-psc-uart', 'fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11800: failed to match any schema with compatible: ['fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11900: failed to match any schema with compatible: ['fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11a00: failed to match any schema with compatible: ['fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/psc@11b00: failed to match any schema with compatible: ['fsl,mpc5121-psc']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/pscfifo@11f00: failed to match any schema with compatible: ['fsl,mpc5121-psc-fifo']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/dma@14000: failed to match any schema with compatible: ['fsl,mpc5121-dma']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/axe-base@2000: failed to match any schema with compatible: ['fsl,mpc5121-axe-base']
-   arch/powerpc/boot/dts/ac14xx.dtb: /soc@80000000/axe-app: failed to match any schema with compatible: ['fsl,mpc5121-axe-app']
->> arch/powerpc/boot/dts/ac14xx.dtb: matrix_keypad@0: 'col-gpios-binary', 'col-switch-delay-ms' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-matrix-keypad.yaml#
-   arch/powerpc/boot/dts/ac14xx.dtb: /pci@80008500: failed to match any schema with compatible: ['fsl,mpc5121-pci']
-   arch/powerpc/boot/dts/ac14xx.dtb: leds: 'backlight', 'green', 'red' do not match any of the regexes: '(^led-[0-9a-f]$|led)', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/ti,tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300: failed to match any schema with compatible: ['apple,t8112-spmi', 'apple,spmi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300/pmu@e: failed to match any schema with compatible: ['apple,stowe-pmu', 'apple,spmi-pmu']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300/pmu@e/rtc_nvmem@f800: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spmi@23d0d9300/pmu@e/scrpad_nvmem@8000: failed to match any schema with compatible: ['apple,spmi-pmu-nvmem']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000: compatible:0: 'apple,t8112-efuses' is not one of ['apple,t8103-efuses', 'apple,t6000-efuses']
+   	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: efuse@23d2c8000: Unevaluated properties are not allowed ('compatible', 'efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
