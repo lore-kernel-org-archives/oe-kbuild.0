@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2434202C2D
-	for <oe-kbuild@lists.linux.dev>; Wed,  8 Jan 2025 21:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2326419EEBF
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 Jan 2025 22:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736373240; cv=none; b=mn39N7fV57DDXoS44/QfXWNCGFYUTVRJ69UEHvyXyfz6g01lS0IVSwe+NLVXnP8K2TW7o62dBxZ62JfHIi0kLASQDE4rQahg7Fl33FZW0cwZql2xSfWAJJo/bQJL5lPUqgdrZQem5Fxwqr5IaEk61k023F12CRMiQfyNkm60DUk=
+	t=1736376425; cv=none; b=glnomxB2nox7IjkFv40krwF50E8z/MmM7JTfx1uxG4t02oacANdtBxTM3YxheI5C5tvJxj+XcMBNj1IEp5Ztbqse5hGIyhv3KWVQb59xpZ8YMW+J339eaHX4uw/jXfY07oCx/8f9KIDyE+pyN5naJqlZpMgf7zVHLmLRwWCuLdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736373240; c=relaxed/simple;
-	bh=+F9MasceEoIxdDRJXWH7vFUrmojD07tDrTSpCLo7qYg=;
+	s=arc-20240116; t=1736376425; c=relaxed/simple;
+	bh=2iPJmQ3FJ2h6B/6t8X+cauqU9LAAYu6GJjDT1Lk9vXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ir/s2gADoxtmNMpl4xUK4CuuNUjfIicI9BCGju0Va90f3j+kU16uHY0ngFzzvnn6wUpxihlaVYK4eWDxBoxsdY5a1UPXGTpR2obkn3VV1ejK+Q3wejE/+rvKK+Wco50f3r++MB8T29kVqAxErwUWqjDKv3Hsze2u6tA6xBRzO6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxenpKTb; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Gj4JYzpVnbE4qQYkKrs/EGt86PlGYNCJZQ7sDKESrIoMQfMejNmv3/4beipZ0WGTC7f4aUlHQtqZs+aGldmKcwQVrfNpZCAad+330qSNFj0D4oHQvS+M8zgH6HC+MPs1kA6CqSbmRBR8XytnYDQBqnQZZSCEe5IXEEyT9o0bo/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QClXiwm6; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxenpKTb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QClXiwm6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736373239; x=1767909239;
+  t=1736376424; x=1767912424;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+F9MasceEoIxdDRJXWH7vFUrmojD07tDrTSpCLo7qYg=;
-  b=TxenpKTbR5DIG1tMVPPGFUA1RZXz8g60xzBLDc3zdBuQopVmLMoii7y5
-   0+9qPD9XqugLxIoMOuN6+Pjf8iwMKET6y+n5Nrsqi/GxPbMgQAiiydXND
-   +Qcon9ifVsMF89D8jNqv8wDqhgZj0i7v2F9VC7LmebUBlP4aFmNiHz57U
-   I0f8oRGZsa+313VV4O4wcOC/zvbaxd5ZqRPkL1Lw3NLJI0q3PlS6hRMET
-   yBGK8AvZE4D96QMmkd3fbcc6RbkYeJrQ+V0mzZ6iSOTjCS5bM4b7m1bkC
-   sytVpw3MDuWsdvtx/E/uR3F/duZAzezAn1tVo0qZAlrAa6wj4IN+5hc40
-   A==;
-X-CSE-ConnectionGUID: AV63NMLPTYWb/bqVdC4KOg==
-X-CSE-MsgGUID: w9Qxcj4uTY+UsWpAzGOnDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="24223549"
+  bh=2iPJmQ3FJ2h6B/6t8X+cauqU9LAAYu6GJjDT1Lk9vXQ=;
+  b=QClXiwm608zVlU8zIhkzueiH8NSPV8g2kQdU/RtkWFs3zN41k1ivKLtX
+   7YwNzbifyoqIp4MbByADeocMtxQGFrx5aXXetnhJwF+G85pPt/MJpm01g
+   v7CTuRXK4BLN02Cmyx65AF1s1SryTMDFIF4qYVnh11SuifJuolvWO0Q0E
+   BaYLtOmkNcscaCsbBK9bHBPOFFfPG+eylmzFXSugwawtEZVMvm1vo026e
+   K2isfQRP4wVsls7jPmp2uv695c2qZiNI9g3x6L3xfILjpZImsPLFITf3r
+   R12CelN7TwzHCSDAP9Mt5hfKEhvX4sR6Ej8UKnKsVBRN7mHnEzLV1Gi0m
+   w==;
+X-CSE-ConnectionGUID: I+g0dQC5RT+Anof+mAlRhw==
+X-CSE-MsgGUID: /Ras0mccRJuNujMgtkBlTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40302425"
 X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
-   d="scan'208";a="24223549"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 13:53:58 -0800
-X-CSE-ConnectionGUID: 0pxiJRyRRVON3+HYHtxyBQ==
-X-CSE-MsgGUID: hUh//elTRYiragJaucWc3Q==
+   d="scan'208";a="40302425"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 14:47:03 -0800
+X-CSE-ConnectionGUID: JRf45a2pSo+GcqF7ElBxSQ==
+X-CSE-MsgGUID: skVnvgWgQcq3zHZki0F7SA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="108268931"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="126525137"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Jan 2025 13:53:57 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 08 Jan 2025 14:47:01 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tVdzu-000Giz-01;
-	Wed, 08 Jan 2025 21:53:54 +0000
-Date: Thu, 9 Jan 2025 05:53:05 +0800
+	id 1tVepH-000GlL-1T;
+	Wed, 08 Jan 2025 22:46:59 +0000
+Date: Thu, 9 Jan 2025 06:46:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state
- RTAS call support
-Message-ID: <202501090552.UzEfb4QU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/5] arm64: dts: imx8-ss-hsio: Wire up DMA IRQ for PCIe
+Message-ID: <202501090647.0piEIjH8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,113 +61,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250104204652.388720-6-haren@linux.ibm.com>
-References: <20250104204652.388720-6-haren@linux.ibm.com>
-TO: Haren Myneni <haren@linux.ibm.com>
-TO: linuxppc-dev@lists.ozlabs.org
-CC: maddy@linux.ibm.com
-CC: mpe@ellerman.id.au
-CC: npiggin@gmail.com
-CC: msuchanek@suse.de
-CC: mahesh@linux.ibm.com
-CC: tyreld@linux.ibm.com
-CC: hbabu@us.ibm.com
-CC: haren@linux.ibm.com
+In-Reply-To: <20250107140110.982215-2-alexander.stein@ew.tq-group.com>
+References: <20250107140110.982215-2-alexander.stein@ew.tq-group.com>
+TO: Alexander Stein <alexander.stein@ew.tq-group.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+CC: Alexander Stein <alexander.stein@ew.tq-group.com>
+CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: linux@ew.tq-group.com
 
-Hi Haren,
+Hi Alexander,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.13-rc6 next-20250108]
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next linus/master v6.13-rc6 next-20250108]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-HCALLs/20250105-045010
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250104204652.388720-6-haren%40linux.ibm.com
-patch subject: [PATCH 5/6] powerpc/pseries: Add ibm,get-dynamic-sensor-state RTAS call support
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: powerpc64-randconfig-r071-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090552.UzEfb4QU-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/arm64-dts-imx8-ss-hsio-Wire-up-DMA-IRQ-for-PCIe/20250107-220826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250107140110.982215-2-alexander.stein%40ew.tq-group.com
+patch subject: [PATCH 1/5] arm64: dts: imx8-ss-hsio: Wire up DMA IRQ for PCIe
+:::::: branch date: 33 hours ago
+:::::: commit date: 33 hours ago
+config: arm64-randconfig-051-20250108 (https://download.01.org/0day-ci/archive/20250109/202501090647.0piEIjH8-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 096551537b2a747a3387726ca618ceeb3950e9bc)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501090647.0piEIjH8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501090552.UzEfb4QU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501090647.0piEIjH8-lkp@intel.com/
 
-New smatch warnings:
-arch/powerpc/platforms/pseries/papr-indices.c:496 papr_dynamic_sensor_ioc_get() warn: inconsistent returns 'global &rtas_ibm_get_dynamic_sensor_state_lock'.
-
-Old smatch warnings:
-arch/powerpc/platforms/pseries/papr-indices.c:438 papr_dynamic_indicator_ioc_set() warn: inconsistent returns 'global &rtas_ibm_set_dynamic_indicator_lock'.
-
-vim +496 arch/powerpc/platforms/pseries/papr-indices.c
-
-3f48afd07934e4 Haren Myneni 2025-01-04  440  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  441  /**
-e44fb25ad9fa03 Haren Myneni 2025-01-04  442   * papr_dynamic_sensor_ioc_get - ibm,get-dynamic-sensor-state RTAS Call
-e44fb25ad9fa03 Haren Myneni 2025-01-04  443   * PAPR 2.13 7.3.19
-e44fb25ad9fa03 Haren Myneni 2025-01-04  444   *
-e44fb25ad9fa03 Haren Myneni 2025-01-04  445   * @ubuf: Input parameters to RTAS call such as sensor token
-e44fb25ad9fa03 Haren Myneni 2025-01-04  446   *        Copies the state in user space buffer.
-e44fb25ad9fa03 Haren Myneni 2025-01-04  447   *
-e44fb25ad9fa03 Haren Myneni 2025-01-04  448   *
-e44fb25ad9fa03 Haren Myneni 2025-01-04  449   * Returns success or -errno.
-e44fb25ad9fa03 Haren Myneni 2025-01-04  450   */
-e44fb25ad9fa03 Haren Myneni 2025-01-04  451  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  452  static long papr_dynamic_sensor_ioc_get(struct papr_indices_io_block __user *ubuf)
-e44fb25ad9fa03 Haren Myneni 2025-01-04  453  {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  454  	struct papr_indices_io_block kbuf;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  455  	struct rtas_work_area *work_area;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  456  	s32 fwrc, token, ret;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  457  	u32 rets;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  458  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  459  	token = rtas_function_token(RTAS_FN_IBM_GET_DYNAMIC_SENSOR_STATE);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  460  	if (token == RTAS_UNKNOWN_SERVICE)
-e44fb25ad9fa03 Haren Myneni 2025-01-04  461  		return -ENOENT;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  462  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  463  	mutex_lock(&rtas_ibm_get_dynamic_sensor_state_lock);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  464  	work_area = papr_dynamic_indice_buf_from_user(ubuf, &kbuf);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  465  	if (IS_ERR(work_area))
-e44fb25ad9fa03 Haren Myneni 2025-01-04  466  		return PTR_ERR(work_area);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  467  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  468  	do {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  469  		fwrc = rtas_call(token, 2, 2, &rets,
-e44fb25ad9fa03 Haren Myneni 2025-01-04  470  				kbuf.dynamic_param.token,
-e44fb25ad9fa03 Haren Myneni 2025-01-04  471  				rtas_work_area_phys(work_area));
-e44fb25ad9fa03 Haren Myneni 2025-01-04  472  	} while (rtas_busy_delay(fwrc));
-e44fb25ad9fa03 Haren Myneni 2025-01-04  473  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  474  	rtas_work_area_free(work_area);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  475  	mutex_unlock(&rtas_ibm_get_dynamic_sensor_state_lock);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  476  
-e44fb25ad9fa03 Haren Myneni 2025-01-04  477  	switch (fwrc) {
-e44fb25ad9fa03 Haren Myneni 2025-01-04  478  	case RTAS_IBM_DYNAMIC_INDICE_SUCCESS:
-e44fb25ad9fa03 Haren Myneni 2025-01-04  479  		if (put_user(rets, &ubuf->dynamic_param.state))
-e44fb25ad9fa03 Haren Myneni 2025-01-04  480  			ret = -EFAULT;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  481  		else
-e44fb25ad9fa03 Haren Myneni 2025-01-04  482  			ret = 0;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  483  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  484  	case RTAS_IBM_DYNAMIC_INDICE_NO_INDICATOR:	/* No such indicator */
-e44fb25ad9fa03 Haren Myneni 2025-01-04  485  		ret = -EOPNOTSUPP;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  486  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  487  	default:
-e44fb25ad9fa03 Haren Myneni 2025-01-04  488  		pr_err("unexpected ibm,get-dynamic-sensor result %d\n",
-e44fb25ad9fa03 Haren Myneni 2025-01-04  489  				fwrc);
-e44fb25ad9fa03 Haren Myneni 2025-01-04  490  		fallthrough;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  491  	case RTAS_IBM_DYNAMIC_INDICE_HW_ERROR:	/* Hardware/platform error */
-e44fb25ad9fa03 Haren Myneni 2025-01-04  492  		ret = -EIO;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  493  		break;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  494  	}
-e44fb25ad9fa03 Haren Myneni 2025-01-04  495  
-e44fb25ad9fa03 Haren Myneni 2025-01-04 @496  	return ret;
-e44fb25ad9fa03 Haren Myneni 2025-01-04  497  }
-e44fb25ad9fa03 Haren Myneni 2025-01-04  498  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-eval-v3.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-eval-v3.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris-v2.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris-v2.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-ai_ml.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-ai_ml.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-aster.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-aster.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-eval-v3.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-eval-v3.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris-v2.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris-v2.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+--
+>> arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: pcie@5f010000: interrupts: [[0, 102, 4], [0, 104, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: pcie@5f010000: interrupt-names: ['msi', 'dma'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
