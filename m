@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A28205E17
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jan 2025 12:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CA820D4F8
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jan 2025 12:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736511375; cv=none; b=YuohXYIJy9G0uPDVqqzmIRtrMiqS3fMIegwbcQkbsP15WncpIBhoG8Ta0dqMdIRgyNmBEiXGszm8409EhrqQ+6PSAbuzUZ24LAjYHGisoFovrBvtYbAULH04y8Y56SOE1UTJnhd0MpoByQGIzvzmumY4S1aCyqZ+cgXzI9rekqs=
+	t=1736512816; cv=none; b=EFQgTYonQMB7Aoeh0RaQlP7vW1HVoDcIssDfkmXVNqX0jPJZ7AOqwTeNGyB33ukdzhFQgsSeZmwZIxzbA8NgXUvPx30LMLALZMzU6sw+qUsACwKScxjYnLbNAtGVJt/5MHlhAQNdrT4IhQ+RFY+vb89v1gvoQGobLFLGpeQpH7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736511375; c=relaxed/simple;
-	bh=GWyTCVH+qE3Frrt0uxRDSp8LJsGY5pm+Y6fdnACmm7s=;
+	s=arc-20240116; t=1736512816; c=relaxed/simple;
+	bh=tGMVNXu8gukPXPP7nk65apfuSBihLLzCm+bUKcLjzMo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e3fOFayrgDbGlY+ljkOvh4f5ra5Fhb2e+YK3tFYNoJ10dy5k6Cik6BanU0q8vnYCcIem5O/rHX1rt4lEz/hEgCucByTzi6ETTwbY0zK/hMdD67jFmcrfXjX8JgwAB832iFAcZp1snyDmwmvBcLDK1KLGSr7Oe6/3tH7YKL6TTkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qt1n3boW; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=i5fn/qGdaCwVJEbBMrdL39urMcYgFvAIRe7W9pVGan6TOBixI81zKoJQupz8kDA1Tc4U6FD6qQ7o+1pbSBSwhr05X8U8P/zClA66sTFpxEcwQEfq+yoTi67OkpCAk56sLcGZtOizofiKza/rB084StAI1LIypD6UztvLwvrEK8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H88LfGRH; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qt1n3boW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H88LfGRH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736511373; x=1768047373;
+  t=1736512815; x=1768048815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GWyTCVH+qE3Frrt0uxRDSp8LJsGY5pm+Y6fdnACmm7s=;
-  b=Qt1n3boWs2SqZ3sCVzPfgt/J8OcjD5a9pSRjgS2CwX64exzlN4SsnhVA
-   3L5ijwFnpIg385r2D0keGW/nkByraT/YD0GsjXZiujsCyQyXn51XHOfC0
-   RgywP+W4HKxQoQOS+/iEWuu/7sMSjCA1dPfOCLDZ6bLPjOy/LmiC1sZAC
-   DbmdthTqUotET7iYPcWI0zfK1zhBKhqI2rHXbk2lzuLfiByUfvuy5fw2u
-   FON3plO6rmSC2VZJkclJZQkwSz0JR9CSYLFLjEoNqinHXlfnNqMhI9xAl
-   9uT7kxlgwoJvoLELzbmQ8EjFsjoI3iWlK/HLjPKX/RA4tVimOS9MTiPRR
+  bh=tGMVNXu8gukPXPP7nk65apfuSBihLLzCm+bUKcLjzMo=;
+  b=H88LfGRH1Z9pyApBSIA+fzewUA0VrTCosxx8BAhpJINWty1QTqJiWXz/
+   c3llmyvx7xMErKJ/s1gzqSKwKZ+fqK7XmKou0GlO66EMBr8bEf+Lzm96G
+   6JJtj/uBZOX5/hgkdm6g6WtW3rhH5DV/gh8LE5WF0snqCWaxyJWgGf29v
+   Jk2XG1SRmUGS8Ggrqt+o1shzdWoptmej7nekhTvOzvYlhPGlqNcu+8VRu
+   ZGfJlHt0MCwrq72+I/qs7CU6hskZ8bnZCZWJHJxdRQONOSfxP8VgzEMc2
+   D130gaCVneBbm1B9OCeZi2n0yB3zEbqAitPln4YjIZ6uoD4sqOfateD3v
    A==;
-X-CSE-ConnectionGUID: WkdxjSZ1T/e4fOTts22RfQ==
-X-CSE-MsgGUID: vcFI9yO1RJyD2YN5iO4jHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="24407849"
+X-CSE-ConnectionGUID: NZPuIN8EQtOEOH/julGTSw==
+X-CSE-MsgGUID: YrQjRPBhQRKJFXY4hWoYfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="36965415"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="24407849"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 04:16:12 -0800
-X-CSE-ConnectionGUID: Mk6akapnTQ2dpIGL53q2dg==
-X-CSE-MsgGUID: 1VL4Ph7UR5C1HmuxZwl4UA==
+   d="scan'208";a="36965415"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 04:40:14 -0800
+X-CSE-ConnectionGUID: Vbh9Fn7OQ9yZP9kxi63/YA==
+X-CSE-MsgGUID: EZ35lhppQpyckfMeUzCF+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103603788"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="108644082"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Jan 2025 04:16:10 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jan 2025 04:40:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWDvs-000JCg-0N;
-	Fri, 10 Jan 2025 12:16:08 +0000
-Date: Fri, 10 Jan 2025 20:15:57 +0800
+	id 1tWEJ9-000JET-1L;
+	Fri, 10 Jan 2025 12:40:11 +0000
+Date: Fri, 10 Jan 2025 20:39:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/bridge: imx8qxp-pxl2dpi: Use dev_err_probe
-Message-ID: <202501101919.vwVyD24s-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 4/5] arm64: dts: agilex: add dts enabling PCIe Root
+ Port
+Message-ID: <202501102029.DLRgEcil-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,116 +62,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250107143900.988567-2-alexander.stein@ew.tq-group.com>
-References: <20250107143900.988567-2-alexander.stein@ew.tq-group.com>
-TO: Alexander Stein <alexander.stein@ew.tq-group.com>
-TO: Liu Ying <victor.liu@nxp.com>
-TO: Andrzej Hajda <andrzej.hajda@intel.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-TO: Jonas Karlman <jonas@kwiboo.se>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Pengutronix Kernel Team <kernel@pengutronix.de>
-TO: Fabio Estevam <festevam@gmail.com>
-CC: Alexander Stein <alexander.stein@ew.tq-group.com>
-CC: dri-devel@lists.freedesktop.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20250108165909.3344354-5-matthew.gerlach@linux.intel.com>
+References: <20250108165909.3344354-5-matthew.gerlach@linux.intel.com>
+TO: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+TO: lpieralisi@kernel.org
+TO: kw@linux.com
+TO: manivannan.sadhasivam@linaro.org
+TO: robh@kernel.org
+TO: bhelgaas@google.com
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: dinguyen@kernel.org
+TO: joyce.ooi@intel.com
+TO: linux-pci@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: matthew.gerlach@altera.com
+CC: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-Hi Alexander,
+Hi Matthew,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.13-rc6 next-20250110]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on pci/next pci/for-linus mani-mhi/mhi-next linus/master v6.13-rc6 next-20250109]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/drm-bridge-imx8qxp-pxl2dpi-Use-dev_err_probe/20250107-224125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250107143900.988567-2-alexander.stein%40ew.tq-group.com
-patch subject: [PATCH v2 1/4] drm/bridge: imx8qxp-pxl2dpi: Use dev_err_probe
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: openrisc-randconfig-r073-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101919.vwVyD24s-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Gerlach/dt-bindings-PCI-altera-Add-binding-for-Agilex/20250109-010528
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250108165909.3344354-5-matthew.gerlach%40linux.intel.com
+patch subject: [PATCH v3 4/5] arm64: dts: agilex: add dts enabling PCIe Root Port
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250110/202501102029.DLRgEcil-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501102029.DLRgEcil-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501101919.vwVyD24s-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501102029.DLRgEcil-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c:402 imx8qxp_pxl2dpi_bridge_probe() error: uninitialized symbol 'ret'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/intel/socfpga_agilex.dtsi:601.10-658.5: Warning (simple_bus_reg): /soc@0/eccmgr: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/intel/socfpga_agilex_pcie_root_port.dtsi:20.36-41.5: Warning (simple_bus_reg): /soc@0/fpga-bus@80000000/pcie@200000000: simple-bus unit address format error, expected "10000000"
+>> arch/arm64/boot/dts/intel/socfpga_agilex_pcie_root_port.dtsi:43.32-53.5: Warning (simple_bus_reg): /soc@0/fpga-bus@80000000/msi@10008080: simple-bus unit address format error, expected "100018080"
 
-vim +/ret +402 drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+vim +/10000000 +20 arch/arm64/boot/dts/intel/socfpga_agilex_pcie_root_port.dtsi
 
-96988a526c97cf Liu Ying        2022-06-11  388  
-96988a526c97cf Liu Ying        2022-06-11  389  static int imx8qxp_pxl2dpi_bridge_probe(struct platform_device *pdev)
-96988a526c97cf Liu Ying        2022-06-11  390  {
-96988a526c97cf Liu Ying        2022-06-11  391  	struct imx8qxp_pxl2dpi *p2d;
-96988a526c97cf Liu Ying        2022-06-11  392  	struct device *dev = &pdev->dev;
-96988a526c97cf Liu Ying        2022-06-11  393  	struct device_node *np = dev->of_node;
-96988a526c97cf Liu Ying        2022-06-11  394  	int ret;
-96988a526c97cf Liu Ying        2022-06-11  395  
-96988a526c97cf Liu Ying        2022-06-11  396  	p2d = devm_kzalloc(dev, sizeof(*p2d), GFP_KERNEL);
-96988a526c97cf Liu Ying        2022-06-11  397  	if (!p2d)
-96988a526c97cf Liu Ying        2022-06-11  398  		return -ENOMEM;
-96988a526c97cf Liu Ying        2022-06-11  399  
-96988a526c97cf Liu Ying        2022-06-11  400  	p2d->regmap = syscon_node_to_regmap(np->parent);
-84004de3c9dc63 Alexander Stein 2025-01-07  401  	if (IS_ERR(p2d->regmap))
-84004de3c9dc63 Alexander Stein 2025-01-07 @402  		return dev_err_probe(dev, ret, "failed to get regmap\n");
-96988a526c97cf Liu Ying        2022-06-11  403  
-96988a526c97cf Liu Ying        2022-06-11  404  	ret = imx_scu_get_handle(&p2d->ipc_handle);
-84004de3c9dc63 Alexander Stein 2025-01-07  405  	if (ret)
-84004de3c9dc63 Alexander Stein 2025-01-07  406  		return dev_err_probe(dev, ret, "failed to get SCU ipc handle\n");
-96988a526c97cf Liu Ying        2022-06-11  407  
-96988a526c97cf Liu Ying        2022-06-11  408  	p2d->dev = dev;
-96988a526c97cf Liu Ying        2022-06-11  409  
-96988a526c97cf Liu Ying        2022-06-11  410  	ret = of_property_read_u32(np, "fsl,sc-resource", &p2d->sc_resource);
-96988a526c97cf Liu Ying        2022-06-11  411  	if (ret) {
-96988a526c97cf Liu Ying        2022-06-11  412  		DRM_DEV_ERROR(dev, "failed to get SC resource %d\n", ret);
-96988a526c97cf Liu Ying        2022-06-11  413  		return ret;
-96988a526c97cf Liu Ying        2022-06-11  414  	}
-96988a526c97cf Liu Ying        2022-06-11  415  
-96988a526c97cf Liu Ying        2022-06-11  416  	p2d->next_bridge = imx8qxp_pxl2dpi_find_next_bridge(p2d);
-84004de3c9dc63 Alexander Stein 2025-01-07  417  	if (IS_ERR(p2d->next_bridge))
-84004de3c9dc63 Alexander Stein 2025-01-07  418  		return dev_err_probe(dev, PTR_ERR(p2d->next_bridge),
-84004de3c9dc63 Alexander Stein 2025-01-07  419  				     "failed to find next bridge\n");
-96988a526c97cf Liu Ying        2022-06-11  420  
-96988a526c97cf Liu Ying        2022-06-11  421  	ret = imx8qxp_pxl2dpi_set_pixel_link_sel(p2d);
-96988a526c97cf Liu Ying        2022-06-11  422  	if (ret)
-96988a526c97cf Liu Ying        2022-06-11  423  		return ret;
-96988a526c97cf Liu Ying        2022-06-11  424  
-96988a526c97cf Liu Ying        2022-06-11  425  	ret = imx8qxp_pxl2dpi_parse_dt_companion(p2d);
-96988a526c97cf Liu Ying        2022-06-11  426  	if (ret)
-96988a526c97cf Liu Ying        2022-06-11  427  		return ret;
-96988a526c97cf Liu Ying        2022-06-11  428  
-96988a526c97cf Liu Ying        2022-06-11  429  	platform_set_drvdata(pdev, p2d);
-96988a526c97cf Liu Ying        2022-06-11  430  	pm_runtime_enable(dev);
-96988a526c97cf Liu Ying        2022-06-11  431  
-96988a526c97cf Liu Ying        2022-06-11  432  	p2d->bridge.driver_private = p2d;
-96988a526c97cf Liu Ying        2022-06-11  433  	p2d->bridge.funcs = &imx8qxp_pxl2dpi_bridge_funcs;
-96988a526c97cf Liu Ying        2022-06-11  434  	p2d->bridge.of_node = np;
-96988a526c97cf Liu Ying        2022-06-11  435  
-96988a526c97cf Liu Ying        2022-06-11  436  	drm_bridge_add(&p2d->bridge);
-96988a526c97cf Liu Ying        2022-06-11  437  
-96988a526c97cf Liu Ying        2022-06-11  438  	return ret;
-96988a526c97cf Liu Ying        2022-06-11  439  }
-96988a526c97cf Liu Ying        2022-06-11  440  
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08 @20  		pcie_0_pcie_aglx: pcie@200000000 {
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  21  			reg = <0x00000000 0x10000000 0x10000000>,
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  22  			      <0x00000001 0x00010000 0x00008000>,
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  23  			      <0x00000000 0x20000000 0x00200000>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  24  			reg-names = "Txs", "Cra", "Hip";
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  25  			interrupt-parent = <&intc>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  26  			interrupts = <GIC_SPI 0x14 IRQ_TYPE_LEVEL_HIGH>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  27  			interrupt-controller;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  28  			#interrupt-cells = <0x1>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  29  			device_type = "pci";
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  30  			bus-range = <0x0000000 0x000000ff>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  31  			ranges = <0x82000000 0x00000000 0x00100000 0x00000000 0x10000000 0x00000000 0x0ff00000>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  32  			msi-parent = <&pcie_0_msi_irq>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  33  			#address-cells = <0x3>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  34  			#size-cells = <0x2>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  35  			interrupt-map-mask = <0x0 0x0 0x0 0x7>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  36  			interrupt-map = <0x0 0x0 0x0 0x1 &pcie_0_pcie_aglx 0 0 0 0x1>,
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  37  					<0x0 0x0 0x0 0x2 &pcie_0_pcie_aglx 0 0 0 0x2>,
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  38  					<0x0 0x0 0x0 0x3 &pcie_0_pcie_aglx 0 0 0 0x3>,
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  39  					<0x0 0x0 0x0 0x4 &pcie_0_pcie_aglx 0 0 0 0x4>;
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  40  			status = "disabled";
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  41  		};
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08  42  
+755f37e6d7f7c1 Matthew Gerlach 2025-01-08 @43  		pcie_0_msi_irq: msi@10008080 {
 
 -- 
 0-DAY CI Kernel Test Service
