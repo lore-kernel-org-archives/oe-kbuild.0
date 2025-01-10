@@ -1,120 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95B5204C2A
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 Jan 2025 23:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFED3125DF
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 Jan 2025 03:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736466311; cv=none; b=RNjceCafFIMA2pNQuDXaH1skhxhvwh21wd7AVwZ5Pfv90DoIL0kUzxgSdAa6VwNth5jxAykBeB19sxG9l5S0U0dKuq8c9ET99lHYU/jjVE6SiBeA9dB1O7p8TtM55Ggk48kV3hT7v7o4WEpL3zqb9ytT7G9O4RP9wToOk9nw56Y=
+	t=1736478081; cv=none; b=V1GX4lHCKHQOhkzmoCWxPhPk0065q7myAfTA43l5MLZ1AqJyUrjcPMRmyRzC2TzOo5i3qVk+tWBF2xWVmndfGM3ZycJyLvWibfHbAJRsonQn3iHOnlp/ze4K2ik1gFlXLPfwrg61QIwELfBdUGLPTuhKt3r6Q3+00VYJaou4jU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736466311; c=relaxed/simple;
-	bh=NCVIpLPu4EuM0QPnsiwId0MeO8S7IojXbnwsE6Fa9GM=;
+	s=arc-20240116; t=1736478081; c=relaxed/simple;
+	bh=AJVx9iSE5xA56A5abpg5K8E8Pcmk1h4SePXeW/v5eOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tl3xCrh77Y+lAbEkKYQ00GO/Aev8WuAPUEePOs/ZiRBhyhW5f7gWQ6hdTegWffsQNhQ5U01MI7wERaEycTTaw09IT0J/kHsmRortUo+qIzYGFzOQKNajB4YOOyUU0vnYoQ6wFR5AsF79GVNIvzROo5QBhCNcANmgJ51d0J7OKBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qc95vFph; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YiR+FoLVaMLTDVOgGv3hBa2Tk/l6St/rQ4uASqQMrj8sBq/6VlLVK3iqkIpSlNb+CHxUY/BpmaOlvupKgyHV4yTd9Q8wL9dURp9htBlrOWLxiHcopHt02heGBMv6zIljglAmkOq2MJAbQgItRg8so0I07MU0IBGtcbV826oU2LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWZnkc2q; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qc95vFph"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWZnkc2q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736466307; x=1768002307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NCVIpLPu4EuM0QPnsiwId0MeO8S7IojXbnwsE6Fa9GM=;
-  b=Qc95vFph/5+yOs9XEFiAJ9SwiTy/kG7o9CE0ne2NidRo9cG1VjNyGPsU
-   cU2VRxHU8CW4E/68B7qZhIC2Bw6QcXuTtwZX2c2nXai51qCCkoUuclN0x
-   2jSH1B6PoNs/qjAiYvMIQ26a/vduoHG/S5oE+llr75JGeHnfWPQzCWXg7
-   XPnL4fzPyLSCmykFzO5RMzxKpeb0ZwbLPvmwDncvOUhfE1hO/aCAqTGUY
-   dS6RdoHIBSpYAc5I4dqxdKXAwbYJUPMFrc1X7cxhjqiV6ydDZXjG29gSN
-   CYWXelL4GgkbelpiczGij9mQM4nqgnQyw9m1Jtihwrw3hflz9Wdlqf2nP
-   Q==;
-X-CSE-ConnectionGUID: 2XNQSWFOSta6C16CorVYPg==
-X-CSE-MsgGUID: WthoON5HQBeeEjr/f2vy0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36442195"
+  t=1736478080; x=1768014080;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=AJVx9iSE5xA56A5abpg5K8E8Pcmk1h4SePXeW/v5eOk=;
+  b=NWZnkc2qu/TTq5nwQTsGOhD2Me4EzZZaTOEdsma2fg9ySZ8s6VnZYJK0
+   DzzARHMTEknTQ7JczudUqRwzTUmuv4X//rwQTRYmjU6xP+Xb4E4OysdXm
+   fBB7jae3+pZdvsQrURzsdEWWuQ+LgO4PtaScRBIEH0hQb7oYZeKv89N0u
+   jP43geij/5hL8LzXkv9nMjKoZkf6yxRfApQsj3DYWTTcZUJYjSeBpA5M+
+   YO9fZg00GhciqW9fv8MWJzZtll7OCgnaDkXt5eDdjVBDiewTVOu1GViN6
+   KcsDHD3FagM/vZBjO4X7zaxwOzIRicFXpfVc2ABOhiq1VuWlbW+wFzjg3
+   A==;
+X-CSE-ConnectionGUID: 26voit7bRimhmu+NtngtcA==
+X-CSE-MsgGUID: sb0ODkldQeWJ/PQ2+SPwpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54306645"
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="36442195"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 15:45:06 -0800
-X-CSE-ConnectionGUID: aZHRMlo5REuDVSSbNR1aKg==
-X-CSE-MsgGUID: 6JuiJ19wSwKfPX/BlBgWRA==
+   d="scan'208";a="54306645"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 19:01:19 -0800
+X-CSE-ConnectionGUID: uSPkhspQQLGmsyzCp2K2sw==
+X-CSE-MsgGUID: a9PcklnoQ8OPPJOLNpd0yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; 
-   d="scan'208";a="103750091"
+   d="scan'208";a="104128413"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Jan 2025 15:45:05 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jan 2025 19:01:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tW2D1-000IID-0m;
-	Thu, 09 Jan 2025 23:45:03 +0000
-Date: Fri, 10 Jan 2025 07:44:26 +0800
+	id 1tW5Gu-000IRy-0H;
+	Fri, 10 Jan 2025 03:01:16 +0000
+Date: Fri, 10 Jan 2025 11:00:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 20/46] arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: compatible:0:
- 'qcom,qcs615-qfprom' is not one of ['qcom,apq8064-qfprom',
- 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom',
- 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq80...
-Message-ID: <202501100750.Hmpd79U3-lkp@intel.com>
+Subject: create_dsq.bpf.c:14:14: warning: declaration of 'struct
+ scx_exit_task_args' will not be visible outside of this function
+Message-ID: <202501101038.TgWyCFFu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Björn Töpel" <bjorn@rivosinc.com>
+CC: Tejun Heo <tj@kernel.org>
+CC: Shuah Khan <skhan@linuxfoundation.org>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   5c0b085f7946d60c3b805a93cb5cbd7d766a0617
-commit: f5fede6ad79b4a5aa0f1cf0480e84d8843d6684a [20/46] dt-bindings: nvmem: Add compatible for IPQ5018
-:::::: branch date: 35 hours ago
-:::::: commit date: 5 weeks ago
-config: arm64-randconfig-051-20250109 (https://download.01.org/0day-ci/archive/20250110/202501100750.Hmpd79U3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501100750.Hmpd79U3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c77cd47cee041bc1664b8e5fcd23036e5aab8e2a
+commit: 7941b83bceb374c7e81061e0ebb45cd45f3e3517 selftests: sched_ext: Add sched_ext as proper selftest target
+date:   3 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 months ago
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101038.TgWyCFFu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501100750.Hmpd79U3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501101038.TgWyCFFu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: clock-controller@100000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/qcom,qcs615-gcc.yaml#
->> arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: compatible:0: 'qcom,qcs615-qfprom' is not one of ['qcom,apq8064-qfprom', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,msm8226-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qcs404-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfprom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qcom,sm8550-qfprom', 'qcom,sm8650-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: efuse@780000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/efuse@780000: failed to match any schema with compatible: ['qcom,qcs615-qfprom', 'qcom,qfprom']
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: interrupt-controller@b220000: compatible:0: 'qcom,qcs615-pdc' is not one of ['qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,x1e80100-pdc']
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,qcs615-pdc', 'qcom,pdc']
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: power-controller@c300000: '#power-domain-cells' does not match any of the regexes: '^(cx|mx|ebi)$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,aoss-qmp.yaml#
-   arch/arm64/boot/dts/qcom/qcs615-ride.dtb: mailbox@17c00000: compatible: 'oneOf' conditional failed, one must be fixed:
---
->> arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: efuse@784000: compatible:0: 'qcom,qcs8300-qfprom' is not one of ['qcom,apq8064-qfprom', 'qcom,apq8084-qfprom', 'qcom,ipq5018-qfprom', 'qcom,ipq5332-qfprom', 'qcom,ipq6018-qfprom', 'qcom,ipq8064-qfprom', 'qcom,ipq8074-qfprom', 'qcom,ipq9574-qfprom', 'qcom,msm8226-qfprom', 'qcom,msm8916-qfprom', 'qcom,msm8974-qfprom', 'qcom,msm8976-qfprom', 'qcom,msm8996-qfprom', 'qcom,msm8998-qfprom', 'qcom,qcm2290-qfprom', 'qcom,qcs404-qfprom', 'qcom,sc7180-qfprom', 'qcom,sc7280-qfprom', 'qcom,sc8280xp-qfprom', 'qcom,sdm630-qfprom', 'qcom,sdm670-qfprom', 'qcom,sdm845-qfprom', 'qcom,sm6115-qfprom', 'qcom,sm6350-qfprom', 'qcom,sm6375-qfprom', 'qcom,sm8150-qfprom', 'qcom,sm8250-qfprom', 'qcom,sm8450-qfprom', 'qcom,sm8550-qfprom', 'qcom,sm8650-qfprom']
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: efuse@784000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/qcom,qfprom.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: /soc@0/efuse@784000: failed to match any schema with compatible: ['qcom,qcs8300-qfprom', 'qcom,qfprom']
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: compatible:0: 'qcom,qcs8300-adsp-pas' is not one of ['qcom,sa8775p-adsp-pas', 'qcom,sa8775p-cdsp0-pas', 'qcom,sa8775p-cdsp1-pas', 'qcom,sa8775p-gpdsp0-pas', 'qcom,sa8775p-gpdsp1-pas']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: compatible: ['qcom,qcs8300-adsp-pas', 'qcom,sa8775p-adsp-pas'] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/qcs8300-ride.dtb: remoteproc@3000000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from create_dsq.bpf.c:9:
+   tools/sched_ext/include/scx/common.bpf.h:33:17: error: use of undeclared identifier 'SCX_DSQ_FLAG_BUILTIN'
+      33 |         _Static_assert(SCX_DSQ_FLAG_BUILTIN,
+         |                        ^
+   tools/sched_ext/include/scx/common.bpf.h:44:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      44 | void scx_bpf_dispatch_from_dsq_set_slice(struct bpf_iter_scx_dsq *it__iter, u64 slice) __ksym __weak;
+         |                                                 ^
+   tools/sched_ext/include/scx/common.bpf.h:45:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      45 | void scx_bpf_dispatch_from_dsq_set_vtime(struct bpf_iter_scx_dsq *it__iter, u64 vtime) __ksym __weak;
+         |                                                 ^
+   tools/sched_ext/include/scx/common.bpf.h:46:39: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      46 | bool scx_bpf_dispatch_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
+         |                                       ^
+   tools/sched_ext/include/scx/common.bpf.h:47:45: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      47 | bool scx_bpf_dispatch_vtime_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
+         |                                             ^
+   tools/sched_ext/include/scx/common.bpf.h:52:33: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      52 | int bpf_iter_scx_dsq_new(struct bpf_iter_scx_dsq *it, u64 dsq_id, u64 flags) __ksym __weak;
+         |                                 ^
+   tools/sched_ext/include/scx/common.bpf.h:53:50: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      53 | struct task_struct *bpf_iter_scx_dsq_next(struct bpf_iter_scx_dsq *it) __ksym __weak;
+         |                                                  ^
+   tools/sched_ext/include/scx/common.bpf.h:54:38: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
+      54 | void bpf_iter_scx_dsq_destroy(struct bpf_iter_scx_dsq *it) __ksym __weak;
+         |                                      ^
+>> create_dsq.bpf.c:14:14: warning: declaration of 'struct scx_exit_task_args' will not be visible outside of this function [-Wvisibility]
+      14 |                     struct scx_exit_task_args *args)
+         |                            ^
+>> create_dsq.bpf.c:14:14: warning: declaration of 'struct scx_exit_task_args' will not be visible outside of this function [-Wvisibility]
+   create_dsq.bpf.c:13:6: error: conflicting types for '____create_dsq_exit_task'
+      13 | void BPF_STRUCT_OPS(create_dsq_exit_task, struct task_struct *p,
+         |      ^
+   tools/sched_ext/include/scx/common.bpf.h:140:32: note: expanded from macro 'BPF_STRUCT_OPS'
+     140 | SEC("struct_ops/"#name)                                                         \
+         |                                                                                 ^
+   tools/testing/selftests/sched_ext/build/include/bpf/bpf_tracing.h:683:48: note: expanded from macro '\
+   BPF_PROG'
+     683 | static __always_inline typeof(name(0))                                      \
+         |                                                                             ^
+   <scratch space>:26:1: note: expanded from here
+      26 | ____create_dsq_exit_task
+         | ^
+   create_dsq.bpf.c:13:6: note: previous declaration is here
+   tools/sched_ext/include/scx/common.bpf.h:140:32: note: expanded from macro 'BPF_STRUCT_OPS'
+     140 | SEC("struct_ops/"#name)                                                         \
+         |                                                                                 ^
+   tools/testing/selftests/sched_ext/build/include/bpf/bpf_tracing.h:674:48: note: expanded from macro '\
+   BPF_PROG'
+     674 | static __always_inline typeof(name(0))                                      \
+         |                                                                             ^
+   <scratch space>:17:1: note: expanded from here
+      17 | ____create_dsq_exit_task
+         | ^
+>> create_dsq.bpf.c:20:16: warning: declaration of 'struct scx_init_task_args' will not be visible outside of this function [-Wvisibility]
+      20 |                              struct scx_init_task_args *args)
+         |                                     ^
+>> create_dsq.bpf.c:20:16: warning: declaration of 'struct scx_init_task_args' will not be visible outside of this function [-Wvisibility]
+   create_dsq.bpf.c:19:5: error: conflicting types for '____create_dsq_init_task'
+      19 | s32 BPF_STRUCT_OPS_SLEEPABLE(create_dsq_init_task, struct task_struct *p,
+         |     ^
+   tools/sched_ext/include/scx/common.bpf.h:144:33: note: expanded from macro 'BPF_STRUCT_OPS_SLEEPABLE'
+     144 | SEC("struct_ops.s/"#name)                                                       \
+         |                                                                                 ^
+   tools/testing/selftests/sched_ext/build/include/bpf/bpf_tracing.h:683:48: note: expanded from macro '\
+   BPF_PROG'
+     683 | static __always_inline typeof(name(0))                                      \
+         |                                                                             ^
+   <scratch space>:43:1: note: expanded from here
+      43 | ____create_dsq_init_task
+         | ^
+   create_dsq.bpf.c:19:5: note: previous declaration is here
+   tools/sched_ext/include/scx/common.bpf.h:144:33: note: expanded from macro 'BPF_STRUCT_OPS_SLEEPABLE'
+     144 | SEC("struct_ops.s/"#name)                                                       \
+         |                                                                                 ^
+   tools/testing/selftests/sched_ext/build/include/bpf/bpf_tracing.h:674:48: note: expanded from macro '\
+   BPF_PROG'
+     674 | static __always_inline typeof(name(0))                                      \
+         |                                                                             ^
+   <scratch space>:34:1: note: expanded from here
+      34 | ____create_dsq_init_task
+         | ^
+   create_dsq.bpf.c:53:22: error: variable has incomplete type 'struct sched_ext_ops'
+      53 | struct sched_ext_ops create_dsq_ops = {
+         |                      ^
+   create_dsq.bpf.c:53:8: note: forward declaration of 'struct sched_ext_ops'
+      53 | struct sched_ext_ops create_dsq_ops = {
+         |        ^
+   11 warnings and 4 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
