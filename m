@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0721C36
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Jan 2025 00:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B578F58
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 Jan 2025 02:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736641275; cv=none; b=cTzuxS/o32y6MExyBaCNGGGVCXxmKPEmzWTfPsulofezQCoU/UTAiAE2j81iF9GFw7O3m7LuyHZLr0MwJd9wNeKo/H+bO1jlOG31rriwzc98yMpxuUjErvQVImU/PkCU1/Ei9dYvxiA/GiIdXl4u/HLsh2iR7FEVBe5/Dk+K0bc=
+	t=1736647556; cv=none; b=lJlwhwr4X/oXLJJV+hsEXhd0ym6p0M+QFOrJgCDOzsZOvAqCWIXVUNyhM6frNL2TeK8nQnU4B4H78Y2jkHWAsZjUAB0In6V0NZkNaCTh4pxHnRegeCYex3yUbtAFUOEmDzekknH3OH3EuU2G/GpUPuOzmqAPMU0UBb0IGI7l3UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736641275; c=relaxed/simple;
-	bh=0YQRmosjOp6x9fJfEv0NhnAym6FbaqRWzvj/y1aToGo=;
+	s=arc-20240116; t=1736647556; c=relaxed/simple;
+	bh=OpjZ2N6bs3ruGhgRQjE4woM3HiSaXRtluqmg40dV8xM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZLPbZ5RPgNrUhhxZmXim3C7kFXWLtf5CCSg4dS83wHmDH6fp2kMPiOPqBTlI0bh5X4AAxOhYZ2ybc48Z4iOr+BGMnlssXdAfeR6ZRm1TRqJ4UwWb0m/mqZXwKfglS7S6byFOLG/rtcnqCt2Xmh7bp1mhlFPsXDpCgAcqB5/UAFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYxkqck5; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=atu2SI2Uy4/QnWfMKwWzBPKdb/3J/SdiYVx4jcv4gwttfTbij696UNn6tFZgs9BIf5hpYH/63ToXnDvF/kFuHjaTfdY6qnzt0962zPbumjtesiCoN6uLEBuFj2ie2YVgwrO14kVh7pDWmel6/jZbugSYIvtfdRWpAmqUUnV+3Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4KKCOr7; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYxkqck5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4KKCOr7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736641272; x=1768177272;
+  t=1736647555; x=1768183555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0YQRmosjOp6x9fJfEv0NhnAym6FbaqRWzvj/y1aToGo=;
-  b=ZYxkqck5OGPeWKHaGsNH0u/p1HJS3xPD5cfdt8sjd9BlLGbyqwzXaOtG
-   3NB/sdaOg3P16BAHdM/qN5OXm0Idt+pnMFabFERHDsE347GQMAQ+kvb8K
-   o7ovz0bYcxaYu90Zupw86ElqqaMuAg8rGtkpDSzI2V5hlly8S1N5U25Cj
-   gDGssklmUmj7SjVq1BT/AnaW1O/BjSd2LisZsKNJ7FEYSRVsy1CuosQMR
-   aZyvSGzsIZPf/+FobnHT8lll6yiZwAAm5UI3ziQCQ2sE4BR/LzuP8YvpW
-   mepyYZmdkeMxl1roPw/Jvmx/iibZj+GkoxKYUuOz8zq3QO1lBJsTSykX/
-   Q==;
-X-CSE-ConnectionGUID: A6jrzmrcSDaajpyuGXK+yA==
-X-CSE-MsgGUID: Zp7A9sh0Sjm0i66kN0dbwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="40671966"
+  bh=OpjZ2N6bs3ruGhgRQjE4woM3HiSaXRtluqmg40dV8xM=;
+  b=X4KKCOr7HEqrlnk1QVHRjYkYZl7I+3gSiXWQF7vDOh7CbMzhwcpbqo7f
+   1+y6fD7Ugks8h96fX0/9nYFE6aXUkDVwrExEeF9M12ES0KcmqG909s20L
+   +OReOeUOfdO8f1HxXcHQWe41R+KP66NVP3Vne1yIzSf84thZNPuN/b4QV
+   svrKqfdcaRjlppr+TkvZZPvr1APRaVTnaxnmhzXNAS6bxFU1+y7Nf7Czc
+   MOYNI2lnrO7uzRc7D/pnM6Jrn4J5lYGLd3X2/if5wkw6oIInXmhKr4M4H
+   MvCEq+OpFzpIwGnmMrqFMHzDyd7diTlz+C0WFBzRm9SppZ09WqspGGQXO
+   w==;
+X-CSE-ConnectionGUID: YQWSF7GvThq5IoAZLQl5pg==
+X-CSE-MsgGUID: MUydAKQIRxy+JPG+/gucbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36924533"
 X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="40671966"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 16:21:12 -0800
-X-CSE-ConnectionGUID: yK5w1kBkSSuBKVbDh8uE0Q==
-X-CSE-MsgGUID: 9R56H1wSQEOe3fPpaEHNaQ==
+   d="scan'208";a="36924533"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:05:53 -0800
+X-CSE-ConnectionGUID: h3LA8vlxQaeYv4TU+wNDrg==
+X-CSE-MsgGUID: B5cdozCUShmVTB6OvStkbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104588160"
+   d="scan'208";a="108718154"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Jan 2025 16:21:10 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jan 2025 18:05:51 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tWlj1-000LLl-1y;
-	Sun, 12 Jan 2025 00:21:07 +0000
-Date: Sun, 12 Jan 2025 08:20:15 +0800
+	id 1tWnMK-000LRY-30;
+	Sun, 12 Jan 2025 02:05:48 +0000
+Date: Sun, 12 Jan 2025 10:05:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [xilinx-xlnx:lkp_test 433/504]
- drivers/mtd/spi-nor/micron-st.c:390:11-24: duplicated argument to & or |
-Message-ID: <202501120824.dHDgLDUV-lkp@intel.com>
+Subject: [xilinx-xlnx:lkp_test 396/504]
+ drivers/crypto/xilinx/zynqmp-aes-gcm.c:367:13-14: WARNING opportunity for
+ kfree_sensitive/kvfree_sensitive (memset at line 366)
+Message-ID: <202501120936.R4BjxD5g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,320 +66,173 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: git@amd.com
-TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+TO: Harsh Jain <h.jain@amd.com>
 CC: Michal Simek <monstr@monstr.eu>
-CC: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 
 tree:   https://github.com/Xilinx/linux-xlnx lkp_test
 head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
-commit: 813cccfd34b37a250ae9b3857b11c77a2a0de203 [433/504] mtd: spi-nor: Avoid locking/unlocking unrequested memory blocks
+commit: 7312c9df281491d9188d15344f7e1e860dff6c08 [396/504] crypto: zynqmp-aes-gcm: Change coherent to dma alloc
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: riscv-randconfig-r062-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120824.dHDgLDUV-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
+config: m68k-randconfig-r064-20250111 (https://download.01.org/0day-ci/archive/20250112/202501120936.R4BjxD5g-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202501120824.dHDgLDUV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501120936.R4BjxD5g-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/mtd/spi-nor/micron-st.c:390:11-24: duplicated argument to & or |
+>> drivers/crypto/xilinx/zynqmp-aes-gcm.c:367:13-14: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 366)
+   drivers/crypto/xilinx/zynqmp-aes-gcm.c:370:11-12: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 369)
+   drivers/crypto/xilinx/zynqmp-aes-gcm.c:227:11-12: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 226)
+   drivers/crypto/xilinx/zynqmp-aes-gcm.c:229:13-14: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 228)
 
-vim +390 drivers/mtd/spi-nor/micron-st.c
+vim +367 drivers/crypto/xilinx/zynqmp-aes-gcm.c
 
-6823a838342026 Mamta Shukla         2023-10-17  196  
-c9d5cdf4bf9cd4 Michael Walle        2022-02-23  197  static const struct flash_info st_nor_parts[] = {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  198  	{
-9df3c9ac6ea635 Michael Walle        2023-09-08  199  		.name = "m25p05-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  200  		.sector_size = SZ_32K,
-9df3c9ac6ea635 Michael Walle        2023-09-08  201  		.size = SZ_64K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  202  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  203  		.name = "m25p10-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  204  		.sector_size = SZ_32K,
-9df3c9ac6ea635 Michael Walle        2023-09-08  205  		.size = SZ_128K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  206  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  207  		.name = "m25p20-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  208  		.size = SZ_256K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  209  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  210  		.name = "m25p40-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  211  		.size = SZ_512K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  212  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  213  		.name = "m25p80-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  214  		.size = SZ_1M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  215  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  216  		.name = "m25p16-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  217  		.size = SZ_2M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  218  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  219  		.name = "m25p32-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  220  		.size = SZ_4M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  221  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  222  		.name = "m25p64-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  223  		.size = SZ_8M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  224  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  225  		.name = "m25p128-nonjedec",
-9df3c9ac6ea635 Michael Walle        2023-09-08  226  		.sector_size = SZ_256K,
-9df3c9ac6ea635 Michael Walle        2023-09-08  227  		.size = SZ_16M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  228  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  229  		.id = SNOR_ID(0x20, 0x20, 0x10),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  230  		.name = "m25p05",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  231  		.sector_size = SZ_32K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  232  		.size = SZ_64K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  233  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  234  		.id = SNOR_ID(0x20, 0x20, 0x11),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  235  		.name = "m25p10",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  236  		.sector_size = SZ_32K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  237  		.size = SZ_128K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  238  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  239  		.id = SNOR_ID(0x20, 0x20, 0x12),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  240  		.name = "m25p20",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  241  		.size = SZ_256K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  242  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  243  		.id = SNOR_ID(0x20, 0x20, 0x13),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  244  		.name = "m25p40",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  245  		.size = SZ_512K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  246  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  247  		.id = SNOR_ID(0x20, 0x20, 0x14),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  248  		.name = "m25p80",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  249  		.size = SZ_1M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  250  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  251  		.id = SNOR_ID(0x20, 0x20, 0x15),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  252  		.name = "m25p16",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  253  		.size = SZ_2M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  254  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  255  		.id = SNOR_ID(0x20, 0x20, 0x16),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  256  		.name = "m25p32",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  257  		.size = SZ_4M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  258  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  259  		.id = SNOR_ID(0x20, 0x20, 0x17),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  260  		.name = "m25p64",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  261  		.size = SZ_8M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  262  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  263  		.id = SNOR_ID(0x20, 0x20, 0x18),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  264  		.name = "m25p128",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  265  		.sector_size = SZ_256K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  266  		.size = SZ_16M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  267  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  268  		.id = SNOR_ID(0x20, 0x40, 0x11),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  269  		.name = "m45pe10",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  270  		.size = SZ_128K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  271  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  272  		.id = SNOR_ID(0x20, 0x40, 0x14),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  273  		.name = "m45pe80",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  274  		.size = SZ_1M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  275  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  276  		.id = SNOR_ID(0x20, 0x40, 0x15),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  277  		.name = "m45pe16",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  278  		.size = SZ_2M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  279  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  280  		.id = SNOR_ID(0x20, 0x63, 0x16),
-9df3c9ac6ea635 Michael Walle        2023-09-08  281  		.name = "m25px32-s1",
-9df3c9ac6ea635 Michael Walle        2023-09-08  282  		.size = SZ_4M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  283  		.no_sfdp_flags = SECT_4K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  284  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  285  		.id = SNOR_ID(0x20, 0x71, 0x14),
-9df3c9ac6ea635 Michael Walle        2023-09-08  286  		.name = "m25px80",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  287  		.size = SZ_1M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  288  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  289  		.id = SNOR_ID(0x20, 0x71, 0x15),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  290  		.name = "m25px16",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  291  		.size = SZ_2M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  292  		.no_sfdp_flags = SECT_4K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  293  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  294  		.id = SNOR_ID(0x20, 0x71, 0x16),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  295  		.name = "m25px32",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  296  		.size = SZ_4M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  297  		.no_sfdp_flags = SECT_4K,
-9df3c9ac6ea635 Michael Walle        2023-09-08  298  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  299  		.id = SNOR_ID(0x20, 0x71, 0x17),
-9df3c9ac6ea635 Michael Walle        2023-09-08  300  		.name = "m25px64",
-9df3c9ac6ea635 Michael Walle        2023-09-08  301  		.size = SZ_8M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  302  	}, {
-8eb4eb838f9fd1 Michael Walle        2023-09-08  303  		.id = SNOR_ID(0x20, 0x73, 0x16),
-8eb4eb838f9fd1 Michael Walle        2023-09-08  304  		.name = "m25px32-s0",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  305  		.size = SZ_4M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  306  		.no_sfdp_flags = SECT_4K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  307  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  308  		.id = SNOR_ID(0x20, 0x80, 0x12),
-9df3c9ac6ea635 Michael Walle        2023-09-08  309  		.name = "m25pe20",
-9df3c9ac6ea635 Michael Walle        2023-09-08  310  		.size = SZ_256K,
-9df3c9ac6ea635 Michael Walle        2023-09-08  311  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  312  		.id = SNOR_ID(0x20, 0x80, 0x14),
-9df3c9ac6ea635 Michael Walle        2023-09-08  313  		.name = "m25pe80",
-9df3c9ac6ea635 Michael Walle        2023-09-08  314  		.size = SZ_1M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  315  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  316  		.id = SNOR_ID(0x20, 0x80, 0x15),
-9df3c9ac6ea635 Michael Walle        2023-09-08  317  		.name = "m25pe16",
-9df3c9ac6ea635 Michael Walle        2023-09-08  318  		.size = SZ_2M,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  319  		.no_sfdp_flags = SECT_4K,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  320  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  321  		.id = SNOR_ID(0x20, 0xba, 0x16),
-9df3c9ac6ea635 Michael Walle        2023-09-08  322  		.name = "n25q032",
-9df3c9ac6ea635 Michael Walle        2023-09-08  323  		.size = SZ_4M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  324  		.no_sfdp_flags = SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  325  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  326  		.id = SNOR_ID(0x20, 0xba, 0x17),
-9df3c9ac6ea635 Michael Walle        2023-09-08  327  		.name = "n25q064",
-8eb4eb838f9fd1 Michael Walle        2023-09-08  328  		.size = SZ_8M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  329  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-8eb4eb838f9fd1 Michael Walle        2023-09-08  330  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  331  		.id = SNOR_ID(0x20, 0xba, 0x18),
-9df3c9ac6ea635 Michael Walle        2023-09-08  332  		.name = "n25q128a13",
-9df3c9ac6ea635 Michael Walle        2023-09-08  333  		.size = SZ_16M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  334  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  335  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  336  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  337  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  338  		.fixups = &mt25qu512a_fixups,
-9df3c9ac6ea635 Michael Walle        2023-09-08  339  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  340  		.id = SNOR_ID(0x20, 0xba, 0x19, 0x10, 0x44, 0x00),
-9df3c9ac6ea635 Michael Walle        2023-09-08  341  		.name = "mt25ql256a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  342  		.size = SZ_32M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  343  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  344  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  345  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  346  		.fixup_flags = SPI_NOR_4B_OPCODES,
-9df3c9ac6ea635 Michael Walle        2023-09-08  347  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  348  		.fixups = &mt25qu512a_fixups,
-9df3c9ac6ea635 Michael Walle        2023-09-08  349  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  350  		.id = SNOR_ID(0x20, 0xba, 0x19),
-9df3c9ac6ea635 Michael Walle        2023-09-08  351  		.name = "n25q256a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  352  		.size = SZ_32M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  353  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  354  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  355  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  356  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  357  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  358  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  359  		.id = SNOR_ID(0x20, 0xba, 0x20, 0x10, 0x44, 0x00),
-9df3c9ac6ea635 Michael Walle        2023-09-08  360  		.name = "mt25ql512a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  361  		.size = SZ_64M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  362  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  363  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  364  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  365  		.fixup_flags = SPI_NOR_4B_OPCODES,
-9df3c9ac6ea635 Michael Walle        2023-09-08  366  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  367  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  368  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  369  		.id = SNOR_ID(0x20, 0xba, 0x20),
-9df3c9ac6ea635 Michael Walle        2023-09-08  370  		.name = "n25q512ax3",
-9df3c9ac6ea635 Michael Walle        2023-09-08  371  		.size = SZ_64M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  372  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  373  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  374  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  375  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  376  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  377  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  378  		.id = SNOR_ID(0x20, 0xba, 0x21),
-9df3c9ac6ea635 Michael Walle        2023-09-08  379  		.name = "n25q00",
-9df3c9ac6ea635 Michael Walle        2023-09-08  380  		.size = SZ_128M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  381  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  382  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  383  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  384  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  385  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  386  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  387  		.id = SNOR_ID(0x20, 0xba, 0x22),
-9df3c9ac6ea635 Michael Walle        2023-09-08  388  		.name = "mt25ql02g",
-9df3c9ac6ea635 Michael Walle        2023-09-08  389  		.size = SZ_256M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05 @390  		.flags = NO_CHIP_ERASE | SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  391  		      SPI_NOR_4BIT_BP | SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  392  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  393  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  394  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  395  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  396  		.id = SNOR_ID(0x20, 0xbb, 0x15),
-9df3c9ac6ea635 Michael Walle        2023-09-08  397  		.name = "n25q016a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  398  		.size = SZ_2M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  399  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  400  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  401  		.id = SNOR_ID(0x20, 0xbb, 0x16),
-9df3c9ac6ea635 Michael Walle        2023-09-08  402  		.name = "n25q032a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  403  		.size = SZ_4M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  404  		.no_sfdp_flags = SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  405  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  406  		.id = SNOR_ID(0x20, 0xbb, 0x17),
-9df3c9ac6ea635 Michael Walle        2023-09-08  407  		.name = "n25q064a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  408  		.size = SZ_8M,
-86fd0e6410b453 Brian Norris         2024-07-26  409  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  410  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  411  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  412  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  413  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  414  		.id = SNOR_ID(0x20, 0xbb, 0x18),
-9df3c9ac6ea635 Michael Walle        2023-09-08  415  		.name = "n25q128a11",
-9df3c9ac6ea635 Michael Walle        2023-09-08  416  		.size = SZ_16M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  417  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  418  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  419  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  420  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  421  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  422  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  423  		.id = SNOR_ID(0x20, 0xbb, 0x19, 0x10, 0x44, 0x00),
-9df3c9ac6ea635 Michael Walle        2023-09-08  424  		.name = "mt25qu256a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  425  		.size = SZ_32M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  426  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  427  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  428  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  429  		.fixup_flags = SPI_NOR_4B_OPCODES,
-9df3c9ac6ea635 Michael Walle        2023-09-08  430  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  431  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  432  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  433  		.id = SNOR_ID(0x20, 0xbb, 0x19),
-9df3c9ac6ea635 Michael Walle        2023-09-08  434  		.name = "n25q256ax1",
-9df3c9ac6ea635 Michael Walle        2023-09-08  435  		.size = SZ_32M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  436  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  437  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  438  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  439  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  440  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  441  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  442  		.id = SNOR_ID(0x20, 0xbb, 0x20, 0x10, 0x44, 0x00),
-9df3c9ac6ea635 Michael Walle        2023-09-08  443  		.name = "mt25qu512a",
-a2a3e5430e7bea Mamta Shukla         2023-10-17  444  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  445  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  446  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  447  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  448  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  449  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  450  		.id = SNOR_ID(0x20, 0xbb, 0x20),
-9df3c9ac6ea635 Michael Walle        2023-09-08  451  		.name = "n25q512a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  452  		.size = SZ_64M,
-9df3c9ac6ea635 Michael Walle        2023-09-08  453  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  454  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  455  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  456  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  457  		.fixups = &mt25qu512a_fixups
-c692ba6de1c5b4 Fabio Estevam        2023-11-25  458  	}, {
-c692ba6de1c5b4 Fabio Estevam        2023-11-25  459  		.id = SNOR_ID(0x20, 0xbb, 0x21, 0x10, 0x44, 0x00),
-c692ba6de1c5b4 Fabio Estevam        2023-11-25  460  		.name = "mt25qu01g",
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  461  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  462  			 SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  463  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-c692ba6de1c5b4 Fabio Estevam        2023-11-25  464  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  465  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  466  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  467  		.id = SNOR_ID(0x20, 0xbb, 0x21),
-9df3c9ac6ea635 Michael Walle        2023-09-08  468  		.name = "n25q00a",
-9df3c9ac6ea635 Michael Walle        2023-09-08  469  		.size = SZ_128M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  470  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  471  		      SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  472  		.no_sfdp_flags = SECT_4K | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  473  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  474  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  475  	}, {
-9df3c9ac6ea635 Michael Walle        2023-09-08  476  		.id = SNOR_ID(0x20, 0xbb, 0x22),
-9df3c9ac6ea635 Michael Walle        2023-09-08  477  		.name = "mt25qu02g",
-9df3c9ac6ea635 Michael Walle        2023-09-08  478  		.size = SZ_256M,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  479  		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_4BIT_BP |
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  480  		      SPI_NOR_BP3_SR_BIT6 | NO_CHIP_ERASE,
-9df3c9ac6ea635 Michael Walle        2023-09-08  481  		.no_sfdp_flags = SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ,
-9df3c9ac6ea635 Michael Walle        2023-09-08  482  		.mfr_flags = USE_FSR,
-813cccfd34b37a Amit Kumar Mahapatra 2024-12-05  483  		.fixups = &mt25qu512a_fixups
-9df3c9ac6ea635 Michael Walle        2023-09-08  484  	}
-15f5c7e54e658a Boris Brezillon      2020-03-13  485  };
-15f5c7e54e658a Boris Brezillon      2020-03-13  486  
+4d96f7d48131fe Kalyani Akula 2020-02-17  233  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  234  static int versal_aes_aead_cipher(struct aead_request *req)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  235  {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  236  	struct crypto_aead *aead = crypto_aead_reqtfm(req);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  237  	struct zynqmp_aead_tfm_ctx *tfm_ctx = crypto_aead_ctx(aead);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  238  	struct zynqmp_aead_req_ctx *rq_ctx = aead_request_ctx(req);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  239  	dma_addr_t dma_addr_data, dma_addr_hw_req, dma_addr_in;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  240  	u32 total_len = req->assoclen + req->cryptlen;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  241  	struct device *dev = tfm_ctx->dev;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  242  	struct versal_init_ops *hwreq;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  243  	struct versal_in_params *in;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  244  	u32 gcm_offset, out_len;
+7312c9df281491 Harsh Jain    2024-11-21  245  	size_t kbuf_size;
+7312c9df281491 Harsh Jain    2024-11-21  246  	size_t dmabuf_size;
+5e734633dfa25a Harsh Jain    2024-11-21  247  	void *dmabuf;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  248  	char *kbuf;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  249  	int ret;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  250  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  251  	if (tfm_ctx->keylen != XSECURE_AES_KEY_SIZE_128 &&
+55ae2e40a896d5 Dhaval Shah   2023-12-08  252  	    tfm_ctx->keylen != XSECURE_AES_KEY_SIZE_256) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  253  		ret = -EINVAL;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  254  		goto err;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  255  	}
+55ae2e40a896d5 Dhaval Shah   2023-12-08  256  
+7312c9df281491 Harsh Jain    2024-11-21  257  	kbuf_size = total_len + ZYNQMP_AES_AUTH_SIZE;
+7312c9df281491 Harsh Jain    2024-11-21  258  	kbuf = kmalloc(kbuf_size, GFP_KERNEL);
+7312c9df281491 Harsh Jain    2024-11-21  259  	if (unlikely(!kbuf)) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  260  		ret = -ENOMEM;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  261  		goto err;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  262  	}
+7312c9df281491 Harsh Jain    2024-11-21  263  	dmabuf_size = sizeof(struct versal_init_ops) +
+de4f641a50846e Harsh Jain    2024-11-21  264  		      sizeof(struct versal_in_params) +
+7312c9df281491 Harsh Jain    2024-11-21  265  		      GCM_AES_IV_SIZE;
+7312c9df281491 Harsh Jain    2024-11-21  266  	dmabuf = kmalloc(dmabuf_size, GFP_KERNEL);
+7312c9df281491 Harsh Jain    2024-11-21  267  	if (unlikely(!dmabuf)) {
+7312c9df281491 Harsh Jain    2024-11-21  268  		ret = -ENOMEM;
+7312c9df281491 Harsh Jain    2024-11-21  269  		goto buf1_free;
+7312c9df281491 Harsh Jain    2024-11-21  270  	}
+7312c9df281491 Harsh Jain    2024-11-21  271  
+7312c9df281491 Harsh Jain    2024-11-21  272  	dma_addr_hw_req = dma_map_single(dev, dmabuf, dmabuf_size, DMA_BIDIRECTIONAL);
+7312c9df281491 Harsh Jain    2024-11-21  273  	if (unlikely(dma_mapping_error(dev, dma_addr_hw_req))) {
+7312c9df281491 Harsh Jain    2024-11-21  274  		ret = -ENOMEM;
+7312c9df281491 Harsh Jain    2024-11-21  275  		goto buf2_free;
+7312c9df281491 Harsh Jain    2024-11-21  276  	}
+7312c9df281491 Harsh Jain    2024-11-21  277  	scatterwalk_map_and_copy(kbuf, req->src, 0, total_len, 0);
+7312c9df281491 Harsh Jain    2024-11-21  278  	dma_addr_data = dma_map_single(dev, kbuf, kbuf_size, DMA_BIDIRECTIONAL);
+7312c9df281491 Harsh Jain    2024-11-21  279  	if (unlikely(dma_mapping_error(dev, dma_addr_data))) {
+7312c9df281491 Harsh Jain    2024-11-21  280  		dma_unmap_single(dev, dma_addr_hw_req, dmabuf_size, DMA_BIDIRECTIONAL);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  281  		ret = -ENOMEM;
+7312c9df281491 Harsh Jain    2024-11-21  282  		goto buf2_free;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  283  	}
+5e734633dfa25a Harsh Jain    2024-11-21  284  	hwreq = dmabuf;
+5e734633dfa25a Harsh Jain    2024-11-21  285  	in = dmabuf + sizeof(struct versal_init_ops);
+de4f641a50846e Harsh Jain    2024-11-21  286  	memcpy(dmabuf + sizeof(struct versal_init_ops) +
+de4f641a50846e Harsh Jain    2024-11-21  287  	       sizeof(struct versal_in_params), req->iv, GCM_AES_IV_SIZE);
+de4f641a50846e Harsh Jain    2024-11-21  288  	hwreq->iv = dma_addr_hw_req + sizeof(struct versal_init_ops) +
+de4f641a50846e Harsh Jain    2024-11-21  289  		    sizeof(struct versal_in_params);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  290  	hwreq->keysrc = tfm_ctx->keysrc;
+7312c9df281491 Harsh Jain    2024-11-21  291  	dma_addr_in = dma_addr_hw_req + sizeof(struct versal_init_ops);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  292  	if (rq_ctx->op == ZYNQMP_AES_ENCRYPT) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  293  		hwreq->op = VERSAL_AES_ENCRYPT;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  294  		out_len = total_len + ZYNQMP_AES_AUTH_SIZE;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  295  		in->size = req->cryptlen;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  296  	} else {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  297  		hwreq->op = VERSAL_AES_DECRYPT;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  298  		out_len = total_len - ZYNQMP_AES_AUTH_SIZE;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  299  		in->size = req->cryptlen - ZYNQMP_AES_AUTH_SIZE;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  300  	}
+55ae2e40a896d5 Dhaval Shah   2023-12-08  301  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  302  	if (tfm_ctx->keylen == XSECURE_AES_KEY_SIZE_128)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  303  		hwreq->size = AES_KEY_SIZE_128;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  304  	else if (tfm_ctx->keylen == XSECURE_AES_KEY_SIZE_256)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  305  		hwreq->size = AES_KEY_SIZE_256;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  306  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  307  	/* Request aes key write for volatile user keys */
+55ae2e40a896d5 Dhaval Shah   2023-12-08  308  	if (hwreq->keysrc >= VERSAL_AES_USER_KEY_0 && hwreq->keysrc <= VERSAL_AES_USER_KEY_7) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  309  		ret = versal_pm_aes_key_write(hwreq->size, hwreq->keysrc,
+de4f641a50846e Harsh Jain    2024-11-21  310  					      tfm_ctx->key_dma_addr);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  311  		if (ret)
+7312c9df281491 Harsh Jain    2024-11-21  312  			goto unmap;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  313  	}
+55ae2e40a896d5 Dhaval Shah   2023-12-08  314  
+7312c9df281491 Harsh Jain    2024-11-21  315  	in->in_data_addr = dma_addr_data + req->assoclen;
+7312c9df281491 Harsh Jain    2024-11-21  316  	in->is_last = 1;
+7312c9df281491 Harsh Jain    2024-11-21  317  	gcm_offset = req->assoclen + in->size;
+7312c9df281491 Harsh Jain    2024-11-21  318  	dma_sync_single_for_device(dev, dma_addr_hw_req, dmabuf_size, DMA_BIDIRECTIONAL);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  319  	ret = versal_pm_aes_op_init(dma_addr_hw_req);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  320  	if (ret)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  321  		goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  322  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  323  	if (req->assoclen > 0) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  324  		/* Currently GMAC is OFF by default */
+55ae2e40a896d5 Dhaval Shah   2023-12-08  325  		ret = versal_pm_aes_update_aad(dma_addr_data, req->assoclen);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  326  		if (ret)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  327  			goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  328  	}
+55ae2e40a896d5 Dhaval Shah   2023-12-08  329  	if (rq_ctx->op == ZYNQMP_AES_ENCRYPT) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  330  		ret = versal_pm_aes_enc_update(dma_addr_in,
+55ae2e40a896d5 Dhaval Shah   2023-12-08  331  					       dma_addr_data + req->assoclen);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  332  		if (ret)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  333  			goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  334  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  335  		ret = versal_pm_aes_enc_final(dma_addr_data + gcm_offset);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  336  		if (ret)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  337  			goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  338  	} else {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  339  		ret = versal_pm_aes_dec_update(dma_addr_in,
+55ae2e40a896d5 Dhaval Shah   2023-12-08  340  					       dma_addr_data + req->assoclen);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  341  		if (ret)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  342  			goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  343  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  344  		ret = versal_pm_aes_dec_final(dma_addr_data + gcm_offset);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  345  		if (ret) {
+55ae2e40a896d5 Dhaval Shah   2023-12-08  346  			ret = -EBADMSG;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  347  			goto clearkey;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  348  		}
+55ae2e40a896d5 Dhaval Shah   2023-12-08  349  	}
+7312c9df281491 Harsh Jain    2024-11-21  350  	dma_unmap_single(dev, dma_addr_data, kbuf_size, DMA_BIDIRECTIONAL);
+7312c9df281491 Harsh Jain    2024-11-21  351  	dma_unmap_single(dev, dma_addr_hw_req, dmabuf_size, DMA_BIDIRECTIONAL);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  352  	sg_copy_from_buffer(req->dst, sg_nents(req->dst),
+55ae2e40a896d5 Dhaval Shah   2023-12-08  353  			    kbuf, out_len);
+7312c9df281491 Harsh Jain    2024-11-21  354  	dma_addr_data = 0;
+7312c9df281491 Harsh Jain    2024-11-21  355  	dma_addr_hw_req = 0;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  356  
+55ae2e40a896d5 Dhaval Shah   2023-12-08  357  clearkey:
+55ae2e40a896d5 Dhaval Shah   2023-12-08  358  	if (hwreq->keysrc >= VERSAL_AES_USER_KEY_0 && hwreq->keysrc <= VERSAL_AES_USER_KEY_7)
+55ae2e40a896d5 Dhaval Shah   2023-12-08  359  		versal_pm_aes_key_zero(hwreq->keysrc);
+7312c9df281491 Harsh Jain    2024-11-21  360  unmap:
+7312c9df281491 Harsh Jain    2024-11-21  361  	if (unlikely(dma_addr_data))
+7312c9df281491 Harsh Jain    2024-11-21  362  		dma_unmap_single(dev, dma_addr_data, kbuf_size, DMA_BIDIRECTIONAL);
+7312c9df281491 Harsh Jain    2024-11-21  363  	if (unlikely(dma_addr_hw_req))
+7312c9df281491 Harsh Jain    2024-11-21  364  		dma_unmap_single(dev, dma_addr_hw_req, dmabuf_size, DMA_BIDIRECTIONAL);
+7312c9df281491 Harsh Jain    2024-11-21  365  buf2_free:
+7312c9df281491 Harsh Jain    2024-11-21 @366  	memzero_explicit(dmabuf, dmabuf_size);
+7312c9df281491 Harsh Jain    2024-11-21 @367  	kfree(dmabuf);
+7312c9df281491 Harsh Jain    2024-11-21  368  buf1_free:
+7312c9df281491 Harsh Jain    2024-11-21  369  	memzero_explicit(kbuf, kbuf_size);
+7312c9df281491 Harsh Jain    2024-11-21  370  	kfree(kbuf);
+55ae2e40a896d5 Dhaval Shah   2023-12-08  371  err:
+55ae2e40a896d5 Dhaval Shah   2023-12-08  372  	return ret;
+55ae2e40a896d5 Dhaval Shah   2023-12-08  373  }
+55ae2e40a896d5 Dhaval Shah   2023-12-08  374  
 
 -- 
 0-DAY CI Kernel Test Service
