@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236E442C
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 Jan 2025 00:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAA8230D2E
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Jan 2025 05:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736729514; cv=none; b=HDPteql67X+haPD4nsFlZgFFkARTiV9l6jGLKbxpOIdtR6d6bK0E65k66y6Ym6lqd6tOBkItg15DhpWTNWRimVBDGKaGctRCbDjm1KKNYVtCnU1xZUtBMx4cV8BVQ5T5OC0NN6nZRVSXy3dhnWHn1ltPyQQ24MH0PP9hM0gqfC8=
+	t=1736745623; cv=none; b=Wkes4J+bkyzx8y0HBgpX4/aQPqHZftfpMNSO4+5RgiTvqOYDVoT9Wi6XQ/xhSgkUkopgMzWFbSQSMqmABJwK5PWqi6XfOcDVBJn92DAifwGQ49sl9OkSiKAdk2F6VoeZ2XRlN6Ho/orGr/w0Q1OrIPdjwxLGldoi9RWwChb5X+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736729514; c=relaxed/simple;
-	bh=JENo2a17pb+G74Kk39QgGYcH8GDCHZp0yEHscPU8xOI=;
+	s=arc-20240116; t=1736745623; c=relaxed/simple;
+	bh=FyIDFBxxM0iSuBG8XggmdxLp516ykZ5sB7YiTgBfA1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGbJHVz6lpKosQKyVoZnNrXdb6l4CI3aU7NKQGlgAptvqKf8XUbWeq0Faf33y6krFxO5zn5lhdLD6wFo2In5EUtYG1lgQstd7A7gW5PkQb/nS3PtCT5G+FkcCLI2J7BZMeyukhcTI2Mvp1S5K5Yj6SBmN5pVvoqQDWjrVtVXP4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtUTOQBs; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=gODY8tM79dCIU6V76/UmuMURrlLrDo2gZarZJHnMUd2joyfVr7+YZZxHHkSVIkq5n35/oxsknbug87pjJ0wF+bqmtdzGKL9ROzpkQGrIG5lBG+SBQqrxyUGdnZ3t2LPEiuQtFHSx0x6EDHYtTXG/4UBEhHNKBjCFj8AIhTQx078=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zMCAJuCl; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtUTOQBs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736729512; x=1768265512;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JENo2a17pb+G74Kk39QgGYcH8GDCHZp0yEHscPU8xOI=;
-  b=TtUTOQBsrawhYN/Hx6lJ2pZpt0L/cpqbY6inOcnvO2F7J7D10MlYnatC
-   isiMY3kwx0ZYEVih8FzHClumVy4uyjwnQA3ENA4bZRTxvNKnwLYp4Wq9p
-   wmqxzkT0wLWouy3Dv/uqIaoN6PT7Y6auP1dAryVjkb/Sby2MslQCoP0ro
-   Ph1qYCMH+GK/wv1Av/6scg34y7Ptwm0xgc0XlKMoVi7qyxYTdOAUfx0FR
-   AUXZn/5lYvcUcmLDC/wgT3+nFKqzY6jzivLirFWRwMp80/MIdGwvCY1yp
-   jCjHFmCeWrbnIhozmJsChys/aGMAuUMJeb8kKVQS7OB+84HpWgOH2fwau
-   A==;
-X-CSE-ConnectionGUID: bOWY42d0SRG2Zckt3FNM4w==
-X-CSE-MsgGUID: SHpSS1VCTqi8LMZlBiL+dw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="39787601"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39787601"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 16:51:51 -0800
-X-CSE-ConnectionGUID: FnC480PBTpO5DhyHbxg9cw==
-X-CSE-MsgGUID: gWlpgtizSte5K6NeFFlCOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="127560890"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jan 2025 16:51:50 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tX8gG-000MYl-0a;
-	Mon, 13 Jan 2025 00:51:48 +0000
-Date: Mon, 13 Jan 2025 08:50:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.14 223/228]
- arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupts: [[0, 141,
- 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0,
- 147, 4], [0, 148, 4], [0, 140, 4]] is too long
-Message-ID: <202501130841.QENcA3Zz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zMCAJuCl"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaeecbb7309so723583066b.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 12 Jan 2025 21:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736745617; x=1737350417; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/7RVV+xCJEOmcmtiNxidBQ2xrG+s7bfbyeN5DcM14o=;
+        b=zMCAJuClwGyr3hNmM3LhxjvK75JrRmlG1y8xiP2FifhdnhqUuOo5nfPchogO7uD5bC
+         huZWUfDCd9860kLgsYdkYEz5zNLNYqNqfa+l4l9jDbWULeavftXTHojarY2jdfAWWzmI
+         A5maiXuqFgcmAY1ajLb0L/B/czmTS9V0lKC9ubdkMK+SRxppoujvGeOR2OKRYJJaOxvX
+         xWpJl2+K8GdasfjVlc7ofdrR4rL5TlnLMwUDpA3ZeYPtuUb3/6GgD5ULhiZdGmcyyEcl
+         DPgAEk2buigaeOyIr0x/3D3A4aPTs73DFW9mrJo3WPCRvJ0EoYWPH6lu7NUls5sje+m7
+         J44A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736745617; x=1737350417;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/7RVV+xCJEOmcmtiNxidBQ2xrG+s7bfbyeN5DcM14o=;
+        b=cqz1s4TxJMOfgXuJ1jATa9Tc6LiUid7GB3/BzfW+cu/qoPq+BpoH0r9AjP55eUE7ok
+         jCXSTJ+YnaJBeSEDlqQtdHDkdg9+rkwUmmKo12sCkfeXVwbo/QaA2aP9xu3t/TvUa5ht
+         mnnTMYXlElGwCqZFjhbWPQcnN4edM9mT3zLyEkTDCkIo+EU4vgWfZXdI4QKEWp+UmQ/V
+         PUmWZRKJktZ+6gscmwCYBauPn16yJ2K8MwNWC+Qb4lGqvHkMQUF4liJH/iAb97j5b1vm
+         cTRA+x2F/TRe3VQhoEQwO+tGpb817A356jeKW+pDFRZRvb5j8k1sYclIG6/uIawmcxP5
+         ojEQ==
+X-Gm-Message-State: AOJu0YwecKsnBrquloWo6mOj24mULkOc66/AUre5Uf4HFzef8aebUNoc
+	IRhLHfOKubd4oX2msVl/fsKCMCL5j3ZaDffG9mR4oA3USdY1y4JQAPKDNXt9wg/lC4NBjyv42yx
+	g
+X-Gm-Gg: ASbGncuRnwbmkjVwiFl1kbZ7PHfmo9Jowy1ipmZnv8dO6Fm8LVzRky+e7bMQ1WPtYnr
+	IbwWE76ltmwhrhw76Z39Et03rJ6m7IBS4Mz836Om4Pc8G1+o7wXFC+oVIrgjyBCr8r+Xvpt6tch
+	+I8ZJx1o2/kdQT3QuccWfMndlmsDDpJD5T5T0D/65hrkftJgYWdnq/7s+qtMY51255IRUwakcXl
+	bXzQrAOqpM6j1ZiXamSWuJ25hhCUgBgYpgRShgz3UZLOVuvMZbv39L9DMY5iA==
+X-Google-Smtp-Source: AGHT+IFxa25hr8p6mD2Jlwp86UuNZi7119yZbLChPDaldWcJE4vzxYKKXgN/frfryoGSPgy1wLvbew==
+X-Received: by 2002:a17:907:60d5:b0:aa6:a228:afaf with SMTP id a640c23a62f3a-ab2abcb139cmr1851978766b.52.1736745617086;
+        Sun, 12 Jan 2025 21:20:17 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9060badsm450934366b.29.2025.01.12.21.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jan 2025 21:20:16 -0800 (PST)
+Date: Mon, 13 Jan 2025 08:20:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:lkp_test 64/504] drivers/uio/uio_dmabuf.c:163
+ uio_dmabuf_unmap() warn: iterator used outside loop: 'dbuf_mem'
+Message-ID: <9395904c-0129-4d9b-b71b-71df74ac6813@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,90 +71,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
-head:   efd5b51452c7e9fc60b51d09716fe163b67657b9
-commit: 9eb81b31ab62cfaa243c6fe948b9f7cfdfdad666 [223/228] arm64: dts: qcom: sm8650: Add 'global' interrupt to the PCIe RC nodes
-:::::: branch date: 28 hours ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-052-20250109 (https://download.01.org/0day-ci/archive/20250113/202501130841.QENcA3Zz-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130841.QENcA3Zz-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: 172f9f2dc4ebdce5fcf324e2718316b84c040621 [64/504] uio: Add dma-buf import ioctls
+config: i386-randconfig-141-20250111 (https://download.01.org/0day-ci/archive/20250111/202501112118.cXuV1nQy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501130841.QENcA3Zz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202501112118.cXuV1nQy-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3756.27-3831.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8650-hdk.dts:834.9-845.5: Warning (graph_child_address): /soc@0/geniqup@ac0000/i2c@a8c000/typec-mux@e/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: display-subsystem@ae00000: interconnects: [[208, 3, 7, 32, 1, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: display-subsystem@ae00000: interconnects: [[191, 3, 7, 32, 1, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
---
-   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: display-subsystem@ae00000: interconnects: [[200, 3, 7, 32, 1, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
---
->> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
->> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: display-subsystem@ae00000: interconnects: [[208, 3, 7, 32, 1, 7]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
-   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+smatch warnings:
+drivers/uio/uio_dmabuf.c:163 uio_dmabuf_unmap() warn: iterator used outside loop: 'dbuf_mem'
+
+vim +/dbuf_mem +163 drivers/uio/uio_dmabuf.c
+
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  144  long uio_dmabuf_unmap(struct uio_device *dev, struct list_head *dbufs,
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  145  		      struct mutex *dbufs_lock, void __user *user_args)
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  146  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  147  {
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  148  	struct uio_dmabuf_args args;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  149  	struct uio_dmabuf_mem *dbuf_mem;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  150  	long ret;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  151  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  152  	if (copy_from_user(&args, user_args, sizeof(args))) {
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  153  		ret = -EFAULT;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  154  		goto err;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  155  	}
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  156  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  157  	mutex_lock(dbufs_lock);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  158  	list_for_each_entry(dbuf_mem, dbufs, list) {
+                                                                    ^^^^^^^^^
+
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  159  		if (dbuf_mem->dbuf_fd == args.dbuf_fd)
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  160  			break;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  161  	}
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  162  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04 @163  	if (dbuf_mem->dbuf_fd != args.dbuf_fd) {
+                                                    ^^^^^^^^^^^^^^^^^
+
+This code isn't there in linux-next and I don't know how zero day bot
+finds this stuff...
+
+At the end of the loop, if we don't hit the break statement, then
+dbuf_mem is an invalid pointer and we can't dereference it like this.
+Ideally we'd set a "found = true;" before the break statement and
+change this to "if (!found) {"
+
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  164  		dev_err(dev->dev.parent, "failed to find the dmabuf (%d)\n",
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  165  			args.dbuf_fd);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  166  		ret = -EINVAL;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  167  		goto err_unlock;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  168  	}
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  169  	list_del(&dbuf_mem->list);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  170  	mutex_unlock(dbufs_lock);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  171  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  172  	dma_buf_unmap_attachment(dbuf_mem->dbuf_attach, dbuf_mem->sgt,
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  173  				 dbuf_mem->dir);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  174  	dma_buf_detach(dbuf_mem->dbuf, dbuf_mem->dbuf_attach);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  175  	dma_buf_put(dbuf_mem->dbuf);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  176  	kfree(dbuf_mem);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  177  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  178  	memset(&args, 0x0, sizeof(args));
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  179  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  180  	if (copy_to_user(user_args, &args, sizeof(args))) {
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  181  		ret = -EFAULT;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  182  		goto err;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  183  	}
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  184  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  185  	return 0;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  186  
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  187  err_unlock:
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  188  	mutex_unlock(dbufs_lock);
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  189  err:
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  190  	return ret;
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  191  }
+172f9f2dc4ebdc Hyun Kwon 2019-03-04  192  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
