@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAD21EB44
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 Jan 2025 23:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236E442C
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 Jan 2025 00:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736723843; cv=none; b=dOFgZATYN1lEQOd/xZp+21QENkVi0v+uHlAOTbPpTc6PML81qiXVW2dTX3DB9tPwI1CoO3AwmQBJTjvij9ubP9VZ8qr+4x5UjXbrzn6aq0oaXsj4MqEjrqXYUnBpcXV9dswlN5u/Sog4hxVaDgP8v/MzXfbXweKlQlZMIF6HSss=
+	t=1736729514; cv=none; b=HDPteql67X+haPD4nsFlZgFFkARTiV9l6jGLKbxpOIdtR6d6bK0E65k66y6Ym6lqd6tOBkItg15DhpWTNWRimVBDGKaGctRCbDjm1KKNYVtCnU1xZUtBMx4cV8BVQ5T5OC0NN6nZRVSXy3dhnWHn1ltPyQQ24MH0PP9hM0gqfC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736723843; c=relaxed/simple;
-	bh=aNlGwgnsr5jvvqCaJ79vPbvUKYpzescsDFO8flFt7EM=;
+	s=arc-20240116; t=1736729514; c=relaxed/simple;
+	bh=JENo2a17pb+G74Kk39QgGYcH8GDCHZp0yEHscPU8xOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=INeEn9Es9f8j9kvtzakY4C5qjBoTX+waVq/f1p2SwN/Aw5fKScqteOODHYTixQKZEfCZnrLpFnwEVWjN+0QIVehXutdZSc6J3+3UirBaMM3MHdT0WpGwpvbdYQD5Fowa/JrW0SeyDgsnISbNjrRbUky3qvG4CYNGWGCKgTMqtPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9nCQpVP; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=CGbJHVz6lpKosQKyVoZnNrXdb6l4CI3aU7NKQGlgAptvqKf8XUbWeq0Faf33y6krFxO5zn5lhdLD6wFo2In5EUtYG1lgQstd7A7gW5PkQb/nS3PtCT5G+FkcCLI2J7BZMeyukhcTI2Mvp1S5K5Yj6SBmN5pVvoqQDWjrVtVXP4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtUTOQBs; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9nCQpVP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtUTOQBs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736723841; x=1768259841;
+  t=1736729512; x=1768265512;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aNlGwgnsr5jvvqCaJ79vPbvUKYpzescsDFO8flFt7EM=;
-  b=m9nCQpVPg0r+5dCsLHVt09HOZpqMCxUUsImoAppT4C30o25TW0n8Zm0G
-   h0AZvxrOy/zxRYLhYH2xkSbcDqmGHRCsJqZnkUl+L0QO5QPl7QUd97qgT
-   yO+2K4Fgj6X9/5h3BCMxLJEkQYQhF/wv7J16Kw7R825VO6uV+XXJuK4vA
-   kLGLPWZcIxgowGcEfcTaGnRTi3u3rQmX1ZomZo5Iz0psrNBv73Pa7YMwL
-   w2yID4gP+b8iq8ksXaXcD3z18OnCLOZSO71OIItgkYVkvTuDhim3HN5fh
-   19htPVrwU1/Xvxcj8lJXA31Pf5UbsdI8jmtpFqYzm/DPefdfoYodrBcUC
-   w==;
-X-CSE-ConnectionGUID: of4ckbtrRweCcTDACnKHmw==
-X-CSE-MsgGUID: QY0L+EXJSSOhQh0RbrRwQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="48378413"
+  bh=JENo2a17pb+G74Kk39QgGYcH8GDCHZp0yEHscPU8xOI=;
+  b=TtUTOQBsrawhYN/Hx6lJ2pZpt0L/cpqbY6inOcnvO2F7J7D10MlYnatC
+   isiMY3kwx0ZYEVih8FzHClumVy4uyjwnQA3ENA4bZRTxvNKnwLYp4Wq9p
+   wmqxzkT0wLWouy3Dv/uqIaoN6PT7Y6auP1dAryVjkb/Sby2MslQCoP0ro
+   Ph1qYCMH+GK/wv1Av/6scg34y7Ptwm0xgc0XlKMoVi7qyxYTdOAUfx0FR
+   AUXZn/5lYvcUcmLDC/wgT3+nFKqzY6jzivLirFWRwMp80/MIdGwvCY1yp
+   jCjHFmCeWrbnIhozmJsChys/aGMAuUMJeb8kKVQS7OB+84HpWgOH2fwau
+   A==;
+X-CSE-ConnectionGUID: bOWY42d0SRG2Zckt3FNM4w==
+X-CSE-MsgGUID: SHpSS1VCTqi8LMZlBiL+dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="39787601"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="48378413"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 15:17:20 -0800
-X-CSE-ConnectionGUID: K8PhjI2gRGyzY/sQ1U5AsQ==
-X-CSE-MsgGUID: nJy8C1ZURhaFqkzCQKskYg==
+   d="scan'208";a="39787601"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2025 16:51:51 -0800
+X-CSE-ConnectionGUID: FnC480PBTpO5DhyHbxg9cw==
+X-CSE-MsgGUID: gWlpgtizSte5K6NeFFlCOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="104452594"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="127560890"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jan 2025 15:17:19 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jan 2025 16:51:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tX7Cm-000MV0-2F;
-	Sun, 12 Jan 2025 23:17:16 +0000
-Date: Mon, 13 Jan 2025 07:16:59 +0800
+	id 1tX8gG-000MYl-0a;
+	Mon, 13 Jan 2025 00:51:48 +0000
+Date: Mon, 13 Jan 2025 08:50:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/edac/sb_edac.c:1678:83: warning: '%u' directive output may
- be truncated writing between 1 and 10 bytes into a region of size between 0
- and 3
-Message-ID: <202501130712.GGxdl8Rr-lkp@intel.com>
+Subject: [qcom:arm64-for-6.14 223/228]
+ arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupts: [[0, 141,
+ 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0,
+ 147, 4], [0, 148, 4], [0, 140, 4]] is too long
+Message-ID: <202501130841.QENcA3Zz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,157 +65,88 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be548645527a131a097fdc884b7fca40c8b86231
-commit: 2d47c6956ab3c8b580a59d7704aab3e2a4882b6c ubsan: Tighten UBSAN_BOUNDS on GCC
-date:   1 year, 8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 1 year, 8 months ago
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20250113/202501130712.GGxdl8Rr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130712.GGxdl8Rr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.14
+head:   efd5b51452c7e9fc60b51d09716fe163b67657b9
+commit: 9eb81b31ab62cfaa243c6fe948b9f7cfdfdad666 [223/228] arm64: dts: qcom: sm8650: Add 'global' interrupt to the PCIe RC nodes
+:::::: branch date: 28 hours ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-052-20250109 (https://download.01.org/0day-ci/archive/20250113/202501130841.QENcA3Zz-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250113/202501130841.QENcA3Zz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501130712.GGxdl8Rr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501130841.QENcA3Zz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/edac/sb_edac.c: In function '__populate_dimms':
->> drivers/edac/sb_edac.c:1678:83: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 3 [-Wformat-truncation=]
-    1678 |                                                  "CPU_SrcID#%u_Ha#%u_Chan#%u_DIMM#%u",
-         |                                                                                   ^~
-   drivers/edac/sb_edac.c:1678:50: note: directive argument in the range [0, 4294967294]
-    1678 |                                                  "CPU_SrcID#%u_Ha#%u_Chan#%u_DIMM#%u",
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/edac/sb_edac.c:1677:33: note: 'snprintf' output between 31 and 51 bytes into a destination of size 32
-    1677 |                                 snprintf(dimm->label, sizeof(dimm->label),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1678 |                                                  "CPU_SrcID#%u_Ha#%u_Chan#%u_DIMM#%u",
-         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1679 |                                                  pvt->sbridge_dev->source_id, pvt->sbridge_dev->dom, i, j);
-         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1678 drivers/edac/sb_edac.c
-
-7fd562b75d7752 Tony Luck             2017-05-23  1585  
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1586  static int __populate_dimms(struct mem_ctl_info *mci,
-6696522957a192 Borislav Petkov       2017-05-25  1587  			    u64 knl_mc_sizes[KNL_MAX_CHANNELS],
-6696522957a192 Borislav Petkov       2017-05-25  1588  			    enum edac_type mode)
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1589  {
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1590  	struct sbridge_pvt *pvt = mci->pvt_info;
-6696522957a192 Borislav Petkov       2017-05-25  1591  	int channels = pvt->info.type == KNIGHTS_LANDING ? KNL_MAX_CHANNELS
-6696522957a192 Borislav Petkov       2017-05-25  1592  							 : NUM_CHANNELS;
-6696522957a192 Borislav Petkov       2017-05-25  1593  	unsigned int i, j, banks, ranks, rows, cols, npages;
-c36e3e77687b39 Mauro Carvalho Chehab 2012-04-16  1594  	struct dimm_info *dimm;
-c6e13b528f5a6c Mark A. Grondona      2011-10-18  1595  	enum mem_type mtype;
-6696522957a192 Borislav Petkov       2017-05-25  1596  	u64 size;
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1597  
-9e375446150714 Aristeu Rozanski      2014-06-02  1598  	mtype = pvt->info.get_memory_type(pvt);
-50d1bb93672fa2 Aristeu Rozanski      2014-06-20  1599  	if (mtype == MEM_RDDR3 || mtype == MEM_RDDR4)
-956b9ba156dbfd Joe Perches           2012-04-29  1600  		edac_dbg(0, "Memory is registered\n");
-9e375446150714 Aristeu Rozanski      2014-06-02  1601  	else if (mtype == MEM_UNKNOWN)
-de4772c621487f Tony Luck             2013-03-28  1602  		edac_dbg(0, "Cannot determine memory type\n");
-9e375446150714 Aristeu Rozanski      2014-06-02  1603  	else
-9e375446150714 Aristeu Rozanski      2014-06-02  1604  		edac_dbg(0, "Memory is unregistered\n");
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1605  
-fec53af531dd04 Tony Luck             2014-12-02  1606  	if (mtype == MEM_DDR4 || mtype == MEM_RDDR4)
-50d1bb93672fa2 Aristeu Rozanski      2014-06-20  1607  		banks = 16;
-50d1bb93672fa2 Aristeu Rozanski      2014-06-20  1608  	else
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1609  		banks = 8;
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1610  
-d0cdf9003140e9 Jim Snow              2015-12-03  1611  	for (i = 0; i < channels; i++) {
-d389059685b468 Youquan Song          2022-07-22  1612  		u32 mtr, amap = 0;
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1613  
-d0cdf9003140e9 Jim Snow              2015-12-03  1614  		int max_dimms_per_channel;
-d0cdf9003140e9 Jim Snow              2015-12-03  1615  
-d0cdf9003140e9 Jim Snow              2015-12-03  1616  		if (pvt->info.type == KNIGHTS_LANDING) {
-d0cdf9003140e9 Jim Snow              2015-12-03  1617  			max_dimms_per_channel = 1;
-d0cdf9003140e9 Jim Snow              2015-12-03  1618  			if (!pvt->knl.pci_channel[i])
-d0cdf9003140e9 Jim Snow              2015-12-03  1619  				continue;
-d0cdf9003140e9 Jim Snow              2015-12-03  1620  		} else {
-d0cdf9003140e9 Jim Snow              2015-12-03  1621  			max_dimms_per_channel = ARRAY_SIZE(mtr_regs);
-7d375bffa52477 Tony Luck             2015-05-18  1622  			if (!pvt->pci_tad[i])
-7d375bffa52477 Tony Luck             2015-05-18  1623  				continue;
-d389059685b468 Youquan Song          2022-07-22  1624  			pci_read_config_dword(pvt->pci_tad[i], 0x8c, &amap);
-d0cdf9003140e9 Jim Snow              2015-12-03  1625  		}
-d0cdf9003140e9 Jim Snow              2015-12-03  1626  
-d0cdf9003140e9 Jim Snow              2015-12-03  1627  		for (j = 0; j < max_dimms_per_channel; j++) {
-bc9ad9e40dbc4c Robert Richter        2019-11-06  1628  			dimm = edac_get_dimm(mci, i, j, 0);
-d0cdf9003140e9 Jim Snow              2015-12-03  1629  			if (pvt->info.type == KNIGHTS_LANDING) {
-d0cdf9003140e9 Jim Snow              2015-12-03  1630  				pci_read_config_dword(pvt->knl.pci_channel[i],
-d0cdf9003140e9 Jim Snow              2015-12-03  1631  					knl_mtr_reg, &mtr);
-d0cdf9003140e9 Jim Snow              2015-12-03  1632  			} else {
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1633  				pci_read_config_dword(pvt->pci_tad[i],
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1634  					mtr_regs[j], &mtr);
-d0cdf9003140e9 Jim Snow              2015-12-03  1635  			}
-956b9ba156dbfd Joe Perches           2012-04-29  1636  			edac_dbg(4, "Channel #%d  MTR%d = %x\n", i, j, mtr);
-d389059685b468 Youquan Song          2022-07-22  1637  
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1638  			if (IS_DIMM_PRESENT(mtr)) {
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1639  				if (!IS_ECC_ENABLED(pvt->info.mcmtr)) {
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1640  					sbridge_printk(KERN_ERR, "CPU SrcID #%d, Ha #%d, Channel #%d has DIMMs, but ECC is disabled\n",
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1641  						       pvt->sbridge_dev->source_id,
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1642  						       pvt->sbridge_dev->dom, i);
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1643  					return -ENODEV;
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1644  				}
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1645  				pvt->channel[i].dimms++;
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1646  
-50d1bb93672fa2 Aristeu Rozanski      2014-06-20  1647  				ranks = numrank(pvt->info.type, mtr);
-d0cdf9003140e9 Jim Snow              2015-12-03  1648  
-d0cdf9003140e9 Jim Snow              2015-12-03  1649  				if (pvt->info.type == KNIGHTS_LANDING) {
-d0cdf9003140e9 Jim Snow              2015-12-03  1650  					/* For DDR4, this is fixed. */
-d0cdf9003140e9 Jim Snow              2015-12-03  1651  					cols = 1 << 10;
-d0cdf9003140e9 Jim Snow              2015-12-03  1652  					rows = knl_mc_sizes[i] /
-d0cdf9003140e9 Jim Snow              2015-12-03  1653  						((u64) cols * ranks * banks * 8);
-d0cdf9003140e9 Jim Snow              2015-12-03  1654  				} else {
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1655  					rows = numrow(mtr);
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1656  					cols = numcol(mtr);
-d0cdf9003140e9 Jim Snow              2015-12-03  1657  				}
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1658  
-deb09ddaff1435 Mauro Carvalho Chehab 2012-09-20  1659  				size = ((u64)rows * cols * banks * ranks) >> (20 - 3);
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1660  				npages = MiB_TO_PAGES(size);
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1661  
-6f6da136046294 Qiuxu Zhuo            2018-09-18  1662  				edac_dbg(0, "mc#%d: ha %d channel %d, dimm %d, %lld MiB (%d pages) bank: %d, rank: %d, row: %#x, col: %#x\n",
-e2f747b1f42a2f Qiuxu Zhuo            2017-05-23  1663  					 pvt->sbridge_dev->mc, pvt->sbridge_dev->dom, i, j,
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1664  					 size, npages,
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1665  					 banks, ranks, rows, cols);
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1666  
-a895bf8b1e1ea4 Mauro Carvalho Chehab 2012-01-28  1667  				dimm->nr_pages = npages;
-084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  1668  				dimm->grain = 32;
-12f0721c5a7040 Aristeu Rozanski      2015-06-12  1669  				dimm->dtype = pvt->info.get_width(pvt, mtr);
-084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  1670  				dimm->mtype = mtype;
-084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  1671  				dimm->edac_mode = mode;
-d389059685b468 Youquan Song          2022-07-22  1672  				pvt->channel[i].dimm[j].rowbits = order_base_2(rows);
-d389059685b468 Youquan Song          2022-07-22  1673  				pvt->channel[i].dimm[j].colbits = order_base_2(cols);
-d389059685b468 Youquan Song          2022-07-22  1674  				pvt->channel[i].dimm[j].bank_xor_enable =
-d389059685b468 Youquan Song          2022-07-22  1675  						GET_BITFIELD(pvt->info.mcmtr, 9, 9);
-d389059685b468 Youquan Song          2022-07-22  1676  				pvt->channel[i].dimm[j].amap_fine = GET_BITFIELD(amap, 0, 0);
-084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  1677  				snprintf(dimm->label, sizeof(dimm->label),
-7d375bffa52477 Tony Luck             2015-05-18 @1678  						 "CPU_SrcID#%u_Ha#%u_Chan#%u_DIMM#%u",
-e2f747b1f42a2f Qiuxu Zhuo            2017-05-23  1679  						 pvt->sbridge_dev->source_id, pvt->sbridge_dev->dom, i, j);
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1680  			}
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1681  		}
-eebf11a0166f01 Mauro Carvalho Chehab 2011-10-20  1682  	}
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1683  
-4d475dde79b561 Qiuxu Zhuo            2017-05-25  1684  	return 0;
-6696522957a192 Borislav Petkov       2017-05-25  1685  }
-6696522957a192 Borislav Petkov       2017-05-25  1686  
-
-:::::: The code at line 1678 was first introduced by commit
-:::::: 7d375bffa52477c1be7db5a5dda99996582512c3 sb_edac: Fix support for systems with two home agents per socket
-
-:::::: TO: Tony Luck <tony.luck@intel.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3756.27-3831.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dts:834.9-845.5: Warning (graph_child_address): /soc@0/geniqup@ac0000/i2c@a8c000/typec-mux@e/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: display-subsystem@ae00000: interconnects: [[208, 3, 7, 32, 1, 7]] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: display-subsystem@ae00000: interconnects: [[191, 3, 7, 32, 1, 7]] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:3853.27-3909.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: display-subsystem@ae00000: interconnects: [[200, 3, 7, 32, 1, 7]] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c00000: interrupts: [[0, 141, 4], [0, 142, 4], [0, 143, 4], [0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 140, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c00000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c08000: interrupts: [[0, 307, 4], [0, 308, 4], [0, 309, 4], [0, 312, 4], [0, 313, 4], [0, 314, 4], [0, 374, 4], [0, 375, 4], [0, 306, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: pcie@1c08000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sm8550.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: display-subsystem@ae00000: interconnects: [[208, 3, 7, 32, 1, 7]] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
