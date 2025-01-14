@@ -1,124 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7E0224B1A
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 13:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B331C07DC
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 19:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736860793; cv=none; b=M2nkIuv+oToTOIygPGD72lGN6sjBOfR2F9RQXLpXnZk5UbK8jHZhv8hNnVOpr7sHTx8u86lMpFvaF0A5DViaddRXmGHPg289rlKOKLkCIwd9UfkgCfbMW+4adKKxuReF7ef631yQWlUEJ8HOIjN03UxaFNhU8CBdaYzikBZoOQI=
+	t=1736881267; cv=none; b=hDSoHoEXIbnm/T8uYWb94eeRG+7Z2tLW6tvb89BSMJPA+MBNrrqx0DD5jSfGnR4Dkrv3ZU6Mi2OTVKOhvooe2ArrygHFm/BwtWGfekpL0RhYL7+fjsvof7T+xBttuWLKwhPf/m7I7OskQ7U98sLxGY2AySKDptWi/YRTrvHEETM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736860793; c=relaxed/simple;
-	bh=1/5BeOq5SkPchgAhAkBymMSXNIHcPpHah7Mfre69kDE=;
+	s=arc-20240116; t=1736881267; c=relaxed/simple;
+	bh=M7IwQD7LGxgRmyWGYZVMQNvAGfmudY2DcmeV1xvJAXs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IQxT15l2mcrzwTFoU5xCBzUiDHV10iECp3rEt0x5GZSYtRB29FxMmo9fZz7TbefU6IhVe7WfVlMxbfzRz2bhgChIAg2y7Bg7Nu6e2DQoZtUb/etZFZlfwwNqrFgRdsTt0Z7YwtFs8HhKcaJvEsx7cVpLevZqri1cv7guWZnlDW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jpog+on6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=KH0um6cOh4fEFXcM0mtiC3IptvFQs/g5hDpi+48uXKlT9AHxkjWCzQGYBeZJJitI4v2Zch0IKzf7FlOKWLflNplRBp+xGP+bC1Y8JxMRgSEMlMqIaAKg+pZcDLUmGzvpOeRVJSKETxCaZpANba2dDRKO3zwCYN9JWf49O2Ggkcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWUdtCdq; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jpog+on6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWUdtCdq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736860791; x=1768396791;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1/5BeOq5SkPchgAhAkBymMSXNIHcPpHah7Mfre69kDE=;
-  b=Jpog+on60GUHhtaHmKCv9YJ6G7nhBp/prsl82f7tsG1rggRbZMObhAQV
-   42eFWW0NG/X82njSu3hlmCpTUbtoi0d3bVsyYKtXf1fFoUVCleKUUJdZt
-   DZ2ThforCkTL4w+rCEUy9SAxsMjFSlMZzdbkyb2mwuTimcLDUwbsFjoxK
-   jiqmg4kl6STqIWirEiQUJ41SkbD3B+vUwOXVq2dU/8gS3ZH0l/jVlHsw4
-   0FJkXL88GjXtJm17js4iMYWpq/CU65S1pa+FTMxnJrD1MJ8ZmMOLaL4Qy
-   fhDZN3nraXya9xm7KOElOID4RkYF72bFuXklPec0RAtMg+FzDhWYxcPwn
-   g==;
-X-CSE-ConnectionGUID: HE3NbcN/Q3SLpDJlm5D/2w==
-X-CSE-MsgGUID: H/Emk9WlQ6u6Oe3XNMNezw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48562658"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="48562658"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 05:19:50 -0800
-X-CSE-ConnectionGUID: 3qiUVYASRCGtHtMIANNtrg==
-X-CSE-MsgGUID: VJLxxnSzSimvUvfiENWzOw==
+  t=1736881265; x=1768417265;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=M7IwQD7LGxgRmyWGYZVMQNvAGfmudY2DcmeV1xvJAXs=;
+  b=QWUdtCdq+lf5Jf/m0zrEtVeQvLfIgfOSD1Jdmk2zcddqmG3DPyrV9Tjs
+   y5f1iHGgf+guR4VL6ubGMwO8Obo3SF5EhQVcCDsAt5xjnPWPapgTE8YGa
+   DnrOw48L3DP3IU5THD/nDZ7WBTJLdjyGR8aj8sFwhRHoLiGodlKlfTg30
+   +zotYDBwa6hlY+yE6S6dGnu7zi3hkxMT9RWzkn9SCyEyFLovFbTWWp8jW
+   04nl7t4z64Ak0ZmVD+R48V/PPcf3VnYtIJ3HvX4xIR0vruik4n1hGeUTy
+   3Y5tmpNa2LPvRRXK4v7DIuEwMtSjzIO1+0Ezv411h/5thK+lb8MrQV+43
+   w==;
+X-CSE-ConnectionGUID: xU3cAiwPR9aNY+CAtRFGwQ==
+X-CSE-MsgGUID: W0nH49P5S4qoWdC+MnPKzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37354971"
+X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
+   d="scan'208";a="37354971"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 11:00:29 -0800
+X-CSE-ConnectionGUID: ECc1ye7RRq6WJK4KS/7d5g==
+X-CSE-MsgGUID: uCdLud/HS926Nf1Fu6oAXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="104966849"
+X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
+   d="scan'208";a="104965090"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2025 05:19:50 -0800
+  by orviesa006.jf.intel.com with ESMTP; 14 Jan 2025 11:00:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXgpf-000OY7-27;
-	Tue, 14 Jan 2025 13:19:47 +0000
-Date: Tue, 14 Jan 2025 21:18:51 +0800
+	id 1tXm9K-000OuJ-0V;
+	Tue, 14 Jan 2025 19:00:26 +0000
+Date: Wed, 15 Jan 2025 03:00:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/sh/drivers/pci/fixups-rts7751r2d.c:32: multiple definition of
- `pcibios_map_platform_irq';
- arch/sh/drivers/pci/fixups-titan.o:arch/sh/drivers/pci/fixups-titan.c:29:
- first defined here
-Message-ID: <202501142102.vCaQ8U3v-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v8 2/2] pwm: add support for NXPs high-side switch
+ MC33XS2410
+Message-ID: <202501150253.UcGu2EKe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250110073755.29541-3-dima.fedrau@gmail.com>
+References: <20250110073755.29541-3-dima.fedrau@gmail.com>
+TO: Dimitri Fedrau <dima.fedrau@gmail.com>
+CC: Dimitri Fedrau <dima.fedrau@gmail.com>
+CC: "Uwe Kleine-König" <ukleinek@kernel.org>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: linux-pwm@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c45323b7560ec87c37c729b703c86ee65f136d75
-commit: f9b3cd24578401e7a392974b3353277286e49cee Kconfig.debug: make DEBUG_INFO selectable from a choice
-date:   2 years, 10 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 years, 10 months ago
-config: sh-buildonly-randconfig-r006-20221110 (https://download.01.org/0day-ci/archive/20250114/202501142102.vCaQ8U3v-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501142102.vCaQ8U3v-lkp@intel.com/reproduce)
+Hi Dimitri,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.13-rc7 next-20250114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/dt-bindings-pwm-add-support-for-MC33XS2410/20250110-154036
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250110073755.29541-3-dima.fedrau%40gmail.com
+patch subject: [PATCH v8 2/2] pwm: add support for NXPs high-side switch MC33XS2410
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: sparc64-randconfig-r071-20250114 (https://download.01.org/0day-ci/archive/20250115/202501150253.UcGu2EKe-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501142102.vCaQ8U3v-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501150253.UcGu2EKe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/pwm/pwm-mc33xs2410.c:174 mc33xs2410_pwm_get_freq() error: uninitialized symbol 'step'.
 
-   sh4-linux-ld: arch/sh/drivers/pci/fixups-rts7751r2d.o: in function `pcibios_map_platform_irq':
->> arch/sh/drivers/pci/fixups-rts7751r2d.c:32: multiple definition of `pcibios_map_platform_irq'; arch/sh/drivers/pci/fixups-titan.o:arch/sh/drivers/pci/fixups-titan.c:29: first defined here
-   sh4-linux-ld: warning: arch/sh/lib/udivsi3_i4i-Os.o: missing .note.GNU-stack section implies executable stack
-   sh4-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+vim +/step +174 drivers/pwm/pwm-mc33xs2410.c
 
-
-vim +32 arch/sh/drivers/pci/fixups-rts7751r2d.c
-
-37c8ac361efdba Paul Mundt     2009-04-20  30  
-2b8ff9f2769135 Matthew Minter 2017-07-31  31  int pcibios_map_platform_irq(const struct pci_dev *pdev, u8 slot, u8 pin)
-37c8ac361efdba Paul Mundt     2009-04-20 @32  {
-37c8ac361efdba Paul Mundt     2009-04-20  33  	if (mach_is_lboxre2())
-37c8ac361efdba Paul Mundt     2009-04-20  34  		return lboxre2_irq_tab[slot];
-37c8ac361efdba Paul Mundt     2009-04-20  35  	else
-37c8ac361efdba Paul Mundt     2009-04-20  36  		return rts7751r2d_irq_tab[slot];
-37c8ac361efdba Paul Mundt     2009-04-20  37  }
-37c8ac361efdba Paul Mundt     2009-04-20  38  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 37c8ac361efdbae969eff1a603bc39412d3e873f sh: pci: Consolidate lboxre2 and r2d IRQ fixups.
-
-:::::: TO: Paul Mundt <lethal@linux-sh.org>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  142  
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  143  static u8 mc33xs2410_pwm_get_freq(u64 period)
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  144  {
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  145  	u8 step, count;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  146  
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  147  	/*
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  148  	 * Check which step is appropriate for the given period, starting with
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  149  	 * the highest frequency(lowest period). Higher frequencies are
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  150  	 * represented with better resolution by the device. Therefore favor
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  151  	 * frequency range with the better resolution to minimize error
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  152  	 * introduced by the frequency steps.
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  153  	 */
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  154  
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  155  	switch (period) {
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  156  	case MC33XS2410_PWM_MIN_PERIOD ... MC33XS2410_PWM_MAX_PERIOD(3):
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  157  		step = 3;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  158  		break;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  159  	case MC33XS2410_PWM_MAX_PERIOD(3) + 1 ... MC33XS2410_PWM_MAX_PERIOD(2):
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  160  		step = 2;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  161  		break;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  162  	case MC33XS2410_PWM_MAX_PERIOD(2) + 1 ... MC33XS2410_PWM_MAX_PERIOD(1):
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  163  		step = 1;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  164  		break;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  165  	case MC33XS2410_PWM_MAX_PERIOD(1) + 1 ... MC33XS2410_PWM_MAX_PERIOD(0):
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  166  		step = 0;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  167  		break;
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  168  	}
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  169  
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  170  	/*
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  171  	 * Round up here because a higher count results in a higher frequency
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  172  	 * and so a smaller period.
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  173  	 */
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10 @174  	count = DIV_ROUND_UP((u32)MC33XS2410_PWM_MAX_PERIOD(step), (u32)period);
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  175  	return FIELD_PREP(MC33XS2410_PWM_FREQ_STEP, step) |
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  176  	       FIELD_PREP(MC33XS2410_PWM_FREQ_COUNT, count - 1);
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  177  }
+5e9dc126a0b599 Dimitri Fedrau 2025-01-10  178  
 
 -- 
 0-DAY CI Kernel Test Service
