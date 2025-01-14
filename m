@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB844246342
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 08:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7E0224B1A
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 13:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736843309; cv=none; b=lAeA2KhQVacL6CatcLJkuke+JRGQfRD6cp96ZnlvlNzBvWJb/AyUKs3MJ+vWUpilOUr1JBiCBlKDb0l2DtrK1nJtOhQWEMeguD7E03N3cnX9OvspRtzhLj1S1eZLuirL5Xc25lGJVbaiEHnI4JRpv2EXg5/XNLOnNsaDJoSYSXY=
+	t=1736860793; cv=none; b=M2nkIuv+oToTOIygPGD72lGN6sjBOfR2F9RQXLpXnZk5UbK8jHZhv8hNnVOpr7sHTx8u86lMpFvaF0A5DViaddRXmGHPg289rlKOKLkCIwd9UfkgCfbMW+4adKKxuReF7ef631yQWlUEJ8HOIjN03UxaFNhU8CBdaYzikBZoOQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736843309; c=relaxed/simple;
-	bh=LaEqJqayG032Lk8/nY4MJB8NtrMM4EA1kySQNcitVbo=;
+	s=arc-20240116; t=1736860793; c=relaxed/simple;
+	bh=1/5BeOq5SkPchgAhAkBymMSXNIHcPpHah7Mfre69kDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f0ls9buZ162frMAxSldLl2I4g66avgdNbBztZBYAvJDbjGsaVySrmiHpdq4b/e6kYAWH+Jsxp+1TcAC0wcknxiHOphkAclfQj8G4IgICXcOcE9A+tODY/I5oJjPh5raiyaIqElTPCNBMxYmr5TN39XHxk3ySpqh1zlAO8k21RvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l8ORjIzf; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=IQxT15l2mcrzwTFoU5xCBzUiDHV10iECp3rEt0x5GZSYtRB29FxMmo9fZz7TbefU6IhVe7WfVlMxbfzRz2bhgChIAg2y7Bg7Nu6e2DQoZtUb/etZFZlfwwNqrFgRdsTt0Z7YwtFs8HhKcaJvEsx7cVpLevZqri1cv7guWZnlDW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jpog+on6; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l8ORjIzf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jpog+on6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736843307; x=1768379307;
+  t=1736860791; x=1768396791;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LaEqJqayG032Lk8/nY4MJB8NtrMM4EA1kySQNcitVbo=;
-  b=l8ORjIzfTVWbq9iXaF0PN5xn6yB3/Ld091cF8G9LBKkG+GPWEE8s/o8/
-   g7cHrN1w3DRrdyXFRMjnZWkm345P17jS42s3ADFu8+PgD4i5dSJ3YpfBd
-   nHCQmeu0lb5MB89VQ5CdUFz5vNHXmcr47cGhtIfClHn4J9z2HRMsaCRLS
-   9q9F8MRvTg7EBfpilKfqBaG06Hkae7do/Q4RAzROETFbBZdQF6xa5Lq2I
-   14GQih7fqZsySDOODd95763ikl+Bxlw9N0g/T7uWTSTmtsCzxMHSCDC5Q
-   KN2LT03b5q942geVYzQrywGIw7bvAUk4kRCoC4lGS3n3kWoZ2Fupl25I2
-   Q==;
-X-CSE-ConnectionGUID: i4LbsIIuT1K7bIXXcF6fcQ==
-X-CSE-MsgGUID: lC9omiMTRMOfy2MtpmKH2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37241650"
+  bh=1/5BeOq5SkPchgAhAkBymMSXNIHcPpHah7Mfre69kDE=;
+  b=Jpog+on60GUHhtaHmKCv9YJ6G7nhBp/prsl82f7tsG1rggRbZMObhAQV
+   42eFWW0NG/X82njSu3hlmCpTUbtoi0d3bVsyYKtXf1fFoUVCleKUUJdZt
+   DZ2ThforCkTL4w+rCEUy9SAxsMjFSlMZzdbkyb2mwuTimcLDUwbsFjoxK
+   jiqmg4kl6STqIWirEiQUJ41SkbD3B+vUwOXVq2dU/8gS3ZH0l/jVlHsw4
+   0FJkXL88GjXtJm17js4iMYWpq/CU65S1pa+FTMxnJrD1MJ8ZmMOLaL4Qy
+   fhDZN3nraXya9xm7KOElOID4RkYF72bFuXklPec0RAtMg+FzDhWYxcPwn
+   g==;
+X-CSE-ConnectionGUID: HE3NbcN/Q3SLpDJlm5D/2w==
+X-CSE-MsgGUID: H/Emk9WlQ6u6Oe3XNMNezw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48562658"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="37241650"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 00:28:27 -0800
-X-CSE-ConnectionGUID: f72c/ww/RgyvVSTt8UmGug==
-X-CSE-MsgGUID: YkapWUJfQqSDoRTIONoKrQ==
+   d="scan'208";a="48562658"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 05:19:50 -0800
+X-CSE-ConnectionGUID: 3qiUVYASRCGtHtMIANNtrg==
+X-CSE-MsgGUID: VJLxxnSzSimvUvfiENWzOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109879658"
+X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
+   d="scan'208";a="104966849"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Jan 2025 00:28:27 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Jan 2025 05:19:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXcHf-000OHD-2l;
-	Tue, 14 Jan 2025 08:28:23 +0000
-Date: Tue, 14 Jan 2025 16:28:00 +0800
+	id 1tXgpf-000OY7-27;
+	Tue, 14 Jan 2025 13:19:47 +0000
+Date: Tue, 14 Jan 2025 21:18:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [joel-bmc:for-next 42/55]
- arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb:
- /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with
- compatible: ['aspeed,ast2600-smpmem']
-Message-ID: <202501141656.vMPrqPjY-lkp@intel.com>
+Subject: arch/sh/drivers/pci/fixups-rts7751r2d.c:32: multiple definition of
+ `pcibios_map_platform_irq';
+ arch/sh/drivers/pci/fixups-titan.o:arch/sh/drivers/pci/fixups-titan.c:29:
+ first defined here
+Message-ID: <202501142102.vCaQ8U3v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,78 +65,60 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Chanh Nguyen <chanh@os.amperecomputing.com>
-CC: Andrew Jeffery <andrew@codeconstruct.com.au>
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git for-next
-head:   3540adcccc7179d243216bf488532a62c37d9007
-commit: de153911ffcb6d9a2800cd13cc60062ae118f2a4 [42/55] ARM: dts: aspeed: Add device tree for Ampere's Mt. Jefferson BMC
-:::::: branch date: 6 days ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-053-20250111 (https://download.01.org/0day-ci/archive/20250114/202501141656.vMPrqPjY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501141656.vMPrqPjY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c45323b7560ec87c37c729b703c86ee65f136d75
+commit: f9b3cd24578401e7a392974b3353277286e49cee Kconfig.debug: make DEBUG_INFO selectable from a choice
+date:   2 years, 10 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 2 years, 10 months ago
+config: sh-buildonly-randconfig-r006-20221110 (https://download.01.org/0day-ci/archive/20250114/202501142102.vCaQ8U3v-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501142102.vCaQ8U3v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501141656.vMPrqPjY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501142102.vCaQ8U3v-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: adc@1e6e9000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: adc@1e6e9100: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: gpio@1e780000: 'ocp-aux-pwren-hog' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+All errors (new ones prefixed by >>):
+
+   sh4-linux-ld: arch/sh/drivers/pci/fixups-rts7751r2d.o: in function `pcibios_map_platform_irq':
+>> arch/sh/drivers/pci/fixups-rts7751r2d.c:32: multiple definition of `pcibios_map_platform_irq'; arch/sh/drivers/pci/fixups-titan.o:arch/sh/drivers/pci/fixups-titan.c:29: first defined here
+   sh4-linux-ld: warning: arch/sh/lib/udivsi3_i4i-Os.o: missing .note.GNU-stack section implies executable stack
+   sh4-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+
+
+vim +32 arch/sh/drivers/pci/fixups-rts7751r2d.c
+
+37c8ac361efdba Paul Mundt     2009-04-20  30  
+2b8ff9f2769135 Matthew Minter 2017-07-31  31  int pcibios_map_platform_irq(const struct pci_dev *pdev, u8 slot, u8 pin)
+37c8ac361efdba Paul Mundt     2009-04-20 @32  {
+37c8ac361efdba Paul Mundt     2009-04-20  33  	if (mach_is_lboxre2())
+37c8ac361efdba Paul Mundt     2009-04-20  34  		return lboxre2_irq_tab[slot];
+37c8ac361efdba Paul Mundt     2009-04-20  35  	else
+37c8ac361efdba Paul Mundt     2009-04-20  36  		return rts7751r2d_irq_tab[slot];
+37c8ac361efdba Paul Mundt     2009-04-20  37  }
+37c8ac361efdba Paul Mundt     2009-04-20  38  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: 37c8ac361efdbae969eff1a603bc39412d3e873f sh: pci: Consolidate lboxre2 and r2d IRQ fixups.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
