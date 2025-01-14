@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886F924025D
-	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 05:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12FE1DFDE
+	for <oe-kbuild@lists.linux.dev>; Tue, 14 Jan 2025 06:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736832709; cv=none; b=T89UWJpFCfaz0tWbhV4RRjoUn/5JfNGDvek15h2heroENjAb96B+z+adXsrT9UinCKrU7iEhGzN37cJxSdYtKuC96ECIZlkEtfWy3kvMfhXa9LBlWXpt8xNZ+KGmkr+bnJVtxrMTM49UOvC7ufNvNEh6IZWk4+oLVBHhcwOHldI=
+	t=1736836458; cv=none; b=QNjcpqN9L7ksv7fglEhHE4hlJqmZAlDleZrDqc5dzv9+GIr9HWeyDlvi4U/Z0Hpo7OcfbyoflxzZcOy1hjcpPF3/iGvirXstxar2VK39QoOsMA8zL8DkNffJMhKE2MR9vgK2gYRanv6F76/NCYJs1X9qPYAQsIRE2zMBook7XRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736832709; c=relaxed/simple;
-	bh=yvXKHfbBKsyCr64MZmGjIs/lPOApnU5FprqG2U+GQjk=;
+	s=arc-20240116; t=1736836458; c=relaxed/simple;
+	bh=Omp5AA3aOMTWtQucbj0FYiINqqe0Jmf8Yf6wv4i5W8Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pKQTm/6/w5FW0ls/Udb49NYEXbBRLrGR9o7SmJfemv/60+96R/AGDqFLBmw/wAhkjD9qQ+JqLKt7MhITirW92w9bT+4HsN/G8U5edxHwFtJ8/wx2dXi2MOgtGj1tcHzGsA501NUAq8/GkpDjdsylX86y+oy0CSI0OSk+WUMh6oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUtKLjUv; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=QRuvtxm5YO27tMBK3gHXM8LrNEx1bt8SY/ngF9WAxhvKa+XCgUSkFNbzXwnrvv3QxdJPT8Iia5eh53nahXjFNtq8vIpkuuMv5Yzl54h6VRjPddcLdPfUcksgVB7y4fiw43/WxRpE3K5XjanPW4SSSpT667LE995eeH+gEbEHOZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpgsEyPr; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUtKLjUv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpgsEyPr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736832707; x=1768368707;
+  t=1736836456; x=1768372456;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yvXKHfbBKsyCr64MZmGjIs/lPOApnU5FprqG2U+GQjk=;
-  b=lUtKLjUvHfxTz7GGRYstrrFiKCDWraCGlAlwBepShcsr+dNUhvQDuR+D
-   X/EHMyyKzfb8uLfeOmxF3w8+s20zXiV9cj9UXlx5LioHhNC42hqieApO0
-   f+mLP8CMMbAanQZpLNaODo4+u7dGJjKYxES26pNrU9QJDWHSAwwjWrrnQ
-   ofrcRpMJCL8mLhAqrLdeyhNzP8N12qzXaQn1D3kQ/DDz4jalcXA+T6nif
-   YA8qILG+YdDG4IIzx/Z9Ru7H9GWCVqpiaSnLGNrCN5Osh603LfiRuWpZO
-   FuDdfOkU9IEQUVNOXC059+my6PgtWrdCunIThz6KKk0CbaoyngMvqiar6
+  bh=Omp5AA3aOMTWtQucbj0FYiINqqe0Jmf8Yf6wv4i5W8Q=;
+  b=cpgsEyPrag6fBawmM93jSRx3uYN7ZVZU3VFfrQAJ3YC9fseFXO1H9C/a
+   HMN4IrlbLQf4aLhrPmTgU3iOdsDK5mGi2MoN6bWXDntjbq8jHNpcWz8ts
+   QGwWEnGSsC1mnbc9s/pa36tW4pxeDeYt5+lHStR9sWIb3xnqtlitQr31Q
+   FCpSD6Kx52u9pyEm3OXArc1dGr6ZnKYG91fyEr2QJvhl/8kgUflZvHf3u
+   /PaEJZRx0dNQBQEMuy3GcywCHv/oNQRYPFSfEwHvUrhITyysyqx+HcgHX
+   989CoEBg8wrOawp7yQO4YCsPkDnSqZ0853wbpNVhTGks3vdDgaGtUQbBX
    Q==;
-X-CSE-ConnectionGUID: XgFDOFKNTeWv4FDM/7d3TA==
-X-CSE-MsgGUID: MG/q7H5hR+2R7netjpXitw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41053047"
+X-CSE-ConnectionGUID: RkYT9rI/QO63NOABugPbrg==
+X-CSE-MsgGUID: ly+QOj6VTsKhtwiJtz7l5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40798537"
 X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
-   d="scan'208";a="41053047"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 21:31:47 -0800
-X-CSE-ConnectionGUID: GQb0m0S8R16O5+YRoe+tww==
-X-CSE-MsgGUID: r/hLUtDWToC87KnAtQQi3g==
+   d="scan'208";a="40798537"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 22:34:15 -0800
+X-CSE-ConnectionGUID: w8+EVzWvRhK3LAyQ/VI7bg==
+X-CSE-MsgGUID: z5eWst3FT4WhmAqkfusaFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
-   d="scan'208";a="104783480"
+   d="scan'208";a="104475700"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jan 2025 21:31:45 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Jan 2025 22:34:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tXZWh-000O8x-0m;
-	Tue, 14 Jan 2025 05:31:43 +0000
-Date: Tue, 14 Jan 2025 13:30:42 +0800
+	id 1tXaV9-000OBX-2z;
+	Tue, 14 Jan 2025 06:34:11 +0000
+Date: Tue, 14 Jan 2025 14:33:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jpoimboe:objtool/core 2/2] kernel/bpf/core.o: warning: objtool:
-   ___bpf_prog_run+0x0: <=== (sym)
-Message-ID: <202501141306.GYbbghj5-lkp@intel.com>
+Subject: [jpoimboe:objtool/core 2/2] vmlinux.o: warning: objtool:
+   ___bpf_prog_run+0x20: (branch)
+Message-ID: <202501141436.xtzMdwVD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,121 +75,122 @@ CC: Josh Poimboeuf <jpoimboe@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool/core
 head:   ac40926f7804fc679ac1e6f3f2529d37d7a5dbbe
 commit: ac40926f7804fc679ac1e6f3f2529d37d7a5dbbe [2/2] kbuild: Add option to fail build on vmlinux objtool issues
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: x86_64-buildonly-randconfig-005-20250114 (https://download.01.org/0day-ci/archive/20250114/202501141306.GYbbghj5-lkp@intel.com/config)
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: x86_64-buildonly-randconfig-001-20250114 (https://download.01.org/0day-ci/archive/20250114/202501141436.xtzMdwVD-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501141306.GYbbghj5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250114/202501141436.xtzMdwVD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501141306.GYbbghj5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501141436.xtzMdwVD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/core.o: warning: objtool: ___bpf_prog_run+0x20: sibling call from callable instruction with modified stack frame
->> kernel/bpf/core.o: warning: objtool:   ___bpf_prog_run+0x0: <=== (sym)
-   0000 0000000000005310 <___bpf_prog_run>:
-   0000     5310:	e8 00 00 00 00       	call   5315 <___bpf_prog_run+0x5>	5311: R_X86_64_PLT32	__fentry__-0x4
-   0005     5315:	55                   	push   %rbp
-   0006     5316:	48 89 e5             	mov    %rsp,%rbp
-   0009     5319:	41 57                	push   %r15
-   000b     531b:	41 56                	push   %r14
-   000d     531d:	41 55                	push   %r13
-   000f     531f:	41 54                	push   %r12
-   0011     5321:	53                   	push   %rbx
-   0012     5322:	50                   	push   %rax
-   0013     5323:	49 89 f6             	mov    %rsi,%r14
-   0016     5326:	48 89 fb             	mov    %rdi,%rbx
-   0019     5329:	45 31 ed             	xor    %r13d,%r13d
-   001c     532c:	41 0f b6 0e          	movzbl (%r14),%ecx
-   0020     5330:	ff 24 cd 00 00 00 00 	jmp    *0x0(,%rcx,8)	5333: R_X86_64_32S	.rodata..c_jump_table,"a",@progbits #
-   0027     5337:	48 8b 43 10          	mov    0x10(%rbx),%rax
-   002b     533b:	48 8b 4b 18          	mov    0x18(%rbx),%rcx
-   002f     533f:	39 48 24             	cmp    %ecx,0x24(%rax)
-   0032     5342:	0f 86 04 15 00 00    	jbe    684c <___bpf_prog_run+0x153c>
-   0038     5348:	41 83 fd 20          	cmp    $0x20,%r13d
-   003c     534c:	0f 87 fa 14 00 00    	ja     684c <___bpf_prog_run+0x153c>
-   0042     5352:	89 c9                	mov    %ecx,%ecx
-   0044     5354:	41 ff c5             	inc    %r13d
-   0047     5357:	48 8b 84 c8 e8 01 00 00 	mov    0x1e8(%rax,%rcx,8),%rax
-   004f     535f:	48 85 c0             	test   %rax,%rax
-   0052     5362:	0f 84 e4 14 00 00    	je     684c <___bpf_prog_run+0x153c>
-   0058     5368:	48 83 c0 48          	add    $0x48,%rax
-   005c     536c:	49 89 c6             	mov    %rax,%r14
-   005f     536f:	eb bb                	jmp    532c <___bpf_prog_run+0x1c>
-   0061     5371:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   0066     5376:	83 e0 0f             	and    $0xf,%eax
-   0069     5379:	49 63 4e 04          	movslq 0x4(%r14),%rcx
-   006d     537d:	48 01 0c c3          	add    %rcx,(%rbx,%rax,8)
-   0071     5381:	e9 c6 14 00 00       	jmp    684c <___bpf_prog_run+0x153c>
-   0076     5386:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   007b     538b:	83 e0 0f             	and    $0xf,%eax
-   007e     538e:	8b 0c c3             	mov    (%rbx,%rax,8),%ecx
-   0081     5391:	41 2b 4e 04          	sub    0x4(%r14),%ecx
-   0085     5395:	e9 73 0a 00 00       	jmp    5e0d <___bpf_prog_run+0xafd>
-   008a     539a:	41 0f b7 46 02       	movzwl 0x2(%r14),%eax
-   008f     539f:	83 f8 01             	cmp    $0x1,%eax
-   0092     53a2:	0f 84 fb 0f 00 00    	je     63a3 <___bpf_prog_run+0x1093>
-   0098     53a8:	85 c0                	test   %eax,%eax
-   009a     53aa:	0f 85 a1 11 00 00    	jne    6551 <___bpf_prog_run+0x1241>
-   00a0     53b0:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   00a5     53b5:	83 e0 0f             	and    $0xf,%eax
-   00a8     53b8:	48 8b 04 c3          	mov    (%rbx,%rax,8),%rax
-   00ac     53bc:	89 c1                	mov    %eax,%ecx
-   00ae     53be:	48 89 4b 58          	mov    %rcx,0x58(%rbx)
-   00b2     53c2:	31 d2                	xor    %edx,%edx
-   00b4     53c4:	41 f7 76 04          	divl   0x4(%r14)
-   00b8     53c8:	e9 70 01 00 00       	jmp    553d <___bpf_prog_run+0x22d>
-   00bd     53cd:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   00c2     53d2:	83 e0 0f             	and    $0xf,%eax
-   00c5     53d5:	41 8b 4e 04          	mov    0x4(%r14),%ecx
-   00c9     53d9:	e9 57 08 00 00       	jmp    5c35 <___bpf_prog_run+0x925>
-   00ce     53de:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   00d3     53e3:	89 c1                	mov    %eax,%ecx
-   00d5     53e5:	83 e1 0f             	and    $0xf,%ecx
-   00d8     53e8:	48 8b 0c cb          	mov    (%rbx,%rcx,8),%rcx
-   00dc     53ec:	c1 e8 04             	shr    $0x4,%eax
-   00df     53ef:	48 3b 0c c3          	cmp    (%rbx,%rax,8),%rcx
-   00e3     53f3:	0f 8e f3 0d 00 00    	jle    61ec <___bpf_prog_run+0xedc>
-   00e9     53f9:	e9 4e 14 00 00       	jmp    684c <___bpf_prog_run+0x153c>
-   00ee     53fe:	49 63 46 04          	movslq 0x4(%r14),%rax
-   00f2     5402:	48 8d 80 00 00 00 00 	lea    0x0(%rax),%rax	5405: R_X86_64_32S	__bpf_call_base
-   00f9     5409:	48 8b 7b 08          	mov    0x8(%rbx),%rdi
-   00fd     540d:	48 8b 73 10          	mov    0x10(%rbx),%rsi
-   0101     5411:	48 8b 53 18          	mov    0x18(%rbx),%rdx
-   0105     5415:	48 8b 4b 20          	mov    0x20(%rbx),%rcx
-   0109     5419:	4c 8b 43 28          	mov    0x28(%rbx),%r8
-   010d     541d:	4d 0f bf 4e 02       	movswq 0x2(%r14),%r9
-   0112     5422:	4f 8d 0c ce          	lea    (%r14,%r9,8),%r9
-   0116     5426:	49 83 c1 08          	add    $0x8,%r9
-   011a     542a:	41 ba bd 5c 3a 31    	mov    $0x313a5cbd,%r10d
-   0120     5430:	44 03 50 fc          	add    -0x4(%rax),%r10d
-   0124     5434:	74 02                	je     5438 <___bpf_prog_run+0x128>
-   0126     5436:	0f 0b                	ud2
-   0128     5438:	ff d0                	call   *%rax
-   012a     543a:	48 89 03             	mov    %rax,(%rbx)
-   012d     543d:	e9 0a 14 00 00       	jmp    684c <___bpf_prog_run+0x153c>
-   0132     5442:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   0137     5447:	89 c1                	mov    %eax,%ecx
-   0139     5449:	83 e1 0f             	and    $0xf,%ecx
-   013c     544c:	8b 0c cb             	mov    (%rbx,%rcx,8),%ecx
-   013f     544f:	c1 e8 04             	shr    $0x4,%eax
-   0142     5452:	e9 8a 00 00 00       	jmp    54e1 <___bpf_prog_run+0x1d1>
-   0147     5457:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   014c     545c:	89 c1                	mov    %eax,%ecx
-   014e     545e:	83 e1 0f             	and    $0xf,%ecx
-   0151     5461:	c1 e8 04             	shr    $0x4,%eax
-   0154     5464:	8b 04 c3             	mov    (%rbx,%rax,8),%eax
-   0157     5467:	0f af 04 cb          	imul   (%rbx,%rcx,8),%eax
-   015b     546b:	e9 e9 0f 00 00       	jmp    6459 <___bpf_prog_run+0x1149>
-   0160     5470:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
-   0165     5475:	89 c1                	mov    %eax,%ecx
-   0167     5477:	83 e1 0f             	and    $0xf,%ecx
-   016a     547a:	c1 e8 04             	shr    $0x4,%eax
-   016d     547d:	48 8b 04 c3          	mov    (%rbx,%rax,8),%rax
-   0171     5481:	48 29 04 cb          	sub    %rax,(%rbx,%rcx,8)
+   vmlinux.o: warning: objtool: ___bpf_prog_run+0x39: sibling call from callable instruction with modified stack frame
+>> vmlinux.o: warning: objtool:   ___bpf_prog_run+0x20: (branch)
+>> vmlinux.o: warning: objtool:   ___bpf_prog_run+0x0: <=== (sym)
+   0000 00000000002bd0b0 <___bpf_prog_run>:
+   0000   2bd0b0:	e8 00 00 00 00       	call   2bd0b5 <___bpf_prog_run+0x5>	2bd0b1: R_X86_64_PLT32	__fentry__-0x4
+   0005   2bd0b5:	55                   	push   %rbp
+   0006   2bd0b6:	41 57                	push   %r15
+   0008   2bd0b8:	41 56                	push   %r14
+   000a   2bd0ba:	41 55                	push   %r13
+   000c   2bd0bc:	41 54                	push   %r12
+   000e   2bd0be:	53                   	push   %rbx
+   000f   2bd0bf:	48 83 ec 18          	sub    $0x18,%rsp
+   0013   2bd0c3:	49 89 f6             	mov    %rsi,%r14
+   0016   2bd0c6:	48 89 fb             	mov    %rdi,%rbx
+   0019   2bd0c9:	e8 00 00 00 00       	call   2bd0ce <___bpf_prog_run+0x1e>	2bd0ca: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   001e   2bd0ce:	31 ed                	xor    %ebp,%ebp
+   0020   2bd0d0:	eb 13                	jmp    2bd0e5 <___bpf_prog_run+0x35>
+   0022   2bd0d2:	f3 0f 1e fa          	endbr64
+   0026   2bd0d6:	e8 00 00 00 00       	call   2bd0db <___bpf_prog_run+0x2b>	2bd0d7: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   002b   2bd0db:	49 0f bf 46 02       	movswq 0x2(%r14),%rax
+   0030   2bd0e0:	4d 8d 74 c6 08       	lea    0x8(%r14,%rax,8),%r14
+   0035   2bd0e5:	45 0f b6 3e          	movzbl (%r14),%r15d
+   0039   2bd0e9:	42 ff 24 fd 00 00 00 00 	jmp    *0x0(,%r15,8)	2bd0ed: R_X86_64_32S	.rodata..c_jump_table,"a",@progbits #
+   0041   2bd0f1:	f3 0f 1e fa          	endbr64
+   0045   2bd0f5:	4c 8b 6b 10          	mov    0x10(%rbx),%r13
+   0049   2bd0f9:	4c 8b 7b 18          	mov    0x18(%rbx),%r15
+   004d   2bd0fd:	45 8b 65 24          	mov    0x24(%r13),%r12d
+   0051   2bd101:	44 89 e7             	mov    %r12d,%edi
+   0054   2bd104:	44 89 fe             	mov    %r15d,%esi
+   0057   2bd107:	e8 00 00 00 00       	call   2bd10c <___bpf_prog_run+0x5c>	2bd108: R_X86_64_PLT32	__sanitizer_cov_trace_cmp4-0x4
+   005c   2bd10c:	bf 20 00 00 00       	mov    $0x20,%edi
+   0061   2bd111:	89 ee                	mov    %ebp,%esi
+   0063   2bd113:	e8 00 00 00 00       	call   2bd118 <___bpf_prog_run+0x68>	2bd114: R_X86_64_PLT32	__sanitizer_cov_trace_const_cmp4-0x4
+   0068   2bd118:	45 39 fc             	cmp    %r15d,%r12d
+   006b   2bd11b:	0f 86 cf 24 00 00    	jbe    2bf5f0 <___bpf_prog_run+0x2540>
+   0071   2bd121:	83 fd 21             	cmp    $0x21,%ebp
+   0074   2bd124:	0f 83 c6 24 00 00    	jae    2bf5f0 <___bpf_prog_run+0x2540>
+   007a   2bd12a:	44 89 f8             	mov    %r15d,%eax
+   007d   2bd12d:	ff c5                	inc    %ebp
+   007f   2bd12f:	4d 8b bc c5 f0 00 00 00 	mov    0xf0(%r13,%rax,8),%r15
+   0087   2bd137:	4d 85 ff             	test   %r15,%r15
+   008a   2bd13a:	0f 84 cb 1c 00 00    	je     2bee0b <___bpf_prog_run+0x1d5b>
+   0090   2bd140:	e8 00 00 00 00       	call   2bd145 <___bpf_prog_run+0x95>	2bd141: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   0095   2bd145:	49 83 c7 48          	add    $0x48,%r15
+   0099   2bd149:	4d 89 fe             	mov    %r15,%r14
+   009c   2bd14c:	eb 97                	jmp    2bd0e5 <___bpf_prog_run+0x35>
+   009e   2bd14e:	f3 0f 1e fa          	endbr64
+   00a2   2bd152:	e8 00 00 00 00       	call   2bd157 <___bpf_prog_run+0xa7>	2bd153: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   00a7   2bd157:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
+   00ac   2bd15c:	83 e0 0f             	and    $0xf,%eax
+   00af   2bd15f:	49 63 4e 04          	movslq 0x4(%r14),%rcx
+   00b3   2bd163:	48 01 0c c3          	add    %rcx,(%rbx,%rax,8)
+   00b7   2bd167:	49 83 c6 08          	add    $0x8,%r14
+   00bb   2bd16b:	e9 75 ff ff ff       	jmp    2bd0e5 <___bpf_prog_run+0x35>
+   00c0   2bd170:	f3 0f 1e fa          	endbr64
+   00c4   2bd174:	45 8b 7e 04          	mov    0x4(%r14),%r15d
+   00c8   2bd178:	4c 89 ff             	mov    %r15,%rdi
+   00cb   2bd17b:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	2bd17e: R_X86_64_32S	.data+0xe03c0
+   00d2   2bd182:	e8 00 00 00 00       	call   2bd187 <___bpf_prog_run+0xd7>	2bd183: R_X86_64_PLT32	__sanitizer_cov_trace_switch-0x4
+   00d7   2bd187:	49 83 ff 10          	cmp    $0x10,%r15
+   00db   2bd18b:	0f 84 62 1e 00 00    	je     2beff3 <___bpf_prog_run+0x1f43>
+   00e1   2bd191:	41 83 ff 20          	cmp    $0x20,%r15d
+   00e5   2bd195:	0f 84 51 1e 00 00    	je     2befec <___bpf_prog_run+0x1f3c>
+   00eb   2bd19b:	41 83 ff 40          	cmp    $0x40,%r15d
+   00ef   2bd19f:	0f 85 55 1e 00 00    	jne    2beffa <___bpf_prog_run+0x1f4a>
+   00f5   2bd1a5:	e8 00 00 00 00       	call   2bd1aa <___bpf_prog_run+0xfa>	2bd1a6: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   00fa   2bd1aa:	e9 c9 08 00 00       	jmp    2bda78 <___bpf_prog_run+0x9c8>
+   00ff   2bd1af:	f3 0f 1e fa          	endbr64
+   0103   2bd1b3:	e8 00 00 00 00       	call   2bd1b8 <___bpf_prog_run+0x108>	2bd1b4: R_X86_64_PLT32	__sanitizer_cov_trace_pc-0x4
+   0108   2bd1b8:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
+   010d   2bd1bd:	83 e0 0f             	and    $0xf,%eax
+   0110   2bd1c0:	8b 0c c3             	mov    (%rbx,%rax,8),%ecx
+   0113   2bd1c3:	41 2b 4e 04          	sub    0x4(%r14),%ecx
+   0117   2bd1c7:	e9 ac 11 00 00       	jmp    2be378 <___bpf_prog_run+0x12c8>
+   011c   2bd1cc:	f3 0f 1e fa          	endbr64
+   0120   2bd1d0:	45 0f b7 7e 02       	movzwl 0x2(%r14),%r15d
+   0125   2bd1d5:	4c 89 ff             	mov    %r15,%rdi
+   0128   2bd1d8:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	2bd1db: R_X86_64_32S	.data+0xe03a0
+   012f   2bd1df:	e8 00 00 00 00       	call   2bd1e4 <___bpf_prog_run+0x134>	2bd1e0: R_X86_64_PLT32	__sanitizer_cov_trace_switch-0x4
+   0134   2bd1e4:	45 85 ff             	test   %r15d,%r15d
+   0137   2bd1e7:	0f 84 2c 1c 00 00    	je     2bee19 <___bpf_prog_run+0x1d69>
+   013d   2bd1ed:	41 83 ff 01          	cmp    $0x1,%r15d
+   0141   2bd1f1:	0f 85 41 1c 00 00    	jne    2bee38 <___bpf_prog_run+0x1d88>
+   0147   2bd1f7:	89 6c 24 04          	mov    %ebp,0x4(%rsp)
+   014b   2bd1fb:	41 0f b6 46 01       	movzbl 0x1(%r14),%eax
+   0150   2bd200:	83 e0 0f             	and    $0xf,%eax
+   0153   2bd203:	8b 04 c3             	mov    (%rbx,%rax,8),%eax
+   0156   2bd206:	89 c1                	mov    %eax,%ecx
+   0158   2bd208:	f7 d9                	neg    %ecx
+   015a   2bd20a:	0f 48 c8             	cmovs  %eax,%ecx
+   015d   2bd20d:	48 63 c1             	movslq %ecx,%rax
+   0160   2bd210:	48 89 43 58          	mov    %rax,0x58(%rbx)
+   0164   2bd214:	41 8b 4e 04          	mov    0x4(%r14),%ecx
+   0168   2bd218:	89 ce                	mov    %ecx,%esi
+   016a   2bd21a:	f7 de                	neg    %esi
+   016c   2bd21c:	0f 48 f1             	cmovs  %ecx,%esi
+   016f   2bd21f:	31 d2                	xor    %edx,%edx
+   0171   2bd221:	48 f7 f6             	div    %rsi
+   0174   2bd224:	49 89 c7             	mov    %rax,%r15
+   0177   2bd227:	48 89 43 58          	mov    %rax,0x58(%rbx)
+   017b   2bd22b:	41 0f b6 6e 01       	movzbl 0x1(%r14),%ebp
+   0180   2bd230:	83 e5 0f             	and    $0xf,%ebp
+   0183   2bd233:	89 e8                	mov    %ebp,%eax
 
 -- 
 0-DAY CI Kernel Test Service
