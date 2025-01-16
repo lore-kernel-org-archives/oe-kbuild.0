@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F7E555
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Jan 2025 04:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9CD19539F
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Jan 2025 10:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737000457; cv=none; b=lmwZnuJNaof1y4jM0EoX/Yf76Dp5/FucS1eF6fXOjalTDX9Hj7JXb96mTVlwJNcUyYF6rL7oL1fPIiQQWDKBm4RJmNSb83RHEFNbR+Hg2Axt3xHtG6IKfbXpfI1OOCqbmGGsnB4zyar6F5lX0XgnriB+6nuCClKHBlieJxxW0d4=
+	t=1737024647; cv=none; b=pbKjClVuvRCU3KL/+R2JKoXJxDLORvroM9wtPdPs+rGvvHyqS1hfDz0F5TG7RBB56jJqOZJ7NEbXYj959sXfisEM47AV7uIy6UzcAIt2oSqhaoOHMwxgId3R09A4FNXCyeHYp7FBaBiqp0NEkqoelvGXJAviSod7FliSrjtHR8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737000457; c=relaxed/simple;
-	bh=o0Dls0GPoJG/E/zNVWMePidkzZopl8UqD8OGEKlunnk=;
+	s=arc-20240116; t=1737024647; c=relaxed/simple;
+	bh=+rVIY+Q1MxRTvztgI7IKhumlkfuegeU0qWQh+/xpa+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pyPOpc0BF6BzCDKiZifM67zI6HQlzkA4d9cVeuHbQKHkSfKoACxpf4ffmgTm6T5xdcq7rfbdC3A6NLJcUOB31zZOdw9QZTbFvwxMCez4jJM+hKmY5IqSvOpehIZ5fEeTneSyos4OZJ/pmoO41IwMIslaUcSbeykMS4RqRApREsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3agnjUz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=odmhGq9P+Vcliozgk6QAF3XviP6pryrl2o2RXXsmkHVID5NXptQeO1bhs91xq7iLFsmgKZbcRgdEKhHnBA3ytDBQA0Xj/Qt8hVX3PjUqyja0gktan0HA6hVPOFgQH6jM8IpgY4w32t+/lDCdskQyJ54ZaQ4rx1iUy0FHfhyPTCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbAPHByj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3agnjUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbAPHByj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737000455; x=1768536455;
+  t=1737024645; x=1768560645;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o0Dls0GPoJG/E/zNVWMePidkzZopl8UqD8OGEKlunnk=;
-  b=e3agnjUz4QvN1xkhMDhgCNKX/oOlI5Ww1hLSqPx+0LPwT1B8vL0iAjq5
-   LyyAdj/2TEhfOQIf9LtXfm89olBWQ44r5MyALOPB1f7EGlKu+t4bX98/k
-   ANI09limGhI546mUTLlX0vxAry58OKgDSp6il8Bk7aRAXJht0Kf1CSIA9
-   SsWOZ1uEb1MtqfgWG71X2ZhRQ7laNHEQX2rKREWDQfefh1c5FLOaLxTPq
-   EDAMbsI53qf1p06D5JfzbjLvKglSn8IZgUAIdutwPeFyQi66akkOi9Cms
-   N+oYZ8T8wPtS3HftSrivPc13Up13Z7QG67DUw9/11b0Ewny40Fh1UG11L
-   Q==;
-X-CSE-ConnectionGUID: BJEobiWfTim1O0EjfvY6Bg==
-X-CSE-MsgGUID: kV2PdNt9TymcRmM7tTKi4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37282810"
-X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; 
-   d="scan'208";a="37282810"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 20:07:35 -0800
-X-CSE-ConnectionGUID: LcL5yxIQShKt+Alfekg/HQ==
-X-CSE-MsgGUID: DixPlBBgSb6/p7PuWVoDkw==
+  bh=+rVIY+Q1MxRTvztgI7IKhumlkfuegeU0qWQh+/xpa+Q=;
+  b=JbAPHByj6y7BP7LiTVvzqHcin/3iMBEeE/Jil95lGuRSB6aM3mAcqfph
+   1gYeakM5oqa8OkkNelGgbEdUYpffni8qH57KzezUifgmxxfeECp0s1Eo3
+   jDRAx+qk2/JzLDYcOynP/knmZQWE3BxGdyqYNJ25zaA6UoXyARpajfmia
+   6qtkWGd5qr79bODSmwsfAxIYrRshxf1t9tZmKgy/GQR1Iv+PH26Q9wC4X
+   NURjxIus4if20RndHtKeGn6QmYGWl3cMHUDQyFZslUR0azLLrUY0IjK3O
+   9TlM9BYNHmZgd54UApE6t+2MibiMFHUwI1VZMWYH5+9ELFihY5bgueAtp
+   g==;
+X-CSE-ConnectionGUID: HofE3XwGSYe7g23Uxu3jTw==
+X-CSE-MsgGUID: IZ5QqU6CT/a4YNo9EgY1Cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="36613959"
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
+   d="scan'208";a="36613959"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 02:50:44 -0800
+X-CSE-ConnectionGUID: 5tgbSRKQRTaC3tI4K3PAew==
+X-CSE-MsgGUID: Q+ZCm6yFSeORfyjsVPTT0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105806352"
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
+   d="scan'208";a="110427812"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2025 20:07:33 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2025 02:50:43 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYHAJ-000RED-0E;
-	Thu, 16 Jan 2025 04:07:31 +0000
-Date: Thu, 16 Jan 2025 12:06:25 +0800
+	id 1tYNST-000RiR-1M;
+	Thu, 16 Jan 2025 10:50:41 +0000
+Date: Thu, 16 Jan 2025 18:50:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning
- (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty
- reg/ranges property
-Message-ID: <202501161140.oZzoG4BS-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [riteshharjani:v6-dax-0day 11/32] fs/xfs/xfs_inode.c:3019
+ xfs_break_layouts() error: uninitialized symbol 'error'.
+Message-ID: <202501161825.NYsv6mAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,103 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Sudeep Holla <sudeep.holla@arm.com>
+TO: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 
-Hi Rob,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   619f0b6fad524f08d493a98d55bac9ab8895e3a6
-commit: 04f08ef291d4b8d76f8d198bf2929ad43b96eecf arm/arm64: dts: arm: Use generic clock and regulator nodenames
-date:   7 months ago
-:::::: branch date: 30 hours ago
-:::::: commit date: 7 months ago
-config: arm-randconfig-r013-20230520 (https://download.01.org/0day-ci/archive/20250116/202501161140.oZzoG4BS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250116/202501161140.oZzoG4BS-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux v6-dax-0day
+head:   2326f4b83c5d3873590e31d0e09edde5b7b6b22d
+commit: 12aa0c0827056fb2417d8748f10c1b79efe24683 [11/32] fs/dax: Create a common implementation to break DAX layouts
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250116 (https://download.01.org/0day-ci/archive/20250116/202501161825.NYsv6mAB-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501161140.oZzoG4BS-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501161825.NYsv6mAB-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:251.3-14: Warning (dma_ranges_format): /bus@c0000000/bus@c0000000/display@1000000:dma-ranges: empty "dma-ranges" property but its #address-cells (2) differs from /bus@c0000000/bus@c0000000 (1)
-   arch/arm/boot/dts/arm/integrator.dtsi:10.9-13.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/arm/integratorap.dts:103.9-132.4: Warning (unit_address_vs_reg): /syscon: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:91.12-96.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@0: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:97.12-102.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@1: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:103.12-108.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@2: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:109.12-114.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@3: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:115.12-120.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@4: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:121.12-126.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@5: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/display@1000000/port@0: node has a unit name, but no reg or ranges property
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty reg/ranges property
->> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:67.26-74.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-ssp: missing or empty reg/ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:77.23-83.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/regulator: missing or empty reg/ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/gpio_keys: missing or empty reg/ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:130.9-151.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/bridge: missing or empty reg/ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:153.6-162.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/vga: missing or empty reg/ranges property
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (avoid_unnecessary_addr_size): /bus@c0000000/bus@c0000000/gpio_keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (graph_child_address): /bus@c0000000/bus@c0000000/display@1000000/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+smatch warnings:
+fs/xfs/xfs_inode.c:3019 xfs_break_layouts() error: uninitialized symbol 'error'.
 
-vim +57 arch/arm/boot/dts/arm/integratorap-im-pd1.dts
+vim +/error +3019 fs/xfs/xfs_inode.c
 
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  26  
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  27  &lm0 {
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  28  	syscon@0 {
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  29  		compatible = "arm,im-pd1-syscon", "syscon";
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  30  		reg = <0x00000000 0x1000>;
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  31  		ranges;
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  32  		#address-cells = <1>;
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  33  		#size-cells = <1>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  34  
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  35  		vco1: clock-controller@0 {
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  36  			compatible = "arm,impd1-vco1";
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  37  			reg = <0x00 0x04>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  38  			#clock-cells = <0>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  39  			lock-offset = <0x08>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  40  			vco-offset = <0x00>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  41  			clocks = <&sysclk>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  42  			clock-output-names = "IM-PD1-VCO1";
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  43  		};
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  44  
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  45  		vco2: clock-controller@4 {
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  46  			compatible = "arm,impd1-vco2";
-2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  47  			reg = <0x04 0x04>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  48  			#clock-cells = <0>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  49  			lock-offset = <0x08>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  50  			vco-offset = <0x04>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  51  			clocks = <&sysclk>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  52  			clock-output-names = "IM-PD1-VCO2";
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  53  		};
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  54  	};
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  55  
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  56  	/* Also used for the Smart Card Interface SCI */
-04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @57) 	impd1_uartclk: clock-uart {
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  58  		compatible = "fixed-factor-clock";
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  59  		#clock-cells = <0>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  60  		clock-div = <4>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  61  		clock-mult = <1>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  62  		clocks = <&vco2>;
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  63  		clock-output-names = "VCO2_DIV4";
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  64  	};
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  65  
-d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  66  	/* For the SSP the clock is divided by 64 */
-04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @67) 	impd1_sspclk: clock-ssp {
+a4db266a705c55 Darrick J. Wong 2024-04-15  2993  
+a4db266a705c55 Darrick J. Wong 2024-04-15  2994  int
+a4db266a705c55 Darrick J. Wong 2024-04-15  2995  xfs_break_layouts(
+a4db266a705c55 Darrick J. Wong 2024-04-15  2996  	struct inode		*inode,
+a4db266a705c55 Darrick J. Wong 2024-04-15  2997  	uint			*iolock,
+a4db266a705c55 Darrick J. Wong 2024-04-15  2998  	enum layout_break_reason reason)
+a4db266a705c55 Darrick J. Wong 2024-04-15  2999  {
+a4db266a705c55 Darrick J. Wong 2024-04-15  3000  	bool			retry;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3001  	int			error;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3002  
+a4db266a705c55 Darrick J. Wong 2024-04-15  3003  	xfs_assert_ilocked(XFS_I(inode), XFS_IOLOCK_SHARED | XFS_IOLOCK_EXCL);
+a4db266a705c55 Darrick J. Wong 2024-04-15  3004  
+a4db266a705c55 Darrick J. Wong 2024-04-15  3005  	do {
+a4db266a705c55 Darrick J. Wong 2024-04-15  3006  		retry = false;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3007  		switch (reason) {
+a4db266a705c55 Darrick J. Wong 2024-04-15  3008  		case BREAK_UNMAP:
+12aa0c0827056f Alistair Popple 2025-01-10  3009  			if (xfs_break_dax_layouts(inode))
+a4db266a705c55 Darrick J. Wong 2024-04-15  3010  				break;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3011  			fallthrough;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3012  		case BREAK_WRITE:
+a4db266a705c55 Darrick J. Wong 2024-04-15  3013  			error = xfs_break_leased_layouts(inode, iolock, &retry);
+a4db266a705c55 Darrick J. Wong 2024-04-15  3014  			break;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3015  		default:
+a4db266a705c55 Darrick J. Wong 2024-04-15  3016  			WARN_ON_ONCE(1);
+a4db266a705c55 Darrick J. Wong 2024-04-15  3017  			error = -EINVAL;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3018  		}
+a4db266a705c55 Darrick J. Wong 2024-04-15 @3019  	} while (error == 0 && retry);
+a4db266a705c55 Darrick J. Wong 2024-04-15  3020  
+a4db266a705c55 Darrick J. Wong 2024-04-15  3021  	return error;
+a4db266a705c55 Darrick J. Wong 2024-04-15  3022  }
+ee20808d848c87 Darrick J. Wong 2024-04-15  3023  
+
+:::::: The code at line 3019 was first introduced by commit
+:::::: a4db266a705c5518f3049074fd233b6c57daab00 xfs: move inode lease breaking functions to xfs_inode.c
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
