@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9CD19539F
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 Jan 2025 10:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED5A13B58C
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 Jan 2025 22:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737024647; cv=none; b=pbKjClVuvRCU3KL/+R2JKoXJxDLORvroM9wtPdPs+rGvvHyqS1hfDz0F5TG7RBB56jJqOZJ7NEbXYj959sXfisEM47AV7uIy6UzcAIt2oSqhaoOHMwxgId3R09A4FNXCyeHYp7FBaBiqp0NEkqoelvGXJAviSod7FliSrjtHR8g=
+	t=1737065889; cv=none; b=CG9b2fpNcJ4ufWBdp4WllDVXu3D7IZ4esPJtuHsITgBKYDsazMjgjeQ+0z2Etqcn3UE+a2vMdaDTHVoua4iqW0DOSLLnJOh3Ltx9eTeIm+ccWHuf8DZme7BKn1iHlRNluWjH6433xrP/d3bsEj/bhRe6c984mM9apocnwObf/hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737024647; c=relaxed/simple;
-	bh=+rVIY+Q1MxRTvztgI7IKhumlkfuegeU0qWQh+/xpa+Q=;
+	s=arc-20240116; t=1737065889; c=relaxed/simple;
+	bh=GDh7PKY6Y3Bc5V5blvLc/79iztOunkuKVkryUZRSNRs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=odmhGq9P+Vcliozgk6QAF3XviP6pryrl2o2RXXsmkHVID5NXptQeO1bhs91xq7iLFsmgKZbcRgdEKhHnBA3ytDBQA0Xj/Qt8hVX3PjUqyja0gktan0HA6hVPOFgQH6jM8IpgY4w32t+/lDCdskQyJ54ZaQ4rx1iUy0FHfhyPTCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbAPHByj; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=AbeeMfMd2T2DfdTTQzpkDr7fT9RHDoCQDpYT/0ExJlixGepbdj/PiZxQw25rcAk/UmtL60SZmDXdB438sLaRoGI9wmGbCJxwbJuxX+Rvb/mSji4ksUNFEq9Vf3RbKAMVTlwiijX1h3iddL22sEvIEIluMRvU6BztVsj5/qnqtpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Buo5ENiV; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbAPHByj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Buo5ENiV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737024645; x=1768560645;
+  t=1737065886; x=1768601886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+rVIY+Q1MxRTvztgI7IKhumlkfuegeU0qWQh+/xpa+Q=;
-  b=JbAPHByj6y7BP7LiTVvzqHcin/3iMBEeE/Jil95lGuRSB6aM3mAcqfph
-   1gYeakM5oqa8OkkNelGgbEdUYpffni8qH57KzezUifgmxxfeECp0s1Eo3
-   jDRAx+qk2/JzLDYcOynP/knmZQWE3BxGdyqYNJ25zaA6UoXyARpajfmia
-   6qtkWGd5qr79bODSmwsfAxIYrRshxf1t9tZmKgy/GQR1Iv+PH26Q9wC4X
-   NURjxIus4if20RndHtKeGn6QmYGWl3cMHUDQyFZslUR0azLLrUY0IjK3O
-   9TlM9BYNHmZgd54UApE6t+2MibiMFHUwI1VZMWYH5+9ELFihY5bgueAtp
-   g==;
-X-CSE-ConnectionGUID: HofE3XwGSYe7g23Uxu3jTw==
-X-CSE-MsgGUID: IZ5QqU6CT/a4YNo9EgY1Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="36613959"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="36613959"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 02:50:44 -0800
-X-CSE-ConnectionGUID: 5tgbSRKQRTaC3tI4K3PAew==
-X-CSE-MsgGUID: Q+ZCm6yFSeORfyjsVPTT0g==
+  bh=GDh7PKY6Y3Bc5V5blvLc/79iztOunkuKVkryUZRSNRs=;
+  b=Buo5ENiVb/bgnCMA/oUTo6AfOv4PjDCYKZQ6Qzpv5SBT6w9NoWCv5bRJ
+   xVqipF4L453CS36Ul3h7xxOkgUhs/pdN81jnBrDut8eoVyNl6hGQJi6HD
+   lNKk+m+msVuFiJJ1SsMEG7q0YOW28tyLcyoM7gUtPY0t3YmGcV1Tnl+bk
+   JdtqNBtFeb33p76LRDWer/qnUiCCRVtFzdTgiORULhVwr6ybzOVsO/re6
+   qs362efqNEnasDClCwPQPCttMJJRAeFY3qft7N5MXlwyxX1Kd3i+QmqEZ
+   LGaXaB90Ti9NUYR6f/XhsYMb7fLW03puAZbumjhI+U1SSqfuqyQU1Xqdw
+   Q==;
+X-CSE-ConnectionGUID: N4019qplTpaNYG3+EyY9QQ==
+X-CSE-MsgGUID: F0Vt7ctURoer8EqXno1fqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="47968685"
+X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; 
+   d="scan'208";a="47968685"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 14:18:06 -0800
+X-CSE-ConnectionGUID: WlLcdwoxRW2+XpYuLEq+Lw==
+X-CSE-MsgGUID: rpbzDEdGTTKAQmAtZH3laA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="110427812"
+X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; 
+   d="scan'208";a="106170266"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2025 02:50:43 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jan 2025 14:18:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYNST-000RiR-1M;
-	Thu, 16 Jan 2025 10:50:41 +0000
-Date: Thu, 16 Jan 2025 18:50:29 +0800
+	id 1tYYBe-000SRk-0r;
+	Thu, 16 Jan 2025 22:18:02 +0000
+Date: Fri, 17 Jan 2025 06:18:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [riteshharjani:v6-dax-0day 11/32] fs/xfs/xfs_inode.c:3019
- xfs_break_layouts() error: uninitialized symbol 'error'.
-Message-ID: <202501161825.NYsv6mAB-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/powerpc/boot/dts/adder875-uboot.dts:77.12-90.5: Warning
+ (unique_unit_address_if_enabled): /soc@ff000000/mdio@e00: duplicate
+ unit-address (also used in node /soc@ff000000/ethernet@e00)
+Message-ID: <202501170625.y3ACLyqJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,66 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+CC: linux-kernel@vger.kernel.org
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
-tree:   https://github.com/riteshharjani/linux v6-dax-0day
-head:   2326f4b83c5d3873590e31d0e09edde5b7b6b22d
-commit: 12aa0c0827056fb2417d8748f10c1b79efe24683 [11/32] fs/dax: Create a common implementation to break DAX layouts
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20250116 (https://download.01.org/0day-ci/archive/20250116/202501161825.NYsv6mAB-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce69b4019001407f9cd738dd2ba217b3a8ab831b
+commit: c5aebb53b32460bc52680dd4e2a2f6b84d5ea521 powerpc: Force inlining of arch_vmap_p{u/m}d_supported()
+date:   11 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 11 months ago
+config: powerpc-buildonly-randconfig-r001-20230115 (https://download.01.org/0day-ci/archive/20250117/202501170625.y3ACLyqJ-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501170625.y3ACLyqJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501161825.NYsv6mAB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501170625.y3ACLyqJ-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/xfs_inode.c:3019 xfs_break_layouts() error: uninitialized symbol 'error'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/adder875-uboot.dts:41.9-44.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/adder875-uboot.dts:132.10-141.6: Warning (unit_address_vs_reg): /soc@ff000000/cpm@9c0/muram: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/adder875-uboot.dts:57.13-62.5: Warning (simple_bus_reg): /localbus@ff000100/flash@0,0: simple-bus unit address format error, expected "0"
+   arch/powerpc/boot/dts/adder875-uboot.dts:132.10-141.6: Warning (simple_bus_reg): /soc@ff000000/cpm@9c0/muram: simple-bus unit address format error, expected "2000"
+>> arch/powerpc/boot/dts/adder875-uboot.dts:77.12-90.5: Warning (unique_unit_address_if_enabled): /soc@ff000000/mdio@e00: duplicate unit-address (also used in node /soc@ff000000/ethernet@e00)
+--
+   arch/powerpc/boot/dts/adder875-redboot.dts:41.9-44.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/adder875-redboot.dts:133.10-142.6: Warning (unit_address_vs_reg): /soc@fa200000/cpm@9c0/muram: node has a reg or ranges property, but no unit name
+   arch/powerpc/boot/dts/adder875-redboot.dts:58.13-63.5: Warning (simple_bus_reg): /localbus@fa200100/flash@0,0: simple-bus unit address format error, expected "0"
+   arch/powerpc/boot/dts/adder875-redboot.dts:133.10-142.6: Warning (simple_bus_reg): /soc@fa200000/cpm@9c0/muram: simple-bus unit address format error, expected "2000"
+>> arch/powerpc/boot/dts/adder875-redboot.dts:78.12-91.5: Warning (unique_unit_address_if_enabled): /soc@fa200000/mdio@e00: duplicate unit-address (also used in node /soc@fa200000/ethernet@e00)
 
-vim +/error +3019 fs/xfs/xfs_inode.c
+vim +77 arch/powerpc/boot/dts/adder875-uboot.dts
 
-a4db266a705c55 Darrick J. Wong 2024-04-15  2993  
-a4db266a705c55 Darrick J. Wong 2024-04-15  2994  int
-a4db266a705c55 Darrick J. Wong 2024-04-15  2995  xfs_break_layouts(
-a4db266a705c55 Darrick J. Wong 2024-04-15  2996  	struct inode		*inode,
-a4db266a705c55 Darrick J. Wong 2024-04-15  2997  	uint			*iolock,
-a4db266a705c55 Darrick J. Wong 2024-04-15  2998  	enum layout_break_reason reason)
-a4db266a705c55 Darrick J. Wong 2024-04-15  2999  {
-a4db266a705c55 Darrick J. Wong 2024-04-15  3000  	bool			retry;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3001  	int			error;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3002  
-a4db266a705c55 Darrick J. Wong 2024-04-15  3003  	xfs_assert_ilocked(XFS_I(inode), XFS_IOLOCK_SHARED | XFS_IOLOCK_EXCL);
-a4db266a705c55 Darrick J. Wong 2024-04-15  3004  
-a4db266a705c55 Darrick J. Wong 2024-04-15  3005  	do {
-a4db266a705c55 Darrick J. Wong 2024-04-15  3006  		retry = false;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3007  		switch (reason) {
-a4db266a705c55 Darrick J. Wong 2024-04-15  3008  		case BREAK_UNMAP:
-12aa0c0827056f Alistair Popple 2025-01-10  3009  			if (xfs_break_dax_layouts(inode))
-a4db266a705c55 Darrick J. Wong 2024-04-15  3010  				break;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3011  			fallthrough;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3012  		case BREAK_WRITE:
-a4db266a705c55 Darrick J. Wong 2024-04-15  3013  			error = xfs_break_leased_layouts(inode, iolock, &retry);
-a4db266a705c55 Darrick J. Wong 2024-04-15  3014  			break;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3015  		default:
-a4db266a705c55 Darrick J. Wong 2024-04-15  3016  			WARN_ON_ONCE(1);
-a4db266a705c55 Darrick J. Wong 2024-04-15  3017  			error = -EINVAL;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3018  		}
-a4db266a705c55 Darrick J. Wong 2024-04-15 @3019  	} while (error == 0 && retry);
-a4db266a705c55 Darrick J. Wong 2024-04-15  3020  
-a4db266a705c55 Darrick J. Wong 2024-04-15  3021  	return error;
-a4db266a705c55 Darrick J. Wong 2024-04-15  3022  }
-ee20808d848c87 Darrick J. Wong 2024-04-15  3023  
+b09c16440eb39c Scott Wood 2008-01-17 @77  		mdio@e00 {
 
-:::::: The code at line 3019 was first introduced by commit
-:::::: a4db266a705c5518f3049074fd233b6c57daab00 xfs: move inode lease breaking functions to xfs_inode.c
+:::::: The code at line 77 was first introduced by commit
+:::::: b09c16440eb39c12cc91aea5b572c753a5567d57 [POWERPC] 8xx: Analogue & Micro Adder875 board support.
 
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
+:::::: TO: Scott Wood <scottwood@freescale.com>
+:::::: CC: Kumar Gala <galak@kernel.crashing.org>
 
 -- 
 0-DAY CI Kernel Test Service
