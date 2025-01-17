@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1B61A2391
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jan 2025 20:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E5F1AA78D
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jan 2025 21:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737147580; cv=none; b=Sr7kxI3lwzwLXl4SeK7rPdwNCaAR5IlBR8hGcTEfMJpr3+JQ0tHCiCRObp7yDM16Sz0MRMtSBpng0tblScdgRLJzSwWdJ/ed1DlDcEliYcJy+3e5ef7pG9HkjJteTuqlMpGiVDV4BNZbw24ZJSI2HjVpm3ANy6Ld3A4RPdmymQY=
+	t=1737149578; cv=none; b=nSiWRtnwoWYecyw5p78kysHhHLcZlSGEoONKFhTuo/iCFNJcstvRh47QRxCEZolJufBvKjjcYB13M8X2veFCdhq5Mmr54Ei0zwG6d3askoj3M84gv/GaTt4JSySz8EYGywi0Txvoc6Ax2b3lndUkvp9wciPpQNSV0WXP5mKWwIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737147580; c=relaxed/simple;
-	bh=MVuOIOmoVzhDMDQvaaWEjvGZWKb81/9aWghiRXChcBk=;
+	s=arc-20240116; t=1737149578; c=relaxed/simple;
+	bh=kUjl/MfKNKHYiQ++CVIujlShHqmacvaZSU+qlGRErjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sHJAJ9Gqm8Y/+Jo/ShimqH2qRMorNEQTp1RHPBv4VBn780zKFMiNdWRRw/6ohypoXmFcQ4CrUZvrprQAsWUc4pdsMJ1UAsDA/vdUFI0eTGxto/DeoJhbWE7Knl973+VAWbFg+YS/pse6K3HU5lFwlVmNPYFWAeR5AK15pfeBPHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OzvHqN4D; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=gx5CU35ywkiwOLfX/2eG0Ir9ahybZzTRPc43uTvnERw+5ijxfndJ6PoRZx6Pwvb+rXHx3bPPgkNnOEDgQwqKcDSlINWkaI8u7rhdzv4iUT/fpuDJwIHBxgZTdRQBh+OFv7Rf9iMeh99H8WxLAeFKhv+NunJ6yuj7X6oxXA+DiJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KiYZXSWK; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OzvHqN4D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KiYZXSWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737147578; x=1768683578;
+  t=1737149577; x=1768685577;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MVuOIOmoVzhDMDQvaaWEjvGZWKb81/9aWghiRXChcBk=;
-  b=OzvHqN4DEgc/tt24/+j1bHrUNoMzCQxl5or1FYhJHzmWJyQFqRfs9e/S
-   Iimnv+8QV2nXTRkdMc0ZpnXRpZHaIn02hE16+XnzrcCzW8emIadLsfJMC
-   9++xrwQVLrVSJFNaMjlmWWmF4FRNPfvzEc8sBjAVoWBJDyfAe+jFymDRM
-   zeKmcxaj6jfWyEDO6YT4qh6BaFsniEmQo83JrDvFrdDfU3Z+OgP10NLOW
-   nV7ugwBzsfUYELMYK2tGjqxeRerM0N5Ihqf/RkSIJ0fdzqxkJ7aI5tpUN
-   XCSU2OSfbj12bZ2pGX9wF0fS3UTrNxjBpQRzYQrKza6XYKZWktKft9fzC
+  bh=kUjl/MfKNKHYiQ++CVIujlShHqmacvaZSU+qlGRErjE=;
+  b=KiYZXSWKLnrHzzaZDaWzi04ynpZd6FmoqTK90hdztNBv6UALIezXvpt9
+   2Gzqd0eH+YXC86Hk2HzvvGynJORy6jYrj8BMLFuKhhcMWlAPQPS7UHy80
+   iI3J6kk78yufDtgwgZFtmk1a97PLpJV30MUHF9XnFH2j/iahu4g0epLyT
+   pZv/e6jqW/QJM0vfwziZDhhWwHuCvP2QjrDGXyU0cTTplOxfjfCHXqDy2
+   9C80QxDhwDXcn90LbUM4WnuCgM0M/yi3+Y+2EbPmzqvTE4G9c3D69jrEL
+   eB5gYscJeuMrjGfTAweoPABhR8MCzY7VJ63WNUszA4Gnr89WXDSmPbosA
    g==;
-X-CSE-ConnectionGUID: FzuXEoIiSXGF0JQbiwAH0A==
-X-CSE-MsgGUID: sqd/qpXbSfGf6mR8esCNnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="25189352"
+X-CSE-ConnectionGUID: sDCkJyphTaqH1iowY2fYQA==
+X-CSE-MsgGUID: RyB3eJxnQhekrpcNvsdYoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="48593891"
 X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
-   d="scan'208";a="25189352"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 12:59:35 -0800
-X-CSE-ConnectionGUID: EyFKe741QeKxnDwp/2W5+w==
-X-CSE-MsgGUID: iAIR+HUQRkCRjkjLQesZIw==
+   d="scan'208";a="48593891"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 13:32:57 -0800
+X-CSE-ConnectionGUID: eKy4Ew9ZQfSS9nUa5CQy1w==
+X-CSE-MsgGUID: +CgNiKvASnm7BN30lb1gCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="136795191"
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; 
+   d="scan'208";a="106462554"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Jan 2025 12:59:33 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jan 2025 13:32:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYtRD-000ThQ-0L;
-	Fri, 17 Jan 2025 20:59:31 +0000
-Date: Sat, 18 Jan 2025 04:59:30 +0800
+	id 1tYtxC-000Tih-1J;
+	Fri, 17 Jan 2025 21:32:34 +0000
+Date: Sat, 18 Jan 2025 05:31:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:mtk-wip 32/48]
- arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:264.22-272.5: Warning
- (graph_child_address): /soc/dsi@14014000/ports/port: graph node has single
- child node 'endpoint@0', #address-cells/#size-cells are not necessary
-Message-ID: <202501180455.jxTWO2LN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [wens:mtk-wip 26/48] drivers/gpu/drm/bridge/ite-it6505.c:3645
+ it6505_typec_mux_set() error: 'port' dereferencing possible ERR_PTR()
+Message-ID: <202501180556.ioJ3h9V5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,75 +62,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
+TO: "Pin-yen Lin" <treapking@chromium.org>
+CC: "Chen-Yu Tsai" <wenst@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
 head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
-commit: 0af51b30f86abe42aae0c8598b5286c8ebf44faf [32/48] arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
+commit: 5a3446d82f7c65f26ee4e81a9af77bb509a1d501 [26/48] drm/bridge: it6505: Register Type C mode switches
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: arm64-randconfig-002-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180455.jxTWO2LN-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180455.jxTWO2LN-lkp@intel.com/reproduce)
+config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180556.ioJ3h9V5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501180455.jxTWO2LN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501180556.ioJ3h9V5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1826.22-1839.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@14014000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:264.22-272.5: Warning (graph_child_address): /soc/dsi@14014000/ports/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
---
->> arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:264.22-272.5: Warning (graph_child_address): /soc/dsi@14014000/ports/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
---
->> arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:245.17-261.4: Warning (unique_unit_address_if_enabled): /soc/dsi@14014000/panel@0: duplicate unit-address (also used in node /soc/dsi@14014000/panel2@0)
+smatch warnings:
+drivers/gpu/drm/bridge/ite-it6505.c:3645 it6505_typec_mux_set() error: 'port' dereferencing possible ERR_PTR()
 
-vim +264 arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+vim +/port +3645 drivers/gpu/drm/bridge/ite-it6505.c
 
-cd894e274b74b3 Enric Balletbo i Serra 2020-06-25  240  
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  241  &dsi0 {
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  242  	status = "okay";
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  243  	#address-cells = <1>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  244  	#size-cells = <0>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13 @245  	panel: panel@0 {
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  246  		/* compatible will be set in board dts */
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  247  		reg = <0>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  248  		enable-gpios = <&pio 45 0>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  249  		pinctrl-names = "default";
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  250  		pinctrl-0 = <&panel_pins_default>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  251  		avdd-supply = <&ppvarn_lcd>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  252  		avee-supply = <&ppvarp_lcd>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  253  		pp1800-supply = <&pp1800_lcd>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  254  		backlight = <&backlight_lcd0>;
-9c61051561b02d Hsin-Yi Wang           2022-05-30  255  		rotation = <270>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  256  		port {
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  257  			panel_in: endpoint {
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  258  				remote-endpoint = <&dsi_out>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  259  			};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  260  		};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  261  	};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  262  
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  263  	ports {
-0af51b30f86abe Chen-Yu Tsai           2023-11-07 @264  		dsi_out_port: port {
-0af51b30f86abe Chen-Yu Tsai           2023-11-07  265  			#address-cells = <1>;
-0af51b30f86abe Chen-Yu Tsai           2023-11-07  266  			#size-cells = <0>;
-0af51b30f86abe Chen-Yu Tsai           2023-11-07  267  
-0af51b30f86abe Chen-Yu Tsai           2023-11-07  268  			dsi_out: endpoint@0 {
-0af51b30f86abe Chen-Yu Tsai           2023-11-07  269  				reg = <0>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  270  				remote-endpoint = <&panel_in>;
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  271  			};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  272  		};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  273  	};
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  274  };
-27eaf34df36419 Hsin-Yi Wang           2021-01-13  275  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3640  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3641  static int it6505_typec_mux_set(struct typec_mux_dev *mux,
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3642  				struct typec_mux_state *state)
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3643  {
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3644  	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31 @3645  	struct it6505 *it6505 = port->data;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3646  	struct device *dev = it6505->dev;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3647  	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3648  	bool old_dp_connected, new_dp_connected;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3649  	int ret = 0;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3650  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3651  	if (switch_desc.num_typec_switches == 1)
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3652  		return 0;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3653  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3654  	mutex_lock(&it6505->extcon_lock);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3655  	/*
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3656  	 * The completion is called in it6505_register_typec_switches even on
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3657  	 * errors, so it's safe to wait for completion without timeout.
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3658  	 */
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3659  	wait_for_completion(&it6505->mux_register);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3660  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3661  	/* Abort when the switches are unregistered. */
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3662  	if (!it6505->port_data) {
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3663  		ret = -EINVAL;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3664  		goto unlock;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3665  	}
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3666  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3667  	old_dp_connected = it6505->port_data[0].dp_connected ||
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3668  			   it6505->port_data[1].dp_connected;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3669  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3670  	it6505->port_data[port->port_num].dp_connected =
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3671  		state->alt &&
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3672  		state->alt->svid == USB_TYPEC_DP_SID &&
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3673  		state->alt->mode == USB_TYPEC_DP_MODE;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3674  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3675  	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3676  		it6505->port_data[0].dp_connected, it6505->port_data[1].dp_connected);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3677  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3678  	new_dp_connected = it6505->port_data[0].dp_connected ||
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3679  			   it6505->port_data[1].dp_connected;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3680  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3681  	if (it6505->enable_drv_hold) {
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3682  		dev_dbg(dev, "enable driver hold\n");
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3683  		goto unlock;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3684  	}
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3685  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3686  	it6505_typec_ports_update(it6505);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3687  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3688  	if (!old_dp_connected && new_dp_connected) {
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3689  		/*
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3690  		 * pm_runtime_force_suspend() disables runtime PM when the
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3691  		 * system enters suspend state. But on system resume, mux_set
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3692  		 * can be triggered before pm_runtime_force_resume() re-enables
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3693  		 * runtime PM. This makes the bridge stay powered off if the
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3694  		 * downstream display is connected when the system is suspended.
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3695  		 * Handling the error here to make sure the bridge is powered
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3696  		 * on, and leave the PM runtime usage count incremented so
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3697  		 * the future runtime PM calls is balanced.
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3698  		 */
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3699  		if (pm_runtime_get_sync(dev) < 0)
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3700  			it6505_poweron(it6505);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3701  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3702  		complete_all(&it6505->extcon_completion);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3703  	}
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3704  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3705  	if (old_dp_connected && !new_dp_connected) {
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3706  		reinit_completion(&it6505->extcon_completion);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3707  		pm_runtime_put_sync(dev);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3708  		if (it6505->bridge.dev)
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3709  			drm_helper_hpd_irq_event(it6505->bridge.dev);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3710  		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3711  	}
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3712  
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3713  unlock:
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3714  	mutex_unlock(&it6505->extcon_lock);
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3715  	return ret;
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3716  }
+5a3446d82f7c65 Pin-yen Lin 2023-03-31  3717  
 
 -- 
 0-DAY CI Kernel Test Service
