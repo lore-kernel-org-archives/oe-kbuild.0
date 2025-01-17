@@ -1,168 +1,115 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D3F25A659;
-	Fri, 17 Jan 2025 09:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C9D1F63CB
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jan 2025 10:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737106349; cv=none; b=OR9CdPuhLhHwTrPZILJKflIXuclqlQUN3iS2UOzQdsUTZao7NqFEEnSKQK75A9+8XnvnCQAt7dJ+RPOMY/U1BF1jXeLKk7QHYU20BRBPpdq57GSdrJSe46uJ3xhm2tzWdTJm8j/bjmjT0A4etpSN8F8y0SPTIDfvF/+du6pBd0w=
+	t=1737109887; cv=none; b=qFzz9aR2/+Ed4ceYNjxWMsPl7QoTG/n98hG4Q9ytqPX64A1sGW3t1Wi2jEbLc9DRGbf4nTa0fbwX59kMFeaRfjMg1vmbXOjLXsXxwQKh36VoCF8u7bVdEnAdOHz3gaZl+78//VF1LYjH8HHiImA/zOrTHWPYLBnQP3YZ4DraWUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737106349; c=relaxed/simple;
-	bh=+kxq3dPoZu7QX8VTxzUaLNtxQnGuNPax55ebMyuat2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rUTNXVGBtRmpts+NfhzkjoCyEZql4jZFg8heqDkUSG7pgu9DovfBFxBkT3A8l2R7XCGURFN59jXGgiz43v05ACPIesIn3iVNZXc+2kLcvN4T5o1HfefAjWJMF59oEvv+EAwZC96KFp1zlH4gWdm389DiGCyfgv/F2sSGiYQ7zfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=IO0PR02t; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1737109887; c=relaxed/simple;
+	bh=RL0Nso8kKkThoNBmngWVblIpNBZVjQnok9xR8F2gICU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JxmCBkhjfqe842sSOCZUGo4asBHxkdaelDyMMk829g62I/d6vCPpMvF8FmRE6TrBSUR+V7u8HmGAjXjL9Aq6AaomyVUPpgsyJOaNEhmSBV5MTqcYNdfb1CU6iHgGbdJcwTRwTok+uabifUUPE9OrKTF6cewOzvCsvNxD5I8tcis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8NCX+Ka; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="IO0PR02t"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H7ofrQ003450;
-	Fri, 17 Jan 2025 10:32:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	nzk3vN0PU+1PX8MuEwqsadD2DtLatqF+L56fha42moE=; b=IO0PR02t/r2eS/sG
-	FsXVSlFjKwizVS+KjMt/WsUWlrqrWfE9JF6wS74M2EgDP7rke2Cd28VuEPOArKKd
-	aFgdzVqbrbD2eZDcZ9YjT+JyTKNvj3kDieVGz7/XLfPMujC1z6B7lHG4i0odNdb3
-	xvJQ2by55TTSCqfAYGppaq91OajfsJPQu4ULjcujMmwM4IcBjnl5rJccyLTVobjQ
-	ft55oLYdVqD0W5UAK8xVHDEeFlE9a6gzlq+vJpt2ELKTzWhRDyKqm/th+Mxes/7b
-	KyHdUqKR024AuZVTZt/z/nZLFOvS17rtF6pvZ6GL3YodI4GGuV2BirCtDW91OO6M
-	efeQeQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 447k62re8c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 10:32:10 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 890E040045;
-	Fri, 17 Jan 2025 10:30:45 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 503FF26E373;
-	Fri, 17 Jan 2025 10:29:55 +0100 (CET)
-Received: from [10.129.178.212] (10.129.178.212) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 17 Jan
- 2025 10:29:54 +0100
-Message-ID: <4350969b-9e69-4943-9642-a45603b08beb@foss.st.com>
-Date: Fri, 17 Jan 2025 10:29:53 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8NCX+Ka"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737109885; x=1768645885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RL0Nso8kKkThoNBmngWVblIpNBZVjQnok9xR8F2gICU=;
+  b=S8NCX+Ka0ZsvmzxR+iN7sgKe4oENHoguGBKUm4Q+iWrLkzrjl3iHnuT5
+   roWGYKXDgHzF1LVRlNL3U2yysv+zEhCzpv87BamcaGB+LZfnRXEwfmEFD
+   mHQ6daNdrvnd1uQEwyHN9akFSVrzDIoH3brJXs34G+fy3Rp606tRaLBUK
+   XB8wAZOXE34/kaH8SNbEembFAyyUflSXdyzQDveVKxObCssURYuUsqZUn
+   TChZ/8kWlhCoDTu1IRncTMVlmqbqbNdOAJFqcBjVGUNa84r37xTaR5icj
+   bHokbx6RgdvORJfTGTWPM3UprN62u8tKd61HiDEl7ttyiG76wR7YWld2A
+   w==;
+X-CSE-ConnectionGUID: UxRzmLjESMi8CTY9iq++FQ==
+X-CSE-MsgGUID: iz0wKmQQQ8KcTfOkUeXpRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37655126"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37655126"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 02:31:24 -0800
+X-CSE-ConnectionGUID: y5jl/8m/SMaaXNjRSEMPNA==
+X-CSE-MsgGUID: W9dAjkb/SqeywhHnIub0zA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
+   d="scan'208";a="106359937"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Jan 2025 02:31:23 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tYjdJ-000T4J-0j;
+	Fri, 17 Jan 2025 10:31:21 +0000
+Date: Fri, 17 Jan 2025 18:30:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [krzk-github:n/str-enable-disable 51/59]
+ arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: gpio@140:
+ Unevaluated properties are not allowed ('gpio-ranges', 'lte-disable-hog',
+ 'lte-reset-hog', 'sata-reset-hog', 'wlan_disable-hog' were unexpected)
+Message-ID: <202501171858.Q8g7IO98-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] phy: stm32: Optimize tuning values from DT.
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-        <vkoul@kernel.org>, <kishon@kernel.org>, <mcoquelin.stm32@gmail.com>,
-        <alexandre.torgue@foss.st.com>, <p.zabel@pengutronix.de>,
-        <linux-phy@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <fabrice.gasnier@foss.st.com>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
-References: <d40db5ae-5db8-4541-8d20-e7bacef4ecf2@stanley.mountain>
-Content-Language: en-US
-From: Christian Bruel <christian.bruel@foss.st.com>
-In-Reply-To: <d40db5ae-5db8-4541-8d20-e7bacef4ecf2@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_03,2025-01-16_01,2024-11-22_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Thanks for reporting. I think this error is a false positive.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-In this situation, the impedance values that are looked-up are ordere 
-(the compiler probably doesn't analysis this) so the imp_looup test that 
-defines the imp_of must have matched.
-Note that the boundaries was checked during probe.
+tree:   https://github.com/krzk/linux n/str-enable-disable
+head:   bd2e2630d542c17294dcf6b292cfaeb576adbbbc
+commit: 0cc7e1dcc1a2c4ff4d852743c07675e3e0af2ac2 [51/59] arm64: dts: marvell: armada-8040: Align GPIO hog name with bindings
+:::::: branch date: 25 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171858.Q8g7IO98-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171858.Q8g7IO98-lkp@intel.com/reproduce)
 
-already discussed here:
-https://lore.kernel.org/all/ef1ea5da-4344-4c59-8d2b1b52533ef0cd@foss.st.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202501171858.Q8g7IO98-lkp@intel.com/
 
-I'll provide a new revision to make this code more friendly with this error
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: config-space@f2000000: $nodename:0: 'config-space@f2000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000: failed to match any schema with compatible: ['marvell,cp110-icu']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@10: failed to match any schema with compatible: ['marvell,cp110-icu-nsr']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
+>> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges', 'lte-disable-hog', 'lte-reset-hog', 'sata-reset-hog', 'wlan_disable-hog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-Regards
-
-Christian
-
-On 1/17/25 09:38, Dan Carpenter wrote:
-> Hi Christian,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Bruel/phy-stm32-Optimize-tuning-values-from-DT/20250113-172435
-> base:   v6.13-rc7
-> patch link:    https://lore.kernel.org/r/20250113092001.1344151-1-christian.bruel%40foss.st.com
-> patch subject: [PATCH v2] phy: stm32: Optimize tuning values from DT.
-> config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171619.0XDYDyBZ-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202501171619.0XDYDyBZ-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/phy/st/phy-stm32-combophy.c:147 stm32_impedance_tune() error: buffer overflow 'imp_lookup' 8 <= 8 (assuming for loop doesn't break)
-> drivers/phy/st/phy-stm32-combophy.c:564 stm32_combophy_probe() warn: passing zero to 'dev_err_probe'
-> 
-> vim +147 drivers/phy/st/phy-stm32-combophy.c
-> 
-> 31219ca5436f01 Christian Bruel 2025-01-13  119  static void stm32_impedance_tune(struct stm32_combophy *combophy)
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  120  {
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  121  	u8 imp_of, vswing_of;
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  122  	u32 regval;
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  123
-> 31219ca5436f01 Christian Bruel 2025-01-13  124  	if (combophy->microohm) {
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  125  		regval = 0;
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  126  		for (imp_of = 0; imp_of < ARRAY_SIZE(imp_lookup); imp_of++) {
-> 31219ca5436f01 Christian Bruel 2025-01-13  127  			if (imp_lookup[imp_of].microohm <= combophy->microohm) {
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  128  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_OHM, imp_of);
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  129  				break;
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  130  			}
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  131  		}
-> 
-> If we don't hit the break sttaement above
-> 
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  132
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  133  		dev_dbg(combophy->dev, "Set %u micro-ohms output impedance\n",
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  134  			imp_lookup[imp_of].microohm);
->                                                                                     ^^^^^^
-> Then this is an out of bounds access.
-> 
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  135
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  136  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  137  				   STM32MP25_PCIEPRG_IMPCTRL_OHM,
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  138  				   regval);
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  139  	} else {
-> 31219ca5436f01 Christian Bruel 2025-01-13  140  		/* default is 50 ohm */
-> 31219ca5436f01 Christian Bruel 2025-01-13  141  		imp_of = 3;
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  142  	}
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  143
-> 31219ca5436f01 Christian Bruel 2025-01-13  144  	if (combophy->microvolt) {
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  145  		regval = 0;
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  146  		for (vswing_of = 0; vswing_of < ARRAY_SIZE(imp_lookup[imp_of].vswing); vswing_of++) {
-> 31219ca5436f01 Christian Bruel 2025-01-13 @147  			if (imp_lookup[imp_of].vswing[vswing_of] >= combophy->microvolt) {
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  148  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_VSWING, vswing_of);
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  149  				break;
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  150  			}
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  151  		}
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  152
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  153  		dev_dbg(combophy->dev, "Set %u microvolt swing\n",
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  154  			 imp_lookup[imp_of].vswing[vswing_of]);
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  155
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  156  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  157  				   STM32MP25_PCIEPRG_IMPCTRL_VSWING,
-> 2de679ecd724b8 Arnd Bergmann   2024-11-11  158  				   regval);
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  159  	}
-> 47e1bb6b4ba098 Christian Bruel 2024-09-30  160  }
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
