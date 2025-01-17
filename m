@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38991F6687
-	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jan 2025 08:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3971F7577
+	for <oe-kbuild@lists.linux.dev>; Fri, 17 Jan 2025 08:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737102133; cv=none; b=TlUb6qgjM0KbGNixht7L/5NxLgCluPyeyck6k3l2efKGW5/hUrepk7gRP5rOCDv1XJqhAwNsLBhYQrqG9KlhJjEqkx10va/RKaMtpq7qpmejhUpnbAJZq142G5Bit5JVx8QEuj0MJ3SNhK+4DOhjaqPqI6szS2NT+0JDoEEr2UE=
+	t=1737102854; cv=none; b=n/4qNVfxRkcqnYb/92X/BW08gHycHbG9XVUA1XDu9amYqpF99hqkdO1dTxqj+YuFTZvv7//bBXl46nCAoC+KhHf+i+HfS7cjslvZcot2e4crlpUScgxEH5mO6DW/WFJn3IGRz0Y2PxQ8aJnwSQEOLSjzYUQNbhv0XSnYDUvg+EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737102133; c=relaxed/simple;
-	bh=2mj44huz4Im1bKXQw73qJUL7mbmtcODYxP0OHaMh9R0=;
+	s=arc-20240116; t=1737102854; c=relaxed/simple;
+	bh=GFDmsMNmEZMRginQIzlWE4AQbGejlpZ+dsrsCMmaZSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=crBICmylrWNA2by6ytr2X6d8ki31ioovEUKjB51fQ9ruymz4gcCdkkH9KfLIOouWkFCwnA/qmthFyK2wdBJLvqoGKsxYRfUxXDEiy/6hMhYoK3nZfGHNFHYT7ohcrngbfpIy6nbYmzFa9XKnQbEFJvPPYd8jnpLS/zAyi9gWHvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c68Fopx9; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=QwUpdmD/SHeMQD46c3XVZhDRlPFM6ZXlkynGoNrGyWxL68w7lctBvdMhlTw6f0niB4jS83ud/rvo/dpOUc6sz/7etHPc7rmYVGuuR44AD/eQgeKbRK3PxyVxOm0sTTbk1Bf2+g43cTvGYE9RV5WU92ZsBN0SOt+VSMSsiiHb0bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHUkTodS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c68Fopx9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHUkTodS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737102132; x=1768638132;
+  t=1737102852; x=1768638852;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2mj44huz4Im1bKXQw73qJUL7mbmtcODYxP0OHaMh9R0=;
-  b=c68Fopx9joL8rSqluPOckEKtQxQBKViiRVyUaviOIut5HIT4tpww1WuJ
-   kAfXXVJBbLqxcMEU2vi2f3LWoozmKT6pn6dkyoBSZ29MTPBwj+I7vqRnq
-   678ml+o5ObBH5QN2XR8niRQWgtNbS3cn21QodRIrrK9Q8AFbGpvvhT40s
-   6wY6YZ/mP/0PlJQliaXgHQwAJEXDP8BRiHPS8jUcgfEcHCDh6SWHEP59Q
-   nL9KMFWbqmGeRVGSBzPxkBP0YPYHiO8HkjUz6lULnYGkel/IHIHb3+b4E
-   gAqpubYKjsJINVav+XWhQcXVdL91/zL9um5BkB/9svXdokmWk+4121wEs
-   Q==;
-X-CSE-ConnectionGUID: AsOkQJuXTCOqFrrJxO+13w==
-X-CSE-MsgGUID: zLmEo7svQ1uhJ0hyxqVImA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="36807216"
+  bh=GFDmsMNmEZMRginQIzlWE4AQbGejlpZ+dsrsCMmaZSM=;
+  b=dHUkTodSPVJMlMUOvBBeL/iv5p+NH6YS/Cy5wA8UaDQke23d+Qj9MHKn
+   kB0pNXg59XSxDcGU2cAMFhKP4iBe2zwj16IBlZIsr5hcYAFskUsqUKyY9
+   IqKuChqs+hWNe5/gCV5sJQ5Fqkf9ECFJhZ850MIyHTFBQF4HLjOoojVOK
+   dcOajMqQrBcQ6pcH+ccWfNAEda/KNQ2NdW9aoZrESA8lN4fyF5mE06a/l
+   GgCwh1U2jG+skDhD8vIdUXK2vVtwT7S91Zo6otu55EH01Kaj1EzufBvpa
+   NdVQYlaRdoAhP3MMVKj8fQskHpSO3+tfPpxU1PJxozh6b/fdMjr3fTTXy
+   g==;
+X-CSE-ConnectionGUID: qp8gEF00S1OoDGoByAU+nw==
+X-CSE-MsgGUID: nWj21tuIQ5CQqNvJO366vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37553110"
 X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="36807216"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 00:22:11 -0800
-X-CSE-ConnectionGUID: l5aBZ9ZLT+CMivU464xSTg==
-X-CSE-MsgGUID: cyFuj0WBQgyuE3VF7J8oIw==
+   d="scan'208";a="37553110"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 00:34:12 -0800
+X-CSE-ConnectionGUID: 2xt9HCf6T82qHkzg4nYUew==
+X-CSE-MsgGUID: xPJEiv8bSDmZmDv2PU4e1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="110752050"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="109812144"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Jan 2025 00:22:09 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 17 Jan 2025 00:34:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tYhcF-000SxL-2F;
-	Fri, 17 Jan 2025 08:22:07 +0000
-Date: Fri, 17 Jan 2025 16:21:16 +0800
+	id 1tYhnt-000Sxx-00;
+	Fri, 17 Jan 2025 08:34:09 +0000
+Date: Fri, 17 Jan 2025 16:33:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] phy: stm32: Optimize tuning values from DT.
-Message-ID: <202501171619.0XDYDyBZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:n/str-enable-disable 48/59]
+ arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000:
+ 'asm-sel-hog' does not match any of the regexes: '-pins(-[a-z]+)?$',
+ 'pinctrl-[0-9]+'
+Message-ID: <202501171621.Uc4WiY0K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,102 +64,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250113092001.1344151-1-christian.bruel@foss.st.com>
-References: <20250113092001.1344151-1-christian.bruel@foss.st.com>
-TO: Christian Bruel <christian.bruel@foss.st.com>
-TO: vkoul@kernel.org
-TO: kishon@kernel.org
-TO: mcoquelin.stm32@gmail.com
-TO: alexandre.torgue@foss.st.com
-TO: p.zabel@pengutronix.de
-TO: linux-phy@lists.infradead.org
-TO: linux-stm32@st-md-mailman.stormreply.com
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-kernel@vger.kernel.org
-TO: fabrice.gasnier@foss.st.com
-CC: Christian Bruel <christian.bruel@foss.st.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.13-rc7]
-[also build test WARNING on linus/master next-20250116]
-[cannot apply to atorgue-stm32/stm32-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Bruel/phy-stm32-Optimize-tuning-values-from-DT/20250113-172435
-base:   v6.13-rc7
-patch link:    https://lore.kernel.org/r/20250113092001.1344151-1-christian.bruel%40foss.st.com
-patch subject: [PATCH v2] phy: stm32: Optimize tuning values from DT.
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171619.0XDYDyBZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://github.com/krzk/linux n/str-enable-disable
+head:   bd2e2630d542c17294dcf6b292cfaeb576adbbbc
+commit: d4d9adeac6c6e57df4d88a6a919b4ee9e7f728eb [48/59] arm64: dts: mediatek: mt7622: Align GPIO hog name with bindings
+:::::: branch date: 24 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250117 (https://download.01.org/0day-ci/archive/20250117/202501171621.Uc4WiY0K-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250117/202501171621.Uc4WiY0K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501171619.0XDYDyBZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501171621.Uc4WiY0K-lkp@intel.com/
 
-New smatch warnings:
-drivers/phy/st/phy-stm32-combophy.c:147 stm32_impedance_tune() error: buffer overflow 'imp_lookup' 8 <= 8 (assuming for loop doesn't break)
-drivers/phy/st/phy-stm32-combophy.c:564 stm32_combophy_probe() warn: passing zero to 'dev_err_probe'
-
-Old smatch warnings:
-drivers/phy/st/phy-stm32-combophy.c:569 stm32_combophy_probe() warn: passing zero to 'dev_err_probe'
-
-vim +147 drivers/phy/st/phy-stm32-combophy.c
-
-47e1bb6b4ba098 Christian Bruel 2024-09-30  118  
-31219ca5436f01 Christian Bruel 2025-01-13  119  static void stm32_impedance_tune(struct stm32_combophy *combophy)
-47e1bb6b4ba098 Christian Bruel 2024-09-30  120  {
-47e1bb6b4ba098 Christian Bruel 2024-09-30  121  	u8 imp_of, vswing_of;
-2de679ecd724b8 Arnd Bergmann   2024-11-11  122  	u32 regval;
-47e1bb6b4ba098 Christian Bruel 2024-09-30  123  
-31219ca5436f01 Christian Bruel 2025-01-13  124  	if (combophy->microohm) {
-2de679ecd724b8 Arnd Bergmann   2024-11-11  125  		regval = 0;
-2de679ecd724b8 Arnd Bergmann   2024-11-11  126  		for (imp_of = 0; imp_of < ARRAY_SIZE(imp_lookup); imp_of++) {
-31219ca5436f01 Christian Bruel 2025-01-13  127  			if (imp_lookup[imp_of].microohm <= combophy->microohm) {
-2de679ecd724b8 Arnd Bergmann   2024-11-11  128  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_OHM, imp_of);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  129  				break;
-2de679ecd724b8 Arnd Bergmann   2024-11-11  130  			}
-2de679ecd724b8 Arnd Bergmann   2024-11-11  131  		}
-47e1bb6b4ba098 Christian Bruel 2024-09-30  132  
-47e1bb6b4ba098 Christian Bruel 2024-09-30  133  		dev_dbg(combophy->dev, "Set %u micro-ohms output impedance\n",
-47e1bb6b4ba098 Christian Bruel 2024-09-30  134  			imp_lookup[imp_of].microohm);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  135  
-47e1bb6b4ba098 Christian Bruel 2024-09-30  136  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-47e1bb6b4ba098 Christian Bruel 2024-09-30  137  				   STM32MP25_PCIEPRG_IMPCTRL_OHM,
-2de679ecd724b8 Arnd Bergmann   2024-11-11  138  				   regval);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  139  	} else {
-31219ca5436f01 Christian Bruel 2025-01-13  140  		/* default is 50 ohm */
-31219ca5436f01 Christian Bruel 2025-01-13  141  		imp_of = 3;
-47e1bb6b4ba098 Christian Bruel 2024-09-30  142  	}
-47e1bb6b4ba098 Christian Bruel 2024-09-30  143  
-31219ca5436f01 Christian Bruel 2025-01-13  144  	if (combophy->microvolt) {
-2de679ecd724b8 Arnd Bergmann   2024-11-11  145  		regval = 0;
-2de679ecd724b8 Arnd Bergmann   2024-11-11  146  		for (vswing_of = 0; vswing_of < ARRAY_SIZE(imp_lookup[imp_of].vswing); vswing_of++) {
-31219ca5436f01 Christian Bruel 2025-01-13 @147  			if (imp_lookup[imp_of].vswing[vswing_of] >= combophy->microvolt) {
-2de679ecd724b8 Arnd Bergmann   2024-11-11  148  				regval = FIELD_PREP(STM32MP25_PCIEPRG_IMPCTRL_VSWING, vswing_of);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  149  				break;
-2de679ecd724b8 Arnd Bergmann   2024-11-11  150  			}
-2de679ecd724b8 Arnd Bergmann   2024-11-11  151  		}
-47e1bb6b4ba098 Christian Bruel 2024-09-30  152  
-47e1bb6b4ba098 Christian Bruel 2024-09-30  153  		dev_dbg(combophy->dev, "Set %u microvolt swing\n",
-47e1bb6b4ba098 Christian Bruel 2024-09-30  154  			 imp_lookup[imp_of].vswing[vswing_of]);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  155  
-47e1bb6b4ba098 Christian Bruel 2024-09-30  156  		regmap_update_bits(combophy->regmap, SYSCFG_PCIEPRGCR,
-47e1bb6b4ba098 Christian Bruel 2024-09-30  157  				   STM32MP25_PCIEPRG_IMPCTRL_VSWING,
-2de679ecd724b8 Arnd Bergmann   2024-11-11  158  				   regval);
-47e1bb6b4ba098 Christian Bruel 2024-09-30  159  	}
-47e1bb6b4ba098 Christian Bruel 2024-09-30  160  }
-47e1bb6b4ba098 Christian Bruel 2024-09-30  161  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pwrap@10001000: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pwrap@10001000/regulators: failed to match any schema with compatible: ['mediatek,mt6380-regulator']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /power-controller@10006000: failed to match any schema with compatible: ['mediatek,mt7622-scpsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg: [[0, 270602240, 0, 4096], [0, 268455936, 0, 4096]] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg-names:0: 'eint' was expected
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: reg-names: ['base', 'eint'] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: pinctrl@10211000: 'asm-sel-hog' does not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7622-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: cci@10390000: slave-if@5000:compatible: ['arm,cci-400-ctrl-if', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,cci-400.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller:clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
 
 -- 
 0-DAY CI Kernel Test Service
