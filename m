@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA38A13B2B8
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jan 2025 06:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2380A3A8D2
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jan 2025 09:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737180394; cv=none; b=jp39EMfGjyeO5xYULlQpGmwdhgKWxQ1Y/JtU6O06kDZbhLO42+kRJGA9Nrbc0NNudCDWxXFxtVoNN+/ORUP84bLPlB9K6rzRKcN/INHjg9VAExedEMf/5HW1DTWWfh/KKP2+j334pZOju5p2HQdP2UKFcDghcP1zvKOegC9cXQ4=
+	t=1737192771; cv=none; b=k04MGVmig2C9A++C2vshG0K4Hle385OBtpGq25gVVnD2KE7wjHT4Q/69AHXdDCY/y/M0hjsHJvqxjemC/S6QIlJGGwzDyWwHD4AvobgvK3/FcVh3so847TCl91BQkkt4hac23qToQdCq4M73IZ0eZbAaeae2HpvsWsXpvcHR1rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737180394; c=relaxed/simple;
-	bh=Cc6KY54/47Pm4n59Sofr1aKB3zRhq+cYVxx5pprqgNc=;
+	s=arc-20240116; t=1737192771; c=relaxed/simple;
+	bh=WfnkFnTshcE5igcAhCtLeFOYFqXoJEQbWdMOlXKGJA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u+Yn5/QSvcnZqSMkDkqjnsIqgiNCSZZcEHrM2mt83DrEgb9FH4iIO83uBrNOUGVYMaQqnfEIWVCkegNREgBLqVLGHwnL2DAHseD3KAwdy2YH3vzSBwcN8ONOxHPV9IBypyYjh9fWDMGNRosa93Hmg4uD3cC/k4yKbA22XstaePU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5gBTGKs; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=SHE+olPscVxoV2ax/uwTmkiQgVp1nIazRdPvNOhFK0CZqVjh1N7U/sxq5teP05XFgSctRMJSr+ZLJf6UuNJXeXzqWHjOzlaJ9iWUCLvSAu2iCbcV4isX/nVMB3rnctseM2ykwPofvLnAUdjXXtx8Ln9U1KMqb7ghky8npyBDtDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPTYkb4q; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5gBTGKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPTYkb4q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737180393; x=1768716393;
+  t=1737192770; x=1768728770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cc6KY54/47Pm4n59Sofr1aKB3zRhq+cYVxx5pprqgNc=;
-  b=M5gBTGKsuqhgFCkS0pt3mwNSyrskXroZbOuxxPeomhaexZa6XG/UsfzX
-   XwtRdgLWRkgCAJ78xN/yOzuGNQBL3c9gALyChoUvz0ol/yNF5RapR+W+v
-   uLP9nTjXtiqgK5/cxemjdTiDzZ4113zXQ0DUZ705/AtjRASsLyWwCVAxx
-   Ujc9MssUPWi3Z5ZEBgFCptOnRt2wO7iZ1SlMQn/nCPtnFp5niCyuCCAqM
-   IiORCv1a5lT1FMuQijrsVy2OJuRvPB92Tiw1nv7+UEH2v7Lov4Z3R7cTI
-   FPhxzBhl7AaQFSGajyW3JbsQqJM2QQ1JALjkxYt/kMV5gAM3yRSK4fXEp
-   A==;
-X-CSE-ConnectionGUID: G+AN3gmFT9CAgN+/qH9TEA==
-X-CSE-MsgGUID: CEwVvIRaS1SjRGGD+gJ+ZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="48616538"
+  bh=WfnkFnTshcE5igcAhCtLeFOYFqXoJEQbWdMOlXKGJA8=;
+  b=cPTYkb4q5OInAbGN53eH/8QqQlhL6C40z/3etO5++Lq++/xOnyBXKsWn
+   njju2Fh5Z5SL33OglDBd1rwMme9fMGL2Fw3oY0BAE5mptfLLcTsoxt3FE
+   suiLuUbyBLcsxanUk4cnu8cScaWVD8TfQp1T07jni4kVqrzJmTvAV9F8b
+   9EEDu8vUPhKmthG/mKzam88hHdNNrvSAbNlcG/JgZVlD/6q0WYcY3aV1P
+   AUj0dCwOzW3YY88iktsgFq3udg4FDmPvrYHIn0Q6jE7mDbNyESRlOU1ap
+   ydtc3d35xNOJHwwI8MA4WEJsuCVjWOD2Wwcr+HPq0BXO1izqw9B3oEAos
+   g==;
+X-CSE-ConnectionGUID: WmQfu3AATG6pO24p/LwcxA==
+X-CSE-MsgGUID: lz7wFY6dRySIJV8XvXcPhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37505892"
 X-IronPort-AV: E=Sophos;i="6.13,214,1732608000"; 
-   d="scan'208";a="48616538"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 22:06:30 -0800
-X-CSE-ConnectionGUID: XB2C602TQhquEwyT9mlcjg==
-X-CSE-MsgGUID: 31sueQjeSueOb905Esimqw==
+   d="scan'208";a="37505892"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 01:32:49 -0800
+X-CSE-ConnectionGUID: F2FVJ70WQSS/JVtBATcY9A==
+X-CSE-MsgGUID: PI7W2DhZTtmf7M8vfsAt5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,214,1732608000"; 
-   d="scan'208";a="105960173"
+   d="scan'208";a="136867134"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Jan 2025 22:06:28 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Jan 2025 01:32:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ1yU-000U8t-25;
-	Sat, 18 Jan 2025 06:06:26 +0000
-Date: Sat, 18 Jan 2025 14:06:04 +0800
+	id 1tZ5CA-000UGw-0I;
+	Sat, 18 Jan 2025 09:32:46 +0000
+Date: Sat, 18 Jan 2025 17:32:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/3] SUNRPC: add ability to remove specific server
- transport
-Message-ID: <202501181309.JDrzOa1M-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/xe/xe_devcoredump.c:184:21-22: WARNING opportunity
+ for min()
+Message-ID: <202501181736.zf2HY8rj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,81 +64,59 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250115232406.44815-3-okorniev@redhat.com>
-References: <20250115232406.44815-3-okorniev@redhat.com>
-TO: Olga Kornievskaia <okorniev@redhat.com>
-TO: chuck.lever@oracle.com
-TO: jlayton@kernel.org
-CC: linux-nfs@vger.kernel.org
-CC: Olga Kornievskaia <okorniev@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Matthew Brost <matthew.brost@intel.com>
+CC: Jonathan Cavitt <jonathan.cavitt@intel.com>
 
-Hi Olga,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on brauner-vfs/vfs.all linus/master v6.13-rc7 next-20250117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Olga-Kornievskaia/llist-add-ability-to-remove-a-particular-entry-from-the-list/20250116-072951
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250115232406.44815-3-okorniev%40redhat.com
-patch subject: [PATCH 2/3] SUNRPC: add ability to remove specific server transport
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250118/202501181309.JDrzOa1M-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   595523945be0a5a2f12a1c04772383293fbc04a1
+commit: 4f04d07c0a94b0b30db839e44f1b8364a1b508ac drm/xe: Faster devcoredump
+date:   6 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 months ago
+config: microblaze-randconfig-r061-20250118 (https://download.01.org/0day-ci/archive/20250118/202501181736.zf2HY8rj-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501181309.JDrzOa1M-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501181736.zf2HY8rj-lkp@intel.com/
 
-smatch warnings:
-include/linux/llist.h:282 llist_del_entry() error: uninitialized symbol 'pos'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_devcoredump.c:184:21-22: WARNING opportunity for min()
 
-vim +/pos +282 include/linux/llist.h
+vim +184 drivers/gpu/drm/xe/xe_devcoredump.c
 
-476c5818c37a78 Peter Zijlstra    2020-08-29  255  
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  256  /**
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  257   * llist_del_entry - remove a particular entry from a lock-less list
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  258   * @head: head of the list to remove the entry from
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  259   * @entry: entry to be removed from the list
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  260   *
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  261   * Walk the list, find the given entry and remove it from the list.
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  262   * The caller must ensure that nothing can race in and change the
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  263   * list while this is running.
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  264   *
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  265   * Returns true if the entry was found and removed.
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  266   */
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  267  static inline bool llist_del_entry(struct llist_head *head, struct llist_node *entry)
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  268  {
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  269  	struct llist_node *pos;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  270  
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  271  	if (!head->first)
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  272  		return false;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  273  
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  274  	/* Is it the first entry? */
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  275  	if (head->first == entry) {
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  276  		head->first = entry->next;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  277  		entry->next = entry;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  278  		return true;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  279  	}
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  280  
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  281  	/* Find it in the list */
-fe4067c661ab58 Olga Kornievskaia 2025-01-15 @282  	llist_for_each(head->first, pos) {
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  283  		if (pos->next == entry) {
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  284  			pos->next = entry->next;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  285  			entry->next = entry;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  286  			return true;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  287  		}
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  288  	}
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  289  	return false;
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  290  }
-fe4067c661ab58 Olga Kornievskaia 2025-01-15  291  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  162  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  163  static ssize_t xe_devcoredump_read(char *buffer, loff_t offset,
+4f04d07c0a94b0 Matthew Brost 2024-08-01  164  				   size_t count, void *data, size_t datalen)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  165  {
+4f04d07c0a94b0 Matthew Brost 2024-08-01  166  	struct xe_devcoredump *coredump = data;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  167  	struct xe_devcoredump_snapshot *ss;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  168  	ssize_t byte_copied;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  169  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  170  	if (!coredump)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  171  		return -ENODEV;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  172  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  173  	ss = &coredump->snapshot;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  174  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  175  	/* Ensure delayed work is captured before continuing */
+4f04d07c0a94b0 Matthew Brost 2024-08-01  176  	flush_work(&ss->work);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  177  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  178  	if (!ss->read.buffer)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  179  		return -ENODEV;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  180  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  181  	if (offset >= ss->read.size)
+4f04d07c0a94b0 Matthew Brost 2024-08-01  182  		return 0;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  183  
+4f04d07c0a94b0 Matthew Brost 2024-08-01 @184  	byte_copied = count < ss->read.size - offset ? count :
+4f04d07c0a94b0 Matthew Brost 2024-08-01  185  		ss->read.size - offset;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  186  	memcpy(buffer, ss->read.buffer + offset, byte_copied);
+4f04d07c0a94b0 Matthew Brost 2024-08-01  187  
+4f04d07c0a94b0 Matthew Brost 2024-08-01  188  	return byte_copied;
+4f04d07c0a94b0 Matthew Brost 2024-08-01  189  }
+4f04d07c0a94b0 Matthew Brost 2024-08-01  190  
 
 -- 
 0-DAY CI Kernel Test Service
