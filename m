@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C227CF16
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jan 2025 12:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5141425A63C
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jan 2025 13:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737204013; cv=none; b=DJeg6huL8y5VBbR7g5llig2WJ/isBMozEnHyuRunq8yDIUtRn8kAv65uueoxVOBt7WSXVEOYBf/+xUJeudXnpdEE00TgzGohOv8y0QAOkj7phidOY2XjemSDpoMkpZc0nkqVQZ7T9JpcmzqGAdHIDMzJHm0duEox9DRNQ4NGyjw=
+	t=1737206536; cv=none; b=VGvEG8dSGxjJlBynwZZLdJSqaoyLzNRMerlleBnqPyjqFvqvr2s+pLQYQplryYrjzaap+R2X3UNVZG5Qut9su4TBa7TfvOBYz9yHCTWnFUfaUzp2InVMUV/qAJC64NueZH0GO6JKorwl+VwdgOb2iXq1k8DOj+voZpWz0dytqRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737204013; c=relaxed/simple;
-	bh=fFMTo4LVqC2deiTFwiUdErEQSie+3rpHqSfDyczFFKg=;
+	s=arc-20240116; t=1737206536; c=relaxed/simple;
+	bh=oZrSK+CommWefL+gscT8GSEi7AfzsXjxmUkkb75rHHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L5gD4p8jTFWNrZjFG8iUMOTAVxpBZOQMuCOeMWMyD2sDhc+Eca76fE51J6SjMH2OQMyibQ4/RiixvEssYhsHTRPY1L9r9wtT8+/1AEuQKqC3+WDjsmPFXQiBM+xiI44hdSjbm7H7wCMT6V2hjXawW2dzTRJhGstlBC7H48sDwhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkwpPpSP; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=VQymOLOGFhFKLoai3ezlARDVGU9GFPS89GDV7vbs+iERfvi5vb2PDFyj5ZY8pOPlbc5FyD5rx39pOAlEzpED146j5t4xaDYVjvSIKB6046M6bDIfasOHQx8+K6fuZTPey1kOQ4IHgYoDpml9ZaSZeyC75pKvJbefnPpfKgBHhcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhRDdVRf; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkwpPpSP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhRDdVRf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737204011; x=1768740011;
+  t=1737206534; x=1768742534;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fFMTo4LVqC2deiTFwiUdErEQSie+3rpHqSfDyczFFKg=;
-  b=ZkwpPpSP8DgmtkjgYk1p3e/uFMIZB507lhey3z5gMlCWomF1dhPii0FS
-   IW9g0727xT90WA627b6CoInUpueLvEZSQPVLUswM+MTpVqvGV9vfSMiu4
-   xGH1XhVm1J4SoSvHHfngb2iWoBOpl6rxMbeDPl6HI4vCo/N00tCZ/qwU9
-   aR1rhcjeLe7Y0XWXOZ70oiV9Ab0I3izcdCdqu+4P5vbKSVYawhyYZ5Ybk
-   5+KkOfq/iyO0HgS68ALp7jZkWAwhvt9XhFCdQaOh9kaLOpQrI31dkKMrP
-   pxcihvKzRhc4FA7ld/l0M35NXITF51UXLhOP3DTjdl/Va3LKl6H83953T
-   g==;
-X-CSE-ConnectionGUID: t7nojGJzThytCDqFJjVp0Q==
-X-CSE-MsgGUID: fPRX5Hh8Scmmzz3nC2OqmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="37782100"
+  bh=oZrSK+CommWefL+gscT8GSEi7AfzsXjxmUkkb75rHHM=;
+  b=LhRDdVRfTQFOTeA5+Qjk5UqswRGYQ7SqaCxSWANNA+bXs58Ica5BINoR
+   GisfSkgqYG2JdllDzfoCMog/MgmuDD7H3l0wCFXx7FOqVS4OCLp8lEym4
+   r9OkimPty7GbWge87S+YurncIDORx/SZzZWijdwn7PvksHQYStOupeIab
+   M2CkKtyEN8dLoGds1T6X++6jmEuEufExJXmHuIn2YZ85WNIvfKYyvFBym
+   qD1N2CMdFSzIGXVO1eMnuxNvhNolKuTvXmFEDn1sJR5FbLtQ40vT4FaJ8
+   dFw5bvR2ZTUYKHVhCWmoz3qRPmqmn3rsPHK8ELADzPTCX6mhXwFf+UFeF
+   A==;
+X-CSE-ConnectionGUID: BOu+KzgsR9+egBm2xpIx/A==
+X-CSE-MsgGUID: pH5cw1DDQaS4lsKu02ivAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="25229047"
 X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="37782100"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 04:40:09 -0800
-X-CSE-ConnectionGUID: Kgh7o0nhQhKE+WaYCLKoig==
-X-CSE-MsgGUID: ZCP1d5/KQnmw9A0gX4mOtg==
+   d="scan'208";a="25229047"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 05:22:14 -0800
+X-CSE-ConnectionGUID: /bvRSfO/SP6fRBEgUXfV+g==
+X-CSE-MsgGUID: XZ3sAfaNQj6QmkbhySsUHw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,215,1732608000"; 
-   d="scan'208";a="111041622"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111167537"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jan 2025 04:40:08 -0800
+  by orviesa005.jf.intel.com with ESMTP; 18 Jan 2025 05:22:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZ87S-000URH-0h;
-	Sat, 18 Jan 2025 12:40:06 +0000
-Date: Sat, 18 Jan 2025 20:39:33 +0800
+	id 1tZ8m9-000UT1-2a;
+	Sat, 18 Jan 2025 13:22:09 +0000
+Date: Sat, 18 Jan 2025 21:21:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:mtk-wip 27/48]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pinctrl@10005000:
- 'dpi_pin_default', 'dpi_pin_func' do not match any of the regexes: '-pins$',
- 'pinctrl-[0-9]+'
-Message-ID: <202501182045.cDaRhpFZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8229/9563] drivers/acpi/numa/srat.c:136
+ fix_pxm_node_maps() warn: for statement not indented
+Message-ID: <202501182145.pZnZ051s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,83 +62,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
+TO: Bruno Faccini <bfaccini@nvidia.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
-commit: 35c4dd3889c449f98db9f3d7c8d24afb8f031582 [27/48] arm64: dts: mediatek: asurada: Enable external display pipeline
-:::::: branch date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0907e7fb35756464aa34c35d6abb02998418164b
+commit: ca19a5ab8756ef78c34d02d2b8c266a9cc7bf57d [8229/9563] mm/fake-numa: allow later numa node hotplug
+:::::: branch date: 31 hours ago
 :::::: commit date: 4 days ago
-config: arm64-randconfig-053-20250117 (https://download.01.org/0day-ci/archive/20250118/202501182045.cDaRhpFZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501182045.cDaRhpFZ-lkp@intel.com/reproduce)
+config: x86_64-randconfig-161-20250117 (https://download.01.org/0day-ci/archive/20250118/202501182145.pZnZ051s-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501182045.cDaRhpFZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501182145.pZnZ051s-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pinctrl@10005000: 'dpi_pin_default', 'dpi_pin_func' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8192-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic: regulators: 'compatible' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic: '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+smatch warnings:
+drivers/acpi/numa/srat.c:136 fix_pxm_node_maps() warn: for statement not indented
+
+vim +136 drivers/acpi/numa/srat.c
+
+762834e8bf46bf4 drivers/acpi/numa.c      Yasunori Goto 2006-06-23   83  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   84  #ifdef CONFIG_NUMA_EMU
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   85  /*
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   86   * Take max_nid - 1 fake-numa nodes into account in both
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   87   * pxm_to_node_map()/node_to_pxm_map[] tables.
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   88   */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   89  int __init fix_pxm_node_maps(int max_nid)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   90  {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   91  	static int pxm_to_node_map_copy[MAX_PXM_DOMAINS] __initdata
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   92  			= { [0 ... MAX_PXM_DOMAINS - 1] = NUMA_NO_NODE };
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   93  	static int node_to_pxm_map_copy[MAX_NUMNODES] __initdata
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   94  			= { [0 ... MAX_NUMNODES - 1] = PXM_INVAL };
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   95  	int i, j, index = -1, count = 0;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   96  	nodemask_t nodes_to_enable;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   97  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   98  	if (numa_off || srat_disabled())
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06   99  		return -1;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  100  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  101  	/* find fake nodes PXM mapping */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  102  	for (i = 0; i < MAX_NUMNODES; i++) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  103  		if (node_to_pxm_map[i] != PXM_INVAL) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  104  			for (j = 0; j <= max_nid; j++) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  105  				if ((emu_nid_to_phys[j] == i) &&
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  106  				    WARN(node_to_pxm_map_copy[j] != PXM_INVAL,
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  107  					 "Node %d is already binded to PXM %d\n",
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  108  					 j, node_to_pxm_map_copy[j]))
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  109  					return -1;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  110  				if (emu_nid_to_phys[j] == i) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  111  					node_to_pxm_map_copy[j] =
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  112  						node_to_pxm_map[i];
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  113  					if (j > index)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  114  						index = j;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  115  					count++;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  116  				}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  117  			}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  118  		}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  119  	}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  120  	if (WARN(index != max_nid, "%d max nid  when expected %d\n",
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  121  		      index, max_nid))
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  122  		return -1;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  123  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  124  	nodes_clear(nodes_to_enable);
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  125  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  126  	/* map phys nodes not used for fake nodes */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  127  	for (i = 0; i < MAX_NUMNODES; i++) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  128  		if (node_to_pxm_map[i] != PXM_INVAL) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  129  			for (j = 0; j <= max_nid; j++)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  130  				if (emu_nid_to_phys[j] == i)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  131  					break;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  132  			/* fake nodes PXM mapping has been done */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  133  			if (j <= max_nid)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  134  				continue;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  135  			/* find first hole */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06 @136  			for (j = 0;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  137  			     j < MAX_NUMNODES &&
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  138  				 node_to_pxm_map_copy[j] != PXM_INVAL;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  139  			     j++)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  140  			;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  141  			if (WARN(j == MAX_NUMNODES,
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  142  			    "Number of nodes exceeds MAX_NUMNODES\n"))
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  143  				return -1;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  144  			node_to_pxm_map_copy[j] = node_to_pxm_map[i];
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  145  			node_set(j, nodes_to_enable);
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  146  			count++;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  147  		}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  148  	}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  149  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  150  	/* creating reverse mapping in pxm_to_node_map[] */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  151  	for (i = 0; i < MAX_NUMNODES; i++)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  152  		if (node_to_pxm_map_copy[i] != PXM_INVAL &&
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  153  		    pxm_to_node_map_copy[node_to_pxm_map_copy[i]] == NUMA_NO_NODE)
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  154  			pxm_to_node_map_copy[node_to_pxm_map_copy[i]] = i;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  155  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  156  	/* overwrite with new mapping */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  157  	for (i = 0; i < MAX_NUMNODES; i++) {
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  158  		node_to_pxm_map[i] = node_to_pxm_map_copy[i];
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  159  		pxm_to_node_map[i] = pxm_to_node_map_copy[i];
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  160  	}
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  161  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  162  	/* enable other nodes found in PXM for hotplug */
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  163  	nodes_or(numa_nodes_parsed, nodes_to_enable, numa_nodes_parsed);
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  164  
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  165  	pr_debug("found %d total number of nodes\n", count);
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  166  	return 0;
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  167  }
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  168  #endif
+ca19a5ab8756ef7 drivers/acpi/numa/srat.c Bruno Faccini 2025-01-06  169  
 
 -- 
 0-DAY CI Kernel Test Service
