@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1733136D
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 18:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7041885A1
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 21:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737310675; cv=none; b=ceVDvrXs1/H4wzBRs2fYVdk2o1HMoZ/4o/i3aQe52yymsFuli4villLob/6UV/azirw1KOJ5X+njN8Th/+sXgVJv/si54hbEo7byPpg3TL7/SFjGB3XX6msTJBRpbHRjD+DDovjdJTQlpfcuPtT4VSDlYK1s/Nv0bYhOr0FsoFM=
+	t=1737320545; cv=none; b=XCbpinYYFl7kLJoWXvDsa6C6UKSoWcyePpsvujggyoS/3vg0NFlDbwhnOnSglsmi2mGSeXsdavVEguZJIjtt8YHq3ZUP7D6tDue4ZDHBGrqaW1y8Vr0c9nsQT81k2iuUdKEgs1sIKUPcdZ92TpSQB1pPG+0jLT8qy9fcsKwsygw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737310675; c=relaxed/simple;
-	bh=dirtMGl8Vz+uyxXi+H0p+pTnRQ6GIW9RwBuTCkqJo1c=;
+	s=arc-20240116; t=1737320545; c=relaxed/simple;
+	bh=b8nRoK3hLxOAoQk7kpcWyUhq/GuKj/4qfkCIxqII/i4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=irbLJiANXuJgwYYNjQqWH6S8TPveuxkW4720xEXLeX+uzCumh2OCZVa2/SkALbMnEDet7k5m/7Ci+LqWyDH10s3l/RQUfNQ6KrY8yjnh5N5x+YxflSmn/JxEI2FO8uuhaPtaiOqA7ubMM9U7+0mMjNiohudUnXBo+W96jg23aIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ee79GqNB; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=OgDr2lywIVTioMarHF2fyvzHFtBuXOa6TF6ucdceeFlyemXLSyG1eqZMxMWb0yYi41RLmB0iNH9WnAW2OmpcKysSymSpVWHfhtMLAVlcc9RZVYZFREyWdzH7pzwOmLlYfMqdiJcZ8cnWt2QCO/8J/I1IiNjVGnwOrYX5JFLfPdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijy2Lwzs; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ee79GqNB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijy2Lwzs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737310673; x=1768846673;
+  t=1737320543; x=1768856543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dirtMGl8Vz+uyxXi+H0p+pTnRQ6GIW9RwBuTCkqJo1c=;
-  b=ee79GqNBR5Lo4kIONPLO2vXj/y28EgPz0B1VuZ5A+5rWD4SB3CNnc20A
-   7lIb8p4QyApdvZA9kkYPKOpZ2AiIfHxhzzp3hZWRZMDEF/yL9t2NpBxWh
-   X9rYiCSz3yJv9TOKQ2vmL9WGLkECMMxNnEAzovZLyWa9sp6n2v1BkQZjD
-   blD0WJbo+jcAseWCmk+yt7qBc+1VLRZs4Z4ginOyOJAfpIecjA+WhgNPV
-   96lMrxqeLEuHzBczYWSA5Nsm6WTcuO7xJmWUhNItIhgzv5edjaUsFw/PY
-   o0sqNs8ffUtnNPE05ws1kcp26fhOz800b3y0F+02wDtBLv/4K0WDGWUgD
+  bh=b8nRoK3hLxOAoQk7kpcWyUhq/GuKj/4qfkCIxqII/i4=;
+  b=ijy2LwzsdHufMSDRJ6D/gyYYOVUfSfs22wQZaOSYFk2vn0FmKfs1BnRj
+   FVYnV3Kt9JC8zbrbIi9dWpKmVez8+3NwdQbCt+QoMb3v7KjM5WF0Ip1jm
+   y9SAs9TkmGw+wJ273nEo/qyw3gRXhaMVt5AfwgQiQPRk7FE5XU/p261Nh
+   RdUmxggHCQBEFFE899ib/5FrzKWUFi6YZs5K2COgWU9weZFhCM5RS8J7x
+   zjrTNnBO2aUtdgwb4C+G383ZJH01Uv483jYxZDfMk6eXovUURRtvnyUDf
+   F+L+Kk7r3EVb0hAab6gD8BIP2qf5dclulj1ZwAKqecov8x/PBqecRQrfC
    Q==;
-X-CSE-ConnectionGUID: nh60vptnRXaO7ktmVUEb3Q==
-X-CSE-MsgGUID: ZSBPIuSYSPOAlDDMB2gXKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37557908"
+X-CSE-ConnectionGUID: dTT86Er4Q7OU7+EN5YmqXw==
+X-CSE-MsgGUID: fBrTOHbYQburgNe0/ZlqHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="25279589"
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="37557908"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 10:17:52 -0800
-X-CSE-ConnectionGUID: HMg4H9sAR/C46tt2fmDsTQ==
-X-CSE-MsgGUID: OcVsSuJATkislPfmeLQGbQ==
+   d="scan'208";a="25279589"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 13:02:22 -0800
+X-CSE-ConnectionGUID: ieTcFrgDScy313YQ66cB1Q==
+X-CSE-MsgGUID: 1nregC5TTHSvoSixRgbPVQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111378346"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="111278643"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Jan 2025 10:17:52 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 19 Jan 2025 13:02:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZZrp-000VhF-0y;
-	Sun, 19 Jan 2025 18:17:49 +0000
-Date: Mon, 20 Jan 2025 02:17:37 +0800
+	id 1tZcR0-000VqN-2d;
+	Sun, 19 Jan 2025 21:02:18 +0000
+Date: Mon, 20 Jan 2025 05:02:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [iwlwifi-chromeos:chromeos-6.12__release/core94-22 1/1]
- drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c: iface.h is included
- more than once.
-Message-ID: <202501200256.ruTQBqme-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [xiang-erofs:dev-test 8/10] fs/erofs/zdata.c:554
+ z_erofs_bind_cache() error: uninitialized symbol 'newfolio'.
+Message-ID: <202501200425.hQ3emWTb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,72 +62,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Golan Ben Ami <golan.ben.ami@intel.com>
-TO: Michael Golant <michael.golant@intel.com>
-TO: Johannes Berg <johannes.berg@intel.com>
-TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+CC: Xiang Gao <xiang@kernel.org>
+CC: linux-erofs@lists.ozlabs.org
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-6.12__release/core94-22
-head:   602e50d4b13bf636b54b213ed73465b95173dfd3
-commit: 602e50d4b13bf636b54b213ed73465b95173dfd3 [1/1] CHROMIUM: iwl7000: mld: record the last signal average per station
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+head:   6e2c2342e2b608264cf763a27410295b05995191
+commit: e180b8c4c23beb876927a999c49c18b361fa7975 [8/10] erofs: convert z_erofs_bind_cache() to folios
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-r073-20250119 (https://download.01.org/0day-ci/archive/20250120/202501200425.hQ3emWTb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501200256.ruTQBqme-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501200425.hQ3emWTb-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c: iface.h is included more than once.
---
->> drivers/net/wireless/iwl7000/iwlwifi/mld/stats.c: mlo.h is included more than once.
+New smatch warnings:
+fs/erofs/zdata.c:554 z_erofs_bind_cache() error: uninitialized symbol 'newfolio'.
 
-vim +12 drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c
+Old smatch warnings:
+fs/erofs/zdata.c:1028 z_erofs_scan_folio() error: we previously assumed 'f->pcl' could be null (see line 1024)
 
-     8	
-     9	#include "mld.h"
-    10	#include "mac80211.h"
-    11	#include "phy.h"
-  > 12	#include "iface.h"
-    13	#include "power.h"
-    14	#include "sta.h"
-    15	#include "agg.h"
-    16	#include "scan.h"
-    17	#include "d3.h"
-    18	#include "tlc.h"
-    19	#include "key.h"
-    20	#include "ap.h"
-    21	#include "tx.h"
-    22	#include "roc.h"
-  > 23	#include "iface.h"
-    24	#include "mlo.h"
-    25	#include "stats.h"
-    26	#include "low_latency.h"
-    27	#include "fw/api/scan.h"
-    28	#include "fw/api/context.h"
-    29	#include "fw/api/filter.h"
-    30	#include "fw/api/sta.h"
-    31	#include "fw/api/tdls.h"
-    32	#ifdef CPTCFG_IWLWIFI_SUPPORT_DEBUG_OVERRIDES
-    33	#include "fw/api/dhc.h"
-    34	#endif
-    35	#ifdef CONFIG_PM_SLEEP
-    36	#include "fw/api/d3.h"
-    37	#endif /* CONFIG_PM_SLEEP */
-    38	#ifdef CPTCFG_IWL_VENDOR_CMDS
-    39	#include "vendor-cmd.h"
-    40	#endif
-    41	#include "iwl-trans.h"
-    42	
+vim +/newfolio +554 fs/erofs/zdata.c
+
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  512  
+6f435e94a19ad2 fs/erofs/zdata.c                  Gao Xiang 2025-01-14  513  static void z_erofs_bind_cache(struct z_erofs_frontend *fe)
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  514  {
+6f39d1e1ca4678 fs/erofs/zdata.c                  Gao Xiang 2022-03-02  515  	struct address_space *mc = MNGD_MAPPING(EROFS_I_SB(fe->inode));
+5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang 2022-03-02  516  	struct z_erofs_pcluster *pcl = fe->pcl;
+54ed3fdd66055d fs/erofs/zdata.c                  Gao Xiang 2023-12-06  517  	unsigned int pclusterpages = z_erofs_pclusterpages(pcl);
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  518  	bool shouldalloc = z_erofs_should_alloc_cache(fe);
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  519  	bool may_bypass = true;
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  520  	/* Optimistic allocation, as in-place I/O can be used as a fallback */
+1825c8d7ce93c4 fs/erofs/zdata.c                  Gao Xiang 2020-12-09  521  	gfp_t gfp = (mapping_gfp_mask(mc) & ~__GFP_DIRECT_RECLAIM) |
+1825c8d7ce93c4 fs/erofs/zdata.c                  Gao Xiang 2020-12-09  522  			__GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN;
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  523  	struct folio *folio, *newfolio;
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  524  	unsigned int i;
+92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-12-08  525  
+cc4b2dd95f0d1e fs/erofs/zdata.c                  Gao Xiang 2024-01-25  526  	if (i_blocksize(fe->inode) != PAGE_SIZE ||
+cc4b2dd95f0d1e fs/erofs/zdata.c                  Gao Xiang 2024-01-25  527  	    fe->mode < Z_EROFS_PCLUSTER_FOLLOWED)
+92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-12-08  528  		return;
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  529  
+54ed3fdd66055d fs/erofs/zdata.c                  Gao Xiang 2023-12-06  530  	for (i = 0; i < pclusterpages; ++i) {
+cc4b2dd95f0d1e fs/erofs/zdata.c                  Gao Xiang 2024-01-25  531  		/* Inaccurate check w/o locking to avoid unneeded lookups */
+ed722fbccadb74 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  532  		if (READ_ONCE(pcl->compressed_bvecs[i].page))
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  533  			continue;
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  534  
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  535  		folio = filemap_get_folio(mc, pcl->index + i);
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  536  		if (IS_ERR(folio)) {
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  537  			may_bypass = false;
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  538  			if (!shouldalloc)
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  539  				continue;
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  540  
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  541  			/*
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  542  			 * Allocate a managed folio for cached I/O, or it may be
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  543  			 * then filled with a file-backed folio for in-place I/O
+1282dea37b0908 fs/erofs/zdata.c                  Gao Xiang 2022-12-06  544  			 */
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  545  			newfolio = filemap_alloc_folio(gfp, 0);
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  546  			if (!newfolio)
+0b964600d3aae5 fs/erofs/zdata.c                  Gao Xiang 2021-03-22  547  				continue;
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  548  			newfolio->private = Z_EROFS_PREALLOCATED_FOLIO;
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  549  			folio = NULL;
+0b964600d3aae5 fs/erofs/zdata.c                  Gao Xiang 2021-03-22  550  		}
+bf1aa03980f4eb fs/erofs/zdata.c                  Gao Xiang 2024-10-21  551  		spin_lock(&pcl->lockref.lock);
+cc4b2dd95f0d1e fs/erofs/zdata.c                  Gao Xiang 2024-01-25  552  		if (!pcl->compressed_bvecs[i].page) {
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  553  			pcl->compressed_bvecs[i].page =
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14 @554  				folio_page(folio ?: newfolio, 0);
+bf1aa03980f4eb fs/erofs/zdata.c                  Gao Xiang 2024-10-21  555  			spin_unlock(&pcl->lockref.lock);
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  556  			continue;
+cc4b2dd95f0d1e fs/erofs/zdata.c                  Gao Xiang 2024-01-25  557  		}
+bf1aa03980f4eb fs/erofs/zdata.c                  Gao Xiang 2024-10-21  558  		spin_unlock(&pcl->lockref.lock);
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  559  		folio_put(folio ?: newfolio);
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  560  	}
+92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-12-08  561  
+0b964600d3aae5 fs/erofs/zdata.c                  Gao Xiang 2021-03-22  562  	/*
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  563  	 * Don't perform in-place I/O if all compressed pages are available in
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  564  	 * the managed cache, as the pcluster can be moved to the bypass queue.
+0b964600d3aae5 fs/erofs/zdata.c                  Gao Xiang 2021-03-22  565  	 */
+e180b8c4c23beb fs/erofs/zdata.c                  Gao Xiang 2025-01-14  566  	if (may_bypass)
+db166fc2020d30 fs/erofs/zdata.c                  Gao Xiang 2022-07-15  567  		fe->mode = Z_EROFS_PCLUSTER_FOLLOWED_NOINPLACE;
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  568  }
+105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  569  
 
 -- 
 0-DAY CI Kernel Test Service
