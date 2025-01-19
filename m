@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEA63F9D2
-	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 16:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1733136D
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 18:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737304426; cv=none; b=qZlPf5Cw2oihF0Vld6jwMr5jK717fx90t169crzqONkcu3xFR4K9hV0rJY0j9NA5PYeaiJ7Kba4IOIT/JRg7zvQkk+cYRL3Kaear1NfKnj0rc+VoqNmzQL2BoDlRJ3cYTCfXWnvbocqSTYtX2uJ8PvfYWLUZSB8NEKVw1Dgvclo=
+	t=1737310675; cv=none; b=ceVDvrXs1/H4wzBRs2fYVdk2o1HMoZ/4o/i3aQe52yymsFuli4villLob/6UV/azirw1KOJ5X+njN8Th/+sXgVJv/si54hbEo7byPpg3TL7/SFjGB3XX6msTJBRpbHRjD+DDovjdJTQlpfcuPtT4VSDlYK1s/Nv0bYhOr0FsoFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737304426; c=relaxed/simple;
-	bh=JHtGBDMzjwQqzPgADZL/3YVRnI53/+BIuEHBpUeK22c=;
+	s=arc-20240116; t=1737310675; c=relaxed/simple;
+	bh=dirtMGl8Vz+uyxXi+H0p+pTnRQ6GIW9RwBuTCkqJo1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBxZSMe3+UvF4m1lMfGQGD9ayp+XL42mIJpkzkcBjHwIoCdTpQ96+fJ/cqW+ULSdPweQj7L+z7NWtZWtWYCBYc9jR0XKB0kOHLEf9d/1NhNVv7KaLHNA1NdGvvd/O45B+av8n980r3OPbWp61cYPj9zqk52G1W0Z6znhMCc0eMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kirQC32j; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=irbLJiANXuJgwYYNjQqWH6S8TPveuxkW4720xEXLeX+uzCumh2OCZVa2/SkALbMnEDet7k5m/7Ci+LqWyDH10s3l/RQUfNQ6KrY8yjnh5N5x+YxflSmn/JxEI2FO8uuhaPtaiOqA7ubMM9U7+0mMjNiohudUnXBo+W96jg23aIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ee79GqNB; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kirQC32j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ee79GqNB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737304424; x=1768840424;
+  t=1737310673; x=1768846673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JHtGBDMzjwQqzPgADZL/3YVRnI53/+BIuEHBpUeK22c=;
-  b=kirQC32jqt3vSLY0mEqXbsDulS+/jZdEmaRE3Mj48ngD5Z/qIo7EUD7h
-   AiiDlov+Mkk7rT+zlMYLeBw3sKFDmIFO7F9/dm369BbgYU1ODfoIEGk8U
-   67EfP5c+iqQ6Vw6CgQ47mOwB08QrwsXxLnHYmPQmNRyhvhJtxdcvEC2Cg
-   w0FW1dZUyqKK9cyrp5nkQDzqOiRwDYQoukH/Mz4cLRo5SkxQki2WB2Ud/
-   gBKHxcDWYptjS3nNi3js2p7tYsPq2aACh2dsS2F+N/ORfP5TUmV7HEpfN
-   3cf9JxDY9v4KmXRp6O8hR8+ya/vcHkNQuqUr9WwJbSaL5NQnDqzcBfgQ7
-   w==;
-X-CSE-ConnectionGUID: hzlAjBX2SqmPSwlgKYQkGA==
-X-CSE-MsgGUID: k2/P2Mp9Qlmxgj/xenrTSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="40480558"
-X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="40480558"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 08:33:43 -0800
-X-CSE-ConnectionGUID: YFhjtjnCRWSx3pCqG8ZQsg==
-X-CSE-MsgGUID: ALUmi7vGQjuC4z4BLMyY6g==
+  bh=dirtMGl8Vz+uyxXi+H0p+pTnRQ6GIW9RwBuTCkqJo1c=;
+  b=ee79GqNBR5Lo4kIONPLO2vXj/y28EgPz0B1VuZ5A+5rWD4SB3CNnc20A
+   7lIb8p4QyApdvZA9kkYPKOpZ2AiIfHxhzzp3hZWRZMDEF/yL9t2NpBxWh
+   X9rYiCSz3yJv9TOKQ2vmL9WGLkECMMxNnEAzovZLyWa9sp6n2v1BkQZjD
+   blD0WJbo+jcAseWCmk+yt7qBc+1VLRZs4Z4ginOyOJAfpIecjA+WhgNPV
+   96lMrxqeLEuHzBczYWSA5Nsm6WTcuO7xJmWUhNItIhgzv5edjaUsFw/PY
+   o0sqNs8ffUtnNPE05ws1kcp26fhOz800b3y0F+02wDtBLv/4K0WDGWUgD
+   Q==;
+X-CSE-ConnectionGUID: nh60vptnRXaO7ktmVUEb3Q==
+X-CSE-MsgGUID: ZSBPIuSYSPOAlDDMB2gXKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37557908"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="37557908"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 10:17:52 -0800
+X-CSE-ConnectionGUID: HMg4H9sAR/C46tt2fmDsTQ==
+X-CSE-MsgGUID: OcVsSuJATkislPfmeLQGbQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="106857279"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111378346"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Jan 2025 08:33:42 -0800
+  by orviesa005.jf.intel.com with ESMTP; 19 Jan 2025 10:17:52 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZYF2-000VcF-0a;
-	Sun, 19 Jan 2025 16:33:40 +0000
-Date: Mon, 20 Jan 2025 00:33:20 +0800
+	id 1tZZrp-000VhF-0y;
+	Sun, 19 Jan 2025 18:17:49 +0000
+Date: Mon, 20 Jan 2025 02:17:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
-Message-ID: <202501200000.40Rg2rc6-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [iwlwifi-chromeos:chromeos-6.12__release/core94-22 1/1]
+ drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c: iface.h is included
+ more than once.
+Message-ID: <202501200256.ruTQBqme-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,95 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250108213632.260498-4-anna@kernel.org>
-References: <20250108213632.260498-4-anna@kernel.org>
-TO: Anna Schumaker <anna@kernel.org>
-TO: linux-nfs@vger.kernel.org
-TO: trond.myklebust@hammerspace.com
-CC: anna@kernel.org
+TO: Golan Ben Ami <golan.ben.ami@intel.com>
+TO: Michael Golant <michael.golant@intel.com>
+TO: Johannes Berg <johannes.berg@intel.com>
+TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-Hi Anna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on linus/master v6.13-rc7 next-20250117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Schumaker/NFS-Add-implid-to-sysfs/20250109-053732
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250108213632.260498-4-anna%40kernel.org
-patch subject: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: x86_64-randconfig-r073-20250119 (https://download.01.org/0day-ci/archive/20250120/202501200000.40Rg2rc6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-6.12__release/core94-22
+head:   602e50d4b13bf636b54b213ed73465b95173dfd3
+commit: 602e50d4b13bf636b54b213ed73465b95173dfd3 [1/1] CHROMIUM: iwl7000: mld: record the last signal average per station
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501200000.40Rg2rc6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501200256.ruTQBqme-lkp@intel.com/
 
-New smatch warnings:
-net/sunrpc/sysfs.c:288 rpc_sysfs_xprt_switch_add_xprt_store() warn: passing zero to 'PTR_ERR'
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c: iface.h is included more than once.
+--
+>> drivers/net/wireless/iwl7000/iwlwifi/mld/stats.c: mlo.h is included more than once.
 
-Old smatch warnings:
-net/sunrpc/sysfs.c:57 rpc_sysfs_object_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 51
-net/sunrpc/sysfs.c:427 rpc_sysfs_init() warn: Calling kobject_put|get with state->initialized unset from line: 418
-net/sunrpc/sysfs.c:554 rpc_sysfs_client_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 547
-net/sunrpc/sysfs.c:576 rpc_sysfs_xprt_switch_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 567
-net/sunrpc/sysfs.c:595 rpc_sysfs_xprt_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 587
+vim +12 drivers/net/wireless/iwl7000/iwlwifi/mld/mac80211.c
 
-vim +/PTR_ERR +288 net/sunrpc/sysfs.c
-
-2b155d9a088aee Anna Schumaker 2025-01-08  259  
-2b155d9a088aee Anna Schumaker 2025-01-08  260  static ssize_t rpc_sysfs_xprt_switch_add_xprt_store(struct kobject *kobj,
-2b155d9a088aee Anna Schumaker 2025-01-08  261  						    struct kobj_attribute *attr,
-2b155d9a088aee Anna Schumaker 2025-01-08  262  						    const char *buf, size_t count)
-2b155d9a088aee Anna Schumaker 2025-01-08  263  {
-2b155d9a088aee Anna Schumaker 2025-01-08  264  	struct rpc_xprt_switch *xprt_switch =
-2b155d9a088aee Anna Schumaker 2025-01-08  265  		rpc_sysfs_xprt_switch_kobj_get_xprt(kobj);
-2b155d9a088aee Anna Schumaker 2025-01-08  266  	struct xprt_create xprt_create_args;
-2b155d9a088aee Anna Schumaker 2025-01-08  267  	struct rpc_xprt *xprt, *new;
-2b155d9a088aee Anna Schumaker 2025-01-08  268  
-2b155d9a088aee Anna Schumaker 2025-01-08  269  	if (!xprt_switch)
-2b155d9a088aee Anna Schumaker 2025-01-08  270  		return 0;
-2b155d9a088aee Anna Schumaker 2025-01-08  271  
-2b155d9a088aee Anna Schumaker 2025-01-08  272  	xprt = rpc_xprt_switch_get_main_xprt(xprt_switch);
-2b155d9a088aee Anna Schumaker 2025-01-08  273  	if (!xprt)
-2b155d9a088aee Anna Schumaker 2025-01-08  274  		goto out;
-2b155d9a088aee Anna Schumaker 2025-01-08  275  
-2b155d9a088aee Anna Schumaker 2025-01-08  276  	xprt_create_args.ident = xprt->xprt_class->ident;
-2b155d9a088aee Anna Schumaker 2025-01-08  277  	xprt_create_args.net = xprt->xprt_net;
-2b155d9a088aee Anna Schumaker 2025-01-08  278  	xprt_create_args.dstaddr = (struct sockaddr *)&xprt->addr;
-2b155d9a088aee Anna Schumaker 2025-01-08  279  	xprt_create_args.addrlen = xprt->addrlen;
-2b155d9a088aee Anna Schumaker 2025-01-08  280  	xprt_create_args.servername = xprt->servername;
-2b155d9a088aee Anna Schumaker 2025-01-08  281  	xprt_create_args.bc_xprt = xprt->bc_xprt;
-2b155d9a088aee Anna Schumaker 2025-01-08  282  	xprt_create_args.xprtsec = xprt->xprtsec;
-2b155d9a088aee Anna Schumaker 2025-01-08  283  	xprt_create_args.connect_timeout = xprt->connect_timeout;
-2b155d9a088aee Anna Schumaker 2025-01-08  284  	xprt_create_args.reconnect_timeout = xprt->max_reconnect_timeout;
-2b155d9a088aee Anna Schumaker 2025-01-08  285  
-2b155d9a088aee Anna Schumaker 2025-01-08  286  	new = xprt_create_transport(&xprt_create_args);
-2b155d9a088aee Anna Schumaker 2025-01-08  287  	if (IS_ERR_OR_NULL(new)) {
-2b155d9a088aee Anna Schumaker 2025-01-08 @288  		count = PTR_ERR(new);
-2b155d9a088aee Anna Schumaker 2025-01-08  289  		goto out_put_xprt;
-2b155d9a088aee Anna Schumaker 2025-01-08  290  	}
-2b155d9a088aee Anna Schumaker 2025-01-08  291  
-2b155d9a088aee Anna Schumaker 2025-01-08  292  	rpc_xprt_switch_add_xprt(xprt_switch, new);
-2b155d9a088aee Anna Schumaker 2025-01-08  293  	xprt_put(new);
-2b155d9a088aee Anna Schumaker 2025-01-08  294  
-2b155d9a088aee Anna Schumaker 2025-01-08  295  out_put_xprt:
-2b155d9a088aee Anna Schumaker 2025-01-08  296  	xprt_put(xprt);
-2b155d9a088aee Anna Schumaker 2025-01-08  297  out:
-2b155d9a088aee Anna Schumaker 2025-01-08  298  	xprt_switch_put(xprt_switch);
-2b155d9a088aee Anna Schumaker 2025-01-08  299  	return count;
-2b155d9a088aee Anna Schumaker 2025-01-08  300  }
-2b155d9a088aee Anna Schumaker 2025-01-08  301  
+     8	
+     9	#include "mld.h"
+    10	#include "mac80211.h"
+    11	#include "phy.h"
+  > 12	#include "iface.h"
+    13	#include "power.h"
+    14	#include "sta.h"
+    15	#include "agg.h"
+    16	#include "scan.h"
+    17	#include "d3.h"
+    18	#include "tlc.h"
+    19	#include "key.h"
+    20	#include "ap.h"
+    21	#include "tx.h"
+    22	#include "roc.h"
+  > 23	#include "iface.h"
+    24	#include "mlo.h"
+    25	#include "stats.h"
+    26	#include "low_latency.h"
+    27	#include "fw/api/scan.h"
+    28	#include "fw/api/context.h"
+    29	#include "fw/api/filter.h"
+    30	#include "fw/api/sta.h"
+    31	#include "fw/api/tdls.h"
+    32	#ifdef CPTCFG_IWLWIFI_SUPPORT_DEBUG_OVERRIDES
+    33	#include "fw/api/dhc.h"
+    34	#endif
+    35	#ifdef CONFIG_PM_SLEEP
+    36	#include "fw/api/d3.h"
+    37	#endif /* CONFIG_PM_SLEEP */
+    38	#ifdef CPTCFG_IWL_VENDOR_CMDS
+    39	#include "vendor-cmd.h"
+    40	#endif
+    41	#include "iwl-trans.h"
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
