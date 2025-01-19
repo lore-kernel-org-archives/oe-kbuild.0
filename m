@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE5018B467
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 Jan 2025 21:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E34F9F8
+	for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 00:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737237490; cv=none; b=Es/EdC+zBbJCsr/4FqfdreKSmDIoycvmX6DQ4mfpr6m3qpT9VS8Z/+flqiv3xBgP/w+2Ud9C3034pmeapw8EgjLwJ4WQV0hPQH0dolAxcEMse/kDCchOQnuFlhq4zS0yH72veUiRz0J9aJggxukcGX+6muKIhfmkoW3EcY4JWHA=
+	t=1737246313; cv=none; b=vAgV56P2YINTppieO4EjNcOZgdwh2jy6+cjwV60gR8rnwmF7y1vUMCUmyOnvGtrWJh+BmdS5m8ea8KggWY3i58CLxnPVUqAu2GS3jJiqnjyr8ZlBXCl3N8D83baRN3im1dGhgwKVKg/RS5x0dI9KvkjQHlfgDYy8ACzQOVJCO7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737237490; c=relaxed/simple;
-	bh=d7LefPovIAxoBAKnBpX8Ng7hwP41TquKIpFl7cN7l1w=;
+	s=arc-20240116; t=1737246313; c=relaxed/simple;
+	bh=K4jee26wYU3kv2snZpqxn8MceNJAIkThBnRQGW0YoFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JQfOZJAyJWbP4tLSuKhzBw2FYTSrEvCTmc75yYhk67Vkb05/SGRu3dE8QlnwS0rgaPp3F8DCVg5Z61aGgEScxvzA9qwltOzpsdc8QJx1/OB+Vu4/eL573/UCd7jTwN317fDTz9Fodr4arfR0Cfc7NEdg7z42Y0U5bDpVfXm4j/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWQExDC9; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=NPPD80jk1HfUkODHa3omXV1JxD3ImWR8gK/Pz2d19K1ikRWZeEg7ILtdmGsmzYA/aw/En73qBCw8la1oko0l2WWQu/8w9zqVWCh5HMpUzkMyPWscufxw7uWnc3YW6mFQXGdhBmULg2YoLz3tm9yJLAgy7VAxtELuPekDe1Myvds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V3Vsr9nt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWQExDC9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V3Vsr9nt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737237489; x=1768773489;
+  t=1737246312; x=1768782312;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d7LefPovIAxoBAKnBpX8Ng7hwP41TquKIpFl7cN7l1w=;
-  b=TWQExDC95bC4wi5jHSYXrJgvaSy67wGMvbByazIlXIoATdSNUWVw5exD
-   3jGVygJtnBTGQLBTRsASDxDg1Iy/GgwMk7s4m3QALreClJCVZPNLGinLO
-   YiEi9NaDWVVGUBHpE14t0aRRvHwUePS81pG1VLZOnknOwKaPxjM5RMgu+
-   YkScwFvUpu+FBQh1g0e1AT1T8UNj8ZBI3X5kcab28M7HA3V15QWbjSDJX
-   supgZcCmdPmUYN9YDGq7Nb/BJT76Ci1o3YTe9fHfNBHemLgJmBZEd3ezt
-   rX/LQFxbmLYd5g7NmHf6I60wMYY6tb92xPzPWGf/Iox/1FaeQR17BHuUq
+  bh=K4jee26wYU3kv2snZpqxn8MceNJAIkThBnRQGW0YoFU=;
+  b=V3Vsr9ntQOv5tweVeFo5LiBEXZu31uXx8TqNofoAx+knEK+9ew+m1F3S
+   SI1gZgESmJ4htEcWdyjHWHR9q7gdG1GOdgTnyznrflMXiY57OdCuQzVgH
+   pdIOJtO4Kv0BbbYg0j/RGagF3hUImS+1vhIwl3Ddhk54kPdgsOl741JRq
+   az2LF15RukJP2k/s+FylHD1FhsrE2EzUNa79NKM/f19rCaIZCSv+A5Nrr
+   XL/wS8u356TjuukDMYj34BTCwvDISeK/xzmVOAyytt0T6tdp/uKR5O2rO
+   SI6CrX56Cs5LgW3YFyD4reRH4L+PheVxllBMiPl6h9UwAZcBMtBqaFiMv
    Q==;
-X-CSE-ConnectionGUID: cOlP9xvVR4u+BUE+iEgg6Q==
-X-CSE-MsgGUID: 0xqZNix7TjOp41dCNX0uAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11319"; a="55054696"
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="55054696"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 13:58:08 -0800
-X-CSE-ConnectionGUID: TDjoqX60R4+8yMOlEvV2wA==
-X-CSE-MsgGUID: QStn68TKQMaU3P4G1CK3+A==
+X-CSE-ConnectionGUID: XfM7ZVZzR7qIhiTr+lJFOw==
+X-CSE-MsgGUID: imH/Klu9RuqKQEA+CFRz9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49062033"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="49062033"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2025 16:25:11 -0800
+X-CSE-ConnectionGUID: 25cngmyYQkC0/6x3AWuizw==
+X-CSE-MsgGUID: 4y9cmXu7RZmImFMP4yjeGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,216,1732608000"; 
-   d="scan'208";a="106674484"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110188715"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jan 2025 13:58:07 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2025 16:24:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZGpQ-000Uqb-2w;
-	Sat, 18 Jan 2025 21:58:04 +0000
-Date: Sun, 19 Jan 2025 05:57:13 +0800
+	id 1tZJ6w-000Uxf-26;
+	Sun, 19 Jan 2025 00:24:18 +0000
+Date: Sun, 19 Jan 2025 08:23:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:mtk-wip 28/48]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0:
- Unevaluated properties are not allowed ('ports' was unexpected)
-Message-ID: <202501190501.bVqaM9fx-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8757/9563] lib/lockref.c:123
+ lockref_put_or_lock() warn: inconsistent returns '&lockref->lock'.
+Message-ID: <202501190838.ngNIl2tX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,94 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Christian Brauner <brauner@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
-commit: f0a9b7aeae0433da6e9d81ea2da350390577d0f0 [28/48] DO NOT MERGE:  arm64: dts: mediatek: mt8186-corsola: Add Type-C Mux for DP output
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-053-20250117 (https://download.01.org/0day-ci/archive/20250119/202501190501.bVqaM9fx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250119/202501190501.bVqaM9fx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0907e7fb35756464aa34c35d6abb02998418164b
+commit: 57bd981b2db79db581a6baae42ddf6436174a924 [8757/9563] lockref: use bool for false/true returns
+:::::: branch date: 2 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-161-20250117 (https://download.01.org/0day-ci/archive/20250119/202501190838.ngNIl2tX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501190501.bVqaM9fx-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501190838.ngNIl2tX-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0: typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+smatch warnings:
+lib/lockref.c:123 lockref_put_or_lock() warn: inconsistent returns '&lockref->lock'.
+
+vim +123 lib/lockref.c
+
+360f54796ed659 Linus Torvalds    2015-01-09  102  
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  103  /**
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  104   * lockref_put_or_lock - decrements count unless count <= 1 before decrement
+44a0cf92926c34 Linus Torvalds    2013-09-07  105   * @lockref: pointer to lockref structure
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  106   * Return: 1 if count updated successfully or 0 if count <= 1 and lock taken
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  107   */
+57bd981b2db79d Christoph Hellwig 2025-01-15  108  bool lockref_put_or_lock(struct lockref *lockref)
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  109  {
+bc08b449ee14ac Linus Torvalds    2013-09-02  110  	CMPXCHG_LOOP(
+bc08b449ee14ac Linus Torvalds    2013-09-02  111  		new.count--;
+bc08b449ee14ac Linus Torvalds    2013-09-02  112  		if (old.count <= 1)
+bc08b449ee14ac Linus Torvalds    2013-09-02  113  			break;
+bc08b449ee14ac Linus Torvalds    2013-09-02  114  	,
+57bd981b2db79d Christoph Hellwig 2025-01-15  115  		return true;
+bc08b449ee14ac Linus Torvalds    2013-09-02  116  	);
+bc08b449ee14ac Linus Torvalds    2013-09-02  117  
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  118  	spin_lock(&lockref->lock);
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  119  	if (lockref->count <= 1)
+57bd981b2db79d Christoph Hellwig 2025-01-15  120  		return false;
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  121  	lockref->count--;
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  122  	spin_unlock(&lockref->lock);
+57bd981b2db79d Christoph Hellwig 2025-01-15 @123  	return true;
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  124  }
+2f4f12e571c4e2 Linus Torvalds    2013-09-02  125  EXPORT_SYMBOL(lockref_put_or_lock);
+e7d33bb5ea8292 Linus Torvalds    2013-09-07  126  
 
 -- 
 0-DAY CI Kernel Test Service
