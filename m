@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FF419DFAB
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 11:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97261E379B
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 14:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737371723; cv=none; b=g2kr6P5BBt7Uj8OtJ8c7x9/noNG0wZgDKBg8aOJdqbG25O0vyrQceC3WrBPPI/j5qDVVrWOLInOxU/pwzuvyjkD7yGmxIGV92o8idvAGZE/ZqeDK0VLf7QzazpNwPztYYXT9ZjBkm5Ed4CxO1RGwin3WlF3wF7t40SdeYk2fU1E=
+	t=1737384513; cv=none; b=lBGim9Uc3oWSZ2kcYwkcfymaBFiOYwUGYBeJLjYzjs6DFp3yimOcei6LE3hzS7wR/Avm5K8H5T6n360NxC9zFwV13ikvPXKY/ZuNne8QMoNtJJ7BC9fMYZ1h0iQVPrv9310CyfEhyQr7ei4CSnne/FqE865JTpEAE9rnPORe8ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737371723; c=relaxed/simple;
-	bh=KCn8qCc8bhaYo4iAYPNuaBEkn4un/TWewrV5j/HFdXQ=;
+	s=arc-20240116; t=1737384513; c=relaxed/simple;
+	bh=Ha5VyxWX1v2yrcX5dK9FsTwRu6eevDFrSgCxKrum6kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XIRwf0tcTiScHYwmKpC5GZLSinR4cDeCi3Q8Li/VnMY2+6fMDTyM/iVpf33S5Do9csOOxl0j4TaBwTcRKIY11XiQsgDbeFxtrdGbaNPMrbm46b1EnEXOld7hURZi9Ngw6QD/3cUFKhoNUSarMUDYNmvcBdyA6jOCQteAUmpYm+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9WteNMj; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=WaxDIoGfMn+jTntkwQ6LyLpy3W3Qr+MTnkNn7ckAu0IL0vjPiA+C9UGnQAfmgi5tIqDzZWh7Z5wKddVe4hm2W1RdQ9K7JYyzMj0RZsRNN4b4qRDCgaZ/NPVaMCZ2tsot8yLoUlR4tLvKto558o+ZpsfIZ9uWr7jd28v8mD4qLw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ClkeHdrm; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9WteNMj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ClkeHdrm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737371721; x=1768907721;
+  t=1737384512; x=1768920512;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KCn8qCc8bhaYo4iAYPNuaBEkn4un/TWewrV5j/HFdXQ=;
-  b=f9WteNMjmKAi7oomnALXRKRt7zpnQvwR0PGyfldoz44PxpRmiUBZz2tb
-   b62PcfSYHtqtityfD91N2UzQHyyHWUQjkiVAJdlR94ucJtJ7lo1apT3SC
-   4MlCVUGfr3cT3BSSmaSPJbwQd6MZZ5W/ytiatTY8mudMKUtT0vg+St6C3
-   NjVqQNiiSkUCuamwc5/+TwgSMEU0eK3nMwkvjGoqbylihgtFnR+LXs7h1
-   Xyt6qN9/UoRFMOcQjBwB4wapbQKVCAYWTMsPJu+qrPQn5kjvLqApQczJa
-   EIFL8ZDF3jmiurDWYrbfs1Pt79fOLz/d0XQCwEyGUFo4d6pxTcITOz6MX
-   w==;
-X-CSE-ConnectionGUID: l5N8Fa6TSD+DTAaHp2i0+A==
-X-CSE-MsgGUID: AkqRTzKxRbGaxq2M7ya8hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="60222854"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="60222854"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:15:21 -0800
-X-CSE-ConnectionGUID: R2Xk5Az8Q7S58X/pn7I5Ng==
-X-CSE-MsgGUID: O0I/VbRlQWKn70vpOpj2Ww==
+  bh=Ha5VyxWX1v2yrcX5dK9FsTwRu6eevDFrSgCxKrum6kc=;
+  b=ClkeHdrm8Q2UMExYPekbNT2xrXnyhIYqwAdHksuZG7GPQUUlOyI8hdg2
+   o6iQFXbO8zP9Vas7tfZ5YOv7todbQv2c3PHpjhOYlTmwsmEjl9dj41Jan
+   A2jOkRX9Vd+iEDrqCe/jdkIr+EVdbnZyb0z2H6RSuGIICb+v1CyETtdNU
+   v45zFTJeq8DBFeA0YQrTlxoUSql6pjubU/ByN5jZ5C0NJvQdeBAli7fj4
+   8jNCP+GkoilPYhMbOn5IDnj7s2v9CrGbWN+OQe9zzv4BNgHmyCgEItN9J
+   n+q0pZseYWmE+1hg8p+mysYlDsndxBZ+N3nutitIySdXfOh2+5kiSqspm
+   A==;
+X-CSE-ConnectionGUID: 1QmpeNnRSKKI8cHUG2jiTg==
+X-CSE-MsgGUID: 4STlCM0sQ+a2cTSbrMq4Zw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="55333723"
+X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
+   d="scan'208";a="55333723"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 06:48:31 -0800
+X-CSE-ConnectionGUID: upASsFdBQ5m6GPjdkV76yg==
+X-CSE-MsgGUID: wW5HFyx5TqG7mQoyTTUDqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="106301240"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106977072"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2025 03:15:19 -0800
+  by orviesa007.jf.intel.com with ESMTP; 20 Jan 2025 06:48:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZpkS-000WTl-2j;
-	Mon, 20 Jan 2025 11:15:16 +0000
-Date: Mon, 20 Jan 2025 19:15:03 +0800
+	id 1tZt4l-000We7-0Y;
+	Mon, 20 Jan 2025 14:48:27 +0000
+Date: Mon, 20 Jan 2025 22:47:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [wens:mtk-wip 27/48]
- arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pinctrl@10005000:
- 'dpi_pin_default', 'dpi_pin_func' do not match any of the regexes: '-pins$',
- 'pinctrl-[0-9]+'
-Message-ID: <202501201942.GVQm3xeU-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8392/10024]
+ drivers/net/wireless/mediatek/mt76/mt76_connac_mac.c:304
+ mt76_connac2_mac_tx_rate_val() warn: variable dereferenced before check
+ 'conf' (see line 297)
+Message-ID: <202501202204.t8DDjjlT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,83 +64,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Chen-Yu Tsai" <wenst@chromium.org>
+TO: Shayne Chen <shayne.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Bo Jiao <Bo.Jiao@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
-commit: 35c4dd3889c449f98db9f3d7c8d24afb8f031582 [27/48] arm64: dts: mediatek: asurada: Enable external display pipeline
-:::::: branch date: 6 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1573c8d4cb206a2d1454ff711e79f8df2353290b
+commit: a0facfc80ec12e1fe0bb2407bf9970128d167193 [8392/10024] wifi: mt76: connac: rework connac helpers
+:::::: branch date: 6 hours ago
 :::::: commit date: 6 days ago
-config: arm64-randconfig-053-20250117 (https://download.01.org/0day-ci/archive/20250120/202501201942.GVQm3xeU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501201942.GVQm3xeU-lkp@intel.com/reproduce)
+config: riscv-randconfig-r073-20250118 (https://download.01.org/0day-ci/archive/20250120/202501202204.t8DDjjlT-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501201942.GVQm3xeU-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501202204.t8DDjjlT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pinctrl@10005000: 'dpi_pin_default', 'dpi_pin_func' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8192-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic: regulators: 'compatible' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: pmic: '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: dpi@14016000: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r1.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
---
-   	['winbond,w25q64jwm', 'jedec,spi-nor'] is too long
-   	'winbond,w25q64jwm' does not match '^((((micron|spansion|st),)?(m25p(40|80|16|32|64|128)|n25q(32b|064|128a11|128a13|256a|512a|164k)))|atmel,at25df(321a|641|081a)|everspin,mr25h(10|40|128|256)|(mxicy|macronix),mx25l(4005a|1606e|6405d|8005|12805d|25635e)|(mxicy|macronix),mx25u(4033|4035)|(spansion,)?s25fl(128s|256s1|512s|008k|064k|164k)|(sst|microchip),sst25vf(016b|032b|040b)|(sst,)?sst26wf016b|(sst,)?sst25wf(040b|080)|winbond,w25x(80|32)|(winbond,)?w25q(16|32(w|dw)?|64(dw)?|80bl|128(fw)?|256))$'
-   	'winbond,w25q64jwm' is not one of ['issi,is25lp016d', 'micron,mt25qu02g', 'mxicy,mx25r1635f', 'mxicy,mx25u6435f', 'mxicy,mx25v8035f', 'spansion,s25sl12801', 'spansion,s25fs512s']
-   	'jedec,spi-nor' was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: flash@0: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: /soc/spi@11234000/flash@0: failed to match any schema with compatible: ['winbond,w25q64jwm', 'jedec,spi-nor']
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: i2c@11d21000: Unevaluated properties are not allowed ('clock-stretch-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: dpi@14016000: ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r0.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8192-mt6359-rt1015-rt5682.yaml#
+smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt76_connac_mac.c:304 mt76_connac2_mac_tx_rate_val() warn: variable dereferenced before check 'conf' (see line 297)
+
+vim +/conf +304 drivers/net/wireless/mediatek/mt76/mt76_connac_mac.c
+
+9c54548bc9e462 Ryder Lee        2023-04-14  292  
+0b8e2d69467f78 Lorenzo Bianconi 2023-01-17  293  u16 mt76_connac2_mac_tx_rate_val(struct mt76_phy *mphy,
+a0facfc80ec12e Shayne Chen      2025-01-02  294  				 struct ieee80211_bss_conf *conf,
+182071cdd594bc Lorenzo Bianconi 2022-06-07  295  				 bool beacon, bool mcast)
+182071cdd594bc Lorenzo Bianconi 2022-06-07  296  {
+a0facfc80ec12e Shayne Chen      2025-01-02 @297  	struct mt76_vif_link *mvif = mt76_vif_conf_link(mphy->dev, conf->vif, conf);
+32b1000db221df Sean Wang        2023-09-18  298  	struct cfg80211_chan_def *chandef = mvif->ctx ?
+32b1000db221df Sean Wang        2023-09-18  299  					    &mvif->ctx->def : &mphy->chandef;
+32b1000db221df Sean Wang        2023-09-18  300  	u8 nss = 0, mode = 0, band = chandef->chan->band;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  301  	int rateidx = 0, mcast_rate;
+7cac2827b2737e Felix Fietkau    2024-12-30  302  	int offset = 0;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  303  
+a0facfc80ec12e Shayne Chen      2025-01-02 @304  	if (!conf)
+182071cdd594bc Lorenzo Bianconi 2022-06-07  305  		goto legacy;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  306  
+182071cdd594bc Lorenzo Bianconi 2022-06-07  307  	if (is_mt7921(mphy->dev)) {
+a0facfc80ec12e Shayne Chen      2025-01-02  308  		rateidx = ffs(conf->basic_rates) - 1;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  309  		goto legacy;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  310  	}
+182071cdd594bc Lorenzo Bianconi 2022-06-07  311  
+182071cdd594bc Lorenzo Bianconi 2022-06-07  312  	if (beacon) {
+182071cdd594bc Lorenzo Bianconi 2022-06-07  313  		struct cfg80211_bitrate_mask *mask;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  314  
+a0facfc80ec12e Shayne Chen      2025-01-02  315  		mask = &conf->beacon_tx_rate;
+9c54548bc9e462 Ryder Lee        2023-04-14  316  
+9c54548bc9e462 Ryder Lee        2023-04-14  317  		__bitrate_mask_check(he_mcs, HE_SU);
+9c54548bc9e462 Ryder Lee        2023-04-14  318  		__bitrate_mask_check(vht_mcs, VHT);
+9c54548bc9e462 Ryder Lee        2023-04-14  319  		__bitrate_mask_check(ht_mcs, HT);
+9c54548bc9e462 Ryder Lee        2023-04-14  320  
+9c54548bc9e462 Ryder Lee        2023-04-14  321  		if (hweight32(mask->control[band].legacy) == 1) {
+182071cdd594bc Lorenzo Bianconi 2022-06-07  322  			rateidx = ffs(mask->control[band].legacy) - 1;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  323  			goto legacy;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  324  		}
+182071cdd594bc Lorenzo Bianconi 2022-06-07  325  	}
+182071cdd594bc Lorenzo Bianconi 2022-06-07  326  
+a0facfc80ec12e Shayne Chen      2025-01-02  327  	mcast_rate = conf->mcast_rate[band];
+182071cdd594bc Lorenzo Bianconi 2022-06-07  328  	if (mcast && mcast_rate > 0)
+182071cdd594bc Lorenzo Bianconi 2022-06-07  329  		rateidx = mcast_rate - 1;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  330  	else
+a0facfc80ec12e Shayne Chen      2025-01-02  331  		rateidx = ffs(conf->basic_rates) - 1;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  332  
+182071cdd594bc Lorenzo Bianconi 2022-06-07  333  legacy:
+7cac2827b2737e Felix Fietkau    2024-12-30  334  	if (band != NL80211_BAND_2GHZ)
+7cac2827b2737e Felix Fietkau    2024-12-30  335  		offset = 4;
+7cac2827b2737e Felix Fietkau    2024-12-30  336  
+7cac2827b2737e Felix Fietkau    2024-12-30  337  	/* pick the lowest rate for hidden nodes */
+7cac2827b2737e Felix Fietkau    2024-12-30  338  	if (rateidx < 0)
+7cac2827b2737e Felix Fietkau    2024-12-30  339  		rateidx = 0;
+7cac2827b2737e Felix Fietkau    2024-12-30  340  
+7cac2827b2737e Felix Fietkau    2024-12-30  341  	rateidx += offset;
+7cac2827b2737e Felix Fietkau    2024-12-30  342  	if (rateidx >= ARRAY_SIZE(mt76_rates))
+7cac2827b2737e Felix Fietkau    2024-12-30  343  		rateidx = offset;
+7cac2827b2737e Felix Fietkau    2024-12-30  344  
+7cac2827b2737e Felix Fietkau    2024-12-30  345  	rateidx = mt76_rates[rateidx].hw_value;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  346  	mode = rateidx >> 8;
+182071cdd594bc Lorenzo Bianconi 2022-06-07  347  	rateidx &= GENMASK(7, 0);
+182071cdd594bc Lorenzo Bianconi 2022-06-07  348  out:
+9c54548bc9e462 Ryder Lee        2023-04-14  349  	return FIELD_PREP(MT_TX_RATE_NSS, nss) |
+9c54548bc9e462 Ryder Lee        2023-04-14  350  	       FIELD_PREP(MT_TX_RATE_IDX, rateidx) |
+182071cdd594bc Lorenzo Bianconi 2022-06-07  351  	       FIELD_PREP(MT_TX_RATE_MODE, mode);
+182071cdd594bc Lorenzo Bianconi 2022-06-07  352  }
+0b8e2d69467f78 Lorenzo Bianconi 2023-01-17  353  EXPORT_SYMBOL_GPL(mt76_connac2_mac_tx_rate_val);
+182071cdd594bc Lorenzo Bianconi 2022-06-07  354  
 
 -- 
 0-DAY CI Kernel Test Service
