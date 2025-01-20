@@ -1,121 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5365319259D
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 08:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E681885A1
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 09:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737361118; cv=none; b=FDqKSxNoBZ4c2jMmQ+fYgmfS1xwX+aZ6z39JPHIr3lWvhpRFirN91YnwfpcypOtQoF6Ipdq0zwhbbvkycyOIWn3boJzjF4XuF+EnY1MBH9xMWyukAJVDFSmKWyp6Z+oloH0VHWx4mEwI4OrVR8VmIuQiSMtG1v/qS3rh5KHlLHs=
+	t=1737364677; cv=none; b=ZYXdNR8rZyZ6Nckdsv13DN8IPMu+3ZiR2RojmBCeR9/Wt1TH4/EzDjPot+XfFVL8OS9x36XJqYNjeHj1DTBa8ntvsemA7g7KBwuSoZy2k5aNRiEvtN8V9CzE+ff+Pz/G2KAipiyjiAI/MpRAdRJ2Em6iEFJWqGKrtoFT3SesPWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737361118; c=relaxed/simple;
-	bh=oF5XXwzt5upiRG2eY24dRyW77ShCm8Tn43Xbz4Bs/Xo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AqN6hAe0ynACSvj08SCmNmUNqVCSP2DsVSbS1hdSRcFh5C+QjT6C1kjeqoFWRZqQ8PyMP9m+Y0SIb/8kl3KhR8GIDfqCyFalmytR/vM0O1dAoO/Rzy9TjwYVYFS24wgVL54kLOazhniU4rkghkg+E1W+9LeVETsWI3EQ318vQ40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LxTmy2ye; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737364677; c=relaxed/simple;
+	bh=MFAt3nRPEEDvLMi3xhx5qxNHiq/uMXZUK9TTyWKUbb0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XQiFGnD6U1slONRr4FJErpG55eNvUiJX0Z1OCp7QPawVDK0IzRBF+GcIfQZmUdMDNBNmxZjrNx2pEJ/yRF9R1tiKgSClt9weML7jYJ/7JCoE4bD/fOagGq0EB2ddw5a8ANDIJojaezy09ty5JtDP0T1kWS5q4Eyme/wTMlNNLF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EN+aPV9Y; arc=none smtp.client-ip=209.85.167.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LxTmy2ye"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737361116; x=1768897116;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oF5XXwzt5upiRG2eY24dRyW77ShCm8Tn43Xbz4Bs/Xo=;
-  b=LxTmy2yexrHjKBJ1K19bsKfGKsFFQxDuAvph6SQ+olGDp55fzXp2TmUz
-   WdFTSJYVVMDkmdnVEsC+VVzo/wvTh0g/oF4t/x4kZMFwtcZRoj5ncrz+o
-   dLnRHjLIPj1zGOu/SXyCR6NTwsUSuRebhI8WD6MesTwKI1kycadhUDYB6
-   8SDBIeZC98Mp+zzx0N9l5ENDmZYAVkMXi8fmKf6tF0vnrRiyuFUx6Vslk
-   5I7Sf3uFC0gm4qIi0T4Pd/OxdD3/D4yLmp+SYV4Fobba41UhiUm+iZ+ew
-   /coxTm023r5w/HuVnJa6JEoAK1T9giwn7k3AYhK8AM+s83PEkikMAUylx
-   Q==;
-X-CSE-ConnectionGUID: ypOVFRWDTDKasavY0chiJA==
-X-CSE-MsgGUID: 01FdPxu4QIy0jrmBGnkxuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="48724086"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="48724086"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 00:18:36 -0800
-X-CSE-ConnectionGUID: HO1boht+RhmnQErHU4Q/sA==
-X-CSE-MsgGUID: KXFGwEmpTZulTIHnq25O2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="137265999"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Jan 2025 00:18:34 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tZmzQ-000WLf-26;
-	Mon, 20 Jan 2025 08:18:32 +0000
-Date: Mon, 20 Jan 2025 16:18:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: ld.lld: error: vmlinux.o:(function run_init_process:
- .text.unlikely.run_init_process+0x18): relocation R_RISCV_HI20 out of range:
- 529072 is not in [-524288, 524287]; references '.L_MergedGlobals'
-Message-ID: <202501201626.M3REz6Dq-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EN+aPV9Y"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3eb972dd8e5so2228410b6e.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 01:17:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1737364673; x=1737969473; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LrJaaExN/Lm4FjffTDRV2Jar/5Ogh6zVj0G2o09/raE=;
+        b=EN+aPV9Y7vOSlDefTX5Etr2X2CEA+cUZMPO8mmQAdeUkmT2pfbX+zjaNDpRcA/Vidh
+         1ngAc6y8TLOvVgsCqFNT7UbYyXu5RV+1O4xS58uebo0KXcLXXxV47gBhcHmFFLEmnSQ4
+         58nt7hNA+eEyle6v7VdChnLPIUjY87m/lq/sE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737364673; x=1737969473;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LrJaaExN/Lm4FjffTDRV2Jar/5Ogh6zVj0G2o09/raE=;
+        b=ODmeBCNbZLvkBXBFrdIezp8aXBXfvKuKfDYWn+slJjRl44z8W5MjdkJRmgp0Kt+OnT
+         AFDZ/oWXe/NIa9NRgrhEG+OEZ+wnPGk13eYlaolzjlVhmqyxMlSNK+KyE+0bo3tprOZl
+         gHV7mmmdokPkmg66nN28kEV2CwG6OsEeQwexHu+jKyvoHAi+OrUnEoaMYU5XAA9EcFi0
+         zorCw5cBrRrMWJty4/EMIdNSsQ8N8zves6HjK3Qte+nDUkaiHw7GWburNusfoOlRnkov
+         iehLqETVzjGnYIHbvStvJ4mEJWJyMMtPBgJ/Szpd7S9qx8d3FL4SkUmLFGB4gVP+Vprn
+         Hbzw==
+X-Gm-Message-State: AOJu0YwO+jJSioyxyNFJe6LV96H8tlYRp0SUp5DPlwjLvBHVTyHt97XU
+	imQ/8qAnQR+UVGz+cbo0e05pZJ+ZHa3k3HW3kryNoDuXOKnMY3o5KzZGj8BE5bKTJof1Cw3hGgx
+	9oKnAfjWKk0yfc2NsNJe+PLkB8JLmNLhZlvsK
+X-Gm-Gg: ASbGncvlM7JLcTO+hwtbQgWtu6CisRyZd7dlCxz8/a3c5m1nJ7gz47U/psokFNZg1ce
+	ivTWCrtSnHwNChbShomQ8pGGqw9txo+CV7B7k56AZvmoFhg/2laVPs+6IsCHtoaPIDsHbrLUEsz
+	tnGoM=
+X-Google-Smtp-Source: AGHT+IGMAh+w1Gz6p28RK3/Kth8ILRYRgo6m2nDhbUzgQugav48TFGXg/Z1zHoQ5cs13BAumkleX3RdAp09lzIwOHiA=
+X-Received: by 2002:a05:6808:8411:b0:3ec:d34f:4c73 with SMTP id
+ 5614622812f47-3f19fd30cd9mr5906073b6e.27.1737364673207; Mon, 20 Jan 2025
+ 01:17:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <a7c24973-cebe-44e0-a5f4-9c2497dd3206@stanley.mountain>
+In-Reply-To: <a7c24973-cebe-44e0-a5f4-9c2497dd3206@stanley.mountain>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Mon, 20 Jan 2025 17:17:41 +0800
+X-Gm-Features: AbW1kvZuCneYxJkeQaxYr8XfSXJr6ATKtRBfmL8qC2BoM4TKAMF1yczgSehDjTA
+Message-ID: <CAEXTbpfcBtBRDcMcDuaOPQeYJLrd0qkP5P1hOmsgky0BOZkFfQ@mail.gmail.com>
+Subject: Re: [wens:mtk-wip 24/48] drivers/gpu/drm/bridge/analogix/anx7625.c:2658
+ anx7625_typec_mux_set() error: 'port' dereferencing possible ERR_PTR()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
+Hi Dan,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: llvm@lists.linux.dev
-BCC: lkp@intel.com
+On Mon, Jan 20, 2025 at 1:36=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mt=
+k-wip
+> head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
+> commit: d62036e150e84eff425756d90cf8f060d86beb17 [24/48] drm/bridge: anx7=
+625: Register Type C mode switches
+> config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/arc=
+hive/20250118/202501180409.LUg1bFSN-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202501180409.LUg1bFSN-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/gpu/drm/bridge/analogix/anx7625.c:2658 anx7625_typec_mux_set() er=
+ror: 'port' dereferencing possible ERR_PTR()
+>
+> vim +/port +2658 drivers/gpu/drm/bridge/analogix/anx7625.c
+>
+> d62036e150e84e Pin-yen Lin 2023-03-31  2654  static int anx7625_typec_mux=
+_set(struct typec_mux_dev *mux,
+> d62036e150e84e Pin-yen Lin 2023-03-31  2655                              =
+struct typec_mux_state *state)
+> d62036e150e84e Pin-yen Lin 2023-03-31  2656  {
+> d62036e150e84e Pin-yen Lin 2023-03-31  2657     struct drm_dp_typec_port_=
+data *port =3D typec_mux_get_drvdata(mux);
+>                                                                          =
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> typec_mux_get_drvdata() this returns ERR_PTR(-EOPNOTSUPP) if CONFIG_TYPEC
+> is disabled.  I assumed that the Kconfig specified that CONFIG_TYPEC had
+> to be enabled unless COMPILE_TEST was enabled but I didn't find that in
+> the KConfig when I looked.
 
-CC: linux-kernel@vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
+This is a callback that is only registered through
+`typec_mux_register()`, which also returns ERR_PTR(-EOPNOTSUPP) when
+CONFIG_TYPEC is disabled.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-commit: bede169618c68379e1be7ace14e8ac85b964a9ec kbuild: enable objtool for *.mod.o and additional kernel objects
-date:   8 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 weeks ago
-config: riscv-randconfig-002-20250120 (https://download.01.org/0day-ci/archive/20250120/202501201626.M3REz6Dq-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501201626.M3REz6Dq-lkp@intel.com/reproduce)
+So, anx7625_typec_mux_set() should never be called when CONFIG_TYPEC
+is disabled.
+>
+> Does the Kconfig have a depend/select/imply on CONFIG_TYPEC that I missed=
+?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501201626.M3REz6Dq-lkp@intel.com/
+The Kconfig around this is "depends on TYPEC || TYPEC=3Dn", though this
+is not directly related to the warning here.
 
-All errors (new ones prefixed by >>):
+>
+> d62036e150e84e Pin-yen Lin 2023-03-31 @2658     struct anx7625_data *ctx =
+=3D port->data;
+> d62036e150e84e Pin-yen Lin 2023-03-31  2659     struct device *dev =3D ct=
+x->dev;
+> d62036e150e84e Pin-yen Lin 2023-03-31  2660     struct drm_dp_typec_switc=
+h_desc switch_desc =3D ctx->switch_desc;
+> d62036e150e84e Pin-yen Lin 2023-03-31  2661     bool new_dp_connected, ol=
+d_dp_connected;
+> d62036e150e84e Pin-yen Lin 2023-03-31  2662
+> d62036e150e84e Pin-yen Lin 2023-03-31  2663     if (switch_desc.num_typec=
+_switches =3D=3D 1)
+> d62036e150e84e Pin-yen Lin 2023-03-31  2664             return 0;
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
->> ld.lld: error: vmlinux.o:(function run_init_process: .text.unlikely.run_init_process+0x18): relocation R_RISCV_HI20 out of range: 529072 is not in [-524288, 524287]; references '.L_MergedGlobals'
-   >>> referenced by main.c:1379 (init/main.c:1379)
-   >>> defined in vmlinux.o
---
->> ld.lld: error: vmlinux.o:(function trace_initcall_finish_cb: .text.unlikely.trace_initcall_finish_cb+0x36): relocation R_RISCV_HI20 out of range: 528353 is not in [-524288, 524287]; references '.L.str.144'
-   >>> referenced by main.c:1224 (init/main.c:1224)
-   >>> defined in vmlinux.o
---
->> ld.lld: error: vmlinux.o:(function run_init_process: .text.unlikely.run_init_process+0x24): relocation R_RISCV_HI20 out of range: 528353 is not in [-524288, 524287]; references '.L.str.121'
-   >>> referenced by main.c:1379 (init/main.c:1379)
-   >>> defined in vmlinux.o
---
->> ld.lld: error: vmlinux.o:(function try_to_run_init_process: .text.unlikely.try_to_run_init_process+0x32): relocation R_RISCV_HI20 out of range: 528353 is not in [-524288, 524287]; references '.L.str.134'
-   >>> referenced by main.c:1397 (init/main.c:1397)
-   >>> defined in vmlinux.o
---
->> ld.lld: error: vmlinux.o:(function trace_initcall_start_cb: .text.unlikely.trace_initcall_start_cb+0x1a): relocation R_RISCV_HI20 out of range: 528281 is not in [-524288, 524287]; references '.L.str.142'
-   >>> referenced by main.c:1212 (init/main.c:1212)
-   >>> defined in vmlinux.o
---
->> ld.lld: error: vmlinux.o:(function trace_initcall_finish_cb: .text.unlikely.trace_initcall_finish_cb+0x20): relocation R_RISCV_HI20 out of range: 528121 is not in [-524288, 524287]; references '.LCPI60_0'
-   >>> referenced by main.c:1221 (init/main.c:1221)
-   >>> defined in vmlinux.o
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Pin-yen
