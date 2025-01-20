@@ -1,67 +1,67 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0D41442E8
-	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 05:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689F418FC79
+	for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 07:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737351397; cv=none; b=WaWvIZn+vqLGIZB4kE7H+HOySKHxuDEAg48yJJtJ3BHMJqDDqkNs22mWbWBMmhpK0e8S0RdZUZ8it/0zqsbj3S3bk62n09ihxL7nd6CT7qDzPEmxKeaHBSp2BSOXE5bHVOwBO6kUyn+SlCYcLD9K5DjYLFmFeKkGSU3N4c0M610=
+	t=1737357984; cv=none; b=VDPOoZhikZVsflvTa1Jg5Q2rL4BdKTz7msV9DZ4q9v5QZTFNsH3lDNyAv54jh1J1ZhgcB4QTJI7j3I7pXMhS6ILBkb0aLbpS9Obr5dTud7RgS05MRRACvnWa6qClrdSyOl9ztB9jgnZrJ1Eg/1SvswccfjuxDX/pqaNO0jxS+UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737351397; c=relaxed/simple;
-	bh=TN1J20OqsPCnlpFGpwKbUj9FxpUmA8DCf1YGKRzdFxM=;
+	s=arc-20240116; t=1737357984; c=relaxed/simple;
+	bh=NxrX+d+0FJm7uBeq9Nx21TS64oGqyY66R0wlt6V+wKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EnAE2CF0gsV2VHCpDGFwgvPVB5k4AzMe+p1OhKrFwtOb6yF8k6dPOU+3KAqTUPqYgvVaw2uKY2mgCT9dvVLkRr6IasPsAXnLN9wELn48v3WZYkHLlN0QH68jrDWeN6u8QkZt0xttSjPgyZCh6IgZMXc96qz4T/uZjsB/1awhkn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DPNfLsjY; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition:In-Reply-To; b=ZuaDTzdt+HzZtJADDG3IkSKZ7MrPOMlxa8SIJ0A99hfRM8E9PVCAkjgzVOz8976ycypTQYMn5NBjlHlUxndg5AAl+ufajLNzeTAVVnjiYiHmQ1KuxEi3bNw2AB5/fXfZRfxJSuhFxVEjmWSa0ZgYx8AWuouijtJ9doRmoz144L8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IBNC5l53; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DPNfLsjY"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso25153095e9.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 21:36:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IBNC5l53"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38634c35129so3466448f8f.3
+        for <oe-kbuild@lists.linux.dev>; Sun, 19 Jan 2025 23:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737351394; x=1737956194; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YRfUWZpbf8cWtc9oMicz6yb5E+BBg8/UYzv2sjHBlV4=;
-        b=DPNfLsjYZpcUO+BhZS7F5aNHCP9A2TgpCN7c7LYl9fx0+8Ih+b6FxT2yJBEuOmyt3w
-         jUz5L6xuFOfY2xoMNOKgsHn1OC2GVw4w0Jj5FWZxtFmX8aa6CwyJV4krpY9UF+b9UHZg
-         FgHEm9Wu015isTnoeU03azsty08KP6K2grzHyVg+uxrvIbAMJ9rU9CVHDQCpVs/Pqw1x
-         t1NgZcQl6NYV403ZOTCz33tFCOnb4TkUJtl0SUHJteaTVFHsFZLGjVeoG7r5HtidNxBD
-         yxBr8Nn4900MZOgXCSMiy0ERlRY4fpjrkgLxY6xS2nojD6ZsH78o/ChZgrh6Xsf38/hZ
-         4YYQ==
+        d=linaro.org; s=google; t=1737357980; x=1737962780; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5NHSYRaPcEvsDMUedKc48IMCuOjSeAPTyPR3Rlj7XW8=;
+        b=IBNC5l535xIzEWfOt2xie/XXbt40Tna0MJ5rGWlmGY3uv8Q0OBAcJWNe5ZIZBIQe6L
+         +fbvbKLn13yxfZBekZDfhNFMAP9LJrerjR0qzZOZkKudi7jcFKbfV0//gnbVlV5PeM8L
+         EzjmEc9gFWiR7BhSyjMYa3MLC6AYwF6Xi2mB928Ls+IMjXLGv6Ge0zI7TALm8PM6Y0TC
+         slCQ0BhT9dVIWJevbrcYzNW4ZmgUmhG68e3Putv29IZT13PQvcifcLJWFiRk7QRVugFP
+         4C0X14H8DLQeXS+ZcAorWaSjLX/jr9kpGWabgMhE+94zaubv03V0SImFXtMODA/BVcsg
+         +7Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737351394; x=1737956194;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YRfUWZpbf8cWtc9oMicz6yb5E+BBg8/UYzv2sjHBlV4=;
-        b=SGOSn05TBi9CaCxBCxw1pMj9HP18GqRe6gidA/ljqkSHwZOwivdo5Bjc+XxpZMg3Aa
-         j9/pnJiy+N5EJG5Xjy1Uw5QPqwlc84ab4YfLmFBHXJa65GqgfHRpU9V33BeREEU0JvEw
-         kuc/t5HlVvdsQP7WQs8m6AMFJX8MIG9srQmv+5y/cb0w6v7AYtcuwxm0Aym90qP1SPfA
-         I9svfA1lFw4YuB/T6SOaajCY6lLDNvCKa45eqChBIA/D23u2IsmW7oQ3W1KKekAbXUEZ
-         NENuupJCc2LGNmMNRZXKkmdyK8l3ItApOMgflpSexH8h5py3jgTqQu5b03qjP8s1Gydl
-         qAZg==
-X-Gm-Message-State: AOJu0YwuTmc1Vy1oRm5BCf2C8dJ1t8SSdjn18LlgIGUPATPJoX3FfPMX
-	wNPtSumavYS3CzZPblWkSu6qEvNPAIM0cIx2nALXtvIrNsZoNNQdVHc4ODZachJKWB5mCoa1l1Y
-	t
-X-Gm-Gg: ASbGnctKuyVg/whVcwvwFqRPjbrsKrFu9yukWLL3c3EC+r7+AeNZD7hKQ3qk1+vmpIg
-	H87pcD+AtRY82Acrx3mHldrYie6hwzfHjSYkROhhxnUDul5ihXMfViaB7dWScu+nzapfEs1orlb
-	ZRbgxJayYv0AEMJ3OoAQRzFGsqXVGFgF7aWtBj/oDRJIEHLtJ96bVrWf2l8k4w3nUBrdmZEgYO+
-	SzZUvU4VbW/d+6r630dXSNx7+ZSICgDqBuzQ1bXZ0VK2WAt9z7S3BF+ja/zNNeHBgwC2zi2pW8=
-X-Google-Smtp-Source: AGHT+IHum6raKE7C+EQJtkh5Jmin6g67lfMxt2Yz4BCC3IaBf3pp2ELEhj/S2dGKkOGfT2Xpx9cH8w==
-X-Received: by 2002:a7b:cc06:0:b0:437:c453:ff19 with SMTP id 5b1f17b1804b1-437c6b4707cmr173652975e9.14.1737351394063;
-        Sun, 19 Jan 2025 21:36:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737357980; x=1737962780;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5NHSYRaPcEvsDMUedKc48IMCuOjSeAPTyPR3Rlj7XW8=;
+        b=C8OaOHCDrUAzIz4EAOKB0QZhSHJMw6i5IOwJhuyK7HbHKGVIsNPbISWpO8ujg3bsd/
+         64IHLqRHdoUBf+yx+tPvXpj1Kx5jR2UI69Enn5epgjeAC82LACs3ZbtERRJxY23yN/fN
+         nyj90yLplCrnWqlx+Pn1onNiklZptY/qNw07A/rfvQ88Xs0jWn/SAGBgBraCnTxdfSDw
+         YnwCmFCq2X9qdWT9bqDQH3QpAt2EuP4KSD5bbBC60JUUmh7SjDphnrpITVGFPC15tCG5
+         4P0W/ID3ViA+zNcmf1vsjobZlPiSarfo9572IrB0PcNYgCO56godjXSM0W/XoWgowZuX
+         NyWw==
+X-Gm-Message-State: AOJu0YwpzWqhQStBN7COpd1iAPd5K4qZaWoVyEuSnXDJSMcg7CoeIx+U
+	/dwvYdi6e2jo9eV+ujdQwigg8vqHUYxhCfPkWJYW4fEcQlglOxDUzYBtr/iII/jkAc5BuOeidd1
+	s
+X-Gm-Gg: ASbGncujzX2wYIf0O/lJ0OEo7lMEbg1mytN+7rimKQh6gvyQOyVvYRnZAtowRCEdFmG
+	L12uu0KPRNF2RuWrY2ROL0p90MLi8tSR1SXS15nk2/IGv6F7ABIT7Rhot/47sulD0vHcWP/teHi
+	4Kl4ibM27OtMlmTAFF6hTlzeAs3pbYtfryE7XoQd8yrKIh3YXa0dOg0EplUUPHRv81+7bZw3J2C
+	Vlme+umx9c7x4v5ljt+A6dg8KiXwdoDtBsG+K/MxsBQL4VK25in3Xpe7h65Uarj27TW6YSJ9HU=
+X-Google-Smtp-Source: AGHT+IFOQ4n65F/+nmAYHyUgPJBiA7g98gePoOtSSWjEuNIrNEx2PNFqoffpLVNeYjrRxM2H4+qstg==
+X-Received: by 2002:a05:6000:1a8b:b0:385:e9ba:acda with SMTP id ffacd0b85a97d-38bf56781a4mr10706340f8f.2.1737357980411;
+        Sun, 19 Jan 2025 23:26:20 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4389046226asm123020455e9.31.2025.01.19.21.36.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3278088sm9521175f8f.73.2025.01.19.23.26.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jan 2025 21:36:33 -0800 (PST)
-Date: Mon, 20 Jan 2025 08:36:30 +0300
+        Sun, 19 Jan 2025 23:26:20 -0800 (PST)
+Date: Mon, 20 Jan 2025 10:26:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pin-yen Lin <treapking@chromium.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [wens:mtk-wip 24/48] drivers/gpu/drm/bridge/analogix/anx7625.c:2658
- anx7625_typec_mux_set() error: 'port' dereferencing possible ERR_PTR()
-Message-ID: <a7c24973-cebe-44e0-a5f4-9c2497dd3206@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Anna Schumaker <anna@kernel.org>,
+	linux-nfs@vger.kernel.org, trond.myklebust@hammerspace.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, anna@kernel.org
+Subject: Re: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
+Message-ID: <8d0e2cd9-e47e-48f5-ae73-0e19d08ae807@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,43 +70,78 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250108213632.260498-4-anna@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
-head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
-commit: d62036e150e84eff425756d90cf8f060d86beb17 [24/48] drm/bridge: anx7625: Register Type C mode switches
-config: arm-randconfig-r071-20250117 (https://download.01.org/0day-ci/archive/20250118/202501180409.LUg1bFSN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+Hi Anna,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Schumaker/NFS-Add-implid-to-sysfs/20250109-053732
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20250108213632.260498-4-anna%40kernel.org
+patch subject: [PATCH 3/3] sunrpc: Add a sysfs file for adding a new xprt
+config: x86_64-randconfig-r073-20250119 (https://download.01.org/0day-ci/archive/20250120/202501200000.40Rg2rc6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501180409.LUg1bFSN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501200000.40Rg2rc6-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/bridge/analogix/anx7625.c:2658 anx7625_typec_mux_set() error: 'port' dereferencing possible ERR_PTR()
+New smatch warnings:
+net/sunrpc/sysfs.c:288 rpc_sysfs_xprt_switch_add_xprt_store() warn: passing zero to 'PTR_ERR'
 
-vim +/port +2658 drivers/gpu/drm/bridge/analogix/anx7625.c
+vim +/PTR_ERR +288 net/sunrpc/sysfs.c
 
-d62036e150e84e Pin-yen Lin 2023-03-31  2654  static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-d62036e150e84e Pin-yen Lin 2023-03-31  2655  				 struct typec_mux_state *state)
-d62036e150e84e Pin-yen Lin 2023-03-31  2656  {
-d62036e150e84e Pin-yen Lin 2023-03-31  2657  	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
-                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
-typec_mux_get_drvdata() this returns ERR_PTR(-EOPNOTSUPP) if CONFIG_TYPEC
-is disabled.  I assumed that the Kconfig specified that CONFIG_TYPEC had
-to be enabled unless COMPILE_TEST was enabled but I didn't find that in
-the KConfig when I looked.
+2b155d9a088aee Anna Schumaker 2025-01-08  260  static ssize_t rpc_sysfs_xprt_switch_add_xprt_store(struct kobject *kobj,
+2b155d9a088aee Anna Schumaker 2025-01-08  261  						    struct kobj_attribute *attr,
+2b155d9a088aee Anna Schumaker 2025-01-08  262  						    const char *buf, size_t count)
+2b155d9a088aee Anna Schumaker 2025-01-08  263  {
+2b155d9a088aee Anna Schumaker 2025-01-08  264  	struct rpc_xprt_switch *xprt_switch =
+2b155d9a088aee Anna Schumaker 2025-01-08  265  		rpc_sysfs_xprt_switch_kobj_get_xprt(kobj);
+2b155d9a088aee Anna Schumaker 2025-01-08  266  	struct xprt_create xprt_create_args;
+2b155d9a088aee Anna Schumaker 2025-01-08  267  	struct rpc_xprt *xprt, *new;
+2b155d9a088aee Anna Schumaker 2025-01-08  268  
+2b155d9a088aee Anna Schumaker 2025-01-08  269  	if (!xprt_switch)
+2b155d9a088aee Anna Schumaker 2025-01-08  270  		return 0;
+2b155d9a088aee Anna Schumaker 2025-01-08  271  
+2b155d9a088aee Anna Schumaker 2025-01-08  272  	xprt = rpc_xprt_switch_get_main_xprt(xprt_switch);
+2b155d9a088aee Anna Schumaker 2025-01-08  273  	if (!xprt)
+2b155d9a088aee Anna Schumaker 2025-01-08  274  		goto out;
+2b155d9a088aee Anna Schumaker 2025-01-08  275  
+2b155d9a088aee Anna Schumaker 2025-01-08  276  	xprt_create_args.ident = xprt->xprt_class->ident;
+2b155d9a088aee Anna Schumaker 2025-01-08  277  	xprt_create_args.net = xprt->xprt_net;
+2b155d9a088aee Anna Schumaker 2025-01-08  278  	xprt_create_args.dstaddr = (struct sockaddr *)&xprt->addr;
+2b155d9a088aee Anna Schumaker 2025-01-08  279  	xprt_create_args.addrlen = xprt->addrlen;
+2b155d9a088aee Anna Schumaker 2025-01-08  280  	xprt_create_args.servername = xprt->servername;
+2b155d9a088aee Anna Schumaker 2025-01-08  281  	xprt_create_args.bc_xprt = xprt->bc_xprt;
+2b155d9a088aee Anna Schumaker 2025-01-08  282  	xprt_create_args.xprtsec = xprt->xprtsec;
+2b155d9a088aee Anna Schumaker 2025-01-08  283  	xprt_create_args.connect_timeout = xprt->connect_timeout;
+2b155d9a088aee Anna Schumaker 2025-01-08  284  	xprt_create_args.reconnect_timeout = xprt->max_reconnect_timeout;
+2b155d9a088aee Anna Schumaker 2025-01-08  285  
+2b155d9a088aee Anna Schumaker 2025-01-08  286  	new = xprt_create_transport(&xprt_create_args);
+2b155d9a088aee Anna Schumaker 2025-01-08  287  	if (IS_ERR_OR_NULL(new)) {
 
-Does the Kconfig have a depend/select/imply on CONFIG_TYPEC that I missed?
+This should just be if (IS_ERR(new)) {, otherwise we end up with a
+nonsense debate about whether impossible NULL returns should be handled
+as a error or a success.
 
-d62036e150e84e Pin-yen Lin 2023-03-31 @2658  	struct anx7625_data *ctx = port->data;
-d62036e150e84e Pin-yen Lin 2023-03-31  2659  	struct device *dev = ctx->dev;
-d62036e150e84e Pin-yen Lin 2023-03-31  2660  	struct drm_dp_typec_switch_desc switch_desc = ctx->switch_desc;
-d62036e150e84e Pin-yen Lin 2023-03-31  2661  	bool new_dp_connected, old_dp_connected;
-d62036e150e84e Pin-yen Lin 2023-03-31  2662  
-d62036e150e84e Pin-yen Lin 2023-03-31  2663  	if (switch_desc.num_typec_switches == 1)
-d62036e150e84e Pin-yen Lin 2023-03-31  2664  		return 0;
+2b155d9a088aee Anna Schumaker 2025-01-08 @288  		count = PTR_ERR(new);
+2b155d9a088aee Anna Schumaker 2025-01-08  289  		goto out_put_xprt;
+2b155d9a088aee Anna Schumaker 2025-01-08  290  	}
+2b155d9a088aee Anna Schumaker 2025-01-08  291  
+2b155d9a088aee Anna Schumaker 2025-01-08  292  	rpc_xprt_switch_add_xprt(xprt_switch, new);
+2b155d9a088aee Anna Schumaker 2025-01-08  293  	xprt_put(new);
+2b155d9a088aee Anna Schumaker 2025-01-08  294  
+2b155d9a088aee Anna Schumaker 2025-01-08  295  out_put_xprt:
+2b155d9a088aee Anna Schumaker 2025-01-08  296  	xprt_put(xprt);
+2b155d9a088aee Anna Schumaker 2025-01-08  297  out:
+2b155d9a088aee Anna Schumaker 2025-01-08  298  	xprt_switch_put(xprt_switch);
+2b155d9a088aee Anna Schumaker 2025-01-08  299  	return count;
+2b155d9a088aee Anna Schumaker 2025-01-08  300  }
 
 -- 
 0-DAY CI Kernel Test Service
