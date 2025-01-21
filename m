@@ -1,67 +1,59 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D561BF24
-	for <oe-kbuild@lists.linux.dev>; Tue, 21 Jan 2025 07:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66E42CAB
+	for <oe-kbuild@lists.linux.dev>; Tue, 21 Jan 2025 09:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737443377; cv=none; b=hA/GBimCn4YMvi0bh6fQo62/zlwTCzK1MCJFt0twf6Qu79Tmdvy+g5gxwDqpBTdtiKB2mA8PzioYos97T4yhPItc1pKgVLFQSHbw24wF08ZaMyko0p7TedHRhJ3Y/uCxRMkf6gzq7CzqfYOWObRq8O14m3KUeV2S57DEJd0pXng=
+	t=1737450515; cv=none; b=cuhBehNgNILyVYhM17ShdTbZypVJwaU5mAbdJ3wyzNeaSzenAEHgD1enL01nMjWe+kOum8Oqw3mHHW5hzSa/6dk1Hi1T2xmANrAwpNmyrVNyWOvrdqHFKifGbR/99Ypu9Rzs84T0G/i/iG6IIyjLeAso7yanSRWc9lw8a9M46/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737443377; c=relaxed/simple;
-	bh=zCAYhKIdevfZxt2csTVqb3aNKvXBzgzF7fOPI7w/KQo=;
+	s=arc-20240116; t=1737450515; c=relaxed/simple;
+	bh=bVAW0mVSZOwHeS3j2QlQo+kOE/OcwjW0gOTa8CTJkwk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s467Fmw4wA9KazULNU6JkQGAw4iSDYXBkZ/eNPsaH0PNhcQYUelLLLkeduo44P2Cl+8CEWkasH4nMYmK5BrmaHgjUSFk9tfz+AV5cnexc9Mow7Xmc8/0i9LzXtXXRwzXesGycU7U63pcZt3BVXqELitqDbINjctXqb0NTZ/6Org=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uKXDyP2Q; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=tzjZZx+7Oz+qKMQpFVuj3ex4MAqEWza8+XAc/8Fr+59iUtMDqvOJ4qUnwce+pDeuTdIrPdzn90RJi32daaOLVohTg0D0jQumt2kugpmdrCvWYLfZTPL1XQJQq2mxfhR9JGNtc0neTcdo+hhhUIn4qdcd8x604kqWOTvbbADHLSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i5tXTTVd; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uKXDyP2Q"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43675b1155bso60375135e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 20 Jan 2025 23:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737443373; x=1738048173; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8tWgZXjbSf96OZ4eHqXocyVloofnFnvy8Ppl87RH61U=;
-        b=uKXDyP2QfEPobffs8kxv3ISSq0XjbMRIGm0Y/OliOgtMxi1lxdEDo2RNZzUn4RWBpm
-         RAcec8fEslX3E4eQqtVC3yKeUacIEcCzLS9+G3XU+KfiZBsNfZpuBcv8oIW0MUbiLJ82
-         4z+f6NvvehZF6O3mDcVq4olnbfgohfO/+nJFVivb5aJGBbyX6w1M2BRkz2FM+VVzyWT/
-         pxxmWTwP9BTsSDGU1vRD33mhepefW4qw7xM4xVgkxmHME80YblQWVa3jpfsVoMqX8XXZ
-         ZfVW+SyZg50JiEANs8SdP9UfaS0b3qAJnxy149vP90EKFBEAVjjKdXwnhvBZPEZOZXsO
-         Kxgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737443373; x=1738048173;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8tWgZXjbSf96OZ4eHqXocyVloofnFnvy8Ppl87RH61U=;
-        b=CQj4dP79sOZEk5I2V1Sr+07M6I6Fp34HPUzBhLM3A8y5vC7uv3FLqskMvo9I70LgOf
-         kf34oDoOgKRLoH743QvRUjPze6VjHgmAwEXY3dKn9xs4fwh6/WLfcl760NU5qMC/xpqH
-         foecFm2wc+F4QaJXPbLGWgFVlzr5xBM35bcddbzyN2dj+O+kON1UJU9IBumSGXxhjDFW
-         MSTRhka3ZoZEIhE9SeT1NmIAtctb9Z1o8ZOGIunm/AbDcQ/z0ZC5Ek3U+h/GXqk0XCi7
-         ssHOrNJNoJdLZE/yh0cLvpZUQ2DNWswQHUjJ2LOkjnu9R2pZVLYtZWS2Q72c4aPbEtlw
-         xTuA==
-X-Gm-Message-State: AOJu0YwwN1pYTCXg1wTNOCrV3b2x65SLKw0V+dwRLW1d9lQE7UyIUYIq
-	tZ6Pj+OQc2f/5caz0Qbaz/vfdgpD6rzaplHZpgHYgReAcmTjjSHh/d0CVQAgXxMmTGeUfjwbmD2
-	k
-X-Gm-Gg: ASbGncuVv/bblyTMqU7vWUdq0ORb7n9SOsee6yp1zAczpomk5KYSXYAHdsrInN8qh8c
-	3/A0GD0jWcasLpseRpOhwDskZRutXHSoGiUARbA+CaQ+O5LSh2B6IhNGiw0+M662iALV9Y5nkuq
-	muVgjFdxetnsq+uN6mfdHC224jg9FoNpb+GnNhJNtdcbKwTIhNcCxkVB2EinUGxjavXmtYeFNsD
-	h2eCl28P0QhoVFZb0qbL6uRCIzBzflPB6qXd9VFGW+bogkXNHWlOKmOTHlEZR8bHiZwLPGGKNM=
-X-Google-Smtp-Source: AGHT+IFTp45xpXqco1mefDqnZlUy7yMl6jV8aPjRMFUewU8BFCaQJB9RojtaR8+XAvgdSVJGaMbfCg==
-X-Received: by 2002:a05:600c:ccc:b0:434:e9ee:c3d with SMTP id 5b1f17b1804b1-4389141c1e5mr127294965e9.20.1737443373266;
-        Mon, 20 Jan 2025 23:09:33 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3214fc9sm12239640f8f.6.2025.01.20.23.09.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 23:09:32 -0800 (PST)
-Date: Tue, 21 Jan 2025 10:09:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 13/13] drivers/ufs/core/ufshcd.c:5518
- __ufshcd_transfer_req_compl() error: we previously assumed 'compl_cmd' could
- be null (see line 5517)
-Message-ID: <7dc49ef8-95bb-47ee-b123-959fa266aeee@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i5tXTTVd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737450513; x=1768986513;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bVAW0mVSZOwHeS3j2QlQo+kOE/OcwjW0gOTa8CTJkwk=;
+  b=i5tXTTVdMXTJNnuseKd4H2AzJ7H4qHpU/dvi8bh7JrnNlS1C5mOMAMT/
+   tfYOus6TrsvG6eJgb1eFT6DScnwjkYjN1L1Ebhn/VKLis1BCSRNznz4I4
+   EtDkbT1xjqmuQkK1Tsxk7NJLmbRcU+fr/dNv4/bSjL+Fw3kClyvpSVcFu
+   1XNhOeaa/pPtYeDlnIm/1D1HJFMvRuxbVrMxqT0ivlnxRHXUcxDJvdP8M
+   unci6LZgjoEHAMcOGngr4s1QMO2Y9/e9pAYBMbvmEEltFHm9pKhkggLvn
+   58BaV/zU3pE8HGyP+aryHKfkmMAi/5cjMhhERkWW6qNmZyLnfFsRR+7qf
+   Q==;
+X-CSE-ConnectionGUID: Z+UJlKUTQ6O4w2dQYtLaAQ==
+X-CSE-MsgGUID: rDe6tdKBTKe2ALuQE+yvDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="41527463"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="41527463"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 01:08:33 -0800
+X-CSE-ConnectionGUID: 2rCMLsucRk2nJUjkKQIHOg==
+X-CSE-MsgGUID: zBkX8+eATaS65v58BfuHpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="111734726"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Jan 2025 01:08:32 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1taAFK-000XsB-1C;
+	Tue, 21 Jan 2025 09:08:30 +0000
+Date: Tue, 21 Jan 2025 17:07:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [wens:mtk-wip 32/48]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000:
+ mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+Message-ID: <202501211716.As0VcJqA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,42 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   21a8754aa33228c1b822c1104d24fce691357678
-commit: 8563ce58954679187f0c269a504520d8def37e41 [13/13] BACKPORT: FROMLIST: scsi: ufs: Make the polling code report which command has been completed
-config: x86_64-randconfig-161-20250120 (https://download.01.org/0day-ci/archive/20250121/202501210143.ZyDTG1tQ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Chen-Yu Tsai" <wenst@chromium.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git mtk-wip
+head:   a2f8143f6e1e6b3d8dac24f675646fbfdfc03202
+commit: 0af51b30f86abe42aae0c8598b5286c8ebf44faf [32/48] arm64: dts: mediatek: mt8183-kukui: Merge Krane device trees
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm64-randconfig-053-20250117 (https://download.01.org/0day-ci/archive/20250121/202501211716.As0VcJqA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501211716.As0VcJqA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501210143.ZyDTG1tQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501211716.As0VcJqA-lkp@intel.com/
 
-New smatch warnings:
-drivers/ufs/core/ufshcd.c:5518 __ufshcd_transfer_req_compl() error: we previously assumed 'compl_cmd' could be null (see line 5517)
-
-vim +/compl_cmd +5518 drivers/ufs/core/ufshcd.c
-
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5509  static void __ufshcd_transfer_req_compl(struct ufs_hba *hba,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5510  					unsigned long completed_reqs,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5511  					struct scsi_cmnd **compl_cmd)
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5512  {
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5513  	int tag;
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5514  
-ee00e6f120fbd0 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  5515  	for_each_set_bit(tag, &completed_reqs, hba->nutrs)
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11  5516  		if (ufshcd_compl_one_cqe(hba, tag, NULL,
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11 @5517  					 compl_cmd ? *compl_cmd : NULL))
-                                                                                                                 ^^^^^^^^^
-Check for NULL
-
-8563ce58954679 drivers/ufs/core/ufshcd.c Bart Van Assche    2024-04-11 @5518  			*compl_cmd = NULL;
-                                                                                                ^^^^^^^^^^
-Unchecked dereference
-
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo            2021-05-24  5519  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:245.17-261.4: Warning (unique_unit_address_if_enabled): /soc/dsi@14014000/panel@0: duplicate unit-address (also used in node /soc/dsi@14014000/panel2@0)
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'open_touch', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: syscon@13000000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: dsi@14014000: ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: dsi@14014000: ports: 'port@1' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: dsi@14014000: Unevaluated properties are not allowed ('panel2@0', 'ports' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: vcodec@17020000: 'assigned-clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: vcodec@17020000: 'assigned-clock-parents' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtb: bt-sco: '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
