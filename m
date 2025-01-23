@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7C221147C
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 Jan 2025 15:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596EE213246
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 Jan 2025 16:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737646132; cv=none; b=J/S2aZS87D3gfv7LeBHbIFhDdzbW2mQY7fiVk+8MwVVr0lKi+DbeSr00qR4IoFWag43MowzCE/pyLtVcK+WE0sOOUh7ioTI52AWWxq+rAkgfYcmT4Ioy1fwy4Z2TqRH4JiPAib0lh2R5ljkwQyVlNun6XmFAtC5p3riLQfs8ULs=
+	t=1737650475; cv=none; b=KC5+jDSD8Au0GrDoPKoEJGS4gZNMFRC3PB0Q9bQO0YPN/+A/V5SbY++YoWOf+Fameo5tKEz5DBNuzxEr/WDi+JL+kwf+9hosS9fqtok/S9q8oj7tpGeUhZqr0cLG90xHxPeOasZ4MqtZZA+8G+sxHCX9phxLeBfwdnhcsXpUqJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737646132; c=relaxed/simple;
-	bh=bprQselZjUkdqp9WYiDMA4SMCFBqDAC762TyBi6RgKo=;
+	s=arc-20240116; t=1737650475; c=relaxed/simple;
+	bh=ImrZSnNAGMearNDjY43g9J4AFwe3WZ4BGwmeFsExWCE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fr2U0Dyv/bbkjj8y1cOShCweG+S7r56j8lOV0T7Mpp29+L6GG9hHIw1yBUiWz98Rkz4sgiGgLMb2rFuwCxZb296sEyGEvJnwgnQtnVcCG2aL2Vn02zZ0AlEmx/9gpGdfu8OGTq6Q8y7wvqOwdMuw8AJvdTZfgD8gJJXP/fQqiz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOD4QAwG; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=njdYfF12a0SHCp/cRyuTU88L7iIp4DvN8dNbBfo3d36rpBgezPifAidoyWVkgoWcoe3pvPBIG7eDmVhVDFQufWbE8d13L78PbA/vwehPbZQcExL02T0NwMn0rP69Zqh7UDOfJKr07Tg/mZwRKNTaeoTSKsRsnrmPYC1FbYWM25Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GlKg+QUv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOD4QAwG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GlKg+QUv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737646130; x=1769182130;
+  t=1737650474; x=1769186474;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bprQselZjUkdqp9WYiDMA4SMCFBqDAC762TyBi6RgKo=;
-  b=FOD4QAwGH1pu9wIp4VGvd8hYrh5ts/bNqhHQ74STcIRpDGB+b+YyDe6+
-   jeb4m8URw9vCV64wibi4NscHhvh3whMTck7hx4SN/6xhFnGkvom8CqCVH
-   xGbK7Jm+jF+Hs36rlxz51pHz9lRx7t2+mIadHnGUpOjhsb8isGMts+dOR
-   J9HFh7VqFcgnKl+QU8mlAwah2sg9ala0yGSWBszXkPeTrTlGtCjeE810H
-   9mrMH22BquKRrq3BE9CG6QxYCkAFyBEZiP73EdIg7bXL4cB9v9UxKMteA
-   qqGU99Hrgdg7nfE+RLZNmDwkHseYEEyNB019kZjGPsqgJLl5bBL7UH5B0
-   w==;
-X-CSE-ConnectionGUID: Feirdv9ARwaQJeGP5YWeoQ==
-X-CSE-MsgGUID: kR/ZEPdbQKuo0HTdd58RVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37844674"
+  bh=ImrZSnNAGMearNDjY43g9J4AFwe3WZ4BGwmeFsExWCE=;
+  b=GlKg+QUvLN/2l+s1UeVuLE66giwoeMDm6clrFTBdp1mSzmA/ubKdLJoA
+   yC3PsdAEGekacl9cx9O6peJZYn8Uy3oi4qFIZWk+GkiHWRsEFscFYXRtU
+   QMDyRQhP6SxvYgQRnh/lsz9aenFxDcGrZDjo3rMKz8VMB61VToqyQrznQ
+   9tTm/gfWNYQnVDVMdAAfgR/76IMj08X5xxocQASdjxufhm2FjUXAF3qB0
+   9mtpgpTLWN2IV0afs959RGcVKEmAdanZKBawypT+N7nQe8Hpz6qeqGwyT
+   JyQqNfL95MwUJFwBcv5fvkzp47OxOE+ryYboMFB8unJkxr9akAdo6SDz/
+   A==;
+X-CSE-ConnectionGUID: YC3RPYpBS2qN/mgeDjfgXA==
+X-CSE-MsgGUID: SFGGE4pvRAGOa1G4+RtCxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="41830376"
 X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="37844674"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 07:28:50 -0800
-X-CSE-ConnectionGUID: jwBHf08DQ6mERBgbZxwzaw==
-X-CSE-MsgGUID: Y2zh/td2TcKfuJFyzqUvnw==
+   d="scan'208";a="41830376"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 08:41:13 -0800
+X-CSE-ConnectionGUID: 6kV1c/F1StmKsX1LPkL2fg==
+X-CSE-MsgGUID: RzokF83vR6Cl9LtzMnzGHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="107599415"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112158377"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jan 2025 07:28:49 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 23 Jan 2025 08:41:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1taz8Q-000bM5-2j;
-	Thu, 23 Jan 2025 15:28:46 +0000
-Date: Thu, 23 Jan 2025 23:27:57 +0800
+	id 1tb0GT-000bPX-2P;
+	Thu, 23 Jan 2025 16:41:09 +0000
+Date: Fri, 24 Jan 2025 00:40:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:b4/sm8750-display-dts-and-panel 30/74]
- arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: remoteproc@32300000: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202501232337.uyjy2bFl-lkp@intel.com>
+Subject: [krzk-github:b4/sm8750-display-dts-and-panel 33/75]
+ arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: remoteproc@32300000: Unevaluated
+ properties are not allowed ('compatible' was unexpected)
+Message-ID: <202501240033.2ok3E7Qn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,36 +73,31 @@ TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 tree:   https://github.com/krzk/linux b4/sm8750-display-dts-and-panel
-head:   3d4ec7553fa4310579528818ee68ffff4b614b66
-commit: ef643b2b612b4f3d6a2ea23959726b5cbf5477eb [30/74] arm64: dts: qcom: sm8750: Add CDSP
-:::::: branch date: 27 hours ago
-:::::: commit date: 28 hours ago
-config: arm64-randconfig-052-20250123 (https://download.01.org/0day-ci/archive/20250123/202501232337.uyjy2bFl-lkp@intel.com/config)
+head:   4e443a546ffb5a1c936e44e053893ae12804fc13
+commit: f784224a5390c0e4a1ddbbcc089cd07296e6af20 [33/75] arm64: dts: qcom: sm8750-qrd: Enable CDSP and mention MPSS
+:::::: branch date: 2 hours ago
+:::::: commit date: 29 hours ago
+config: arm64-randconfig-051-20250123 (https://download.01.org/0day-ci/archive/20250124/202501240033.2ok3E7Qn-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250123/202501232337.uyjy2bFl-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240033.2ok3E7Qn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501232337.uyjy2bFl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501240033.2ok3E7Qn-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: remoteproc@32300000: compatible: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: remoteproc@32300000: compatible: 'oneOf' conditional failed, one must be fixed:
    	['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas'] is too long
    	'qcom,sm8750-cdsp-pas' is not one of ['qcom,sdx75-mpss-pas', 'qcom,sm8550-adsp-pas', 'qcom,sm8550-cdsp-pas', 'qcom,sm8550-mpss-pas', 'qcom,sm8650-adsp-pas', 'qcom,sm8650-cdsp-pas', 'qcom,sm8650-mpss-pas', 'qcom,x1e80100-adsp-pas', 'qcom,x1e80100-cdsp-pas']
    	'qcom,sm8750-adsp-pas' was expected
    	'qcom,sm8550-adsp-pas' was expected
    	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sm8550-pas.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/remoteproc@32300000: failed to match any schema with compatible: ['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas']
---
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: remoteproc@32300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas'] is too long
-   	'qcom,sm8750-cdsp-pas' is not one of ['qcom,sdx75-mpss-pas', 'qcom,sm8550-adsp-pas', 'qcom,sm8550-cdsp-pas', 'qcom,sm8550-mpss-pas', 'qcom,sm8650-adsp-pas', 'qcom,sm8650-cdsp-pas', 'qcom,sm8650-mpss-pas', 'qcom,x1e80100-adsp-pas', 'qcom,x1e80100-cdsp-pas']
-   	'qcom,sm8750-adsp-pas' was expected
-   	'qcom,sm8550-adsp-pas' was expected
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: remoteproc@32300000: Unevaluated properties are not allowed ('compatible' was unexpected)
    	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sm8550-pas.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/remoteproc@32300000: failed to match any schema with compatible: ['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/remoteproc@32300000: failed to match any schema with compatible: ['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/remoteproc@4080000: failed to match any schema with compatible: ['qcom,sm8750-mpss-pas']
 
 -- 
 0-DAY CI Kernel Test Service
