@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26320433C0
-	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jan 2025 00:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C5E2CA8
+	for <oe-kbuild@lists.linux.dev>; Fri, 24 Jan 2025 00:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737677648; cv=none; b=M7LC7uPOI0D6//a8RbQc6Uv81JN+hNSfiOgx2hzRsHgPBVwQKjXLOTNkghYthjxq6iiEKX/D/xypFNG00p8XzRzH9Wi2ZH4+Fj+qG22m0+eYRmP6dLyeL0nMDbCB8Q5U/K5i0WIKy9M5e+qijrXslrGFotZNRBFx4tPkY9WJWzg=
+	t=1737680297; cv=none; b=TDJBrHfy+xpdyUEKe6xp7t1+avg/AR4Q/K47oRHFuKRNjlD/COSh+Zaa1pBxykaIybcl0C0Oj9TSFF0OtVsgq3N9c4GVOP+9NnKYnMF650FIX8NCtVyI+NSEIZ6G68XDr3Kuc4nEtn0cI1Y7qcNwKznfGYHtd39oXjyWYI57mmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737677648; c=relaxed/simple;
-	bh=XHNN54grvMcC6difBgxLobbtHGlYI+RXV2QHDh0JqxI=;
+	s=arc-20240116; t=1737680297; c=relaxed/simple;
+	bh=kpWAcQiCxVZuDdMMu5USBPyJov+yKZgMSWqd5OULIQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B7zOdG1lpvPhP//RyB0ZD29gP6VoI3/SBTlKEKVgzwnAhMpdywme+k8QhibcnLUCApQ+zViAn/N8nzwqFWbCvdmfZWLyVBCAAqAdNHi27nl+b9DzrqlguMC03lo7ChhokOBh+ZIe1I3+qITMuCMBpmGplCI0/AAo09RGCpA+BgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZ/O09t+; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=huWs0TigzamK0R+awFqXdJ/qkftYYmImUOKtNMIB26viCKIPrZHHQQd9zPBRtuHA9qhhfZKvKSX6rFunjUDwT1YOBuyMuwH3XJGD4fIc6dwHIuKCAe98NtA94P8BlJmOYDDLI4cnr0Kj9EkNi3MPW7J71sfdzBq/onj4L5po8+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bkQ398yT; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZ/O09t+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bkQ398yT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737677647; x=1769213647;
+  t=1737680295; x=1769216295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XHNN54grvMcC6difBgxLobbtHGlYI+RXV2QHDh0JqxI=;
-  b=RZ/O09t+0WKUhFBb4QjjANrlVBFmm+WzRTtkqt/imyLQhcgLC9UmwZQx
-   wf0vQ4e32MfeI9Ds3VjmUVifiXw0j2VZA/dbXBgnUCEEX4NHwLdnUpzp9
-   VtWBb7iM9kr2a+GGsT9q+F40eZSYKT/p+9veHeYY1aVFsk8vP2vrKRh1C
-   pc+O2jzrNg3OrUgh2Q2eDT38i6PkKvqMZQ7GI5hNKuPsxmYOBRhGq4rJx
-   NXM6MvCOB20takDwLdRpMZuu2UtueQk6ChwGjz198A254R0JsmrdTtmvc
-   uawdJHvVVZE2xglEr+S0rxR4IceZ7KDM3cQb5co1qBlWr9lQmjPUtKyeG
+  bh=kpWAcQiCxVZuDdMMu5USBPyJov+yKZgMSWqd5OULIQc=;
+  b=bkQ398yTU3TQImmc0vRhMQolbmIBvtbXhMceAMpBAfb+nSDOPX/igYdc
+   6bfernFCWsJchYaXSEP7H/LNHcPd1oHETa9Js8obxq5H9+WzblfmoaNX8
+   IIDFsB3U+dR7SKhbyjapIYwH8lS569GNkmweV+cZnuJpEikiie6cuuQc2
+   8PIEJruu9R87PWzi5Q4zqDTItrtu59rC+1iW9Lp3Y9XV24Q/LYUqok3NC
+   oIc94SuEOgkTwRxy6RnNuUWEsQSefz844Rw74iV3az1+4D0NltXVGsHMg
+   f1noWuzLjL1av0eP/TnduW4OugB86m6fD1Sop/njwmIzJfQle8/zYyzb5
    A==;
-X-CSE-ConnectionGUID: L17IvA60TFqjsUVGWTpgPg==
-X-CSE-MsgGUID: GhZ9jyw2RsikP3mHqTV5ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38095637"
-X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
-   d="scan'208";a="38095637"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 16:14:06 -0800
-X-CSE-ConnectionGUID: PDM0WF9xQXOyhMNx27ahIg==
-X-CSE-MsgGUID: D9v5Z72RTGq+yTQTAxgaPg==
+X-CSE-ConnectionGUID: 0L/+po6+Q3SIXEnTX45Fcg==
+X-CSE-MsgGUID: I7mHlEbgSdq6OY8nl78TNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38091251"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
+   d="scan'208";a="38091251"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 16:58:15 -0800
+X-CSE-ConnectionGUID: GR5eZ0D2QRu42/L5qECyjw==
+X-CSE-MsgGUID: 90dyZIK+QxC3N/GyWJjB7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
-   d="scan'208";a="107426489"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130920066"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jan 2025 16:14:06 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 23 Jan 2025 16:58:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tb7Kl-000btf-2M;
-	Fri, 24 Jan 2025 00:14:03 +0000
-Date: Fri, 24 Jan 2025 08:13:07 +0800
+	id 1tb81S-000bvp-34;
+	Fri, 24 Jan 2025 00:58:10 +0000
+Date: Fri, 24 Jan 2025 08:57:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:b4/sm8750-display-dts-and-panel 32/75]
- arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: remoteproc@32300000: Unevaluated
- properties are not allowed ('compatible' was unexpected)
-Message-ID: <202501240846.Dz35jrY5-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/soundwire/debugfs.c:159:39-44: opportunity for
+ str_read_write(value)
+Message-ID: <202501240821.hGJS6MKf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,41 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Rander Wang <rander.wang@intel.com>
+CC: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-tree:   https://github.com/krzk/linux b4/sm8750-display-dts-and-panel
-head:   4e443a546ffb5a1c936e44e053893ae12804fc13
-commit: 3756dc8e6bec1d839583e843d25a7bb0a103cfef [32/75] arm64: dts: qcom: sm8750-mtp: Enable CDSP and mention MPSS
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
+commit: fe46d2a4301de1299fb32c0317ec316706ceaad6 soundwire: debugfs: add interface to read/write commands
+date:   8 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-052-20250123 (https://download.01.org/0day-ci/archive/20250124/202501240846.Dz35jrY5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501240846.Dz35jrY5-lkp@intel.com/reproduce)
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-104-20250124 (https://download.01.org/0day-ci/archive/20250124/202501240821.hGJS6MKf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501240846.Dz35jrY5-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202501240821.hGJS6MKf-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: remoteproc@32300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas'] is too long
-   	'qcom,sm8750-cdsp-pas' is not one of ['qcom,sdx75-mpss-pas', 'qcom,sm8550-adsp-pas', 'qcom,sm8550-cdsp-pas', 'qcom,sm8550-mpss-pas', 'qcom,sm8650-adsp-pas', 'qcom,sm8650-cdsp-pas', 'qcom,sm8650-mpss-pas', 'qcom,x1e80100-adsp-pas', 'qcom,x1e80100-cdsp-pas']
-   	'qcom,sm8750-adsp-pas' was expected
-   	'qcom,sm8550-adsp-pas' was expected
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sm8550-pas.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: remoteproc@32300000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sm8550-pas.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/remoteproc@32300000: failed to match any schema with compatible: ['qcom,sm8750-cdsp-pas', 'qcom,sm8650-cdsp-pas']
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/remoteproc@4080000: failed to match any schema with compatible: ['qcom,sm8750-mpss-pas']
+cocci warnings: (new ones prefixed by >>)
+>> drivers/soundwire/debugfs.c:159:39-44: opportunity for str_read_write(value)
+
+vim +159 drivers/soundwire/debugfs.c
+
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  148  
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  149  static int set_command(void *data, u64 value)
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  150  {
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  151  	struct sdw_slave *slave = data;
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  152  
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  153  	if (value > 1)
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  154  		return -EINVAL;
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  155  
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  156  	/* Userspace changed the hardware state behind the kernel's back */
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  157  	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  158  
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03 @159  	dev_dbg(&slave->dev, "command: %s\n", value ? "read" : "write");
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  160  	cmd = value;
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  161  
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  162  	return 0;
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  163  }
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  164  DEFINE_DEBUGFS_ATTRIBUTE(set_command_fops, NULL,
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  165  			 set_command, "%llu\n");
+fe46d2a4301de1 Pierre-Louis Bossart 2024-06-03  166  
 
 -- 
 0-DAY CI Kernel Test Service
