@@ -1,68 +1,57 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8396F1D9A54
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jan 2025 13:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E691018C0C
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 Jan 2025 13:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737810492; cv=none; b=qbYGU3/cIS5uiXOur/glf5mCCCUWaNVec9AzX9VyqHhG5/7odwlwRniUDt+HkHIoqrXoKSvNEFIdKdYfC/iazHDMiyn5twzkl4DVOSJF0jRrYekpGo3O8xGuy7ZDxauu8akdZvKopr/0uMF/Yrx8F0WoB+ovxWzqyF9KJc/UV24=
+	t=1737813368; cv=none; b=RGp+bbqrA5ku0KD2Pg1S3eS2pSyG7GhB24GY6zOSHnxYGnvwTMqnGKBSbUh8zzKPvbSn86vQ0iyc1UxI7ADEDJ++XrVBpI3z5EqBR+gpljONe5crPdmGkBDohtbLiUbog8UPPLduMpixWGZpinuwWkoaAOf6ERSoCIhJcwN2BFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737810492; c=relaxed/simple;
-	bh=6sY5cyJc0jnNRiM4MzMSW3soHKIy9kpUlZWYU96xtCQ=;
+	s=arc-20240116; t=1737813368; c=relaxed/simple;
+	bh=aAVYdxvRkMGZLbiOhqRXN5XJHwmQt4NIxyn+Dl0vBvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=btls+dKjl2V3aBACIViH2QCfpfTVa0euO+3QPq/tkpLqtU6fTyT6PkXG34HeWV/3ydCeKBIh6HAXUOkPjwL5dg8ktQibGPJpOcbaz+drS/vvhhpCt56slU9ENPugVCNxrj2hxpQmWkUVYIOdRyrWb75cq0r95PjmezodREm+AR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QYYFlF7h; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=DgOktWL8cjWxDi8TR0rvOiAXrNIdd58s93EGFkJT92pE6MEJ46I3L0NJSrSMY82nrAS04Y2BiLNyo63wIaJXxs5R19AnvN/fbJqpmY2K9Gnp5fuIiJAU25NfLg6kKS96bzbQUPYRSTKEGimaldtf2PzaDWT5+DYLCI/es6HpeSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMOyjR+s; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QYYFlF7h"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43618283dedso30985455e9.3
-        for <oe-kbuild@lists.linux.dev>; Sat, 25 Jan 2025 05:08:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737810487; x=1738415287; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gAGvgsOljIxqqUnQeHNI81x7TBIIT9NusLAHj9xrSY8=;
-        b=QYYFlF7hapet1qsVL39NxLDh2Rh/l7Czzq0ecPvtCTaqr7sGseYnA24pyVGlNOjeKg
-         S/MtJjty8vKHfuwULUIhFVbR6tr7P+ek5t23ls0MD2LgvDoc/gv2mXjAAmogm0otqKZK
-         6GcfHKcbdplqnoIeAQok7NEJKvZieB++O15StZbUtgxd7Ocm3QVRhGVsoDfChtVXZfd7
-         6Jj4To8ViCUeXwC/M2jf95QTdaFaBcOU0seQKI1NINhJSaUIL3WRE/qBhwgDX4PeamS8
-         I1Q3XlG1Tg5bqOwziL+Nmu4a1rHX8QjKbAeeMUL+VTedniyTbl6TWvqFqZHw3E/hx6Sq
-         Ft7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737810487; x=1738415287;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gAGvgsOljIxqqUnQeHNI81x7TBIIT9NusLAHj9xrSY8=;
-        b=O+fBbd152uAf0yCQOaJLXa/JGWhZ9zU0qPE/JlAvxASETmfjut0HJl1uXbRVQjVyvA
-         LKum5TbIv08kyfsHuoKnILNbGXXJ0HlT1+r88s7nrFYQLGvgoIHQsBO7BOPVZ7fF9OLu
-         hWWKW+idxVD35NWZiFmPKznm+YY6itYtNt+26sfRR0QGKdIsJeIIl31mBJE3czWzY35H
-         p6MHFYdT3EBVyV6YVsRFgfWeGe+qVYE0wX9pL0CrZIsaqGO6NQBlF+HRFuwbZVcaa8U1
-         SV/GGE7VPKVHxfwoMxBo0HkqsbJpGUaDEabzCfyge8ir0hy5s/eCF89sP1kTFCSw/GZB
-         Ajhg==
-X-Gm-Message-State: AOJu0Yx6+5jCIUWjW/HYpxqp28O0TT33oDaYUTCHBRYQDc0/suNFP9kV
-	avF5Yt/OJq1n+C+GtA6dDLEGc67UGSApRMI1PHul+mMEdrpyW9dVBoSY6P3NeUedN2Z1jjDTNcP
-	w
-X-Gm-Gg: ASbGncsx7T0qrBaWml0lRcVg2zx6u8NOFw4Aq4AOUhFAbOJUf5mW5Q82cTlTiQFK/Vz
-	9X0/5cMA5mk2SSFQDh2h5NJjAwcxBA73sq7lwQGziTiJOF6k7CLZkJS9BVjr3DOO2zokH8GiA90
-	5lLnwUxGfyk4s31qK5/HTk2jSB8uxP/ODCIyAF8ftgpa3LDYtY80xA3CE/L0SwgQTsSGnDfbTD1
-	UEseVk8sywGIq3z3Tx0eQ4qADudEUYR7syf5o0OGd7ICVWvVmudO6pKC5tZblri7q2BH01RNwUt
-	ishDr0+Zp3wl2fH09NIT
-X-Google-Smtp-Source: AGHT+IFTbsOp9MXX2tvYNoeS6Ugr0YQflFcdLIe/WGLt6GMkazpITSyAtQNNs6vdpz37fDwN6p7W9w==
-X-Received: by 2002:a05:600c:3544:b0:434:a781:f5e2 with SMTP id 5b1f17b1804b1-438913cabedmr287954845e9.8.1737810487227;
-        Sat, 25 Jan 2025 05:08:07 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd47f0fdsm61254465e9.5.2025.01.25.05.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jan 2025 05:08:06 -0800 (PST)
-Date: Sat, 25 Jan 2025 16:08:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jyri Sarha <jyri.sarha@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jsarha:capture-hw-mute-indicator 7/9]
- sound/soc/sof/ipc4-control.c:868 sof_scomp_get_card() warn: variable
- dereferenced before check 'scomp' (see line 866)
-Message-ID: <1f3e7076-28e3-49c4-a552-42d674bfaa21@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMOyjR+s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737813366; x=1769349366;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aAVYdxvRkMGZLbiOhqRXN5XJHwmQt4NIxyn+Dl0vBvA=;
+  b=UMOyjR+sn/J0i3ycbc0P7M/ffm4DeIca/ZDJFc/3nCEYydEk7qxAbNpt
+   74t6LxLQseOz+1zAcWOHLAW131iMFNj3n9SoovynPi8QHYN0oMpsayIMb
+   ck0sp0XjGLYaTc8dGXJ3h+lSUE9acO+eh7s49YNGL0N9QF7EovoRys8QI
+   rCi5lcUAC0HX1EPQmqZixvM1e/v7msQG2fHvRJmeXeNuVgremMh6cgkOx
+   2Dw4A1kpjvibXsaTsHpyW/PFPNKvBTR90KErS5R08JHUisUnqxhrOBerE
+   spfwZVXP3E5l5oXU0OO6/WpUKSmSKHa9QOMbiyumHCGFJpOtQRhj5yLb/
+   w==;
+X-CSE-ConnectionGUID: 3gxYCEq1SfaQ93L1qHvxWQ==
+X-CSE-MsgGUID: bjR+6eTSSWK88XnIwDIXdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="49729353"
+X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
+   d="scan'208";a="49729353"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 05:56:05 -0800
+X-CSE-ConnectionGUID: 0yDBXAz7S0KaP4crE4gVRg==
+X-CSE-MsgGUID: yVhRgTcUT7ynOBYM5c4gug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
+   d="scan'208";a="107811903"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 25 Jan 2025 05:56:04 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbgdm-000drP-06;
+	Sat, 25 Jan 2025 13:56:02 +0000
+Date: Sat, 25 Jan 2025 21:55:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
+Message-ID: <202501252153.wCMpgWlF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,50 +61,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux capture-hw-mute-indicator
-head:   34df55e2634f610fc34f29047badf07ddf41ba2e
-commit: 1569062204a940115428cee1c098cc286c23f43a [7/9] ASoC: sof: global-capture-hw-mute-indicattor; Mixer created
-config: csky-randconfig-r072-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251110.vdLQOt9D-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250114191316.857154-1-krzysztof.kozlowski@linaro.org>
+References: <20250114191316.857154-1-krzysztof.kozlowski@linaro.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+
+Hi Krzysztof,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on shawnguo/for-next sunxi/sunxi/for-next mani-mhi/mhi-next xilinx-xlnx/master linus/master v6.13 next-20250124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/dmaengine-pxa-Enable-compile-test/20250115-031547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20250114191316.857154-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: parisc-randconfig-r072-20250124 (https://download.01.org/0day-ci/archive/20250125/202501252153.wCMpgWlF-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202501251110.vdLQOt9D-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501252153.wCMpgWlF-lkp@intel.com/
 
 New smatch warnings:
-sound/soc/sof/ipc4-control.c:868 sof_scomp_get_card() warn: variable dereferenced before check 'scomp' (see line 866)
+drivers/dma/pxa_dma.c:595 clear_chan_irq() warn: variable dereferenced before check 'phy->vchan' (see line 593)
 
 Old smatch warnings:
-sound/soc/sof/ipc4-control.c:519 sof_ipc4_bytes_ext_put() warn: potential user controlled sizeof overflow 'header.length + 8' '0-u32max + 8'
+drivers/dma/pxa_dma.c:1266 pxad_init_phys() error: uninitialized symbol 'ret'.
 
-vim +/scomp +868 sound/soc/sof/ipc4-control.c
+vim +595 drivers/dma/pxa_dma.c
 
-1569062204a940 Jyri Sarha 2025-01-20  864  static struct snd_card *sof_scomp_get_card( struct snd_soc_component *scomp)
-23f60efe259d22 Jyri Sarha 2025-01-20  865  {
-1569062204a940 Jyri Sarha 2025-01-20 @866  	struct device *dev = scomp->dev;
-                                                                     ^^^^^^^^^^
-Dereference
-
-23f60efe259d22 Jyri Sarha 2025-01-20  867  
-1569062204a940 Jyri Sarha 2025-01-20 @868  	if (!scomp) {
-                                                     ^^^^^
-Checked too late
-
-1569062204a940 Jyri Sarha 2025-01-20  869  		dev_err(dev, "%s: scomp == NULL", __func__);
-23f60efe259d22 Jyri Sarha 2025-01-20  870  		return NULL;
-1569062204a940 Jyri Sarha 2025-01-20  871  	}
-23f60efe259d22 Jyri Sarha 2025-01-20  872  
-1569062204a940 Jyri Sarha 2025-01-20  873  	if (!scomp->card) {
-1569062204a940 Jyri Sarha 2025-01-20  874  		dev_err(dev, "%s: No snd_soc_card", __func__);
-23f60efe259d22 Jyri Sarha 2025-01-20  875  		return NULL;
-1569062204a940 Jyri Sarha 2025-01-20  876  	}
-23f60efe259d22 Jyri Sarha 2025-01-20  877  
-1569062204a940 Jyri Sarha 2025-01-20  878  	return scomp->card->snd_card;
-23f60efe259d22 Jyri Sarha 2025-01-20  879  }
+a57e16cf03339c Robert Jarzmik 2015-05-25  583  
+a57e16cf03339c Robert Jarzmik 2015-05-25  584  static unsigned int clear_chan_irq(struct pxad_phy *phy)
+a57e16cf03339c Robert Jarzmik 2015-05-25  585  {
+a57e16cf03339c Robert Jarzmik 2015-05-25  586  	u32 dcsr;
+a57e16cf03339c Robert Jarzmik 2015-05-25  587  	u32 dint = readl(phy->base + DINT);
+a57e16cf03339c Robert Jarzmik 2015-05-25  588  
+a57e16cf03339c Robert Jarzmik 2015-05-25  589  	if (!(dint & BIT(phy->idx)))
+a57e16cf03339c Robert Jarzmik 2015-05-25  590  		return PXA_DCSR_RUN;
+a57e16cf03339c Robert Jarzmik 2015-05-25  591  
+a57e16cf03339c Robert Jarzmik 2015-05-25  592  	/* clear irq */
+a57e16cf03339c Robert Jarzmik 2015-05-25 @593  	dcsr = phy_readl_relaxed(phy, DCSR);
+a57e16cf03339c Robert Jarzmik 2015-05-25  594  	phy_writel(phy, dcsr, DCSR);
+a57e16cf03339c Robert Jarzmik 2015-05-25 @595  	if ((dcsr & PXA_DCSR_BUSERR) && (phy->vchan))
+a57e16cf03339c Robert Jarzmik 2015-05-25  596  		dev_warn(&phy->vchan->vc.chan.dev->device,
+a57e16cf03339c Robert Jarzmik 2015-05-25  597  			 "%s(chan=%p): PXA_DCSR_BUSERR\n",
+a57e16cf03339c Robert Jarzmik 2015-05-25  598  			 __func__, &phy->vchan);
+a57e16cf03339c Robert Jarzmik 2015-05-25  599  
+a57e16cf03339c Robert Jarzmik 2015-05-25  600  	return dcsr & ~PXA_DCSR_RUN;
+a57e16cf03339c Robert Jarzmik 2015-05-25  601  }
+a57e16cf03339c Robert Jarzmik 2015-05-25  602  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
