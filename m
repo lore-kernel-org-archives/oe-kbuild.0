@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EA2383A5
-	for <oe-kbuild@lists.linux.dev>; Tue, 28 Jan 2025 07:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD91B19F438
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Jan 2025 11:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738048987; cv=none; b=Ne+nzhfvXWIXrHHRa9o2yAyO6dUJHOyXHCyr+qV9mZlZSMiQ0ODOrHGaqRTxPy38eVtHH82jTycfmwNPJ2fUH7Fl7eGzZGUaNfq0O26XMgJdBJbEXfBmQznQh0ATfK3Y3N7atg30OyV1Uz9P+Qj/APPkT9CDK4Byh8UdxzLv9PA=
+	t=1738063537; cv=none; b=l2TetU6YjMb8UcL98qEG78JAdqkrYHFT3fMYKVLCMaWtqgfxanMcFCLspRhMP8sldck9q+6ahT8wr1lnMIveSVxpEBdmNdaD854OnFik6pxQrKtMlUBTz1FdSR6mw+W/BDJs0AJiJLku2QQQSOgYUUZiTn3lYb1mw1mZRZJ4Z3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738048987; c=relaxed/simple;
-	bh=AIyCJyyxdS2Bkqato4eQlGy8YCjDf1fXTk22PFDCdUU=;
+	s=arc-20240116; t=1738063537; c=relaxed/simple;
+	bh=NP69I2IWLpS33EReec6bYyqHArLod+ffTHAr8aw/DLk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SGGIoE9ExLM3RYqOfgES3zFcqLSD/XAsGgWiEstwUFCmTp5Lpk/ft9h4YUALK7a8umul5v4gO1amiedz0ZdCtYGoW5mAkyhUhYsZ6u6EeJSYu9rOdMJfv2zVLRTe05tzz72LpR1kv0tjQ3xW0NDVTRN9DCg98+kLbnmgv7U4z4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVOVZFsb; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=nMBBXLKq5RmB9N/x7jZiyybrzID38Kfj+VtDd5RMAbtOgnWRLokhr7sYT9mBLwE0whAB2LKbZ9sMD3zx/nPWmJz1lMfjoDS1aZOEdYMJVufXnqv5+qtn4tAaMpMmPwyXu20N5saFYNWUyG5UgFiyhOY8eO058FYnY6Jt4I/8geM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kj1nHy23; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVOVZFsb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kj1nHy23"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738048986; x=1769584986;
+  t=1738063534; x=1769599534;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AIyCJyyxdS2Bkqato4eQlGy8YCjDf1fXTk22PFDCdUU=;
-  b=iVOVZFsbt0v5JQbCZ1OpL2VFb6xpJWDS4Fda9jWG7HV0qAp1qTYhDJ0H
-   KlcIhYOiCuCy693A3WExbiNG2HNvBI2pcMMaDHtUNyh0/7WJX0u2KBZWS
-   s83kEGMjlCuXWQ0LxaruhjBayYojlPZjRFHR/+ND6/tX9sl3I2z0tfC2i
-   NmFC+uLmG7BvbXIwJ7qUoJAsTckpNT09eztiuPhR+MgazhSrq68MWj1mM
-   v0UrAjdU2gsh9RbZ7TerM4ozRn+zde/v9OzwdoHivVLXcwCJM5rGTURad
-   JpPGRvefHj4QIRQrr0325JHEAJj9ulWIAum1/LJ/asukl+z1lHUD2lZuI
+  bh=NP69I2IWLpS33EReec6bYyqHArLod+ffTHAr8aw/DLk=;
+  b=kj1nHy23jJrCzbe7I9UQn+pqBSr0bw9X2jyuunr75nLNaQdICwJI2nfz
+   i5s+9rUjhBSCi8jYfQQiHBkEqNAxejtAxgMUq/2afVGqUoi9S6YoMVSaP
+   bPAQll6IbcXDguJMmTosIwI1eni5Np3tk7O5qZvpcuquPjI5vieWSsh18
+   7mGv9ruOvTbt7UqIVBEQYP1q6NdYGAPJcBnjHrg29v4Ns1ytOFhJUM0eX
+   scU3o9RIxsEspNCu4HyBUSd6wUYzBBJDJ0WEsUMNHSc4FQQOSj55wFOLN
+   sv/mqbtMcMDsDJ2QjHj689pp5obuWJopHP7tQVDCwuVQT1vRSYPlPqKZF
    g==;
-X-CSE-ConnectionGUID: 9ddCi2RHQAOWt+o0lSOYzQ==
-X-CSE-MsgGUID: U2LKXi3CQCizPEtXH3w0UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="49510027"
-X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
-   d="scan'208";a="49510027"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 23:23:05 -0800
-X-CSE-ConnectionGUID: W3/nNOXARWSgI2wmKSaxng==
-X-CSE-MsgGUID: kvj0+ABPQoC/3m4rzjRSIQ==
+X-CSE-ConnectionGUID: cb8C/hPOQ22nibAndSH7RQ==
+X-CSE-MsgGUID: iwQBlIspQfqK9Bi2FzWSGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="38247620"
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; 
+   d="scan'208";a="38247620"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 03:25:32 -0800
+X-CSE-ConnectionGUID: 5GlHrFyET7Gr9ypk2bHkCQ==
+X-CSE-MsgGUID: Sqmt/IpmQOq8R7fszhllbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="145867940"
+   d="scan'208";a="132003823"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jan 2025 23:23:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 28 Jan 2025 03:25:31 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcfw5-000hXn-2t;
-	Tue, 28 Jan 2025 07:23:01 +0000
-Date: Tue, 28 Jan 2025 15:22:48 +0800
+	id 1tcjii-000hid-2v;
+	Tue, 28 Jan 2025 11:25:28 +0000
+Date: Tue, 28 Jan 2025 19:25:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ebiggers:crc-x86 13/13] arch/x86/lib/crc64-x86.o: warning: objtool:
- .discard.annotate_insn: dodgy linker, sh_entsize != 8
-Message-ID: <202501281551.mQlsR6Tq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 4/5] mm: make vmg->target consistent and further simplify
+ commit_merge()
+Message-ID: <202501281920.FkxJgcHL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,31 +62,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "objtool: .discard.annotate_insn: dodgy linker"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Eric Biggers <ebiggers@google.com>
+In-Reply-To: <829048d075d18dd34572f330d17af66b8cff8441.1737929364.git.lorenzo.stoakes@oracle.com>
+References: <829048d075d18dd34572f330d17af66b8cff8441.1737929364.git.lorenzo.stoakes@oracle.com>
+TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "Liam R . Howlett" <Liam.Howlett@oracle.com>
+CC: Vlastimil Babka <vbabka@suse.cz>
+CC: Jann Horn <jannh@google.com>
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc-x86
-head:   7ad096dffe77afae3fec45ef8ebc54d185dfbe07
-commit: 7ad096dffe77afae3fec45ef8ebc54d185dfbe07 [13/13] x86/crc64: implement crc64_be and crc64_nvme using new template
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: x86_64-randconfig-161-20250128 (https://download.01.org/0day-ci/archive/20250128/202501281551.mQlsR6Tq-lkp@intel.com/config)
+Hi Lorenzo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-simplify-vma-merge-structure-and-expand-comments/20250127-235322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/829048d075d18dd34572f330d17af66b8cff8441.1737929364.git.lorenzo.stoakes%40oracle.com
+patch subject: [PATCH 4/5] mm: make vmg->target consistent and further simplify commit_merge()
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-161-20250128 (https://download.01.org/0day-ci/archive/20250128/202501281920.FkxJgcHL-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501281551.mQlsR6Tq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501281551.mQlsR6Tq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501281920.FkxJgcHL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/vma.c:126 init_multi_vma_prep() error: we previously assumed 'vmg' could be null (see line 119)
 
->> arch/x86/lib/crc64-x86.o: warning: objtool: .discard.annotate_insn: dodgy linker, sh_entsize != 8
+vim +/vmg +126 mm/vma.c
+
+cacded5e42b960 Lorenzo Stoakes 2024-08-30  105  
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  106  /*
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  107   * init_multi_vma_prep() - Initializer for struct vma_prepare
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  108   * @vp: The vma_prepare struct
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  109   * @vma: The vma that will be altered once locked
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  110   * @vmg: The merge state that will be used to determine adjustment and VMA
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  111   *       removal.
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  112   */
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  113  static void init_multi_vma_prep(struct vma_prepare *vp,
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  114  				struct vm_area_struct *vma,
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  115  				struct vma_merge_struct *vmg)
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  116  {
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  117  	struct vm_area_struct *adjust;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  118  	struct vm_area_struct **remove = &vp->remove;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27 @119  	unsigned long flags = vmg ? vmg->merge_flags : 0;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  120  
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  121  	memset(vp, 0, sizeof(struct vma_prepare));
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  122  	vp->vma = vma;
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  123  	vp->anon_vma = vma->anon_vma;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  124  
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  125  	if (flags & __VMG_FLAG_REMOVE_MIDDLE) {
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27 @126  		*remove = vmg->middle;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  127  		remove = &vp->remove2;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  128  	}
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  129  	if (flags & __VMG_FLAG_REMOVE_NEXT)
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  130  		*remove = vmg->next;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  131  
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  132  	if (flags & __VMG_FLAG_ADJUST_MIDDLE_START)
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  133  		adjust = vmg->middle;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  134  	else if (flags & __VMG_FLAG_ADJUST_NEXT_START)
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  135  		adjust = vmg->next;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  136  	else
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  137  		adjust = NULL;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  138  
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  139  	vp->adj_next = adjust;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  140  	if (!vp->anon_vma && adjust)
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  141  		vp->anon_vma = adjust->anon_vma;
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  142  
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  143  	VM_WARN_ON(vp->anon_vma && adjust && adjust->anon_vma &&
+a6f0dbbf79ea89 Lorenzo Stoakes 2025-01-27  144  		   vp->anon_vma != adjust->anon_vma);
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  145  
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  146  	vp->file = vma->vm_file;
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  147  	if (vp->file)
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  148  		vp->mapping = vma->vm_file->f_mapping;
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  149  }
+49b1b8d6f68310 Lorenzo Stoakes 2024-07-29  150  
 
 -- 
 0-DAY CI Kernel Test Service
