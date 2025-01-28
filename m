@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64F1156F57
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 Jan 2025 23:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EA2383A5
+	for <oe-kbuild@lists.linux.dev>; Tue, 28 Jan 2025 07:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738020668; cv=none; b=fqwhMHFqiLq3Nbau/y9+Usyw3JVQYM105lMYZhUnPM9nkW0stMzBO0d76FRZN19QT2fFh9qjo6ryp/WEE+fJSovwjSPmtL2FeOyy7EtTF81Zm07/5bQ4KcuHIbHjQ/0Wo2/ANcEiKvoMaZt2Ki2Z8tUDwa0tVSWraSW6THIHabs=
+	t=1738048987; cv=none; b=Ne+nzhfvXWIXrHHRa9o2yAyO6dUJHOyXHCyr+qV9mZlZSMiQ0ODOrHGaqRTxPy38eVtHH82jTycfmwNPJ2fUH7Fl7eGzZGUaNfq0O26XMgJdBJbEXfBmQznQh0ATfK3Y3N7atg30OyV1Uz9P+Qj/APPkT9CDK4Byh8UdxzLv9PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738020668; c=relaxed/simple;
-	bh=c4ZWxz4dcBRVw8FrHRP4FyhxWu5rbCCMUbX12tUihM4=;
+	s=arc-20240116; t=1738048987; c=relaxed/simple;
+	bh=AIyCJyyxdS2Bkqato4eQlGy8YCjDf1fXTk22PFDCdUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eIIOBDO3kM6yhIB1zjKXF2BFFaoO4okFPPI1GapP1DCrFh0vs2Gmep67U2C1ZBrAQaF3X8mAmbG0ONsR2lAGB0e31uP4dYYcI+bpp9TdL+1lOKHWCiI6S+Pmz6s7Qw86k5wlZzAaQsams8rMYd1n9Oy6T6jYznTX5jmFk/uidZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QplwReop; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=SGGIoE9ExLM3RYqOfgES3zFcqLSD/XAsGgWiEstwUFCmTp5Lpk/ft9h4YUALK7a8umul5v4gO1amiedz0ZdCtYGoW5mAkyhUhYsZ6u6EeJSYu9rOdMJfv2zVLRTe05tzz72LpR1kv0tjQ3xW0NDVTRN9DCg98+kLbnmgv7U4z4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVOVZFsb; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QplwReop"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVOVZFsb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738020667; x=1769556667;
+  t=1738048986; x=1769584986;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c4ZWxz4dcBRVw8FrHRP4FyhxWu5rbCCMUbX12tUihM4=;
-  b=QplwReopILckwUNVIu6AF9JyvI3glXv7Nrz9aPcSi9iKPw6t5H0lImWj
-   QlwIi5dI81C1OGNo4rlfKnW9T+R3Hpfniu5ZI1I6eJJI/nL7qaD+rI7vm
-   WhOZNErqNxU/7Lu7tMzVvZa/UAmwI6r3O9hSyBiXoqZ3SfpTlSdgJT8r/
-   5iUMW1Va98YbPHu/HEFF3lNabX1Hviq821LPjvt9qtrHGc5z4ZyMslk8b
-   BXHEIq3BxtIccxxlAkTE2/vX0bRtve9g9IXwsrHv17KDSIKs4hUkBEswL
-   KLtcaBjhglQUcLNFTNKDzOAw+qJdVTFvJPoQyg3z4d9T2ttBgkk23P870
+  bh=AIyCJyyxdS2Bkqato4eQlGy8YCjDf1fXTk22PFDCdUU=;
+  b=iVOVZFsbt0v5JQbCZ1OpL2VFb6xpJWDS4Fda9jWG7HV0qAp1qTYhDJ0H
+   KlcIhYOiCuCy693A3WExbiNG2HNvBI2pcMMaDHtUNyh0/7WJX0u2KBZWS
+   s83kEGMjlCuXWQ0LxaruhjBayYojlPZjRFHR/+ND6/tX9sl3I2z0tfC2i
+   NmFC+uLmG7BvbXIwJ7qUoJAsTckpNT09eztiuPhR+MgazhSrq68MWj1mM
+   v0UrAjdU2gsh9RbZ7TerM4ozRn+zde/v9OzwdoHivVLXcwCJM5rGTURad
+   JpPGRvefHj4QIRQrr0325JHEAJj9ulWIAum1/LJ/asukl+z1lHUD2lZuI
    g==;
-X-CSE-ConnectionGUID: DFQM35HKRsaOlHWbJ9FU/w==
-X-CSE-MsgGUID: uKZ0UxJfQqe4c1bVTt2lxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="42429776"
-X-IronPort-AV: E=Sophos;i="6.13,239,1732608000"; 
-   d="scan'208";a="42429776"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 15:31:06 -0800
-X-CSE-ConnectionGUID: 9OheXA1sQy6ifnFD+ZUxlQ==
-X-CSE-MsgGUID: qGghJB4XSH2wMmIltNBe7w==
+X-CSE-ConnectionGUID: 9ddCi2RHQAOWt+o0lSOYzQ==
+X-CSE-MsgGUID: U2LKXi3CQCizPEtXH3w0UQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="49510027"
+X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; 
+   d="scan'208";a="49510027"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 23:23:05 -0800
+X-CSE-ConnectionGUID: W3/nNOXARWSgI2wmKSaxng==
+X-CSE-MsgGUID: kvj0+ABPQoC/3m4rzjRSIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,239,1732608000"; 
-   d="scan'208";a="108369293"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="145867940"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jan 2025 15:31:02 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Jan 2025 23:23:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tcYZH-000hFr-15;
-	Mon, 27 Jan 2025 23:30:59 +0000
-Date: Tue, 28 Jan 2025 07:30:50 +0800
+	id 1tcfw5-000hXn-2t;
+	Tue, 28 Jan 2025 07:23:01 +0000
+Date: Tue, 28 Jan 2025 15:22:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [steev:lenovo-x13s-linux-6.13.y 78/83]
- arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: #address-cells: 1 was
- expected
-Message-ID: <202501280747.8Z8fWY4a-lkp@intel.com>
+Subject: [ebiggers:crc-x86 13/13] arch/x86/lib/crc64-x86.o: warning: objtool:
+ .discard.annotate_insn: dodgy linker, sh_entsize != 8
+Message-ID: <202501281551.mQlsR6Tq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,82 +63,30 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "objtool: .discard.annotate_insn: dodgy linker"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Steev Klimaszewski <steev@kali.org>
+TO: Eric Biggers <ebiggers@google.com>
 
-tree:   https://github.com/steev/linux lenovo-x13s-linux-6.13.y
-head:   c358c65925524fe1dfe962d59966a6aa01b5fc9b
-commit: 3eca991e849cb286a52c0e200064915e629c1c2b [78/83] arm64: dts: qcom: sc8280x: Flatten the USB nodes
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-052-20250127 (https://download.01.org/0day-ci/archive/20250128/202501280747.8Z8fWY4a-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501280747.8Z8fWY4a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc-x86
+head:   7ad096dffe77afae3fec45ef8ebc54d185dfbe07
+commit: 7ad096dffe77afae3fec45ef8ebc54d185dfbe07 [13/13] x86/crc64: implement crc64_be and crc64_nvme using new template
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: x86_64-randconfig-161-20250128 (https://download.01.org/0day-ci/archive/20250128/202501281551.mQlsR6Tq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250128/202501281551.mQlsR6Tq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501280747.8Z8fWY4a-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501281551.mQlsR6Tq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@20000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@20000: Unevaluated properties are not allowed ('max-speed', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: usb@a800000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('fixed-link', 'max-speed', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
---
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4139.12-4143.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: video-codec@aa00000: 'video-decoder' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: video-codec@aa00000: 'video-encoder' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
---
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
->> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: usb@a800000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'dr_mode', 'phy-names', 'phys', 'ports', 'ranges', 'snps,dis-u1-entry-quirk', 'snps,dis-u2-entry-quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,snps-dwc3.yaml#
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/lib/crc64-x86.o: warning: objtool: .discard.annotate_insn: dodgy linker, sh_entsize != 8
 
 -- 
 0-DAY CI Kernel Test Service
