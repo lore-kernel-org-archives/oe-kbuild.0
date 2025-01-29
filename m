@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43992158A09
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jan 2025 19:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77156191489
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jan 2025 21:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738179582; cv=none; b=O+lLx7+mg5t2atwQOZQhD9N6PG/MjVNKeHIJMpNapSeFRcoxN9e+Aq3J3dCHV0zAOraw1XVz2iACzmdZ/Z7Tg6NcIAlRdku/l/EacNxhEh3aaxnQ+hhH05SO5oy7cDAHPjT/NQiexEANBGDdduoNZmuOauD8Dnrh1S1D9LcqjZE=
+	t=1738187759; cv=none; b=H3vIJ/Betl5XyjvKDbR/Ub5V26iOPP7RMUJuVpD4Qqta73bRiVf5kF/4YcUdKa6g5Jc/9Vg3j4UceCfFJQlLzA9WAkNyE2/JGKTPUDHFQg+1YA1qAp7/XVe9VKPnIdxwyQmxuuEoqzXJ28iOY6piX5lAuXnBZ3lwCULgjQHX1Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738179582; c=relaxed/simple;
-	bh=Jm50sEme/Yd+AKGzcufgG1TADaJLlFBHtuvFPa1injw=;
+	s=arc-20240116; t=1738187759; c=relaxed/simple;
+	bh=0nG6dD+T+9wYxXsEjupdqzAQclHGaSf6V8gL5ZDqQVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IrqjF92QwHOMkkv6eCKnx+fsGzmrmS7vR7f6GDhB3c5ls4gve3LOfSaLBkoEVSMhA2r321AYPaZujxggiY/8etw+qnr1Zq4BVF9lG02ohYFMrPvUcCgFjY7+/0QX6gGTT9kmKYpeweAZ9EVeXFkFdgI53fvOptHvPyRR0eHcL2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggM7ZC0/; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=ISM0zOMYORKZ311TFxCISdP2L8ZDjYx2I7a6neLuDkBcY3meoPvb2HjC07oDe+U6Bfpa9YF8eGF2rbscfQizJhVlkygATjnQgQ8DB+ijsJaWvSYYcQGSX4euILN2DNJXuTxwOHyyMe5hSKXOFxKBkH98ljtaVQuOlvBqkM06ap4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZ6zDgpC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggM7ZC0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZ6zDgpC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738179580; x=1769715580;
+  t=1738187758; x=1769723758;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jm50sEme/Yd+AKGzcufgG1TADaJLlFBHtuvFPa1injw=;
-  b=ggM7ZC0/mJ/IDcgsgGym5z4GPsjB4zTYGZv55Vi8YQuoMBvu22/B5Fvw
-   1Z7lvMmS14CDXAU4tKw8a+a/O0v90VTx0Jy+D+NXKEf5VBYh2mUwQ1XPe
-   hSCPW6kSF5nrGHRo15uuX8UCcIcbg2l91tRXKAoTMpCIoGAt6m6hfXZiY
-   QtqyoNTHvhTeUN//wmdjHTHjyzpo7M3fWdeWRBFu98Gs5+suYUZ3vtbHJ
-   fax/wGHEqlxDjBigvZo538BKcrrp4m3g7ZfwYTqc0MynzKSYeFZtmBJgL
-   pOTzuIyeeIghoV8i7ZUtxpi2EUKzBIYKgHnOBqB/Y9zNTRVeSlVVtgShK
-   w==;
-X-CSE-ConnectionGUID: we2OCLlVQpOg04+dL+FrEQ==
-X-CSE-MsgGUID: Mc2dk3/LShet4H6HMUDlGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="56251809"
+  bh=0nG6dD+T+9wYxXsEjupdqzAQclHGaSf6V8gL5ZDqQVE=;
+  b=mZ6zDgpCGiVuLUn2rJ8AmcoR+qV6Ddx1/x49qMQ+HMJcF6k99aJtDt3a
+   D3eQPhbdFlRcPlo8olStV/rmHJkHog8areG1gxQ+yNITRz51TYAg+l+4s
+   RmE7U5VB6fE+lLfEaOKYmgqulErUHRRpF8GgfEMXGgxHrep0jfqFKF/qa
+   i1EAKqu2Q02w1IIVeLLjtH4KTK/abgxPXQLXuwrp978F3hrJwt0tBjso7
+   Cw7b/CWJwCC5JQbk4XJJcdroAKlk4jn2yMALruy2uW3Ey09Eb/f4uBvIx
+   mqRXfjBmeQOwHJt3/RMNfLLsoJgQ6hEfO143/LCEfOhBbfKamBKMNpc1p
+   A==;
+X-CSE-ConnectionGUID: N9XodqoNT3idWsAX84aKPA==
+X-CSE-MsgGUID: JuPwbFVLTc+ITINIpUytNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="61195325"
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="56251809"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 11:39:40 -0800
-X-CSE-ConnectionGUID: pchSQBm4R6q3p2HVQ7yREQ==
-X-CSE-MsgGUID: cQFbFQZNRuuetX3UDyRKBA==
+   d="scan'208";a="61195325"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 13:55:57 -0800
+X-CSE-ConnectionGUID: o8hqTl1uSiecJ1KWjZhr+g==
+X-CSE-MsgGUID: T86FWZqRQTuM+2IWieSW5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="108946657"
+   d="scan'208";a="109738256"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Jan 2025 11:39:38 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Jan 2025 13:55:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdDuS-000jHr-1M;
-	Wed, 29 Jan 2025 19:39:36 +0000
-Date: Thu, 30 Jan 2025 03:38:56 +0800
+	id 1tdG2L-000jOp-2I;
+	Wed, 29 Jan 2025 21:55:53 +0000
+Date: Thu, 30 Jan 2025 05:55:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [norov:compat_get_cpumask 7/8] io_uring/register.c:227
- copy_iowq_aff_cpus() warn: maybe return -EFAULT instead of the bytes
- remaining?
-Message-ID: <202501300333.mxQ1QbD6-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around
+ initializer
+Message-ID: <202501300505.xFA6DXlk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,45 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yury Norov <yury.norov@gmail.com>
+CC: linux-kernel@vger.kernel.org
+TO: Huacai Chen <chenhuacai@loongson.cn>
 
-tree:   https://github.com/norov/linux compat_get_cpumask
-head:   b7162e407638adc57cdf6d6f1acea90f9d84a638
-commit: bba742e7f4aab4b879cc1620c1b57be76607bff8 [7/8] io_uring/register.c: use compat_get_cpumask
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-141-20250129 (https://download.01.org/0day-ci/archive/20250130/202501300333.mxQ1QbD6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Huacai,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9
+commit: 614d7e99752e02ff6f6d447a83d2929b9649b6cb LoongArch: Add ARCH_HAS_DEBUG_VM_PGTABLE support
+date:   6 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 months ago
+config: loongarch-randconfig-r132-20250130 (https://download.01.org/0day-ci/archive/20250130/202501300505.xFA6DXlk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250130/202501300505.xFA6DXlk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202501300333.mxQ1QbD6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202501300505.xFA6DXlk-lkp@intel.com/
 
-New smatch warnings:
-io_uring/register.c:227 copy_iowq_aff_cpus() warn: maybe return -EFAULT instead of the bytes remaining?
+sparse warnings: (new ones prefixed by >>)
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+   mm/debug_vm_pgtable.c: note: in included file (through include/linux/kasan.h, include/linux/slab.h, include/linux/fs.h, include/linux/highmem.h):
+   include/linux/pgtable.h:977:34: sparse: sparse: self-comparison always evaluates to true
+   include/linux/pgtable.h:1022:34: sparse: sparse: self-comparison always evaluates to true
+   include/linux/pgtable.h:1037:34: sparse: sparse: self-comparison always evaluates to true
+   include/linux/pgtable.h:1044:34: sparse: sparse: self-comparison always evaluates to true
+   mm/debug_vm_pgtable.c: note: in included file (through include/linux/gfp.h):
+   include/linux/mmzone.h:2016:40: sparse: sparse: self-comparison always evaluates to false
+   mm/debug_vm_pgtable.c:1374:17: sparse: sparse: context imbalance in 'debug_vm_pgtable' - unexpected unlock
 
-Old smatch warnings:
-io_uring/register.c:532 io_register_resize_rings() warn: potential spectre issue 'n.sq_sqes' [w]
-io_uring/register.c:552 io_register_resize_rings() warn: potential spectre issue 'n.rings->cqes' [w]
+vim +863 mm/debug_vm_pgtable.c
 
-vim +227 io_uring/register.c
+05289402d71736 Anshuman Khandual 2020-08-06  850  
+05289402d71736 Anshuman Khandual 2020-08-06  851  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+5f447e8067fd9f Gavin Shan        2021-09-02  852  static void __init pmd_swap_tests(struct pgtable_debug_args *args)
+05289402d71736 Anshuman Khandual 2020-08-06  853  {
+05289402d71736 Anshuman Khandual 2020-08-06  854  	swp_entry_t swp;
+05289402d71736 Anshuman Khandual 2020-08-06  855  	pmd_t pmd;
+05289402d71736 Anshuman Khandual 2020-08-06  856  
+65ac1a60a57e2c Anshuman Khandual 2021-06-28  857  	if (!has_transparent_hugepage())
+65ac1a60a57e2c Anshuman Khandual 2021-06-28  858  		return;
+65ac1a60a57e2c Anshuman Khandual 2021-06-28  859  
+6315df41afccf1 Anshuman Khandual 2020-08-06  860  	pr_debug("Validating PMD swap\n");
+5f447e8067fd9f Gavin Shan        2021-09-02  861  	pmd = pfn_pmd(args->fixed_pmd_pfn, args->page_prot);
+05289402d71736 Anshuman Khandual 2020-08-06  862  	swp = __pmd_to_swp_entry(pmd);
+05289402d71736 Anshuman Khandual 2020-08-06 @863  	pmd = __swp_entry_to_pmd(swp);
+5f447e8067fd9f Gavin Shan        2021-09-02  864  	WARN_ON(args->fixed_pmd_pfn != pmd_pfn(pmd));
+05289402d71736 Anshuman Khandual 2020-08-06  865  }
+05289402d71736 Anshuman Khandual 2020-08-06  866  #else  /* !CONFIG_ARCH_ENABLE_THP_MIGRATION */
+5f447e8067fd9f Gavin Shan        2021-09-02  867  static void __init pmd_swap_tests(struct pgtable_debug_args *args) { }
+05289402d71736 Anshuman Khandual 2020-08-06  868  #endif /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
+05289402d71736 Anshuman Khandual 2020-08-06  869  
 
-c43203154d8ac5 Jens Axboe 2023-12-19  218  
-bba742e7f4aab4 Yury Norov 2025-01-23  219  static inline int copy_iowq_aff_cpus(cpumask_var_t new_mask, void __user *arg, unsigned len)
-bba742e7f4aab4 Yury Norov 2025-01-23  220  {
-bba742e7f4aab4 Yury Norov 2025-01-23  221  	int ret = copy_from_user(new_mask, arg, len);
-bba742e7f4aab4 Yury Norov 2025-01-23  222  	unsigned ncpus = len * BITS_PER_BYTE;
-bba742e7f4aab4 Yury Norov 2025-01-23  223  
-bba742e7f4aab4 Yury Norov 2025-01-23  224  	if (ret == 0 && ncpus < large_cpumask_bits)
-bba742e7f4aab4 Yury Norov 2025-01-23  225  		cpumask_clear_from(new_mask, len);
-bba742e7f4aab4 Yury Norov 2025-01-23  226  
-bba742e7f4aab4 Yury Norov 2025-01-23 @227  	return ret;
-bba742e7f4aab4 Yury Norov 2025-01-23  228  }
-bba742e7f4aab4 Yury Norov 2025-01-23  229  
+:::::: The code at line 863 was first introduced by commit
+:::::: 05289402d71736bd275902372e4b25664aeac6b8 mm/debug_vm_pgtable: add tests validating arch helpers for core MM features
+
+:::::: TO: Anshuman Khandual <anshuman.khandual@arm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
