@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77156191489
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 Jan 2025 21:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35DC611E
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Jan 2025 00:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738187759; cv=none; b=H3vIJ/Betl5XyjvKDbR/Ub5V26iOPP7RMUJuVpD4Qqta73bRiVf5kF/4YcUdKa6g5Jc/9Vg3j4UceCfFJQlLzA9WAkNyE2/JGKTPUDHFQg+1YA1qAp7/XVe9VKPnIdxwyQmxuuEoqzXJ28iOY6piX5lAuXnBZ3lwCULgjQHX1Hk=
+	t=1738196473; cv=none; b=Lq4qGRXrJqmg5WwWZsHfr50inhRx8YtTWq2Be1jvZmAV3w3jLrgKxj0eyj7S7CYfXwlDiPT9gfEim+sDjExe4nqPEB1c1OdQAhQdViTD5DGbwK6P3g/MWcgfXYjNVHEVZ0vOPskZlI/WE1bBz3YoR33YAGaMt4nMcyHAAy0557E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738187759; c=relaxed/simple;
-	bh=0nG6dD+T+9wYxXsEjupdqzAQclHGaSf6V8gL5ZDqQVE=;
+	s=arc-20240116; t=1738196473; c=relaxed/simple;
+	bh=oiM1KZyG+mVg4OzrNR5Cw6EppB90g+jWPZ5WBJTXlCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ISM0zOMYORKZ311TFxCISdP2L8ZDjYx2I7a6neLuDkBcY3meoPvb2HjC07oDe+U6Bfpa9YF8eGF2rbscfQizJhVlkygATjnQgQ8DB+ijsJaWvSYYcQGSX4euILN2DNJXuTxwOHyyMe5hSKXOFxKBkH98ljtaVQuOlvBqkM06ap4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZ6zDgpC; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=Ry8NQSdqBLHjN5YPSjXaW0h+pEk0ZGjMKKe3zL+vw0GtVBToyI/qFe1+jkMrtx3BBLn/m633DG6VLFqeT0Y3Sq56akudyYbGfn+4exDaWGYa5cpC/JJUG6MSvjmxhT2zrwo4PGWwDGMBBCIqz3qyCT4R6JE2ETIiNHOgZkUPK2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BO5IXCFe; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZ6zDgpC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BO5IXCFe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738187758; x=1769723758;
+  t=1738196471; x=1769732471;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0nG6dD+T+9wYxXsEjupdqzAQclHGaSf6V8gL5ZDqQVE=;
-  b=mZ6zDgpCGiVuLUn2rJ8AmcoR+qV6Ddx1/x49qMQ+HMJcF6k99aJtDt3a
-   D3eQPhbdFlRcPlo8olStV/rmHJkHog8areG1gxQ+yNITRz51TYAg+l+4s
-   RmE7U5VB6fE+lLfEaOKYmgqulErUHRRpF8GgfEMXGgxHrep0jfqFKF/qa
-   i1EAKqu2Q02w1IIVeLLjtH4KTK/abgxPXQLXuwrp978F3hrJwt0tBjso7
-   Cw7b/CWJwCC5JQbk4XJJcdroAKlk4jn2yMALruy2uW3Ey09Eb/f4uBvIx
-   mqRXfjBmeQOwHJt3/RMNfLLsoJgQ6hEfO143/LCEfOhBbfKamBKMNpc1p
+  bh=oiM1KZyG+mVg4OzrNR5Cw6EppB90g+jWPZ5WBJTXlCc=;
+  b=BO5IXCFeSWsW+OkBjXmIGe/TgfckxglzEabkomNBW2lIJJ8jPSCGNQHk
+   YegGHpe/1U1TZS9VjDGe/hHXFzEIm081gOCM0xcfbnxMijUIuvLV1ITBq
+   LHDbJCR/qXjfCN9O/e8YYwFjlQ15m+MiCRUjwFClE2zPpTeTuaVRqt9op
+   gtLI9A3qUaHFmCeaggiiyWuX48yltYqn0hxHg4QWPZPLSvmJpXsWHF7Hp
+   dU2FUGoEKdax2/NurhZcL4Su4E9BXvWbGdKnzkwnEG79fcxgnHcNPeT3/
+   cu94Ir0O5ch1C5PQqNHlLHd+GUsdyLj9x3obUIkBW2OejAmIexh/s7YCU
    A==;
-X-CSE-ConnectionGUID: N9XodqoNT3idWsAX84aKPA==
-X-CSE-MsgGUID: JuPwbFVLTc+ITINIpUytNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="61195325"
+X-CSE-ConnectionGUID: blqdXdMzTe6g0fB7S0LJRw==
+X-CSE-MsgGUID: Igz2JBxUTX+SuIRoBqke9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="56160229"
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="61195325"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 13:55:57 -0800
-X-CSE-ConnectionGUID: o8hqTl1uSiecJ1KWjZhr+g==
-X-CSE-MsgGUID: T86FWZqRQTuM+2IWieSW5A==
+   d="scan'208";a="56160229"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 16:21:09 -0800
+X-CSE-ConnectionGUID: 539DwbKgSLmg+MWbpYaELw==
+X-CSE-MsgGUID: cjw9IX6BQTGwYnRDZz5xxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="109738256"
+   d="scan'208";a="114195840"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Jan 2025 13:55:56 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2025 16:21:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdG2L-000jOp-2I;
-	Wed, 29 Jan 2025 21:55:53 +0000
-Date: Thu, 30 Jan 2025 05:55:14 +0800
+	id 1tdIIr-000jUN-28;
+	Thu, 30 Jan 2025 00:21:05 +0000
+Date: Thu, 30 Jan 2025 08:20:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around
- initializer
-Message-ID: <202501300505.xFA6DXlk-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for
+ TX rings
+Message-ID: <202501300808.5bqgHMA6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,75 +62,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Huacai Chen <chenhuacai@loongson.cn>
+In-Reply-To: <20250116192343.34535-10-michael.chan@broadcom.com>
+References: <20250116192343.34535-10-michael.chan@broadcom.com>
+TO: Michael Chan <michael.chan@broadcom.com>
+TO: davem@davemloft.net
+CC: netdev@vger.kernel.org
+CC: edumazet@google.com
+CC: kuba@kernel.org
+CC: pabeni@redhat.com
+CC: andrew+netdev@lunn.ch
+CC: pavan.chebbi@broadcom.com
+CC: andrew.gospodarek@broadcom.com
+CC: michal.swiatkowski@linux.intel.com
+CC: helgaas@kernel.org
+CC: Somnath Kotur <somnath.kotur@broadcom.com>
+CC: Ajit Khaparde <ajit.khaparde@broadcom.com>
+CC: David Wei <dw@davidwei.uk>
 
-Hi Huacai,
+Hi Michael,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9
-commit: 614d7e99752e02ff6f6d447a83d2929b9649b6cb LoongArch: Add ARCH_HAS_DEBUG_VM_PGTABLE support
-date:   6 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: loongarch-randconfig-r132-20250130 (https://download.01.org/0day-ci/archive/20250130/202501300505.xFA6DXlk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250130/202501300505.xFA6DXlk-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-Set-NAPR-1-2-support-when-registering-with-firmware/20250117-032822
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250116192343.34535-10-michael.chan%40broadcom.com
+patch subject: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for TX rings
+:::::: branch date: 13 days ago
+:::::: commit date: 13 days ago
+config: x86_64-randconfig-r071-20250126 (https://download.01.org/0day-ci/archive/20250130/202501300808.5bqgHMA6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501300505.xFA6DXlk-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501300808.5bqgHMA6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
->> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
->> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
-   mm/debug_vm_pgtable.c: note: in included file (through include/linux/kasan.h, include/linux/slab.h, include/linux/fs.h, include/linux/highmem.h):
-   include/linux/pgtable.h:977:34: sparse: sparse: self-comparison always evaluates to true
-   include/linux/pgtable.h:1022:34: sparse: sparse: self-comparison always evaluates to true
-   include/linux/pgtable.h:1037:34: sparse: sparse: self-comparison always evaluates to true
-   include/linux/pgtable.h:1044:34: sparse: sparse: self-comparison always evaluates to true
-   mm/debug_vm_pgtable.c: note: in included file (through include/linux/gfp.h):
-   include/linux/mmzone.h:2016:40: sparse: sparse: self-comparison always evaluates to false
-   mm/debug_vm_pgtable.c:1374:17: sparse: sparse: context imbalance in 'debug_vm_pgtable' - unexpected unlock
+New smatch warnings:
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:15769 bnxt_queue_start() error: uninitialized symbol 'cpr'.
 
-vim +863 mm/debug_vm_pgtable.c
+Old smatch warnings:
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:779 bnxt_start_xmit() error: we previously assumed 'ptp' could be null (see line 524)
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:779 bnxt_start_xmit() error: uninitialized symbol 'txts_prod'.
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:10237 bnxt_accumulate_all_stats() error: uninitialized symbol 'ring0_stats'.
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:10362 bnxt_hwrm_port_qstats_ext() warn: missing error code? 'rc'
+drivers/net/ethernet/broadcom/bnxt/bnxt.c:11415 bnxt_request_irq() warn: 'irq->vector' from request_irq() not released on lines: 11415.
 
-05289402d71736 Anshuman Khandual 2020-08-06  850  
-05289402d71736 Anshuman Khandual 2020-08-06  851  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-5f447e8067fd9f Gavin Shan        2021-09-02  852  static void __init pmd_swap_tests(struct pgtable_debug_args *args)
-05289402d71736 Anshuman Khandual 2020-08-06  853  {
-05289402d71736 Anshuman Khandual 2020-08-06  854  	swp_entry_t swp;
-05289402d71736 Anshuman Khandual 2020-08-06  855  	pmd_t pmd;
-05289402d71736 Anshuman Khandual 2020-08-06  856  
-65ac1a60a57e2c Anshuman Khandual 2021-06-28  857  	if (!has_transparent_hugepage())
-65ac1a60a57e2c Anshuman Khandual 2021-06-28  858  		return;
-65ac1a60a57e2c Anshuman Khandual 2021-06-28  859  
-6315df41afccf1 Anshuman Khandual 2020-08-06  860  	pr_debug("Validating PMD swap\n");
-5f447e8067fd9f Gavin Shan        2021-09-02  861  	pmd = pfn_pmd(args->fixed_pmd_pfn, args->page_prot);
-05289402d71736 Anshuman Khandual 2020-08-06  862  	swp = __pmd_to_swp_entry(pmd);
-05289402d71736 Anshuman Khandual 2020-08-06 @863  	pmd = __swp_entry_to_pmd(swp);
-5f447e8067fd9f Gavin Shan        2021-09-02  864  	WARN_ON(args->fixed_pmd_pfn != pmd_pfn(pmd));
-05289402d71736 Anshuman Khandual 2020-08-06  865  }
-05289402d71736 Anshuman Khandual 2020-08-06  866  #else  /* !CONFIG_ARCH_ENABLE_THP_MIGRATION */
-5f447e8067fd9f Gavin Shan        2021-09-02  867  static void __init pmd_swap_tests(struct pgtable_debug_args *args) { }
-05289402d71736 Anshuman Khandual 2020-08-06  868  #endif /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
-05289402d71736 Anshuman Khandual 2020-08-06  869  
+vim +/cpr +15769 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-:::::: The code at line 863 was first introduced by commit
-:::::: 05289402d71736bd275902372e4b25664aeac6b8 mm/debug_vm_pgtable: add tests validating arch helpers for core MM features
-
-:::::: TO: Anshuman Khandual <anshuman.khandual@arm.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+2d694c27d32efc David Wei     2024-06-18  15690  
+2d694c27d32efc David Wei     2024-06-18  15691  static int bnxt_queue_start(struct net_device *dev, void *qmem, int idx)
+2d694c27d32efc David Wei     2024-06-18  15692  {
+2d694c27d32efc David Wei     2024-06-18  15693  	struct bnxt *bp = netdev_priv(dev);
+2d694c27d32efc David Wei     2024-06-18  15694  	struct bnxt_rx_ring_info *rxr, *clone;
+2d694c27d32efc David Wei     2024-06-18  15695  	struct bnxt_cp_ring_info *cpr;
+b9d2956e869c78 David Wei     2024-08-07  15696  	struct bnxt_vnic_info *vnic;
+5d2310614bc883 Somnath Kotur 2025-01-16  15697  	struct bnxt_napi *bnapi;
+b9d2956e869c78 David Wei     2024-08-07  15698  	int i, rc;
+2d694c27d32efc David Wei     2024-06-18  15699  
+2d694c27d32efc David Wei     2024-06-18  15700  	rxr = &bp->rx_ring[idx];
+2d694c27d32efc David Wei     2024-06-18  15701  	clone = qmem;
+2d694c27d32efc David Wei     2024-06-18  15702  
+2d694c27d32efc David Wei     2024-06-18  15703  	rxr->rx_prod = clone->rx_prod;
+2d694c27d32efc David Wei     2024-06-18  15704  	rxr->rx_agg_prod = clone->rx_agg_prod;
+2d694c27d32efc David Wei     2024-06-18  15705  	rxr->rx_sw_agg_prod = clone->rx_sw_agg_prod;
+2d694c27d32efc David Wei     2024-06-18  15706  	rxr->rx_next_cons = clone->rx_next_cons;
+bd649c5cc95816 David Wei     2024-12-03  15707  	rxr->rx_tpa = clone->rx_tpa;
+bd649c5cc95816 David Wei     2024-12-03  15708  	rxr->rx_tpa_idx_map = clone->rx_tpa_idx_map;
+2d694c27d32efc David Wei     2024-06-18  15709  	rxr->page_pool = clone->page_pool;
+bd649c5cc95816 David Wei     2024-12-03  15710  	rxr->head_pool = clone->head_pool;
+b537633ce57b29 Taehee Yoo    2024-07-21  15711  	rxr->xdp_rxq = clone->xdp_rxq;
+2d694c27d32efc David Wei     2024-06-18  15712  
+2d694c27d32efc David Wei     2024-06-18  15713  	bnxt_copy_rx_ring(bp, rxr, clone);
+2d694c27d32efc David Wei     2024-06-18  15714  
+5d2310614bc883 Somnath Kotur 2025-01-16  15715  	bnapi = rxr->bnapi;
+2d694c27d32efc David Wei     2024-06-18  15716  	rc = bnxt_hwrm_rx_ring_alloc(bp, rxr);
+2d694c27d32efc David Wei     2024-06-18  15717  	if (rc)
+5d2310614bc883 Somnath Kotur 2025-01-16  15718  		goto err_reset_rx;
+377e78a9e08ce5 Somnath Kotur 2025-01-16  15719  
+377e78a9e08ce5 Somnath Kotur 2025-01-16  15720  	rc = bnxt_hwrm_cp_ring_alloc_p5(bp, rxr->rx_cpr);
+2d694c27d32efc David Wei     2024-06-18  15721  	if (rc)
+5d2310614bc883 Somnath Kotur 2025-01-16  15722  		goto err_reset_rx;
+2d694c27d32efc David Wei     2024-06-18  15723  
+377e78a9e08ce5 Somnath Kotur 2025-01-16  15724  	rc = bnxt_hwrm_rx_agg_ring_alloc(bp, rxr);
+377e78a9e08ce5 Somnath Kotur 2025-01-16  15725  	if (rc)
+5d2310614bc883 Somnath Kotur 2025-01-16  15726  		goto err_reset_rx;
+377e78a9e08ce5 Somnath Kotur 2025-01-16  15727  
+2d694c27d32efc David Wei     2024-06-18  15728  	bnxt_db_write(bp, &rxr->rx_db, rxr->rx_prod);
+2d694c27d32efc David Wei     2024-06-18  15729  	if (bp->flags & BNXT_FLAG_AGG_RINGS)
+2d694c27d32efc David Wei     2024-06-18  15730  		bnxt_db_write(bp, &rxr->rx_agg_db, rxr->rx_agg_prod);
+2d694c27d32efc David Wei     2024-06-18  15731  
+5d2310614bc883 Somnath Kotur 2025-01-16  15732  	cpr = &bnapi->cp_ring;
+2d694c27d32efc David Wei     2024-06-18  15733  	cpr->sw_stats->rx.rx_resets++;
+2d694c27d32efc David Wei     2024-06-18  15734  
+5d2310614bc883 Somnath Kotur 2025-01-16  15735  	if (bp->flags & BNXT_FLAG_SHARED_RINGS) {
+5d2310614bc883 Somnath Kotur 2025-01-16  15736  		cpr->sw_stats->tx.tx_resets++;
+5d2310614bc883 Somnath Kotur 2025-01-16  15737  		rc = bnxt_tx_queue_start(bp, idx);
+5d2310614bc883 Somnath Kotur 2025-01-16  15738  		if (rc) {
+5d2310614bc883 Somnath Kotur 2025-01-16  15739  			netdev_warn(bp->dev,
+5d2310614bc883 Somnath Kotur 2025-01-16  15740  				    "tx queue restart failed: rc=%d\n", rc);
+5d2310614bc883 Somnath Kotur 2025-01-16  15741  			bnapi->tx_fault = 1;
+5d2310614bc883 Somnath Kotur 2025-01-16  15742  			goto err_reset;
+5d2310614bc883 Somnath Kotur 2025-01-16  15743  		}
+5d2310614bc883 Somnath Kotur 2025-01-16  15744  	}
+5d2310614bc883 Somnath Kotur 2025-01-16  15745  
+5d2310614bc883 Somnath Kotur 2025-01-16  15746  	napi_enable(&bnapi->napi);
+5d2310614bc883 Somnath Kotur 2025-01-16  15747  	bnxt_db_nq_arm(bp, &cpr->cp_db, cpr->cp_raw_cons);
+5d2310614bc883 Somnath Kotur 2025-01-16  15748  
+b9d2956e869c78 David Wei     2024-08-07  15749  	for (i = 0; i <= BNXT_VNIC_NTUPLE; i++) {
+b9d2956e869c78 David Wei     2024-08-07  15750  		vnic = &bp->vnic_info[i];
+5ac066b7b062ee Somnath Kotur 2024-11-22  15751  
+5ac066b7b062ee Somnath Kotur 2024-11-22  15752  		rc = bnxt_hwrm_vnic_set_rss_p5(bp, vnic, true);
+5ac066b7b062ee Somnath Kotur 2024-11-22  15753  		if (rc) {
+5ac066b7b062ee Somnath Kotur 2024-11-22  15754  			netdev_err(bp->dev, "hwrm vnic %d set rss failure rc: %d\n",
+5ac066b7b062ee Somnath Kotur 2024-11-22  15755  				   vnic->vnic_id, rc);
+5ac066b7b062ee Somnath Kotur 2024-11-22  15756  			return rc;
+5ac066b7b062ee Somnath Kotur 2024-11-22  15757  		}
+b9d2956e869c78 David Wei     2024-08-07  15758  		vnic->mru = bp->dev->mtu + ETH_HLEN + VLAN_HLEN;
+b9d2956e869c78 David Wei     2024-08-07  15759  		bnxt_hwrm_vnic_update(bp, vnic,
+b9d2956e869c78 David Wei     2024-08-07  15760  				      VNIC_UPDATE_REQ_ENABLES_MRU_VALID);
+b9d2956e869c78 David Wei     2024-08-07  15761  	}
+b9d2956e869c78 David Wei     2024-08-07  15762  
+2d694c27d32efc David Wei     2024-06-18  15763  	return 0;
+2d694c27d32efc David Wei     2024-06-18  15764  
+5d2310614bc883 Somnath Kotur 2025-01-16  15765  err_reset_rx:
+5d2310614bc883 Somnath Kotur 2025-01-16  15766  	rxr->bnapi->in_reset = true;
+5d2310614bc883 Somnath Kotur 2025-01-16  15767  err_reset:
+5d2310614bc883 Somnath Kotur 2025-01-16  15768  	napi_enable(&bnapi->napi);
+5d2310614bc883 Somnath Kotur 2025-01-16 @15769  	bnxt_db_nq_arm(bp, &cpr->cp_db, cpr->cp_raw_cons);
+5d2310614bc883 Somnath Kotur 2025-01-16  15770  	bnxt_reset_task(bp, true);
+2d694c27d32efc David Wei     2024-06-18  15771  	return rc;
+2d694c27d32efc David Wei     2024-06-18  15772  }
+2d694c27d32efc David Wei     2024-06-18  15773  
 
 -- 
 0-DAY CI Kernel Test Service
