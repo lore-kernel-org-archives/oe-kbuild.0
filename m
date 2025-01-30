@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35DC611E
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Jan 2025 00:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6076C185920
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Jan 2025 05:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738196473; cv=none; b=Lq4qGRXrJqmg5WwWZsHfr50inhRx8YtTWq2Be1jvZmAV3w3jLrgKxj0eyj7S7CYfXwlDiPT9gfEim+sDjExe4nqPEB1c1OdQAhQdViTD5DGbwK6P3g/MWcgfXYjNVHEVZ0vOPskZlI/WE1bBz3YoR33YAGaMt4nMcyHAAy0557E=
+	t=1738215599; cv=none; b=F5v0W8qhadO8NBc3D2dCQYxkxUm3oeqVuKYLIt8KipnSnBKiNcZNdTez7wlE6zm361+OoCnYPznfyzWQwjoS9mqpBxAuDyu52ZDwcLbvAt6L216Z6IaeQ+Wp+ndczehZa6J6HG9CsC3kiTLBhcKY/JTrUnvC22LDa0roZDlbeaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738196473; c=relaxed/simple;
-	bh=oiM1KZyG+mVg4OzrNR5Cw6EppB90g+jWPZ5WBJTXlCc=;
+	s=arc-20240116; t=1738215599; c=relaxed/simple;
+	bh=k2TB9RI4DUrjT39n463CRE8WJy+MBsg3App0eKbjl2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ry8NQSdqBLHjN5YPSjXaW0h+pEk0ZGjMKKe3zL+vw0GtVBToyI/qFe1+jkMrtx3BBLn/m633DG6VLFqeT0Y3Sq56akudyYbGfn+4exDaWGYa5cpC/JJUG6MSvjmxhT2zrwo4PGWwDGMBBCIqz3qyCT4R6JE2ETIiNHOgZkUPK2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BO5IXCFe; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=ooIS/YmlJzS4NH8ftVILW1zCPP8dvsqEC1GF1C6/zLZ1vkQiyS/1OBs496vp/5ckSmZxGxyJptY7CTOI9+eAMR3yfjEfP/xwPcasp1BU2/E6rucPR1X/wkkzWgEgr2RfCcjC5Vm5pnF9fNvFgbKvBabTvWvsYpXoV3jfcYaVea4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xcY/DbKO; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BO5IXCFe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738196471; x=1769732471;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oiM1KZyG+mVg4OzrNR5Cw6EppB90g+jWPZ5WBJTXlCc=;
-  b=BO5IXCFeSWsW+OkBjXmIGe/TgfckxglzEabkomNBW2lIJJ8jPSCGNQHk
-   YegGHpe/1U1TZS9VjDGe/hHXFzEIm081gOCM0xcfbnxMijUIuvLV1ITBq
-   LHDbJCR/qXjfCN9O/e8YYwFjlQ15m+MiCRUjwFClE2zPpTeTuaVRqt9op
-   gtLI9A3qUaHFmCeaggiiyWuX48yltYqn0hxHg4QWPZPLSvmJpXsWHF7Hp
-   dU2FUGoEKdax2/NurhZcL4Su4E9BXvWbGdKnzkwnEG79fcxgnHcNPeT3/
-   cu94Ir0O5ch1C5PQqNHlLHd+GUsdyLj9x3obUIkBW2OejAmIexh/s7YCU
-   A==;
-X-CSE-ConnectionGUID: blqdXdMzTe6g0fB7S0LJRw==
-X-CSE-MsgGUID: Igz2JBxUTX+SuIRoBqke9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="56160229"
-X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="56160229"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 16:21:09 -0800
-X-CSE-ConnectionGUID: 539DwbKgSLmg+MWbpYaELw==
-X-CSE-MsgGUID: cjw9IX6BQTGwYnRDZz5xxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; 
-   d="scan'208";a="114195840"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2025 16:21:07 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tdIIr-000jUN-28;
-	Thu, 30 Jan 2025 00:21:05 +0000
-Date: Thu, 30 Jan 2025 08:20:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xcY/DbKO"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436a03197b2so2015655e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 Jan 2025 21:39:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738215595; x=1738820395; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tawOs+rXlsMzCwf+LGEPYlHYgGznelnhxMiN2FkCFWk=;
+        b=xcY/DbKOQ82dMHnC0eNXrxImTdQ57inwWraJZvB7UoSAgNy/eZwwdKLjdCum1qei9i
+         FUv5qv0WjiOO+K4e+eLMdaB+ZDAAg4aLScpuE2E86OicxWN44y+lBY2Lz15Stq88kcLp
+         WuuMi4siXJvzX1/731eMpeOZNr0irEY2x4Gycs3HuDXy8kSG/3w5HNZoaOXrTFqCk39i
+         dCBcC3DaHYrMZSmszoWH27+ljwtBorzkt8UXJUc2EnikGmR4CkA3Nh2Yukct7w5lMk8M
+         1xEcaOqMo1yHpduXk2KQvwOnNwtyV8HR9t/FteM2r87Mm1qRusba+Vj6yQ8CYqa+0cvi
+         9FFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738215595; x=1738820395;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tawOs+rXlsMzCwf+LGEPYlHYgGznelnhxMiN2FkCFWk=;
+        b=OL7VTnOXZOFcXWtUZmjTegGUhGrztW6s+dTMVf/NgKHOAxw7m9ZzXQ0f242Nf5zl0f
+         oxb6U/zqCHYvzXFtTfR29xPxlO2onAOQgI3WT3aXhw/DFfuVe267YR7OybSo2C1IGBDu
+         BAbNFNONrrH+OFpwqE3dRe/scQobPrlUDVETFJZtJrw2aS2smWa3up30mgo4aWTPPYWH
+         fGyED/gntjb5OVrmuFQqFOIIT385bPcerIHqLUlM2102YjD2dM7StBN1IVqjx9lXgQjB
+         9XZ0bAN5Gx+XZYMQILp5hW58uUoTB7N9Kknc9dpyQtdswGOTBfRWzUfs0YmtWGRhWyly
+         orew==
+X-Gm-Message-State: AOJu0YxCi9nv1m9PApC1I6mRTsTZgHxjtQ5Fma6/gxY7mVeSOBUC3bui
+	ZLTwIm5JVN7+yQnULRjBio1H0OWiICh+nQDxMbh+JQXE+EqslCz9ukX1M4QbO1G8fIDiadkkBlA
+	B
+X-Gm-Gg: ASbGnct7Ptwv6ISNhJ6ihQ2H5GY1bEXCzcpawO58dVslKNJ9OofHOA5ioEBo8YUgfEO
+	nLDoMkDR+uJicCnAfyyioVyMaLbfzleYk58OQzMsL8M/wxKa1R/cvdmz3Y7c/CnF+fEj54k5aPn
+	93ppxlATc3y7ZmODRsir5PYOZfZVZ6okzkEOdBAtCMRNx36ACmSP17PTodMSmEwNfMnfRgdbdi1
+	a0eul9GtkfZ4V8IpnlsbW/D4QWcKkBmIKFQ4KWe0195TRWdc9JIW5p8lHCbU4e3Lommtn/h3Mqk
+	cX0Y0CsH7KEWrT3wD+Ga
+X-Google-Smtp-Source: AGHT+IGkob8f5Rg4ltVari8jUgRwXDAeSVmbKqSg9q5LIabRwV6jxbIS5q51TZ7Z/+nr1pGS6FTS1Q==
+X-Received: by 2002:a05:600c:1d1e:b0:431:5e3c:2ff0 with SMTP id 5b1f17b1804b1-438dc3bd896mr50750435e9.8.1738215595009;
+        Wed, 29 Jan 2025 21:39:55 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e244eb0dsm9882645e9.27.2025.01.29.21.39.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 21:39:54 -0800 (PST)
+Date: Thu, 30 Jan 2025 08:39:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Michael Chan <michael.chan@broadcom.com>,
+	davem@davemloft.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, pavan.chebbi@broadcom.com,
+	andrew.gospodarek@broadcom.com, michal.swiatkowski@linux.intel.com,
+	helgaas@kernel.org, Somnath Kotur <somnath.kotur@broadcom.com>,
+	Ajit Khaparde <ajit.khaparde@broadcom.com>,
+	David Wei <dw@davidwei.uk>
 Subject: Re: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for
  TX rings
-Message-ID: <202501300808.5bqgHMA6-lkp@intel.com>
+Message-ID: <8a4bcb57-ca1a-4fa2-95d6-cff55b41de44@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,60 +78,30 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250116192343.34535-10-michael.chan@broadcom.com>
-References: <20250116192343.34535-10-michael.chan@broadcom.com>
-TO: Michael Chan <michael.chan@broadcom.com>
-TO: davem@davemloft.net
-CC: netdev@vger.kernel.org
-CC: edumazet@google.com
-CC: kuba@kernel.org
-CC: pabeni@redhat.com
-CC: andrew+netdev@lunn.ch
-CC: pavan.chebbi@broadcom.com
-CC: andrew.gospodarek@broadcom.com
-CC: michal.swiatkowski@linux.intel.com
-CC: helgaas@kernel.org
-CC: Somnath Kotur <somnath.kotur@broadcom.com>
-CC: Ajit Khaparde <ajit.khaparde@broadcom.com>
-CC: David Wei <dw@davidwei.uk>
 
 Hi Michael,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-Set-NAPR-1-2-support-when-registering-with-firmware/20250117-032822
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20250116192343.34535-10-michael.chan%40broadcom.com
 patch subject: [PATCH net-next v2 09/10] bnxt_en: Extend queue stop/start for TX rings
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
 config: x86_64-randconfig-r071-20250126 (https://download.01.org/0day-ci/archive/20250130/202501300808.5bqgHMA6-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202501300808.5bqgHMA6-lkp@intel.com/
 
 New smatch warnings:
 drivers/net/ethernet/broadcom/bnxt/bnxt.c:15769 bnxt_queue_start() error: uninitialized symbol 'cpr'.
 
-Old smatch warnings:
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:779 bnxt_start_xmit() error: we previously assumed 'ptp' could be null (see line 524)
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:779 bnxt_start_xmit() error: uninitialized symbol 'txts_prod'.
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:10237 bnxt_accumulate_all_stats() error: uninitialized symbol 'ring0_stats'.
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:10362 bnxt_hwrm_port_qstats_ext() warn: missing error code? 'rc'
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:11415 bnxt_request_irq() warn: 'irq->vector' from request_irq() not released on lines: 11415.
-
 vim +/cpr +15769 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-2d694c27d32efc David Wei     2024-06-18  15690  
 2d694c27d32efc David Wei     2024-06-18  15691  static int bnxt_queue_start(struct net_device *dev, void *qmem, int idx)
 2d694c27d32efc David Wei     2024-06-18  15692  {
 2d694c27d32efc David Wei     2024-06-18  15693  	struct bnxt *bp = netdev_priv(dev);
@@ -143,6 +130,9 @@ b537633ce57b29 Taehee Yoo    2024-07-21  15711  	rxr->xdp_rxq = clone->xdp_rxq;
 2d694c27d32efc David Wei     2024-06-18  15716  	rc = bnxt_hwrm_rx_ring_alloc(bp, rxr);
 2d694c27d32efc David Wei     2024-06-18  15717  	if (rc)
 5d2310614bc883 Somnath Kotur 2025-01-16  15718  		goto err_reset_rx;
+
+cpr isn't initialized
+
 377e78a9e08ce5 Somnath Kotur 2025-01-16  15719  
 377e78a9e08ce5 Somnath Kotur 2025-01-16  15720  	rc = bnxt_hwrm_cp_ring_alloc_p5(bp, rxr->rx_cpr);
 2d694c27d32efc David Wei     2024-06-18  15721  	if (rc)
@@ -194,11 +184,14 @@ b9d2956e869c78 David Wei     2024-08-07  15762
 5d2310614bc883 Somnath Kotur 2025-01-16  15767  err_reset:
 5d2310614bc883 Somnath Kotur 2025-01-16  15768  	napi_enable(&bnapi->napi);
 5d2310614bc883 Somnath Kotur 2025-01-16 @15769  	bnxt_db_nq_arm(bp, &cpr->cp_db, cpr->cp_raw_cons);
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Uninitialized variable
+
 5d2310614bc883 Somnath Kotur 2025-01-16  15770  	bnxt_reset_task(bp, true);
 2d694c27d32efc David Wei     2024-06-18  15771  	return rc;
 2d694c27d32efc David Wei     2024-06-18  15772  }
-2d694c27d32efc David Wei     2024-06-18  15773  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
