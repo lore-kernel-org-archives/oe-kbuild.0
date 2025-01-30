@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96971E2853
-	for <oe-kbuild@lists.linux.dev>; Thu, 30 Jan 2025 15:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94091A83FF
+	for <oe-kbuild@lists.linux.dev>; Thu, 30 Jan 2025 22:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738249636; cv=none; b=C1IH7IrawxnM7SQvKpaz2cElCQdugPGcHOSrHzhNaz62TPBu8nfCz8EVPy5/DNldXe6d4aY5Xq2Z/f+FKNdDsTz0J2HAl5Do8sqI2No86N7gmtXglUFW1xLjj5xFT1iy+YY8gkS6gUjVeHZaRf273Mmh+7KS91Xv+iE3bcR88ZU=
+	t=1738275249; cv=none; b=aE1Snm4hJWyswaWSNlHat7k/fNBzg/HIMSk3zfXrZixGSCxWzefWp9EOuFAhYwamRNr1YCHFJWo9i3GYPODHCa4lgwsfFzu+KX+ELaM17f+HEeNFZygVqnmgiSgK+Azg5Qhsjap9/HurFMqJbVyntgB4BW8vCp4JwyMdqCJjz8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738249636; c=relaxed/simple;
-	bh=BrE8n3KbYTCzN5+ppfYTEhAnhp45vdi0HPZh2lNDb0g=;
+	s=arc-20240116; t=1738275249; c=relaxed/simple;
+	bh=KFMh9D5OrwwwGkvxR4JCgP6SjsR/RtEm6xX5YbmJNEA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZLEf6CnnEeMrNKgF4WWwlORPxsM31sYSfj3PIpN+SH4PQJhF/c2WvsGTxSyYI9y936U6ehl8/NIeWmIY64He9yvzf1ESku+Sa4PIfngvphnxXxPiXra6X0He2bgdmqIaKs638n1PD9YPqrXdYGFwKUpXwRLFUUyxCh9gIBGiFgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCihyVJI; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=JADgleIcBwtbIg/OIza1+/9VYEcj3WKOnNJUbmciERoJnyIh3D8osjyV6As2nP1DHsCQKhtZCcB8K4++0e8+dUcSccgNnO1j/zy0xyPq+UvACvqtFQDoLSvFSiAu3qDIwAaZXK3e+vfpaEqCigvUegrfhzAk5QXWiKnDzOi6CRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9Eo1I4M; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCihyVJI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9Eo1I4M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738249635; x=1769785635;
+  t=1738275248; x=1769811248;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BrE8n3KbYTCzN5+ppfYTEhAnhp45vdi0HPZh2lNDb0g=;
-  b=jCihyVJIpQllLbdUs2jeyjlbnbxTSOigSmkl8GDFUUuEeG+OvQlS8QPk
-   q45kcxjDVZDNwU9o2i/aUVDHJngUU3mJ9PgHouiX/3nO/LQIMxkXBZfNp
-   JTATNRzW0TR2j3BZfUvoE2Tfad3fcpwQSyc5RFWd63p6QFMYxAtdzygTo
-   bIrWODm+g1vyLMkZ2UoS4nmMUwXYbtwe+7ePuFTFh59KCRguuj5Stdwnp
-   swbUJc1+g//a9M/ac3ri++ujJGEABI0ZXqLri3E+f2DY+vO1W/splP39L
-   QY0a83TVFoYpr1gjQr2nI9dFNVI9qXANkiUB40s6YRXs47G7DqTYCsKen
-   w==;
-X-CSE-ConnectionGUID: 4tm98e0NQCCyvSVFQ2oiBg==
-X-CSE-MsgGUID: VHDE6OHyT6CHmhd4gDIHaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="42720745"
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; 
-   d="scan'208";a="42720745"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 07:07:01 -0800
-X-CSE-ConnectionGUID: czx7kVPRSr+8ln/yn+ssVw==
-X-CSE-MsgGUID: 315mwjsrQ9uA51wXtTHhHw==
+  bh=KFMh9D5OrwwwGkvxR4JCgP6SjsR/RtEm6xX5YbmJNEA=;
+  b=E9Eo1I4MjSPxWYYhVgwdN4ZZuRQ1s+7MdUzTb4vF+RzslmBPp2ButKUk
+   6To53yUesU90XjB6IhlI0HkGif3m6YITQ+6DWLlvoaeL0lFJVNfznttI8
+   iTg7S7yHXYYJGa1HbuYXQtalEwII+qkrKdFURNFnHtEc7/N6fvOcs89R0
+   6i+8vYHhiK2naVkMXhrlUxfwUGOa34WMIiwzjRyZNI8Wkc2Ybugvk7HTT
+   4Y/JCRMQmtSNnib7a0f3i0Cp/PUd5uhghVeaKMJXPuTd1ARxNToIjISfd
+   yTGV59wo2sZl1DcndDbbjUwIpxQB1kVWC2DRHCB5l/yqdtOO4n+yl6Rce
+   g==;
+X-CSE-ConnectionGUID: 05YotTZsSLGHwIL3Rlr1PQ==
+X-CSE-MsgGUID: +GQqxF3hRH66DcD+FINm6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38947860"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="38947860"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 14:14:06 -0800
+X-CSE-ConnectionGUID: zpyUQ1qsSdmjtcBa13jy6w==
+X-CSE-MsgGUID: bI9Ri1VNTKygBRJu+KPwaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109202267"
+   d="scan'208";a="114065414"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Jan 2025 07:06:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 30 Jan 2025 14:14:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tdW87-000kad-2x;
-	Thu, 30 Jan 2025 15:06:55 +0000
-Date: Thu, 30 Jan 2025 23:06:19 +0800
+	id 1tdcnR-000l2p-2R;
+	Thu, 30 Jan 2025 22:14:01 +0000
+Date: Fri, 31 Jan 2025 06:13:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [chrome-os:chromeos-6.6 9/9]
- drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_driver.c:
- mali_kbase_pm_mcu_states.h is included more than once.
-Message-ID: <202501302243.u0JeSSn6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [vireshk-pm:cpufreq/core-attr 34/47]
+ drivers/cpufreq/powernv-cpufreq.c:1130 powernv_cpufreq_init() error: buffer
+ overflow 'powernv_cpu_freq_attr' 2 <= 2
+Message-ID: <202501310628.pgAZDRtE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,79 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Viresh Kumar <viresh.kumar@linaro.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   20c6549501f674937409aba5411ee8c5c0ab133a
-commit: 3347e43f1763e946c8db116bb3241731d1417cab [9/9] CHROMIUM: gpu/mediatek: Rename midgard to mali
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/core-attr
+head:   e3129c51f8623ce847b0486105bc00cd45ca0250
+commit: 8ff649df04cd3fb05febecb28114cb116f68dcad [34/47] cpufreq: powernv: Stop setting common freq attributes
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: powerpc64-randconfig-r073-20250130 (https://download.01.org/0day-ci/archive/20250131/202501310628.pgAZDRtE-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202501302243.u0JeSSn6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202501310628.pgAZDRtE-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/mediatek/arm/mali/mali_kbase_mem_linux.c: linux/version.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/ged/src/ged_dvfs.c: linux/sched.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/ged/src/ged_eb.c: linux/module.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_driver.c: mali_kbase_pm_mcu_states.h is included more than once.
->> drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_driver.c: mali_kbase_pm_l2_states.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/gpueb/gpueb.c: gpueb_common.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/ged/src/ged_notify_sw_vsync.c: ged_dvfs.h is included more than once.
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/ged/src/ged_notify_sw_vsync.c: ged_log.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_proprietary/gpueb/ghpm_swwa.c: linux/of_address.h is included more than once.
---
->> drivers/gpu/mediatek/arm/mali/tl/mali_kbase_tracepoints.c: mali_kbase_mipe_gen_header.h is included more than once.
+smatch warnings:
+drivers/cpufreq/powernv-cpufreq.c:1130 powernv_cpufreq_init() error: buffer overflow 'powernv_cpu_freq_attr' 2 <= 2
 
-vim +687 drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_driver.c
+vim +/powernv_cpu_freq_attr +1130 drivers/cpufreq/powernv-cpufreq.c
 
-   681	
-   682	#if MALI_USE_CSF
-   683	static const char *kbase_mcu_state_to_string(enum kbase_mcu_state state)
-   684	{
-   685		const char *const strings[] = {
-   686	#define KBASEP_MCU_STATE(n) #n,
- > 687	#include "mali_kbase_pm_mcu_states.h"
-   688	#undef KBASEP_MCU_STATE
-   689		};
-   690		if (WARN_ON((size_t)state >= ARRAY_SIZE(strings)))
-   691			return "Bad MCU state";
-   692		else
-   693			return strings[state];
-   694	}
-   695	
-   696	static void kbase_ktrace_log_mcu_state(struct kbase_device *kbdev, enum kbase_mcu_state state)
-   697	{
-   698	#if KBASE_KTRACE_ENABLE
-   699		switch (state) {
-   700	#define KBASEP_MCU_STATE(n)                                       \
-   701		case KBASE_MCU_##n:                                       \
-   702			KBASE_KTRACE_ADD(kbdev, PM_MCU_##n, NULL, state); \
-   703			break;
- > 704	#include "mali_kbase_pm_mcu_states.h"
-   705	#undef KBASEP_MCU_STATE
-   706		}
-   707	#else
-   708		CSTD_UNUSED(kbdev);
-   709		CSTD_UNUSED(state);
-   710	#endif
-   711	}
-   712	
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1108  
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1109  static int __init powernv_cpufreq_init(void)
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1110  {
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1111  	int rc = 0;
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1112  
+6174bac8c7ff73 Vaidyanathan Srinivasan 2014-08-03  1113  	/* Don't probe on pseries (guest) platforms */
+e4d54f71d29997 Stewart Smith           2015-12-09  1114  	if (!firmware_has_feature(FW_FEATURE_OPAL))
+6174bac8c7ff73 Vaidyanathan Srinivasan 2014-08-03  1115  		return -ENODEV;
+6174bac8c7ff73 Vaidyanathan Srinivasan 2014-08-03  1116  
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1117  	/* Discover pstates from device tree and init */
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1118  	rc = init_powernv_pstates();
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1119  	if (rc)
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1120  		goto out;
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1121  
+053819e0bf8407 Shilpasri G Bhat        2015-07-16  1122  	/* Populate chip info */
+053819e0bf8407 Shilpasri G Bhat        2015-07-16  1123  	rc = init_chip_info();
+053819e0bf8407 Shilpasri G Bhat        2015-07-16  1124  	if (rc)
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1125  		goto out;
+053819e0bf8407 Shilpasri G Bhat        2015-07-16  1126  
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1127  	if (powernv_pstate_info.wof_enabled)
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1128  		powernv_cpufreq_driver.boost_enabled = true;
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1129  	else
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03 @1130  		powernv_cpu_freq_attr[SCALING_BOOST_FREQS_ATTR_INDEX] = NULL;
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1131  
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1132  	rc = cpufreq_register_driver(&powernv_cpufreq_driver);
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1133  	if (rc) {
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1134  		pr_info("Failed to register the cpufreq driver (%d)\n", rc);
+966c08de7c2c9b Oliver O'Halloran       2020-02-06  1135  		goto cleanup;
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1136  	}
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1137  
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1138  	if (powernv_pstate_info.wof_enabled)
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1139  		cpufreq_enable_boost_support();
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1140  
+966c08de7c2c9b Oliver O'Halloran       2020-02-06  1141  	register_reboot_notifier(&powernv_cpufreq_reboot_nb);
+966c08de7c2c9b Oliver O'Halloran       2020-02-06  1142  	opal_message_notifier_register(OPAL_MSG_OCC, &powernv_cpufreq_opal_nb);
+966c08de7c2c9b Oliver O'Halloran       2020-02-06  1143  
+b12f7a2b01f7ad Shilpasri G Bhat        2017-01-03  1144  	return 0;
+966c08de7c2c9b Oliver O'Halloran       2020-02-06  1145  cleanup:
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1146  	clean_chip_info();
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1147  out:
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1148  	pr_info("Platform driver disabled. System does not support PState control\n");
+c5e29ea7ac1441 Shilpasri G Bhat        2016-02-26  1149  	return rc;
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1150  }
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1151  module_init(powernv_cpufreq_init);
+b3d627a5f2bf1a Vaidyanathan Srinivasan 2014-04-01  1152  
+
+:::::: The code at line 1130 was first introduced by commit
+:::::: b12f7a2b01f7adebb9982a6547f4e930914829a9 cpufreq: powernv: Add boost files to export ultra-turbo frequencies
+
+:::::: TO: Shilpasri G Bhat <shilpa.bhat@linux.vnet.ibm.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
