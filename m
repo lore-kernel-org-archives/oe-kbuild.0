@@ -1,76 +1,58 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C8F1D63D9
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Feb 2025 12:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4491F7085
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Feb 2025 14:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738499464; cv=none; b=Y/lwMjubMxVY9LuDdVFfmKf47NztpATg+7Ehvs0CBIf3ggP1t+6gR5cl3n8YiHQgYHEdJfVtwVwyc4vEwzYrVzP0AioWeT+Wr/0JJVgyUdQbizfIcr19pXreI4lf98UyE4cs5lius55qfciAZlzTVMn7/CyixPYfHdrnhI2pMnk=
+	t=1738505097; cv=none; b=bsiEPUlNFVOjwurfHlddw1uqub9VowU1TiFSbTdnMGQuBgC042UbShBoaj2kwL2ju9EwgYsdNefGjuvLFQIQCwIstYneDzf+AwxghhTDIytMis8qVEI9LjoVd1TPs2pB8cfjKE0Gf91YtHaHUOnrXsPGybvmRaJuemKSFiBTAuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738499464; c=relaxed/simple;
-	bh=8XkcDIU79KYn3BQikPV7cgBJWei8V9IOQLVVrLhURck=;
+	s=arc-20240116; t=1738505097; c=relaxed/simple;
+	bh=6PYjmxWpcAN8Um06ZhtjNj9iMjXnuu3Vcv+ohXvMwYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LZrlUTTat/vKQmTDa8FKp7Hj2bHKk4ijPsghnf6nolJb9ja1y671PkhbAwcdAcj1Y9uwwfFEcQgQebqls0Rstmh/sABhSevgSVWWa6DCfwhrh3LbzQJoA6Ik+B8DQCFjspQLjBgmALYlykO5V3CrMhlXfg9NpxHxLhcMnxoEoyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ELBDCqVU; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=AM2yieWXCh39avFxJSIOvKILZGfxt6F9UHYlocpVsyfbYV1mwFDGq5n649ezk6Dh7TLrV1kE7hXNjxqpccB1FcTPqHIR3ET1VpyvQZvpommDk8wvyXjjVafR8qERor5A+H8fB+jIsFGAiKzLqQiHVEN/46g7xAwIF0KPCq7+IXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xwtj/SKX; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ELBDCqVU"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso3112906f8f.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 02 Feb 2025 04:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738499459; x=1739104259; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
-        b=ELBDCqVUxq2l/ofFuLoMwvHiztGC5vvUX7/x/2nh6D98Q0BMe0IoPfsQ734S33u/E+
-         bGn7fDSq61dyVf3V1JePxm8O4e/+p999DZMIkVfMH9A+S7VG0daHggg2g+9EVbeI2Dbn
-         olvq/Ct/RuBmEzUaT7yeLSptlYW8SWWrDYZ5sgPhIOx/TmSlvcJX4qmMSF/7pmaKOtjp
-         NGz67IiZ5W97wCO9hZv2Y5UdzWSi3tTh1RkL1Dy6cLmG+22zb4w7UTH0bl3F/T6meO59
-         5USjVxQUCz0Fo6C5LI2jDU9dpLvQVUH1StN7+EDcZA7pU9yyRrYiHPD5KjDx0mNxbjcD
-         Nedg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738499459; x=1739104259;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
-        b=L6k5FlacBWAJJ6cQJqpOT+MYf66QACbTgE/3iAeOR3imurkZpnL0iG37wYYaPg0Iem
-         TLrschizUhP9Rxm4n4rle+sFYlKlUkC/WiFL0IjKH39raVaDo0EpnTKUQdqPv0PziYoX
-         HRnzkwFw7dQk4cfPeCzhXqSR3mNmBVe373G8380eiW9ehADeU1kg34PDMsZrJDIddPob
-         KWRkY2vassJ1cEPWV/rcnLDsc9ljzraEf4mJ1HVZ8dnAEeBmynYc5xNaUT/LRr2YUgIV
-         DBYmw3al7e2X3gNJHVKVd7tPkBPN2H18n5Ss/KRVTAzat7H111oyu4LxfnY5fsGOI6MC
-         I/KQ==
-X-Gm-Message-State: AOJu0YxR/27Cc+k7DnFwatdsfvQlsIuTqQcxF3ncnxuYaKN17zFrpBQY
-	s0M4RicJI3UEVUF1htmOYEtusriouX35RsKFXmlKz9NKkmIkEzCIIFpSty9kfdzJtwgY1Y9EWLY
-	N
-X-Gm-Gg: ASbGncteC81ojMlZkRHrYqaMdHzU1QevtEeMX8DWJqjmGcuoUfdvvub9nG5s4kaTSPm
-	WYC6qZySkXJ48XyUPAqNcRNK7mBX8IrUnDCI+3dAWGYpJD6m1lFggEZ/p3+bepaupNE44i6Wd73
-	kb30W76MZ6jkCHVcXLPBc10QAfibSNjVRN6ktwIxDLKM6YuqCKQvmJ29JLFVMljQCpkiK5fyu8c
-	NvG7TOhdSqKE+PJOTHfYIKL8tYTkUrW9cGD5DV0puswKywS+p6Z/IYBPFH6cDf+gAwYAC1Wize4
-	XexZ+TWqnzrP30kM+I/d
-X-Google-Smtp-Source: AGHT+IG3DguqEpjs4KAq3Q5U108MHFsGzy1qjHj3g8CQKeY2xRe7mNrhaVjuu1vZih3UFfYOgwaFPQ==
-X-Received: by 2002:a05:6000:18ae:b0:38a:9fdb:7307 with SMTP id ffacd0b85a97d-38c51f8b280mr19894271f8f.43.1738499459090;
-        Sun, 02 Feb 2025 04:30:59 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38c5c11b363sm9753396f8f.40.2025.02.02.04.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2025 04:30:57 -0800 (PST)
-Date: Sun, 2 Feb 2025 15:30:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Esteban Blanc <eblanc@baylibre.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
-Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-Message-ID: <4e0118d0-0992-4d71-8dfb-8b75c0f51a17@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xwtj/SKX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738505096; x=1770041096;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6PYjmxWpcAN8Um06ZhtjNj9iMjXnuu3Vcv+ohXvMwYo=;
+  b=Xwtj/SKXDt15XvN80Ji4lf0LVvrDpUgQtScrTG1X2bNjmx8OkWSu99g9
+   7qa3YUKR579mU5pUB7GpAVi5aqcvgqFqZyojqy9ZG+AugYlrZvSMhhHDq
+   jwCRje2pLhjSRbX/W7LFMlABCLsZnZSfcpebIiRWabPc8/4fUzxGy2V4r
+   ReFfifSjNe+BwIHvJQib+D72efCy4WAQKGBE9Vt4BF11XsJdFdFYLq+Wm
+   CweZH5cC/cr95ZwbpavzXI2XJ3gJfWnEg2laHIbrQ5VPocBlkUAd2X6Nq
+   r68ZXTSXMqeNfkx3iWtpXqNMPodrX73xFhwRWAGA0zKZ7neAx+YZ9aiP7
+   g==;
+X-CSE-ConnectionGUID: MCvx4y73QtiVH9I2WPMMsg==
+X-CSE-MsgGUID: hRtTnIhQTu6ITZKPLgk4/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="38915377"
+X-IronPort-AV: E=Sophos;i="6.13,254,1732608000"; 
+   d="scan'208";a="38915377"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2025 06:04:54 -0800
+X-CSE-ConnectionGUID: GSYVoi5eQ4qisn7+j/7ZFw==
+X-CSE-MsgGUID: Yo4gUvuvSOykNMCBg8MWbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115207254"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 02 Feb 2025 06:04:52 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1teaag-000pk1-0S;
+	Sun, 02 Feb 2025 14:04:50 +0000
+Date: Sun, 2 Feb 2025 22:04:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/of/unittest.c:1195 of_unittest_reg() error: uninitialized
+ symbol 'addr'.
+Message-ID: <202502022102.D4ESrh5e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -79,74 +61,72 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
 
-Hi Esteban,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Frank Rowand <frowand.list@gmail.com>
+CC: Rob Herring <robh@kernel.org>
+CC: Stephen Boyd <sboyd@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250130-191153
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d%40baylibre.com
-patch subject: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-config: um-randconfig-r071-20250202 (https://download.01.org/0day-ci/archive/20250202/202502021354.T5JOCCcy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a86bf2283d2c9769205407e2b54777c03d012939
+commit: 7b937cc243e5b1df8780a0aa743ce800df6c68d1 of: Create of_root if no dtb provided by firmware
+date:   11 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 11 months ago
+config: sparc64-randconfig-r073-20250202 (https://download.01.org/0day-ci/archive/20250202/202502022102.D4ESrh5e-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502021354.T5JOCCcy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502022102.D4ESrh5e-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad4030.c:263 ad4030_spi_read() warn: calling memset(x, y, ARRAY_SIZE());
+New smatch warnings:
+drivers/of/unittest.c:1195 of_unittest_reg() error: uninitialized symbol 'addr'.
 
-vim +263 drivers/iio/adc/ad4030.c
+Old smatch warnings:
+drivers/of/unittest.c:854 of_unittest_changeset() error: potential null dereference 'n1'.  (__of_node_dup returns null)
+drivers/of/unittest.c:855 of_unittest_changeset() error: potential null dereference 'n2'.  (__of_node_dup returns null)
+drivers/of/unittest.c:856 of_unittest_changeset() error: potential null dereference 'n21'.  (__of_node_dup returns null)
+drivers/of/unittest.c:1007 of_unittest_pci_dma_ranges() warn: iterator 'i' not incremented
+drivers/of/unittest.c:1283 of_unittest_parse_interrupts() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1360 of_unittest_parse_interrupts_extended() warn: bitwise AND condition is false here
+drivers/of/unittest.c:1522 of_unittest_platform_populate() warn: bitwise AND condition is false here
 
-8cfce061c9e580 Esteban Blanc 2025-01-30  242  static int ad4030_spi_read(void *context, const void *reg, size_t reg_size,
-8cfce061c9e580 Esteban Blanc 2025-01-30  243  			   void *val, size_t val_size)
-8cfce061c9e580 Esteban Blanc 2025-01-30  244  {
-8cfce061c9e580 Esteban Blanc 2025-01-30  245  	int ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  246  	struct ad4030_state *st = context;
-8cfce061c9e580 Esteban Blanc 2025-01-30  247  	struct spi_transfer xfer = {
-8cfce061c9e580 Esteban Blanc 2025-01-30  248  		.tx_buf = st->tx_data,
-8cfce061c9e580 Esteban Blanc 2025-01-30  249  		.rx_buf = st->rx_data.raw,
-8cfce061c9e580 Esteban Blanc 2025-01-30  250  		.bits_per_word = 8,
-8cfce061c9e580 Esteban Blanc 2025-01-30  251  		.len = reg_size + val_size,
-8cfce061c9e580 Esteban Blanc 2025-01-30  252  		.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED,
-8cfce061c9e580 Esteban Blanc 2025-01-30  253  	};
-8cfce061c9e580 Esteban Blanc 2025-01-30  254  
-8cfce061c9e580 Esteban Blanc 2025-01-30  255  	if (xfer.len > ARRAY_SIZE(st->tx_data) ||
+vim +/addr +1195 drivers/of/unittest.c
 
-These ARRAY_SIZE() checks work fine before ->tx_data is a u8 but really
-is should be sizeof().
+3d5089c4263d35 Rob Herring 2023-03-28  1179  
+ff61bacd77f258 Rob Herring 2023-03-28  1180  static void __init of_unittest_reg(void)
+ff61bacd77f258 Rob Herring 2023-03-28  1181  {
+ff61bacd77f258 Rob Herring 2023-03-28  1182  	struct device_node *np;
+ff61bacd77f258 Rob Herring 2023-03-28  1183  	int ret;
+ff61bacd77f258 Rob Herring 2023-03-28  1184  	u64 addr, size;
+ff61bacd77f258 Rob Herring 2023-03-28  1185  
+ff61bacd77f258 Rob Herring 2023-03-28  1186  	np = of_find_node_by_path("/testcase-data/address-tests/bus@80000000/device@1000");
+ff61bacd77f258 Rob Herring 2023-03-28  1187  	if (!np) {
+ff61bacd77f258 Rob Herring 2023-03-28  1188  		pr_err("missing testcase data\n");
+ff61bacd77f258 Rob Herring 2023-03-28  1189  		return;
+ff61bacd77f258 Rob Herring 2023-03-28  1190  	}
+ff61bacd77f258 Rob Herring 2023-03-28  1191  
+ff61bacd77f258 Rob Herring 2023-03-28  1192  	ret = of_property_read_reg(np, 0, &addr, &size);
+ff61bacd77f258 Rob Herring 2023-03-28  1193  	unittest(!ret, "of_property_read_reg(%pOF) returned error %d\n",
+ff61bacd77f258 Rob Herring 2023-03-28  1194  		np, ret);
+ff61bacd77f258 Rob Herring 2023-03-28 @1195  	unittest(addr == 0x1000, "of_property_read_reg(%pOF) untranslated address (%llx) incorrect\n",
+ff61bacd77f258 Rob Herring 2023-03-28  1196  		np, addr);
+ff61bacd77f258 Rob Herring 2023-03-28  1197  
+ff61bacd77f258 Rob Herring 2023-03-28  1198  	of_node_put(np);
+ff61bacd77f258 Rob Herring 2023-03-28  1199  }
+ff61bacd77f258 Rob Herring 2023-03-28  1200  
 
-8cfce061c9e580 Esteban Blanc 2025-01-30  256  	    xfer.len > ARRAY_SIZE(st->rx_data.raw))
+:::::: The code at line 1195 was first introduced by commit
+:::::: ff61bacd77f258bd2ed145efb69e5449b115d4fe of/address: Add of_property_read_reg() helper
 
-Same.
-
-8cfce061c9e580 Esteban Blanc 2025-01-30  257  		return  -EINVAL;
-8cfce061c9e580 Esteban Blanc 2025-01-30  258  
-8cfce061c9e580 Esteban Blanc 2025-01-30  259  	ret = ad4030_enter_config_mode(st);
-8cfce061c9e580 Esteban Blanc 2025-01-30  260  	if (ret)
-8cfce061c9e580 Esteban Blanc 2025-01-30  261  		return ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  262  
-8cfce061c9e580 Esteban Blanc 2025-01-30 @263  	memset(st->tx_data, 0, ARRAY_SIZE(st->tx_data));
-                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
-same.
-
-8cfce061c9e580 Esteban Blanc 2025-01-30  264  	memcpy(st->tx_data, reg, reg_size);
-8cfce061c9e580 Esteban Blanc 2025-01-30  265  
-8cfce061c9e580 Esteban Blanc 2025-01-30  266  	ret = spi_sync_transfer(st->spi, &xfer, 1);
-8cfce061c9e580 Esteban Blanc 2025-01-30  267  	if (ret)
-8cfce061c9e580 Esteban Blanc 2025-01-30  268  		return ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  269  
-8cfce061c9e580 Esteban Blanc 2025-01-30  270  	memcpy(val, &st->rx_data.raw[reg_size], val_size);
-8cfce061c9e580 Esteban Blanc 2025-01-30  271  
-8cfce061c9e580 Esteban Blanc 2025-01-30  272  	return ad4030_exit_config_mode(st);
-8cfce061c9e580 Esteban Blanc 2025-01-30  273  }
+:::::: TO: Rob Herring <robh@kernel.org>
+:::::: CC: Rob Herring <robh@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
