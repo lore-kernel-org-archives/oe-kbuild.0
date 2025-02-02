@@ -1,58 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972F1442F
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Feb 2025 06:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C8F1D63D9
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Feb 2025 12:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738476786; cv=none; b=UzI7RQ1/IciRNTbof5uH+NJglx06UPbQXH1g/wWEkX3vw+VsikSqa05kjWu8FRXqs7Ec0o+zH3TdKsMu28JjHrLl5UoC+0O0HxsoAImZOxT/teB4gLPiEsgeMIOBCjgew0n2ftdCbV543ohd3zp9uLKRNfjST5mZEiRDzb2Yrrs=
+	t=1738499464; cv=none; b=Y/lwMjubMxVY9LuDdVFfmKf47NztpATg+7Ehvs0CBIf3ggP1t+6gR5cl3n8YiHQgYHEdJfVtwVwyc4vEwzYrVzP0AioWeT+Wr/0JJVgyUdQbizfIcr19pXreI4lf98UyE4cs5lius55qfciAZlzTVMn7/CyixPYfHdrnhI2pMnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738476786; c=relaxed/simple;
-	bh=Mv/HjoIY14kmH5SlP4UnY6geBdFHihRDo5HE4XSCVuM=;
+	s=arc-20240116; t=1738499464; c=relaxed/simple;
+	bh=8XkcDIU79KYn3BQikPV7cgBJWei8V9IOQLVVrLhURck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PbGWPU2IentVm6cVvfrYaW+5r87bgnfVVzZ0ZBQvZddQ1BxGn+EyIpsh6sl8xNxJUKhBLGopwEuG+xg/vI9Y199dcu00gKpDCcXGYM9FbYbYngkJvFGK2FGjz6W/5HSDOUVfDKLKeQHYxgUsNTOtK8FPW/wwt2wSBf6iYi0XT6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBjZN3Zb; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=LZrlUTTat/vKQmTDa8FKp7Hj2bHKk4ijPsghnf6nolJb9ja1y671PkhbAwcdAcj1Y9uwwfFEcQgQebqls0Rstmh/sABhSevgSVWWa6DCfwhrh3LbzQJoA6Ik+B8DQCFjspQLjBgmALYlykO5V3CrMhlXfg9NpxHxLhcMnxoEoyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ELBDCqVU; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBjZN3Zb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738476784; x=1770012784;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mv/HjoIY14kmH5SlP4UnY6geBdFHihRDo5HE4XSCVuM=;
-  b=MBjZN3ZbsSzNJLuWyEDmGeuK4lFRY4erSZtHagq6K8t0OSNSSLVgj7bp
-   8i4K1wdsSyxOUm8+3ctubXeCCHwuJkgox/P5flFLmJpFqySLFr2Qr4Nuu
-   sNVZtzWu/j9z1i3GDM8hArM6is5uCncSWw08ahOXrNZrOCBOZuXDIkHps
-   zXkBwbVfeqpSA6OIv827QxIrno1e8k+L/6YS4Z+0pXt3nBusZLTnU9lU/
-   /TUAzNVruVtfcnANiRbP3SeO57RxF9+b/mdxBVhdfXz5RwbOeEvXIcCCQ
-   dhw7okn+Rz1RhpSvy8xaMKaJooZjeKwa8qEUjY2jacxgM03+VwT43wj4d
-   Q==;
-X-CSE-ConnectionGUID: uBDmDtjYQg68XLVmWpWIgg==
-X-CSE-MsgGUID: v6iijmgRSj+uP8YUWg3E6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11333"; a="42916722"
-X-IronPort-AV: E=Sophos;i="6.13,253,1732608000"; 
-   d="scan'208";a="42916722"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2025 22:13:03 -0800
-X-CSE-ConnectionGUID: 8eDvr+hVQP+dSIonBsu8Ew==
-X-CSE-MsgGUID: TjCvDfA0QZqPK2d30/IE8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109832558"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Feb 2025 22:13:00 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1teTE3-000pK7-1m;
-	Sun, 02 Feb 2025 06:12:59 +0000
-Date: Sun, 2 Feb 2025 14:12:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] arm64: dts: Introduce more nodes to EN7581 SoC
- evaluation board
-Message-ID: <202502021344.O3LDzsdz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ELBDCqVU"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso3112906f8f.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 02 Feb 2025 04:31:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738499459; x=1739104259; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
+        b=ELBDCqVUxq2l/ofFuLoMwvHiztGC5vvUX7/x/2nh6D98Q0BMe0IoPfsQ734S33u/E+
+         bGn7fDSq61dyVf3V1JePxm8O4e/+p999DZMIkVfMH9A+S7VG0daHggg2g+9EVbeI2Dbn
+         olvq/Ct/RuBmEzUaT7yeLSptlYW8SWWrDYZ5sgPhIOx/TmSlvcJX4qmMSF/7pmaKOtjp
+         NGz67IiZ5W97wCO9hZv2Y5UdzWSi3tTh1RkL1Dy6cLmG+22zb4w7UTH0bl3F/T6meO59
+         5USjVxQUCz0Fo6C5LI2jDU9dpLvQVUH1StN7+EDcZA7pU9yyRrYiHPD5KjDx0mNxbjcD
+         Nedg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738499459; x=1739104259;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
+        b=L6k5FlacBWAJJ6cQJqpOT+MYf66QACbTgE/3iAeOR3imurkZpnL0iG37wYYaPg0Iem
+         TLrschizUhP9Rxm4n4rle+sFYlKlUkC/WiFL0IjKH39raVaDo0EpnTKUQdqPv0PziYoX
+         HRnzkwFw7dQk4cfPeCzhXqSR3mNmBVe373G8380eiW9ehADeU1kg34PDMsZrJDIddPob
+         KWRkY2vassJ1cEPWV/rcnLDsc9ljzraEf4mJ1HVZ8dnAEeBmynYc5xNaUT/LRr2YUgIV
+         DBYmw3al7e2X3gNJHVKVd7tPkBPN2H18n5Ss/KRVTAzat7H111oyu4LxfnY5fsGOI6MC
+         I/KQ==
+X-Gm-Message-State: AOJu0YxR/27Cc+k7DnFwatdsfvQlsIuTqQcxF3ncnxuYaKN17zFrpBQY
+	s0M4RicJI3UEVUF1htmOYEtusriouX35RsKFXmlKz9NKkmIkEzCIIFpSty9kfdzJtwgY1Y9EWLY
+	N
+X-Gm-Gg: ASbGncteC81ojMlZkRHrYqaMdHzU1QevtEeMX8DWJqjmGcuoUfdvvub9nG5s4kaTSPm
+	WYC6qZySkXJ48XyUPAqNcRNK7mBX8IrUnDCI+3dAWGYpJD6m1lFggEZ/p3+bepaupNE44i6Wd73
+	kb30W76MZ6jkCHVcXLPBc10QAfibSNjVRN6ktwIxDLKM6YuqCKQvmJ29JLFVMljQCpkiK5fyu8c
+	NvG7TOhdSqKE+PJOTHfYIKL8tYTkUrW9cGD5DV0puswKywS+p6Z/IYBPFH6cDf+gAwYAC1Wize4
+	XexZ+TWqnzrP30kM+I/d
+X-Google-Smtp-Source: AGHT+IG3DguqEpjs4KAq3Q5U108MHFsGzy1qjHj3g8CQKeY2xRe7mNrhaVjuu1vZih3UFfYOgwaFPQ==
+X-Received: by 2002:a05:6000:18ae:b0:38a:9fdb:7307 with SMTP id ffacd0b85a97d-38c51f8b280mr19894271f8f.43.1738499459090;
+        Sun, 02 Feb 2025 04:30:59 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38c5c11b363sm9753396f8f.40.2025.02.02.04.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Feb 2025 04:30:57 -0800 (PST)
+Date: Sun, 2 Feb 2025 15:30:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Esteban Blanc <eblanc@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
+Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
+Message-ID: <4e0118d0-0992-4d71-8dfb-8b75c0f51a17@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,69 +79,74 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250201-en7581-dts-spi-pinctrl-v1-1-aaa4a9dfc4a6@kernel.org>
-References: <20250201-en7581-dts-spi-pinctrl-v1-1-aaa4a9dfc4a6@kernel.org>
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
-
-Hi Lorenzo,
+Hi Esteban,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 7605336e9d136c14c94482ce7385de783f2f748e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/arm64-dts-Introduce-more-nodes-to-EN7581-SoC-evaluation-board/20250201-224326
-base:   7605336e9d136c14c94482ce7385de783f2f748e
-patch link:    https://lore.kernel.org/r/20250201-en7581-dts-spi-pinctrl-v1-1-aaa4a9dfc4a6%40kernel.org
-patch subject: [PATCH] arm64: dts: Introduce more nodes to EN7581 SoC evaluation board
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: arm64-randconfig-051-20250202 (https://download.01.org/0day-ci/archive/20250202/202502021344.O3LDzsdz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502021344.O3LDzsdz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250130-191153
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d%40baylibre.com
+patch subject: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
+config: um-randconfig-r071-20250202 (https://download.01.org/0day-ci/archive/20250202/202502021354.T5JOCCcy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502021344.O3LDzsdz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502021354.T5JOCCcy-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/airoha/en7581.dtsi:186.24-192.5: Warning (unit_address_vs_reg): /soc/i2cclock@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/airoha/en7581.dtsi:155.37-160.5: Warning (simple_bus_reg): /soc/clock-controller@1fa20000: simple-bus unit address format error, expected "1fb00000"
-   arch/arm64/boot/dts/airoha/en7581.dtsi:186.24-192.5: Warning (simple_bus_reg): /soc/i2cclock@0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: soc: i2cclock@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: system-controller@1fbf0200: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: i2cclock@0: clock-frequency: 20000000 is greater than the maximum of 5000000
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-controller.yaml#
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: i2c0@1fbf8000: 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/mediatek,mt7621-i2c.yaml#
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: i2c1@1fbf8100: 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/mediatek,mt7621-i2c.yaml#
->> arch/arm64/boot/dts/airoha/en7581-evb.dtb: i2c1@1fbf8100: status: 'oneOf' conditional failed, one must be fixed:
-   	['disable'] is not of type 'object'
-   	'disable' is not one of ['okay', 'disabled', 'reserved', 'fail', 'fail-needs-probe']
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+smatch warnings:
+drivers/iio/adc/ad4030.c:263 ad4030_spi_read() warn: calling memset(x, y, ARRAY_SIZE());
+
+vim +263 drivers/iio/adc/ad4030.c
+
+8cfce061c9e580 Esteban Blanc 2025-01-30  242  static int ad4030_spi_read(void *context, const void *reg, size_t reg_size,
+8cfce061c9e580 Esteban Blanc 2025-01-30  243  			   void *val, size_t val_size)
+8cfce061c9e580 Esteban Blanc 2025-01-30  244  {
+8cfce061c9e580 Esteban Blanc 2025-01-30  245  	int ret;
+8cfce061c9e580 Esteban Blanc 2025-01-30  246  	struct ad4030_state *st = context;
+8cfce061c9e580 Esteban Blanc 2025-01-30  247  	struct spi_transfer xfer = {
+8cfce061c9e580 Esteban Blanc 2025-01-30  248  		.tx_buf = st->tx_data,
+8cfce061c9e580 Esteban Blanc 2025-01-30  249  		.rx_buf = st->rx_data.raw,
+8cfce061c9e580 Esteban Blanc 2025-01-30  250  		.bits_per_word = 8,
+8cfce061c9e580 Esteban Blanc 2025-01-30  251  		.len = reg_size + val_size,
+8cfce061c9e580 Esteban Blanc 2025-01-30  252  		.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED,
+8cfce061c9e580 Esteban Blanc 2025-01-30  253  	};
+8cfce061c9e580 Esteban Blanc 2025-01-30  254  
+8cfce061c9e580 Esteban Blanc 2025-01-30  255  	if (xfer.len > ARRAY_SIZE(st->tx_data) ||
+
+These ARRAY_SIZE() checks work fine before ->tx_data is a u8 but really
+is should be sizeof().
+
+8cfce061c9e580 Esteban Blanc 2025-01-30  256  	    xfer.len > ARRAY_SIZE(st->rx_data.raw))
+
+Same.
+
+8cfce061c9e580 Esteban Blanc 2025-01-30  257  		return  -EINVAL;
+8cfce061c9e580 Esteban Blanc 2025-01-30  258  
+8cfce061c9e580 Esteban Blanc 2025-01-30  259  	ret = ad4030_enter_config_mode(st);
+8cfce061c9e580 Esteban Blanc 2025-01-30  260  	if (ret)
+8cfce061c9e580 Esteban Blanc 2025-01-30  261  		return ret;
+8cfce061c9e580 Esteban Blanc 2025-01-30  262  
+8cfce061c9e580 Esteban Blanc 2025-01-30 @263  	memset(st->tx_data, 0, ARRAY_SIZE(st->tx_data));
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
+same.
+
+8cfce061c9e580 Esteban Blanc 2025-01-30  264  	memcpy(st->tx_data, reg, reg_size);
+8cfce061c9e580 Esteban Blanc 2025-01-30  265  
+8cfce061c9e580 Esteban Blanc 2025-01-30  266  	ret = spi_sync_transfer(st->spi, &xfer, 1);
+8cfce061c9e580 Esteban Blanc 2025-01-30  267  	if (ret)
+8cfce061c9e580 Esteban Blanc 2025-01-30  268  		return ret;
+8cfce061c9e580 Esteban Blanc 2025-01-30  269  
+8cfce061c9e580 Esteban Blanc 2025-01-30  270  	memcpy(val, &st->rx_data.raw[reg_size], val_size);
+8cfce061c9e580 Esteban Blanc 2025-01-30  271  
+8cfce061c9e580 Esteban Blanc 2025-01-30  272  	return ad4030_exit_config_mode(st);
+8cfce061c9e580 Esteban Blanc 2025-01-30  273  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
