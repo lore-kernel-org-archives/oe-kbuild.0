@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAAB20967A
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Feb 2025 15:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9BAC139
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Feb 2025 16:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738596166; cv=none; b=aI7alkEXrnr7Q60HnKdJZlzpI44P11TIGTKNfcGVx8k2Wu/Yad29dYO8UkKCNjRFJAY5tADGMwOainIgLR1vRVCeSzC/9V5fyRF+NK3Q78MDBQG0idVnl/TLnds6TujGrM3F73ubKWmvTw+qDrR2F1s+RpGHuNnu1ogyMbj+Ejk=
+	t=1738599896; cv=none; b=L5yswVlWnlGU8OcGSsIO+lajvdf+YquQG61TYGQj+hHANz7ufGJ0V1vZOOkwpDZGP8Pk3LTURgMbWhnJ4HkOSrpOgDkV5YPvUtfXnB8VZtXmqv67r923c12XajZ26MgqzloOa+1c7G4iE3kc156x/f0isNaa3uCz4mf2JYGUCts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738596166; c=relaxed/simple;
-	bh=VdhoWgYZLd4OLYZrE2iX4BRGN+EG3XFtc2rQ+Y6k7tA=;
+	s=arc-20240116; t=1738599896; c=relaxed/simple;
+	bh=gIpKmD7bXRe2QXv13m1UlK56QYwTI/ZdEyivDLUMn18=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uOF2yyt1gZqxOrTAFTf95YTBKJpnJoAGm5UDI+VpLHhhQ4W3BeZDDe819d2kOSJsfjYRBjCzbdFE6U+QnxKnFkH5fgAniAK03BcWASWKcZPe6ga/AflaAUVv5+ACFjRRldcTFvuaGfBOFdJm2zkuxrdVKpopCvABHKvcHiTY/1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSVclviV; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=JnNXwqlb8BX3wsNzBRCKjXr3zlsxOhnP3AOdltnqWBAF39DZOmIKt5gvXGi5ceajZ4oENd1xjDj2GftwN6qIBrUudEij4EJnFiawC7S40beJ8jlP610gh/TH6QdKYld8pnaFs2FYfgCLUBRlcZMe0dscP5Fxc/ojx4B2eLHleVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZvbX9Q9s; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSVclviV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZvbX9Q9s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738596164; x=1770132164;
+  t=1738599894; x=1770135894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VdhoWgYZLd4OLYZrE2iX4BRGN+EG3XFtc2rQ+Y6k7tA=;
-  b=HSVclviVVtIRa8FnH+NM3/qzGqsZsxM0IbtNtyeTOFj16Sbz+Q3XbWPZ
-   /YM54j5sfTIcMN5LK5G42LP+utNGDcbyEnGKK9eMNnfiD13ZcybYyqXMu
-   Kjn52an6thmfzlR8ti7vQekie6Hll1xEcUx2X9LO6TT1u9jbK4maHQqKk
-   0CIMLVtoNpcFTvso6gpL/1TxUQvQ8w0hUER0JDm9RGMJ6kg2rQWdUGqYt
-   LxYYJW5bDHhQBlZSswSA7B5z+LwL5VpcEu5+O3WCNJyB4CrVhvXqVUmAS
-   qmqbHU4+7ED+4vuWqwEDyuejPavhshhPc1rjGQLk4HrHPJ2QaSMULHdZY
+  bh=gIpKmD7bXRe2QXv13m1UlK56QYwTI/ZdEyivDLUMn18=;
+  b=ZvbX9Q9sA2d3Iixvvh6sQcEc3YqSgLiu4OOkQeDQdcJYCSzQTzhGPOg8
+   fXkz1Km3Ouo1F3dtDgZ1fJUzfNu0no0xyeO5oj9CthUNoU9lckymacIVr
+   PmOzl1Hm686bqij57iGqDpaMV2Uw/JW7Situi4kO63SCWUvei/fDjxQ++
+   +p/LX5XcDW/Iq5b+D51o1eaIhiKlKdwr+pIQB+LAzSrwTngLcMpedERZb
+   vA+ZJ133rw79of6bInTY1TsyMG94h+mEWR3aE7Zu3s6vdN2NuhyJz9tEs
+   pSEryUpuyysRFWF8kfife4M3HjrQ+Zd+5vnCyqIRQ+0npcWmM1aQLqVJB
    A==;
-X-CSE-ConnectionGUID: 8bEVABG/QxWaHo0bYT+ZMA==
-X-CSE-MsgGUID: kDtjvkLQQyOxzkvOiBp+sA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49697930"
+X-CSE-ConnectionGUID: Popf3SX3RwCtcvKK+2jfYw==
+X-CSE-MsgGUID: NSNI10VMTyCzRzR3pbcJLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49752658"
 X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
-   d="scan'208";a="49697930"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 07:22:43 -0800
-X-CSE-ConnectionGUID: Lb/4ki6oSLCbj8ckGZAAfw==
-X-CSE-MsgGUID: Nz+3SwbtQfiLoFH50zt+1w==
+   d="scan'208";a="49752658"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 08:24:50 -0800
+X-CSE-ConnectionGUID: avDD/xYjSOCinSt9VHVgrw==
+X-CSE-MsgGUID: V0b92sitRPakgGhJgNJYiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133567159"
+   d="scan'208";a="147539813"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2025 07:22:42 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Feb 2025 08:24:49 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1teyHY-000r6N-0L;
-	Mon, 03 Feb 2025 15:22:40 +0000
-Date: Mon, 3 Feb 2025 23:22:25 +0800
+	id 1tezFf-000rAp-0R;
+	Mon, 03 Feb 2025 16:24:47 +0000
+Date: Tue, 4 Feb 2025 00:23:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hch-xfs:xfs-zoned-rebase 3/59] drivers/block/zloop.c:1004
- zloop_ctl_add() warn: missing error code 'ret'
-Message-ID: <202502032357.36dqVCQt-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [jcmvbkbc-xtensa:xtensa-6.13-esp32 22/53]
+ arch/xtensa/boot/dts/xip_kc705.dtb: /: 'model' is a required property
+Message-ID: <202502040000.EonF2Hha-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,201 +62,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+TO: Max Filippov <jcmvbkbc@gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
-head:   5cee788f85c03e72a78f0fa3347d499e4db1d621
-commit: 5865d129d01ab863a2b45ebeb87f806475d74c84 [3/59] block: new zoned loop block device driver
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-r071-20250203 (https://download.01.org/0day-ci/archive/20250203/202502032357.36dqVCQt-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.13-esp32
+head:   f4a6cef2509c4e81637b6d5d6f0c27966895985a
+commit: 3f7d70a56b32492a828d69fd82cf76ce43aa89bb [22/53] xtensa: xip_kc705_nommu: add defconfig and DTS
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: xtensa-randconfig-052-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040000.EonF2Hha-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040000.EonF2Hha-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502032357.36dqVCQt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502040000.EonF2Hha-lkp@intel.com/
 
-smatch warnings:
-drivers/block/zloop.c:1004 zloop_ctl_add() warn: missing error code 'ret'
-
-vim +/ret +1004 drivers/block/zloop.c
-
-5865d129d01ab8 Damien Le Moal 2025-01-31   880  
-5865d129d01ab8 Damien Le Moal 2025-01-31   881  static int zloop_ctl_add(struct zloop_options *opts)
-5865d129d01ab8 Damien Le Moal 2025-01-31   882  {
-5865d129d01ab8 Damien Le Moal 2025-01-31   883  	struct queue_limits lim = {
-5865d129d01ab8 Damien Le Moal 2025-01-31   884  		.max_hw_sectors		= SZ_1M >> SECTOR_SHIFT,
-5865d129d01ab8 Damien Le Moal 2025-01-31   885  		.max_hw_zone_append_sectors = SZ_1M >> SECTOR_SHIFT,
-5865d129d01ab8 Damien Le Moal 2025-01-31   886  		.chunk_sectors		= opts->zone_size,
-5865d129d01ab8 Damien Le Moal 2025-01-31   887  		.features		= BLK_FEAT_ZONED,
-5865d129d01ab8 Damien Le Moal 2025-01-31   888  	};
-5865d129d01ab8 Damien Le Moal 2025-01-31   889  	unsigned int nr_zones, i, j;
-5865d129d01ab8 Damien Le Moal 2025-01-31   890  	struct zloop_device *zlo;
-5865d129d01ab8 Damien Le Moal 2025-01-31   891  	int ret = -EINVAL;
-5865d129d01ab8 Damien Le Moal 2025-01-31   892  	bool restore;
-5865d129d01ab8 Damien Le Moal 2025-01-31   893  
-5865d129d01ab8 Damien Le Moal 2025-01-31   894  	__module_get(THIS_MODULE);
-5865d129d01ab8 Damien Le Moal 2025-01-31   895  
-5865d129d01ab8 Damien Le Moal 2025-01-31   896  	nr_zones = opts->capacity >> ilog2(opts->zone_size);
-5865d129d01ab8 Damien Le Moal 2025-01-31   897  	if (opts->nr_conv_zones >= nr_zones) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   898  		pr_err("Invalid number of conventional zones %u\n",
-5865d129d01ab8 Damien Le Moal 2025-01-31   899  		       opts->nr_conv_zones);
-5865d129d01ab8 Damien Le Moal 2025-01-31   900  		goto out;
-5865d129d01ab8 Damien Le Moal 2025-01-31   901  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   902  
-5865d129d01ab8 Damien Le Moal 2025-01-31   903  	zlo = kvzalloc(struct_size(zlo, zones, nr_zones), GFP_KERNEL);
-5865d129d01ab8 Damien Le Moal 2025-01-31   904  	if (!zlo) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   905  		ret = -ENOMEM;
-5865d129d01ab8 Damien Le Moal 2025-01-31   906  		goto out;
-5865d129d01ab8 Damien Le Moal 2025-01-31   907  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   908  	zlo->state = Zlo_creating;
-5865d129d01ab8 Damien Le Moal 2025-01-31   909  
-5865d129d01ab8 Damien Le Moal 2025-01-31   910  	ret = mutex_lock_killable(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31   911  	if (ret)
-5865d129d01ab8 Damien Le Moal 2025-01-31   912  		goto out_free_dev;
-5865d129d01ab8 Damien Le Moal 2025-01-31   913  
-5865d129d01ab8 Damien Le Moal 2025-01-31   914  	/* Allocate id, if @opts->id >= 0, we're requesting that specific id */
-5865d129d01ab8 Damien Le Moal 2025-01-31   915  	if (opts->id >= 0) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   916  		ret = idr_alloc(&zloop_index_idr, zlo,
-5865d129d01ab8 Damien Le Moal 2025-01-31   917  				  opts->id, opts->id + 1, GFP_KERNEL);
-5865d129d01ab8 Damien Le Moal 2025-01-31   918  		if (ret == -ENOSPC)
-5865d129d01ab8 Damien Le Moal 2025-01-31   919  			ret = -EEXIST;
-5865d129d01ab8 Damien Le Moal 2025-01-31   920  	} else {
-5865d129d01ab8 Damien Le Moal 2025-01-31   921  		ret = idr_alloc(&zloop_index_idr, zlo, 0, 0, GFP_KERNEL);
-5865d129d01ab8 Damien Le Moal 2025-01-31   922  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   923  	mutex_unlock(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31   924  	if (ret < 0)
-5865d129d01ab8 Damien Le Moal 2025-01-31   925  		goto out_free_dev;
-5865d129d01ab8 Damien Le Moal 2025-01-31   926  
-5865d129d01ab8 Damien Le Moal 2025-01-31   927  	zlo->id = ret;
-5865d129d01ab8 Damien Le Moal 2025-01-31   928  	zlo->zone_shift = ilog2(opts->zone_size);
-5865d129d01ab8 Damien Le Moal 2025-01-31   929  	zlo->zone_size = opts->zone_size;
-5865d129d01ab8 Damien Le Moal 2025-01-31   930  	if (opts->zone_capacity)
-5865d129d01ab8 Damien Le Moal 2025-01-31   931  		zlo->zone_capacity = opts->zone_capacity;
-5865d129d01ab8 Damien Le Moal 2025-01-31   932  	else
-5865d129d01ab8 Damien Le Moal 2025-01-31   933  		zlo->zone_capacity = zlo->zone_size;
-5865d129d01ab8 Damien Le Moal 2025-01-31   934  	zlo->nr_zones = nr_zones;
-5865d129d01ab8 Damien Le Moal 2025-01-31   935  	zlo->nr_conv_zones = opts->nr_conv_zones;
-5865d129d01ab8 Damien Le Moal 2025-01-31   936  	zlo->buffered_io = opts->buffered_io;
-5865d129d01ab8 Damien Le Moal 2025-01-31   937  
-5865d129d01ab8 Damien Le Moal 2025-01-31   938  	zlo->workqueue = alloc_workqueue("zloop%d", WQ_UNBOUND | WQ_FREEZABLE,
-5865d129d01ab8 Damien Le Moal 2025-01-31   939  				opts->nr_queues * opts->queue_depth, zlo->id);
-5865d129d01ab8 Damien Le Moal 2025-01-31   940  	if (!zlo->workqueue) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   941  		ret = -ENOMEM;
-5865d129d01ab8 Damien Le Moal 2025-01-31   942  		goto out_free_idr;
-5865d129d01ab8 Damien Le Moal 2025-01-31   943  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   944  
-5865d129d01ab8 Damien Le Moal 2025-01-31   945  	if (opts->base_dir)
-5865d129d01ab8 Damien Le Moal 2025-01-31   946  		zlo->base_dir = kstrdup(opts->base_dir, GFP_KERNEL);
-5865d129d01ab8 Damien Le Moal 2025-01-31   947  	else
-5865d129d01ab8 Damien Le Moal 2025-01-31   948  		zlo->base_dir = kstrdup(ZLOOP_DEF_BASE_DIR, GFP_KERNEL);
-5865d129d01ab8 Damien Le Moal 2025-01-31   949  	if (!zlo->base_dir) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   950  		ret = -ENOMEM;
-5865d129d01ab8 Damien Le Moal 2025-01-31   951  		goto out_destroy_workqueue;
-5865d129d01ab8 Damien Le Moal 2025-01-31   952  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   953  
-5865d129d01ab8 Damien Le Moal 2025-01-31   954  	zlo->data_dir = zloop_filp_open_fmt(O_RDONLY | O_DIRECTORY, 0, "%s/%u",
-5865d129d01ab8 Damien Le Moal 2025-01-31   955  					    zlo->base_dir, zlo->id);
-5865d129d01ab8 Damien Le Moal 2025-01-31   956  	if (IS_ERR(zlo->data_dir)) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   957  		ret = PTR_ERR(zlo->data_dir);
-5865d129d01ab8 Damien Le Moal 2025-01-31   958  		pr_warn("Failed to open directory %s/%u (err=%d)\n",
-5865d129d01ab8 Damien Le Moal 2025-01-31   959  			zlo->base_dir, zlo->id, ret);
-5865d129d01ab8 Damien Le Moal 2025-01-31   960  		goto out_free_base_dir;
-5865d129d01ab8 Damien Le Moal 2025-01-31   961  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   962  
-5865d129d01ab8 Damien Le Moal 2025-01-31   963  	/*
-5865d129d01ab8 Damien Le Moal 2025-01-31   964  	 * If we already have zone files, we are restoring a device created by a
-5865d129d01ab8 Damien Le Moal 2025-01-31   965  	 * previous add operation. In this case, zloop_init_zone() will check
-5865d129d01ab8 Damien Le Moal 2025-01-31   966  	 * that the zone files are consistent with the zone configuration given.
-5865d129d01ab8 Damien Le Moal 2025-01-31   967  	 */
-5865d129d01ab8 Damien Le Moal 2025-01-31   968  	restore = zloop_dev_exists(zlo);
-5865d129d01ab8 Damien Le Moal 2025-01-31   969  	for (i = 0; i < nr_zones; i++) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   970  		ret = zloop_init_zone(zlo, opts, i, restore);
-5865d129d01ab8 Damien Le Moal 2025-01-31   971  		if (ret)
-5865d129d01ab8 Damien Le Moal 2025-01-31   972  			goto out_close_files;
-5865d129d01ab8 Damien Le Moal 2025-01-31   973  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   974  
-5865d129d01ab8 Damien Le Moal 2025-01-31   975  	lim.physical_block_size = zlo->block_size;
-5865d129d01ab8 Damien Le Moal 2025-01-31   976  	lim.logical_block_size = zlo->block_size;
-5865d129d01ab8 Damien Le Moal 2025-01-31   977  
-5865d129d01ab8 Damien Le Moal 2025-01-31   978  	zlo->tag_set.ops = &zloop_mq_ops;
-5865d129d01ab8 Damien Le Moal 2025-01-31   979  	zlo->tag_set.nr_hw_queues = opts->nr_queues;
-5865d129d01ab8 Damien Le Moal 2025-01-31   980  	zlo->tag_set.queue_depth = opts->queue_depth;
-5865d129d01ab8 Damien Le Moal 2025-01-31   981  	zlo->tag_set.numa_node = NUMA_NO_NODE;
-5865d129d01ab8 Damien Le Moal 2025-01-31   982  	zlo->tag_set.cmd_size = sizeof(struct zloop_cmd);
-5865d129d01ab8 Damien Le Moal 2025-01-31   983  	zlo->tag_set.driver_data = zlo;
-5865d129d01ab8 Damien Le Moal 2025-01-31   984  
-5865d129d01ab8 Damien Le Moal 2025-01-31   985  	ret = blk_mq_alloc_tag_set(&zlo->tag_set);
-5865d129d01ab8 Damien Le Moal 2025-01-31   986  	if (ret) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   987  		pr_err("blk_mq_alloc_tag_set failed (err=%d)\n", ret);
-5865d129d01ab8 Damien Le Moal 2025-01-31   988  		goto out_close_files;
-5865d129d01ab8 Damien Le Moal 2025-01-31   989  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   990  
-5865d129d01ab8 Damien Le Moal 2025-01-31   991  	zlo->disk = blk_mq_alloc_disk(&zlo->tag_set, &lim, zlo);
-5865d129d01ab8 Damien Le Moal 2025-01-31   992  	if (IS_ERR(zlo->disk)) {
-5865d129d01ab8 Damien Le Moal 2025-01-31   993  		pr_err("blk_mq_alloc_disk failed (err=%d)\n", ret);
-5865d129d01ab8 Damien Le Moal 2025-01-31   994  		ret = PTR_ERR(zlo->disk);
-5865d129d01ab8 Damien Le Moal 2025-01-31   995  		goto out_cleanup_tags;
-5865d129d01ab8 Damien Le Moal 2025-01-31   996  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31   997  	zlo->disk->flags = GENHD_FL_NO_PART;
-5865d129d01ab8 Damien Le Moal 2025-01-31   998  	zlo->disk->fops = &zloop_fops;
-5865d129d01ab8 Damien Le Moal 2025-01-31   999  	zlo->disk->private_data = zlo;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1000  	sprintf(zlo->disk->disk_name, "zloop%d", zlo->id);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1001  	set_capacity(zlo->disk, (u64)lim.chunk_sectors * zlo->nr_zones);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1002  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1003  	if (blk_revalidate_disk_zones(zlo->disk))
-5865d129d01ab8 Damien Le Moal 2025-01-31 @1004  		goto out_cleanup_disk;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1005  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1006  	ret = add_disk(zlo->disk);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1007  	if (ret) {
-5865d129d01ab8 Damien Le Moal 2025-01-31  1008  		pr_err("add_disk failed (err=%d)\n", ret);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1009  		goto out_cleanup_disk;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1010  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31  1011  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1012  	mutex_lock(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1013  	zlo->state = Zlo_live;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1014  	mutex_unlock(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1015  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1016  	pr_info("Added device %d: %u zones of %llu MB, %u B block size\n",
-5865d129d01ab8 Damien Le Moal 2025-01-31  1017  		zlo->id, zlo->nr_zones,
-5865d129d01ab8 Damien Le Moal 2025-01-31  1018  		((sector_t)zlo->zone_size << SECTOR_SHIFT) >> 20,
-5865d129d01ab8 Damien Le Moal 2025-01-31  1019  		zlo->block_size);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1020  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1021  	return 0;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1022  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1023  out_cleanup_disk:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1024  	put_disk(zlo->disk);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1025  out_cleanup_tags:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1026  	blk_mq_free_tag_set(&zlo->tag_set);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1027  out_close_files:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1028  	for (j = 0; j < i; j++) {
-5865d129d01ab8 Damien Le Moal 2025-01-31  1029  		struct zloop_zone *zone = &zlo->zones[j];
-5865d129d01ab8 Damien Le Moal 2025-01-31  1030  
-5865d129d01ab8 Damien Le Moal 2025-01-31  1031  		if (!IS_ERR_OR_NULL(zone->file))
-5865d129d01ab8 Damien Le Moal 2025-01-31  1032  			fput(zone->file);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1033  	}
-5865d129d01ab8 Damien Le Moal 2025-01-31  1034  	fput(zlo->data_dir);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1035  out_free_base_dir:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1036  	kfree(zlo->base_dir);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1037  out_destroy_workqueue:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1038  	destroy_workqueue(zlo->workqueue);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1039  out_free_idr:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1040  	mutex_lock(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1041  	idr_remove(&zloop_index_idr, zlo->id);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1042  	mutex_unlock(&zloop_ctl_mutex);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1043  out_free_dev:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1044  	kvfree(zlo);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1045  out:
-5865d129d01ab8 Damien Le Moal 2025-01-31  1046  	module_put(THIS_MODULE);
-5865d129d01ab8 Damien Le Moal 2025-01-31  1047  	if (ret == -ENOENT)
-5865d129d01ab8 Damien Le Moal 2025-01-31  1048  		ret = -EINVAL;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1049  	return ret;
-5865d129d01ab8 Damien Le Moal 2025-01-31  1050  }
-5865d129d01ab8 Damien Le Moal 2025-01-31  1051  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (unit_address_vs_reg): /soc/main-oscillator: node has a reg or ranges property, but no unit name
+   arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (simple_bus_reg): /soc/main-oscillator: simple-bus unit address format error, expected "d020004"
+   arch/xtensa/boot/dts/xtfpga.dtsi:57.28-67.5: Warning (simple_bus_reg): /soc/serial@0d050020: simple-bus unit address format error, expected "d050020"
+   arch/xtensa/boot/dts/xtfpga.dtsi:69.25-76.5: Warning (simple_bus_reg): /soc/ethoc@0d030000: simple-bus unit address format error, expected "d030000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:78.29-84.5: Warning (simple_bus_reg): /soc/xtfpga-i2s@0d080000: simple-bus unit address format error, expected "d080000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:86.29-104.5: Warning (simple_bus_reg): /soc/i2c-master@0d090000: simple-bus unit address format error, expected "d090000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:106.22-118.5: Warning (simple_bus_reg): /soc/spi@0d0a0000: simple-bus unit address format error, expected "d0a0000"
+   arch/xtensa/boot/dts/xtfpga-flash-128m.dtsi:4.25-27.5: Warning (simple_bus_reg): /soc/flash@00000000: simple-bus unit address format error, expected "0"
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /: failed to match any schema with compatible: ['cdns,xtensa-kc705']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: cpus: cpu@0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['cdns,xtensa-cpu']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /pic: failed to match any schema with compatible: ['cdns,xtensa-pic']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: xtfpga-i2s@0d080000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: serial@0d050020: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: i2c-master@0d090000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: spi@0d0a0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: flash@00000000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: main-oscillator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: soc: ethoc@0d030000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/main-oscillator: failed to match any schema with compatible: ['cdns,xtfpga-clock']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: serial@0d050020: Unevaluated properties are not allowed ('device_type', 'native-endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/ethoc@0d030000: failed to match any schema with compatible: ['opencores,ethoc']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/xtfpga-i2s@0d080000: failed to match any schema with compatible: ['cdns,xtfpga-i2s']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: i2c-master@0d090000: Unevaluated properties are not allowed ('native-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/opencores,i2c-ocores.yaml#
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/i2c-master@0d090000/clock-synth@69: failed to match any schema with compatible: ['ti,cdce706']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/spi@0d0a0000: failed to match any schema with compatible: ['cdns,xtfpga-spi']
+>> arch/xtensa/boot/dts/xip_kc705.dtb: /soc/spi@0d0a0000/sound-codec@0: failed to match any schema with compatible: ['tlv320aic23']
+--
+   arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (unit_address_vs_reg): /soc/main-oscillator: node has a reg or ranges property, but no unit name
+   arch/xtensa/boot/dts/xtfpga.dtsi:51.24-55.5: Warning (simple_bus_reg): /soc/main-oscillator: simple-bus unit address format error, expected "d020004"
+   arch/xtensa/boot/dts/xtfpga.dtsi:57.28-67.5: Warning (simple_bus_reg): /soc/serial@0d050020: simple-bus unit address format error, expected "d050020"
+   arch/xtensa/boot/dts/xtfpga.dtsi:69.25-76.5: Warning (simple_bus_reg): /soc/ethoc@0d030000: simple-bus unit address format error, expected "d030000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:78.29-84.5: Warning (simple_bus_reg): /soc/xtfpga-i2s@0d080000: simple-bus unit address format error, expected "d080000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:86.29-104.5: Warning (simple_bus_reg): /soc/i2c-master@0d090000: simple-bus unit address format error, expected "d090000"
+   arch/xtensa/boot/dts/xtfpga.dtsi:106.22-118.5: Warning (simple_bus_reg): /soc/spi@0d0a0000: simple-bus unit address format error, expected "d0a0000"
+   arch/xtensa/boot/dts/xtfpga-flash-128m.dtsi:4.25-27.5: Warning (simple_bus_reg): /soc/flash@00000000: simple-bus unit address format error, expected "0"
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /: 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /: failed to match any schema with compatible: ['cdns,xtensa-kc705']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: cpus: cpu@0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['cdns,xtensa-cpu']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /pic: failed to match any schema with compatible: ['cdns,xtensa-pic']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: serial@0d050020: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: spi@0d0a0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: i2c-master@0d090000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: xtfpga-i2s@0d080000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: ethoc@0d030000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: flash@00000000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: soc: main-oscillator: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/main-oscillator: failed to match any schema with compatible: ['cdns,xtfpga-clock']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: serial@0d050020: Unevaluated properties are not allowed ('device_type', 'native-endian' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/ethoc@0d030000: failed to match any schema with compatible: ['opencores,ethoc']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/xtfpga-i2s@0d080000: failed to match any schema with compatible: ['cdns,xtfpga-i2s']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: i2c-master@0d090000: Unevaluated properties are not allowed ('native-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/opencores,i2c-ocores.yaml#
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/i2c-master@0d090000/clock-synth@69: failed to match any schema with compatible: ['ti,cdce706']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/spi@0d0a0000: failed to match any schema with compatible: ['cdns,xtfpga-spi']
+>> arch/xtensa/boot/dts/xip_kc705_nommu.dtb: /soc/spi@0d0a0000/sound-codec@0: failed to match any schema with compatible: ['tlv320aic23']
 
 -- 
 0-DAY CI Kernel Test Service
