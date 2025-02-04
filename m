@@ -1,71 +1,59 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3292A20E01D
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Feb 2025 20:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4389EC4
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Feb 2025 01:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738615899; cv=none; b=duBddOm/jsA4i3OtBzmAbDUwuRSK34z6Jmd9nmj65cttKU84edUxRxknueQ1sOdupqvnptOWtyhrcLMawg5Xo0MJSj4CDDAZhnPVPtQlcOu5w8vKTW7WFwHAwpTGybkUYtC5OqCHna1++r86q0Vp3twjsxMTx3wl6q2DEEaWQOo=
+	t=1738632837; cv=none; b=NWOm5lkpJptoDf29ZvfDhCj1SugwekvykFwomdnMuTGvqXta7oQUyH6APgkxne/hK+Wob0dib+z9CtXA9ExrXdAflhZbN/8SWIUGhzEAyS2ckG1VZrVX1aGSjDPDBjX7oIcTDh4OP00jg5OFV/0XghkQWQAsFaztSnZrrDe0NqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738615899; c=relaxed/simple;
-	bh=P/HX7wIDAU2xX4W1l4RV/v/AM24ZtU3GxK5PxMLhmHg=;
+	s=arc-20240116; t=1738632837; c=relaxed/simple;
+	bh=DMMuzrzQipJ6xBzrybP/cs9MZ4fdMG7zPM4F7D84yyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A+ok8sPJrXS5giKXc6wNCEEpJDL9LqfUdFtBaBk3eAk9jz0la8zRvjYLvrJ2kCSD/dQahYgpJAjHvA4IVnSTZla5uOzo3kBM6HKewQY7b93li+q8gnabzkbTG/S8/Vu677YaME+gHqGaOonMQlQVM/uW+N93dKxtF7tuOTqrSBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sSTJ0ykH; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=rSD2VpiKbTqBmKvacVOp0JfM9jWjHCfvge+BhHPVCXwOfhi9mw7PtsJpq9Q/NGd3TaP40trLEN2zF7/i/xtOhX0R581TaWNPJrl9IBs1nf7TNi38zUHO0+U5rd48VOZ3BYE1zdd4HawUhPxCQYLpCHn+VraZEJ4Toau7wn47CVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mo0wOg/W; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sSTJ0ykH"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436a03197b2so33545025e9.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 03 Feb 2025 12:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738615895; x=1739220695; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YHC2EQBxGjARvnbE9dXhGX8VfihfJcgHA78XOH2cdX4=;
-        b=sSTJ0ykH7brglW4Fan6c8Qzukm6eP4mRPwcEetoHqmXZRf9ZUImpc72n/B1JbEmrfQ
-         DnCeVGNCZHvcLvwrvIYi/C+bwfhNXF1EQkyASRC+u3g5RRhF33CQYOVagIjWXx4RGJcF
-         StV+wy8NJEqCx4Cdrm7euLDwq4tTqwvXCO1LW1W9Balfl+RRH0yh1Boo/F3e6f2YF/I0
-         pY8nQ95p6aB1PCKULdfkwtPEV4aW9Ue+6H8fvp4+xuMyDfK4d7UC8UAPPZSayYBBvstR
-         T1Xpb9J4leU/pivqlQj/Is6/dKba0Yu5pTUlxq9v7iQT4cxUwlkOp0IaELVsZM33xQud
-         90wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738615895; x=1739220695;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YHC2EQBxGjARvnbE9dXhGX8VfihfJcgHA78XOH2cdX4=;
-        b=qZOIVzhklrWsi+rXqLlhs45r2ZGPmmkPoUZlG0mnq8ylb4kuef5Nr87hvm3wd+o+9f
-         tZ8W0BgfaTOmc57Cc5n5NQr5uYfHoKCMY9jn2lGA3W14wwPJhDeV+5kdHMpJ5G74zBfD
-         2JLWOJhHpo3hNANcBg9s20SIE7LeUdqf/jVemfaXiQLLYRktHv5o2TzGzW4kvQjU72Cw
-         y01lWWByH+JzUKx3eHf9H8qMsPEfzUR/eEpSlUpSL12XzXPTgV7gVEXADGHwNn8+JKQI
-         g4x4el4izeblSCDaJWvBP0VlwSZFTUmFelcQx1vl1hF/4+6UOP1UukOzZv393Tw6mFVG
-         BuUQ==
-X-Gm-Message-State: AOJu0YydkFRaJ9PrzCdSz2ymVYIgXUE0ro9v25wMGCXoSAdryD7vrwyC
-	y/Ia5dUqymDEf1CT0mRpYe12NWZphApfcdyNhdb/P3abSnWxFGy3dUT/DjqopYJbNrmfRIlbOzP
-	0
-X-Gm-Gg: ASbGnctx3wGUHc7fAzSKpfPjieTw0qVqywW9IGfQDzSbY9I7ynVIqsKJNNylqe3TvCc
-	Ta3Ls7AzIcCVIT7suevQukv9G0GsxBhZBrwSi1psD3XCavWm8IJd6/EyUYAoCrkvevlAUfi38P3
-	B+PVuO+iACezfc3Xe8cm56bBCEjH6HrOzbnVcNJBvjh5E9gUooqXwGu5yFfB+CEKGs9KAXwLaNH
-	mWr2UoxkU8PaA1XuLK4Y4ZuJmEKQy4RHGjXXvfA0UpApIxH19pZGEIDeP0redEAy6DUY5W5y5Ab
-	/xPxGLbWCiBcWPYhqHCC
-X-Google-Smtp-Source: AGHT+IEnNsjzkoLIpg1DRJM0PjhA7/0Znaf7xMr3+5gTkFkDmdbpM5qmI0J01tuOQ4aT57iImfBeBw==
-X-Received: by 2002:a05:600c:c17:b0:436:51bb:7a52 with SMTP id 5b1f17b1804b1-438dc3bd7e3mr219049445e9.7.1738615894791;
-        Mon, 03 Feb 2025 12:51:34 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38da1ca14bcsm2607747f8f.95.2025.02.03.12.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 12:51:34 -0800 (PST)
-Date: Mon, 3 Feb 2025 23:51:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pawel Czarnecki <pczarnecki@internships.antmicro.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Gabriel Somlo <gsomlo@gmail.com>,
-	Mateusz Holenko <mholenko@antmicro.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:81
- litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
-Message-ID: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mo0wOg/W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738632835; x=1770168835;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DMMuzrzQipJ6xBzrybP/cs9MZ4fdMG7zPM4F7D84yyw=;
+  b=Mo0wOg/WUkqsR1Rmy6iwV4espRpIBoLjJ1HouMOpWrAYKzyNyrGKYxiX
+   JsCyifq/7w9v3iDwoAowoBAJO7DfIPQ0W/LZHEJNtL7eBrh5dqC2dQ/Bo
+   xp5NSIo2SP+eoEtPGVuEdco3jUDdULOc9P3wST6zdf/y/sAbG/G4W8NCb
+   s39LbcnRa5N9JwKXrg+k2hSTrfMnt/ghkhrLIM209P2lgC30T3xHylimh
+   N1kA8d6Dg77BoCQPFb0UXD5miA8Pci+j3VFJHmhxwSI7Wrd0wwbA4GSbr
+   rJMzsoqf+20iwMTeyf8VPAyA7VaAE3nt6g+v4Q6TiGblGE4upflY0vYTE
+   A==;
+X-CSE-ConnectionGUID: mPF5htmOTBKPvqBLQ4a1jQ==
+X-CSE-MsgGUID: dNtuHnKPQ2GNRklEL6ZiyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="42798351"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="42798351"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 17:33:54 -0800
+X-CSE-ConnectionGUID: f5zgkU6/Qiq26pvgEkrqnA==
+X-CSE-MsgGUID: SNkW664yS8uF7YMhtDdTMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="110624459"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Feb 2025 17:33:53 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tf7p0-000roB-2X;
+	Tue, 04 Feb 2025 01:33:50 +0000
+Date: Tue, 4 Feb 2025 09:32:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jic23-iio:sparse-friendly-direct-mode 90/166]
+ drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202502040918.N96TGHTV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,54 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/litex-hub/linux litex-rebase
-head:   e6c6fef5f6b404cbbbabf0039fbb30acd3b49517
-commit: b6d2dbb4bbd797c6254403bdf67b3b200d08bfa6 [14/15] LiteX: driver for MMCM
-config: csky-randconfig-r072-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040309.E3ppqhfo-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git sparse-friendly-direct-mode
+head:   2d042931355bda7a2fd9e7f81d0be99c3669af4f
+commit: 92540659cab57f14a1fc6615b93e4adb97b51acd [90/166] iio: adc: stm32-dfsdm: Factor out core of reading INFO_RAW
+:::::: branch date: 4 hours ago
+:::::: commit date: 29 hours ago
+config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040918.N96TGHTV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502040309.E3ppqhfo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502040918.N96TGHTV-lkp@intel.com/
 
-New smatch warnings:
-drivers/clk/clk-litex.c:81 litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
-drivers/clk/clk-litex.c:539 litex_clk_set_filt() warn: should this be a bitwise op?
-drivers/clk/clk-litex.c:558 litex_clk_set_lock() warn: should this be a bitwise op?
-drivers/clk/clk-litex.c:942 litex_clk_calc_phase_normal() warn: inconsistent indenting
+smatch warnings:
+drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error: uninitialized symbol 'ret'.
 
-vim +81 drivers/clk/clk-litex.c
+vim +/ret +1320 drivers/iio/adc/stm32-dfsdm-adc.c
 
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  66  static struct litex_clk_regs_addr litex_clk_regs_addr_init(void)
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  67  {
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  68  	struct litex_clk_regs_addr m;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  69  	u32 i, addr;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  70  
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  71  	addr = CLKOUT0_REG1;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  72  	for (i = 0; i <= CLKOUT_MAX; i++) {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1308  
+92540659cab57f Jonathan Cameron 2025-01-19  1309  static int __stm32_dfsdm_read_info_raw(struct iio_dev *indio_dev,
+92540659cab57f Jonathan Cameron 2025-01-19  1310  				       struct iio_chan_spec const *chan,
+92540659cab57f Jonathan Cameron 2025-01-19  1311  				       int *val)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1312  {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1313  	struct stm32_dfsdm_adc *adc = iio_priv(indio_dev);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1314  	int ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1315  
+3208fa0cd91914 Olivier Moysan   2024-07-30  1316  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1317  		ret = iio_hw_consumer_enable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1318  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1319  		ret = iio_backend_enable(adc->backend[chan->scan_index]);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10 @1320  	if (ret < 0) {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1321  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1322  			"%s: IIO enable failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1323  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1324  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1325  	}
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1326  	ret = stm32_dfsdm_single_conv(indio_dev, chan, val);
+3208fa0cd91914 Olivier Moysan   2024-07-30  1327  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1328  		iio_hw_consumer_disable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1329  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1330  		iio_backend_disable(adc->backend[chan->scan_index]);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1331  	if (ret < 0) {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1332  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1333  			"%s: Conversion failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1334  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1335  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1336  	}
+92540659cab57f Jonathan Cameron 2025-01-19  1337  
+92540659cab57f Jonathan Cameron 2025-01-19  1338  	return 0;
+92540659cab57f Jonathan Cameron 2025-01-19  1339  }
+92540659cab57f Jonathan Cameron 2025-01-19  1340  
 
-Presumably this should be < CLKOUT_MAX instead of <=.
+:::::: The code at line 1320 was first introduced by commit
+:::::: e2e6771c646251657fafb2a78db566d5c2c70635 IIO: ADC: add STM32 DFSDM sigma delta ADC support
 
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  73  		if (i == 5) {
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  74  		/*
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  75  		 *special case because CLKOUT5 have its reg addresses
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  76  		 *placed lower than other CLKOUTs
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  77  		 */
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  78  			m.clkout[5].reg1 = CLKOUT5_REG1;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  79  			m.clkout[5].reg2 = CLKOUT5_REG2;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  80  		} else {
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22 @81  			m.clkout[i].reg1 = addr;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  82  			addr++;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  83  			m.clkout[i].reg2 = addr;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  84  			addr++;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  85  		}
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  86  	}
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  87  	return m;
-b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  88  }
+:::::: TO: Arnaud Pouliquen <arnaud.pouliquen@st.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
