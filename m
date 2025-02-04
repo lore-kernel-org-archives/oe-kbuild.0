@@ -1,123 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03B115886C
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Feb 2025 05:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6706C8632C
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Feb 2025 05:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738645217; cv=none; b=tp9o5yCqJT+G99VdugQkjiff6xCADkaef0vQ/5a8g/PsVnsIhZpRL49EO5Sztch7xOOgeNXgxJyhp44Ay0ykzY9r+VGOCYcUnaLM2YsEoDESXrwe4YR2mL9AlGFvIW/D9lh6tE4YSCH9psEyTh00aSQZpeyW/2btE2hHzXp3x6w=
+	t=1738647041; cv=none; b=rQurhvG2fLgmTHbtUEM7+tu88ApvLI3F39LDsWUpybSpPFNARk1tpUJNN146BKyg+6At8ibaWi8XuvBl0L11ZGrkt0Dj3i/NmyxsW1uvMxOQp0MktI+taDSZJfTMfH7UUeM6qo8z9iWUnX6P9R5GBvgE8zlXZ3jGVTayZ4noqxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738645217; c=relaxed/simple;
-	bh=7BbiCAxM4oKjWKk4oO7eAuZuXa1UBLDJS/w0dRQEsGY=;
+	s=arc-20240116; t=1738647041; c=relaxed/simple;
+	bh=jVf6rFz+4wJsovQQSeWtcCM027Tk2L0VLflRaNzXMKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TKAwNaht9pIRjRo4v/WoKtMsWDWEzScEqPv/3EbyVpW6pe1qd8pb6IOT+Pf3f3NRppHa7CEYX26g9YAmuJ9ocPIO6l+uek0wPLBNQTDTrbqFOsRPhDeyBtIjmdGHtRPC2yOwcyFdvZOfLBAlJ9gBF/MOmRJT8RCEAVoUGWPL7rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efG7qwN8; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=V2KEGbM5KpNjc++NL2lIfnn/zBvkERilcf3qC9OKy8aYuEVW/YQmXUgjf+2mlb9BMR4MWxoSNMVJ/emCqvv7e8MTI9c3BrdzW8Hn/JOLeclVMR7LLuxmFojOCiQXJ3ndkn6zzsnlTwUUHbrL41+r1t5PnVNlKFRrd1CJiNynl3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SCGHRmqz; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efG7qwN8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738645215; x=1770181215;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7BbiCAxM4oKjWKk4oO7eAuZuXa1UBLDJS/w0dRQEsGY=;
-  b=efG7qwN8TYSnb5aitVKNZXdy8jVsgclsLHFizB/SRow+8msE2bn4tMbY
-   s5WtSHG+sOs1HwcZQLXRDdeo/FaxzHPkKT8+qhIZVVOOKTNuy3GpQamJB
-   7UCQsOwFBzjbwJP/jEYkT2Z6qJZ/z01/KPb9NhVcNMf/C7kUz9sZjrCvs
-   tjaOCF2/Xk22m7qGaL6PEaDKMAyo6XSZSwp3KgHqeeSOxDdO0XCa0qgZA
-   1sZ+7KGvM8TgnkwUkv3GWCDF4pTcsIkELY2i9xMbVgFzasgbTEsrnM4G7
-   unUpLeFosrR+aqKdlHyBQ/UByJrMcfC1+MngjyN7H+etBOL0QqoR+Bwep
-   Q==;
-X-CSE-ConnectionGUID: nL1w0AmyTWKUw+ZpgbgHlg==
-X-CSE-MsgGUID: bW5WpwAPSTCXBGDQge/lbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="43080180"
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="43080180"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 21:00:14 -0800
-X-CSE-ConnectionGUID: NnCA5jRjRJ2vsLPTQ4vhBA==
-X-CSE-MsgGUID: xCNbAoP6RvqiIjQ2mLXgVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="111035532"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Feb 2025 21:00:13 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfB2h-000s0B-05;
-	Tue, 04 Feb 2025 05:00:11 +0000
-Date: Tue, 4 Feb 2025 12:59:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when
- core crystal freq comes from CPUID
-Message-ID: <202502041246.3weiY0qo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SCGHRmqz"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4362bae4d7dso36424185e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 03 Feb 2025 21:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738647037; x=1739251837; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9l5BK06s55HfdfRfg+yeGfLu0Dfk6CieqLLbpj9NArI=;
+        b=SCGHRmqzS/X5FeDXRFxe4jKgwPObg1kWHE/KmQPOhWFgKMALzqjRpuwXdLwJRS9a0p
+         hFoMQ8CE2+czTBu8r1QnTSO4JDV9FU4jIGNNzpiBfbIhvrVIhKzgteKGc9oe0nhU2EBr
+         4dYWdd5uHVFLvoQ1QwjcxYP3QfBhl9AEHzm88zWOY1C+91yYnrpukHdqri+OQpZT035U
+         5/ObLa/7hq0YJ3rEHLsqPkv9Zt9SuPQAYh07UvOSW9SC9GVy/KAGNSPWrPQ1mRSZswLv
+         rILx2M7yyfX2UcxC8Ro6mbVX1tbzUrlCTWEQyZq9emXfNCMo+5LQJx5+Q0ZaI+ublRqo
+         ZmCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738647037; x=1739251837;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9l5BK06s55HfdfRfg+yeGfLu0Dfk6CieqLLbpj9NArI=;
+        b=dr1UDtDdcunb+B4XBpeoknqnZ+ETHFWMmPr7+r/gIbFhjKRrQuTr52LSLa/NQXv7C1
+         n9POqJhuuw5l5iMTNMccEWSwTkoqkk8rHo26A9yHWT+fimN6YqaLUT3D5HiY1T35IMgq
+         CXRpaSRrsSJSB6uxEsAz7167ANROLvZcSgItwHWkn9LCVZpoqYKqcwus2IFY613FBdI0
+         EJkzYfKCY+eFdGeyuvte8nW3uTb8FFCB0JsjRnG2ENwRR02TN+/gA3K0WS72C4GI0K/e
+         +OJMDq3HQn+ki6ku9HjHM+51lnUjbB/wX9mdBDGT8mBSUXpj2/fG3ONSALrHV24opf8V
+         osUQ==
+X-Gm-Message-State: AOJu0Ywdeqm6qhXlApkbJhRyRY8uk7R4o9TLu7OA06txDBbFdkNHUPRR
+	+1qsVWNRqehESn5rz2gCtyBr32yraRVgTjFBzvfEMMNdeaCiglcUOpU0KVyxMFC08qmLdR+RhEp
+	5
+X-Gm-Gg: ASbGnct/L3RH9AomJ0J7bJ0rIuV5Z3cMgAg6pE9r+8rHrw2rxeop0UGIn/Z1CXYLIv+
+	JI5GH8/GW20QEjnOnFbDmlA0GoGHlF+x1qGKZ2V8X5H712vVcTyf3xeiqDYZtlPIbojSORXl+JO
+	CXam5UjLzYX+MYnIC6sO3x392hoGXRsio9/TYp/PnhFj1JIgCcGVb3QIvqPpZVBYnccBoDG9CCW
+	iTZVKJE18dx+tPg68vKTswye0cWKEbZRr3SoPSoy9A3kfuCvBucIa4L2YVWv+SWbD/6jTS6VIFH
+	41YbrKbGNkyg4SKf2j0V
+X-Google-Smtp-Source: AGHT+IFtxaHkNBSmACRD5npu5hrod1FX36ln3WWjyUEAmdq/KGt+QV9FAjFwNNJKqN2sWwnOEM1jzQ==
+X-Received: by 2002:a05:600c:3d9b:b0:434:effb:9f8a with SMTP id 5b1f17b1804b1-438dc3c3554mr221613835e9.15.1738647036975;
+        Mon, 03 Feb 2025 21:30:36 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-438dcc13151sm211443905e9.1.2025.02.03.21.30.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 21:30:36 -0800 (PST)
+Date: Tue, 4 Feb 2025 08:30:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:sparse-friendly-direct-mode 90/166]
+ drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error:
+ uninitialized symbol 'ret'.
+Message-ID: <08a7a56e-c4ed-41ed-92af-6cd8091777de@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250201021718.699411-16-seanjc@google.com>
-References: <20250201021718.699411-16-seanjc@google.com>
-TO: Sean Christopherson <seanjc@google.com>
-
-Hi Sean,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/x86-tsc-Add-a-standalone-helpers-for-getting-TSC-info-from-CPUID-0x15/20250201-102521
-base:   ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9
-patch link:    https://lore.kernel.org/r/20250201021718.699411-16-seanjc%40google.com
-patch subject: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when core crystal freq comes from CPUID
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20250204 (https://download.01.org/0day-ci/archive/20250204/202502041246.3weiY0qo-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git sparse-friendly-direct-mode
+head:   2d042931355bda7a2fd9e7f81d0be99c3669af4f
+commit: 92540659cab57f14a1fc6615b93e4adb97b51acd [90/166] iio: adc: stm32-dfsdm: Factor out core of reading INFO_RAW
+config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040918.N96TGHTV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502041246.3weiY0qo-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502040918.N96TGHTV-lkp@intel.com/
 
 smatch warnings:
-arch/x86/kernel/kvmclock.c:117 kvm_get_tsc_khz() error: uninitialized symbol 'crystal_khz'.
+drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error: uninitialized symbol 'ret'.
 
-vim +/crystal_khz +117 arch/x86/kernel/kvmclock.c
+vim +/ret +1320 drivers/iio/adc/stm32-dfsdm-adc.c
 
-72c930dcfc2b49 Radim Krčmář        2015-09-18  104  
-aea5814308ed7c Sean Christopherson 2025-01-31  105  static unsigned long kvm_get_tsc_khz(void)
-aea5814308ed7c Sean Christopherson 2025-01-31  106  {
-aea5814308ed7c Sean Christopherson 2025-01-31  107  	unsigned int __tsc_khz, crystal_khz;
-aea5814308ed7c Sean Christopherson 2025-01-31  108  
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  109  	/*
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  110  	 * Prefer CPUID over kvmclock when possible, as CPUID also includes the
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  111  	 * core crystal frequency, i.e. the APIC timer frequency.  When the core
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  112  	 * crystal frequency is enumerated in CPUID.0x15, KVM's ABI is that the
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  113  	 * (virtual) APIC BUS runs at the same frequency.
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  114  	 */
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  115  	if (!cpuid_get_tsc_freq(&__tsc_khz, &crystal_khz)) {
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  116  #ifdef CONFIG_X86_LOCAL_APIC
-32cd84ebbd5dbd Sean Christopherson 2025-01-31 @117  		lapic_timer_period = crystal_khz * 1000 / HZ;
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  118  #endif
-aea5814308ed7c Sean Christopherson 2025-01-31  119  		return __tsc_khz;
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  120  	}
-aea5814308ed7c Sean Christopherson 2025-01-31  121  
-aea5814308ed7c Sean Christopherson 2025-01-31  122  	return pvclock_tsc_khz(this_cpu_pvti());
-aea5814308ed7c Sean Christopherson 2025-01-31  123  }
-aea5814308ed7c Sean Christopherson 2025-01-31  124  
+92540659cab57f Jonathan Cameron 2025-01-19  1309  static int __stm32_dfsdm_read_info_raw(struct iio_dev *indio_dev,
+92540659cab57f Jonathan Cameron 2025-01-19  1310  				       struct iio_chan_spec const *chan,
+92540659cab57f Jonathan Cameron 2025-01-19  1311  				       int *val)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1312  {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1313  	struct stm32_dfsdm_adc *adc = iio_priv(indio_dev);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1314  	int ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1315  
+3208fa0cd91914 Olivier Moysan   2024-07-30  1316  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1317  		ret = iio_hw_consumer_enable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1318  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1319  		ret = iio_backend_enable(adc->backend[chan->scan_index]);
+
+Could both adc->hwc and adc->backend be false?
+
+e2e6771c646251 Arnaud Pouliquen 2018-01-10 @1320  	if (ret < 0) {
+                                                            ^^^
+Uninitialized warning
+
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1321  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1322  			"%s: IIO enable failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1323  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1324  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1325  	}
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1326  	ret = stm32_dfsdm_single_conv(indio_dev, chan, val);
+3208fa0cd91914 Olivier Moysan   2024-07-30  1327  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1328  		iio_hw_consumer_disable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1329  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1330  		iio_backend_disable(adc->backend[chan->scan_index]);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1331  	if (ret < 0) {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1332  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1333  			"%s: Conversion failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1334  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1335  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1336  	}
+92540659cab57f Jonathan Cameron 2025-01-19  1337  
+92540659cab57f Jonathan Cameron 2025-01-19  1338  	return 0;
+92540659cab57f Jonathan Cameron 2025-01-19  1339  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
