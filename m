@@ -1,126 +1,128 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903A18632C
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Feb 2025 05:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E11182B4;
+	Tue,  4 Feb 2025 14:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738647339; cv=none; b=CWAKUSkjfjZz/UUR2xgboOTk6DAl+wzFvvKccMVINhWz0uGZkPczxg3Wdj24YCe3ubMJztAZNKNhtF7B4WM5nrahjYGCicRlOvdxeLk69lmA6UBwde6eL16gj79TIGY4OSUb+qwixmhlh6Q2ro4wAw8aPiv+fnAErcylAvrgdwQ=
+	t=1738680603; cv=none; b=oRGyJHQh5L0nfPD7uQRcIgbIqb8iemWE1RymDq6kERgyniPc6CAT448CbZg9imsDTCoGEiRcudGZ1Ft7TBiI77bv597NOATXVhnCPHPJZVvwv7Lix1NXk2D7ACvxis9J06Wm7VaTrKHeKfGwFVx1Qy80jSpFRBkxSFVFgkdZO0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738647339; c=relaxed/simple;
-	bh=BjHG0vmth8yC+oW0++Ffn/GnF16KJXZGKhD3z8AXeE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iFAvXmocWg+TGXp3DvyiJx+PfUEmZzIBB0o3L0e4d0HIDsY99mdXjBTQ+XXzbm5Y6SKI/8vzaRnyo7aRSE5pC9l43pnHRQOAt/s22utX0ZKzi+lBznD7smPlk8COPNTriRdtXFxQI6FqR+9LYgoJ4gKdqJqDOIqdbb35RWdaS4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p68IwkX8; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p68IwkX8"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38daa53a296so69808f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 03 Feb 2025 21:35:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738647335; x=1739252135; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUvQP8JEHlkgcD2xmyvKIckaZiqi4/8ixqUZMk5qb70=;
-        b=p68IwkX8WJZn44xNfHZk/e+KBODa77Jasc7bB/KZ23cw6gLexMC6jCBDYEBGZ3ifl3
-         +rC8Ddma9DZacJv5EjujHuNp5qMhnFmamjC2rKIXAyDk74w6PRw2ZOTc+tr966iG8sfG
-         /Cbyqk7Fj7X2rks0ZYbYjWQ8PtiAPDKCX3TzxmamveJQsIgCR8rKVFJJCoaLdxINTadU
-         lTE6YvDA/cOCBiC2sdlcj59u4NC1B7oHPirsFfEkmphOpz0r92OJxL0S3XXQOhtPaola
-         kO/Wy133rBag51wmHpoFyXH5tHK17R2C0aelRV+XcxKtjYOoO0OSm2oLjRmTLvVj920x
-         uvqQ==
+	s=arc-20240116; t=1738680603; c=relaxed/simple;
+	bh=0+ukvEOkcev5T7X/Gi8dKsQQHoJs2aN/AWiHhDjuy2o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M2wgrunYpcwNbJDC3qYc/n+MKXPiXekJ3w9q9SorpbKWGrCxSXebDlIfG/q2ElBE3Du0H/ZfrmUxgMoWRRlgCj1CjzqOJRmCojCc518l0uwfMrrp+IwFd/9SgTT7o57K63F7vp3PPjAB/sSv2NAat7ffYgYONM2ffXf1ArR/yc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso2718855241.1;
+        Tue, 04 Feb 2025 06:50:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738647335; x=1739252135;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1738680599; x=1739285399;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tUvQP8JEHlkgcD2xmyvKIckaZiqi4/8ixqUZMk5qb70=;
-        b=KReY7oWpvqgxJLboRqkocmQOAa0qyhJU/7X19ncuCAyA7iBBmQzlnIErk5kv1NTPWk
-         XDx8aHVOHQka394HDwN1Q/zwYrkW9vdhrgOFhE9nMlxmqVF8P/hkTtJuFIz5MsKOOfFn
-         HkAVV9B4TkcKoSKnJXD+GdKidM1gqLkC1SzgTGjNoCLNgjLznmpYnkZX1wdk71CyzcZk
-         lWUqtfmlC2Nyu3pp2/QcYhnB6yiIZaN7Zy91FBK8QkQ3JuetCZ+OFGZpTyRDAdqXV2PU
-         2Hu7QLRqDCMeaeoDjZgfng7kVBushXKqHKFcDX/VXCq+TMxNXJEVawyqOqCfO+k53LSK
-         beIw==
-X-Gm-Message-State: AOJu0YyUqqiG9njUs9BaG0zWPp2m/PzAqW4yqgbZPoPT5CUDnCH8R64u
-	Uy9r+ksJryUYgAJRjXR0V6JEqJkxZFf/u0kL0IsmboUf+aRxoIdsoqWlMONEM5QGcKJHV+zupuM
-	g
-X-Gm-Gg: ASbGncvQe5ZZemwSUvwuQNpGxqklhUKfNOPGiYCGNdlqSYhDkyxXK8ZximCmGqAf1eI
-	hXn8SN3KV3tgjoamQ/6uxFEPiSYCkVq/43HgXTYOGhk/mWkUh/og5tPy44WMxfxVKkArYcYym86
-	8GM/fw3av/V1GJ7eac3Ew2z+iUlGYSH9jUMMGtXlIyevo7y/4K+5ziV+NYAXvD2r5THuibb/5Es
-	xx0EmjCHNLMvtmKm93BInfgXVD42hvyOQ8SRDPv8dx5f3lP+IdpmRaJee7waIt5uqcYYpeQ3GQN
-	qJ5Jh5s1gfEYkUkuhS/8
-X-Google-Smtp-Source: AGHT+IHse6k2ju8lQTupcNRILQAhLnrltOq9ltVJkZ/F33I3wtgfC9QaI018suj5bRqpBzvfdzOHrw==
-X-Received: by 2002:a05:6000:156d:b0:38d:a90c:d489 with SMTP id ffacd0b85a97d-38da90cd618mr491446f8f.45.1738647335154;
-        Mon, 03 Feb 2025 21:35:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43907f16ffasm6388055e9.1.2025.02.03.21.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 21:35:34 -0800 (PST)
-Date: Tue, 4 Feb 2025 08:35:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sean Christopherson <seanjc@google.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when
- core crystal freq comes from CPUID
-Message-ID: <f9d42d5a-a625-4eba-9ee4-c2c42d179df7@stanley.mountain>
+        bh=DkT+LrzpczfsZTA9/FxaGyjcsVl5JMb+YWZwB3xFHaA=;
+        b=quZVWGT5DDX8RnfsfEv5ah6XTMp4cpq0CPbXuUxJ9SjBKKT61LXoeU+jJGVwZQ1m54
+         7X5joN+REmJ6agqSBKy5DGn0SPHaMc3oYlhae12nmBkNs6ee6IIAQ8R8MpnbcjGkSdOG
+         ID74fqPNqz2VTZtFipQ278IgU8XB1dvHnEUaT15kw1dmXg18sykCFrzX4JhT1ADc1paM
+         eMwZPqJW7qzzYX4gVa71QZNL3AMFtCot0Drf/t/O6Fh3MRMnfSVQiy8r7b+UtvYtQRGh
+         uwCG1YDyaV49B7vnZ5DO34AsFZhCZAD1nLLX9A/7o9+pEIHhxgdVYubZ0XKHUWF1VRiw
+         67hA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0C9e+n0B0ZDOT3IKupnoTg74tMmHZYRW8VlEYMnKMQsAwzPof4n7WvoBebDVfxO3RhDSV5OwQDuSvVLgF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKC7V0kXXXjdfmc4wdtEFYP1t8aVPZJp7UPgitalKSpUj//ATS
+	rFyLW3dJGxTd+yHqhpJg9OKDAwMDN2OIZABz0bEOVSY2bQ4ZOf4FcsdYf5hI
+X-Gm-Gg: ASbGnctPUMGExWofU9VOEIGhtVZ7SmGt3cn2oG/lYO9Rf39Nz0Szqesg7QOtMtHmzJe
+	wB5RUfv9jnOnzCrPSunrmhCYTCB1u+HCMUDacr1aiFpVTEd+COHFuKkSqvDhAjwr3pKJpxCT78L
+	hYRTbc8oC8hv4S/CwNruZbn5hHQlHitxurrUbPt63k8nyYJav1/1o5trHm5ZmDiIvvRM9W32GcS
+	Tkr+wuU/ElIoK/DTVElRl3UV51lalOaP9hAnlgioSwWygE9LN+X6LAniX57L0bJiCLo+FNzHuxP
+	4E86FwEtr12dgLmNutSQizLRzDTuZRMzaxRg23u4VxZvNxQ71FGuVA==
+X-Google-Smtp-Source: AGHT+IEKkLFaNHZtkQ3R2iONZlW+vaSQF2DUd/WmIbSDe5DTmCe2/yADjy1kX8eE8pRZiP19v3Vg0A==
+X-Received: by 2002:a67:f08d:0:b0:4b2:cc94:1d6a with SMTP id ada2fe7eead31-4b9a5272b08mr13864514137.19.1738680599200;
+        Tue, 04 Feb 2025 06:49:59 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866e00a0afbsm118193241.6.2025.02.04.06.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 06:49:58 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4affbc4dc74so3487418137.0;
+        Tue, 04 Feb 2025 06:49:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXmIgE0/eLoacCZDCce+t7eXbbV8L1Omw0XKZUGvCuOMiEpyDdTK2cV4bMZo7Yg1s0Yq/vfdrnV9DTxbCm8@lists.linux.dev
+X-Received: by 2002:a05:6102:2ad4:b0:4b2:45a3:59fb with SMTP id
+ ada2fe7eead31-4b9a4f267efmr20763723137.2.1738680596865; Tue, 04 Feb 2025
+ 06:49:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250201021718.699411-16-seanjc@google.com>
+References: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
+In-Reply-To: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Feb 2025 15:49:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
+X-Gm-Features: AWEUYZll-6EadHF3EhUGdUDG2eHKsKX4IJzgRUARZXUHThsDxZnThsLJQKQBg6I
+Message-ID: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
+Subject: Re: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:81
+ litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, 
+	Pawel Czarnecki <pczarnecki@internships.antmicro.com>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, Gabriel Somlo <gsomlo@gmail.com>, 
+	Mateusz Holenko <mholenko@antmicro.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Sean,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+On Mon, 3 Feb 2025 at 21:51, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> tree:   https://github.com/litex-hub/linux litex-rebase
+> head:   e6c6fef5f6b404cbbbabf0039fbb30acd3b49517
+> commit: b6d2dbb4bbd797c6254403bdf67b3b200d08bfa6 [14/15] LiteX: driver for MMCM
+> config: csky-randconfig-r072-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040309.E3ppqhfo-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502040309.E3ppqhfo-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/clk/clk-litex.c:81 litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
+> drivers/clk/clk-litex.c:539 litex_clk_set_filt() warn: should this be a bitwise op?
+> drivers/clk/clk-litex.c:558 litex_clk_set_lock() warn: should this be a bitwise op?
+> drivers/clk/clk-litex.c:942 litex_clk_calc_phase_normal() warn: inconsistent indenting
+>
+> vim +81 drivers/clk/clk-litex.c
+>
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  66  static struct litex_clk_regs_addr litex_clk_regs_addr_init(void)
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  67  {
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  68          struct litex_clk_regs_addr m;
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  69          u32 i, addr;
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  70
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  71          addr = CLKOUT0_REG1;
+> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  72          for (i = 0; i <= CLKOUT_MAX; i++) {
+>
+> Presumably this should be < CLKOUT_MAX instead of <=.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/x86-tsc-Add-a-standalone-helpers-for-getting-TSC-info-from-CPUID-0x15/20250201-102521
-base:   ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9
-patch link:    https://lore.kernel.org/r/20250201021718.699411-16-seanjc%40google.com
-patch subject: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when core crystal freq comes from CPUID
-config: i386-randconfig-141-20250204 (https://download.01.org/0day-ci/archive/20250204/202502041246.3weiY0qo-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Indeed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502041246.3weiY0qo-lkp@intel.com/
+And in litex_clk_read_clkout_dts(), we have the inverse bug:
 
-smatch warnings:
-arch/x86/kernel/kvmclock.c:117 kvm_get_tsc_khz() error: uninitialized symbol 'crystal_khz'.
+        if (dt_num > CLKOUT_MAX) {
+                   ^^
+should be >=
 
-vim +/crystal_khz +117 arch/x86/kernel/kvmclock.c
+                pr_err("%s: Invalid CLKOUT index!", child->name);
+                return -EINVAL;
+        }
 
-aea5814308ed7c Sean Christopherson 2025-01-31  105  static unsigned long kvm_get_tsc_khz(void)
-aea5814308ed7c Sean Christopherson 2025-01-31  106  {
-aea5814308ed7c Sean Christopherson 2025-01-31  107  	unsigned int __tsc_khz, crystal_khz;
-aea5814308ed7c Sean Christopherson 2025-01-31  108  
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  109  	/*
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  110  	 * Prefer CPUID over kvmclock when possible, as CPUID also includes the
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  111  	 * core crystal frequency, i.e. the APIC timer frequency.  When the core
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  112  	 * crystal frequency is enumerated in CPUID.0x15, KVM's ABI is that the
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  113  	 * (virtual) APIC BUS runs at the same frequency.
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  114  	 */
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  115  	if (!cpuid_get_tsc_freq(&__tsc_khz, &crystal_khz)) {
+Gr{oetje,eeting}s,
 
-The cpuid_get_tsc_freq() function has a bug so it doesn't actually
-initialize crystal_khz.  It actually uses the uninitialized value, inside
-the function but Smatch doesn't catch that.
-
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  116  #ifdef CONFIG_X86_LOCAL_APIC
-32cd84ebbd5dbd Sean Christopherson 2025-01-31 @117  		lapic_timer_period = crystal_khz * 1000 / HZ;
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  118  #endif
-aea5814308ed7c Sean Christopherson 2025-01-31  119  		return __tsc_khz;
-32cd84ebbd5dbd Sean Christopherson 2025-01-31  120  	}
-aea5814308ed7c Sean Christopherson 2025-01-31  121  
-aea5814308ed7c Sean Christopherson 2025-01-31  122  	return pvclock_tsc_khz(this_cpu_pvti());
-aea5814308ed7c Sean Christopherson 2025-01-31  123  }
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
