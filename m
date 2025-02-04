@@ -1,128 +1,102 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E11182B4;
-	Tue,  4 Feb 2025 14:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6747125A659;
+	Tue,  4 Feb 2025 15:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738680603; cv=none; b=oRGyJHQh5L0nfPD7uQRcIgbIqb8iemWE1RymDq6kERgyniPc6CAT448CbZg9imsDTCoGEiRcudGZ1Ft7TBiI77bv597NOATXVhnCPHPJZVvwv7Lix1NXk2D7ACvxis9J06Wm7VaTrKHeKfGwFVx1Qy80jSpFRBkxSFVFgkdZO0Y=
+	t=1738683107; cv=none; b=ODfGDwCoVyD9tsODPInkkrYSTmUesW+0kGHOJ0vCuhBunccWKlQ7fuu2dytpy9kFO3sGVigKQZlFhhIX1777AVWJqMGQshTRYYrTm6xLH6OaQopAOlF99ZpX9tggNDNltYHWzqCld3LGTmWNk0Mxh0kcUQ3S+ABYTfdx2yvyO4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738680603; c=relaxed/simple;
-	bh=0+ukvEOkcev5T7X/Gi8dKsQQHoJs2aN/AWiHhDjuy2o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M2wgrunYpcwNbJDC3qYc/n+MKXPiXekJ3w9q9SorpbKWGrCxSXebDlIfG/q2ElBE3Du0H/ZfrmUxgMoWRRlgCj1CjzqOJRmCojCc518l0uwfMrrp+IwFd/9SgTT7o57K63F7vp3PPjAB/sSv2NAat7ffYgYONM2ffXf1ArR/yc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1738683107; c=relaxed/simple;
+	bh=6LTXlAyjSVcDOt/WE0GtwotYSD6uBDnTNySXFvouTL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k3zhVIZXcWb5AM/064FHYaoJLdvpMKvzDePsymMKJTp5xM//Au2KV1NiaFXVo4EeZgYmUr5rchPlZiFTMQkRbR9Vjar5AUs6rRl/mgZCh+E1faAy94mhKiIoRPFFx738X1QNH4nZm4ivm9YIbtjpypZfozm1UgrJtcAl9pWjSEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaLsWbh3; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso2718855241.1;
-        Tue, 04 Feb 2025 06:50:00 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaLsWbh3"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e4277e4791so3997206d6.0;
+        Tue, 04 Feb 2025 07:31:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738683105; x=1739287905; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8rLqioGcTpHEUtguRgMSoF5lAUN71V0fqChdDIQ0y4U=;
+        b=HaLsWbh3rvSkRmtMvuH/FeOASvaEKleKy639nG4xu6koxXVzx9pMGNNYt8S1pWKrJ4
+         mbOFBAMQtFBWpgkFOC1gMpOx592fjQWaEj3BZzHRDrHv2KEc0B7JcswbOGCUK6WUhMw+
+         dKo76duikGQAhcebkpa8N15vkK7tKULf2nHH7gnE/4RE2GKZAGzI8440hDc5fyTyAByd
+         dE27GoN+xbdC+RR724x1XkpUzCJejB6x4kUmSs2Rq6QC4ghpqeW2WoDWSP9RSikYBTx4
+         ZrlGpbLwhSaKCqOlfLgMTrQk2wI5lccBC7+pQyFVk5IAfyKgcizvxo+W4YgszOBIb7Pr
+         8VMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738680599; x=1739285399;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DkT+LrzpczfsZTA9/FxaGyjcsVl5JMb+YWZwB3xFHaA=;
-        b=quZVWGT5DDX8RnfsfEv5ah6XTMp4cpq0CPbXuUxJ9SjBKKT61LXoeU+jJGVwZQ1m54
-         7X5joN+REmJ6agqSBKy5DGn0SPHaMc3oYlhae12nmBkNs6ee6IIAQ8R8MpnbcjGkSdOG
-         ID74fqPNqz2VTZtFipQ278IgU8XB1dvHnEUaT15kw1dmXg18sykCFrzX4JhT1ADc1paM
-         eMwZPqJW7qzzYX4gVa71QZNL3AMFtCot0Drf/t/O6Fh3MRMnfSVQiy8r7b+UtvYtQRGh
-         uwCG1YDyaV49B7vnZ5DO34AsFZhCZAD1nLLX9A/7o9+pEIHhxgdVYubZ0XKHUWF1VRiw
-         67hA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0C9e+n0B0ZDOT3IKupnoTg74tMmHZYRW8VlEYMnKMQsAwzPof4n7WvoBebDVfxO3RhDSV5OwQDuSvVLgF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKC7V0kXXXjdfmc4wdtEFYP1t8aVPZJp7UPgitalKSpUj//ATS
-	rFyLW3dJGxTd+yHqhpJg9OKDAwMDN2OIZABz0bEOVSY2bQ4ZOf4FcsdYf5hI
-X-Gm-Gg: ASbGnctPUMGExWofU9VOEIGhtVZ7SmGt3cn2oG/lYO9Rf39Nz0Szqesg7QOtMtHmzJe
-	wB5RUfv9jnOnzCrPSunrmhCYTCB1u+HCMUDacr1aiFpVTEd+COHFuKkSqvDhAjwr3pKJpxCT78L
-	hYRTbc8oC8hv4S/CwNruZbn5hHQlHitxurrUbPt63k8nyYJav1/1o5trHm5ZmDiIvvRM9W32GcS
-	Tkr+wuU/ElIoK/DTVElRl3UV51lalOaP9hAnlgioSwWygE9LN+X6LAniX57L0bJiCLo+FNzHuxP
-	4E86FwEtr12dgLmNutSQizLRzDTuZRMzaxRg23u4VxZvNxQ71FGuVA==
-X-Google-Smtp-Source: AGHT+IEKkLFaNHZtkQ3R2iONZlW+vaSQF2DUd/WmIbSDe5DTmCe2/yADjy1kX8eE8pRZiP19v3Vg0A==
-X-Received: by 2002:a67:f08d:0:b0:4b2:cc94:1d6a with SMTP id ada2fe7eead31-4b9a5272b08mr13864514137.19.1738680599200;
-        Tue, 04 Feb 2025 06:49:59 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866e00a0afbsm118193241.6.2025.02.04.06.49.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 06:49:58 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4affbc4dc74so3487418137.0;
-        Tue, 04 Feb 2025 06:49:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXmIgE0/eLoacCZDCce+t7eXbbV8L1Omw0XKZUGvCuOMiEpyDdTK2cV4bMZo7Yg1s0Yq/vfdrnV9DTxbCm8@lists.linux.dev
-X-Received: by 2002:a05:6102:2ad4:b0:4b2:45a3:59fb with SMTP id
- ada2fe7eead31-4b9a4f267efmr20763723137.2.1738680596865; Tue, 04 Feb 2025
- 06:49:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738683105; x=1739287905;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8rLqioGcTpHEUtguRgMSoF5lAUN71V0fqChdDIQ0y4U=;
+        b=AAM5uhdsEuM2l0nDzDOzRkeFP0I0zcp/vyrf1Bofi2hUTUJHaPHVU0TdMbpavS4S1F
+         Yz6GXHrDof6K9+l9k8fRQRtI6XyNlCirvyyXJ3q65snLNgAWjFGfx9YbtDSfcBD6bHPq
+         pnseqUTsmcbjgSycR3LVDovkDChQOk3JXPm4md8IK8GApChGNX5eHG8PW66ZL3AgNjCX
+         Xn7g0vjWRhk4EKMPTUHaqHwd26n5f8ssdKne7DxvuaE35KgsSEKuq42wkARtSg0jdzZY
+         gCSPel5tOQogR98trpDM2gvTeGJcIt3wEZPty9VoABOWRLoW71ov4mebtLwu9knp/7k0
+         e+aA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5qf4jv50NutBip8E4EAsTRPOw0hHbjrrQYf5e/gTxi81YFq42jYnnc+9dNoS6SxgqqnU4u80obn6zdgEB@lists.linux.dev, AJvYcCX1Il0G2Ok9JYdWWEFhTSMvThowf9VYTJHiau6FeWDODt+wCGiYhtCpB64yJXYXFPEu0IyABqiz0aFC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwoAcuAbB1PYkHN1l9H604D4ycpU1olURC2GREWp3xwbxON3EV3
+	duy8jgExL/6r7wWuk1VDSv9S108/bF9YuMrmm4fklbsXdwd3V5AD
+X-Gm-Gg: ASbGncv0uaNaBsFMyb3TTenm7Afo6DCf3n34kSKo8wt3vXX8E5lbAbAXtIwRHKMDrcv
+	hETa1X8QMGf/NjG0CkY/Cm3hAfSh+QtaKbUdntgCgBY/s6k9rZb6SEGwOaNIRnQEV0k+Unq54Py
+	b8vtlbWEMc7D6fidHE2AtXPGKV9gYTEqy9VQT9bL5TQdzRi9Q0W00SLh/aqsqDLDW7dieuA6G21
+	l5vBfid+XqaVR8WaaOh9o6uVVtsAouFX/uVcCu1hRbFLRbtN7/L/vDaXKQd4HRBDCe9bbQpWTSz
+	sEHAexTyuM6OQIvz2bOvYaFRRvpKypxwaEjvEKNMxXaT1qHeQEo=
+X-Google-Smtp-Source: AGHT+IHTE3r9hO7VkAo3EnDxfTDhthPBj1GkrNC5WVo7PPbvOZJjWt+GF2ek/8mEUQknHCa9w+XdLA==
+X-Received: by 2002:a05:6214:3290:b0:6d8:9d28:ff07 with SMTP id 6a1803df08f44-6e243c7e5a8mr400392116d6.45.1738683105122;
+        Tue, 04 Feb 2025 07:31:45 -0800 (PST)
+Received: from glsmbp.wifi.local.cmu.edu (cmu-device2.nat.cmu.net. [128.2.149.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e25493ee7asm62861406d6.94.2025.02.04.07.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 07:31:44 -0800 (PST)
+Date: Tue, 4 Feb 2025 10:31:42 -0500
+From: "Gabriel L. Somlo" <gsomlo@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mateusz Holenko <mholenko@antmicro.com>
+Subject: Re: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:81
+ litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
+Message-ID: <Z6Iy3r9wab6IXoIh@glsmbp.wifi.local.cmu.edu>
+References: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
+ <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
-In-Reply-To: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Feb 2025 15:49:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
-X-Gm-Features: AWEUYZll-6EadHF3EhUGdUDG2eHKsKX4IJzgRUARZXUHThsDxZnThsLJQKQBg6I
-Message-ID: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
-Subject: Re: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:81
- litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, 
-	Pawel Czarnecki <pczarnecki@internships.antmicro.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Gabriel Somlo <gsomlo@gmail.com>, 
-	Mateusz Holenko <mholenko@antmicro.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Dan,
+On Tue, Feb 04, 2025 at 03:49:44PM +0100, Geert Uytterhoeven wrote:
+> > b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  72          for (i = 0; i <= CLKOUT_MAX; i++) {
+> >
+> > Presumably this should be < CLKOUT_MAX instead of <=.
+> 
+> Indeed.
+> 
+> And in litex_clk_read_clkout_dts(), we have the inverse bug:
+> 
+>         if (dt_num > CLKOUT_MAX) {
+>                    ^^
+> should be >=
+> 
+>                 pr_err("%s: Invalid CLKOUT index!", child->name);
+>                 return -EINVAL;
+>         }
 
-On Mon, 3 Feb 2025 at 21:51, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> tree:   https://github.com/litex-hub/linux litex-rebase
-> head:   e6c6fef5f6b404cbbbabf0039fbb30acd3b49517
-> commit: b6d2dbb4bbd797c6254403bdf67b3b200d08bfa6 [14/15] LiteX: driver for MMCM
-> config: csky-randconfig-r072-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040309.E3ppqhfo-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 14.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502040309.E3ppqhfo-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/clk/clk-litex.c:81 litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
-> drivers/clk/clk-litex.c:539 litex_clk_set_filt() warn: should this be a bitwise op?
-> drivers/clk/clk-litex.c:558 litex_clk_set_lock() warn: should this be a bitwise op?
-> drivers/clk/clk-litex.c:942 litex_clk_calc_phase_normal() warn: inconsistent indenting
->
-> vim +81 drivers/clk/clk-litex.c
->
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  66  static struct litex_clk_regs_addr litex_clk_regs_addr_init(void)
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  67  {
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  68          struct litex_clk_regs_addr m;
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  69          u32 i, addr;
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  70
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  71          addr = CLKOUT0_REG1;
-> b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  72          for (i = 0; i <= CLKOUT_MAX; i++) {
->
-> Presumably this should be < CLKOUT_MAX instead of <=.
+Fixed, rebased, force-pushed.
 
-Indeed.
-
-And in litex_clk_read_clkout_dts(), we have the inverse bug:
-
-        if (dt_num > CLKOUT_MAX) {
-                   ^^
-should be >=
-
-                pr_err("%s: Invalid CLKOUT index!", child->name);
-                return -EINVAL;
-        }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks much,
+--Gabriel
