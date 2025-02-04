@@ -1,102 +1,139 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6747125A659;
-	Tue,  4 Feb 2025 15:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32388216E2C
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Feb 2025 18:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738683107; cv=none; b=ODfGDwCoVyD9tsODPInkkrYSTmUesW+0kGHOJ0vCuhBunccWKlQ7fuu2dytpy9kFO3sGVigKQZlFhhIX1777AVWJqMGQshTRYYrTm6xLH6OaQopAOlF99ZpX9tggNDNltYHWzqCld3LGTmWNk0Mxh0kcUQ3S+ABYTfdx2yvyO4Q=
+	t=1738693784; cv=none; b=WJpMpPop6XdlLqjfb0Uk/tSGsLqFl6ry/ErHuIalAFE/lIuxWIVSHitp7v3T+lVAKw7avW/HBa+/UQHEXIFQcqkdeFipc3jof4IuVuYBxMdErxgJfY455yhrLJMoHnAh2miHbK5yGfE6bZZTRFx0U3u7rRcTqZyexLqoR7uZgeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738683107; c=relaxed/simple;
-	bh=6LTXlAyjSVcDOt/WE0GtwotYSD6uBDnTNySXFvouTL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3zhVIZXcWb5AM/064FHYaoJLdvpMKvzDePsymMKJTp5xM//Au2KV1NiaFXVo4EeZgYmUr5rchPlZiFTMQkRbR9Vjar5AUs6rRl/mgZCh+E1faAy94mhKiIoRPFFx738X1QNH4nZm4ivm9YIbtjpypZfozm1UgrJtcAl9pWjSEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HaLsWbh3; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738693784; c=relaxed/simple;
+	bh=zAjtxiFWdUTQs2rA51Icbpb2OZvcwlIaYEe46+bXHbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mECinItUpJW/T61mGT57u5yMjrCivH9kLfwy5fpnE6s19/QHHuGRcZ1E9UskfHZFg292z4zvKRO0cUH0x+nfPZCSnw5zMdfqo0BWFSpUrDU++7Kl7VXdhUFwHl2CjFqdyYY0XIJmEYz/BfTMlZ3p6Tkpnw99yK59G/ofM8KzyU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6nIm7Zg; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HaLsWbh3"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e4277e4791so3997206d6.0;
-        Tue, 04 Feb 2025 07:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738683105; x=1739287905; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8rLqioGcTpHEUtguRgMSoF5lAUN71V0fqChdDIQ0y4U=;
-        b=HaLsWbh3rvSkRmtMvuH/FeOASvaEKleKy639nG4xu6koxXVzx9pMGNNYt8S1pWKrJ4
-         mbOFBAMQtFBWpgkFOC1gMpOx592fjQWaEj3BZzHRDrHv2KEc0B7JcswbOGCUK6WUhMw+
-         dKo76duikGQAhcebkpa8N15vkK7tKULf2nHH7gnE/4RE2GKZAGzI8440hDc5fyTyAByd
-         dE27GoN+xbdC+RR724x1XkpUzCJejB6x4kUmSs2Rq6QC4ghpqeW2WoDWSP9RSikYBTx4
-         ZrlGpbLwhSaKCqOlfLgMTrQk2wI5lccBC7+pQyFVk5IAfyKgcizvxo+W4YgszOBIb7Pr
-         8VMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738683105; x=1739287905;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8rLqioGcTpHEUtguRgMSoF5lAUN71V0fqChdDIQ0y4U=;
-        b=AAM5uhdsEuM2l0nDzDOzRkeFP0I0zcp/vyrf1Bofi2hUTUJHaPHVU0TdMbpavS4S1F
-         Yz6GXHrDof6K9+l9k8fRQRtI6XyNlCirvyyXJ3q65snLNgAWjFGfx9YbtDSfcBD6bHPq
-         pnseqUTsmcbjgSycR3LVDovkDChQOk3JXPm4md8IK8GApChGNX5eHG8PW66ZL3AgNjCX
-         Xn7g0vjWRhk4EKMPTUHaqHwd26n5f8ssdKne7DxvuaE35KgsSEKuq42wkARtSg0jdzZY
-         gCSPel5tOQogR98trpDM2gvTeGJcIt3wEZPty9VoABOWRLoW71ov4mebtLwu9knp/7k0
-         e+aA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5qf4jv50NutBip8E4EAsTRPOw0hHbjrrQYf5e/gTxi81YFq42jYnnc+9dNoS6SxgqqnU4u80obn6zdgEB@lists.linux.dev, AJvYcCX1Il0G2Ok9JYdWWEFhTSMvThowf9VYTJHiau6FeWDODt+wCGiYhtCpB64yJXYXFPEu0IyABqiz0aFC@lists.linux.dev
-X-Gm-Message-State: AOJu0YwoAcuAbB1PYkHN1l9H604D4ycpU1olURC2GREWp3xwbxON3EV3
-	duy8jgExL/6r7wWuk1VDSv9S108/bF9YuMrmm4fklbsXdwd3V5AD
-X-Gm-Gg: ASbGncv0uaNaBsFMyb3TTenm7Afo6DCf3n34kSKo8wt3vXX8E5lbAbAXtIwRHKMDrcv
-	hETa1X8QMGf/NjG0CkY/Cm3hAfSh+QtaKbUdntgCgBY/s6k9rZb6SEGwOaNIRnQEV0k+Unq54Py
-	b8vtlbWEMc7D6fidHE2AtXPGKV9gYTEqy9VQT9bL5TQdzRi9Q0W00SLh/aqsqDLDW7dieuA6G21
-	l5vBfid+XqaVR8WaaOh9o6uVVtsAouFX/uVcCu1hRbFLRbtN7/L/vDaXKQd4HRBDCe9bbQpWTSz
-	sEHAexTyuM6OQIvz2bOvYaFRRvpKypxwaEjvEKNMxXaT1qHeQEo=
-X-Google-Smtp-Source: AGHT+IHTE3r9hO7VkAo3EnDxfTDhthPBj1GkrNC5WVo7PPbvOZJjWt+GF2ek/8mEUQknHCa9w+XdLA==
-X-Received: by 2002:a05:6214:3290:b0:6d8:9d28:ff07 with SMTP id 6a1803df08f44-6e243c7e5a8mr400392116d6.45.1738683105122;
-        Tue, 04 Feb 2025 07:31:45 -0800 (PST)
-Received: from glsmbp.wifi.local.cmu.edu (cmu-device2.nat.cmu.net. [128.2.149.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e25493ee7asm62861406d6.94.2025.02.04.07.31.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 07:31:44 -0800 (PST)
-Date: Tue, 4 Feb 2025 10:31:42 -0500
-From: "Gabriel L. Somlo" <gsomlo@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
-	Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mateusz Holenko <mholenko@antmicro.com>
-Subject: Re: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:81
- litex_clk_regs_addr_init() error: buffer overflow 'm.clkout' 7 <= 7
-Message-ID: <Z6Iy3r9wab6IXoIh@glsmbp.wifi.local.cmu.edu>
-References: <2d9d0dab-8892-43ae-bac5-213246705e31@stanley.mountain>
- <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6nIm7Zg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738693782; x=1770229782;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zAjtxiFWdUTQs2rA51Icbpb2OZvcwlIaYEe46+bXHbA=;
+  b=Q6nIm7ZgJz7Q8ZPR6Py5Pf4IPMjnK+ralwkQtShQWO2rwcMaGcx95yF5
+   3K8JJTsU65n5c52di22hFkk+j90YE1Ke+3XrZMPlVJZhRo2ZV+8lvXXFF
+   xIlbAbhvTNmGjQOMR1jC4JmTnrH13SZMsxLULsL+GKXvOINtPSkAh+HPP
+   5sYyr3frz6Q96vu2mDHthRhJB6OoFaqA/z0VA8Mi3CFtDzOdX39Yh1p/G
+   MNIJXkX3ODR26kRBvIqCgzJN+ZX5DEZmTRoun1+CT8w6jI4X9dQIiZWwl
+   ES5iwdJAcgRok/3/RWlSOTyJtUaQt8himoi7HW1iKSSUagJZEvPkQOguZ
+   g==;
+X-CSE-ConnectionGUID: md/XtJMyRhqeGatwVL9ueg==
+X-CSE-MsgGUID: xNJWqT6IRRmHJ2qzJ1ySTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38465512"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="38465512"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:29:41 -0800
+X-CSE-ConnectionGUID: ysWzFIUVTAyTZC4foyAcQQ==
+X-CSE-MsgGUID: HcSTetZFSJ+f3jDQcIbG4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114726888"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 04 Feb 2025 10:29:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfNg1-000sql-22;
+	Tue, 04 Feb 2025 18:29:37 +0000
+Date: Wed, 5 Feb 2025 02:29:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [usb:usb-next 5/12] drivers/usb/typec/ucsi/ucsi.c:88
+ ucsi_sync_control_common() error: we previously assumed 'cci' could be null
+ (see line 84)
+Message-ID: <202502050227.tDYOqQsX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVBXH6++4yLuP6GMyNLVztEkZjrpL-mxLT5vgTXSOVx-w@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 04, 2025 at 03:49:44PM +0100, Geert Uytterhoeven wrote:
-> > b6d2dbb4bbd797c Pawel Czarnecki 2020-12-22  72          for (i = 0; i <= CLKOUT_MAX; i++) {
-> >
-> > Presumably this should be < CLKOUT_MAX instead of <=.
-> 
-> Indeed.
-> 
-> And in litex_clk_read_clkout_dts(), we have the inverse bug:
-> 
->         if (dt_num > CLKOUT_MAX) {
->                    ^^
-> should be >=
-> 
->                 pr_err("%s: Invalid CLKOUT index!", child->name);
->                 return -EINVAL;
->         }
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-usb@vger.kernel.org
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: "Łukasz Bartosik" <ukaszb@chromium.org>
 
-Fixed, rebased, force-pushed.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+head:   9682c35ff6ecd76d9462d4749b8b413d3e8e605e
+commit: 667ecac55861281c1f5e107c8550ae893b3984f6 [5/12] usb: typec: ucsi: return CCI and message from sync_control callback
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: csky-randconfig-r072-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050227.tDYOqQsX-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
 
-Thanks much,
---Gabriel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502050227.tDYOqQsX-lkp@intel.com/
+
+New smatch warnings:
+drivers/usb/typec/ucsi/ucsi.c:88 ucsi_sync_control_common() error: we previously assumed 'cci' could be null (see line 84)
+
+Old smatch warnings:
+drivers/usb/typec/ucsi/ucsi.c:746 ucsi_get_pd_caps() warn: passing zero to 'ERR_PTR'
+drivers/usb/typec/ucsi/ucsi.c:1456 ucsi_dr_swap() warn: missing error code 'ret'
+
+vim +/cci +88 drivers/usb/typec/ucsi/ucsi.c
+
+584e8df58942338 Dmitry Baryshkov 2024-06-27  57  
+667ecac55861281 Dmitry Baryshkov 2025-01-20  58  int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
+667ecac55861281 Dmitry Baryshkov 2025-01-20  59  			     void *data, size_t size)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  60  {
+584e8df58942338 Dmitry Baryshkov 2024-06-27  61  	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  62  	int ret;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  63  
+584e8df58942338 Dmitry Baryshkov 2024-06-27  64  	if (ack)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  65  		set_bit(ACK_PENDING, &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  66  	else
+584e8df58942338 Dmitry Baryshkov 2024-06-27  67  		set_bit(COMMAND_PENDING, &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  68  
+e37b383df91ba9b Łukasz Bartosik  2024-12-03  69  	reinit_completion(&ucsi->complete);
+e37b383df91ba9b Łukasz Bartosik  2024-12-03  70  
+584e8df58942338 Dmitry Baryshkov 2024-06-27  71  	ret = ucsi->ops->async_control(ucsi, command);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  72  	if (ret)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  73  		goto out_clear_bit;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  74  
+584e8df58942338 Dmitry Baryshkov 2024-06-27  75  	if (!wait_for_completion_timeout(&ucsi->complete, 5 * HZ))
+584e8df58942338 Dmitry Baryshkov 2024-06-27  76  		ret = -ETIMEDOUT;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  77  
+584e8df58942338 Dmitry Baryshkov 2024-06-27  78  out_clear_bit:
+584e8df58942338 Dmitry Baryshkov 2024-06-27  79  	if (ack)
+584e8df58942338 Dmitry Baryshkov 2024-06-27  80  		clear_bit(ACK_PENDING, &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  81  	else
+584e8df58942338 Dmitry Baryshkov 2024-06-27  82  		clear_bit(COMMAND_PENDING, &ucsi->flags);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  83  
+667ecac55861281 Dmitry Baryshkov 2025-01-20 @84  	if (!ret && cci)
+667ecac55861281 Dmitry Baryshkov 2025-01-20  85  		ret = ucsi->ops->read_cci(ucsi, cci);
+667ecac55861281 Dmitry Baryshkov 2025-01-20  86  
+667ecac55861281 Dmitry Baryshkov 2025-01-20  87  	if (!ret && data &&
+667ecac55861281 Dmitry Baryshkov 2025-01-20 @88  	    (*cci & UCSI_CCI_COMMAND_COMPLETE))
+667ecac55861281 Dmitry Baryshkov 2025-01-20  89  		ret = ucsi->ops->read_message_in(ucsi, data, size);
+667ecac55861281 Dmitry Baryshkov 2025-01-20  90  
+584e8df58942338 Dmitry Baryshkov 2024-06-27  91  	return ret;
+584e8df58942338 Dmitry Baryshkov 2024-06-27  92  }
+584e8df58942338 Dmitry Baryshkov 2024-06-27  93  EXPORT_SYMBOL_GPL(ucsi_sync_control_common);
+584e8df58942338 Dmitry Baryshkov 2024-06-27  94  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
