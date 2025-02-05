@@ -1,366 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E38E21517A
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Feb 2025 06:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1B822A1CA
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Feb 2025 09:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738738323; cv=none; b=SS3fVabwm+IdCFlSlCB7luDxBkqL19hulzUcemfZGnZqUjCeBzEi/LfLv3+twtgHVpL6IFPCcLLNZO/jJCUskZdOSLq7frzziQBNXHyQvPBl9/ySkR8fGVfHfC/ce3xEfSuheAjPtY0kPMIpnkbLT2Qya8Ue1bLbdeothQvrgo4=
+	t=1738747338; cv=none; b=Vb/vExHfpLKaZqp8Yor9EiUTNJfJ7+lONeHrHzuFDDJdBvTWmMMz2HV+oRsTWcGPymsD4cA7MOJXZuQaWaVxA4K7JALUUVH8DjrY5Ndi+uFy03w0DLsty8+gF0zB+oBr4LCQR2ivfmZ29Bgu4WlG4UfzTd0/RVxmg0fFFjlqiuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738738323; c=relaxed/simple;
-	bh=+vRxPSdwwVTeLGW5d83QGGwyvX4jNJ4mhBxxTvKq9E4=;
+	s=arc-20240116; t=1738747338; c=relaxed/simple;
+	bh=UzQjXSKFxbPcrgYiROFDlngg7sogbHbxqZ7i8Ux4+qU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MDQ6DkLhUL4fzRPZ8pNNYZj1dg5du2TxJgWgceS8fi0+vscAFcbF9dx0VBoDfhMhkHXPrYa4KclbPlszeumFVAEB34cW4dLVZXKw3zCsuKh21ZjXZuBRgwgDtILXbJ+5QWLvMNuPd/v/pgWv1XELTKfIZ8dixRnHKZgbs1lK09A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yd2R5fAu; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=M3YSZCReaSGt8L3XIjZN/ZuSBun8A7e5LpuHVcZ1KR0/LLAga84lR+TCiPms/mmTN4MgxlUP/2hLbFdTrVI0xQtLoAczcPGM2ccl4DTuh+aMubEPBZ+nxvg8ZVZjxjrFjURNNLwzowy7QMmbTvKvnqxzDaAov1aPNqVm7auxjvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKrweD6n; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yd2R5fAu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKrweD6n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738738321; x=1770274321;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+vRxPSdwwVTeLGW5d83QGGwyvX4jNJ4mhBxxTvKq9E4=;
-  b=Yd2R5fAuMn/FmhCKRIUSU69Ia4bqXbWY/xOBqbD8BM4m89BfWkwCeeWA
-   srRbpx14vagVek2+IlVKRT0s9f9l/ABUg/SZhX6AczpC9ERTtLmfm4qfh
-   +V33oEUYb4S77LhdxAc3ioLto0zxDsgc9zTnI2VxbPg1N1dkxnS341vUI
-   E7nFjXliMIJz194hf1P/SZKIm9NpoCfvZ/WAnhGv7YD7nuVjEHuVaLDxQ
-   4X6slReAKnUWxUZayi0fOfooooZkSaZm5t4Q9fqXSyqiK2t9cjFo4ClDY
-   2j9DGRFeZvfYbPP4wxHbxadYEQmRzcdcVKsln/EDnyQRe6Of6yB5vqtBQ
-   A==;
-X-CSE-ConnectionGUID: ADCWPSu8TL6ox7iijq6XAQ==
-X-CSE-MsgGUID: lw0/Bz7lS3Ct+YqZzJ3AuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56717259"
-X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
-   d="scan'208";a="56717259"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 22:52:00 -0800
-X-CSE-ConnectionGUID: wyCQncjzSXa31bC1ytCfBw==
-X-CSE-MsgGUID: bcTjbqyYTrGJRUvE84DdRg==
+  t=1738747335; x=1770283335;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UzQjXSKFxbPcrgYiROFDlngg7sogbHbxqZ7i8Ux4+qU=;
+  b=mKrweD6nBebJNZxybpfMNdgrW4XIQE4u/a+hZoyzB20Sln9ipxG5qGHv
+   LuzVl0m4iw5ZNTJzKk/39kKljDBURuvpfU5wbf5HHKyh21CWBQkdddVvg
+   U15vg4gPq4/19hr5/xk8GHzkrL/vgdc1nvy5pc3GMXAC8ERxxsP6ZNclU
+   +OtMFmdztDqs77aYkub8RH0iDkWBObAimqBKZfhAAPkvPmZV5WWSOw7u0
+   IFzF3gkHeyhZuYzT8ngdNrZfVsNXZr01pjkcgBZfsdZIXqny9lEaEApaP
+   VSOlqoM9yJ8CWgjAbk0UQyLjPmcwif7iuJ4jXFMEzFkQaRHwnCiWLiJwO
+   w==;
+X-CSE-ConnectionGUID: YQOn2Z9UQ6miorXRY3NXlQ==
+X-CSE-MsgGUID: JPKKErDuRXeV1Q1vPU5rZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43056408"
+X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
+   d="scan'208";a="43056408"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:22:15 -0800
+X-CSE-ConnectionGUID: Jc6J/y+KTgqEyyk65PrCCg==
+X-CSE-MsgGUID: 4UCKo6jeQ/GHRc3Hn4ckww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
-   d="scan'208";a="111352469"
+X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
+   d="scan'208";a="115897622"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Feb 2025 22:51:59 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 01:22:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfZGP-000tZH-0O;
-	Wed, 05 Feb 2025 06:51:57 +0000
-Date: Wed, 5 Feb 2025 14:51:47 +0800
+	id 1tfbbn-000tgj-1a;
+	Wed, 05 Feb 2025 09:22:11 +0000
+Date: Wed, 5 Feb 2025 17:22:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [chrome-os:chromeos-6.6 175/175]
- drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:591:23: warning: cast from
- pointer to integer of different size
-Message-ID: <202502051405.5cXoYCYT-lkp@intel.com>
+Subject: Re: [PATCH v2] ARM: dts: socfpga: Add basic support for Terrasic's
+ de10-nano
+Message-ID: <202502051649.4a6Eks0v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250130074553.92023-2-u.kleine-koenig@baylibre.com>
+References: <20250130074553.92023-2-u.kleine-koenig@baylibre.com>
+TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
+TO: Dinh Nguyen <dinguyen@kernel.org>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: Andrew Lunn <andrew@lunn.ch>
 
-Hi Bingbu,
+Hi Uwe,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   89cb8bc425a44875dc0420914465cbc1936bef3f
-commit: 89cb8bc425a44875dc0420914465cbc1936bef3f [175/175] CHROMIUM: ipu6: enable the psys downstream driver
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250205/202502051405.5cXoYCYT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051405.5cXoYCYT-lkp@intel.com/reproduce)
+[auto build test WARNING on a13f6e0f405ed0d3bcfd37c692c7d7fa3c052154]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/ARM-dts-socfpga-Add-basic-support-for-Terrasic-s-de10-nano/20250130-154750
+base:   a13f6e0f405ed0d3bcfd37c692c7d7fa3c052154
+patch link:    https://lore.kernel.org/r/20250130074553.92023-2-u.kleine-koenig%40baylibre.com
+patch subject: [PATCH v2] ARM: dts: socfpga: Add basic support for Terrasic's de10-nano
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-052-20250131 (https://download.01.org/0day-ci/archive/20250205/202502051649.4a6Eks0v-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051649.4a6Eks0v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502051405.5cXoYCYT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502051649.4a6Eks0v-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c: In function 'ipu_psys_kcmd_send_to_ppg_start':
->> drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:591:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     591 |         kppg->token = (u64)kcmd->kpg;
-         |                       ^
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:31,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from include/linux/uaccess.h:8,
-                    from drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:4:
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c: In function 'ipu_psys_kcmd_new':
->> drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:30: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:17: note: in expansion of macro 'dev_dbg'
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                 ^~~~~~~
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:50: note: format string is defined here
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                                                ~~^
-         |                                                  |
-         |                                                  long unsigned int
-         |                                                %u
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:30: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:17: note: in expansion of macro 'dev_dbg'
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                 ^~~~~~~
-   drivers/media/pci/intel/ipu6/psys/ipu6-psys.c:699:54: note: format string is defined here
-     699 |                 dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-         |                                                    ~~^
-         |                                                      |
-         |                                                      long unsigned int
-         |                                                    %u
-
-
-vim +591 drivers/media/pci/intel/ipu6/psys/ipu6-psys.c
-
-284a3b163de88a Bingbu Cao 2024-12-03  539  
-284a3b163de88a Bingbu Cao 2024-12-03  540  static int ipu_psys_kcmd_send_to_ppg_start(struct ipu_psys_kcmd *kcmd)
-284a3b163de88a Bingbu Cao 2024-12-03  541  {
-284a3b163de88a Bingbu Cao 2024-12-03  542  	struct ipu_psys_fh *fh = kcmd->fh;
-284a3b163de88a Bingbu Cao 2024-12-03  543  	struct ipu_psys_scheduler *sched = &fh->sched;
-284a3b163de88a Bingbu Cao 2024-12-03  544  	struct ipu_psys *psys = fh->psys;
-0dfcffdba7520c Bingbu Cao 2024-12-03  545  	struct device *dev = &psys->adev->auxdev.dev;
-284a3b163de88a Bingbu Cao 2024-12-03  546  	struct ipu_psys_ppg *kppg;
-284a3b163de88a Bingbu Cao 2024-12-03  547  	struct ipu_psys_resource_pool *rpr;
-284a3b163de88a Bingbu Cao 2024-12-03  548  	int queue_id;
-284a3b163de88a Bingbu Cao 2024-12-03  549  	int ret;
-284a3b163de88a Bingbu Cao 2024-12-03  550  
-0dfcffdba7520c Bingbu Cao 2024-12-03  551  	rpr = &psys->res_pool_running;
-284a3b163de88a Bingbu Cao 2024-12-03  552  
-284a3b163de88a Bingbu Cao 2024-12-03  553  	kppg = kzalloc(sizeof(*kppg), GFP_KERNEL);
-284a3b163de88a Bingbu Cao 2024-12-03  554  	if (!kppg)
-284a3b163de88a Bingbu Cao 2024-12-03  555  		return -ENOMEM;
-284a3b163de88a Bingbu Cao 2024-12-03  556  
-284a3b163de88a Bingbu Cao 2024-12-03  557  	kppg->fh = fh;
-284a3b163de88a Bingbu Cao 2024-12-03  558  	kppg->kpg = kcmd->kpg;
-284a3b163de88a Bingbu Cao 2024-12-03  559  	kppg->state = PPG_STATE_START;
-284a3b163de88a Bingbu Cao 2024-12-03  560  	kppg->pri_base = kcmd->priority;
-284a3b163de88a Bingbu Cao 2024-12-03  561  	kppg->pri_dynamic = 0;
-284a3b163de88a Bingbu Cao 2024-12-03  562  	INIT_LIST_HEAD(&kppg->list);
-284a3b163de88a Bingbu Cao 2024-12-03  563  
-284a3b163de88a Bingbu Cao 2024-12-03  564  	mutex_init(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  565  	INIT_LIST_HEAD(&kppg->kcmds_new_list);
-284a3b163de88a Bingbu Cao 2024-12-03  566  	INIT_LIST_HEAD(&kppg->kcmds_processing_list);
-284a3b163de88a Bingbu Cao 2024-12-03  567  	INIT_LIST_HEAD(&kppg->kcmds_finished_list);
-284a3b163de88a Bingbu Cao 2024-12-03  568  	INIT_LIST_HEAD(&kppg->sched_list);
-284a3b163de88a Bingbu Cao 2024-12-03  569  
-284a3b163de88a Bingbu Cao 2024-12-03  570  	kppg->manifest = kzalloc(kcmd->pg_manifest_size, GFP_KERNEL);
-284a3b163de88a Bingbu Cao 2024-12-03  571  	if (!kppg->manifest) {
-284a3b163de88a Bingbu Cao 2024-12-03  572  		kfree(kppg);
-284a3b163de88a Bingbu Cao 2024-12-03  573  		return -ENOMEM;
-284a3b163de88a Bingbu Cao 2024-12-03  574  	}
-284a3b163de88a Bingbu Cao 2024-12-03  575  	memcpy(kppg->manifest, kcmd->pg_manifest,
-284a3b163de88a Bingbu Cao 2024-12-03  576  	       kcmd->pg_manifest_size);
-284a3b163de88a Bingbu Cao 2024-12-03  577  
-0dfcffdba7520c Bingbu Cao 2024-12-03  578  	queue_id = ipu_psys_allocate_cmd_queue_res(rpr);
-284a3b163de88a Bingbu Cao 2024-12-03  579  	if (queue_id == -ENOSPC) {
-0dfcffdba7520c Bingbu Cao 2024-12-03  580  		dev_err(dev, "no available queue\n");
-284a3b163de88a Bingbu Cao 2024-12-03  581  		kfree(kppg->manifest);
-284a3b163de88a Bingbu Cao 2024-12-03  582  		kfree(kppg);
-284a3b163de88a Bingbu Cao 2024-12-03  583  		mutex_unlock(&psys->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  584  		return -ENOMEM;
-284a3b163de88a Bingbu Cao 2024-12-03  585  	}
-284a3b163de88a Bingbu Cao 2024-12-03  586  
-284a3b163de88a Bingbu Cao 2024-12-03  587  	/*
-284a3b163de88a Bingbu Cao 2024-12-03  588  	 * set token as start cmd will immediately be followed by a
-284a3b163de88a Bingbu Cao 2024-12-03  589  	 * enqueue cmd so that kppg could be retrieved.
-284a3b163de88a Bingbu Cao 2024-12-03  590  	 */
-284a3b163de88a Bingbu Cao 2024-12-03 @591  	kppg->token = (u64)kcmd->kpg;
-284a3b163de88a Bingbu Cao 2024-12-03  592  	ipu_fw_psys_pg_set_token(kcmd, kppg->token);
-284a3b163de88a Bingbu Cao 2024-12-03  593  	ipu_fw_psys_ppg_set_base_queue_id(kcmd, queue_id);
-284a3b163de88a Bingbu Cao 2024-12-03  594  	ret = ipu_fw_psys_pg_set_ipu_vaddress(kcmd,
-284a3b163de88a Bingbu Cao 2024-12-03  595  					      kcmd->kpg->pg_dma_addr);
-284a3b163de88a Bingbu Cao 2024-12-03  596  	if (ret) {
-0dfcffdba7520c Bingbu Cao 2024-12-03  597  		ipu_psys_free_cmd_queue_res(rpr, queue_id);
-284a3b163de88a Bingbu Cao 2024-12-03  598  		kfree(kppg->manifest);
-284a3b163de88a Bingbu Cao 2024-12-03  599  		kfree(kppg);
-284a3b163de88a Bingbu Cao 2024-12-03  600  		return -EIO;
-284a3b163de88a Bingbu Cao 2024-12-03  601  	}
-284a3b163de88a Bingbu Cao 2024-12-03  602  	memcpy(kcmd->pg_user, kcmd->kpg->pg, kcmd->kpg->pg_size);
-284a3b163de88a Bingbu Cao 2024-12-03  603  
-284a3b163de88a Bingbu Cao 2024-12-03  604  	mutex_lock(&fh->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  605  	list_add_tail(&kppg->list, &sched->ppgs);
-284a3b163de88a Bingbu Cao 2024-12-03  606  	mutex_unlock(&fh->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  607  
-284a3b163de88a Bingbu Cao 2024-12-03  608  	mutex_lock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  609  	list_add(&kcmd->list, &kppg->kcmds_new_list);
-284a3b163de88a Bingbu Cao 2024-12-03  610  	mutex_unlock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  611  
-0dfcffdba7520c Bingbu Cao 2024-12-03  612  	dev_dbg(dev, "START ppg(%d, 0x%p) kcmd 0x%p, queue %d\n",
-284a3b163de88a Bingbu Cao 2024-12-03  613  		ipu_fw_psys_pg_get_id(kcmd), kppg, kcmd, queue_id);
-284a3b163de88a Bingbu Cao 2024-12-03  614  
-284a3b163de88a Bingbu Cao 2024-12-03  615  	/* Kick l-scheduler thread */
-284a3b163de88a Bingbu Cao 2024-12-03  616  	atomic_set(&psys->wakeup_count, 1);
-284a3b163de88a Bingbu Cao 2024-12-03  617  	wake_up_interruptible(&psys->sched_cmd_wq);
-284a3b163de88a Bingbu Cao 2024-12-03  618  
-284a3b163de88a Bingbu Cao 2024-12-03  619  	return 0;
-284a3b163de88a Bingbu Cao 2024-12-03  620  }
-284a3b163de88a Bingbu Cao 2024-12-03  621  
-284a3b163de88a Bingbu Cao 2024-12-03  622  static int ipu_psys_kcmd_send_to_ppg(struct ipu_psys_kcmd *kcmd)
-284a3b163de88a Bingbu Cao 2024-12-03  623  {
-284a3b163de88a Bingbu Cao 2024-12-03  624  	struct ipu_psys_fh *fh = kcmd->fh;
-284a3b163de88a Bingbu Cao 2024-12-03  625  	struct ipu_psys *psys = fh->psys;
-0dfcffdba7520c Bingbu Cao 2024-12-03  626  	struct device *dev = &psys->adev->auxdev.dev;
-284a3b163de88a Bingbu Cao 2024-12-03  627  	struct ipu_psys_ppg *kppg;
-284a3b163de88a Bingbu Cao 2024-12-03  628  	struct ipu_psys_resource_pool *rpr;
-284a3b163de88a Bingbu Cao 2024-12-03  629  	unsigned long flags;
-284a3b163de88a Bingbu Cao 2024-12-03  630  	u8 id;
-284a3b163de88a Bingbu Cao 2024-12-03  631  	bool resche = true;
-284a3b163de88a Bingbu Cao 2024-12-03  632  
-0dfcffdba7520c Bingbu Cao 2024-12-03  633  	rpr = &psys->res_pool_running;
-284a3b163de88a Bingbu Cao 2024-12-03  634  	if (kcmd->state == KCMD_STATE_PPG_START)
-284a3b163de88a Bingbu Cao 2024-12-03  635  		return ipu_psys_kcmd_send_to_ppg_start(kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  636  
-284a3b163de88a Bingbu Cao 2024-12-03  637  	kppg = ipu_psys_identify_kppg(kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  638  	spin_lock_irqsave(&psys->pgs_lock, flags);
-284a3b163de88a Bingbu Cao 2024-12-03  639  	kcmd->kpg->pg_size = 0;
-284a3b163de88a Bingbu Cao 2024-12-03  640  	spin_unlock_irqrestore(&psys->pgs_lock, flags);
-284a3b163de88a Bingbu Cao 2024-12-03  641  	if (!kppg) {
-0dfcffdba7520c Bingbu Cao 2024-12-03  642  		dev_err(dev, "token not match\n");
-284a3b163de88a Bingbu Cao 2024-12-03  643  		return -EINVAL;
-284a3b163de88a Bingbu Cao 2024-12-03  644  	}
-284a3b163de88a Bingbu Cao 2024-12-03  645  
-284a3b163de88a Bingbu Cao 2024-12-03  646  	kcmd->kpg = kppg->kpg;
-284a3b163de88a Bingbu Cao 2024-12-03  647  
-0dfcffdba7520c Bingbu Cao 2024-12-03  648  	dev_dbg(dev, "%s ppg(%d, 0x%p) kcmd %p\n",
-0dfcffdba7520c Bingbu Cao 2024-12-03  649  		(kcmd->state == KCMD_STATE_PPG_STOP) ? "STOP" : "ENQUEUE",
-284a3b163de88a Bingbu Cao 2024-12-03  650  		ipu_fw_psys_pg_get_id(kcmd), kppg, kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  651  
-284a3b163de88a Bingbu Cao 2024-12-03  652  	if (kcmd->state == KCMD_STATE_PPG_STOP) {
-284a3b163de88a Bingbu Cao 2024-12-03  653  		mutex_lock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  654  		if (kppg->state == PPG_STATE_STOPPED) {
-0dfcffdba7520c Bingbu Cao 2024-12-03  655  			dev_dbg(dev, "kppg 0x%p  stopped!\n", kppg);
-284a3b163de88a Bingbu Cao 2024-12-03  656  			id = ipu_fw_psys_ppg_get_base_queue_id(kcmd);
-0dfcffdba7520c Bingbu Cao 2024-12-03  657  			ipu_psys_free_cmd_queue_res(rpr, id);
-284a3b163de88a Bingbu Cao 2024-12-03  658  			ipu_psys_kcmd_complete(kppg, kcmd, 0);
-0dfcffdba7520c Bingbu Cao 2024-12-03  659  			pm_runtime_put(dev);
-284a3b163de88a Bingbu Cao 2024-12-03  660  			resche = false;
-284a3b163de88a Bingbu Cao 2024-12-03  661  		} else {
-284a3b163de88a Bingbu Cao 2024-12-03  662  			list_add(&kcmd->list, &kppg->kcmds_new_list);
-284a3b163de88a Bingbu Cao 2024-12-03  663  		}
-284a3b163de88a Bingbu Cao 2024-12-03  664  		mutex_unlock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  665  	} else {
-284a3b163de88a Bingbu Cao 2024-12-03  666  		int ret;
-284a3b163de88a Bingbu Cao 2024-12-03  667  
-284a3b163de88a Bingbu Cao 2024-12-03  668  		ret = ipu_psys_ppg_get_bufset(kcmd, kppg);
-284a3b163de88a Bingbu Cao 2024-12-03  669  		if (ret)
-284a3b163de88a Bingbu Cao 2024-12-03  670  			return ret;
-284a3b163de88a Bingbu Cao 2024-12-03  671  
-284a3b163de88a Bingbu Cao 2024-12-03  672  		mutex_lock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  673  		list_add_tail(&kcmd->list, &kppg->kcmds_new_list);
-284a3b163de88a Bingbu Cao 2024-12-03  674  		mutex_unlock(&kppg->mutex);
-284a3b163de88a Bingbu Cao 2024-12-03  675  	}
-284a3b163de88a Bingbu Cao 2024-12-03  676  
-284a3b163de88a Bingbu Cao 2024-12-03  677  	if (resche) {
-284a3b163de88a Bingbu Cao 2024-12-03  678  		/* Kick l-scheduler thread */
-284a3b163de88a Bingbu Cao 2024-12-03  679  		atomic_set(&psys->wakeup_count, 1);
-284a3b163de88a Bingbu Cao 2024-12-03  680  		wake_up_interruptible(&psys->sched_cmd_wq);
-284a3b163de88a Bingbu Cao 2024-12-03  681  	}
-284a3b163de88a Bingbu Cao 2024-12-03  682  	return 0;
-284a3b163de88a Bingbu Cao 2024-12-03  683  }
-284a3b163de88a Bingbu Cao 2024-12-03  684  
-284a3b163de88a Bingbu Cao 2024-12-03  685  int ipu_psys_kcmd_new(struct ipu_psys_command *cmd, struct ipu_psys_fh *fh)
-284a3b163de88a Bingbu Cao 2024-12-03  686  {
-284a3b163de88a Bingbu Cao 2024-12-03  687  	struct ipu_psys *psys = fh->psys;
-0dfcffdba7520c Bingbu Cao 2024-12-03  688  	struct device *dev = &psys->adev->auxdev.dev;
-284a3b163de88a Bingbu Cao 2024-12-03  689  	struct ipu_psys_kcmd *kcmd;
-284a3b163de88a Bingbu Cao 2024-12-03  690  	size_t pg_size;
-284a3b163de88a Bingbu Cao 2024-12-03  691  	int ret;
-284a3b163de88a Bingbu Cao 2024-12-03  692  
-284a3b163de88a Bingbu Cao 2024-12-03  693  	kcmd = ipu_psys_copy_cmd(cmd, fh);
-284a3b163de88a Bingbu Cao 2024-12-03  694  	if (!kcmd)
-284a3b163de88a Bingbu Cao 2024-12-03  695  		return -EINVAL;
-284a3b163de88a Bingbu Cao 2024-12-03  696  
-284a3b163de88a Bingbu Cao 2024-12-03  697  	pg_size = ipu_fw_psys_pg_get_size(kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  698  	if (pg_size > kcmd->kpg->pg_size) {
-0dfcffdba7520c Bingbu Cao 2024-12-03 @699  		dev_dbg(dev, "pg size mismatch %lu %lu\n", pg_size,
-0dfcffdba7520c Bingbu Cao 2024-12-03  700  			kcmd->kpg->pg_size);
-284a3b163de88a Bingbu Cao 2024-12-03  701  		ret = -EINVAL;
-284a3b163de88a Bingbu Cao 2024-12-03  702  		goto error;
-284a3b163de88a Bingbu Cao 2024-12-03  703  	}
-284a3b163de88a Bingbu Cao 2024-12-03  704  
-284a3b163de88a Bingbu Cao 2024-12-03  705  	if (ipu_fw_psys_pg_get_protocol(kcmd) !=
-284a3b163de88a Bingbu Cao 2024-12-03  706  			IPU_FW_PSYS_PROCESS_GROUP_PROTOCOL_PPG) {
-0dfcffdba7520c Bingbu Cao 2024-12-03  707  		dev_err(dev, "No support legacy pg now\n");
-284a3b163de88a Bingbu Cao 2024-12-03  708  		ret = -EINVAL;
-284a3b163de88a Bingbu Cao 2024-12-03  709  		goto error;
-284a3b163de88a Bingbu Cao 2024-12-03  710  	}
-284a3b163de88a Bingbu Cao 2024-12-03  711  
-284a3b163de88a Bingbu Cao 2024-12-03  712  	if (cmd->min_psys_freq) {
-284a3b163de88a Bingbu Cao 2024-12-03  713  		kcmd->constraint.min_freq = cmd->min_psys_freq;
-284a3b163de88a Bingbu Cao 2024-12-03  714  		ipu_buttress_add_psys_constraint(psys->adev->isp,
-284a3b163de88a Bingbu Cao 2024-12-03  715  						 &kcmd->constraint);
-284a3b163de88a Bingbu Cao 2024-12-03  716  	}
-284a3b163de88a Bingbu Cao 2024-12-03  717  
-284a3b163de88a Bingbu Cao 2024-12-03  718  	ret = ipu_psys_kcmd_send_to_ppg(kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  719  	if (ret)
-284a3b163de88a Bingbu Cao 2024-12-03  720  		goto error;
-284a3b163de88a Bingbu Cao 2024-12-03  721  
-0dfcffdba7520c Bingbu Cao 2024-12-03  722  	dev_dbg(dev, "IOC_QCMD: user_token:%llx issue_id:0x%llx pri:%d\n",
-284a3b163de88a Bingbu Cao 2024-12-03  723  		cmd->user_token, cmd->issue_id, cmd->priority);
-284a3b163de88a Bingbu Cao 2024-12-03  724  
-284a3b163de88a Bingbu Cao 2024-12-03  725  	return 0;
-284a3b163de88a Bingbu Cao 2024-12-03  726  
-284a3b163de88a Bingbu Cao 2024-12-03  727  error:
-284a3b163de88a Bingbu Cao 2024-12-03  728  	ipu_psys_kcmd_free(kcmd);
-284a3b163de88a Bingbu Cao 2024-12-03  729  
-284a3b163de88a Bingbu Cao 2024-12-03  730  	return ret;
-284a3b163de88a Bingbu Cao 2024-12-03  731  }
-284a3b163de88a Bingbu Cao 2024-12-03  732  
-
-:::::: The code at line 591 was first introduced by commit
-:::::: 284a3b163de88a1c1c1da092d99a9e9ab9dda477 CHROMIUM: ipu6: move the downstream psys driver into a separate path
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga'] is too short
+   	['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga'] is too long
+   	'terasic,de10-nano' is not one of ['altr,socfpga-arria5-socdk']
+   	'terasic,de10-nano' is not one of ['altr,socfpga-arria10-socdk']
+   	'terasic,de10-nano' is not one of ['enclustra,mercury-pe1', 'google,chameleon-v3']
+   	'terasic,de10-nano' is not one of ['altr,socfpga-cyclone5-socdk', 'denx,mcvevk', 'ebv,socrates', 'macnica,sodia', 'novtech,chameleon96', 'samtec,vining', 'terasic,de0-atlas', 'terasic,socfpga-cyclone5-sockit']
+   	'terasic,de10-nano' is not one of ['altr,socfpga-stratix10-socdk', 'altr,socfpga-stratix10-swvp']
+   	'altr,socfpga-vt' was expected
+   	'altr,socfpga-arria5' was expected
+   	'altr,socfpga-arria10' was expected
+   	'enclustra,mercury-aa1' was expected
+   	'altr,socfpga-stratix10' was expected
+   	'altr,socfpga' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/altera.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /: failed to match any schema with compatible: ['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: pmu@ff111000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: stmmac-axi-config: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: sdramedac: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: usbphy: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: base_fpga_region: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: amba: $nodename:0: 'amba' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: pdma@ffe01000: $nodename:0: 'pdma@ffe01000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: base_fpga_region: $nodename:0: 'base_fpga_region' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: clkmgr@ffd04000: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/altera/socfpga-clk-manager.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: osc2: 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: f2s_periph_ref_clk: 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: f2s_sdram_ref_clk: 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/mpuclk@48: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/mainclk@4c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/dbg_base_clk@50: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/main_qspi_clk@54: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/main_nand_sdmmc_clk@58: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/cfg_h2f_usr0_clk@5c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/emac0_clk@88: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/emac1_clk@8c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_qsi_clk@90: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_nand_mmc_clk@94: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_base_clk@98: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/h2f_usr1_clk@9c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_dqs_clk@c8: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_2x_dqs_clk@cc: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_dq_clk@d0: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/h2f_usr2_clk@d4: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/mpu_l2_ram_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_main_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_main_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_sp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_at_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_trace_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_timer_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/cfg_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/emac_0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/emac_1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/usb_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/can0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/can1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/gpio_db_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk_divided: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/ethernet@ff700000: failed to match any schema with compatible: ['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/ethernet@ff702000: failed to match any schema with compatible: ['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: spi@ff705000: resets: [[6, 37]] is too short
+   	from schema $id: http://devicetree.org/schemas/spi/cdns,qspi-nor.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/sdramedac: failed to match any schema with compatible: ['altr,sdram-edac']
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sysmgr@ffd08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['altr,sys-mgr', 'syscon'] is too long
+   	'altr,sys-mgr-s10' was expected
+   	'altr,sys-mgr' was expected
+   	from schema $id: http://devicetree.org/schemas/soc/altera/altr,sys-mgr.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer0@ffc08000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer1@ffc09000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer2@ffd00000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer3@ffd01000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
