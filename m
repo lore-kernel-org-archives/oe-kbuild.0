@@ -1,237 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1B822A1CA
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Feb 2025 09:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA912151987
+	for <oe-kbuild@lists.linux.dev>; Wed,  5 Feb 2025 12:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738747338; cv=none; b=Vb/vExHfpLKaZqp8Yor9EiUTNJfJ7+lONeHrHzuFDDJdBvTWmMMz2HV+oRsTWcGPymsD4cA7MOJXZuQaWaVxA4K7JALUUVH8DjrY5Ndi+uFy03w0DLsty8+gF0zB+oBr4LCQR2ivfmZ29Bgu4WlG4UfzTd0/RVxmg0fFFjlqiuU=
+	t=1738759359; cv=none; b=oFXl/pup/0H/ItFQ9V2dpipA4g8ElCBnBPGbcWkeiH4za/rPKAdXHsWOxIQSe5G65HJ9agJUGgoev/Io9LbNHurWq3kf7rtWL2IP3mXd5lsU7VTh/TA1b455VIN4cUAOCsxrWgb8YTcbIRP/NgEjcHqol20uyYhBaV2FvBaEKY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738747338; c=relaxed/simple;
-	bh=UzQjXSKFxbPcrgYiROFDlngg7sogbHbxqZ7i8Ux4+qU=;
+	s=arc-20240116; t=1738759359; c=relaxed/simple;
+	bh=tnmqPfRyzyBUwUPtxLL4j+KnoITz46ugEtwOm0Mt1qE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M3YSZCReaSGt8L3XIjZN/ZuSBun8A7e5LpuHVcZ1KR0/LLAga84lR+TCiPms/mmTN4MgxlUP/2hLbFdTrVI0xQtLoAczcPGM2ccl4DTuh+aMubEPBZ+nxvg8ZVZjxjrFjURNNLwzowy7QMmbTvKvnqxzDaAov1aPNqVm7auxjvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKrweD6n; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=VrE7w5TaKWbuYVv6bZzN9T81SCuDatlTnqKZonTHN5y2vh+6WI5bngqOdNiTnBUqGSgkD52DrzisGAVe1Tui72f6lkUTh3f3WJ5zTq9hxdFp+8o4WhTKF5/GJfyBrmnd8IalYSwPtUBonTriyEoNGJnEVN8aFpKZEpdQonBs0Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AR+4pHqh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKrweD6n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AR+4pHqh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738747335; x=1770283335;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UzQjXSKFxbPcrgYiROFDlngg7sogbHbxqZ7i8Ux4+qU=;
-  b=mKrweD6nBebJNZxybpfMNdgrW4XIQE4u/a+hZoyzB20Sln9ipxG5qGHv
-   LuzVl0m4iw5ZNTJzKk/39kKljDBURuvpfU5wbf5HHKyh21CWBQkdddVvg
-   U15vg4gPq4/19hr5/xk8GHzkrL/vgdc1nvy5pc3GMXAC8ERxxsP6ZNclU
-   +OtMFmdztDqs77aYkub8RH0iDkWBObAimqBKZfhAAPkvPmZV5WWSOw7u0
-   IFzF3gkHeyhZuYzT8ngdNrZfVsNXZr01pjkcgBZfsdZIXqny9lEaEApaP
-   VSOlqoM9yJ8CWgjAbk0UQyLjPmcwif7iuJ4jXFMEzFkQaRHwnCiWLiJwO
-   w==;
-X-CSE-ConnectionGUID: YQOn2Z9UQ6miorXRY3NXlQ==
-X-CSE-MsgGUID: JPKKErDuRXeV1Q1vPU5rZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43056408"
-X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="43056408"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:22:15 -0800
-X-CSE-ConnectionGUID: Jc6J/y+KTgqEyyk65PrCCg==
-X-CSE-MsgGUID: 4UCKo6jeQ/GHRc3Hn4ckww==
+  t=1738759358; x=1770295358;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tnmqPfRyzyBUwUPtxLL4j+KnoITz46ugEtwOm0Mt1qE=;
+  b=AR+4pHqh5+qvwJrBx8tHrktR2NiuTJLn+nZxXwBzX04Bu/WMq2F0lUlb
+   YDJpApFBkJhv1zOyhLpVf0/0AtusXvI8Phu+TqddN0OFjzILpSLNMRe9+
+   4nqR5mit/Q2nM+gN+pzSDq+CSYsVlbdSxOWYG/XmHaxcfJbVPb1QlGP9F
+   62kvROZnL3uaRqs5hK8jTrqbPjaLWCvWsZXkl9G0UZK0xwOAUAulJlfc/
+   9Sl7lxxee4wxjUoTGkpqWqzyljVbJ9FSQATCMFswqyAqZTtdwPuYNsDDx
+   mJYK/rIgvzSpmPj+idUS8RO+8AN9qOuB8R2jcogeGw9QpTIxBj7FM/VNl
+   Q==;
+X-CSE-ConnectionGUID: 2NDP8R6IR4GZlUbZulHdcw==
+X-CSE-MsgGUID: HNG9v1zPTzadJ/YU1Rl/UA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39433117"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39433117"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 04:42:37 -0800
+X-CSE-ConnectionGUID: 4G+qphrTS9CHOSvHzuEOuA==
+X-CSE-MsgGUID: j7j4EKz5SFGuqlqE1WpmCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="115897622"
+   d="scan'208";a="111423945"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 01:22:13 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Feb 2025 04:42:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfbbn-000tgj-1a;
-	Wed, 05 Feb 2025 09:22:11 +0000
-Date: Wed, 5 Feb 2025 17:22:07 +0800
+	id 1tfejh-000tt0-1p;
+	Wed, 05 Feb 2025 12:42:33 +0000
+Date: Wed, 5 Feb 2025 20:41:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2] ARM: dts: socfpga: Add basic support for Terrasic's
- de10-nano
-Message-ID: <202502051649.4a6Eks0v-lkp@intel.com>
+Subject: [bvanassche:thread-safety 32/32] drivers/gpio/gpio-max732x.c:369:1:
+ warning: mutex 'chip->irq_lock' is still held at the end of function
+Message-ID: <202502052043.JbV6WRP9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250130074553.92023-2-u.kleine-koenig@baylibre.com>
-References: <20250130074553.92023-2-u.kleine-koenig@baylibre.com>
-TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
-TO: Dinh Nguyen <dinguyen@kernel.org>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: Andrew Lunn <andrew@lunn.ch>
+TO: Bart Van Assche <bvanassche@acm.org>
 
-Hi Uwe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a13f6e0f405ed0d3bcfd37c692c7d7fa3c052154]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/ARM-dts-socfpga-Add-basic-support-for-Terrasic-s-de10-nano/20250130-154750
-base:   a13f6e0f405ed0d3bcfd37c692c7d7fa3c052154
-patch link:    https://lore.kernel.org/r/20250130074553.92023-2-u.kleine-koenig%40baylibre.com
-patch subject: [PATCH v2] ARM: dts: socfpga: Add basic support for Terrasic's de10-nano
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-052-20250131 (https://download.01.org/0day-ci/archive/20250205/202502051649.4a6Eks0v-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051649.4a6Eks0v-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   def466914192276f0fbab279e4f8fb88457c5311
+commit: def466914192276f0fbab279e4f8fb88457c5311 [32/32] scripts/Makefile.clang: Unconditionally enable thread-safety checking
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: i386-buildonly-randconfig-005-20250205 (https://download.01.org/0day-ci/archive/20250205/202502052043.JbV6WRP9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502052043.JbV6WRP9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502051649.4a6Eks0v-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502052043.JbV6WRP9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.20-96.5: Warning (simple_bus_reg): /soc/base_fpga_region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga'] is too short
-   	['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga'] is too long
-   	'terasic,de10-nano' is not one of ['altr,socfpga-arria5-socdk']
-   	'terasic,de10-nano' is not one of ['altr,socfpga-arria10-socdk']
-   	'terasic,de10-nano' is not one of ['enclustra,mercury-pe1', 'google,chameleon-v3']
-   	'terasic,de10-nano' is not one of ['altr,socfpga-cyclone5-socdk', 'denx,mcvevk', 'ebv,socrates', 'macnica,sodia', 'novtech,chameleon96', 'samtec,vining', 'terasic,de0-atlas', 'terasic,socfpga-cyclone5-sockit']
-   	'terasic,de10-nano' is not one of ['altr,socfpga-stratix10-socdk', 'altr,socfpga-stratix10-swvp']
-   	'altr,socfpga-vt' was expected
-   	'altr,socfpga-arria5' was expected
-   	'altr,socfpga-arria10' was expected
-   	'enclustra,mercury-aa1' was expected
-   	'altr,socfpga-stratix10' was expected
-   	'altr,socfpga' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/altera.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /: failed to match any schema with compatible: ['terasic,de10-nano', 'altr,socfpga-cyclone5', 'altr,socfpga']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: pmu@ff111000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: stmmac-axi-config: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: sdramedac: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: usbphy: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: soc: base_fpga_region: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: amba: $nodename:0: 'amba' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: pdma@ffe01000: $nodename:0: 'pdma@ffe01000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: base_fpga_region: $nodename:0: 'base_fpga_region' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: clkmgr@ffd04000: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/altera/socfpga-clk-manager.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: osc2: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: f2s_periph_ref_clk: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: f2s_sdram_ref_clk: 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/mpuclk@48: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/mainclk@4c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/dbg_base_clk@50: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/main_qspi_clk@54: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/main_nand_sdmmc_clk@58: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/main_pll@40/cfg_h2f_usr0_clk@5c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/emac0_clk@88: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/emac1_clk@8c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_qsi_clk@90: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_nand_mmc_clk@94: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/per_base_clk@98: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/periph_pll@80/h2f_usr1_clk@9c: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0: failed to match any schema with compatible: ['altr,socfpga-pll-clock']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_dqs_clk@c8: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_2x_dqs_clk@cc: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/ddr_dq_clk@d0: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdram_pll@c0/h2f_usr2_clk@d4: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/mpu_periph_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/mpu_l2_ram_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_main_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_main_clk: failed to match any schema with compatible: ['altr,socfpga-perip-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l3_sp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/l4_sp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_at_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_trace_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/dbg_timer_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/cfg_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/emac_0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/emac_1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/usb_mp_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/spi_m_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/can0_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/can1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/gpio_db_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user1_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/sdmmc_clk_divided: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_x_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_ecc_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/nand_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/qspi_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_2x_dqs_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/ddr_dq_clk_gate: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/clkmgr@ffd04000/clocks/h2f_user2_clk: failed to match any schema with compatible: ['altr,socfpga-gate-clk']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: fpga_bridge@ff400000: $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: fpga_bridge@ff500000: $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/fpgamgr@ff706000: failed to match any schema with compatible: ['altr,socfpga-fpga-mgr']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/ethernet@ff700000: failed to match any schema with compatible: ['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/ethernet@ff702000: failed to match any schema with compatible: ['altr,socfpga-stmmac', 'snps,dwmac-3.70a', 'snps,dwmac']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr: failed to match any schema with compatible: ['altr,socfpga-ecc-manager']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr/l2-ecc@ffd08140: failed to match any schema with compatible: ['altr,socfpga-l2-ecc']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/eccmgr/ocram-ecc@ffd08144: failed to match any schema with compatible: ['altr,socfpga-ocram-ecc']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sram@ffff0000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: spi@ff705000: resets: [[6, 37]] is too short
-   	from schema $id: http://devicetree.org/schemas/spi/cdns,qspi-nor.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: /soc/sdramedac: failed to match any schema with compatible: ['altr,sdram-edac']
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: sysmgr@ffd08000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['altr,sys-mgr', 'syscon'] is too long
-   	'altr,sys-mgr-s10' was expected
-   	'altr,sys-mgr' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/altera/altr,sys-mgr.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer0@ffc08000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer1@ffc09000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer2@ffd00000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
->> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_de10nano.dtb: timer3@ffd01000: 'reset-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpio/gpio-max732x.c:369:1: warning: mutex 'chip->irq_lock' is still held at the end of function [-Wthread-safety-analysis]
+     369 | }
+         | ^
+   drivers/gpio/gpio-max732x.c:367:2: note: mutex acquired here
+     367 |         mutex_lock(&chip->irq_lock);
+         |         ^
+>> drivers/gpio/gpio-max732x.c:387:2: warning: releasing mutex 'chip->irq_lock' that was not held [-Wthread-safety-analysis]
+     387 |         mutex_unlock(&chip->irq_lock);
+         |         ^
+   2 warnings generated.
+--
+>> fs/jffs2/nodemgmt.c:625:2: warning: mutex 'c->erase_free_sem' is not held on every path through here [-Wthread-safety-analysis]
+     625 |         spin_lock(&c->erase_completion_lock);
+         |         ^
+   fs/jffs2/nodemgmt.c:622:3: note: mutex acquired here
+     622 |                 mutex_lock(&c->erase_free_sem);
+         |                 ^
+>> fs/jffs2/nodemgmt.c:843:2: warning: releasing mutex 'c->erase_free_sem' that was not held [-Wthread-safety-analysis]
+     843 |         mutex_unlock(&c->erase_free_sem);
+         |         ^
+   2 warnings generated.
+--
+>> fs/jffs2/write.c:668:1: warning: mutex 'c->alloc_sem' is still held at the end of function [-Wthread-safety-analysis]
+     668 | }
+         | ^
+   fs/jffs2/write.c:608:3: note: mutex acquired here
+     608 |                 mutex_lock(&c->alloc_sem);
+         |                 ^
+   1 warning generated.
+
+
+vim +369 drivers/gpio/gpio-max732x.c
+
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  361  
+fbc4667ab08a1c drivers/gpio/max732x.c      Lennert Buytenhek 2011-01-12  362  static void max732x_irq_bus_lock(struct irq_data *d)
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  363  {
+984f66432e3577 drivers/gpio/gpio-max732x.c Linus Walleij     2015-01-30  364  	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+0788b6448067f5 drivers/gpio/gpio-max732x.c Linus Walleij     2015-12-07  365  	struct max732x_chip *chip = gpiochip_get_data(gc);
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  366  
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  367  	mutex_lock(&chip->irq_lock);
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  368  	chip->irq_mask_cur = chip->irq_mask;
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26 @369  }
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  370  
+fbc4667ab08a1c drivers/gpio/max732x.c      Lennert Buytenhek 2011-01-12  371  static void max732x_irq_bus_sync_unlock(struct irq_data *d)
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  372  {
+984f66432e3577 drivers/gpio/gpio-max732x.c Linus Walleij     2015-01-30  373  	struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+0788b6448067f5 drivers/gpio/gpio-max732x.c Linus Walleij     2015-12-07  374  	struct max732x_chip *chip = gpiochip_get_data(gc);
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  375  	uint16_t new_irqs;
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  376  	uint16_t level;
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  377  
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  378  	max732x_irq_update_mask(chip);
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  379  
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  380  	new_irqs = chip->irq_trig_fall | chip->irq_trig_raise;
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  381  	while (new_irqs) {
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  382  		level = __ffs(new_irqs);
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  383  		max732x_gpio_direction_input(&chip->gpio_chip, level);
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  384  		new_irqs &= ~(1 << level);
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  385  	}
+09afa276d52ea5 drivers/gpio/gpio-max732x.c Semen Protsenko   2015-01-13  386  
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26 @387  	mutex_unlock(&chip->irq_lock);
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  388  }
+a80a0bbee49872 drivers/gpio/max732x.c      Marc Zyngier      2010-05-26  389  
+
+:::::: The code at line 369 was first introduced by commit
+:::::: a80a0bbee49872c296c9ed9d6af0f510fcd825a7 gpio: add interrupt handling capability to max732x
+
+:::::: TO: Marc Zyngier <maz@misterjones.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
