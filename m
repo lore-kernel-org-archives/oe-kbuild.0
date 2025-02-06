@@ -1,125 +1,202 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762AD205AA1
-	for <oe-kbuild@lists.linux.dev>; Wed,  5 Feb 2025 22:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1785D1487F8
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Feb 2025 03:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738793516; cv=none; b=PUdZpKSVmg82DmMYitB30+q85MuEbDczu1DTYggoSvm6CvcX/uf4igNAMYsp9Q0kLveWJfr6QZyg/49pq/Al2YQHBJ32812pdnFB8RxnGJVyPGJDChjwMOzkA618AQZH4CHhaow2iPz/iZKRIqF8fEbEGDomgpn0x6P01rIOOk0=
+	t=1738812502; cv=none; b=ariB+CMrNKSkbo4WP6mzyNQpf5knvDTyp7oFxyW/6/5Nudo08yMCXUfqgaIomxzybvUX0jZkLbZNpWfdEiBN2EMKFTWn0/DleXUrJoxDTjmsqx4oaydXcWFeeUsgGUzSti8w9mWj5JlHFbQW5kM8+gDS/wthrkx3aJ/BMJlsFmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738793516; c=relaxed/simple;
-	bh=3RYl/gs2fpKSYlwyr/Pv5fOuVWQBmmZvDBdK5KijD2E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=IDwm5JlRhYzY56sv0xpQXA3UpP+4B8Xj+nBRJvBji7oB52h1mFtizJz2zP4Ue08qW8vz24Ivbfbf02apL3C6SGOaK8I3KoBm6llrQvmmTxvj56518xB4/WUTx6XDkhvNktLv4MLkZSA4Es5T4ieww+LEkeJdiGjQoEEG7HwDUMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y4dhlKrR; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1738812502; c=relaxed/simple;
+	bh=LrGxjXDdqk7U3cT0/PYKwMqAu01jEy5TPy+iYu2641c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HV/si/B1LqCE5hBx4Nw0psS97KyUCwKBxBcEEFR8d+lom/NhTvj4OyT/6PdBqlK7UWYOLEUUgUvT8s44/fGp9wQGAw7DvlBx1E0vg6orqUmtyouVThcwI/LPaZR3mvy5DQxNZwYzDKwOlINBldYR8kLdWMYLsNScZvIpiKv0s6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfdST5DU; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y4dhlKrR"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2167141e00eso5976895ad.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 05 Feb 2025 14:11:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738793513; x=1739398313; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=k/5StieEPzoyEbQCxqYfL9eEdHe/Vt3KlunzFN9iVI0=;
-        b=y4dhlKrRnMrnafJ3sAnc8TmT5zsiil3nCitRhPkpp2tNhIS+Yrd/E824b7tUGHNQN4
-         u9d03a2gigWBzvnmHadeUZOYtRylu/U5e7vN4eHwpv4ucG9iSld4dV7Uijon+N/82+i/
-         s6Wxna30kBuRsdfUG2F4fkvaam1n+T+cCL8LB/rEWnPs/Gf0Pyi5D4ih7rV4cy7GvzIj
-         aRYB3UayyoVmiHYjqI6FPttdWJXBDnbGcZd9ZJHHc7XfmAnzn5anhiL5y9WTJXsWbQhi
-         zdjmq+3gOKwVVoFWX9Y2vdQb8+It+Q8AIxu29ecHB7/1p+9KbxT33AYhYChh3bchpeSV
-         P5Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738793513; x=1739398313;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k/5StieEPzoyEbQCxqYfL9eEdHe/Vt3KlunzFN9iVI0=;
-        b=pCRxdCWL9Rf/KIC9PMCdA/9dwCaGzOVXmltU27J4CTgdl0uzIDBwft+p3r37KYaE5j
-         fj9dsEJZCmbAggoS/3ULGq0Qi3NxAPkcog8lj5IvHEQ8v1CXX/n1O455yXTNoVhINp+8
-         V+mod35QDPCl2hQwFJGBsfqQb13/mLUORAEHABy4GBWg947ZhSWessSkbVuEW/7BCPA1
-         o2IpVQOIY5i8UtxpY+PYgRAxA4Ct9WUiiehrpGD8avB3vjEwlN7zFL3bZOh6Dbk0WMuv
-         KoylDnY0QVFKVxMgKAxp5QLLJ5pFjShMYoZ0hK6rKxwCHF73ovshmZ7I+ESKzvDskRj3
-         C71g==
-X-Gm-Message-State: AOJu0Yza6YOdm46pnOaqLyuGjhB2GzFCPzkEDYUWzNm+5IsuZzK0qnD2
-	FXaEXrFr0KxzXSGw661oGBRBA4ZmIYYeBsIOq3CtIiOeu0UUDp9yLXEaEsROvBBcyEthCaeGlc7
-	7yg==
-X-Google-Smtp-Source: AGHT+IEkK+hxVVhcoJF36P73i4M6ntSbjHdlgQ6LGlhDknUXVc9jDIL3pI5C6R6xZVZZi/f+RcvffIElRhY=
-X-Received: from pgcu73.prod.google.com ([2002:a63:794c:0:b0:7fd:50c9:74])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ce03:b0:216:36ff:ba33
- with SMTP id d9443c01a7336-21f17e6d0e4mr66832315ad.26.1738793512642; Wed, 05
- Feb 2025 14:11:52 -0800 (PST)
-Date: Wed, 5 Feb 2025 14:11:51 -0800
-In-Reply-To: <f9d42d5a-a625-4eba-9ee4-c2c42d179df7@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfdST5DU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738812500; x=1770348500;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LrGxjXDdqk7U3cT0/PYKwMqAu01jEy5TPy+iYu2641c=;
+  b=hfdST5DUfOowXldU7GvZ4tSTcieJdjJ6gnuZfQcBJemOPbAFPCrHaGiE
+   lR3BwwBsy44OqBbIP6KiMaXHYjQzu4EEJ0vy6tG1fAladhjxM3Cjy+Gvu
+   C7hNEh9QAB1hZy4nEnUHjGfy+HQgGZ842r+aWft3jwXaszVdz+m9PRR9m
+   BHpcd2hJUsexWJhT2BDDg/DNEC+k7mUU1LCOSpjUau6XgavBH0f96GS4A
+   f2uNJUBABm+pZnQBp1rPUgKbBTVBW542vAmXW5ULGLNw3kVhL7VChANLQ
+   29RqHhL2pSxprklLP4RUr3urMRAPS+9BGxoacpqPZ1MmTlsYfaHZHbYlz
+   w==;
+X-CSE-ConnectionGUID: Kz83rjtsSACbbpsOppHOTw==
+X-CSE-MsgGUID: b0BPTyNaTMytDCwnnxDKYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="64756504"
+X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
+   d="scan'208";a="64756504"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 19:28:19 -0800
+X-CSE-ConnectionGUID: NgiVew6tTvyx5i606cXLuQ==
+X-CSE-MsgGUID: q5Oyc9uNRea5uxphdwvEpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="141965993"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2025 19:28:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfsYq-000wPD-0Z;
+	Thu, 06 Feb 2025 03:28:16 +0000
+Date: Thu, 6 Feb 2025 11:27:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH 4/4] dt-bindings: net: smsc,lan9115: Ensure all
+ properties are defined
+Message-ID: <202502061125.b9rs1jzf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20250201021718.699411-16-seanjc@google.com> <f9d42d5a-a625-4eba-9ee4-c2c42d179df7@stanley.mountain>
-Message-ID: <Z6PiJ3HPf86O0mkr@google.com>
-Subject: Re: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when core
- crystal freq comes from CPUID
-From: Sean Christopherson <seanjc@google.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Feb 04, 2025, Dan Carpenter wrote:
-> Hi Sean,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/x86-tsc-Add-a-standalone-helpers-for-getting-TSC-info-from-CPUID-0x15/20250201-102521
-> base:   ebbb8be421eefbe2d47b99c2e1a6dd840d7930f9
-> patch link:    https://lore.kernel.org/r/20250201021718.699411-16-seanjc%40google.com
-> patch subject: [PATCH 15/16] x86/kvmclock: Stuff local APIC bus period when core crystal freq comes from CPUID
-> config: i386-randconfig-141-20250204 (https://download.01.org/0day-ci/archive/20250204/202502041246.3weiY0qo-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502041246.3weiY0qo-lkp@intel.com/
-> 
-> smatch warnings:
-> arch/x86/kernel/kvmclock.c:117 kvm_get_tsc_khz() error: uninitialized symbol 'crystal_khz'.
-> 
-> vim +/crystal_khz +117 arch/x86/kernel/kvmclock.c
-> 
-> aea5814308ed7c Sean Christopherson 2025-01-31  105  static unsigned long kvm_get_tsc_khz(void)
-> aea5814308ed7c Sean Christopherson 2025-01-31  106  {
-> aea5814308ed7c Sean Christopherson 2025-01-31  107  	unsigned int __tsc_khz, crystal_khz;
-> aea5814308ed7c Sean Christopherson 2025-01-31  108  
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  109  	/*
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  110  	 * Prefer CPUID over kvmclock when possible, as CPUID also includes the
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  111  	 * core crystal frequency, i.e. the APIC timer frequency.  When the core
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  112  	 * crystal frequency is enumerated in CPUID.0x15, KVM's ABI is that the
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  113  	 * (virtual) APIC BUS runs at the same frequency.
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  114  	 */
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  115  	if (!cpuid_get_tsc_freq(&__tsc_khz, &crystal_khz)) {
-> 
-> The cpuid_get_tsc_freq() function has a bug so it doesn't actually
-> initialize crystal_khz.  It actually uses the uninitialized value, inside
-> the function but Smatch doesn't catch that.
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Argh.  I caught this in testing and fixed it locally, but clobbered my branch
-and accidentally reverted to the broken code when posting.  The bug is way back
-in patch 1, I'll point it out there.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250203-dt-lan9115-fix-v1-4-eb35389a7365@kernel.org>
+References: <20250203-dt-lan9115-fix-v1-4-eb35389a7365@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Marek Vasut <marex@denx.de>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+TO: Andrew Lunn <andrew+netdev@lunn.ch>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Shawn Guo <shawnguo@kernel.org>
+CC: linux-arm-msm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-samsung-soc@vger.kernel.org
 
-Thanks!
+Hi Rob,
 
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  116  #ifdef CONFIG_X86_LOCAL_APIC
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31 @117  		lapic_timer_period = crystal_khz * 1000 / HZ;
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  118  #endif
-> aea5814308ed7c Sean Christopherson 2025-01-31  119  		return __tsc_khz;
-> 32cd84ebbd5dbd Sean Christopherson 2025-01-31  120  	}
-> aea5814308ed7c Sean Christopherson 2025-01-31  121  
-> aea5814308ed7c Sean Christopherson 2025-01-31  122  	return pvclock_tsc_khz(this_cpu_pvti());
-> aea5814308ed7c Sean Christopherson 2025-01-31  123  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-memory-controllers-Move-qcom-ebi2-from-bindings-bus/20250204-053216
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250203-dt-lan9115-fix-v1-4-eb35389a7365%40kernel.org
+patch subject: [PATCH 4/4] dt-bindings: net: smsc,lan9115: Ensure all properties are defined
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-053-20250204 (https://download.01.org/0day-ci/archive/20250206/202502061125.b9rs1jzf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061125.b9rs1jzf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202502061125.b9rs1jzf-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/arm/arm-realview-eb.dts:51.39-58.5: Warning (simple_bus_reg): /soc/interrupt-controller@10040000: simple-bus unit address format error, expected "10041000"
+   arch/arm/boot/dts/arm/arm-realview-eb.dtsi:114.9-139.4: Warning (avoid_unnecessary_addr_size): /bridge: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: flash0@40000000: $nodename:0: 'flash0@40000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: flash1@44000000: $nodename:0: 'flash1@44000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: ethernet@4e000000: reg-io-width: 7 is not one of [2, 4]
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+>> arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: ethernet@4e000000: Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: bridge: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: fpga: $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: mmcsd@10005000: $nodename:0: 'mmcsd@10005000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-bbrevd.dtb: mmcsd@10005000: Unevaluated properties are not allowed ('bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cd-gpios', 'max-frequency', 'vmmc-supply', 'wp-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+--
+   arch/arm/boot/dts/arm/arm-realview-eb.dtsi:114.9-139.4: Warning (avoid_unnecessary_addr_size): /bridge: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: flash0@40000000: $nodename:0: 'flash0@40000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: flash1@44000000: $nodename:0: 'flash1@44000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: ethernet@4e000000: reg-io-width: 7 is not one of [2, 4]
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+>> arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: ethernet@4e000000: Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: bridge: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: fpga: $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: mmcsd@10005000: $nodename:0: 'mmcsd@10005000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: mmcsd@10005000: Unevaluated properties are not allowed ('bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cd-gpios', 'max-frequency', 'vmmc-supply', 'wp-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd.dtb: clcd@10020000: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm/boot/dts/arm/arm-realview-eb.dtsi:114.9-139.4: Warning (avoid_unnecessary_addr_size): /bridge: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: flash0@40000000: $nodename:0: 'flash0@40000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: flash1@44000000: $nodename:0: 'flash1@44000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: ethernet@4e000000: reg-io-width: 7 is not one of [2, 4]
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+>> arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: ethernet@4e000000: Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: bridge: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: fpga: $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: mmcsd@10005000: $nodename:0: 'mmcsd@10005000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: mmcsd@10005000: Unevaluated properties are not allowed ('bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cd-gpios', 'max-frequency', 'vmmc-supply', 'wp-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-11mp-bbrevd-ctrevb.dtb: clcd@10020000: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm/boot/dts/arm/arm-realview-eb.dtsi:114.9-139.4: Warning (avoid_unnecessary_addr_size): /bridge: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 134217728]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: flash0@40000000: $nodename:0: 'flash0@40000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: flash1@44000000: $nodename:0: 'flash1@44000000' does not match '^(flash|.*sram|nand)(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: ethernet@4e000000: reg-io-width: 7 is not one of [2, 4]
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+>> arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: ethernet@4e000000: Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/smsc,lan9115.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: bridge: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: fpga: $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: mmcsd@10005000: $nodename:0: 'mmcsd@10005000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: mmcsd@10005000: Unevaluated properties are not allowed ('bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cd-gpios', 'max-frequency', 'vmmc-supply', 'wp-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/arm,pl18x.yaml#
+   arch/arm/boot/dts/arm/arm-realview-eb-a9mp-bbrevd.dtb: clcd@10020000: 'oneOf' conditional failed, one must be fixed:
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
