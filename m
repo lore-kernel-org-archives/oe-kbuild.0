@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB7419D090
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Feb 2025 20:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABBC1632E6
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Feb 2025 21:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738959245; cv=none; b=PoPrlAePRvwi2r9TPAb66r5sNTvMKvY3xxAQbMfIXmcYhr1UFQeIkjaH1i/k10hsDt0FJENt0tyXCHmly9+RumTIH4DGhJxDJuAahsMIUAxJaFj/blJZS7m2eOArndQHvTSuC2lq+1nh1a0lwO1zaoL766EhvQwlAFXp32uyG24=
+	t=1738962973; cv=none; b=htTLReppligdSvpbXseCviMaZ7fHyC1ce9l5wazeKhvtmorH1mfWJFd4HfxBo+jRZ+d4TgoiKZ4fcEbk9dTg0qe/ovXtdWGfmWn0GGq1u4Gq1b2oSX24UgkBaC9PJSWbTVjHKvXCX6R0BEo6vEmDZ75GdreEe675t+uxYO5l3x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738959245; c=relaxed/simple;
-	bh=ng4xxRuA+D+jdbX/DF9FAtEt/mYD0xCQUXTaYz5AU4g=;
+	s=arc-20240116; t=1738962973; c=relaxed/simple;
+	bh=DCYZdZStdI/db4bEYOQvk/K84kwqMcSeVm03Hs+/Fxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L+8efOQwtV0DNCmk7E/cy4xMJseXArLyVv3548tXnyr53SgQvYqC7wxSTVXU8bDoh3VMBKZD6ykxAbSBgeYn+4rgstVNsB9Lz55uMkNqLOZSVi841JnlN0Ve2lJC5OWeuneWZSSKC8zWYbqG4NlnIBsGKWR0U36OjbnB+X0Ormk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RT20QGnA; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=LrR4molwhiMUEEY/jTzyCJBC/J1JB+HDhxiIlqw4DuvaQg/frPAuljCIOYsYcN/5aThjPeDLNbyDvWjS7RdrCxoy5efvSP43FZNW8s6q/ux91gPCynlTbk1gFHBQ6Z52rBuYOev157OXryrsTVu6Yne6aFVIhOvmPbw7UNbq+dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXsbCRGJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RT20QGnA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXsbCRGJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738959244; x=1770495244;
+  t=1738962972; x=1770498972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ng4xxRuA+D+jdbX/DF9FAtEt/mYD0xCQUXTaYz5AU4g=;
-  b=RT20QGnAH/xtJrsDrMnK1EXCsKH2MwPdJ9tfA9xAR+R3LssSr8Flp6nn
-   7NVAR2sXijoBviOdNoN8V/6vw2k7rQelg5+TiESA5DUhtQPHXUasXMVj3
-   v3gtkPJwFQpDJYuN5EgJwIdCkjdEfDguDuSCYYK0bmTpWLFKEKot15pgy
-   e6A6CDvddHj+mu9XMgrwk+ArPVX5CIXdXYIg6HtljjNhL3UZpvoERnsUa
-   r+h4/gKu0Y/Euo4Tkek+GNaU6VD2/uxQOkx/rBt0QW658rtlcXYr2jlKD
-   fDyPkohx5rmhS52Pahr+6RChH1no7zpb5n9Cn9d6zMZGqH6q0ZGvqPWjx
-   w==;
-X-CSE-ConnectionGUID: +avsohLzScSoqjVL9LDt7Q==
-X-CSE-MsgGUID: xCAdTLFwQVCKzkEr/ELReg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="42454351"
+  bh=DCYZdZStdI/db4bEYOQvk/K84kwqMcSeVm03Hs+/Fxw=;
+  b=mXsbCRGJrjszVjhtkeCHGHcCCGJZjST98rILdmDJ5OHQ6Dj+/QwdVBNN
+   62U58Sd93+DUOkf+qzA06vD+UICMIdMXebtA8Q+Fox65b7eDYW7TqPWMp
+   KbbTtDkLPqQh1OR0W5bbzRMwwbetNaIFnEXirhhs5tB/0U5lfCuZGACAL
+   ix9POhRJMs5fdS0LceLq1d4rgy+czXFlsjc0E332QgVrTxenL74FwuDOM
+   yjXb7p/pdi+EBzEBzu7qFnGNJ/vs3nhuDhQGqWpIpV+2xaVk1IQuP034q
+   GZI2rbRJT19yA6Vv7XQEPjsYRoBqOK2FpLx11w3vjn9Zy6o5S6uXcKB5B
+   A==;
+X-CSE-ConnectionGUID: 9dCdUpOiRbO5XqoqEvgSuw==
+X-CSE-MsgGUID: xy9HTle7RECRjC7Pb4F9SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="27223128"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="42454351"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:14:03 -0800
-X-CSE-ConnectionGUID: FGG98P27Q12kgGESVi467Q==
-X-CSE-MsgGUID: 4/n59u7KR7ehc4MQx5ZtZg==
+   d="scan'208";a="27223128"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 13:16:11 -0800
+X-CSE-ConnectionGUID: Jve8m8goR4KyA0PEoM/udw==
+X-CSE-MsgGUID: BLlWlkHISmCi+lVL0SCSRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="112242978"
+   d="scan'208";a="116637321"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Feb 2025 12:14:02 -0800
+  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2025 13:16:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgUjg-000yyp-0y;
-	Fri, 07 Feb 2025 20:14:00 +0000
-Date: Sat, 8 Feb 2025 04:13:17 +0800
+	id 1tgVhn-000z3L-05;
+	Fri, 07 Feb 2025 21:16:07 +0000
+Date: Sat, 8 Feb 2025 05:16:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android14-6.1 3/3] WARNING: modpost:
- lib/test_user_copy.o: section mismatch in reference: (unknown) (section:
- .text.fixup) -> .Ltmp1 (section: .init.text)
-Message-ID: <202502080422.YsrV7cyX-lkp@intel.com>
+Subject: Re: [PATCH v6 1/2] dt-bindings: usb: Add Parade PS8830 Type-C
+ retimer bindings
+Message-ID: <202502080505.KUOSSGXi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,45 +63,49 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250206-x1e80100-ps8830-v6-1-60b1e49cfa8d@linaro.org>
+References: <20250206-x1e80100-ps8830-v6-1-60b1e49cfa8d@linaro.org>
+TO: Abel Vesa <abel.vesa@linaro.org>
 
-Hi Nathan,
+Hi Abel,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   1ac09f5c057146455dc10fccd52a8f5f34039fb0
-commit: 36fbcadc208e968008ed3ffb89cb2a265c4f276c [3/3] modpost: Include '.text.*' in TEXT_SECTIONS
-:::::: branch date: 73 minutes ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-r053-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080422.YsrV7cyX-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080422.YsrV7cyX-lkp@intel.com/reproduce)
+[auto build test WARNING on 00f3246adeeacbda0bd0b303604e46eb59c32e6e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/dt-bindings-usb-Add-Parade-PS8830-Type-C-retimer-bindings/20250206-173603
+base:   00f3246adeeacbda0bd0b303604e46eb59c32e6e
+patch link:    https://lore.kernel.org/r/20250206-x1e80100-ps8830-v6-1-60b1e49cfa8d%40linaro.org
+patch subject: [PATCH v6 1/2] dt-bindings: usb: Add Parade PS8830 Type-C retimer bindings
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-052-20250207 (https://download.01.org/0day-ci/archive/20250208/202502080505.KUOSSGXi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080505.KUOSSGXi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502080422.YsrV7cyX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502080505.KUOSSGXi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp1 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp4 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp7 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp10 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp13 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp16 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp19 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp22 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp25 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp28 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp31 (section: .init.text)
->> WARNING: modpost: lib/test_user_copy.o: section mismatch in reference: (unknown) (section: .text.fixup) -> .Ltmp34 (section: .init.text)
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4817.11-4827.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: typec-mux@8: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: typec-mux@8: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4817.11-4827.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: typec-mux@8: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: typec-mux@8: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
