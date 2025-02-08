@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99AC1B21BA
-	for <oe-kbuild@lists.linux.dev>; Sat,  8 Feb 2025 10:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F831AF0D3
+	for <oe-kbuild@lists.linux.dev>; Sat,  8 Feb 2025 10:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739009983; cv=none; b=Opz59QRFS2LR40dSdCS/FCw7p1JuD3NSZgnU+U7a2XVRTLfamAZ6aA/TKbc+S5ES3oklz6XIFuOjwsBhNxQ+/5DRAZVQsroeXddDarX79lScu+lfOugSz4C/7Df60hYyU65u3cFUPq79S3kRw7XJ4RX5/BNYJlo/3jtBeXCGydY=
+	t=1739010584; cv=none; b=BANwJRZIldYz34vLrscQLJ+fK/m8Le1grF3fgJREMzo5D9eStt//zaJG8wnCYKow9yeyR/fWmm4XEUbuTykmaiXM/GLKgNQJS+jyz4AuhADaVXJQLNnUrHhgBKk4a0sh8eOJeUYWAaGuUJNhl8huQrzHMFqeW9oxTMfyeEnfYac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739009983; c=relaxed/simple;
-	bh=deozyxS/Ox+tznI36ei8zMc1vrQxSICgWiS7fRrwwN8=;
+	s=arc-20240116; t=1739010584; c=relaxed/simple;
+	bh=RqtBNKXZevX01lpOoYLCNBmPIyZ/vABK/6pI9aJct7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rM7g+gLm5t/4Tt5IYk6N1V9UBBG4M62HDxq9j7ag6lXvkdm+u/FtGhKpPpgWJ83+VZ+wiOGxkdHrqZnK2koAvhBKp/f5v32cBMeWhG8OKHP28VIcwa0eV+mvPiyQAsbB8YdwQXhcB+aXZjffPl+SR1Vp54Lg2K7PYANbRp8Gsr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OAGEOrNJ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=crCcfUZ5X7llTfHOGHIwm+C4eVzTRbIqE6/o0NlOqWpGzPOeUU0lcRbdJMsG3zDL8iFVOHEPPiCJcD3EFElvAMxcAL1T9+kejdeSAS/cz+Pi0BAyTvQ/9bh0LGWLXIvbGmp1ntSuHMNzc/wnoqZkEhKZUvcnlKhjdknalTL1HmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYcYPB5g; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAGEOrNJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYcYPB5g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739009979; x=1770545979;
+  t=1739010583; x=1770546583;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=deozyxS/Ox+tznI36ei8zMc1vrQxSICgWiS7fRrwwN8=;
-  b=OAGEOrNJejA6BVqYVUPolKEBWDfVL+69ZJjuFbacfciKKt3cOybr5+ko
-   /fb4amGSIGBnZeWdRN2NrYuG/MC5Fh6WImeYjbn+5VbtoKhFWOZLV7CcR
-   +7gGqVWku6jI4S9EwXyaCSe76teoARC2fy/17hkryKPAz9FSy6jRW/bhv
-   u5TjFnIKbi8YRDKiD6x39uJCj2mGBcVNsaJtG5ZZ4K+ilz90Ytgyq2LFp
-   ihSjXLymkMxBP9E4zyCgzY99eUfYjg4K0VHwDsgOy7VuHi1jBYFJOD0d0
-   L3eArlp6Twn7toZDA+VoLyqB+fJRUR/quta+iNWFM6iw2C+z0HuJeCZY2
-   w==;
-X-CSE-ConnectionGUID: iq3VX7wNRoGh9nJn7EeQNQ==
-X-CSE-MsgGUID: 6WCORQCoQ5qtlOjIP3hIrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39672034"
+  bh=RqtBNKXZevX01lpOoYLCNBmPIyZ/vABK/6pI9aJct7I=;
+  b=PYcYPB5gKKPSUURo5LLWzVFUg6Re6geEHdPM24BHV8ktWnG/BOeubaHW
+   kjJ8UTpCOpyGVhUGWS8NIncc5rdZi1uTblFDMZTv2k2PKYWmt38XBPwSV
+   o6JO3MMRXM8M5JhCAHRUr3joP6xY249817XWujHlZqdwNHBThdKCjnHbb
+   COWqZplGSGluvMoNPOvfCT/P/Nc83PETDWyuR5iNLH4r3vaQJbdHcP0lj
+   NdXZVRHhR3ir9rG2Oh48HWgKvY7E3HqvDrKQkA3A/uncxZmoryxlGZjQ8
+   s35n/uir5HDLtSTrgap1IFhb996BxlNqXhVCmTrKG2ZQusebDh6rVUsRm
+   A==;
+X-CSE-ConnectionGUID: D+C+BoK1S5yFFTZ5ivOGhQ==
+X-CSE-MsgGUID: PMAD2G8WSLegqffb2RSadA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="38847596"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="39672034"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 02:19:39 -0800
-X-CSE-ConnectionGUID: ra1v2QHQRZ+yRE1YwzwNTQ==
-X-CSE-MsgGUID: tvRCn1ITTTmq5ZsUSiA2Ww==
+   d="scan'208";a="38847596"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 02:29:40 -0800
+X-CSE-ConnectionGUID: P/+dpxO8QOmbxb3F3WvNdQ==
+X-CSE-MsgGUID: w2oorpJgSgOYMoDyiAdZCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112183041"
+   d="scan'208";a="116957732"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Feb 2025 02:19:38 -0800
+  by orviesa005.jf.intel.com with ESMTP; 08 Feb 2025 02:29:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tghvz-000zqF-0P;
-	Sat, 08 Feb 2025 10:19:35 +0000
-Date: Sat, 8 Feb 2025 18:19:00 +0800
+	id 1tgi5g-000zr3-0H;
+	Sat, 08 Feb 2025 10:29:36 +0000
+Date: Sat, 8 Feb 2025 18:29:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [brgl:gpio/for-next 2/2]
- arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: gpio@1e780000:
- 'bmc-ready' does not match any of the regexes: '-hog(-[0-9]+)?$',
- 'pinctrl-[0-9]+'
-Message-ID: <202502081850.kiv6bcLp-lkp@intel.com>
+Subject: [mtd:mtd/next 15/18] arch/microblaze/boot/dts/system.dtb:
+ flash@a0000000: Unevaluated properties are not allowed ('xlnx,family',
+ 'xlnx,include-datawidth-matching-0', 'xlnx,include-datawidth-matching-1',
+ 'xlnx,include-datawidth-matching-2', 'xlnx,include-datawidth-matching-3',...
+Message-ID: <202502081823.VfcZZab9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,609 +73,99 @@ trees"
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-gpio@vger.kernel.org
-TO: Ninad Palsule <ninad@linux.ibm.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio=
-/for-next
-head:   e8f2ca6be61f1cae2ff12932fa03224581b6b231
-commit: e8f2ca6be61f1cae2ff12932fa03224581b6b231 [2/2] dt-bindings: gpio: a=
-st2400-gpio: Add hogs parsing
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-053-20250206 (https://download.01.org/0day-ci/archiv=
-e/20250208/202502081850.kiv6bcLp-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/n=
+ext
+head:   3f930a52d7151addefa6d5ba9f7f2c17dc52db1d
+commit: 038e2ba01cf5ff94dc8f740328ec565d18bb764e [15/18] dt-bindings: mtd: =
+physmap: Ensure all properties are defined
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: microblaze-randconfig-051-20250208 (https://download.01.org/0day-ci=
+/archive/20250208/202502081823.VfcZZab9-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
 dtschema version: 2024.12.dev6+gc4da38d
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20250208/202502081850.kiv6bcLp-lkp@intel.com/reproduce)
+/20250208/202502081823.VfcZZab9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502081850.kiv6bcLp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502081823.VfcZZab9-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/memory-c=
-ontroller@1e6e0000: failed to match any schema with compatible: ['aspeed,as=
-t2500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/syscon@1=
-e6e2000/interrupt-controller@18: failed to match any schema with compatible=
-: ['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/syscon@1=
-e6e2000/p2a-control@2c: failed to match any schema with compatible: ['aspee=
-d,ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/display@=
-1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx'=
-, 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/video@1e=
-700000: failed to match any schema with compatible: ['aspeed,ast2500-video-=
-engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: gpio@1e780000: 'b=
-mc-ready' does not match any of the regexes: '-hog(-[0-9]+)?$', 'pinctrl-[0=
--9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: bmc-ready: $noden=
-ame:0: 'bmc-ready' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/timer@1e=
-782000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: /ahb/apb/pwm-tach=
-o-controller@1e786000: failed to match any schema with compatible: ['aspeed=
-,ast2500-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: fan@0: aspeed,fan=
--tach-ch: b'\x04' is not of type 'object', 'integer', 'array', 'boolean', '=
-null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: fan@1: aspeed,fan=
--tach-ch: b'\x05' is not of type 'object', 'integer', 'array', 'boolean', '=
-null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dtb: fan@2: aspeed,fan=
--tach-ch: b'\x06' is not of type 'object', 'integer', 'array', 'boolean', '=
-null'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/memory-controller@1e6e0000: failed to match any schema with compatible: [=
-'aspeed,ast2500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/syscon@1e6e2000/interrupt-controller@18: failed to match any schema with =
-compatible: ['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/syscon@1e6e2000/p2a-control@2c: failed to match any schema with compatibl=
-e: ['aspeed,ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/display@1e6e6000: failed to match any schema with compatible: ['aspeed,as=
-t2500-gfx', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2=
-500-video-engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: gpio@1e=
-780000: 'pin_gpio_c7', 'pin_gpio_d1' do not match any of the regexes: '-hog=
-(-[0-9]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: pin_gpi=
-o_c7: $nodename:0: 'pin_gpio_c7' does not match '^(hog-[0-9]+|.+-hog(-[0-9]=
-+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: pin_gpi=
-o_d1: $nodename:0: 'pin_gpio_d1' does not match '^(hog-[0-9]+|.+-hog(-[0-9]=
-+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2=
-400-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: /ahb/ap=
-b/pwm-tacho-controller@1e786000: failed to match any schema with compatible=
-: ['aspeed,ast2500-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: lpc@1e7=
-89000: lpc-snoop@90: 'clocks' does not match any of the regexes: 'pinctrl-[=
-0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dtb: lpc@1e7=
-89000: reg-io-width: 4 is not of type 'object'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/memor=
-y-controller@1e6e0000: failed to match any schema with compatible: ['aspeed=
-,ast2500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/sysco=
-n@1e6e2000/interrupt-controller@18: failed to match any schema with compati=
-ble: ['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/sysco=
-n@1e6e2000/p2a-control@2c: failed to match any schema with compatible: ['as=
-peed,ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/displ=
-ay@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-g=
-fx', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/video=
-@1e700000: failed to match any schema with compatible: ['aspeed,ast2500-vid=
-eo-engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: gpio@1e780000:=
- 'bmc-ready' does not match any of the regexes: '-hog(-[0-9]+)?$', 'pinctrl=
--[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: bmc-ready: $no=
-dename:0: 'bmc-ready' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/timer=
-@1e782000: failed to match any schema with compatible: ['aspeed,ast2400-tim=
-er']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: /ahb/apb/pwm-t=
-acho-controller@1e786000: failed to match any schema with compatible: ['asp=
-eed,ast2500-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: lpc@1e789000: =
-lpc-snoop@90: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: lpc@1e789000: =
-reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dtb: kcs@24: 'clock=
-s' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/memory=
--controller@1e6e0000: failed to match any schema with compatible: ['aspeed,=
-ast2500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/syscon=
-@1e6e2000/interrupt-controller@18: failed to match any schema with compatib=
-le: ['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/syscon=
-@1e6e2000/p2a-control@2c: failed to match any schema with compatible: ['asp=
-eed,ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/displa=
-y@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gf=
-x', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/video@=
-1e700000: failed to match any schema with compatible: ['aspeed,ast2500-vide=
-o-engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: gpio@1e780000: =
-'pin_gpio_b6', 'pin_gpio_i3' do not match any of the regexes: '-hog(-[0-9]+=
-)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: pin_gpio_i3: $n=
-odename:0: 'pin_gpio_i3' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: pin_gpio_b6: $n=
-odename:0: 'pin_gpio_b6' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/timer@=
-1e782000: failed to match any schema with compatible: ['aspeed,ast2400-time=
-r']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: /ahb/apb/pwm-ta=
-cho-controller@1e786000: failed to match any schema with compatible: ['aspe=
-ed,ast2500-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: fan@0: aspeed,f=
-an-tach-ch: b'\x00\x01' is not of type 'object', 'integer', 'array', 'boole=
-an', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dtb: fan@1: aspeed,f=
-an-tach-ch: b'\x02\x03' is not of type 'object', 'integer', 'array', 'boole=
-an', 'null'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: /ahb/apb/syscon@1=
-e6e2000/p2a-control@2c: failed to match any schema with compatible: ['aspee=
-d,ast2400-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: /ahb/apb/video@1e=
-700000: failed to match any schema with compatible: ['aspeed,ast2400-video-=
-engine']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: gpio@1e780000: gp=
-io-line-names: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '',=
- '', 'RESET_PEER_N', 'HEARTBEAT_OUT', '', '', '', '', '', '', '', '', '', '=
-', '', '', '', '', 'DOOM_N', '', '', '', '', 'LED_PWR_BLUE', '', '', '', ''=
-, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '=
-', '', '', '', '', '', '', '', '', '', '', '', '', '', 'BMC_ID', '', '', ''=
-, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '=
-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', =
-'', '', '', '', '', 'LED_GREEN', '', 'LED_RED', '', '', '', '', '', '', '',=
- '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''=
-, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '=
-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', =
-'', '', '', '', '', '', 'HEARTBEAT_IN', 'BOARDREV0', 'BOARDREV1', '', '', '=
-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''] =
-is too short
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
->> arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: gpio@1e780000: 'd=
-oom-guardrail' does not match any of the regexes: '-hog(-[0-9]+)?$', 'pinct=
-rl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: doom-guardrail: $=
-nodename:0: 'doom-guardrail' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)=
-$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: /ahb/apb/timer@1e=
-782000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: /ahb/apb/pwm-tach=
-o-controller@1e786000: failed to match any schema with compatible: ['aspeed=
-,ast2400-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: lpc@1e789000: lpc=
--snoop@90: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: lpc@1e789000: reg=
--io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: /ahb/apb/lpc@1e78=
-9000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2400-l=
-hc']
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@560: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic0']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@570: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic1']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /ahb/apb/display@1e=
-6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', =
-'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: adc@1e6e9000: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: adc@1e6e9100: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: crypto@1e6fa000: 'a=
-speed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-ac=
-ry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /ahb/apb/video@1e70=
-0000: failed to match any schema with compatible: ['aspeed,ast2600-video-en=
-gine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: gpio@1e780000: 'usb=
-_power' does not match any of the regexes: '-hog(-[0-9]+)?$', 'pinctrl-[0-9=
-]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: usb_power: $nodenam=
-e:0: 'usb_power' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /ahb/apb/timer@1e78=
-2000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: lpc@1e789000: lpc-s=
-noop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: lpc@1e789000: reg-i=
-o-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: kcs@24: 'clocks' do=
-es not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-=
-bmc.yaml#
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@560: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic0']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@570: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic1']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/display@1e=
-6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', =
-'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: adc@1e6e9000: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: adc@1e6e9100: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: crypto@1e6fa000: 'a=
-speed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-ac=
-ry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/video@1e70=
-0000: failed to match any schema with compatible: ['aspeed,ast2600-video-en=
-gine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: gpio@1e780000: 'usb=
-_power' does not match any of the regexes: '-hog(-[0-9]+)?$', 'pinctrl-[0-9=
-]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: usb_power: $nodenam=
-e:0: 'usb_power' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/timer@1e78=
-2000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: lpc@1e789000: lpc-s=
-noop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: lpc@1e789000: reg-i=
-o-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: kcs@24: 'clocks' do=
-es not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-=
-bmc.yaml#
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@560: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic0']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@570: failed to match any schema with compatible:=
- ['aspeed,ast2600-scu-ic1']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/display@1e=
-6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', =
-'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: adc@1e6e9000: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: adc@1e6e9100: 'inte=
-rrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: crypto@1e6fa000: 'a=
-speed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-ac=
-ry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/video@1e70=
-0000: failed to match any schema with compatible: ['aspeed,ast2600-video-en=
-gine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: gpio@1e780000: 'i2c=
-3_mux_oe_n', 'usb_power' do not match any of the regexes: '-hog(-[0-9]+)?$'=
-, 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: i2c3_mux_oe_n: $nod=
-ename:0: 'i2c3_mux_oe_n' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: usb_power: $nodenam=
-e:0: 'usb_power' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/timer@1e78=
-2000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: lpc@1e789000: lpc-s=
-noop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: lpc@1e789000: reg-i=
-o-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: /ahb/apb/sysco=
-n@1e6e2000/interrupt-controller@560: failed to match any schema with compat=
-ible: ['aspeed,ast2600-scu-ic0']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: /ahb/apb/sysco=
-n@1e6e2000/interrupt-controller@570: failed to match any schema with compat=
-ible: ['aspeed,ast2600-scu-ic1']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: /ahb/apb/displ=
-ay@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-g=
-fx', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: adc@1e6e9000: =
-'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: adc@1e6e9100: =
-'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: crypto@1e6fa00=
-0: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-ac=
-ry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: /ahb/apb/video=
-@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-vid=
-eo-engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: gpio@1e780000:=
- 'i2c3_mux_oe_n', 'usb_power' do not match any of the regexes: '-hog(-[0-9]=
-+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: i2c3_mux_oe_n:=
- $nodename:0: 'i2c3_mux_oe_n' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?=
-)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: usb_power: $no=
-dename:0: 'usb_power' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: /ahb/apb/timer=
-@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-tim=
-er']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: lpc@1e789000: =
-lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: lpc@1e789000: =
-reg-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: /ahb/apb/syscon@=
-1e6e2000/interrupt-controller@560: failed to match any schema with compatib=
-le: ['aspeed,ast2600-scu-ic0']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: /ahb/apb/syscon@=
-1e6e2000/interrupt-controller@570: failed to match any schema with compatib=
-le: ['aspeed,ast2600-scu-ic1']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: /ahb/apb/display=
-@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx=
-', 'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: adc@1e6e9000: 'i=
-nterrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: adc@1e6e9100: 'i=
-nterrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-a=
-dc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: crypto@1e6fa000:=
- 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-ac=
-ry.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: /ahb/apb/video@1=
-e700000: failed to match any schema with compatible: ['aspeed,ast2600-video=
--engine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: gpio@1e780000: '=
-i2c3_mux_oe_n', 'usb_power' do not match any of the regexes: '-hog(-[0-9]+)=
-?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: i2c3_mux_oe_n: $=
-nodename:0: 'i2c3_mux_oe_n' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: usb_power: $node=
-name:0: 'usb_power' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: /ahb/apb/timer@1=
-e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer=
+   arch/microblaze/boot/dts/system.dtb: /: failed to match any schema with =
+compatible: ['xlnx,microblaze']
+   arch/microblaze/boot/dts/system.dtb: /cpus/cpu@0: failed to match any sc=
+hema with compatible: ['xlnx,microblaze-7.10.d']
+   arch/microblaze/boot/dts/system.dtb: plb@0: $nodename:0: 'plb@0' does no=
+t match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/microblaze/boot/dts/system.dtb: plb@0: gpio-restart: 'ranges' is a =
+required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/microblaze/boot/dts/system.dtb: plb@0: gpio-leds: 'ranges' is a req=
+uired property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema =
+with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus=
 ']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: lpc@1e789000: lp=
-c-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: lpc@1e789000: re=
-g-io-width: 4 is not of type 'object'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/memory-con=
-troller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2=
-500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@18: failed to match any schema with compatible: =
-['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/syscon@1e6=
-e2000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,=
-ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/display@1e=
-6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', =
-'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: /ahb/apb/video@1e70=
-0000: failed to match any schema with compatible: ['aspeed,ast2500-video-en=
-gine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: gpio@1e780000: 'pin=
-_gpio_aa6', 'pin_gpio_aa7', 'pin_gpio_ab0', 'pin_gpio_b0', 'pin_gpio_b5', '=
-pin_gpio_h5', 'pin_gpio_z2' do not match any of the regexes: '-hog(-[0-9]+)=
-?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: pin_gpio_b0: $noden=
-ame:0: 'pin_gpio_b0' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: pin_gpio_b5: $noden=
-ame:0: 'pin_gpio_b5' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: pin_gpio_h5: $noden=
-ame:0: 'pin_gpio_h5' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: pin_gpio_z2: $noden=
-ame:0: 'pin_gpio_z2' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dtb: pin_gpio_aa6: $node=
-name:0: 'pin_gpio_aa6' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/memory-cont=
-roller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast25=
-00-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/syscon@1e6e=
-2000/interrupt-controller@18: failed to match any schema with compatible: [=
-'aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/syscon@1e6e=
-2000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,a=
-st2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/display@1e6=
-e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', '=
-syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/video@1e700=
-000: failed to match any schema with compatible: ['aspeed,ast2500-video-eng=
-ine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: gpio@1e780000: 'func=
-_mode0', 'func_mode1', 'func_mode2', 'ncsi_cfg', 'seq_cont' do not match an=
-y of the regexes: '-hog(-[0-9]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: func_mode0: $nodenam=
-e:0: 'func_mode0' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: func_mode1: $nodenam=
-e:0: 'func_mode1' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: func_mode2: $nodenam=
-e:0: 'func_mode2' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: seq_cont: $nodename:=
-0: 'seq_cont' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: ncsi_cfg: $nodename:=
-0: 'ncsi_cfg' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/memory-con=
-troller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2=
-500-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/syscon@1e6=
-e2000/interrupt-controller@18: failed to match any schema with compatible: =
-['aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/syscon@1e6=
-e2000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,=
-ast2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/display@1e=
-6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', =
-'syscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/video@1e70=
-0000: failed to match any schema with compatible: ['aspeed,ast2500-video-en=
-gine']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: gpio@1e780000: 'nic=
-_func_mode0', 'nic_func_mode1', 'seq_cont' do not match any of the regexes:=
- '-hog(-[0-9]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: nic_func_mode0: $no=
-dename:0: 'nic_func_mode0' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: nic_func_mode1: $no=
-dename:0: 'nic_func_mode1' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: seq_cont: $nodename=
-:0: 'seq_cont' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/timer@1e78=
-2000: failed to match any schema with compatible: ['aspeed,ast2400-timer']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: /ahb/apb/pwm-tacho-=
-controller@1e786000: failed to match any schema with compatible: ['aspeed,a=
-st2500-pwm-tacho']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dtb: fan@0: aspeed,fan-t=
-ach-ch: b'\x08' is not of type 'object', 'integer', 'array', 'boolean', 'nu=
-ll'
---
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/memory-contr=
-oller@1e6e0000: failed to match any schema with compatible: ['aspeed,ast250=
-0-sdram-edac']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/syscon@1e6e2=
-000/interrupt-controller@18: failed to match any schema with compatible: ['=
-aspeed,ast2500-scu-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/syscon@1e6e2=
-000/p2a-control@2c: failed to match any schema with compatible: ['aspeed,as=
-t2500-p2a-ctrl']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/display@1e6e=
-6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', 's=
-yscon']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/video@1e7000=
-00: failed to match any schema with compatible: ['aspeed,ast2500-video-engi=
-ne']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: gpio@1e780000: 'line_=
-bmc_i2c2_sw_rst_n', 'line_bmc_i2c5_sw_rst_n', 'line_iso_u146_en', 'ncsi_mux=
-_en_n' do not match any of the regexes: '-hog(-[0-9]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio=
-=2Eyaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: line_iso_u146_en: $no=
-dename:0: 'line_iso_u146_en' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)=
-$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: ncsi_mux_en_n: $noden=
-ame:0: 'ncsi_mux_en_n' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: line_bmc_i2c2_sw_rst_=
-n: $nodename:0: 'line_bmc_i2c2_sw_rst_n' does not match '^(hog-[0-9]+|.+-ho=
-g(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: line_bmc_i2c5_sw_rst_=
-n: $nodename:0: 'line_bmc_i2c5_sw_rst_n' does not match '^(hog-[0-9]+|.+-ho=
-g(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dtb: /ahb/apb/timer@1e7820=
-00: failed to match any schema with compatible: ['aspeed,ast2400-timer']
+   arch/microblaze/boot/dts/system.dtb: /plb@0: failed to match any schema =
+with compatible: ['xlnx,plb-v46-1.03.a', 'xlnx,plb-v46-1.00.a', 'simple-bus=
+']
+>> arch/microblaze/boot/dts/system.dtb: flash@a0000000: Unevaluated propert=
+ies are not allowed ('xlnx,family', 'xlnx,include-datawidth-matching-0', 'x=
+lnx,include-datawidth-matching-1', 'xlnx,include-datawidth-matching-2', 'xl=
+nx,include-datawidth-matching-3', 'xlnx,include-negedge-ioregs', 'xlnx,incl=
+ude-plb-ipif', 'xlnx,include-wrbuf', 'xlnx,max-mem-width', 'xlnx,mch-native=
+-dwidth', 'xlnx,mch-plb-clk-period-ps', 'xlnx,mch-splb-awidth', 'xlnx,mch0-=
+accessbuf-depth', 'xlnx,mch0-protocol', 'xlnx,mch0-rddatabuf-depth', 'xlnx,=
+mch1-accessbuf-depth', 'xlnx,mch1-protocol', 'xlnx,mch1-rddatabuf-depth', '=
+xlnx,mch2-accessbuf-depth', 'xlnx,mch2-protocol', 'xlnx,mch2-rddatabuf-dept=
+h', 'xlnx,mch3-accessbuf-depth', 'xlnx,mch3-protocol', 'xlnx,mch3-rddatabuf=
+-depth', 'xlnx,mem0-width', 'xlnx,mem1-width', 'xlnx,mem2-width', 'xlnx,mem=
+3-width', 'xlnx,num-banks-mem', 'xlnx,num-channels', 'xlnx,priority-mode', =
+'xlnx,synch-mem-0', 'xlnx,synch-mem-1', 'xlnx,synch-mem-2', 'xlnx,synch-mem=
+-3', 'xlnx,synch-pipedelay-0', 'xlnx,synch-pipedelay-1', 'xlnx,synch-pipede=
+lay-2', 'xlnx,synch-pipedelay-3', 'xlnx,tavdv-ps-mem-0', 'xlnx,tavdv-ps-mem=
+-1', 'xlnx,tavdv-ps-mem-2', 'xlnx,tavdv-ps-mem-3', 'xlnx,tcedv-ps-mem-0', '=
+xlnx,tcedv-ps-mem-1', 'xlnx,tcedv-ps-mem-2', 'xlnx,tcedv-ps-mem-3', 'xlnx,t=
+hzce-ps-mem-0', 'xlnx,thzce-ps-mem-1', 'xlnx,thzce-ps-mem-2', 'xlnx,thzce-p=
+s-mem-3', 'xlnx,thzoe-ps-mem-0', 'xlnx,thzoe-ps-mem-1', 'xlnx,thzoe-ps-mem-=
+2', 'xlnx,thzoe-ps-mem-3', 'xlnx,tlzwe-ps-mem-0', 'xlnx,tlzwe-ps-mem-1', 'x=
+lnx,tlzwe-ps-mem-2', 'xlnx,tlzwe-ps-mem-3', 'xlnx,twc-ps-mem-0', 'xlnx,twc-=
+ps-mem-1', 'xlnx,twc-ps-mem-2', 'xlnx,twc-ps-mem-3', 'xlnx,twp-ps-mem-0', '=
+xlnx,twp-ps-mem-1', 'xlnx,twp-ps-mem-2', 'xlnx,twp-ps-mem-3', 'xlnx,xcl0-li=
+nesize', 'xlnx,xcl0-writexfer', 'xlnx,xcl1-linesize', 'xlnx,xcl1-writexfer'=
+, 'xlnx,xcl2-linesize', 'xlnx,xcl2-writexfer', 'xlnx,xcl3-linesize', 'xlnx,=
+xcl3-writexfer' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
+   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000: faile=
+d to match any schema with compatible: ['xlnx,compound']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethern=
+et@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-tema=
+c-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
+   arch/microblaze/boot/dts/system.dtb: /plb@0/xps-ll-temac@81c00000/ethern=
+et@81c00000: failed to match any schema with compatible: ['xlnx,xps-ll-tema=
+c-1.01.b', 'xlnx,xps-ll-temac-1.00.a']
+   arch/microblaze/boot/dts/system.dtb: i2c@81600000: 'clocks' is a require=
+d property
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.=
+yaml#
+   arch/microblaze/boot/dts/system.dtb: i2c@81600000: Unevaluated propertie=
+s are not allowed ('xlnx,clk-freq', 'xlnx,family', 'xlnx,gpo-width', 'xlnx,=
+iic-freq', 'xlnx,scl-inertial-delay', 'xlnx,sda-inertial-delay', 'xlnx,ten-=
+bit-adr' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.=
+yaml#
+   arch/microblaze/boot/dts/system.dtb: gpio@81400000: Unevaluated properti=
+es are not allowed ('xlnx,family', 'xlnx,is-bidir', 'xlnx,is-bidir-2' were =
+unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/xlnx,gpio-xilinx.ya=
+ml#
 
 --=20
 0-DAY CI Kernel Test Service
