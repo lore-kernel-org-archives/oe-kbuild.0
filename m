@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037341F17F7
-	for <oe-kbuild@lists.linux.dev>; Sat,  8 Feb 2025 16:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC711DDE9
+	for <oe-kbuild@lists.linux.dev>; Sat,  8 Feb 2025 17:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739032711; cv=none; b=aAXCd3jKl37QsLUfF4DFirXZ9FOVMGwYUqOG7FcX8N63k3N50Xowx32lZoM+6r1VNJDm+vwkOVKA/aFQvbLvM5Ky59aN0DBKGbgKIZke+NZefu7Civ1iR6nzOeQUVYJeIqVEIGu6XjKJR6+fqI+0hDrcjME6G3XWMY5MsEic/g0=
+	t=1739035960; cv=none; b=Ue/9QrzpvYi2DPvpKZK5Cb/IJf1veW8gI0Ri3N1fZnGQ0w8MBM9xA3ct8SCIFb3Ut5t9YgSXaRoXndPWTL92vjxOSP3yx6vLjIC9/4DIDlnlexwCTVKAXyw38JEOzXuEipEiY1nY/Q8bgNICCJzGqsT9iqxnQyaCLQRtDF4Ciuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739032711; c=relaxed/simple;
-	bh=g/DqCMxFf5QVccLH9umFB59UPNRueCERKX9Gfgwv8MY=;
+	s=arc-20240116; t=1739035960; c=relaxed/simple;
+	bh=8PkMX/SjDSbRGIoW58yiiecFq+1VHate5yhMiFmjec4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nwkLaI+6V+qQKxziWu1ORwPn8Avm9bto5tpAMe/RLYg2MADPr44FekWuYG0YRu1cfUTCylEhl9j08u5oHFgJPu/j/mUkaVy96Zqg27tmyoGsa6Nxl59LCgIv5msMFnqwKBgSHu+G8v9fmtbt8gUuUNOhr+hIYknYktIKcEASyMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f36p482X; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=IXgD32R3EpPazxTrMqcukINfcAGYFcuYBmaTlwoJ9M0AWyWgKGv2Tdz6oo//8BsT+d5VcXTtcQ7coe1AZt+PffkNQDQyOfUsq4UYyh17xVwEo0WT+ZidwH3XAtjcAZztGDjyFzF7mP0JnUCn76bBuWL6OxfGTC2fV/QN5baObTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l8jrw7Mo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f36p482X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l8jrw7Mo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739032709; x=1770568709;
+  t=1739035958; x=1770571958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g/DqCMxFf5QVccLH9umFB59UPNRueCERKX9Gfgwv8MY=;
-  b=f36p482XQSx6fruy1hzsoMvZZbUcBHd1mDuxXAVW5YXoLKNtve+g57Wx
-   YQr2I9OdYBXJCu6Dj9GD41c59roYXt5L9HIsM9TZG3KDluUxoABze4FZn
-   6WvG2avAyyAe+KUmkRV9HC5XgpGPwCNGeBri5pLW/Tt85bsTM/dBvQG3d
-   9Y4lkRbPEV715ib6EaCpX9jWZENdHwIfSoOnHtBnZZYS4muHilgPfMfaq
-   wUQAWb3qkjmJM1u07PTUkeiDBiRWGsfdqbo/eN6TUEgpiwe05HMG8kwWM
-   chpRZHueuobt37OzhoOwyPslzJYYkGeOgu8qXBlMxD0hO39Ep2i4NRBq1
-   Q==;
-X-CSE-ConnectionGUID: ZiFDBcW6QCqpOIfBre0oSA==
-X-CSE-MsgGUID: iZC1fZFSTAiPXMrWKGs6Uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="27266901"
+  bh=8PkMX/SjDSbRGIoW58yiiecFq+1VHate5yhMiFmjec4=;
+  b=l8jrw7Mo+ZsBEprd3sl9FuqMjEmezTzji7/3ugpWOm7i8Z9SxWrC6x3f
+   ZpEIxCMRBt2sdhvkwKehfBGKHDOInFIszMAl6FAVnwoQTTdjuFyxu7IMF
+   KpvaawLS3sfbBJyNum4fmqb8fUarGlmmjK0Dwd8wizRzy3vxs7pFxsuO8
+   IqBguwxLKSALiPqpBqPTj2BsnaAPtnpu1V+f95Ecn12NLRuDtqqabDimN
+   eLziE0tj0RjhF28q+NEkGKKTzOTl15qipEc4QL3ZV1ZOHFJXQlTmpLkx2
+   nqG0w9BP3Nposrcptl6lmeJAaqR+dIN0aWI8yxm8mKHBrZWFfLWYR2J6X
+   A==;
+X-CSE-ConnectionGUID: m43DSzqqSuqEKeb4lK+vvg==
+X-CSE-MsgGUID: XAYgcXCxRMG+O3gfD4D5IQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43583998"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="27266901"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 08:38:28 -0800
-X-CSE-ConnectionGUID: OskHwWNHTde0rtZBzgJZFg==
-X-CSE-MsgGUID: Os3YOL/5QzGmWPXPUslfrQ==
+   d="scan'208";a="43583998"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 09:32:36 -0800
+X-CSE-ConnectionGUID: lI3JnM0FRqGPs7rR3s451Q==
+X-CSE-MsgGUID: 7WMcNTEHT2S2koSofxlJTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115874767"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="116745404"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Feb 2025 08:38:26 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2025 09:32:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgnqa-0010MD-3C;
-	Sat, 08 Feb 2025 16:38:24 +0000
-Date: Sun, 9 Feb 2025 00:37:57 +0800
+	id 1tgogy-0010Qf-16;
+	Sat, 08 Feb 2025 17:32:32 +0000
+Date: Sun, 9 Feb 2025 01:31:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android-mainline 1/1] mm/huge_memory.c:870
- setup_thp_anon() error: strcpy() 'str' too large for 'str_dup' (1010102 vs
- 4096)
-Message-ID: <202502090027.nXiHkDqA-lkp@intel.com>
+Subject: [rcu:srcu.2025.02.05a 13/20] mm/msync.c:90 __do_sys_msync() warn:
+ comparison of a potentially tagged address (__do_sys_msync, -2,
+ __UNIQUE_ID_x_671)
+Message-ID: <202502090134.tAjvy9OV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,102 +65,115 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Boqun Feng <boqun.feng@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   c1466c466b6a9bc50df35be1667b892c12a18700
-commit: dd4d30d1cdbe826e6569b44453c2d9bb9424d234 [1/1] mm: override mTHP "enabled" defaults at kernel cmdline
-:::::: branch date: 25 hours ago
-:::::: commit date: 5 months ago
-config: i386-randconfig-141-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090027.nXiHkDqA-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git srcu.2025.02.05a
+head:   3cec27453db49a176e688b7721c3cd26be5ef835
+commit: c4020620528e4e22a051900654a70dcff0ab218d [13/20] srcu: Add SRCU-fast readers
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-r072-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090134.tAjvy9OV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502090027.nXiHkDqA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502090134.tAjvy9OV-lkp@intel.com/
 
-smatch warnings:
-mm/huge_memory.c:870 setup_thp_anon() error: strcpy() 'str' too large for 'str_dup' (1010102 vs 4096)
+New smatch warnings:
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_671)
+mm/msync.c:90 __do_sys_msync() warn: comparison of a potentially tagged address (__do_sys_msync, -2, __UNIQUE_ID_x_671)
+fs/userfaultfd.c:1507 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, __UNIQUE_ID_x_681)
 
-vim +870 mm/huge_memory.c
+Old smatch warnings:
+fs/userfaultfd.c:1345 userfaultfd_register() warn: comparison of a potentially tagged address (userfaultfd_register, -2, end)
+fs/userfaultfd.c:1487 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, start)
+fs/userfaultfd.c:1505 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, start)
 
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  858  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  859  static char str_dup[PAGE_SIZE] __initdata;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  860  static int __init setup_thp_anon(char *str)
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  861  {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  862  	char *token, *range, *policy, *subtoken;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  863  	unsigned long always, inherit, madvise;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  864  	char *start_size, *end_size;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  865  	int start, end, nr;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  866  	char *p;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  867  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  868  	if (!str || strlen(str) + 1 > PAGE_SIZE)
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  869  		goto err;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14 @870  	strcpy(str_dup, str);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  871  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  872  	always = huge_anon_orders_always;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  873  	madvise = huge_anon_orders_madvise;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  874  	inherit = huge_anon_orders_inherit;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  875  	p = str_dup;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  876  	while ((token = strsep(&p, ";")) != NULL) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  877  		range = strsep(&token, ":");
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  878  		policy = token;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  879  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  880  		if (!policy)
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  881  			goto err;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  882  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  883  		while ((subtoken = strsep(&range, ",")) != NULL) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  884  			if (strchr(subtoken, '-')) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  885  				start_size = strsep(&subtoken, "-");
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  886  				end_size = subtoken;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  887  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  888  				start = get_order_from_str(start_size);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  889  				end = get_order_from_str(end_size);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  890  			} else {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  891  				start = end = get_order_from_str(subtoken);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  892  			}
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  893  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  894  			if (start < 0 || end < 0 || start > end)
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  895  				goto err;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  896  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  897  			nr = end - start + 1;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  898  			if (!strcmp(policy, "always")) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  899  				bitmap_set(&always, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  900  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  901  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  902  			} else if (!strcmp(policy, "madvise")) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  903  				bitmap_set(&madvise, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  904  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  905  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  906  			} else if (!strcmp(policy, "inherit")) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  907  				bitmap_set(&inherit, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  908  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  909  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  910  			} else if (!strcmp(policy, "never")) {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  911  				bitmap_clear(&inherit, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  912  				bitmap_clear(&madvise, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  913  				bitmap_clear(&always, start, nr);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  914  			} else {
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  915  				pr_err("invalid policy %s in thp_anon boot parameter\n", policy);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  916  				goto err;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  917  			}
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  918  		}
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  919  	}
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  920  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  921  	huge_anon_orders_always = always;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  922  	huge_anon_orders_madvise = madvise;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  923  	huge_anon_orders_inherit = inherit;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  924  	anon_orders_configured = true;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  925  	return 1;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  926  
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  927  err:
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  928  	pr_warn("thp_anon=%s: error parsing string, ignoring setting\n", str);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  929  	return 0;
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  930  }
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  931  __setup("thp_anon=", setup_thp_anon);
-dd4d30d1cdbe82 Ryan Roberts 2024-08-14  932  
+vim +90 mm/msync.c
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  17  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  18  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  19   * MS_SYNC syncs the entire file - including mappings.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  20   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  21   * MS_ASYNC does not start I/O (it used to, up to 2.5.67).
+204ec841fbea3e Peter Zijlstra     2006-09-25  22   * Nor does it marks the relevant pages dirty (it used to up to 2.6.17).
+204ec841fbea3e Peter Zijlstra     2006-09-25  23   * Now it doesn't do anything, since dirty pages are properly tracked.
+204ec841fbea3e Peter Zijlstra     2006-09-25  24   *
+204ec841fbea3e Peter Zijlstra     2006-09-25  25   * The application may now run fsync() to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  26   * write out the dirty pages and wait on the writeout and check the result.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  27   * Or the application may run fadvise(FADV_DONTNEED) against the fd to start
+^1da177e4c3f41 Linus Torvalds     2005-04-16  28   * async writeout immediately.
+16538c40776b8b Amos Waterland     2006-03-24  29   * So by _not_ starting I/O in MS_ASYNC we provide complete flexibility to
+^1da177e4c3f41 Linus Torvalds     2005-04-16  30   * applications.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  31   */
+6a6160a7b5c27b Heiko Carstens     2009-01-14  32  SYSCALL_DEFINE3(msync, unsigned long, start, size_t, len, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  33  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  34  	unsigned long end;
+204ec841fbea3e Peter Zijlstra     2006-09-25  35  	struct mm_struct *mm = current->mm;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  36  	struct vm_area_struct *vma;
+676758bdb7bfca Andrew Morton      2006-03-24  37  	int unmapped_error = 0;
+676758bdb7bfca Andrew Morton      2006-03-24  38  	int error = -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  39  
+057d3389108eda Andrey Konovalov   2019-09-25  40  	start = untagged_addr(start);
+057d3389108eda Andrey Konovalov   2019-09-25  41  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  42  	if (flags & ~(MS_ASYNC | MS_INVALIDATE | MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  43  		goto out;
+b0d61c7e56815b Alexander Kuleshov 2015-11-05  44  	if (offset_in_page(start))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  45  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  46  	if ((flags & MS_ASYNC) && (flags & MS_SYNC))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  47  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  48  	error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  49  	len = (len + ~PAGE_MASK) & PAGE_MASK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  50  	end = start + len;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  51  	if (end < start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  52  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  53  	error = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  54  	if (end == start)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  55  		goto out;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  56  	/*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  57  	 * If the interval [start,end) covers some unmapped address ranges,
+f6899bc03cbadc Nikita Ermakov     2021-04-29  58  	 * just ignore them, but return -ENOMEM at the end. Besides, if the
+f6899bc03cbadc Nikita Ermakov     2021-04-29  59  	 * flag is MS_ASYNC (w/o MS_INVALIDATE) the result would be -ENOMEM
+f6899bc03cbadc Nikita Ermakov     2021-04-29  60  	 * anyway and there is nothing left to do, so return immediately.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  61  	 */
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  62  	mmap_read_lock(mm);
+204ec841fbea3e Peter Zijlstra     2006-09-25  63  	vma = find_vma(mm, start);
+204ec841fbea3e Peter Zijlstra     2006-09-25  64  	for (;;) {
+9c50823eebf7c2 Andrew Morton      2006-03-24  65  		struct file *file;
+7fc34a62ca4434 Matthew Wilcox     2014-06-04  66  		loff_t fstart, fend;
+9c50823eebf7c2 Andrew Morton      2006-03-24  67  
+204ec841fbea3e Peter Zijlstra     2006-09-25  68  		/* Still start < end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  69  		error = -ENOMEM;
+204ec841fbea3e Peter Zijlstra     2006-09-25  70  		if (!vma)
+204ec841fbea3e Peter Zijlstra     2006-09-25  71  			goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  72  		/* Here start < vma->vm_end. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  73  		if (start < vma->vm_start) {
+f6899bc03cbadc Nikita Ermakov     2021-04-29  74  			if (flags == MS_ASYNC)
+f6899bc03cbadc Nikita Ermakov     2021-04-29  75  				goto out_unlock;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  76  			start = vma->vm_start;
+204ec841fbea3e Peter Zijlstra     2006-09-25  77  			if (start >= end)
+9c50823eebf7c2 Andrew Morton      2006-03-24  78  				goto out_unlock;
+204ec841fbea3e Peter Zijlstra     2006-09-25  79  			unmapped_error = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  80  		}
+204ec841fbea3e Peter Zijlstra     2006-09-25  81  		/* Here vma->vm_start <= start < vma->vm_end. */
+204ec841fbea3e Peter Zijlstra     2006-09-25  82  		if ((flags & MS_INVALIDATE) &&
+204ec841fbea3e Peter Zijlstra     2006-09-25  83  				(vma->vm_flags & VM_LOCKED)) {
+204ec841fbea3e Peter Zijlstra     2006-09-25  84  			error = -EBUSY;
+9c50823eebf7c2 Andrew Morton      2006-03-24  85  			goto out_unlock;
+9c50823eebf7c2 Andrew Morton      2006-03-24  86  		}
+9c50823eebf7c2 Andrew Morton      2006-03-24  87  		file = vma->vm_file;
+496a8e68654a5f Namjae Jeon        2014-07-02  88  		fstart = (start - vma->vm_start) +
+496a8e68654a5f Namjae Jeon        2014-07-02  89  			 ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+7fc34a62ca4434 Matthew Wilcox     2014-06-04 @90  		fend = fstart + (min(end, vma->vm_end) - start) - 1;
+
+:::::: The code at line 90 was first introduced by commit
+:::::: 7fc34a62ca4434a79c68e23e70ed26111b7a4cf8 mm/msync.c: sync only the requested range in msync()
+
+:::::: TO: Matthew Wilcox <matthew.r.wilcox@intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
