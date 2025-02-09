@@ -1,731 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9673C1DF967
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Feb 2025 16:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56B7220693
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Feb 2025 21:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739117655; cv=none; b=W4NJhb16v8sid0kCjK0oHcFiae6a269LKZ3m1TJmGhQ1GL9NUbdYGHkaWuDoCFvcroOzp/aPtUdFkBN5KISKkYqvFj7pJ3dX4yoVYfzZrbvn35ApcoN9H/jfLofvw3lrNu93ajBYykpGEi1BSZ9JiciKdRhdeIU3OLLcob7eRgE=
+	t=1739135564; cv=none; b=l6ualzzsz47/8YO/Kb3C+xrmFEOFpO2bYZbsiKKkufkX4R9KsOKBuF94881FScqM3iBhKjqrPKkRUj9hMGQDz5bw5EcjXDk0SSlJ4Al4pqMlaI2hRcIzYYEc76CXybTgadq/r/K/2cFhOLC+HxLjX6JfJO4VMstunvwrGQQoGl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739117655; c=relaxed/simple;
-	bh=hzGpKsMEuXLwxPHlP81FX3+peSgfKpPP62GlYU7BZ04=;
+	s=arc-20240116; t=1739135564; c=relaxed/simple;
+	bh=UWbjPiN3wPx+7oiywvEfXpXTe82a5eK42da3Dz2QcDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YfJnDuGEoU+x0bwxz1k8zTvIZJK1xOHfT9dhCX5jOj80aSNx2eOm9LHYc2CrSE4wZ/1pYkPBSTZfz4G5am8t1vWCRT0zUGBF9RxeHkeaR/5SSZcuHT02m5tF8foQoQnyrwLJWeNKS1TUDaf12aDbBHJJqwck+PyWS4gTZWXErA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7ciUsOU; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Be4SuOxzwIZDMbxf3kMz+78YV3+MU0o3kU6LIAXmDSOHYjLubjJQrg/J+HzB7pJsJuAQI6rJ8WY1nS39NPjiGGty/QR5KemMB8qPHL6wojilIfgGu7zDbJ7ymCsUD1bv8oxYpUC7GCHaUdSlHo835c7pMepch/m0vvo1bFxryXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyJugmdR; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7ciUsOU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyJugmdR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739117651; x=1770653651;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hzGpKsMEuXLwxPHlP81FX3+peSgfKpPP62GlYU7BZ04=;
-  b=e7ciUsOUgQEBm14+zJdrT95oYX5VbrUEniqq8sG1r14RLNDHHMt4L29M
-   sYS49xm2PtV9N+GKtv3iEx40O0PpSEAhq0Tc4jvd9T+MC4NoiJodNx6WV
-   jvw9J7+UB3PI2QLdhA0/Bt6XosW8h89Om6WnPR8UTDUFbul/rALHD/bcD
-   RnGcavfhOG1ril0PpMXAesIhnKaTTVbuUrCY/p/CrdYzQaqyjjwe4t/LH
-   yGrRef3xVEcrd7kRKeHpXd3cWs6jwRaz8qGaZ2gli/T8KiFlisGCmz/ky
-   ellTH9Lgh4LlTNPVsHdcQCiu91SltejK7+SITaOtXzANot6cXDBQNCI1S
+  t=1739135562; x=1770671562;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UWbjPiN3wPx+7oiywvEfXpXTe82a5eK42da3Dz2QcDg=;
+  b=nyJugmdRFQD5DTmwtlWRbIA48eSlc5Db3HDkqll/AqDnQDxv7AIsFOqC
+   7zcVfwn0pMwLmmptgCaYKLBUvoe8wfn3NaoxN45/baldbCqLBgYm3Z8au
+   5Twkfp+lvbBklNn/Y9LmKS4vc16ZHU7JnCfbfso3HLOgNYuPgPgNNu7PX
+   iMrAKdSHHAxSBbEjlSsf7h8vfv5FCY4i9iVgVGwgPFq0iaSyDhk5Y3Vs7
+   0NK4GZ+JJqReFrCSN/jZ8IkcdxqWL3L0I6mUuf84lx45cR+3GIHu8TfeI
+   YAG8fFPDKIzPQXiiPlRLivWFCEb9/xZh4b7mDIMzJYkNJuZseXn3cgdOB
    Q==;
-X-CSE-ConnectionGUID: sIG2skUlQYGo6bkhirfnpA==
-X-CSE-MsgGUID: kQov1EfzQx6ncWmdnhzLgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="57235995"
-X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="57235995"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 08:14:09 -0800
-X-CSE-ConnectionGUID: glxr4gx9TFWS5pQDbPvXnA==
-X-CSE-MsgGUID: f5FKgPSMTYWGOyvBTfbzcQ==
+X-CSE-ConnectionGUID: A2Nsk59dSv2dLQ6KlG/fnA==
+X-CSE-MsgGUID: jOsNB64BTNSw12IrfEYCMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39863583"
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="39863583"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 13:12:41 -0800
+X-CSE-ConnectionGUID: 9ZoYTvoySh6fQpLm2oVY0g==
+X-CSE-MsgGUID: P4qMZjtcT5KWmi4NutlV7g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="112482644"
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="112652673"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2025 08:14:07 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 09 Feb 2025 13:12:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th9wb-0011fL-0t;
-	Sun, 09 Feb 2025 16:14:05 +0000
-Date: Mon, 10 Feb 2025 00:13:08 +0800
+	id 1thEbW-0011uZ-05;
+	Sun, 09 Feb 2025 21:12:38 +0000
+Date: Mon, 10 Feb 2025 05:12:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 02/12] dt-bindings: ata: Convert fsl,pq-sata to YAML
-Message-ID: <202502092306.QXTtqDgE-lkp@intel.com>
+Subject: arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning
+ (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty
+ reg/ranges property
+Message-ID: <202502100541.WPdpf1m0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250207-ppcyaml-v2-2-8137b0c42526@posteo.net>
-References: <20250207-ppcyaml-v2-2-8137b0c42526@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: devicetree@vger.kernel.org
-TO: linuxppc-dev@lists.ozlabs.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: imx@lists.linux.dev
-CC: Scott Wood <oss@buserror.net>
-CC: Madhavan Srinivasan <maddy@linux.ibm.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Nicholas Piggin <npiggin@gmail.com>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Naveen N Rao <naveen@kernel.org>
-CC: Rob Herring <robh@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Damien Le Moal <dlemoal@kernel.org>
-CC: Niklas Cassel <cassel@kernel.org>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Lee Jones <lee@kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Lorenzo Pieralisi <lpieralisi@kernel.org>
-CC: "Krzysztof Wilczyński" <kw@linux.com>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: "J. Neuschäfer" <j.neuschaefer@gmx.net>
-CC: Wim Van Sebroeck <wim@linux-watchdog.org>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Mark Brown <broonie@kernel.org>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
-CC: Richard Weinberger <richard@nod.at>
-CC: Vignesh Raghavendra <vigneshr@ti.com>
 CC: linux-kernel@vger.kernel.org
-CC: linux-ide@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
-Hi Neuschäfer,
+Hi Rob,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-powerpc-Add-Freescale-NXP-MPC83xx-SoCs/20250208-053519
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250207-ppcyaml-v2-2-8137b0c42526%40posteo.net
-patch subject: [PATCH v2 02/12] dt-bindings: ata: Convert fsl,pq-sata to YAML
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc-randconfig-051-20250208 (https://download.01.org/0day-ci/archive/20250209/202502092306.QXTtqDgE-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502092306.QXTtqDgE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   69b54314c975f4dfd3a29d6b9211ab68fff46682
+commit: 04f08ef291d4b8d76f8d198bf2929ad43b96eecf arm/arm64: dts: arm: Use generic clock and regulator nodenames
+date:   7 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-r013-20230520 (https://download.01.org/0day-ci/archive/20250210/202502100541.WPdpf1m0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100541.WPdpf1m0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502092306.QXTtqDgE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502100541.WPdpf1m0-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: sata@18000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: sata@18000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: sata@19000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: sata@19000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8377-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8377-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /pci@e0008500: failed to match any schema with compatible: ['fsl,mpc8349-pci']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8377-pcie', 'fsl,mpc8314-pcie']
---
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: sata@18000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: sata@18000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: sata@19000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: sata@19000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8377-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8377-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /pci@e0008500: failed to match any schema with compatible: ['fsl,mpc8349-pci']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8377-pcie', 'fsl,mpc8314-pcie']
---
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@18000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@18000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@19000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@19000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@1a000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@1a000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@1b000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: sata@1b000: 'sleep' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8379-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/power@b00: failed to match any schema with compatible: ['fsl,mpc8379-pmc', 'fsl,mpc8349-pmc']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /pci@e0008500: failed to match any schema with compatible: ['fsl,mpc8349-pci']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: leds: 'hdd', 'pwr' do not match any of the regexes: '(^led-[0-9a-f]$|led)', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
---
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: usb@211000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: crypto@300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.2' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
---
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: usb@210000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/kmcent2.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: fman@400000: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fman.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: fman@400000: ethernet@e0000: Unevaluated properties are not allowed ('fixed-link', 'phy-mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fman.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: fman@400000: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fman.yaml#
-   arch/powerpc/boot/dts/fsl/kmcent2.dtb: fman@400000: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
---
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.6', 'fsl,mpc85xx-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.6', 'fsl,mpc85xx-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: usb@211000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
-   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
---
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: usb@210000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-mph-v1.6', 'fsl,mpc85xx-usb2-mph', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.6', 'fsl,mpc85xx-usb2-mph', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v1.6', 'fsl,mpc85xx-usb2-mph', 'fsl-usb2-mph']
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: crypto@300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.2' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
---
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: usb@211000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/p3041ds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p3041ds.dtb: crypto@300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.2' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
---
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: usb@211000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/p5020ds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5020ds.dtb: crypto@300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too short
-   	['fsl,sec-v4.2', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v4.2' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
---
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: usb@211000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/usb@211000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl,mpc85xx-usb2-dr', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/p5040ds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/p5040ds.dtb: crypto@300000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.2', 'fsl,sec-v5.0', 'fsl,sec-v4.0'] is too long
-   	'fsl,sec-v5.4' was expected
-   	'fsl,sec-v5.2' is not one of ['fsl,imx6ul-caam', 'fsl,sec-v5.0']
-   	'fsl,sec-v4.0' was expected
---
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
->> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
-   	'fsl,sec-v5.0-rtic' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: crypto@300000: rtic@6000:rtic-a@0:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic-memory', 'fsl,sec-v4.0-rtic-memory'] is too short
---
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
->> arch/powerpc/boot/dts/fsl/t1024qds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1024qds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
-   	'fsl,sec-v5.0-rtic' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/powerpc/boot/dts/fsl/t1024qds.dtb: crypto@300000: rtic@6000:rtic-a@0:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic-memory', 'fsl,sec-v4.0-rtic-memory'] is too short
---
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
->> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
-   	'fsl,sec-v5.0-rtic' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
-   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: crypto@300000: rtic@6000:rtic-a@0:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic-memory', 'fsl,sec-v4.0-rtic-memory'] is too short
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040qds.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042qds.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fsl,iommu-parent', 'fsl,liodn-reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1040-diu', 'fsl,diu']
->> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
---
-   	'fsl,sec-v4.0-mon' was expected
-   	'fsl,sec-v5.0-mon' was expected
-   	'fsl,sec-v5.2-mon' is not one of ['fsl,sec-v5.3-mon', 'fsl,sec-v5.4-mon']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: sec_mon@314000: interrupts: [[93, 2, 0, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/sec_mon@314000: failed to match any schema with compatible: ['fsl,sec-v5.2-mon', 'fsl,sec-v5.0-mon', 'fsl,sec-v4.0-mon']
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/l2-cache-controller@c20000: failed to match any schema with compatible: ['fsl,t2080-l2-cache-controller']
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t2080qds.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: pcie@ffe240000: pcie@0:interrupts:0:0: 20 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: pcie@ffe240000: pcie@0:interrupts:0: [20, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t2080-pcie', 'fsl,qoriq-pcie-v3.0', 'fsl,qoriq-pcie']
---
-   	'fsl,sec-v4.0-mon' was expected
-   	'fsl,sec-v5.0-mon' was expected
-   	'fsl,sec-v5.2-mon' is not one of ['fsl,sec-v5.3-mon', 'fsl,sec-v5.4-mon']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: sec_mon@314000: interrupts: [[93, 2, 0, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0-mon.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/sec_mon@314000: failed to match any schema with compatible: ['fsl,sec-v5.2-mon', 'fsl,sec-v5.0-mon', 'fsl,sec-v4.0-mon']
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/l2-cache-controller@c20000: failed to match any schema with compatible: ['fsl,t2080-l2-cache-controller']
->> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
->> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: sata@220000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: sata@221000: 'fsl,iommu-parent', 'fsl,liodn-reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: pcie@ffe240000: pcie@0:interrupts:0:0: 20 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: pcie@ffe240000: pcie@0:interrupts:0: [20, 2, 0, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /pcie@ffe240000: failed to match any schema with compatible: ['fsl,t2080-pcie', 'fsl,qoriq-pcie-v3.0', 'fsl,qoriq-pcie']
---
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
->> arch/powerpc/boot/dts/fsl/t4240qds.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t4240qds.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
-   	'fsl,sec-v5.0-rtic' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
---
-   	['fsl-usb2-mph-v2.5', 'fsl-usb2-mph'] is too long
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-mph-v2.5' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: usb@210000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/usb@210000: failed to match any schema with compatible: ['fsl-usb2-mph-v2.5', 'fsl-usb2-mph']
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: usb@211000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
->> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: sata@220000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: sata@221000: 'cell-index' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/fsl,pq-sata.yaml#
-   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: crypto@300000: rtic@6000:compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too short
-   	['fsl,sec-v5.0-rtic', 'fsl,sec-v4.0-rtic'] is too long
-   	'fsl,sec-v5.4-rtic' was expected
-   	'fsl,sec-v4.0-rtic' was expected
-   	'fsl,sec-v5.0-rtic' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/fsl,sec-v4.0.yaml#
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:251.3-14: Warning (dma_ranges_format): /bus@c0000000/bus@c0000000/display@1000000:dma-ranges: empty "dma-ranges" property but its #address-cells (2) differs from /bus@c0000000/bus@c0000000 (1)
+   arch/arm/boot/dts/arm/integrator.dtsi:10.9-13.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/arm/integratorap.dts:103.9-132.4: Warning (unit_address_vs_reg): /syscon: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:91.12-96.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@0: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:97.12-102.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@1: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:103.12-108.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@2: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:109.12-114.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@3: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:115.12-120.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@4: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:121.12-126.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@5: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/display@1000000/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty reg/ranges property
+>> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:67.26-74.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-ssp: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:77.23-83.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/regulator: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/gpio_keys: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:130.9-151.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/bridge: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:153.6-162.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/vga: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (avoid_unnecessary_addr_size): /bus@c0000000/bus@c0000000/gpio_keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (graph_child_address): /bus@c0000000/bus@c0000000/display@1000000/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+
+vim +57 arch/arm/boot/dts/arm/integratorap-im-pd1.dts
+
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  26  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  27  &lm0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  28  	syscon@0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  29  		compatible = "arm,im-pd1-syscon", "syscon";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  30  		reg = <0x00000000 0x1000>;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  31  		ranges;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  32  		#address-cells = <1>;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  33  		#size-cells = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  34  
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  35  		vco1: clock-controller@0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  36  			compatible = "arm,impd1-vco1";
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  37  			reg = <0x00 0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  38  			#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  39  			lock-offset = <0x08>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  40  			vco-offset = <0x00>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  41  			clocks = <&sysclk>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  42  			clock-output-names = "IM-PD1-VCO1";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  43  		};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  44  
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  45  		vco2: clock-controller@4 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  46  			compatible = "arm,impd1-vco2";
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  47  			reg = <0x04 0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  48  			#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  49  			lock-offset = <0x08>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  50  			vco-offset = <0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  51  			clocks = <&sysclk>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  52  			clock-output-names = "IM-PD1-VCO2";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  53  		};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  54  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  55  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  56  	/* Also used for the Smart Card Interface SCI */
+04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @57) 	impd1_uartclk: clock-uart {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  58  		compatible = "fixed-factor-clock";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  59  		#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  60  		clock-div = <4>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  61  		clock-mult = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  62  		clocks = <&vco2>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  63  		clock-output-names = "VCO2_DIV4";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  64  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  65  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  66  	/* For the SSP the clock is divided by 64 */
+04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @67) 	impd1_sspclk: clock-ssp {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  68  		compatible = "fixed-factor-clock";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  69  		#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  70  		clock-div = <64>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  71  		clock-mult = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  72  		clocks = <&vco2>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  73  		clock-output-names = "VCO2_DIV64";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  74  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  75  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  76  	/* Fixed regulator for the MMC */
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  77  	impd1_3v3: regulator {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  78  		compatible = "regulator-fixed";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  79  		regulator-name = "3V3";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  80  		regulator-min-microvolt = <3300000>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  81  		regulator-max-microvolt = <3300000>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  82  		regulator-always-on;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  83  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  84  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  85  	/* Push buttons on the IM-PD1 */
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  86  	gpio_keys {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  87  		compatible = "gpio-keys";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  88  		#address-cells = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  89  		#size-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  90  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13 @91  		button@0 {
 
 -- 
 0-DAY CI Kernel Test Service
