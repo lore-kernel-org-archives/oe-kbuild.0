@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09642580D6
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Feb 2025 16:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E172586CC
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Feb 2025 16:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739205467; cv=none; b=UlUpt4mBkv1wPDj1lT0jYHKrO7Lkl9cgPzwgpldVMhceOobkfKGXmdivZHkH8godGp13kkACbd7OKNEk0cgOrHaZpX9p/I483zzyAj+ijzQ7K2pRlG1HAP/YIwG0yI32qKwe72baAGgs7sT6U+tCQne1dVhJjFrsaPXmoAjxgss=
+	t=1739206191; cv=none; b=I0OsRNQoskyanBy4z9tAGVaFav71jAlmy/6dRC3VgZMV/aOLdioi3nPZHN5Rrz/sxmCQG1VeBH7p3KNa3v32J4peIFYq0qTPzLcGoV7Xtb86lLl6TFmHpVLeOUfvm6DwobDI9mQ40tCtV0x2/MQk5RUYtdPWyhV2Do6YNG8FXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739205467; c=relaxed/simple;
-	bh=ojP09vqv/Fy0b1gziieVnOz5DPUqYtF+e6Ztcx0F4aU=;
+	s=arc-20240116; t=1739206191; c=relaxed/simple;
+	bh=RYFrEhY0IROHvlpYavJHxt7hk8WpQc3yDBT7OPDfwy8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=muSYbKmnoXrk/Kcp1Dl0+xQVwbpyr+SLrvzt05LN/jKxUIPcXdQqdPc4tep5jIfX4ii/mZGhcWA4n9kV2JDzyvr8gDQ4xB45OQcA5KGr9H4UNOeK0bJiJjbB0Ry7UECc5YqCx5LHzlgmuXicpuDMAzQAqeW2nrg3vI7rJKvatTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBXIsJyX; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=H6EggF8Cy48/Hoos2pf/DEsb3DV9vv3gnHw0zvm0K+vos1DAjOhQ7Y4WZZpA8kbbSYcvBpTP+y+wDJwk95RTe/ULm5w5I4ilEZjIyDFUcNouH8rlbnEu2PlCSfDGf5tFNVXwrXqg0rxLhyjyR9tTWYXnFvWolpiDa9X3Ir3srL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtIKfWi0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBXIsJyX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtIKfWi0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739205465; x=1770741465;
+  t=1739206189; x=1770742189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ojP09vqv/Fy0b1gziieVnOz5DPUqYtF+e6Ztcx0F4aU=;
-  b=bBXIsJyX5xCAaHZ7bhX7IDMwJzzZgpKUj/C4Yv+KTB/t59h44h9/+cJN
-   ly9SWRIB9dxEW7+s/sNyjA+Mg+gocEJxdKgteNMFJHPx6pTHGw9RZihP2
-   AK6BPpzbqWYcIjCiD/4YygIHhrqP7rCKhxaWvEJgkMDPxS0XO9siiR6im
-   DnCUkmKe/321kD6BlHDeQHR6pGQ1euK90DVnf0HadDjL8qmBZbX12Gpui
-   COsfCAtUMwKvHeVxA/sID0FnPm2nFIgUpvHQHqMoSl1PwFzJcqxQLla6o
-   4nBtqpHmRvPeAnpOfpiRY7gbU9BD1y6BBWGXOWiiRbjdITJXqtyI6eAjc
-   Q==;
-X-CSE-ConnectionGUID: h2tw+k/fQhyegpKKZbaEgg==
-X-CSE-MsgGUID: 7b0IWubWQsSkVUT/Cwq+ZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="57208057"
+  bh=RYFrEhY0IROHvlpYavJHxt7hk8WpQc3yDBT7OPDfwy8=;
+  b=FtIKfWi043XYohndt31qUhHcd2QXQoa01eZqPFbB+5Zeewgxnp/Y7stG
+   q5B8V8T9y9u6PPZrBYktjlxOZaySzqr2RfxXV+bkqf3UQAL58s7JukR19
+   IxVUffIcFBcr3KWKMFMBZiBqW+lohZm0nIYnCqPq/CYB2N/Sekmf5ALgV
+   0Sw/gaSAVjvOow4w+cyDBTRcrQ8sTGYFCiDx5GbWMXfuzK8UqXZUyHnaD
+   9BBR7dQjJoIQIbthDcywD9+QGUfwoKJBM8I409Dc8gsgeSwoAxzM+M7+c
+   IOb+jlH8/N26rIovlV1WrrRajDqUU8kDFze1j8xPI1Jk9Wp8I4b4p83/A
+   w==;
+X-CSE-ConnectionGUID: Fb9effLNSzewlViWaCVKFA==
+X-CSE-MsgGUID: H/sS4EBfTH6XNJP4Wf6SvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39484042"
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="57208057"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 08:37:45 -0800
-X-CSE-ConnectionGUID: jW9q3dZnT5uOieoXBQXVDA==
-X-CSE-MsgGUID: unn3h+gtTyCCLK42W5HEVA==
+   d="scan'208";a="39484042"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 08:49:48 -0800
+X-CSE-ConnectionGUID: jYzNctw1SyecAKKKMoRHqQ==
+X-CSE-MsgGUID: bkZmKgouQUuh/2PyFqF6oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="112075905"
+   d="scan'208";a="143114092"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2025 08:37:44 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Feb 2025 08:49:46 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thWn0-00133H-12;
-	Mon, 10 Feb 2025 16:37:42 +0000
-Date: Tue, 11 Feb 2025 00:37:36 +0800
+	id 1thWye-00134x-0H;
+	Mon, 10 Feb 2025 16:49:44 +0000
+Date: Tue, 11 Feb 2025 00:48:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [chrome-os:chromeos-6.6 217/217]
- drivers/misc/mediatek/slbc/slbc_ipi.c: linux/module.h is included more than
- once.
-Message-ID: <202502110040.tpQ9LgO4-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v2 13/18] cxl/region: Add function to find a port's
+ switch decoder by range
+Message-ID: <202502110032.Tt58A4ik-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,41 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250207153753.418849-14-rrichter@amd.com>
+References: <20250207153753.418849-14-rrichter@amd.com>
+TO: Robert Richter <rrichter@amd.com>
+TO: Alison Schofield <alison.schofield@intel.com>
+TO: Vishal Verma <vishal.l.verma@intel.com>
+TO: Ira Weiny <ira.weiny@intel.com>
+TO: Dan Williams <dan.j.williams@intel.com>
+TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Dave Jiang <dave.jiang@intel.com>
+TO: Davidlohr Bueso <dave@stgolabs.net>
+CC: linux-cxl@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Gregory Price <gourry@gourry.net>
+CC: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+CC: Terry Bowman <terry.bowman@amd.com>
+CC: Robert Richter <rrichter@amd.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   b603fe68bcf1fd8aa46dd46190c53d641dce5cf0
-commit: 506f6613f2e6836fd59eeab2456dcfb0a000954d [217/217] CHROMIUM: misc: mediatek: slc: Porting SLBC driver
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Robert,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5585e342e8d38cc598279bdb87f235f8b954dd5a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Richter/cxl-Remove-else-after-return/20250207-234420
+base:   5585e342e8d38cc598279bdb87f235f8b954dd5a
+patch link:    https://lore.kernel.org/r/20250207153753.418849-14-rrichter%40amd.com
+patch subject: [PATCH v2 13/18] cxl/region: Add function to find a port's switch decoder by range
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-102-20250210 (https://download.01.org/0day-ci/archive/20250211/202502110032.Tt58A4ik-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502110040.tpQ9LgO4-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202502110032.Tt58A4ik-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/misc/mediatek/slbc/slbc_ipi.c: linux/module.h is included more than once.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cxl/core/region.c:3241:42-45: ERROR: cxld is NULL but dereferenced.
+   drivers/cxl/core/region.c:3242:9-18: ERROR: cxld is NULL but dereferenced.
+   drivers/cxl/core/region.c:3242:32-41: ERROR: cxld is NULL but dereferenced.
 
-vim +8 drivers/misc/mediatek/slbc/slbc_ipi.c
+vim +3241 drivers/cxl/core/region.c
 
-   > 8	#include <linux/module.h>
-     9	#include <linux/of.h>
-    10	#include <linux/of_address.h>
-    11	
-    12	#include <linux/scmi_protocol.h>
-  > 13	#include <linux/module.h>
-    14	#if IS_ENABLED(CONFIG_MTK_TINYSYS_SCMI)
-    15	#include <tinysys-scmi.h>
-    16	#endif /* CONFIG_MTK_TINYSYS_SCMI */
-    17	
+f99413f1e5779b Robert Richter 2025-02-07  3222  
+47da10f758ff50 Robert Richter 2025-02-07  3223  static struct cxl_root_decoder *
+47da10f758ff50 Robert Richter 2025-02-07  3224  cxl_find_root_decoder(struct cxl_endpoint_decoder *cxled)
+47da10f758ff50 Robert Richter 2025-02-07  3225  {
+47da10f758ff50 Robert Richter 2025-02-07  3226  	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
+acf31aa5d4914a Robert Richter 2025-02-07  3227  	struct cxl_port *iter = cxled_to_port(cxled);
+47da10f758ff50 Robert Richter 2025-02-07  3228  	struct cxl_decoder *cxld = &cxled->cxld;
+47da10f758ff50 Robert Richter 2025-02-07  3229  	struct range *hpa = &cxld->hpa_range;
+47da10f758ff50 Robert Richter 2025-02-07  3230  
+acf31aa5d4914a Robert Richter 2025-02-07  3231  	while (iter && !is_cxl_root(iter))
+acf31aa5d4914a Robert Richter 2025-02-07  3232  		iter = to_cxl_port(iter->dev.parent);
+acf31aa5d4914a Robert Richter 2025-02-07  3233  
+acf31aa5d4914a Robert Richter 2025-02-07  3234  	if (!iter)
+acf31aa5d4914a Robert Richter 2025-02-07  3235  		return NULL;
+acf31aa5d4914a Robert Richter 2025-02-07  3236  
+f99413f1e5779b Robert Richter 2025-02-07  3237  	cxld = cxl_port_find_switch_decoder(iter, hpa);
+f99413f1e5779b Robert Richter 2025-02-07  3238  	if (!cxld) {
+47da10f758ff50 Robert Richter 2025-02-07  3239  		dev_err(cxlmd->dev.parent,
+47da10f758ff50 Robert Richter 2025-02-07  3240  			"%s:%s no CXL window for range %#llx:%#llx\n",
+47da10f758ff50 Robert Richter 2025-02-07 @3241  			dev_name(&cxlmd->dev), dev_name(&cxld->dev),
+47da10f758ff50 Robert Richter 2025-02-07  3242  			cxld->hpa_range.start, cxld->hpa_range.end);
+47da10f758ff50 Robert Richter 2025-02-07  3243  		return NULL;
+47da10f758ff50 Robert Richter 2025-02-07  3244  	}
+47da10f758ff50 Robert Richter 2025-02-07  3245  
+47da10f758ff50 Robert Richter 2025-02-07  3246  
+f99413f1e5779b Robert Richter 2025-02-07  3247  
+f99413f1e5779b Robert Richter 2025-02-07  3248  	return to_cxl_root_decoder(&cxld->dev);
+47da10f758ff50 Robert Richter 2025-02-07  3249  }
+47da10f758ff50 Robert Richter 2025-02-07  3250  
 
 -- 
 0-DAY CI Kernel Test Service
