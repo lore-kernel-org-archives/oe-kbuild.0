@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E172586CC
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Feb 2025 16:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ACC79C0
+	for <oe-kbuild@lists.linux.dev>; Tue, 11 Feb 2025 02:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739206191; cv=none; b=I0OsRNQoskyanBy4z9tAGVaFav71jAlmy/6dRC3VgZMV/aOLdioi3nPZHN5Rrz/sxmCQG1VeBH7p3KNa3v32J4peIFYq0qTPzLcGoV7Xtb86lLl6TFmHpVLeOUfvm6DwobDI9mQ40tCtV0x2/MQk5RUYtdPWyhV2Do6YNG8FXW4=
+	t=1739241001; cv=none; b=q4wzsupW1FEIVl9uIcBDnbZlgLxK5gYoVKUeGyCG+cwLdnolYVuFfW6pL7pmOsvNeJxsSR06f3svRDMgtdFWAcNqGDtkDJaB3ar30eLey8IshkoBgs0CCc8X8X2Q/wZ26dKXIhg4PAl2+XoGBdVnDB5MRzYRjipw8Ctt7zqe0Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739206191; c=relaxed/simple;
-	bh=RYFrEhY0IROHvlpYavJHxt7hk8WpQc3yDBT7OPDfwy8=;
+	s=arc-20240116; t=1739241001; c=relaxed/simple;
+	bh=QP1s+GRyeGWYgd/XEfrG1KBU3PpgoOUC3wft20WPccs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H6EggF8Cy48/Hoos2pf/DEsb3DV9vv3gnHw0zvm0K+vos1DAjOhQ7Y4WZZpA8kbbSYcvBpTP+y+wDJwk95RTe/ULm5w5I4ilEZjIyDFUcNouH8rlbnEu2PlCSfDGf5tFNVXwrXqg0rxLhyjyR9tTWYXnFvWolpiDa9X3Ir3srL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtIKfWi0; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=IuqlIZSMlAIlzEL6eo6cFw/4U2ZZBoMrre1uWVRBTxQjorM///S7rT5Tygxe5y3JmgSJ+7OKvF2wOPd8VoHi6/Sx3sQbv+ik5xput+uHxhtjgJMbJE/cH4ixAZ/y06ZgZ6Px+UWHf3IpLQs0W2iJWOhjvUoIHoG2wzebzzT1EXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcUeNepY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtIKfWi0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcUeNepY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739206189; x=1770742189;
+  t=1739240998; x=1770776998;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RYFrEhY0IROHvlpYavJHxt7hk8WpQc3yDBT7OPDfwy8=;
-  b=FtIKfWi043XYohndt31qUhHcd2QXQoa01eZqPFbB+5Zeewgxnp/Y7stG
-   q5B8V8T9y9u6PPZrBYktjlxOZaySzqr2RfxXV+bkqf3UQAL58s7JukR19
-   IxVUffIcFBcr3KWKMFMBZiBqW+lohZm0nIYnCqPq/CYB2N/Sekmf5ALgV
-   0Sw/gaSAVjvOow4w+cyDBTRcrQ8sTGYFCiDx5GbWMXfuzK8UqXZUyHnaD
-   9BBR7dQjJoIQIbthDcywD9+QGUfwoKJBM8I409Dc8gsgeSwoAxzM+M7+c
-   IOb+jlH8/N26rIovlV1WrrRajDqUU8kDFze1j8xPI1Jk9Wp8I4b4p83/A
-   w==;
-X-CSE-ConnectionGUID: Fb9effLNSzewlViWaCVKFA==
-X-CSE-MsgGUID: H/sS4EBfTH6XNJP4Wf6SvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39484042"
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="39484042"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 08:49:48 -0800
-X-CSE-ConnectionGUID: jYzNctw1SyecAKKKMoRHqQ==
-X-CSE-MsgGUID: bkZmKgouQUuh/2PyFqF6oQ==
+  bh=QP1s+GRyeGWYgd/XEfrG1KBU3PpgoOUC3wft20WPccs=;
+  b=dcUeNepYZCal+MkkRSMZvbUwweIa2ScphWsBhqa3qAgAFb2ZU56okE1Q
+   f7GOP1SurxtmnKea6wXUD0U4HfuG6vRVwY5kAVvoP3W7JuxznBoLBr+jI
+   AY+bekhPXWu48d/cjidCX5Nvg9k6XzoI2AUvL5gF+Caov8l8KmFapTk2S
+   LLrIg2cauQmvoNo1vc6vzeNfs7xdlAaxKdto3dQQdwtzzlxtEvUiO5iTS
+   ZCc6pdkBik+z6jYnCekcYBExtxMX5CXAcOb6aSLXuNImONbWyC5xv7XRI
+   5wadrt53Ajhdqcvje8RQJZjRkrrk068wFOLE1Nj91KuKFzsLwt9a5rROS
+   A==;
+X-CSE-ConnectionGUID: e1xN+sizSdCilsUYWU+cZA==
+X-CSE-MsgGUID: 968PlD45S3yGdqaY1IXRGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50076838"
+X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
+   d="scan'208";a="50076838"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 18:29:55 -0800
+X-CSE-ConnectionGUID: +1+4XppTR5q2eh9+oQteKg==
+X-CSE-MsgGUID: +urD3HSTSE23WYBCl79YjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="143114092"
+X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
+   d="scan'208";a="112206847"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Feb 2025 08:49:46 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Feb 2025 18:29:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thWye-00134x-0H;
-	Mon, 10 Feb 2025 16:49:44 +0000
-Date: Tue, 11 Feb 2025 00:48:53 +0800
+	id 1thg24-0013fj-0B;
+	Tue, 11 Feb 2025 02:29:52 +0000
+Date: Tue, 11 Feb 2025 10:29:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v2 13/18] cxl/region: Add function to find a port's
- switch decoder by range
-Message-ID: <202502110032.Tt58A4ik-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 180/191]
+ arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@394ac0000: compatible:0:
+ 'apple,t6020-dart' is not one of ['apple,t8103-dart',
+ 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+Message-ID: <202502111032.0SMxs1XN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,82 +64,246 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250207153753.418849-14-rrichter@amd.com>
-References: <20250207153753.418849-14-rrichter@amd.com>
-TO: Robert Richter <rrichter@amd.com>
-TO: Alison Schofield <alison.schofield@intel.com>
-TO: Vishal Verma <vishal.l.verma@intel.com>
-TO: Ira Weiny <ira.weiny@intel.com>
-TO: Dan Williams <dan.j.williams@intel.com>
-TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-TO: Dave Jiang <dave.jiang@intel.com>
-TO: Davidlohr Bueso <dave@stgolabs.net>
-CC: linux-cxl@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Gregory Price <gourry@gourry.net>
-CC: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-CC: Terry Bowman <terry.bowman@amd.com>
-CC: Robert Richter <rrichter@amd.com>
+TO: Sasha Finkelstein <fnkl.kernel@gmail.com>
+CC: Janne Grunau <j@jannau.net>
 
-Hi Robert,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5585e342e8d38cc598279bdb87f235f8b954dd5a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Richter/cxl-Remove-else-after-return/20250207-234420
-base:   5585e342e8d38cc598279bdb87f235f8b954dd5a
-patch link:    https://lore.kernel.org/r/20250207153753.418849-14-rrichter%40amd.com
-patch subject: [PATCH v2 13/18] cxl/region: Add function to find a port's switch decoder by range
-:::::: branch date: 3 days ago
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   058e9844046713928f5f78593e66e92da1b0c0c2
+commit: b830d7177a9017bdc9f5c02a1553dcb60185db85 [180/191] arm64: dts: apple: Add SEP device tree nodes
+:::::: branch date: 2 days ago
 :::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20250210 (https://download.01.org/0day-ci/archive/20250211/202502110032.Tt58A4ik-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+config: arm64-randconfig-051-20250210 (https://download.01.org/0day-ci/archive/20250211/202502111032.0SMxs1XN-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111032.0SMxs1XN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202502110032.Tt58A4ik-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502111032.0SMxs1XN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/cxl/core/region.c:3241:42-45: ERROR: cxld is NULL but dereferenced.
-   drivers/cxl/core/region.c:3242:9-18: ERROR: cxld is NULL but dereferenced.
-   drivers/cxl/core/region.c:3242:32-41: ERROR: cxld is NULL but dereferenced.
-
-vim +3241 drivers/cxl/core/region.c
-
-f99413f1e5779b Robert Richter 2025-02-07  3222  
-47da10f758ff50 Robert Richter 2025-02-07  3223  static struct cxl_root_decoder *
-47da10f758ff50 Robert Richter 2025-02-07  3224  cxl_find_root_decoder(struct cxl_endpoint_decoder *cxled)
-47da10f758ff50 Robert Richter 2025-02-07  3225  {
-47da10f758ff50 Robert Richter 2025-02-07  3226  	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-acf31aa5d4914a Robert Richter 2025-02-07  3227  	struct cxl_port *iter = cxled_to_port(cxled);
-47da10f758ff50 Robert Richter 2025-02-07  3228  	struct cxl_decoder *cxld = &cxled->cxld;
-47da10f758ff50 Robert Richter 2025-02-07  3229  	struct range *hpa = &cxld->hpa_range;
-47da10f758ff50 Robert Richter 2025-02-07  3230  
-acf31aa5d4914a Robert Richter 2025-02-07  3231  	while (iter && !is_cxl_root(iter))
-acf31aa5d4914a Robert Richter 2025-02-07  3232  		iter = to_cxl_port(iter->dev.parent);
-acf31aa5d4914a Robert Richter 2025-02-07  3233  
-acf31aa5d4914a Robert Richter 2025-02-07  3234  	if (!iter)
-acf31aa5d4914a Robert Richter 2025-02-07  3235  		return NULL;
-acf31aa5d4914a Robert Richter 2025-02-07  3236  
-f99413f1e5779b Robert Richter 2025-02-07  3237  	cxld = cxl_port_find_switch_decoder(iter, hpa);
-f99413f1e5779b Robert Richter 2025-02-07  3238  	if (!cxld) {
-47da10f758ff50 Robert Richter 2025-02-07  3239  		dev_err(cxlmd->dev.parent,
-47da10f758ff50 Robert Richter 2025-02-07  3240  			"%s:%s no CXL window for range %#llx:%#llx\n",
-47da10f758ff50 Robert Richter 2025-02-07 @3241  			dev_name(&cxlmd->dev), dev_name(&cxld->dev),
-47da10f758ff50 Robert Richter 2025-02-07  3242  			cxld->hpa_range.start, cxld->hpa_range.end);
-47da10f758ff50 Robert Richter 2025-02-07  3243  		return NULL;
-47da10f758ff50 Robert Richter 2025-02-07  3244  	}
-47da10f758ff50 Robert Richter 2025-02-07  3245  
-47da10f758ff50 Robert Richter 2025-02-07  3246  
-f99413f1e5779b Robert Richter 2025-02-07  3247  
-f99413f1e5779b Robert Richter 2025-02-07  3248  	return to_cxl_root_decoder(&cxld->dev);
-47da10f758ff50 Robert Richter 2025-02-07  3249  }
-47da10f758ff50 Robert Richter 2025-02-07  3250  
+dtcheck warnings: (new ones prefixed by >>)
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j414', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@389c00000/panel: failed to match any schema with compatible: ['apple,panel-j416', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@38930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@389c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@38930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@389c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@389c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@389c00000: failed to match any schema with compatible: ['apple,t6020-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@3860fc000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@3860fc000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@3860fc000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@3860fc000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/isp@384000000: failed to match any schema with compatible: ['apple,t6020-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/isp@384000000: failed to match any schema with compatible: ['apple,t6020-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+--
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@3860fc000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@3860fc000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@3860fc000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@3860fc000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/isp@384000000: failed to match any schema with compatible: ['apple,t6020-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/isp@384000000: failed to match any schema with compatible: ['apple,t6020-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@394ac0000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@394ac0000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@394ac0000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/sep@396400000: failed to match any schema with compatible: ['apple,sep']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@396408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@396408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pwm@39b030000: compatible:0: 'apple,t6020-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+   	from schema $id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pwm@39b030000: failed to match any schema with compatible: ['apple,t6020-fpwm', 'apple,s5l-fpwm']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: i2c@39b040000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
 
 -- 
 0-DAY CI Kernel Test Service
