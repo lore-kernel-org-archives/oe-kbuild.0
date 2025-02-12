@@ -1,204 +1,106 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E282320B7FD;
-	Wed, 12 Feb 2025 14:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD3211463
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 15:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739370866; cv=none; b=LmQM2T5Qs0zlqbpWsOv1v+vG4RcM2oXeqJuxMX9ncuRafDtHhx38BgBLTZwcGw5VMnManT7WyoigkwEYlK3pwvB8/zG/J1tiZXJ0aFDjX9w6GlmlZU+ij6Iu8PBf/OKDwEYamirNtWcFqqscrZLTecdbxlBgTx1Ks+mJvUltARA=
+	t=1739374305; cv=none; b=iNqukFt53oCrVoItfyJLLmqVi1TchOZdDzB9miXNBBvYaQch4VK5F3Liulseb83eNYu15TUD8Xy1wP50LYlyKRnnKQM3hEmelxv3nbbbz5yRn8g0mBIdMEimuPPqEKEPNeb+mS/P7dN/+DzlQyUgt+zxF09f4ng0VcftYX+LBlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739370866; c=relaxed/simple;
-	bh=kpvfNiHpkp4jI/JVfA51Eh4PML7TdlfOJpDLg1J2rA8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I7D9kyDte23ULIx8PGf1WhiSkiC2oP1PnZU3hrwooS3Vufll0UWoNwbwY36EJwcW3yea1oDepiRF/M0xe4oS3AfAUwBzSjOU7KItmuZ8Xrg5XH3/ryCMzQ52F7OCdF7BqrNaThxxVBXph3e9TKi2WTR3f7NwBcapnzlx7DgFyoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l/iIn8p4; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739374305; c=relaxed/simple;
+	bh=Kd+6DzKTiuHkjzGkdtLbyCkTyy0yaluQp17EPwunXIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHSBg/SxgVRd0SS8cAtckJf5jgUCTPXBrBPCuvisnXfqWelKTGm+yxAa1fDmhK8AybD0ri92sQN4IIJgvkXOCMUycqp1zMj8AS4zn3pMoFsYI5NmQAVK0d9/J3JIEgQUOWW6Jnyg7ntrf5HVc+yrc8x0kp5ZseadDGWNisWl8zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RYKgoQnp; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l/iIn8p4"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30761be8fa8so67844821fa.2;
-        Wed, 12 Feb 2025 06:34:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RYKgoQnp"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ab7d451f7c4so383348466b.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 07:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739370863; x=1739975663; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h5UWrZt1SbRLiPbOCZ3FDQEs4EokuYZL5IQM659E4VQ=;
-        b=l/iIn8p40efRtbfk0JmxEkOzD1nPEGvMp5AjKP++a0TcgoEbUWtYapMIE97ZGsc0qj
-         j21oGzR5GHBnhp9KFuYJJxwz1k6LqrOodzKeDoBxo68Mg8NVyvI6vGO9LFW4go68fFLD
-         s2xN9vFOZCKsxfk/BXwou1t608OXjyrPxno9waM1L7aA0DHUPwuTFlZQOmgGM3pEzSq4
-         9W44ni1HTXMTBPB0bewMY7rs+Wr64Qd7l6j7RTD5RJGdfE0CpTw82tYxNmQ48UCpoL9z
-         ISlIIC2xeWdEf5GWj3VjMVD2ZKCXLRINssPKxQY/zYxeoV8XfFVgHpQnvRKRoM/F4QWP
-         kOqA==
+        d=linaro.org; s=google; t=1739374302; x=1739979102; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSq+cHNnWSDiFyg3hiZUKEZKM5fOb5ovEsLt9hQ8kFA=;
+        b=RYKgoQnpE/q/BQlY54PW5GQNkkBdRkhisiUH99+x69gKY05sg2GblrumjfZgouHAiZ
+         LvXhWSY46+AhV3C4/zhGktfZ8ZEc3GwLA1ehXBfLDZ0cgT0B1pZEQ1OQoePqJ5fNkaNR
+         tlJ1g962lzPmWO171sU+hTpcf80ZWte622U5RuEeLCvYM9c2Uz4V2fOB7vZoUecMyQN0
+         gOnTaRaM8Zwn6JGa3lVSXC3z4MLcLoIa6+KDQ5sg4kein8BxTnE92dSk3HkVGqJqyoSi
+         n3VJ2bVwtpvvMy4pGXUXh1430wHSpeE/0956nGUdzPgsebZWJyXAufU5la+zlhSvgSC+
+         sI4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739370863; x=1739975663;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h5UWrZt1SbRLiPbOCZ3FDQEs4EokuYZL5IQM659E4VQ=;
-        b=Erhx3q+Ag0m/5KlFjpexDU8Owh/SLVEJ3wfv0qbXzpn2+kEtdrmO6tp6BNA7epxpBM
-         8DcdZFr009LlmzVW5cAFALjdQ6DmTAeuyD11RNwNvIhiKi0XyCheYko0/ViFW3NJ0cNh
-         GhsJBK80R+So4R+/EJMLGg0G2HP0V5vjg5wC9txpTblFrPznsewxvJXi4NcZtCJ60jHe
-         fwLamPGlvg6Rg8oKfrBkhcKk0gMcUiifclamWztJmtqq7JuzJln8OioJYMxZzxnWA72D
-         G3Tv/OvomMkQUsXMsn789c3PvYpBV7IWJUPNaqb5sBazyw7EA1RZNAHZRZVg5xVZOFGm
-         x/oA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGqDOcowKdGpCKQTI8NSjHbx1PbRq76kf5Ac//x3MREv1bUekF3hE5GI3byygkfYHKsC3IqYCmQIiJDksQyg==@lists.linux.dev, AJvYcCW0FxwIXGc3/19AzbT0aBCASfQpWyGPR0F6Me5G7NnuQYmZyGYO2eBZ634mRwFfQTlnDs8P@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2irpbyT6NKKPWcJ5zPxZfTaml85GbvYdGryO1Ix7Sq1e1Wz8T
-	lPLU8ji25jcDFkSUcUAzhbXt+sZ3pNBoppCJozOsUvFw0T8cc7l4RFyvSSpxwRPQTjQT3gT+ob7
-	KaWbUF1FZ6Lhm2FJLqEvGhlCfTSk=
-X-Gm-Gg: ASbGncuggnWiFj9T4gARuwH6m+7yx7QwHrbC2F10OONwm0jql5i4n/HI3V38McKSXD+
-	xBRaT31tP79Anzxe6v58l/1FTfkwJFUkyWHGuQINOP+eDemBjDzXSBOXJHbxsS87t5GS3diocfB
-	KTRWl0y/VByrTg
-X-Google-Smtp-Source: AGHT+IH9eMUdHQrEJvRoMiHM5wWub8oT4MYD54w7JiRl8QYpmi+XqlQDqR1rViAif3p0R0UwpjfWAYqFDuP/fHTXwgY=
-X-Received: by 2002:a2e:a90a:0:b0:302:2c61:a1d3 with SMTP id
- 38308e7fff4ca-309036eb500mr12184221fa.36.1739370862710; Wed, 12 Feb 2025
- 06:34:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739374302; x=1739979102;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSq+cHNnWSDiFyg3hiZUKEZKM5fOb5ovEsLt9hQ8kFA=;
+        b=g7/3whcFEAXPy/FWrEKzRO3vPjoI9To4loDIK2wp74iYbrqt5owgxN2lzvx7xzcBgG
+         kjNznn9OnNJgfNwhJODRU6TKt7H8pnNJ2zpg0+OponzpQFtCB1C6PmXo9g4+ULf2uZcT
+         MlPx+eHh+xqkI+ti+WsVdg6Xb1meG9BMcneKiGqoDT/05E93+16j3vxK2iiCNy5Z+FWq
+         h4qcU8DITgpBy1+xc2qYhY1xhbX3prSiU+C0PfNgfXYbWqtQ3jNdlWqNj7Px5+fPaJUM
+         /4+FLDErvPHeDxoBv+QBRENVeixbvgIOs1nZCDQXCte2icUK5MkkA4a+4Xw8A1nzZJCF
+         66EA==
+X-Gm-Message-State: AOJu0Yw8nuyHpCIEvk9KLOBq0Ef9Hf0eID5FOnDb+Ggp3gWt7+7j4s4N
+	FQJFdX4SW8469nMQBlcXcSpLpIgnTIPEF+vNMjMcYNhpLPJzPwsbb7nk3GLhKgg=
+X-Gm-Gg: ASbGncvZRkq509/gY+DXWOeG+NlJ7U2HUT4rLwUXrgaEfblyKD1Ia3VcMb5WN6bLESl
+	c6xSxfK47vtM+tm/Iz6LgYPqjZt6L8OSMcyvk0xJ/6psD+kw23tclLLC3iIR7FpLhnORzjch/U4
+	0yHzWxc9Rss09puvvCPUAaAe4WRplQhyiEh/nX69nqpNfd46LZ/Mhrt4aQE3nT2Ys1lLL0G7qIQ
+	0hHEdi55dRxm/7qf3W+TjxF8NTE/fDeVk9IEp1bjA3SeIFDuk/AinJQ7lrVy5XzJhbfje9CHoS2
+	/a8gjGUfYBRnrbx3V5/z
+X-Google-Smtp-Source: AGHT+IEL4lA8s78vp0Gg7MOmptz86X5Vg+sujBASU2RfYgzLtUU6Y26AXdNXUW7VE46t0p06RX/ymQ==
+X-Received: by 2002:a17:907:60d6:b0:ab7:c426:f33 with SMTP id a640c23a62f3a-ab7f34a8230mr346620066b.56.1739374302011;
+        Wed, 12 Feb 2025 07:31:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab7b4aba036sm737804366b.45.2025.02.12.07.31.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 07:31:41 -0800 (PST)
+Date: Wed, 12 Feb 2025 18:31:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, David Gow <davidgow@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] ww_mutex: convert self-test to KUnit
+Message-ID: <30998382-ee63-4a4e-8287-cd21c649b849@stanley.mountain>
+References: <20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e@gmail.com>
+ <3dabe058-2308-4990-8e5d-0af1efd27431@stanley.mountain>
+ <CAJ-ks9=mKzgLhJW0dV-L8eFtkW-xt8v3GM51V4QF5Ef_ENKLvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e@gmail.com> <3dabe058-2308-4990-8e5d-0af1efd27431@stanley.mountain>
-In-Reply-To: <3dabe058-2308-4990-8e5d-0af1efd27431@stanley.mountain>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 12 Feb 2025 09:33:46 -0500
-X-Gm-Features: AWEUYZkkeElNnRNC8RIypph5mg5FZAiJl4nwjjINbxtzd2iXi_UiZ6XRGHLQ864
-Message-ID: <CAJ-ks9=mKzgLhJW0dV-L8eFtkW-xt8v3GM51V4QF5Ef_ENKLvA@mail.gmail.com>
-Subject: Re: [PATCH] ww_mutex: convert self-test to KUnit
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, David Gow <davidgow@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ-ks9=mKzgLhJW0dV-L8eFtkW-xt8v3GM51V4QF5Ef_ENKLvA@mail.gmail.com>
 
-Hi Dan,
+On Wed, Feb 12, 2025 at 09:33:46AM -0500, Tamir Duberstein wrote:
+> >
+> 
+> As an aside, how can I compile with the warning settings used by
+> kernel test robot?
+> 
 
-On Wed, Feb 12, 2025 at 6:53=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi Tamir,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/w=
-w_mutex-convert-self-test-to-KUnit/20250211-000245
-> base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-> patch link:    https://lore.kernel.org/r/20250210-ww_mutex-kunit-convert-=
-v1-1-972f0201f71e%40gmail.com
-> patch subject: [PATCH] ww_mutex: convert self-test to KUnit
-> config: i386-randconfig-141-20250212 (https://download.01.org/0day-ci/arc=
-hive/20250212/202502121806.CS6r741y-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502121806.CS6r741y-lkp@intel.com/
->
-> smatch warnings:
-> kernel/locking/ww_mutex_kunit.c:238 test_abba_gen_params() warn: shift ha=
-s higher precedence than mask
-> kernel/locking/ww_mutex_kunit.c:249 test_abba() warn: shift has higher pr=
-ecedence than mask
->
-> vim +238 kernel/locking/ww_mutex_kunit.c
->
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  231
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  232  static const void *test_abba_gen_params(const void *prev, char *de=
-sc)
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  233  {
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  234        static unsigned int storage;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  235        const unsigned int *next =3D gen_range(&storage, 0b00, 0b11,=
- prev);
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  236
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  237        if (next !=3D NULL) {
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10 @238                const bool trylock =3D *next & 0b01 >> 0;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  239                const bool resolve =3D *next & 0b10 >> 1;
->
-> The shifts here are weird...  A zero shift is strange but even the 1 shif=
-t
-> is odd.  The current code is equivalent to:
->
->         const bool resolve =3D *next & (0b10 >> 1);
->
-> But changing it to:
->
->         const bool resolve =3D (*next & 0b10) >> 1;
->
-> Doesn't make sense either...  Probably that makes less sense actually.
-> What are you trying to communicate with this code?
+This is a Smatch warning.
 
-Yeah, the bit shifting here is not necessary. I'll replace this with a
-proper bitfield.
+https://github.com/error27/smatch
+https://github.com/error27/smatch/blob/master/Documentation/smatch.rst
 
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  240
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  241                snprintf(desc, KUNIT_PARAM_DESC_SIZE, "trylock=3D%d,=
-resolve=3D%d", trylock, resolve);
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  242        }
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  243        return next;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  244  }
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  245
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  246  static void test_abba(struct kunit *test)
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  247  {
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  248        const unsigned int *param =3D test->param_value;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10 @249        const bool trylock =3D *param & 0b01 >> 0;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  250        const bool resolve =3D *param & 0b10 >> 1;
->
-> Same.
->
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  251        struct test_abba abba;
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  252        struct ww_acquire_ctx ctx;
-> daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-=
-10  253        int err;
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  254
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  255        ww_mutex_init(&abba.a_mutex, &ww_class);
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  256        ww_mutex_init(&abba.b_mutex, &ww_class);
-> 70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-=
-01  257        INIT_WORK_ONSTACK(&abba.work, test_abba_work);
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+Run smatch/smatch_scripts/kchecker kernel/locking/ww_mutex_kunit.c
 
-As an aside, how can I compile with the warning settings used by
-kernel test robot?
+regards,
+dan carpenter
 
-Thanks.
-Tamir
