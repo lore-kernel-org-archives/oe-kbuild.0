@@ -1,146 +1,190 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E511F03CC
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 10:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133B91F4299
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 11:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739355421; cv=none; b=F2twVk7JevTLKzOBwq+YUbbKbosTw+D0ejdr3UpeY4h7fcQBMn0wYIGkRzHzMKwAAAxx+7rcn2iz0wVXs5VJsvwi3IfH8J7HFfmjiPzEMSuFBE5LGM0yw8Ids6Tzj8V0WehVuJOqVmcNSlAKtZqQRI8LE0V0OzzeZF0Z/rayo9I=
+	t=1739358108; cv=none; b=LY8qz11VQnCNxG17JlKEUDFIB4DFRx8EYYkVUZsVgEyo5G+tpbMqgnbwQO7Po7wcbsayqAofbW/6WQW66bFxDPfGjBmX4NMGSsp3be6F7Cdk4iRTv2hqFwP2FX0dotZK03/5LOl+n88mPVTtweE9NFAYym5UQurH/b+iP5lembk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739355421; c=relaxed/simple;
-	bh=aDiJ7MzcZuOp59joBAKOXPnxH/9tlAB04GJhUTcCYwI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IczKvCSr3rcG6xQcEGjbpKjqdGjWSNQ/KPirtrbKjL2f/Wa0yFgxC5mPewyR9RbTKr6Quthe4laAC6enjVXn9meyLPtCiyZecNu2EKKzulCL8umxrWfpueOb0fX0u60SlQszL3ngQ/350ZwoyCeXVsVtQf5EQ7kS7JhBFENvbss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Emf/1qZy; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1739358108; c=relaxed/simple;
+	bh=ZTq4IZ30IoKicm9XLeBBg3Tc5jNkRoDjSdRVoec8cfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CmkcvSNf6crvoMUWQGQ4bt+bnA0HftqFSr/uvYNFypl8eT3TTjKD+RaDOIWtqNE43a62UrnTyspAxxJ5qSOUSb1oW/n8yNq1nzgk/cpayrPNlbFs5aMy7s62EzPrKWu6TKMrmL2vftNDDwtEeNN09iHZcMOhCqQNw8jk9n8yYYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQwP0VAy; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Emf/1qZy"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4395578be70so15054885e9.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 02:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739355418; x=1739960218; darn=lists.linux.dev;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
-        b=Emf/1qZyfAiKQzEKOls0u+sTduqgaVFDBxicmiAiCh8jlmEO6mGk1AqUoEcvpmDe2I
-         Nxdq6l43+yH2wkC4KJmPcXivM4ydHpIqaP5gPIFXgw5OxJAsmE32Xxiq8ivtHJ+WTgUW
-         O5Spa8vLWIowZiY+HP02qJ4H3WLZJq7sHeRCBzbYVcIz0f+ooX6tjmq06eIq9nsvw06w
-         NAaBIto1nK8QcWuTk5vmDGVlDFlUrgt5k/T7QOor4w+Z6vgwir+LajlCfzguALdr+fCb
-         oh/K014SR6ek/9LV0Q1EzbF/D0FULPSF1Mq32U9fQm43lwawwS1FbKi5wmeAKRpWav2c
-         sbqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739355418; x=1739960218;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
-        b=jpMSuOO/b5L5dB2LMSlGCXMLQFoqd5/qgF318k1vlFSC5qwZSiH4DN/1biCgVo/02w
-         AHx09D5AuPE68S2Jr4U5RJp55WCV6drvZrd5T+lc9f9R0ozwu5uqkRurn8hw9hmeo09/
-         GfCxG8A8fB1AIGiEF6jv58u794CKyt5KbBz99+o6Mx9pcm0t2zkSRDMJNuMckj1XApOA
-         ONzTcMgqodYXZAc07WWO7XstcXgfKN67EBmQnFixuGC/WdLBhIVnzRbUhvUuJcFJwkCk
-         jvWGQSffCU2si4KzC4tpx4dIhpuOpmYqfaLHrYDW1mNRR73lY1KYBNWtH9Yeb0qgPAgX
-         pxGA==
-X-Gm-Message-State: AOJu0YwLXIUgI2rpJCbJ50ntO8SIwg+5AYiFvdhRo/BKuDwBxJlUL7ch
-	c3tQpwbpruWZR1FqTOq1FlwCWxr3EuYb+SWpc1nuv7cFxhDt3orh8OfsejvV5uI=
-X-Gm-Gg: ASbGncs4mXgAxd9MmFO7UH2fG5mGULH02A3RSat7KIYPGIJNXw5husRYjoVx0lu9m64
-	uYvob/GqIjtfXEdfay37q0bRcA5Nj4xQlX+rzMqnL9Ykx//3RyI++p+FEVgi6ilIsCRYHan7Llk
-	G+78/PryvrJffpFxXh+2NQxsK8LyaalA6kqRpIu5PsID+BJjEEF3BPY5RiAOdiVWmcxwzqRBXvz
-	kKEMmPMP3ePuwOinHSb7dboW0IyaRRmzdkVh/qxobp511ougVgu16dPGB+OWU20eAQkQYPBGbfs
-	IMcFghFoizHDaQ==
-X-Google-Smtp-Source: AGHT+IHbLFUK64oZDaRhyUljmKTni82bcsfQUnjFGMVlOka7cHXg7qh7zuixm+Pnf373SApmvVszgQ==
-X-Received: by 2002:a05:600c:35ce:b0:436:ed38:5c7f with SMTP id 5b1f17b1804b1-43958176904mr27619615e9.12.1739355417891;
-        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:65bb:e6ee:3141:374])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a053fb3sm15318055e9.16.2025.02.12.02.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,  Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Dave Ertman <david.m.ertman@intel.com>,
-  Ira Weiny <ira.weiny@intel.com>,  "Rafael J. Wysocki"
- <rafael@kernel.org>,  Stephen Boyd <sboyd@kernel.org>,  Arnd Bergmann
- <arnd@arndb.de>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
- device creation helper
-In-Reply-To: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain> (Dan
-	Carpenter's message of "Wed, 12 Feb 2025 10:26:50 +0300")
-References: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain>
-User-Agent: mu4e 1.12.8; emacs 29.4
-Date: Wed, 12 Feb 2025 11:16:56 +0100
-Message-ID: <1jldub1n8n.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQwP0VAy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739358106; x=1770894106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZTq4IZ30IoKicm9XLeBBg3Tc5jNkRoDjSdRVoec8cfw=;
+  b=hQwP0VAyyJhl2WUxh0Hg65yU8xuMsMFekWTJPfjUi4jvp9XydtHzPqmg
+   mx36wI/D2a3AYoRh0cd1CSDpbL6wr4knTtvsxqJLR8ETZJjm1bNgj/e+1
+   Db9+U+OsVY5YP4H8PQEMiEoBsGEvc13EjtfIzYeKOmlbVoAHGHvhHMhx+
+   679gKT8/ScgprOJLHCYo7oHStmtMcow94ab8qkWQOk6H5XzpF76iDlZkb
+   orXbD5rLqRN/1+OJ6Ls9QOG4JK+q3DLaNyRggANe2sax5FaJ4Z/S7q39L
+   bLztklHrJo9DD9yRmN424BAtMDinUaUHzzHj5KNN01K2aGUj3oSgQF1Ts
+   w==;
+X-CSE-ConnectionGUID: ObXkoFreQBmcQAsATGI64w==
+X-CSE-MsgGUID: vRjh142FQOyHBMD5USoB4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="43936400"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="43936400"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 03:01:44 -0800
+X-CSE-ConnectionGUID: JJXzTjUfTE60ZvEWs0L8xw==
+X-CSE-MsgGUID: J1p2TdSlRYGT29g2HPxR4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="112558155"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Feb 2025 03:01:43 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tiAUt-0015XX-2R;
+	Wed, 12 Feb 2025 11:01:39 +0000
+Date: Wed, 12 Feb 2025 19:01:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] ww_mutex: convert self-test to KUnit
+Message-ID: <202502121806.CS6r741y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed 12 Feb 2025 at 10:26, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e@gmail.com>
+References: <20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e@gmail.com>
+TO: Tamir Duberstein <tamird@gmail.com>
+TO: David Gow <davidgow@google.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Will Deacon <will@kernel.org>
+TO: Boqun Feng <boqun.feng@gmail.com>
+TO: Waiman Long <longman@redhat.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+TO: Nathan Chancellor <nathan@kernel.org>
+TO: Nick Desaulniers <ndesaulniers@google.com>
+TO: Bill Wendling <morbo@google.com>
+TO: Justin Stitt <justinstitt@google.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: llvm@lists.linux.dev
+CC: Tamir Duberstein <tamird@gmail.com>
 
-> Hi Jerome,
->
-> kernel test robot noticed the following build warnings:
->
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/driver-core-auxiliary-bus-add-device-creation-helper/20250207-023433
-> base:   2014c95afecee3e76ca4a56956a936e23283f05b
-> patch link:    https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-6-fa6a0f326527%40baylibre.com
-> patch subject: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
-> config: xtensa-randconfig-r071-20250208
-> (https://download.01.org/0day-ci/archive/20250208/202502081655.FlCrxpYN-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 14.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502081655.FlCrxpYN-lkp@intel.com/
->
-> smatch warnings:
-> drivers/clk/imx/clk-imx8mp-audiomix.c:241
-> clk_imx8mp_audiomix_reset_controller_register() warn: passing zero to
-> 'PTR_ERR'
->
-> vim +/PTR_ERR +241 drivers/clk/imx/clk-imx8mp-audiomix.c
->
-> c350f4c434316c Jerome Brunet 2025-02-06 231 static int
-> clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  232  {
-> c350f4c434316c Jerome Brunet 2025-02-06  233  	struct auxiliary_device *adev;
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  234  
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  235  	if (!of_property_present(dev->of_node, "#reset-cells"))
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  236  		return 0;
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  237  
-> c350f4c434316c Jerome Brunet 2025-02-06  238  	adev = devm_auxiliary_device_create(dev, KBUILD_MODNAME,
-> c350f4c434316c Jerome Brunet 2025-02-06  239  					    "reset", NULL, 0);
-> c350f4c434316c Jerome Brunet 2025-02-06  240  	if (IS_ERR_OR_NULL(adev))
-> c350f4c434316c Jerome Brunet 2025-02-06 @241  		return PTR_ERR(adev);
->
-> If devm_auxiliary_device_create() could return NULL then that would count
-> as success.  But devm_auxiliary_device_create() can't return NULL.  It
-> only makes sense to return NULL if the auxiliary device is optional.
+Hi Tamir,
 
-Hi Dan,
+kernel test robot noticed the following build warnings:
 
-It should have been IS_ERR() there. It is something I've noticed and
-fixed in the other changes before submitting the v2 but, somehow, this
-one slipped through. Thanks for catching this. This is obviously still
-present in the v3 I've sent yesterday but will be fixed on the next
-version. I'm waiting for feedback on the core part before making another
-one.
+[auto build test WARNING on a64dcfb451e254085a7daee5fe51bf22959d52d3]
 
-Cheers
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/ww_mutex-convert-self-test-to-KUnit/20250211-000245
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e%40gmail.com
+patch subject: [PATCH] ww_mutex: convert self-test to KUnit
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121806.CS6r741y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
->
-> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
->
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  242  
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  243  	return 0;
-> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  244  }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502121806.CS6r741y-lkp@intel.com/
+
+smatch warnings:
+kernel/locking/ww_mutex_kunit.c:238 test_abba_gen_params() warn: shift has higher precedence than mask
+kernel/locking/ww_mutex_kunit.c:249 test_abba() warn: shift has higher precedence than mask
+
+vim +238 kernel/locking/ww_mutex_kunit.c
+
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  231  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  232  static const void *test_abba_gen_params(const void *prev, char *desc)
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  233  {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  234  	static unsigned int storage;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  235  	const unsigned int *next = gen_range(&storage, 0b00, 0b11, prev);
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  236  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  237  	if (next != NULL) {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10 @238  		const bool trylock = *next & 0b01 >> 0;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  239  		const bool resolve = *next & 0b10 >> 1;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  240  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  241  		snprintf(desc, KUNIT_PARAM_DESC_SIZE, "trylock=%d,resolve=%d", trylock, resolve);
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  242  	}
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  243  	return next;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  244  }
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  245  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  246  static void test_abba(struct kunit *test)
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  247  {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  248  	const unsigned int *param = test->param_value;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10 @249  	const bool trylock = *param & 0b01 >> 0;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  250  	const bool resolve = *param & 0b10 >> 1;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  251  	struct test_abba abba;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  252  	struct ww_acquire_ctx ctx;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  253  	int err;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  254  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  255  	ww_mutex_init(&abba.a_mutex, &ww_class);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  256  	ww_mutex_init(&abba.b_mutex, &ww_class);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  257  	INIT_WORK_ONSTACK(&abba.work, test_abba_work);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  258  	init_completion(&abba.a_ready);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  259  	init_completion(&abba.b_ready);
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  260  	abba.trylock = trylock;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  261  	abba.resolve = resolve;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  262  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  263  	schedule_work(&abba.work);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  264  
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  265  	ww_acquire_init_noinject(&ctx, &ww_class);
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  266  	if (!trylock)
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  267  		ww_mutex_lock(&abba.a_mutex, &ctx);
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  268  	else
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  269  		WARN_ON(!ww_mutex_trylock(&abba.a_mutex, &ctx));
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  270  
+12235da8c80a1f kernel/locking/test-ww_mutex.c  Maarten Lankhorst 2021-09-09  271  	WARN_ON(READ_ONCE(abba.a_mutex.ctx) != &ctx);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  272  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  273  	complete(&abba.a_ready);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  274  	wait_for_completion(&abba.b_ready);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  275  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  276  	err = ww_mutex_lock(&abba.b_mutex, &ctx);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  277  	if (resolve && err == -EDEADLK) {
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  278  		ww_mutex_unlock(&abba.a_mutex);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  279  		ww_mutex_lock_slow(&abba.b_mutex, &ctx);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  280  		err = ww_mutex_lock(&abba.a_mutex, &ctx);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  281  	}
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  282  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  283  	if (!err)
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  284  		ww_mutex_unlock(&abba.b_mutex);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  285  	ww_mutex_unlock(&abba.a_mutex);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  286  	ww_acquire_fini(&ctx);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  287  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  288  	flush_work(&abba.work);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  289  	destroy_work_on_stack(&abba.work);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  290  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  291  	if (resolve) {
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  292  		if (err || abba.result) {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  293  			KUNIT_FAIL(test, "failed to resolve ABBA deadlock, A err=%d, B err=%d",
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  294  				   err, abba.result);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  295  		}
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  296  	} else {
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  297  		if (err != -EDEADLK && abba.result != -EDEADLK) {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  298  			KUNIT_FAIL(test, "missed ABBA deadlock, A err=%d, B err=%d",
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  299  				   err, abba.result);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  300  		}
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  301  	}
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  302  }
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  303  
 
 -- 
-Jerome
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
