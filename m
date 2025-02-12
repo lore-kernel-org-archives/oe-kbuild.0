@@ -1,74 +1,67 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404E22046AD
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 08:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB002046BD
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 08:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739347744; cv=none; b=K0U4V2OPb9EfehXdP1kMXCzbvNd3nn3RZJt5DVchG62MSdGQTiKPjKk+MTGyxvSgvLXFRQaMxuG0zG6AJ+j2oUfgcjQK4O25au26lfMxmIK78w0soVUNaps3fKRsEECUHJ2xVlubEbHUMkowj0K1HByYuMGYWeHtLVEg53Wfavc=
+	t=1739347948; cv=none; b=qI+tvEGf5a0pjO2a3NEJaBc8hLVgDVNLNNNFCZdW26rESuOVRpTDLV4LtnuVbKAfp2L+T5mDXAr9IG27+nlYEFJYZ/5HjBNMGQhjLjWBOin2vpLT8GKqx1qn6C8Jo8tlezZjehd0EBV+/7EIDBDCwlPOcw3txma31Pl5UqtPSJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739347744; c=relaxed/simple;
-	bh=rjOC+UiSQ/hRzNP0qBAggpvoEOd3B3KotYeOYhvh5kc=;
+	s=arc-20240116; t=1739347948; c=relaxed/simple;
+	bh=AOD6ZTunC21zm4VwIcT7DXopXjPX+m1lXeFUPn6bV8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ePKWeCCB28FyBfHa33hOBo3rs5ql1RYKgLX+1TIOUB4L37w8PM/zEECgk/DUb2JqBUpkyilGphA04mu1KKFgmjfKr2lLAK/l616TkfDo54wyO7Iu7+5Y+V9VwGKEH2MCRebRG8PGQZluE9O8kkADRx6rjF7HehLDoNjh7SR747w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RtVW+CNb; arc=none smtp.client-ip=209.85.208.52
+	 Content-Disposition; b=AG/OOSTm73ddNF5ca39MzqnY0edBoNuyBHtBr4iuoPbLKqgGIRC7XlCd1GpLShGj9ZE6O/fKP94ibVHjArW+vdVTLWsLtWSttbxxwCPpkntzJaSatIn/TLuxcDBGKB0VFWJ1/3Dhq+TdbYzmEdaPmAo0XL33LR9SeLBpX1YD7AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BSHxksWW; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RtVW+CNb"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5de4f4b0e31so8344217a12.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 00:09:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BSHxksWW"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab7d58aa674so330448866b.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 00:12:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739347740; x=1739952540; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvXcYW1MKztDl/tRYElqJoXD5IkRoH7LOQ+vHwT06FQ=;
-        b=RtVW+CNbHCoUdLqRO1Rvd+8xe/aXVgPeGM46ilyBvnfLf7gv4mWcjVIcb9O+Egu2AF
-         keyt5jxPo/nvLI+v8SPQdm4a2ItCKjBLsIgOrbVnElXZsxb59hmrE+P1vXp2M6Lcce8a
-         J0Ca4gmzKwzdzVqLQ7HtdZpEaJnM7dJd+RMz1vK+3d98SyTgytAzNCApaO2pHRVV0SkN
-         zm9fT53D6yWVpyipfEPI5DMmZqG/lUw1nkRD3zW6P01Y1SdTU9wRST8aZoi1etfLkHxY
-         caQZgfaJad3NrFHrqul2753EzYKginMs+hev28py4j0AKK0rdyovdxwWmkh+542HNUmS
-         0Ibg==
+        d=linaro.org; s=google; t=1739347944; x=1739952744; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6WPK4Zi+QKUvwDdcamJCtnHelUZQ7YZ84gTdE+DX9L4=;
+        b=BSHxksWWg99cdaWa8llm5WAb+MzNrRb3nVf6/Wj+d6Dg6+S4TLH5FiDxDvsdvdCHfc
+         NnPhGcgnX8b3m6xxOEgGO87/fKzPCuUvlPE8LKgbcnSr+FWOWzFa7GnVxIPpiOdg8j5c
+         MLyvOLlWXIkwTHGaaBq+11YPI05ehvxohTi/TkJc3dGlqYTVseW/2+3qLkgxzN6Y73gw
+         3MKZsXb2pgdJsUQbA6Zxm73bXr1+CK43IDFXah6mcaKjkv4hJcKiKCUrtz/usU7Hc3XE
+         +ATy9I6vXMJ5Z7lb7aSVT2GkcUK/ZJ3r0Uz4eaaTRwlJ9P0HSAtwGOyKNuVx2fH0rv+n
+         ZauA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739347740; x=1739952540;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DvXcYW1MKztDl/tRYElqJoXD5IkRoH7LOQ+vHwT06FQ=;
-        b=TabcDiDgdNALtMNjNTMDQqMeLasiQ38f5uxEKgD6zYVeARaV+neR2C2ODvnAXD4dv4
-         lt7PNc603QR0lLF+rpw76ZyZdaCbVwot0cbl1DqLLbVgUYH9SpTl8z8dOivJ5gsqnHj7
-         7rMf6b4jWtcc+m2Fqb6kfyq7gT2Ii8Alqb68Yj2T/U3N06LfzVCOkDxD1hkkDmosgAFg
-         C/7Xsa8yD0FA3xlH9cPQq4F9r9NMopjD/Uxfctml3+Iv9a5+gMuqsUGbqFFYIz7ovK6t
-         cAy1DeBlIUDkHFya/alY8xfL/epOIAJ8K+1JA1ixdhf9LJjmjt39EWOsf/oir9F4LCXL
-         aLXg==
-X-Gm-Message-State: AOJu0Yyw0LOlzRABZClX245e2yALWN9ov4DjIeF1uN9Nf2YS+Ec2oj9j
-	4aWnTJpKmHnsvIBZO05O+v45Y90EX1i1JHEyi0v8XsUsQTl8ai4VRwkT9C0zDpUqYaLuXtVylSe
-	m
-X-Gm-Gg: ASbGncvL+DuC5TVKWQtByJB/UYhP9An+Z712RSuIXRgUYHykQzicy5Xs1TAf450zGv6
-	KevT8JIxM8MS86c9kDyRIEl2Gd+HF62Cb0gaeKG22lnlOYUcUiOobtvfVJxNkShdWORq+2rZx0H
-	YzJXAkAu12xcck86d5nQhkHeOEBMIrIrsPiOT8xx4BuMPiOTB1NqVg4VR81rwIJcGUOSuOv2J2C
-	BdbFIFcOyljzywU89TMsBTTF4I9L+vd4h9X3mdUdG5fVqIffnRUrqp00o8OWz+DtigB6LnAdkx5
-	GvKOHSl5Yd1xPA82PfVD
-X-Google-Smtp-Source: AGHT+IFbvgL16Ql7hM3shlk1MJkm5T6QdHnfS2u0kU96lZQKTswY5nVLhhE0KAeP0UU4pKwvyLBkYA==
-X-Received: by 2002:a05:6402:26d3:b0:5db:f423:19c5 with SMTP id 4fb4d7f45d1cf-5deadd7b8c3mr1650639a12.5.1739347740274;
-        Wed, 12 Feb 2025 00:09:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739347944; x=1739952744;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6WPK4Zi+QKUvwDdcamJCtnHelUZQ7YZ84gTdE+DX9L4=;
+        b=NVk7/mkcnSpxgmAIZN6rjAWE9Znu/XZk0+WlWyDZ51quFtmWedpclCzQzcYkyD9OU4
+         xcIAz2UrP8CnHAJDTEIetEBScje9H24X3uu4T44MIcbudlk+oeKAuhssET5jA6dBoHin
+         4muVULeyudYhkYe9uwLZpcoqOu9Xew3vQZtI3R/jNNn0d12r1K7yuekzwdomEupcm//f
+         zklSi6H/5frUZIrVLXF/HJobDjTQEvbh2OV8jAMxoM2Eh/ftgsh33o4kDx6SCYuF4ENM
+         9Rk5fyyHuER6RTF+akm7DtuSVZbmZdvm3r2cop8FQ7nas6PP+l7WYL40pRCY8/IWUplO
+         5b2g==
+X-Gm-Message-State: AOJu0YxBs11mHRfeLHcfhP8T6GH2iKZ92NC/Clg9uWo/vPXwrtTdJAJ6
+	1OOwFoVv3zm760sihTsxjzVddc5aVXIizpwBu9y/agphUn/EY06sqF3rrEVU9YEEaMJ8+ac1PI6
+	5
+X-Gm-Gg: ASbGncsxpEfrM04AvXSstSwnACPFC8cCWphqKoMrprTGehfR91xayHjluPkGINOvtrd
+	Q+aAEA0LEuF8Qfmk+PNiHrccGTETuxmsJS2CxiTMIRQHt5SoH72VhsLXUjR9QISyXSrkXHW9wWZ
+	oTEiBtK9V3sU3LOKawJ+HdclvvyfXqSo3WRaTk1U5A3nrmVnq8dF93PuqDW0cl3tF9OmK7bm7Qs
+	cLWQDS6UQw8s/6MYW4YbDMY2b/o17wBGleXB9YE1qGj2U34v8P6DWFwEtM1N+QIcWKCjX4iUZG/
+	lBx33+AZAukJOeMT573o
+X-Google-Smtp-Source: AGHT+IF6IqLQYVe3EfTRNtikkldoS6I8k4VVb8J5QhmXRUgUnhuaoEsvkH5JB9m/Sji1AzWb4VpBCA==
+X-Received: by 2002:a17:907:94c5:b0:ab7:c6f4:9529 with SMTP id a640c23a62f3a-ab7f33781f4mr217865066b.7.1739347943434;
+        Wed, 12 Feb 2025 00:12:23 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5de45a92fa7sm10133870a12.23.2025.02.12.00.08.59
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab7e04bbbcesm284498966b.163.2025.02.12.00.12.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 00:08:59 -0800 (PST)
-Date: Wed, 12 Feb 2025 11:08:56 +0300
+        Wed, 12 Feb 2025 00:12:23 -0800 (PST)
+Date: Wed, 12 Feb 2025 11:12:19 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Melissa Wen <mwen@igalia.com>,
-	harry.wentland@amd.com, sunpeng.li@amd.com,
-	Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-	simona@ffwll.ch, alex.hung@amd.com, mario.limonciello@amd.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	kernel-dev@igalia.com
-Subject: Re: [PATCH] drm/amd/display: restore edid reading from a given i2c
- adapter
-Message-ID: <63cd70b2-895c-4475-b154-cf4e041e43d6@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-freecounters 2/5] fs/xfs/xfs_super.c:1100
+ xfs_init_percpu_counters() error: buffer overflow 'mp->m_free' 2 <= u32max
+Message-ID: <2ecbbcd0-b5da-474f-b1f7-f32060352c92@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,76 +70,80 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250209225843.7412-1-mwen@igalia.com>
 
-Hi Melissa,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Melissa-Wen/drm-amd-display-restore-edid-reading-from-a-given-i2c-adapter/20250210-070016
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250209225843.7412-1-mwen%40igalia.com
-patch subject: [PATCH] drm/amd/display: restore edid reading from a given i2c adapter
-config: x86_64-randconfig-161-20250211 (https://download.01.org/0day-ci/archive/20250212/202502121000.EBCEdoo9-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   git://git.infradead.org/users/hch/xfs xfs-freecounters
+head:   3bbffc404041adfe745be0979943086ab448915d
+commit: 401cd937aa9d718776bb7ce5379d248388c093bf [2/5] xfs: generalize the freespace and reserved blocks handling
+config: riscv-randconfig-r073-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121406.RZwuvkY4-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502121000.EBCEdoo9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502121406.RZwuvkY4-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7201 amdgpu_dm_connector_funcs_force() warn: variable dereferenced before check 'dc_link' (see line 7187)
+smatch warnings:
+fs/xfs/xfs_super.c:1100 xfs_init_percpu_counters() error: buffer overflow 'mp->m_free' 2 <= u32max
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:12110 parse_edid_displayid_vrr() warn: variable dereferenced before check 'edid_ext' (see line 12106)
+vim +1100 fs/xfs/xfs_super.c
 
-vim +/dc_link +7201 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+8757c38f2cf6e5 Ian Kent          2019-11-04  1066  static int
+8757c38f2cf6e5 Ian Kent          2019-11-04  1067  xfs_init_percpu_counters(
+8757c38f2cf6e5 Ian Kent          2019-11-04  1068  	struct xfs_mount	*mp)
+8757c38f2cf6e5 Ian Kent          2019-11-04  1069  {
+8757c38f2cf6e5 Ian Kent          2019-11-04  1070  	int			error;
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1071  	enum xfs_free_counter	i;
 
-dae343b343ff741 Arnd Bergmann 2023-05-01  7179  static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
-0ba4a784a14592a Alex Hung     2023-04-05  7180  {
-0ba4a784a14592a Alex Hung     2023-04-05  7181  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-0ba4a784a14592a Alex Hung     2023-04-05  7182  	struct dc_link *dc_link = aconnector->dc_link;
-0ba4a784a14592a Alex Hung     2023-04-05  7183  	struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
-48edb2a4256eedf Melissa Wen   2024-09-27  7184  	const struct drm_edid *drm_edid;
-be1aae525741575 Melissa Wen   2025-02-09  7185  	struct i2c_adapter *ddc;
-0ba4a784a14592a Alex Hung     2023-04-05  7186  
-be1aae525741575 Melissa Wen   2025-02-09 @7187  	if (dc_link->aux_mode)
-                                                            ^^^^^^^^^^^^^^^^^
-Unchecked dereference
+In GCC enums are unsigned int where possible.
 
-be1aae525741575 Melissa Wen   2025-02-09  7188  		ddc = &aconnector->dm_dp_aux.aux.ddc;
-be1aae525741575 Melissa Wen   2025-02-09  7189  	else
-be1aae525741575 Melissa Wen   2025-02-09  7190  		ddc = &aconnector->i2c->base;
-be1aae525741575 Melissa Wen   2025-02-09  7191  
-be1aae525741575 Melissa Wen   2025-02-09  7192  	drm_edid = drm_edid_read_ddc(connector, ddc);
-48edb2a4256eedf Melissa Wen   2024-09-27  7193  	drm_edid_connector_update(connector, drm_edid);
-48edb2a4256eedf Melissa Wen   2024-09-27  7194  	if (!drm_edid) {
-0e859faf8670a78 Alex Hung     2023-08-25  7195  		DRM_ERROR("No EDID found on connector: %s.\n", connector->name);
-0ba4a784a14592a Alex Hung     2023-04-05  7196  		return;
-0e859faf8670a78 Alex Hung     2023-08-25  7197  	}
-0ba4a784a14592a Alex Hung     2023-04-05  7198  
-48edb2a4256eedf Melissa Wen   2024-09-27  7199  	aconnector->drm_edid = drm_edid;
-0ba4a784a14592a Alex Hung     2023-04-05  7200  	/* Update emulated (virtual) sink's EDID */
-0ba4a784a14592a Alex Hung     2023-04-05 @7201  	if (dc_em_sink && dc_link) {
-                                                                          ^^^^^^^
-This code assumes dc_link can be NULL
+8757c38f2cf6e5 Ian Kent          2019-11-04  1072  
+8757c38f2cf6e5 Ian Kent          2019-11-04  1073  	error = percpu_counter_init(&mp->m_icount, 0, GFP_KERNEL);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1074  	if (error)
+8757c38f2cf6e5 Ian Kent          2019-11-04  1075  		return -ENOMEM;
+8757c38f2cf6e5 Ian Kent          2019-11-04  1076  
+8757c38f2cf6e5 Ian Kent          2019-11-04  1077  	error = percpu_counter_init(&mp->m_ifree, 0, GFP_KERNEL);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1078  	if (error)
+8757c38f2cf6e5 Ian Kent          2019-11-04  1079  		goto free_icount;
+8757c38f2cf6e5 Ian Kent          2019-11-04  1080  
+8757c38f2cf6e5 Ian Kent          2019-11-04  1081  	error = percpu_counter_init(&mp->m_delalloc_blks, 0, GFP_KERNEL);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1082  	if (error)
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1083  		goto free_ifree;
+8757c38f2cf6e5 Ian Kent          2019-11-04  1084  
+7099bd0f243fa7 Christoph Hellwig 2024-04-22  1085  	error = percpu_counter_init(&mp->m_delalloc_rtextents, 0, GFP_KERNEL);
+2229276c528326 Darrick J. Wong   2022-04-12  1086  	if (error)
+2229276c528326 Darrick J. Wong   2022-04-12  1087  		goto free_delalloc;
+2229276c528326 Darrick J. Wong   2022-04-12  1088  
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1089  	for (i = 0; i < XC_FREE_NR; i++) {
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1090  		error = percpu_counter_init(&mp->m_free[i].count, 0,
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1091  				GFP_KERNEL);
+7099bd0f243fa7 Christoph Hellwig 2024-04-22  1092  		if (error)
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1093  			goto free_freecounters;
 
-48edb2a4256eedf Melissa Wen   2024-09-27  7202  		// FIXME: Get rid of drm_edid_raw()
-48edb2a4256eedf Melissa Wen   2024-09-27  7203  		const struct edid *edid = drm_edid_raw(drm_edid);
-48edb2a4256eedf Melissa Wen   2024-09-27  7204  
-0ba4a784a14592a Alex Hung     2023-04-05  7205  		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
-48edb2a4256eedf Melissa Wen   2024-09-27  7206  		memmove(dc_em_sink->dc_edid.raw_edid, edid,
-48edb2a4256eedf Melissa Wen   2024-09-27  7207  			(edid->extensions + 1) * EDID_LENGTH);
-0ba4a784a14592a Alex Hung     2023-04-05  7208  		dm_helpers_parse_edid_caps(
-0ba4a784a14592a Alex Hung     2023-04-05  7209  			dc_link,
-0ba4a784a14592a Alex Hung     2023-04-05  7210  			&dc_em_sink->dc_edid,
-0ba4a784a14592a Alex Hung     2023-04-05  7211  			&dc_em_sink->edid_caps);
-0ba4a784a14592a Alex Hung     2023-04-05  7212  	}
-0ba4a784a14592a Alex Hung     2023-04-05  7213  }
+Assume i is zero
+
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1094  	}
+7099bd0f243fa7 Christoph Hellwig 2024-04-22  1095  
+8757c38f2cf6e5 Ian Kent          2019-11-04  1096  	return 0;
+8757c38f2cf6e5 Ian Kent          2019-11-04  1097  
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1098  free_freecounters:
+401cd937aa9d71 Christoph Hellwig 2025-02-09  1099  	while (--i > 0)
+
+This should be: while (i-- > 0) {.
+
+401cd937aa9d71 Christoph Hellwig 2025-02-09 @1100  		percpu_counter_destroy(&mp->m_free[i].count);
+                                                                                                   ^
+Out of bounds.
+
+7099bd0f243fa7 Christoph Hellwig 2024-04-22  1101  	percpu_counter_destroy(&mp->m_delalloc_rtextents);
+2229276c528326 Darrick J. Wong   2022-04-12  1102  free_delalloc:
+2229276c528326 Darrick J. Wong   2022-04-12  1103  	percpu_counter_destroy(&mp->m_delalloc_blks);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1104  free_ifree:
+8757c38f2cf6e5 Ian Kent          2019-11-04  1105  	percpu_counter_destroy(&mp->m_ifree);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1106  free_icount:
+8757c38f2cf6e5 Ian Kent          2019-11-04  1107  	percpu_counter_destroy(&mp->m_icount);
+8757c38f2cf6e5 Ian Kent          2019-11-04  1108  	return -ENOMEM;
+8757c38f2cf6e5 Ian Kent          2019-11-04  1109  }
 
 -- 
 0-DAY CI Kernel Test Service
