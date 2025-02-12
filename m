@@ -1,183 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D561D63C0
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 09:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E511F03CC
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 10:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739351313; cv=none; b=QNB+eDbqnh6TLMxtctwY277MqTNxIH7+a45bUM1oW6L73zRgmJG3SnDP1kUu0wCMtAC/jmykGBfIhLXI8eBi5rfhHj6lOFtOsYkWQgms/QHbvkc/CbxpmZWKpqGXi2oONVTcO+2tBdqNfIgowFvs46bjVxs/jx0+5884Nh/Xc6Q=
+	t=1739355421; cv=none; b=F2twVk7JevTLKzOBwq+YUbbKbosTw+D0ejdr3UpeY4h7fcQBMn0wYIGkRzHzMKwAAAxx+7rcn2iz0wVXs5VJsvwi3IfH8J7HFfmjiPzEMSuFBE5LGM0yw8Ids6Tzj8V0WehVuJOqVmcNSlAKtZqQRI8LE0V0OzzeZF0Z/rayo9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739351313; c=relaxed/simple;
-	bh=FLiDrq6IRrVOY88NbKo/o1+1gBJyHyr1IAmXdutiVvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j9EgAaemAyP74Qh9rXTlGLUrIMy8BqMqfYG0cNWcszXfOrq6B1LV7h2leOiv9JB9X7LROtLwam2k/NOYCr3m9ab4n95r4jdH64ZrhGELJ4V52myR5aXrWLKsgRhudygvWEVpwIebekMJG0rbNjFzpDSSsZoIYgI3OIzqUANmHDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P73Ogicd; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739355421; c=relaxed/simple;
+	bh=aDiJ7MzcZuOp59joBAKOXPnxH/9tlAB04GJhUTcCYwI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IczKvCSr3rcG6xQcEGjbpKjqdGjWSNQ/KPirtrbKjL2f/Wa0yFgxC5mPewyR9RbTKr6Quthe4laAC6enjVXn9meyLPtCiyZecNu2EKKzulCL8umxrWfpueOb0fX0u60SlQszL3ngQ/350ZwoyCeXVsVtQf5EQ7kS7JhBFENvbss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Emf/1qZy; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P73Ogicd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739351312; x=1770887312;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FLiDrq6IRrVOY88NbKo/o1+1gBJyHyr1IAmXdutiVvU=;
-  b=P73OgicdojyucZElgcvs/ly2pu3KXnwhmjN6Gp6tmaeL/7Xt0aBFx2KP
-   KErjsdz9hYap0YzcTZBJb6KwLFkd1cA7if6rCpEoGDmRjxO051GHZXRkn
-   dzWf0XBc707mqxEz+0CNbryV1OITNu9ZSXBEXtjWInPzEpKh/dEVqZk3U
-   T5WX9I+4PUHKfMXoAOLBLiJkziwFD0F8LHZxMLCgYt2CGpovnwl2kzBgP
-   SXxBkuthVZWptNxRV5ERF304ivsKVM2lhW2nf5ekuVAAYDVX/npLv+aSG
-   2t942JLDrxdlfIgOjPnMNf6nbOzld2YTbmIShANSL0Qz4EkcjHakcHAxr
-   Q==;
-X-CSE-ConnectionGUID: xa3HJMhRRhGmWWALtBIq9g==
-X-CSE-MsgGUID: wTnDMxt/TkKIdmJF3vlK5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50218459"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="50218459"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 01:08:31 -0800
-X-CSE-ConnectionGUID: 1ydN88yOSYKQS8TQh6cuAA==
-X-CSE-MsgGUID: +GVzI/s6TNyufLvpfRAuOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112617690"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Feb 2025 01:08:29 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti8jL-0015Pn-1f;
-	Wed, 12 Feb 2025 09:08:27 +0000
-Date: Wed, 12 Feb 2025 17:07:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 188/191]
- arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning
- (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary
- #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"
- property
-Message-ID: <202502121652.8D2tODXY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Emf/1qZy"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4395578be70so15054885e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 12 Feb 2025 02:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739355418; x=1739960218; darn=lists.linux.dev;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
+        b=Emf/1qZyfAiKQzEKOls0u+sTduqgaVFDBxicmiAiCh8jlmEO6mGk1AqUoEcvpmDe2I
+         Nxdq6l43+yH2wkC4KJmPcXivM4ydHpIqaP5gPIFXgw5OxJAsmE32Xxiq8ivtHJ+WTgUW
+         O5Spa8vLWIowZiY+HP02qJ4H3WLZJq7sHeRCBzbYVcIz0f+ooX6tjmq06eIq9nsvw06w
+         NAaBIto1nK8QcWuTk5vmDGVlDFlUrgt5k/T7QOor4w+Z6vgwir+LajlCfzguALdr+fCb
+         oh/K014SR6ek/9LV0Q1EzbF/D0FULPSF1Mq32U9fQm43lwawwS1FbKi5wmeAKRpWav2c
+         sbqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739355418; x=1739960218;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
+        b=jpMSuOO/b5L5dB2LMSlGCXMLQFoqd5/qgF318k1vlFSC5qwZSiH4DN/1biCgVo/02w
+         AHx09D5AuPE68S2Jr4U5RJp55WCV6drvZrd5T+lc9f9R0ozwu5uqkRurn8hw9hmeo09/
+         GfCxG8A8fB1AIGiEF6jv58u794CKyt5KbBz99+o6Mx9pcm0t2zkSRDMJNuMckj1XApOA
+         ONzTcMgqodYXZAc07WWO7XstcXgfKN67EBmQnFixuGC/WdLBhIVnzRbUhvUuJcFJwkCk
+         jvWGQSffCU2si4KzC4tpx4dIhpuOpmYqfaLHrYDW1mNRR73lY1KYBNWtH9Yeb0qgPAgX
+         pxGA==
+X-Gm-Message-State: AOJu0YwLXIUgI2rpJCbJ50ntO8SIwg+5AYiFvdhRo/BKuDwBxJlUL7ch
+	c3tQpwbpruWZR1FqTOq1FlwCWxr3EuYb+SWpc1nuv7cFxhDt3orh8OfsejvV5uI=
+X-Gm-Gg: ASbGncs4mXgAxd9MmFO7UH2fG5mGULH02A3RSat7KIYPGIJNXw5husRYjoVx0lu9m64
+	uYvob/GqIjtfXEdfay37q0bRcA5Nj4xQlX+rzMqnL9Ykx//3RyI++p+FEVgi6ilIsCRYHan7Llk
+	G+78/PryvrJffpFxXh+2NQxsK8LyaalA6kqRpIu5PsID+BJjEEF3BPY5RiAOdiVWmcxwzqRBXvz
+	kKEMmPMP3ePuwOinHSb7dboW0IyaRRmzdkVh/qxobp511ougVgu16dPGB+OWU20eAQkQYPBGbfs
+	IMcFghFoizHDaQ==
+X-Google-Smtp-Source: AGHT+IHbLFUK64oZDaRhyUljmKTni82bcsfQUnjFGMVlOka7cHXg7qh7zuixm+Pnf373SApmvVszgQ==
+X-Received: by 2002:a05:600c:35ce:b0:436:ed38:5c7f with SMTP id 5b1f17b1804b1-43958176904mr27619615e9.12.1739355417891;
+        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:65bb:e6ee:3141:374])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a053fb3sm15318055e9.16.2025.02.12.02.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Dave Ertman <david.m.ertman@intel.com>,
+  Ira Weiny <ira.weiny@intel.com>,  "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Stephen Boyd <sboyd@kernel.org>,  Arnd Bergmann
+ <arnd@arndb.de>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
+ device creation helper
+In-Reply-To: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain> (Dan
+	Carpenter's message of "Wed, 12 Feb 2025 10:26:50 +0300")
+References: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Wed, 12 Feb 2025 11:16:56 +0100
+Message-ID: <1jldub1n8n.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Wed 12 Feb 2025 at 10:26, Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Janne Grunau <j@jannau.net>
+> Hi Jerome,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/driver-core-auxiliary-bus-add-device-creation-helper/20250207-023433
+> base:   2014c95afecee3e76ca4a56956a936e23283f05b
+> patch link:    https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-6-fa6a0f326527%40baylibre.com
+> patch subject: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
+> config: xtensa-randconfig-r071-20250208
+> (https://download.01.org/0day-ci/archive/20250208/202502081655.FlCrxpYN-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502081655.FlCrxpYN-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/clk/imx/clk-imx8mp-audiomix.c:241
+> clk_imx8mp_audiomix_reset_controller_register() warn: passing zero to
+> 'PTR_ERR'
+>
+> vim +/PTR_ERR +241 drivers/clk/imx/clk-imx8mp-audiomix.c
+>
+> c350f4c434316c Jerome Brunet 2025-02-06 231 static int
+> clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  232  {
+> c350f4c434316c Jerome Brunet 2025-02-06  233  	struct auxiliary_device *adev;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  234  
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  235  	if (!of_property_present(dev->of_node, "#reset-cells"))
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  236  		return 0;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  237  
+> c350f4c434316c Jerome Brunet 2025-02-06  238  	adev = devm_auxiliary_device_create(dev, KBUILD_MODNAME,
+> c350f4c434316c Jerome Brunet 2025-02-06  239  					    "reset", NULL, 0);
+> c350f4c434316c Jerome Brunet 2025-02-06  240  	if (IS_ERR_OR_NULL(adev))
+> c350f4c434316c Jerome Brunet 2025-02-06 @241  		return PTR_ERR(adev);
+>
+> If devm_auxiliary_device_create() could return NULL then that would count
+> as success.  But devm_auxiliary_device_create() can't return NULL.  It
+> only makes sense to return NULL if the auxiliary device is optional.
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   058e9844046713928f5f78593e66e92da1b0c0c2
-commit: c9730d62240afcc32349d8ad37ca62312b1c5547 [188/191] fixup! arm64: dts: apple: t600x: Add t6000 dispext device nodes
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20250210 (https://download.01.org/0day-ci/archive/20250212/202502121652.8D2tODXY-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121652.8D2tODXY-lkp@intel.com/reproduce)
+Hi Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502121652.8D2tODXY-lkp@intel.com/
+It should have been IS_ERR() there. It is something I've noticed and
+fixed in the other changes before submitting the v2 but, somehow, this
+one slipped through. Thanks for catching this. This is obviously still
+present in the v3 I've sent yesterday but will be fixed on the next
+version. I'm waiting for feedback on the core part before making another
+one.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:407.29-412.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:508.39-527.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:529.39-548.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:369.21-405.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:65.25-102.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@289c00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:343.9-352.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:395.9-404.5: Warning (graph_child_address): /soc/dcp@38bc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:92.9-101.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:169.9-178.5: Warning (graph_child_address): /soc/dcp@28cc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:517.9-526.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
---
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:407.29-412.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:508.39-527.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:529.39-548.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:369.21-405.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:65.25-102.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@289c00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:343.9-352.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:395.9-404.5: Warning (graph_child_address): /soc/dcp@38bc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:92.9-101.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:169.9-178.5: Warning (graph_child_address): /soc/dcp@28cc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:517.9-526.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
---
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:407.29-412.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:508.39-527.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:529.39-548.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:369.21-405.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:65.25-102.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@289c00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:343.9-352.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:395.9-404.5: Warning (graph_child_address): /soc/dcp@38bc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:92.9-101.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:169.9-178.5: Warning (graph_child_address): /soc/dcp@28cc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:517.9-526.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
---
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:407.29-412.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:508.39-527.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:529.39-548.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:369.21-405.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:65.25-102.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@289c00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:343.9-352.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:395.9-404.5: Warning (graph_child_address): /soc/dcp@38bc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:92.9-101.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:169.9-178.5: Warning (graph_child_address): /soc/dcp@28cc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:517.9-526.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
---
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:497.22-500.5: Warning (unit_address_vs_reg): /reserved-memory/uat-ttbs: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:306.14-315.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-j375.dtsi:317.14-326.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:407.29-412.4: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:508.39-527.4: Warning (simple_bus_reg): /soc/audio-controller@39b504000: simple-bus unit address format error, expected "39b540000"
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:529.39-548.4: Warning (simple_bus_reg): /soc/audio-controller@39b508000: simple-bus unit address format error, expected "39b580000"
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:369.21-405.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@38bc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@39b104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:65.25-102.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@289c00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/apple/t600x-dieX.dtsi:142.25-179.4: Warning (avoid_unnecessary_addr_size): /soc/dcp@28cc00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:147.42-150.7: Warning (unique_unit_address_if_enabled): /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@2920a1300/pmu@f/legacy_nvmem@6000/panic-count@2)
-   arch/arm64/boot/dts/apple/t600x-common.dtsi:14.10-16.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:343.9-352.5: Warning (graph_child_address): /soc/audio-controller@39b500000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-die0.dtsi:395.9-404.5: Warning (graph_child_address): /soc/dcp@38bc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:92.9-101.5: Warning (graph_child_address): /soc/dcp@289c00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:169.9-178.5: Warning (graph_child_address): /soc/dcp@28cc00000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:517.9-526.5: Warning (graph_child_address): /soc/audio-controller@39b504000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t600x-dieX.dtsi:538.9-547.5: Warning (graph_child_address): /soc/audio-controller@39b508000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+Cheers
 
-vim +142 arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-
-98274d4a92ad02 Janne Grunau 2022-10-20 @142  	DIE_NODE(dcpext1):  dcp@28cc00000 {
-
-:::::: The code at line 142 was first introduced by commit
-:::::: 98274d4a92ad02dc70b29589e20288d98d3c4b13 arm64: dts: apple: t600x: Add t6000 dispext device nodes
-
-:::::: TO: Janne Grunau <j@jannau.net>
-:::::: CC: Janne Grunau <j@jannau.net>
+>
+> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+>
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  242  
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  243  	return 0;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  244  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jerome
