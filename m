@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4D728A2BF
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Feb 2025 16:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EF32753F0
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Feb 2025 23:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739465704; cv=none; b=ZpSpBiMF/0jmQo8VD0GHcSzfFhL3PBv8LSsztwhRKzvcBI2jm3r2ZS1tMtrPT6NlnUdYdQrioFazyEvSCW02yw1tn4f2wCSy0punKNz0yi45VeOoFZLnsXkC2sw4rzgOUgvPcAnquI35dUpBG8oIJpUOCmY79AhkS6BVUSFhkv8=
+	t=1739489447; cv=none; b=LbpjPVLwP3g7D4lKMIegVbQLTtmW54Di7S0MA2vxYauj3TjOHHIYhmBsS+ZH73d5P47LXKOW35zAv4nM8pQKUHthxWDGfbPhkGptCxwk3rd2RUEskWbMCeBBe/MmbHq5vjRNEcTABMEy9NpjdnuOrsBUxY/UjjGoT4dgA8Lym1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739465704; c=relaxed/simple;
-	bh=ktm7ZWw5zBDblqkRAT24x0kYR/gMmk9XMXRaZ+sntWs=;
+	s=arc-20240116; t=1739489447; c=relaxed/simple;
+	bh=QjckQKfTKjeAAY2oVkJy8Djv6Z2K5BQM1nFhaZAKtIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qPKLQgxWPawAG1bvz2xbJEOQnPS5sVCaHcpCe06tTbgqjlUEdSNZYLBxr0/EyJN1nSpgRq5FpqUePe7Z4qP0BtFsaGlX5CrRfsNFoc+JEPIRraj7IcKCnBkVo0KUuhOrEBGPh6zBEtyivt6P8lf7bLlJyYzYq1ADk0zkTgb+Zqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GNgQhMgk; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Y4/zif6BNNl61itaMcGBIUs3g45n0+OVrC8bYtRFb8an0dPH/LZXiXaJx+mYR3iEUj4gqpI+IQRGLhzthcARAo8ySwPZm/pso2JpAloQt+LKOGQdm3dTEYq8JUVt3C6iCayA3uBd9JIcRY+mEVyyJ4c/lql6phfYE+560DZl3sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjysCgrj; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNgQhMgk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjysCgrj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739465703; x=1771001703;
+  t=1739489445; x=1771025445;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ktm7ZWw5zBDblqkRAT24x0kYR/gMmk9XMXRaZ+sntWs=;
-  b=GNgQhMgkl1qdc6dbuqvD8IGqLg17VKXE+0Kc0dbm6zMah1BSrBqw1Irx
-   TBZbPVPQcLTJbRQUOjFAhtJNxgqlOveEz5PzGfeNNLGqbwfHkDpx0tF+1
-   v+xJ9HP8DhETPYUMcLIvD+vK5Zh0L2SqRMjIBNh5SNC4OX3tj6kx9yhbm
-   Vp3lV8zcrR6PwPoEAr/TOXe2ZDZ1DtUGrYvo/gEG8IWzGo6uxZSvfqw1A
-   K3LucnuCPjVUZY698YpgDQEWZ8PObYjrvQdxNs+5JZ0yHi3YLol2nrZWe
-   y2dRWbn0SntMooC4etA+HGwdmpuU2tvGYbg7UFDlGoPFKp99VgLkLEDUG
-   A==;
-X-CSE-ConnectionGUID: jhhoby5WRb2/P998rCOSrw==
-X-CSE-MsgGUID: N47ydPLiSkmEks1fDZSkqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40296559"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="40296559"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:55:02 -0800
-X-CSE-ConnectionGUID: PYh7D0rsRTC7Y3AmnVdm4Q==
-X-CSE-MsgGUID: hc9o9z62SsqhjQBOn9D4IA==
+  bh=QjckQKfTKjeAAY2oVkJy8Djv6Z2K5BQM1nFhaZAKtIw=;
+  b=VjysCgrjfSQDi3AcrKS4TK1ifaEZfwX1QGXZoVU5jEuAN6NIitlFXqTa
+   +HdWFnogznX0iB/W0P9NlZy2uJtFPRXM97Ij0Eq3jkYw/Pt46lp8kOh8n
+   L59vhZe45jgvfhxpEj6JhpfePXPY/OSTFGdX6HGcxdyRHYT3sfsWBMUby
+   LXl8gjP1HLq68m6M7DKHWSN4oqRpAhcUCbXhmkcDndsfMi3FMIwUBNK3n
+   5MBfwHL7/MrK1/xQq79BYAu81vNSPctraCvPrFLjACnkRzefGko6HQh/E
+   XO+Sx17ivSyetP6c1DR7l+bs6bMcvuDqBmVebDYFw3dHR5IZuJ0f2uDJa
+   Q==;
+X-CSE-ConnectionGUID: KI8YN5o4QsCg0JOqeGhF2Q==
+X-CSE-MsgGUID: GAYKuXsRTC+BVSkVUegcGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="27821535"
+X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
+   d="scan'208";a="27821535"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 15:30:44 -0800
+X-CSE-ConnectionGUID: J11Y1bCPTtGlQVNDYDEoGA==
+X-CSE-MsgGUID: J/P3Vnq9TD+sA2HV6F5Aig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118397266"
+   d="scan'208";a="117912430"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Feb 2025 08:55:01 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2025 15:30:43 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ticUM-0018SL-1j;
-	Thu, 13 Feb 2025 16:54:58 +0000
-Date: Fri, 14 Feb 2025 00:54:08 +0800
+	id 1tiifJ-0018op-0M;
+	Thu, 13 Feb 2025 23:30:41 +0000
+Date: Fri, 14 Feb 2025 07:29:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2994/3437] mm/damon/paddr.c:310
- damon_pa_pageout() error: uninitialized symbol 'folio'.
-Message-ID: <202502140033.3Iu9sbzq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning
+ (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty
+ reg/ranges property
+Message-ID: <202502140758.mHKo1a7x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,125 +63,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7b7a883c7f4de1ee5040bd1c32aabaafde54d209
-commit: 66053c85f7e592c3ba5ddcd994aac7543a2ac2e9 [2994/3437] mm/damon: avoid applying DAMOS action to same entity multiple times
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 days ago
-config: powerpc-randconfig-r071-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140033.3Iu9sbzq-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
+Hi Rob,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   68763b29e0a6441f57f9ee652bbf8e7bc59183e5
+commit: 04f08ef291d4b8d76f8d198bf2929ad43b96eecf arm/arm64: dts: arm: Use generic clock and regulator nodenames
+date:   8 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-004-20230928 (https://download.01.org/0day-ci/archive/20250214/202502140758.mHKo1a7x-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140758.mHKo1a7x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502140033.3Iu9sbzq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502140758.mHKo1a7x-lkp@intel.com/
 
-smatch warnings:
-mm/damon/paddr.c:310 damon_pa_pageout() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:343 damon_pa_mark_accessed_or_deactivate() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:511 damon_pa_migrate() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:547 damon_pa_stat() error: uninitialized symbol 'folio'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:251.3-14: Warning (dma_ranges_format): /bus@c0000000/bus@c0000000/display@1000000:dma-ranges: empty "dma-ranges" property but its #address-cells (2) differs from /bus@c0000000/bus@c0000000 (1)
+   arch/arm/boot/dts/arm/integrator.dtsi:10.9-13.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/arm/integratorap.dts:103.9-132.4: Warning (unit_address_vs_reg): /syscon: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:91.12-96.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@0: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:97.12-102.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@1: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:103.12-108.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@2: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:109.12-114.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@3: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:115.12-120.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@4: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:121.12-126.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/gpio_keys/button@5: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (unit_address_vs_reg): /bus@c0000000/bus@c0000000/display@1000000/port@0: node has a unit name, but no reg or ranges property
+>> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:57.28-64.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-uart: missing or empty reg/ranges property
+>> arch/arm/boot/dts/arm/integratorap-im-pd1.dts:67.26-74.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/clock-ssp: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:77.23-83.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/regulator: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/gpio_keys: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:130.9-151.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/bridge: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:153.6-162.4: Warning (simple_bus_reg): /bus@c0000000/bus@c0000000/vga: missing or empty reg/ranges property
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:86.12-127.4: Warning (avoid_unnecessary_addr_size): /bus@c0000000/bus@c0000000/gpio_keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm/boot/dts/arm/integratorap.dts:50.10-53.4: Warning (alias_paths): /aliases: aliases property name must include only lowercase and '-'
+   arch/arm/boot/dts/arm/integratorap-im-pd1.dts:253.10-262.5: Warning (graph_child_address): /bus@c0000000/bus@c0000000/display@1000000/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
 
-vim +/folio +310 mm/damon/paddr.c
+vim +57 arch/arm/boot/dts/arm/integratorap-im-pd1.dts
 
-66053c85f7e592 SeongJae Park         2025-02-07  256  
-96f1971dabca71 SeongJae Park         2025-01-06  257  static unsigned long damon_pa_pageout(struct damon_region *r, struct damos *s,
-96f1971dabca71 SeongJae Park         2025-01-06  258  		unsigned long *sz_filter_passed)
-57223ac295845b SeongJae Park         2021-11-05  259  {
-0e92c2ee9f4595 SeongJae Park         2022-01-14  260  	unsigned long addr, applied;
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  261  	LIST_HEAD(folio_list);
-ebd3f70c630a9a SeongJae Park         2024-04-29  262  	bool install_young_filter = true;
-69a5f999176d10 SeongJae Park         2024-04-29  263  	struct damos_filter *filter;
-66053c85f7e592 SeongJae Park         2025-02-07  264  	struct folio *folio;
-69a5f999176d10 SeongJae Park         2024-04-29  265  
-ebd3f70c630a9a SeongJae Park         2024-04-29  266  	/* check access in page level again by default */
-69a5f999176d10 SeongJae Park         2024-04-29  267  	damos_for_each_filter(filter, s) {
-69a5f999176d10 SeongJae Park         2024-04-29  268  		if (filter->type == DAMOS_FILTER_TYPE_YOUNG) {
-ebd3f70c630a9a SeongJae Park         2024-04-29  269  			install_young_filter = false;
-69a5f999176d10 SeongJae Park         2024-04-29  270  			break;
-69a5f999176d10 SeongJae Park         2024-04-29  271  		}
-69a5f999176d10 SeongJae Park         2024-04-29  272  	}
-ebd3f70c630a9a SeongJae Park         2024-04-29  273  	if (install_young_filter) {
-e2fbfedad03401 SeongJae Park         2025-01-09  274  		filter = damos_new_filter(
-e2fbfedad03401 SeongJae Park         2025-01-09  275  				DAMOS_FILTER_TYPE_YOUNG, true, false);
-ebd3f70c630a9a SeongJae Park         2024-04-29  276  		if (!filter)
-ebd3f70c630a9a SeongJae Park         2024-04-29  277  			return 0;
-ebd3f70c630a9a SeongJae Park         2024-04-29  278  		damos_add_filter(s, filter);
-ebd3f70c630a9a SeongJae Park         2024-04-29  279  	}
-57223ac295845b SeongJae Park         2021-11-05  280  
-f9153b6a712d4f Usama Arif            2025-02-07  281  	addr = r->ar.start;
-f9153b6a712d4f Usama Arif            2025-02-07  282  	while (addr < r->ar.end) {
-66053c85f7e592 SeongJae Park         2025-02-07  283  		folio = damon_get_folio(PHYS_PFN(addr));
-66053c85f7e592 SeongJae Park         2025-02-07  284  		if (damon_pa_invalid_damos_folio(folio, s)) {
-f9153b6a712d4f Usama Arif            2025-02-07  285  			addr += PAGE_SIZE;
-57223ac295845b SeongJae Park         2021-11-05  286  			continue;
-f9153b6a712d4f Usama Arif            2025-02-07  287  		}
-57223ac295845b SeongJae Park         2021-11-05  288  
-dd411433129c07 Kefeng Wang           2023-03-08  289  		if (damos_pa_filter_out(s, folio))
-dd411433129c07 Kefeng Wang           2023-03-08  290  			goto put_folio;
-96f1971dabca71 SeongJae Park         2025-01-06  291  		else
-96f1971dabca71 SeongJae Park         2025-01-06  292  			*sz_filter_passed += folio_size(folio);
-18250e78f9c759 SeongJae Park         2022-12-05  293  
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  294  		folio_clear_referenced(folio);
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  295  		folio_test_clear_young(folio);
-dd411433129c07 Kefeng Wang           2023-03-08  296  		if (!folio_isolate_lru(folio))
-dd411433129c07 Kefeng Wang           2023-03-08  297  			goto put_folio;
-3f98c9a62c338b andrew.yang           2023-02-22  298  		if (folio_test_unevictable(folio))
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  299  			folio_putback_lru(folio);
-3f98c9a62c338b andrew.yang           2023-02-22  300  		else
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  301  			list_add(&folio->lru, &folio_list);
-dd411433129c07 Kefeng Wang           2023-03-08  302  put_folio:
-f9153b6a712d4f Usama Arif            2025-02-07  303  		addr += folio_size(folio);
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  304  		folio_put(folio);
-57223ac295845b SeongJae Park         2021-11-05  305  	}
-ebd3f70c630a9a SeongJae Park         2024-04-29  306  	if (install_young_filter)
-ebd3f70c630a9a SeongJae Park         2024-04-29  307  		damos_destroy_filter(filter);
-14f5be2a2d9bb7 SeongJae Park         2024-04-29  308  	applied = reclaim_pages(&folio_list);
-57223ac295845b SeongJae Park         2021-11-05  309  	cond_resched();
-66053c85f7e592 SeongJae Park         2025-02-07 @310  	s->last_applied = folio;
-0e92c2ee9f4595 SeongJae Park         2022-01-14  311  	return applied * PAGE_SIZE;
-57223ac295845b SeongJae Park         2021-11-05  312  }
-57223ac295845b SeongJae Park         2021-11-05  313  
-8193321ac90d52 SeongJae Park         2022-09-13  314  static inline unsigned long damon_pa_mark_accessed_or_deactivate(
-96f1971dabca71 SeongJae Park         2025-01-06  315  		struct damon_region *r, struct damos *s, bool mark_accessed,
-96f1971dabca71 SeongJae Park         2025-01-06  316  		unsigned long *sz_filter_passed)
-8cdcc532268df0 SeongJae Park         2022-06-13  317  {
-8cdcc532268df0 SeongJae Park         2022-06-13  318  	unsigned long addr, applied = 0;
-66053c85f7e592 SeongJae Park         2025-02-07  319  	struct folio *folio;
-8cdcc532268df0 SeongJae Park         2022-06-13  320  
-f9153b6a712d4f Usama Arif            2025-02-07  321  	addr = r->ar.start;
-f9153b6a712d4f Usama Arif            2025-02-07  322  	while (addr < r->ar.end) {
-66053c85f7e592 SeongJae Park         2025-02-07  323  		folio = damon_get_folio(PHYS_PFN(addr));
-66053c85f7e592 SeongJae Park         2025-02-07  324  		if (damon_pa_invalid_damos_folio(folio, s)) {
-f9153b6a712d4f Usama Arif            2025-02-07  325  			addr += PAGE_SIZE;
-8cdcc532268df0 SeongJae Park         2022-06-13  326  			continue;
-f9153b6a712d4f Usama Arif            2025-02-07  327  		}
-18250e78f9c759 SeongJae Park         2022-12-05  328  
-b6993be23601c8 Kefeng Wang           2023-03-08  329  		if (damos_pa_filter_out(s, folio))
-b6993be23601c8 Kefeng Wang           2023-03-08  330  			goto put_folio;
-96f1971dabca71 SeongJae Park         2025-01-06  331  		else
-96f1971dabca71 SeongJae Park         2025-01-06  332  			*sz_filter_passed += folio_size(folio);
-18250e78f9c759 SeongJae Park         2022-12-05  333  
-8193321ac90d52 SeongJae Park         2022-09-13  334  		if (mark_accessed)
-f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  335) 			folio_mark_accessed(folio);
-8193321ac90d52 SeongJae Park         2022-09-13  336  		else
-5a9e34747c9f73 Vishal Moola (Oracle  2022-12-21  337) 			folio_deactivate(folio);
-f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  338) 		applied += folio_nr_pages(folio);
-b6993be23601c8 Kefeng Wang           2023-03-08  339  put_folio:
-f9153b6a712d4f Usama Arif            2025-02-07  340  		addr += folio_size(folio);
-dd52a61da0dd8b SeongJae Park         2023-03-04  341  		folio_put(folio);
-8cdcc532268df0 SeongJae Park         2022-06-13  342  	}
-66053c85f7e592 SeongJae Park         2025-02-07 @343  	s->last_applied = folio;
-8cdcc532268df0 SeongJae Park         2022-06-13  344  	return applied * PAGE_SIZE;
-8cdcc532268df0 SeongJae Park         2022-06-13  345  }
-8cdcc532268df0 SeongJae Park         2022-06-13  346  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  26  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  27  &lm0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  28  	syscon@0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  29  		compatible = "arm,im-pd1-syscon", "syscon";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  30  		reg = <0x00000000 0x1000>;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  31  		ranges;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  32  		#address-cells = <1>;
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  33  		#size-cells = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  34  
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  35  		vco1: clock-controller@0 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  36  			compatible = "arm,impd1-vco1";
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  37  			reg = <0x00 0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  38  			#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  39  			lock-offset = <0x08>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  40  			vco-offset = <0x00>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  41  			clocks = <&sysclk>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  42  			clock-output-names = "IM-PD1-VCO1";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  43  		};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  44  
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  45  		vco2: clock-controller@4 {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  46  			compatible = "arm,impd1-vco2";
+2d3de197a81886 arch/arm/boot/dts/integratorap-im-pd1.dts     Rob Herring       2021-10-25  47  			reg = <0x04 0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  48  			#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  49  			lock-offset = <0x08>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  50  			vco-offset = <0x04>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  51  			clocks = <&sysclk>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  52  			clock-output-names = "IM-PD1-VCO2";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  53  		};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  54  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  55  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  56  	/* Also used for the Smart Card Interface SCI */
+04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @57) 	impd1_uartclk: clock-uart {
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  58  		compatible = "fixed-factor-clock";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  59  		#clock-cells = <0>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  60  		clock-div = <4>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  61  		clock-mult = <1>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  62  		clocks = <&vco2>;
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  63  		clock-output-names = "VCO2_DIV4";
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  64  	};
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  65  
+d67ef24adf3c3f arch/arm/boot/dts/integratorap-im-pd1.dts     Linus Walleij     2020-02-13  66  	/* For the SSP the clock is divided by 64 */
+04f08ef291d4b8 arch/arm/boot/dts/arm/integratorap-im-pd1.dts Rob Herring (Arm  2024-06-30 @67) 	impd1_sspclk: clock-ssp {
 
 -- 
 0-DAY CI Kernel Test Service
