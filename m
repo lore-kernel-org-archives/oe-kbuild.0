@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4755265CA3
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Feb 2025 15:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A8926738C
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Feb 2025 15:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739547097; cv=none; b=KQ49MhegvGtlQPKk+IFy4RDsurEV6lBFikPq16rXrEmP1dl7pKvHg7JInHABEVO+gtBqYb8mx9A/W1PRHbkFh1dFZgXtCoTxShU8R1h/6kCzd+SkymP3WAWYO01h6kr43L+N8FgOpzk2M3KZKVIjLe03twFWktwoLF9/U5PPkhc=
+	t=1739547821; cv=none; b=G1/e/yzabDweyiRGc8DkTDndOWe6nTUFWGIOMkEsKnHVSR7fqyGq9/iU2ZuV927BZV3iOxzM4db4ox3qI99GSptDTgmejIT28t+xoW1Z+Ap0/h/ISMMlETfKv45HkWwlNsz8kQ7JwX0HySdh9zuJLRBNu0f0CfNwzzJpt3k08TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739547097; c=relaxed/simple;
-	bh=5IiD/aI2Uruoj3mksM0kHl+X57BRjsRljcasHoRFFOU=;
+	s=arc-20240116; t=1739547821; c=relaxed/simple;
+	bh=XIWAdbZBYV2hPT03hF1EYQr+l9voLzNiXx0WuHErWCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IxOOsbiHkQvE8sA6R4qPoLP9SZhQ9mwA8dGEx5PKFzo6qRMhMb4i4EdA0zmWE34niR893fybdGTw1NxgX2Dgg+gsmNJd27IZsOIvbIDgx15VML0u6NtOvPWq1XG69TGVhP3dmRlUFB2ix6wxSbE/ntRDffvhEgvolmFEvEExDWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGPtUyEK; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=T/lEwRa2zFAnj/fgnIfEbPbpGT/x5WtLEhtz1xFErymEFvYkroPhargQ0tO+/nPGaHXoBKlTMPH/3y1HM4bQhvz6FHjPnudcBeACAAptiX/RsWlbPk6pRTgkTgiwKNI7KHfYQwWpHqCugxSMOs7UAEcesvaCVjdeW6ZVgRiElGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTKl4P0j; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGPtUyEK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTKl4P0j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739547096; x=1771083096;
+  t=1739547819; x=1771083819;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5IiD/aI2Uruoj3mksM0kHl+X57BRjsRljcasHoRFFOU=;
-  b=mGPtUyEK4uMY9yKzgpiMS4EXaUWON9yPCi9m7a3utNgqW571wboztpVd
-   fXiziJSGndOuxGg7XG6LjYq5LIbxyAzKW/6rcBPMfH98BTInrhfhRZquC
-   W96HGfdQI60dz+VwTPm4uU8DnqdSm1YGzlJCkGHtts6GWI4N/W9S8pRHG
-   wADY78zVcBl2Vm5X9DiCDLMuliNiPgi6scJAH6L7NVt0In4dsO/bKTv9s
-   tnfj5S3xa2aSGdfCoLFQI/f+XYPhddGxtF+y3l9Bb8/w6f4w5tHsCsIc0
-   060cILm7EUsBGMWcIxPl3KLtCXtTGjMN3Ja8xRIgCX8vaDjJjz73yZ7og
-   g==;
-X-CSE-ConnectionGUID: x96NCeFWTPCYIZncGZdMaA==
-X-CSE-MsgGUID: YhPFDsXLQl+ETKZQ1vOYTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50512351"
+  bh=XIWAdbZBYV2hPT03hF1EYQr+l9voLzNiXx0WuHErWCs=;
+  b=MTKl4P0jGEcNVwZfoMjmf/myptMP4wkvbVyHxSWWUxuICw2/YgCANrII
+   JYLfj4a7gXE8dfV+5K8tHZCsVUsvbMmEtVZx3PMSbzwdufy6H941SPBoR
+   7PeiXqvGV5UoNAMkOTM+sNBY8d0kqrWdTZupzyKNRGx/mx0ekOsVdo/w3
+   WFOCaotJOFHsWgRvlSLt0oVo1AJlybQB67GVldb9S63v+dvaAxT9A+9Qg
+   3fzOiGxnhqTOfOYLG9Il8Z9a9aH4E10uGFC+kY6uq1VhpQZEgmgyRSxgG
+   vtKrxjHHZsEACsQVkgqNdhmL0sWf3HQu/Wldy9jL+DnPA4mgZeoW0ZNkF
+   w==;
+X-CSE-ConnectionGUID: 2vlCdtC2QnWfj+ZXQdt/lw==
+X-CSE-MsgGUID: s5CVFDCISHqk1OF6kOcgag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40225770"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="50512351"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:31:34 -0800
-X-CSE-ConnectionGUID: dD8QHHE5SD6lroJ7yFwBdQ==
-X-CSE-MsgGUID: WzuvfQPZRWe8n/9pdb0fzw==
+   d="scan'208";a="40225770"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:43:36 -0800
+X-CSE-ConnectionGUID: 3kStSgewRBqC8fw2oOq7ag==
+X-CSE-MsgGUID: 8ArRXVpvReW/tq3NzVaLRg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="118416799"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="113685194"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2025 07:31:32 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2025 07:43:35 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tixf8-0019mH-1N;
-	Fri, 14 Feb 2025 15:31:30 +0000
-Date: Fri, 14 Feb 2025 23:31:17 +0800
+	id 1tixqm-0019nX-32;
+	Fri, 14 Feb 2025 15:43:32 +0000
+Date: Fri, 14 Feb 2025 23:42:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tytso-ext4:test 13/15] fs/ext4/extents.c:4780 ext4_fallocate()
- warn: inconsistent returns '&inode->i_rwsem'.
-Message-ID: <202502142300.QWZQEt11-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 3/3] arm64: dts: imx: add imx95 dts for sof
+Message-ID: <202502142351.4IjuMLiM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,115 +61,237 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-ext4@vger.kernel.org
-TO: Zhang Yi <yi.zhang@huawei.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: Jan Kara <jack@suse.cz>
-CC: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git test
-head:   e5a9a1fce162be14c6f1ac325faac48b1a7dea9e
-commit: 2890e5e0f49e10f3dadc5f7b7ea434e3e77e12a6 [13/15] ext4: move out common parts into ext4_fallocate()
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142300.QWZQEt11-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250211225808.3050-4-laurentiumihalcea111@gmail.com>
+References: <20250211225808.3050-4-laurentiumihalcea111@gmail.com>
+TO: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: linux-sound@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+
+Hi Laurentiu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on robh/for-next shawnguo/for-next linus/master v6.14-rc2 next-20250213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurentiu-Mihalcea/ASoC-dt-bindings-support-imx95-s-CM7-core/20250212-070024
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250211225808.3050-4-laurentiumihalcea111%40gmail.com
+patch subject: [PATCH v4 3/3] arm64: dts: imx: add imx95 dts for sof
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250214/202502142351.4IjuMLiM-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142351.4IjuMLiM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502142300.QWZQEt11-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502142351.4IjuMLiM-lkp@intel.com/
 
-smatch warnings:
-fs/ext4/extents.c:4780 ext4_fallocate() warn: inconsistent returns '&inode->i_rwsem'.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts:53.18-56.4: Warning (unique_unit_address_if_enabled): /memory@80000000: duplicate unit-address (also used in node /cm7-cpu@80000000)
 
-vim +4780 fs/ext4/extents.c
+vim +53 arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
 
-fd2f764826df54 Zhang Yi           2024-12-20  4707  
-a2df2a63407803 Amit Arora         2007-07-17  4708  /*
-2fe17c1075836b Christoph Hellwig  2011-01-14  4709   * preallocate space for a file. This implements ext4's fallocate file
-a2df2a63407803 Amit Arora         2007-07-17  4710   * operation, which gets called from sys_fallocate system call.
-a2df2a63407803 Amit Arora         2007-07-17  4711   * For block-mapped files, posix_fallocate should fall back to the method
-a2df2a63407803 Amit Arora         2007-07-17  4712   * of writing zeroes to the required new blocks (the same behavior which is
-a2df2a63407803 Amit Arora         2007-07-17  4713   * expected for file systems which do not support fallocate() system call).
-a2df2a63407803 Amit Arora         2007-07-17  4714   */
-2fe17c1075836b Christoph Hellwig  2011-01-14  4715  long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
-a2df2a63407803 Amit Arora         2007-07-17  4716  {
-496ad9aa8ef448 Al Viro            2013-01-23  4717  	struct inode *inode = file_inode(file);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4718  	struct address_space *mapping = file->f_mapping;
-fd2f764826df54 Zhang Yi           2024-12-20  4719  	int ret;
-a2df2a63407803 Amit Arora         2007-07-17  4720  
-2058f83a728adf Michael Halcrow    2015-04-12  4721  	/*
-2058f83a728adf Michael Halcrow    2015-04-12  4722  	 * Encrypted inodes can't handle collapse range or insert
-2058f83a728adf Michael Halcrow    2015-04-12  4723  	 * range since we would need to re-encrypt blocks with a
-2058f83a728adf Michael Halcrow    2015-04-12  4724  	 * different IV or XTS tweak (which are based on the logical
-2058f83a728adf Michael Halcrow    2015-04-12  4725  	 * block number).
-2058f83a728adf Michael Halcrow    2015-04-12  4726  	 */
-592ddec7578a33 Chandan Rajendra   2018-12-12  4727  	if (IS_ENCRYPTED(inode) &&
-457b1e353c739a Eric Biggers       2019-12-26  4728  	    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE)))
-2058f83a728adf Michael Halcrow    2015-04-12  4729  		return -EOPNOTSUPP;
-2058f83a728adf Michael Halcrow    2015-04-12  4730  
-a4bb6b64e39abc Allison Henderson  2011-05-25  4731  	/* Return error if mode is not supported */
-9eb79482a97152 Namjae Jeon        2014-02-23  4732  	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |
-331573febb6a22 Namjae Jeon        2015-06-09  4733  		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE |
-331573febb6a22 Namjae Jeon        2015-06-09  4734  		     FALLOC_FL_INSERT_RANGE))
-a4bb6b64e39abc Allison Henderson  2011-05-25  4735  		return -EOPNOTSUPP;
-a4bb6b64e39abc Allison Henderson  2011-05-25  4736  
-f87c7a4b084afc Baokun Li          2022-04-28  4737  	inode_lock(inode);
-f87c7a4b084afc Baokun Li          2022-04-28  4738  	ret = ext4_convert_inline_data(inode);
-f87c7a4b084afc Baokun Li          2022-04-28  4739  	if (ret)
-ea3f17efd36b56 Zhang Yi           2024-12-20  4740  		goto out_inode_lock;
-f87c7a4b084afc Baokun Li          2022-04-28  4741  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4742  	/* Wait all existing dio workers, newcomers will block on i_rwsem */
-2890e5e0f49e10 Zhang Yi           2024-12-20  4743  	inode_dio_wait(inode);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4744  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4745  	ret = file_modified(file);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4746  	if (ret)
-2890e5e0f49e10 Zhang Yi           2024-12-20  4747  		return ret;
-2890e5e0f49e10 Zhang Yi           2024-12-20  4748  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4749  	if ((mode & FALLOC_FL_MODE_MASK) == FALLOC_FL_ALLOCATE_RANGE) {
-2890e5e0f49e10 Zhang Yi           2024-12-20  4750  		ret = ext4_do_fallocate(file, offset, len, mode);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4751  		goto out_inode_lock;
-2890e5e0f49e10 Zhang Yi           2024-12-20  4752  	}
-2890e5e0f49e10 Zhang Yi           2024-12-20  4753  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4754  	/*
-2890e5e0f49e10 Zhang Yi           2024-12-20  4755  	 * Follow-up operations will drop page cache, hold invalidate lock
-2890e5e0f49e10 Zhang Yi           2024-12-20  4756  	 * to prevent page faults from reinstantiating pages we have
-2890e5e0f49e10 Zhang Yi           2024-12-20  4757  	 * released from page cache.
-2890e5e0f49e10 Zhang Yi           2024-12-20  4758  	 */
-2890e5e0f49e10 Zhang Yi           2024-12-20  4759  	filemap_invalidate_lock(mapping);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4760  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4761  	ret = ext4_break_layouts(inode);
-2890e5e0f49e10 Zhang Yi           2024-12-20  4762  	if (ret)
-2890e5e0f49e10 Zhang Yi           2024-12-20  4763  		goto out_invalidate_lock;
-2890e5e0f49e10 Zhang Yi           2024-12-20  4764  
-fd2f764826df54 Zhang Yi           2024-12-20  4765  	if (mode & FALLOC_FL_PUNCH_HOLE)
-ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4766  		ret = ext4_punch_hole(file, offset, len);
-fd2f764826df54 Zhang Yi           2024-12-20  4767  	else if (mode & FALLOC_FL_COLLAPSE_RANGE)
-ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4768  		ret = ext4_collapse_range(file, offset, len);
-fd2f764826df54 Zhang Yi           2024-12-20  4769  	else if (mode & FALLOC_FL_INSERT_RANGE)
-ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4770  		ret = ext4_insert_range(file, offset, len);
-fd2f764826df54 Zhang Yi           2024-12-20  4771  	else if (mode & FALLOC_FL_ZERO_RANGE)
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  4772  		ret = ext4_zero_range(file, offset, len, mode);
-fd2f764826df54 Zhang Yi           2024-12-20  4773  	else
-2890e5e0f49e10 Zhang Yi           2024-12-20  4774  		ret = -EOPNOTSUPP;
-2890e5e0f49e10 Zhang Yi           2024-12-20  4775  
-2890e5e0f49e10 Zhang Yi           2024-12-20  4776  out_invalidate_lock:
-2890e5e0f49e10 Zhang Yi           2024-12-20  4777  	filemap_invalidate_unlock(mapping);
-ea3f17efd36b56 Zhang Yi           2024-12-20  4778  out_inode_lock:
-ea3f17efd36b56 Zhang Yi           2024-12-20  4779  	inode_unlock(inode);
-0e8b6879f3c234 Lukas Czerner      2014-03-18 @4780  	return ret;
-a2df2a63407803 Amit Arora         2007-07-17  4781  }
-6873fa0de14e49 Eric Sandeen       2008-10-07  4782  
-
-:::::: The code at line 4780 was first introduced by commit
-:::::: 0e8b6879f3c234036181526683be2b0231892ae4 ext4: refactor ext4_fallocate code
-
-:::::: TO: Lukas Czerner <lczerner@redhat.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+ade1310d898589 Peng Fan 2024-10-12   19  
+b8f771037e9e34 Peng Fan 2024-06-17   20  / {
+b8f771037e9e34 Peng Fan 2024-06-17   21  	model = "NXP i.MX95 19X19 board";
+b8f771037e9e34 Peng Fan 2024-06-17   22  	compatible = "fsl,imx95-19x19-evk", "fsl,imx95";
+b8f771037e9e34 Peng Fan 2024-06-17   23  
+b8f771037e9e34 Peng Fan 2024-06-17   24  	aliases {
+025cf78938c22a Wei Fang 2024-12-19   25  		ethernet0 = &enetc_port0;
+a4f58f88c093ab Peng Fan 2024-10-12   26  		gpio0 = &gpio1;
+a4f58f88c093ab Peng Fan 2024-10-12   27  		gpio1 = &gpio2;
+a4f58f88c093ab Peng Fan 2024-10-12   28  		gpio2 = &gpio3;
+a4f58f88c093ab Peng Fan 2024-10-12   29  		gpio3 = &gpio4;
+a4f58f88c093ab Peng Fan 2024-10-12   30  		gpio4 = &gpio5;
+a4f58f88c093ab Peng Fan 2024-10-12   31  		i2c0 = &lpi2c1;
+a4f58f88c093ab Peng Fan 2024-10-12   32  		i2c1 = &lpi2c2;
+a4f58f88c093ab Peng Fan 2024-10-12   33  		i2c2 = &lpi2c3;
+a4f58f88c093ab Peng Fan 2024-10-12   34  		i2c3 = &lpi2c4;
+a4f58f88c093ab Peng Fan 2024-10-12   35  		i2c4 = &lpi2c5;
+a4f58f88c093ab Peng Fan 2024-10-12   36  		i2c5 = &lpi2c6;
+a4f58f88c093ab Peng Fan 2024-10-12   37  		i2c6 = &lpi2c7;
+a4f58f88c093ab Peng Fan 2024-10-12   38  		i2c7 = &lpi2c8;
+b8f771037e9e34 Peng Fan 2024-06-17   39  		mmc0 = &usdhc1;
+b8f771037e9e34 Peng Fan 2024-06-17   40  		mmc1 = &usdhc2;
+b8f771037e9e34 Peng Fan 2024-06-17   41  		serial0 = &lpuart1;
+b8f771037e9e34 Peng Fan 2024-06-17   42  	};
+b8f771037e9e34 Peng Fan 2024-06-17   43  
+288c31c92f45fb Frank Li 2024-07-01   44  	bt_sco_codec: audio-codec-bt-sco {
+288c31c92f45fb Frank Li 2024-07-01   45  		#sound-dai-cells = <1>;
+288c31c92f45fb Frank Li 2024-07-01   46  		compatible = "linux,bt-sco";
+288c31c92f45fb Frank Li 2024-07-01   47  	};
+288c31c92f45fb Frank Li 2024-07-01   48  
+b8f771037e9e34 Peng Fan 2024-06-17   49  	chosen {
+b8f771037e9e34 Peng Fan 2024-06-17   50  		stdout-path = &lpuart1;
+b8f771037e9e34 Peng Fan 2024-06-17   51  	};
+b8f771037e9e34 Peng Fan 2024-06-17   52  
+b8f771037e9e34 Peng Fan 2024-06-17  @53  	memory@80000000 {
+b8f771037e9e34 Peng Fan 2024-06-17   54  		device_type = "memory";
+b8f771037e9e34 Peng Fan 2024-06-17   55  		reg = <0x0 0x80000000 0 0x80000000>;
+b8f771037e9e34 Peng Fan 2024-06-17   56  	};
+b8f771037e9e34 Peng Fan 2024-06-17   57  
+7500e5b3706e4f Frank Li 2024-07-01   58  	fan0: pwm-fan {
+7500e5b3706e4f Frank Li 2024-07-01   59  		compatible = "pwm-fan";
+7500e5b3706e4f Frank Li 2024-07-01   60  		#cooling-cells = <2>;
+7500e5b3706e4f Frank Li 2024-07-01   61  		pwms = <&tpm6 2 4000000 PWM_POLARITY_INVERTED>;
+7500e5b3706e4f Frank Li 2024-07-01   62  		cooling-levels = <64 128 192 255>;
+7500e5b3706e4f Frank Li 2024-07-01   63  	};
+7500e5b3706e4f Frank Li 2024-07-01   64  
+b8f771037e9e34 Peng Fan 2024-06-17   65  	reserved-memory {
+b8f771037e9e34 Peng Fan 2024-06-17   66  		#address-cells = <2>;
+b8f771037e9e34 Peng Fan 2024-06-17   67  		#size-cells = <2>;
+b8f771037e9e34 Peng Fan 2024-06-17   68  		ranges;
+b8f771037e9e34 Peng Fan 2024-06-17   69  
+b8f771037e9e34 Peng Fan 2024-06-17   70  		linux_cma: linux,cma {
+b8f771037e9e34 Peng Fan 2024-06-17   71  			compatible = "shared-dma-pool";
+b8f771037e9e34 Peng Fan 2024-06-17   72  			alloc-ranges = <0 0x80000000 0 0x7f000000>;
+b8f771037e9e34 Peng Fan 2024-06-17   73  			size = <0 0x3c000000>;
+b8f771037e9e34 Peng Fan 2024-06-17   74  			linux,cma-default;
+b8f771037e9e34 Peng Fan 2024-06-17   75  			reusable;
+b8f771037e9e34 Peng Fan 2024-06-17   76  		};
+b8f771037e9e34 Peng Fan 2024-06-17   77  	};
+b8f771037e9e34 Peng Fan 2024-06-17   78  
+288c31c92f45fb Frank Li 2024-07-01   79  	reg_3p3v: regulator-3p3v {
+288c31c92f45fb Frank Li 2024-07-01   80  		compatible = "regulator-fixed";
+288c31c92f45fb Frank Li 2024-07-01   81  		regulator-max-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01   82  		regulator-min-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01   83  		regulator-name = "+V3.3_SW";
+288c31c92f45fb Frank Li 2024-07-01   84  	};
+288c31c92f45fb Frank Li 2024-07-01   85  
+288c31c92f45fb Frank Li 2024-07-01   86  	reg_audio_pwr: regulator-audio-pwr {
+288c31c92f45fb Frank Li 2024-07-01   87  		compatible = "regulator-fixed";
+288c31c92f45fb Frank Li 2024-07-01   88  		regulator-name = "audio-pwr";
+288c31c92f45fb Frank Li 2024-07-01   89  		regulator-min-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01   90  		regulator-max-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01   91  		gpio = <&i2c4_gpio_expander_21 1 GPIO_ACTIVE_HIGH>;
+288c31c92f45fb Frank Li 2024-07-01   92  		enable-active-high;
+288c31c92f45fb Frank Li 2024-07-01   93  		regulator-always-on;
+288c31c92f45fb Frank Li 2024-07-01   94  	};
+288c31c92f45fb Frank Li 2024-07-01   95  
+288c31c92f45fb Frank Li 2024-07-01   96  	reg_audio_slot: regulator-audio-slot {
+288c31c92f45fb Frank Li 2024-07-01   97  		compatible = "regulator-fixed";
+288c31c92f45fb Frank Li 2024-07-01   98  		regulator-name = "audio-wm8962";
+288c31c92f45fb Frank Li 2024-07-01   99  		regulator-min-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01  100  		regulator-max-microvolt = <3300000>;
+288c31c92f45fb Frank Li 2024-07-01  101  		gpio = <&i2c4_gpio_expander_21 7 GPIO_ACTIVE_HIGH>;
+288c31c92f45fb Frank Li 2024-07-01  102  		enable-active-high;
+288c31c92f45fb Frank Li 2024-07-01  103  		regulator-always-on;
+288c31c92f45fb Frank Li 2024-07-01  104  		status = "disabled";
+288c31c92f45fb Frank Li 2024-07-01  105  	};
+288c31c92f45fb Frank Li 2024-07-01  106  
+418ecfca8b1159 Frank Li 2024-06-20  107  	reg_m2_pwr: regulator-m2-pwr {
+418ecfca8b1159 Frank Li 2024-06-20  108  		compatible = "regulator-fixed";
+418ecfca8b1159 Frank Li 2024-06-20  109  		regulator-name = "M.2-power";
+418ecfca8b1159 Frank Li 2024-06-20  110  		regulator-min-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  111  		regulator-max-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  112  		gpio = <&i2c7_pcal6524 20 GPIO_ACTIVE_HIGH>;
+418ecfca8b1159 Frank Li 2024-06-20  113  		enable-active-high;
+418ecfca8b1159 Frank Li 2024-06-20  114  	};
+418ecfca8b1159 Frank Li 2024-06-20  115  
+418ecfca8b1159 Frank Li 2024-06-20  116  	reg_pcie0: regulator-pcie {
+418ecfca8b1159 Frank Li 2024-06-20  117  		compatible = "regulator-fixed";
+418ecfca8b1159 Frank Li 2024-06-20  118  		regulator-name = "PCIE_WLAN_EN";
+418ecfca8b1159 Frank Li 2024-06-20  119  		regulator-min-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  120  		regulator-max-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  121  		vin-supply = <&reg_m2_pwr>;
+418ecfca8b1159 Frank Li 2024-06-20  122  		gpio = <&i2c7_pcal6524 6 GPIO_ACTIVE_HIGH>;
+418ecfca8b1159 Frank Li 2024-06-20  123  		enable-active-high;
+418ecfca8b1159 Frank Li 2024-06-20  124  	};
+418ecfca8b1159 Frank Li 2024-06-20  125  
+418ecfca8b1159 Frank Li 2024-06-20  126  	reg_slot_pwr: regulator-slot-pwr {
+418ecfca8b1159 Frank Li 2024-06-20  127  		compatible = "regulator-fixed";
+418ecfca8b1159 Frank Li 2024-06-20  128  		regulator-name = "PCIe slot-power";
+418ecfca8b1159 Frank Li 2024-06-20  129  		regulator-min-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  130  		regulator-max-microvolt = <3300000>;
+418ecfca8b1159 Frank Li 2024-06-20  131  		gpio = <&i2c7_pcal6524 14 GPIO_ACTIVE_HIGH>;
+418ecfca8b1159 Frank Li 2024-06-20  132  		enable-active-high;
+418ecfca8b1159 Frank Li 2024-06-20  133  	};
+418ecfca8b1159 Frank Li 2024-06-20  134  
+b8f771037e9e34 Peng Fan 2024-06-17  135  	reg_usdhc2_vmmc: regulator-usdhc2 {
+b8f771037e9e34 Peng Fan 2024-06-17  136  		compatible = "regulator-fixed";
+b8f771037e9e34 Peng Fan 2024-06-17  137  		pinctrl-names = "default";
+b8f771037e9e34 Peng Fan 2024-06-17  138  		pinctrl-0 = <&pinctrl_reg_usdhc2_vmmc>;
+b8f771037e9e34 Peng Fan 2024-06-17  139  		regulator-name = "VDD_SD2_3V3";
+b8f771037e9e34 Peng Fan 2024-06-17  140  		regulator-min-microvolt = <3300000>;
+b8f771037e9e34 Peng Fan 2024-06-17  141  		regulator-max-microvolt = <3300000>;
+b8f771037e9e34 Peng Fan 2024-06-17  142  		gpio = <&gpio3 7 GPIO_ACTIVE_HIGH>;
+b8f771037e9e34 Peng Fan 2024-06-17  143  		enable-active-high;
+b8f771037e9e34 Peng Fan 2024-06-17  144  		off-on-delay-us = <12000>;
+b8f771037e9e34 Peng Fan 2024-06-17  145  	};
+288c31c92f45fb Frank Li 2024-07-01  146  
+288c31c92f45fb Frank Li 2024-07-01  147  	sound-bt-sco {
+288c31c92f45fb Frank Li 2024-07-01  148  		compatible = "simple-audio-card";
+288c31c92f45fb Frank Li 2024-07-01  149  		simple-audio-card,name = "bt-sco-audio";
+288c31c92f45fb Frank Li 2024-07-01  150  		simple-audio-card,format = "dsp_a";
+288c31c92f45fb Frank Li 2024-07-01  151  		simple-audio-card,bitclock-inversion;
+288c31c92f45fb Frank Li 2024-07-01  152  		simple-audio-card,frame-master = <&btcpu>;
+288c31c92f45fb Frank Li 2024-07-01  153  		simple-audio-card,bitclock-master = <&btcpu>;
+288c31c92f45fb Frank Li 2024-07-01  154  
+288c31c92f45fb Frank Li 2024-07-01  155  		btcpu: simple-audio-card,cpu {
+288c31c92f45fb Frank Li 2024-07-01  156  			sound-dai = <&sai1>;
+288c31c92f45fb Frank Li 2024-07-01  157  			dai-tdm-slot-num = <2>;
+288c31c92f45fb Frank Li 2024-07-01  158  			dai-tdm-slot-width = <16>;
+288c31c92f45fb Frank Li 2024-07-01  159  		};
+288c31c92f45fb Frank Li 2024-07-01  160  
+288c31c92f45fb Frank Li 2024-07-01  161  		simple-audio-card,codec {
+288c31c92f45fb Frank Li 2024-07-01  162  			sound-dai = <&bt_sco_codec 1>;
+288c31c92f45fb Frank Li 2024-07-01  163  		};
+288c31c92f45fb Frank Li 2024-07-01  164  	};
+288c31c92f45fb Frank Li 2024-07-01  165  
+288c31c92f45fb Frank Li 2024-07-01  166  	sound-micfil {
+288c31c92f45fb Frank Li 2024-07-01  167  		compatible = "fsl,imx-audio-card";
+288c31c92f45fb Frank Li 2024-07-01  168  		model = "micfil-audio";
+288c31c92f45fb Frank Li 2024-07-01  169  
+288c31c92f45fb Frank Li 2024-07-01  170  		pri-dai-link {
+288c31c92f45fb Frank Li 2024-07-01  171  			link-name = "micfil hifi";
+288c31c92f45fb Frank Li 2024-07-01  172  			format = "i2s";
+288c31c92f45fb Frank Li 2024-07-01  173  			cpu {
+288c31c92f45fb Frank Li 2024-07-01  174  				sound-dai = <&micfil>;
+288c31c92f45fb Frank Li 2024-07-01  175  			};
+288c31c92f45fb Frank Li 2024-07-01  176  		};
+288c31c92f45fb Frank Li 2024-07-01  177  	};
+288c31c92f45fb Frank Li 2024-07-01  178  
+288c31c92f45fb Frank Li 2024-07-01  179  	sound-wm8962 {
+288c31c92f45fb Frank Li 2024-07-01  180  		compatible = "fsl,imx-audio-wm8962";
+288c31c92f45fb Frank Li 2024-07-01  181  		pinctrl-names = "default";
+288c31c92f45fb Frank Li 2024-07-01  182  		pinctrl-0 = <&pinctrl_hp>;
+288c31c92f45fb Frank Li 2024-07-01  183  		model = "wm8962-audio";
+288c31c92f45fb Frank Li 2024-07-01  184  		audio-cpu = <&sai3>;
+288c31c92f45fb Frank Li 2024-07-01  185  		audio-codec = <&wm8962>;
+288c31c92f45fb Frank Li 2024-07-01  186  		hp-det-gpio = <&gpio2 11 GPIO_ACTIVE_HIGH>;
+288c31c92f45fb Frank Li 2024-07-01  187  		audio-routing = "Headphone Jack", "HPOUTL",
+288c31c92f45fb Frank Li 2024-07-01  188  				"Headphone Jack", "HPOUTR",
+288c31c92f45fb Frank Li 2024-07-01  189  				"Ext Spk", "SPKOUTL",
+288c31c92f45fb Frank Li 2024-07-01  190  				"Ext Spk", "SPKOUTR",
+288c31c92f45fb Frank Li 2024-07-01  191  				"AMIC", "MICBIAS",
+288c31c92f45fb Frank Li 2024-07-01  192  				"IN3R", "AMIC",
+288c31c92f45fb Frank Li 2024-07-01  193  				"IN1R", "AMIC";
+288c31c92f45fb Frank Li 2024-07-01  194  	};
+288c31c92f45fb Frank Li 2024-07-01  195  };
+288c31c92f45fb Frank Li 2024-07-01  196  
 
 -- 
 0-DAY CI Kernel Test Service
