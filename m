@@ -1,292 +1,305 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092F21624F8
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 01:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8847E1078F
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 02:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739581422; cv=none; b=k5vlHWFEVnFvPyDqzusP7G99F1bIAbXcs4lvgeZoNLwuYBwGXiuNWX73KnXRtfT8vbYzU7YDUXLQeb0Rq62568dDIwvoGOskz8cCY+39sCIhrguR9UCyJWOWCPJUiWY9nZPFfxSISY6QDwuBaCyCjpEjbCsG6wp74kaf7zsIkNQ=
+	t=1739586951; cv=none; b=uaDY4gcpX7dMudbKNq1WitER2CtcI+lIo/M1uWb6n6STP8rGfydrHMNJI0pT9xO7BQ9Xiq0qjqzRpW/XUhYjxV2vsWGIicl6ka+OvzZvX9Ep6nY1Nduv9DxqyCswfkT9fInECz4GGnBjPBqKOtB24lDdUFt/v6OpHAkG33wTzT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739581422; c=relaxed/simple;
-	bh=ha1i/qPi7VFVc5pp1miB5euYzi2uJAm7/7558HoCyLQ=;
+	s=arc-20240116; t=1739586951; c=relaxed/simple;
+	bh=iqiUaKJl4lxtBGPV2DoUy1ZvAuyICVFVFLE63ei0yn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PrpdvbNscJ9syIzY0Fm+/4Esa5TjNkaBYlsE0TD2fIy4rsxbcNE8OhtIdXTTjVYIhg36WCwXjRHWpSo+m2jgxpdNjmg0EHvZbt5mOpXzkrlHrPwJ9gc5oJm9nfMBtqIdhMtfqGeZSzWLOfr7tRVRLnVTV7zGSoTcx9XReHQKPHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+EgJS/y; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=B3ORAAEkQm8GX+NNaDMYCjHjIcXdAmZdmLjpkAC4nCQhFAjK9V8trMki9Sr6oaof+HtYeQppvBw52eIKdwFgNxhFisRv5rcEG4qhpm7/MDX5fuGOXXOdcZV7GmvQoKKgORApQ1l0v/Mh2gjGLLM2IdHPoLDhNQx/vDD0/o9fI4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G7QhIurk; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+EgJS/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7QhIurk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739581420; x=1771117420;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ha1i/qPi7VFVc5pp1miB5euYzi2uJAm7/7558HoCyLQ=;
-  b=B+EgJS/y0X1lzMGxFUx/YvEtVBTO3AX2KhzcnhbQ8MowSrU5T2oSwiom
-   WOzeGwqLiTBz9bWl+lJ1rlAgd7fKczGXe794yy6zq/bfEbC21HWPg4Z3V
-   NmpFCsAExt/L2yL+67qNh/QYQ9ZvkQcjh1k2H5eUl6WBbpOC4Hie3vo8j
-   Mcwz3UpH07KizFLISRIF/MKnAOdPQUGoI6j8H7KpqHYypZMOrZGbUaLjy
-   P2dKuIqtIL6xPothDVhhIU/MnhKPdVbMIWnFSNEKFJi0SCptPjTPfjETB
-   p2nLNdhaZDSGdIdeNsGScnt7DNGg4jnapJNPiaklN15dfWd/o33iNE1GW
+  t=1739586950; x=1771122950;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iqiUaKJl4lxtBGPV2DoUy1ZvAuyICVFVFLE63ei0yn0=;
+  b=G7QhIurk/e6hkvuyeGlV8jh2d0NehOPfzkQkxOdLVGIHjGVUlirSsX+K
+   RIJN9XEg1TAp9wN7ldEd6hXu8qxb1GpA0Ox0ClrCWnxuGFnPvWUXRVd5R
+   UiV16U9IbsqWXHQUbVUK7INmEJCK7wuyVGEfuFwkZ7kDAxtjgtcX25NX2
+   hfu7q/s5FsZbHoHzhne6aKrYLr6iYZNS/3KexfxbUXM/kxtm0MBp5zEs5
+   X1Sj76em2g3RT6FAGmdJKvw2qAUhqnbyLzsfK4i3KgMWnQcpfWHVJCBRv
+   I+FFXSftDyaBgIdrq5+/Ox3e/uOn44lydnYqozH/lobjXhUHu9wlULvIG
    g==;
-X-CSE-ConnectionGUID: eDU4oSM1SMWM8gDGSQRgQw==
-X-CSE-MsgGUID: cY4I+gE/Sy+nxSjYGXqjSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="39574707"
+X-CSE-ConnectionGUID: iPlSs5OCSgSfB38e8FoHyw==
+X-CSE-MsgGUID: giu3gvX/RaCMgw+EeXYgAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40474180"
 X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="39574707"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 17:03:39 -0800
-X-CSE-ConnectionGUID: vIQpx38oR2muaRgT+F438g==
-X-CSE-MsgGUID: QNpIPv/+RcaNwpj+MFQkpw==
+   d="scan'208";a="40474180"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 18:35:49 -0800
+X-CSE-ConnectionGUID: yj2sDAZqTbGNPrJp2SA3iA==
+X-CSE-MsgGUID: uFjxtn2IQTy7CtYoV1Vvbw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="113460864"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="150775777"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Feb 2025 17:03:38 -0800
+  by orviesa001.jf.intel.com with ESMTP; 14 Feb 2025 18:35:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tj6am-001ALz-0L;
-	Sat, 15 Feb 2025 01:03:36 +0000
-Date: Sat, 15 Feb 2025 09:02:45 +0800
+	id 1tj81w-001AQp-19;
+	Sat, 15 Feb 2025 02:35:44 +0000
+Date: Sat, 15 Feb 2025 10:35:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
- device
-Message-ID: <202502150815.xfIJk1kS-lkp@intel.com>
+Subject: Re: [PATCH v5 1/2] hwmon: add GPD devices sensor driver
+Message-ID: <202502151049.7BS9yEVk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
-References: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
-TO: Aman Kumar Pandey <aman.kumarpandey@nxp.com>
-TO: linux-kernel@vger.kernel.org
-TO: linux-i3c@lists.infradead.org
-TO: alexandre.belloni@bootlin.com
-TO: krzk+dt@kernel.org
-TO: robh@kernel.org
-TO: conor+dt@kernel.org
-TO: devicetree@vger.kernel.org
-CC: vikash.bansal@nxp.com
-CC: priyanka.jain@nxp.com
-CC: shashank.rebbapragada@nxp.com
-CC: Frank.Li@nxp.com
-CC: Aman Kumar Pandey <aman.kumarpandey@nxp.com>
+In-Reply-To: <20250211-gpd_fan-v5-1-608f4255f0e1@gmail.com>
+References: <20250211-gpd_fan-v5-1-608f4255f0e1@gmail.com>
+TO: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
+TO: Jean Delvare <jdelvare@suse.com>
+TO: Guenter Roeck <linux@roeck-us.net>
+TO: Cryolitia PukNgae <Cryolitia@gmail.com>
+TO: Jonathan Corbet <corbet@lwn.net>
+CC: linux-kernel@vger.kernel.org
+CC: linux-hwmon@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+CC: Celeste Liu <CoelacanthusHex@gmail.com>
+CC: Yao Zi <ziyao@disroot.org>
+CC: Derek John Clark <derekjohn.clark@gmail.com>
+CC: "Marcin Strągowski" <marcin@stragowski.com>
+CC: someone5678 <someone5678.dev@gmail.com>
+CC: Justin Weiss <justin@justinweiss.com>
 
-Hi Aman,
+Hi Cryolitia,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250212-213659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250212132227.1348374-2-aman.kumarpandey%40nxp.com
-patch subject: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-r073-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150815.xfIJk1kS-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/hwmon-add-GPD-devices-sensor-driver/20250211-150418
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250211-gpd_fan-v5-1-608f4255f0e1%40gmail.com
+patch subject: [PATCH v5 1/2] hwmon: add GPD devices sensor driver
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-r073-20250215 (https://download.01.org/0day-ci/archive/20250215/202502151049.7BS9yEVk-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502150815.xfIJk1kS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502151049.7BS9yEVk-lkp@intel.com/
 
 smatch warnings:
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:370 p3h2x4x_of_get_tp_dt_conf() warn: potential spectre issue 'priv->tp_bus' [w] (local cap)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:410 p3h2x4x_read_backend_from_p3h2x4x_dts() warn: potential spectre issue 'priv->tp_bus' [w] (local cap)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:412 p3h2x4x_read_backend_from_p3h2x4x_dts() error: buffer overflow 'priv->settings.tp' 8 <= 8 user_rl='0-8'
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:510 p3h2x4x_get_tp_of_get_setting() warn: potential spectre issue 'tp_setting' [w] (local cap)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:572 p3h2x4x_of_get_p3h2x4x_conf() warn: inconsistent indenting
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:771 p3h2x4x_device_remove_i3c() error: dereferencing freed memory 'backend' (line 775)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:902 p3h2x4x_device_remove_i2c() error: dereferencing freed memory 'backend' (line 904)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_smbus.c:80 p3h2x4x_read_smbus_agent_rx_buf() error: uninitialized symbol 'flag_clear'.
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_smbus.c:460 p3h2x4x_tp_smbus_xfer_msg() error: uninitialized symbol 'write_length'.
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_smbus.c:461 p3h2x4x_tp_smbus_xfer_msg() error: uninitialized symbol 'read_length'.
+drivers/hwmon/gpd-fan.c:361 gpd_win_mini_set_pwm_enable() warn: statement has no effect 3
+drivers/hwmon/gpd-fan.c:452 gpd_fan_hwmon_read() warn: statement has no effect 3
+drivers/hwmon/gpd-fan.c:478 gpd_fan_hwmon_write() warn: statement has no effect 3
+drivers/hwmon/gpd-fan.c:482 gpd_fan_hwmon_write() warn: inconsistent indenting
+drivers/hwmon/gpd-fan.c:534 gpd_fan_probe() warn: passing zero to 'PTR_ERR'
 
-vim +370 drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c
+vim +361 drivers/hwmon/gpd-fan.c
 
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  356  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  357  static void p3h2x4x_of_get_tp_dt_conf(struct device *dev,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  358  					const struct device_node *node)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  359  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  360  	struct p3h2x4x *priv = dev_get_drvdata(dev);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  361  	struct device_node *dev_node;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  362  	int tp_port;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  363  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  364  	for_each_available_child_of_node(node, dev_node) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  365  		if (!dev_node->full_name ||
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  366  			(sscanf(dev_node->full_name, "target-port@%d", &tp_port) != 1))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  367  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  368  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  369  		if (tp_port < P3H2x4x_TP_MAX_COUNT) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @370  			priv->tp_bus[tp_port].dt_available = true;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  371  			priv->tp_bus[tp_port].of_node = dev_node;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  372  			priv->tp_bus[tp_port].tp_mask = BIT(tp_port);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  373  			priv->tp_bus[tp_port].priv = priv;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  374  			priv->tp_bus[tp_port].tp_port = tp_port;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  375  		}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  376  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  377  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  378  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  379  /* return true when backend node exist */
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  380  static bool p3h2x4x_is_backend_node_exist(int port, struct p3h2x4x *priv, u32 addr)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  381  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  382  	struct smbus_device *backend = NULL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  383  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  384  	list_for_each_entry(backend,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  385  			&priv->tp_bus[port].tp_device_entry, list) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  386  		if (backend->addr == addr)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  387  			return true;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  388  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  389  	return false;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  390  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  391  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  392  static int p3h2x4x_read_backend_from_p3h2x4x_dts(struct device_node *i3c_node_target,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  393  					struct p3h2x4x *priv)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  394  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  395  	struct device_node *i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  396  	const char *compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  397  	int tp_port, ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  398  	u32 addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  399  	struct smbus_device *backend;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  400  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  401  	if (sscanf(i3c_node_target->full_name, "target-port@%d", &tp_port) == 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  402  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  403  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  404  	if (tp_port > P3H2x4x_TP_MAX_COUNT)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  405  		return -ERANGE;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  406  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  407  	if (tp_port < 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  408  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  409  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @410  	INIT_LIST_HEAD(&priv->tp_bus[tp_port].tp_device_entry);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  411  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @412  	if (priv->settings.tp[tp_port].mode == P3H2x4x_TP_MODE_I3C)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  413  		return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  414  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  415  	for_each_available_child_of_node(i3c_node_target, i3c_node_tp) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  416  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  417  		ret = of_property_read_u32(i3c_node_tp, "reg", &addr_dts);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  418  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  419  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  420  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  421  		if (p3h2x4x_is_backend_node_exist(tp_port, priv, addr_dts))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  422  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  423  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  424  		ret = of_property_read_string(i3c_node_tp, "compatible", &compatible);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  425  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  426  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  427  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  428  		backend = kzalloc(sizeof(*backend), GFP_KERNEL);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  429  		if (!backend)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  430  			return -ENOMEM;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  431  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  432  		backend->addr = addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  433  		backend->compatible = compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  434  		backend->tp_device_dt_node = i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  435  		backend->client = NULL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  436  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  437  		list_add(&backend->list,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  438  			&priv->tp_bus[tp_port].tp_device_entry);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  439  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  440  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  441  	return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  442  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  443  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  444  static void p3h2x4x_parse_dt_tp(struct device *dev,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  445  				const struct device_node *i3c_node_hub,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  446  				struct p3h2x4x *priv)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  447  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  448  	struct device_node *i3c_node_target;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  449  	int ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  450  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  451  	for_each_available_child_of_node(i3c_node_hub, i3c_node_target) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  452  		if (!strcmp(i3c_node_target->name, "target-port")) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  453  			ret = p3h2x4x_read_backend_from_p3h2x4x_dts(i3c_node_target, priv);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  454  			if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  455  				dev_err(dev, "DTS entry invalid - error %d", ret);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  456  		}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  457  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  458  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  459  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  460  static int p3h2x4x_get_tp_local_device_dt_setting(struct device *dev,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  461  					const struct device_node *node, u32 id)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  462  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  463  	u8 i;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  464  	u32 local_dev_count, local_dev;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  465  	struct p3h2x4x *priv = dev_get_drvdata(dev);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  466  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  467  	if (!of_get_property(node, "local_dev", &local_dev_count))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  468  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  469  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  470  	local_dev_count = local_dev_count / (sizeof(u32));
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  471  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  472  	if (local_dev_count > P3H2x4x_TP_LOCAL_DEV)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  473  		return -ERANGE;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  474  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  475  	for (i = 0; i < local_dev_count; i++) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  476  		if (of_property_read_u32_index(node, "local_dev", i, &local_dev)) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  477  			priv->tp_bus[id].local_dev_count = 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  478  			return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  479  		}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  480  		priv->tp_bus[id].local_dev_list[i] = (u8)(local_dev*2);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  481  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  482  	priv->tp_bus[id].local_dev_count = local_dev_count;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  483  	return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  484  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  485  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  486  static void p3h2x4x_get_tp_of_get_setting(struct device *dev,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  487  					const struct device_node *node,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  488  					struct tp_setting tp_setting[])
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  489  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  490  	struct device_node *tp_node;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  491  	u32 id;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  492  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  493  	for_each_available_child_of_node(node, tp_node) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  494  		if (!tp_node->name || of_node_cmp(tp_node->name, "target-port"))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  495  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  496  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  497  		if (!tp_node->full_name ||
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  498  			(sscanf(tp_node->full_name, "target-port@%u", &id) != 1)) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  499  			dev_warn(dev, "Invalid target port node found in DT: %s\n",
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  500  				tp_node->full_name);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  501  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  502  		}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  503  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  504  		if (id >= P3H2x4x_TP_MAX_COUNT) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  505  			dev_warn(dev, "Invalid target port index found in DT: %i\n", id);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  506  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  507  		}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  508  		p3h2x4x_of_get_dt_setting(dev, tp_node, "mode", tp_mode_settings,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  509  					ARRAY_SIZE(tp_mode_settings),
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @510  					&tp_setting[id].mode);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  511  		p3h2x4x_of_get_dt_setting(dev, tp_node, "pullup_en", tp_pullup_settings,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  512  					ARRAY_SIZE(tp_pullup_settings),
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  513  					&tp_setting[id].pullup_en);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  514  		p3h2x4x_of_get_dt_setting(dev, tp_node, "ibi_en", ibi_en_settings,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  515  					ARRAY_SIZE(ibi_en_settings),
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  516  					&tp_setting[id].ibi_en);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  517  		tp_setting[id].always_enable =
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  518  					of_property_read_bool(tp_node, "always-enable");
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  519  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  520  		p3h2x4x_get_tp_local_device_dt_setting(dev, tp_node, id);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  521  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  522  }
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  523  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  352  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  353  static int gpd_win_mini_set_pwm_enable(enum FAN_PWM_ENABLE pwm_enable)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  354  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  355  	switch (pwm_enable) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  356  	case DISABLE:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  357  		return gpd_generic_write_pwm(255);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  358  	case MANUAL:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  359  		return gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  360  	case AUTOMATIC:
+143d683070d6ce Cryolitia PukNgae 2025-02-11 @361  		const struct gpd_board_drvdata *drvdata = gpd_driver_priv.drvdata;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  362  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  363  		return gpd_ecram_write(drvdata, drvdata->pwm_write, 0);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  364  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  365  	return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  366  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  367  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  368  static int gpd_wm2_set_pwm_enable(enum FAN_PWM_ENABLE enable)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  369  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  370  	const struct gpd_board_drvdata *const drvdata = gpd_driver_priv.drvdata;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  371  	int ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  372  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  373  	switch (enable) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  374  	case DISABLE: {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  375  		ret = gpd_generic_write_pwm(255);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  376  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  377  		if (ret)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  378  			return ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  379  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  380  		return gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  381  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  382  	case MANUAL: {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  383  		ret = gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  384  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  385  		if (ret)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  386  			return ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  387  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  388  		return gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  389  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  390  	case AUTOMATIC: {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  391  		ret = gpd_ecram_write(drvdata, drvdata->manual_control_enable, 0);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  392  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  393  		return ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  394  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  395  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  396  	return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  397  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  398  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  399  // Write value for pwm1_enable
+143d683070d6ce Cryolitia PukNgae 2025-02-11  400  static int gpd_set_pwm_enable(enum FAN_PWM_ENABLE enable)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  401  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  402  	switch (gpd_driver_priv.drvdata->board) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  403  	case win_mini:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  404  	case win4_6800u:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  405  		return gpd_win_mini_set_pwm_enable(enable);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  406  	case win_max_2:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  407  		return gpd_wm2_set_pwm_enable(enable);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  408  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  409  	return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  410  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  411  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  412  static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  413  					enum hwmon_sensor_types type, u32 attr,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  414  					__always_unused int channel)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  415  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  416  	if (type == hwmon_fan && attr == hwmon_fan_input) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  417  		return 0444;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  418  	} else if (type == hwmon_pwm) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  419  		switch (attr) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  420  		case hwmon_pwm_enable:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  421  		case hwmon_pwm_input:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  422  			return 0644;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  423  		default:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  424  			return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  425  		}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  426  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  427  	return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  428  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  429  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  430  static int gpd_fan_hwmon_read(__always_unused struct device *dev,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  431  			      enum hwmon_sensor_types type, u32 attr,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  432  			      __always_unused int channel, long *val)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  433  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  434  	if (type == hwmon_fan) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  435  		if (attr == hwmon_fan_input) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  436  			int ret = gpd_read_rpm();
+143d683070d6ce Cryolitia PukNgae 2025-02-11  437  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  438  			if (ret < 0)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  439  				return ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  440  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  441  			*val = ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  442  			return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  443  		}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  444  		return -EOPNOTSUPP;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  445  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  446  	if (type == hwmon_pwm) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  447  		switch (attr) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  448  		case hwmon_pwm_enable:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  449  			*val = gpd_driver_priv.pwm_enable;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  450  			return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  451  		case hwmon_pwm_input:
+143d683070d6ce Cryolitia PukNgae 2025-02-11 @452  			int ret = gpd_read_pwm();
+143d683070d6ce Cryolitia PukNgae 2025-02-11  453  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  454  			if (ret < 0)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  455  				return ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  456  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  457  			*val = ret;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  458  			return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  459  		default:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  460  			return -EOPNOTSUPP;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  461  		}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  462  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  463  	return -EOPNOTSUPP;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  464  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  465  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  466  static int gpd_fan_hwmon_write(__always_unused struct device *dev,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  467  			       enum hwmon_sensor_types type, u32 attr,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  468  			       __always_unused int channel, long val)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  469  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  470  	if (type == hwmon_pwm) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  471  		switch (attr) {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  472  		case hwmon_pwm_enable:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  473  			if (!in_range(val, 0, 3))
+143d683070d6ce Cryolitia PukNgae 2025-02-11  474  				return -EINVAL;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  475  			gpd_driver_priv.pwm_enable = val;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  476  			return gpd_set_pwm_enable(gpd_driver_priv.pwm_enable);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  477  		case hwmon_pwm_input:
+143d683070d6ce Cryolitia PukNgae 2025-02-11 @478  			u8 var = clamp_val(val, 0, 255);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  479  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  480  			gpd_driver_priv.pwm_value = var;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  481  			return gpd_write_pwm(var);
+143d683070d6ce Cryolitia PukNgae 2025-02-11 @482  		default:
+143d683070d6ce Cryolitia PukNgae 2025-02-11  483  			return -EOPNOTSUPP;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  484  		}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  485  	}
+143d683070d6ce Cryolitia PukNgae 2025-02-11  486  	return -EOPNOTSUPP;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  487  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  488  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  489  static const struct hwmon_ops gpd_fan_ops = {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  490  	.is_visible = gpd_fan_hwmon_is_visible,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  491  	.read = gpd_fan_hwmon_read,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  492  	.write = gpd_fan_hwmon_write,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  493  };
+143d683070d6ce Cryolitia PukNgae 2025-02-11  494  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  495  static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  496  	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+143d683070d6ce Cryolitia PukNgae 2025-02-11  497  	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE), NULL
+143d683070d6ce Cryolitia PukNgae 2025-02-11  498  };
+143d683070d6ce Cryolitia PukNgae 2025-02-11  499  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  500  static struct hwmon_chip_info gpd_fan_chip_info = {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  501  	.ops = &gpd_fan_ops,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  502  	.info = gpd_fan_hwmon_channel_info
+143d683070d6ce Cryolitia PukNgae 2025-02-11  503  };
+143d683070d6ce Cryolitia PukNgae 2025-02-11  504  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  505  static int gpd_fan_probe(struct platform_device *pdev)
+143d683070d6ce Cryolitia PukNgae 2025-02-11  506  {
+143d683070d6ce Cryolitia PukNgae 2025-02-11  507  	struct device *dev = &pdev->dev;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  508  	struct gpd_driver_priv *data;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  509  	const struct resource *plat_res;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  510  	const struct device *dev_reg;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  511  	const struct resource *region_res;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  512  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  513  	data = dev_get_platdata(&pdev->dev);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  514  	if (IS_ERR(data))
+143d683070d6ce Cryolitia PukNgae 2025-02-11  515  		return -ENODEV;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  516  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  517  	plat_res = platform_get_resource(pdev, IORESOURCE_IO, 0);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  518  	if (IS_ERR(plat_res))
+143d683070d6ce Cryolitia PukNgae 2025-02-11  519  		return dev_err_probe(dev, PTR_ERR(plat_res),
+143d683070d6ce Cryolitia PukNgae 2025-02-11  520  				     "Failed to get platform resource\n");
+143d683070d6ce Cryolitia PukNgae 2025-02-11  521  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  522  	region_res = devm_request_region(dev, plat_res->start,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  523  					 resource_size(plat_res), DRIVER_NAME);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  524  	if (IS_ERR(region_res))
+143d683070d6ce Cryolitia PukNgae 2025-02-11  525  		return dev_err_probe(dev, PTR_ERR(region_res),
+143d683070d6ce Cryolitia PukNgae 2025-02-11  526  				     "Failed to request region\n");
+143d683070d6ce Cryolitia PukNgae 2025-02-11  527  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  528  	dev_reg = devm_hwmon_device_register_with_info(dev,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  529  						       DRIVER_NAME,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  530  						       data,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  531  						       &gpd_fan_chip_info,
+143d683070d6ce Cryolitia PukNgae 2025-02-11  532  						       NULL);
+143d683070d6ce Cryolitia PukNgae 2025-02-11  533  	if (IS_ERR(dev_reg))
+143d683070d6ce Cryolitia PukNgae 2025-02-11 @534  		return dev_err_probe(dev, PTR_ERR(region_res),
+143d683070d6ce Cryolitia PukNgae 2025-02-11  535  				     "Failed to register hwmon device\n");
+143d683070d6ce Cryolitia PukNgae 2025-02-11  536  
+143d683070d6ce Cryolitia PukNgae 2025-02-11  537  	return 0;
+143d683070d6ce Cryolitia PukNgae 2025-02-11  538  }
+143d683070d6ce Cryolitia PukNgae 2025-02-11  539  
 
 -- 
 0-DAY CI Kernel Test Service
