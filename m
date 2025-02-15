@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7431AEACE
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 02:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523EF197A68
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 05:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739587611; cv=none; b=CQ9l0e42lI3tYTEPXLArR4WRLPmT1r0CFxjO7RcMvYmuJYllZ0cvpGkTefP68R9ZfFTarlk+fChm+4x7KDF1+5UWCZlIgrxyOEg14ad3fEtJPIeSlZQAE6brMHSf5IU8pJ68RJN0OJkU4tNYjrJv9PjEpzJw6QEnFF6yE5GK9FM=
+	t=1739598306; cv=none; b=ELUfSWPIwfCJORnVIr5Eo+M2RD+Vv8ORCvfh+VQFdUoRmmPYERTqgq/ziSLqBED/iXFuIGUNUxlFvU6N9bQC3e90wkre0fqAFWjAsK1FSIKwqXrp63opQgi8vaoPkS1Cycag0FTaTo/y5dXMCGe0fsQ3aTFn0i74cHVqDbWX58E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739587611; c=relaxed/simple;
-	bh=4rYU5+CoN8F3xufXih3jArlmOmX60QeFAGkoo76hUPI=;
+	s=arc-20240116; t=1739598306; c=relaxed/simple;
+	bh=CveEZiwTsUmEBItDaL898AlaFcxwG/TwE61+aNYD4c8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Djctrlm0QBZ7Zxqg7xYYrzdopKLjvXdgzzvH1a4Sv8+BenwW2344FXAT8Own9iJxa7FmmnOoG9HYCPSdoKO820NZwxGbMHWzwJ/wgIzoZlJDYUFQArWryrjJKtI101sl5+mVKCjQ9jzbFhoSp1bX75rR/URybxDk6P5qmt/whbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfLMjwux; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=RS8b/XKVivKpwKrzucBpMmFiPRorfbxuEHkB/C+bIV6cPSikgGZ1IjjpdAqrUbH1WN0v55N2PrXxLGdbek1lO5F90F5mNa74j9FBRUkDvbo6AxwD37RffRgg36MCtE3n3uHNyDQnP6xgPCnut9f3u9V24jtRNTAQixV6XeGLI7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmyOPIsh; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfLMjwux"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmyOPIsh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739587610; x=1771123610;
+  t=1739598304; x=1771134304;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4rYU5+CoN8F3xufXih3jArlmOmX60QeFAGkoo76hUPI=;
-  b=NfLMjwuxSz7396CVCbSG5UzbzGdSK6gGxn4D5NA4ecjoQnpehDJvKC0v
-   EyYKNIaLZwnClu4qjHL3VQMIXsaZJ3yncaQaFFxBq3+Nmf07iGsitU6Gu
-   GSZRQ3HQuQ5XZa3a3oJXKgX07hhMnvTLK6g1zLCbezK4m5VC/gLrhfpCd
-   dUUBzNM808UwL8ehCo9LAGAimklRCj1lwB/21w/mivnAsBAwMDnQeZh0b
-   +LH8FZ5gjcjqeE/RFbyXRwmhfAxE/Wci23A+6GV1jptx5GVVASrVGDp3Q
-   N17CAPfjuMOhCT7fXtTqrne3NudfhHpMqovIIzC7kNe/nVhs9kWGppklU
-   w==;
-X-CSE-ConnectionGUID: SGJXtdCBTaKbG8UnILXbxw==
-X-CSE-MsgGUID: 3YXdYnsMTw+i/5JbDw7PAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="51326376"
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="51326376"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 18:46:49 -0800
-X-CSE-ConnectionGUID: c0CIEXJ0RzyIvKJwB1Gsxw==
-X-CSE-MsgGUID: /9cKH2kvQnOuwqQtS+qQZQ==
+  bh=CveEZiwTsUmEBItDaL898AlaFcxwG/TwE61+aNYD4c8=;
+  b=BmyOPIshOLSQxvt6Z0CIjxGScSAFY3lMsrYpjC3S/4wvRiRmX8gV837d
+   y4JroqTacb2TEihThpew60ZfnVKix7IEvdqGG7uDRgtCHAUkXKw/Vzxh7
+   8xe6teoJqQ1ti4ON5YbG2lqeigCjm9xwDo+FrJswUX0hniXv2V0kb+MZJ
+   e85oDCfRhlvLjHlUcOsEoiYdAgHdjRd2za5JHaZwYgEhMuQtzHPKek0AO
+   janvE9Hq/P8m0nCouYhPURHosLnCX1nlLWOeUML7RRRsq3wlwQW5nUH5G
+   ZU1wV7Asu6haslrk7nOJC+8TRBxhTpvzZKmuz8r6QXFD6bpFEle9YSFF9
+   Q==;
+X-CSE-ConnectionGUID: wMQsqARpQD2XBA11XZ5IxQ==
+X-CSE-MsgGUID: P1BrnpOMSaGxViCls8+aqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="27947134"
+X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
+   d="scan'208";a="27947134"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 21:45:03 -0800
+X-CSE-ConnectionGUID: cxOeGUiZTACL/YPlNAzcNw==
+X-CSE-MsgGUID: CDKxUYIrTniqk3saP5bWvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="113476976"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117779275"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Feb 2025 18:46:47 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 14 Feb 2025 21:45:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tj8Cb-001ARP-0v;
-	Sat, 15 Feb 2025 02:46:45 +0000
-Date: Sat, 15 Feb 2025 10:45:47 +0800
+	id 1tjAz6-001AXL-19;
+	Sat, 15 Feb 2025 05:45:00 +0000
+Date: Sat, 15 Feb 2025 13:44:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1018/4011] drivers/gpu/drm/xe/xe_vm.c:2721
- vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
-Message-ID: <202502151025.zQcv8Qnb-lkp@intel.com>
+Subject: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:327
+ kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+Message-ID: <202502151337.2w4rGHFg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,65 +64,67 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-CC: John Harrison <John.C.Harrison@Intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Venkatesh Srinivas <venkateshs@chromium.org>
+CC: Sean Christopherson <seanjc@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0ae0fa3bf0b44c8611d114a9f69985bf451010c3
-commit: dcdd6b84d9acaa0794c29de7024cfdb20cfd7b92 [1018/4011] drm/xe/pxp: Allocate PXP execution resources
-:::::: branch date: 17 hours ago
-:::::: commit date: 11 days ago
-config: i386-randconfig-141-20250214 (https://download.01.org/0day-ci/archive/20250215/202502151025.zQcv8Qnb-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   78a632a2086c5d5468b0e088a97b26e47c569567
+commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
+date:   10 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250215/202502151337.2w4rGHFg-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502151025.zQcv8Qnb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502151337.2w4rGHFg-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2721 vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
 
 Old smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2040 new_vma() error: we previously assumed 'bo' could be null (see line 2014)
-drivers/gpu/drm/xe/xe_vm.c:3457 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
+arch/riscv/include/asm/atomic.h:203 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3604 kvm_clear_guest() warn: unsigned '_x' is never less than zero.
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4135 kvm_vcpu_fault() warn: unsigned '_x' is never less than zero.
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4142 kvm_vcpu_fault() warn: unsigned '_x' is never less than zero.
+include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
 
-vim +/fence +2721 drivers/gpu/drm/xe/xe_vm.c
+vim +/i +327 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
 
-61e3270ef9610a Matthew Brost          2024-04-24  2692  
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  2693  static struct dma_fence *vm_bind_ioctl_ops_execute(struct xe_vm *vm,
-701109f2e3a45b Matthew Brost          2024-04-24  2694  						   struct xe_vma_ops *vops)
-f3e9b1f4345874 Matthew Brost          2023-09-14  2695  {
-77f2ef3f16f511 Matthew Brost          2024-04-24  2696  	struct drm_exec exec;
-75192758d64022 Matthew Brost          2024-04-24  2697  	struct dma_fence *fence;
-f3e9b1f4345874 Matthew Brost          2023-09-14  2698  	int err;
-f3e9b1f4345874 Matthew Brost          2023-09-14  2699  
-f3e9b1f4345874 Matthew Brost          2023-09-14  2700  	lockdep_assert_held_write(&vm->lock);
-f3e9b1f4345874 Matthew Brost          2023-09-14  2701  
-77f2ef3f16f511 Matthew Brost          2024-04-24  2702  	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
-77f2ef3f16f511 Matthew Brost          2024-04-24  2703  		      DRM_EXEC_IGNORE_DUPLICATES, 0);
-77f2ef3f16f511 Matthew Brost          2024-04-24  2704  	drm_exec_until_all_locked(&exec) {
-701109f2e3a45b Matthew Brost          2024-04-24  2705  		err = vm_bind_ioctl_ops_lock_and_prep(&exec, vm, vops);
-77f2ef3f16f511 Matthew Brost          2024-04-24  2706  		drm_exec_retry_on_contention(&exec);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  2707  		if (err) {
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  2708  			fence = ERR_PTR(err);
-77f2ef3f16f511 Matthew Brost          2024-04-24  2709  			goto unlock;
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  2710  		}
-77f2ef3f16f511 Matthew Brost          2024-04-24  2711  
-4dbbe4579490b4 Matthew Brost          2024-04-24  2712  		fence = ops_execute(vm, vops);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29  2713  		if (IS_ERR(fence))
-77f2ef3f16f511 Matthew Brost          2024-04-24  2714  			goto unlock;
-e8babb280b5ef9 Matthew Brost          2024-07-03  2715  
-e8babb280b5ef9 Matthew Brost          2024-07-03  2716  		vm_bind_ioctl_ops_fini(vm, vops, fence);
-77f2ef3f16f511 Matthew Brost          2024-04-24  2717  	}
-f3e9b1f4345874 Matthew Brost          2023-09-14  2718  
-77f2ef3f16f511 Matthew Brost          2024-04-24  2719  unlock:
-77f2ef3f16f511 Matthew Brost          2024-04-24  2720  	drm_exec_fini(&exec);
-dcdd6b84d9acaa Daniele Ceraolo Spurio 2025-01-29 @2721  	return fence;
-f3e9b1f4345874 Matthew Brost          2023-09-14  2722  }
-9d42476f71a9a0 Francois Dugast        2024-11-13  2723  ALLOW_ERROR_INJECTION(vm_bind_ioctl_ops_execute, ERRNO);
-f3e9b1f4345874 Matthew Brost          2023-09-14  2724  
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
+82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
+46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
+46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
+baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
+82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
+b56bd8e03cf4d5 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
+ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
+7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
+498468961ed6f6 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
+d9e368d6126305 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
+a2486020a82eef virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
+54163a346d4a0a virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
 
 -- 
 0-DAY CI Kernel Test Service
