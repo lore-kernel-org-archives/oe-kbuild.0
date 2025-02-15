@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523EF197A68
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 05:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD93191F66
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Feb 2025 07:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739598306; cv=none; b=ELUfSWPIwfCJORnVIr5Eo+M2RD+Vv8ORCvfh+VQFdUoRmmPYERTqgq/ziSLqBED/iXFuIGUNUxlFvU6N9bQC3e90wkre0fqAFWjAsK1FSIKwqXrp63opQgi8vaoPkS1Cycag0FTaTo/y5dXMCGe0fsQ3aTFn0i74cHVqDbWX58E=
+	t=1739605697; cv=none; b=PXH5YAeW71/j+7CV29zSU2aiYS1D0nqh436/6ihjsVqTPcDa6vuXC++vYqnBcD+x3AN4aL0KPVs5+itYnNaQ1oNYg1LsDF+azbwiNDR6JnUp3IRZK9/zUqpd8t896T52gpwu/aaBPuS5fhOxnXWB36AaIvCEJD5u7CjjzXsESCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739598306; c=relaxed/simple;
-	bh=CveEZiwTsUmEBItDaL898AlaFcxwG/TwE61+aNYD4c8=;
+	s=arc-20240116; t=1739605697; c=relaxed/simple;
+	bh=4MxBS2Zw+bmkIye+Ce4OAHwFTy/SVYwtpJlLYd4Jf8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RS8b/XKVivKpwKrzucBpMmFiPRorfbxuEHkB/C+bIV6cPSikgGZ1IjjpdAqrUbH1WN0v55N2PrXxLGdbek1lO5F90F5mNa74j9FBRUkDvbo6AxwD37RffRgg36MCtE3n3uHNyDQnP6xgPCnut9f3u9V24jtRNTAQixV6XeGLI7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmyOPIsh; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=UfyP3nx6RlatIkvAD7pfd6L0B0mRjWU0T2+28e+GptujXr/QbhRMoNI1obM497vWCYIY3O0EjzzyXe23N61KLMHK1qXDbH/rEXz87HI4A9UlyD3Drwp9VBFtXXY+cMwhKGGN/z69K3wCtxGz+lXs8YaOG0L69n0ZIZS9hMmp3vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=glfeR7AK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmyOPIsh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="glfeR7AK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739598304; x=1771134304;
+  t=1739605696; x=1771141696;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CveEZiwTsUmEBItDaL898AlaFcxwG/TwE61+aNYD4c8=;
-  b=BmyOPIshOLSQxvt6Z0CIjxGScSAFY3lMsrYpjC3S/4wvRiRmX8gV837d
-   y4JroqTacb2TEihThpew60ZfnVKix7IEvdqGG7uDRgtCHAUkXKw/Vzxh7
-   8xe6teoJqQ1ti4ON5YbG2lqeigCjm9xwDo+FrJswUX0hniXv2V0kb+MZJ
-   e85oDCfRhlvLjHlUcOsEoiYdAgHdjRd2za5JHaZwYgEhMuQtzHPKek0AO
-   janvE9Hq/P8m0nCouYhPURHosLnCX1nlLWOeUML7RRRsq3wlwQW5nUH5G
-   ZU1wV7Asu6haslrk7nOJC+8TRBxhTpvzZKmuz8r6QXFD6bpFEle9YSFF9
-   Q==;
-X-CSE-ConnectionGUID: wMQsqARpQD2XBA11XZ5IxQ==
-X-CSE-MsgGUID: P1BrnpOMSaGxViCls8+aqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="27947134"
+  bh=4MxBS2Zw+bmkIye+Ce4OAHwFTy/SVYwtpJlLYd4Jf8A=;
+  b=glfeR7AKgX3CG6JCOH1WHz3lr5j3HYx309/qwLBRR8dsP/LVvnC54vtB
+   rlDWgaNjHZ0m719GyvBueOW/NdeROf8PO/JJdcdyCxy75yrOc5CFhJDdx
+   EMacF2xXe6mpPhOxyJyzm1eQWW5X1PX6b62g4ru5XqhXRHY1Fnqri+PJL
+   Otr2SxZlFhGqm4iA6x4g3HZdLpobb4UM/vhqE7mFvQhg5/ht8QHvTzcl0
+   AmBE6dHcrOBt/i2p+OZfeNKYhWVRzKOkunvidW41OM51lHv4snNNLZ+gu
+   TuKXuZnLoAK6sdgEHHSzLX/etPzmUzpiKplWMvTEIuC7ZbZx/Zos1XpDm
+   A==;
+X-CSE-ConnectionGUID: FLUK4hWnSl+bTPsKD0nstw==
+X-CSE-MsgGUID: 7hiAGXOCQzy2FXGW168W/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="51772493"
 X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="27947134"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 21:45:03 -0800
-X-CSE-ConnectionGUID: cxOeGUiZTACL/YPlNAzcNw==
-X-CSE-MsgGUID: CDKxUYIrTniqk3saP5bWvA==
+   d="scan'208";a="51772493"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 23:48:15 -0800
+X-CSE-ConnectionGUID: GCqm4d8sQWCuNA4sIsWLdA==
+X-CSE-MsgGUID: 2BSnNdUNQB2gGDSzX9xB+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117779275"
+   d="scan'208";a="136879100"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Feb 2025 21:45:02 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 14 Feb 2025 23:48:13 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjAz6-001AXL-19;
-	Sat, 15 Feb 2025 05:45:00 +0000
-Date: Sat, 15 Feb 2025 13:44:38 +0800
+	id 1tjCuJ-001Abf-0W;
+	Sat, 15 Feb 2025 07:48:11 +0000
+Date: Sat, 15 Feb 2025 15:48:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:327
- kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-Message-ID: <202502151337.2w4rGHFg-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [rockchip:v6.15-armsoc/dts64 9/31]
+ arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: vop@fdd90000: clocks:
+ [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31,
+ 603], [104]] is too long
+Message-ID: <202502151552.ILEZ316e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,69 +64,215 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Venkatesh Srinivas <venkateshs@chromium.org>
-CC: Sean Christopherson <seanjc@google.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   78a632a2086c5d5468b0e088a97b26e47c569567
-commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250215/202502151337.2w4rGHFg-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-armsoc/dts64
+head:   887ff17cdd8f088a52e2b61e71f2b6c9b9678de6
+commit: eb4262203d7d85eb7b6f2696816db272e41f5464 [9/31] arm64: dts: rockchip: Add HDMI0 PHY PLL clock source to VOP2 on RK3588
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 days ago
+config: arm64-randconfig-051-20250215 (https://download.01.org/0day-ci/archive/20250215/202502151552.ILEZ316e-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502151552.ILEZ316e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502151337.2w4rGHFg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502151552.ILEZ316e-lkp@intel.com/
 
-New smatch warnings:
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-
-Old smatch warnings:
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
-arch/riscv/include/asm/atomic.h:203 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:3604 kvm_clear_guest() warn: unsigned '_x' is never less than zero.
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4135 kvm_vcpu_fault() warn: unsigned '_x' is never less than zero.
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4142 kvm_vcpu_fault() warn: unsigned '_x' is never less than zero.
-include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
-
-vim +/i +327 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
-
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
-82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
-46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
-46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
-82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
-b56bd8e03cf4d5 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
-498468961ed6f6 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
-d9e368d6126305 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
-a2486020a82eef virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
-54163a346d4a0a virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [103]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [103]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1358.7-1366.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts:626.7-634.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [107]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: phy@fed90000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-usbdp.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: phy@fed90000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-usbdp.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [103]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1149.7-1157.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [103]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1130.7-1138.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: vop@fdd90000: clocks: [[28, 605], [28, 604], [28, 609], [28, 610], [28, 611], [28, 612], [28, 603], [100]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [103]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [105]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [106]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+--
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [107]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
