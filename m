@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165192904
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 15:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E3195FEF
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 15:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739718083; cv=none; b=dLewfYkSdEO8D4f44lyyWhx+tzyHeod5A5L03iyKLixk59H3y+TimHbO45eayTsKcX59MIWSVF816ENOy8YkUszBwvLbmHFqUWKwLJ286nQjNqjshQIv1Tx92uZPyhFFdA23mZM+vFwfmrIbggcFEbD0q/UQVdEKVkUU9u7CLzw=
+	t=1739718485; cv=none; b=sr25Csi7WL07BzoDkeHUjySkzDbL0RSiag5dLKX/PDrNieJ4yKsUAVO9+oGSPji6MWfVhyYn7imzCshtcC5EBUgYxAtNQyWT+HDitF21AtQjvcp4rP0vnIJZGtBpcu0+qS9+wrN+khmXjECH40SYd7IXKfZ6Oeh+B2ofmQHfztk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739718083; c=relaxed/simple;
-	bh=TXOpgpo5GR4eyDdmt219/arL+tmJbnkCy7rsKo+wBCU=;
+	s=arc-20240116; t=1739718485; c=relaxed/simple;
+	bh=5lD/xE0/i3x58jgI6adRMe04H0+H+4nJKLZDwim0Uhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qP2NJig9lQMTmYWnEAblcRYh8DCnBWKSt4JbiAn+XyKhA1A+L7Kh5LeZ+AJX5oVzku6fZg3vY8PqJv+4XdiZJhv6hixyXR/nHQ/+YNb3tDp0kKR0khtABbCX8z+toQjV3hro5Zusv6VKC+LIZBcRP90LRmO2oAedMRjYxVyF1Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOlObkPD; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=U0LH/slbBRHm6As4KRSZ1X4MV8rI9TnvB8zKOuSJlEIUV4hCYoA0t5ObsAUkJP+Sk7NAdh1/aHe0WR0M45cevsJ+j2Xa61TdEoOljhJAmvds8INNPUACpSHam76/SJ4g4zRJikTUrF3SXK23otn12HlPg9WTvBp8h8B0CJFa1Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RvRaEfGC; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOlObkPD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739718081; x=1771254081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TXOpgpo5GR4eyDdmt219/arL+tmJbnkCy7rsKo+wBCU=;
-  b=WOlObkPDJ2llcDobS4hmhJXKmTp8DfZjJ16otiltmNY5hXGZVc5n5Rt2
-   idZxTIpMmSjMiEc/tlf+vx3AcuvCNMx7GH0thZ+OkJvNCelALhmLl5rDZ
-   bPffhkGUJ3WLM5+zNJfgbbDW1JOtvzele2D144TpOqs5SsISPMEmB4nWM
-   dEqJlai8E9qizz+fJgZ9VvQBwRpAfZxE3oPS55EJGBwEH3YVY0nZgtROx
-   8Mt4QoNuUmlAS6Bas6nBFcAqRi93wlM437eSNgsUUn/0nTC9wNC6r0Pzh
-   J/otjFdC2D2dG9xJ3tCbZ+bqbIh38TB0cbX7PT+CMitPnOt/N63yF3f/z
-   w==;
-X-CSE-ConnectionGUID: Z7fC84bIQam+a/Al0E8pzw==
-X-CSE-MsgGUID: usrUUr+BQTmcHR9hOaK2UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51391749"
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="51391749"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:01:20 -0800
-X-CSE-ConnectionGUID: seeaQ54iRqSj5Zox824WLw==
-X-CSE-MsgGUID: 9cr1yMXbTyeGiEspG970Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="144751932"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2025 07:01:20 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjg8z-001C0N-0Q;
-	Sun, 16 Feb 2025 15:01:17 +0000
-Date: Sun, 16 Feb 2025 23:01:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:242:51-57: opportunity
- for str_on_off(enable)
-Message-ID: <202502162250.oxR8oKDN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RvRaEfGC"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abb97e15bcbso41991566b.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 07:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739718481; x=1740323281; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y53y9K9S/4j536/Ca/UZoX5PNgmZq1/qgPaBQX+zRzg=;
+        b=RvRaEfGCuQUwylNnPzADK3Cr2hyG27vtDopxIRB2Or+9ak08mNH1ixJ8LF7//1RWsg
+         kRxmP/RcIgjlaSY5pD3EXhP3eEoXa4KEMZGoVgsX0Z9HBcsfjB3U2V2rXPNu4FJ8DkMM
+         KrnGpXjfXCNUfRjNSGtIVuCnzp0cnkReSOks/1D1YKWpgAOIc5EM27koxb1RltK2/rva
+         Vmfj61PmuKs1F0+Ovv3qWdnk5bOGL+YDABs18xsbyvDmAYRrzz0TLNo+ZGlcWnE5+bVQ
+         5AeYB+Vvx3oZL31Bw8H3kHobykNfu9tz7y8JUTUsX9xZ7sPwdfOO/HomW93g/EPZ/4Ry
+         PFaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739718481; x=1740323281;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y53y9K9S/4j536/Ca/UZoX5PNgmZq1/qgPaBQX+zRzg=;
+        b=ZaQK+83ph2a/joALliFh3q781BPWUWLfe2RpjPFHleSEYIWb7X7a9T0ai9t8f/L/OM
+         2Frc+vyobDrrVo2AhEbRzVqfBafwevi+9XVhTfh0tHl2xIIoVSMTuUhj2/Ot9F7cTuJO
+         vY7DRFyf2nWBNjTaVT9rRwYMmoyTkY9hxsJBjcoKCWt5pk//qWcEuuPemZGRyHHBrUNF
+         SFFRhvy7TxHQa3b2HtZBscsuyeEjhTEMjw+D6PB2zYqgdaZPD2b/cLrfnALfE+Cky88/
+         LtdsnRXg1K8rda3bDDGljAgz+VkkcVQ9t59hd7jh5SoLWqPSY7oH4J+xRn4f8AOrjdqt
+         mCZw==
+X-Gm-Message-State: AOJu0YxN484NdTvWiHNmjR3nSVdAdK95X1R/TJNlfJ7nYU8/pPPawALh
+	PrEAOZnLs25/eokrFCp4HwfwoujECz7+gIHir3fxeZmy4q+lbGoj2ectPFw9B39loSOJcSEbbVn
+	xSok=
+X-Gm-Gg: ASbGncsJR+9kUchnVUkHLXnL1mR/7xSGIpRLcdBliRH6sIkVFNrYN0GtsL1lRrEVWGB
+	ee/QCrk8Uqur65u9ovEAS+ZDnaoDcHsxRrEuIeJ/PfzJdI5BIwcwBGT9Qx4QNMBK6q2p1qRXcRC
+	i4loEbRrFbfjRAwU/+NHaOUAV9tyecaWVrbp8O7P9+8riqhtcuuzwjq1jHCKP3sgkG8Wfj9+lfO
+	8bMdQHQDr+3LyE05CBm+zNbE51XEd4yESHZIYs/gBk92VQC9EsTmt5LUOKFUad8wCBJc0wPAFlD
+	VTtQlBM40YiUaZtyoX9G
+X-Google-Smtp-Source: AGHT+IFjqUfpc0AbIyBLbdzwSn1gj1bugxcWDcZZFUi5kTwF7qQDrysyLhiSZe3uQpqrrNb6Ts0FeQ==
+X-Received: by 2002:a17:907:60c9:b0:ab7:ec8b:c648 with SMTP id a640c23a62f3a-abb70bfc7fdmr655709566b.1.1739718481396;
+        Sun, 16 Feb 2025 07:08:01 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb7c76b0cfsm274300366b.28.2025.02.16.07.08.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 07:08:00 -0800 (PST)
+Date: Sun, 16 Feb 2025 18:07:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zhang Yi <yi.zhang@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Jan Kara <jack@suse.cz>, Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: [tytso-ext4:test 13/15] fs/ext4/extents.c:4780 ext4_fallocate()
+ warn: inconsistent returns '&inode->i_rwsem'.
+Message-ID: <914fe9e7-8597-4789-b995-850449885e0d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,162 +73,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Bingbu Cao <bingbu.cao@intel.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
-CC: Andreas Helbech Kleist <andreaskleist@gmail.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Hi Bingbu,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ad1b832bf1cf2df9304f8eb72943111625c7e5a7
-commit: c70281cc83d666d8c064b4c82cc94b6dc9e9f310 media: intel/ipu6: add Kconfig and Makefile
-date:   10 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-102-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162250.oxR8oKDN-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git test
+head:   e5a9a1fce162be14c6f1ac325faac48b1a7dea9e
+commit: 2890e5e0f49e10f3dadc5f7b7ea434e3e77e12a6 [13/15] ext4: move out common parts into ext4_fallocate()
+config: i386-randconfig-141-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142300.QWZQEt11-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202502162250.oxR8oKDN-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502142300.QWZQEt11-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:242:51-57: opportunity for str_on_off(enable)
-   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c:352:43-49: opportunity for str_on_off(enable)
+smatch warnings:
+fs/ext4/extents.c:4780 ext4_fallocate() warn: inconsistent returns '&inode->i_rwsem'.
 
-vim +242 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+vim +4780 fs/ext4/extents.c
 
-a11a5570a09dbc Bingbu Cao 2024-01-31  227  
-a11a5570a09dbc Bingbu Cao 2024-01-31  228  static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
-a11a5570a09dbc Bingbu Cao 2024-01-31  229  				     const struct ipu6_isys_csi2_timing *timing,
-a11a5570a09dbc Bingbu Cao 2024-01-31  230  				     unsigned int nlanes, int enable)
-a11a5570a09dbc Bingbu Cao 2024-01-31  231  {
-a11a5570a09dbc Bingbu Cao 2024-01-31  232  	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
-a11a5570a09dbc Bingbu Cao 2024-01-31  233  	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(asd);
-a11a5570a09dbc Bingbu Cao 2024-01-31  234  	struct ipu6_isys *isys = csi2->isys;
-a11a5570a09dbc Bingbu Cao 2024-01-31  235  	struct device *dev = &isys->adev->auxdev.dev;
-a11a5570a09dbc Bingbu Cao 2024-01-31  236  	struct ipu6_isys_csi2_config cfg;
-a11a5570a09dbc Bingbu Cao 2024-01-31  237  	unsigned int nports;
-a11a5570a09dbc Bingbu Cao 2024-01-31  238  	int ret = 0;
-a11a5570a09dbc Bingbu Cao 2024-01-31  239  	u32 mask = 0;
-a11a5570a09dbc Bingbu Cao 2024-01-31  240  	u32 i;
-a11a5570a09dbc Bingbu Cao 2024-01-31  241  
-a11a5570a09dbc Bingbu Cao 2024-01-31 @242  	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", enable ? "on" : "off",
-a11a5570a09dbc Bingbu Cao 2024-01-31  243  		csi2->port, nlanes);
-a11a5570a09dbc Bingbu Cao 2024-01-31  244  
-a11a5570a09dbc Bingbu Cao 2024-01-31  245  	cfg.port = csi2->port;
-a11a5570a09dbc Bingbu Cao 2024-01-31  246  	cfg.nlanes = nlanes;
-a11a5570a09dbc Bingbu Cao 2024-01-31  247  
-a11a5570a09dbc Bingbu Cao 2024-01-31  248  	mask = isys->pdata->ipdata->csi2.irq_mask;
-a11a5570a09dbc Bingbu Cao 2024-01-31  249  	nports = isys->pdata->ipdata->csi2.nports;
-a11a5570a09dbc Bingbu Cao 2024-01-31  250  
-a11a5570a09dbc Bingbu Cao 2024-01-31  251  	if (!enable) {
-a11a5570a09dbc Bingbu Cao 2024-01-31  252  		writel(0, csi2->base + CSI_REG_CSI_FE_ENABLE);
-a11a5570a09dbc Bingbu Cao 2024-01-31  253  		writel(0, csi2->base + CSI_REG_PPI2CSI_ENABLE);
-a11a5570a09dbc Bingbu Cao 2024-01-31  254  
-a11a5570a09dbc Bingbu Cao 2024-01-31  255  		writel(0,
-a11a5570a09dbc Bingbu Cao 2024-01-31  256  		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  257  		       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  258  		writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  259  		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  260  		       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  261  		writel(0,
-a11a5570a09dbc Bingbu Cao 2024-01-31  262  		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  263  		       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  264  		writel(0xffffffff,
-a11a5570a09dbc Bingbu Cao 2024-01-31  265  		       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  266  		       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  267  
-a11a5570a09dbc Bingbu Cao 2024-01-31  268  		isys->phy_set_power(isys, &cfg, timing, false);
-a11a5570a09dbc Bingbu Cao 2024-01-31  269  
-a11a5570a09dbc Bingbu Cao 2024-01-31  270  		writel(0, isys->pdata->base + CSI_REG_HUB_FW_ACCESS_PORT
-a11a5570a09dbc Bingbu Cao 2024-01-31  271  		       (isys->pdata->ipdata->csi2.fw_access_port_ofs,
-a11a5570a09dbc Bingbu Cao 2024-01-31  272  			csi2->port));
-a11a5570a09dbc Bingbu Cao 2024-01-31  273  		writel(0, isys->pdata->base +
-a11a5570a09dbc Bingbu Cao 2024-01-31  274  		       CSI_REG_HUB_DRV_ACCESS_PORT(csi2->port));
-a11a5570a09dbc Bingbu Cao 2024-01-31  275  
-a11a5570a09dbc Bingbu Cao 2024-01-31  276  		return ret;
-a11a5570a09dbc Bingbu Cao 2024-01-31  277  	}
-a11a5570a09dbc Bingbu Cao 2024-01-31  278  
-a11a5570a09dbc Bingbu Cao 2024-01-31  279  	/* reset port reset */
-a11a5570a09dbc Bingbu Cao 2024-01-31  280  	writel(0x1, csi2->base + CSI_REG_PORT_GPREG_SRST);
-a11a5570a09dbc Bingbu Cao 2024-01-31  281  	usleep_range(100, 200);
-a11a5570a09dbc Bingbu Cao 2024-01-31  282  	writel(0x0, csi2->base + CSI_REG_PORT_GPREG_SRST);
-a11a5570a09dbc Bingbu Cao 2024-01-31  283  
-a11a5570a09dbc Bingbu Cao 2024-01-31  284  	/* enable port clock */
-a11a5570a09dbc Bingbu Cao 2024-01-31  285  	for (i = 0; i < nports; i++) {
-a11a5570a09dbc Bingbu Cao 2024-01-31  286  		writel(1, isys->pdata->base + CSI_REG_HUB_DRV_ACCESS_PORT(i));
-a11a5570a09dbc Bingbu Cao 2024-01-31  287  		writel(1, isys->pdata->base + CSI_REG_HUB_FW_ACCESS_PORT
-a11a5570a09dbc Bingbu Cao 2024-01-31  288  		       (isys->pdata->ipdata->csi2.fw_access_port_ofs, i));
-a11a5570a09dbc Bingbu Cao 2024-01-31  289  	}
-a11a5570a09dbc Bingbu Cao 2024-01-31  290  
-a11a5570a09dbc Bingbu Cao 2024-01-31  291  	/* enable all error related irq */
-a11a5570a09dbc Bingbu Cao 2024-01-31  292  	writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  293  	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  294  	       CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  295  	writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  296  	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  297  	       CSI_PORT_REG_BASE_IRQ_MASK_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  298  	writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  299  	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  300  	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  301  	writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  302  	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  303  	       CSI_PORT_REG_BASE_IRQ_LEVEL_NOT_PULSE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  304  	writel(mask,
-a11a5570a09dbc Bingbu Cao 2024-01-31  305  	       csi2->base + CSI_PORT_REG_BASE_IRQ_CSI +
-a11a5570a09dbc Bingbu Cao 2024-01-31  306  	       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  307  
-a11a5570a09dbc Bingbu Cao 2024-01-31  308  	/*
-a11a5570a09dbc Bingbu Cao 2024-01-31  309  	 * Using event from firmware instead of irq to handle CSI2 sync event
-a11a5570a09dbc Bingbu Cao 2024-01-31  310  	 * which can reduce system wakeups. If CSI2 sync irq enabled, we need
-a11a5570a09dbc Bingbu Cao 2024-01-31  311  	 * disable the firmware CSI2 sync event to avoid duplicate handling.
-a11a5570a09dbc Bingbu Cao 2024-01-31  312  	 */
-a11a5570a09dbc Bingbu Cao 2024-01-31  313  	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  314  	       CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  315  	writel(0, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  316  	       CSI_PORT_REG_BASE_IRQ_MASK_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  317  	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  318  	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  319  	writel(0, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  320  	       CSI_PORT_REG_BASE_IRQ_LEVEL_NOT_PULSE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  321  	writel(0xffffffff, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
-a11a5570a09dbc Bingbu Cao 2024-01-31  322  	       CSI_PORT_REG_BASE_IRQ_ENABLE_OFFSET);
-a11a5570a09dbc Bingbu Cao 2024-01-31  323  
-a11a5570a09dbc Bingbu Cao 2024-01-31  324  	/* configure to enable FE and PPI2CSI */
-a11a5570a09dbc Bingbu Cao 2024-01-31  325  	writel(0, csi2->base + CSI_REG_CSI_FE_MODE);
-a11a5570a09dbc Bingbu Cao 2024-01-31  326  	writel(CSI_SENSOR_INPUT, csi2->base + CSI_REG_CSI_FE_MUX_CTRL);
-a11a5570a09dbc Bingbu Cao 2024-01-31  327  	writel(CSI_CNTR_SENSOR_LINE_ID | CSI_CNTR_SENSOR_FRAME_ID,
-a11a5570a09dbc Bingbu Cao 2024-01-31  328  	       csi2->base + CSI_REG_CSI_FE_SYNC_CNTR_SEL);
-a11a5570a09dbc Bingbu Cao 2024-01-31  329  	writel(FIELD_PREP(PPI_INTF_CONFIG_NOF_ENABLED_DLANES_MASK, nlanes - 1),
-a11a5570a09dbc Bingbu Cao 2024-01-31  330  	       csi2->base + CSI_REG_PPI2CSI_CONFIG_PPI_INTF);
-a11a5570a09dbc Bingbu Cao 2024-01-31  331  
-a11a5570a09dbc Bingbu Cao 2024-01-31  332  	writel(1, csi2->base + CSI_REG_PPI2CSI_ENABLE);
-a11a5570a09dbc Bingbu Cao 2024-01-31  333  	writel(1, csi2->base + CSI_REG_CSI_FE_ENABLE);
-a11a5570a09dbc Bingbu Cao 2024-01-31  334  
-a11a5570a09dbc Bingbu Cao 2024-01-31  335  	ret = isys->phy_set_power(isys, &cfg, timing, true);
-a11a5570a09dbc Bingbu Cao 2024-01-31  336  	if (ret)
-a11a5570a09dbc Bingbu Cao 2024-01-31  337  		dev_err(dev, "csi-%d phy power up failed %d\n", csi2->port,
-a11a5570a09dbc Bingbu Cao 2024-01-31  338  			ret);
-a11a5570a09dbc Bingbu Cao 2024-01-31  339  
-a11a5570a09dbc Bingbu Cao 2024-01-31  340  	return ret;
-a11a5570a09dbc Bingbu Cao 2024-01-31  341  }
-a11a5570a09dbc Bingbu Cao 2024-01-31  342  
+2fe17c1075836b Christoph Hellwig  2011-01-14  4715  long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+a2df2a63407803 Amit Arora         2007-07-17  4716  {
+496ad9aa8ef448 Al Viro            2013-01-23  4717  	struct inode *inode = file_inode(file);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4718  	struct address_space *mapping = file->f_mapping;
+fd2f764826df54 Zhang Yi           2024-12-20  4719  	int ret;
+a2df2a63407803 Amit Arora         2007-07-17  4720  
+2058f83a728adf Michael Halcrow    2015-04-12  4721  	/*
+2058f83a728adf Michael Halcrow    2015-04-12  4722  	 * Encrypted inodes can't handle collapse range or insert
+2058f83a728adf Michael Halcrow    2015-04-12  4723  	 * range since we would need to re-encrypt blocks with a
+2058f83a728adf Michael Halcrow    2015-04-12  4724  	 * different IV or XTS tweak (which are based on the logical
+2058f83a728adf Michael Halcrow    2015-04-12  4725  	 * block number).
+2058f83a728adf Michael Halcrow    2015-04-12  4726  	 */
+592ddec7578a33 Chandan Rajendra   2018-12-12  4727  	if (IS_ENCRYPTED(inode) &&
+457b1e353c739a Eric Biggers       2019-12-26  4728  	    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE)))
+2058f83a728adf Michael Halcrow    2015-04-12  4729  		return -EOPNOTSUPP;
+2058f83a728adf Michael Halcrow    2015-04-12  4730  
+a4bb6b64e39abc Allison Henderson  2011-05-25  4731  	/* Return error if mode is not supported */
+9eb79482a97152 Namjae Jeon        2014-02-23  4732  	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |
+331573febb6a22 Namjae Jeon        2015-06-09  4733  		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE |
+331573febb6a22 Namjae Jeon        2015-06-09  4734  		     FALLOC_FL_INSERT_RANGE))
+a4bb6b64e39abc Allison Henderson  2011-05-25  4735  		return -EOPNOTSUPP;
+a4bb6b64e39abc Allison Henderson  2011-05-25  4736  
+f87c7a4b084afc Baokun Li          2022-04-28  4737  	inode_lock(inode);
+f87c7a4b084afc Baokun Li          2022-04-28  4738  	ret = ext4_convert_inline_data(inode);
+f87c7a4b084afc Baokun Li          2022-04-28  4739  	if (ret)
+ea3f17efd36b56 Zhang Yi           2024-12-20  4740  		goto out_inode_lock;
+f87c7a4b084afc Baokun Li          2022-04-28  4741  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4742  	/* Wait all existing dio workers, newcomers will block on i_rwsem */
+2890e5e0f49e10 Zhang Yi           2024-12-20  4743  	inode_dio_wait(inode);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4744  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4745  	ret = file_modified(file);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4746  	if (ret)
+2890e5e0f49e10 Zhang Yi           2024-12-20  4747  		return ret;
 
-:::::: The code at line 242 was first introduced by commit
-:::::: a11a5570a09dbcbe3b8813bd9fb7e9c630afdbf4 media: intel/ipu6: add IPU6 CSI2 receiver v4l2 sub-device
+goto out_inode_lock;
 
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+2890e5e0f49e10 Zhang Yi           2024-12-20  4748  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4749  	if ((mode & FALLOC_FL_MODE_MASK) == FALLOC_FL_ALLOCATE_RANGE) {
+2890e5e0f49e10 Zhang Yi           2024-12-20  4750  		ret = ext4_do_fallocate(file, offset, len, mode);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4751  		goto out_inode_lock;
+2890e5e0f49e10 Zhang Yi           2024-12-20  4752  	}
+2890e5e0f49e10 Zhang Yi           2024-12-20  4753  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4754  	/*
+2890e5e0f49e10 Zhang Yi           2024-12-20  4755  	 * Follow-up operations will drop page cache, hold invalidate lock
+2890e5e0f49e10 Zhang Yi           2024-12-20  4756  	 * to prevent page faults from reinstantiating pages we have
+2890e5e0f49e10 Zhang Yi           2024-12-20  4757  	 * released from page cache.
+2890e5e0f49e10 Zhang Yi           2024-12-20  4758  	 */
+2890e5e0f49e10 Zhang Yi           2024-12-20  4759  	filemap_invalidate_lock(mapping);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4760  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4761  	ret = ext4_break_layouts(inode);
+2890e5e0f49e10 Zhang Yi           2024-12-20  4762  	if (ret)
+2890e5e0f49e10 Zhang Yi           2024-12-20  4763  		goto out_invalidate_lock;
+2890e5e0f49e10 Zhang Yi           2024-12-20  4764  
+fd2f764826df54 Zhang Yi           2024-12-20  4765  	if (mode & FALLOC_FL_PUNCH_HOLE)
+ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4766  		ret = ext4_punch_hole(file, offset, len);
+fd2f764826df54 Zhang Yi           2024-12-20  4767  	else if (mode & FALLOC_FL_COLLAPSE_RANGE)
+ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4768  		ret = ext4_collapse_range(file, offset, len);
+fd2f764826df54 Zhang Yi           2024-12-20  4769  	else if (mode & FALLOC_FL_INSERT_RANGE)
+ad5cd4f4ee4d5f Darrick J. Wong    2022-03-08  4770  		ret = ext4_insert_range(file, offset, len);
+fd2f764826df54 Zhang Yi           2024-12-20  4771  	else if (mode & FALLOC_FL_ZERO_RANGE)
+aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  4772  		ret = ext4_zero_range(file, offset, len, mode);
+fd2f764826df54 Zhang Yi           2024-12-20  4773  	else
+2890e5e0f49e10 Zhang Yi           2024-12-20  4774  		ret = -EOPNOTSUPP;
+2890e5e0f49e10 Zhang Yi           2024-12-20  4775  
+2890e5e0f49e10 Zhang Yi           2024-12-20  4776  out_invalidate_lock:
+2890e5e0f49e10 Zhang Yi           2024-12-20  4777  	filemap_invalidate_unlock(mapping);
+ea3f17efd36b56 Zhang Yi           2024-12-20  4778  out_inode_lock:
+ea3f17efd36b56 Zhang Yi           2024-12-20  4779  	inode_unlock(inode);
+0e8b6879f3c234 Lukas Czerner      2014-03-18 @4780  	return ret;
+a2df2a63407803 Amit Arora         2007-07-17  4781  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
