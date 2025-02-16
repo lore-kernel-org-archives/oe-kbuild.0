@@ -1,73 +1,68 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDC7192D9A
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 15:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E4D17E019
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 15:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739719071; cv=none; b=Abx4bsZwNK93u2CiO1BInUz4A72xfhQo7KHU2IIycICo4xAKOfi396osdDUlP9fBeUdLWZmkbKqoBeoJy8xf+iMzGEzYOWkM2XzX3EoIoaW6M7Y2+kkiW9cyDsCxpgZaepAFLuwf2hCWLjELDIplRxs3D6WbjDKDufg2Pj3Jt/s=
+	t=1739720674; cv=none; b=HZAQGGLrTUWLe6UUMzAtMqOr3LjGGifYdnX4dl3kTjBNSn2/8ORz+MEjBaY+9KpmakjUxM0zxBWuSYbHjsQbpsuFMG7c3XuKUZ6z0MRmNy6+n8DEMqdjS8GfAM0FaYcLVjIlBBCIm0AZDQ1uRbazasqtdpIadRJdK32kUsPI28E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739719071; c=relaxed/simple;
-	bh=Zdob8ddTsN9dvZBb5r4ez+zlxA1f8q/EhwrphO21gjg=;
+	s=arc-20240116; t=1739720674; c=relaxed/simple;
+	bh=VJ55JkBRfouBFn8M95NvDf49JtUpPr21iyatArf8blk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=REuna5L4Cp7bAZ9lGKnPWy460jR98+gXfAZ/IDcxhTAL5FB2NkiyEQrKbEj+VOVUSwkTQkOcpNItfm1T8n5wVXe28qC6dYJO63DQ65Pabuo6mJHdGnYWbqBzEtlFFtePopleo/C9qiiqWE/y+kCu0ZFTot7x4bFB2e6Y+zYP7pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHjYeYzZ; arc=none smtp.client-ip=209.85.128.43
+	 Content-Disposition; b=mYABCq4X/FE/zlx8zqBjY1GJvwyE7Z+brp5O7mou6CAM6M/BEDb09h/0dHhF6j4zDNshaoYCdyIXg1YVHJsifLhhhizuYUJkDIUGUWNrnL04RB1rqlYn1X+7TKRn0zFwYlr5hzbJmlT0J+03nmnrGyVm6YP5jpX8SlQKwwsPuyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x7hoOdPG; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHjYeYzZ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4394036c0efso20921415e9.2
-        for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 07:17:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x7hoOdPG"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5dec817f453so5967111a12.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 16 Feb 2025 07:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739719067; x=1740323867; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
-        b=wHjYeYzZO/Pset2i2O21g83Jf7nZBKzo/EmG97TfZh/OHqqeeiPzmv7mOcHq7KFx5x
-         V3VP72dXxFIk7sG4FxB+M7O70b3bRKSN4VasRYwCDV4sCPuXHM4b7yH027uMpBMZJI+Y
-         4+MahQiKQ43IfRzQy/j7CyKN73fqcUiyPg47TdgIC6i1O4H1Imz6IP5mvW2Yr2C04fH7
-         V+n3gVI68wmHU87XMHW8BAzCMp9y0n4aqvX8ok0LAJbibimO/cdDSN4ZnaDPEUx+UkKC
-         vnQJ91SDjcbf13M4So4hiRXtg9BfqZagdefRxwrzc5Z7EeWJ+KZBAr06LF/O1XjbKG9E
-         iNyA==
+        d=linaro.org; s=google; t=1739720670; x=1740325470; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I28Ltzbpz28nf3WFh+EJxqwTplUCP+BDNedS1zYYOoY=;
+        b=x7hoOdPGIG8L2zn85ovV5iSAgNv1sgzsovx3KNKkcBMAlfkloLDRpjOgjrNyG7YZ4z
+         ueuj7j173lzCAxBx/fTevocXa5nndAON7VgrGbf2KcBkU34aRCgJBdGKnGxyQwHNMYDn
+         JZ4RIwqcCYaKnLTUMv5b5U8Vni+ZHrtGj7MAIgb5j+i8NJxd+6jW42cX8GTPuB6SNGUE
+         e88J51L41WPOV2RClBFQ+j1n832bBuGIYqDKUUNHQD+UZrAIPbWdZmgy4zprOF1SzEE7
+         2omIAs+gpMjPZWxgs0s1Ko1OXN/Z1+7tPmxiDn8U1ZlLb5M79KnKl2S07wD8UWUnq6ly
+         axNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739719067; x=1740323867;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
-        b=n06YL577U8+AEPAdapgn80NjRVCqZqlnX00uNuZlhLiSPZoBdKhYSOfHT6BY5Q6+SZ
-         /svLcC+HlVxV2R3Bj4Z3hsSk5OwSGCXqWDjJZE2jEbz/YPDBGET03/YGbVhiJwwLR/uC
-         rEuWBqD4473GBor8saP6sme3GLmlxR7JmOGHX/Hr5kbu8Ua40phoZyk4+Wnu8mZDd8J3
-         HOKpj07KPzdpYQCJ4fs8eeSHpKmcjR7cwUUsSZ/aK6rL+iscPZrlANMpuTfGhr1HI/zo
-         bwrLXWmCupTuIdQgtECqGGEv15a6PNXFrNz/DltrZQ8tbEVtmLTtdc2T99TG2uKt63fq
-         llTg==
-X-Gm-Message-State: AOJu0YyXQ3XN4SNIwpMV6ZBOblXbplSX79tVSMpP8MJcJkbsyaZ7ZTS/
-	265Q7BnVa2pCSRrn5WfxuWPm+ZOUArtdX/NHD/2VKsKl/zE4CqW9vhEGeNF7JnP1eR+cHZwSbYq
-	sWi4=
-X-Gm-Gg: ASbGnctZ6gZ1bVf/fxRpbMelI7MgxGyb/vzWnsizdfUzI2tbqRfQuCs9cN3itrYD0Kz
-	k0WRSHq/Eto+aVkOG1DIcZyABmG1mlLhz+7vT+vZGbRJgJWeKRwqRtUfRxWH8BDdYYRazYT0nmU
-	2nEGuHoOE5xw2qDsY47a4NqsBKgA3TdmMiJvecDQ/7kSYsLBwShUB8JMrWebdsAGZDHFnvhVvp2
-	MdUHGz8AQBNW+RutCk7erQIDeKmCOpRpcx2x+EIkL1xbMxb1kHRqGyP6LRyOHa0cxshnpHPsK/9
-	nhKSx8VI9MWAnnwmHl3H
-X-Google-Smtp-Source: AGHT+IHba5OsEKpH0SAKoQguascZ4LCu5c9cct1nGkEcKfLXS7OVh2ZSdoz/EJAhMNTP6xp8PUBB/A==
-X-Received: by 2002:a05:600c:3b92:b0:439:31e0:d9a5 with SMTP id 5b1f17b1804b1-4396e733555mr58754135e9.22.1739719067151;
-        Sun, 16 Feb 2025 07:17:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739720670; x=1740325470;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I28Ltzbpz28nf3WFh+EJxqwTplUCP+BDNedS1zYYOoY=;
+        b=aUTCaDqbjgD6NV0tolxHmWPkNbcMjds8UThhOtXi1OZBCpxYJH6TZ/qjHEqhMUxZfp
+         6hNuWt6dPZgTdXTS4/ETHzX39j20tAZ0EtUxIgQo10HlC8AV9o2GczXjl9xs8Gy2F/Ki
+         IJpc4HCeIoa+KfWaPeFyj8dPcB26V0J7BZQMkzubDqm/pihgyNYZ77UH/y/odE+HTKW0
+         1jLPkaVr0gXJ6qR9MuG3sErJTjbzD2XnorocAlB2aBa5x9ncgFtauLXRcInAOBcplSNi
+         yKe8uOjllVqzHuskF0Fu25WNpsvCFl//+pc2ieUT+frxHUdT4wjUEXd05jeEp3yLilNx
+         w6gw==
+X-Gm-Message-State: AOJu0YwIajeJPQHFJuKh1ocr9jHWJ3MGZO/H3AxukI1GFIcTrjlfgBmh
+	BwrJthXjOMvsKKHiCwxdnYR+bAdQDGPce+zElCqkLfwGYgatpCW0ZkHDuFPsxVeV72rWBiFqhL/
+	O9JU=
+X-Gm-Gg: ASbGncsmMw++FxFfrATLUjkQMsvHEXEaL5+Ypv9e97hywVv7RsAFBQ3ffbL17XWEE/z
+	szw5C7i24+BbLTCuL9oaRIQnvYm3my+w5/US1TDVYrFvQd2Lh4CBjfkkLQP7PckPVnTLmy6Mget
+	1LPcyQ4Trltu998Bl0W5akxawVGYOXbJfs4yOGoxAcj/uN1DUhcDtkccIAkevybcprUwTe8+9vK
+	NssQQZLB3Kf/fQ1pBfSWvc/Ven86KtLzuXHEF68biPSSL5qUz1IoOI/vozDLbfXQaJz1WUrq9Vx
+	aoXXM1WE9HM59YBLPL4j
+X-Google-Smtp-Source: AGHT+IGalmCMovBb8mw1vJiBTYSPveBDmvGVL+JN+cezVE288JEGh5KoJgyvDoRxc4G60/UKr+IAVg==
+X-Received: by 2002:a17:907:7f27:b0:ab7:10e1:8779 with SMTP id a640c23a62f3a-abb70bcba0bmr691709466b.27.1739720669685;
+        Sun, 16 Feb 2025 07:44:29 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4395a1aa7e8sm128915535e9.26.2025.02.16.07.17.45
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-aba5323202dsm720485766b.6.2025.02.16.07.44.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 07:17:46 -0800 (PST)
-Date: Sun, 16 Feb 2025 18:17:42 +0300
+        Sun, 16 Feb 2025 07:44:29 -0800 (PST)
+Date: Sun, 16 Feb 2025 18:44:25 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
-	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
-	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
-	Frank.Li@nxp.com, Aman Kumar Pandey <aman.kumarpandey@nxp.com>
-Subject: Re: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
- device
-Message-ID: <c4f99322-ed21-4fdc-a55f-b02bcafd5e5f@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 1/1] fs/fuse/file.c:387
+ fuse_file_release() error: we previously assumed 'ra' could be null (see
+ line 373)
+Message-ID: <d6800751-2fe6-478e-b104-1bbeab30ed04@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,92 +71,54 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
 
-Hi Aman,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250212-213659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250212132227.1348374-2-aman.kumarpandey%40nxp.com
-patch subject: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
-config: i386-randconfig-r073-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150815.xfIJk1kS-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   0f556311bc475a36a147f111a9c5f0769a655730
+commit: 8be90ef631b70dedc3c43b247aeae296a633dcb2 [1/1] ANDROID: fuse-bpf: fuse-bpf v1.2
+config: i386-randconfig-141-20250216 (https://download.01.org/0day-ci/archive/20250216/202502161830.f3ssKogv-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502150815.xfIJk1kS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502161830.f3ssKogv-lkp@intel.com/
 
 smatch warnings:
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:412 p3h2x4x_read_backend_from_p3h2x4x_dts() error: buffer overflow 'priv->settings.tp' 8 <= 8 user_rl='0-8'
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:572 p3h2x4x_of_get_p3h2x4x_conf() warn: inconsistent indenting
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:771 p3h2x4x_device_remove_i3c() error: dereferencing freed memory 'backend' (line 775)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:902 p3h2x4x_device_remove_i2c() error: dereferencing freed memory 'backend' (line 904)
+fs/fuse/file.c:387 fuse_file_release() error: we previously assumed 'ra' could be null (see line 373)
 
-vim +370 drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c
+vim +/ra +387 fs/fuse/file.c
 
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  392  static int p3h2x4x_read_backend_from_p3h2x4x_dts(struct device_node *i3c_node_target,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  393  					struct p3h2x4x *priv)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  394  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  395  	struct device_node *i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  396  	const char *compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  397  	int tp_port, ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  398  	u32 addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  399  	struct smbus_device *backend;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  400  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  401  	if (sscanf(i3c_node_target->full_name, "target-port@%d", &tp_port) == 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  402  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  403  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  404  	if (tp_port > P3H2x4x_TP_MAX_COUNT)
+b9d54c6f29d9dc Miklos Szeredi   2021-04-07  364  void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+b9d54c6f29d9dc Miklos Szeredi   2021-04-07  365  		       unsigned int open_flags, fl_owner_t id, bool isdir)
+fd72faac95d7e4 Miklos Szeredi   2005-11-07  366  {
+b9d54c6f29d9dc Miklos Szeredi   2021-04-07  367  	struct fuse_inode *fi = get_fuse_inode(inode);
+fc8ff397b2a915 Amir Goldstein   2024-02-09  368  	struct fuse_release_args *ra = &ff->args->release_args;
+2e64ff154ce6ce Chad Austin      2018-12-10  369  	int opcode = isdir ? FUSE_RELEASEDIR : FUSE_RELEASE;
+6b2db28a7a2da1 Tejun Heo        2009-04-14  370  
+e26ee4efbc7961 Amir Goldstein   2024-02-01  371  	fuse_prepare_release(fi, ff, open_flags, opcode, false);
+51eb01e73599ef Miklos Szeredi   2006-06-25  372  
+e26ee4efbc7961 Amir Goldstein   2024-02-01 @373  	if (ra && ff->flock) {
 
-Change > to >=.
+Ths "ra" check is not required.
 
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  405  		return -ERANGE;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  406  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  407  	if (tp_port < 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  408  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  409  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @410  	INIT_LIST_HEAD(&priv->tp_bus[tp_port].tp_device_entry);
-                                                                                     ^^^^^^^
-Off by one.
+	if (ff->flock) {
 
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  411  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @412  	if (priv->settings.tp[tp_port].mode == P3H2x4x_TP_MODE_I3C)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  413  		return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  414  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  415  	for_each_available_child_of_node(i3c_node_target, i3c_node_tp) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  416  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  417  		ret = of_property_read_u32(i3c_node_tp, "reg", &addr_dts);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  418  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  419  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  420  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  421  		if (p3h2x4x_is_backend_node_exist(tp_port, priv, addr_dts))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  422  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  423  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  424  		ret = of_property_read_string(i3c_node_tp, "compatible", &compatible);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  425  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  426  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  427  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  428  		backend = kzalloc(sizeof(*backend), GFP_KERNEL);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  429  		if (!backend)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  430  			return -ENOMEM;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  431  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  432  		backend->addr = addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  433  		backend->compatible = compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  434  		backend->tp_device_dt_node = i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  435  		backend->client = NULL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  436  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  437  		list_add(&backend->list,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  438  			&priv->tp_bus[tp_port].tp_device_entry);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  439  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  440  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  441  	return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  442  }
+4cb548666e4c13 Miklos Szeredi   2019-09-10  374  		ra->inarg.release_flags |= FUSE_RELEASE_FLOCK_UNLOCK;
+b9d54c6f29d9dc Miklos Szeredi   2021-04-07  375  		ra->inarg.lock_owner = fuse_lock_owner_id(ff->fm->fc, id);
+37fb3a30b46237 Miklos Szeredi   2011-08-08  376  	}
+93a8c3cd9e9834 Miklos Szeredi   2007-10-18  377  
+c756e0a4d79202 Miklos Szeredi   2007-10-16  378  	/*
+6b2db28a7a2da1 Tejun Heo        2009-04-14  379  	 * Normally this will send the RELEASE request, however if
+6b2db28a7a2da1 Tejun Heo        2009-04-14  380  	 * some asynchronous READ or WRITE requests are outstanding,
+6b2db28a7a2da1 Tejun Heo        2009-04-14  381  	 * the sending will be delayed.
+5a18ec176c934c Miklos Szeredi   2011-02-25  382  	 *
+5a18ec176c934c Miklos Szeredi   2011-02-25  383  	 * Make the release synchronous if this is a fuseblk mount,
+5a18ec176c934c Miklos Szeredi   2011-02-25  384  	 * synchronous RELEASE is allowed (and desirable) in this case
+5a18ec176c934c Miklos Szeredi   2011-02-25  385  	 * because the server can be trusted not to screw up.
+c756e0a4d79202 Miklos Szeredi   2007-10-16  386  	 */
+8be90ef631b70d Daniel Rosenberg 2021-12-02 @387  	fuse_file_put(ra->inode, ff, ff->fm->fc->destroy);
+b6aeadeda22a9a Miklos Szeredi   2005-09-09  388  }
 
 -- 
 0-DAY CI Kernel Test Service
