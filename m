@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0DD136349
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Feb 2025 08:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C741547C3
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Feb 2025 09:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739779806; cv=none; b=OCZpV6wbOYfZHLNQhJCr7EGDhAMY+DuJB1tTNLi0qLzcUe3J2VcHpk7fFweWYAU99ksL1q21PG6vktncj0aE7IRkqxXAg4C61D+gSASBNTlCy7DglI5zO6GjHgviVkeqgOn3gxvmv/LNF1fcZwfX9feLO4AgXxvsy83alhPJNgM=
+	t=1739782934; cv=none; b=A7adIs2gWTi7iNCiOd/zcuzxGJaJ68ftEuvRVyU/5UQLnAD3/2YWtOIMnxmJW4x2Y0VB/qFnP+iWHzc3tnPCWDcqr1EEn5vjriGZfBj2hkE0ItoGNnKFjh2KZlpSCFpp/UY+7hHrCN0A2SjKGFOz69ARKHMdZHMB/rsonNOspTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739779806; c=relaxed/simple;
-	bh=Fj9Kb6g2ascqh8MHEfRUSTobszZgr5qymcItc8AQ8uc=;
+	s=arc-20240116; t=1739782934; c=relaxed/simple;
+	bh=E7ioI/yUq9I4yFGfwocqdmPS4x3XLVeeb8LpybkVkcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A4Ik5nZneo7xbOP29IK8cvldhFbD35y5Vvq2vuulb1CZyN0b6Zznx5YACvFGBDY9/7vxwgWVUfnDVY0aMLutgtISGIbTsURjCvvMJpQVpB/CY3P4kDlOAux1I5piIfUTrqJpcaa1uk6pxhzrIwArb7SXKbPq4xyO8NbmUXtr6+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIbwON4y; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=o6qZmF+7qaMygQmYWsyYlTEOxcdigZVAvugY4oiF6mNUnS8ZgDDa70iH/6UTTC/7D1MrxCf1urmT8kWpVijBrrzUlyLLm1UIX6RyhQ69YhFX8KdJu9euUzeniQDiuGhGf14W6DN7Tc/Fm3Qld2TrDWUyv981bqCo/J7Iwd1dsy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRyJszhV; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIbwON4y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRyJszhV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739779804; x=1771315804;
+  t=1739782932; x=1771318932;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fj9Kb6g2ascqh8MHEfRUSTobszZgr5qymcItc8AQ8uc=;
-  b=dIbwON4yYI+KKZJ4mkm9cvkXXKmwuZauewhrogxuw0l93Szq9oWNtgXD
-   X0gfTHXn8nGSUnCAeJe+E6WCgk+QkkU+EblM+8MaqMWFjtDQWocFLDuyE
-   O/Nlcb0fjPSdIg5Q2c2AuxFgjsB3cTjTwoaQ3TI85HKwv54vRFG9ul2gA
-   5bQHRUbELgNUhJFp+wla7f+yzoEbj7tFfIV8o4+ltfXk0e4JjDu9aBvD2
-   hXWrfptWpWDYQWNiHruIhwKNedJHM8Qpwy9MbZWFIHp0nveNzyn3fTWLf
-   Qhpm1T+/yQ06yRJR2N79BCTaVDi440XR31HWmz6EBy+Jgv/a4adPaunZC
-   Q==;
-X-CSE-ConnectionGUID: xHVxuCpRRUqi+Czb+KIzxQ==
-X-CSE-MsgGUID: KTy0ahACQ6yXebHa3aoCIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="39640229"
+  bh=E7ioI/yUq9I4yFGfwocqdmPS4x3XLVeeb8LpybkVkcI=;
+  b=aRyJszhVHTeYOm88q/S5UGtqyDxPlX866Xk4LlUq3r29U+kuvjaOWoMT
+   avro9wmDioGsKl9HN6//OrJhV4drYtSLN5Pfii6XCGHy7Dh5JJfKXT3rF
+   qs47zuwKji9zP6vaS14IHPPI2wmAt0s0gRKWqrhErjtBeu8Eu+xiaTOrB
+   FVy7YKMhhCSQ4d/O1bTUk1t/YyY7I+IvIlUMZJLby5xKdIXGtyfo0Qlxk
+   9033YY92Nl4z96XufMOieYCGSgiZ2OA/l4r0VSh+b0hyGO38/Hrs4/m1+
+   5GjZxyfU2+TGOJqIRvi3ofyT3/B+SYpvSS9PMyO35hWNrXAKFfoFabUWF
+   g==;
+X-CSE-ConnectionGUID: Bw2stYdLSRG9GHNrObd5CQ==
+X-CSE-MsgGUID: chlg/2TkT9KanS05ICgSAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51078037"
 X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
-   d="scan'208";a="39640229"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 00:10:03 -0800
-X-CSE-ConnectionGUID: o7mEQvdbTwmz6jN4mKTkaQ==
-X-CSE-MsgGUID: wxspExfvQ0agOIbjTkKeXQ==
+   d="scan'208";a="51078037"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 01:02:11 -0800
+X-CSE-ConnectionGUID: xUbr5jcvR4m/YRa7dLR8TQ==
+X-CSE-MsgGUID: GuAErVaNR+65X8V3sm+vMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137299058"
+   d="scan'208";a="114543307"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Feb 2025 00:10:02 -0800
+  by orviesa007.jf.intel.com with ESMTP; 17 Feb 2025 01:02:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjwCW-001Clz-0u;
-	Mon, 17 Feb 2025 08:10:00 +0000
-Date: Mon, 17 Feb 2025 16:09:39 +0800
+	id 1tjx0x-001Cqp-1X;
+	Mon, 17 Feb 2025 09:02:07 +0000
+Date: Mon, 17 Feb 2025 17:01:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kvm/vcpu_sbi_system.c:38 kvm_sbi_ext_susp_handler() warn:
- iterator 'i' not incremented
-Message-ID: <202502171610.Jv7mRW6F-lkp@intel.com>
+Subject: Re: [PATCH md-6.15 4/7] md: switch personalities to use
+ md_submodule_head
+Message-ID: <202502171611.M5q0k43t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,88 +64,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250215092225.2427977-5-yukuai1@huaweicloud.com>
+References: <20250215092225.2427977-5-yukuai1@huaweicloud.com>
+TO: Yu Kuai <yukuai1@huaweicloud.com>
+TO: song@kernel.org
+TO: yukuai3@huawei.com
+CC: linux-raid@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Andrew Jones <ajones@ventanamicro.com>
-CC: Anup Patel <anup@brainfault.org>
+CC: yukuai1@huaweicloud.com
+CC: yi.zhang@huawei.com
+CC: yangerkun@huawei.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0ad2507d5d93f39619fc42372c347d6006b64319
-commit: 023c15151fbb65f8dde23e28af1d6d4382404d58 RISC-V: KVM: Add SBI system suspend support
-date:   7 weeks ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250217/202502171610.Jv7mRW6F-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
+Hi Yu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.14-rc3 next-20250214]
+[cannot apply to song-md/md-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-common-code-into-find_pers/20250215-172947
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250215092225.2427977-5-yukuai1%40huaweicloud.com
+patch subject: [PATCH md-6.15 4/7] md: switch personalities to use md_submodule_head
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: sparc64-randconfig-r071-20250216 (https://download.01.org/0day-ci/archive/20250217/202502171611.M5q0k43t-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502171610.Jv7mRW6F-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502171611.M5q0k43t-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/kvm/vcpu_sbi_system.c:38 kvm_sbi_ext_susp_handler() warn: iterator 'i' not incremented
+New smatch warnings:
+drivers/md/md.c:898 get_pers() warn: iterator 'i' not incremented
+drivers/md/md.c:8183 status_personalities() warn: iterator 'i' not incremented
 
-vim +/i +38 arch/riscv/kvm/vcpu_sbi_system.c
+Old smatch warnings:
+drivers/md/md.c:3777 analyze_sbs() warn: iterator 'i' not incremented
 
-023c15151fbb65 Andrew Jones 2024-10-17  10  
-023c15151fbb65 Andrew Jones 2024-10-17  11  static int kvm_sbi_ext_susp_handler(struct kvm_vcpu *vcpu, struct kvm_run *run,
-023c15151fbb65 Andrew Jones 2024-10-17  12  				    struct kvm_vcpu_sbi_return *retdata)
-023c15151fbb65 Andrew Jones 2024-10-17  13  {
-023c15151fbb65 Andrew Jones 2024-10-17  14  	struct kvm_cpu_context *cp = &vcpu->arch.guest_context;
-023c15151fbb65 Andrew Jones 2024-10-17  15  	struct kvm_cpu_context *reset_cntx;
-023c15151fbb65 Andrew Jones 2024-10-17  16  	unsigned long funcid = cp->a6;
-023c15151fbb65 Andrew Jones 2024-10-17  17  	unsigned long hva, i;
-023c15151fbb65 Andrew Jones 2024-10-17  18  	struct kvm_vcpu *tmp;
-023c15151fbb65 Andrew Jones 2024-10-17  19  
-023c15151fbb65 Andrew Jones 2024-10-17  20  	switch (funcid) {
-023c15151fbb65 Andrew Jones 2024-10-17  21  	case SBI_EXT_SUSP_SYSTEM_SUSPEND:
-023c15151fbb65 Andrew Jones 2024-10-17  22  		if (cp->a0 != SBI_SUSP_SLEEP_TYPE_SUSPEND_TO_RAM) {
-023c15151fbb65 Andrew Jones 2024-10-17  23  			retdata->err_val = SBI_ERR_INVALID_PARAM;
-023c15151fbb65 Andrew Jones 2024-10-17  24  			return 0;
-023c15151fbb65 Andrew Jones 2024-10-17  25  		}
-023c15151fbb65 Andrew Jones 2024-10-17  26  
-023c15151fbb65 Andrew Jones 2024-10-17  27  		if (!(cp->sstatus & SR_SPP)) {
-023c15151fbb65 Andrew Jones 2024-10-17  28  			retdata->err_val = SBI_ERR_FAILURE;
-023c15151fbb65 Andrew Jones 2024-10-17  29  			return 0;
-023c15151fbb65 Andrew Jones 2024-10-17  30  		}
-023c15151fbb65 Andrew Jones 2024-10-17  31  
-023c15151fbb65 Andrew Jones 2024-10-17  32  		hva = kvm_vcpu_gfn_to_hva_prot(vcpu, cp->a1 >> PAGE_SHIFT, NULL);
-023c15151fbb65 Andrew Jones 2024-10-17  33  		if (kvm_is_error_hva(hva)) {
-023c15151fbb65 Andrew Jones 2024-10-17  34  			retdata->err_val = SBI_ERR_INVALID_ADDRESS;
-023c15151fbb65 Andrew Jones 2024-10-17  35  			return 0;
-023c15151fbb65 Andrew Jones 2024-10-17  36  		}
-023c15151fbb65 Andrew Jones 2024-10-17  37  
-023c15151fbb65 Andrew Jones 2024-10-17 @38  		kvm_for_each_vcpu(i, tmp, vcpu->kvm) {
-023c15151fbb65 Andrew Jones 2024-10-17  39  			if (tmp == vcpu)
-023c15151fbb65 Andrew Jones 2024-10-17  40  				continue;
-023c15151fbb65 Andrew Jones 2024-10-17  41  			if (!kvm_riscv_vcpu_stopped(tmp)) {
-023c15151fbb65 Andrew Jones 2024-10-17  42  				retdata->err_val = SBI_ERR_DENIED;
-023c15151fbb65 Andrew Jones 2024-10-17  43  				return 0;
-023c15151fbb65 Andrew Jones 2024-10-17  44  			}
-023c15151fbb65 Andrew Jones 2024-10-17  45  		}
-023c15151fbb65 Andrew Jones 2024-10-17  46  
-023c15151fbb65 Andrew Jones 2024-10-17  47  		spin_lock(&vcpu->arch.reset_cntx_lock);
-023c15151fbb65 Andrew Jones 2024-10-17  48  		reset_cntx = &vcpu->arch.guest_reset_context;
-023c15151fbb65 Andrew Jones 2024-10-17  49  		reset_cntx->sepc = cp->a1;
-023c15151fbb65 Andrew Jones 2024-10-17  50  		reset_cntx->a0 = vcpu->vcpu_id;
-023c15151fbb65 Andrew Jones 2024-10-17  51  		reset_cntx->a1 = cp->a2;
-023c15151fbb65 Andrew Jones 2024-10-17  52  		spin_unlock(&vcpu->arch.reset_cntx_lock);
-023c15151fbb65 Andrew Jones 2024-10-17  53  
-023c15151fbb65 Andrew Jones 2024-10-17  54  		kvm_make_request(KVM_REQ_VCPU_RESET, vcpu);
-023c15151fbb65 Andrew Jones 2024-10-17  55  
-023c15151fbb65 Andrew Jones 2024-10-17  56  		/* userspace provides the suspend implementation */
-023c15151fbb65 Andrew Jones 2024-10-17  57  		kvm_riscv_vcpu_sbi_forward(vcpu, run);
-023c15151fbb65 Andrew Jones 2024-10-17  58  		retdata->uexit = true;
-023c15151fbb65 Andrew Jones 2024-10-17  59  		break;
-023c15151fbb65 Andrew Jones 2024-10-17  60  	default:
-023c15151fbb65 Andrew Jones 2024-10-17  61  		retdata->err_val = SBI_ERR_NOT_SUPPORTED;
-023c15151fbb65 Andrew Jones 2024-10-17  62  		break;
-023c15151fbb65 Andrew Jones 2024-10-17  63  	}
-023c15151fbb65 Andrew Jones 2024-10-17  64  
-023c15151fbb65 Andrew Jones 2024-10-17  65  	return 0;
-023c15151fbb65 Andrew Jones 2024-10-17  66  }
-023c15151fbb65 Andrew Jones 2024-10-17  67  
+vim +/i +898 drivers/md/md.c
+
+1ca69c4bc4b1ef NeilBrown 2012-10-11  890  
+3e5b5a71a5d720 Yu Kuai   2025-02-15  891  static struct md_personality *get_pers(int level, char *clevel)
+2604b703b6b3db NeilBrown 2006-01-06  892  {
+3e5b5a71a5d720 Yu Kuai   2025-02-15  893  	struct md_personality *ret = NULL;
+cae9461123c203 Yu Kuai   2025-02-15  894  	struct md_submodule_head *head;
+cae9461123c203 Yu Kuai   2025-02-15  895  	unsigned long i;
+3e5b5a71a5d720 Yu Kuai   2025-02-15  896  
+cae9461123c203 Yu Kuai   2025-02-15  897  	xa_lock(&md_submodule);
+cae9461123c203 Yu Kuai   2025-02-15 @898  	xa_for_each(&md_submodule, i, head) {
+cae9461123c203 Yu Kuai   2025-02-15  899  		if (head->type != MD_PERSONALITY)
+cae9461123c203 Yu Kuai   2025-02-15  900  			continue;
+cae9461123c203 Yu Kuai   2025-02-15  901  		if ((level != LEVEL_NONE && head->id == level) ||
+cae9461123c203 Yu Kuai   2025-02-15  902  		    !strcmp(head->name, clevel)) {
+cae9461123c203 Yu Kuai   2025-02-15  903  			if (try_module_get(head->owner))
+cae9461123c203 Yu Kuai   2025-02-15  904  				ret = (void *)head;
+3e5b5a71a5d720 Yu Kuai   2025-02-15  905  			break;
+d9d166c2a9d5d0 NeilBrown 2006-01-06  906  		}
+3e5b5a71a5d720 Yu Kuai   2025-02-15  907  	}
+cae9461123c203 Yu Kuai   2025-02-15  908  	xa_unlock(&md_submodule);
+3e5b5a71a5d720 Yu Kuai   2025-02-15  909  
+3e5b5a71a5d720 Yu Kuai   2025-02-15  910  	if (!ret) {
+3e5b5a71a5d720 Yu Kuai   2025-02-15  911  		if (level != LEVEL_NONE)
+3e5b5a71a5d720 Yu Kuai   2025-02-15  912  			pr_warn("md: personality for level %d is not loaded!\n",
+3e5b5a71a5d720 Yu Kuai   2025-02-15  913  				level);
+3e5b5a71a5d720 Yu Kuai   2025-02-15  914  		else
+3e5b5a71a5d720 Yu Kuai   2025-02-15  915  			pr_warn("md: personality for level %s is not loaded!\n",
+3e5b5a71a5d720 Yu Kuai   2025-02-15  916  				clevel);
+3e5b5a71a5d720 Yu Kuai   2025-02-15  917  	}
+3e5b5a71a5d720 Yu Kuai   2025-02-15  918  
+3e5b5a71a5d720 Yu Kuai   2025-02-15  919  	return ret;
+3e5b5a71a5d720 Yu Kuai   2025-02-15  920  }
+3e5b5a71a5d720 Yu Kuai   2025-02-15  921  
 
 -- 
 0-DAY CI Kernel Test Service
