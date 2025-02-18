@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF22C26E141
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 16:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA011EFF96
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 19:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739895212; cv=none; b=Fb0HKT8mwiSl18/lniauRFgbb6S/SCtA8bCezOxz2CYF3QsDPrwvXNdU3uwp5UDui3Y8hrAuf6I5kxdgfqe2eWhDjD0lU7y7OgnI1YgPcB9XlNWTokQyWqS37dAqV/jrAeZJqU7gtvzia3i2BOn6y0foQOo8hq1hy3VO6X72S70=
+	t=1739908787; cv=none; b=jngDmwAfV44BTbs5I9W0bZNXyubjGkcHVNdrS+HW+KS5CdfP3ra0JcN7zryqMeh76P/tPQRi89fhPZiYGvmSKMcBgIkxT24TjwpOetx2SCYFBCS6g+l2iGbvcGdE7QFGKoH7DUE2h3+DKQd5AogE3WkVYqR0yf8jccsl1OMp7Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739895212; c=relaxed/simple;
-	bh=XYDo4vCohTz1tX17mKWOE+NTRoyUwJIaRn8NildDALU=;
+	s=arc-20240116; t=1739908787; c=relaxed/simple;
+	bh=9E6PbWAETU70xrqSeyxr+V2QUkkNka1bqyoGd2i9KEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VSfKItrSmMBTlsPE+n2dmKJMih+BcslZ9V4HrlY2E6BW99Fzm0iV7dicujH9cDeagktRGXOKcQl3mSDohgnNB8U9unv1tn/6/F15Wv1x2tYOrcUdBYsSWrEZk5NMihSaSzqrLOcYRggvka3eLTyZFezpocf0bDhPZ7KIX2Oawt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiVtljrV; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=e5ACw/jcgYwbuvJd1q8rivk0APLUoFZlOGgg0ei/RbyD5BEpJ09gO9lTPhBBB6JhY6y9M4SOHDC7MsQzJFCvRnm0n1tT5W8YCn3bW4vfGSzYI0xurMsop6loYOPUkNmxHyYNFjJDrlILODAJhW+AZNhOwpHkU+o3v7ovY+fHl9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBSQNxuU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiVtljrV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBSQNxuU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739895211; x=1771431211;
+  t=1739908786; x=1771444786;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XYDo4vCohTz1tX17mKWOE+NTRoyUwJIaRn8NildDALU=;
-  b=OiVtljrVrxvGszc53CxZ/bJwoowzuk8xLiDdqOD7xjw1xYeP9gIUvlyf
-   eRkh+Me3BxDX4G9Mz0K6fm9izxFQ5dLB4Uq6KNTUul1/WGtntZ7BR8yLP
-   wKytm8395uloxU1cdH1LqQ0hbVVGM9M2xAgS5Gooh5Bf/DfYE/NwJ4VoK
-   BzQMEUkeX6UrP55cFRwTnxBuIsCDIsdCJO/UrDqDmURyX+mBvsrdoVk/d
-   I/JlJBt1eygZ1ySwa6yW/Q9+ea3Q0UBUciEOprhOrheFz/mg+Kkg0puHW
-   XX/s7MVmmgORDwRAROGXfnmRVznwUzrFBDZR2n0VWCk4vq53Tjs9xEdzk
-   Q==;
-X-CSE-ConnectionGUID: wSOEAcYLTRe+0XDUl0O2og==
-X-CSE-MsgGUID: zMCxxRX8TXmY38FD5LtfHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40722339"
+  bh=9E6PbWAETU70xrqSeyxr+V2QUkkNka1bqyoGd2i9KEE=;
+  b=aBSQNxuUdAdhpIYvst2VIxbDS+0J4o8tuJao1bKd9gN3LvhFcFxH+ck+
+   NCcf6WpyV6rbMfj4jUPaAp6aq8u0QPaqmnttu7Jei32fYTwR0BCQeuolp
+   uD0tpHc0zKrcSTHNUVN9b1w6cQRKpnDtMkF2jcAn2UkLTdkh8a0FTR8fk
+   yDGsYhAPIijlfaB9pKszVpCLRbkCqVVS4FzcDn10Ed4w0ZV8wu23O1ezu
+   Y8hsA/3PsqrojntAzJ6q3vcNcCRZQc49HtPyX28/1qQSqpwUoglGqtoNP
+   I7CuhryzI89ftpwpZ5dJBBXlEzZSOArxfRCzWgo+0ufMlam4FXIBnz8fp
+   w==;
+X-CSE-ConnectionGUID: bPJfgt2zQMmTDiq2H2xWgQ==
+X-CSE-MsgGUID: vgw2c/XgQG2Diifupq1C7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40642058"
 X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="40722339"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 08:13:31 -0800
-X-CSE-ConnectionGUID: MaQXFNaGSFuqviT+GWa30w==
-X-CSE-MsgGUID: f/wDdnUOQtm+J9OtK6FNsg==
+   d="scan'208";a="40642058"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 11:59:45 -0800
+X-CSE-ConnectionGUID: HZc8hm+WRauytOmAUBhk+Q==
+X-CSE-MsgGUID: gqfRbRV1RA2nUuwb4ozTHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="114307103"
+   d="scan'208";a="119474949"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Feb 2025 08:13:29 -0800
+  by orviesa004.jf.intel.com with ESMTP; 18 Feb 2025 11:59:44 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkQDu-0000hR-2p;
-	Tue, 18 Feb 2025 16:13:26 +0000
-Date: Wed, 19 Feb 2025 00:13:08 +0800
+	id 1tkTkj-0000r1-1V;
+	Tue, 18 Feb 2025 19:59:37 +0000
+Date: Wed, 19 Feb 2025 03:59:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [intel-lts:pr/60 1/1] cc1: error: arch/sh/include/mach-sh7763rdp: No
- such file or directory
-Message-ID: <202502190050.TR1WPDvf-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 2235/4377] lib/tests/fortify_kunit.c:479
+ fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs
+ 32)
+Message-ID: <202502190328.0UKVJVh9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,293 +63,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+TO: Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>
+CC: Rae Moar <rmoar@google.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/60
-head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
-commit: 4c8dd95a723d9cccf8810be54aa62be82885c9d8 [1/1] kbuild: add some extra warning flags unconditionally
-:::::: branch date: 28 hours ago
-:::::: commit date: 6 years ago
-config: sh-randconfig-001-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190050.TR1WPDvf-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502190050.TR1WPDvf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
+commit: db6fe4d61ece24193eb4d94a82d967501d53358c [2235/4377] lib: Move KUnit tests into tests/ subdirectory
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-161-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190328.0UKVJVh9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502190050.TR1WPDvf-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502190328.0UKVJVh9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+lib/tests/fortify_kunit.c:479 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
 
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from arch/sh/kernel/sys_sh32.c:5:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from arch/sh/kernel/sys_sh.c:13:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/sys_sh.c: At top level:
-   arch/sh/kernel/sys_sh.c:58:16: error: no previous prototype for 'sys_cacheflush' [-Werror=missing-prototypes]
-      58 | asmlinkage int sys_cacheflush(unsigned long addr, unsigned long len, int op)
-         |                ^~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from arch/sh/include/asm/cacheflush.h:7,
-                    from arch/sh/include/asm/kgdb.h:5,
-                    from include/linux/kgdb.h:20,
-                    from arch/sh/kernel/kgdb.c:9:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/kgdb.c: In function 'kgdb_arch_handle_exception':
-   arch/sh/kernel/kgdb.c:267:20: error: this statement may fall through [-Werror=implicit-fallthrough=]
-     267 |                 if (kgdb_hex2long(&ptr, &addr))
-         |                    ^
-   arch/sh/kernel/kgdb.c:269:9: note: here
-     269 |         case 'D':
-         |         ^~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from arch/sh/kernel/ptrace_32.c:13:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/ptrace_32.c: In function 'arch_ptrace':
-   arch/sh/kernel/ptrace_32.c:380:40: error: comparison of unsigned expression in '< 0' is always false [-Werror=type-limits]
-     380 |                 if ((addr & 3) || addr < 0 ||
-         |                                        ^
-   arch/sh/kernel/ptrace_32.c:420:40: error: comparison of unsigned expression in '< 0' is always false [-Werror=type-limits]
-     420 |                 if ((addr & 3) || addr < 0 ||
-         |                                        ^
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from arch/sh/kernel/return_address.c:9:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/return_address.c: At top level:
-   arch/sh/kernel/return_address.c:49:7: error: no previous prototype for 'return_address' [-Werror=missing-prototypes]
-      49 | void *return_address(unsigned int depth)
-         |       ^~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/sh/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from include/linux/perf_event.h:18,
-                    from arch/sh/kernel/perf_callchain.c:9:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   In function 'perf_callchain_store',
-       inlined from 'callchain_address' at arch/sh/kernel/perf_callchain.c:24:3:
-   include/linux/perf_event.h:1193:26: error: array subscript <unknown> is outside array bounds of '__u64[0]' {aka 'long long unsigned int[]'} [-Werror=array-bounds=]
-    1193 |                 entry->ip[entry->nr++] = ip;
-         |                 ~~~~~~~~~^~~~~~~~~~~~~
-   include/linux/perf_event.h: In function 'callchain_address':
-   include/linux/perf_event.h:63:41: note: while referencing 'ip'
-      63 |         __u64                           ip[0]; /* /proc/sys/kernel/perf_event_max_stack */
-         |                                         ^~
-   In function 'perf_callchain_store',
-       inlined from 'perf_callchain_kernel' at arch/sh/kernel/perf_callchain.c:35:2:
-   include/linux/perf_event.h:1193:26: error: array subscript <unknown> is outside array bounds of '__u64[0]' {aka 'long long unsigned int[]'} [-Werror=array-bounds=]
-    1193 |                 entry->ip[entry->nr++] = ip;
-         |                 ~~~~~~~~~^~~~~~~~~~~~~
-   include/linux/perf_event.h: In function 'perf_callchain_kernel':
-   include/linux/perf_event.h:63:41: note: while referencing 'ip'
-      63 |         __u64                           ip[0]; /* /proc/sys/kernel/perf_event_max_stack */
-         |                                         ^~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from arch/sh/kernel/traps_32.c:12:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/traps_32.c: At top level:
-   arch/sh/kernel/traps_32.c:731:6: error: no previous prototype for 'per_cpu_trap_init' [-Werror=missing-prototypes]
-     731 | void per_cpu_trap_init(void)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from include/linux/pid_namespace.h:7,
-                    from include/linux/ptrace.h:10,
-                    from include/uapi/asm-generic/bpf_perf_event.h:4,
-                    from ./arch/sh/include/generated/uapi/asm/bpf_perf_event.h:1,
-                    from include/uapi/linux/bpf_perf_event.h:11,
-                    from include/linux/perf_event.h:18,
-                    from arch/sh/kernel/hw_breakpoint.c:10:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/hw_breakpoint.c: At top level:
-   arch/sh/kernel/hw_breakpoint.c:135:5: error: no previous prototype for 'arch_bp_generic_fields' [-Werror=missing-prototypes]
-     135 | int arch_bp_generic_fields(int sh_len, int sh_type,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   arch/sh/kernel/hw_breakpoint.c: In function 'arch_bp_generic_fields':
-   arch/sh/kernel/hw_breakpoint.c:159:27: error: this statement may fall through [-Werror=implicit-fallthrough=]
-     159 |                 *gen_type = HW_BREAKPOINT_R;
-         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   arch/sh/kernel/hw_breakpoint.c:160:9: note: here
-     160 |         case SH_BREAKPOINT_WRITE:
-         |         ^~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from arch/sh/kernel/idle.c:7:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/kernel/idle.c: At top level:
-   arch/sh/kernel/idle.c:32:6: error: no previous prototype for 'arch_cpu_idle_dead' [-Werror=missing-prototypes]
-      32 | void arch_cpu_idle_dead(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/sh/kernel/idle.c:37:6: error: no previous prototype for 'arch_cpu_idle' [-Werror=missing-prototypes]
-      37 | void arch_cpu_idle(void)
-         |      ^~~~~~~~~~~~~
-   arch/sh/kernel/idle.c:42:13: error: no previous prototype for 'select_idle_routine' [-Werror=missing-prototypes]
-      42 | void __init select_idle_routine(void)
-         |             ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   arch/sh/kernel/machvec.c: In function 'early_parse_mv':
-   arch/sh/kernel/machvec.c:43:15: error: variable 'mv_comma' set but not used [-Werror=unused-but-set-variable]
-      43 |         char *mv_comma;
-         |               ^~~~~~~~
-   arch/sh/kernel/machvec.c: In function 'sh_mv_setup':
-   arch/sh/kernel/machvec.c:104:33: error: array subscript 'struct sh_machine_vector[0]' is partly outside array bounds of 'long int[1]' [-Werror=array-bounds=]
-     104 |                         sh_mv = *(struct sh_machine_vector *)&__machvec_start;
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/sh/kernel/machvec.c:13:
-   arch/sh/include/asm/sections.h:7:13: note: object '__machvec_start' of size 4
-       7 | extern long __machvec_start, __machvec_end;
-         |             ^~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
->> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/mm.h:10,
-                    from arch/sh/mm/cache-sh4.c:14:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
-    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
-    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   arch/sh/mm/cache-sh4.c: In function 'flush_cache_one':
-   arch/sh/mm/cache-sh4.c:99:31: error: 'cached_to_uncached' undeclared (first use in this function); did you mean 'jump_to_uncached'?
-      99 |                 exec_offset = cached_to_uncached;
-         |                               ^~~~~~~~~~~~~~~~~~
-         |                               jump_to_uncached
-   arch/sh/mm/cache-sh4.c:99:31: note: each undeclared identifier is reported only once for each function it appears in
-   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_mm':
-   arch/sh/mm/cache-sh4.c:192:13: error: implicit declaration of function 'cpu_context'; did you mean 'put_io_context'? [-Werror=implicit-function-declaration]
-     192 |         if (cpu_context(smp_processor_id(), mm) == NO_CONTEXT)
-         |             ^~~~~~~~~~~
-         |             put_io_context
-   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_range':
-   arch/sh/mm/cache-sh4.c:280:30: error: variable 'end' set but not used [-Werror=unused-but-set-variable]
-     280 |         unsigned long start, end;
-         |                              ^~~
-   arch/sh/mm/cache-sh4.c:280:23: error: variable 'start' set but not used [-Werror=unused-but-set-variable]
-     280 |         unsigned long start, end;
-         |                       ^~~~~
-   arch/sh/mm/cache-sh4.c: At top level:
-   arch/sh/mm/cache-sh4.c:378:13: error: no previous prototype for 'sh4_cache_init' [-Werror=missing-prototypes]
-     378 | void __init sh4_cache_init(void)
-         |             ^~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
+Old smatch warnings:
+lib/tests/fortify_kunit.c:490 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
+lib/tests/fortify_kunit.c:503 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
+
+vim +479 lib/tests/fortify_kunit.c
+
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  460  
+a0d6677ec3f1da lib/fortify_kunit.c Kees Cook 2024-04-29  461  static void fortify_test_strcpy(struct kunit *test)
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  462  {
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  463  	struct fortify_padding pad = { };
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  464  	char src[sizeof(pad.buf) + 1] = { };
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  465  	int i;
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  466  
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  467  	/* Fill 31 bytes with valid characters. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  468  	for (i = 0; i < sizeof(src) - 2; i++)
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  469  		src[i] = i + '0';
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  470  
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  471  	/* Destination is %NUL-filled to start with. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  472  	KUNIT_EXPECT_EQ(test, pad.bytes_before, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  473  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  474  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  475  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 3], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  476  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  477  
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  478  	/* Legitimate strcpy() 1 less than of max size. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07 @479  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  480  				== pad.buf);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  481  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  482  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  483  	/* Only last byte should be %NUL */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  484  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  485  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  486  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 3], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  487  
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  488  	src[sizeof(src) - 2] = 'A';
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  489  	/* But now we trip the overflow checking. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  490  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  491  				== pad.buf);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  492  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  493  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 1);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  494  	/* Trailing %NUL -- thanks to FORTIFY. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  495  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  496  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  497  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  498  	/* And we will not have gone beyond. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  499  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  500  
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  501  	src[sizeof(src) - 1] = 'A';
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  502  	/* And for sure now, two bytes past. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  503  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  504  				== pad.buf);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  505  	/*
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  506  	 * Which trips both the strlen() on the unterminated src,
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  507  	 * and the resulting copy attempt.
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  508  	 */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  509  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 1);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  510  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 2);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  511  	/* Trailing %NUL -- thanks to FORTIFY. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  512  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  513  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  514  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  515  	/* And we will not have gone beyond. */
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  516  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  517  }
+fa4a3f86d4982b lib/fortify_kunit.c Kees Cook 2023-04-07  518  
+
+:::::: The code at line 479 was first introduced by commit
+:::::: fa4a3f86d4982b603865ccb97dde82f0ae1e3302 fortify: Add KUnit tests for runtime overflows
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
