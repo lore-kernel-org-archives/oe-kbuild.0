@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B329326B2BC
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 15:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF22C26E141
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 16:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739891498; cv=none; b=aCGMU7fVDmzYKBBNQgv63PDoTKrzUoNWIvXWuqDigqbqpip/hRFWiavavoNgw0sRYCLAFSo3QB+EBwAEsoozEkg7heAL/yQkgzBv8RRVELdAp6qgTmJbX07eI8WN6FCRRraioKqtEQpjVd6qc8QclOKPIfJYGmvQjl7mHBgYHYw=
+	t=1739895212; cv=none; b=Fb0HKT8mwiSl18/lniauRFgbb6S/SCtA8bCezOxz2CYF3QsDPrwvXNdU3uwp5UDui3Y8hrAuf6I5kxdgfqe2eWhDjD0lU7y7OgnI1YgPcB9XlNWTokQyWqS37dAqV/jrAeZJqU7gtvzia3i2BOn6y0foQOo8hq1hy3VO6X72S70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739891498; c=relaxed/simple;
-	bh=sUwj5iyDSPdXA9aC4NlkXQR88jpbhFLUqiiKoPYg3yc=;
+	s=arc-20240116; t=1739895212; c=relaxed/simple;
+	bh=XYDo4vCohTz1tX17mKWOE+NTRoyUwJIaRn8NildDALU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WlWTUJQLOD20O48wzW6XsfpDYCTTnLUM4cT3vQqQqIH/MXNkCASV8DFZBOJCE7abvqqwruIkcRsiW5uq0AJVWP6wyaXUAd6H1HEqPC4763QFjloivxZU04vF5cATbEVuXi/zIKjfSLU5wvGcyLUEgtc/8CxPkQQvBir38hNHegw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UP8RR1wE; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=VSfKItrSmMBTlsPE+n2dmKJMih+BcslZ9V4HrlY2E6BW99Fzm0iV7dicujH9cDeagktRGXOKcQl3mSDohgnNB8U9unv1tn/6/F15Wv1x2tYOrcUdBYsSWrEZk5NMihSaSzqrLOcYRggvka3eLTyZFezpocf0bDhPZ7KIX2Oawt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiVtljrV; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UP8RR1wE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiVtljrV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739891496; x=1771427496;
+  t=1739895211; x=1771431211;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sUwj5iyDSPdXA9aC4NlkXQR88jpbhFLUqiiKoPYg3yc=;
-  b=UP8RR1wEbT9/3knqMFlS3q+iD03CeRAUPIBJSJMeUkaPhr+1YJnsO2LQ
-   wIcUq0uOWNz3wV+lvXlwZS0hgnqoukISUz6SY9zQydorj2FVVHFRalEs6
-   0o/vv5CVCKWELrtfbLCxyIgNrxOPHqTW4MXBMw/TVDU65zSqjmvwj7LCH
-   AYUAJEDqHJfPAeXqU/S6OOq7IPjEip3e2BVWxebZekpb+zCHgfz7vQFuY
-   6M76NCwrCZRO280mMkNYtQLUabqDSJkgb4UFkBv1y0mFSsXakCqXmwu3g
-   bWjz+tvKo7VeyQGFCgKNeXsAWy9THWXv4I1ETTv2KY2bPYt/Prtgc1+mx
+  bh=XYDo4vCohTz1tX17mKWOE+NTRoyUwJIaRn8NildDALU=;
+  b=OiVtljrVrxvGszc53CxZ/bJwoowzuk8xLiDdqOD7xjw1xYeP9gIUvlyf
+   eRkh+Me3BxDX4G9Mz0K6fm9izxFQ5dLB4Uq6KNTUul1/WGtntZ7BR8yLP
+   wKytm8395uloxU1cdH1LqQ0hbVVGM9M2xAgS5Gooh5Bf/DfYE/NwJ4VoK
+   BzQMEUkeX6UrP55cFRwTnxBuIsCDIsdCJO/UrDqDmURyX+mBvsrdoVk/d
+   I/JlJBt1eygZ1ySwa6yW/Q9+ea3Q0UBUciEOprhOrheFz/mg+Kkg0puHW
+   XX/s7MVmmgORDwRAROGXfnmRVznwUzrFBDZR2n0VWCk4vq53Tjs9xEdzk
    Q==;
-X-CSE-ConnectionGUID: T/3vfeS6SWaX+4ItXGouwQ==
-X-CSE-MsgGUID: KnoCzjCKQaC5hVvifJH2bw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51212846"
+X-CSE-ConnectionGUID: wSOEAcYLTRe+0XDUl0O2og==
+X-CSE-MsgGUID: zMCxxRX8TXmY38FD5LtfHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40722339"
 X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="51212846"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 07:11:36 -0800
-X-CSE-ConnectionGUID: S05tIug/TJCqVjaMZ/jajg==
-X-CSE-MsgGUID: INC+OoVQR7uJVBTvqgTuXQ==
+   d="scan'208";a="40722339"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 08:13:31 -0800
+X-CSE-ConnectionGUID: MaQXFNaGSFuqviT+GWa30w==
+X-CSE-MsgGUID: f/wDdnUOQtm+J9OtK6FNsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="115085462"
+   d="scan'208";a="114307103"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Feb 2025 07:11:35 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Feb 2025 08:13:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkPG1-0000fD-0J;
-	Tue, 18 Feb 2025 15:11:33 +0000
-Date: Tue, 18 Feb 2025 23:11:04 +0800
+	id 1tkQDu-0000hR-2p;
+	Tue, 18 Feb 2025 16:13:26 +0000
+Date: Wed, 19 Feb 2025 00:13:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [intel-lts:pr/60 1/1] kernel/trace/trace_branch.c:145:2: warning:
- converting the enum constant to a boolean
-Message-ID: <202502182344.ziq9jaXe-lkp@intel.com>
+Subject: [intel-lts:pr/60 1/1] cc1: error: arch/sh/include/mach-sh7763rdp: No
+ such file or directory
+Message-ID: <202502190050.TR1WPDvf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,141 +71,284 @@ CC: oe-kbuild-all@lists.linux.dev
 
 tree:   https://github.com/intel/linux-intel-lts.git pr/60
 head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
-commit: a3bc88645e9293f5aaac9c05a185d9f1c0594c6c [1/1] kbuild: re-enable int-in-bool-context warning
-:::::: branch date: 27 hours ago
+commit: 4c8dd95a723d9cccf8810be54aa62be82885c9d8 [1/1] kbuild: add some extra warning flags unconditionally
+:::::: branch date: 28 hours ago
 :::::: commit date: 6 years ago
-config: x86_64-buildonly-randconfig-006-20250218 (https://download.01.org/0day-ci/archive/20250218/202502182344.ziq9jaXe-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502182344.ziq9jaXe-lkp@intel.com/reproduce)
+config: sh-randconfig-001-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190050.TR1WPDvf-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502190050.TR1WPDvf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502182344.ziq9jaXe-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502190050.TR1WPDvf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-     145 |         trace_assign_type(field, iter->ent);
-         |         ^
-   kernel/trace/trace.h:396:3: note: expanded from macro 'trace_assign_type'
-     396 |                 IF_ASSIGN(var, ent, struct stack_entry, TRACE_STACK);   \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:397:3: note: expanded from macro 'trace_assign_type'
-     397 |                 IF_ASSIGN(var, ent, struct userstack_entry, TRACE_USER_STACK);\
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:398:3: note: expanded from macro 'trace_assign_type'
-     398 |                 IF_ASSIGN(var, ent, struct print_entry, TRACE_PRINT);   \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:399:3: note: expanded from macro 'trace_assign_type'
-     399 |                 IF_ASSIGN(var, ent, struct bprint_entry, TRACE_BPRINT); \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:400:3: note: expanded from macro 'trace_assign_type'
-     400 |                 IF_ASSIGN(var, ent, struct bputs_entry, TRACE_BPUTS);   \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:401:3: note: expanded from macro 'trace_assign_type'
-     401 |                 IF_ASSIGN(var, ent, struct hwlat_entry, TRACE_HWLAT);   \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:402:3: note: expanded from macro 'trace_assign_type'
-     402 |                 IF_ASSIGN(var, ent, struct raw_data_entry, TRACE_RAW_DATA);\
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:403:3: note: expanded from macro 'trace_assign_type'
-     403 |                 IF_ASSIGN(var, ent, struct trace_mmiotrace_rw,          \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:405:3: note: expanded from macro 'trace_assign_type'
-     405 |                 IF_ASSIGN(var, ent, struct trace_mmiotrace_map,         \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:407:3: note: expanded from macro 'trace_assign_type'
-     407 |                 IF_ASSIGN(var, ent, struct trace_branch, TRACE_BRANCH); \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:408:3: note: expanded from macro 'trace_assign_type'
-     408 |                 IF_ASSIGN(var, ent, struct ftrace_graph_ent_entry,      \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
->> kernel/trace/trace_branch.c:145:2: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-   kernel/trace/trace.h:410:3: note: expanded from macro 'trace_assign_type'
-     410 |                 IF_ASSIGN(var, ent, struct ftrace_graph_ret_entry,      \
-         |                 ^
-   kernel/trace/trace.h:372:14: note: expanded from macro 'IF_ASSIGN'
-     372 |                 WARN_ON(id && (entry)->type != id);     \
-         |                            ^
-   kernel/trace/trace_branch.c:205:6: warning: no previous prototype for function 'ftrace_likely_update' [-Wmissing-prototypes]
-     205 | void ftrace_likely_update(struct ftrace_likely_data *f, int val,
-         |      ^
-   kernel/trace/trace_branch.c:205:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     205 | void ftrace_likely_update(struct ftrace_likely_data *f, int val,
-         | ^
-         | static 
-   13 warnings generated.
-
-
-vim +145 kernel/trace/trace_branch.c
-
-80e5ea4506791af kernel/trace/trace_unlikely.c Steven Rostedt           2008-11-12  139  
-ae7462b4f1fe1f3 kernel/trace/trace_branch.c   Arnaldo Carvalho de Melo 2009-02-03  140  static enum print_line_t trace_branch_print(struct trace_iterator *iter,
-a9a5776380208a3 kernel/trace/trace_branch.c   Steven Rostedt           2010-04-22  141  					    int flags, struct trace_event *event)
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  142  {
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  143  	struct trace_branch *field;
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  144  
-2c9b238eb325895 kernel/trace/trace_branch.c   Arnaldo Carvalho de Melo 2009-02-02 @145  	trace_assign_type(field, iter->ent);
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  146  
-7d40f67165d9a4c kernel/trace/trace_branch.c   Steven Rostedt (Red Hat  2014-11-12  147) 	trace_seq_printf(&iter->seq, "[%s] %s:%s:%d\n",
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  148  			 field->correct ? "  ok  " : " MISS ",
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  149  			 field->func,
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  150  			 field->file,
-7d40f67165d9a4c kernel/trace/trace_branch.c   Steven Rostedt (Red Hat  2014-11-12  151) 			 field->line);
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  152  
-7d40f67165d9a4c kernel/trace/trace_branch.c   Steven Rostedt (Red Hat  2014-11-12  153) 	return trace_handle_return(&iter->seq);
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  154  }
-f633cef0200bbae kernel/trace/trace_branch.c   Steven Rostedt           2008-12-23  155  
-
-:::::: The code at line 145 was first introduced by commit
-:::::: 2c9b238eb325895d3312dad64e2685783575e474 trace: Change struct trace_event callbacks parameter list
-
-:::::: TO: Arnaldo Carvalho de Melo <acme@redhat.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/kernel/sys_sh32.c:5:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/kernel/sys_sh.c:13:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/sys_sh.c: At top level:
+   arch/sh/kernel/sys_sh.c:58:16: error: no previous prototype for 'sys_cacheflush' [-Werror=missing-prototypes]
+      58 | asmlinkage int sys_cacheflush(unsigned long addr, unsigned long len, int op)
+         |                ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/include/asm/cacheflush.h:7,
+                    from arch/sh/include/asm/kgdb.h:5,
+                    from include/linux/kgdb.h:20,
+                    from arch/sh/kernel/kgdb.c:9:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/kgdb.c: In function 'kgdb_arch_handle_exception':
+   arch/sh/kernel/kgdb.c:267:20: error: this statement may fall through [-Werror=implicit-fallthrough=]
+     267 |                 if (kgdb_hex2long(&ptr, &addr))
+         |                    ^
+   arch/sh/kernel/kgdb.c:269:9: note: here
+     269 |         case 'D':
+         |         ^~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/kernel/ptrace_32.c:13:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/ptrace_32.c: In function 'arch_ptrace':
+   arch/sh/kernel/ptrace_32.c:380:40: error: comparison of unsigned expression in '< 0' is always false [-Werror=type-limits]
+     380 |                 if ((addr & 3) || addr < 0 ||
+         |                                        ^
+   arch/sh/kernel/ptrace_32.c:420:40: error: comparison of unsigned expression in '< 0' is always false [-Werror=type-limits]
+     420 |                 if ((addr & 3) || addr < 0 ||
+         |                                        ^
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from arch/sh/kernel/return_address.c:9:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/return_address.c: At top level:
+   arch/sh/kernel/return_address.c:49:7: error: no previous prototype for 'return_address' [-Werror=missing-prototypes]
+      49 | void *return_address(unsigned int depth)
+         |       ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from include/uapi/asm-generic/bpf_perf_event.h:4,
+                    from ./arch/sh/include/generated/uapi/asm/bpf_perf_event.h:1,
+                    from include/uapi/linux/bpf_perf_event.h:11,
+                    from include/linux/perf_event.h:18,
+                    from arch/sh/kernel/perf_callchain.c:9:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   In function 'perf_callchain_store',
+       inlined from 'callchain_address' at arch/sh/kernel/perf_callchain.c:24:3:
+   include/linux/perf_event.h:1193:26: error: array subscript <unknown> is outside array bounds of '__u64[0]' {aka 'long long unsigned int[]'} [-Werror=array-bounds=]
+    1193 |                 entry->ip[entry->nr++] = ip;
+         |                 ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/perf_event.h: In function 'callchain_address':
+   include/linux/perf_event.h:63:41: note: while referencing 'ip'
+      63 |         __u64                           ip[0]; /* /proc/sys/kernel/perf_event_max_stack */
+         |                                         ^~
+   In function 'perf_callchain_store',
+       inlined from 'perf_callchain_kernel' at arch/sh/kernel/perf_callchain.c:35:2:
+   include/linux/perf_event.h:1193:26: error: array subscript <unknown> is outside array bounds of '__u64[0]' {aka 'long long unsigned int[]'} [-Werror=array-bounds=]
+    1193 |                 entry->ip[entry->nr++] = ip;
+         |                 ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/perf_event.h: In function 'perf_callchain_kernel':
+   include/linux/perf_event.h:63:41: note: while referencing 'ip'
+      63 |         __u64                           ip[0]; /* /proc/sys/kernel/perf_event_max_stack */
+         |                                         ^~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/sh/kernel/traps_32.c:12:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/traps_32.c: At top level:
+   arch/sh/kernel/traps_32.c:731:6: error: no previous prototype for 'per_cpu_trap_init' [-Werror=missing-prototypes]
+     731 | void per_cpu_trap_init(void)
+         |      ^~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from include/uapi/asm-generic/bpf_perf_event.h:4,
+                    from ./arch/sh/include/generated/uapi/asm/bpf_perf_event.h:1,
+                    from include/uapi/linux/bpf_perf_event.h:11,
+                    from include/linux/perf_event.h:18,
+                    from arch/sh/kernel/hw_breakpoint.c:10:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/hw_breakpoint.c: At top level:
+   arch/sh/kernel/hw_breakpoint.c:135:5: error: no previous prototype for 'arch_bp_generic_fields' [-Werror=missing-prototypes]
+     135 | int arch_bp_generic_fields(int sh_len, int sh_type,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   arch/sh/kernel/hw_breakpoint.c: In function 'arch_bp_generic_fields':
+   arch/sh/kernel/hw_breakpoint.c:159:27: error: this statement may fall through [-Werror=implicit-fallthrough=]
+     159 |                 *gen_type = HW_BREAKPOINT_R;
+         |                 ~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   arch/sh/kernel/hw_breakpoint.c:160:9: note: here
+     160 |         case SH_BREAKPOINT_WRITE:
+         |         ^~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from arch/sh/kernel/idle.c:7:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/kernel/idle.c: At top level:
+   arch/sh/kernel/idle.c:32:6: error: no previous prototype for 'arch_cpu_idle_dead' [-Werror=missing-prototypes]
+      32 | void arch_cpu_idle_dead(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/sh/kernel/idle.c:37:6: error: no previous prototype for 'arch_cpu_idle' [-Werror=missing-prototypes]
+      37 | void arch_cpu_idle(void)
+         |      ^~~~~~~~~~~~~
+   arch/sh/kernel/idle.c:42:13: error: no previous prototype for 'select_idle_routine' [-Werror=missing-prototypes]
+      42 | void __init select_idle_routine(void)
+         |             ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   arch/sh/kernel/machvec.c: In function 'early_parse_mv':
+   arch/sh/kernel/machvec.c:43:15: error: variable 'mv_comma' set but not used [-Werror=unused-but-set-variable]
+      43 |         char *mv_comma;
+         |               ^~~~~~~~
+   arch/sh/kernel/machvec.c: In function 'sh_mv_setup':
+   arch/sh/kernel/machvec.c:104:33: error: array subscript 'struct sh_machine_vector[0]' is partly outside array bounds of 'long int[1]' [-Werror=array-bounds=]
+     104 |                         sh_mv = *(struct sh_machine_vector *)&__machvec_start;
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/sh/kernel/machvec.c:13:
+   arch/sh/include/asm/sections.h:7:13: note: object '__machvec_start' of size 4
+       7 | extern long __machvec_start, __machvec_end;
+         |             ^~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+>> cc1: error: arch/sh/include/mach-sh7763rdp: No such file or directory [-Werror=missing-include-dirs]
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/mm.h:10,
+                    from arch/sh/mm/cache-sh4.c:14:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1218:13: error: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Werror=address]
+    1218 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1209:27: note: 'mem_section' declared here
+    1209 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   arch/sh/mm/cache-sh4.c: In function 'flush_cache_one':
+   arch/sh/mm/cache-sh4.c:99:31: error: 'cached_to_uncached' undeclared (first use in this function); did you mean 'jump_to_uncached'?
+      99 |                 exec_offset = cached_to_uncached;
+         |                               ^~~~~~~~~~~~~~~~~~
+         |                               jump_to_uncached
+   arch/sh/mm/cache-sh4.c:99:31: note: each undeclared identifier is reported only once for each function it appears in
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_mm':
+   arch/sh/mm/cache-sh4.c:192:13: error: implicit declaration of function 'cpu_context'; did you mean 'put_io_context'? [-Werror=implicit-function-declaration]
+     192 |         if (cpu_context(smp_processor_id(), mm) == NO_CONTEXT)
+         |             ^~~~~~~~~~~
+         |             put_io_context
+   arch/sh/mm/cache-sh4.c: In function 'sh4_flush_cache_range':
+   arch/sh/mm/cache-sh4.c:280:30: error: variable 'end' set but not used [-Werror=unused-but-set-variable]
+     280 |         unsigned long start, end;
+         |                              ^~~
+   arch/sh/mm/cache-sh4.c:280:23: error: variable 'start' set but not used [-Werror=unused-but-set-variable]
+     280 |         unsigned long start, end;
+         |                       ^~~~~
+   arch/sh/mm/cache-sh4.c: At top level:
+   arch/sh/mm/cache-sh4.c:378:13: error: no previous prototype for 'sh4_cache_init' [-Werror=missing-prototypes]
+     378 | void __init sh4_cache_init(void)
+         |             ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+..
 
 -- 
 0-DAY CI Kernel Test Service
