@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680111925AF
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Feb 2025 02:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56908169397
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Feb 2025 07:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739932490; cv=none; b=EHwssRn3/LHx0ei3/7RbQR/AkbIGqH4O/G/yqUuvRXiC+zWNxL3x9Ygx8Ysp2sVgYjGhL+P0ORwVdSWMdxg3TJSCx9wuybN8bsvnHMIJ3W7VmQN4N5eDM2IgcgRqW/CnyeGnfRTuLYbVaZucEhykqDNX8Iu9WBeCD83JhS4Noog=
+	t=1739949720; cv=none; b=CFwQu5VDLb9ghqCDYx9PRNMzaJwcYG5473kzKg/bykv7YyFkOFdF4j0G0mETuaVXuUHC0eLXKJ/i+m0+AGYOZLFPhYrl53Z6lc8iw1qFC2+LvW2GHGfZwsEDZZuidjV0a3ehe1ngFZT6YbopUr6yw7eOEH8hDu5t/ihHlOrAe1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739932490; c=relaxed/simple;
-	bh=DduKFCckXdhdEkEpz+PZEo5wJKT4XoAPt71cK5pplKg=;
+	s=arc-20240116; t=1739949720; c=relaxed/simple;
+	bh=SQ0DQqDA4bJ+HlaHXC27e986ZWIb1dqrj6EAgISpNwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cDbH6Ypd/DI6fqFhml8OBtFICA/HC56sGSDRfuyyWqntmJJPiBIREU8h9be6OZp/aLa7p63Z7xPWy7fUCVlXRWIesaKrb3RfGISGYVTCjignON6E8Xnt/p79ORVlOTsoSLfPEP28zqhjVTvL1NIjYtK/9RNmY7tcUtd5FZh60ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcgKjTq4; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=kJjImgBZoWnP7ZM4Ku4wYUFLXMyAa9xvmdVSqX49HsFiMM7I+lfzRlq1wsRDZHOnh5v0xjAi1hGhrwBCKX+eGnQo0CLQJnOxkYmwqlrhXYHTCElQH9aG5wpV7sHjOY+yiTAJ7MUnt9YJmHwAYRLebNXva5TZLZWhPsceqAKVMdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BNUL6LUJ; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcgKjTq4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739932488; x=1771468488;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DduKFCckXdhdEkEpz+PZEo5wJKT4XoAPt71cK5pplKg=;
-  b=jcgKjTq45jN3ah9wkvoopTUzJua6ETA8zjR3v3uM2gwh4WkxafHIhIks
-   KsF48u954xI3p6j6FqnGRgMwvlT9NWJmdbL/GfFZPQVorQuSq0FJd8iSy
-   /jRSE/rSq95BqIuzlmfn5lu0ScWs8l4e35PFNQmkyDuFZM5WPilDi9T53
-   4VWgMfBtduDxzLqXC9Sae1x6eQDuyvu3lEn6Vd71F5QP4hK3+aV9BOtPf
-   Zxuc9hRoMFCEERCSUSuTIbLwX4anQXRXsnIi0YiDv2OtCj8btem6fomAE
-   TeLEh0jQGuXRQ0Uo5DFFABHJ0adofM+KtHldZRx3qOccWkcdl8sUjPxsD
-   A==;
-X-CSE-ConnectionGUID: sQIiwVL/T5C+U0cv0aqC8w==
-X-CSE-MsgGUID: zV2oik4/QD+ZdcO63PxPvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="63128684"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="63128684"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:34:47 -0800
-X-CSE-ConnectionGUID: 8+vy8PcKSSOT6L3y0PZnCQ==
-X-CSE-MsgGUID: Y4us08cfS1OZyrmRnOQe5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118711748"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Feb 2025 18:34:46 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkZv8-00019F-02;
-	Wed, 19 Feb 2025 02:34:42 +0000
-Date: Wed, 19 Feb 2025 10:34:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [asahilinux:bits/170-atcphy 5/16] drivers/phy/apple/atc.c:2156
- atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) =>
- (0-u32max > u32max)'
-Message-ID: <202502191004.5HCUpXEb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BNUL6LUJ"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abbdc4a0b5aso35075766b.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 23:21:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739949716; x=1740554516; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nL4ehjy0HunCJ0sJe+PFpLuc0MbSZl0UMHQbeYAyHRI=;
+        b=BNUL6LUJcmNyT9Ahfw/PYcBQf5t+FFZGD4k0DmfhJm68tquHxezw4PYKx1BanD6y24
+         qNYOOGll3DS3XSmUq4yoW1Hu2JKeF7U0u7F0EfLb6sWx5Mr8gbpDun9VA1DAhcfjmps0
+         XG7eKyhDHMnZ3kz7lzUOz4aMT5Z8A98Sb/9LfUGUZPhe4Xkvv73g4ZgSwIKuKqbf7lQG
+         SzdEHcFEYNrnwT/5FYNlx0hJ6RQzFzZOI5SO//QWsv18y0uzb8nFamyTgcbRfTIG8944
+         ya08Morkr0CflDFJ7uyrnC0rAZTmDOmA6EBHLdsaasgCG+ZpfgTsv31J3hMJC6JOAZS4
+         Wiug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739949716; x=1740554516;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nL4ehjy0HunCJ0sJe+PFpLuc0MbSZl0UMHQbeYAyHRI=;
+        b=ezNUPZ0PUYvtvLl0XfOVKjQKriwC1ERnzwB771NIsBFjAb7FUZlIiCmLPpezh59dEc
+         Qty13EU9NhGFX/Nx44RwKaj3vFpMUn/oStlu6eLQCdfHDQ5CUqrEkEBHp4H5PkGheorG
+         MI4WENK1wnBRlUSsjXEzOWN5FMmUebMGuXC69Ek5IbR79R4hKYt3tmgaLHqwryw7K4+H
+         whf1fIx+fWj6M26jVseOnqqp5jxuiwwQPmQZgVBoCYinIVmkHei5LL/y6cCAPx8QnuU6
+         j6lnruDtYRcb5zs3uczY5puzfLH35LfzPfjaQNxHH+WJrGwMUib6hyBmL4+Uby7Umvw5
+         YUmw==
+X-Gm-Message-State: AOJu0YyrH9FpDXHOg0AZ3Cmy13lrIgwaqTpUyF9L/w7EbOBlxx41RWn3
+	J+I+l789yFL8MCG3fxv64r0pxTU3OXHryzFsPQEdOKWxe3jMO0AQD3x1oE35GbacX0pzxrSxysc
+	O
+X-Gm-Gg: ASbGncvl/eknBdCGVzqxn7E6YPufH6vralzccirAQzR/G+rTs/+9zD/GBmF2IK0Imgm
+	B2QzbSpcKPAppjbDjP4csUkbkhwEAz4zQh/nvIC3LVv6Jljjv8U0eroiNo/mf2PvbQlAZRSz8Mx
+	KXaCAxWO7qg01O/ZxReXEHJuE77U7Fyo36KAhM1O7YgvVsbvnwIDrWFmNxjCpTJZcL3SEMQLpxG
+	voL5zeFhVKUMmj2LJDQk+gvjr5fnoTzpYg5iSN1DvLHI26fwPoghDlL7GJqH24a7tuy1t1j6rZz
+	SoTmwsIZ3Mv8grxS6npe
+X-Google-Smtp-Source: AGHT+IEP99w93lRjUsG1LWrTV9PSO+j6kUMUtQdYxNrHsv8+/S4B02UoOh0SxZNhKWZSRJoHtBhNSQ==
+X-Received: by 2002:a17:907:9411:b0:ab6:fe30:f49e with SMTP id a640c23a62f3a-abbcc7f2de8mr285156766b.28.1739949716226;
+        Tue, 18 Feb 2025 23:21:56 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-aba5323226asm1208953266b.8.2025.02.18.23.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 23:21:55 -0800 (PST)
+Date: Wed, 19 Feb 2025 10:21:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, David Wei <dw@davidwei.uk>
+Subject: [linux-next:master 3999/4377] io_uring/zcrx.c:223
+ io_register_zcrx_ifq() warn: missing unwind goto?
+Message-ID: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,103 +72,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Sven Peter <sven@svenpeter.dev>
-CC: Janne Grunau <j@jannau.net>
+Hi Pavel,
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   d9133ae802014bca51082790e834546f42d21231
-commit: 6dcc9a0b2ca8beb8f112cdf4a06be2a70b83111b [5/16] WIP: phy: apple: Add Apple Type-C PHY
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: sparc-randconfig-r071-20250218 (https://download.01.org/0day-ci/archive/20250219/202502191004.5HCUpXEb-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
+commit: 035af94b39fd13751abf5f0a2948c9eddede55d0 [3999/4377] io_uring/zcrx: grab a net device
+config: i386-randconfig-141-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190532.W7NnmyiP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502191004.5HCUpXEb-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502190532.W7NnmyiP-lkp@intel.com/
 
-New smatch warnings:
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
+smatch warnings:
+io_uring/zcrx.c:223 io_register_zcrx_ifq() warn: missing unwind goto?
 
-Old smatch warnings:
-drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+vim +223 io_uring/zcrx.c
 
-vim +2156 drivers/phy/apple/atc.c
+6f377873cb2390 David Wei      2025-02-14  160  int io_register_zcrx_ifq(struct io_ring_ctx *ctx,
+6f377873cb2390 David Wei      2025-02-14  161  			  struct io_uring_zcrx_ifq_reg __user *arg)
+6f377873cb2390 David Wei      2025-02-14  162  {
+cf96310c5f9a0d David Wei      2025-02-14  163  	struct io_uring_zcrx_area_reg area;
+6f377873cb2390 David Wei      2025-02-14  164  	struct io_uring_zcrx_ifq_reg reg;
+6f377873cb2390 David Wei      2025-02-14  165  	struct io_uring_region_desc rd;
+6f377873cb2390 David Wei      2025-02-14  166  	struct io_zcrx_ifq *ifq;
+6f377873cb2390 David Wei      2025-02-14  167  	int ret;
+6f377873cb2390 David Wei      2025-02-14  168  
+6f377873cb2390 David Wei      2025-02-14  169  	/*
+6f377873cb2390 David Wei      2025-02-14  170  	 * 1. Interface queue allocation.
+6f377873cb2390 David Wei      2025-02-14  171  	 * 2. It can observe data destined for sockets of other tasks.
+6f377873cb2390 David Wei      2025-02-14  172  	 */
+6f377873cb2390 David Wei      2025-02-14  173  	if (!capable(CAP_NET_ADMIN))
+6f377873cb2390 David Wei      2025-02-14  174  		return -EPERM;
+6f377873cb2390 David Wei      2025-02-14  175  
+6f377873cb2390 David Wei      2025-02-14  176  	/* mandatory io_uring features for zc rx */
+6f377873cb2390 David Wei      2025-02-14  177  	if (!(ctx->flags & IORING_SETUP_DEFER_TASKRUN &&
+6f377873cb2390 David Wei      2025-02-14  178  	      ctx->flags & IORING_SETUP_CQE32))
+6f377873cb2390 David Wei      2025-02-14  179  		return -EINVAL;
+6f377873cb2390 David Wei      2025-02-14  180  	if (ctx->ifq)
+6f377873cb2390 David Wei      2025-02-14  181  		return -EBUSY;
+6f377873cb2390 David Wei      2025-02-14  182  	if (copy_from_user(&reg, arg, sizeof(reg)))
+6f377873cb2390 David Wei      2025-02-14  183  		return -EFAULT;
+6f377873cb2390 David Wei      2025-02-14  184  	if (copy_from_user(&rd, u64_to_user_ptr(reg.region_ptr), sizeof(rd)))
+6f377873cb2390 David Wei      2025-02-14  185  		return -EFAULT;
+6f377873cb2390 David Wei      2025-02-14  186  	if (memchr_inv(&reg.__resv, 0, sizeof(reg.__resv)))
+6f377873cb2390 David Wei      2025-02-14  187  		return -EINVAL;
+6f377873cb2390 David Wei      2025-02-14  188  	if (reg.if_rxq == -1 || !reg.rq_entries || reg.flags)
+6f377873cb2390 David Wei      2025-02-14  189  		return -EINVAL;
+6f377873cb2390 David Wei      2025-02-14  190  	if (reg.rq_entries > IO_RQ_MAX_ENTRIES) {
+6f377873cb2390 David Wei      2025-02-14  191  		if (!(ctx->flags & IORING_SETUP_CLAMP))
+6f377873cb2390 David Wei      2025-02-14  192  			return -EINVAL;
+6f377873cb2390 David Wei      2025-02-14  193  		reg.rq_entries = IO_RQ_MAX_ENTRIES;
+6f377873cb2390 David Wei      2025-02-14  194  	}
+6f377873cb2390 David Wei      2025-02-14  195  	reg.rq_entries = roundup_pow_of_two(reg.rq_entries);
+6f377873cb2390 David Wei      2025-02-14  196  
+cf96310c5f9a0d David Wei      2025-02-14  197  	if (copy_from_user(&area, u64_to_user_ptr(reg.area_ptr), sizeof(area)))
+6f377873cb2390 David Wei      2025-02-14  198  		return -EFAULT;
+6f377873cb2390 David Wei      2025-02-14  199  
+6f377873cb2390 David Wei      2025-02-14  200  	ifq = io_zcrx_ifq_alloc(ctx);
+6f377873cb2390 David Wei      2025-02-14  201  	if (!ifq)
+6f377873cb2390 David Wei      2025-02-14  202  		return -ENOMEM;
+6f377873cb2390 David Wei      2025-02-14  203  
+6f377873cb2390 David Wei      2025-02-14  204  	ret = io_allocate_rbuf_ring(ifq, &reg, &rd);
+6f377873cb2390 David Wei      2025-02-14  205  	if (ret)
+6f377873cb2390 David Wei      2025-02-14  206  		goto err;
+6f377873cb2390 David Wei      2025-02-14  207  
+cf96310c5f9a0d David Wei      2025-02-14  208  	ret = io_zcrx_create_area(ifq, &ifq->area, &area);
+cf96310c5f9a0d David Wei      2025-02-14  209  	if (ret)
+cf96310c5f9a0d David Wei      2025-02-14  210  		goto err;
+cf96310c5f9a0d David Wei      2025-02-14  211  
+6f377873cb2390 David Wei      2025-02-14  212  	ifq->rq_entries = reg.rq_entries;
+6f377873cb2390 David Wei      2025-02-14  213  	ifq->if_rxq = reg.if_rxq;
+6f377873cb2390 David Wei      2025-02-14  214  
+035af94b39fd13 Pavel Begunkov 2025-02-14  215  	ret = -ENODEV;
+035af94b39fd13 Pavel Begunkov 2025-02-14  216  	ifq->netdev = netdev_get_by_index(current->nsproxy->net_ns, reg.if_idx,
+035af94b39fd13 Pavel Begunkov 2025-02-14  217  					  &ifq->netdev_tracker, GFP_KERNEL);
+035af94b39fd13 Pavel Begunkov 2025-02-14  218  	if (!ifq->netdev)
+035af94b39fd13 Pavel Begunkov 2025-02-14  219  		goto err;
+035af94b39fd13 Pavel Begunkov 2025-02-14  220  
+035af94b39fd13 Pavel Begunkov 2025-02-14  221  	ifq->dev = ifq->netdev->dev.parent;
+035af94b39fd13 Pavel Begunkov 2025-02-14  222  	if (!ifq->dev)
+035af94b39fd13 Pavel Begunkov 2025-02-14 @223  		return -EOPNOTSUPP;
 
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2113  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2114  static int atcphy_parse_new_tunable(struct apple_atcphy *atcphy,
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2115  				    struct atcphy_tunable *tunable,
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2116  				    const char *name)
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2117  {
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2118  	struct property *prop;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2119  	u64 *fdt_tunable;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2120  	int ret, i;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2121  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2122  	prop = of_find_property(atcphy->np, name, NULL);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2123  	if (!prop) {
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2124  		dev_err(atcphy->dev, "tunable %s not found\n", name);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2125  		return -ENOENT;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2126  	}
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2127  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2128  	if (prop->length % (4 * sizeof(u64)))
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2129  		return -EINVAL;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2130  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2131  	fdt_tunable = kzalloc(prop->length, GFP_KERNEL);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2132  	if (!fdt_tunable)
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2133  		return -ENOMEM;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2134  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2135  	tunable->sz = prop->length / (4 * sizeof(u64));
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2136  	ret = of_property_read_variable_u64_array(atcphy->np, name, fdt_tunable,
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2137  						  tunable->sz, tunable->sz);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2138  	if (ret < 0)
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2139  		goto err_free_fdt;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2140  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2141  	tunable->values = devm_kcalloc(atcphy->dev, tunable->sz,
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2142  				       sizeof(*tunable->values), GFP_KERNEL);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2143  	if (!tunable->values) {
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2144  		ret = -ENOMEM;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2145  		goto err_free_fdt;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2146  	}
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2147  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2148  	for (i = 0; i < tunable->sz; ++i) {
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2149  		u32 offset, size, mask, value;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2150  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2151  		offset = fdt_tunable[4 * i];
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2152  		size = fdt_tunable[4 * i + 1];
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2153  		mask = fdt_tunable[4 * i + 2];
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2154  		value = fdt_tunable[4 * i + 3];
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2155  
-6dcc9a0b2ca8be Sven Peter 2022-11-30 @2156  		if (offset > U32_MAX || size != 4 || mask > U32_MAX ||
-6dcc9a0b2ca8be Sven Peter 2022-11-30 @2157  		    value > U32_MAX) {
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2158  			ret = -EINVAL;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2159  			goto err_free_values;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2160  		}
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2161  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2162  		tunable->values[i].offset = offset;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2163  		tunable->values[i].mask = mask;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2164  		tunable->values[i].value = value;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2165  	}
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2166  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2167  	trace_atcphy_parsed_tunable(name, tunable);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2168  	kfree(fdt_tunable);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2169  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2170  	BUG_ON(1);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2171  	return 0;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2172  
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2173  err_free_values:
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2174  	devm_kfree(atcphy->dev, tunable->values);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2175  err_free_fdt:
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2176  	kfree(fdt_tunable);
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2177  	return ret;
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2178  }
-6dcc9a0b2ca8be Sven Peter 2022-11-30  2179  
+goto err;
+
+035af94b39fd13 Pavel Begunkov 2025-02-14  224  	get_device(ifq->dev);
+035af94b39fd13 Pavel Begunkov 2025-02-14  225  
+6f377873cb2390 David Wei      2025-02-14  226  	reg.offsets.rqes = sizeof(struct io_uring);
+6f377873cb2390 David Wei      2025-02-14  227  	reg.offsets.head = offsetof(struct io_uring, head);
+6f377873cb2390 David Wei      2025-02-14  228  	reg.offsets.tail = offsetof(struct io_uring, tail);
+6f377873cb2390 David Wei      2025-02-14  229  
+6f377873cb2390 David Wei      2025-02-14  230  	if (copy_to_user(arg, &reg, sizeof(reg)) ||
+6f377873cb2390 David Wei      2025-02-14  231  	    copy_to_user(u64_to_user_ptr(reg.region_ptr), &rd, sizeof(rd))) {
+6f377873cb2390 David Wei      2025-02-14  232  		ret = -EFAULT;
+6f377873cb2390 David Wei      2025-02-14  233  		goto err;
+6f377873cb2390 David Wei      2025-02-14  234  	}
+cf96310c5f9a0d David Wei      2025-02-14  235  	if (copy_to_user(u64_to_user_ptr(reg.area_ptr), &area, sizeof(area))) {
+cf96310c5f9a0d David Wei      2025-02-14  236  		ret = -EFAULT;
+cf96310c5f9a0d David Wei      2025-02-14  237  		goto err;
+cf96310c5f9a0d David Wei      2025-02-14  238  	}
+6f377873cb2390 David Wei      2025-02-14  239  	ctx->ifq = ifq;
+6f377873cb2390 David Wei      2025-02-14  240  	return 0;
+6f377873cb2390 David Wei      2025-02-14  241  err:
+6f377873cb2390 David Wei      2025-02-14  242  	io_zcrx_ifq_free(ifq);
+6f377873cb2390 David Wei      2025-02-14  243  	return ret;
+6f377873cb2390 David Wei      2025-02-14  244  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
