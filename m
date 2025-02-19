@@ -1,79 +1,69 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8959D1BCA0C
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Feb 2025 07:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D1F1BCA19
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Feb 2025 07:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739949824; cv=none; b=sIaO+hR5HKKw1qBIQEwYgUANO9Icadr1ciAz5wieXgiaaZnqLnU4SdG5dKPQfH684TPtc5oLWO65aLPOJB8thCY3t88KrZ2Zs/DQXWBxurypzIBFXH8e1Ijr6WfXeL48CUf5gU+T/wYo/bga2fjVSJriMd/g/QpaM3uFbS5KCSE=
+	t=1739949942; cv=none; b=jrktDUkepPSdCpqcLX5Q9e17P4D+J79uVv10f27WXM35OUXtdPaK4D7YlzCBB4UWNxnvEim5SVT19uMJ15rMYnn9FA24Lormg2u8BnWRE5gkms3B7uf1V4miEuzuF98Jj2PKmCJ6nr4NpIgcE4Hm+fOLtdDvoBIio3bK/0KShl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739949824; c=relaxed/simple;
-	bh=3kLZsDMev250iMmOeYc57o6jrc1EykFIZENk0ndPuYU=;
+	s=arc-20240116; t=1739949942; c=relaxed/simple;
+	bh=GKHD7pycGyC4VpX6u+lp8ObPpzywYSsF54CZ2Bf6uvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZSDohpOMRTec2JSgsQ2TNmIHcuRNQbcFgU0Dtp7D5ZVuLEYyMXGoCwFVr34yOK3d9zFrFTxzNVBklCC0nv6rhVuPfhXOgGjUqLqK++WLFz/Rfy0HgYjHi8s60claWpqv9Ce9BeMSxcRh4j2wlOUVWyGyCecl0vV4CH6Wu3Ev0+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sZc2OO0m; arc=none smtp.client-ip=209.85.218.43
+	 Content-Disposition; b=X/H3GxciFmt4AH9Pp5fic0TjUrz5gH1sRtAnNlT8yCucmer3J66uz1TsNTKluH6LOCya+yURdDtIRfsABpV4ywyYRcNewC438GxlfUEUh2WA/ARDhTHNxzZypb0x0ltC/ieWGLV3rWeJSGepiQfeZu5OqhkQjcb+CEIDR64J/Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lYFM1sFh; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sZc2OO0m"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abbac134a19so371178166b.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 23:23:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lYFM1sFh"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-abb79af88afso707104066b.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 18 Feb 2025 23:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739949820; x=1740554620; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MrkL1EzynOEYQjnCeAURIHzh4kwI++Df9MFvfdWTjOg=;
-        b=sZc2OO0mqQ7pa31dtECb6p2Euh/aFEjO0RfazKcRlxGksDItIfnWZU+zCAqj8ctlZx
-         tdLxeJJbp4LbshfZT1iMc6+0SoOoh9L3pKupne+N5xXNDP0VZTu3z26mwhA0g302r8Kg
-         oz3lLA+ZAETkb8xFvB8u7HCt15IG9nYZOaRcVoGm4//WoAAvY4BlRqUIB4AnH3TE446f
-         GoHi9YBX5P87oKsLEHWUlqw2w4jg8L+jld8QPvZjtTmP5yrdUM9Tg9ooVp3rpHMwZ5qx
-         ASTMgcltvfE+GL68dmqkRa+efwmkm3EfOWeRiL9dDPvZdSTX2L+/Q4y8zwu1Zlq/CbHL
-         NBfw==
+        d=linaro.org; s=google; t=1739949938; x=1740554738; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+vgjFNxDvFnqKq0XzeP/mA+njytVUD0g2LEKwHJkgX0=;
+        b=lYFM1sFhUfXHSEr9pDJib3A7IYhM8Fx8BIlvWWLXcmRXG7A6/weDEQX9qISs5OoZ++
+         YetQWYZltEvbpYFRp/lRw6vjRV5op96PaobPqKWREoz5fa7LVtuBmDqqbILDEX3L7ONs
+         zCv6sbnaUDvnfpUD1rqLQo2aseqrySYUZP2p74bvGJX5t3skPROw1gy6ZIWrVa/W/eQ6
+         yzDNy2Q8sa5vxWDlQ8Dp5jaReIOHZer8Erpmft5UoFzMKALcmp31vJ6Mz4jzKg6PzEqJ
+         Acwbmddrb+QHFBM4vrrrFkfLqRmuBeFUU5uTZBU3iMg0LLyLSXmlmSk+AS5Ha+NTWCwI
+         SuLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739949820; x=1740554620;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MrkL1EzynOEYQjnCeAURIHzh4kwI++Df9MFvfdWTjOg=;
-        b=XP4OtlaHxSaemIXvhcgm52L0Aj/6NhXPcelkGtxLKS0k31bIRy2CMpSHvsXAV2rNQa
-         nMFN7lS1Tx39Af05BNm6ItYvcFcbQQV9OmH2ZA0gUnJg8500IrLVrLzueiqTwATyl+zt
-         DN1aaynBr28CAgM8l/ghpbtaWdKxOyteGlKeP+zRrXaEKfM91/h8cxYKOAH82FzxE0CR
-         WhtEinYZBbuQ60wgtpA/F2sCVOU2/HeuwY+43UPnhgAZkVDLaSSjj1hYtAk6Ob/Nutr0
-         wGpBNQDvhAnj5lv1GV67zcpqbxS2tnLgcdivW474Bdqv7+thSKrqcxgWYNEMsi7Exye/
-         BDvA==
-X-Gm-Message-State: AOJu0YzlKP5C6vhq4m9w9ENrBYEo7PAlBdjqtojcbrgvX3escMbq7QTC
-	t4vikiqezSVX9EVJUBOkxuKyeNZDbqnaN8HOQvgGurgTc5dSP2P/R44U/ZYkRKIH/nF4Lih0KBA
-	W
-X-Gm-Gg: ASbGncsBfdn9+VBlbG4vLzgX0ywT19p3P+Dq11SONFapE7og5rnO2mZOawXE7hs3xlN
-	BcCbGxfz7o4pq7vB4Jm2n4Gfj/baD7Nzk/2U3Dg1Vd0ay1I6qiK8JHKVgi0KtZOoKRp75VI0btG
-	UfNTDgPqdxfaarHI/ih5wgrtnPu1bC+1iCP7E0fUpMiPSg0Fnsm+ecOP19tFW7L1RG9zcUF9bSO
-	bjohVQ+X9aRamDP9CCHeLOv4JOqP2HFl7GQVj8ti3S+fvlyMSaYhbW+UwbIbKeJ3s0lYNO2MCpm
-	/zWk8cNRPetq3wploeSo
-X-Google-Smtp-Source: AGHT+IHZWXCuEpvT3xvdDN/MFE3D6j40MB5FYWQcEZO+pokW/icP1OWkegX28oeygqnpWf0djqcvPg==
-X-Received: by 2002:a17:907:3e82:b0:abb:db78:a25c with SMTP id a640c23a62f3a-abbdb78ac9amr70624766b.46.1739949820011;
-        Tue, 18 Feb 2025 23:23:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739949938; x=1740554738;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+vgjFNxDvFnqKq0XzeP/mA+njytVUD0g2LEKwHJkgX0=;
+        b=dEBVerQQ0+jJDOXWdeIJngWc2W55gleH6z+5JDQ3YqZJVxbTnqJqOg4qQd6+wStUDb
+         xNMU+UzdycygAoOP0LFUuSbIZVNRNyTfqF3Ud19mNoYwVf8uETcIY6lMdHlC6Qw6j9TP
+         +9jwR9M+swkrtw38/CTP4gr7XTvvR6FSDJRAeXlvZWdT+5svseWKBEAPpocOaG2YkqM0
+         jpqr/iMtlDf6eeUCD96TXNm2UBXX75z7euDGjvz1NvbQVA6cA6zTsWUQmeXZUcZXPQBS
+         cEGLk7cMCmuajl4OaLO3kDXFuuaS6EpvC6+fc/fTObP9xWAKE/L6YDcS7MI3KbiYmqub
+         8EDg==
+X-Gm-Message-State: AOJu0YxSfDMlGGfmtyNu1m6zUCErPxl5DXmUc7/KIc9VLKmUsSkfUZIJ
+	tPmAJhJaRPng5IcezUIQLuN5f2wqZo2BDsXRRy90lAOHky6QIEXQ8y9ZaMIldisBM8Y+y7Velee
+	C
+X-Gm-Gg: ASbGnctBZ0iNhPkUKwmXCizOj+DFPLi+ingFJB4ANaC7A7jUSkvu+9gYLCQnEGala3l
+	jo5PP9ELgj/UfCL5frV1Ozgd4wWztmpvTLc5KNKZwYL8MdpjMjnPaO44O8U31KUKKuZLzn3sMr9
+	/0R6+7YPbZlXs1oJnaxH/t9pAHL8vRYary4Kl5nWJQQwruQUtz6jZORw4k0MWnF50aiSc3ShoNT
+	VN0k/s0/DEpoxqQa63Ug5hLu48HoOUHiV80eIVggoHNug5c9GGBq1gnNu27Vs6iQqJEoinyFukv
+	VGHqBMyvzm2z5Ft9QUZW
+X-Google-Smtp-Source: AGHT+IHGTmbr/lO1Te/jKG4jDSNzj0mmFwRx7uJ0H0FTMudx0Gb3qlrjQsPfEx+7UOZ6ZIxz6htZvQ==
+X-Received: by 2002:a17:906:4794:b0:ab7:6369:83fa with SMTP id a640c23a62f3a-abb70c32194mr1862836166b.33.1739949938148;
+        Tue, 18 Feb 2025 23:25:38 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb837378e7sm729086166b.52.2025.02.18.23.23.39
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abbac3242dcsm390503766b.107.2025.02.18.23.25.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 23:23:39 -0800 (PST)
-Date: Wed, 19 Feb 2025 10:23:36 +0300
+        Tue, 18 Feb 2025 23:25:37 -0800 (PST)
+Date: Wed, 19 Feb 2025 10:25:33 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mark Tseng <chun-jen.tseng@mediatek.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	chun-jen.tseng@mediatek.com
-Subject: Re: [PATCH v3 1/3] cpufreq: mediatek: using global lock avoid race
- condition
-Message-ID: <23e24631-aee4-43cc-8f85-29ec58241c03@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/170-atcphy 5/16] drivers/phy/apple/atc.c:2156
+ atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) =>
+ (0-u32max > u32max)'
+Message-ID: <46fb5538-5fcf-4a81-9f22-70d85414e669@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,87 +72,100 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250214074353.1169864-2-chun-jen.tseng@mediatek.com>
 
-Hi Mark,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Tseng/cpufreq-mediatek-using-global-lock-avoid-race-condition/20250214-154521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250214074353.1169864-2-chun-jen.tseng%40mediatek.com
-patch subject: [PATCH v3 1/3] cpufreq: mediatek: using global lock avoid race condition
-config: sparc-randconfig-r071-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190807.fz6fs2jz-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   d9133ae802014bca51082790e834546f42d21231
+commit: 6dcc9a0b2ca8beb8f112cdf4a06be2a70b83111b [5/16] WIP: phy: apple: Add Apple Type-C PHY
+config: sparc-randconfig-r071-20250218 (https://download.01.org/0day-ci/archive/20250219/202502191004.5HCUpXEb-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502190807.fz6fs2jz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502191004.5HCUpXEb-lkp@intel.com/
 
-smatch warnings:
-drivers/cpufreq/mediatek-cpufreq.c:367 mtk_cpufreq_opp_notifier() warn: inconsistent returns 'global &mtk_policy_lock'.
+New smatch warnings:
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
 
-vim +367 drivers/cpufreq/mediatek-cpufreq.c
+Old smatch warnings:
+drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
 
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  317  static int mtk_cpufreq_opp_notifier(struct notifier_block *nb,
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  318  				    unsigned long event, void *data)
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  319  {
-5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  320  	struct dev_pm_opp *opp;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  321  	struct dev_pm_opp *new_opp;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  322  	struct mtk_cpu_dvfs_info *info;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  323  	unsigned long freq, volt;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  324  	struct cpufreq_policy *policy;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  325  	int ret = 0;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  326  
-5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  327  	mutex_lock(&mtk_policy_lock);
-5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  328  	opp = data;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  329  	info = container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  330  
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  331  	if (event == OPP_EVENT_ADJUST_VOLTAGE) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  332  		freq = dev_pm_opp_get_freq(opp);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  333  
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  334  		if (info->current_freq == freq) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  335  			volt = dev_pm_opp_get_voltage(opp);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  336  			ret = mtk_cpufreq_set_voltage(info, volt);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  337  			if (ret)
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  338  				dev_err(info->cpu_dev,
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  339  					"failed to scale voltage: %d\n", ret);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  340  		}
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  341  	} else if (event == OPP_EVENT_DISABLE) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  342  		freq = dev_pm_opp_get_freq(opp);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  343  
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  344  		/* case of current opp item is disabled */
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  345  		if (info->current_freq == freq) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  346  			freq = 1;
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  347  			new_opp = dev_pm_opp_find_freq_ceil(info->cpu_dev,
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  348  							    &freq);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  349  			if (IS_ERR(new_opp)) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  350  				dev_err(info->cpu_dev,
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  351  					"all opp items are disabled\n");
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  352  				ret = PTR_ERR(new_opp);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  353  				return notifier_from_errno(ret);
+vim +2156 drivers/phy/apple/atc.c
 
-mutex_unlock(&mtk_policy_lock) before returning.
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2114  static int atcphy_parse_new_tunable(struct apple_atcphy *atcphy,
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2115  				    struct atcphy_tunable *tunable,
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2116  				    const char *name)
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2117  {
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2118  	struct property *prop;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2119  	u64 *fdt_tunable;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2120  	int ret, i;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2121  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2122  	prop = of_find_property(atcphy->np, name, NULL);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2123  	if (!prop) {
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2124  		dev_err(atcphy->dev, "tunable %s not found\n", name);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2125  		return -ENOENT;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2126  	}
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2127  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2128  	if (prop->length % (4 * sizeof(u64)))
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2129  		return -EINVAL;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2130  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2131  	fdt_tunable = kzalloc(prop->length, GFP_KERNEL);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2132  	if (!fdt_tunable)
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2133  		return -ENOMEM;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2134  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2135  	tunable->sz = prop->length / (4 * sizeof(u64));
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2136  	ret = of_property_read_variable_u64_array(atcphy->np, name, fdt_tunable,
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2137  						  tunable->sz, tunable->sz);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2138  	if (ret < 0)
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2139  		goto err_free_fdt;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2140  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2141  	tunable->values = devm_kcalloc(atcphy->dev, tunable->sz,
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2142  				       sizeof(*tunable->values), GFP_KERNEL);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2143  	if (!tunable->values) {
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2144  		ret = -ENOMEM;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2145  		goto err_free_fdt;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2146  	}
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2147  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2148  	for (i = 0; i < tunable->sz; ++i) {
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2149  		u32 offset, size, mask, value;
 
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  354  			}
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  355  
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  356  			dev_pm_opp_put(new_opp);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  357  			policy = cpufreq_cpu_get(info->opp_cpu);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  358  			if (policy) {
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  359  				cpufreq_driver_target(policy, freq / 1000,
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  360  						      CPUFREQ_RELATION_L);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  361  				cpufreq_cpu_put(policy);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  362  			}
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  363  		}
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  364  	}
-5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  365  	mutex_unlock(&mtk_policy_lock);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  366  
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 @367  	return notifier_from_errno(ret);
-c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  368  }
+This should be declared as u64.
+
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2150  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2151  		offset = fdt_tunable[4 * i];
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2152  		size = fdt_tunable[4 * i + 1];
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2153  		mask = fdt_tunable[4 * i + 2];
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2154  		value = fdt_tunable[4 * i + 3];
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2155  
+6dcc9a0b2ca8be Sven Peter 2022-11-30 @2156  		if (offset > U32_MAX || size != 4 || mask > U32_MAX ||
+6dcc9a0b2ca8be Sven Peter 2022-11-30 @2157  		    value > U32_MAX) {
+
+The current code truncated invalid values instead of returning -EINVAL.
+
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2158  			ret = -EINVAL;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2159  			goto err_free_values;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2160  		}
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2161  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2162  		tunable->values[i].offset = offset;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2163  		tunable->values[i].mask = mask;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2164  		tunable->values[i].value = value;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2165  	}
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2166  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2167  	trace_atcphy_parsed_tunable(name, tunable);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2168  	kfree(fdt_tunable);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2169  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2170  	BUG_ON(1);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2171  	return 0;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2172  
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2173  err_free_values:
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2174  	devm_kfree(atcphy->dev, tunable->values);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2175  err_free_fdt:
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2176  	kfree(fdt_tunable);
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2177  	return ret;
+6dcc9a0b2ca8be Sven Peter 2022-11-30  2178  }
 
 -- 
 0-DAY CI Kernel Test Service
