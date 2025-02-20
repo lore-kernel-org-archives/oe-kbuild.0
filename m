@@ -1,97 +1,97 @@
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5889D1D7E30;
-	Thu, 20 Feb 2025 03:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.142.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EB11DFD95;
+	Thu, 20 Feb 2025 03:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.86.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740020973; cv=fail; b=kFnuW02mhq4J22SfbgqUOWMvbBIHD5jFqeykSQ2OUYQjaEvWQgLyS89yiw8lB3yZSXFQHCIYpgk9QBB5eHQcXC/xvbzGGdRTjTH1MwdWYV6hn2dW0GZ7w4amby0SgcJeSE7+alxqXCMP3RwGIKbWnY6d4UyJzbb3HLvzUVKJaGo=
+	t=1740021102; cv=fail; b=MWGINa62HcYBQ+EMERyagcUmwOB+qtNR785dXHQklchKDquBDuEYJQMnwwm2DOXglmXDtIPhCwgS+7rVvNlW2SH7t7rBrMlD5cShjL04Ys5V9omfOYBPAzQVstgqni/dqBZlxzAnEvv0DGXPtTp3jvCXHWH0FttaSTRt4dZ2cig=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740020973; c=relaxed/simple;
-	bh=cU4/Qx4PK3AbxWg4O5tZXlbK2kO8XWIsRfkpkg8RFXo=;
+	s=arc-20240116; t=1740021102; c=relaxed/simple;
+	bh=/cRhf9NLwvZDZyOdGyeR4R0S7o/8ie5Tijex6a+3Un0=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=u+bdiDIWXuNyJAFbl6VhgOkMoZcNajS/cE2nzlUpBd4dUvLmh58J/TGatpozLAXQxsFFAxn8qA2mJ4x4480AMnY5B7wmnHo18kW+lo0Fp/FiQrgbaWtkeuUh2BbogdI3wEFIkMwvPEovDD3McIzqghEj9WfdY7+D9JO8vNfPQNo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=HI2ZNswg; arc=fail smtp.client-ip=173.37.142.92
+	 Content-Type:MIME-Version; b=aWp1WmkrVR9oo4PL9uddfz9AshWCmTjxV824odLA+lpc63Tf6AVyYsDSQ16TCTzLrVQVciFJ8VvgOV1o2waQBsXFi/U0grPqZFWckjmQaOpziU1+StkwtOaWIDFUEDkzOALIH+vLKM/fvmD4PvJ/Bb2xMHWNp1tQJHok7pPgpdQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=CQb0Ktyv; arc=fail smtp.client-ip=173.37.86.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="HI2ZNswg"
+	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="CQb0Ktyv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7159; q=dns/txt;
-  s=iport01; t=1740020971; x=1741230571;
+  d=cisco.com; i=@cisco.com; l=3265; q=dns/txt;
+  s=iport01; t=1740021100; x=1741230700;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=Mmzm52nC5N/d0o12y4S8w5R5BxvW9fzIoBooc9lcYs8=;
-  b=HI2ZNswgw4ZNScVl3DfoXvhqcytXd0sjz73ry2hDHDtT93Bx8lKX80Bq
-   YPEP6zlmBMZf9opaz/halULWNKV+D2rrLRAx6YIGGmFQ3DlMkKBMN1jV0
-   E5JIa9y9J2jeDsL1xz7P13vyyKMacepBc9mNXveeCSrxL8FUYHfqh2gT4
-   lcw474BnaxTX92QWJ34RJyvpYKv1Sstczx1JevyYgsPZGk7KmJWY6hmc0
-   t3md2sadJLZ0eDpUGsde7H+ZZn+TMDIxaBKD7iyalJomUYVW3Vn4g9AyM
-   FpDoHCaNQqmN5PsOj2vsLOQdJ00BMqAlG7HSx/PJhXjTx9S3FR4LC4afw
-   Q==;
-X-CSE-ConnectionGUID: JApvsd5tQh+7tqKS3RggLw==
-X-CSE-MsgGUID: voBdJ4TzRLCntxNhp5QsHA==
-X-IPAS-Result: =?us-ascii?q?A0AGAADPm7Zn/43/Ja1aGQEBAQEBAQEBAQEBAQEBAQEBA?=
- =?us-ascii?q?RIBAQEBAQEBAQEBAQFAJYEaBAEBAQEBCwGBcSooB3aBHEgEiB0DhE5fhlOCI?=
- =?us-ascii?q?QOYOIVcgX4PAQEBDQI7CQQBAYNzTkYCiw4CJjQJDgECBAEBAQEDAgMBAQEBA?=
- =?us-ascii?q?QEBAQEBAQsBAQUBAQECAQcFgQ4ThXsNhloBAQEBAgESFRM/BQsCAQgYHQEFC?=
- =?us-ascii?q?zElAgQBDQUIGoJhJYIcIwMBEAajAQGBQAKJWho3eIEBM4EB4BwGgUgBiE4Bh?=
- =?us-ascii?q?WuEdycbgg2BV3mBbz6CShcCA4FfhBOCLwSCL0qBJIJZZ5EyaogyjBFSexwDW?=
- =?us-ascii?q?SwBVRMXCwcFgSkQOAMqNDEjgSMFNAo3OoINaUk6Ag0CNYIeJFiCK4IggjiEQ?=
- =?us-ascii?q?14vAwMDA4M0gkVRgkSCEnFsAwMWEIIxcHgchQyCGB1AAwttPTcGDhsFBIE1B?=
- =?us-ascii?q?Z9CATyDQCVMAiwsASEGIQgKBiAQaGUOCAwTCzoDklsKES6Ca5A0nQqCRQqEG?=
- =?us-ascii?q?4wYlWUXn2aKbC6HZZBqIo1jmwECBAIEBQIPAQEGgWc8gVlwFYMiEz8ZD44tF?=
- =?us-ascii?q?haDQoUTwCl4AgE5AgcLAQEDCZF3AQE?=
-IronPort-PHdr: A9a23:cu+S6Ba7/9/wWU2uVWDzwRH/LTAchN3EVzX9orIuj7ZIN6O78IunZ
- wrU5O5mixnCWoCIo/5Hiu+Dq6n7QiRA+peOtnkebYZBHwEIk8QYngEsQYaFBET3IeSsbnkSF
- 8VZX1gj9Ha+WXU=
-IronPort-Data: A9a23:VF4M7KBWdwZpDRVW/0Liw5YqxClBgxIJ4kV8jS/XYbTApDp00WEBz
- zEfUWqCMq2LY2r8eI8gbYTlo0MGu8fSztBlOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZsCCeB/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357gWGthh
- fuo+5eCYAX8imctWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE4dx2Elo6YJEh+qUoHXhtz
- qciJz8pcUXW7w626OrTpuhEnM8vKozveYgYoHwllW2fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY2BPjDS0Un1lM/C5skgOasj3rXeDxDo1XTrq0yi4TW5FAqjOiwYIuPJbRmQ+1LmWyUh
- D767V7dKRcGJPqf0We86VKF07qncSTTHdh6+KeD3vlnxV6Z220XBFgfUV+TpfiillX4X9NZN
- lxS9icwxYA1+QmoRMT8WxGQpH+fogVaX9tWDv185AyTopc4+C6DDWQCCzoEY9s8uYpuGXoh1
- 0SCmJXiAjkHXKCpdE9xP4y89FuaESMUNmQFIyQDSGM4DxPL+enfUjqnog5fLZOI
-IronPort-HdrOrdr: A9a23:0+vou6CFFGMwLPvlHejjsseALOsnbusQ8zAXPh9KOH9om52j9/
- xGws576fatskduZJhBo7y90KnpewK7yXcH2/hhAV7EZniohILIFvAv0WKM+UybJ8STzJ846U
- 4kSdkANDSSNyk1sS+Z2njELz9I+rDum87Y55a6854ud3AXV0gK1XYBNu/vKDwMeOAwP+tAKH
- Pz3LshmxOQPV4sQoCQAH4DU+Lfp9vNuq7HTHc9bSIP2U2ltx/tzKT1PSS5834lPg+nx41MzU
- H11yjCoomzufCyzRHRk0XJ6Y5NpdfnwtxfQOSRl8k8MFzX+0aVTbUkf4fHkCE+oemp5lpvus
- LLuQ0cM8N67G6UVn2poCHqxxLr3F8VmjzfIB6j8DneSP7CNXYH4vl69MVkm9zimgwdVeRHoe
- d2NqSixsNq5F377XzADpPzJmFXfwKP0AkfeKgo/j1iuU90Us4KkWTZl3klS6soDWb07psqH/
- JpC9yZ7PFKcUmCZ3ScpWV3xsewN05DVStub3Jy8/B96QIm1ExR3g8d3ogSj30A/JUyR91N4P
- nFKL1hkPVLQtUNZaxwCe8dSY/vY1a9DC7kISaXOxDqBasHM3XCp9r+56g0/vijfNgNwIEpkJ
- rMXVtEvSo5el7oC8eJwJpXmyq9ClmVTHDo0IVT9pJ5srrzSP7iNjCCUkknl4+6r/AWEqTgKo
- CO0VJtcojexEfVaPJ0NlfFKutvwFElIbgohuo=
-X-Talos-CUID: 9a23:JplhVmN7PhOex+5DegB/6lUYR9wccj6C0G7zGBSCBmlNV+jA
-X-Talos-MUID: 9a23:XKzsgwRpNVQZOzRgRXTygxtuFptU8Z6KI0YRgbMGo5S9LgxZbmI=
+  bh=TdPsswxHbIVxactRcItQF3SxcHGQCcm0xP3P/RxuDKY=;
+  b=CQb0KtyvQkosKc2BFJlPJChba6uTmGqM97fy/2/I7QCmU26e6INtxCgL
+   E1Edr0/Iyq9XidecuodTxgoQF9klVN32nwBc1gCX1vGjTG/Sdo4d23VfK
+   VkwrI2gGeHP+vbLSsCvENcjHaUquV88FbdKiCH26r7oQm5zEJn6UvuLK4
+   NSk/Xv1xmdcFMWzT5req8PuJI+h1kX0+vQ7BcJoRHz6+8BcwSF7pWabcD
+   2sqWO9Aa69j9/2O5u/37s9Bxs55j0Eu8ttCone27AWRuYJ9nc6aZqciP9
+   E6gi6OX1JnqvJ0zUjtjcwcqzgv+fPJkOTT6I3tDjE/OhNiVAkLGk82Roj
+   w==;
+X-CSE-ConnectionGUID: X/7OkiDCQt6dM3DWquxCtQ==
+X-CSE-MsgGUID: 8ODzPcxiS1GmC/IUKfhvVw==
+X-IPAS-Result: =?us-ascii?q?A0AYAABHnLZn/4r/Ja1aGwEBAQEBAQEBBQEBARIBAQEDA?=
+ =?us-ascii?q?wEBAUAlgRoGAQEBCwGBcVIHghKIaQOETl+GU4IhA5g4hVyBfg8BAQENAkQEA?=
+ =?us-ascii?q?QGDc4EUAosOAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4YIhloBAQEBAgESFRM/EAIBCBgdAQULMSUCBAENDRqFIiMDAaMiAYFAA?=
+ =?us-ascii?q?ooreIEBM4EB4CKBSAGITgGFa4R3JxuCDYFXgmg+hEWEE4IvBIIvSoEkgllnk?=
+ =?us-ascii?q?TJqhAV5gzSMEVJ7HANZLAFVExcLBwWBKRA4Ayo0MSOBIwU0Cjc6gg1pSToCD?=
+ =?us-ascii?q?QI1gh4kWIIrgiCCOIRDXi8DAwMDgzSCRVGCRIIScWwDAxYQgjFweByFDIIYH?=
+ =?us-ascii?q?UADC209NwYOGwUEgTUFpF5UIQhkgT8fQwKSQR1JgmuQNJ4cgTMKhBuhfReEA?=
+ =?us-ascii?q?40Gjl2KbC6HZZBqIqNxgSGDUgIEAgQFAg8BAQaBZzyBWXAVgyNRGQ+OLRYWy?=
+ =?us-ascii?q?H2BNAIHCwEBAwmRdwEB?=
+IronPort-PHdr: A9a23:1sTMBBMZUuMgIdT3Wugl6nc2WUAX0o4cdiYP4ZYhzrVWfbvmpNLpP
+ VfU4rNmi1qaFYnY6vcRk+PNqOigQm0P55+drWoPOIJBTR4LiMga3kQgDceJBFe9LavCZC0hF
+ 8MEX1hgl0w=
+IronPort-Data: A9a23:pNSBD62W8Zon7yrOPfbD5bhwkn2cJEfYwER7XKvMYLTBsI5bpzwDx
+ 2tMUG7QOPveZzD1eY11Pdix9hlQ6sCGydJgHVZt3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yFjmE4E/watANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU4
+ rsen+WFYAX4g2QtYztNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGPAZpGo4Z1s1OHT9C0
+ Kc0FykQfjufvrfjqF67YrEEasULNsLnOsYb/3pn1zycVa9gSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNU+QC/FMEg9/5JYWn+6ymnj7ej5wo1OOrq1x6G/WpOB0+OO3aYuPIo3XGq25mG7Ig
+ U7Ux2/pAypDG9m0jhu40XysmNHQyHaTtIU6UefQGuRRqFqeg28ZFRwSWR6ypf2Rjk+lR8kZL
+ 00S5zpooaUsnGSsQ5z+VQC5pHKsuh8HR8EWF+w89RHLxqfKizt1HUAeRTJHLdhjv8gsSHlyj
+ xmCnsjiAnpkt7j9pW+hy4p4ZAiaYEA9BWQDfiQDCwAC5rHeTEsb1Hojkv4L/HaJs+DI
+IronPort-HdrOrdr: A9a23:SsuQVqySkUAIhkelJpSwKrPxY+gkLtp133Aq2lEZdPULSL36qy
+ n+ppQmPEHP6Qr5AEtQ5+xoWJPtfZvdnaQFh7X5To3SLTUO31HYY72KjLGSjwEIdBeOjNK1uZ
+ 0QF5SWTeeAcmSS7vyKrjVQcexQveVvmZrA7YyxvhUdKD2CKZsQkzuRYTzra3GeMTM2fqbRY6
+ DsnvavyQDQHkg/X4CQPFVAde7FoNHAiZLhZjA7JzNP0mOzpALtwoTXVzyD0Dkjcx4n+9ofGG
+ 7+/DDR1+GGibWW2xXc32jc49B9g9360OZOA8SKl4w8NijsohzAXvUgZ5Sy+BQO5M2/4lcjl9
+ fB5z06Od5o1n/Xdmap5TPwxgjb1io04XOK8y7avZKjm726eNsJMbsEuWtrSGqf16PmhqA77E
+ t/5RPdi3OQN2KYoM2y3amRa/ggrDvFnZNrq59hs5UYa/peVFeUxrZvpn+81/w7bXnHwZFiH+
+ 90AM7G4vFKNVuccnDCp2FqhMehR3IpA369MwM/U+GuonFrdUpCvgMl7d1amm1F+IM2SpFC6e
+ iBOqN0lKtWRstTaa5mHu8OTca+F2SIGHv3QS+vCEWiELtCN2PGqpbx7rlw7Oa2eIYQxJ93nJ
+ jaSltXuWM7ZkqrA8yT259A9AzLXQyGLH7Q49Ab44I8tqz3RbLtPyHGQFcyk9G4q/FaGcHfU+
+ bbAuMhPxYiFxqYJW9k5XyLZ3AJEwhtbCQ8gKdPZ26z
+X-Talos-CUID: =?us-ascii?q?9a23=3AnzF8T2gFNfhUGJr+YZxTUd3wTTJuQjqC63TRD2S?=
+ =?us-ascii?q?BFThlbea5dkaN6Ih4qp87?=
+X-Talos-MUID: 9a23:Jw0ZSgis+wQc3Bt4jmtqG8MpZOBE8ZylGEE2yLoDkI6lCA9+Oymjk2Hi
 X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2025 03:08:21 +0000
-Received: from alln-opgw-3.cisco.com (alln-opgw-3.cisco.com [173.37.147.251])
+Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2025 03:10:30 +0000
+Received: from rcdn-opgw-3.cisco.com (rcdn-opgw-3.cisco.com [72.163.7.164])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 5E65F180001A0;
-	Thu, 20 Feb 2025 03:08:21 +0000 (GMT)
-X-CSE-ConnectionGUID: xb1x2BlMQY2fNbXq+zjvRQ==
-X-CSE-MsgGUID: ttYRgqK4TFiq1PsrwG8GXw==
-Authentication-Results: alln-opgw-3.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 962A4180002A9;
+	Thu, 20 Feb 2025 03:10:30 +0000 (GMT)
+X-CSE-ConnectionGUID: kNbT2oJDT0GUlqqZrydJvA==
+X-CSE-MsgGUID: Os4tASJ+Qxicx4F2qMB9Ng==
+Authentication-Results: rcdn-opgw-3.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
 X-IronPort-AV: E=Sophos;i="6.13,300,1732579200"; 
-   d="scan'208";a="22015646"
-Received: from mail-bn1nam02lp2047.outbound.protection.outlook.com (HELO NAM02-BN1-obe.outbound.protection.outlook.com) ([104.47.51.47])
-  by alln-opgw-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:08:20 +0000
+   d="scan'208";a="32787123"
+Received: from mail-sn1nam02lp2049.outbound.protection.outlook.com (HELO NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.49])
+  by rcdn-opgw-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:10:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MfBocTLOgiwDrZvTy96SM9C5EG20j0g1qyVw3wSMbikXvw2mD5GRqp9SfVZJdS+KfbNDtKODt5fUJe5nJ4+rbsQ+IDIdGiuatva8atZUfynU20GY7t9+b2B8yee3yrza5K1QRnLOvA3s1PZSNeED0piHvBOBd1Z8fiPp0OAUy5aRPT0wsRSKNP5pqGGSNaswUdFgdlAxRy7JErYnPLulNDMapXWZU4LWrUwihIYcgnZK5gTqiBP3t0WLKk9T9RQuS7M1CFSgQsr+o9rtdLAl8HbXPxcErbzoHBYTpzDsyDDeUqjvjyMH5VfQrxFxSGR9jsEMdKKTOKYuex/pEk3NHw==
+ b=VyNhb7fYrikEjn8GfhH19NdD13iboYn93UuhN0jnQMDQVugImmyMn+81hWGwe3exP/uVCkJ9C2GvZ37vo6I+Wo3JCKf2dKba3foHkYevUIgPQs/yqMdaEflYqD1+frj0YFQe+BaHUeJH0rdcwGXYLqSfR+R/Dv4D3oPr9AwoQWupOLGV51xtiuJc9132fEyRz5WBuTX9b84otUP2huyi7DND86brpNDl4dUue2d48hjhvrBriqE6/P7YWn/eH/GZldQ7KGOAE/oo7mzXT45pZoJdYXIHJqTyGjcHFgCKkWH3V1GKEqW4azRNecmCqcBWPIH2Qr82HfwYjzz7MQjhLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mmzm52nC5N/d0o12y4S8w5R5BxvW9fzIoBooc9lcYs8=;
- b=H1JL1oc2f0GFYZQB3Tvm2SlUiORABo/3qkS589mojAE65XSxUd4x/EJ719rl/1IehGDMdq6vjDmhwLpIBPXtEc4zOtEz4D9Cb20xYw7nE4ZHG20BfJx+XHLhgvvmpyELvs99WmEmR2bfDby/8huQQQBYXBlhGJDM+txwAfSGtJ85q1akkNVy34DRcbY8dEo+hW3a7VMXheulxU4LPeiDU5QE8FOJb6HI8UrM2Te6I7SpgYQyKsCNzFvYDrCf++alRs5mxQJuBLVY2Trhl6Eww+eTxno44JIsLwqlkTRHnDgnfjGrnhCZ7iwJ27YS03za6iRrbjqcEQN828m2Cqb0SQ==
+ bh=TdPsswxHbIVxactRcItQF3SxcHGQCcm0xP3P/RxuDKY=;
+ b=rIYLWcuSzt6zCuLaCWL0+Alt4Z4sffEJL56ZymsmXBy2IzQ4Gv5DM63rT63fDUwm+tpwGYpBQTptbyNXbDVqfiHe//QAHl6JXkvzitwTK/1bKPVyPIsy9pnNrEfOsvwGJBl1G+H/YsPSiczzLsVSPbu3vLTBBSb5dKmQVTL5q7jgo+6UFZhcHFeGjMOITk4kBsLEJv5CF5qe+TwlsxYGHB0SSfXHHG8xs++uOIzgUUjUvjHVcZ4RaL0iOxEbQtQfrNY2Qmbv6557OWqoNqCY6+jTtoZeMyWxfBaS1I4sOk7zvVMXlUEhJuMtzelZBzNQzjXAuwCOA/S3Ta2fvfnd5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
  dkim=pass header.d=cisco.com; arc=none
@@ -99,11 +99,11 @@ Received: from SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19)
  by PH8PR11MB6999.namprd11.prod.outlook.com (2603:10b6:510:221::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Thu, 20 Feb
- 2025 03:08:17 +0000
+ 2025 03:10:27 +0000
 Received: from SJ0PR11MB5896.namprd11.prod.outlook.com
  ([fe80::2081:bcd4:cb3e:e2dd]) by SJ0PR11MB5896.namprd11.prod.outlook.com
  ([fe80::2081:bcd4:cb3e:e2dd%5]) with mapi id 15.20.8466.013; Thu, 20 Feb 2025
- 03:08:17 +0000
+ 03:10:27 +0000
 From: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
@@ -118,80 +118,84 @@ Subject: RE: drivers/scsi/fnic/fdls_disc.c:263
  fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
 Thread-Topic: drivers/scsi/fnic/fdls_disc.c:263
  fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
-Thread-Index: AQHbfu60Aqs0Y1uoDU+0WvnEcG3OM7NPiQeg
-Date: Thu, 20 Feb 2025 03:08:17 +0000
+Thread-Index: AQHbfu60Aqs0Y1uoDU+0WvnEcG3OM7NG5RiAgAH2PjCABrBEYA==
+Date: Thu, 20 Feb 2025 03:10:26 +0000
 Message-ID:
- <SJ0PR11MB5896E5F325ABE2CD6AF3F8CBC3C42@SJ0PR11MB5896.namprd11.prod.outlook.com>
+ <SJ0PR11MB5896888C81BFF2EB81E2B533C3C42@SJ0PR11MB5896.namprd11.prod.outlook.com>
 References: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
-In-Reply-To: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
+ <fd4d8516-5eaa-43b0-9100-2984312930f8@stanley.mountain>
+ <SJ0PR11MB58962A4F0B9CFFB9439FF959C3F92@SJ0PR11MB5896.namprd11.prod.outlook.com>
+In-Reply-To:
+ <SJ0PR11MB58962A4F0B9CFFB9439FF959C3F92@SJ0PR11MB5896.namprd11.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: SJ0PR11MB5896:EE_|PH8PR11MB6999:EE_
-x-ms-office365-filtering-correlation-id: 0be3983e-079b-4df6-bc00-08dd515bd26d
+x-ms-office365-filtering-correlation-id: d233470f-0a14-46d5-02af-08dd515c1fda
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
  BCL:0;ARA:13230040|376014|366016|1800799024|10070799003|38070700018;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?xC7Z9Eqwe4zjmI+QA4eRSgukv16CkKbc4ECV8/QKU2vJRV7Fx5bfD2XWRXfV?=
- =?us-ascii?Q?dqLpNF0jcaWZYrgGotAZOb2HSYCpm73aAXQxW25e9ske35lqyP8LHI+eKyzd?=
- =?us-ascii?Q?XJctFafvvXP3tHDXArbAJmXKVG3fDsCIdRDTCiAW6K9wea00luCS+YJqAYtT?=
- =?us-ascii?Q?6ZAriCSNPAHcTON8qRLft6ELkJ5wZlDyBHFOGu7ISA7rAWY5o/C8Wn2spgcC?=
- =?us-ascii?Q?k+OYYKrjG0coICLXhhIKUBSe2fiNTb3JUxNtfhY5gu4f5VtRfXlBLkTZ90JX?=
- =?us-ascii?Q?XHwfF6SlJQrGN6cPdiKDvXRqVsu1RUR3zy1QoWmdeR8PHvM+6OHqUu74aSqY?=
- =?us-ascii?Q?N2U3DSIzDQwOjg6U4MLUnjFFEZJuoJi3z4Yh6JDmVeTLcn600HNfOqXaFzsF?=
- =?us-ascii?Q?S33/ybUegbFcAu7rxGKP/DOS8numaN7mIwOx3150K/MKTprAKRrbg8BMYLvm?=
- =?us-ascii?Q?8BQ7kA7cOdz9hPz4gjdT4UlNNQJRziar5E/JXLGhm7PQ5NRd25Rl2HVEIKjL?=
- =?us-ascii?Q?yCDJu8GIOY+DF1cV9BGDnweOAi7mS0FPP2OZtIef3hbkgtBtxA9BakUtksAN?=
- =?us-ascii?Q?CpGAN5FkPJ5xEP98fkzFH9/dmT8j5yi62tS2xPLmAdYf6Xvkmz1LJ0/DGfEi?=
- =?us-ascii?Q?28AzlVh+L7G1P/ruoewqXy5H1AKVMXBi5vlhChf72j/hpAXGcW/f/vDEKPFm?=
- =?us-ascii?Q?PxYBP7iuRt77igp1KDDebVxMFtCR0yxg+GptHV8gfl0hEyWnZKHmytp5ISN4?=
- =?us-ascii?Q?3vxqedjFjmryBV1TvTDIIiQjOkb6OiWG/G2gSR6V1k/IHFrcro5HMu2ghG8u?=
- =?us-ascii?Q?e6YkOJMeRyH8prZLOQYf2TKfdGf/hWNFc2b2BeUZAzckAT0qFObINZ+Tufl2?=
- =?us-ascii?Q?DhyvvY6jz8RBCZCoMF5sZ+MQ8ee/XDeOF9uPFpxzr692vm8JII9SbceFP1L/?=
- =?us-ascii?Q?lPbb5G/VzhnyrVfFo9lVmn/3TPDCC6HEG56omNHiUuW26EYTdR07JSbmSFUm?=
- =?us-ascii?Q?a7jBLh5t+zObJXGj9S/W6SZOYsOe4pkosqXx0y/KG71LvINKJpBCh2/6vOEi?=
- =?us-ascii?Q?GHPmgofCd8WpHx27pbma23mNomPkK+By2iRXtO4TMB2v3FAl5Le+tSh2LkLs?=
- =?us-ascii?Q?evdUI63exCcDLNsOkNzvltFjuylmTvExRDkSvSU2ctFu1Xrad8zRsaFzDRWq?=
- =?us-ascii?Q?yXokQvSzs+U+noJrq05xn8jewh8SxrOO9Fbpg8rsBVFXKQY89fNG0VbgRUXp?=
- =?us-ascii?Q?nNPoLQOwJsvEt7QNNiL8OwBozkImx//Yt3Pr1Clb0Yi4XP1Am/RrzTSuddat?=
- =?us-ascii?Q?EeWR7pRRvRuodJyldO3hcfHdi79bjoEW8D8Zge3/7tIQ/Qo2rFr6GnYXBEmg?=
- =?us-ascii?Q?Vke1gaamxYcNvxHGkOckX8qw+E/ipB9ZG9HmrJgiSPTfEE+g8Q=3D=3D?=
+ =?us-ascii?Q?AZ2NKIPC+33DQvO79Z9yoGOWVHMuu6JjJr2vV3/rqbw5o1c8f7nAcU2Xusmc?=
+ =?us-ascii?Q?HOTt9MNukyuguSqN/G/dPFmi2LfychNiQsbNkAv5WEEeNJvfSLtwu3NNWvXH?=
+ =?us-ascii?Q?t3079oJITvyvWG70WlWJzh7i0Ep0YafMFjQjbzbxT/aWZi4UNARuFWdtOMFg?=
+ =?us-ascii?Q?bFXW4eRX1Rp0lTqhEqNrukoC0fBqqRfLThbkfr9OMfcl4l/AvVCQqASZwzQf?=
+ =?us-ascii?Q?4EPF5k5ClYP1N+7xEAht2NjEcjNcGlPPvpXKElHr6fBo6rLKA1PQSM+OTngj?=
+ =?us-ascii?Q?9T4I8vFgHNNzPlKFJgQg1qs3HMaqSA0s4Tof5rnQPrf7nKPQY8N02KTUExj+?=
+ =?us-ascii?Q?Os+Ug8BrM5zquPHMAFehmQXJOrnp+NL7hjArErAfN2AlktfuIZPsdLRjNRWi?=
+ =?us-ascii?Q?pRgsuEwZs2QSJ1rt0Vrbhtc9zPolDjMtl4Tc2C0Crrq0+fOfAoCYpZ9HcMaR?=
+ =?us-ascii?Q?6as1YILUTGUq/6C0vY/4nNeJJqO87uiOBTMTvNXgVwUKM+6esmgU9HFKlc1o?=
+ =?us-ascii?Q?++kwH8bv2yzB5XU+a0HWbDl0QK62ULKqGBGeQg8K11ol7hmtIEvfUTnoOBKr?=
+ =?us-ascii?Q?5ZNln3I/pidr0dUc20Tg39km7SrZ9HqtWO+cQLHxrFCRzUIjjjf+vAYdj34r?=
+ =?us-ascii?Q?zFuJgSMYN9qk9BQE4PwtDOqNiM56Vc5e4qNqaKsVv+k9CasEtF5TfpWm33Nf?=
+ =?us-ascii?Q?1PstUIMQ75Ck97LOaNeCjn0Ep+dn1hnsF9vJB4a3AyZDbwQDG8HNbRqK8do2?=
+ =?us-ascii?Q?Dl0OIZVtqeNSdC0o8U7b1SO/EQxin7St89Wl1Y3iQUH9n9i10FSbpYk+tFcL?=
+ =?us-ascii?Q?ufNaqGBHA5gHK2bVAQmiTypOgST7EZdx7/KEqTAJ3V/qiES4ygN3oIZeiRZl?=
+ =?us-ascii?Q?mnDE/yrw1FD6xR7AvwQbjMB8JY7BH5HyZIudfAvvgOfG4s/dQDBbcsjGuyy6?=
+ =?us-ascii?Q?PXbhIN/OYvuleQShomo9ECfSX+TEOg3BC3B49iIAFwXCCCXOnICt6ZxPCGkl?=
+ =?us-ascii?Q?d1Yhl589MVJgODgSKqRNABQzf2kXmiFTr2PBOxwO5jBKS9BVmDbBXOt2C+tZ?=
+ =?us-ascii?Q?QNmu9aRATAJ5+y8U61fbbPk65VV+tuczRAbE4TGSntHUazAjJiQAS3zRKTNY?=
+ =?us-ascii?Q?vkQLcdegrpcpoJCtliDE7taZMz4r4nadl65edBP43i1Xa1JABNG4UOoSCFAm?=
+ =?us-ascii?Q?ovIDn+HEmmYvOcjDyES+F/reqxjL0NmjI+l48rZjP8ObXrKcscGNow9t4F49?=
+ =?us-ascii?Q?Cd8s+Wrqruxka/xPb4c+Xu6EPbHGy1Efi9B9tAsf7C6PMhGhFof+U6w+wbHx?=
+ =?us-ascii?Q?aq0p/TCXghc38+UVocHZXAOlCgYEik7qh20+W87Gj+NJzsQ4iJlWVsT/vNfy?=
+ =?us-ascii?Q?Ed74wbDFTr5SmU59qeOE2ZuhlWFFd+s8grHKTi85g8igSTq0jizE+HWedtXB?=
+ =?us-ascii?Q?WtmQo4QGlnQhKmAqiirVBMSPehlCVQrp?=
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(10070799003)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?mbJGJuIrrP7qj+BZW9bFWS2HD4zW7ToqAUIupF/mRKtng+rNdhNzk3+WnkCr?=
- =?us-ascii?Q?D/Pfwn4lqxSKnE9dkM+jGKjbH370Dr8DgEcC37LMduOg19yeDpHvzobLeibg?=
- =?us-ascii?Q?ibUWG0Lr3vW2fcQsJEyeVTpdQEV/Od3Ln3OwPfdFB37V9mms+yyFJyZZiV/G?=
- =?us-ascii?Q?dJx+pSn66LhVT2NfA4Hyf/LBhp9VeGoX0TJ9J/LqDd5cJHAvM6Dl/dFyq07N?=
- =?us-ascii?Q?N4d0WFXy42WBbG/29k/UTaRTc1eTOqVFt+LKpinOIQW7OB8AQaEd2l6rMbWt?=
- =?us-ascii?Q?FeFrVgI8D31DmyK94ouWzlx8t1KcyR84iQSFyGgjl/U63pcSuYepXpUny972?=
- =?us-ascii?Q?Mt8cBmC4nX/tpC6PPvpdaNXyeiepNE+4I/3rMoc0syB7+YB+Iun4P1KVusLP?=
- =?us-ascii?Q?BWGh5qoOgaW/QZtFqPk2uC40vFKeA3u1U3IGO+XSqDRdk5UiSZVfk+4lCr3m?=
- =?us-ascii?Q?hLNazpFGNLGZ0vmS8YFDz0aVWzsAD6oT5a0d4wMhQWFDXrPT6xRmQQJWZ2FG?=
- =?us-ascii?Q?XYEId7P64H3NAR5sRjxTCdhNaTwftCeKoG28j03jQZXfrtgI3bjLrprkae9s?=
- =?us-ascii?Q?DrmOMpEvoDedp8mI7dIIN5BpvHRcPzIADYnkl9RRrALAsBY47S76dz8vnXgy?=
- =?us-ascii?Q?QwwemhTYBJ/O05bFmdiGesrmDXXYh0QkuHyDRGw7TS3lZDPS/K3lRPq5nOYR?=
- =?us-ascii?Q?VKuVgLYLr74CXeAq1zW6xlGrIA+mco49IE35HsCwn/850UX93TCjXLg09V91?=
- =?us-ascii?Q?+HdOxkQ/BtgiM9TEaIwfZ5+VGxfaGQUsT8a9yTUYFPqWZftOyazf5r7J1hYn?=
- =?us-ascii?Q?O3PfwjQxgWoB1ZjeK6qj3yuvayxuZg8VNrFwyy7fAbaa61GX/3rL3zzqGal3?=
- =?us-ascii?Q?CH+f3BYsCEogW2mPfjXWukmRiu+Vo2x0CFVZm7Zo8dV6yUpcJfV3AYcJeXZf?=
- =?us-ascii?Q?Z8wfsqJ7RcHDK5KJRJoxBEbi3gTVkp2PuwxvZpWKZ053Rg5bhWB5H1lZ1qRK?=
- =?us-ascii?Q?YbNSCjsYQgZS1aXeCIRGFfT7i6sH4jTIpVOg4d7/6MuluCWpR0VlAXo33XNq?=
- =?us-ascii?Q?LGPqos/cVpVAWFvdRncBhiSOJl5Uj/jZF9qvRrc3q+fc384QiE73uom+ChN6?=
- =?us-ascii?Q?GV+2wGyhYyW4YsVvgm2UPgccd5FWRCYU3FsmSNwkm/A11m1AS3lGG10enOTN?=
- =?us-ascii?Q?zE92QB+lo9r2Gw4yXbB1H+BaiFs6ecPaI74OXp1haxU6Iz3vXk93vqLXNKWD?=
- =?us-ascii?Q?GhDVgOfhRymM03/6peJleWIvqMZsuUopXJOBMjc4Bq7Ndt0ezLgVaFUndKVH?=
- =?us-ascii?Q?bKIkMCAb98GJk9pXT3rJSGQ4Kc0ONvtGAjrpIRlGNICWOU+7241ZxCHi9sa5?=
- =?us-ascii?Q?Oh5AS0VHwq++RKsHXK8UJODBA5cdZdqfoB3RQi0BjwsDM9ssXu4X1pkLNc8T?=
- =?us-ascii?Q?BdSzQu2y3/x1q3fB35ghWYB/mhlRe53OuzCVMLlMUTZ0EQ1P//2MsF9vzRG4?=
- =?us-ascii?Q?gjpSr9sh0kaUvowgTT9hQsiiLoVEU/WhIltMNlXx+lqopkfSH90WWk/7nvOp?=
- =?us-ascii?Q?5TN2wMN0wNOeIuIz7GUa+T08ruuXXYIL6I0BP8/plehNYGbHEn9Z+A4McwjE?=
- =?us-ascii?Q?KoStBXF4ZAwmbYa03g09EhE=3D?=
+ =?us-ascii?Q?sIGRDnG+OSv+d/RfJtlnz0gXiKNd0C8nPu/k4aD1pF08spyYvKKn5OUDpyGI?=
+ =?us-ascii?Q?OYew5oRWneUHqP2R4Ve/B6Sii1uCPQW86wClViz4OkHQ79Hig9Nh+J3z9YTP?=
+ =?us-ascii?Q?/nYo8Liwu5s3HV9lZCYIdH/5MbmIoW9yA2KXbNr/rZjb23WUwYJT6XhS5ohe?=
+ =?us-ascii?Q?ywqrq4OYUa1dvUD/GZeeo32KBzVPrIhuUYdX6ZLaGPz5KAxY/3WW6kQ3j/zv?=
+ =?us-ascii?Q?V+lEIHApHO5bdj+c4BUVrJC7IYFE6cnhnCuvA6FRyFl98Nlec5CHXt3/P3jm?=
+ =?us-ascii?Q?p5q/9ojlsdIljqRbSGEv5cMXK9deiF/mdXrUBmRGPti7/D2wNQpTeoKkqko5?=
+ =?us-ascii?Q?DH300INLMqbkcWqJcE/ZhDhO1ozlISW2VkPsS1ziN5040NphC8VIFD/u3Wdh?=
+ =?us-ascii?Q?ervDifZspeupne1ngTJWBDAluT/JuB7I09uL5KZLJuFeVbZkP+YXTuULZHXT?=
+ =?us-ascii?Q?D9ovD4tCDEOHNXWTmYTnK9IUXv2rEfXYv4Bu65AmYm8TRMsVZAvv+yevp0wQ?=
+ =?us-ascii?Q?LQkHK6f+9g1SAk8PVQg949kVnBB0gJtv9uwwlkklJ9gQ7FK2bBSOBXGVRWgP?=
+ =?us-ascii?Q?K/IJo/dxag78MlDJkvXAwcfB0WQ+Rbp3fOI3HbqjvQX673urHOVnBj9HTZk4?=
+ =?us-ascii?Q?JKSP7WQLU0ff2uOT01rExsGnojaUqcEtv7v0nhOLLvAjoHkfp8HLidJJHlQc?=
+ =?us-ascii?Q?fd8ynV7JXGSZ6th15/pgWQ8Q7t0o39PCHF1HOsDg+6mnZnTnm4tyK1Ibkzrb?=
+ =?us-ascii?Q?6j3NcsP+vZ4HFz5U4qGEGcSKsM06WNoatJpl2SGch1yB5yew+eJDvmWvHSSW?=
+ =?us-ascii?Q?yaWb78oe97M5rWPbETR8bvKNcbjpIFwo9z2BB5R6VK2G/xJ87lO7Go7GzbyJ?=
+ =?us-ascii?Q?goKgmmhYFF4jKxVT3PQZGVC0S0meBIr3nK0dOtaVdrAN9L0b/H6tbHc5vNKM?=
+ =?us-ascii?Q?DW6qtlzwoUGCEB9x+dtgADkvelfrnFqjk73LyhctfISsMpX1yupzglmfryAd?=
+ =?us-ascii?Q?i1MFZqEhjbCKYb0MqegyYg3W1wo5Ctax4trbl1qq62mYzu4wpfu0Xf3BC2JC?=
+ =?us-ascii?Q?EgwzP6LWdiYMbyPr4gdipu87JSZGZjz6lqy5F+HrZ70rDII3zyzMLfxFDF61?=
+ =?us-ascii?Q?mVtr8AMLFnwAjZFbkehHOdUn04q8Ww1ySG/iWfrH1sZ8kQtFxzDLN7qSz1do?=
+ =?us-ascii?Q?/fmjW7xGkRacWG6RsUR3JovUDyGVNqcWq8O/wVMhKGHLfdj92Gbo8wfszHEu?=
+ =?us-ascii?Q?k9otifE8JpvBUZArzGMclUmRtt+nfcgGw6Vxa+q2qIwPqVfuGlxRICn+jZVS?=
+ =?us-ascii?Q?wkcvQeBajCbS2MrPRDGLlBW3tp42kj4z8uRcxlScjbT/7gPZ7/wMTFOQOQMS?=
+ =?us-ascii?Q?seRqtSKPoBtQeCeKNZXvXSkIp6a85v0Ca7QoJT9ME/QnX6zN/a+i1DGBic+D?=
+ =?us-ascii?Q?g9QmzDrR1CZqDZeglOsaNYFjsgiYT0BP/yZBFjNOKmQkcriyl5/wIWOAvzN6?=
+ =?us-ascii?Q?Dre9uvT0CCkwX7YiLUsJeoZDXaj7ZH5DsA3OaM/NfagrsNudb83YgNJ42obc?=
+ =?us-ascii?Q?cIcr12XTfpAISkUW6m8cEEOTaP58G3mm/EC/DnHmXjZA1Au94ID77GdoPGIh?=
+ =?us-ascii?Q?kM1r2QITfWob2X1BjMmQqdM=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -203,177 +207,114 @@ MIME-Version: 1.0
 X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0be3983e-079b-4df6-bc00-08dd515bd26d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2025 03:08:17.0617
+X-MS-Exchange-CrossTenant-Network-Message-Id: d233470f-0a14-46d5-02af-08dd515c1fda
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2025 03:10:26.9438
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1q+ulJhFu1Of/T7TOkFkQkwGxkPynAVANHB7YxX+1WX4WTRxOtFMS2i8vZ27Z+nJ8UxEykLH48xkxRgcS8mbew==
+X-MS-Exchange-CrossTenant-userprincipalname: PDpF9nJEUivxO7eTPCYpmU7hL1lVvaeSMkGrPrilTwfDqsg59kbvD1VLiZxE2fHPF4qCCkQonSfw/FwT+eD5HQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6999
-X-Outbound-SMTP-Client: 173.37.147.251, alln-opgw-3.cisco.com
-X-Outbound-Node: rcdn-l-core-04.cisco.com
+X-Outbound-SMTP-Client: 72.163.7.164, rcdn-opgw-3.cisco.com
+X-Outbound-Node: rcdn-l-core-01.cisco.com
 
-On Friday, February 14, 2025 6:42 AM, Dan Carpenter <dan.carpenter@linaro.o=
-rg> wrote:
+On Saturday, February 15, 2025 1:03 PM, Karan Tilak Kumar (kartilak) wrote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   128c8f96eb8638c060cd3532dc394d046ce64fe1
-> commit: a63e78eb2b0f654b138abfc323f6bd7573e26145 scsi: fnic: Add support =
-for fabric based solicited requests and responses
-> config: i386-randconfig-141-20250214 (https://download.01.org/0day-ci/arc=
-hive/20250214/202502141403.1PcpwyJp-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502141403.1PcpwyJp-lkp@intel.com/
->
-> smatch warnings:
-> drivers/scsi/fnic/fdls_disc.c:263 fdls_schedule_oxid_free_retry_work() wa=
-rn: inconsistent indenting
-> drivers/scsi/fnic/fdls_disc.c:989 fdls_send_fabric_logo() warn: inconsist=
-ent indenting
-> drivers/scsi/fnic/fdls_disc.c:1953 fnic_fdls_validate_and_get_frame_type(=
-) warn: inconsistent indenting
->
-> vim +/cur_jiffies +166 drivers/scsi/fnic/fdls_disc.c
->
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  244  void fdls_schedule_oxid=
-_free_retry_work(struct work_struct *work)
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  245  {
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  246      struct fnic_oxid_po=
-ol_s *oxid_pool =3D container_of(work,
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  247              struct fnic=
-_oxid_pool_s, schedule_oxid_free_retry.work);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  248      struct fnic_iport_s=
- *iport =3D container_of(oxid_pool,
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  249              struct fnic=
-_iport_s, oxid_pool);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  250      struct fnic *fnic =
-=3D iport->fnic;
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  251      struct reclaim_entr=
-y_s *reclaim_entry;
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  252      unsigned long delay=
-_j =3D msecs_to_jiffies(OXID_RECLAIM_TOV(iport));
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  253      int idx;
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  254
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  255      spin_lock_irqsave(&=
-fnic->fnic_lock, fnic->lock_flags);
->
-> Passing fnic->lock_flags is wrong.  spin_lock_irqsave() is not nestable
-> in the sense that the "flags" variable can't hold two values at once:
->
-> orig_irq =3D save_original irq states and disable()
-> orig_irq =3D save_original irq states and disable()
-> restore(orig_irq)
-> restore(orig_irq)
->
-> The second restore(orig_irq) is not going to restore the original states
-> it's going to leave them as disabled.
->
-> If fnic->lock_flags is holding anything useful when this is called, then =
-it
-> is a bug or if anything uses it before we exit that will break us.  Just
-> declare "unsigned long flags;" locally.
->
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  256
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  257      for_each_set_bit(id=
-x, oxid_pool->pending_schedule_free, FNIC_OXID_POOL_SZ) {
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  258
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  259              FNIC_FCS_DB=
-G(KERN_INFO, fnic->lport->host, fnic->fnic_num,
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  260                      "Sc=
-hedule oxid free. oxid idx: %d\n", idx);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  261
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  262              spin_unlock=
-_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11 @263      reclaim_entry =3D (=
-struct reclaim_entry_s *)
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  264      kzalloc(sizeof(stru=
-ct reclaim_entry_s), GFP_KERNEL);
+> On Friday, February 14, 2025 7:03 AM, Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+> >
+> > On Fri, Feb 14, 2025 at 05:42:25PM +0300, Dan Carpenter wrote:
+> > >
+> > > I guess we can't call schedule_delayed_work() without holding the
+> > > spin_lock?  It's a strange thing.
+> >
+> > Actually, I see now that we're just dropping the lock to avoid a sleepi=
+ng
+> > in atomic warning with the GFP_ATOMIC allocation...  I bet you could ma=
+ke
+> > the code under the lock much smaller.  Just the test_and_clear_bit() st=
+uff
+> > basically.
+> >
+> > regards,
+> > dan carpenter
 
-Thanks for this change, Dan. It looks good.
+The window can be further reduced by adding the lock/unlock around the list=
+_add_tail. But this looks good too.
 
+> > diff --git a/drivers/scsi/fnic/fdls_disc.c b/drivers/scsi/fnic/fdls_dis=
+c.c
+> > index 11211c469583..ed141236a4aa 100644
+> > --- a/drivers/scsi/fnic/fdls_disc.c
+> > +++ b/drivers/scsi/fnic/fdls_disc.c
+> > @@ -308,31 +308,22 @@ void fdls_schedule_oxid_free_retry_work(struct wo=
+rk_struct *work)
+> > struct fnic *fnic =3D iport->fnic;
+> > struct reclaim_entry_s *reclaim_entry;
+> > unsigned long delay_j =3D msecs_to_jiffies(OXID_RECLAIM_TOV(iport));
+> > +     unsigned long flags;
+> > int idx;
+> >
+> > -     spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
+> > -
+> > for_each_set_bit(idx, oxid_pool->pending_schedule_free, FNIC_OXID_POOL_=
+SZ) {
+> >
+> > FNIC_FCS_DBG(KERN_INFO, fnic->host, fnic->fnic_num,
+> > "Schedule oxid free. oxid idx: %d\n", idx);
+> >
+> > -             spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags=
+);
+> > -     reclaim_entry =3D (struct reclaim_entry_s *)
+> > -     kzalloc(sizeof(struct reclaim_entry_s), GFP_KERNEL);
+> > -             spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
+> > -
+> > +             reclaim_entry =3D kzalloc(sizeof(*reclaim_entry), GFP_KER=
+NEL);
+> > if (!reclaim_entry) {
+> > -                     FNIC_FCS_DBG(KERN_WARNING, fnic->host, fnic->fnic=
+_num,
+> > -                             "Failed to allocate memory for reclaim st=
+ruct for oxid idx: 0x%x\n",
+> > -                             idx);
+> > -
+> > schedule_delayed_work(&oxid_pool->schedule_oxid_free_retry,
+> > msecs_to_jiffies(SCHEDULE_OXID_FREE_RETRY_TIME));
+> > -                     spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lo=
+ck_flags);
+> > return;
+> > }
+> >
+> > +             spin_lock_irqsave(&fnic->fnic_lock, flags);
+> > if (test_and_clear_bit(idx, oxid_pool->pending_schedule_free)) {
+> > reclaim_entry->oxid_idx =3D idx;
+> > reclaim_entry->expires =3D round_jiffies(jiffies + delay_j);
+> > @@ -342,9 +333,8 @@ void fdls_schedule_oxid_free_retry_work(struct work=
+_struct *work)
+> > /* unlikely scenario, free the allocated memory and continue */
+> > kfree(reclaim_entry);
+> > }
+> > -}
+> > -
+> > -     spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
+> > +             spin_unlock_irqrestore(&fnic->fnic_lock, flags);
+> > +     }
+> > }
+> >
+> > static bool fdls_is_oxid_fabric_req(uint16_t oxid)
+> >
+> >
 >
-> The indenting is off.  The normal way to write this is:
+> Thanks for the comments and changes Dan. Appreciate your help.
+> The team will review these changes and get back to you.
 >
-> reclaim_entry =3D kzalloc(sizeof(*reclaim_entry), GFP_KERNEL);
->
-> Remove the cast and change the sizeof().
-
-Thanks for this change, Dan. It looks good.
-
->
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  265              spin_lock_i=
-rqsave(&fnic->fnic_lock, fnic->lock_flags);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  266
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  267              if (!reclai=
-m_entry) {
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  268                      FNI=
-C_FCS_DBG(KERN_WARNING, fnic->lport->host, fnic->fnic_num,
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  269                         =
-     "Failed to allocate memory for reclaim struct for oxid idx: 0x%x\n",
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  270                         =
-     idx);
->
-> Remove this DBG.  The truth is that for as long as anyone can remember
-> the kmalloc() allocator won't fail for tiny allocations.  We're more
-> likely to formalize this rule than we are to change it at this point.
-> Still, we check for errors until that day arrives.
-
-Thanks for this change, Dan. It looks good.
-
-> But allocations are not supposed to print an error message on error.
-> It's just messy and it doesn't add any information that isn't already
-> in the stack traces that kmalloc() prints.
->
-> I guess we can't call schedule_delayed_work() without holding the
-> spin_lock?  It's a strange thing.
->
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  271
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  272                      sch=
-edule_delayed_work(&oxid_pool->schedule_oxid_free_retry,
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  273                         =
-     msecs_to_jiffies(SCHEDULE_OXID_FREE_RETRY_TIME));
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  274                      spi=
-n_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  275                      ret=
-urn;
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  276              }
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  277
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  278              if (test_an=
-d_clear_bit(idx, oxid_pool->pending_schedule_free)) {
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  279                      rec=
-laim_entry->oxid_idx =3D idx;
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  280                      rec=
-laim_entry->expires =3D round_jiffies(jiffies + delay_j);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  281                      lis=
-t_add_tail(&reclaim_entry->links, &oxid_pool->oxid_reclaim_list);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  282                      sch=
-edule_delayed_work(&oxid_pool->oxid_reclaim_work, delay_j);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  283              } else {
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  284                      /* =
-unlikely scenario, free the allocated memory and continue */
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  285                      kfr=
-ee(reclaim_entry);
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  286              }
-> a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  287  }
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+> Regards,
+> Karan
 >
 
-Would you like to send out a patch for these changes? If so, we can review =
-and sign-off on it.
-If you would like us to send out a patch, that's fine too; we will address =
-these changes in a future patch.
+Please let us know if you would like to send out a patch for this. We will =
+review and sign off on it.
+Thanks for your review and changes.
 
 Regards,
-Karan (on behalf of the Cisco team)
+Karan
