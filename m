@@ -1,320 +1,184 @@
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EB11DFD95;
-	Thu, 20 Feb 2025 03:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.86.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740021102; cv=fail; b=MWGINa62HcYBQ+EMERyagcUmwOB+qtNR785dXHQklchKDquBDuEYJQMnwwm2DOXglmXDtIPhCwgS+7rVvNlW2SH7t7rBrMlD5cShjL04Ys5V9omfOYBPAzQVstgqni/dqBZlxzAnEvv0DGXPtTp3jvCXHWH0FttaSTRt4dZ2cig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740021102; c=relaxed/simple;
-	bh=/cRhf9NLwvZDZyOdGyeR4R0S7o/8ie5Tijex6a+3Un0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aWp1WmkrVR9oo4PL9uddfz9AshWCmTjxV824odLA+lpc63Tf6AVyYsDSQ16TCTzLrVQVciFJ8VvgOV1o2waQBsXFi/U0grPqZFWckjmQaOpziU1+StkwtOaWIDFUEDkzOALIH+vLKM/fvmD4PvJ/Bb2xMHWNp1tQJHok7pPgpdQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=CQb0Ktyv; arc=fail smtp.client-ip=173.37.86.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32191E3780
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Feb 2025 05:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740027808; cv=none; b=FFoOeApg4KL836Voxz0Q4z82xrCJ6VkcFuU3WwbphpEdC6NriOeMlWbF4JnITioHicO3LjZcvQz+OzNgSNlwCQHQVpNQjICtQYfQmsEDITOn1x3om2++xZs43qkgFxlociONlRPg03W2Bu5D4xTkw/YUJP1VdvHGCCMphtCKILg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740027808; c=relaxed/simple;
+	bh=wgHgjTdM61TTKd8AxhZkufa/Nlz5P9cJQMVlM/jRBAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TGPwXz2ByWM3FlEBQFklEG5rpTclanovQaUursAqnYBHELtpQZ+ca4Ma6kf+oztzBvD1FUGoS22ijJdnD/Q6RZnz62mjUPlKH4ZxwgNzALUCqoUGzAXPk1wqWwjpRoebJtca0JOn01lc6PiPvPUGl+47P+iNROxF1QHTErQHPTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkkX5Vn6; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="CQb0Ktyv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3265; q=dns/txt;
-  s=iport01; t=1740021100; x=1741230700;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=TdPsswxHbIVxactRcItQF3SxcHGQCcm0xP3P/RxuDKY=;
-  b=CQb0KtyvQkosKc2BFJlPJChba6uTmGqM97fy/2/I7QCmU26e6INtxCgL
-   E1Edr0/Iyq9XidecuodTxgoQF9klVN32nwBc1gCX1vGjTG/Sdo4d23VfK
-   VkwrI2gGeHP+vbLSsCvENcjHaUquV88FbdKiCH26r7oQm5zEJn6UvuLK4
-   NSk/Xv1xmdcFMWzT5req8PuJI+h1kX0+vQ7BcJoRHz6+8BcwSF7pWabcD
-   2sqWO9Aa69j9/2O5u/37s9Bxs55j0Eu8ttCone27AWRuYJ9nc6aZqciP9
-   E6gi6OX1JnqvJ0zUjtjcwcqzgv+fPJkOTT6I3tDjE/OhNiVAkLGk82Roj
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkkX5Vn6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740027807; x=1771563807;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wgHgjTdM61TTKd8AxhZkufa/Nlz5P9cJQMVlM/jRBAo=;
+  b=fkkX5Vn6Oje71RahW0u9S4nhNkk+Ske5NH2f3S2dMT+bPe/5WTlKrOzE
+   TBDv1gh6bsPJVM3rJidGeUe3WLzGOQGWnWIcZf6/W0hzopiemmQ3+ZDgw
+   oA9ixB26UNbKFd//hog7QH9szZPf5S/APv6h7GqIeiKofKDnHfSDGCixa
+   ZCb/0u5sknBGqdm9e66rxgHSUc2umP6bhFU16ThEcugc27TYQudTIPlXO
+   eGyr8ryp1XGq0Aje9gpWOltKOCy9Rry1iV1V8vAOUlZ6VlSsCfSCxyS3n
+   EUdI/qmh4bs1VPMGV00fpYDezG3g96+xIJnKb4Ce7ATJusgW+X0Jx5ks+
    w==;
-X-CSE-ConnectionGUID: X/7OkiDCQt6dM3DWquxCtQ==
-X-CSE-MsgGUID: 8ODzPcxiS1GmC/IUKfhvVw==
-X-IPAS-Result: =?us-ascii?q?A0AYAABHnLZn/4r/Ja1aGwEBAQEBAQEBBQEBARIBAQEDA?=
- =?us-ascii?q?wEBAUAlgRoGAQEBCwGBcVIHghKIaQOETl+GU4IhA5g4hVyBfg8BAQENAkQEA?=
- =?us-ascii?q?QGDc4EUAosOAiY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4YIhloBAQEBAgESFRM/EAIBCBgdAQULMSUCBAENDRqFIiMDAaMiAYFAA?=
- =?us-ascii?q?ooreIEBM4EB4CKBSAGITgGFa4R3JxuCDYFXgmg+hEWEE4IvBIIvSoEkgllnk?=
- =?us-ascii?q?TJqhAV5gzSMEVJ7HANZLAFVExcLBwWBKRA4Ayo0MSOBIwU0Cjc6gg1pSToCD?=
- =?us-ascii?q?QI1gh4kWIIrgiCCOIRDXi8DAwMDgzSCRVGCRIIScWwDAxYQgjFweByFDIIYH?=
- =?us-ascii?q?UADC209NwYOGwUEgTUFpF5UIQhkgT8fQwKSQR1JgmuQNJ4cgTMKhBuhfReEA?=
- =?us-ascii?q?40Gjl2KbC6HZZBqIqNxgSGDUgIEAgQFAg8BAQaBZzyBWXAVgyNRGQ+OLRYWy?=
- =?us-ascii?q?H2BNAIHCwEBAwmRdwEB?=
-IronPort-PHdr: A9a23:1sTMBBMZUuMgIdT3Wugl6nc2WUAX0o4cdiYP4ZYhzrVWfbvmpNLpP
- VfU4rNmi1qaFYnY6vcRk+PNqOigQm0P55+drWoPOIJBTR4LiMga3kQgDceJBFe9LavCZC0hF
- 8MEX1hgl0w=
-IronPort-Data: A9a23:pNSBD62W8Zon7yrOPfbD5bhwkn2cJEfYwER7XKvMYLTBsI5bpzwDx
- 2tMUG7QOPveZzD1eY11Pdix9hlQ6sCGydJgHVZt3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmE4E/watANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU4
- rsen+WFYAX4g2QtYztNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGPAZpGo4Z1s1OHT9C0
- Kc0FykQfjufvrfjqF67YrEEasULNsLnOsYb/3pn1zycVa9gSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNU+QC/FMEg9/5JYWn+6ymnj7ej5wo1OOrq1x6G/WpOB0+OO3aYuPIo3XGq25mG7Ig
- U7Ux2/pAypDG9m0jhu40XysmNHQyHaTtIU6UefQGuRRqFqeg28ZFRwSWR6ypf2Rjk+lR8kZL
- 00S5zpooaUsnGSsQ5z+VQC5pHKsuh8HR8EWF+w89RHLxqfKizt1HUAeRTJHLdhjv8gsSHlyj
- xmCnsjiAnpkt7j9pW+hy4p4ZAiaYEA9BWQDfiQDCwAC5rHeTEsb1Hojkv4L/HaJs+DI
-IronPort-HdrOrdr: A9a23:SsuQVqySkUAIhkelJpSwKrPxY+gkLtp133Aq2lEZdPULSL36qy
- n+ppQmPEHP6Qr5AEtQ5+xoWJPtfZvdnaQFh7X5To3SLTUO31HYY72KjLGSjwEIdBeOjNK1uZ
- 0QF5SWTeeAcmSS7vyKrjVQcexQveVvmZrA7YyxvhUdKD2CKZsQkzuRYTzra3GeMTM2fqbRY6
- DsnvavyQDQHkg/X4CQPFVAde7FoNHAiZLhZjA7JzNP0mOzpALtwoTXVzyD0Dkjcx4n+9ofGG
- 7+/DDR1+GGibWW2xXc32jc49B9g9360OZOA8SKl4w8NijsohzAXvUgZ5Sy+BQO5M2/4lcjl9
- fB5z06Od5o1n/Xdmap5TPwxgjb1io04XOK8y7avZKjm726eNsJMbsEuWtrSGqf16PmhqA77E
- t/5RPdi3OQN2KYoM2y3amRa/ggrDvFnZNrq59hs5UYa/peVFeUxrZvpn+81/w7bXnHwZFiH+
- 90AM7G4vFKNVuccnDCp2FqhMehR3IpA369MwM/U+GuonFrdUpCvgMl7d1amm1F+IM2SpFC6e
- iBOqN0lKtWRstTaa5mHu8OTca+F2SIGHv3QS+vCEWiELtCN2PGqpbx7rlw7Oa2eIYQxJ93nJ
- jaSltXuWM7ZkqrA8yT259A9AzLXQyGLH7Q49Ab44I8tqz3RbLtPyHGQFcyk9G4q/FaGcHfU+
- bbAuMhPxYiFxqYJW9k5XyLZ3AJEwhtbCQ8gKdPZ26z
-X-Talos-CUID: =?us-ascii?q?9a23=3AnzF8T2gFNfhUGJr+YZxTUd3wTTJuQjqC63TRD2S?=
- =?us-ascii?q?BFThlbea5dkaN6Ih4qp87?=
-X-Talos-MUID: 9a23:Jw0ZSgis+wQc3Bt4jmtqG8MpZOBE8ZylGEE2yLoDkI6lCA9+Oymjk2Hi
-X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Feb 2025 03:10:30 +0000
-Received: from rcdn-opgw-3.cisco.com (rcdn-opgw-3.cisco.com [72.163.7.164])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 962A4180002A9;
-	Thu, 20 Feb 2025 03:10:30 +0000 (GMT)
-X-CSE-ConnectionGUID: kNbT2oJDT0GUlqqZrydJvA==
-X-CSE-MsgGUID: Os4tASJ+Qxicx4F2qMB9Ng==
-Authentication-Results: rcdn-opgw-3.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.13,300,1732579200"; 
-   d="scan'208";a="32787123"
-Received: from mail-sn1nam02lp2049.outbound.protection.outlook.com (HELO NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.49])
-  by rcdn-opgw-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:10:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VyNhb7fYrikEjn8GfhH19NdD13iboYn93UuhN0jnQMDQVugImmyMn+81hWGwe3exP/uVCkJ9C2GvZ37vo6I+Wo3JCKf2dKba3foHkYevUIgPQs/yqMdaEflYqD1+frj0YFQe+BaHUeJH0rdcwGXYLqSfR+R/Dv4D3oPr9AwoQWupOLGV51xtiuJc9132fEyRz5WBuTX9b84otUP2huyi7DND86brpNDl4dUue2d48hjhvrBriqE6/P7YWn/eH/GZldQ7KGOAE/oo7mzXT45pZoJdYXIHJqTyGjcHFgCKkWH3V1GKEqW4azRNecmCqcBWPIH2Qr82HfwYjzz7MQjhLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TdPsswxHbIVxactRcItQF3SxcHGQCcm0xP3P/RxuDKY=;
- b=rIYLWcuSzt6zCuLaCWL0+Alt4Z4sffEJL56ZymsmXBy2IzQ4Gv5DM63rT63fDUwm+tpwGYpBQTptbyNXbDVqfiHe//QAHl6JXkvzitwTK/1bKPVyPIsy9pnNrEfOsvwGJBl1G+H/YsPSiczzLsVSPbu3vLTBBSb5dKmQVTL5q7jgo+6UFZhcHFeGjMOITk4kBsLEJv5CF5qe+TwlsxYGHB0SSfXHHG8xs++uOIzgUUjUvjHVcZ4RaL0iOxEbQtQfrNY2Qmbv6557OWqoNqCY6+jTtoZeMyWxfBaS1I4sOk7zvVMXlUEhJuMtzelZBzNQzjXAuwCOA/S3Ta2fvfnd5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19)
- by PH8PR11MB6999.namprd11.prod.outlook.com (2603:10b6:510:221::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Thu, 20 Feb
- 2025 03:10:27 +0000
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd]) by SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd%5]) with mapi id 15.20.8466.013; Thu, 20 Feb 2025
- 03:10:27 +0000
-From: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, "Sesidhar Baddela (sebaddel)"
-	<sebaddel@cisco.com>, "Gian Carlo Boffa (gcboffa)" <gcboffa@cisco.com>,
-	"Arulprabhu Ponnusamy (arulponn)" <arulponn@cisco.com>, "Arun Easi (aeasi)"
-	<aeasi@cisco.com>
-Subject: RE: drivers/scsi/fnic/fdls_disc.c:263
- fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
-Thread-Topic: drivers/scsi/fnic/fdls_disc.c:263
- fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
-Thread-Index: AQHbfu60Aqs0Y1uoDU+0WvnEcG3OM7NG5RiAgAH2PjCABrBEYA==
-Date: Thu, 20 Feb 2025 03:10:26 +0000
-Message-ID:
- <SJ0PR11MB5896888C81BFF2EB81E2B533C3C42@SJ0PR11MB5896.namprd11.prod.outlook.com>
-References: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
- <fd4d8516-5eaa-43b0-9100-2984312930f8@stanley.mountain>
- <SJ0PR11MB58962A4F0B9CFFB9439FF959C3F92@SJ0PR11MB5896.namprd11.prod.outlook.com>
-In-Reply-To:
- <SJ0PR11MB58962A4F0B9CFFB9439FF959C3F92@SJ0PR11MB5896.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB5896:EE_|PH8PR11MB6999:EE_
-x-ms-office365-filtering-correlation-id: d233470f-0a14-46d5-02af-08dd515c1fda
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|10070799003|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?AZ2NKIPC+33DQvO79Z9yoGOWVHMuu6JjJr2vV3/rqbw5o1c8f7nAcU2Xusmc?=
- =?us-ascii?Q?HOTt9MNukyuguSqN/G/dPFmi2LfychNiQsbNkAv5WEEeNJvfSLtwu3NNWvXH?=
- =?us-ascii?Q?t3079oJITvyvWG70WlWJzh7i0Ep0YafMFjQjbzbxT/aWZi4UNARuFWdtOMFg?=
- =?us-ascii?Q?bFXW4eRX1Rp0lTqhEqNrukoC0fBqqRfLThbkfr9OMfcl4l/AvVCQqASZwzQf?=
- =?us-ascii?Q?4EPF5k5ClYP1N+7xEAht2NjEcjNcGlPPvpXKElHr6fBo6rLKA1PQSM+OTngj?=
- =?us-ascii?Q?9T4I8vFgHNNzPlKFJgQg1qs3HMaqSA0s4Tof5rnQPrf7nKPQY8N02KTUExj+?=
- =?us-ascii?Q?Os+Ug8BrM5zquPHMAFehmQXJOrnp+NL7hjArErAfN2AlktfuIZPsdLRjNRWi?=
- =?us-ascii?Q?pRgsuEwZs2QSJ1rt0Vrbhtc9zPolDjMtl4Tc2C0Crrq0+fOfAoCYpZ9HcMaR?=
- =?us-ascii?Q?6as1YILUTGUq/6C0vY/4nNeJJqO87uiOBTMTvNXgVwUKM+6esmgU9HFKlc1o?=
- =?us-ascii?Q?++kwH8bv2yzB5XU+a0HWbDl0QK62ULKqGBGeQg8K11ol7hmtIEvfUTnoOBKr?=
- =?us-ascii?Q?5ZNln3I/pidr0dUc20Tg39km7SrZ9HqtWO+cQLHxrFCRzUIjjjf+vAYdj34r?=
- =?us-ascii?Q?zFuJgSMYN9qk9BQE4PwtDOqNiM56Vc5e4qNqaKsVv+k9CasEtF5TfpWm33Nf?=
- =?us-ascii?Q?1PstUIMQ75Ck97LOaNeCjn0Ep+dn1hnsF9vJB4a3AyZDbwQDG8HNbRqK8do2?=
- =?us-ascii?Q?Dl0OIZVtqeNSdC0o8U7b1SO/EQxin7St89Wl1Y3iQUH9n9i10FSbpYk+tFcL?=
- =?us-ascii?Q?ufNaqGBHA5gHK2bVAQmiTypOgST7EZdx7/KEqTAJ3V/qiES4ygN3oIZeiRZl?=
- =?us-ascii?Q?mnDE/yrw1FD6xR7AvwQbjMB8JY7BH5HyZIudfAvvgOfG4s/dQDBbcsjGuyy6?=
- =?us-ascii?Q?PXbhIN/OYvuleQShomo9ECfSX+TEOg3BC3B49iIAFwXCCCXOnICt6ZxPCGkl?=
- =?us-ascii?Q?d1Yhl589MVJgODgSKqRNABQzf2kXmiFTr2PBOxwO5jBKS9BVmDbBXOt2C+tZ?=
- =?us-ascii?Q?QNmu9aRATAJ5+y8U61fbbPk65VV+tuczRAbE4TGSntHUazAjJiQAS3zRKTNY?=
- =?us-ascii?Q?vkQLcdegrpcpoJCtliDE7taZMz4r4nadl65edBP43i1Xa1JABNG4UOoSCFAm?=
- =?us-ascii?Q?ovIDn+HEmmYvOcjDyES+F/reqxjL0NmjI+l48rZjP8ObXrKcscGNow9t4F49?=
- =?us-ascii?Q?Cd8s+Wrqruxka/xPb4c+Xu6EPbHGy1Efi9B9tAsf7C6PMhGhFof+U6w+wbHx?=
- =?us-ascii?Q?aq0p/TCXghc38+UVocHZXAOlCgYEik7qh20+W87Gj+NJzsQ4iJlWVsT/vNfy?=
- =?us-ascii?Q?Ed74wbDFTr5SmU59qeOE2ZuhlWFFd+s8grHKTi85g8igSTq0jizE+HWedtXB?=
- =?us-ascii?Q?WtmQo4QGlnQhKmAqiirVBMSPehlCVQrp?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(10070799003)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?sIGRDnG+OSv+d/RfJtlnz0gXiKNd0C8nPu/k4aD1pF08spyYvKKn5OUDpyGI?=
- =?us-ascii?Q?OYew5oRWneUHqP2R4Ve/B6Sii1uCPQW86wClViz4OkHQ79Hig9Nh+J3z9YTP?=
- =?us-ascii?Q?/nYo8Liwu5s3HV9lZCYIdH/5MbmIoW9yA2KXbNr/rZjb23WUwYJT6XhS5ohe?=
- =?us-ascii?Q?ywqrq4OYUa1dvUD/GZeeo32KBzVPrIhuUYdX6ZLaGPz5KAxY/3WW6kQ3j/zv?=
- =?us-ascii?Q?V+lEIHApHO5bdj+c4BUVrJC7IYFE6cnhnCuvA6FRyFl98Nlec5CHXt3/P3jm?=
- =?us-ascii?Q?p5q/9ojlsdIljqRbSGEv5cMXK9deiF/mdXrUBmRGPti7/D2wNQpTeoKkqko5?=
- =?us-ascii?Q?DH300INLMqbkcWqJcE/ZhDhO1ozlISW2VkPsS1ziN5040NphC8VIFD/u3Wdh?=
- =?us-ascii?Q?ervDifZspeupne1ngTJWBDAluT/JuB7I09uL5KZLJuFeVbZkP+YXTuULZHXT?=
- =?us-ascii?Q?D9ovD4tCDEOHNXWTmYTnK9IUXv2rEfXYv4Bu65AmYm8TRMsVZAvv+yevp0wQ?=
- =?us-ascii?Q?LQkHK6f+9g1SAk8PVQg949kVnBB0gJtv9uwwlkklJ9gQ7FK2bBSOBXGVRWgP?=
- =?us-ascii?Q?K/IJo/dxag78MlDJkvXAwcfB0WQ+Rbp3fOI3HbqjvQX673urHOVnBj9HTZk4?=
- =?us-ascii?Q?JKSP7WQLU0ff2uOT01rExsGnojaUqcEtv7v0nhOLLvAjoHkfp8HLidJJHlQc?=
- =?us-ascii?Q?fd8ynV7JXGSZ6th15/pgWQ8Q7t0o39PCHF1HOsDg+6mnZnTnm4tyK1Ibkzrb?=
- =?us-ascii?Q?6j3NcsP+vZ4HFz5U4qGEGcSKsM06WNoatJpl2SGch1yB5yew+eJDvmWvHSSW?=
- =?us-ascii?Q?yaWb78oe97M5rWPbETR8bvKNcbjpIFwo9z2BB5R6VK2G/xJ87lO7Go7GzbyJ?=
- =?us-ascii?Q?goKgmmhYFF4jKxVT3PQZGVC0S0meBIr3nK0dOtaVdrAN9L0b/H6tbHc5vNKM?=
- =?us-ascii?Q?DW6qtlzwoUGCEB9x+dtgADkvelfrnFqjk73LyhctfISsMpX1yupzglmfryAd?=
- =?us-ascii?Q?i1MFZqEhjbCKYb0MqegyYg3W1wo5Ctax4trbl1qq62mYzu4wpfu0Xf3BC2JC?=
- =?us-ascii?Q?EgwzP6LWdiYMbyPr4gdipu87JSZGZjz6lqy5F+HrZ70rDII3zyzMLfxFDF61?=
- =?us-ascii?Q?mVtr8AMLFnwAjZFbkehHOdUn04q8Ww1ySG/iWfrH1sZ8kQtFxzDLN7qSz1do?=
- =?us-ascii?Q?/fmjW7xGkRacWG6RsUR3JovUDyGVNqcWq8O/wVMhKGHLfdj92Gbo8wfszHEu?=
- =?us-ascii?Q?k9otifE8JpvBUZArzGMclUmRtt+nfcgGw6Vxa+q2qIwPqVfuGlxRICn+jZVS?=
- =?us-ascii?Q?wkcvQeBajCbS2MrPRDGLlBW3tp42kj4z8uRcxlScjbT/7gPZ7/wMTFOQOQMS?=
- =?us-ascii?Q?seRqtSKPoBtQeCeKNZXvXSkIp6a85v0Ca7QoJT9ME/QnX6zN/a+i1DGBic+D?=
- =?us-ascii?Q?g9QmzDrR1CZqDZeglOsaNYFjsgiYT0BP/yZBFjNOKmQkcriyl5/wIWOAvzN6?=
- =?us-ascii?Q?Dre9uvT0CCkwX7YiLUsJeoZDXaj7ZH5DsA3OaM/NfagrsNudb83YgNJ42obc?=
- =?us-ascii?Q?cIcr12XTfpAISkUW6m8cEEOTaP58G3mm/EC/DnHmXjZA1Au94ID77GdoPGIh?=
- =?us-ascii?Q?kM1r2QITfWob2X1BjMmQqdM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-CSE-ConnectionGUID: MWUiWZSBRHGMeZm6bGvhSQ==
+X-CSE-MsgGUID: 6LpeM0f+SRuWhV8HChyuGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="63269769"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="63269769"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 21:03:25 -0800
+X-CSE-ConnectionGUID: cFTWn+iySa6CvD8A1t301A==
+X-CSE-MsgGUID: q3DYejS6QNaXYft0U7ILWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114781122"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 19 Feb 2025 21:03:23 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkyiW-0003sn-31;
+	Thu, 20 Feb 2025 05:03:20 +0000
+Date: Thu, 20 Feb 2025 13:02:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [krzk-github:track/x1e80100-t14s 999/1079]
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000:
+ resets: [[52, 37], [52, 36]] is too long
+Message-ID: <202502201250.ieBaL6bV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d233470f-0a14-46d5-02af-08dd515c1fda
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2025 03:10:26.9438
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PDpF9nJEUivxO7eTPCYpmU7hL1lVvaeSMkGrPrilTwfDqsg59kbvD1VLiZxE2fHPF4qCCkQonSfw/FwT+eD5HQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6999
-X-Outbound-SMTP-Client: 72.163.7.164, rcdn-opgw-3.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Saturday, February 15, 2025 1:03 PM, Karan Tilak Kumar (kartilak) wrote:
->
-> On Friday, February 14, 2025 7:03 AM, Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> >
-> > On Fri, Feb 14, 2025 at 05:42:25PM +0300, Dan Carpenter wrote:
-> > >
-> > > I guess we can't call schedule_delayed_work() without holding the
-> > > spin_lock?  It's a strange thing.
-> >
-> > Actually, I see now that we're just dropping the lock to avoid a sleepi=
-ng
-> > in atomic warning with the GFP_ATOMIC allocation...  I bet you could ma=
-ke
-> > the code under the lock much smaller.  Just the test_and_clear_bit() st=
-uff
-> > basically.
-> >
-> > regards,
-> > dan carpenter
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-The window can be further reduced by adding the lock/unlock around the list=
-_add_tail. But this looks good too.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Abel Vesa <abel.vesa@linaro.org>
+CC: Johan Hovold <johan+linaro@kernel.org>
 
-> > diff --git a/drivers/scsi/fnic/fdls_disc.c b/drivers/scsi/fnic/fdls_dis=
-c.c
-> > index 11211c469583..ed141236a4aa 100644
-> > --- a/drivers/scsi/fnic/fdls_disc.c
-> > +++ b/drivers/scsi/fnic/fdls_disc.c
-> > @@ -308,31 +308,22 @@ void fdls_schedule_oxid_free_retry_work(struct wo=
-rk_struct *work)
-> > struct fnic *fnic =3D iport->fnic;
-> > struct reclaim_entry_s *reclaim_entry;
-> > unsigned long delay_j =3D msecs_to_jiffies(OXID_RECLAIM_TOV(iport));
-> > +     unsigned long flags;
-> > int idx;
-> >
-> > -     spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
-> > -
-> > for_each_set_bit(idx, oxid_pool->pending_schedule_free, FNIC_OXID_POOL_=
-SZ) {
-> >
-> > FNIC_FCS_DBG(KERN_INFO, fnic->host, fnic->fnic_num,
-> > "Schedule oxid free. oxid idx: %d\n", idx);
-> >
-> > -             spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags=
-);
-> > -     reclaim_entry =3D (struct reclaim_entry_s *)
-> > -     kzalloc(sizeof(struct reclaim_entry_s), GFP_KERNEL);
-> > -             spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
-> > -
-> > +             reclaim_entry =3D kzalloc(sizeof(*reclaim_entry), GFP_KER=
-NEL);
-> > if (!reclaim_entry) {
-> > -                     FNIC_FCS_DBG(KERN_WARNING, fnic->host, fnic->fnic=
-_num,
-> > -                             "Failed to allocate memory for reclaim st=
-ruct for oxid idx: 0x%x\n",
-> > -                             idx);
-> > -
-> > schedule_delayed_work(&oxid_pool->schedule_oxid_free_retry,
-> > msecs_to_jiffies(SCHEDULE_OXID_FREE_RETRY_TIME));
-> > -                     spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lo=
-ck_flags);
-> > return;
-> > }
-> >
-> > +             spin_lock_irqsave(&fnic->fnic_lock, flags);
-> > if (test_and_clear_bit(idx, oxid_pool->pending_schedule_free)) {
-> > reclaim_entry->oxid_idx =3D idx;
-> > reclaim_entry->expires =3D round_jiffies(jiffies + delay_j);
-> > @@ -342,9 +333,8 @@ void fdls_schedule_oxid_free_retry_work(struct work=
-_struct *work)
-> > /* unlikely scenario, free the allocated memory and continue */
-> > kfree(reclaim_entry);
-> > }
-> > -}
-> > -
-> > -     spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-> > +             spin_unlock_irqrestore(&fnic->fnic_lock, flags);
-> > +     }
-> > }
-> >
-> > static bool fdls_is_oxid_fabric_req(uint16_t oxid)
-> >
-> >
->
-> Thanks for the comments and changes Dan. Appreciate your help.
-> The team will review these changes and get back to you.
->
-> Regards,
-> Karan
->
+tree:   https://github.com/krzk/linux track/x1e80100-t14s
+head:   0a5b996575143038f96d880868109359ede28367
+commit: 76be62a83f8e8090b5fe945d42a2abcc8961308c [999/1079] arm64: dts: qcom: x1e80100: Make the PCIe 6a PHY support 4 lanes mode
+:::::: branch date: 35 hours ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250220/202502201250.ieBaL6bV-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
+dtschema version: 2025.2
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201250.ieBaL6bV-lkp@intel.com/reproduce)
 
-Please let us know if you would like to send out a patch for this. We will =
-review and sign off on it.
-Thanks for your review and changes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202502201250.ieBaL6bV-lkp@intel.com/
 
-Regards,
-Karan
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfacmn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfa0p8-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
