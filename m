@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9716B1FAC5E
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Feb 2025 14:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A391FECCE
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Feb 2025 15:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740062602; cv=none; b=Ehr+ZOHxhfW3yD+OgDLUk+rnFclA2Rly9lQJIjtV2Bbqt9Aa199bbrmsjEHoX36ZtOaolJ8HHkbL5y4s98g0cF7X1ZCSLNK9DZdYtsev5B+2iz8sumfquWF9D3E1Axgq7xZvaA0hzm4FefOKWrCdFPbuKMUzsT0q1uSuwfIQ00M=
+	t=1740066969; cv=none; b=garWmvNPVYxsgGeOuhFU+m34TAqk8skNW4GsJkTTFtT0wKRpmwHTKFcUGakwBfacITEpSPv7ZCKFqFdt0hFBJpv3PxChKrotTbUOPhk5BimDmDtILJBzQMlDRQW9zvYGpctqssZWuldB+Idu6yqg8tciuRTCZVS2G0DS9GyCRPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740062602; c=relaxed/simple;
-	bh=fArZ7pNOmrvipHgsu1VB4toKDTEnVoWVpb4MiAfU3G8=;
+	s=arc-20240116; t=1740066969; c=relaxed/simple;
+	bh=inwl9JPNN/5qIvv34Wy09QrIKgpp7JuSCWvTiwndvp4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nQN1lV560Y1f8X0CeeWuxZJ5oa/2nTxW/WdX42rXoQFmzVM20iAadjLOcUR8Csx3kLk1LtGMhL86IOkMhEebBPrNrJ7d7j8MAEeZOXP55BQLfR7KtPZwJXrtprRLxwc7LYQnkZQziIPYQvSMXR0CSZtYok11Y+BO99FVYNKn4n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiHj5BtI; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=R2Yuwnj28Aboc2Rk/SkNtrqgisyCKSlziFmaGLn5LzXjI5M3xfQVwkze7WyhScwL6Ifao4OMzfk8UeO6SFfu5igHIOERF/MjNriOX57fL4qlYbpj2qFNGovDmRFHjyY+LF+3JTUlHVhh3BwrjFg1M2hQRU5y06LtqebRxA3CHZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmTOIWUu; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiHj5BtI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmTOIWUu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740062601; x=1771598601;
+  t=1740066967; x=1771602967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fArZ7pNOmrvipHgsu1VB4toKDTEnVoWVpb4MiAfU3G8=;
-  b=QiHj5BtIMMnql/tZT3FX3Q23IGf3DyN6iQK8sY5Jb5ShhvHgUT4zFW/d
-   FwSR0FrQjZGFoB6L72GdXF6KPacAelp5/vk39rFSFrf6vR+2QeBViHPXl
-   dkHb673uYOml3c6ZWckdA/w7/6Aczo4OjMJrhX+sl13+K0pxZU+XmlKGX
-   RwHbmeeArrvZHD1tpEBImlmiomSgLsB/gUjhL7tgJ45G8E5OVg+kqepZn
-   RYZ6S7QEQv3FT8+1jQaqdn+aLzRkAYKVYhdqa8GKjBwlgYpxIqy98ddZi
-   yWHQRhHtTMVLDfmYSwa3GYrKVj4Hp1YHX4f5oEhfMx6QmgRxn6E/EE+lG
+  bh=inwl9JPNN/5qIvv34Wy09QrIKgpp7JuSCWvTiwndvp4=;
+  b=dmTOIWUuH4rbVlsFUPfbVmGg22x615Rt+oWcGA9Sf29TTBqc8S6B836H
+   YMiDxwO34IFa3HxdtBNU1UOv0EUg9h8ZTyMrtUWUspbFAFnU/rcm1N9+G
+   O9E5h4OqDQ8DZJMNADqF1Sb39jVxqoAIhRl/Hlbj11YPm3I1N+40nI1VM
+   NxmB89CqYTksDj64HWG6uoFrQ52EHC33ms6TPKnHySsfho/6RSgF6+XWn
+   ++MBxOkZvtgEiAjI8FEjS3rx2CTYIdm2swmgZ2EdwIMNuoq3i5L2dN7jL
+   HRQJq1BAqYY2R4KgSh7MZY/JvAYmGGQOqolqMA0rC/kkJA9O+zE3FH2Jf
    g==;
-X-CSE-ConnectionGUID: 4bVV11woToKRnT1JZZ+hRg==
-X-CSE-MsgGUID: QNp9Nf1eQy6mag0YbS+EhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51058533"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="51058533"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:43:20 -0800
-X-CSE-ConnectionGUID: N/t1RDxBQE+1G9hONPOZ9g==
-X-CSE-MsgGUID: AQB6AmMoRUSoilL+wleDEg==
+X-CSE-ConnectionGUID: cGPzqCxbTg2cB3zdNIVpuQ==
+X-CSE-MsgGUID: 91YQ0aYYR2qkv502donWtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44766872"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="44766872"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 07:56:03 -0800
+X-CSE-ConnectionGUID: vaxQc1YzRhK3N7bKMviVbw==
+X-CSE-MsgGUID: W0r4F6/AR2mw40DaJZsWTw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="114783396"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120301135"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 20 Feb 2025 06:43:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 20 Feb 2025 07:56:01 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tl7lk-0004Ot-2X;
-	Thu, 20 Feb 2025 14:43:16 +0000
-Date: Thu, 20 Feb 2025 22:42:20 +0800
+	id 1tl8u7-0004St-0M;
+	Thu, 20 Feb 2025 15:55:59 +0000
+Date: Thu, 20 Feb 2025 23:54:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e80100-t14s 1027/1079]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000:
- Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-Message-ID: <202502202204.XEYLLAV7-lkp@intel.com>
+Subject: [intel-lts:pr/60 1/1] arch/arm/boot/dts/bcm953012k.dts:46.9-49.4:
+ Warning (unit_address_vs_reg): /memory: node has a reg or ranges property,
+ but no unit name
+Message-ID: <202502202340.mrjLEkQE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,65 +69,284 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@linaro.org>
 
-tree:   https://github.com/krzk/linux track/x1e80100-t14s
-head:   0a5b996575143038f96d880868109359ede28367
-commit: 37e4e967dac75a1afaac4013ff6e0265eb1d163a [1027/1079] arm64: dts: qcom: x1e80100-crd: Add bluetooth nodes
-:::::: branch date: 2 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250220/202502202204.XEYLLAV7-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-dtschema version: 2025.2
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502202204.XEYLLAV7-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/60
+head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
+commit: abe60a3a7afb4058278864aa18c5faf62094c11a [1/1] ARM: dts: Kill off skeleton{64}.dtsi
+:::::: branch date: 3 days ago
+:::::: commit date: 6 years ago
+config: arm-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250220/202502202340.mrjLEkQE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502202340.mrjLEkQE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502202204.XEYLLAV7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502202340.mrjLEkQE-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4191.11-4201.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/qcom,serial-geni-qcom.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: $nodename:0: 'bt_wcn7850' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[56, 37], [56, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pinctrl@f100000: Unevaluated properties are not allowed ('bt-en-sleep' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm953012k.dts:46.9-49.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+--
+   arch/arm/boot/dts/bcm7445.dtsi:66.6-225.4: Warning (unit_address_vs_reg): /rdb: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm7445.dtsi:227.21-298.4: Warning (unit_address_vs_reg): /memory_controllers: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm7445-bcm97445svmb.dts:9.9-14.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm7445.dtsi:255.10-275.5: Warning (simple_bus_reg): /memory_controllers/memc@1: simple-bus unit address format error, expected "80000"
+   arch/arm/boot/dts/bcm7445.dtsi:277.10-297.5: Warning (simple_bus_reg): /memory_controllers/memc@2: simple-bus unit address format error, expected "100000"
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-luxul-abr-4500.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-luxul-abr-4500.dts:44.12-54.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-dlink-dir-885l.dts:22.9-26.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-dlink-dir-885l.dts:86.12-109.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-netgear-r6300-v2.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-netgear-r6300-v2.dts:58.12-80.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-luxul-xbr-4500.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-luxul-xbr-4500.dts:44.12-54.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-luxul-xap-1410.dts:18.9-21.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47081-luxul-xap-1410.dts:45.12-55.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-linksys-ea6300-v1.dts:19.9-21.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-linksys-ea6300-v1.dts:23.12-39.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-buffalo-wzr-900dhp.dts:22.9-26.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47081-buffalo-wzr-900dhp.dts:96.12-106.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm11351.dtsi:103.15-108.4: Warning (unit_address_vs_reg): /l2-cache: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm11351.dtsi:228.22-233.5: Warning (unit_address_vs_reg): /clocks/root_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm11351.dtsi:235.20-240.5: Warning (unit_address_vs_reg): /clocks/hub_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm11351.dtsi:242.20-249.5: Warning (unit_address_vs_reg): /clocks/aon_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm11351.dtsi:251.26-262.5: Warning (unit_address_vs_reg): /clocks/master_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm11351.dtsi:264.24-278.5: Warning (unit_address_vs_reg): /clocks/slave_ccu: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm28155-ap.dts:24.9-27.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-asus-rt-ac56u.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-asus-rt-ac56u.dts:69.12-91.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm21664.dtsi:93.15-98.4: Warning (unit_address_vs_reg): /l2-cache: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm21664.dtsi:298.22-303.5: Warning (unit_address_vs_reg): /clocks/root_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm21664.dtsi:305.20-310.5: Warning (unit_address_vs_reg): /clocks/aon_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm21664.dtsi:312.26-324.5: Warning (unit_address_vs_reg): /clocks/master_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm21664.dtsi:326.24-337.5: Warning (unit_address_vs_reg): /clocks/slave_ccu: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm21664-garnet.dts:24.9-27.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-luxul-xwr-3100.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-luxul-xwr-3100.dts:84.12-94.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-asus-rt-ac68u.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-asus-rt-ac68u.dts:53.12-81.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-asus-rt-n18u.dts:22.9-26.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47081-asus-rt-n18u.dts:60.12-76.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-luxul-xap-1610.dts:18.9-21.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47094-luxul-xap-1610.dts:43.12-53.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm53573.dtsi:35.9-49.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm947189acdbmr.dts:20.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm947189acdbmr.dts:44.12-60.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-smartrg-sr400ac.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:464.22-473.4: Warning (avoid_unnecessary_addr_size): /srab@18007000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-smartrg-sr400ac.dts:93.12-115.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-luxul-xwr-1200.dts:19.9-22.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47081-luxul-xwr-1200.dts:89.12-99.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm953012er.dts:42.9-45.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:464.22-473.4: Warning (avoid_unnecessary_addr_size): /srab@18007000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm953012er.dts:47.12-63.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm53573.dtsi:35.9-49.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47189-luxul-xap-1440.dts:19.9-22.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47189-luxul-xap-1440.dts:40.12-50.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-tplink-archer-c5-v2.dts:18.9-21.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47081-tplink-archer-c5-v2.dts:77.12-93.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-netgear-r8500.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-netgear-r8500.dts:65.12-93.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-buffalo-wzr-1750dhp.dts:22.9-25.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-buffalo-wzr-1750dhp.dts:99.12-135.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-linksys-ea6500-v2.dts:20.9-22.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-linksys-ea6500-v2.dts:24.12-40.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-luxul-xwc-1000.dts:22.9-24.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm4708-luxul-xwc-1000.dts:51.12-61.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm23550.dtsi:374.22-379.5: Warning (unit_address_vs_reg): /clocks/root_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm23550.dtsi:381.20-386.5: Warning (unit_address_vs_reg): /clocks/aon_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm23550.dtsi:388.24-399.5: Warning (unit_address_vs_reg): /clocks/slave_ccu: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm23550.dtsi:401.26-413.5: Warning (unit_address_vs_reg): /clocks/master_ccu: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm23550-sparrow.dts:48.9-51.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+--
+   arch/arm/boot/dts/bcm53573.dtsi:35.9-49.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47189-tenda-ac9.dts:18.9-21.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47189-tenda-ac9.dts:59.12-81.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-luxul-xwr-3150-v1.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-luxul-xwr-3150-v1.dts:59.12-69.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47081-buffalo-wzr-600dhp2.dts:22.9-26.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47081-buffalo-wzr-600dhp2.dts:91.12-120.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm4708-luxul-xap-1510.dts:18.9-20.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm4708-luxul-xap-1510.dts:44.12-54.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+--
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-linksys-panamera.dts:19.9-23.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm47094-linksys-panamera.dts:137.15-204.4: Warning (unit_address_vs_reg): /mdio-mii-mux: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:464.22-473.4: Warning (avoid_unnecessary_addr_size): /srab@18007000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-linksys-panamera.dts:25.12-47.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-linksys-panamera.dts:153.13-202.6: Warning (avoid_unnecessary_addr_size): /mdio-mii-mux/mdio-mii@0/switch@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+
+vim +46 arch/arm/boot/dts/bcm953012k.dts
+
+ccf0b5e37115f86 Jon Mason   2015-11-02  36  
+ccf0b5e37115f86 Jon Mason   2015-11-02  37  / {
+ccf0b5e37115f86 Jon Mason   2015-11-02  38  	model = "NorthStar SVK (BCM953012K)";
+ccf0b5e37115f86 Jon Mason   2015-11-02  39  	compatible = "brcm,bcm953012k", "brcm,brcm53012", "brcm,bcm4708";
+ccf0b5e37115f86 Jon Mason   2015-11-02  40  
+ccf0b5e37115f86 Jon Mason   2015-11-02  41  	aliases {
+ccf0b5e37115f86 Jon Mason   2015-11-02  42  		serial0 = &uart0;
+ccf0b5e37115f86 Jon Mason   2015-11-02  43  		serial1 = &uart1;
+ccf0b5e37115f86 Jon Mason   2015-11-02  44  	};
+ccf0b5e37115f86 Jon Mason   2015-11-02  45  
+ccf0b5e37115f86 Jon Mason   2015-11-02 @46  	memory {
+abe60a3a7afb405 Rob Herring 2019-01-09  47  		device_type = "memory";
+88d1fa70c21d7b4 Jon Mason   2017-02-08  48  		reg = <0x80000000 0x10000000>;
+ccf0b5e37115f86 Jon Mason   2015-11-02  49  	};
+ccf0b5e37115f86 Jon Mason   2015-11-02  50  };
+ccf0b5e37115f86 Jon Mason   2015-11-02  51  
+
+:::::: The code at line 46 was first introduced by commit
+:::::: ccf0b5e37115f8675455632f583d06ea94f43539 ARM: dts: bcm5301x: Add BCM SVK DT files
+
+:::::: TO: Jon Mason <jonmason@broadcom.com>
+:::::: CC: Florian Fainelli <f.fainelli@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
