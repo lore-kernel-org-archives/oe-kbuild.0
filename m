@@ -1,444 +1,294 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481B01FBE92
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Feb 2025 13:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DB43EA83
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Feb 2025 14:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740057603; cv=none; b=McnZkfUiYIcEGlBYDT0RWgeLVQABrXz4PSUBjGnjymGVuIJOaWo//+vRlMpVlp4oI96l+vwJZ8Hom/wa08jqU1hPuqgw0+3zb9YRbqBQqHHcQFdR8x5nw5ZsPizDMiFAW2aWKqoh6BirmrDL2X0OqU5WdGUhl8iuudmP1q83v1k=
+	t=1740060098; cv=none; b=ZPu4iG6Z9UZ4t7D3qZBRRLHvKytRvL+c7vuPVo1L7e8knJeq8X1hJ2m5HMrMlzUm9UQcFCQHpLx2/c2LYxpB1q1bJbZnqIDiidEAnugIAOD4X7zF4RY98JwhzlbRruXrSffMzFDp5+Y38K3L2xuZFLBwX/16bgDjCdiTjRmr8hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740057603; c=relaxed/simple;
-	bh=Xk2o9ks9UbE54gdNYinnz7TtR55HC0XAO4GSD/bF+kQ=;
+	s=arc-20240116; t=1740060098; c=relaxed/simple;
+	bh=HUi+gIympWWLARQ21egz+dir95EUK56ax7pu5wmLujg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IWcJZxCqMrmqqU0NM3eXD9IEWRIWEmkWysfB9GbzwYMNoKn1/psG+LfWRiNAakvx0I3NCKLuYHqQVmQ6p8iECNj/4USg7Gx6SE1hXWK+l8HGk5dn9StOLaVBUaJKAOA12Dqh7SPqlmXZOGi4Y1XnSCZAiH2k5hDFagh/fjiwcag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JiFU7bmv; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=bhSN3n2YPujc4tDcH1h/8V6rb8aLj4EfOy4Vovjcf2m2VQZYex3Lci0/TmMxXYE4Q4pnLBaSX4bUwx/SzyN2c+qtE+yw0Akmx3dX9gRv6OI3AVLEUspd2LCzB7y7fmkLKp9+6UIhGvTYBU54GKHqz0/94TOhHmcuFVglSH7fRD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTndlbGq; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JiFU7bmv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTndlbGq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740057600; x=1771593600;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Xk2o9ks9UbE54gdNYinnz7TtR55HC0XAO4GSD/bF+kQ=;
-  b=JiFU7bmvoMNR+vjypAgOoZ9rFXgTAlND4VY7/ZZ7JGRfKJE7CcIGRswK
-   Z9rJEbYG5gwnP2tUk9kLiBrd1jZ8lkhGkdwohCLK9b6f7ewFHW7Oqj0D/
-   JQ1qJ1nYckt9qve1iuUQVVQHc5cYYa8TD3Bo/8lH4gHftCljuTJyoHbdE
-   6fYEJTqIRSNTKOuz5Oa9e0L7Fsn2trl4ueBYwDcqFWKpjCYUbJLwN6FKQ
-   yFfwbP9eCo1lqURAIVU7g7EbT6nTtgkZgO4imx/rmIM74W0n5Sm1/3Lc7
-   kFVv8jdS6XxO/4pyExzjQgYZCUBqco/gl6sisXvhjcBF9ANG3M4SXUMwR
-   g==;
-X-CSE-ConnectionGUID: sYqfTwccT7eHpJMbTzOFtw==
-X-CSE-MsgGUID: ZAIc3Sj0S9CGbcSA5g9y8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51822485"
+  t=1740060095; x=1771596095;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HUi+gIympWWLARQ21egz+dir95EUK56ax7pu5wmLujg=;
+  b=gTndlbGqRCNJOlBcpc0FO8W63aZWb4B2qhGQNewQ9fYUePEZJslRyYMw
+   V/0M1cfweU1oCHBdHf+HKCY4GJBMr2Fi+ySy0Mt9//oMqdKIUmN7qYytw
+   IbBaUZsjOHyOJRpxHAaQSfjqcL2DKatBUl3QAskWENPgS/K9kQneHSY6G
+   hFVRr4+eBzoyzyC23FvnnOtlDFjt8HxeuEWRG9YTvFvsvP3R/dMwkNx+e
+   TOdZ+RLFff8HQLynflkvvtuzwCpM9AedXWDrCgd5TQIPL/7aXpfujbI+a
+   8AxCahigwiYCxqwwCyA0jQ7S32XdBTB63Xffkg+hk7L1wBFkUf6y72QiS
+   A==;
+X-CSE-ConnectionGUID: BbjSS9SLRFypDdtNriOovA==
+X-CSE-MsgGUID: a5BONs3UQTeT857PVbgcKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="66198282"
 X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="51822485"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 05:19:58 -0800
-X-CSE-ConnectionGUID: 85ZBpTs9TxO+laRUWjOJtw==
-X-CSE-MsgGUID: ZKG+sud/SH2o4HF/XNvgiA==
+   d="scan'208";a="66198282"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:01:21 -0800
+X-CSE-ConnectionGUID: XuwPpViaSvaW+DafO9nBzw==
+X-CSE-MsgGUID: uukkopEbT4Oek2zp2K7NHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="115016618"
+   d="scan'208";a="115717977"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Feb 2025 05:19:56 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Feb 2025 06:01:19 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tl6T4-0004K7-04;
-	Thu, 20 Feb 2025 13:19:54 +0000
-Date: Thu, 20 Feb 2025 21:19:21 +0800
+	id 1tl776-0004MB-1N;
+	Thu, 20 Feb 2025 14:01:16 +0000
+Date: Thu, 20 Feb 2025 22:00:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH net-next v2 2/3] dts: mt7988a: Add built-in ethernet phy
- firmware node
-Message-ID: <202502202000.O4U1kqYE-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 2707/5164]
+ drivers/gpu/drm/bridge/tda998x_drv.c:1883:8-28: WARNING: Threaded IRQ with
+ no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+Message-ID: <202502202136.gPotkY1x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250219083910.2255981-3-SkyLake.Huang@mediatek.com>
-References: <20250219083910.2255981-3-SkyLake.Huang@mediatek.com>
-TO: Sky Huang <SkyLake.Huang@mediatek.com>
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Heiner Kallweit <hkallweit1@gmail.com>
-TO: Russell King <linux@armlinux.org.uk>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Daniel Golle <daniel@makrotopia.org>
-TO: Qingfang Deng <dqfext@gmail.com>
-TO: SkyLake Huang <SkyLake.Huang@mediatek.com>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Simon Horman <horms@kernel.org>
-TO: linux-kernel@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-mediatek@lists.infradead.org
-CC: Steven Liu <Steven.Liu@mediatek.com>
-CC: Sky Huang <skylake.huang@mediatek.com>
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Hi Sky,
+Hi Dmitry,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sky-Huang/dts-mt7988a-Add-built-in-ethernet-phy-firmware-node/20250219-173955
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250219083910.2255981-3-SkyLake.Huang%40mediatek.com
-patch subject: [PATCH net-next v2 2/3] dts: mt7988a: Add built-in ethernet phy firmware node
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: arm64-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250220/202502202000.O4U1kqYE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502202000.O4U1kqYE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   50a0c754714aa3ea0b0e62f3765eb666a1579f24
+commit: 325ba852d148434c5bcb06d513af1933a7f77b70 [2707/5164] drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 days ago
+config: hexagon-randconfig-r064-20250220 (https://download.01.org/0day-ci/archive/20250220/202502202136.gPotkY1x-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502202000.O4U1kqYE-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202502202136.gPotkY1x-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:534.24-555.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a.dtsi:325.31-329.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:534.24-555.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/tda998x_drv.c:1883:8-28: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
-vim +/f100000 +325 arch/arm64/boot/dts/mediatek/mt7988a.dtsi
+vim +1883 drivers/gpu/drm/bridge/tda998x_drv.c
 
-6c1d134a103f68 Rafał Miłecki    2024-01-08    8  
-6c1d134a103f68 Rafał Miłecki    2024-01-08    9  / {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   10  	compatible = "mediatek,mt7988a";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   11  	interrupt-parent = <&gic>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   12  	#address-cells = <2>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   13  	#size-cells = <2>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   14  
-6c1d134a103f68 Rafał Miłecki    2024-01-08   15  	cpus {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   16  		#address-cells = <1>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   17  		#size-cells = <0>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   18  
-607cc6e9b5f10f Frank Wunderlich 2024-12-20   19  		cpu0: cpu@0 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   20  			compatible = "arm,cortex-a73";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   21  			reg = <0x0>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   22  			device_type = "cpu";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   23  			enable-method = "psci";
-343855d29b5c76 Frank Wunderlich 2024-12-17   24  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-343855d29b5c76 Frank Wunderlich 2024-12-17   25  				 <&topckgen CLK_TOP_XTAL>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   26  			clock-names = "cpu", "intermediate";
-343855d29b5c76 Frank Wunderlich 2024-12-17   27  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   28  		};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   29  
-607cc6e9b5f10f Frank Wunderlich 2024-12-20   30  		cpu1: cpu@1 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   31  			compatible = "arm,cortex-a73";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   32  			reg = <0x1>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   33  			device_type = "cpu";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   34  			enable-method = "psci";
-343855d29b5c76 Frank Wunderlich 2024-12-17   35  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-343855d29b5c76 Frank Wunderlich 2024-12-17   36  				 <&topckgen CLK_TOP_XTAL>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   37  			clock-names = "cpu", "intermediate";
-343855d29b5c76 Frank Wunderlich 2024-12-17   38  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   39  		};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   40  
-607cc6e9b5f10f Frank Wunderlich 2024-12-20   41  		cpu2: cpu@2 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   42  			compatible = "arm,cortex-a73";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   43  			reg = <0x2>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   44  			device_type = "cpu";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   45  			enable-method = "psci";
-343855d29b5c76 Frank Wunderlich 2024-12-17   46  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-343855d29b5c76 Frank Wunderlich 2024-12-17   47  				 <&topckgen CLK_TOP_XTAL>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   48  			clock-names = "cpu", "intermediate";
-343855d29b5c76 Frank Wunderlich 2024-12-17   49  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   50  		};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   51  
-607cc6e9b5f10f Frank Wunderlich 2024-12-20   52  		cpu3: cpu@3 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   53  			compatible = "arm,cortex-a73";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   54  			reg = <0x3>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   55  			device_type = "cpu";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   56  			enable-method = "psci";
-343855d29b5c76 Frank Wunderlich 2024-12-17   57  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-343855d29b5c76 Frank Wunderlich 2024-12-17   58  				 <&topckgen CLK_TOP_XTAL>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   59  			clock-names = "cpu", "intermediate";
-343855d29b5c76 Frank Wunderlich 2024-12-17   60  			operating-points-v2 = <&cluster0_opp>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   61  		};
-343855d29b5c76 Frank Wunderlich 2024-12-17   62  
-343855d29b5c76 Frank Wunderlich 2024-12-17   63  		cluster0_opp: opp-table-0 {
-343855d29b5c76 Frank Wunderlich 2024-12-17   64  			compatible = "operating-points-v2";
-343855d29b5c76 Frank Wunderlich 2024-12-17   65  			opp-shared;
-343855d29b5c76 Frank Wunderlich 2024-12-17   66  
-343855d29b5c76 Frank Wunderlich 2024-12-17   67  			opp-800000000 {
-343855d29b5c76 Frank Wunderlich 2024-12-17   68  				opp-hz = /bits/ 64 <800000000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   69  				opp-microvolt = <850000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   70  			};
-343855d29b5c76 Frank Wunderlich 2024-12-17   71  			opp-1100000000 {
-343855d29b5c76 Frank Wunderlich 2024-12-17   72  				opp-hz = /bits/ 64 <1100000000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   73  				opp-microvolt = <850000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   74  			};
-343855d29b5c76 Frank Wunderlich 2024-12-17   75  			opp-1500000000 {
-343855d29b5c76 Frank Wunderlich 2024-12-17   76  				opp-hz = /bits/ 64 <1500000000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   77  				opp-microvolt = <850000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   78  			};
-343855d29b5c76 Frank Wunderlich 2024-12-17   79  			opp-1800000000 {
-343855d29b5c76 Frank Wunderlich 2024-12-17   80  				opp-hz = /bits/ 64 <1800000000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   81  				opp-microvolt = <900000>;
-343855d29b5c76 Frank Wunderlich 2024-12-17   82  			};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   83  		};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   84  	};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   85  
-6c1d134a103f68 Rafał Miłecki    2024-01-08   86  	oscillator-40m {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   87  		compatible = "fixed-clock";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   88  		clock-frequency = <40000000>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   89  		#clock-cells = <0>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   90  		clock-output-names = "clkxtal";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   91  	};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   92  
-6c1d134a103f68 Rafał Miłecki    2024-01-08   93  	pmu {
-6c1d134a103f68 Rafał Miłecki    2024-01-08   94  		compatible = "arm,cortex-a73-pmu";
-6c1d134a103f68 Rafał Miłecki    2024-01-08   95  		interrupt-parent = <&gic>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   96  		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08   97  	};
-6c1d134a103f68 Rafał Miłecki    2024-01-08   98  
-6c1d134a103f68 Rafał Miłecki    2024-01-08   99  	psci {
-6c1d134a103f68 Rafał Miłecki    2024-01-08  100  		compatible = "arm,psci-0.2";
-6c1d134a103f68 Rafał Miłecki    2024-01-08  101  		method = "smc";
-6c1d134a103f68 Rafał Miłecki    2024-01-08  102  	};
-6c1d134a103f68 Rafał Miłecki    2024-01-08  103  
-69b2d44b91504d Frank Wunderlich 2024-12-17  104  	reserved-memory {
-69b2d44b91504d Frank Wunderlich 2024-12-17  105  		#address-cells = <2>;
-69b2d44b91504d Frank Wunderlich 2024-12-17  106  		#size-cells = <2>;
-69b2d44b91504d Frank Wunderlich 2024-12-17  107  		ranges;
-69b2d44b91504d Frank Wunderlich 2024-12-17  108  
-69b2d44b91504d Frank Wunderlich 2024-12-17  109  		/* 320 KiB reserved for ARM Trusted Firmware (BL31 and BL32) */
-69b2d44b91504d Frank Wunderlich 2024-12-17  110  		secmon@43000000 {
-69b2d44b91504d Frank Wunderlich 2024-12-17  111  			reg = <0 0x43000000 0 0x50000>;
-69b2d44b91504d Frank Wunderlich 2024-12-17  112  			no-map;
-69b2d44b91504d Frank Wunderlich 2024-12-17  113  		};
-69b2d44b91504d Frank Wunderlich 2024-12-17  114  	};
-69b2d44b91504d Frank Wunderlich 2024-12-17  115  
-6c1d134a103f68 Rafał Miłecki    2024-01-08  116  	soc {
-6c1d134a103f68 Rafał Miłecki    2024-01-08  117  		compatible = "simple-bus";
-6c1d134a103f68 Rafał Miłecki    2024-01-08  118  		ranges;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  119  		#address-cells = <2>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  120  		#size-cells = <2>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  121  
-6c1d134a103f68 Rafał Miłecki    2024-01-08  122  		gic: interrupt-controller@c000000 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08  123  			compatible = "arm,gic-v3";
-6c1d134a103f68 Rafał Miłecki    2024-01-08  124  			reg = <0 0x0c000000 0 0x40000>,  /* GICD */
-6c1d134a103f68 Rafał Miłecki    2024-01-08  125  			      <0 0x0c080000 0 0x200000>, /* GICR */
-6c1d134a103f68 Rafał Miłecki    2024-01-08  126  			      <0 0x0c400000 0 0x2000>,   /* GICC */
-6c1d134a103f68 Rafał Miłecki    2024-01-08  127  			      <0 0x0c410000 0 0x1000>,   /* GICH */
-6c1d134a103f68 Rafał Miłecki    2024-01-08  128  			      <0 0x0c420000 0 0x2000>;   /* GICV */
-6c1d134a103f68 Rafał Miłecki    2024-01-08  129  			interrupt-parent = <&gic>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  130  			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  131  			interrupt-controller;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  132  			#interrupt-cells = <3>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  133  		};
-6c1d134a103f68 Rafał Miłecki    2024-01-08  134  
-09346afaba0a89 Rafał Miłecki    2024-02-13  135  		infracfg: clock-controller@10001000 {
-b616b403cbffc6 Rafał Miłecki    2024-01-08  136  			compatible = "mediatek,mt7988-infracfg", "syscon";
-b616b403cbffc6 Rafał Miłecki    2024-01-08  137  			reg = <0 0x10001000 0 0x1000>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  138  			#clock-cells = <1>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  139  			#reset-cells = <1>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  140  		};
-b616b403cbffc6 Rafał Miłecki    2024-01-08  141  
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  142  		topckgen: clock-controller@1001b000 {
-b616b403cbffc6 Rafał Miłecki    2024-01-08  143  			compatible = "mediatek,mt7988-topckgen", "syscon";
-b616b403cbffc6 Rafał Miłecki    2024-01-08  144  			reg = <0 0x1001b000 0 0x1000>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  145  			#clock-cells = <1>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  146  		};
-b616b403cbffc6 Rafał Miłecki    2024-01-08  147  
-b616b403cbffc6 Rafał Miłecki    2024-01-08  148  		watchdog: watchdog@1001c000 {
-6c1d134a103f68 Rafał Miłecki    2024-01-08  149  			compatible = "mediatek,mt7988-wdt";
-6c1d134a103f68 Rafał Miłecki    2024-01-08  150  			reg = <0 0x1001c000 0 0x1000>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  151  			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  152  			#reset-cells = <1>;
-6c1d134a103f68 Rafał Miłecki    2024-01-08  153  		};
-b616b403cbffc6 Rafał Miłecki    2024-01-08  154  
-206994e3b636ae Frank Wunderlich 2024-12-17  155  		apmixedsys: clock-controller@1001e000 {
-b616b403cbffc6 Rafał Miłecki    2024-01-08  156  			compatible = "mediatek,mt7988-apmixedsys";
-b616b403cbffc6 Rafał Miłecki    2024-01-08  157  			reg = <0 0x1001e000 0 0x1000>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  158  			#clock-cells = <1>;
-b616b403cbffc6 Rafał Miłecki    2024-01-08  159  		};
-b616b403cbffc6 Rafał Miłecki    2024-01-08  160  
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  161  		pio: pinctrl@1001f000 {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  162  			compatible = "mediatek,mt7988-pinctrl";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  163  			reg = <0 0x1001f000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  164  			      <0 0x11c10000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  165  			      <0 0x11d00000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  166  			      <0 0x11d20000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  167  			      <0 0x11e00000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  168  			      <0 0x11f00000 0 0x1000>,
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  169  			      <0 0x1000b000 0 0x1000>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  170  			reg-names = "gpio", "iocfg_tr",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  171  				    "iocfg_br", "iocfg_rb",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  172  				    "iocfg_lb", "iocfg_tl", "eint";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  173  			gpio-controller;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  174  			#gpio-cells = <2>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  175  			gpio-ranges = <&pio 0 0 84>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  176  			interrupt-controller;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  177  			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  178  			interrupt-parent = <&gic>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  179  			#interrupt-cells = <2>;
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  180  
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  181  			pcie0_pins: pcie0-pins {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  182  				mux {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  183  					function = "pcie";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  184  					groups = "pcie_2l_0_pereset", "pcie_clk_req_n0_0",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  185  						 "pcie_wake_n0_0";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  186  				};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  187  			};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  188  
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  189  			pcie1_pins: pcie1-pins {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  190  				mux {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  191  					function = "pcie";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  192  					groups = "pcie_2l_1_pereset", "pcie_clk_req_n1",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  193  						 "pcie_wake_n1_0";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  194  				};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  195  			};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  196  
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  197  			pcie2_pins: pcie2-pins {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  198  				mux {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  199  					function = "pcie";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  200  					groups = "pcie_1l_0_pereset", "pcie_clk_req_n2_0",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  201  						 "pcie_wake_n2_0";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  202  				};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  203  			};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  204  
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  205  			pcie3_pins: pcie3-pins {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  206  				mux {
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  207  					function = "pcie";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  208  					groups = "pcie_1l_1_pereset", "pcie_clk_req_n3",
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  209  						 "pcie_wake_n3_0";
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  210  				};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  211  			};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  212  		};
-7d887c0c9f8931 Frank Wunderlich 2024-12-17  213  
-6c7ab311939c11 Frank Wunderlich 2024-12-17  214  		pwm: pwm@10048000 {
-09ff2216a03570 Rafał Miłecki    2024-06-04  215  			compatible = "mediatek,mt7988-pwm";
-09ff2216a03570 Rafał Miłecki    2024-06-04  216  			reg = <0 0x10048000 0 0x1000>;
-09ff2216a03570 Rafał Miłecki    2024-06-04  217  			clocks = <&infracfg CLK_INFRA_66M_PWM_BCK>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  218  				 <&infracfg CLK_INFRA_66M_PWM_HCK>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  219  				 <&infracfg CLK_INFRA_66M_PWM_CK1>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  220  				 <&infracfg CLK_INFRA_66M_PWM_CK2>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  221  				 <&infracfg CLK_INFRA_66M_PWM_CK3>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  222  				 <&infracfg CLK_INFRA_66M_PWM_CK4>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  223  				 <&infracfg CLK_INFRA_66M_PWM_CK5>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  224  				 <&infracfg CLK_INFRA_66M_PWM_CK6>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  225  				 <&infracfg CLK_INFRA_66M_PWM_CK7>,
-09ff2216a03570 Rafał Miłecki    2024-06-04  226  				 <&infracfg CLK_INFRA_66M_PWM_CK8>;
-09ff2216a03570 Rafał Miłecki    2024-06-04  227  			clock-names = "top", "main", "pwm1", "pwm2", "pwm3",
-09ff2216a03570 Rafał Miłecki    2024-06-04  228  				      "pwm4", "pwm5", "pwm6", "pwm7", "pwm8";
-09ff2216a03570 Rafał Miłecki    2024-06-04  229  			#pwm-cells = <2>;
-09ff2216a03570 Rafał Miłecki    2024-06-04  230  			status = "disabled";
-09ff2216a03570 Rafał Miłecki    2024-06-04  231  		};
-09ff2216a03570 Rafał Miłecki    2024-06-04  232  
-b87cf19876c85e Frank Wunderlich 2024-12-17  233  		mcusys: mcusys@100e0000 {
-b87cf19876c85e Frank Wunderlich 2024-12-17  234  			compatible = "mediatek,mt7988-mcusys", "syscon";
-b87cf19876c85e Frank Wunderlich 2024-12-17  235  			reg = <0 0x100e0000 0 0x1000>;
-b87cf19876c85e Frank Wunderlich 2024-12-17  236  			#clock-cells = <1>;
-b87cf19876c85e Frank Wunderlich 2024-12-17  237  		};
-b87cf19876c85e Frank Wunderlich 2024-12-17  238  
-54df2f1e0ad1ae Frank Wunderlich 2024-12-17  239  		serial0: serial@11000000 {
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  240  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  241  			reg = <0 0x11000000 0 0x100>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  242  			interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  243  			interrupt-names = "uart", "wakeup";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  244  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  245  				 <&infracfg CLK_INFRA_52M_UART0_CK>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  246  			clock-names = "baud", "bus";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  247  			status = "disabled";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  248  		};
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  249  
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  250  		serial@11000100 {
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  251  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  252  			reg = <0 0x11000100 0 0x100>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  253  			interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  254  			interrupt-names = "uart", "wakeup";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  255  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  256  				 <&infracfg CLK_INFRA_52M_UART1_CK>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  257  			clock-names = "baud", "bus";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  258  			status = "disabled";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  259  		};
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  260  
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  261  		serial@11000200 {
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  262  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  263  			reg = <0 0x11000200 0 0x100>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  264  			interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  265  			interrupt-names = "uart", "wakeup";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  266  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  267  				 <&infracfg CLK_INFRA_52M_UART2_CK>;
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  268  			clock-names = "baud", "bus";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  269  			status = "disabled";
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  270  		};
-21e28a0722e4b0 Rafał Miłecki    2024-06-05  271  
-faf97571ae83a8 Frank Wunderlich 2024-12-17  272  		i2c0: i2c@11003000 {
-660c230bf30280 Rafał Miłecki    2024-06-04  273  			compatible = "mediatek,mt7981-i2c";
-660c230bf30280 Rafał Miłecki    2024-06-04  274  			reg = <0 0x11003000 0 0x1000>,
-660c230bf30280 Rafał Miłecki    2024-06-04  275  			      <0 0x10217080 0 0x80>;
-660c230bf30280 Rafał Miłecki    2024-06-04  276  			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
-e14b49db0087aa Frank Wunderlich 2024-12-17  277  			clock-div = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  278  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf30280 Rafał Miłecki    2024-06-04  279  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf30280 Rafał Miłecki    2024-06-04  280  			clock-names = "main", "dma";
-660c230bf30280 Rafał Miłecki    2024-06-04  281  			#address-cells = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  282  			#size-cells = <0>;
-660c230bf30280 Rafał Miłecki    2024-06-04  283  			status = "disabled";
-660c230bf30280 Rafał Miłecki    2024-06-04  284  		};
-660c230bf30280 Rafał Miłecki    2024-06-04  285  
-faf97571ae83a8 Frank Wunderlich 2024-12-17  286  		i2c1: i2c@11004000 {
-660c230bf30280 Rafał Miłecki    2024-06-04  287  			compatible = "mediatek,mt7981-i2c";
-660c230bf30280 Rafał Miłecki    2024-06-04  288  			reg = <0 0x11004000 0 0x1000>,
-660c230bf30280 Rafał Miłecki    2024-06-04  289  			      <0 0x10217100 0 0x80>;
-660c230bf30280 Rafał Miłecki    2024-06-04  290  			interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
-e14b49db0087aa Frank Wunderlich 2024-12-17  291  			clock-div = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  292  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf30280 Rafał Miłecki    2024-06-04  293  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf30280 Rafał Miłecki    2024-06-04  294  			clock-names = "main", "dma";
-660c230bf30280 Rafał Miłecki    2024-06-04  295  			#address-cells = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  296  			#size-cells = <0>;
-660c230bf30280 Rafał Miłecki    2024-06-04  297  			status = "disabled";
-660c230bf30280 Rafał Miłecki    2024-06-04  298  		};
-660c230bf30280 Rafał Miłecki    2024-06-04  299  
-faf97571ae83a8 Frank Wunderlich 2024-12-17  300  		i2c2: i2c@11005000 {
-660c230bf30280 Rafał Miłecki    2024-06-04  301  			compatible = "mediatek,mt7981-i2c";
-660c230bf30280 Rafał Miłecki    2024-06-04  302  			reg = <0 0x11005000 0 0x1000>,
-660c230bf30280 Rafał Miłecki    2024-06-04  303  			      <0 0x10217180 0 0x80>;
-660c230bf30280 Rafał Miłecki    2024-06-04  304  			interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
-e14b49db0087aa Frank Wunderlich 2024-12-17  305  			clock-div = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  306  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf30280 Rafał Miłecki    2024-06-04  307  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf30280 Rafał Miłecki    2024-06-04  308  			clock-names = "main", "dma";
-660c230bf30280 Rafał Miłecki    2024-06-04  309  			#address-cells = <1>;
-660c230bf30280 Rafał Miłecki    2024-06-04  310  			#size-cells = <0>;
-660c230bf30280 Rafał Miłecki    2024-06-04  311  			status = "disabled";
-660c230bf30280 Rafał Miłecki    2024-06-04  312  		};
-660c230bf30280 Rafał Miłecki    2024-06-04  313  
-6a47514804e0e9 Frank Wunderlich 2024-12-17  314  		lvts: lvts@1100a000 {
-6a47514804e0e9 Frank Wunderlich 2024-12-17  315  			compatible = "mediatek,mt7988-lvts-ap";
-6a47514804e0e9 Frank Wunderlich 2024-12-17  316  			#thermal-sensor-cells = <1>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  317  			reg = <0 0x1100a000 0 0x1000>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  318  			clocks = <&infracfg CLK_INFRA_26M_THERM_SYSTEM>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  319  			interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  320  			resets = <&infracfg MT7988_INFRA_RST1_THERM_CTRL_SWRST>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  321  			nvmem-cells = <&lvts_calibration>;
-6a47514804e0e9 Frank Wunderlich 2024-12-17  322  			nvmem-cell-names = "lvts-calib-data-1";
-6a47514804e0e9 Frank Wunderlich 2024-12-17  323  		};
-6a47514804e0e9 Frank Wunderlich 2024-12-17  324  
-be9b06b9e424b3 Sky Huang        2025-02-19 @325  		phyfw: phy-firmware@f000000 {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1773  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1774  static int tda998x_create(struct device *dev)
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1775  {
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1776  	struct i2c_client *client = to_i2c_client(dev);
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1777  	struct device_node *np = client->dev.of_node;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1778  	struct i2c_board_info cec_info;
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1779  	struct tda998x_priv *priv;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1780  	u32 video;
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1781  	int rev_lo, rev_hi, ret;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1782  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1783  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1784  	if (!priv)
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1785  		return -ENOMEM;
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1786  
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1787  	dev_set_drvdata(dev, priv);
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1788  
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1789  	mutex_init(&priv->mutex);	/* protect the page access */
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1790  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1791  	mutex_init(&priv->edid_mutex);
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1792  	INIT_LIST_HEAD(&priv->bridge.list);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1793  	init_waitqueue_head(&priv->edid_delay_waitq);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1794  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
+d93ae190e2c952 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1795  	INIT_WORK(&priv->detect_work, tda998x_detect_work);
+ba300c1787f793 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1796  
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1797  	priv->vip_cntrl_0 = VIP_CNTRL_0_SWAP_A(2) | VIP_CNTRL_0_SWAP_B(3);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1798  	priv->vip_cntrl_1 = VIP_CNTRL_1_SWAP_C(0) | VIP_CNTRL_1_SWAP_D(1);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1799  	priv->vip_cntrl_2 = VIP_CNTRL_2_SWAP_E(4) | VIP_CNTRL_2_SWAP_F(5);
+5e74c22cd1e0f9 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2013-08-14  1800  
+14e5b5889d7589 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1801  	/* CEC I2C address bound to TDA998x I2C addr by configuration pins */
+14e5b5889d7589 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1802  	priv->cec_addr = 0x34 + (client->addr & 0x03);
+2eb4c7b1e7f275 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1803  	priv->current_page = 0xff;
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1804  	priv->hdmi = client;
+ed9a84262a83ab drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-11-29  1805  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1806  	/* wake up the device: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1807  	cec_write(priv, REG_CEC_ENAMODS,
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1808  			CEC_ENAMODS_EN_RXSENS | CEC_ENAMODS_EN_HDMI);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1809  
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1810  	tda998x_reset(priv);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1811  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1812  	/* read version: */
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1813  	rev_lo = reg_read(priv, REG_VERSION_LSB);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1814  	if (rev_lo < 0) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1815  		dev_err(dev, "failed to read version: %d\n", rev_lo);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1816  		return rev_lo;
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1817  	}
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1818  
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1819  	rev_hi = reg_read(priv, REG_VERSION_MSB);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1820  	if (rev_hi < 0) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1821  		dev_err(dev, "failed to read version: %d\n", rev_hi);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1822  		return rev_hi;
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1823  	}
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1824  
+fb7544d7732f78 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2014-02-02  1825  	priv->rev = rev_lo | rev_hi << 8;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1826  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1827  	/* mask off feature bits: */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1828  	priv->rev &= ~0x30; /* not-hdcp and not-scalar bit */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1829  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1830  	switch (priv->rev) {
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1831  	case TDA9989N2:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1832  		dev_info(dev, "found TDA9989 n2");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1833  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1834  	case TDA19989:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1835  		dev_info(dev, "found TDA19989");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1836  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1837  	case TDA19989N2:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1838  		dev_info(dev, "found TDA19989 n2");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1839  		break;
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1840  	case TDA19988:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1841  		dev_info(dev, "found TDA19988");
+b728fab7026b9d drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1842  		break;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1843  	default:
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1844  		dev_err(dev, "found unsupported device: %04x\n", priv->rev);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1845  		return -ENXIO;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1846  	}
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1847  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1848  	/* after reset, enable DDC: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1849  	reg_write(priv, REG_DDC_DISABLE, 0x00);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1850  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1851  	/* set clock on DDC channel: */
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1852  	reg_write(priv, REG_TX3, 39);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1853  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1854  	/* if necessary, disable multi-master: */
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1855  	if (priv->rev == TDA19989)
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1856  		reg_set(priv, REG_I2C_MASTER, I2C_MASTER_DIS_MM);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1857  
+2f7f730a4f0fd3 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1858  	cec_write(priv, REG_CEC_FRO_IM_CLK_CTRL,
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1859  			CEC_FRO_IM_CLK_CTRL_GHOST_DIS | CEC_FRO_IM_CLK_CTRL_IMCLK_SEL);
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1860  
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1861  	/* ensure interrupts are disabled */
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1862  	cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1863  
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1864  	/* clear pending interrupts */
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1865  	cec_read(priv, REG_CEC_RXSHPDINT);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1866  	reg_read(priv, REG_INT_FLAGS_0);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1867  	reg_read(priv, REG_INT_FLAGS_1);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1868  	reg_read(priv, REG_INT_FLAGS_2);
+ba8975f15bb93d drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2017-03-11  1869  
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1870  	/* initialize the optional IRQ */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1871  	if (client->irq) {
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1872  		unsigned long irq_flags;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1873  
+6833d26ef823b2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-11-29  1874  		/* init read EDID waitqueue and HDP work */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1875  		init_waitqueue_head(&priv->wq_edid);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1876  
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1877  		irq_flags =
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1878  			irqd_get_trigger_type(irq_get_irq_data(client->irq));
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1879  
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1880  		priv->cec_glue.irq_flags = irq_flags;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1881  
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1882  		irq_flags |= IRQF_SHARED | IRQF_ONESHOT;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25 @1883  		ret = request_threaded_irq(client->irq, NULL,
+ae81553c30ef86 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-03  1884  					   tda998x_irq_thread, irq_flags,
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1885  					   "tda998x", priv);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1886  		if (ret) {
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1887  			dev_err(dev, "failed to request IRQ#%u: %d\n",
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1888  				client->irq, ret);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1889  			goto err_irq;
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1890  		}
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1891  
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1892  		/* enable HPD irq */
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1893  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1894  	}
+12473b7d8e6074 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1895  
+ece485d550dce2 drivers/gpu/drm/i2c/tda998x_drv.c Dariusz Marcinkiewicz 2019-10-17  1896  	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1897  	if (!priv->cec_notify) {
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1898  		ret = -ENOMEM;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1899  		goto fail;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1900  	}
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1901  
+76767fdabadbea drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1902  	priv->cec_glue.parent = dev;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1903  	priv->cec_glue.data = priv;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1904  	priv->cec_glue.init = tda998x_cec_hook_init;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1905  	priv->cec_glue.exit = tda998x_cec_hook_exit;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1906  	priv->cec_glue.open = tda998x_cec_hook_open;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1907  	priv->cec_glue.release = tda998x_cec_hook_release;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1908  
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1909  	/*
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1910  	 * Some TDA998x are actually two I2C devices merged onto one piece
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1911  	 * of silicon: TDA9989 and TDA19989 combine the HDMI transmitter
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1912  	 * with a slightly modified TDA9950 CEC device.  The CEC device
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1913  	 * is at the TDA9950 address, with the address pins strapped across
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1914  	 * to the TDA998x address pins.  Hence, it always has the same
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1915  	 * offset.
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1916  	 */
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1917  	memset(&cec_info, 0, sizeof(cec_info));
+f4a0659f823e5a drivers/gpu/drm/i2c/tda998x_drv.c Azeem Shaikh          2023-05-22  1918  	strscpy(cec_info.type, "tda9950", sizeof(cec_info.type));
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1919  	cec_info.addr = priv->cec_addr;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1920  	cec_info.platform_data = &priv->cec_glue;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1921  	cec_info.irq = client->irq;
+7e8675f000bc7e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-10-05  1922  
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1923  	priv->cec = i2c_new_client_device(client->adapter, &cec_info);
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1924  	if (IS_ERR(priv->cec)) {
+bf2993c19b00af drivers/gpu/drm/i2c/tda998x_drv.c Wolfram Sang          2020-03-26  1925  		ret = PTR_ERR(priv->cec);
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1926  		goto fail;
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1927  	}
+101e996b8d3215 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1928  
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1929  	/* enable EDID read irq: */
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1930  	reg_set(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
+e47826274e8871 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1931  
+6c1187aaa2912f drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1932  	if (np) {
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1933  		/* get the device tree parameters */
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1934  		ret = of_property_read_u32(np, "video-ports", &video);
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1935  		if (ret == 0) {
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1936  			priv->vip_cntrl_0 = video >> 16;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1937  			priv->vip_cntrl_1 = video >> 8;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1938  			priv->vip_cntrl_2 = video;
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1939  		}
+0d44ea190387e2 drivers/gpu/drm/i2c/tda998x_drv.c Jean-Francois Moine   2014-01-25  1940  
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1941  		ret = tda998x_get_audio_ports(priv, np);
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1942  		if (ret)
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1943  			goto fail;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1944  
+7168916072b549 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2019-03-01  1945  		if (priv->audio_port_enable[AUDIO_ROUTE_I2S] ||
+7168916072b549 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2019-03-01  1946  		    priv->audio_port_enable[AUDIO_ROUTE_SPDIF])
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1947  			tda998x_audio_codec_init(priv, &client->dev);
+6c1187aaa2912f drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1948  	}
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1949  
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1950  	priv->bridge.funcs = &tda998x_bridge_funcs;
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1951  #ifdef CONFIG_OF
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1952  	priv->bridge.of_node = dev->of_node;
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1953  #endif
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1954  
+30bd8b862f5466 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1955  	drm_bridge_add(&priv->bridge);
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1956  
+7e567624dc5a44 drivers/gpu/drm/i2c/tda998x_drv.c Jyri Sarha            2016-08-09  1957  	return 0;
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1958  
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1959  fail:
+2143adb04b357e drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2018-08-02  1960  	tda998x_destroy(dev);
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1961  err_irq:
+6a765c3fe54973 drivers/gpu/drm/i2c/tda998x_drv.c Russell King          2016-11-17  1962  	return ret;
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1963  }
+e7792ce2da5ded drivers/gpu/drm/i2c/tda998x_drv.c Rob Clark             2013-01-08  1964  
+
+:::::: The code at line 1883 was first introduced by commit
+:::::: 12473b7d8e6074c7d4c2816afa6027354ce9a502 drm/i2c: tda998x: use irq for connection status and EDID read
+
+:::::: TO: Jean-Francois Moine <moinejf@free.fr>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
