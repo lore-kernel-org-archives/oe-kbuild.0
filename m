@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985422AF04
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 09:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1197207E0C
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 10:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740215696; cv=none; b=V8iQS6MoPQU1A9kVjBhnuwaWl20Ub6N6AQ/MeMyC7T8uIfZu5V4e75yUQF0qSGLloFgW97LV4JfQgp7Js+OhGZT0/2w2SXqh9AkSFzASXwEehTjGPPQtNGDGFp4v1IwQnTW9hOSb0PuYJWvTeNgSRGGAPwF0XnWXZ6WjbhBVDmg=
+	t=1740220817; cv=none; b=mf0I9dSRvbqIlpX87qE3U4lB5z89XRjIHS4WNKqnbeZ3wMnDDZJx+GKxKpEurOv4tJOhOFeABrVCySo7I/inOf7w1phxrNnOC9GInQtqv4mAmaArPy4JPTl5HGRY/1fGBtFJNavlKEdVscESSSwwrF2HdlRCp6Z0OeIDDMqUujE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740215696; c=relaxed/simple;
-	bh=PfRfBb+i6DPZBpC727vJfI9jGhB6RnLbJ5C08U4K3pg=;
+	s=arc-20240116; t=1740220817; c=relaxed/simple;
+	bh=R5CJ8XsVtYJOl4+QQvSmdmIGPnSYsn4PX9ymrlQJfZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OrQ5DOWnIzNO9b0bsFXxbfzwPBPP/53aw7rm6uLiTpnAX04PePRKD0TJGF5D9fTRi7X0P5YQhqVqnlUT1FXeVYblcPE45Z4aEHOqKnrsUr1PXy37h4bc7XaTlyBLriO9qFnLdPH796JislnojYkNSBM71Z80031eqmqwcD81VGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLXyygaY; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=PkTsuEkyrmw4T33O+ste9DEPiusirz9haeMFokAWzEdPzs2FWhG1jano0CN7/LCfS/qoToRin65x+FPe7pBEiweBxe/jLBL1te+XJao2rPVQXLJr+U1Qv7axSObl1Z8BuDxZu6uAdmBzFnGJWsHbqA3Hs2lPCy8/axCNBiFVX3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ur1ElIWG; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLXyygaY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ur1ElIWG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740215694; x=1771751694;
+  t=1740220815; x=1771756815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PfRfBb+i6DPZBpC727vJfI9jGhB6RnLbJ5C08U4K3pg=;
-  b=iLXyygaYRJMHVG6c61Sss8uX4i+gdAfCjMY0V4D4rX7eVnI66tQNDsA+
-   VCbQ1BurNdlD/GIB3N0z0vnm+QnCukZYuC7xzqOlEIF4l7SDCIdBQ+mnO
-   Ivqsqo0ef7yo3/4xG2K/hDaeJ84MOhZoPysJC/RSn5eYu9pZcbPAM8hO0
-   RgRdf5K9QbkEavp4TdKQKWAXC/+e5ObsG4Kq3gu43YdP55AcN60zRN3mw
-   9oJbJoDf18uOr5nkKB4/bXXIPtOZJw/1gXjpgWw8273qTZKgoeD5/Q4J6
-   hjimTtFIet7S1gc+BaAsBUguOIsP6emTmFX7CE4+6xmCySMlLxeO3w6iN
-   g==;
-X-CSE-ConnectionGUID: kbvfcEGUTeKBhTCaIuiM3Q==
-X-CSE-MsgGUID: emiG4bsiRGS4vHl2e94jDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58448654"
+  bh=R5CJ8XsVtYJOl4+QQvSmdmIGPnSYsn4PX9ymrlQJfZo=;
+  b=Ur1ElIWGuCvg+t60KLPtvJRZ4ECm/UriyaVax344u08RGVh+uHGl1EWt
+   2b5iUf1PymioZH9Iea875D28CGtVMCGDJvJ/LJi8DIhfw4Rv1icuppo9q
+   /Xs1MpQMVqEjpIUQztebvisE9Spw0TMWl0gakQjHzymnQ9sH5QwH8Agpm
+   vT/lyBiDg+ymGhwooEZvZ+87eVdvFrY4udRIwPrKv7iSAm++R0zPLG4qT
+   c1qsUka5UCj/vwQ3Q2g2sRXD/jNJnBwI7yV3gMXfXSg2lgZuEHAdcqc0X
+   slb0GewX8GY67Ttp08vPwWV3XLQ5RgXHhHxMHhxfuFVm3JObVc+XJLFms
+   w==;
+X-CSE-ConnectionGUID: IhpNIe3tToKdNfLpcNVlIQ==
+X-CSE-MsgGUID: F77UimgWTOiVFA8irgMF4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40953909"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="58448654"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 01:14:53 -0800
-X-CSE-ConnectionGUID: SMh2JD2TTCCLI1PXbeILmw==
-X-CSE-MsgGUID: 70GnecPYQtKsts46clWk7Q==
+   d="scan'208";a="40953909"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 02:40:12 -0800
+X-CSE-ConnectionGUID: +bQ0a7C+SJyi5NSV8UOeHw==
+X-CSE-MsgGUID: WAKJhAyJS0igtCi8EmQR/w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="120560488"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115431120"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 22 Feb 2025 01:14:52 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Feb 2025 02:40:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tllaz-0006Qp-1s;
-	Sat, 22 Feb 2025 09:14:49 +0000
-Date: Sat, 22 Feb 2025 17:14:35 +0800
+	id 1tlmvY-0006UJ-1m;
+	Sat, 22 Feb 2025 10:40:08 +0000
+Date: Sat, 22 Feb 2025 18:39:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e80100-t14s 999/1079]
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000:
- resets: [[52, 37], [52, 36]] is too long
-Message-ID: <202502221746.9l4L2qS5-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v3 1/3] cpufreq: mediatek: using global lock avoid race
+ condition
+Message-ID: <202502221831.Jbh8AYue-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,121 +62,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@linaro.org>
-CC: Johan Hovold <johan+linaro@kernel.org>
+In-Reply-To: <20250214074353.1169864-2-chun-jen.tseng@mediatek.com>
+References: <20250214074353.1169864-2-chun-jen.tseng@mediatek.com>
+TO: Mark Tseng <chun-jen.tseng@mediatek.com>
+TO: "Rafael J . Wysocki" <rafael@kernel.org>
+TO: Viresh Kumar <viresh.kumar@linaro.org>
+TO: MyungJoo Ham <myungjoo.ham@samsung.com>
+TO: Kyungmin Park <kyungmin.park@samsung.com>
+TO: Chanwoo Choi <cw00.choi@samsung.com>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: linux-pm@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group@mediatek.com
+CC: chun-jen.tseng@mediatek.com
 
-tree:   https://github.com/krzk/linux track/x1e80100-t14s
-head:   0a5b996575143038f96d880868109359ede28367
-commit: 76be62a83f8e8090b5fe945d42a2abcc8961308c [999/1079] arm64: dts: qcom: x1e80100: Make the PCIe 6a PHY support 4 lanes mode
-:::::: branch date: 4 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250222/202502221746.9l4L2qS5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221746.9l4L2qS5-lkp@intel.com/reproduce)
+Hi Mark,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Tseng/cpufreq-mediatek-using-global-lock-avoid-race-condition/20250214-154521
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250214074353.1169864-2-chun-jen.tseng%40mediatek.com
+patch subject: [PATCH v3 1/3] cpufreq: mediatek: using global lock avoid race condition
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-r054-20250221 (https://download.01.org/0day-ci/archive/20250222/202502221831.Jbh8AYue-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502221746.9l4L2qS5-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202502221831.Jbh8AYue-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfa0p8-supply' is a required property
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cpufreq/mediatek-cpufreq.c:353:4-10: preceding lock on line 327
+
+vim +353 drivers/cpufreq/mediatek-cpufreq.c
+
+1453863fb02a18 drivers/cpufreq/mt8173-cpufreq.c   Pi-Cheng Chen 2015-08-19  316  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  317  static int mtk_cpufreq_opp_notifier(struct notifier_block *nb,
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  318  				    unsigned long event, void *data)
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  319  {
+5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  320  	struct dev_pm_opp *opp;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  321  	struct dev_pm_opp *new_opp;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  322  	struct mtk_cpu_dvfs_info *info;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  323  	unsigned long freq, volt;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  324  	struct cpufreq_policy *policy;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  325  	int ret = 0;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  326  
+5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14 @327  	mutex_lock(&mtk_policy_lock);
+5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  328  	opp = data;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  329  	info = container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  330  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  331  	if (event == OPP_EVENT_ADJUST_VOLTAGE) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  332  		freq = dev_pm_opp_get_freq(opp);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  333  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  334  		if (info->current_freq == freq) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  335  			volt = dev_pm_opp_get_voltage(opp);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  336  			ret = mtk_cpufreq_set_voltage(info, volt);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  337  			if (ret)
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  338  				dev_err(info->cpu_dev,
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  339  					"failed to scale voltage: %d\n", ret);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  340  		}
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  341  	} else if (event == OPP_EVENT_DISABLE) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  342  		freq = dev_pm_opp_get_freq(opp);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  343  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  344  		/* case of current opp item is disabled */
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  345  		if (info->current_freq == freq) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  346  			freq = 1;
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  347  			new_opp = dev_pm_opp_find_freq_ceil(info->cpu_dev,
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  348  							    &freq);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  349  			if (IS_ERR(new_opp)) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  350  				dev_err(info->cpu_dev,
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  351  					"all opp items are disabled\n");
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  352  				ret = PTR_ERR(new_opp);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05 @353  				return notifier_from_errno(ret);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  354  			}
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  355  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  356  			dev_pm_opp_put(new_opp);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  357  			policy = cpufreq_cpu_get(info->opp_cpu);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  358  			if (policy) {
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  359  				cpufreq_driver_target(policy, freq / 1000,
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  360  						      CPUFREQ_RELATION_L);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  361  				cpufreq_cpu_put(policy);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  362  			}
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  363  		}
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  364  	}
+5f81d7eeae239d drivers/cpufreq/mediatek-cpufreq.c Mark Tseng    2025-02-14  365  	mutex_unlock(&mtk_policy_lock);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  366  
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  367  	return notifier_from_errno(ret);
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  368  }
+c210063b40acab drivers/cpufreq/mediatek-cpufreq.c Rex-BC Chen   2022-05-05  369  
 
 -- 
 0-DAY CI Kernel Test Service
