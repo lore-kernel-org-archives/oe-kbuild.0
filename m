@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE3D1C8604
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 15:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D817C2
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 18:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740239921; cv=none; b=p8IGc3Kp5p2wPmGdBnGNLrG86qajmZJ22SuR6guY6WgkISttUiJxaGcrEJ0DBJT7htyiq1W3YApcsXb7lRWTBfdau2tgsuHLcCp4IsB9JpOhOBD4/g+wBqoayk91NSRAM4lVuC9lasOf+sN8gIoAVTNMBIbqd1K6sL4egyCstss=
+	t=1740247973; cv=none; b=VSbrrAuStE8NB7ls3lkiJ0SaC4+TfQIqj7KTbJwOjcrPrxUWSjIwETakxxsJmEVMerh/XlzDrF/KYPi8bq+DPrSV5fDE8N20yrwnAxhE5ZBdhte40pe/8gvtfSOAQiH5wugmytQa5vrVu0MbNagCUPUDjH8XHyLdW8IdIsSPIxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740239921; c=relaxed/simple;
-	bh=SIYoG49weKqyeF4HoFbtAbk6QG9Mhk6uI0QR2P7LhcU=;
+	s=arc-20240116; t=1740247973; c=relaxed/simple;
+	bh=bgqsaYjhXXWEj5F/YlRM4GZoST5Ng5ZZWyMgypdjj0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PlxSw37cbknznva6LZd7P1rXiN6h960B/L51/KnidRNc3Q7T/NGRwfylL+sY2+T7CtdiJRzXesFr7Rjadjj2pRC6wWadAdEl+QMZakE0KvcC0cIyXpn4SSMVsIhNcOPRCoD/qcIah6zax1wolHwu32WvXlU7YTxdg4nfqnfeHPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mu4cwV4K; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=oBhUShEPSInMGwFYIcZBJesB9xFckvCn039ZqNrTPADIlosWvCsFJfd+DrtjKRMLRcxVYcLKXbBL61Va0RI5H7rfpzU0bZmweXAFiEotZmZSd2RvnrpXdanHVyES7WNC18vH4RRGvjAuZt3iTXwz2cY1ocZHJaSD65v4/KScx1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQZeylNW; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mu4cwV4K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQZeylNW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740239920; x=1771775920;
+  t=1740247971; x=1771783971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SIYoG49weKqyeF4HoFbtAbk6QG9Mhk6uI0QR2P7LhcU=;
-  b=mu4cwV4KhWSttNkIw+ujxEFyyx9d/Vv46xXl4y8C3SFmVKr15uwU9ROd
-   RQnIFH6wa4gOe68vyCICn9PMaKwuQQ0hmZ2LYXfDae0k/Vuy4PnNA0dor
-   Os7prSG+D3DBYLMlxCP3wCFYbC72zXx1MkCVnm1vYM226/WQJ9KmDsO7e
-   g8f3JoJOUdYHg3Cimdc4a7uC1u/4UMCKdu9FtTDcKm62eYDsVXOXfEDNj
-   XSDrSHUGXYOXuJ/CHQu1DiUNJu6f3apvUlo2oZ3XhEqZSZHTuYL0WMCfC
-   dLjWDRcrHGqezuS6Evus2aVuhhGhIQj1/84X0cvzHXmBqtgNCkg/z/5bp
-   A==;
-X-CSE-ConnectionGUID: rIqZpWSbRs2MzFXw6efk+w==
-X-CSE-MsgGUID: rzRGm7CpSEC6Bgn61bM4/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52471665"
+  bh=bgqsaYjhXXWEj5F/YlRM4GZoST5Ng5ZZWyMgypdjj0s=;
+  b=GQZeylNWoTKUB59YmioEKL9aI4LEhxFu31xhbU2NTMQ2Tyvch0/43Th+
+   zKH+uNkWDD9dAdkKrCF98S6C9MRiJJM8LY9fPB/txYhqZrEnazkrvAMGm
+   Tajy43j4DVMR4/nVcdWA6uYjPZcBbQM6Z155/AKby029UJyNLlkXd8lsb
+   9UeeQ34iBiDBa1QgqDwuUE1pt+/ZhcIvHk3i2/wvFwTf49Zr+444/F0Bu
+   zed1ORDTWl0P8yaAqS4TiqFtot3uSOoReXBjGUY3twO7bokwx/zZL5Uwu
+   ZMh15zCvQklgQUQfzNc9APPvZQvUAYVf2bla7snLrBkzx8AhoDdsAHhNx
+   w==;
+X-CSE-ConnectionGUID: dgX8vIzpSsqZADK1WEr6WQ==
+X-CSE-MsgGUID: IRvhNjNyRACr35QjGgKCQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52476243"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52471665"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 07:58:39 -0800
-X-CSE-ConnectionGUID: 6YReKZWIRYCWljzMgy6+sg==
-X-CSE-MsgGUID: ZinLYI0oSyWzriuJtiRB5Q==
+   d="scan'208";a="52476243"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 10:12:50 -0800
+X-CSE-ConnectionGUID: VCwWW3+2Tn66PnaQ3nSE+Q==
+X-CSE-MsgGUID: IvmJGESuQAWz+wcsnGHj1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="115353315"
+   d="scan'208";a="115465768"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Feb 2025 07:58:38 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 22 Feb 2025 10:12:49 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlrtj-0006gh-1Y;
-	Sat, 22 Feb 2025 15:58:35 +0000
-Date: Sat, 22 Feb 2025 23:57:57 +0800
+	id 1tltzb-0006nV-28;
+	Sat, 22 Feb 2025 18:12:47 +0000
+Date: Sun, 23 Feb 2025 02:11:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH] gpiolib: use the required minimum set of headers
-Message-ID: <202502222310.eyZaU6RS-lkp@intel.com>
+Subject: [krzk-github:track/x1e80100-t14s 1027/1079]
+ arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000:
+ Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
+Message-ID: <202502230215.YAnMORT3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,149 +64,70 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250221123001.95887-1-brgl@bgdev.pl>
-References: <20250221123001.95887-1-brgl@bgdev.pl>
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
-TO: Linus Walleij <linus.walleij@linaro.org>
-CC: linux-gpio@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>
+TO: Abel Vesa <abel.vesa@linaro.org>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on next-20250221]
-[cannot apply to linus/master v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpiolib-use-the-required-minimum-set-of-headers/20250221-203135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20250221123001.95887-1-brgl%40bgdev.pl
-patch subject: [PATCH] gpiolib: use the required minimum set of headers
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://github.com/krzk/linux track/x1e80100-t14s
+head:   0a5b996575143038f96d880868109359ede28367
+commit: 37e4e967dac75a1afaac4013ff6e0265eb1d163a [1027/1079] arm64: dts: qcom: x1e80100-crd: Add bluetooth nodes
+:::::: branch date: 4 days ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250223/202502230215.YAnMORT3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230215.YAnMORT3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502222310.eyZaU6RS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502230215.YAnMORT3-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> include/linux/gpio/consumer.h: asm/errno.h is included more than once.
->> include/linux/gpio/consumer.h: linux/bug.h is included more than once.
-
-vim +554 include/linux/gpio/consumer.h
-
-   552	
-   553	#include <linux/bug.h>
- > 554	#include <asm/errno.h>
-   555	
-   556	static inline int gpiod_enable_hw_timestamp_ns(struct gpio_desc *desc,
-   557						       unsigned long flags)
-   558	{
-   559		if (!IS_ENABLED(CONFIG_GPIOLIB))
-   560			WARN_ON(desc);
-   561	
-   562		return -ENOSYS;
-   563	}
-   564	static inline int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc,
-   565							unsigned long flags)
-   566	{
-   567		if (!IS_ENABLED(CONFIG_GPIOLIB))
-   568			WARN_ON(desc);
-   569	
-   570		return -ENOSYS;
-   571	}
-   572	#endif /* CONFIG_GPIOLIB && CONFIG_HTE */
-   573	
-   574	static inline
-   575	struct gpio_desc *devm_fwnode_gpiod_get(struct device *dev,
-   576						struct fwnode_handle *fwnode,
-   577						const char *con_id,
-   578						enum gpiod_flags flags,
-   579						const char *label)
-   580	{
-   581		return devm_fwnode_gpiod_get_index(dev, fwnode, con_id, 0,
-   582						   flags, label);
-   583	}
-   584	
-   585	struct acpi_gpio_params {
-   586		unsigned int crs_entry_index;
-   587		unsigned int line_index;
-   588		bool active_low;
-   589	};
-   590	
-   591	struct acpi_gpio_mapping {
-   592		const char *name;
-   593		const struct acpi_gpio_params *data;
-   594		unsigned int size;
-   595	
-   596	/* Ignore IoRestriction field */
-   597	#define ACPI_GPIO_QUIRK_NO_IO_RESTRICTION	BIT(0)
-   598	/*
-   599	 * When ACPI GPIO mapping table is in use the index parameter inside it
-   600	 * refers to the GPIO resource in _CRS method. That index has no
-   601	 * distinction of actual type of the resource. When consumer wants to
-   602	 * get GpioIo type explicitly, this quirk may be used.
-   603	 */
-   604	#define ACPI_GPIO_QUIRK_ONLY_GPIOIO		BIT(1)
-   605	/* Use given pin as an absolute GPIO number in the system */
-   606	#define ACPI_GPIO_QUIRK_ABSOLUTE_NUMBER		BIT(2)
-   607	
-   608		unsigned int quirks;
-   609	};
-   610	
-   611	#if IS_ENABLED(CONFIG_GPIOLIB) && IS_ENABLED(CONFIG_ACPI)
-   612	
-   613	int acpi_dev_add_driver_gpios(struct acpi_device *adev,
-   614				      const struct acpi_gpio_mapping *gpios);
-   615	void acpi_dev_remove_driver_gpios(struct acpi_device *adev);
-   616	
-   617	int devm_acpi_dev_add_driver_gpios(struct device *dev,
-   618					   const struct acpi_gpio_mapping *gpios);
-   619	
-   620	#else  /* CONFIG_GPIOLIB && CONFIG_ACPI */
-   621	
- > 622	#include <asm/errno.h>
-   623	
-   624	static inline int acpi_dev_add_driver_gpios(struct acpi_device *adev,
-   625				      const struct acpi_gpio_mapping *gpios)
-   626	{
-   627		return -ENXIO;
-   628	}
-   629	static inline void acpi_dev_remove_driver_gpios(struct acpi_device *adev) {}
-   630	
-   631	static inline int devm_acpi_dev_add_driver_gpios(struct device *dev,
-   632				      const struct acpi_gpio_mapping *gpios)
-   633	{
-   634		return -ENXIO;
-   635	}
-   636	
-   637	#endif /* CONFIG_GPIOLIB && CONFIG_ACPI */
-   638	
-   639	
-   640	#if IS_ENABLED(CONFIG_GPIOLIB) && IS_ENABLED(CONFIG_GPIO_SYSFS)
-   641	
-   642	int gpiod_export(struct gpio_desc *desc, bool direction_may_change);
-   643	int gpiod_export_link(struct device *dev, const char *name,
-   644			      struct gpio_desc *desc);
-   645	void gpiod_unexport(struct gpio_desc *desc);
-   646	
-   647	#else  /* CONFIG_GPIOLIB && CONFIG_GPIO_SYSFS */
-   648	
- > 649	#include <asm/errno.h>
-   650	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4191.11-4201.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/qcom,serial-geni-qcom.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: $nodename:0: 'bt_wcn7850' does not match '^bluetooth(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfacmn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlmx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[56, 37], [56, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pinctrl@f100000: Unevaluated properties are not allowed ('bt-en-sleep' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
