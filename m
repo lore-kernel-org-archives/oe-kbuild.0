@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D817C2
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 18:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE051E7C24
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Feb 2025 19:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740247973; cv=none; b=VSbrrAuStE8NB7ls3lkiJ0SaC4+TfQIqj7KTbJwOjcrPrxUWSjIwETakxxsJmEVMerh/XlzDrF/KYPi8bq+DPrSV5fDE8N20yrwnAxhE5ZBdhte40pe/8gvtfSOAQiH5wugmytQa5vrVu0MbNagCUPUDjH8XHyLdW8IdIsSPIxI=
+	t=1740251110; cv=none; b=eIflJ+c/Ft8Ktfo7vkx9uvUnPJvkuSQTiK7IHt+MPqNk1aXilHgyXEuqYRjn7+fNlkT9RaJL8mmuspJKhEsfE66IdYVLlfgSQEDZp7+UaPXI4w66GddY/rBySoki15DnFP6GPfr8AmG6rLnoBQcXb+SiLWsTGIhXnZSypqAj3tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740247973; c=relaxed/simple;
-	bh=bgqsaYjhXXWEj5F/YlRM4GZoST5Ng5ZZWyMgypdjj0s=;
+	s=arc-20240116; t=1740251110; c=relaxed/simple;
+	bh=t9dXNERuGXlJxDSvKTG1Y/uzfScz+YcgUzOJs7oxtTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oBhUShEPSInMGwFYIcZBJesB9xFckvCn039ZqNrTPADIlosWvCsFJfd+DrtjKRMLRcxVYcLKXbBL61Va0RI5H7rfpzU0bZmweXAFiEotZmZSd2RvnrpXdanHVyES7WNC18vH4RRGvjAuZt3iTXwz2cY1ocZHJaSD65v4/KScx1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQZeylNW; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=tRBJx9+RQyGjqptQRh6C/Cp7L1lmN60f2U4p6R1YiMoDpdq1KAqf2PLawsNV0iW9WOJd/9xX66am2SgJD9F5uzHipJGOctVDJqbnj9KtuDxHL7XeIVg5BN6A51/Sj07gXqsq1ArlqIjjCHNxA2ffWfQCc/X/b0bfjmj07+njkRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMw9mD5m; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQZeylNW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMw9mD5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740247971; x=1771783971;
+  t=1740251108; x=1771787108;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bgqsaYjhXXWEj5F/YlRM4GZoST5Ng5ZZWyMgypdjj0s=;
-  b=GQZeylNWoTKUB59YmioEKL9aI4LEhxFu31xhbU2NTMQ2Tyvch0/43Th+
-   zKH+uNkWDD9dAdkKrCF98S6C9MRiJJM8LY9fPB/txYhqZrEnazkrvAMGm
-   Tajy43j4DVMR4/nVcdWA6uYjPZcBbQM6Z155/AKby029UJyNLlkXd8lsb
-   9UeeQ34iBiDBa1QgqDwuUE1pt+/ZhcIvHk3i2/wvFwTf49Zr+444/F0Bu
-   zed1ORDTWl0P8yaAqS4TiqFtot3uSOoReXBjGUY3twO7bokwx/zZL5Uwu
-   ZMh15zCvQklgQUQfzNc9APPvZQvUAYVf2bla7snLrBkzx8AhoDdsAHhNx
-   w==;
-X-CSE-ConnectionGUID: dgX8vIzpSsqZADK1WEr6WQ==
-X-CSE-MsgGUID: IRvhNjNyRACr35QjGgKCQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52476243"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52476243"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 10:12:50 -0800
-X-CSE-ConnectionGUID: VCwWW3+2Tn66PnaQ3nSE+Q==
-X-CSE-MsgGUID: IvmJGESuQAWz+wcsnGHj1Q==
+  bh=t9dXNERuGXlJxDSvKTG1Y/uzfScz+YcgUzOJs7oxtTM=;
+  b=CMw9mD5mN8jG9g3DFT/zRfPfwtBRUEHcLufGfKwzLxR6AZC/UTmzrPrq
+   hE0sbk0gyTReRL4D5PQ8E1xrKlNWRO840Di2V76gnZbATmDKx+1KiXOB5
+   FqaICFkbtD7mC5HUZVD8s9WHpzdTLer20OqssDEAb/foULTL/NYR7rfv8
+   3EMCY6IXqedus2YWecvYpNZCJ+cdXtg2avHOXj+vbLYgDBOg3M7Q3lMGL
+   huTSI8vkJ4vwia4pL/4qrzHfnG8YJrmHufOQFVdYAMy4Fcz1glrBAfWWv
+   DXKBD2V8DgPCC1JHZFUhHJPG+Y5RKKeJTdD80aFR2KOfJCK3mAeejfmm3
+   A==;
+X-CSE-ConnectionGUID: v9L4TjpFSCiIZXfSrLJlxg==
+X-CSE-MsgGUID: c0Z5b1yVTPeb5xf9R7v0yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="66422594"
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
+   d="scan'208";a="66422594"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 11:05:04 -0800
+X-CSE-ConnectionGUID: Uj/Fly31Sq+HbkdSKPhVsg==
+X-CSE-MsgGUID: KpHfDm5bQTGUZHl2DHkOkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="115465768"
+   d="scan'208";a="115377842"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Feb 2025 10:12:49 -0800
+  by orviesa009.jf.intel.com with ESMTP; 22 Feb 2025 11:05:03 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tltzb-0006nV-28;
-	Sat, 22 Feb 2025 18:12:47 +0000
-Date: Sun, 23 Feb 2025 02:11:58 +0800
+	id 1tluo8-0006p3-2d;
+	Sat, 22 Feb 2025 19:05:00 +0000
+Date: Sun, 23 Feb 2025 03:04:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e80100-t14s 1027/1079]
- arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000:
- Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-Message-ID: <202502230215.YAnMORT3-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 259/259] mm/userfaultfd.c:718
+ __mcopy_atomic() warn: inconsistent returns '&ctx->map_changing_lock'.
+Message-ID: <202502230243.TG8WYnNY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,71 +62,211 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@linaro.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/krzk/linux track/x1e80100-t14s
-head:   0a5b996575143038f96d880868109359ede28367
-commit: 37e4e967dac75a1afaac4013ff6e0265eb1d163a [1027/1079] arm64: dts: qcom: x1e80100-crd: Add bluetooth nodes
-:::::: branch date: 4 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250223/202502230215.YAnMORT3-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230215.YAnMORT3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   43dbaf242f43aa84d9e4dbe0e1bc541d1db80f8b
+commit: a5b6040d5cb800d56a2d2c5d106e1213838eed4e [259/259] BACKPORT: userfaultfd: protect mmap_changing with rw_sem in userfaulfd_ctx
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-141-20250222 (https://download.01.org/0day-ci/archive/20250223/202502230243.TG8WYnNY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502230215.YAnMORT3-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502230243.TG8WYnNY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4191.11-4201.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: geniqup@ac0000: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: serial@a98000: Unevaluated properties are not allowed ('bt_wcn7850' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/qcom,serial-geni-qcom.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: $nodename:0: 'bt_wcn7850' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfacmn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddwlmx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa0p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[56, 37], [56, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pinctrl@f100000: Unevaluated properties are not allowed ('bt-en-sleep' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+smatch warnings:
+mm/userfaultfd.c:718 __mcopy_atomic() warn: inconsistent returns '&ctx->map_changing_lock'.
+
+vim +718 mm/userfaultfd.c
+
+3217d3c79b5d7a Mike Rapoport           2017-09-06  545  
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  546  static __always_inline ssize_t __mcopy_atomic(struct userfaultfd_ctx *ctx,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  547  					      unsigned long dst_start,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  548  					      unsigned long src_start,
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  549  					      unsigned long len,
+f619147104c8ea Axel Rasmussen          2021-05-04  550  					      enum mcopy_atomic_mode mcopy_mode,
+72981e0e7b609c Andrea Arcangeli        2020-04-06  551  					      __u64 mode)
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  552  {
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  553  	struct mm_struct *dst_mm = ctx->mm;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  554  	struct vm_area_struct *dst_vma;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  555  	ssize_t err;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  556  	pmd_t *dst_pmd;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  557  	unsigned long src_addr, dst_addr;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  558  	long copied;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  559  	struct page *page;
+72981e0e7b609c Andrea Arcangeli        2020-04-06  560  	bool wp_copy;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  561  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  562  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  563  	 * Sanitize the command parameters:
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  564  	 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  565  	BUG_ON(dst_start & ~PAGE_MASK);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  566  	BUG_ON(len & ~PAGE_MASK);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  567  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  568  	/* Does the address range wrap, or is the span zero-sized? */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  569  	BUG_ON(src_start + len <= src_start);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  570  	BUG_ON(dst_start + len <= dst_start);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  571  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  572  	src_addr = src_start;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  573  	dst_addr = dst_start;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  574  	copied = 0;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  575  	page = NULL;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  576  retry:
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  577  	mmap_read_lock(dst_mm);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  578  
+df2cc96e77011c Mike Rapoport           2018-06-07  579  	/*
+df2cc96e77011c Mike Rapoport           2018-06-07  580  	 * If memory mappings are changing because of non-cooperative
+df2cc96e77011c Mike Rapoport           2018-06-07  581  	 * operation (e.g. mremap) running in parallel, bail out and
+df2cc96e77011c Mike Rapoport           2018-06-07  582  	 * request the user to retry later
+df2cc96e77011c Mike Rapoport           2018-06-07  583  	 */
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  584  	down_read(&ctx->map_changing_lock);
+df2cc96e77011c Mike Rapoport           2018-06-07  585  	err = -EAGAIN;
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  586  	if (atomic_read(&ctx->mmap_changing))
+df2cc96e77011c Mike Rapoport           2018-06-07  587  		goto out_unlock;
+df2cc96e77011c Mike Rapoport           2018-06-07  588  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  589  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  590  	 * Make sure the vma is not shared, that the dst range is
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  591  	 * both valid and fully within a single existing vma.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  592  	 */
+27d02568f529e9 Mike Rapoport           2017-02-24  593  	err = -ENOENT;
+643aa36eadebdc Wei Yang                2019-11-30  594  	dst_vma = find_dst_vma(dst_mm, dst_start, len);
+26071cedc519b8 Mike Rapoport           2017-02-22  595  	if (!dst_vma)
+26071cedc519b8 Mike Rapoport           2017-02-22  596  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  597  
+27d02568f529e9 Mike Rapoport           2017-02-24  598  	err = -EINVAL;
+27d02568f529e9 Mike Rapoport           2017-02-24  599  	/*
+27d02568f529e9 Mike Rapoport           2017-02-24  600  	 * shmem_zero_setup is invoked in mmap for MAP_ANONYMOUS|MAP_SHARED but
+27d02568f529e9 Mike Rapoport           2017-02-24  601  	 * it will overwrite vm_ops, so vma_is_anonymous must return false.
+27d02568f529e9 Mike Rapoport           2017-02-24  602  	 */
+27d02568f529e9 Mike Rapoport           2017-02-24  603  	if (WARN_ON_ONCE(vma_is_anonymous(dst_vma) &&
+27d02568f529e9 Mike Rapoport           2017-02-24  604  	    dst_vma->vm_flags & VM_SHARED))
+27d02568f529e9 Mike Rapoport           2017-02-24  605  		goto out_unlock;
+27d02568f529e9 Mike Rapoport           2017-02-24  606  
+72981e0e7b609c Andrea Arcangeli        2020-04-06  607  	/*
+72981e0e7b609c Andrea Arcangeli        2020-04-06  608  	 * validate 'mode' now that we know the dst_vma: don't allow
+72981e0e7b609c Andrea Arcangeli        2020-04-06  609  	 * a wrprotect copy if the userfaultfd didn't register as WP.
+72981e0e7b609c Andrea Arcangeli        2020-04-06  610  	 */
+72981e0e7b609c Andrea Arcangeli        2020-04-06  611  	wp_copy = mode & UFFDIO_COPY_MODE_WP;
+72981e0e7b609c Andrea Arcangeli        2020-04-06  612  	if (wp_copy && !(dst_vma->vm_flags & VM_UFFD_WP))
+72981e0e7b609c Andrea Arcangeli        2020-04-06  613  		goto out_unlock;
+72981e0e7b609c Andrea Arcangeli        2020-04-06  614  
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  615  	/*
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  616  	 * If this is a HUGETLB vma, pass off to appropriate routine
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  617  	 */
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  618  	if (is_vm_hugetlb_page(dst_vma))
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  619  		return  __mcopy_atomic_hugetlb(ctx, dst_vma, dst_start,
+6041c691790342 Peter Xu                2022-05-12  620  					       src_start, len, mcopy_mode,
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  621  					       wp_copy);
+60d4d2d2b40e44 Mike Kravetz            2017-02-22  622  
+26071cedc519b8 Mike Rapoport           2017-02-22  623  	if (!vma_is_anonymous(dst_vma) && !vma_is_shmem(dst_vma))
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  624  		goto out_unlock;
+153132571f0204 Axel Rasmussen          2021-06-30  625  	if (!vma_is_shmem(dst_vma) && mcopy_mode == MCOPY_ATOMIC_CONTINUE)
+f619147104c8ea Axel Rasmussen          2021-05-04  626  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  627  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  628  	/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  629  	 * Ensure the dst_vma has a anon_vma or this page
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  630  	 * would get a NULL anon_vma when moved in the
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  631  	 * dst_vma.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  632  	 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  633  	err = -ENOMEM;
+5b51072e97d587 Andrea Arcangeli        2018-11-30  634  	if (!(dst_vma->vm_flags & VM_SHARED) &&
+5b51072e97d587 Andrea Arcangeli        2018-11-30  635  	    unlikely(anon_vma_prepare(dst_vma)))
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  636  		goto out_unlock;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  637  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  638  	while (src_addr < src_start + len) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  639  		pmd_t dst_pmdval;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  640  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  641  		BUG_ON(dst_addr >= dst_start + len);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  642  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  643  		dst_pmd = mm_alloc_pmd(dst_mm, dst_addr);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  644  		if (unlikely(!dst_pmd)) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  645  			err = -ENOMEM;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  646  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  647  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  648  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  649  		dst_pmdval = pmd_read_atomic(dst_pmd);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  650  		/*
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  651  		 * If the dst_pmd is mapped as THP don't
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  652  		 * override it and just be strict.
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  653  		 */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  654  		if (unlikely(pmd_trans_huge(dst_pmdval))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  655  			err = -EEXIST;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  656  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  657  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  658  		if (unlikely(pmd_none(dst_pmdval)) &&
+4cf58924951ef8 Joel Fernandes (Google  2019-01-03  659) 		    unlikely(__pte_alloc(dst_mm, dst_pmd))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  660  			err = -ENOMEM;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  661  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  662  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  663  		/* If an huge pmd materialized from under us fail */
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  664  		if (unlikely(pmd_trans_huge(*dst_pmd))) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  665  			err = -EFAULT;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  666  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  667  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  668  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  669  		BUG_ON(pmd_none(*dst_pmd));
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  670  		BUG_ON(pmd_trans_huge(*dst_pmd));
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  671  
+3217d3c79b5d7a Mike Rapoport           2017-09-06  672  		err = mfill_atomic_pte(dst_mm, dst_pmd, dst_vma, dst_addr,
+153132571f0204 Axel Rasmussen          2021-06-30  673  				       src_addr, &page, mcopy_mode, wp_copy);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  674  		cond_resched();
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  675  
+9e368259ad9883 Andrea Arcangeli        2018-11-30  676  		if (unlikely(err == -ENOENT)) {
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  677  			void *page_kaddr;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  678  
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  679  			up_read(&ctx->map_changing_lock);
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  680  			mmap_read_unlock(dst_mm);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  681  			BUG_ON(!page);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  682  
+5521de7dddd211 Ira Weiny               2022-10-23  683  			page_kaddr = kmap_local_page(page);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  684  			err = copy_from_user(page_kaddr,
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  685  					     (const void __user *) src_addr,
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  686  					     PAGE_SIZE);
+5521de7dddd211 Ira Weiny               2022-10-23  687  			kunmap_local(page_kaddr);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  688  			if (unlikely(err)) {
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  689  				err = -EFAULT;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  690  				goto out;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  691  			}
+7c25a0b89a4878 Muchun Song             2022-03-22  692  			flush_dcache_page(page);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  693  			goto retry;
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  694  		} else
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  695  			BUG_ON(page);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  696  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  697  		if (!err) {
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  698  			dst_addr += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  699  			src_addr += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  700  			copied += PAGE_SIZE;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  701  
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  702  			if (fatal_signal_pending(current))
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  703  				err = -EINTR;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  704  		}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  705  		if (err)
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  706  			break;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  707  	}
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  708  
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  709  out_unlock:
+a5b6040d5cb800 Lokesh Gidra            2024-02-15  710  	up_read(&ctx->map_changing_lock);
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  711  	mmap_read_unlock(dst_mm);
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  712  out:
+b6ebaedb4cb1a1 Andrea Arcangeli        2015-09-04  713  	if (page)
+09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  714  		put_page(page);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  715  	BUG_ON(copied < 0);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  716  	BUG_ON(err > 0);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  717  	BUG_ON(!copied && !err);
+c1a4de99fada21 Andrea Arcangeli        2015-09-04 @718  	return copied ? copied : err;
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  719  }
+c1a4de99fada21 Andrea Arcangeli        2015-09-04  720  
+
+:::::: The code at line 718 was first introduced by commit
+:::::: c1a4de99fada21e2e9251e52cbb51eff5aadc757 userfaultfd: mcopy_atomic|mfill_zeropage: UFFDIO_COPY|UFFDIO_ZEROPAGE preparation
+
+:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
