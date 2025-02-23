@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729B078F2E
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Feb 2025 18:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674E78C1E
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Feb 2025 19:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740334355; cv=none; b=D74i+g5nsYxGKevmSFbD61GO1la8l3iql7dYkQOPlHjAqK/nNwVo7GvQdHDUluGeHcBOUP/NvSOQ70PDXNIz1O6weWDmCpwC+FMSuzruGbUYBkAqHMPa5l91cgRUFuYllU0VScS5THJHO7RWN23kXnjXYfJYrb75K55k+w3T2Eg=
+	t=1740338640; cv=none; b=tMtbGBp+GstwUXjDuZ5jExOO3OyVtB0zakROIPKjHysFIHQWZp70KGYmnyAEaICgs2ebPmBXUbMJ2HD1SMM2VOlANbJDsOhbq4AAtmH1KrK4wWq1PBq+uH17Nj84xkM0AUV7JJFvK261+EmTPvOmy/xZ+cJ5AEzeCODlpbCFeIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740334355; c=relaxed/simple;
-	bh=15V2g8SVo+W5QRuAQ/IUk6lbXuQvlLaDqiIeqZRXCiI=;
+	s=arc-20240116; t=1740338640; c=relaxed/simple;
+	bh=aivYT+LxWh/4Jv4Gg5keHnzBb+DMDBRDFBSSrMlyI6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MIOK7ZFw6Q3Coq18lbgmEVPJndH2HbIZi7MLgDSeztOIS547DFlFAxRiuTkSZ1I5MI2A+0KCa6MWzcTOgCxZ2HNBCnuc8VNbI3yIZCoR2QHFjvAR1Wt1TOCZU89xoDViOTPW4/sD5urzWpAg98o8pW3OW30QoKaoUqHtHhdaPkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnVhu+vD; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=HZhzxhWEVj+PA5Dh3CIQGWnhchZER30J/NWlczw2EuGU5qDQ7Y20/6rE+IQJoEP2Hr8/ocxuQ7HcFMHE/f5R8+SRMyH2kkila2gvW+mjK46xk7NGnotFERm9Lwnt5foySUP0UI4qQkETXSQ5pF201di10KXs/zDAtwR7muuP2GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFkn0fCo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnVhu+vD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFkn0fCo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740334353; x=1771870353;
+  t=1740338638; x=1771874638;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=15V2g8SVo+W5QRuAQ/IUk6lbXuQvlLaDqiIeqZRXCiI=;
-  b=dnVhu+vD/+s4Vj58Xv1PFRE0HszbHFZXZg1mVNMlO/2Wk/IYU1DBXcVI
-   WQPgduu1e4NepxRroJXgF5IVl7Nn/ihlgvko5nXKzTLfLzlmfdhttq16u
-   P2Mw24zIPZIBtOXFL7phNEqrTrJ78UI3kCKkpPNMgw1oazEQP5kf/mDqC
-   s7yu7nlqk2VKZkOKhnKcPV5Uy0pNdaLZ55Rje1ihZkxa29TGPRRJXs6xa
-   3+gwClYMHCN60Rf/6PT8DsPNyvNAyf5qRnokSlK/dWpOXDQ25bIChGV4B
-   BZitlyaEEU5B0Jc7ELs9aS91Bc+WVID8xSM/eYa7aq22k6l2a+bFfXbyj
-   A==;
-X-CSE-ConnectionGUID: NrScSGh2SVSdjvX4pQjXwA==
-X-CSE-MsgGUID: O8B38yjmSi2NbdhP1nJQ6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="44742553"
+  bh=aivYT+LxWh/4Jv4Gg5keHnzBb+DMDBRDFBSSrMlyI6w=;
+  b=EFkn0fCozeIjFTLEhx9gajgQA+Ss1kKKaxHS5ni6dZbzHmF0lLN99SfS
+   0RPmq4xQHcrZ9RQUU6tL6qc0E/HJatjVo5k/DhCiu307e7L/de+u/0KNb
+   c+Y207ErI48S21b8cgkgKOGOwe9pKFzUI9BPVfKlS+43Cf/cNsOPhDRO0
+   n55Hmgx1G6TdrZIVu65xKfPJsLafX8MUWfitsuBvx0Mt8y8uLmMxFIxDj
+   OoneSFfLELjr7HSqfYKF3eIwqbVJRwPb/E7fId2ZZctQPQcf1PnWWonTI
+   r9FU2D0SAslH/vwxsqLEP27L35XbdONOqWvuzdNM+IMLEj6bkJ4VT5PJN
+   w==;
+X-CSE-ConnectionGUID: JY6+Un3WRp2m8LlecODDmg==
+X-CSE-MsgGUID: titHEJEKTBiT4hFBrdSGDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41355468"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="44742553"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 10:12:32 -0800
-X-CSE-ConnectionGUID: pLEN9u7pR/em+j98ZxYbnQ==
-X-CSE-MsgGUID: sSBFYCmmRYKC9TACazWdUw==
+   d="scan'208";a="41355468"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 11:23:57 -0800
+X-CSE-ConnectionGUID: 6t0qnNVAQNKWqpRq5NL72Q==
+X-CSE-MsgGUID: m+kBQnwvT06jEGXIAK5B2Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="139089326"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119978719"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Feb 2025 10:12:31 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 23 Feb 2025 11:23:57 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmGSr-0007VW-1S;
-	Sun, 23 Feb 2025 18:12:29 +0000
-Date: Mon, 24 Feb 2025 02:11:33 +0800
+	id 1tmHZy-0007Y7-35;
+	Sun, 23 Feb 2025 19:23:54 +0000
+Date: Mon, 24 Feb 2025 03:23:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rockchip:v6.15-armsoc/dts64 29/47]
- arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: vop@fdd90000:
- clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612],
- [31, 603], [104]] is too long
-Message-ID: <202502240207.ZkB0pEBD-lkp@intel.com>
+Subject: [krzk:next/dt64 23/23]
+ arch/arm64/boot/dts/exynos/exynosautov920-sadk.dtb: /soc@0/phy@16e04000:
+ failed to match any schema with compatible:
+ ['samsung,exynosautov920-ufs-phy']
+Message-ID: <202502240349.OnSPW8Zf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,104 +70,27 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Quentin Schulz <quentin.schulz@cherry.de>
-CC: Heiko Stuebner <heiko@sntech.de>
-CC: Dragan Simic <dsimic@manjaro.org>
+TO: Sowon Na <sowon.na@samsung.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Alim Akhtar <alim.akhtar@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-armsoc/dts64
-head:   5c349537e298c9657eaf48e2768b308d04523052
-commit: 920ceeedeb00eef0c3c4f5f0276882b4666dc770 [29/47] arm64: dts: rockchip: minimal support for Pre-ICT tester adapter for RK3588 Jaguar
-:::::: branch date: 18 hours ago
-:::::: commit date: 9 days ago
-config: arm64-randconfig-051-20250217 (https://download.01.org/0day-ci/archive/20250224/202502240207.ZkB0pEBD-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git next/dt64
+head:   5893f538e331609fbea244ed14732291edd6ab22
+commit: 5893f538e331609fbea244ed14732291edd6ab22 [23/23] arm64: dts: exynosautov920: add ufs phy for ExynosAutov920 SoC
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: arm64-randconfig-051-20250223 (https://download.01.org/0day-ci/archive/20250224/202502240349.OnSPW8Zf-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
 dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240207.ZkB0pEBD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240349.OnSPW8Zf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502240207.ZkB0pEBD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502240349.OnSPW8Zf-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: vop@fdd90000: clocks: [[31, 605], [31, 604], [31, 609], [31, 610], [31, 611], [31, 612], [31, 603], [104]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fddb0000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fdde0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fdde0000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fe4e0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fe4e0000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fe4f0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fe4f0000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fddb8000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fddb8000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fdde8000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
-   	'rockchip,rk3366-spdif' was expected
-   	'rockchip,rk3368-spdif' was expected
-   	'rockchip,rk3399-spdif' was expected
-   	'rockchip,rk3568-spdif' was expected
-   	'rockchip,rk3588-spdif' is not one of ['rockchip,rk3128-spdif', 'rockchip,rk3188-spdif', 'rockchip,rk3288-spdif', 'rockchip,rk3308-spdif']
-   	from schema $id: http://devicetree.org/schemas/sound/rockchip-spdif.yaml#
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: /spdif-tx@fdde8000: failed to match any schema with compatible: ['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif']
+>> arch/arm64/boot/dts/exynos/exynosautov920-sadk.dtb: /soc@0/phy@16e04000: failed to match any schema with compatible: ['samsung,exynosautov920-ufs-phy']
 
 -- 
 0-DAY CI Kernel Test Service
