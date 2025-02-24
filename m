@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4401F5FA
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 21:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F254E1DC198
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 21:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740431082; cv=none; b=KkSFnXMK2mPY0b/rwcWiVk8XlV3IU/3DxqCjpuXb/ifhTPJWSsJ14ck1Yu4n3FXOjn2Mcr/9qFogfbUY840PzpQKZDTTeJugLDEwhKuEK5+RbxtNk3NLhnWbsrmA97O6jvnxtQa636zekNho6KUF9Fzp9fIwzKfV1uDdFKwhefM=
+	t=1740432388; cv=none; b=CcmkidHK00dhNbv38U//Uv4EpkoXc7SSRjyers9aFs2Hso9qznrRi1AZ3h/nz5pN2CKmKmS4B6NVpkax4+PSfoWRZsYt2il+aYmdvm4otvHezr6L+AhbSKRjC+O/iYsdmLhAzB4eyh4PfaKZZJqLsvfVQ1dVnyk59p5BhpGKPqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740431082; c=relaxed/simple;
-	bh=hH63CFaeaJt4aNfR6rTdBnr2WjBA7L3KHcFZCZWoU7s=;
+	s=arc-20240116; t=1740432388; c=relaxed/simple;
+	bh=OedWHTmiGO/m8ifbFZ2PJK+G9XqjCPz0xIcHtjXudK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ozgTdobxL0TGhUIXO3Dxy3lI94w2RhbpSGjMq58G6acgvIqdTKyRBqJLyz2eaVGocSsBCSjBc0Wz6FeK13dlGW8Hz7JXh3tDwJ67BOszVfEaeHyJjgFARAvJDSersYSPWeahKOnpdItc+HifIbDpuil1w6tjaQQ57+s3LXhh5Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMuq9sKx; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=BfrCfYusqEAXtdgYQ2vtFZJpqeR0u18Ji/Lpqu+YIuGBR5e4ThNwOnGDheD7z1JKwNblk4FPFQw66OsYnYWNhFmKnD5yZItGM6W2lWLQI/pZla6M0OFlqkDVxQksEHi2wGAo21SjGgYbKMn31NHD5rcyH5XtLVFMSeXVJyc693M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbN/Uz+h; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMuq9sKx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbN/Uz+h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740431080; x=1771967080;
+  t=1740432387; x=1771968387;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hH63CFaeaJt4aNfR6rTdBnr2WjBA7L3KHcFZCZWoU7s=;
-  b=VMuq9sKxohkYsHrG5ElVdfZLLWYpj/Jp1YttE3eL4dC9y24YSW5R1Ved
-   7aQUfuRyTFXabaJ8i7murXdH6lYmoyG1s6+83rxM0/CFqYj6MnR+/dkPk
-   A9jhb/XH0fbASHNOWiESE03gN/+So66V9mmuR/f+CoSahMGOJCQw+oP7y
-   ReWzL8R+MS4JPyiod4LvmfQtMM4wXAonTYs+bOPWkVg+8UMT9sWhkHZjA
-   NOtWDlSPRvis2XiAZOCllPhSiHTXVGMXcWfn8pLxeHfRxmHHd1Z4naLt7
-   snMbv4WjFIaQv/1jWtSPQ+MB1vBLvKOcHWYKnD3d0QhPb2yQ3//MuxkBG
+  bh=OedWHTmiGO/m8ifbFZ2PJK+G9XqjCPz0xIcHtjXudK4=;
+  b=AbN/Uz+h/B6jXFkylk002ltT32gmkyeWH/sKFPMLAApJn7syqSafhSQs
+   xlFBb+u7+/W9GmObYgMG+PYl07NLigtfK+hsuFJTC3dfjPXkN2Qty04qB
+   aVb0Vxr1HFVCRDx6zwjdhn1mgC1Ya2MHp2+lqG+DO4P4GWzhsXzLkX2vg
+   0mPDntQsdd8+tGyZ1xJ9dQyGWdK5rNZ7wk/QnZXamJlC33CCOezKwX4sP
+   rwnSdDBU38IxYSViYyeCV/4YLRcAvk07Hgl3ASfVIRjJcBi5xzBgdMsEv
+   udwSDlmMPFJw+Cdx1RqJkGBP9XUxFlebwDGLs6SdZ61v69e4dA/NJ4Zuj
    w==;
-X-CSE-ConnectionGUID: zNt5Y5P4TQi1bDlDZdN0vw==
-X-CSE-MsgGUID: NMu2qobGRE2wICFZITL1/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="45119883"
+X-CSE-ConnectionGUID: u74x+XT+TNmYrs51WRMXAA==
+X-CSE-MsgGUID: vTGURxEsRcOq0Vmcu9vi2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52205366"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="45119883"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 13:04:40 -0800
-X-CSE-ConnectionGUID: a42x06DNQvu3rh8mE18boQ==
-X-CSE-MsgGUID: nmXjC/mFSrK8/EdNLFG3fg==
+   d="scan'208";a="52205366"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 13:26:26 -0800
+X-CSE-ConnectionGUID: VnUeRE6pREy1h5Q8fesEgw==
+X-CSE-MsgGUID: cDRztIa+TuyNKfRi5yRjpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="121267657"
+   d="scan'208";a="120795917"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Feb 2025 13:04:39 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 24 Feb 2025 13:26:25 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmfct-0009Kl-1u;
-	Mon, 24 Feb 2025 21:04:32 +0000
-Date: Tue, 25 Feb 2025 05:04:15 +0800
+	id 1tmfxm-0009Lr-0Q;
+	Mon, 24 Feb 2025 21:26:08 +0000
+Date: Tue, 25 Feb 2025 05:25:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/phy/xilinx/phy-zynqmp.c:822:5-35: opportunity for
- str_yes_no(pll_status & PLL_STATUS_LOCKED)
-Message-ID: <202502250559.0GF4hhUq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:track/x1e80100-t14s 1062/1079]
+ arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: Unevaluated
+ properties are not allowed ('compatible' was unexpected)
+Message-ID: <202502250551.BL81pvD6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,61 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Sean Anderson <sean.anderson@linux.dev>
-CC: Vinod Koul <vkoul@kernel.org>
+TO: Abel Vesa <abel.vesa@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d082ecbc71e9e0bf49883ee4afd435a77a5101b6
-commit: 04490b621ab16d09ce5b7c62b2c8cc9fdb871421 phy: zynqmp: Add debugfs support
-date:   8 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 months ago
-config: mips-randconfig-r052-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250559.0GF4hhUq-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://github.com/krzk/linux track/x1e80100-t14s
+head:   0a5b996575143038f96d880868109359ede28367
+commit: 495547255fb7f0fd4d44e3a21c6a3d7d65f4140f [1062/1079] arm64: dts: qcom: x1e80100-crd: Enable SD card support
+:::::: branch date: 6 days ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250225/202502250551.BL81pvD6-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250551.BL81pvD6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202502250559.0GF4hhUq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502250551.BL81pvD6-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/phy/xilinx/phy-zynqmp.c:822:5-35: opportunity for str_yes_no(pll_status & PLL_STATUS_LOCKED)
-
-vim +822 drivers/phy/xilinx/phy-zynqmp.c
-
-4a33bea003144e2 Anurag Kumar Vulisha 2020-06-29  799  
-04490b621ab16d0 Sean Anderson        2024-06-28  800  /*
-04490b621ab16d0 Sean Anderson        2024-06-28  801   * DebugFS
-04490b621ab16d0 Sean Anderson        2024-06-28  802   */
-04490b621ab16d0 Sean Anderson        2024-06-28  803  
-04490b621ab16d0 Sean Anderson        2024-06-28  804  static int xpsgtr_status_read(struct seq_file *seq, void *data)
-04490b621ab16d0 Sean Anderson        2024-06-28  805  {
-04490b621ab16d0 Sean Anderson        2024-06-28  806  	struct device *dev = seq->private;
-04490b621ab16d0 Sean Anderson        2024-06-28  807  	struct xpsgtr_phy *gtr_phy = dev_get_drvdata(dev);
-04490b621ab16d0 Sean Anderson        2024-06-28  808  	struct clk *clk;
-04490b621ab16d0 Sean Anderson        2024-06-28  809  	u32 pll_status;
-04490b621ab16d0 Sean Anderson        2024-06-28  810  
-04490b621ab16d0 Sean Anderson        2024-06-28  811  	mutex_lock(&gtr_phy->phy->mutex);
-04490b621ab16d0 Sean Anderson        2024-06-28  812  	pll_status = xpsgtr_read_phy(gtr_phy, L0_PLL_STATUS_READ_1);
-04490b621ab16d0 Sean Anderson        2024-06-28  813  	clk = gtr_phy->dev->clk[gtr_phy->refclk];
-04490b621ab16d0 Sean Anderson        2024-06-28  814  
-04490b621ab16d0 Sean Anderson        2024-06-28  815  	seq_printf(seq, "Lane:            %u\n", gtr_phy->lane);
-04490b621ab16d0 Sean Anderson        2024-06-28  816  	seq_printf(seq, "Protocol:        %s\n",
-04490b621ab16d0 Sean Anderson        2024-06-28  817  		   xpsgtr_icm_str[gtr_phy->protocol]);
-04490b621ab16d0 Sean Anderson        2024-06-28  818  	seq_printf(seq, "Instance:        %u\n", gtr_phy->instance);
-04490b621ab16d0 Sean Anderson        2024-06-28  819  	seq_printf(seq, "Reference clock: %u (%pC)\n", gtr_phy->refclk, clk);
-04490b621ab16d0 Sean Anderson        2024-06-28  820  	seq_printf(seq, "Reference rate:  %lu\n", clk_get_rate(clk));
-04490b621ab16d0 Sean Anderson        2024-06-28  821  	seq_printf(seq, "PLL locked:      %s\n",
-04490b621ab16d0 Sean Anderson        2024-06-28 @822  		   pll_status & PLL_STATUS_LOCKED ? "yes" : "no");
-04490b621ab16d0 Sean Anderson        2024-06-28  823  
-04490b621ab16d0 Sean Anderson        2024-06-28  824  	mutex_unlock(&gtr_phy->phy->mutex);
-04490b621ab16d0 Sean Anderson        2024-06-28  825  	return 0;
-04490b621ab16d0 Sean Anderson        2024-06-28  826  }
-04490b621ab16d0 Sean Anderson        2024-06-28  827  
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,x1e80100-sdhci', 'qcom,sdhci-msm-v5'] is too long
+   	'qcom,x1e80100-sdhci' is not one of ['qcom,sdhci-msm-v4']
+   	'qcom,x1e80100-sdhci' is not one of ['qcom,apq8084-sdhci', 'qcom,ipq4019-sdhci', 'qcom,ipq8074-sdhci', 'qcom,msm8226-sdhci', 'qcom,msm8953-sdhci', 'qcom,msm8974-sdhci', 'qcom,msm8976-sdhci', 'qcom,msm8916-sdhci', 'qcom,msm8992-sdhci', 'qcom,msm8994-sdhci', 'qcom,msm8996-sdhci', 'qcom,msm8998-sdhci']
+   	'qcom,x1e80100-sdhci' is not one of ['qcom,ipq5018-sdhci', 'qcom,ipq5332-sdhci', 'qcom,ipq6018-sdhci', 'qcom,ipq9574-sdhci', 'qcom,qcm2290-sdhci', 'qcom,qcs404-sdhci', 'qcom,qdu1000-sdhci', 'qcom,sc7180-sdhci', 'qcom,sc7280-sdhci', 'qcom,sc8280xp-sdhci', 'qcom,sdm630-sdhci', 'qcom,sdm670-sdhci', 'qcom,sdm845-sdhci', 'qcom,sdx55-sdhci', 'qcom,sdx65-sdhci', 'qcom,sdx75-sdhci', 'qcom,sm6115-sdhci', 'qcom,sm6125-sdhci', 'qcom,sm6350-sdhci', 'qcom,sm6375-sdhci', 'qcom,sm8150-sdhci', 'qcom,sm8250-sdhci', 'qcom,sm8350-sdhci', 'qcom,sm8450-sdhci', 'qcom,sm8550-sdhci', 'qcom,sm8650-sdhci']
+   	'qcom,sdhci-msm-v4' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/mmc@8804000: failed to match any schema with compatible: ['qcom,x1e80100-sdhci', 'qcom,sdhci-msm-v5']
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: sdc2-card-det-state: 'oneOf' conditional failed, one must be fixed:
+   	'bias-pull-up', 'function', 'input-enable', 'output-disable', 'pins', 'power-source' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+   	False schema does not allow True
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: usb-1-ss0-sbu-state: 'oneOf' conditional failed, one must be fixed:
+   	'function' is a required property
+   	Unevaluated properties are not allowed ('mode-hog', 'oe-n-pins', 'sel-pins' were unexpected)
+   	'pins' is a required property
+   	'mode-hog' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: usb-1-ss1-sbu-state: 'oneOf' conditional failed, one must be fixed:
 
 -- 
 0-DAY CI Kernel Test Service
