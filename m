@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7DB1EB3E
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 04:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AD52505DE
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 10:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740371948; cv=none; b=tZZtS5kdZR53K4SekGMCcCGoBrcbSHZZ0UotjuMc598fxfhVm6I1btk4YeV1n0sU9Tys1oLTCQSyhpfOZrubyxMLs9pwe4Hf7YLIEfk5e1EZyDvncZPGkyOcj7mOUPDnOFExwkZvFKdl3a+6qv86we/BHrFLl9GvORzERCWOBxw=
+	t=1740393519; cv=none; b=KJ5jpXudX5ZIXxy/+qt1iQAqV5bux0vz3GmjB3ehAsbD49ZjpC+3+RqZ9KtyeYQ92otrxktfdJc46VZrmaeo4WVghoXb49A3TgOGQxt4Rg7SPwuGtHXPVcXSCLGkzAqZIWtz0m43UmL/yljkj+umE2MWyOKo5fhJ5LwESj9vuok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740371948; c=relaxed/simple;
-	bh=FRCnegD5EBx6LkF5xM/VjHazuv7z+EmGtTtSHjHXupc=;
+	s=arc-20240116; t=1740393519; c=relaxed/simple;
+	bh=bNVKGZlAtiYs5nHLtsD+OPaJfihezxW1SEEERhzPgrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n4Ka6ECaz8sl3MgGZ9Gw+Vzm0JAt3Vu+dvS3jjYWYLKur9DiuVHakTRJ5BaeDLwONRkYWZMbLZzsiKSC6zmRbyey09H7B/kdhd1aKjYDUytf71/KwtX8uQbDZ/+eOaXojUGZAD3A3/8Rh85Z/llNxMP4E3nZ50isbMjt09/3RLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bUjPccb0; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Smxoys6wmw/bWHdQ2Hl4VrA3YxCSW7QQq2A1yS/zj+kQ5gvfUFWKf4qA4uqsTb6GKsUSV57HnunxEU5dpnoJrLgsP/OPb5fy7U/yCNrzLsOt2P7tBvODJPzolMhntNagJ99+uiXNZtkyBmGLp2ZvaMtwGdxdm0k2uD8RMUgGOdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iF4U+KJG; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bUjPccb0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iF4U+KJG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740371946; x=1771907946;
+  t=1740393517; x=1771929517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FRCnegD5EBx6LkF5xM/VjHazuv7z+EmGtTtSHjHXupc=;
-  b=bUjPccb0AVL50wbvKi37ey/1mxrIfRn3a+O179eeCpjXMa6IHG2Fbku3
-   yS+mTjZBpqmbrKM5TT1NhsB3nujJGzKUSBJOhz7pu4oGf3Y5mloECCTxk
-   HOyEUF80m5B8PNm9a5dUmnPZrkC/JX6KV6DbNSqeR2yJfZs4g1SDcR0sR
-   HNf0/wWefT5FAOvJO9Qsn0vxhyOCBTheGo8SLCbxs1mZ/otsF0JRERP3o
-   KwXy0K6y2OUzaStk7JetkAkSID670+telGBjvEkwa1zy7Inng0QRWxUEd
-   s0/byHbPCL1WGYoKUH5gefooYcZuQPKQw3xd/cH9m3r6wul77+QqJKNF7
-   g==;
-X-CSE-ConnectionGUID: AlASnc63StCdtXkDDlRxfw==
-X-CSE-MsgGUID: VIK/ggdLRNKfmAZo6lq6Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="40987262"
+  bh=bNVKGZlAtiYs5nHLtsD+OPaJfihezxW1SEEERhzPgrU=;
+  b=iF4U+KJGhf2HU+tZP5vZ677RUZItdH1l5wrew9tluC2/TEIbvCJiKHXy
+   sFCfPXFpsUaxTVO7wEDMKfssLWNDRWHPmgTDkMuTEywc/qLubJ1vcJBga
+   k2uVr28iDmEeGAR2RKSSknro0zCqOv/48Lw6JjWEhk91Lt8t/i3PfCwbJ
+   ZNvTCfyFwQkR/ZXk6E7o11q0o9+vSH7czhtg2fywuWGN44bFTYZpRm0Ci
+   BDHiCJGksb80eu3Pg69ls5EEID5zS7lGgqVnEWmebhb8pcPs3JVHPtAex
+   eECDC6y2BpBDC8DsPQ/U2uJQVy2z9aW3XV+uBJHSXuc7y7pwMmWIFBVy5
+   w==;
+X-CSE-ConnectionGUID: x8AbCLEzQrKM0xm4TJfNdw==
+X-CSE-MsgGUID: ZV7uXfKZRJGjS9+u3wYOFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41018866"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40987262"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 20:39:05 -0800
-X-CSE-ConnectionGUID: CzW3qpINT8q1W+z8yGk2Og==
-X-CSE-MsgGUID: Tt640VlkRc2gUnrvOIINfQ==
+   d="scan'208";a="41018866"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:38:36 -0800
+X-CSE-ConnectionGUID: LAmWnWppQz2QOrdPpyfbug==
+X-CSE-MsgGUID: QDq4jZROSSWEzJUG+o6rCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="153143726"
+   d="scan'208";a="120147202"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Feb 2025 20:39:04 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 24 Feb 2025 02:38:36 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmQF3-0007rX-2a;
-	Mon, 24 Feb 2025 04:38:56 +0000
-Date: Mon, 24 Feb 2025 12:38:15 +0800
+	id 1tmVr7-0008Bl-1O;
+	Mon, 24 Feb 2025 10:38:33 +0000
+Date: Mon, 24 Feb 2025 18:37:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e80100-t14s 1055/1079]
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: pcie@1bd0000:
- interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671,
- 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-Message-ID: <202502241226.EdWfVFbX-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwvid.c:174
+ brcmf_fwvid_attach() warn: inconsistent returns 'global &fwvid_list_lock'.
+Message-ID: <202502241801.kEXc4P9w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,179 +62,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Qiang Yu <quic_qianyu@quicinc.com>
-CC: Abel Vesa <abel.vesa@linaro.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Hector Martin <marcan@marcan.st>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: Arend van Spriel <arend.vanspriel@broadcom.com>
 
-tree:   https://github.com/krzk/linux track/x1e80100-t14s
-head:   0a5b996575143038f96d880868109359ede28367
-commit: f9d1e381018dd78d5e0b683a246eb1cafe09eada [1055/1079] arm64: dts: qcom: x1e80100: Add support for PCIe3 on x1e80100
-:::::: branch date: 5 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250224/202502241226.EdWfVFbX-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502241226.EdWfVFbX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d082ecbc71e9e0bf49883ee4afd435a77a5101b6
+commit: 85da8f71aaa7b83ea7ef0e89182e0cd47e16d465 wifi: brcmfmac: Demote vendor-specific attach/detach messages to info
+date:   1 year, 1 month ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: powerpc-randconfig-r071-20250224 (https://download.01.org/0day-ci/archive/20250224/202502241801.kEXc4P9w-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502241226.EdWfVFbX-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502241801.kEXc4P9w-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4394.11-4404.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4394.11-4404.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
---
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: bt_wcn7850: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: pinctrl@f100000: Unevaluated properties are not allowed ('bt-en-sleep' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
---
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: typec-mux@8: 'vdd-supply', 'vdd33-cap-supply', 'vddar-supply', 'vddat-supply', 'vddio-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/usb/parade,ps8830.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddaon-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlcx-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlmx-supply' is a required property
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4394.11-4404.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4394.11-4404.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: system-cache-controller@25000000: reg: [[0, 620756992, 0, 2097152], [0, 622854144, 0, 2097152], [0, 624951296, 0, 2097152], [0, 627048448, 0, 2097152], [0, 629145600, 0, 2097152], [0, 631242752, 0, 2097152], [0, 633339904, 0, 2097152], [0, 635437056, 0, 2097152], [0, 637534208, 0, 2097152], [0, 639631360, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: system-cache-controller@25000000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc4_base', 'llcc5_base', 'llcc6_base', 'llcc7_base', 'llcc_broadcast_base', 'llcc_broadcast_and_base'] is too long
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4394.11-4404.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pcie@1bd0000: interrupts: [[0, 158, 4], [0, 166, 4], [0, 769, 4], [0, 836, 4], [0, 671, 4], [0, 200, 4], [0, 218, 4], [0, 219, 4], [0, 121, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pcie@1bd0000: interrupt-names: ['msi0', 'msi1', 'msi2', 'msi3', 'msi4', 'msi5', 'msi6', 'msi7', 'global'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-x1e80100.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: resets: [[57, 37], [57, 36]] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: usb-1-ss0-sbu-state: 'oneOf' conditional failed, one must be fixed:
-   	'function' is a required property
-   	Unevaluated properties are not allowed ('mode-hog', 'oe-n-pins', 'sel-pins' were unexpected)
+smatch warnings:
+drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwvid.c:174 brcmf_fwvid_attach() warn: inconsistent returns 'global &fwvid_list_lock'.
+
+vim +174 drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwvid.c
+
+d6a5c562214f26e Arend van Spriel 2022-11-29  151  
+85da8f71aaa7b83 Hector Martin    2024-01-06  152  int brcmf_fwvid_attach(struct brcmf_pub *drvr)
+d6a5c562214f26e Arend van Spriel 2022-11-29  153  {
+d6a5c562214f26e Arend van Spriel 2022-11-29  154  	enum brcmf_fwvendor fwvid = drvr->bus_if->fwvid;
+d6a5c562214f26e Arend van Spriel 2022-11-29  155  	int ret;
+d6a5c562214f26e Arend van Spriel 2022-11-29  156  
+d6a5c562214f26e Arend van Spriel 2022-11-29  157  	if (fwvid >= ARRAY_SIZE(fwvid_list))
+d6a5c562214f26e Arend van Spriel 2022-11-29  158  		return -ERANGE;
+d6a5c562214f26e Arend van Spriel 2022-11-29  159  
+d6a5c562214f26e Arend van Spriel 2022-11-29  160  	brcmf_dbg(TRACE, "mod=%s: enter: dev %s\n", fwvid_list[fwvid].name,
+d6a5c562214f26e Arend van Spriel 2022-11-29  161  		  dev_name(drvr->bus_if->dev));
+d6a5c562214f26e Arend van Spriel 2022-11-29  162  
+d6a5c562214f26e Arend van Spriel 2022-11-29  163  	mutex_lock(&fwvid_list_lock);
+d6a5c562214f26e Arend van Spriel 2022-11-29  164  
+d6a5c562214f26e Arend van Spriel 2022-11-29  165  	ret = brcmf_fwvid_request_module(fwvid);
+d6a5c562214f26e Arend van Spriel 2022-11-29  166  	if (ret)
+d6a5c562214f26e Arend van Spriel 2022-11-29  167  		return ret;
+d6a5c562214f26e Arend van Spriel 2022-11-29  168  
+d6a5c562214f26e Arend van Spriel 2022-11-29  169  	drvr->vops = fwvid_list[fwvid].vops;
+d6a5c562214f26e Arend van Spriel 2022-11-29  170  	list_add(&drvr->bus_if->list, &fwvid_list[fwvid].drvr_list);
+d6a5c562214f26e Arend van Spriel 2022-11-29  171  
+d6a5c562214f26e Arend van Spriel 2022-11-29  172  	mutex_unlock(&fwvid_list_lock);
+d6a5c562214f26e Arend van Spriel 2022-11-29  173  
+d6a5c562214f26e Arend van Spriel 2022-11-29 @174  	return ret;
+d6a5c562214f26e Arend van Spriel 2022-11-29  175  }
+d6a5c562214f26e Arend van Spriel 2022-11-29  176  
+
+:::::: The code at line 174 was first introduced by commit
+:::::: d6a5c562214f26e442c8ec3ff1e28e16675d1bcf wifi: brcmfmac: add support for vendor-specific firmware api
+
+:::::: TO: Arend van Spriel <arend.vanspriel@broadcom.com>
+:::::: CC: Kalle Valo <kvalo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
