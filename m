@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F254E1DC198
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 21:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDC91F419C
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 22:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432388; cv=none; b=CcmkidHK00dhNbv38U//Uv4EpkoXc7SSRjyers9aFs2Hso9qznrRi1AZ3h/nz5pN2CKmKmS4B6NVpkax4+PSfoWRZsYt2il+aYmdvm4otvHezr6L+AhbSKRjC+O/iYsdmLhAzB4eyh4PfaKZZJqLsvfVQ1dVnyk59p5BhpGKPqQ=
+	t=1740434995; cv=none; b=DSUaMJnoy5sLlh6CcPolgE8IxS95E/wJ4yz3INc5ytulfokDWooLJiF2GNHGzTfanjVICIUVWduhzTSXWo12XOCglADTPXPhavJ7oj5Z694UHgfkBCNrcaOwjHsQ0F89YPfdGBJL5fjszMgM1fS6Bxj7OAjmoj4w/p1FKo/B/RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432388; c=relaxed/simple;
-	bh=OedWHTmiGO/m8ifbFZ2PJK+G9XqjCPz0xIcHtjXudK4=;
+	s=arc-20240116; t=1740434995; c=relaxed/simple;
+	bh=l8q/mT2AFGGD52ua9l4wd0X8UDyLaml/+LUHoIqslhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BfrCfYusqEAXtdgYQ2vtFZJpqeR0u18Ji/Lpqu+YIuGBR5e4ThNwOnGDheD7z1JKwNblk4FPFQw66OsYnYWNhFmKnD5yZItGM6W2lWLQI/pZla6M0OFlqkDVxQksEHi2wGAo21SjGgYbKMn31NHD5rcyH5XtLVFMSeXVJyc693M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AbN/Uz+h; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=hQHNn5eLvefbpZXH5saropiPHwtEf1+2HSsYJX5j0ZODGsk2kPfanwZYFF1WlXeQ4rQZp13+/CCnblrHqYpzi86hoL+D+v3SE7lH+LlJqF1oQOHUFpcoQjw5ZWfocNKaK/JEIgT1ujDRjxHTPYco8OnthLm/ixx4supH8c+RmHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6aozX47; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbN/Uz+h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6aozX47"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740432387; x=1771968387;
+  t=1740434993; x=1771970993;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OedWHTmiGO/m8ifbFZ2PJK+G9XqjCPz0xIcHtjXudK4=;
-  b=AbN/Uz+h/B6jXFkylk002ltT32gmkyeWH/sKFPMLAApJn7syqSafhSQs
-   xlFBb+u7+/W9GmObYgMG+PYl07NLigtfK+hsuFJTC3dfjPXkN2Qty04qB
-   aVb0Vxr1HFVCRDx6zwjdhn1mgC1Ya2MHp2+lqG+DO4P4GWzhsXzLkX2vg
-   0mPDntQsdd8+tGyZ1xJ9dQyGWdK5rNZ7wk/QnZXamJlC33CCOezKwX4sP
-   rwnSdDBU38IxYSViYyeCV/4YLRcAvk07Hgl3ASfVIRjJcBi5xzBgdMsEv
-   udwSDlmMPFJw+Cdx1RqJkGBP9XUxFlebwDGLs6SdZ61v69e4dA/NJ4Zuj
+  bh=l8q/mT2AFGGD52ua9l4wd0X8UDyLaml/+LUHoIqslhg=;
+  b=S6aozX47B0NuH5/ZNEkuhmk1XHQDa8dCFW4NwGk98j+L8gnjphSAfcTe
+   XIU4nvjv6pj7sD9LBq34EA2YqGjfC7mzqi47PhmcwdrOdjCTTY8iTwo99
+   n41hJOPS0UeI6Dq/rDNAR6PgvEFku4eSWbxbi1c3TIH/1UT8Z0ngJ8DI9
+   AC31bnCvhOhkV3ysypKg6vns9c1OE6Bl9aQc9BDZsC/tjHDHcICblz17G
+   QhekDEVhn+Z/VU8TJPUDQ9+kbYs2mamxsricyPmaoxHv/Ybcpo18oRhY5
+   FVPdLDNeL5K9io8SGmpd0MfYMwI4uWGaszBpyMuR04vC+2ToVEK6qaUZ0
    w==;
-X-CSE-ConnectionGUID: u74x+XT+TNmYrs51WRMXAA==
-X-CSE-MsgGUID: vTGURxEsRcOq0Vmcu9vi2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52205366"
+X-CSE-ConnectionGUID: wTvYEFabRI27Qis9ASMXWg==
+X-CSE-MsgGUID: aWfAI0FYR+aA4zNY5NqhYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="44040645"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="52205366"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 13:26:26 -0800
-X-CSE-ConnectionGUID: VnUeRE6pREy1h5Q8fesEgw==
-X-CSE-MsgGUID: cDRztIa+TuyNKfRi5yRjpw==
+   d="scan'208";a="44040645"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 14:09:50 -0800
+X-CSE-ConnectionGUID: gDt1/YmXTRC7/rTHb+Ju2Q==
+X-CSE-MsgGUID: iVehfScCTFGI5xoGgv6cgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="120795917"
+   d="scan'208";a="116204910"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Feb 2025 13:26:25 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 24 Feb 2025 14:09:49 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmfxm-0009Lr-0Q;
-	Mon, 24 Feb 2025 21:26:08 +0000
-Date: Tue, 25 Feb 2025 05:25:07 +0800
+	id 1tmge3-0009Nl-0H;
+	Mon, 24 Feb 2025 22:09:47 +0000
+Date: Tue, 25 Feb 2025 06:09:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e80100-t14s 1062/1079]
- arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: Unevaluated
- properties are not allowed ('compatible' was unexpected)
-Message-ID: <202502250551.BL81pvD6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [chrome-os:chromeos-6.12 1/1]
+ drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c:328 ipu_psys_ppg_resume() warn:
+ missing unwind goto?
+Message-ID: <202502250645.LOy4jqQs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,56 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abel Vesa <abel.vesa@linaro.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/krzk/linux track/x1e80100-t14s
-head:   0a5b996575143038f96d880868109359ede28367
-commit: 495547255fb7f0fd4d44e3a21c6a3d7d65f4140f [1062/1079] arm64: dts: qcom: x1e80100-crd: Enable SD card support
-:::::: branch date: 6 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20250219 (https://download.01.org/0day-ci/archive/20250225/202502250551.BL81pvD6-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250551.BL81pvD6-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   37dbd8a8c2e99d2dc230a23b66250fcb4f26e9c0
+commit: 2ef11ef12e26baa9bef7d9fc913f8e87a2d53c16 [1/1] CHROMIUM: ipu6: enable the psys downstream driver
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-161-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250645.LOy4jqQs-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502250551.BL81pvD6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502250645.LOy4jqQs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,x1e80100-sdhci', 'qcom,sdhci-msm-v5'] is too long
-   	'qcom,x1e80100-sdhci' is not one of ['qcom,sdhci-msm-v4']
-   	'qcom,x1e80100-sdhci' is not one of ['qcom,apq8084-sdhci', 'qcom,ipq4019-sdhci', 'qcom,ipq8074-sdhci', 'qcom,msm8226-sdhci', 'qcom,msm8953-sdhci', 'qcom,msm8974-sdhci', 'qcom,msm8976-sdhci', 'qcom,msm8916-sdhci', 'qcom,msm8992-sdhci', 'qcom,msm8994-sdhci', 'qcom,msm8996-sdhci', 'qcom,msm8998-sdhci']
-   	'qcom,x1e80100-sdhci' is not one of ['qcom,ipq5018-sdhci', 'qcom,ipq5332-sdhci', 'qcom,ipq6018-sdhci', 'qcom,ipq9574-sdhci', 'qcom,qcm2290-sdhci', 'qcom,qcs404-sdhci', 'qcom,qdu1000-sdhci', 'qcom,sc7180-sdhci', 'qcom,sc7280-sdhci', 'qcom,sc8280xp-sdhci', 'qcom,sdm630-sdhci', 'qcom,sdm670-sdhci', 'qcom,sdm845-sdhci', 'qcom,sdx55-sdhci', 'qcom,sdx65-sdhci', 'qcom,sdx75-sdhci', 'qcom,sm6115-sdhci', 'qcom,sm6125-sdhci', 'qcom,sm6350-sdhci', 'qcom,sm6375-sdhci', 'qcom,sm8150-sdhci', 'qcom,sm8250-sdhci', 'qcom,sm8350-sdhci', 'qcom,sm8450-sdhci', 'qcom,sm8550-sdhci', 'qcom,sm8650-sdhci']
-   	'qcom,sdhci-msm-v4' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: mmc@8804000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-msm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: /soc@0/mmc@8804000: failed to match any schema with compatible: ['qcom,x1e80100-sdhci', 'qcom,sdhci-msm-v5']
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: sdc2-card-det-state: 'oneOf' conditional failed, one must be fixed:
-   	'bias-pull-up', 'function', 'input-enable', 'output-disable', 'pins', 'power-source' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: usb-1-ss0-sbu-state: 'oneOf' conditional failed, one must be fixed:
-   	'function' is a required property
-   	Unevaluated properties are not allowed ('mode-hog', 'oe-n-pins', 'sel-pins' were unexpected)
-   	'pins' is a required property
-   	'mode-hog' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,x1e80100-tlmm.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: pinctrl@f100000: usb-1-ss1-sbu-state: 'oneOf' conditional failed, one must be fixed:
+smatch warnings:
+drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c:328 ipu_psys_ppg_resume() warn: missing unwind goto?
+drivers/media/pci/intel/ipu6/psys/ipu-psys.c:1359 ipu6_psys_probe() warn: missing error code 'rval'
+
+vim +328 drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c
+
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  284  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  285  int ipu_psys_ppg_resume(struct ipu_psys_ppg *kppg)
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  286  {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  287  	struct ipu_psys *psys = kppg->fh->psys;
+8d5e92b8220938d Bingbu Cao 2024-12-03  288  	struct device *dev = &psys->adev->auxdev.dev;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  289  	struct ipu_psys_kcmd tmp_kcmd = {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  290  		.kpg = kppg->kpg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  291  		.fh = kppg->fh,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  292  	};
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  293  	int ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  294  
+8d5e92b8220938d Bingbu Cao 2024-12-03  295  	dev_dbg(dev, "resume ppg id %d, addr 0x%p\n",
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  296  		ipu_fw_psys_pg_get_id(&tmp_kcmd), kppg);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  297  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  298  	kppg->state = PPG_STATE_RESUMING;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  299  	if (enable_suspend_resume) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  300  		ret = ipu_psys_allocate_resources(dev, kppg->kpg->pg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  301  						  kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  302  						  &kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  303  						  &psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  304  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  305  			dev_err(dev, "failed to allocate res\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  306  			return -EIO;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  307  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  308  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  309  		ret = ipu_fw_psys_ppg_resume(&tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  310  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  311  			dev_err(dev, "failed to resume ppg\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  312  			goto error;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  313  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  314  	} else {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  315  		kppg->kpg->pg->state = IPU_FW_PSYS_PROCESS_GROUP_READY;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  316  		ret = ipu_fw_psys_pg_submit(&tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  317  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  318  			dev_err(dev, "failed to submit kcmd!\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  319  			return ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  320  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  321  
+8d5e92b8220938d Bingbu Cao 2024-12-03  322  		ret = ipu_psys_allocate_resources(dev, kppg->kpg->pg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  323  						  kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  324  						  &kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  325  						  &psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  326  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  327  			dev_err(dev, "failed to allocate res\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03 @328  			return ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  329  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  330  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  331  		ret = ipu_psys_kcmd_start(psys, &tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  332  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  333  			dev_err(dev, "failed to start kcmd!\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  334  			goto error;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  335  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  336  	}
+8d5e92b8220938d Bingbu Cao 2024-12-03  337  	dev_dbg(dev, "s_change:%s: %p %d -> %d\n",
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  338  		__func__, kppg, kppg->state, PPG_STATE_RESUMED);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  339  	kppg->state = PPG_STATE_RESUMED;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  340  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  341  	return 0;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  342  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  343  error:
+8d5e92b8220938d Bingbu Cao 2024-12-03  344  	ipu_psys_reset_process_cell(dev, kppg->kpg->pg, kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  345  				    kppg->kpg->pg->process_count);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  346  	ipu_psys_free_resources(&kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  347  				&psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  348  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  349  	return ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  350  }
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  351  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: 7246d8ce30d62a5406ca7c639087c659c8398498 CHROMIUM: ipu6: move the downstream psys driver into a separate path
+
+:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
