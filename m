@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A633420B80F
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 23:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BE82571C0
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Feb 2025 00:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740441403; cv=none; b=p1BSWlUiJW1QWIs85MwsnzI17N9Wl5tNyl77S+Tw886EoLLgQPeg9LF80SbyWt6Oz/hmR8HzGr3f0JBArkbB3nw18BypQZ7oTgo2jhLcn1d9/bNVNFOKjrpLT9a3KFTHX60Krf19JZXrfe1+PBhYLe/XAg5JjO2tuW11wMAfyWU=
+	t=1740444461; cv=none; b=XRdKEXGAKU8YehXeB+2VcdJn+ZCpD0bxH9DF1L5ZmMal9ipaloBXni6qfgm/HqC0dtk197lF+EIBOcYWyc/SqJjDzGCZWxOk1Xj3ZAtqBg04ykFKdBq0GzjTkmuIu9uIiZ1fqpuYTFo32fD554T/xutJgC2jRnj9zr7kOaMc0f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740441403; c=relaxed/simple;
-	bh=vDBYXcfobFbDNQPF4SE/Jsx3+nLfYLS6VJarjzSWzYc=;
+	s=arc-20240116; t=1740444461; c=relaxed/simple;
+	bh=vVfUdUfkZMpaTskaaIWU6i/SKqEW4TJB75+0RNh2nGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8x1qJ4jW81XwqfFB+q1WmtROy1WwPkNhqTC4553pHgeRozDDi6DzTvOO1f0mGGUjbrua4pusH+wy1TD+Jx46K+A3VAj5zAqHmTtQHcB4rWG+L4SY0yCTGDjDpl/WslRN4A+D67c0bToSpoNpJHS25thn75CFAlW6D8EuXvne10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjsnFs1B; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=XYPBO2QBAA1WsirNHu2bAXqIKuemcPJ8/MCwL4AdHSLu+e9d3c51bo4pRq2YhRyBJNk0ybBUmkPKB9RM2lHQ1WWEN4eDQCsvU51soWR1M9oVsHips8XxcrTfDJlK83X6YQFuRHTa7APMtNF3PllRiieeBc3zZawHuGi4uSCdCfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZONK05Xr; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjsnFs1B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZONK05Xr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740441401; x=1771977401;
+  t=1740444460; x=1771980460;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vDBYXcfobFbDNQPF4SE/Jsx3+nLfYLS6VJarjzSWzYc=;
-  b=MjsnFs1BmK1u91OiGm7SNmSxI1MajBF6nAO8Y/KabGaPuBPwjmIKDw1m
-   +kVJty1Gzg0xjELbHGshN+SxB+6L7IktqZjixSx+81+MvNScNNG+nDZcN
-   0tjeIIWOhOCaTymv+sFqsJA9OJp/1Z2YCNhCGBG1hqYzoy4VLSFSUOehY
-   Qu3Sr2BBzKTjpQco+iozGEhKjbn0wRyahIYxIREjDSTUCvfvzIEnj8DF4
-   bJI9NYbmAGunRf/PiBSreymuPM1XGzgSzeKWneEMsJwGXRrXa39tF8LP2
-   5iwnny0sWTHTemw+Jg/MspYh0SPk82XL4gbWzFiu2jHLFBeIJtpFYyHPX
-   Q==;
-X-CSE-ConnectionGUID: Ua8tZ2bkQoextBq7WNFdlQ==
-X-CSE-MsgGUID: NVnXajztTj2ZjTQ9VY14/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51852060"
+  bh=vVfUdUfkZMpaTskaaIWU6i/SKqEW4TJB75+0RNh2nGc=;
+  b=ZONK05XrIsqXYXZqb2yjVU3TurX3mMVdakb49EsaPfbdAy8e8C2f2BCV
+   V+IuJxWjsU81vGYReZBWsKVPcNIKVpwRos7fED/+yEKb1H9fEc5ldAE8I
+   KGBJtCI0Dum4hJJqLgPnORb9XJBFhmzXSBj/jHgVcVGn3u/HvB3Ho6rRE
+   66oRNHtBOikQx4Ag8itsxX4FXOPbn85L9G9Xic53Ld32vy2zNtWP3rcBJ
+   FgtNo6PFlb5Qe1uUik9kEx07RkCQVirTPqAvTLXHHSSpAstPNh/+Iz9CT
+   H6Cwbtf2mjVDpPCEYUbGAkXUw12xFrjXdXgsScPfhuhKC+XrxdFja5SYN
+   A==;
+X-CSE-ConnectionGUID: ACvOVBmXQqex7Lqk3npp7Q==
+X-CSE-MsgGUID: o4y8Ksx2Sly3wSatJVFhLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="66599934"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="51852060"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 15:56:25 -0800
-X-CSE-ConnectionGUID: Srtbc+giRJm+YvsSeGcpgA==
-X-CSE-MsgGUID: 5ijjCO9QSRG+GUNd/pScRg==
+   d="scan'208";a="66599934"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 16:47:39 -0800
+X-CSE-ConnectionGUID: kDJmI+8BS3qRSFMrx8fS7w==
+X-CSE-MsgGUID: InNJNVqsQGGJ5OK5hREPiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117129748"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
+   d="scan'208";a="147064944"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 24 Feb 2025 15:56:23 -0800
+  by orviesa002.jf.intel.com with ESMTP; 24 Feb 2025 16:47:38 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmiJB-0009TR-1L;
-	Mon, 24 Feb 2025 23:56:21 +0000
-Date: Tue, 25 Feb 2025 07:55:27 +0800
+	id 1tmj6l-0009WF-0e;
+	Tue, 25 Feb 2025 00:47:35 +0000
+Date: Tue, 25 Feb 2025 08:47:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tglx-devel:timers/posix 8/14] kernel/time/posix-timers.c:852
- timer_wait_running() warn: inconsistent returns '&timer->it_lock'.
-Message-ID: <202502250737.fMTOUVfQ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/media/platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing
+ put_device; call of_find_device_by_node on line 1667, but without a
+ corresponding object release within this function.
+Message-ID: <202502250846.5pJIcZWY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,88 +65,89 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Thomas Gleixner <tglx@linutronix.de>
+CC: linux-kernel@vger.kernel.org
+TO: Zhen Lei <thunder.leizhen@huawei.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
-head:   2f9ae35230ff61b3caa708359c745f375cf0c075
-commit: 029c3a43aaca2ffc86a970704b469733b70fe88b [8/14] posix-timers: Rework timer removal
-:::::: branch date: 17 hours ago
-:::::: commit date: 24 hours ago
-config: x86_64-randconfig-161-20250225 (https://download.01.org/0day-ci/archive/20250225/202502250737.fMTOUVfQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d082ecbc71e9e0bf49883ee4afd435a77a5101b6
+commit: c4b7779abc6633677e6edb79e2809f4f61fde157 media: nuvoton: Fix an error check in npcm_video_ece_init()
+date:   7 weeks ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 7 weeks ago
+config: mips-randconfig-r052-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250846.5pJIcZWY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502250737.fMTOUVfQ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202502250846.5pJIcZWY-lkp@intel.com/
 
-smatch warnings:
-kernel/time/posix-timers.c:852 timer_wait_running() warn: inconsistent returns '&timer->it_lock'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+   drivers/media/platform/nuvoton/npcm-video.c:1684:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+   drivers/media/platform/nuvoton/npcm-video.c:1690:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+   drivers/media/platform/nuvoton/npcm-video.c:1694:1-7: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
 
-vim +852 kernel/time/posix-timers.c
+vim +1677 drivers/media/platform/nuvoton/npcm-video.c
 
-ec8f954a40da8c Thomas Gleixner     2019-08-02  800  
-0bee3b601b77db Frederic Weisbecker 2019-08-20  801  /*
-7d990902664506 Thomas Gleixner     2023-04-25  802   * On PREEMPT_RT this prevents priority inversion and a potential livelock
-7d990902664506 Thomas Gleixner     2023-04-25  803   * against the ksoftirqd thread in case that ksoftirqd gets preempted while
-7d990902664506 Thomas Gleixner     2023-04-25  804   * executing a hrtimer callback.
-7d990902664506 Thomas Gleixner     2023-04-25  805   *
-7d990902664506 Thomas Gleixner     2023-04-25  806   * See the comments in hrtimer_cancel_wait_running(). For PREEMPT_RT=n this
-7d990902664506 Thomas Gleixner     2023-04-25  807   * just results in a cpu_relax().
-7d990902664506 Thomas Gleixner     2023-04-25  808   *
-7d990902664506 Thomas Gleixner     2023-04-25  809   * For POSIX CPU timers with CONFIG_POSIX_CPU_TIMERS_TASK_WORK=n this is
-7d990902664506 Thomas Gleixner     2023-04-25  810   * just a cpu_relax(). With CONFIG_POSIX_CPU_TIMERS_TASK_WORK=y this
-7d990902664506 Thomas Gleixner     2023-04-25  811   * prevents spinning on an eventually scheduled out task and a livelock
-7d990902664506 Thomas Gleixner     2023-04-25  812   * when the task which tries to delete or disarm the timer has preempted
-7d990902664506 Thomas Gleixner     2023-04-25  813   * the task which runs the expiry in task work context.
-0bee3b601b77db Frederic Weisbecker 2019-08-20  814   */
-029c3a43aaca2f Thomas Gleixner     2025-02-20  815  static struct k_itimer *timer_wait_running(struct k_itimer *timer, unsigned long *flags,
-029c3a43aaca2f Thomas Gleixner     2025-02-20  816  					   bool delete)
-6945e5c2abe008 Thomas Gleixner     2019-07-31  817  {
-ec8f954a40da8c Thomas Gleixner     2019-08-02  818  	const struct k_clock *kc = READ_ONCE(timer->kclock);
-6945e5c2abe008 Thomas Gleixner     2019-07-31  819  	timer_t timer_id = READ_ONCE(timer->it_id);
-6945e5c2abe008 Thomas Gleixner     2019-07-31  820  
-ec8f954a40da8c Thomas Gleixner     2019-08-02  821  	/* Prevent kfree(timer) after dropping the lock */
-ec8f954a40da8c Thomas Gleixner     2019-08-02  822  	rcu_read_lock();
-da7ae390d73a82 Thomas Gleixner     2025-02-20  823  	spin_unlock_irqrestore(&timer->it_lock, *flags);
-ec8f954a40da8c Thomas Gleixner     2019-08-02  824  
-f7abf14f0001a5 Thomas Gleixner     2023-04-17  825  	/*
-029c3a43aaca2f Thomas Gleixner     2025-02-20  826  	 * kc->timer_wait_running() might drop RCU lock. So @timer cannot
-029c3a43aaca2f Thomas Gleixner     2025-02-20  827  	 * be touched anymore after the function returns, except when
-029c3a43aaca2f Thomas Gleixner     2025-02-20  828  	 * @delete is true!
-f7abf14f0001a5 Thomas Gleixner     2023-04-17  829  	 */
-ec8f954a40da8c Thomas Gleixner     2019-08-02  830  	if (!WARN_ON_ONCE(!kc->timer_wait_running))
-ec8f954a40da8c Thomas Gleixner     2019-08-02  831  		kc->timer_wait_running(timer);
-ec8f954a40da8c Thomas Gleixner     2019-08-02  832  
-ec8f954a40da8c Thomas Gleixner     2019-08-02  833  	rcu_read_unlock();
-029c3a43aaca2f Thomas Gleixner     2025-02-20  834  
-029c3a43aaca2f Thomas Gleixner     2025-02-20  835  	/*
-029c3a43aaca2f Thomas Gleixner     2025-02-20  836  	 * On deletion the timer has been marked invalid before
-029c3a43aaca2f Thomas Gleixner     2025-02-20  837  	 * timer_delete_hook() has been invoked. That means that the
-029c3a43aaca2f Thomas Gleixner     2025-02-20  838  	 * current task is the only one which has access to the timer and
-029c3a43aaca2f Thomas Gleixner     2025-02-20  839  	 * even after dropping timer::it_lock above, no other thread can
-029c3a43aaca2f Thomas Gleixner     2025-02-20  840  	 * have accessed the timer.
-029c3a43aaca2f Thomas Gleixner     2025-02-20  841  	 */
-029c3a43aaca2f Thomas Gleixner     2025-02-20  842  	if (delete) {
-029c3a43aaca2f Thomas Gleixner     2025-02-20  843  		spin_lock_irqsave(&timer->it_lock, *flags);
-029c3a43aaca2f Thomas Gleixner     2025-02-20  844  		return timer;
-029c3a43aaca2f Thomas Gleixner     2025-02-20  845  	}
-029c3a43aaca2f Thomas Gleixner     2025-02-20  846  
-029c3a43aaca2f Thomas Gleixner     2025-02-20  847  	/*
-029c3a43aaca2f Thomas Gleixner     2025-02-20  848  	 * If invoked from timer_set() the timer could have been deleted
-029c3a43aaca2f Thomas Gleixner     2025-02-20  849  	 * after dropping the lock. So in that case the timer needs to be
-029c3a43aaca2f Thomas Gleixner     2025-02-20  850  	 * looked up and validated.
-029c3a43aaca2f Thomas Gleixner     2025-02-20  851  	 */
-6945e5c2abe008 Thomas Gleixner     2019-07-31 @852  	return lock_timer(timer_id, flags);
-6945e5c2abe008 Thomas Gleixner     2019-07-31  853  }
-6945e5c2abe008 Thomas Gleixner     2019-07-31  854  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1648  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1649  static int npcm_video_ece_init(struct npcm_video *video)
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1650  {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1651  	struct device *dev = video->dev;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1652  	struct device_node *ece_node;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1653  	struct platform_device *ece_pdev;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1654  	void __iomem *regs;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1655  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1656  	ece_node = of_parse_phandle(video->dev->of_node, "nuvoton,ece", 0);
+5f9fcbf92da901 Dan Carpenter 2023-09-27  1657  	if (!ece_node) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1658  		dev_err(dev, "Failed to get ECE phandle in DTS\n");
+5f9fcbf92da901 Dan Carpenter 2023-09-27  1659  		return -ENODEV;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1660  	}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1661  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1662  	video->ece.enable = of_device_is_available(ece_node);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1663  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1664  	if (video->ece.enable) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1665  		dev_info(dev, "Support HEXTILE pixel format\n");
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1666  
+46c15a4ff1f4fe Marvin Lin    2023-09-22 @1667  		ece_pdev = of_find_device_by_node(ece_node);
+c4b7779abc6633 Zhen Lei      2024-10-15  1668  		if (!ece_pdev) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1669  			dev_err(dev, "Failed to find ECE device\n");
+c4b7779abc6633 Zhen Lei      2024-10-15  1670  			return -ENODEV;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1671  		}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1672  		of_node_put(ece_node);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1673  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1674  		regs = devm_platform_ioremap_resource(ece_pdev, 0);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1675  		if (IS_ERR(regs)) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1676  			dev_err(dev, "Failed to parse ECE reg in DTS\n");
+46c15a4ff1f4fe Marvin Lin    2023-09-22 @1677  			return PTR_ERR(regs);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1678  		}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1679  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1680  		video->ece.regmap = devm_regmap_init_mmio(dev, regs,
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1681  							  &npcm_video_ece_regmap_cfg);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1682  		if (IS_ERR(video->ece.regmap)) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1683  			dev_err(dev, "Failed to initialize ECE regmap\n");
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1684  			return PTR_ERR(video->ece.regmap);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1685  		}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1686  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1687  		video->ece.reset = devm_reset_control_get(&ece_pdev->dev, NULL);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1688  		if (IS_ERR(video->ece.reset)) {
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1689  			dev_err(dev, "Failed to get ECE reset control in DTS\n");
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1690  			return PTR_ERR(video->ece.reset);
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1691  		}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1692  	}
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1693  
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1694  	return 0;
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1695  }
+46c15a4ff1f4fe Marvin Lin    2023-09-22  1696  
 
-:::::: The code at line 852 was first introduced by commit
-:::::: 6945e5c2abe008302b20266248d6de95575311a8 posix-timers: Rework cancel retry loops
+:::::: The code at line 1677 was first introduced by commit
+:::::: 46c15a4ff1f4fe078c5b250fb2570020211eab38 media: nuvoton: Add driver for NPCM video capture and encoding engine
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Marvin Lin <milkfafa@gmail.com>
+:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 -- 
 0-DAY CI Kernel Test Service
