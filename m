@@ -1,192 +1,157 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45F021ABB2;
-	Tue, 25 Feb 2025 14:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A11219CCEA;
+	Tue, 25 Feb 2025 18:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740495262; cv=none; b=HO7LCSVIK9gluNZtpOa9F+d49L3CeSW01r5f0NhJmR255YxDHavc7XPEpFInD7TrZueGWggmzt6IoaK5IiT0P6+vz3UlWGkx+7BA81kAjAMIcZ1UHCNvjH/r55rPBJq4V/yoLn+MfVOwA5W7yT2oe8mhBIQplZfOeOc+b5BOL7g=
+	t=1740508068; cv=none; b=Ilj1IV83ItWRIxZShgEHgiPEw+LV+sSedZ62i+yJ//j7YnH8ATYpP4KCH0pZU0ZxOqhFLC1m8pPuwRfAVZYYjTowh1+LFu32AmR5v5yug7IzrYh9e/AksV5cMkYvMeuw0S1TmRXKOGN4P3DY4PEml3eYCT6FLpO/vF5ZVPPqlhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740495262; c=relaxed/simple;
-	bh=fGFy6TkVvvFSBJBtvwKKCIcuqLB8Gp5LhuAXcZ++iWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UydKlNedP1CfaaK71vuQzw3UbSAbE8qW1D4PeD+Krwfx196+/Od6kn16a8HHey4j4EOzTYicYmLhQ2wqCSt3mGfUkfeoyP2Caw5ejZEJ+X1j0S4sppxSttCQrqXjSIV7DfFWDXjAvbgOBaWUaehiTUk6bnh9w2IJ0lcKuEdNHEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OIurxDBV; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OIurxDBV"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E1F1B40E01B2;
-	Tue, 25 Feb 2025 14:54:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ztTnc5zCCFJz; Tue, 25 Feb 2025 14:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1740495252; bh=HuKrRSoC93GtPlKMv4c20e2TYzpEJC46tpoId9qbscU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OIurxDBVhcS4+EjQjReOOwB1cYXmA10MgPEVu6GE2gBeY/6KqWIIIzRXuv+XKH4xj
-	 FlGpc0BTxAb75kNCXL0iCn3byCJzJ2PzomAdQPpFrBLUs9lLOwObvP5n13vQhNLz/7
-	 FnzE4wTBdjQE6UNdNQNUwXDqDzDIp94jJ2THGxTxkS6ZVxp8khG+ZHe0ztOJ8C6Afk
-	 KyxlTMy3f5CxN8gyR7NkPsEuXr72xHMDfgXdlWID2dQYyTysZv/aFkWGLruV/0ggfu
-	 0SKa65WiUu9k+lfKLKPHJMHZiqrK8SUCLEKtG3kwPKpCUZ76R+WiCjnJQRbIgbTsqD
-	 oRvwullyQ2+5UoTrhos2ffd4+cZO5mEUpNSgfNp/cFBAkMmOsQu2sy+zV3kunbrsWA
-	 FMlj9YZjEy7zpN0qCpecuTgcGQRiU0BRZgVjuUKnzu5eWdeuMaTu5kZ3zGfJRAlYHm
-	 8UAEhNL4AhwslasRyhZ219/amjmOG+h4QBEZv/FaLJcqMeZNclpDUI3kCYCKGmID3k
-	 bukO2tzkoQQzVcq0iiY+ootiega5aIiVZlATij9ggfeau2jJxnaCid+4B2gCu1pYCr
-	 cd1lNrARhXq9kGGgNWb6ZHOxG3ofG/PENMFEk4cTGQV5pIr6ZSTzuwPOpBYPpggSQX
-	 i3Q9gHR+DbyikTEuPbPEHFKM=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5058940E01A0;
-	Tue, 25 Feb 2025 14:54:06 +0000 (UTC)
-Date: Tue, 25 Feb 2025 15:54:00 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-	Shiju Jose <shiju.jose@huawei.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
+	s=arc-20240116; t=1740508068; c=relaxed/simple;
+	bh=aQp4k60hR1/JqO7dDmM2ITosoxNuXYJRFMik1n6FueA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Z2x8q3OJ0/UwP/t/NEBIVxmjcQpQdiDNtx3F74BOhb/zCDrMnOCCb/lyWOHAeZImpfjIvQhW9bD9T7yE6GUEvp6BIzba8CTlS7AfMaasjDeB5O3pFO2qTGDpTEjDSB39PhT9f14R9CJ8VW0js6rPqD8eN7WWmx9h0+MMVnJj714=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Z2Qwc4BhCz67Q1X;
+	Wed, 26 Feb 2025 02:24:00 +0800 (CST)
+Received: from frapeml500006.china.huawei.com (unknown [7.182.85.219])
+	by mail.maildlp.com (Postfix) with ESMTPS id B482C140A90;
+	Wed, 26 Feb 2025 02:27:42 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (7.182.85.172) by
+ frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 25 Feb 2025 19:27:42 +0100
+Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
+ frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
+ Tue, 25 Feb 2025 19:27:42 +0100
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Borislav Petkov <bp@alien8.de>, Dan Carpenter <dan.carpenter@linaro.org>
+CC: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>, "lkp@intel.com"
+	<lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>
+Subject: RE: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
  edac_dev_register() error: uninitialized symbol 'ret'.
-Message-ID: <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
+Thread-Topic: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
+ edac_dev_register() error: uninitialized symbol 'ret'.
+Thread-Index: AQHbh1mEWCupa4ApT0m1ixfF9jREFLNYCr4AgABB1QA=
+Date: Tue, 25 Feb 2025 18:27:42 +0000
+Message-ID: <c07debded8ee4b60ab3408cdb83ff128@huawei.com>
 References: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
+ <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
+In-Reply-To: <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
 
-On Tue, Feb 25, 2025 at 10:46:48AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git edac-cxl
-> head:   4fab25b62bc682c0df886d97dcb106d4989c9ff1
-> commit: e777719d5bec32af859990456f4b0e0e362f425a [2/5] EDAC: Add scrub control feature
-> config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250225/202502251009.0sGkolEJ-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502251009.0sGkolEJ-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/edac/edac_device.c:705 edac_dev_register() error: uninitialized symbol 'ret'.
-
-Thanks for reporting.
-
-I went through the whole set and did some scrubbing of retvals. And that
-edac_dev_register() is already a mess. But cleaning that up is for another
-day.
-
-So, Shiju, I've pushed a edac-cxl2 branch, please run it again.
-
-Thx.
-
-Full diff of the changes I've done:
-
----
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index 081f77b1f125..16611515ab34 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -581,7 +581,7 @@ static void edac_dev_release(struct device *dev)
- 	kfree(ctx);
- }
- 
--const struct device_type edac_dev_type = {
-+static const struct device_type edac_dev_type = {
- 	.name = "edac_dev",
- 	.release = edac_dev_release,
- };
-@@ -616,8 +616,9 @@ int edac_dev_register(struct device *parent, char *name,
- 	struct edac_dev_feat_ctx *ctx;
- 	int mem_repair_cnt = 0;
- 	int attr_gcnt = 0;
-+	int ret = -ENOMEM;
- 	int scrub_cnt = 0;
--	int ret, feat;
-+	int feat;
- 
- 	if (!parent || !name || !num_features || !ras_features)
- 		return -EINVAL;
-@@ -646,25 +647,19 @@ int edac_dev_register(struct device *parent, char *name,
- 		return -ENOMEM;
- 
- 	ras_attr_groups = kcalloc(attr_gcnt + 1, sizeof(*ras_attr_groups), GFP_KERNEL);
--	if (!ras_attr_groups) {
--		ret = -ENOMEM;
-+	if (!ras_attr_groups)
- 		goto ctx_free;
--	}
- 
- 	if (scrub_cnt) {
- 		ctx->scrub = kcalloc(scrub_cnt, sizeof(*ctx->scrub), GFP_KERNEL);
--		if (!ctx->scrub) {
--			ret = -ENOMEM;
-+		if (!ctx->scrub)
- 			goto groups_free;
--		}
- 	}
- 
- 	if (mem_repair_cnt) {
- 		ctx->mem_repair = kcalloc(mem_repair_cnt, sizeof(*ctx->mem_repair), GFP_KERNEL);
--		if (!ctx->mem_repair) {
--			ret = -ENOMEM;
-+		if (!ctx->mem_repair)
- 			goto data_mem_free;
--		}
- 	}
- 
- 	attr_gcnt = 0;
-@@ -673,9 +668,10 @@ int edac_dev_register(struct device *parent, char *name,
- 	for (feat = 0; feat < num_features; feat++, ras_features++) {
- 		switch (ras_features->ft_type) {
- 		case RAS_FEAT_SCRUB:
--			if (!ras_features->scrub_ops ||
--			    scrub_cnt != ras_features->instance)
-+			if (!ras_features->scrub_ops || scrub_cnt != ras_features->instance) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->scrub[scrub_cnt];
- 			dev_data->instance = scrub_cnt;
-@@ -690,8 +686,10 @@ int edac_dev_register(struct device *parent, char *name,
- 			attr_gcnt++;
- 			break;
- 		case RAS_FEAT_ECS:
--			if (!ras_features->ecs_ops)
-+			if (!ras_features->ecs_ops) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->ecs;
- 			dev_data->ecs_ops = ras_features->ecs_ops;
-@@ -705,8 +703,10 @@ int edac_dev_register(struct device *parent, char *name,
- 			break;
- 		case RAS_FEAT_MEM_REPAIR:
- 			if (!ras_features->mem_repair_ops ||
--			    mem_repair_cnt != ras_features->instance)
-+			    mem_repair_cnt != ras_features->instance) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->mem_repair[mem_repair_cnt];
- 			dev_data->instance = mem_repair_cnt;
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
+bGllbjguZGU+DQo+U2VudDogMjUgRmVicnVhcnkgMjAyNSAxNDo1NA0KPlRvOiBEYW4gQ2FycGVu
+dGVyIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+OyBTaGlqdSBKb3NlDQo+PHNoaWp1Lmpvc2VA
+aHVhd2VpLmNvbT4NCj5DYzogb2Uta2J1aWxkQGxpc3RzLmxpbnV4LmRldjsgbGtwQGludGVsLmNv
+bTsgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXY7DQo+Sm9uYXRoYW4gQ2FtZXJvbiA8am9u
+YXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbYnA6ZWRhYy1jeGwgMi81
+XSBkcml2ZXJzL2VkYWMvZWRhY19kZXZpY2UuYzo3MDUNCj5lZGFjX2Rldl9yZWdpc3RlcigpIGVy
+cm9yOiB1bmluaXRpYWxpemVkIHN5bWJvbCAncmV0Jy4NCj4NCj5PbiBUdWUsIEZlYiAyNSwgMjAy
+NSBhdCAxMDo0Njo0OEFNICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOg0KPj4gdHJlZTogICBo
+dHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9icC9icC5naXQg
+ZWRhYy1jeGwNCj4+IGhlYWQ6ICAgNGZhYjI1YjYyYmM2ODJjMGRmODg2ZDk3ZGNiMTA2ZDQ5ODlj
+OWZmMQ0KPj4gY29tbWl0OiBlNzc3NzE5ZDViZWMzMmFmODU5OTkwNDU2ZjRiMGUwZTM2MmY0MjVh
+IFsyLzVdIEVEQUM6IEFkZA0KPnNjcnViDQo+PiBjb250cm9sIGZlYXR1cmUNCj4+IGNvbmZpZzog
+aTM4Ni1yYW5kY29uZmlnLTE0MS0yMDI1MDIyNQ0KPj4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3Jn
+LzBkYXktY2kvYXJjaGl2ZS8yMDI1MDIyNS8yMDI1MDIyNTEwMDkuMHNHa29sRQ0KPj4gSi1sa3BA
+aW50ZWwuY29tL2NvbmZpZykNCj4+IGNvbXBpbGVyOiBjbGFuZyB2ZXJzaW9uIDE5LjEuNyAoaHR0
+cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2bS1wcm9qZWN0DQo+PiBjZDcwODAyOWUwYjI4NjllODBh
+YmUzMWRkYjE3NWY3YzM1MzYxZjkwKQ0KPj4NCj4+IElmIHlvdSBmaXggdGhlIGlzc3VlIGluIGEg
+c2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0IGEgbmV3DQo+PiB2ZXJzaW9uIG9m
+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4+IHwg
+UmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPj4gfCBSZXBv
+cnRlZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBsaW5hcm8ub3JnPg0KPj4gfCBD
+bG9zZXM6DQo+PiB8IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNTAyMjUxMDA5LjBzR2tv
+bEVKLWxrcEBpbnRlbC5jb20vDQo+Pg0KPj4gc21hdGNoIHdhcm5pbmdzOg0KPj4gZHJpdmVycy9l
+ZGFjL2VkYWNfZGV2aWNlLmM6NzA1IGVkYWNfZGV2X3JlZ2lzdGVyKCkgZXJyb3I6IHVuaW5pdGlh
+bGl6ZWQNCj5zeW1ib2wgJ3JldCcuDQo+DQo+VGhhbmtzIGZvciByZXBvcnRpbmcuDQo+DQo+SSB3
+ZW50IHRocm91Z2ggdGhlIHdob2xlIHNldCBhbmQgZGlkIHNvbWUgc2NydWJiaW5nIG9mIHJldHZh
+bHMuIEFuZCB0aGF0DQo+ZWRhY19kZXZfcmVnaXN0ZXIoKSBpcyBhbHJlYWR5IGEgbWVzcy4gQnV0
+IGNsZWFuaW5nIHRoYXQgdXAgaXMgZm9yIGFub3RoZXIgZGF5Lg0KPg0KPlNvLCBTaGlqdSwgSSd2
+ZSBwdXNoZWQgYSBlZGFjLWN4bDIgYnJhbmNoLCBwbGVhc2UgcnVuIGl0IGFnYWluLg0KDQpUaGFu
+a3MgQm9yaXNsYXYgZm9yIGZpeGluZyB0aGlzIGVycm9yIGFuZCBjaGFuZ2VzIGxvb2tzIGdvb2Qg
+dG8gbWUuIA0KDQpUZXN0ZWQgZmluZSBpbiB0aGUgZWRhYy1jeGwyIGJyYW5jaCArIGZvbGxvd2lu
+ZyBmaXggZm9yIHRoZSBhbGxtb2Rjb25maWcteDg2XzY0LWNsYW5nDQpidWlsZCBlcnJvciByZXBv
+cnRlZCBpbiB0aGUgb3RoZXIgdGhyZWFkLg0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL21l
+bV9yZXBhaXIuYyBiL2RyaXZlcnMvZWRhYy9tZW1fcmVwYWlyLmMgaW5kZXggY2JlNWE3MjI3MTVk
+Li42ZjRhOWRmY2Q3ZGEgMTAwNzU1DQotLS0gYS9kcml2ZXJzL2VkYWMvbWVtX3JlcGFpci5jDQor
+KysgYi9kcml2ZXJzL2VkYWMvbWVtX3JlcGFpci5jDQpAQCAtMzIyLDggKzMyMiw4IEBAIHN0YXRp
+YyBpbnQgbWVtX3JlcGFpcl9jcmVhdGVfZGVzYyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQogICAgICAg
+ICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQogDQogICAgICAgIGZvciAoaSA9IDA7IGkgPCBNUl9N
+QVhfQVRUUlM7IGkrKykgew0KLSAgICAgICAgICAgICAgIG1lbWNweSgmY3R4LT5tZW1fcmVwYWly
+X2Rldl9hdHRyW2ldLmRldl9hdHRyLA0KLSAgICAgICAgICAgICAgICAgICAgICAmZGV2X2F0dHJb
+aV0sIHNpemVvZihkZXZfYXR0cltpXSkpOw0KKyAgICAgICAgICAgICAgIG1lbWNweSgmY3R4LT5t
+ZW1fcmVwYWlyX2Rldl9hdHRyW2ldLCAmZGV2X2F0dHJbaV0sDQorICAgICAgICAgICAgICAgICAg
+ICAgIHNpemVvZihkZXZfYXR0cltpXSkpOw0KICAgICAgICAgICAgICAgIGN0eC0+bWVtX3JlcGFp
+cl9hdHRyc1tpXSA9DQogICAgICAgICAgICAgICAgICAgICAgICAmY3R4LT5tZW1fcmVwYWlyX2Rl
+dl9hdHRyW2ldLmRldl9hdHRyLmF0dHI7DQogICAgICAgIH0NCiAgDQo+DQo+VGh4Lg0KPg0KPkZ1
+bGwgZGlmZiBvZiB0aGUgY2hhbmdlcyBJJ3ZlIGRvbmU6DQo+DQo+LS0tDQo+ZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZWRhYy9lZGFjX2RldmljZS5jIGIvZHJpdmVycy9lZGFjL2VkYWNfZGV2aWNlLmMg
+aW5kZXgNCj4wODFmNzdiMWYxMjUuLjE2NjExNTE1YWIzNCAxMDA2NDQNCj4tLS0gYS9kcml2ZXJz
+L2VkYWMvZWRhY19kZXZpY2UuYw0KPisrKyBiL2RyaXZlcnMvZWRhYy9lZGFjX2RldmljZS5jDQo+
+QEAgLTU4MSw3ICs1ODEsNyBAQCBzdGF0aWMgdm9pZCBlZGFjX2Rldl9yZWxlYXNlKHN0cnVjdCBk
+ZXZpY2UgKmRldikNCj4gCWtmcmVlKGN0eCk7DQo+IH0NCj4NCj4tY29uc3Qgc3RydWN0IGRldmlj
+ZV90eXBlIGVkYWNfZGV2X3R5cGUgPSB7DQo+K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZGV2aWNlX3R5
+cGUgZWRhY19kZXZfdHlwZSA9IHsNCj4gCS5uYW1lID0gImVkYWNfZGV2IiwNCj4gCS5yZWxlYXNl
+ID0gZWRhY19kZXZfcmVsZWFzZSwNCj4gfTsNCj5AQCAtNjE2LDggKzYxNiw5IEBAIGludCBlZGFj
+X2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXINCj4qbmFtZSwNCj4gCXN0
+cnVjdCBlZGFjX2Rldl9mZWF0X2N0eCAqY3R4Ow0KPiAJaW50IG1lbV9yZXBhaXJfY250ID0gMDsN
+Cj4gCWludCBhdHRyX2djbnQgPSAwOw0KPisJaW50IHJldCA9IC1FTk9NRU07DQo+IAlpbnQgc2Ny
+dWJfY250ID0gMDsNCj4tCWludCByZXQsIGZlYXQ7DQo+KwlpbnQgZmVhdDsNCj4NCj4gCWlmICgh
+cGFyZW50IHx8ICFuYW1lIHx8ICFudW1fZmVhdHVyZXMgfHwgIXJhc19mZWF0dXJlcykNCj4gCQly
+ZXR1cm4gLUVJTlZBTDsNCj5AQCAtNjQ2LDI1ICs2NDcsMTkgQEAgaW50IGVkYWNfZGV2X3JlZ2lz
+dGVyKHN0cnVjdCBkZXZpY2UgKnBhcmVudCwgY2hhcg0KPipuYW1lLA0KPiAJCXJldHVybiAtRU5P
+TUVNOw0KPg0KPiAJcmFzX2F0dHJfZ3JvdXBzID0ga2NhbGxvYyhhdHRyX2djbnQgKyAxLCBzaXpl
+b2YoKnJhc19hdHRyX2dyb3VwcyksDQo+R0ZQX0tFUk5FTCk7DQo+LQlpZiAoIXJhc19hdHRyX2dy
+b3Vwcykgew0KPi0JCXJldCA9IC1FTk9NRU07DQo+KwlpZiAoIXJhc19hdHRyX2dyb3VwcykNCj4g
+CQlnb3RvIGN0eF9mcmVlOw0KPi0JfQ0KPg0KPiAJaWYgKHNjcnViX2NudCkgew0KPiAJCWN0eC0+
+c2NydWIgPSBrY2FsbG9jKHNjcnViX2NudCwgc2l6ZW9mKCpjdHgtPnNjcnViKSwNCj5HRlBfS0VS
+TkVMKTsNCj4tCQlpZiAoIWN0eC0+c2NydWIpIHsNCj4tCQkJcmV0ID0gLUVOT01FTTsNCj4rCQlp
+ZiAoIWN0eC0+c2NydWIpDQo+IAkJCWdvdG8gZ3JvdXBzX2ZyZWU7DQo+LQkJfQ0KPiAJfQ0KPg0K
+PiAJaWYgKG1lbV9yZXBhaXJfY250KSB7DQo+IAkJY3R4LT5tZW1fcmVwYWlyID0ga2NhbGxvYyht
+ZW1fcmVwYWlyX2NudCwgc2l6ZW9mKCpjdHgtDQo+Pm1lbV9yZXBhaXIpLCBHRlBfS0VSTkVMKTsN
+Cj4tCQlpZiAoIWN0eC0+bWVtX3JlcGFpcikgew0KPi0JCQlyZXQgPSAtRU5PTUVNOw0KPisJCWlm
+ICghY3R4LT5tZW1fcmVwYWlyKQ0KPiAJCQlnb3RvIGRhdGFfbWVtX2ZyZWU7DQo+LQkJfQ0KPiAJ
+fQ0KPg0KPiAJYXR0cl9nY250ID0gMDsNCj5AQCAtNjczLDkgKzY2OCwxMCBAQCBpbnQgZWRhY19k
+ZXZfcmVnaXN0ZXIoc3RydWN0IGRldmljZSAqcGFyZW50LCBjaGFyDQo+Km5hbWUsDQo+IAlmb3Ig
+KGZlYXQgPSAwOyBmZWF0IDwgbnVtX2ZlYXR1cmVzOyBmZWF0KyssIHJhc19mZWF0dXJlcysrKSB7
+DQo+IAkJc3dpdGNoIChyYXNfZmVhdHVyZXMtPmZ0X3R5cGUpIHsNCj4gCQljYXNlIFJBU19GRUFU
+X1NDUlVCOg0KPi0JCQlpZiAoIXJhc19mZWF0dXJlcy0+c2NydWJfb3BzIHx8DQo+LQkJCSAgICBz
+Y3J1Yl9jbnQgIT0gcmFzX2ZlYXR1cmVzLT5pbnN0YW5jZSkNCj4rCQkJaWYgKCFyYXNfZmVhdHVy
+ZXMtPnNjcnViX29wcyB8fCBzY3J1Yl9jbnQgIT0NCj5yYXNfZmVhdHVyZXMtPmluc3RhbmNlKSB7
+DQo+KwkJCQlyZXQgPSAtRUlOVkFMOw0KPiAJCQkJZ290byBkYXRhX21lbV9mcmVlOw0KPisJCQl9
+DQo+DQo+IAkJCWRldl9kYXRhID0gJmN0eC0+c2NydWJbc2NydWJfY250XTsNCj4gCQkJZGV2X2Rh
+dGEtPmluc3RhbmNlID0gc2NydWJfY250Ow0KPkBAIC02OTAsOCArNjg2LDEwIEBAIGludCBlZGFj
+X2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXINCj4qbmFtZSwNCj4gCQkJ
+YXR0cl9nY250Kys7DQo+IAkJCWJyZWFrOw0KPiAJCWNhc2UgUkFTX0ZFQVRfRUNTOg0KPi0JCQlp
+ZiAoIXJhc19mZWF0dXJlcy0+ZWNzX29wcykNCj4rCQkJaWYgKCFyYXNfZmVhdHVyZXMtPmVjc19v
+cHMpIHsNCj4rCQkJCXJldCA9IC1FSU5WQUw7DQo+IAkJCQlnb3RvIGRhdGFfbWVtX2ZyZWU7DQo+
+KwkJCX0NCj4NCj4gCQkJZGV2X2RhdGEgPSAmY3R4LT5lY3M7DQo+IAkJCWRldl9kYXRhLT5lY3Nf
+b3BzID0gcmFzX2ZlYXR1cmVzLT5lY3Nfb3BzOyBAQCAtNzA1LDgNCj4rNzAzLDEwIEBAIGludCBl
+ZGFjX2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXIgKm5hbWUsDQo+IAkJ
+CWJyZWFrOw0KPiAJCWNhc2UgUkFTX0ZFQVRfTUVNX1JFUEFJUjoNCj4gCQkJaWYgKCFyYXNfZmVh
+dHVyZXMtPm1lbV9yZXBhaXJfb3BzIHx8DQo+LQkJCSAgICBtZW1fcmVwYWlyX2NudCAhPSByYXNf
+ZmVhdHVyZXMtPmluc3RhbmNlKQ0KPisJCQkgICAgbWVtX3JlcGFpcl9jbnQgIT0gcmFzX2ZlYXR1
+cmVzLT5pbnN0YW5jZSkgew0KPisJCQkJcmV0ID0gLUVJTlZBTDsNCj4gCQkJCWdvdG8gZGF0YV9t
+ZW1fZnJlZTsNCj4rCQkJfQ0KPg0KPiAJCQlkZXZfZGF0YSA9ICZjdHgtPm1lbV9yZXBhaXJbbWVt
+X3JlcGFpcl9jbnRdOw0KPiAJCQlkZXZfZGF0YS0+aW5zdGFuY2UgPSBtZW1fcmVwYWlyX2NudDsN
+Cj4NCj4tLQ0KPlJlZ2FyZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8vcGVvcGxl
+Lmtlcm5lbC5vcmcvdGdseC9ub3Rlcy1hYm91dC1uZXRpcXVldHRlDQoNClRoYW5rLA0KU2hpanUN
+Cg==
