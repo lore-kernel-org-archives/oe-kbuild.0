@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBA214A4F0
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Feb 2025 02:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D09A1A5B89
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Feb 2025 07:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740450987; cv=none; b=PcQSOlMOmacCTGboas+ehBXKjW1YsMO42NlmMtsVfUf+q4jAfFO6y617oe7w9VramaXVgCEX8HUtD+AaIT3m4h29dnv/FZBHPoVAPxN3p4uUKdzWQ3dXKTLkNG2bVl1hiHW/0ZlCcTembkZkW78/82obuqJiMhXf5yycMQwLMzQ=
+	t=1740469517; cv=none; b=eRlg8eaSlitBQofcmFDDfHRcsJUJzdzRnsirJZnviGx5NNMbDY0ezVFe4/MVydajwJRY0o/q+n4gNESVPhw1ma0v0/KN1hRwMXBM19a2H9nFfuWbcMIqx6yklPoAX4gldv1+IeunS3loXZdNvanjk1Edj+h+NJX0as5E8lTMcQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740450987; c=relaxed/simple;
-	bh=VdYc96AMV+u9jRztNIPHq4k59iLewne1iCWrmo2ksoo=;
+	s=arc-20240116; t=1740469517; c=relaxed/simple;
+	bh=DZZzMoV08duZrjeXK9rB/asdhcFDyvHPLWy+QHsH+2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lfhNBJ979zQWzxCbYFzoa0WLr8zHoYDiZGbBpEjthMo+pDYo76nFRTuYH8g53mird3HlIgCm3n7eIkXsolBZRL7I2BX+Q2p3OzW3p5M3QD16McGXLp5GUnUJr5VohxgpilpC1itxLshm49m5kLvWLLEljltbaJ45r2JIPJN0AHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvcRD/IM; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=MLQ4l8Vb0F2nFJzJibqcrBiClUd6PS0K7pif7GuGU7rqulwilmkMMWES+dbvm3SPEZyvzehEDo2yb2PGwYCxWFRCwvnNBmT3n1HGKT5WiP6wNuApS5OYL5iELwEC4NHE1BqkazzOAOdc62MyPRo4n37bT1imscK2h1eH7Xib7h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=opI3lHk/; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvcRD/IM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740450985; x=1771986985;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VdYc96AMV+u9jRztNIPHq4k59iLewne1iCWrmo2ksoo=;
-  b=LvcRD/IMPaz9w+p17/nScQJUA1ulyrAIseV7yqhv7Cl9b7nPv9MPRSut
-   RLcy2B+0YP9LgswrKbap0wEt9T8MLkklHYiecScxUcXEfNjW8l5QlJ/qB
-   z1yFgIlrpjF7iZcbPZaqpYicAOe32NtoG6qZDEa4XHLmBOdffgTgB/g3W
-   ujG1XFs7SvY3fbnRKn3aHe6radlbXmpPRuDrV68PTiJonzHI/0/TQjel7
-   a7sSrqpda1/WYdgA3LIk+mxctwXSyIi514Fexpxf3yytB8BPvtqQ5JU+H
-   MPpFqOzqBcz5ss9Nh1MgNmQOssClXu0G9fA8S/8OyMC7dUIj9b75+Q4uj
-   Q==;
-X-CSE-ConnectionGUID: 6Q3SvhhGSvWsbV3v1z6onw==
-X-CSE-MsgGUID: MChUX/rrSaGWsBRPyGF4hQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40943994"
-X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="40943994"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 18:36:23 -0800
-X-CSE-ConnectionGUID: kGYp6vVcSeq/tlkPoqL8dw==
-X-CSE-MsgGUID: BsQF5IIiRxqsV+VLaUlnzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147127388"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Feb 2025 18:36:21 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmknz-0009fF-1H;
-	Tue, 25 Feb 2025 02:36:19 +0000
-Date: Tue, 25 Feb 2025 10:35:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705 edac_dev_register()
- error: uninitialized symbol 'ret'.
-Message-ID: <202502251009.0sGkolEJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="opI3lHk/"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso818250766b.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 24 Feb 2025 23:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740469513; x=1741074313; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ouvnF+Q3OmV1JA+hZygvXP5itVU3pOn09SLnIQdEu0w=;
+        b=opI3lHk/yHZq0wdRVAMZWQ3+dGIjkO2ZVJnrDaJHX0mFoOtaakgD8V1EZCFOZSogyX
+         yUg2gKNKpnfLr0hi2ae/71URUFDfxE9vfYyECcu2YalzizLkqUC+tu4AvwPz05Pgczg2
+         c/N7suxbS1KYV2YBvRmgbj2gdNZjZEkewc14qSI0mAptn69hjeD+kw0DiLKDZp+RSe/c
+         5NWnygmwUNi9wZEHizLkr6XlIHD7PsUcu3GuG8Ob5emXam93zD7ZfEmzU2RAON6qc1Nx
+         L3Ckumws7yst2wTkb7mZh/JnJxIc+mzGX3w6mNa6iMHU7cPrcnc59cpXNZdIyn8Pb6sD
+         fVrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740469513; x=1741074313;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ouvnF+Q3OmV1JA+hZygvXP5itVU3pOn09SLnIQdEu0w=;
+        b=nkTv2Sc3qJc8EU8y6q06kHrv+RKBsoZ9rORRI8woYnnLAY/zxmmIc7MASWA9aL27Xw
+         bH9d4INknVs/KdqmSi4UXMmuMj+dBhKSO3sJsFjIZvjSSlJqBEh6+YM7QSFAWPgO6Duy
+         qeqXhwp7oUXugoi3av5s6t7pfcXlpSpHPu7z4Wdc9PL9F7oWCn4m+JslsETgisfaZc2d
+         EmDECVNLRFVCQ8fp2c9bJx3tqNDHH01DYl8gOw/4ZvM+WLXSljJnVJRgEExOmhzvkRAK
+         6vxPj2a1kSv7Po2/zWjwhf++SOLqVvNsiFg/b0zO2yR3fCLbLHn7rrW+mOszh3DempxG
+         nlYQ==
+X-Gm-Message-State: AOJu0YybbyD3zrwfDvuXrA4o3guGQd1VzNf0WL+mV5/qPue6V+CG7ZNT
+	DTztbQHpRGMBDNa4wI7MOc/Uc2uRA/3osN/nX8mH4Flcp1wcV/0htsRtoVhwLH4n0tIPCDkCcst
+	m
+X-Gm-Gg: ASbGncuFS4Doh8fKsOrsNME1pMXB0Offb3dTuWkTCbi6cwkhh0Ez06d+lVil9p2ruc+
+	t2Sk5NUOVPEleAWsOpRlQ/TQLqXLwlaUbMTFvVgN8eqWcx/10Kq1FvtyCQz3RwyxAkApEawbGpm
+	YX+YBeDKw62mA8gWGnwK9d8bH4s+ScxIdxWx7moeQ6QnMQ7YQI+I3vaGT7zGyXLyumMfrDZtDP3
+	RUdDqqBiHTglF0f6zhe0ri5Pf/IvGKZynt1E7X2IDLuUxge4J/y8a3TJp5BAwXyfh/3NKij2pSu
+	OGQPv6zA0GDxzwYxPcycPBdIVQbs7XE=
+X-Google-Smtp-Source: AGHT+IHQ6l8bQnV+/gdQuNpdC0yeZuAkoJpxeyb9MOP/5NaXH5F2YZwMWml9JKfg21I8mnU0dGCQSA==
+X-Received: by 2002:a17:906:3289:b0:abe:ce46:6226 with SMTP id a640c23a62f3a-abece4677a9mr264796466b.36.1740469512850;
+        Mon, 24 Feb 2025 23:45:12 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed2010f44sm94671966b.111.2025.02.24.23.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 23:45:12 -0800 (PST)
+Date: Tue, 25 Feb 2025 10:45:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.12 1/1]
+ drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c:328 ipu_psys_ppg_resume() warn:
+ missing unwind goto?
+Message-ID: <895433a6-269d-40db-9af6-0eb6402d2e06@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,152 +72,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Shiju Jose <shiju.jose@huawei.com>
-CC: "Borislav Petkov (AMD)" <bp@alien8.de>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git edac-cxl
-head:   4fab25b62bc682c0df886d97dcb106d4989c9ff1
-commit: e777719d5bec32af859990456f4b0e0e362f425a [2/5] EDAC: Add scrub control feature
-:::::: branch date: 15 hours ago
-:::::: commit date: 19 hours ago
-config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250225/202502251009.0sGkolEJ-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   37dbd8a8c2e99d2dc230a23b66250fcb4f26e9c0
+commit: 2ef11ef12e26baa9bef7d9fc913f8e87a2d53c16 [1/1] CHROMIUM: ipu6: enable the psys downstream driver
+config: x86_64-randconfig-161-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250645.LOy4jqQs-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202502251009.0sGkolEJ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502250645.LOy4jqQs-lkp@intel.com/
 
 smatch warnings:
-drivers/edac/edac_device.c:705 edac_dev_register() error: uninitialized symbol 'ret'.
+drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c:328 ipu_psys_ppg_resume() warn: missing unwind goto?
+drivers/media/pci/intel/ipu6/psys/ipu-psys.c:1359 ipu6_psys_probe() warn: missing error code 'rval'
 
-vim +/ret +705 drivers/edac/edac_device.c
+vim +328 drivers/media/pci/intel/ipu6/psys/ipu6-ppg.c
 
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  592  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  593  /**
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  594   * edac_dev_register - register device for RAS features with EDAC
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  595   * @parent: parent device.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  596   * @name: name for the folder in the /sys/bus/edac/devices/,
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  597   *	  which is derived from the parent device.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  598   *	  For e.g. /sys/bus/edac/devices/cxl_mem0/
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  599   * @private: parent driver's data to store in the context if any.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  600   * @num_features: number of RAS features to register.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  601   * @ras_features: list of RAS features to register.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  602   *
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  603   * Return:
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  604   *  * %0       - Success.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  605   *  * %-EINVAL - Invalid parameters passed.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  606   *  * %-ENOMEM - Dynamic memory allocation failed.
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  607   *
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  608   */
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  609  int edac_dev_register(struct device *parent, char *name,
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  610  		      void *private, int num_features,
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  611  		      const struct edac_dev_feature *ras_features)
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  612  {
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  613  	const struct attribute_group **ras_attr_groups;
-e777719d5bec32a Shiju Jose 2025-02-12  614  	struct edac_dev_data *dev_data;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  615  	struct edac_dev_feat_ctx *ctx;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  616  	int attr_gcnt = 0;
-e777719d5bec32a Shiju Jose 2025-02-12  617  	int scrub_cnt = 0;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  618  	int ret, feat;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  619  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  620  	if (!parent || !name || !num_features || !ras_features)
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  621  		return -EINVAL;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  622  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  623  	/* Double parse to make space for attributes */
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  624  	for (feat = 0; feat < num_features; feat++) {
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  625  		switch (ras_features[feat].ft_type) {
-e777719d5bec32a Shiju Jose 2025-02-12  626  		case RAS_FEAT_SCRUB:
-e777719d5bec32a Shiju Jose 2025-02-12  627  			attr_gcnt++;
-e777719d5bec32a Shiju Jose 2025-02-12  628  			scrub_cnt++;
-e777719d5bec32a Shiju Jose 2025-02-12  629  			break;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  630  		default:
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  631  			return -EINVAL;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  632  		}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  633  	}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  634  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  635  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  636  	if (!ctx)
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  637  		return -ENOMEM;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  638  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  639  	ras_attr_groups = kcalloc(attr_gcnt + 1, sizeof(*ras_attr_groups), GFP_KERNEL);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  640  	if (!ras_attr_groups) {
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  641  		ret = -ENOMEM;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  642  		goto ctx_free;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  643  	}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  644  
-e777719d5bec32a Shiju Jose 2025-02-12  645  	if (scrub_cnt) {
-e777719d5bec32a Shiju Jose 2025-02-12  646  		ctx->scrub = kcalloc(scrub_cnt, sizeof(*ctx->scrub), GFP_KERNEL);
-e777719d5bec32a Shiju Jose 2025-02-12  647  		if (!ctx->scrub) {
-e777719d5bec32a Shiju Jose 2025-02-12  648  			ret = -ENOMEM;
-e777719d5bec32a Shiju Jose 2025-02-12  649  			goto groups_free;
-e777719d5bec32a Shiju Jose 2025-02-12  650  		}
-e777719d5bec32a Shiju Jose 2025-02-12  651  	}
-e777719d5bec32a Shiju Jose 2025-02-12  652  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  653  	attr_gcnt = 0;
-e777719d5bec32a Shiju Jose 2025-02-12  654  	scrub_cnt = 0;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  655  	for (feat = 0; feat < num_features; feat++, ras_features++) {
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  656  		switch (ras_features->ft_type) {
-e777719d5bec32a Shiju Jose 2025-02-12  657  		case RAS_FEAT_SCRUB:
-e777719d5bec32a Shiju Jose 2025-02-12  658  			if (!ras_features->scrub_ops ||
-e777719d5bec32a Shiju Jose 2025-02-12  659  			    scrub_cnt != ras_features->instance)
-e777719d5bec32a Shiju Jose 2025-02-12  660  				goto data_mem_free;
-e777719d5bec32a Shiju Jose 2025-02-12  661  
-e777719d5bec32a Shiju Jose 2025-02-12  662  			dev_data = &ctx->scrub[scrub_cnt];
-e777719d5bec32a Shiju Jose 2025-02-12  663  			dev_data->instance = scrub_cnt;
-e777719d5bec32a Shiju Jose 2025-02-12  664  			dev_data->scrub_ops = ras_features->scrub_ops;
-e777719d5bec32a Shiju Jose 2025-02-12  665  			dev_data->private = ras_features->ctx;
-e777719d5bec32a Shiju Jose 2025-02-12  666  			ret = edac_scrub_get_desc(parent, &ras_attr_groups[attr_gcnt],
-e777719d5bec32a Shiju Jose 2025-02-12  667  						  ras_features->instance);
-e777719d5bec32a Shiju Jose 2025-02-12  668  			if (ret)
-e777719d5bec32a Shiju Jose 2025-02-12  669  				goto data_mem_free;
-e777719d5bec32a Shiju Jose 2025-02-12  670  
-e777719d5bec32a Shiju Jose 2025-02-12  671  			scrub_cnt++;
-e777719d5bec32a Shiju Jose 2025-02-12  672  			attr_gcnt++;
-e777719d5bec32a Shiju Jose 2025-02-12  673  			break;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  674  		default:
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  675  			ret = -EINVAL;
-e777719d5bec32a Shiju Jose 2025-02-12  676  			goto data_mem_free;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  677  		}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  678  	}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  679  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  680  	ctx->dev.parent = parent;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  681  	ctx->dev.bus = edac_get_sysfs_subsys();
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  682  	ctx->dev.type = &edac_dev_type;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  683  	ctx->dev.groups = ras_attr_groups;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  684  	ctx->private = private;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  685  	dev_set_drvdata(&ctx->dev, ctx);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  686  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  687  	ret = dev_set_name(&ctx->dev, name);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  688  	if (ret)
-e777719d5bec32a Shiju Jose 2025-02-12  689  		goto data_mem_free;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  690  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  691  	ret = device_register(&ctx->dev);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  692  	if (ret) {
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  693  		put_device(&ctx->dev);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  694  		return ret;
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  695  	}
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  696  
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  697  	return devm_add_action_or_reset(parent, edac_dev_unreg, &ctx->dev);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  698  
-e777719d5bec32a Shiju Jose 2025-02-12  699  data_mem_free:
-e777719d5bec32a Shiju Jose 2025-02-12  700  	kfree(ctx->scrub);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  701  groups_free:
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  702  	kfree(ras_attr_groups);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  703  ctx_free:
-9222ad0e3fd4c35 Shiju Jose 2025-02-12  704  	kfree(ctx);
-9222ad0e3fd4c35 Shiju Jose 2025-02-12 @705  	return ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  285  int ipu_psys_ppg_resume(struct ipu_psys_ppg *kppg)
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  286  {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  287  	struct ipu_psys *psys = kppg->fh->psys;
+8d5e92b8220938d Bingbu Cao 2024-12-03  288  	struct device *dev = &psys->adev->auxdev.dev;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  289  	struct ipu_psys_kcmd tmp_kcmd = {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  290  		.kpg = kppg->kpg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  291  		.fh = kppg->fh,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  292  	};
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  293  	int ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  294  
+8d5e92b8220938d Bingbu Cao 2024-12-03  295  	dev_dbg(dev, "resume ppg id %d, addr 0x%p\n",
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  296  		ipu_fw_psys_pg_get_id(&tmp_kcmd), kppg);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  297  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  298  	kppg->state = PPG_STATE_RESUMING;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  299  	if (enable_suspend_resume) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  300  		ret = ipu_psys_allocate_resources(dev, kppg->kpg->pg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  301  						  kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  302  						  &kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  303  						  &psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  304  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  305  			dev_err(dev, "failed to allocate res\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  306  			return -EIO;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  307  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  308  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  309  		ret = ipu_fw_psys_ppg_resume(&tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  310  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  311  			dev_err(dev, "failed to resume ppg\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  312  			goto error;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  313  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  314  	} else {
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  315  		kppg->kpg->pg->state = IPU_FW_PSYS_PROCESS_GROUP_READY;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  316  		ret = ipu_fw_psys_pg_submit(&tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  317  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  318  			dev_err(dev, "failed to submit kcmd!\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  319  			return ret;
 
-:::::: The code at line 705 was first introduced by commit
-:::::: 9222ad0e3fd4c35a63e59bba1c297f13e70cdc1d EDAC: Add support for EDAC device features control
+Should these returns
 
-:::::: TO: Shiju Jose <shiju.jose@huawei.com>
-:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  320  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  321  
+8d5e92b8220938d Bingbu Cao 2024-12-03  322  		ret = ipu_psys_allocate_resources(dev, kppg->kpg->pg,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  323  						  kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  324  						  &kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  325  						  &psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  326  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  327  			dev_err(dev, "failed to allocate res\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03 @328  			return ret;
+
+
+Be goto error;?
+
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  329  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  330  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  331  		ret = ipu_psys_kcmd_start(psys, &tmp_kcmd);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  332  		if (ret) {
+8d5e92b8220938d Bingbu Cao 2024-12-03  333  			dev_err(dev, "failed to start kcmd!\n");
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  334  			goto error;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  335  		}
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  336  	}
+8d5e92b8220938d Bingbu Cao 2024-12-03  337  	dev_dbg(dev, "s_change:%s: %p %d -> %d\n",
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  338  		__func__, kppg, kppg->state, PPG_STATE_RESUMED);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  339  	kppg->state = PPG_STATE_RESUMED;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  340  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  341  	return 0;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  342  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  343  error:
+8d5e92b8220938d Bingbu Cao 2024-12-03  344  	ipu_psys_reset_process_cell(dev, kppg->kpg->pg, kppg->manifest,
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  345  				    kppg->kpg->pg->process_count);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  346  	ipu_psys_free_resources(&kppg->kpg->resource_alloc,
+8d5e92b8220938d Bingbu Cao 2024-12-03  347  				&psys->res_pool_running);
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  348  
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  349  	return ret;
+7246d8ce30d62a5 Bingbu Cao 2024-12-03  350  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
