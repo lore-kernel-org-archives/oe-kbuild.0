@@ -1,191 +1,192 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA5A26560F
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Feb 2025 09:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45F021ABB2;
+	Tue, 25 Feb 2025 14:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740474185; cv=none; b=aJG9hOVzzfOe03HxIBDJmfuS9fkCyjTc7xcd7wBhmhWawpJqQtEBwuy+YXQdpWSEAuD4DdWLHQqZHGVhfeHXDwg1enYJv78XcUuN5QrG6YELPrlzf60Jw18ngizqz7rR/yQ3hF0V42xg9MeRDug8mko6SvfB6amNmHElzOQhQ7k=
+	t=1740495262; cv=none; b=HO7LCSVIK9gluNZtpOa9F+d49L3CeSW01r5f0NhJmR255YxDHavc7XPEpFInD7TrZueGWggmzt6IoaK5IiT0P6+vz3UlWGkx+7BA81kAjAMIcZ1UHCNvjH/r55rPBJq4V/yoLn+MfVOwA5W7yT2oe8mhBIQplZfOeOc+b5BOL7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740474185; c=relaxed/simple;
-	bh=n0EB057seNvA9h3/NN3MByUeOXkUJbArTd7T60aSt1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UXov7An2Zu36na5HqFOn8SxodIPe8oJ/K3ScikXDckSQj1wml3Z1yLMGtgqyMkBioxfVP10NAjBKOAGtRudcqTs8I/VOw1m47iVYlFA/pvDFFQU1vzjhRv3oIOIsZvsJLp8K3fplQ5/uNswY9HCIk5tLv5v2wag2zRM7PY8l97Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=na1lVs70; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740495262; c=relaxed/simple;
+	bh=fGFy6TkVvvFSBJBtvwKKCIcuqLB8Gp5LhuAXcZ++iWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UydKlNedP1CfaaK71vuQzw3UbSAbE8qW1D4PeD+Krwfx196+/Od6kn16a8HHey4j4EOzTYicYmLhQ2wqCSt3mGfUkfeoyP2Caw5ejZEJ+X1j0S4sppxSttCQrqXjSIV7DfFWDXjAvbgOBaWUaehiTUk6bnh9w2IJ0lcKuEdNHEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OIurxDBV; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="na1lVs70"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-439a4fc2d65so50583405e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 25 Feb 2025 01:03:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740474181; x=1741078981; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gKgYZYADACy30IaCXExUX8oou2qy9v1ws6O1re1moBk=;
-        b=na1lVs70X9ndwIKZw8pyty/WxG0A5MQnr65ioMxhO2sCtzlVEZ9kJ3k0/oWkqyagOQ
-         9KlMyAfymWo1J0e8TwlkzHz/oNsP/VDIEifQbVRW2YZUoUJ1fIwH6X0MwInkcvMiV7sF
-         3PRJZGUi9G39xH8FMBYApqjcShXt162bla7XvqoyVm3yOjdhsRUV1X0HFdmLeoWEA3eT
-         V9JftKHEJHlt096xzVhGZ8GW6TFrAQzmwrp2EIjbb8wUX0Kh3RqLWkM7bt42NAk1T6JJ
-         U/X75TVk06O0LJuAIDU/tBQBom06XM75Dvq4CngaGtbEhf/d9Hj5v5pLJDK/4z9DMUhb
-         x5pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740474181; x=1741078981;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gKgYZYADACy30IaCXExUX8oou2qy9v1ws6O1re1moBk=;
-        b=fqngiFgBxMzpHOm183yfS/UlKIc+n8bkxE1gkabGGrzuyCcurMTrNzsBs/IAPRPv7w
-         Ujkabn5ZW8s3w9iFNyGWjyWSqo0LzetBNbGAuhKm0ON9NeoTSnWkPTuSVC+Mmtg2CL8r
-         aamxUXFJtmVvUt4TlnuBGxDXbOVaz9OHZFSa3lCCrPOsChR9Eb1WCnkzAEEkSGW5THrO
-         6hXAkI7YhOT3HqjfprAlYuGbMJWYhB9nelaHnJw2e9PEtdsxhUQU7S5oiiHcxs4Ajlp8
-         nAU7xGyv8KNI6c1R83XDPFYcfVT/ICFt6UHBx4Ch8Xpv6O0aZ9Vt4lTfE8ctiYub0sir
-         RTIw==
-X-Gm-Message-State: AOJu0Yxmz6tyVzhiL9bQ68LZKqHzeL0hyvTUB37QmaYiUsrGLCN5zEDv
-	CGxQ2Pbo7+eQY9TGtSl3MuKiAu0KBi6b7LLsWXPBSC3nBli22S3RvrQA7P5a9LqHpMvrkfECF6o
-	h
-X-Gm-Gg: ASbGncvKLgI+3acPEPM1xeN6X8OK9zsFV9hMYRlz9EhJQbMSN4gHh3iI8lLlYTK1spn
-	VJ5+2X+qG4cEXpn8OgktYdYwQmZhnf+v3OZczhc+0iKlrsTwDvRcTL2cHLGDd7wmGDCF7KPW+X9
-	bkfdTrtYqEid3BbCN2EN/AROzYM/HVjjOimXjoAX8jV0dX71xd+pa4mEhgIAYHRugmy7xZeupgq
-	PRe7m+xFKroR4qBwsFgDJZJII5o0HR2AporgqdCe5I64HtPG+wFzG2gr/Hd5s9q87qIOlhyaTu+
-	PyRJFHWThIYbcqMelC3hwJ3XPbZVXfg=
-X-Google-Smtp-Source: AGHT+IFUbXvRXDMa+0e5ZJNCJLdb+utkR88zcXej3+sO/Z2lWVOMV8zrridYLa+k7OHlaVrN36mAiw==
-X-Received: by 2002:a05:6000:18a2:b0:38c:2745:2df3 with SMTP id ffacd0b85a97d-390cc631b3bmr1701013f8f.37.1740474180499;
-        Tue, 25 Feb 2025 01:03:00 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed1d54a0dsm107879866b.50.2025.02.25.01.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 01:02:59 -0800 (PST)
-Date: Tue, 25 Feb 2025 12:02:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] Bluetooth: hci_core: Enable buffer flow control for
- SCO/eSCO
-Message-ID: <7829aa4b-54fb-427f-ab3c-fbb90ea7588f@stanley.mountain>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OIurxDBV"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E1F1B40E01B2;
+	Tue, 25 Feb 2025 14:54:16 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ztTnc5zCCFJz; Tue, 25 Feb 2025 14:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1740495252; bh=HuKrRSoC93GtPlKMv4c20e2TYzpEJC46tpoId9qbscU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OIurxDBVhcS4+EjQjReOOwB1cYXmA10MgPEVu6GE2gBeY/6KqWIIIzRXuv+XKH4xj
+	 FlGpc0BTxAb75kNCXL0iCn3byCJzJ2PzomAdQPpFrBLUs9lLOwObvP5n13vQhNLz/7
+	 FnzE4wTBdjQE6UNdNQNUwXDqDzDIp94jJ2THGxTxkS6ZVxp8khG+ZHe0ztOJ8C6Afk
+	 KyxlTMy3f5CxN8gyR7NkPsEuXr72xHMDfgXdlWID2dQYyTysZv/aFkWGLruV/0ggfu
+	 0SKa65WiUu9k+lfKLKPHJMHZiqrK8SUCLEKtG3kwPKpCUZ76R+WiCjnJQRbIgbTsqD
+	 oRvwullyQ2+5UoTrhos2ffd4+cZO5mEUpNSgfNp/cFBAkMmOsQu2sy+zV3kunbrsWA
+	 FMlj9YZjEy7zpN0qCpecuTgcGQRiU0BRZgVjuUKnzu5eWdeuMaTu5kZ3zGfJRAlYHm
+	 8UAEhNL4AhwslasRyhZ219/amjmOG+h4QBEZv/FaLJcqMeZNclpDUI3kCYCKGmID3k
+	 bukO2tzkoQQzVcq0iiY+ootiega5aIiVZlATij9ggfeau2jJxnaCid+4B2gCu1pYCr
+	 cd1lNrARhXq9kGGgNWb6ZHOxG3ofG/PENMFEk4cTGQV5pIr6ZSTzuwPOpBYPpggSQX
+	 i3Q9gHR+DbyikTEuPbPEHFKM=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5058940E01A0;
+	Tue, 25 Feb 2025 14:54:06 +0000 (UTC)
+Date: Tue, 25 Feb 2025 15:54:00 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+	Shiju Jose <shiju.jose@huawei.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
+ edac_dev_register() error: uninitialized symbol 'ret'.
+Message-ID: <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
+References: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250221204916.2217628-1-luiz.dentz@gmail.com>
+In-Reply-To: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
 
-Hi Luiz,
+On Tue, Feb 25, 2025 at 10:46:48AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git edac-cxl
+> head:   4fab25b62bc682c0df886d97dcb106d4989c9ff1
+> commit: e777719d5bec32af859990456f4b0e0e362f425a [2/5] EDAC: Add scrub control feature
+> config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250225/202502251009.0sGkolEJ-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502251009.0sGkolEJ-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/edac/edac_device.c:705 edac_dev_register() error: uninitialized symbol 'ret'.
 
-kernel test robot noticed the following build warnings:
+Thanks for reporting.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I went through the whole set and did some scrubbing of retvals. And that
+edac_dev_register() is already a mess. But cleaning that up is for another
+day.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_core-Enable-buffer-flow-control-for-SCO-eSCO/20250222-045019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20250221204916.2217628-1-luiz.dentz%40gmail.com
-patch subject: [PATCH v3] Bluetooth: hci_core: Enable buffer flow control for SCO/eSCO
-config: i386-randconfig-141-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231103.loPGnZml-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+So, Shiju, I've pushed a edac-cxl2 branch, please run it again.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502231103.loPGnZml-lkp@intel.com/
+Thx.
 
-New smatch warnings:
-net/bluetooth/hci_core.c:3583 hci_sched_sco() error: uninitialized symbol 'conn'.
-net/bluetooth/hci_core.c:3583 hci_sched_sco() error: we previously assumed 'conn' could be null (see line 3562)
-net/bluetooth/hci_core.c:3621 hci_sched_esco() error: uninitialized symbol 'conn'.
-net/bluetooth/hci_core.c:3621 hci_sched_esco() error: we previously assumed 'conn' could be null (see line 3599)
+Full diff of the changes I've done:
 
-Old smatch warnings:
-net/bluetooth/hci_core.c:2595 hci_register_dev() warn: 'hdev->rfkill' is an error pointer or valid
-
-vim +/conn +3583 net/bluetooth/hci_core.c
-
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3551  static void hci_sched_sco(struct hci_dev *hdev)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3552  {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3553  	struct hci_conn *conn;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3554  	struct sk_buff *skb;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3555  	int quote;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3556  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3557  	BT_DBG("%s", hdev->name);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3558  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3559  	if (!hci_conn_num(hdev, SCO_LINK))
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3560  		return;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3561  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23 @3562  	while (hdev->sco_cnt && (conn = hci_low_sent(hdev, SCO_LINK, &quote))) {
-
-Can hdev->sco_cnt be zero at the start?  That would make "conn"
-uninitialized.  This loop can exit with conn set to NULL.
-
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3563  		while (quote-- && (skb = skb_dequeue(&conn->data_q))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3564  			BT_DBG("skb %p len %d", skb, skb->len);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3565  			hci_send_frame(hdev, skb);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3566  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3567  			hdev->sco_cnt--;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3568  			conn->sent++;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3569  			if (conn->sent == ~0)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3570  				conn->sent = 0;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3571  		}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3572  	}
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3573  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3574  	/* Restore sco_cnt if flow control has not been enabled as
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3575  	 * HCI_EV_NUM_COMP_PKTS won't be generated.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3576  	 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3577  	if (!hci_dev_test_flag(hdev, HCI_SCO_FLOWCTL)) {
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3578  		hdev->sco_cnt = hdev->sco_pkts;
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3579  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3580  		/* As flow control is disabled force tx_work to run if there are
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3581  		 * still packets left in the queue.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3582  		 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21 @3583  		if (!skb_queue_empty(&conn->data_q))
-                                                                                              ^^^^
-
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3584  			queue_work(hdev->workqueue, &hdev->tx_work);
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3585  	}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3586  }
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3587  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3588  static void hci_sched_esco(struct hci_dev *hdev)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3589  {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3590  	struct hci_conn *conn;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3591  	struct sk_buff *skb;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3592  	int quote;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3593  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3594  	BT_DBG("%s", hdev->name);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3595  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3596  	if (!hci_conn_num(hdev, ESCO_LINK))
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3597  		return;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3598  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23 @3599  	while (hdev->sco_cnt && (conn = hci_low_sent(hdev, ESCO_LINK,
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3600  						     &quote))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3601  		while (quote-- && (skb = skb_dequeue(&conn->data_q))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3602  			BT_DBG("skb %p len %d", skb, skb->len);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3603  			hci_send_frame(hdev, skb);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3604  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3605  			hdev->sco_cnt--;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3606  			conn->sent++;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3607  			if (conn->sent == ~0)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3608  				conn->sent = 0;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3609  		}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3610  	}
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3611  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3612  	/* Restore sco_cnt if flow control has not been enabled as
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3613  	 * HCI_EV_NUM_COMP_PKTS won't be generated.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3614  	 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3615  	if (!hci_dev_test_flag(hdev, HCI_SCO_FLOWCTL)) {
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3616  		hdev->sco_cnt = hdev->sco_pkts;
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3617  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3618  		/* As flow control is disabled force tx_work to run if there are
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3619  		 * still packets left in the queue.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3620  		 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21 @3621  		if (!skb_queue_empty(&conn->data_q))
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3622  			queue_work(hdev->workqueue, &hdev->tx_work);
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3623  	}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3624  }
+---
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index 081f77b1f125..16611515ab34 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -581,7 +581,7 @@ static void edac_dev_release(struct device *dev)
+ 	kfree(ctx);
+ }
+ 
+-const struct device_type edac_dev_type = {
++static const struct device_type edac_dev_type = {
+ 	.name = "edac_dev",
+ 	.release = edac_dev_release,
+ };
+@@ -616,8 +616,9 @@ int edac_dev_register(struct device *parent, char *name,
+ 	struct edac_dev_feat_ctx *ctx;
+ 	int mem_repair_cnt = 0;
+ 	int attr_gcnt = 0;
++	int ret = -ENOMEM;
+ 	int scrub_cnt = 0;
+-	int ret, feat;
++	int feat;
+ 
+ 	if (!parent || !name || !num_features || !ras_features)
+ 		return -EINVAL;
+@@ -646,25 +647,19 @@ int edac_dev_register(struct device *parent, char *name,
+ 		return -ENOMEM;
+ 
+ 	ras_attr_groups = kcalloc(attr_gcnt + 1, sizeof(*ras_attr_groups), GFP_KERNEL);
+-	if (!ras_attr_groups) {
+-		ret = -ENOMEM;
++	if (!ras_attr_groups)
+ 		goto ctx_free;
+-	}
+ 
+ 	if (scrub_cnt) {
+ 		ctx->scrub = kcalloc(scrub_cnt, sizeof(*ctx->scrub), GFP_KERNEL);
+-		if (!ctx->scrub) {
+-			ret = -ENOMEM;
++		if (!ctx->scrub)
+ 			goto groups_free;
+-		}
+ 	}
+ 
+ 	if (mem_repair_cnt) {
+ 		ctx->mem_repair = kcalloc(mem_repair_cnt, sizeof(*ctx->mem_repair), GFP_KERNEL);
+-		if (!ctx->mem_repair) {
+-			ret = -ENOMEM;
++		if (!ctx->mem_repair)
+ 			goto data_mem_free;
+-		}
+ 	}
+ 
+ 	attr_gcnt = 0;
+@@ -673,9 +668,10 @@ int edac_dev_register(struct device *parent, char *name,
+ 	for (feat = 0; feat < num_features; feat++, ras_features++) {
+ 		switch (ras_features->ft_type) {
+ 		case RAS_FEAT_SCRUB:
+-			if (!ras_features->scrub_ops ||
+-			    scrub_cnt != ras_features->instance)
++			if (!ras_features->scrub_ops || scrub_cnt != ras_features->instance) {
++				ret = -EINVAL;
+ 				goto data_mem_free;
++			}
+ 
+ 			dev_data = &ctx->scrub[scrub_cnt];
+ 			dev_data->instance = scrub_cnt;
+@@ -690,8 +686,10 @@ int edac_dev_register(struct device *parent, char *name,
+ 			attr_gcnt++;
+ 			break;
+ 		case RAS_FEAT_ECS:
+-			if (!ras_features->ecs_ops)
++			if (!ras_features->ecs_ops) {
++				ret = -EINVAL;
+ 				goto data_mem_free;
++			}
+ 
+ 			dev_data = &ctx->ecs;
+ 			dev_data->ecs_ops = ras_features->ecs_ops;
+@@ -705,8 +703,10 @@ int edac_dev_register(struct device *parent, char *name,
+ 			break;
+ 		case RAS_FEAT_MEM_REPAIR:
+ 			if (!ras_features->mem_repair_ops ||
+-			    mem_repair_cnt != ras_features->instance)
++			    mem_repair_cnt != ras_features->instance) {
++				ret = -EINVAL;
+ 				goto data_mem_free;
++			}
+ 
+ 			dev_data = &ctx->mem_repair[mem_repair_cnt];
+ 			dev_data->instance = mem_repair_cnt;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
