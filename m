@@ -1,157 +1,134 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A11219CCEA;
-	Tue, 25 Feb 2025 18:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1E423C9
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Feb 2025 04:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740508068; cv=none; b=Ilj1IV83ItWRIxZShgEHgiPEw+LV+sSedZ62i+yJ//j7YnH8ATYpP4KCH0pZU0ZxOqhFLC1m8pPuwRfAVZYYjTowh1+LFu32AmR5v5yug7IzrYh9e/AksV5cMkYvMeuw0S1TmRXKOGN4P3DY4PEml3eYCT6FLpO/vF5ZVPPqlhg=
+	t=1740545448; cv=none; b=KF5zIMRnaN0sMk1gJ68vGtkJTMP1f/85M0L3fH0B7JW1Opkztz5I4hGS0TyWl5St81SdPohfTsNqWBqsMX9YjNzo8KtWg9sJ6fbgaeGqzoyIFM0WVeEHXCEX6kAIJIsNkz3srmFm3Kb9Ryz2gehKeuXWvOtqH2HHXKiTCNlLeG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740508068; c=relaxed/simple;
-	bh=aQp4k60hR1/JqO7dDmM2ITosoxNuXYJRFMik1n6FueA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Z2x8q3OJ0/UwP/t/NEBIVxmjcQpQdiDNtx3F74BOhb/zCDrMnOCCb/lyWOHAeZImpfjIvQhW9bD9T7yE6GUEvp6BIzba8CTlS7AfMaasjDeB5O3pFO2qTGDpTEjDSB39PhT9f14R9CJ8VW0js6rPqD8eN7WWmx9h0+MMVnJj714=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Z2Qwc4BhCz67Q1X;
-	Wed, 26 Feb 2025 02:24:00 +0800 (CST)
-Received: from frapeml500006.china.huawei.com (unknown [7.182.85.219])
-	by mail.maildlp.com (Postfix) with ESMTPS id B482C140A90;
-	Wed, 26 Feb 2025 02:27:42 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 25 Feb 2025 19:27:42 +0100
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Tue, 25 Feb 2025 19:27:42 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>, Dan Carpenter <dan.carpenter@linaro.org>
-CC: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>, "lkp@intel.com"
-	<lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>
-Subject: RE: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
- edac_dev_register() error: uninitialized symbol 'ret'.
-Thread-Topic: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
- edac_dev_register() error: uninitialized symbol 'ret'.
-Thread-Index: AQHbh1mEWCupa4ApT0m1ixfF9jREFLNYCr4AgABB1QA=
-Date: Tue, 25 Feb 2025 18:27:42 +0000
-Message-ID: <c07debded8ee4b60ab3408cdb83ff128@huawei.com>
-References: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
- <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
-In-Reply-To: <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1740545448; c=relaxed/simple;
+	bh=LrlnM2OkopkiqGBrCf/LepDXtH67jEx8lQKaGmIMR4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t5M+uWBfMc45pggrv5SbvU7wx0lfrv7t4RA0KULezrTnlU0ewLcVu7VtHEFTy3jgg/hu8z3NbNV5KjENb4A1ZJJVRoA1ixlTMJdfi6wOadUIXgKKVN6oaiNVySN8//PnIwwE5hHxunZjUlyOFnVM2eRE0qn/WrEQ9fR3jpFSHaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEePkJSS; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEePkJSS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740545446; x=1772081446;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LrlnM2OkopkiqGBrCf/LepDXtH67jEx8lQKaGmIMR4M=;
+  b=ZEePkJSS1ZWdP1lwXNwTqjz2akiSx6Eah+Fmzo8aeciJ09rxL5nszSty
+   T3hLbvJxh1EEDg4dWQaL5D5T2kVq5fWNPrQpPOPsJhINZXmiY25/vMyOi
+   PZrpgyxPKHZL2io30AgZCr9L+5OjrRKl2XISF5B+rIrA5pdlfHBs/dIxv
+   4ursXbt/xfbcw5sLFJzlhs3+QXtWb4MizGYGqbtYHBu2eGwUBAHPLBiyX
+   SssIZGgAonm4YobLAyuXyqMxJgfIRbL9Tcq9VBwscZkpnqamBqjV+nw6R
+   0p1n3dnRMXoTe0UAlqgIuLQRl3sLPf5kcFFgTjQ9OK3vKbScYnPxS2n9A
+   w==;
+X-CSE-ConnectionGUID: Qx5QiCQRTgiIL5kywwMWnQ==
+X-CSE-MsgGUID: +8aSK0rfTTaHRdSF/bBukg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="52015298"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="52015298"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 20:50:45 -0800
+X-CSE-ConnectionGUID: FVI8rtARSceJqvL4Jvbptg==
+X-CSE-MsgGUID: ATl6O9R+SR6YwPf4GhV+mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="117213077"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2025 20:50:44 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tn9NZ-000BA5-2i;
+	Wed, 26 Feb 2025 04:50:41 +0000
+Date: Wed, 26 Feb 2025 12:48:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4 7/8] drm/i915/lobf: Add mutex for alpm update
+Message-ID: <202502261244.aUuaLdTn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
-bGllbjguZGU+DQo+U2VudDogMjUgRmVicnVhcnkgMjAyNSAxNDo1NA0KPlRvOiBEYW4gQ2FycGVu
-dGVyIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+OyBTaGlqdSBKb3NlDQo+PHNoaWp1Lmpvc2VA
-aHVhd2VpLmNvbT4NCj5DYzogb2Uta2J1aWxkQGxpc3RzLmxpbnV4LmRldjsgbGtwQGludGVsLmNv
-bTsgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXY7DQo+Sm9uYXRoYW4gQ2FtZXJvbiA8am9u
-YXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbYnA6ZWRhYy1jeGwgMi81
-XSBkcml2ZXJzL2VkYWMvZWRhY19kZXZpY2UuYzo3MDUNCj5lZGFjX2Rldl9yZWdpc3RlcigpIGVy
-cm9yOiB1bmluaXRpYWxpemVkIHN5bWJvbCAncmV0Jy4NCj4NCj5PbiBUdWUsIEZlYiAyNSwgMjAy
-NSBhdCAxMDo0Njo0OEFNICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOg0KPj4gdHJlZTogICBo
-dHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9icC9icC5naXQg
-ZWRhYy1jeGwNCj4+IGhlYWQ6ICAgNGZhYjI1YjYyYmM2ODJjMGRmODg2ZDk3ZGNiMTA2ZDQ5ODlj
-OWZmMQ0KPj4gY29tbWl0OiBlNzc3NzE5ZDViZWMzMmFmODU5OTkwNDU2ZjRiMGUwZTM2MmY0MjVh
-IFsyLzVdIEVEQUM6IEFkZA0KPnNjcnViDQo+PiBjb250cm9sIGZlYXR1cmUNCj4+IGNvbmZpZzog
-aTM4Ni1yYW5kY29uZmlnLTE0MS0yMDI1MDIyNQ0KPj4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3Jn
-LzBkYXktY2kvYXJjaGl2ZS8yMDI1MDIyNS8yMDI1MDIyNTEwMDkuMHNHa29sRQ0KPj4gSi1sa3BA
-aW50ZWwuY29tL2NvbmZpZykNCj4+IGNvbXBpbGVyOiBjbGFuZyB2ZXJzaW9uIDE5LjEuNyAoaHR0
-cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2bS1wcm9qZWN0DQo+PiBjZDcwODAyOWUwYjI4NjllODBh
-YmUzMWRkYjE3NWY3YzM1MzYxZjkwKQ0KPj4NCj4+IElmIHlvdSBmaXggdGhlIGlzc3VlIGluIGEg
-c2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0IGEgbmV3DQo+PiB2ZXJzaW9uIG9m
-IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4+IHwg
-UmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPj4gfCBSZXBv
-cnRlZC1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBsaW5hcm8ub3JnPg0KPj4gfCBD
-bG9zZXM6DQo+PiB8IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNTAyMjUxMDA5LjBzR2tv
-bEVKLWxrcEBpbnRlbC5jb20vDQo+Pg0KPj4gc21hdGNoIHdhcm5pbmdzOg0KPj4gZHJpdmVycy9l
-ZGFjL2VkYWNfZGV2aWNlLmM6NzA1IGVkYWNfZGV2X3JlZ2lzdGVyKCkgZXJyb3I6IHVuaW5pdGlh
-bGl6ZWQNCj5zeW1ib2wgJ3JldCcuDQo+DQo+VGhhbmtzIGZvciByZXBvcnRpbmcuDQo+DQo+SSB3
-ZW50IHRocm91Z2ggdGhlIHdob2xlIHNldCBhbmQgZGlkIHNvbWUgc2NydWJiaW5nIG9mIHJldHZh
-bHMuIEFuZCB0aGF0DQo+ZWRhY19kZXZfcmVnaXN0ZXIoKSBpcyBhbHJlYWR5IGEgbWVzcy4gQnV0
-IGNsZWFuaW5nIHRoYXQgdXAgaXMgZm9yIGFub3RoZXIgZGF5Lg0KPg0KPlNvLCBTaGlqdSwgSSd2
-ZSBwdXNoZWQgYSBlZGFjLWN4bDIgYnJhbmNoLCBwbGVhc2UgcnVuIGl0IGFnYWluLg0KDQpUaGFu
-a3MgQm9yaXNsYXYgZm9yIGZpeGluZyB0aGlzIGVycm9yIGFuZCBjaGFuZ2VzIGxvb2tzIGdvb2Qg
-dG8gbWUuIA0KDQpUZXN0ZWQgZmluZSBpbiB0aGUgZWRhYy1jeGwyIGJyYW5jaCArIGZvbGxvd2lu
-ZyBmaXggZm9yIHRoZSBhbGxtb2Rjb25maWcteDg2XzY0LWNsYW5nDQpidWlsZCBlcnJvciByZXBv
-cnRlZCBpbiB0aGUgb3RoZXIgdGhyZWFkLg0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL21l
-bV9yZXBhaXIuYyBiL2RyaXZlcnMvZWRhYy9tZW1fcmVwYWlyLmMgaW5kZXggY2JlNWE3MjI3MTVk
-Li42ZjRhOWRmY2Q3ZGEgMTAwNzU1DQotLS0gYS9kcml2ZXJzL2VkYWMvbWVtX3JlcGFpci5jDQor
-KysgYi9kcml2ZXJzL2VkYWMvbWVtX3JlcGFpci5jDQpAQCAtMzIyLDggKzMyMiw4IEBAIHN0YXRp
-YyBpbnQgbWVtX3JlcGFpcl9jcmVhdGVfZGVzYyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQogICAgICAg
-ICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQogDQogICAgICAgIGZvciAoaSA9IDA7IGkgPCBNUl9N
-QVhfQVRUUlM7IGkrKykgew0KLSAgICAgICAgICAgICAgIG1lbWNweSgmY3R4LT5tZW1fcmVwYWly
-X2Rldl9hdHRyW2ldLmRldl9hdHRyLA0KLSAgICAgICAgICAgICAgICAgICAgICAmZGV2X2F0dHJb
-aV0sIHNpemVvZihkZXZfYXR0cltpXSkpOw0KKyAgICAgICAgICAgICAgIG1lbWNweSgmY3R4LT5t
-ZW1fcmVwYWlyX2Rldl9hdHRyW2ldLCAmZGV2X2F0dHJbaV0sDQorICAgICAgICAgICAgICAgICAg
-ICAgIHNpemVvZihkZXZfYXR0cltpXSkpOw0KICAgICAgICAgICAgICAgIGN0eC0+bWVtX3JlcGFp
-cl9hdHRyc1tpXSA9DQogICAgICAgICAgICAgICAgICAgICAgICAmY3R4LT5tZW1fcmVwYWlyX2Rl
-dl9hdHRyW2ldLmRldl9hdHRyLmF0dHI7DQogICAgICAgIH0NCiAgDQo+DQo+VGh4Lg0KPg0KPkZ1
-bGwgZGlmZiBvZiB0aGUgY2hhbmdlcyBJJ3ZlIGRvbmU6DQo+DQo+LS0tDQo+ZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZWRhYy9lZGFjX2RldmljZS5jIGIvZHJpdmVycy9lZGFjL2VkYWNfZGV2aWNlLmMg
-aW5kZXgNCj4wODFmNzdiMWYxMjUuLjE2NjExNTE1YWIzNCAxMDA2NDQNCj4tLS0gYS9kcml2ZXJz
-L2VkYWMvZWRhY19kZXZpY2UuYw0KPisrKyBiL2RyaXZlcnMvZWRhYy9lZGFjX2RldmljZS5jDQo+
-QEAgLTU4MSw3ICs1ODEsNyBAQCBzdGF0aWMgdm9pZCBlZGFjX2Rldl9yZWxlYXNlKHN0cnVjdCBk
-ZXZpY2UgKmRldikNCj4gCWtmcmVlKGN0eCk7DQo+IH0NCj4NCj4tY29uc3Qgc3RydWN0IGRldmlj
-ZV90eXBlIGVkYWNfZGV2X3R5cGUgPSB7DQo+K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZGV2aWNlX3R5
-cGUgZWRhY19kZXZfdHlwZSA9IHsNCj4gCS5uYW1lID0gImVkYWNfZGV2IiwNCj4gCS5yZWxlYXNl
-ID0gZWRhY19kZXZfcmVsZWFzZSwNCj4gfTsNCj5AQCAtNjE2LDggKzYxNiw5IEBAIGludCBlZGFj
-X2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXINCj4qbmFtZSwNCj4gCXN0
-cnVjdCBlZGFjX2Rldl9mZWF0X2N0eCAqY3R4Ow0KPiAJaW50IG1lbV9yZXBhaXJfY250ID0gMDsN
-Cj4gCWludCBhdHRyX2djbnQgPSAwOw0KPisJaW50IHJldCA9IC1FTk9NRU07DQo+IAlpbnQgc2Ny
-dWJfY250ID0gMDsNCj4tCWludCByZXQsIGZlYXQ7DQo+KwlpbnQgZmVhdDsNCj4NCj4gCWlmICgh
-cGFyZW50IHx8ICFuYW1lIHx8ICFudW1fZmVhdHVyZXMgfHwgIXJhc19mZWF0dXJlcykNCj4gCQly
-ZXR1cm4gLUVJTlZBTDsNCj5AQCAtNjQ2LDI1ICs2NDcsMTkgQEAgaW50IGVkYWNfZGV2X3JlZ2lz
-dGVyKHN0cnVjdCBkZXZpY2UgKnBhcmVudCwgY2hhcg0KPipuYW1lLA0KPiAJCXJldHVybiAtRU5P
-TUVNOw0KPg0KPiAJcmFzX2F0dHJfZ3JvdXBzID0ga2NhbGxvYyhhdHRyX2djbnQgKyAxLCBzaXpl
-b2YoKnJhc19hdHRyX2dyb3VwcyksDQo+R0ZQX0tFUk5FTCk7DQo+LQlpZiAoIXJhc19hdHRyX2dy
-b3Vwcykgew0KPi0JCXJldCA9IC1FTk9NRU07DQo+KwlpZiAoIXJhc19hdHRyX2dyb3VwcykNCj4g
-CQlnb3RvIGN0eF9mcmVlOw0KPi0JfQ0KPg0KPiAJaWYgKHNjcnViX2NudCkgew0KPiAJCWN0eC0+
-c2NydWIgPSBrY2FsbG9jKHNjcnViX2NudCwgc2l6ZW9mKCpjdHgtPnNjcnViKSwNCj5HRlBfS0VS
-TkVMKTsNCj4tCQlpZiAoIWN0eC0+c2NydWIpIHsNCj4tCQkJcmV0ID0gLUVOT01FTTsNCj4rCQlp
-ZiAoIWN0eC0+c2NydWIpDQo+IAkJCWdvdG8gZ3JvdXBzX2ZyZWU7DQo+LQkJfQ0KPiAJfQ0KPg0K
-PiAJaWYgKG1lbV9yZXBhaXJfY250KSB7DQo+IAkJY3R4LT5tZW1fcmVwYWlyID0ga2NhbGxvYyht
-ZW1fcmVwYWlyX2NudCwgc2l6ZW9mKCpjdHgtDQo+Pm1lbV9yZXBhaXIpLCBHRlBfS0VSTkVMKTsN
-Cj4tCQlpZiAoIWN0eC0+bWVtX3JlcGFpcikgew0KPi0JCQlyZXQgPSAtRU5PTUVNOw0KPisJCWlm
-ICghY3R4LT5tZW1fcmVwYWlyKQ0KPiAJCQlnb3RvIGRhdGFfbWVtX2ZyZWU7DQo+LQkJfQ0KPiAJ
-fQ0KPg0KPiAJYXR0cl9nY250ID0gMDsNCj5AQCAtNjczLDkgKzY2OCwxMCBAQCBpbnQgZWRhY19k
-ZXZfcmVnaXN0ZXIoc3RydWN0IGRldmljZSAqcGFyZW50LCBjaGFyDQo+Km5hbWUsDQo+IAlmb3Ig
-KGZlYXQgPSAwOyBmZWF0IDwgbnVtX2ZlYXR1cmVzOyBmZWF0KyssIHJhc19mZWF0dXJlcysrKSB7
-DQo+IAkJc3dpdGNoIChyYXNfZmVhdHVyZXMtPmZ0X3R5cGUpIHsNCj4gCQljYXNlIFJBU19GRUFU
-X1NDUlVCOg0KPi0JCQlpZiAoIXJhc19mZWF0dXJlcy0+c2NydWJfb3BzIHx8DQo+LQkJCSAgICBz
-Y3J1Yl9jbnQgIT0gcmFzX2ZlYXR1cmVzLT5pbnN0YW5jZSkNCj4rCQkJaWYgKCFyYXNfZmVhdHVy
-ZXMtPnNjcnViX29wcyB8fCBzY3J1Yl9jbnQgIT0NCj5yYXNfZmVhdHVyZXMtPmluc3RhbmNlKSB7
-DQo+KwkJCQlyZXQgPSAtRUlOVkFMOw0KPiAJCQkJZ290byBkYXRhX21lbV9mcmVlOw0KPisJCQl9
-DQo+DQo+IAkJCWRldl9kYXRhID0gJmN0eC0+c2NydWJbc2NydWJfY250XTsNCj4gCQkJZGV2X2Rh
-dGEtPmluc3RhbmNlID0gc2NydWJfY250Ow0KPkBAIC02OTAsOCArNjg2LDEwIEBAIGludCBlZGFj
-X2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXINCj4qbmFtZSwNCj4gCQkJ
-YXR0cl9nY250Kys7DQo+IAkJCWJyZWFrOw0KPiAJCWNhc2UgUkFTX0ZFQVRfRUNTOg0KPi0JCQlp
-ZiAoIXJhc19mZWF0dXJlcy0+ZWNzX29wcykNCj4rCQkJaWYgKCFyYXNfZmVhdHVyZXMtPmVjc19v
-cHMpIHsNCj4rCQkJCXJldCA9IC1FSU5WQUw7DQo+IAkJCQlnb3RvIGRhdGFfbWVtX2ZyZWU7DQo+
-KwkJCX0NCj4NCj4gCQkJZGV2X2RhdGEgPSAmY3R4LT5lY3M7DQo+IAkJCWRldl9kYXRhLT5lY3Nf
-b3BzID0gcmFzX2ZlYXR1cmVzLT5lY3Nfb3BzOyBAQCAtNzA1LDgNCj4rNzAzLDEwIEBAIGludCBl
-ZGFjX2Rldl9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNlICpwYXJlbnQsIGNoYXIgKm5hbWUsDQo+IAkJ
-CWJyZWFrOw0KPiAJCWNhc2UgUkFTX0ZFQVRfTUVNX1JFUEFJUjoNCj4gCQkJaWYgKCFyYXNfZmVh
-dHVyZXMtPm1lbV9yZXBhaXJfb3BzIHx8DQo+LQkJCSAgICBtZW1fcmVwYWlyX2NudCAhPSByYXNf
-ZmVhdHVyZXMtPmluc3RhbmNlKQ0KPisJCQkgICAgbWVtX3JlcGFpcl9jbnQgIT0gcmFzX2ZlYXR1
-cmVzLT5pbnN0YW5jZSkgew0KPisJCQkJcmV0ID0gLUVJTlZBTDsNCj4gCQkJCWdvdG8gZGF0YV9t
-ZW1fZnJlZTsNCj4rCQkJfQ0KPg0KPiAJCQlkZXZfZGF0YSA9ICZjdHgtPm1lbV9yZXBhaXJbbWVt
-X3JlcGFpcl9jbnRdOw0KPiAJCQlkZXZfZGF0YS0+aW5zdGFuY2UgPSBtZW1fcmVwYWlyX2NudDsN
-Cj4NCj4tLQ0KPlJlZ2FyZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8vcGVvcGxl
-Lmtlcm5lbC5vcmcvdGdseC9ub3Rlcy1hYm91dC1uZXRpcXVldHRlDQoNClRoYW5rLA0KU2hpanUN
-Cg==
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250224080847.326350-8-animesh.manna@intel.com>
+References: <20250224080847.326350-8-animesh.manna@intel.com>
+TO: Animesh Manna <animesh.manna@intel.com>
+TO: intel-gfx@lists.freedesktop.org
+TO: intel-xe@lists.freedesktop.org
+CC: jouni.hogander@intel.com
+CC: jani.nikula@intel.com
+CC: jeevan.b@intel.com
+CC: Animesh Manna <animesh.manna@intel.com>
+
+Hi Animesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.14-rc4]
+[also build test WARNING on linus/master next-20250225]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-i915-lobf-Add-lobf-enablement-in-post-plane-update/20250224-221647
+base:   v6.14-rc4
+patch link:    https://lore.kernel.org/r/20250224080847.326350-8-animesh.manna%40intel.com
+patch subject: [PATCH v4 7/8] drm/i915/lobf: Add mutex for alpm update
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250226/202502261244.aUuaLdTn-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502261244.aUuaLdTn-lkp@intel.com/
+
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_alpm.c:548 intel_alpm_disable() warn: inconsistent returns '&intel_dp->alpm_parameters.lock'.
+
+vim +548 drivers/gpu/drm/i915/display/intel_alpm.c
+
+026d6557dc2749d Animesh Manna 2025-02-24  526  
+026d6557dc2749d Animesh Manna 2025-02-24  527  void intel_alpm_disable(struct intel_dp *intel_dp)
+026d6557dc2749d Animesh Manna 2025-02-24  528  {
+026d6557dc2749d Animesh Manna 2025-02-24  529  	struct intel_display *display = to_intel_display(intel_dp);
+026d6557dc2749d Animesh Manna 2025-02-24  530  	enum transcoder cpu_transcoder = intel_dp->alpm_parameters.transcoder;
+026d6557dc2749d Animesh Manna 2025-02-24  531  
+026d6557dc2749d Animesh Manna 2025-02-24  532  	if (DISPLAY_VER(display) < 20)
+026d6557dc2749d Animesh Manna 2025-02-24  533  		return;
+026d6557dc2749d Animesh Manna 2025-02-24  534  
+737b2873a48f3ab Animesh Manna 2025-02-24  535  	mutex_lock(&intel_dp->alpm_parameters.lock);
+737b2873a48f3ab Animesh Manna 2025-02-24  536  
+026d6557dc2749d Animesh Manna 2025-02-24  537  	if (!(intel_de_read(display, ALPM_CTL(display, cpu_transcoder)) & ALPM_CTL_ALPM_ENABLE))
+026d6557dc2749d Animesh Manna 2025-02-24  538  		return;
+026d6557dc2749d Animesh Manna 2025-02-24  539  
+026d6557dc2749d Animesh Manna 2025-02-24  540  	intel_de_rmw(display, ALPM_CTL(display, cpu_transcoder),
+026d6557dc2749d Animesh Manna 2025-02-24  541  		     ALPM_CTL_ALPM_ENABLE | ALPM_CTL_LOBF_ENABLE |
+026d6557dc2749d Animesh Manna 2025-02-24  542  		     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+026d6557dc2749d Animesh Manna 2025-02-24  543  
+026d6557dc2749d Animesh Manna 2025-02-24  544  	intel_de_rmw(display,
+026d6557dc2749d Animesh Manna 2025-02-24  545  		     PORT_ALPM_CTL(cpu_transcoder),
+026d6557dc2749d Animesh Manna 2025-02-24  546  		     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+737b2873a48f3ab Animesh Manna 2025-02-24  547  
+737b2873a48f3ab Animesh Manna 2025-02-24 @548  	mutex_unlock(&intel_dp->alpm_parameters.lock);
+026d6557dc2749d Animesh Manna 2025-02-24  549  }
+28ed9ac2641c5df Animesh Manna 2025-02-24  550  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
