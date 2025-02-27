@@ -1,106 +1,131 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7902D2376EA
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 14:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B351013AA5D
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740665926; cv=none; b=Zu1Kb2jDqA+rl4wB83cgl6V8phCMhga6A2fKrr34x2k23MIeogbuKATEJ5m8FzlZ+FHOp9ym/btZeRP2O9n+LfV5DzUXZQIlU/F3JIK26u9Z30cqZQncC6dBK5xFl5xIvKo3PRoyairKp8pan4tlrZl1XsIrTscq6W5LhouL59U=
+	t=1740670279; cv=none; b=nlVIlg7C3qgxO8UulARnocd1qJ1HcmPV4Yic+5K8Qc0UquNkD9Fy7ZvTklYjk5VhY2xo2W2mpxngAwe5CYWotGCQ9RbuJ49VNLNseaE7MVrWbBIiJW6XVUxicgfZ8kYe1skvkRp8oyv0vqOzY23UNFyz40C6NgsnVtM3lNBetMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740665926; c=relaxed/simple;
-	bh=r8S7xG/GXaPn5Om2tkbwP+KT4PKKlCCa4/xSKilbANM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gytLKMDMTPTUyoP36jE8GVmecwcPomtE+ePqtH7+rIBwKgSAVqYVVQ6c6nrA/Z6jmKGdhCX6rN95H5RuQjwxq6Tptv5TCSGisDIMDguZB1yTIjSqNjbuzpRSaPAPgkDEyt1ll4vg7hhYXHK9krWe2uGi4B0QNxvZWO7aof9SKTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=nZCHrVLg; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1740670279; c=relaxed/simple;
+	bh=W6Vrgb75WPrr3J592Ln8tkG7lmG/2l/BQX7au685yMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HyBXp/pYzVK0scKWfPyTv9VHBXGQKpRl2ZE23d6JM7miyfAHRxbfTyhmzzSxlIXQmKS6v+EbhrM1A/4nTSc2KH2psqdOzsaRUKerF+oyk+70fA+zG4Tf81hYcoZ5mIu5TqyrlhJZXOUDwz93dOSU4cmBOfxOpWiRSGEmpQYiDYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wx7W8rB7; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="nZCHrVLg"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3cf8e017abcso4478275ab.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 06:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740665921; x=1741270721; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
-        b=nZCHrVLgE2EHsVzHP410cgPh7BELnDbi3vgc/8U749+hlZPD52PBD717/k9NXF+KM8
-         v2+woO6eFYiE8Knns2vcZ25+TKTro79/mxoPntISgcn2+xluWjRvbkIIr3HUsdmIPhQM
-         771iGs0rUtPBHVWNxcVevG8knYJIt+9aYrwdTLvZh9MVdvEihewMHey1bPaNfTg3B7o1
-         dnacqOjkALWCz1SPkLlpKaJZCvp3/05WL5Qu441LFSsbJWDrhwEisdU+z+yn/Ri4p3aL
-         ItZaNUHhdstxv8oS7hfrZa8QF2+94McK4mt0xYEJ5jNXsBpmVMJNsz2cr4JcwCo2MsZT
-         LpjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740665921; x=1741270721;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
-        b=Cn+zYQgz/D6wOqdEsTPGeIQISvNpQEPmk0kyw5IUOyG9hzhXKkpJyH79puj7WpvrIL
-         iPq0PYnV/eEoHTLXc7ytghGvAYE+ygO3sHGliCly/TN0Kt/wLTAiA9qdWjo2iOQ5sw5L
-         UOHDWU4cSIC1CGzmkPgfFnsphz9XuqXwrkr2Ne9HOhkXzWN7B2FS4TcvdbH/NZVUhFLH
-         2T43yfjMnfZTa8xt+8n4FmYAHaC0zlOiCSLJii6sTtPyjZviDYHcRYvk+rHBB8qjRH6m
-         L6Gd/oCx+UKSMSxlIucPmFAqEmgjS3Ovrp0FoyzivauqmACgHuup+Rh82R1mVN6buYk5
-         wZAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmVKy1MPiuy7QErrglEbY7aHukSKj7OTRkOBoBJw2WLrDkvFJ1n9EMxqeJG8edCyRqsn3iqtVGvOM=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw19dJUQGvQxRmbMRrG5TWzf711oScRztdGWFWpYGc4F6BLRUQ8
-	jxa5N2ItY0XlSP09OMwWhnnapUVP3XAcvgy3ajRSmHeRDc/mOySTL0Cm4h5zAfvFPbn2xvSTXoE
-	q
-X-Gm-Gg: ASbGncvAEpgxfHj9SkgA150La0vYy2q4FMPq4ve79fEhkrthHxlC87vLqYBWxXgsRxG
-	XZahR9gPkMM264twUEbDjNgxequ8zwE6sMTtBW9pKjsu5c3BFhaW98Ienst+kb4K8oHLsQOko+H
-	wZZgtap9ZWkhXa6Uty2FNdrS0fquOxmtUbpgevF2N6mGyJxNEq47itW0B8ZA2Kr3A5J5Iu8Lgi0
-	rRxe8Q7yT15PuDcXhKI1q1q41oWevu3ilgKJDldeoqWBIsCkstvPjZM/wiswpOdnHQlVNpdl2VM
-	gHIO1TsZtAyZqY7rjVqbYw==
-X-Google-Smtp-Source: AGHT+IFaqZ3whCItmy6RW103VrhoKk3IQiM/Mvv8AZZcmFo8vP/FBPn1in3bLWUleZWrKCTF237izA==
-X-Received: by 2002:a05:6e02:491b:b0:3d3:ced4:db9b with SMTP id e9e14a558f8ab-3d3ced4de09mr93462075ab.5.1740665921305;
-        Thu, 27 Feb 2025 06:18:41 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d3dedbaf03sm3437855ab.0.2025.02.27.06.18.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 06:18:40 -0800 (PST)
-Message-ID: <5ec35d4b-bf0f-4dcc-876a-40c64793d25a@kernel.dk>
-Date: Thu, 27 Feb 2025 07:18:39 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wx7W8rB7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740670278; x=1772206278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W6Vrgb75WPrr3J592Ln8tkG7lmG/2l/BQX7au685yMk=;
+  b=Wx7W8rB7y0xzdhWYuVEVOwPza2+HbjilRWrswJGLXR2YB3aD9qo6l1ac
+   75UynUavlzaCHzua3sZ26FtVfm9MyqPXVXPEs9CxkRHlDmnZVSSIj3xdo
+   9UJ764ET1I8z7fWA4tjSHUymL//32thDhUqNAgFMsQIMPTnLP+x+SC1CB
+   XF+P9DfB+0QM1ab3OmZW04fZnymfQr27e/mdS6SGCYYKmtJN37QWgrp7s
+   m1kiXotGwVwO6puvx83Q9aIlvtXtsaZln+lFeMg7MvwdZV7GhGJIcegUY
+   LJw80zOtV2+u9o3RARCtVysAgAKBQrnbzQZd+Obsm6m5CRWi4naKu7+rJ
+   A==;
+X-CSE-ConnectionGUID: 265vCZ0JR+2KRhSajCwodQ==
+X-CSE-MsgGUID: Z3/C/nv9RJ+s414B2D0FJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40743251"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="40743251"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:31:16 -0800
+X-CSE-ConnectionGUID: KlHWw40LSjWOF0ad/OVuyQ==
+X-CSE-MsgGUID: T/zRSAWgRiqTyqPQPXwu2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117570452"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 27 Feb 2025 07:31:15 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnfqy-000DaU-2M;
+	Thu, 27 Feb 2025 15:31:12 +0000
+Date: Thu, 27 Feb 2025 23:30:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/2] arm64: dts: mediatek: mt8395-nio-12l: Prepare MIPI
+ DSI port
+Message-ID: <202502272357.yYp6xeAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [axboe-block:for-6.15/io_uring 43/57] io_uring/rw.c:299
- io_prep_rw() error: uninitialized symbol 'ret'.
-To: Pavel Begunkov <asml.silence@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <e14911d2-c648-4738-84e4-48af3fcfdd9c@stanley.mountain>
- <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/27/25 3:08 AM, Pavel Begunkov wrote:
-> On 2/27/25 05:56, Dan Carpenter wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
->> head:   047fa0ba8f1bed6b1c5d88e31c4fd187de16dbc1
->> commit: 61ed48b5fc63d1c6d9c3eb59ed2b46a2cbfc6039 [43/57] io_uring/rw: open code io_prep_rw_setup()
->> config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271201.3Eaa0Ych-lkp@intel.com/config)
->> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->> | Closes: https://lore.kernel.org/r/202502271201.3Eaa0Ych-lkp@intel.com/
->>
->> smatch warnings:
->> io_uring/rw.c:299 io_prep_rw() error: uninitialized symbol 'ret'.
-> 
-> Thanks for letting know
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Folded in a fix.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250226-radxa-panel-overlay-v1-1-9e8938dfbead@collabora.com>
+References: <20250226-radxa-panel-overlay-v1-1-9e8938dfbead@collabora.com>
+TO: Julien Massot <julien.massot@collabora.com>
+TO: kernel@collabora.com
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Matthias Brugger <matthias.bgg@gmail.com>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Julien Massot <julien.massot@collabora.com>
+
+Hi Julien,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/arm64-dts-mediatek-mt8395-nio-12l-Prepare-MIPI-DSI-port/20250226-223820
+base:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+patch link:    https://lore.kernel.org/r/20250226-radxa-panel-overlay-v1-1-9e8938dfbead%40collabora.com
+patch subject: [PATCH 1/2] arm64: dts: mediatek: mt8395-nio-12l: Prepare MIPI DSI port
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: arm64-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272357.yYp6xeAB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272357.yYp6xeAB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202502272357.yYp6xeAB-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3013.17-3070.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3087.17-3123.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3331.22-3343.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts:964.7-972.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+
+vim +964 arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts
+
+96564b1e2ea4d2 AngeloGioacchino Del Regno 2024-02-02  962  
+269e2352ca44fa Julien Massot              2025-02-26  963  &vdosys0 {
+269e2352ca44fa Julien Massot              2025-02-26 @964  	port {
+269e2352ca44fa Julien Massot              2025-02-26  965  		#address-cells = <1>;
+269e2352ca44fa Julien Massot              2025-02-26  966  		#size-cells = <0>;
+269e2352ca44fa Julien Massot              2025-02-26  967  
+269e2352ca44fa Julien Massot              2025-02-26  968  		vdosys0_ep_main: endpoint@0 {
+269e2352ca44fa Julien Massot              2025-02-26  969  			reg = <0>;
+269e2352ca44fa Julien Massot              2025-02-26  970  			remote-endpoint = <&ovl0_in>;
+269e2352ca44fa Julien Massot              2025-02-26  971  		};
+269e2352ca44fa Julien Massot              2025-02-26  972  	};
+269e2352ca44fa Julien Massot              2025-02-26  973  };
+269e2352ca44fa Julien Massot              2025-02-26  974  
 
 -- 
-Jens Axboe
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
