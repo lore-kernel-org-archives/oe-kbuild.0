@@ -1,130 +1,147 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19F21E32D4
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 07:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0844A59;
+	Thu, 27 Feb 2025 08:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740639735; cv=none; b=PPXc0Ozx0095HoP3VmZXaJQoRzJBdhUXGmSJ8J94/jc5VOHd2Utr+vj2gIKHnP3CXhUmaXfK32LU3sWA0+5Gjl+OuXbTHNNioQIJqpMp1EuRnd5WlMI0RsxvXqi8wb4hqHtGEpVIC/f1dKynSSEQMUz5fuaBAlkNU+xLEMlhoM4=
+	t=1740644535; cv=none; b=JQ2YJ5JVAsx2D8CEGwVg7ADLe8E7S5wE9ca7BENE7ZLx6etrpze5Mic9ZNbSOrn6l7Mc/3yqeD8akGM6OoSx6urh1eBaXh49DmD4arHumQk7xNL/ifGXzDaSrieEByxHjX6+qgpB4CTh4IsFa3VY0RtxFqCPGZV2fTI8Qr3qFpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740639735; c=relaxed/simple;
-	bh=1VQKSHbB56NTrKI9rhK1gz3w3fRv4eTAztp7gty4Ydo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dkh4bXQsYHyBPSHxoX6dhZinqUoWO/E+fQhPAlRHL1td0jnCP+bfNFEn8jMqaMTOE8WlhXXt61gq78fkui4mcQTyFXLMjkusiBqPTYbUENmV0Ow+q5RrSE6VvzejDUuFazxZGLFr9hmihVISO6Zsfx3wuYOeQhCdL4nm1QsCHW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ix7j4BW1; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740644535; c=relaxed/simple;
+	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HjczjP9g7BSQr2Qst7lzvE0ILN5Zmygh69R3df29GmC1EqanR+7pSYzX4D9kCZ2QH1DuJk22MKEPk0Mrnffzyt5kxcKuEBP6GmlfRK2GBEshN/fIX8IwTqaDSIe1UbkfZsxUXnUIEnwaBGQR01g14hZI3zIStDT1sW/Mqhz+pLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gghl67Az; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ix7j4BW1"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abbae92be71so53378666b.2
-        for <oe-kbuild@lists.linux.dev>; Wed, 26 Feb 2025 23:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740639731; x=1741244531; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
-        b=Ix7j4BW1oCwbrqr2cWIY409dm3g8+bMydOk4MJ8P7sGnvcd0nfAnc45vuop4jID5m3
-         jq5u7mdcwL102QPhWqVQCY0gjEPWxSG9pOvtLpOx+YfCtjFaEwqz4ssSZGvzM2+9BEz+
-         U/wZ1eLfh3Aqy5BSbpzqptvEyvPpQtto357JL/2MSfE3H7iT2okNOHuQuDTypy/WJnC/
-         /rZz1oH9dftB0l+ltTuj6WL5HR/vcIinHS52A0ktLPcV/JMFj8Mqaph5YiJfNcDj2hu6
-         RKe+cSeeEidarDaAOxcNc5A1WFE9e/jpFWGOuBUFjgT4ChFdwOyK5HS/oJS44wLIlYXr
-         6Ptw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740639731; x=1741244531;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
-        b=GPPU8fK4Q5X2OJsU5hOs4BBz+qRurQWOdyiplUOMT7ahRSXhgEKFaYsS9RpaY2iJcm
-         U4/wGiHFl2QoXsOEacLwGZ/sXJVYeuXUrJA1jwifZdHBK/iTlGq2ZJ27cVLl8sMf1JRp
-         Z+lkQ+F4ALNoC4Dt3IOnKJ+fGRUGom8QhEFg9piBfReOhAafedtGtnRkZQx2EkSMxK47
-         Ud4kd2YOLRB09fdUppJUKbgt2IvVBEYx9HOtlicw2LbS/glzIRuOquK1DSjPsVwcuWWs
-         gta7D8pYh0XwYb/Wo8mmbH0QZVTUe+JgYdjD9/UM80+X0Gdgv1YMtQHtdIYR27EpQxyH
-         QIRw==
-X-Gm-Message-State: AOJu0Yw5sSwzKHY1jnXZ9qtOVyrEa11+bS950VLs590LITI0dY0fUqaJ
-	6Dr+YlJEbq5kwA2bexs2EhjQAR00yWW+FFNJbtagmmj6GzKfJt1sV9gtgqH1U/3AFyiJR5JJEoq
-	7
-X-Gm-Gg: ASbGncuRlizomFEwLDKZ8EWgX6t/rTmm1A81QdU2goAscn3Ly3JL7qm13K8i9UXz+ZI
-	iknqRJqGzhG+zOLdg/IgOS9PNIYxe7KgwGZI9Z4f0VaHl2RKIl+beuzW4FlrxhEHawJO5IQivfs
-	573S8Ootlua5kab0MUsobTuYYeriC4hTDPB9lx9UKIskjnatCtaWI31A/KkYo6Nk12ma90G8M+c
-	40vsoKWWpwzWmrnY8E2DT2byvi3rH/oOiVqPcuWC3Lpt2hipHr+39v0QczdlX4f5RZyq03TSwEs
-	YqJXpv28x3VGifuweFu4chOaYFvAVdM=
-X-Google-Smtp-Source: AGHT+IG8/trVIvT9OAnzIkJD18llR8tc6FVRTdKhsOlGZ5chkknGa49/r/KHdA2+qcmDHsdJRdHF2Q==
-X-Received: by 2002:a05:6402:2812:b0:5df:25e8:26d2 with SMTP id 4fb4d7f45d1cf-5e444853ee3mr26222525a12.5.1740639731365;
-        Wed, 26 Feb 2025 23:02:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3bb733asm645217a12.38.2025.02.26.23.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 23:02:10 -0800 (PST)
-Date: Thu, 27 Feb 2025 10:02:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: [linux-next:master 4924/6583] drivers/iommu/iommufd/device.c:327
- iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
-Message-ID: <8aafd350-322b-4ce7-b228-ccf2c36e0333@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gghl67Az"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFD1C4CEDD;
+	Thu, 27 Feb 2025 08:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740644534;
+	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gghl67AzbmKpCkocUr8laoREpRbdf3xbUGqpQbmD9LiVxM8Ta4DE+dn3Waf9A1uL2
+	 obHEK6FpIKDtwBtfa5pPqPOKUGlWn2cj5yNI7xjb5lsYZY7038bm0qP+SIc2KOs4Ad
+	 gTNFz3mgPBf/Q0dgnjs5oIt9BqilMGT3WDQT9byfm8CXUijw8X5CMRWJulBI10XWzR
+	 bvFzXpJx5FaheXQjGCNPzDA9X/BgEqG7FiGtGSDfIeIR5UlorXrBa8fkNhZBSsg0Ay
+	 OBWVLpMfxrPKHMtc0J3Gl/MLC4Z9LPdULO4y7zIFBkl6Xk3oDmb8CkH9viRo9UDsV8
+	 x3RVOy76qqHXA==
+Date: Thu, 27 Feb 2025 09:22:10 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 6012/6583] fs/namespace.c:4442
+ __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+Message-ID: <20250227-fortgehen-kaleidoskop-53bbd5f32e71@brauner>
+References: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-commit: 598749522d4254afb33b8a6c1bea614a95896868 [4924/6583] iommufd: Implement sw_msi support natively
-config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271339.a2nWr9UA-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+On Wed, Feb 26, 2025 at 03:24:12PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+> commit: b1e9423d65e330346f9e80e819872ab66f1e35b6 [6012/6583] fs: support getname_maybe_null() in move_mount()
+> config: x86_64-randconfig-161-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262044.uRrhoaDw-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502262044.uRrhoaDw-lkp@intel.com/
+> 
+> New smatch warnings:
+> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+> 
+> vim +/uflags +4442 fs/namespace.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502271339.a2nWr9UA-lkp@intel.com/
+Thanks for the report, Dan!
+I've already accepted a patch that fixes this issue!
 
-New smatch warnings:
-drivers/iommu/iommufd/device.c:327 iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
-
-vim +/cur +327 drivers/iommu/iommufd/device.c
-
-598749522d4254 Jason Gunthorpe 2025-02-19  303  static __maybe_unused struct iommufd_sw_msi_map *
-598749522d4254 Jason Gunthorpe 2025-02-19  304  iommufd_sw_msi_get_map(struct iommufd_ctx *ictx, phys_addr_t msi_addr,
-598749522d4254 Jason Gunthorpe 2025-02-19  305  		       phys_addr_t sw_msi_start)
-598749522d4254 Jason Gunthorpe 2025-02-19  306  {
-598749522d4254 Jason Gunthorpe 2025-02-19  307  	struct iommufd_sw_msi_map *cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  308  	unsigned int max_pgoff = 0;
-598749522d4254 Jason Gunthorpe 2025-02-19  309  
-598749522d4254 Jason Gunthorpe 2025-02-19  310  	lockdep_assert_held(&ictx->sw_msi_lock);
-598749522d4254 Jason Gunthorpe 2025-02-19  311  
-598749522d4254 Jason Gunthorpe 2025-02-19  312  	list_for_each_entry(cur, &ictx->sw_msi_list, sw_msi_item) {
-598749522d4254 Jason Gunthorpe 2025-02-19  313  		if (cur->sw_msi_start != sw_msi_start)
-598749522d4254 Jason Gunthorpe 2025-02-19  314  			continue;
-598749522d4254 Jason Gunthorpe 2025-02-19  315  		max_pgoff = max(max_pgoff, cur->pgoff + 1);
-598749522d4254 Jason Gunthorpe 2025-02-19  316  		if (cur->msi_addr == msi_addr)
-598749522d4254 Jason Gunthorpe 2025-02-19  317  			return cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  318  	}
-598749522d4254 Jason Gunthorpe 2025-02-19  319  
-598749522d4254 Jason Gunthorpe 2025-02-19  320  	if (ictx->sw_msi_id >=
-598749522d4254 Jason Gunthorpe 2025-02-19  321  	    BITS_PER_BYTE * sizeof_field(struct iommufd_sw_msi_maps, bitmap))
-598749522d4254 Jason Gunthorpe 2025-02-19  322  		return ERR_PTR(-EOVERFLOW);
-598749522d4254 Jason Gunthorpe 2025-02-19  323  
-598749522d4254 Jason Gunthorpe 2025-02-19  324  	cur = kzalloc(sizeof(*cur), GFP_KERNEL);
-598749522d4254 Jason Gunthorpe 2025-02-19  325  	if (!cur)
-598749522d4254 Jason Gunthorpe 2025-02-19  326  		cur = ERR_PTR(-ENOMEM);
-
-return ERR_PTR(-ENOMEM);
-
-598749522d4254 Jason Gunthorpe 2025-02-19 @327  	cur->sw_msi_start = sw_msi_start;
-598749522d4254 Jason Gunthorpe 2025-02-19  328  	cur->msi_addr = msi_addr;
-598749522d4254 Jason Gunthorpe 2025-02-19  329  	cur->pgoff = max_pgoff;
-598749522d4254 Jason Gunthorpe 2025-02-19  330  	cur->id = ictx->sw_msi_id++;
-598749522d4254 Jason Gunthorpe 2025-02-19  331  	list_add_tail(&cur->sw_msi_item, &ictx->sw_msi_list);
-598749522d4254 Jason Gunthorpe 2025-02-19  332  	return cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  333  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 
+> 2db154b3ea8e14 David Howells     2018-11-05  4412  SYSCALL_DEFINE5(move_mount,
+> 2658ce095df583 Ben Dooks         2019-10-15  4413  		int, from_dfd, const char __user *, from_pathname,
+> 2658ce095df583 Ben Dooks         2019-10-15  4414  		int, to_dfd, const char __user *, to_pathname,
+> 2db154b3ea8e14 David Howells     2018-11-05  4415  		unsigned int, flags)
+> 2db154b3ea8e14 David Howells     2018-11-05  4416  {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4417  	struct path to_path __free(path_put) = {};
+> b1e9423d65e330 Christian Brauner 2025-02-21  4418  	struct path from_path __free(path_put) = {};
+> b1e9423d65e330 Christian Brauner 2025-02-21  4419  	struct filename *to_name __free(putname) = NULL;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4420  	struct filename *from_name __free(putname) = NULL;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4421  	unsigned int lflags, uflags;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4422  	enum mnt_tree_flags_t mflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4423  	int ret = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4424  
+> 2db154b3ea8e14 David Howells     2018-11-05  4425  	if (!may_mount())
+> 2db154b3ea8e14 David Howells     2018-11-05  4426  		return -EPERM;
+> 2db154b3ea8e14 David Howells     2018-11-05  4427  
+> 2db154b3ea8e14 David Howells     2018-11-05  4428  	if (flags & ~MOVE_MOUNT__MASK)
+> 2db154b3ea8e14 David Howells     2018-11-05  4429  		return -EINVAL;
+> 2db154b3ea8e14 David Howells     2018-11-05  4430  
+> 6ac392815628f3 Christian Brauner 2023-05-03  4431  	if ((flags & (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP)) ==
+> 6ac392815628f3 Christian Brauner 2023-05-03  4432  	    (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP))
+> 6ac392815628f3 Christian Brauner 2023-05-03  4433  		return -EINVAL;
+> 6ac392815628f3 Christian Brauner 2023-05-03  4434  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4435  	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4436  	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4437  
+> 2db154b3ea8e14 David Howells     2018-11-05  4438  	lflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4439  	if (flags & MOVE_MOUNT_F_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
+> 2db154b3ea8e14 David Howells     2018-11-05  4440  	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4441  	if (flags & MOVE_MOUNT_F_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
+> 
+> uflags is uninitialized on the else path.
+> 
+> b1e9423d65e330 Christian Brauner 2025-02-21 @4442  	from_name = getname_maybe_null(from_pathname, uflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4443  	if (IS_ERR(from_name))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4444  		return PTR_ERR(from_name);
+> 2db154b3ea8e14 David Howells     2018-11-05  4445  
+> 2db154b3ea8e14 David Howells     2018-11-05  4446  	lflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4447  	if (flags & MOVE_MOUNT_T_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
+> 2db154b3ea8e14 David Howells     2018-11-05  4448  	if (flags & MOVE_MOUNT_T_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4449  	if (flags & MOVE_MOUNT_T_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4450  	to_name = getname_maybe_null(to_pathname, uflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4451  	if (IS_ERR(to_name))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4452  		return PTR_ERR(to_name);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4453  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4454  	if (!to_name && to_dfd >= 0) {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4455  		CLASS(fd_raw, f_to)(to_dfd);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4456  		if (fd_empty(f_to))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4457  			return -EBADF;
+> 2db154b3ea8e14 David Howells     2018-11-05  4458  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4459  		to_path = fd_file(f_to)->f_path;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4460  		path_get(&to_path);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4461  	} else {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4462  		ret = filename_lookup(to_dfd, to_name, lflags, &to_path, NULL);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4463  		if (ret)
+> b1e9423d65e330 Christian Brauner 2025-02-21  4464  			return ret;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4465  	}
+> 2db154b3ea8e14 David Howells     2018-11-05  4466  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4467  	if (!from_name && from_dfd >= 0) {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4468  		CLASS(fd_raw, f_from)(from_dfd);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4469  		if (fd_empty(f_from))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4470  			return -EBADF;
+> 2db154b3ea8e14 David Howells     2018-11-05  4471  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4472  		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4473  	}
+> 2db154b3ea8e14 David Howells     2018-11-05  4474  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4475  	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4476  	if (ret)
+> 2db154b3ea8e14 David Howells     2018-11-05  4477  		return ret;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4478  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4479  	return vfs_move_mount(&from_path, &to_path, mflags);
+> 2db154b3ea8e14 David Howells     2018-11-05  4480  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
