@@ -1,67 +1,58 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1D613A88A
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Feb 2025 12:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC35D111BF
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 04:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740572662; cv=none; b=hSDyVrj9/js9pdTz41yimKhc4AwuZTG8MXZxBtQE6BYf0xFDQLhBxy3zMmNah7OI/7xIJbycNOF3aWOaSuCxNJdUbqb094c99uZbEK7G9UvBSHhEM/pvA82HzFcmPoNRFFwnZiG+MZD8M64MfwiH6c8RfhXQ/T4N70TOis7JVXE=
+	t=1740629383; cv=none; b=jgM6HOojoI+yWy68K9XVFObX/NKTVU2xW/m63Kjx1oqbHw0VUI/2hiRHTTkgVdIOM3DpXwD5W8j7DQY4yyhYCOeSnZEfWj1Foj8mnNgGiBwTOqMTrOgvh/TI4AR8IyRKruzz4mhoEpp/sGF6Uo0LaNVX6i/eqaAON5ik1SuqYFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740572662; c=relaxed/simple;
-	bh=p4wskjtaUQalolk+YDzqMbSW/EUxw+55kjrNjPdln0Q=;
+	s=arc-20240116; t=1740629383; c=relaxed/simple;
+	bh=SqmCDBot/kBTKfjfrzWlNQRwLHFVLecjJaPIKlRJuHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ldlWZtcN9yVMXtMvEpqfJq2utyYixRLi5Jw7IIhdUYhmEvirqjhRxgPAXlRe+GXxCTx5IAzN1FGqFJP6RpfjBeOJOZ78ecwpKPYurV5v62q1bA5MFg64dfd0Kvm84hi/hY7rU9zdDoEojNa/meA59M53VYhSjg46mpwATDTc4SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=th3uRBY9; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=XDl62d74ffZ3E2odZMctgbt/IgLxMUfSJEZm38hKpo6tpd9XZJJXHv7rfC4nOHNRx6kLELIJEZ7iD0nk8M5rR+XSzAJHVaUoAzD+NBzPTo426stZnnTRN4NnQu4tozBl/rRmkggBMeq3kXa4Qvzi3UAQQHPeyvCfYJvOKPnHNwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuyjjX+C; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="th3uRBY9"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abb79af88afso172212066b.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 26 Feb 2025 04:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740572658; x=1741177458; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gapap2aBRf1h6cQe4xlskXBvL663hc92Uuk/zeFcE2I=;
-        b=th3uRBY9tDT+2jP9+bB12an5dL4FSLk6LgOt1TqlTehThNA7ZTW+I6j1qckB1jp9cf
-         205njH1qp17snLSW5cs+5sapEdid2Ye/NYDHNlD+99oQcBA56S5XjzYc0l97inBMjsnL
-         qCbXu+NF3KP/SnuGQ/qd+lgghVx2h6XN/eNQ3FkQ5Fr6RN5y7fLHzaaUp/kodsHoilgQ
-         oorbQlhB4re5neIPcC7hFcDjclf81d9zyqtbkFp8Q4k3ow+CTuJ6U8940RqO7R7kNnJo
-         E67qdNRppZxuR9LXSyHrRfizDl4TjVkUpHgAizLK1F6IxDF9vmSMifbBAbRl/mCDy4qY
-         PNxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740572658; x=1741177458;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gapap2aBRf1h6cQe4xlskXBvL663hc92Uuk/zeFcE2I=;
-        b=ccsqbAH4yq3O/BHOAuVVl/xM6YDV3BLwt/Fm5tpfjQ1+U7O9pQaAiCED1NRlQVA4LJ
-         uY3k6stD0Kt474gaaxOsGL9n7Cj8enHS/Jgd31BuO94EDAkYkp63AGUnq4ep7FjIICbP
-         ZTwZ0W6TRLInw4Z4+1/kVwgT03dVb3aLmKEMJsvdApiSt6fTmK0V+go6QBkV1VBaxgQT
-         d0fkTmJ6UAJ2iSkVYeGZExaED1KCU1XpSgFGzaiPEBgPqsDJMY+44NpY4UZ5i2o112oT
-         SSE7k+Wi3Yfp5NVnTS2RUjGuOSQ7FjGiPQHBDnRxOnckDdvG7Fd3sv3Y2p65gJrQNN8m
-         C+sA==
-X-Gm-Message-State: AOJu0Yzcz9UiSSSdhx2NCezki2jiJFjDB6HhTvJye8T2C3fKHY8COHTr
-	ROBR6eFt9+FU3EltqaevYn6bWEEr+KTK+nbzrq7Nf/GkKPH3jsCCnjWfzPgeVfJB4yQnzLtpzS6
-	c
-X-Gm-Gg: ASbGncuKnbWzkdUbZYY+pm0fSlhkqqLHbEystHYKYycGah+heNenTyHzFlnLDzI/UqJ
-	PL/fwRSzciXua8bJXS6zauDTY9cXnuQZIG/UwyL5jK8ymVuKRYlo94LS2KqEjykFzsTPwl2vbcX
-	KtLrzczqwW3IwiGUVnB+kvHMB/n4Z2muXXRpveH2HNKwFih3lfA7zThEWo/MbnjTV4f+i68no5k
-	sn8xNizqevR2bODllU3PlpVjb2NwLWZkwhJpmoH5/dWk5YNU0rFE0hiYcwRfWWgI6TZU3SAwR5n
-	n05yoqwqpPyzzbKRFmctBtn5MmuaVhM=
-X-Google-Smtp-Source: AGHT+IGG2LHMKCmF0Mh8CeDHMUqDHSPKYHZVp2iyb4eASid0jH+2rnwW5djy+auf94DhXE47zqxuCw==
-X-Received: by 2002:a17:907:784e:b0:ab7:ec84:10af with SMTP id a640c23a62f3a-abc09a08e6fmr1813523466b.16.1740572656287;
-        Wed, 26 Feb 2025 04:24:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed205398dsm319080166b.141.2025.02.26.04.24.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 04:24:15 -0800 (PST)
-Date: Wed, 26 Feb 2025 15:24:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 6012/6583] fs/namespace.c:4442
- __do_sys_move_mount() error: uninitialized symbol 'uflags'.
-Message-ID: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuyjjX+C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740629380; x=1772165380;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SqmCDBot/kBTKfjfrzWlNQRwLHFVLecjJaPIKlRJuHM=;
+  b=EuyjjX+CRDl27szjPY6YViqWaOz0OExJJ10K/0q7gVYgBx+lyX+lYYoB
+   gljrCY0NP1b60+B6oL1owe0Spm/4P5MK9UxGfoglqGGRvJqt5xvqScZvf
+   xBX2mKGYVnYs3WujZAEDSObBnA3TMHX3hvgMfR5qoLxkCZ7dNgDRKsjmk
+   UNy84WumFnar2iiWHtXfJV73Qx3n6RCASii0kf7pvH4OVBUDh5aIGjSzH
+   fjrNE4hXUf86T8GB5JWZtg7qn4HeTFnUnDoJ5mqMq0uhp9ma5oNGBrOVG
+   l2i3Tn0PWMJ2Zv0Qwjmr8314zfRBmzxC98XBNpxVO0RU84+rktDQLSXJo
+   A==;
+X-CSE-ConnectionGUID: 9+3s7sArQMCvFCq1l2/O9Q==
+X-CSE-MsgGUID: mBIfOqKuRwmPqnZq1JsjUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52141708"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="52141708"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 20:09:40 -0800
+X-CSE-ConnectionGUID: CQIlxtkdSkW4L9uzIFE3+w==
+X-CSE-MsgGUID: O3hN5odQSBq+8bO52rYdhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="147728657"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 26 Feb 2025 20:09:39 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnVDM-000CpK-1N;
+	Thu, 27 Feb 2025 04:09:36 +0000
+Date: Thu, 27 Feb 2025 12:08:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe-block:for-6.15/io_uring 43/57] io_uring/rw.c:299 io_prep_rw()
+ error: uninitialized symbol 'ret'.
+Message-ID: <202502271201.3Eaa0Ych-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,98 +62,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-commit: b1e9423d65e330346f9e80e819872ab66f1e35b6 [6012/6583] fs: support getname_maybe_null() in move_mount()
-config: x86_64-randconfig-161-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262044.uRrhoaDw-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Pavel Begunkov <asml.silence@gmail.com>
+CC: Jens Axboe <axboe@kernel.dk>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
+head:   047fa0ba8f1bed6b1c5d88e31c4fd187de16dbc1
+commit: 61ed48b5fc63d1c6d9c3eb59ed2b46a2cbfc6039 [43/57] io_uring/rw: open code io_prep_rw_setup()
+:::::: branch date: 4 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271201.3Eaa0Ych-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502262044.uRrhoaDw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202502271201.3Eaa0Ych-lkp@intel.com/
 
-New smatch warnings:
-fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
-fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+smatch warnings:
+io_uring/rw.c:299 io_prep_rw() error: uninitialized symbol 'ret'.
 
-vim +/uflags +4442 fs/namespace.c
+vim +/ret +299 io_uring/rw.c
 
-2db154b3ea8e14 David Howells     2018-11-05  4412  SYSCALL_DEFINE5(move_mount,
-2658ce095df583 Ben Dooks         2019-10-15  4413  		int, from_dfd, const char __user *, from_pathname,
-2658ce095df583 Ben Dooks         2019-10-15  4414  		int, to_dfd, const char __user *, to_pathname,
-2db154b3ea8e14 David Howells     2018-11-05  4415  		unsigned int, flags)
-2db154b3ea8e14 David Howells     2018-11-05  4416  {
-b1e9423d65e330 Christian Brauner 2025-02-21  4417  	struct path to_path __free(path_put) = {};
-b1e9423d65e330 Christian Brauner 2025-02-21  4418  	struct path from_path __free(path_put) = {};
-b1e9423d65e330 Christian Brauner 2025-02-21  4419  	struct filename *to_name __free(putname) = NULL;
-b1e9423d65e330 Christian Brauner 2025-02-21  4420  	struct filename *from_name __free(putname) = NULL;
-b1e9423d65e330 Christian Brauner 2025-02-21  4421  	unsigned int lflags, uflags;
-b1e9423d65e330 Christian Brauner 2025-02-21  4422  	enum mnt_tree_flags_t mflags = 0;
-2db154b3ea8e14 David Howells     2018-11-05  4423  	int ret = 0;
-2db154b3ea8e14 David Howells     2018-11-05  4424  
-2db154b3ea8e14 David Howells     2018-11-05  4425  	if (!may_mount())
-2db154b3ea8e14 David Howells     2018-11-05  4426  		return -EPERM;
-2db154b3ea8e14 David Howells     2018-11-05  4427  
-2db154b3ea8e14 David Howells     2018-11-05  4428  	if (flags & ~MOVE_MOUNT__MASK)
-2db154b3ea8e14 David Howells     2018-11-05  4429  		return -EINVAL;
-2db154b3ea8e14 David Howells     2018-11-05  4430  
-6ac392815628f3 Christian Brauner 2023-05-03  4431  	if ((flags & (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP)) ==
-6ac392815628f3 Christian Brauner 2023-05-03  4432  	    (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP))
-6ac392815628f3 Christian Brauner 2023-05-03  4433  		return -EINVAL;
-6ac392815628f3 Christian Brauner 2023-05-03  4434  
-b1e9423d65e330 Christian Brauner 2025-02-21  4435  	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
-b1e9423d65e330 Christian Brauner 2025-02-21  4436  	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
-b1e9423d65e330 Christian Brauner 2025-02-21  4437  
-2db154b3ea8e14 David Howells     2018-11-05  4438  	lflags = 0;
-2db154b3ea8e14 David Howells     2018-11-05  4439  	if (flags & MOVE_MOUNT_F_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
-2db154b3ea8e14 David Howells     2018-11-05  4440  	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
-b1e9423d65e330 Christian Brauner 2025-02-21  4441  	if (flags & MOVE_MOUNT_F_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
+a9165b83c1937e Jens Axboe        2024-03-18  247  
+a9165b83c1937e Jens Axboe        2024-03-18  248  static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
+a9165b83c1937e Jens Axboe        2024-03-18  249  		      int ddir, bool do_import)
+f3b44f92e59a80 Jens Axboe        2022-06-13  250  {
+f2ccb5aed7bce1 Stefan Metzmacher 2022-08-11  251  	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+f3b44f92e59a80 Jens Axboe        2022-06-13  252  	unsigned ioprio;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  253  	u64 attr_type_mask;
+f3b44f92e59a80 Jens Axboe        2022-06-13  254  	int ret;
+f3b44f92e59a80 Jens Axboe        2022-06-13  255  
+c72282dd865ee6 Pavel Begunkov    2025-02-24  256  	if (io_rw_alloc_async(req))
+c72282dd865ee6 Pavel Begunkov    2025-02-24  257  		return -ENOMEM;
+c72282dd865ee6 Pavel Begunkov    2025-02-24  258  
+f3b44f92e59a80 Jens Axboe        2022-06-13  259  	rw->kiocb.ki_pos = READ_ONCE(sqe->off);
+f3b44f92e59a80 Jens Axboe        2022-06-13  260  	/* used for fixed read/write too - just read unconditionally */
+f3b44f92e59a80 Jens Axboe        2022-06-13  261  	req->buf_index = READ_ONCE(sqe->buf_index);
+f3b44f92e59a80 Jens Axboe        2022-06-13  262  
+f3b44f92e59a80 Jens Axboe        2022-06-13  263  	ioprio = READ_ONCE(sqe->ioprio);
+f3b44f92e59a80 Jens Axboe        2022-06-13  264  	if (ioprio) {
+f3b44f92e59a80 Jens Axboe        2022-06-13  265  		ret = ioprio_check_cap(ioprio);
+f3b44f92e59a80 Jens Axboe        2022-06-13  266  		if (ret)
+f3b44f92e59a80 Jens Axboe        2022-06-13  267  			return ret;
+f3b44f92e59a80 Jens Axboe        2022-06-13  268  
+f3b44f92e59a80 Jens Axboe        2022-06-13  269  		rw->kiocb.ki_ioprio = ioprio;
+f3b44f92e59a80 Jens Axboe        2022-06-13  270  	} else {
+f3b44f92e59a80 Jens Axboe        2022-06-13  271  		rw->kiocb.ki_ioprio = get_current_ioprio();
+f3b44f92e59a80 Jens Axboe        2022-06-13  272  	}
+099ada2c87260e Jens Axboe        2023-07-08  273  	rw->kiocb.dio_complete = NULL;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  274  	rw->kiocb.ki_flags = 0;
+f3b44f92e59a80 Jens Axboe        2022-06-13  275  
+f3b44f92e59a80 Jens Axboe        2022-06-13  276  	rw->addr = READ_ONCE(sqe->addr);
+f3b44f92e59a80 Jens Axboe        2022-06-13  277  	rw->len = READ_ONCE(sqe->len);
+f3b44f92e59a80 Jens Axboe        2022-06-13  278  	rw->flags = READ_ONCE(sqe->rw_flags);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  279  
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  280  	if (do_import && !io_do_buffer_select(req)) {
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  281  		struct io_async_rw *io = req->async_data;
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  282  
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  283  		ret = io_import_rw_buffer(ddir, req, io, 0);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  284  		if (unlikely(ret))
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  285  			return ret;
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  286  	}
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  287  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  288  	attr_type_mask = READ_ONCE(sqe->attr_type_mask);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  289  	if (attr_type_mask) {
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  290  		u64 attr_ptr;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  291  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  292  		/* only PI attribute is supported currently */
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  293  		if (attr_type_mask != IORING_RW_ATTR_FLAG_PI)
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  294  			return -EINVAL;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  295  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  296  		attr_ptr = READ_ONCE(sqe->attr_ptr);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  297  		ret = io_prep_rw_pi(req, rw, ddir, attr_ptr, attr_type_mask);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  298  	}
+59a7d12a7fb5ab Anuj Gupta        2024-11-28 @299  	return ret;
+a9165b83c1937e Jens Axboe        2024-03-18  300  }
+a9165b83c1937e Jens Axboe        2024-03-18  301  
 
-uflags is uninitialized on the else path.
+:::::: The code at line 299 was first introduced by commit
+:::::: 59a7d12a7fb5ab24efa893e6980a00ffc090c777 io_uring: introduce attributes for read/write and PI support
 
-b1e9423d65e330 Christian Brauner 2025-02-21 @4442  	from_name = getname_maybe_null(from_pathname, uflags);
-b1e9423d65e330 Christian Brauner 2025-02-21  4443  	if (IS_ERR(from_name))
-b1e9423d65e330 Christian Brauner 2025-02-21  4444  		return PTR_ERR(from_name);
-2db154b3ea8e14 David Howells     2018-11-05  4445  
-2db154b3ea8e14 David Howells     2018-11-05  4446  	lflags = 0;
-2db154b3ea8e14 David Howells     2018-11-05  4447  	if (flags & MOVE_MOUNT_T_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
-2db154b3ea8e14 David Howells     2018-11-05  4448  	if (flags & MOVE_MOUNT_T_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
-b1e9423d65e330 Christian Brauner 2025-02-21  4449  	if (flags & MOVE_MOUNT_T_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
-b1e9423d65e330 Christian Brauner 2025-02-21  4450  	to_name = getname_maybe_null(to_pathname, uflags);
-b1e9423d65e330 Christian Brauner 2025-02-21  4451  	if (IS_ERR(to_name))
-b1e9423d65e330 Christian Brauner 2025-02-21  4452  		return PTR_ERR(to_name);
-b1e9423d65e330 Christian Brauner 2025-02-21  4453  
-b1e9423d65e330 Christian Brauner 2025-02-21  4454  	if (!to_name && to_dfd >= 0) {
-b1e9423d65e330 Christian Brauner 2025-02-21  4455  		CLASS(fd_raw, f_to)(to_dfd);
-b1e9423d65e330 Christian Brauner 2025-02-21  4456  		if (fd_empty(f_to))
-b1e9423d65e330 Christian Brauner 2025-02-21  4457  			return -EBADF;
-2db154b3ea8e14 David Howells     2018-11-05  4458  
-b1e9423d65e330 Christian Brauner 2025-02-21  4459  		to_path = fd_file(f_to)->f_path;
-b1e9423d65e330 Christian Brauner 2025-02-21  4460  		path_get(&to_path);
-b1e9423d65e330 Christian Brauner 2025-02-21  4461  	} else {
-b1e9423d65e330 Christian Brauner 2025-02-21  4462  		ret = filename_lookup(to_dfd, to_name, lflags, &to_path, NULL);
-b1e9423d65e330 Christian Brauner 2025-02-21  4463  		if (ret)
-b1e9423d65e330 Christian Brauner 2025-02-21  4464  			return ret;
-b1e9423d65e330 Christian Brauner 2025-02-21  4465  	}
-2db154b3ea8e14 David Howells     2018-11-05  4466  
-b1e9423d65e330 Christian Brauner 2025-02-21  4467  	if (!from_name && from_dfd >= 0) {
-b1e9423d65e330 Christian Brauner 2025-02-21  4468  		CLASS(fd_raw, f_from)(from_dfd);
-b1e9423d65e330 Christian Brauner 2025-02-21  4469  		if (fd_empty(f_from))
-b1e9423d65e330 Christian Brauner 2025-02-21  4470  			return -EBADF;
-2db154b3ea8e14 David Howells     2018-11-05  4471  
-b1e9423d65e330 Christian Brauner 2025-02-21  4472  		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
-b1e9423d65e330 Christian Brauner 2025-02-21  4473  	}
-2db154b3ea8e14 David Howells     2018-11-05  4474  
-b1e9423d65e330 Christian Brauner 2025-02-21  4475  	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
-b1e9423d65e330 Christian Brauner 2025-02-21  4476  	if (ret)
-2db154b3ea8e14 David Howells     2018-11-05  4477  		return ret;
-b1e9423d65e330 Christian Brauner 2025-02-21  4478  
-b1e9423d65e330 Christian Brauner 2025-02-21  4479  	return vfs_move_mount(&from_path, &to_path, mflags);
-2db154b3ea8e14 David Howells     2018-11-05  4480  }
+:::::: TO: Anuj Gupta <anuj20.g@samsung.com>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
