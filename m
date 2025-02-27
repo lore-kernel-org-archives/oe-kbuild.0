@@ -1,100 +1,115 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7119E21ABB4;
-	Thu, 27 Feb 2025 10:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB09D2288D2
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 11:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740652660; cv=none; b=TIYFyzG/3hbg+tIJddMb1M6WykoWxrfJ6Ejfs5Q662nnd5abluOphPwWLzr55oABoaARhmG7iVPhzyDIIaA7rD1MD2+CgCtS4gmgAQMv61NrRXfppVDEtmd5eXoX5YcArh0S34bSVdoAbfoGyqDV1reuJ1EXEHWw4KqBP+BDl3o=
+	t=1740656604; cv=none; b=J/eQQz5UUUIpo7nRN+JYtEJ4hk1gCjqpDY0+xSSAn4tvba1UMElBMl80cUqresqEj2zrZBwM+eM2Ypls/qT+CoiyOU5CeoXbJAHnxmD+3TTzsu4KnsF3gcsuVJM0KUO/x10YDH+FLkHDk49bunLuiXp8pli2n1sdk/Y71+vnNl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740652660; c=relaxed/simple;
-	bh=I9dKklxyFNF664Md3N2jWwyJHWcJwi2FHXhsKRO/MQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IomR+KZrwZh/6lNFRsp2Iwdq7IR+ddBSjXO6pMPT4al6w8QD9aa0hInAmQKHPKuM4L1FLD39G64/CHqG5QLXO1y/vf2QmmLGiUA/bA/lDmj7luszFJK8PSJwGbhezq9w5uayYnGvxr1vkHkHoDk+JEs4ybRnpU2eNlfHORkytu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=CXXn/3r3; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1740656604; c=relaxed/simple;
+	bh=rRCuAH1Ao+0d29+gLVKRkObC9mNIFhFCTiGHkbaQh5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AIS51VEZ+PM3J+kkNLICnfgQA1mB2Qwcj6IQCHDxfLuwez9JRX50sv2YKJAsH8Q4w8bT3QpNbXgoDTUSUVXrNPpnAEtYS5ZeS1mw6qZWjA0+1VaDxJeC4JRRfOOfCd0rKQEDRHHwfjZY5k/WJCnmolEgcnveNHzDCdU9SIKjQ+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jl0SJxIJ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="CXXn/3r3"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CC81B40E0200;
-	Thu, 27 Feb 2025 10:37:26 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id vNwpZb4ZqAF2; Thu, 27 Feb 2025 10:37:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1740652643; bh=EA2Jb7uHXeSEuvShYtviN4YfA7Xtkmqe/buArVOKHoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CXXn/3r3LZ1bmmwiGE7szDOhyAEMqsiGtfJZaa+OkxYMH8trBrIuQGA7qB84Ur4R7
-	 gm+SHIB/V/GkByBC+/TZKvGa9oz+oUklXFQMKKK/HeyD8P9vo9VOYf30zTHp35hGFB
-	 SjvVuc4j64gMF4mXIED9f4lZclBErhNGW8MtzGdT1R9cfch/RzKrxavMV3WKGNRADx
-	 4NZjmcE+M5fYAfLX+7OO/z6LrAZB1u7tcuEjJfjlKyrxlUOairrlORn1T2C1cYLvK9
-	 DzP/fvekaxKHyAzVRmWW6vpmE5qgIw7B8xbgZBVvjWWF2tN7AhX0sLtaBbscRESJY5
-	 IGG8g/C+yP15yoj87jqWb/jBt4Mo6Y4TW+Z1sapc93wpMBh8ypoMg9eVXPtlzsuUuS
-	 Ffayk7n3fM+BSEhkVZO7C8P7/XHe+ybGOlREPk4dymSJzJxQGzI4zoXzRayFmD5CJr
-	 sYRDKVkmh0wfvf2p3Gpl+epsB1BezCpvi/3MI4TLogIoO5urFAH1GfXQBOLwKrc9rD
-	 LNWnehkE0D+SnqgMhDM5CPvCZB+HYzQuZDsbMkv8Wl/Ifafq1qIifcWSxd3ygz036g
-	 VqVRFzpDSVOFQwD940+ofbo+IvdTZduD2h5hTYlAWfADLRVpKNuJf7HPunZZ/1G0CJ
-	 Jrpk1G827pfHEbH1XTmocxlw=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0403A40E01AE;
-	Thu, 27 Feb 2025 10:37:16 +0000 (UTC)
-Date: Thu, 27 Feb 2025 11:37:11 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	"oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
- edac_dev_register() error: uninitialized symbol 'ret'.
-Message-ID: <20250227103711.GAZ8BAV21Q5hVg_5uC@fat_crate.local>
-References: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
- <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
- <c07debded8ee4b60ab3408cdb83ff128@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jl0SJxIJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740656602; x=1772192602;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rRCuAH1Ao+0d29+gLVKRkObC9mNIFhFCTiGHkbaQh5Y=;
+  b=jl0SJxIJEw0HlSwwXoW8Rb/QnuS0ubIsGrWwTDVdakKbki+shcZzEH2c
+   isQ2H2P57dg/HjOErFMvgv+lBrjWKd/ah8GLB0l/dM3doNcn9rS2ciQ5M
+   BXVHqrltDYvNrun3ZNzVHUqgslcaAKYRAtk607mjaL/ZvvRDSuAi6ubBm
+   S58cViu/UhLsrKxmnCXfoNedOLN1qnw1sEEy4EuP7nm9JV0LjcRMUcLY2
+   DKf6VPhNVzjT2pVfvImubCFKOFDA3SMzfIc6t/llltGRaUHjviPY5KZm5
+   Yqkhn2pEpuZ4R4C5x4igYczGIMbVJcP4o4YaomtiWchLdp/HO9FJudeXm
+   g==;
+X-CSE-ConnectionGUID: EAkniGBtQ02MetmpNaMTeg==
+X-CSE-MsgGUID: Ioy6MQ3eSuGNihLxVp94Jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41671684"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="41671684"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 03:43:21 -0800
+X-CSE-ConnectionGUID: BRQo/aYGSl2hDtODa43Agw==
+X-CSE-MsgGUID: lsI47RnyT2q80B/JF5ltsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="121940377"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 03:43:20 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tncIQ-000DIu-0D;
+	Thu, 27 Feb 2025 11:43:18 +0000
+Date: Thu, 27 Feb 2025 19:42:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Add LP5812 LED driver bindings
+Message-ID: <202502271916.eFTLx8Wb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c07debded8ee4b60ab3408cdb83ff128@huawei.com>
 
-On Tue, Feb 25, 2025 at 06:27:42PM +0000, Shiju Jose wrote:
-> Tested fine in the edac-cxl2 branch + following fix for the allmodconfig-x86_64-clang
-> build error reported in the other thread.
-> 
-> diff --git a/drivers/edac/mem_repair.c b/drivers/edac/mem_repair.c index cbe5a722715d..6f4a9dfcd7da 100755
-> --- a/drivers/edac/mem_repair.c
-> +++ b/drivers/edac/mem_repair.c
-> @@ -322,8 +322,8 @@ static int mem_repair_create_desc(struct device *dev,
->                 return -ENOMEM;
->  
->         for (i = 0; i < MR_MAX_ATTRS; i++) {
-> -               memcpy(&ctx->mem_repair_dev_attr[i].dev_attr,
-> -                      &dev_attr[i], sizeof(dev_attr[i]));
-> +               memcpy(&ctx->mem_repair_dev_attr[i], &dev_attr[i],
-> +                      sizeof(dev_attr[i]));
->                 ctx->mem_repair_attrs[i] =
->                         &ctx->mem_repair_dev_attr[i].dev_attr.attr;
->         }
->   
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-All fixes merged and branch pushed out.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250225170601.21334-2-trannamatk@gmail.com>
+References: <20250225170601.21334-2-trannamatk@gmail.com>
+TO: Nam Tran <trannamatk@gmail.com>
+TO: pavel@kernel.org
+TO: lee@kernel.org
+TO: krzk+dt@kernel.org
+TO: robh@kernel.org
+TO: conor+dt@kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-leds@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Nam Tran <trannamatk@gmail.com>
 
-Thx.
+Hi Nam,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on robh/for-next linus/master v6.14-rc4 next-20250227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver-bindings/20250226-011634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20250225170601.21334-2-trannamatk%40gmail.com
+patch subject: [PATCH v2 1/2] dt-bindings: leds: Add LP5812 LED driver bindings
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: csky-randconfig-051-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271916.eFTLx8Wb-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271916.eFTLx8Wb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202502271916.eFTLx8Wb-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/leds/ti,lp5812.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
