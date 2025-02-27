@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B351013AA5D
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 15:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F6E26E94F
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Feb 2025 15:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740670279; cv=none; b=nlVIlg7C3qgxO8UulARnocd1qJ1HcmPV4Yic+5K8Qc0UquNkD9Fy7ZvTklYjk5VhY2xo2W2mpxngAwe5CYWotGCQ9RbuJ49VNLNseaE7MVrWbBIiJW6XVUxicgfZ8kYe1skvkRp8oyv0vqOzY23UNFyz40C6NgsnVtM3lNBetMQ=
+	t=1740670940; cv=none; b=IAaeKOfyldG8vwZPC1Rn0jR2LZTLEktwsIqQFmg9WxU/2fSJK6iRB46ioWdvKvqVQHwr4QkY58qA0rWyCIGjBQG7cbbA9PbRQw818R4q1+pzUUVMeA97j4cgag8B8Y/pXq5fdi1AKkOmZ+rKsgi9L0SuoMB2O/QYupj81X3O+vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740670279; c=relaxed/simple;
-	bh=W6Vrgb75WPrr3J592Ln8tkG7lmG/2l/BQX7au685yMk=;
+	s=arc-20240116; t=1740670940; c=relaxed/simple;
+	bh=ITrMbnsWm63k5Ymf4gP5q1SW7YqWfaBT70enX4GdxiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HyBXp/pYzVK0scKWfPyTv9VHBXGQKpRl2ZE23d6JM7miyfAHRxbfTyhmzzSxlIXQmKS6v+EbhrM1A/4nTSc2KH2psqdOzsaRUKerF+oyk+70fA+zG4Tf81hYcoZ5mIu5TqyrlhJZXOUDwz93dOSU4cmBOfxOpWiRSGEmpQYiDYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wx7W8rB7; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ORTGWN10WVKB3kFJhcxnoTb9pztACDk6uLBUtS6BkwFmmjkuksEWSlivyiVk0b668i6VGO2J/Cmyk69pKba+/JjwlwFPe/OSZdk+bnzTGelZwlu0rA9cT+xrRVag5d+wdRDOePNs/TtbfRQcTGGAifbY2oPr2aAbGtnlD9GL2bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OohrlZZD; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wx7W8rB7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OohrlZZD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740670278; x=1772206278;
+  t=1740670938; x=1772206938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W6Vrgb75WPrr3J592Ln8tkG7lmG/2l/BQX7au685yMk=;
-  b=Wx7W8rB7y0xzdhWYuVEVOwPza2+HbjilRWrswJGLXR2YB3aD9qo6l1ac
-   75UynUavlzaCHzua3sZ26FtVfm9MyqPXVXPEs9CxkRHlDmnZVSSIj3xdo
-   9UJ764ET1I8z7fWA4tjSHUymL//32thDhUqNAgFMsQIMPTnLP+x+SC1CB
-   XF+P9DfB+0QM1ab3OmZW04fZnymfQr27e/mdS6SGCYYKmtJN37QWgrp7s
-   m1kiXotGwVwO6puvx83Q9aIlvtXtsaZln+lFeMg7MvwdZV7GhGJIcegUY
-   LJw80zOtV2+u9o3RARCtVysAgAKBQrnbzQZd+Obsm6m5CRWi4naKu7+rJ
-   A==;
-X-CSE-ConnectionGUID: 265vCZ0JR+2KRhSajCwodQ==
-X-CSE-MsgGUID: Z3/C/nv9RJ+s414B2D0FJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40743251"
+  bh=ITrMbnsWm63k5Ymf4gP5q1SW7YqWfaBT70enX4GdxiU=;
+  b=OohrlZZDSeRIfogEdSq8MYu0qWHRFNjLHCDl2mA2jPe26+5AtEIlI+U+
+   5hS5rOfOoiimK/3ciHfxNQ1yP8YasXwLdLTpoemMld8YmxVkoLTwE2Xfh
+   BYGQ7T5eKFADvlfVO4sHuSRWcYEfg+eruM5PWmwubXITpKXRqEqSKeGop
+   kMrzHGnmWF4WiXdKI85Po6HZer4H1lQCmb5dLUwuw15pVxfGoZjxSbSW3
+   06atxcMwdtvs1FrTy+X569P6BgdDd0xM1i6ajN8gCxYK8ABAqIn49tVv5
+   ZqN2alHDeRK8EBVFeyy9aPFo/T20j3IPcVVQ3C6ffBlbdyb2GdaX4Z1rL
+   g==;
+X-CSE-ConnectionGUID: RsyTW895QT+lAYxGgIpTwA==
+X-CSE-MsgGUID: 0Wbyv0n4R/GEnUsb2TvRcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41271662"
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="40743251"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:31:16 -0800
-X-CSE-ConnectionGUID: KlHWw40LSjWOF0ad/OVuyQ==
-X-CSE-MsgGUID: T/zRSAWgRiqTyqPQPXwu2w==
+   d="scan'208";a="41271662"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:42:17 -0800
+X-CSE-ConnectionGUID: huFVw4iWROOH9SbbpsZHEQ==
+X-CSE-MsgGUID: FC27dMTLSkipVkWIGqY3Mg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117570452"
+   d="scan'208";a="121184124"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 27 Feb 2025 07:31:15 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2025 07:42:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnfqy-000DaU-2M;
-	Thu, 27 Feb 2025 15:31:12 +0000
-Date: Thu, 27 Feb 2025 23:30:21 +0800
+	id 1tng1d-000DbM-38;
+	Thu, 27 Feb 2025 15:42:13 +0000
+Date: Thu, 27 Feb 2025 23:42:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] arm64: dts: mediatek: mt8395-nio-12l: Prepare MIPI
- DSI port
-Message-ID: <202502272357.yYp6xeAB-lkp@intel.com>
+Subject: [intel-lts:pr/59 1/1] fs/btrfs/super.c: backref.h is included more
+ than once.
+Message-ID: <202502272332.m24coTUx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,68 +63,37 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250226-radxa-panel-overlay-v1-1-9e8938dfbead@collabora.com>
-References: <20250226-radxa-panel-overlay-v1-1-9e8938dfbead@collabora.com>
-TO: Julien Massot <julien.massot@collabora.com>
-TO: kernel@collabora.com
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: Julien Massot <julien.massot@collabora.com>
 
-Hi Julien,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/arm64-dts-mediatek-mt8395-nio-12l-Prepare-MIPI-DSI-port/20250226-223820
-base:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-patch link:    https://lore.kernel.org/r/20250226-radxa-panel-overlay-v1-1-9e8938dfbead%40collabora.com
-patch subject: [PATCH 1/2] arm64: dts: mediatek: mt8395-nio-12l: Prepare MIPI DSI port
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: arm64-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272357.yYp6xeAB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272357.yYp6xeAB-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 00142756e1f8015d2f8ce96532d156689db7e448 [1/1] btrfs: backref, add tracepoints for prelim_ref insertion and merging
+:::::: branch date: 10 days ago
+:::::: commit date: 8 years ago
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202502272357.yYp6xeAB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502272332.m24coTUx-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3013.17-3070.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3087.17-3123.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3331.22-3343.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@1c008000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts:964.7-972.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+includecheck warnings: (new ones prefixed by >>)
+>> fs/btrfs/super.c: backref.h is included more than once.
 
-vim +964 arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dts
+vim +60 fs/btrfs/super.c
 
-96564b1e2ea4d2 AngeloGioacchino Del Regno 2024-02-02  962  
-269e2352ca44fa Julien Massot              2025-02-26  963  &vdosys0 {
-269e2352ca44fa Julien Massot              2025-02-26 @964  	port {
-269e2352ca44fa Julien Massot              2025-02-26  965  		#address-cells = <1>;
-269e2352ca44fa Julien Massot              2025-02-26  966  		#size-cells = <0>;
-269e2352ca44fa Julien Massot              2025-02-26  967  
-269e2352ca44fa Julien Massot              2025-02-26  968  		vdosys0_ep_main: endpoint@0 {
-269e2352ca44fa Julien Massot              2025-02-26  969  			reg = <0>;
-269e2352ca44fa Julien Massot              2025-02-26  970  			remote-endpoint = <&ovl0_in>;
-269e2352ca44fa Julien Massot              2025-02-26  971  		};
-269e2352ca44fa Julien Massot              2025-02-26  972  	};
-269e2352ca44fa Julien Massot              2025-02-26  973  };
-269e2352ca44fa Julien Massot              2025-02-26  974  
+  > 60	#include "backref.h"
+    61	#include "tests/btrfs-tests.h"
+    62	
+    63	#include "qgroup.h"
+  > 64	#include "backref.h"
+    65	#define CREATE_TRACE_POINTS
+    66	#include <trace/events/btrfs.h>
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
