@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846801E9901
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Mar 2025 16:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1C31E9B1D
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Mar 2025 16:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740931425; cv=none; b=T9e1+T6KuFd9Nj26be5P2qZhmurCD+GY8IcbyzOyIVcYGgT1jfusJYAHlPxbZIG+qavoKC2uD9ZiiqlIkfWEoNl565gAWfvS+QhyjqaiMPLROrmYBuTUKIUB2rPUc2VRr8EpoqZA4r9nWHD6+JxLlxJ9rwjcKrSwSkY+p64hzdI=
+	t=1740933408; cv=none; b=dgr1qQLr5/m8Ks2FGO8l+ba67POvAOw2RePCNkTVI0IO/Wf0TQjgEYOnm3Um6ClpUMe5/fqGz6H9SuDc4xyoSJAlJCQANuTJoJ0azXu24PqbOkrMAkNx6KCEENkEMuON00xPC0XwvvEXsKNCCMIBLFbcA1ot2lIBFg9TcbSTyKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740931425; c=relaxed/simple;
-	bh=2QjfuZh4O33i22/ALvKzdC+Pq4klQ2Mp/yxgNA1XZPk=;
+	s=arc-20240116; t=1740933408; c=relaxed/simple;
+	bh=J4SMpx7+bpCugMPxK/vJF+z6vrsTbRhADY16roWSM88=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SCfzMpiVDeaMJD0zWoc0FvFVRZBgsSg1jwNpfXzlkKIgs8W0J97MBtXs/t7zr27t/ZEgP5d5sl7uvZKww4s2fFre5SXPXI625Rd4cIgQ4wNVwJLXhJufTbZUn+Sg/FWe1MHqGcfuljtAtaAaLDbmjTj1SgULsWT7NsfamwPJktg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FG9TeTj6; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ndXY6a+3F4+qJbTa809eLn+JL5QUus+ZAEkbeBeyWAUNOsWc7H/5ieTWR9ceD9XzkUA6DKeZIYkEgu41AGu8NhsxZf8gWVinmQpOlt5uyTGApl1V/Z1HLLSIFuWZHTDzt4UEVnp/FRcM3HFCxrvroO2DHTuv3hwi8QDzyBZyBV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GP2Dojix; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FG9TeTj6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GP2Dojix"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740931423; x=1772467423;
+  t=1740933406; x=1772469406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2QjfuZh4O33i22/ALvKzdC+Pq4klQ2Mp/yxgNA1XZPk=;
-  b=FG9TeTj6XAjBsEc+9j7Spp77Fz9aCgfyx1dAwA7I0I4sLKHPy0JmN4oB
-   6PYplCkx0F3cXF2xeczJ7i0AcCCyHovWI6qHfEFjKjUHiRvDPhSoxFr28
-   pJj+mDB4aaSOJIn/hFE/anoQbk0JPoYONQW/T/KgTpnoEuEhe5jKXfX7n
-   lNvHICn4fWt6ArWF7MFR5yZLLwoDB8lXiD/tGC12uLdRseWuW1bA4kpLo
-   JqrLwkdLIh6CvXR0qBYO+ouDAPuexUgsgkFOGjSOMVZPC+clS8rp31gZC
-   sCLejdhbzmd+SVJD1e0qBT2RRNBeGcHW0QzllH9p47ggoGdl6WJaLwSCE
+  bh=J4SMpx7+bpCugMPxK/vJF+z6vrsTbRhADY16roWSM88=;
+  b=GP2Dojixwl8PwjnycvoNAqHYqBvlyFaB2bXYyIaqubdkabekZsEeAVuY
+   jaiU7UYak3LiXU++dbcyP2GKmcnpS70i7aCv8gk/cM8fiOHlZd5jyMIl8
+   RaXLVXN6p+da9ZzlLbqflo8yg+t7PyzBaFUBXl3pSAaxMDWg4GBwJ3LHU
+   M1epYuWuki3WiRYe10Z4IOfWI7e6oQooHZAtGyzqY5eAAgVaM0S0+kjv9
+   nD92g5MJAbj84tuEStnfKK1qigPtEjyhH1pnZcCqwW38OTWFHd9zFOag/
+   rbKMvPr/+TvM+2A+pmSBmmyZZnUuHgNjtF9BJCxDWpD9nw0P9Ju2Lg0++
    A==;
-X-CSE-ConnectionGUID: sYuPQR4jRRKfhCHc8x2w4g==
-X-CSE-MsgGUID: TTBSbZrJQ+OgW/hqeBx8+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41838188"
+X-CSE-ConnectionGUID: NAZl+IbKQMeFSZjP1ezS6w==
+X-CSE-MsgGUID: FQ2L47VjSz6Rz1AquU2wQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="67182851"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="41838188"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 08:03:42 -0800
-X-CSE-ConnectionGUID: Wj2+mA12Rh2TzzKIIEfQog==
-X-CSE-MsgGUID: L5FMlyh5S+WaMac9SKmS6Q==
+   d="scan'208";a="67182851"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 08:36:45 -0800
+X-CSE-ConnectionGUID: 97H30X1UTL62CR65uFHGeQ==
+X-CSE-MsgGUID: QIdits0MTH+PDkbXYfphXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="122389527"
+   d="scan'208";a="122754369"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Mar 2025 08:03:40 -0800
+  by orviesa003.jf.intel.com with ESMTP; 02 Mar 2025 08:36:44 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toln0-000HQc-0e;
-	Sun, 02 Mar 2025 16:03:38 +0000
-Date: Mon, 3 Mar 2025 00:03:30 +0800
+	id 1tomIz-000HSY-1v;
+	Sun, 02 Mar 2025 16:36:41 +0000
+Date: Mon, 3 Mar 2025 00:36:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
- coredump
-Message-ID: <202503022332.biRVCDMP-lkp@intel.com>
+Subject: [bcachefs:bcachefs-testing 127/139] fs/bcachefs/extents.c:137
+ bch2_bkey_pick_read_device() warn: bitwise AND condition is false here
+Message-ID: <202503030001.bR4xKK8m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,164 +64,104 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250227102625.20642-1-kiran.k@intel.com>
-References: <20250227102625.20642-1-kiran.k@intel.com>
-TO: Kiran K <kiran.k@intel.com>
-TO: linux-bluetooth@vger.kernel.org
-CC: ravishankar.srivatsa@intel.com
-CC: chethan.tumkur.narayan@intel.com
-CC: chandrashekar.devegowda@intel.com
-CC: vijay.satija@intel.com
-CC: Kiran K <kiran.k@intel.com>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Kiran,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on next-20250228]
-[cannot apply to bluetooth/master linus/master v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel_pcie-Add-support-for-device-coredump/20250227-181131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20250227102625.20642-1-kiran.k%40intel.com
-patch subject: [PATCH v1] Bluetooth: btintel_pcie: Add support for device coredump
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: sparc-randconfig-r071-20250302 (https://download.01.org/0day-ci/archive/20250302/202503022332.biRVCDMP-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   7577e40265098969656d8a1a14fbfdead7eb3e18
+commit: a32d248c66703f54e594d13571cd7ea376600304 [127/139] bcachefs: bcachefs_metadata_version_extent_flags
+:::::: branch date: 14 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250302 (https://download.01.org/0day-ci/archive/20250303/202503030001.bR4xKK8m-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503022332.biRVCDMP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503030001.bR4xKK8m-lkp@intel.com/
 
-New smatch warnings:
-drivers/bluetooth/btintel_pcie.c:493 btintel_pcie_read_dram_buffers() error: snprintf() is printing too much 100 vs 70
+smatch warnings:
+fs/bcachefs/extents.c:137 bch2_bkey_pick_read_device() warn: bitwise AND condition is false here
 
-Old smatch warnings:
-drivers/bluetooth/btintel_pcie.c:144 btintel_pcie_setup_dbgc() warn: right shifting more than type allows 32 vs 32
+vim +137 fs/bcachefs/extents.c
 
-vim +493 drivers/bluetooth/btintel_pcie.c
-
-b8cc1a1cce30cc Kiran K 2025-02-27  453  
-b8cc1a1cce30cc Kiran K 2025-02-27  454  static int btintel_pcie_read_dram_buffers(struct btintel_pcie_data *data)
-b8cc1a1cce30cc Kiran K 2025-02-27  455  {
-b8cc1a1cce30cc Kiran K 2025-02-27  456  	u32 offset, prev_size, wr_ptr_status, dump_size, i;
-b8cc1a1cce30cc Kiran K 2025-02-27  457  	struct btintel_pcie_dbgc *dbgc = &data->dbgc;
-b8cc1a1cce30cc Kiran K 2025-02-27  458  	u8 buf_idx, dump_time_len, fw_build;
-b8cc1a1cce30cc Kiran K 2025-02-27  459  	struct hci_dev *hdev = data->hdev;
-b8cc1a1cce30cc Kiran K 2025-02-27  460  	struct intel_tlv *tlv;
-b8cc1a1cce30cc Kiran K 2025-02-27  461  	struct timespec64 now;
-b8cc1a1cce30cc Kiran K 2025-02-27  462  	struct sk_buff *skb;
-b8cc1a1cce30cc Kiran K 2025-02-27  463  	struct tm tm_now;
-b8cc1a1cce30cc Kiran K 2025-02-27  464  	char buf[100];
-b8cc1a1cce30cc Kiran K 2025-02-27  465  	u16 hdr_len;
-b8cc1a1cce30cc Kiran K 2025-02-27  466  	int ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  467  
-b8cc1a1cce30cc Kiran K 2025-02-27  468  	wr_ptr_status = btintel_pcie_rd_dev_mem(data, BTINTEL_PCIE_DBGC_CUR_DBGBUFF_STATUS);
-b8cc1a1cce30cc Kiran K 2025-02-27  469  	offset = wr_ptr_status & BTINTEL_PCIE_DBG_OFFSET_BIT_MASK;
-b8cc1a1cce30cc Kiran K 2025-02-27  470  
-b8cc1a1cce30cc Kiran K 2025-02-27  471  	buf_idx = BTINTEL_PCIE_DBGC_DBG_BUF_IDX(wr_ptr_status);
-b8cc1a1cce30cc Kiran K 2025-02-27  472  	if (buf_idx > dbgc->count) {
-b8cc1a1cce30cc Kiran K 2025-02-27  473  		bt_dev_warn(hdev, "Buffer index is invalid");
-b8cc1a1cce30cc Kiran K 2025-02-27  474  		return -EINVAL;
-b8cc1a1cce30cc Kiran K 2025-02-27  475  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  476  
-b8cc1a1cce30cc Kiran K 2025-02-27  477  	prev_size = buf_idx * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
-b8cc1a1cce30cc Kiran K 2025-02-27  478  	if (prev_size + offset >= prev_size)
-b8cc1a1cce30cc Kiran K 2025-02-27  479  		data->dmp_hdr.write_ptr = prev_size + offset;
-b8cc1a1cce30cc Kiran K 2025-02-27  480  	else
-b8cc1a1cce30cc Kiran K 2025-02-27  481  		return -EINVAL;
-b8cc1a1cce30cc Kiran K 2025-02-27  482  
-b8cc1a1cce30cc Kiran K 2025-02-27  483  	ktime_get_real_ts64(&now);
-b8cc1a1cce30cc Kiran K 2025-02-27  484  	time64_to_tm(now.tv_sec, 0, &tm_now);
-b8cc1a1cce30cc Kiran K 2025-02-27  485  	dump_time_len = snprintf(buf, sizeof(buf), "Dump Time: %02d-%02d-%04ld %02d:%02d:%02d",
-b8cc1a1cce30cc Kiran K 2025-02-27  486  				 tm_now.tm_mday, tm_now.tm_mon + 1, tm_now.tm_year + 1900,
-b8cc1a1cce30cc Kiran K 2025-02-27  487  				 tm_now.tm_hour, tm_now.tm_min, tm_now.tm_sec);
-b8cc1a1cce30cc Kiran K 2025-02-27  488  
-b8cc1a1cce30cc Kiran K 2025-02-27  489  	fw_build = snprintf(buf + dump_time_len, sizeof(buf),
-b8cc1a1cce30cc Kiran K 2025-02-27  490  			    "Firmware Timestamp: Year %u WW %02u buildtype %u build %u",
-b8cc1a1cce30cc Kiran K 2025-02-27  491  			    2000 + (data->dmp_hdr.fw_timestamp >> 8),
-b8cc1a1cce30cc Kiran K 2025-02-27  492  			    data->dmp_hdr.fw_timestamp & 0xff, data->dmp_hdr.fw_build_type,
-b8cc1a1cce30cc Kiran K 2025-02-27 @493  			    data->dmp_hdr.fw_build_num);
-b8cc1a1cce30cc Kiran K 2025-02-27  494  
-b8cc1a1cce30cc Kiran K 2025-02-27  495  	hdr_len = sizeof(*tlv) + sizeof(data->dmp_hdr.cnvi_bt) +
-b8cc1a1cce30cc Kiran K 2025-02-27  496  		  sizeof(*tlv) + sizeof(data->dmp_hdr.write_ptr) +
-b8cc1a1cce30cc Kiran K 2025-02-27  497  		  sizeof(*tlv) + sizeof(data->dmp_hdr.wrap_ctr) +
-b8cc1a1cce30cc Kiran K 2025-02-27  498  		  sizeof(*tlv) + sizeof(data->dmp_hdr.trigger_reason) +
-b8cc1a1cce30cc Kiran K 2025-02-27  499  		  sizeof(*tlv) + sizeof(data->dmp_hdr.fw_git_sha1) +
-b8cc1a1cce30cc Kiran K 2025-02-27  500  		  sizeof(*tlv) + sizeof(data->dmp_hdr.cnvr_top) +
-b8cc1a1cce30cc Kiran K 2025-02-27  501  		  sizeof(*tlv) + sizeof(data->dmp_hdr.cnvi_top) +
-b8cc1a1cce30cc Kiran K 2025-02-27  502  		  sizeof(*tlv) + dump_time_len +
-b8cc1a1cce30cc Kiran K 2025-02-27  503  		  sizeof(*tlv) + fw_build;
-b8cc1a1cce30cc Kiran K 2025-02-27  504  
-b8cc1a1cce30cc Kiran K 2025-02-27  505  	dump_size = hdr_len + sizeof(hdr_len);
-b8cc1a1cce30cc Kiran K 2025-02-27  506  
-b8cc1a1cce30cc Kiran K 2025-02-27  507  	skb = alloc_skb(dump_size, GFP_KERNEL);
-b8cc1a1cce30cc Kiran K 2025-02-27  508  	if (!skb)
-b8cc1a1cce30cc Kiran K 2025-02-27  509  		return -ENOMEM;
-b8cc1a1cce30cc Kiran K 2025-02-27  510  
-b8cc1a1cce30cc Kiran K 2025-02-27  511  	/* Add debug buffers data length to dump size */
-b8cc1a1cce30cc Kiran K 2025-02-27  512  	dump_size += BTINTEL_PCIE_DBGC_BUFFER_SIZE * dbgc->count;
-b8cc1a1cce30cc Kiran K 2025-02-27  513  
-b8cc1a1cce30cc Kiran K 2025-02-27  514  	ret = hci_devcd_init(hdev, dump_size);
-b8cc1a1cce30cc Kiran K 2025-02-27  515  	if (ret) {
-b8cc1a1cce30cc Kiran K 2025-02-27  516  		bt_dev_err(hdev, "Failed to init devcoredump, err %d", ret);
-b8cc1a1cce30cc Kiran K 2025-02-27  517  		kfree_skb(skb);
-b8cc1a1cce30cc Kiran K 2025-02-27  518  		return ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  519  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  520  
-b8cc1a1cce30cc Kiran K 2025-02-27  521  	skb_put_data(skb, &hdr_len, sizeof(hdr_len));
-b8cc1a1cce30cc Kiran K 2025-02-27  522  
-b8cc1a1cce30cc Kiran K 2025-02-27  523  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVI_BT, &data->dmp_hdr.cnvi_bt,
-b8cc1a1cce30cc Kiran K 2025-02-27  524  			      sizeof(data->dmp_hdr.cnvi_bt));
-b8cc1a1cce30cc Kiran K 2025-02-27  525  
-b8cc1a1cce30cc Kiran K 2025-02-27  526  	btintel_pcie_copy_tlv(skb, BTINTEL_WRITE_PTR, &data->dmp_hdr.write_ptr,
-b8cc1a1cce30cc Kiran K 2025-02-27  527  			      sizeof(data->dmp_hdr.write_ptr));
-b8cc1a1cce30cc Kiran K 2025-02-27  528  
-b8cc1a1cce30cc Kiran K 2025-02-27  529  	data->dmp_hdr.wrap_ctr = btintel_pcie_rd_dev_mem(data,
-b8cc1a1cce30cc Kiran K 2025-02-27  530  							 BTINTEL_PCIE_DBGC_DBGBUFF_WRAP_ARND);
-b8cc1a1cce30cc Kiran K 2025-02-27  531  
-b8cc1a1cce30cc Kiran K 2025-02-27  532  	btintel_pcie_copy_tlv(skb, BTINTEL_WRAP_CTR, &data->dmp_hdr.wrap_ctr,
-b8cc1a1cce30cc Kiran K 2025-02-27  533  			      sizeof(data->dmp_hdr.wrap_ctr));
-b8cc1a1cce30cc Kiran K 2025-02-27  534  
-b8cc1a1cce30cc Kiran K 2025-02-27  535  	btintel_pcie_copy_tlv(skb, BTINTEL_TRIGGER_REASON, &data->dmp_hdr.trigger_reason,
-b8cc1a1cce30cc Kiran K 2025-02-27  536  			      sizeof(data->dmp_hdr.trigger_reason));
-b8cc1a1cce30cc Kiran K 2025-02-27  537  
-b8cc1a1cce30cc Kiran K 2025-02-27  538  	btintel_pcie_copy_tlv(skb, BTINTEL_FW_SHA, &data->dmp_hdr.fw_git_sha1,
-b8cc1a1cce30cc Kiran K 2025-02-27  539  			      sizeof(data->dmp_hdr.fw_git_sha1));
-b8cc1a1cce30cc Kiran K 2025-02-27  540  
-b8cc1a1cce30cc Kiran K 2025-02-27  541  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVR_TOP, &data->dmp_hdr.cnvr_top,
-b8cc1a1cce30cc Kiran K 2025-02-27  542  			      sizeof(data->dmp_hdr.cnvr_top));
-b8cc1a1cce30cc Kiran K 2025-02-27  543  
-b8cc1a1cce30cc Kiran K 2025-02-27  544  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVI_TOP, &data->dmp_hdr.cnvi_top,
-b8cc1a1cce30cc Kiran K 2025-02-27  545  			      sizeof(data->dmp_hdr.cnvi_top));
-b8cc1a1cce30cc Kiran K 2025-02-27  546  
-b8cc1a1cce30cc Kiran K 2025-02-27  547  	btintel_pcie_copy_tlv(skb, BTINTEL_DUMP_TIME, buf, dump_time_len);
-b8cc1a1cce30cc Kiran K 2025-02-27  548  
-b8cc1a1cce30cc Kiran K 2025-02-27  549  	btintel_pcie_copy_tlv(skb, BTINTEL_FW_BUILD, buf + dump_time_len, fw_build);
-b8cc1a1cce30cc Kiran K 2025-02-27  550  
-b8cc1a1cce30cc Kiran K 2025-02-27  551  	ret = hci_devcd_append(hdev, skb);
-b8cc1a1cce30cc Kiran K 2025-02-27  552  	if (ret)
-b8cc1a1cce30cc Kiran K 2025-02-27  553  		goto exit_err;
-b8cc1a1cce30cc Kiran K 2025-02-27  554  
-b8cc1a1cce30cc Kiran K 2025-02-27  555  	for (i = 0; i < dbgc->count; i++) {
-b8cc1a1cce30cc Kiran K 2025-02-27  556  		ret = btintel_pcie_add_dmp_data(hdev, dbgc->bufs[i].data,
-b8cc1a1cce30cc Kiran K 2025-02-27  557  						BTINTEL_PCIE_DBGC_BUFFER_SIZE);
-b8cc1a1cce30cc Kiran K 2025-02-27  558  		if (ret)
-b8cc1a1cce30cc Kiran K 2025-02-27  559  			break;
-b8cc1a1cce30cc Kiran K 2025-02-27  560  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  561  
-b8cc1a1cce30cc Kiran K 2025-02-27  562  exit_err:
-b8cc1a1cce30cc Kiran K 2025-02-27  563  	hci_devcd_complete(hdev);
-b8cc1a1cce30cc Kiran K 2025-02-27  564  	return ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  565  }
-b8cc1a1cce30cc Kiran K 2025-02-27  566  
+26609b619fa230 Kent Overstreet 2018-11-01  117  
+26609b619fa230 Kent Overstreet 2018-11-01  118  /*
+26609b619fa230 Kent Overstreet 2018-11-01  119   * This picks a non-stale pointer, preferably from a device other than @avoid.
+26609b619fa230 Kent Overstreet 2018-11-01  120   * Avoid can be NULL, meaning pick any. If there are no non-stale pointers to
+26609b619fa230 Kent Overstreet 2018-11-01  121   * other devices, it will still pick a pointer from avoid.
+26609b619fa230 Kent Overstreet 2018-11-01  122   */
+26609b619fa230 Kent Overstreet 2018-11-01  123  int bch2_bkey_pick_read_device(struct bch_fs *c, struct bkey_s_c k,
+26609b619fa230 Kent Overstreet 2018-11-01  124  			      struct bch_io_failures *failed,
+fe81cbd449a43d Kent Overstreet 2024-12-28  125  			      struct extent_ptr_decoded *pick,
+fe81cbd449a43d Kent Overstreet 2024-12-28  126  			      int dev)
+26609b619fa230 Kent Overstreet 2018-11-01  127  {
+26609b619fa230 Kent Overstreet 2018-11-01  128  	struct bkey_ptrs_c ptrs = bch2_bkey_ptrs_c(k);
+26609b619fa230 Kent Overstreet 2018-11-01  129  	const union bch_extent_entry *entry;
+26609b619fa230 Kent Overstreet 2018-11-01  130  	struct extent_ptr_decoded p;
+26609b619fa230 Kent Overstreet 2018-11-01  131  	struct bch_dev_io_failures *f;
+26609b619fa230 Kent Overstreet 2018-11-01  132  	int ret = 0;
+26609b619fa230 Kent Overstreet 2018-11-01  133  
+26609b619fa230 Kent Overstreet 2018-11-01  134  	if (k.k->type == KEY_TYPE_error)
+54a12984a9a29d Kent Overstreet 2024-09-04  135  		return -BCH_ERR_key_type_error;
+26609b619fa230 Kent Overstreet 2018-11-01  136  
+a32d248c66703f Kent Overstreet 2025-02-24 @137  	if (bch2_bkey_extent_ptrs_flags(ptrs) & BCH_EXTENT_poisoned)
+a32d248c66703f Kent Overstreet 2025-02-24  138  		return -BCH_ERR_extent_poisened;
+a32d248c66703f Kent Overstreet 2025-02-24  139  
+a9422fd4041084 Kent Overstreet 2024-04-30  140  	rcu_read_lock();
+26609b619fa230 Kent Overstreet 2018-11-01  141  	bkey_for_each_ptr_decode(k.k, ptrs, p, entry) {
+792031116bee35 Kent Overstreet 2022-11-13  142  		/*
+792031116bee35 Kent Overstreet 2022-11-13  143  		 * Unwritten extent: no need to actually read, treat it as a
+792031116bee35 Kent Overstreet 2022-11-13  144  		 * hole and return 0s:
+792031116bee35 Kent Overstreet 2022-11-13  145  		 */
+a9422fd4041084 Kent Overstreet 2024-04-30  146  		if (p.ptr.unwritten) {
+a9422fd4041084 Kent Overstreet 2024-04-30  147  			ret = 0;
+a9422fd4041084 Kent Overstreet 2024-04-30  148  			break;
+a9422fd4041084 Kent Overstreet 2024-04-30  149  		}
+26609b619fa230 Kent Overstreet 2018-11-01  150  
+fe81cbd449a43d Kent Overstreet 2024-12-28  151  		/* Are we being asked to read from a specific device? */
+fe81cbd449a43d Kent Overstreet 2024-12-28  152  		if (dev >= 0 && p.ptr.dev != dev)
+fe81cbd449a43d Kent Overstreet 2024-12-28  153  			continue;
+fe81cbd449a43d Kent Overstreet 2024-12-28  154  
+26609b619fa230 Kent Overstreet 2018-11-01  155  		/*
+26609b619fa230 Kent Overstreet 2018-11-01  156  		 * If there are any dirty pointers it's an error if we can't
+26609b619fa230 Kent Overstreet 2018-11-01  157  		 * read:
+26609b619fa230 Kent Overstreet 2018-11-01  158  		 */
+26609b619fa230 Kent Overstreet 2018-11-01  159  		if (!ret && !p.ptr.cached)
+54a12984a9a29d Kent Overstreet 2024-09-04  160  			ret = -BCH_ERR_no_device_to_read_from;
+26609b619fa230 Kent Overstreet 2018-11-01  161  
+a9422fd4041084 Kent Overstreet 2024-04-30  162  		struct bch_dev *ca = bch2_dev_rcu(c, p.ptr.dev);
+a9422fd4041084 Kent Overstreet 2024-04-30  163  
+9432e90df1b8a5 Kent Overstreet 2024-06-06  164  		if (p.ptr.cached && (!ca || dev_ptr_stale_rcu(ca, &p.ptr)))
+26609b619fa230 Kent Overstreet 2018-11-01  165  			continue;
+26609b619fa230 Kent Overstreet 2018-11-01  166  
+a2cb8a6236daaf Kent Overstreet 2024-06-28  167  		f = failed ? bch2_dev_io_failures(failed, p.ptr.dev) : NULL;
+26609b619fa230 Kent Overstreet 2018-11-01  168  		if (f)
+26609b619fa230 Kent Overstreet 2018-11-01  169  			p.idx = f->nr_failed < f->nr_retries
+26609b619fa230 Kent Overstreet 2018-11-01  170  				? f->idx
+26609b619fa230 Kent Overstreet 2018-11-01  171  				: f->idx + 1;
+26609b619fa230 Kent Overstreet 2018-11-01  172  
+54a12984a9a29d Kent Overstreet 2024-09-04  173  		if (!p.idx && (!ca || !bch2_dev_is_readable(ca)))
+a9422fd4041084 Kent Overstreet 2024-04-30  174  			p.idx++;
+a9422fd4041084 Kent Overstreet 2024-04-30  175  
+a9422fd4041084 Kent Overstreet 2024-04-30  176  		if (!p.idx && p.has_ec && bch2_force_reconstruct_read)
+26609b619fa230 Kent Overstreet 2018-11-01  177  			p.idx++;
+26609b619fa230 Kent Overstreet 2018-11-01  178  
+54a12984a9a29d Kent Overstreet 2024-09-04  179  		if (p.idx > (unsigned) p.has_ec)
+26609b619fa230 Kent Overstreet 2018-11-01  180  			continue;
+26609b619fa230 Kent Overstreet 2018-11-01  181  
+26609b619fa230 Kent Overstreet 2018-11-01  182  		if (ret > 0 && !ptr_better(c, p, *pick))
+26609b619fa230 Kent Overstreet 2018-11-01  183  			continue;
+26609b619fa230 Kent Overstreet 2018-11-01  184  
+26609b619fa230 Kent Overstreet 2018-11-01  185  		*pick = p;
+26609b619fa230 Kent Overstreet 2018-11-01  186  		ret = 1;
+26609b619fa230 Kent Overstreet 2018-11-01  187  	}
+a9422fd4041084 Kent Overstreet 2024-04-30  188  	rcu_read_unlock();
+26609b619fa230 Kent Overstreet 2018-11-01  189  
+26609b619fa230 Kent Overstreet 2018-11-01  190  	return ret;
+26609b619fa230 Kent Overstreet 2018-11-01  191  }
+26609b619fa230 Kent Overstreet 2018-11-01  192  
 
 -- 
 0-DAY CI Kernel Test Service
