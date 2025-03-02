@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31D81E7C11
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Mar 2025 20:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637AFB65C
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Mar 2025 01:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740860435; cv=none; b=uYdZ/qhWikaeR91E7CyYtbAamUiGzqy9kFokwxEMFSyHpGnAHI03jfXhVpAGtI3CDBzZCNVnHI2kqQA7Ze5yYdOr3GvI5UQJThPt/LOuWEIea08CYDigqJByXZtcJsd6oxm3b22/dL79BC8OlHKnpjuRTiKRfp0fGho49j8qCQg=
+	t=1740878618; cv=none; b=WamtbxmPCpaJlQujY7ekzEsc6fE1B2SLvy7R26rwbiFbuvLOp2/7eElIDb34akWAkAh8GnMglMfVZYQRaDnDbE1hMIbepFZDcMdGfmnQGCmMDygnsZlGT6scrMfM3ThmzyW3U8tGRagvqcjyrWlRUaWzQF3hrjT/UYGe7Lm40fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740860435; c=relaxed/simple;
-	bh=C5FlNah2V/UY8kgKhOisZY1j5Q2MAS4cU/16Esv03Mg=;
+	s=arc-20240116; t=1740878618; c=relaxed/simple;
+	bh=0tw/Oc0+ugNRWQwHuswzf5r9utXLg06ibX+5B1wjLVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UHpZHc2kWIqD+5uvP0ahTG+Wcw+kRAMYdmXSNz0QTOkeJKelphmGNlICh9D6VR/vufRUFmfcCbUYxgy5RllNHnm7GjjsApsFOwcGRWCloT4L1Hg3saHDb1sBjXf5Ow059o68fzVYt1kp31+ozathV3UJ2WhgmczwpqWtZK2OfY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fslkl+si; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=DMFEpYdgLzYdi5erd1hEdo1uiA81z+w550H08KfR0LBqALOcpkpywYjQFyK4kLX65OyGQiJK0sCjS4snNhwc0g+78465Bc06PWVyOLpvf1ujy66okjjjkI2H4bMRqx/4TEn6l2a8xdLYaq+EEyICMKD2+XNxKAbNdan/uS5MGRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dpdf46ji; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fslkl+si"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dpdf46ji"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740860434; x=1772396434;
+  t=1740878616; x=1772414616;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C5FlNah2V/UY8kgKhOisZY1j5Q2MAS4cU/16Esv03Mg=;
-  b=fslkl+siE9UGdmgKqK3bxoKpTN9JHkCbIlktQ+PdNQ5amoX5bNurmUnn
-   rX6bBFlXKeUGQo7k3Va6c/XxMVvvdRscJV64TuUAQ/cDCohKXg8xSH4xV
-   GWF0N/HIBqEI5/iXjv3MLeWzBSAEOKCtk99httWGTEH4v6hTE6Ts+aJGP
-   bPGLH+BrA8w4eW9pplmIn8dwXJsu+4jQtdbsx4GqPKUJKS98XVtvc8J4Z
-   Ph6lKdOQaaA/LX/FC1MavH//7qPDPrjNakb4/KpcLfvz3mU3so40gS9JV
-   Cqc94A5QOZ96Ahb19Tfz0OV8CuUsxchEfeGv0TwzyNKXduVysW1CA4b9r
-   w==;
-X-CSE-ConnectionGUID: 4Aayzau/R0CT4hzwkeLKLg==
-X-CSE-MsgGUID: ba3lITm+RBixClPcr5VqCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52411954"
+  bh=0tw/Oc0+ugNRWQwHuswzf5r9utXLg06ibX+5B1wjLVk=;
+  b=dpdf46ji+jsyzl5djDXW7xHKZ7HL6XxSfHZ1610wDeaozVZ0mmDxZvqb
+   GiF7njf3Slm2kqew5AXkrklHLLvqVFrKpF12bryONnOytsD+fD3p0QwEY
+   iL89bfsmzMq6FTYY5/93zlpcjTAX2OT9fQ45mB1jylZ4V6is8HhdjAhGU
+   GwPoqi/LbMe+oADCufZ6iptCGeWSzPCX4M3zLwYwGmtqe+QPh9uCgshZm
+   Em2Dcz3IP+WWLKeM4rdTzuCoajKyQ6gnsBXoKPDaQHZwcryVZDvgeQcRH
+   uIsxGvLLZNwJowX+S4Os7M4NQ9Hx9C/hoh0io4zKqiId/YuOVWkAoOcPl
+   A==;
+X-CSE-ConnectionGUID: 5iFuIDXbRiqrUzPsECEOYg==
+X-CSE-MsgGUID: TmOnBClcRrWsj6F0OWDrcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="42027442"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="52411954"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:20:33 -0800
-X-CSE-ConnectionGUID: UsT7AdQATT27bFG0sjmcvw==
-X-CSE-MsgGUID: CXw+xPdrT8esXFWNY5YXwg==
+   d="scan'208";a="42027442"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 17:23:35 -0800
+X-CSE-ConnectionGUID: ObQ80z3XQMeEwsx3eTTUng==
+X-CSE-MsgGUID: yZ2zaqPUSNCro1maboEdWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="117389327"
+   d="scan'208";a="117458846"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2025 12:20:32 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 01 Mar 2025 17:23:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toTJw-000GfH-0E;
-	Sat, 01 Mar 2025 20:20:25 +0000
-Date: Sun, 2 Mar 2025 04:19:52 +0800
+	id 1toY3I-000Gvc-1b;
+	Sun, 02 Mar 2025 01:23:32 +0000
+Date: Sun, 2 Mar 2025 09:22:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 3/4] arm64: dts: Add gpio_intc node for Amlogic A4 SoCs
-Message-ID: <202503020300.YSDof6Fr-lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
+Message-ID: <202503020907.u7Bo0vhO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,49 +67,83 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250226-irqchip-gpio-a4-a5-v2-3-c55b1050cb55@amlogic.com>
-References: <20250226-irqchip-gpio-a4-a5-v2-3-c55b1050cb55@amlogic.com>
-TO: Xianwei Zhao via B4 Relay <devnull+xianwei.zhao.amlogic.com@kernel.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Kevin Hilman <khilman@baylibre.com>
-TO: Jerome Brunet <jbrunet@baylibre.com>
-TO: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-TO: Heiner Kallweit <hkallweit1@gmail.com>
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20250225170601.21334-3-trannamatk@gmail.com>
+References: <20250225170601.21334-3-trannamatk@gmail.com>
+TO: Nam Tran <trannamatk@gmail.com>
+TO: pavel@kernel.org
+TO: lee@kernel.org
+TO: krzk+dt@kernel.org
+TO: robh@kernel.org
+TO: conor+dt@kernel.org
 CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-amlogic@lists.infradead.org
-CC: Xianwei Zhao <xianwei.zhao@amlogic.com>
+CC: linux-leds@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Nam Tran <trannamatk@gmail.com>
 
-Hi Xianwei,
+Hi Nam,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 953913df9c3ab6f496c6facd5aa7fc9f2f847ac2]
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on robh/for-next linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xianwei-Zhao-via-B4-Relay/dt-bindings-interrupt-controller-Add-support-for-Amlogic-A4-and-A5-SoCs/20250226-135013
-base:   953913df9c3ab6f496c6facd5aa7fc9f2f847ac2
-patch link:    https://lore.kernel.org/r/20250226-irqchip-gpio-a4-a5-v2-3-c55b1050cb55%40amlogic.com
-patch subject: [PATCH v2 3/4] arm64: dts: Add gpio_intc node for Amlogic A4 SoCs
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver-bindings/20250226-011634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20250225170601.21334-3-trannamatk%40gmail.com
+patch subject: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
-config: arm64-randconfig-051-20250227 (https://download.01.org/0day-ci/archive/20250302/202503020300.YSDof6Fr-lkp@intel.com/config)
+config: arm64-randconfig-051-20250227 (https://download.01.org/0day-ci/archive/20250302/202503020907.u7Bo0vhO-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
 dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020300.YSDof6Fr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020907.u7Bo0vhO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503020300.YSDof6Fr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503020907.u7Bo0vhO-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-a4-a113l2-ba400.dtb: interrupt-controller@8e72c: amlogic,channel-interrupts: [140, 141] is too short
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/amlogic,meson-gpio-intc.yaml#
+   scripts/dtc/include-prefixes/arm/broadcom/bcm2835-rpi.dtsi:15.16-19.5: Warning (simple_bus_reg): /soc/power: missing or empty reg/ranges property
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: soc: firmware: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: soc: power: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: /soc/cprman@7e101000: failed to match any schema with compatible: ['brcm,bcm2711-cprman']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: /soc/gpio@7e200000: failed to match any schema with compatible: ['brcm,bcm2711-gpio']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: /soc/i2s@7e203000: failed to match any schema with compatible: ['brcm,bcm2835-i2s']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: /soc/aux@7e215000: failed to match any schema with compatible: ['brcm,bcm2835-aux']
+>> arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: /soc/i2c@7e804000/lp5812@1b: failed to match any schema with compatible: ['ti,lp5812']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: interrupt-controller@40000000: 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: interrupt-controller@40000000: '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: emmc2bus: $nodename:0: 'emmc2bus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-400.dtb: scb: $nodename:0: 'scb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+--
+   scripts/dtc/include-prefixes/arm/broadcom/bcm2835-rpi.dtsi:15.16-19.5: Warning (simple_bus_reg): /soc/power: missing or empty reg/ranges property
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: soc: firmware: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: soc: power: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: /soc/cprman@7e101000: failed to match any schema with compatible: ['brcm,bcm2711-cprman']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: /soc/gpio@7e200000: failed to match any schema with compatible: ['brcm,bcm2711-gpio']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: /soc/i2s@7e203000: failed to match any schema with compatible: ['brcm,bcm2835-i2s']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: /soc/aux@7e215000: failed to match any schema with compatible: ['brcm,bcm2835-aux']
+>> arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: /soc/i2c@7e804000/lp5812@1b: failed to match any schema with compatible: ['ti,lp5812']
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: interrupt-controller@40000000: 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: interrupt-controller@40000000: '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,bcm2836-l1-intc.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: emmc2bus: $nodename:0: 'emmc2bus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: scb: $nodename:0: 'scb' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
