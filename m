@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1046F2B9BB
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 01:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF8A42056
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 02:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740965801; cv=none; b=Ip/sjnW8kHAdygQVxfSWG77qoj3hIPyw+Gg6cj38ukxfYf7PhUahfWc0E/Vq5EhXEzjmxxy+WfGFPSRPFPSo7T4z8WkmgjyzcJpXWX6GIjsokEI8+cIdpS9+BjXdgh4i33VliH1xmKIY7UCsugjtvM3sY5b2/4TJtX87mREoPGY=
+	t=1740968872; cv=none; b=FCfvQkFNEPkelkh5BPkwL2IaF2iC065KOg8fJrrj5hzwCuq/LX6NXHjlp/8sxSU3GYSemUOLu/jLF9YkIS4N6oKU6zj7KhJI3qQUIQyVkzUR15s4ddbypzpz1FmyciJ0SBnxBFKhZdM7yr7u32jxKLSuUNewoO9wpyX00I2eMhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740965801; c=relaxed/simple;
-	bh=9kqicJIMc0uG+L14/JSM4M1afLiTDie8bSEmvrkZh0c=;
+	s=arc-20240116; t=1740968872; c=relaxed/simple;
+	bh=8NuBEYXsSAAq6K0BsWNBQzLcz12i3SJHPStSuE2s29E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ny902Kj6XN0kpIH5lUedNLs/g7ZA0x1lOq/MCcxADKXmh5q4+mnymkV3KEZq1lR//0xnWjMJV3OBUqi/cympyv/yeALRVBphC146b19PdUTi5zWPmMnH5UNnJSIYECWPTQ9gnqPtRActBEIyNwIWlTOpCN4rkvKJqyAfz54uZro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKwFvoPU; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=trU3vZOmQvAymvvmi4dULvpoRPRZTjIwLedfDEJypGLmz/vJW14OrCLOHm0g0AmuE3AQkF9nM0q/xrxiDpH6xMZxl2Gl75UXiUopM6OvN6VZwVR5EosdSKqWqwUGQ/9wZ9cDZ1b3DwCMmxIDyNV/YeZ+tt4oWtZwvVOjvf2PJUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MyTfT2Wl; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKwFvoPU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MyTfT2Wl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740965798; x=1772501798;
+  t=1740968870; x=1772504870;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9kqicJIMc0uG+L14/JSM4M1afLiTDie8bSEmvrkZh0c=;
-  b=BKwFvoPUUES3G/PhpDno/ke0raHYiK/r8zHxA2LDNvfhlwfGPR0BLZpI
-   PYWX5FdWfLPpgKMhCiPU/WNj51brq2ku41zgfkwL5aI1pcW94/pn/rpiV
-   YbIx6bLyDiAHiotTcUMp20fdBrVkk+r9bfImrFob+ev25GOTyIZvPymw9
-   6447G8xXom3EzxVBE1QPog+V0O3fnGIB/G4FV0qshppR3nIk7yhr82EVT
-   vjM56OTVkt4KLpBou9H/chZHAQ0I+7ZJZkEOLhv+1d2Kv61NSP/mZjHC9
-   p+2kPiw4DG9LH0MONU+cCFrT8LE33Bz0QlWhc7bjIA6EyCK6Ph19DlQFR
-   Q==;
-X-CSE-ConnectionGUID: 1zB9J0giRkmI2OxjL5ItIg==
-X-CSE-MsgGUID: ed6L9KgNTLSsGFuKjBplpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41715240"
+  bh=8NuBEYXsSAAq6K0BsWNBQzLcz12i3SJHPStSuE2s29E=;
+  b=MyTfT2WlUTSdUgKk9o4HZ440UqStx8PKM4NtFnvgJzTOdpDNlB4uzOw+
+   YGveeNlio4aE/5edSOSAwfJ7BcUwIpQhsdpISmNBue+Lp0BootBI390A2
+   noDhtonJ4Lpsc3gJcbo7wNjdYfG+/1+BvVMfau7VHjMkjqOSN+8/VtTRz
+   tRv9PINMJ7WLPIJaSFn9kRGO7k/1PKwjMhBRdFJrC2arPb4Xrsdoin0P2
+   9brTgYJI3jZjJl4/TmGe0Ah9kTxofRFqAFEzxGalkmGu7tziyXu+y1qxg
+   wkBlCcuK+Oe2JXH5vegVXNOrzBiQdGMSJUjNDHD6HyWdymlLaukq9Jn22
+   A==;
+X-CSE-ConnectionGUID: 2EDwhfiTTziGAdGB6ma7Gg==
+X-CSE-MsgGUID: DDyw1c6pRWWVZGIVXQRR3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41681355"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="41715240"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 17:36:37 -0800
-X-CSE-ConnectionGUID: W5MfiEfHRhC1SwrOEd9zEA==
-X-CSE-MsgGUID: 8wekd2AtSEqotA5PJqGV1w==
+   d="scan'208";a="41681355"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 18:27:49 -0800
+X-CSE-ConnectionGUID: jsUHuvGiS++DCAGtC8tj2w==
+X-CSE-MsgGUID: BClNsQvnToa2oGX+mOhcDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121992736"
+X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
+   d="scan'208";a="117677129"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 17:36:36 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 02 Mar 2025 18:27:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toujR-000HoD-3B;
-	Mon, 03 Mar 2025 01:36:33 +0000
-Date: Mon, 3 Mar 2025 09:36:18 +0800
+	id 1tovWz-000Hpm-2K;
+	Mon, 03 Mar 2025 02:27:45 +0000
+Date: Mon, 3 Mar 2025 10:27:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [rockchip:v6.15-armsoc/dts64 63/64]
- arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: power-controller:
- power-domain@12: Unevaluated properties are not allowed ('domain-supply' was
- unexpected)
-Message-ID: <202503030923.XB1Ebn1Z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7925/main.c:2005
+ mt7925_change_vif_links() warn: inconsistent returns '&dev->mt76.mutex'.
+Message-ID: <202503031055.3ZRqxhAl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,333 +62,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: Heiko Stuebner <heiko@sntech.de>
+CC: linux-kernel@vger.kernel.org
+TO: Charles Han <hanchunchao@inspur.com>
+CC: Felix Fietkau <nbd@nbd.name>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-armsoc/dts64
-head:   c55c9e91d1643493d0434f246917aea7a2653e0f
-commit: f94500eb7328b35f3d0927635b1aba26c85ea4b0 [63/64] arm64: dts: rockchip: Add GPU power domain regulator dependency for RK3588
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20250302 (https://download.01.org/0day-ci/archive/20250303/202503030923.XB1Ebn1Z-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503030923.XB1Ebn1Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7eb172143d5508b4da468ed59ee857c6e5e01da6
+commit: 5cd0bd815c8a48862a296df9b30e0ea0da14acd3 wifi: mt76: mt7925: fix NULL deref check in mt7925_change_vif_links
+date:   7 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 weeks ago
+config: i386-randconfig-141-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031055.3ZRqxhAl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503030923.XB1Ebn1Z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503031055.3ZRqxhAl-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [109], [110]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [107], [108]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [107], [108]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [105], [106]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [107], [108]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1134.7-1142.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: vop@fdd90000: clocks: [[30, 605], [30, 604], [30, 609], [30, 610], [30, 611], [30, 612], [30, 603], [103]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [105]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [108]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [109]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-wifi.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar-pre-ict-tester.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-ep.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: power-controller: power-domain@12: Unevaluated properties are not allowed ('domain-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: vop@fdd90000: clocks: [[33, 605], [33, 604], [33, 609], [33, 610], [33, 611], [33, 612], [33, 603], [106], [107]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: vop@fdd90000: clock-names: ['aclk', 'hclk', 'dclk_vp0', 'dclk_vp1', 'dclk_vp2', 'dclk_vp3', 'pclk_vop', 'pll_hdmiphy0', 'pll_hdmiphy1'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip-vop2.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b-pcie-srns.dtb: spdif-tx@fddb0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['rockchip,rk3588-spdif', 'rockchip,rk3568-spdif'] is too long
-   	'rockchip,rk3066-spdif' was expected
-   	'rockchip,rk3228-spdif' was expected
-   	'rockchip,rk3328-spdif' was expected
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/main.c:2005 mt7925_change_vif_links() warn: inconsistent returns '&dev->mt76.mutex'.
+
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/main.c:691 mt7925_set_key() error: uninitialized symbol 'err'.
+
+vim +2005 drivers/net/wireless/mediatek/mt76/mt7925/main.c
+
+43626f0e0c99159 Deren Wu    2024-06-12  1900  
+69acd6d910b0c83 Sean Wang   2024-07-06  1901  static int
+69acd6d910b0c83 Sean Wang   2024-07-06  1902  mt7925_change_vif_links(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+69acd6d910b0c83 Sean Wang   2024-07-06  1903  			u16 old_links, u16 new_links,
+69acd6d910b0c83 Sean Wang   2024-07-06  1904  			struct ieee80211_bss_conf *old[IEEE80211_MLD_MAX_NUM_LINKS])
+69acd6d910b0c83 Sean Wang   2024-07-06  1905  {
+69acd6d910b0c83 Sean Wang   2024-07-06  1906  	struct mt792x_bss_conf *mconfs[IEEE80211_MLD_MAX_NUM_LINKS] = {}, *mconf;
+69acd6d910b0c83 Sean Wang   2024-07-06  1907  	struct mt792x_link_sta *mlinks[IEEE80211_MLD_MAX_NUM_LINKS] = {}, *mlink;
+69acd6d910b0c83 Sean Wang   2024-07-06  1908  	struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
+69acd6d910b0c83 Sean Wang   2024-07-06  1909  	unsigned long add = new_links & ~old_links;
+69acd6d910b0c83 Sean Wang   2024-07-06  1910  	unsigned long rem = old_links & ~new_links;
+69acd6d910b0c83 Sean Wang   2024-07-06  1911  	struct mt792x_dev *dev = mt792x_hw_dev(hw);
+69acd6d910b0c83 Sean Wang   2024-07-06  1912  	struct mt792x_phy *phy = mt792x_hw_phy(hw);
+69acd6d910b0c83 Sean Wang   2024-07-06  1913  	struct ieee80211_bss_conf *link_conf;
+69acd6d910b0c83 Sean Wang   2024-07-06  1914  	unsigned int link_id;
+69acd6d910b0c83 Sean Wang   2024-07-06  1915  	int err;
+69acd6d910b0c83 Sean Wang   2024-07-06  1916  
+69acd6d910b0c83 Sean Wang   2024-07-06  1917  	if (old_links == new_links)
+69acd6d910b0c83 Sean Wang   2024-07-06  1918  		return 0;
+69acd6d910b0c83 Sean Wang   2024-07-06  1919  
+69acd6d910b0c83 Sean Wang   2024-07-06  1920  	mt792x_mutex_acquire(dev);
+69acd6d910b0c83 Sean Wang   2024-07-06  1921  
+69acd6d910b0c83 Sean Wang   2024-07-06  1922  	for_each_set_bit(link_id, &rem, IEEE80211_MLD_MAX_NUM_LINKS) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1923  		mconf = mt792x_vif_to_link(mvif, link_id);
+69acd6d910b0c83 Sean Wang   2024-07-06  1924  		mlink = mt792x_sta_to_link(&mvif->sta, link_id);
+69acd6d910b0c83 Sean Wang   2024-07-06  1925  
+69acd6d910b0c83 Sean Wang   2024-07-06  1926  		if (!mconf || !mlink)
+69acd6d910b0c83 Sean Wang   2024-07-06  1927  			continue;
+69acd6d910b0c83 Sean Wang   2024-07-06  1928  
+69acd6d910b0c83 Sean Wang   2024-07-06  1929  		if (mconf != &mvif->bss_conf) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1930  			mt792x_mac_link_bss_remove(dev, mconf, mlink);
+69acd6d910b0c83 Sean Wang   2024-07-06  1931  			devm_kfree(dev->mt76.dev, mconf);
+69acd6d910b0c83 Sean Wang   2024-07-06  1932  			devm_kfree(dev->mt76.dev, mlink);
+69acd6d910b0c83 Sean Wang   2024-07-06  1933  		}
+69acd6d910b0c83 Sean Wang   2024-07-06  1934  
+69acd6d910b0c83 Sean Wang   2024-07-06  1935  		rcu_assign_pointer(mvif->link_conf[link_id], NULL);
+69acd6d910b0c83 Sean Wang   2024-07-06  1936  		rcu_assign_pointer(mvif->sta.link[link_id], NULL);
+69acd6d910b0c83 Sean Wang   2024-07-06  1937  	}
+69acd6d910b0c83 Sean Wang   2024-07-06  1938  
+69acd6d910b0c83 Sean Wang   2024-07-06  1939  	for_each_set_bit(link_id, &add, IEEE80211_MLD_MAX_NUM_LINKS) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1940  		if (!old_links) {
+9f89f05bef1a573 Sean Wang   2024-07-06  1941  			mvif->deflink_id = link_id;
+69acd6d910b0c83 Sean Wang   2024-07-06  1942  			mconf = &mvif->bss_conf;
+69acd6d910b0c83 Sean Wang   2024-07-06  1943  			mlink = &mvif->sta.deflink;
+69acd6d910b0c83 Sean Wang   2024-07-06  1944  		} else {
+69acd6d910b0c83 Sean Wang   2024-07-06  1945  			mconf = devm_kzalloc(dev->mt76.dev, sizeof(*mconf),
+69acd6d910b0c83 Sean Wang   2024-07-06  1946  					     GFP_KERNEL);
+69acd6d910b0c83 Sean Wang   2024-07-06  1947  			mlink = devm_kzalloc(dev->mt76.dev, sizeof(*mlink),
+69acd6d910b0c83 Sean Wang   2024-07-06  1948  					     GFP_KERNEL);
+5cd0bd815c8a488 Charles Han 2024-10-25  1949  			if (!mconf || !mlink)
+5cd0bd815c8a488 Charles Han 2024-10-25  1950  				return -ENOMEM;
+69acd6d910b0c83 Sean Wang   2024-07-06  1951  		}
+69acd6d910b0c83 Sean Wang   2024-07-06  1952  
+69acd6d910b0c83 Sean Wang   2024-07-06  1953  		mconfs[link_id] = mconf;
+69acd6d910b0c83 Sean Wang   2024-07-06  1954  		mlinks[link_id] = mlink;
+69acd6d910b0c83 Sean Wang   2024-07-06  1955  		mconf->link_id = link_id;
+69acd6d910b0c83 Sean Wang   2024-07-06  1956  		mconf->vif = mvif;
+69acd6d910b0c83 Sean Wang   2024-07-06  1957  		mlink->wcid.link_id = link_id;
+4f0f33d2747f207 Sean Wang   2024-07-06  1958  		mlink->wcid.link_valid = !!vif->valid_links;
+b1d21403c0cfe71 Sean Wang   2024-07-06  1959  		mlink->wcid.def_wcid = &mvif->sta.deflink.wcid;
+69acd6d910b0c83 Sean Wang   2024-07-06  1960  	}
+69acd6d910b0c83 Sean Wang   2024-07-06  1961  
+69acd6d910b0c83 Sean Wang   2024-07-06  1962  	if (hweight16(mvif->valid_links) == 0)
+69acd6d910b0c83 Sean Wang   2024-07-06  1963  		mt792x_mac_link_bss_remove(dev, &mvif->bss_conf,
+69acd6d910b0c83 Sean Wang   2024-07-06  1964  					   &mvif->sta.deflink);
+69acd6d910b0c83 Sean Wang   2024-07-06  1965  
+69acd6d910b0c83 Sean Wang   2024-07-06  1966  	for_each_set_bit(link_id, &add, IEEE80211_MLD_MAX_NUM_LINKS) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1967  		mconf = mconfs[link_id];
+69acd6d910b0c83 Sean Wang   2024-07-06  1968  		mlink = mlinks[link_id];
+69acd6d910b0c83 Sean Wang   2024-07-06  1969  		link_conf = mt792x_vif_to_bss_conf(vif, link_id);
+69acd6d910b0c83 Sean Wang   2024-07-06  1970  
+69acd6d910b0c83 Sean Wang   2024-07-06  1971  		rcu_assign_pointer(mvif->link_conf[link_id], mconf);
+69acd6d910b0c83 Sean Wang   2024-07-06  1972  		rcu_assign_pointer(mvif->sta.link[link_id], mlink);
+69acd6d910b0c83 Sean Wang   2024-07-06  1973  
+69acd6d910b0c83 Sean Wang   2024-07-06  1974  		err = mt7925_mac_link_bss_add(dev, link_conf, mlink);
+69acd6d910b0c83 Sean Wang   2024-07-06  1975  		if (err < 0)
+69acd6d910b0c83 Sean Wang   2024-07-06  1976  			goto free;
+69acd6d910b0c83 Sean Wang   2024-07-06  1977  
+69acd6d910b0c83 Sean Wang   2024-07-06  1978  		if (mconf != &mvif->bss_conf) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1979  			err = mt7925_set_mlo_roc(phy, &mvif->bss_conf,
+69acd6d910b0c83 Sean Wang   2024-07-06  1980  						 vif->active_links);
+69acd6d910b0c83 Sean Wang   2024-07-06  1981  			if (err < 0)
+69acd6d910b0c83 Sean Wang   2024-07-06  1982  				goto free;
+69acd6d910b0c83 Sean Wang   2024-07-06  1983  		}
+69acd6d910b0c83 Sean Wang   2024-07-06  1984  	}
+69acd6d910b0c83 Sean Wang   2024-07-06  1985  
+69acd6d910b0c83 Sean Wang   2024-07-06  1986  	mvif->valid_links = new_links;
+69acd6d910b0c83 Sean Wang   2024-07-06  1987  
+69acd6d910b0c83 Sean Wang   2024-07-06  1988  	mt792x_mutex_release(dev);
+69acd6d910b0c83 Sean Wang   2024-07-06  1989  
+69acd6d910b0c83 Sean Wang   2024-07-06  1990  	return 0;
+69acd6d910b0c83 Sean Wang   2024-07-06  1991  
+69acd6d910b0c83 Sean Wang   2024-07-06  1992  free:
+69acd6d910b0c83 Sean Wang   2024-07-06  1993  	for_each_set_bit(link_id, &add, IEEE80211_MLD_MAX_NUM_LINKS) {
+69acd6d910b0c83 Sean Wang   2024-07-06  1994  		rcu_assign_pointer(mvif->link_conf[link_id], NULL);
+69acd6d910b0c83 Sean Wang   2024-07-06  1995  		rcu_assign_pointer(mvif->sta.link[link_id], NULL);
+69acd6d910b0c83 Sean Wang   2024-07-06  1996  
+69acd6d910b0c83 Sean Wang   2024-07-06  1997  		if (mconf != &mvif->bss_conf)
+69acd6d910b0c83 Sean Wang   2024-07-06  1998  			devm_kfree(dev->mt76.dev, mconfs[link_id]);
+69acd6d910b0c83 Sean Wang   2024-07-06  1999  		if (mlink != &mvif->sta.deflink)
+69acd6d910b0c83 Sean Wang   2024-07-06  2000  			devm_kfree(dev->mt76.dev, mlinks[link_id]);
+69acd6d910b0c83 Sean Wang   2024-07-06  2001  	}
+69acd6d910b0c83 Sean Wang   2024-07-06  2002  
+69acd6d910b0c83 Sean Wang   2024-07-06  2003  	mt792x_mutex_release(dev);
+69acd6d910b0c83 Sean Wang   2024-07-06  2004  
+69acd6d910b0c83 Sean Wang   2024-07-06 @2005  	return err;
+69acd6d910b0c83 Sean Wang   2024-07-06  2006  }
+69acd6d910b0c83 Sean Wang   2024-07-06  2007  
+
+:::::: The code at line 2005 was first introduced by commit
+:::::: 69acd6d910b0c83842bd45c36224d4f8fe59d1d4 wifi: mt76: mt7925: add mt7925_change_vif_links
+
+:::::: TO: Sean Wang <sean.wang@mediatek.com>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
