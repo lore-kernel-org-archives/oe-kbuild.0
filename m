@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A19216395
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 18:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB5A226861
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 18:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741025150; cv=none; b=gNdDKgi8Sg5GzjMXp0zd42MLFh6N0FIy1WNWpUk74gcQOaS/LHc5bhmuc+BpQTVuUu5xyrtx0ziHQ8aUpg5LWAr+kPTIOY1oiWOM0wFwMX19tORme6h2/DzZBRpNVP2qT7Aiptq0lSsCw/k1RBuYNvltKHZXS56a0XG1XQeL81U=
+	t=1741025819; cv=none; b=eHncA5zA3qmWCRYnUpRXFCd6LNIdEbNJpiiwavHneS75Ov8z9fyCPNuUWRoPOmaXm3c1V2+hhu2s1qgOE3/sdgExucvxiUhOoI4hbjukYgRGDY0ZzB3H2YoLUyxuxlu+GWOaK1FXyhd5iXMI2OValyquEEOG3EeFyTY+WpmRUNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741025150; c=relaxed/simple;
-	bh=P6T3h0dkRBujn50U4LDwFuUDHrnBeQrjTZmkZJ9C9EI=;
+	s=arc-20240116; t=1741025819; c=relaxed/simple;
+	bh=efyMaS7dnJBSS2CxsZ9GdS1XI1UqLniWPaRaYEARpvc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OC7ptQGFefcJpbd7acIKmLjFHczF0Yp73GmdjRZYMtBDb6hcZhqHlESlz+AhiRSMdbD81Aj4HN2Ju3DLLlGdKWRbQiVy7qwYyqE6QsLI7tOeRpAkBzgklft6Waj8EnemKCql7LoMxCGSWbpfuLi2cJo5be9pe96A7cBQHSuVWvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V65UkssI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=S8Pd/YxjeM78kNdO273SGdy1yyPJeC3HCKd49Wo4WzGX+PMTUSHpmjXUQQH3tsNFn+Numr2geaXG537EUVAH+zQDpf58G2ZbO2FFUboBEmu6mnktABySbS9+T9s/7dJtxyqifiwWJZEUxXXLuP0lWwI/uxgsMzRAouPe7/xKV4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6pEpVAW; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V65UkssI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6pEpVAW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741025149; x=1772561149;
+  t=1741025818; x=1772561818;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P6T3h0dkRBujn50U4LDwFuUDHrnBeQrjTZmkZJ9C9EI=;
-  b=V65UkssIieE2s6tvsaumado7uY3AHNNdgEWLJxsohWblvZN8e1pjXb+C
-   QltgBvxivVnK0Ji/IuEUJcF9BnvZod5VqqsKiMDkWVH2EUuYDDO7oj8fO
-   5J/OqDWv0Z8jUK8JcwDqLz/0dteLv3sqE3pZMDGYkXyGrZNcypD4Qh55t
-   uZXHY6Yh2XOkKYyfNa5ChVdq/R7AE/obNHdAc4bcYs0LtJyJ89ko3rLDR
-   Fnz1kewcy3fMx+WkURbweruOPg7miWUaDUJO0J9oge41trnuXYLBhScXn
-   +jeL9WylbhSRBBKIqbR3fP5HZb00DuyD5cTsugc7jNZL0jLMRhCXKM0T8
-   w==;
-X-CSE-ConnectionGUID: M16VBipMS8GXdNFvmvGTDw==
-X-CSE-MsgGUID: SFHYT711TlOggTiPwUAb5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="59326539"
+  bh=efyMaS7dnJBSS2CxsZ9GdS1XI1UqLniWPaRaYEARpvc=;
+  b=l6pEpVAWZhBlGoCqyJmBfXTRlJSc/8onWy/FUfZYsCbbllt+mm486WLa
+   4f6aCUWciJg84XIPXrYA5J0qFixTBDQQoosh1ahPNqzcAsvgCNProhb1x
+   J4fgZ6ntsS5Sa0fvgjThTqUFaPcBXm1OxE1uTuHz98S5u01jgvHMaaV46
+   7GZ72ws3iR+JqA8Dvi3yMhMfD54tDMHlSl87nH424kzrjSsWq5Z19AE5e
+   BARQe/rfZasJXjHHwxLcO6XyKoDlUxxqczoRhxamtcbpM3DJhNi83qEHd
+   t5TdoRNVvAIAMfm1z6KHH4ZMzggurebvQMqDfpDxVp/h7x+gONjCfBath
+   g==;
+X-CSE-ConnectionGUID: Ucc/an1dTw6ekdlD3h7AEQ==
+X-CSE-MsgGUID: ImWxhesZSn2omWNzweoYGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53319992"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="59326539"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 10:05:48 -0800
-X-CSE-ConnectionGUID: EvWxhUOXRuSFr6kE8jRbbw==
-X-CSE-MsgGUID: TAcFkiXgTMqtyE2Pbxzaqg==
+   d="scan'208";a="53319992"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 10:16:54 -0800
+X-CSE-ConnectionGUID: nR9GlxwnQ++uGb4e8DPAeg==
+X-CSE-MsgGUID: WlCuBlucQfeHqQBYzsikpA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="141338518"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119049165"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Mar 2025 10:05:46 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Mar 2025 10:16:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpAAi-000InO-0Z;
-	Mon, 03 Mar 2025 18:05:44 +0000
-Date: Tue, 4 Mar 2025 02:05:40 +0800
+	id 1tpALN-000Ini-0m;
+	Mon, 03 Mar 2025 18:16:45 +0000
+Date: Tue, 4 Mar 2025 02:16:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7224/7423] fs/btrfs/extent_io.c:1125
- can_skip_one_ordered_range() error: 'folio' dereferencing possible ERR_PTR()
-Message-ID: <202503040153.la3WrwKZ-lkp@intel.com>
+Subject: [linux-next:master 2039/7719] lib/tests/overflow_kunit.c:922
+ overflows_type_test() warn: value s32min can't fit into (-128) 'v'
+Message-ID: <202503040208.8v9Vbwpl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,140 +64,290 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christian Brauner <brauner@kernel.org>
+TO: Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>
+CC: Rae Moar <rmoar@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   cd3215bbcb9d4321def93fea6cfad4d5b42b9d1d
-commit: 343a7c425f5ffba8fa977602f33d5a90a771e099 [7224/7423] Merge branch 'vfs.all' of git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+commit: db6fe4d61ece24193eb4d94a82d967501d53358c [2039/7719] lib: Move KUnit tests into tests/ subdirectory
 :::::: branch date: 10 hours ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-161-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040153.la3WrwKZ-lkp@intel.com/config)
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-141-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040208.8v9Vbwpl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503040153.la3WrwKZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503040208.8v9Vbwpl-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/extent_io.c:1125 can_skip_one_ordered_range() error: 'folio' dereferencing possible ERR_PTR()
+New smatch warnings:
+lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
+lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
+lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
+lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
 
-vim +/folio +1125 fs/btrfs/extent_io.c
+Old smatch warnings:
+lib/tests/overflow_kunit.c:480 shift_overflow_test() warn: '(_a_full << _to_shift)' 32768 can't fit into 32767 '*_d'
+lib/tests/overflow_kunit.c:489 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 65535 '*_d'
+lib/tests/overflow_kunit.c:500 shift_overflow_test() warn: '(_a_full << _to_shift)' 34966 can't fit into 32767 '*_d'
+lib/tests/overflow_kunit.c:509 shift_overflow_test() warn: '(_a_full << _to_shift)' 300 can't fit into 127 '*_d'
+lib/tests/overflow_kunit.c:511 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 32767 '*_d'
+lib/tests/overflow_kunit.c:528 shift_truncate_test() warn: '(_a_full << _to_shift)' 65536 can't fit into 65535 '*_d'
+lib/tests/overflow_kunit.c:529 shift_truncate_test() warn: '(_a_full << _to_shift)' 65535 can't fit into 32767 '*_d'
+lib/tests/overflow_kunit.c:566 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 32767 '*_d'
+lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 65535 '*_d'
+lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: assigning 18446744073709551611 to unsigned variable '*_d'
+lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
+lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
+lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
+lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
+lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
+lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
+lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
+lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
+lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
+lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
 
-d1310b2e0cd98e Chris Mason 2008-01-24  1074  
-f47168d051203f Qu Wenruo   2025-02-12  1075  /*
-f47168d051203f Qu Wenruo   2025-02-12  1076   * Check if we can skip waiting the @ordered extent covering the block
-f47168d051203f Qu Wenruo   2025-02-12  1077   * at file pos @cur.
-f47168d051203f Qu Wenruo   2025-02-12  1078   *
-f47168d051203f Qu Wenruo   2025-02-12  1079   * Return true if we can skip to @next_ret. The caller needs to check
-f47168d051203f Qu Wenruo   2025-02-12  1080   * the @next_ret value to make sure if covers the full range, before
-f47168d051203f Qu Wenruo   2025-02-12  1081   * skipping the OE.
-f47168d051203f Qu Wenruo   2025-02-12  1082   *
-f47168d051203f Qu Wenruo   2025-02-12  1083   * Return false if we must wait for the ordered extent.
-f47168d051203f Qu Wenruo   2025-02-12  1084   *
-f47168d051203f Qu Wenruo   2025-02-12  1085   * @cur:	The start file offset that we have locked folio for read.
-f47168d051203f Qu Wenruo   2025-02-12  1086   * @next_ret:	If we return true, this indiciates the next check start
-f47168d051203f Qu Wenruo   2025-02-12  1087   *		range.
-f47168d051203f Qu Wenruo   2025-02-12  1088   */
-f47168d051203f Qu Wenruo   2025-02-12  1089  static bool can_skip_one_ordered_range(struct btrfs_inode *binode,
-f47168d051203f Qu Wenruo   2025-02-12  1090  				       struct btrfs_ordered_extent *ordered,
-f47168d051203f Qu Wenruo   2025-02-12  1091  				       u64 cur, u64 *next_ret)
-f47168d051203f Qu Wenruo   2025-02-12  1092  {
-f47168d051203f Qu Wenruo   2025-02-12  1093  	const struct btrfs_fs_info *fs_info = binode->root->fs_info;
-f47168d051203f Qu Wenruo   2025-02-12  1094  	struct folio *folio;
-f47168d051203f Qu Wenruo   2025-02-12  1095  	const u32 blocksize = fs_info->sectorsize;
-f47168d051203f Qu Wenruo   2025-02-12  1096  	u64 range_len;
-f47168d051203f Qu Wenruo   2025-02-12  1097  	bool ret;
-f47168d051203f Qu Wenruo   2025-02-12  1098  
-f47168d051203f Qu Wenruo   2025-02-12  1099  	folio = filemap_get_folio(binode->vfs_inode.i_mapping,
-f47168d051203f Qu Wenruo   2025-02-12  1100  				  cur >> PAGE_SHIFT);
-f47168d051203f Qu Wenruo   2025-02-12  1101  
-f47168d051203f Qu Wenruo   2025-02-12  1102  	/*
-f47168d051203f Qu Wenruo   2025-02-12  1103  	 * We should have locked the folio(s) for range [start, end], thus
-f47168d051203f Qu Wenruo   2025-02-12  1104  	 * there must be a folio and it must be locked.
-f47168d051203f Qu Wenruo   2025-02-12  1105  	 */
-f47168d051203f Qu Wenruo   2025-02-12  1106  	ASSERT(!IS_ERR(folio));
-f47168d051203f Qu Wenruo   2025-02-12  1107  	ASSERT(folio_test_locked(folio));
-f47168d051203f Qu Wenruo   2025-02-12  1108  
-f47168d051203f Qu Wenruo   2025-02-12  1109  	/*
-f47168d051203f Qu Wenruo   2025-02-12  1110  	 * We several cases for the folio and OE combination:
-f47168d051203f Qu Wenruo   2025-02-12  1111  	 *
-f47168d051203f Qu Wenruo   2025-02-12  1112  	 * 0) Folio has no private flag
-f47168d051203f Qu Wenruo   2025-02-12  1113  	 *    The OE has all its IO done but not yet finished, and folio got
-f47168d051203f Qu Wenruo   2025-02-12  1114  	 *    invalidated. Or direct IO.
-f47168d051203f Qu Wenruo   2025-02-12  1115  	 *
-f47168d051203f Qu Wenruo   2025-02-12  1116  	 * Have to wait for the OE to finish, as it may contain the
-f47168d051203f Qu Wenruo   2025-02-12  1117  	 * to-be-inserted data checksum.
-f47168d051203f Qu Wenruo   2025-02-12  1118  	 * Without the data checksum inserted into csum tree, read
-f47168d051203f Qu Wenruo   2025-02-12  1119  	 * will just fail with missing csum.
-f47168d051203f Qu Wenruo   2025-02-12  1120  	 */
-f47168d051203f Qu Wenruo   2025-02-12  1121  	if (!folio_test_private(folio)) {
-f47168d051203f Qu Wenruo   2025-02-12  1122  		ret = false;
-f47168d051203f Qu Wenruo   2025-02-12  1123  		goto out;
-f47168d051203f Qu Wenruo   2025-02-12  1124  	}
-f47168d051203f Qu Wenruo   2025-02-12 @1125  	range_len = min(folio_pos(folio) + folio_size(folio),
-f47168d051203f Qu Wenruo   2025-02-12  1126  			ordered->file_offset + ordered->num_bytes) - cur;
-f47168d051203f Qu Wenruo   2025-02-12  1127  
-f47168d051203f Qu Wenruo   2025-02-12  1128  	/*
-f47168d051203f Qu Wenruo   2025-02-12  1129  	 * 1) The first block is DIRTY.
-f47168d051203f Qu Wenruo   2025-02-12  1130  	 *
-f47168d051203f Qu Wenruo   2025-02-12  1131  	 * This means the OE is created by some folio before us, but writeback
-f47168d051203f Qu Wenruo   2025-02-12  1132  	 * has not started.
-f47168d051203f Qu Wenruo   2025-02-12  1133  	 * We can and must skip the whole OE, because it will never start until
-f47168d051203f Qu Wenruo   2025-02-12  1134  	 * we finished our folio read and unlocked the folio.
-f47168d051203f Qu Wenruo   2025-02-12  1135  	 */
-f47168d051203f Qu Wenruo   2025-02-12  1136  	if (btrfs_folio_test_dirty(fs_info, folio, cur, blocksize)) {
-f47168d051203f Qu Wenruo   2025-02-12  1137  		ret = true;
-f47168d051203f Qu Wenruo   2025-02-12  1138  		/*
-f47168d051203f Qu Wenruo   2025-02-12  1139  		 * At least inside the folio, all the remaining blocks should
-f47168d051203f Qu Wenruo   2025-02-12  1140  		 * also be dirty.
-f47168d051203f Qu Wenruo   2025-02-12  1141  		 */
-f47168d051203f Qu Wenruo   2025-02-12  1142  		ASSERT(btrfs_folio_test_dirty(fs_info, folio, cur, range_len));
-f47168d051203f Qu Wenruo   2025-02-12  1143  		*next_ret = ordered->file_offset + ordered->num_bytes;
-f47168d051203f Qu Wenruo   2025-02-12  1144  		goto out;
-f47168d051203f Qu Wenruo   2025-02-12  1145  	}
-f47168d051203f Qu Wenruo   2025-02-12  1146  
-f47168d051203f Qu Wenruo   2025-02-12  1147  	/*
-f47168d051203f Qu Wenruo   2025-02-12  1148  	 * 2) The first block is uptodate.
-f47168d051203f Qu Wenruo   2025-02-12  1149  	 *
-f47168d051203f Qu Wenruo   2025-02-12  1150  	 * At least the first block can be skipped, but we are still
-f47168d051203f Qu Wenruo   2025-02-12  1151  	 * not full sure. E.g. if the OE has some other folios in
-f47168d051203f Qu Wenruo   2025-02-12  1152  	 * the range that can not be skipped.
-f47168d051203f Qu Wenruo   2025-02-12  1153  	 * So we return true and update @next_ret to the OE/folio boundary.
-f47168d051203f Qu Wenruo   2025-02-12  1154  	 */
-f47168d051203f Qu Wenruo   2025-02-12  1155  	if (btrfs_folio_test_uptodate(fs_info, folio, cur, blocksize)) {
-f47168d051203f Qu Wenruo   2025-02-12  1156  		u64 range_len = min(folio_pos(folio) + folio_size(folio),
-f47168d051203f Qu Wenruo   2025-02-12  1157  				    ordered->file_offset + ordered->num_bytes) - cur;
-f47168d051203f Qu Wenruo   2025-02-12  1158  
-f47168d051203f Qu Wenruo   2025-02-12  1159  		/*
-f47168d051203f Qu Wenruo   2025-02-12  1160  		 * The whole range to the OE end or folio boundary should also
-f47168d051203f Qu Wenruo   2025-02-12  1161  		 * be uptodate.
-f47168d051203f Qu Wenruo   2025-02-12  1162  		 */
-f47168d051203f Qu Wenruo   2025-02-12  1163  		ASSERT(btrfs_folio_test_uptodate(fs_info, folio, cur, range_len));
-f47168d051203f Qu Wenruo   2025-02-12  1164  		ret = true;
-f47168d051203f Qu Wenruo   2025-02-12  1165  		*next_ret = cur + range_len;
-f47168d051203f Qu Wenruo   2025-02-12  1166  		goto out;
-f47168d051203f Qu Wenruo   2025-02-12  1167  	}
-f47168d051203f Qu Wenruo   2025-02-12  1168  
-f47168d051203f Qu Wenruo   2025-02-12  1169  	/*
-f47168d051203f Qu Wenruo   2025-02-12  1170  	 * 3) The first block is not uptodate.
-f47168d051203f Qu Wenruo   2025-02-12  1171  	 *
-f47168d051203f Qu Wenruo   2025-02-12  1172  	 * This means the folio is invalidated after the OE finished, or direct IO.
-f47168d051203f Qu Wenruo   2025-02-12  1173  	 * Very much the same as case 1), just with private flag set.
-f47168d051203f Qu Wenruo   2025-02-12  1174  	 */
-f47168d051203f Qu Wenruo   2025-02-12  1175  	ret = false;
-f47168d051203f Qu Wenruo   2025-02-12  1176  out:
-f47168d051203f Qu Wenruo   2025-02-12  1177  	folio_put(folio);
-f47168d051203f Qu Wenruo   2025-02-12  1178  	return ret;
-f47168d051203f Qu Wenruo   2025-02-12  1179  }
-f47168d051203f Qu Wenruo   2025-02-12  1180  
+vim +922 lib/tests/overflow_kunit.c
 
-:::::: The code at line 1125 was first introduced by commit
-:::::: f47168d051203f5f9020ee51ef8c90db89008fe0 btrfs: introduce a read path dedicated extent lock helper
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   818  
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   819  	TEST_OVERFLOWS_TYPE(u8, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   820  	TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   821  	TEST_OVERFLOWS_TYPE(u8, s8, U8_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   822  	TEST_OVERFLOWS_TYPE(u8, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   823  	TEST_OVERFLOWS_TYPE(u8, s8, (u8)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   824  	TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   825  	TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   826  	TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   827  	TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   828  	TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   829  	TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   830  	TEST_OVERFLOWS_TYPE(s8, u16, S8_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   831  	TEST_OVERFLOWS_TYPE(s8, u32, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   832  	TEST_OVERFLOWS_TYPE(s8, u32, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   833  	TEST_OVERFLOWS_TYPE(s8, u32, S8_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   834  #if BITS_PER_LONG == 64
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   835  	TEST_OVERFLOWS_TYPE(s8, u64, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   836  	TEST_OVERFLOWS_TYPE(s8, u64, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   837  	TEST_OVERFLOWS_TYPE(s8, u64, S8_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   838  #endif
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   839  	TEST_OVERFLOWS_TYPE(s8, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   840  	TEST_OVERFLOWS_TYPE(s8, s8, S8_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   841  	TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   842  	TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   843  	TEST_OVERFLOWS_TYPE(u16, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   844  	TEST_OVERFLOWS_TYPE(u16, u8, (u16)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   845  	TEST_OVERFLOWS_TYPE(u16, u8, U16_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   846  	TEST_OVERFLOWS_TYPE(u16, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   847  	TEST_OVERFLOWS_TYPE(u16, s8, (u16)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   848  	TEST_OVERFLOWS_TYPE(u16, s8, U16_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   849  	TEST_OVERFLOWS_TYPE(u16, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   850  	TEST_OVERFLOWS_TYPE(u16, s16, (u16)S16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   851  	TEST_OVERFLOWS_TYPE(u16, s16, U16_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   852  	TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   853  	TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   854  	TEST_OVERFLOWS_TYPE(s16, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   855  	TEST_OVERFLOWS_TYPE(s16, u8, (s16)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   856  	TEST_OVERFLOWS_TYPE(s16, u8, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   857  	TEST_OVERFLOWS_TYPE(s16, u8, S16_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   858  	TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   859  	TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   860  	TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   861  	TEST_OVERFLOWS_TYPE(s16, u32, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   862  	TEST_OVERFLOWS_TYPE(s16, u32, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   863  	TEST_OVERFLOWS_TYPE(s16, u32, S16_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   864  #if BITS_PER_LONG == 64
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   865  	TEST_OVERFLOWS_TYPE(s16, u64, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   866  	TEST_OVERFLOWS_TYPE(s16, u64, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   867  	TEST_OVERFLOWS_TYPE(s16, u64, S16_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   868  #endif
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   869  	TEST_OVERFLOWS_TYPE(s16, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   870  	TEST_OVERFLOWS_TYPE(s16, s8, S8_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   871  	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   872  	TEST_OVERFLOWS_TYPE(s16, s8, (s16)S8_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   873  	TEST_OVERFLOWS_TYPE(s16, s8, S16_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   874  	TEST_OVERFLOWS_TYPE(s16, s8, S16_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   875  	TEST_OVERFLOWS_TYPE(s16, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   876  	TEST_OVERFLOWS_TYPE(s16, s16, S16_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   877  	TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   878  	TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   879  	TEST_OVERFLOWS_TYPE(u32, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   880  	TEST_OVERFLOWS_TYPE(u32, u8, (u32)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   881  	TEST_OVERFLOWS_TYPE(u32, u8, U32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   882  	TEST_OVERFLOWS_TYPE(u32, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   883  	TEST_OVERFLOWS_TYPE(u32, s8, (u32)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   884  	TEST_OVERFLOWS_TYPE(u32, s8, U32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   885  	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   886  	TEST_OVERFLOWS_TYPE(u32, u16, U16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   887  	TEST_OVERFLOWS_TYPE(u32, u16, U32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   888  	TEST_OVERFLOWS_TYPE(u32, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   889  	TEST_OVERFLOWS_TYPE(u32, s16, (u32)S16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   890  	TEST_OVERFLOWS_TYPE(u32, s16, U32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   891  	TEST_OVERFLOWS_TYPE(u32, u32, U32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   892  	TEST_OVERFLOWS_TYPE(u32, s32, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   893  	TEST_OVERFLOWS_TYPE(u32, s32, U32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   894  	TEST_OVERFLOWS_TYPE(u32, s32, (u32)S32_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   895  #if BITS_PER_LONG == 64
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   896  	TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   897  	TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   898  #endif
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   899  	TEST_OVERFLOWS_TYPE(s32, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   900  	TEST_OVERFLOWS_TYPE(s32, u8, (s32)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   901  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   902  	TEST_OVERFLOWS_TYPE(s32, u8, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   903  	TEST_OVERFLOWS_TYPE(s32, u8, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   904  	TEST_OVERFLOWS_TYPE(s32, u16, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   905  	TEST_OVERFLOWS_TYPE(s32, u16, (s32)U16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   906  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   907  	TEST_OVERFLOWS_TYPE(s32, u16, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   908  	TEST_OVERFLOWS_TYPE(s32, u16, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   909  	TEST_OVERFLOWS_TYPE(s32, u32, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   910  	TEST_OVERFLOWS_TYPE(s32, u32, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   911  	TEST_OVERFLOWS_TYPE(s32, u32, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   912  #if BITS_PER_LONG == 64
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   913  	TEST_OVERFLOWS_TYPE(s32, u64, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   914  	TEST_OVERFLOWS_TYPE(s32, u64, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   915  	TEST_OVERFLOWS_TYPE(s32, u64, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   916  #endif
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   917  	TEST_OVERFLOWS_TYPE(s32, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   918  	TEST_OVERFLOWS_TYPE(s32, s8, S8_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   919  	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   920  	TEST_OVERFLOWS_TYPE(s32, s8, (s32)S8_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   921  	TEST_OVERFLOWS_TYPE(s32, s8, S32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  @922  	TEST_OVERFLOWS_TYPE(s32, s8, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   923  	TEST_OVERFLOWS_TYPE(s32, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   924  	TEST_OVERFLOWS_TYPE(s32, s16, S16_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   925  	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  @926  	TEST_OVERFLOWS_TYPE(s32, s16, (s32)S16_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   927  	TEST_OVERFLOWS_TYPE(s32, s16, S32_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  @928  	TEST_OVERFLOWS_TYPE(s32, s16, S32_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   929  	TEST_OVERFLOWS_TYPE(s32, s32, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   930  	TEST_OVERFLOWS_TYPE(s32, s32, S32_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   931  #if BITS_PER_LONG == 64
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   932  	TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   933  	TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   934  	TEST_OVERFLOWS_TYPE(u64, u8, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   935  	TEST_OVERFLOWS_TYPE(u64, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   936  	TEST_OVERFLOWS_TYPE(u64, u8, (u64)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   937  	TEST_OVERFLOWS_TYPE(u64, u16, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   938  	TEST_OVERFLOWS_TYPE(u64, u16, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   939  	TEST_OVERFLOWS_TYPE(u64, u16, (u64)U16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   940  	TEST_OVERFLOWS_TYPE(u64, u32, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   941  	TEST_OVERFLOWS_TYPE(u64, u32, U32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   942  	TEST_OVERFLOWS_TYPE(u64, u32, (u64)U32_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   943  	TEST_OVERFLOWS_TYPE(u64, u64, U64_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   944  	TEST_OVERFLOWS_TYPE(u64, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   945  	TEST_OVERFLOWS_TYPE(u64, s8, (u64)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   946  	TEST_OVERFLOWS_TYPE(u64, s8, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   947  	TEST_OVERFLOWS_TYPE(u64, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   948  	TEST_OVERFLOWS_TYPE(u64, s16, (u64)S16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   949  	TEST_OVERFLOWS_TYPE(u64, s16, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   950  	TEST_OVERFLOWS_TYPE(u64, s32, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   951  	TEST_OVERFLOWS_TYPE(u64, s32, (u64)S32_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   952  	TEST_OVERFLOWS_TYPE(u64, s32, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   953  	TEST_OVERFLOWS_TYPE(u64, s64, S64_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   954  	TEST_OVERFLOWS_TYPE(u64, s64, U64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   955  	TEST_OVERFLOWS_TYPE(u64, s64, (u64)S64_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   956  	TEST_OVERFLOWS_TYPE(s64, u8, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   957  	TEST_OVERFLOWS_TYPE(s64, u8, S64_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   958  	TEST_OVERFLOWS_TYPE(s64, u8, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   959  	TEST_OVERFLOWS_TYPE(s64, u8, U8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   960  	TEST_OVERFLOWS_TYPE(s64, u8, (s64)U8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   961  	TEST_OVERFLOWS_TYPE(s64, u16, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   962  	TEST_OVERFLOWS_TYPE(s64, u16, S64_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   963  	TEST_OVERFLOWS_TYPE(s64, u16, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   964  	TEST_OVERFLOWS_TYPE(s64, u16, U16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   965  	TEST_OVERFLOWS_TYPE(s64, u16, (s64)U16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   966  	TEST_OVERFLOWS_TYPE(s64, u32, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   967  	TEST_OVERFLOWS_TYPE(s64, u32, S64_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   968  	TEST_OVERFLOWS_TYPE(s64, u32, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   969  	TEST_OVERFLOWS_TYPE(s64, u32, U32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   970  	TEST_OVERFLOWS_TYPE(s64, u32, (s64)U32_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   971  	TEST_OVERFLOWS_TYPE(s64, u64, S64_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   972  	TEST_OVERFLOWS_TYPE(s64, u64, S64_MIN, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   973  	TEST_OVERFLOWS_TYPE(s64, u64, -1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   974  	TEST_OVERFLOWS_TYPE(s64, s8, S8_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   975  	TEST_OVERFLOWS_TYPE(s64, s8, S8_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   976  	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   977  	TEST_OVERFLOWS_TYPE(s64, s8, (s64)S8_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   978  	TEST_OVERFLOWS_TYPE(s64, s8, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   979  	TEST_OVERFLOWS_TYPE(s64, s16, S16_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   980  	TEST_OVERFLOWS_TYPE(s64, s16, S16_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   981  	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   982  	TEST_OVERFLOWS_TYPE(s64, s16, (s64)S16_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   983  	TEST_OVERFLOWS_TYPE(s64, s16, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   984  	TEST_OVERFLOWS_TYPE(s64, s32, S32_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   985  	TEST_OVERFLOWS_TYPE(s64, s32, S32_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   986  	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MAX + 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   987  	TEST_OVERFLOWS_TYPE(s64, s32, (s64)S32_MIN - 1, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   988  	TEST_OVERFLOWS_TYPE(s64, s32, S64_MAX, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   989  	TEST_OVERFLOWS_TYPE(s64, s64, S64_MAX, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   990  	TEST_OVERFLOWS_TYPE(s64, s64, S64_MIN, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   991  #endif
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   992  
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   993  	/* Check for macro side-effects. */
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   994  	var = INT_MAX - 1;
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   995  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   996  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   997  	__TEST_OVERFLOWS_TYPE(__overflows_type, var++, int, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   998  	var = INT_MAX - 1;
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24   999  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1000  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, false);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1001  	__TEST_OVERFLOWS_TYPE(overflows_type, var++, int, true);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1002  
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1003  	kunit_info(test, "%d overflows_type() tests finished\n", count);
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1004  #undef TEST_OVERFLOWS_TYPE
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1005  #undef __TEST_OVERFLOWS_TYPE
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1006  }
+4b21d25bf519c9 lib/overflow_kunit.c Kees Cook 2022-10-24  1007  
 
-:::::: TO: Qu Wenruo <wqu@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+:::::: The code at line 922 was first introduced by commit
+:::::: 4b21d25bf519c9487935a664886956bb18f04f6d overflow: Introduce overflows_type() and castable_to_type()
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
