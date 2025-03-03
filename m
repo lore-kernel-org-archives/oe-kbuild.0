@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CF41EBFF9
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 21:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5623B23770C
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 23:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741038983; cv=none; b=UEue/UhflKG9RRCwfvsCMr/Hi0aum88Mccfb/B+3kUORnBEisu+ChURwsnW2YUpaiHQOz82ePWsuvsXmqnDkJtgApLTuJ8KHU4bcPfV++4muqg+ZmnCLk4MCp0Y6l+zQf++9pQivMegIhcdf2mYyXGCEonHWavSvfhYT44F6NBc=
+	t=1741043876; cv=none; b=r1mlVhXI/juvHAQkfhscYNmeTrBFX+LJ8WdcGUsHZC1j973BTrxHrAlvb7mKuXvhQeKkx0jzdjdvzGBBqWzpuZ3onCWPKsml1NMM8k27gGcB3BqcYgsnru+BWCV72EnVjGMGfgQy1dPWq1Y6yprw3gQ3R6Ig1UtMrIrD2nC4+Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741038983; c=relaxed/simple;
-	bh=oTg9WngwoklRhEDFs7LRRUVD8JHNfHXXkQb0TFD37Y8=;
+	s=arc-20240116; t=1741043876; c=relaxed/simple;
+	bh=5xczOuYabcmJJ+CKbEQ+AwZiBPRPMg21UWY0v0NM4YE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fdTsoVE28IfXQwSLxSyhXqmorRibFlZ9bcRWRjKahuiSgP8n1nJ2iPuJMqzQqWeh3etYbEy6gPaDkdkEoNfl7se3YZvW3MGglC0dISFA40uBxMhKJKB0ZMNM5oBPH5YRtQqGvg6DthKEha1GwGDmJyD+N2UPs3dtzSGSnolA62Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbtJHpF7; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=n1JRPP23IJk6rs6A0HjqC4kqmuNJEgfWYnxnMpXOr47xF+dQk/ijNPjhO6NjeGwaPNhfeg0qLV5w+SLxw4MorrkcUIYto3/79gaY/ccTrlFDtLHxaWP0899PoS0MH58Arl0q2gUtLIBxsaBn1K7vlLgbqWZ7Wo25EY+XU/px9vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcP5azho; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbtJHpF7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcP5azho"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741038980; x=1772574980;
+  t=1741043874; x=1772579874;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oTg9WngwoklRhEDFs7LRRUVD8JHNfHXXkQb0TFD37Y8=;
-  b=TbtJHpF7CF5Utd0/AQuqGcIszIMymGrp3PEYoXy82hK6Y1czGlBiLGHt
-   uK2f6VFM41dhbaoNKRaH/i4AcVFKFpSw1GFrUBjFnl599xofOcXpBtHs8
-   hgaqqMoxskZc45nbdqxD8UMG/OpNGPg9nDYoBaBmW6vb6hupFWFchw0w1
-   /N0J1DaqokVWkkA+au4R5Y2B+jl4E9T7epURdbwCvupvV8tHA6hzE94lu
-   0aZ46DzeemAMPW+bTvcpcc+f0ntEF+zRN/5o8O0I37UCHWklJj+6nyZpf
-   DkD4i4xsSVpe486ospbrvzRMT7yzOX8zCmX08K7HMIaonxr0n3mRsCk05
-   A==;
-X-CSE-ConnectionGUID: D8HUBrMgSJusR5bv+3Dqtw==
-X-CSE-MsgGUID: s2SiS5EXRH+HdDj69zLqvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="64379861"
+  bh=5xczOuYabcmJJ+CKbEQ+AwZiBPRPMg21UWY0v0NM4YE=;
+  b=gcP5azhoSR2dXpdTSHFKNRddv4VTUgeLtBSzPeF+y3x8+7MVO4Wt6P9s
+   L4HMH0QA5PSMhp3dIcuDf6YsXf1FltzGWvf8t0sOeGTLPBEEcVKVL8X7n
+   WQrP8f4kwJT1GKsvrjl9OftPOywbcJk22zgKtro6hMSsgTFrHxF4fzXMv
+   PmEdx12BAnzJipZbhKpGGZhf7RXKV+CECUs1r2SqebT7ZjW+4ULW1SadE
+   KW88J3r9QoKHwl72F3HSCREcygMe9hOdFs0exci2kuPVKiijRdsQ60HHw
+   ULb1wxDo7ZFtv+e3sOCvU0fR1vV8pCdcuE42UCEsa3tTsat7Mwje8IJlb
+   Q==;
+X-CSE-ConnectionGUID: LtqJxQa1TuqKVvJBEXIUBw==
+X-CSE-MsgGUID: oimH8gg1ShOJp2OYxTdpcg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41834456"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="64379861"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 13:56:19 -0800
-X-CSE-ConnectionGUID: qALCe2qCQBejP7o2jZUilw==
-X-CSE-MsgGUID: ZRI8MWphSoyouq9sHEt/lA==
+   d="scan'208";a="41834456"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 15:17:53 -0800
+X-CSE-ConnectionGUID: USyG253sR3a/uXbToH/kxw==
+X-CSE-MsgGUID: xRLa+7DvQs6P/KmeYjwHBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="118653190"
+   d="scan'208";a="122809424"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2025 13:56:17 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 03 Mar 2025 15:17:52 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpDlm-000IyE-2w;
-	Mon, 03 Mar 2025 21:56:14 +0000
-Date: Tue, 4 Mar 2025 05:56:01 +0800
+	id 1tpF2k-000J1m-1p;
+	Mon, 03 Mar 2025 23:17:50 +0000
+Date: Tue, 4 Mar 2025 07:17:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] PCI: qcom: Add support for retraining the link due
- to link down event
-Message-ID: <202503040526.4JdFuLaA-lkp@intel.com>
+Subject: Re: [PATCH 1/2] iio: imu: inv_icm42600: add WoM support
+Message-ID: <202503040712.Hluwg7FK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,112 +63,101 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250221172309.120009-3-manivannan.sadhasivam@linaro.org>
-References: <20250221172309.120009-3-manivannan.sadhasivam@linaro.org>
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-TO: lpieralisi@kernel.org
-TO: kw@linux.com
-TO: bhelgaas@google.com
-CC: linux-pci@vger.kernel.org
-CC: linux-arm-msm@vger.kernel.org
+In-Reply-To: <20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954@tdk.com>
+References: <20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954@tdk.com>
+TO: "Jean-Baptiste Maneyrol via B4 Relay" <devnull+jean-baptiste.maneyrol.tdk.com@kernel.org>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: linux-iio@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: dingwei@marvell.com
-CC: cassel@kernel.org
-CC: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: "Jean-Baptiste Maneyrol" <jean-baptiste.maneyrol@tdk.com>
 
-Hi Manivannan,
+Hi Jean-Baptiste,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.14-rc5 next-20250303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c0f115a8d97599623294c8e9ec28530e19c1e85b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/PCI-Add-pci_host_bridge_handle_link_down-API-to-handle-the-PCI-link-down-event/20250222-012526
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250221172309.120009-3-manivannan.sadhasivam%40linaro.org
-patch subject: [PATCH 2/2] PCI: qcom: Add support for retraining the link due to link down event
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: sparc64-randconfig-r071-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040526.4JdFuLaA-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Baptiste-Maneyrol-via-B4-Relay/iio-imu-inv_icm42600-add-WoM-support/20250221-045400
+base:   c0f115a8d97599623294c8e9ec28530e19c1e85b
+patch link:    https://lore.kernel.org/r/20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954%40tdk.com
+patch subject: [PATCH 1/2] iio: imu: inv_icm42600: add WoM support
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: sparc64-randconfig-r071-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040712.Hluwg7FK-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503040526.4JdFuLaA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503040712.Hluwg7FK-lkp@intel.com/
 
 smatch warnings:
-drivers/pci/controller/dwc/pcie-qcom.c:1352 qcom_pcie_retrain_link() warn: missing unwind goto?
+drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:437 inv_icm42600_accel_enable_wom() warn: inconsistent returns '&st->lock'.
 
-vim +1352 drivers/pci/controller/dwc/pcie-qcom.c
+vim +437 drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c
 
-82a823833f4e37 drivers/pci/host/pcie-qcom.c           Stanimir Varbanov     2015-12-18  1314  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1315  static int qcom_pcie_retrain_link(struct pci_bus *bus)
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1316  {
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1317  	struct dw_pcie_rp *pp = bus->sysdata;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1318  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1319  	struct qcom_pcie *pcie = to_qcom_pcie(pci);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1320  	struct device *dev = pcie->pci->dev;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1321  	u32 val;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1322  	int ret;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1323  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1324  	/* Wait for the pending transactions to be completed */
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1325  	ret = readl_relaxed_poll_timeout(pcie->parf + PARF_STATUS, val,
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1326  					 val & FLUSH_COMPLETED, 10,
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1327  					 FLUSH_TIMEOUT_US);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1328  	if (ret) {
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1329  		dev_err(dev, "Flush completion failed: %d\n", ret);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1330  		goto err_host_deinit;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1331  	}
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1332  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1333  	/* Clear the FLUSH_MODE to allow the core to be reset */
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1334  	val = readl(pcie->parf + PARF_LTSSM);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1335  	val |= SW_CLEAR_FLUSH_MODE;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1336  	writel(val, pcie->parf + PARF_LTSSM);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1337  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1338  	/* Wait for the FLUSH_MODE to clear */
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1339  	ret = readl_relaxed_poll_timeout(pcie->parf + PARF_LTSSM, val,
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1340  					 !(val & FLUSH_MODE), 10,
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1341  					 FLUSH_TIMEOUT_US);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1342  	if (ret) {
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1343  		dev_err(dev, "Flush mode clear failed: %d\n", ret);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1344  		goto err_host_deinit;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1345  	}
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1346  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1347  	qcom_pcie_host_deinit(pp);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1348  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1349  	ret = qcom_pcie_host_init(pp);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1350  	if (ret) {
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1351  		dev_err(dev, "Host init failed\n");
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21 @1352  		return ret;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1353  	}
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1354  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1355  	ret = dw_pcie_setup_rc(pp);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1356  	if (ret)
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1357  		goto err_host_deinit;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1358  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1359  	/*
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1360  	 * Re-enable global IRQ events as the PARF_INT_ALL_MASK register is
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1361  	 * non-sticky.
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1362  	 */
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1363  	if (pcie->global_irq)
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1364  		writel_relaxed(PARF_INT_ALL_LINK_UP | PARF_INT_ALL_LINK_DOWN |
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1365  			       PARF_INT_MSI_DEV_0_7, pcie->parf + PARF_INT_ALL_MASK);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1366  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1367  	qcom_pcie_start_link(pci);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1368  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1369  	return 0;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1370  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1371  err_host_deinit:
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1372  	qcom_pcie_host_deinit(pp);
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1373  
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1374  	return ret;
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1375  }
-6d1377b2f82331 drivers/pci/controller/dwc/pcie-qcom.c Manivannan Sadhasivam 2025-02-21  1376  
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  380  
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  381  static int inv_icm42600_accel_enable_wom(struct iio_dev *indio_dev, bool enable)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  382  {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  383  	struct inv_icm42600_state *st = iio_device_get_drvdata(indio_dev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  384  	struct inv_icm42600_sensor_state *accel_st = iio_priv(indio_dev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  385  	struct device *pdev = regmap_get_device(st->map);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  386  	struct inv_icm42600_sensor_conf conf = INV_ICM42600_SENSOR_CONF_INIT;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  387  	unsigned int sleep_ms = 0;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  388  	int ret;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  389  
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  390  	if (enable) {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  391  		ret = pm_runtime_resume_and_get(pdev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  392  		if (ret)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  393  			return ret;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  394  		scoped_guard(mutex, &st->lock) {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  395  			/* turn on accel sensor */
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  396  			conf.mode = accel_st->power_mode;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  397  			conf.filter = accel_st->filter;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  398  			ret = inv_icm42600_set_accel_conf(st, &conf, &sleep_ms);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  399  			if (ret)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  400  				goto error_suspend;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  401  		}
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  402  		if (sleep_ms)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  403  			msleep(sleep_ms);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  404  		scoped_guard(mutex, &st->lock) {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  405  			ret = inv_icm42600_set_wom(st, true);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  406  			if (ret)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  407  				goto error_suspend;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  408  			st->apex.on++;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  409  			st->apex.wom.enable = true;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  410  		}
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  411  	} else {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  412  		scoped_guard(mutex, &st->lock) {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  413  			st->apex.wom.enable = false;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  414  			st->apex.on--;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  415  			ret = inv_icm42600_set_wom(st, false);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  416  			if (ret)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  417  				goto error_suspend;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  418  			/* turn off accel sensor if not used */
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  419  			if (!st->apex.on && !iio_buffer_enabled(indio_dev)) {
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  420  				conf.mode = INV_ICM42600_SENSOR_MODE_OFF;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  421  				ret = inv_icm42600_set_accel_conf(st, &conf, &sleep_ms);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  422  				if (ret)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  423  					goto error_suspend;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  424  			}
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  425  		}
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  426  		if (sleep_ms)
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  427  			msleep(sleep_ms);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  428  		pm_runtime_mark_last_busy(pdev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  429  		pm_runtime_put_autosuspend(pdev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  430  	}
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  431  
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  432  	return 0;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  433  
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  434  error_suspend:
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  435  	pm_runtime_mark_last_busy(pdev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  436  	pm_runtime_put_autosuspend(pdev);
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20 @437  	return ret;
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  438  }
+bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  439  
 
 -- 
 0-DAY CI Kernel Test Service
