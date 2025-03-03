@@ -1,872 +1,415 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E21521B9F4
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 16:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741018715; cv=none; b=utsL4d4D7ZUuwKYs23izr1Pd3LFfJXo2QYVmukMXiuwnsMiA4Hk79NxXkq83os/ZqgRVzTmyM/HcO2LVI3tdDNR94r3kK3lJM+mK4KvOMigzkJYAzRO4TpsCiWRagEdd+Y+XxPyVaqGPU0Vh+xArRDn/3jsfyQpSq8nLugbD/4s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741018715; c=relaxed/simple;
-	bh=ek8YCh+1bllG4iE/NThvu3Da8z8sydqih+g+6QCNTaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IkgNuEdFrkHn3oG/M4eJNqpOcgmM10kvGqYqGZWgIBvqoCMfHGXdbK9z39KkI/JpLN5j9iY7s7k6i3PNVASYZzFsDR2Lm6QTRe1jCeP1Eu/vQIZuZFDITGDWEppWEMmV1ES2e4valE+MecCA9qr3PNf0gQYuks476ymfDQ3E85M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOedc6hR; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168DE24E007;
+	Mon,  3 Mar 2025 16:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741019471; cv=fail; b=Ka34HvCC16hkTIAnMxjD/lXdrkmngIWM7OwNxsBqsJuXae64m8M0tnbj2LavYb3Ue7PXhSrUWukDNlpKr6sVsgqy0EeowA2VlR6oQBtgWK7Fu5Fgr9ZFg/3JGjndtmb5A0eksfeefEwtj3dc/3gvabh5w9ubm37g3CEkhDXilAQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741019471; c=relaxed/simple;
+	bh=vy7k+ZASBmsxPznne2uTTBdkJ//LuyteuYNVk2IUDAE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=h3EUMfKxvPEt87w//PCrcYP8d4ayciVGGUSkNn80lMrqKsxHTR/1Vd9wdLP2ctxRb/Z65mPsvYYJn0uArkXFYrNnO5fMTyA9s4MkTplMV4OYR1+8lmTFc5mwnkBEEJv+OSabIPuoPYPl5KmpX4D0K4Q0/lvRabEB5YVrT3mR6j0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h3jTS7P7; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOedc6hR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h3jTS7P7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741018712; x=1772554712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ek8YCh+1bllG4iE/NThvu3Da8z8sydqih+g+6QCNTaE=;
-  b=VOedc6hR4A3ow1J+Y6752rM8Rmx/Y9lK/GHMdD1EtDiADwJOBth3vAd6
-   eCPqhrg+1QnLtp0CM4OYGuMaUyyziye3QligqJ+c1xrp7lfwCjprLoagp
-   /4SmGu6r+zlos9FQUU4EfMiS+zuMvw5Pgs+49IR5CS3r04ONys3cHI6GB
-   V37Px8l34V+CyHpmEXcch8t5a+CVySi/I+Z5nrRoqFa2Z+Z1+dQitI9Eo
-   /kMGfKn29ewcZeR3/ZOiAjfqm3ITFJ5TOZXbB+yEqnkkdlXQMA3QTqASd
-   H8stD0s5Yku0nULCdZgDVs5+qBYoKNZTWNMjHa39Hk0PtoYbI7IIPIMwE
-   Q==;
-X-CSE-ConnectionGUID: s7Wy3Wp/RDiEHCKFoJq3Rw==
-X-CSE-MsgGUID: Y8Nd9UW1Sm+jKGJ+yKTyvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="59448940"
+  t=1741019467; x=1772555467;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=vy7k+ZASBmsxPznne2uTTBdkJ//LuyteuYNVk2IUDAE=;
+  b=h3jTS7P7puEYsDjMhkWxg492M68+WRbov3l21woWVdsgIX2EBxQvAOWX
+   hT2EddHiVNhmnL7YGWIa+lzaXPq1rLTTPBSzM4M1oysM4fCyC6CyBj7q0
+   F3dnjaAyW2CfyC/20p80dSUH0ke1A+FhKulKu3SL7d1aNf9ljuTi59suW
+   frqmUC1r8ChGGp2A9HjUkDrm8b8nlOvJmLH3mwV+JEvMYIL2nj45/lba2
+   cTxkfTc1nMsArU8I8AU/Q0PDw1O/1i9wziY2MP5UsFDPm9/ASkz9dNYUL
+   fFE9Ctzxhc1Lwwm8Crcscma0r0KJFzLQuz7E0yKcBG/oFTRKyMwE7puxK
+   w==;
+X-CSE-ConnectionGUID: PYDjBgGfTrqZpaBqT9gaPw==
+X-CSE-MsgGUID: uIeNPU/6QPaY5YSE6YsYrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41794787"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="59448940"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 08:18:32 -0800
-X-CSE-ConnectionGUID: 5JFVa7I9TN6PA0wj84gQJQ==
-X-CSE-MsgGUID: KdSElc/kSS2YyXRD8pOzVQ==
+   d="scan'208";a="41794787"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 08:31:06 -0800
+X-CSE-ConnectionGUID: Yb7fz7VhQoyl9kRrjTmAiQ==
+X-CSE-MsgGUID: iIFI/Bh4Re6+85Ehu4kwKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="122686073"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Mar 2025 08:18:28 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tp8Us-000IhR-1F;
-	Mon, 03 Mar 2025 16:18:26 +0000
-Date: Tue, 4 Mar 2025 00:17:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:787.22-795.6: Warning
- (simple_bus_reg): /soc/bus@fe000000/pwm@54000: simple-bus unit address
- format error, expected "d2f0"
-Message-ID: <202503040046.XSme3I6W-lkp@intel.com>
+   d="scan'208";a="118092785"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 08:31:07 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 3 Mar 2025 08:31:05 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 3 Mar 2025 08:31:05 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 3 Mar 2025 08:31:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=avVvQ8VTa1T52CL0IEOdCZG1Dn0MZdIM+cvnahORYS6/wWy/8BcJi3t8JOa+otl1mBwrwK5RlA7o9UfpI5iK5L3OzAuopxEPizIFQB3/55Xzk/UJ9clt8ztYYc8OckzTJuUBqzQRcj3YVim71CvBAp6Wh2u3LPh3f3k1eYKM+ZSkfjb0AaJ9AGR5lGcR9T6RLPC2jQq5nJ6DqUEK1LT16FA8wkT3wnEtFnDKX4p5eKb7Ms6GG2WNhqlCPuHfif9pdF2YNKskac9qjT0jXQUFxM4J81dX+S+55dqVbotm1dyFnk28TI86h+QoUN9+g0VJblzblphBUqGedNJR53hyAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vVfX91/z+u31jFhnE/B+Wa9TMybumIOOEZjrBGhJ5lA=;
+ b=kIIu7DLjT5ShG0paDo0B4jaT4IRmbLz5Oqq5Lis7PHjw53uVAMZQUHydvP1x2dVGoDV5AjAtDitqtOwxvIXwtXvGZXkiHEb9IKoa1XAfmB1htdhxxnp445Sd40Z9yDKR1eAjWMvjQREaoyvcDR89U0th3SZlE6Hd1GHa7ZXs7w1RGY4nMzIDLwu6k0xgGtqahJdwOxbp2njqsjZg+rR616xyRugyoXHjOQUmvUSyY1ZPzv4rmXIPe8ifK9AMK8JNzLaMmYl7YoS9beVdylM6JMVPPJVGfd6hdae2WI1CaWZjVoHth7rmZo7c2fvpSNrzAVNsEDKY6ICKd7Lwz5PpMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH0PR11MB7585.namprd11.prod.outlook.com (2603:10b6:510:28f::10)
+ by SJ2PR11MB8539.namprd11.prod.outlook.com (2603:10b6:a03:56e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Mon, 3 Mar
+ 2025 16:31:00 +0000
+Received: from PH0PR11MB7585.namprd11.prod.outlook.com
+ ([fe80::9ba4:34:81ac:5010]) by PH0PR11MB7585.namprd11.prod.outlook.com
+ ([fe80::9ba4:34:81ac:5010%7]) with mapi id 15.20.8489.028; Mon, 3 Mar 2025
+ 16:31:00 +0000
+From: "K, Kiran" <kiran.k@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>, "linux-bluetooth@vger.kernel.org"
+	<linux-bluetooth@vger.kernel.org>
+CC: lkp <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "Srivatsa, Ravishankar"
+	<ravishankar.srivatsa@intel.com>, "Tumkur Narayan, Chethan"
+	<chethan.tumkur.narayan@intel.com>, "Devegowda, Chandrashekar"
+	<chandrashekar.devegowda@intel.com>, "Satija, Vijay" <vijay.satija@intel.com>
+Subject: RE: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
+ coredump
+Thread-Topic: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
+ coredump
+Thread-Index: AQHbiP/RQLMG6xgGHUe1DpsHQ21cqbNhBI4AgACcUcA=
+Date: Mon, 3 Mar 2025 16:31:00 +0000
+Message-ID: <PH0PR11MB7585EC686318721DA3DF306DF5C92@PH0PR11MB7585.namprd11.prod.outlook.com>
+References: <20250227102625.20642-1-kiran.k@intel.com>
+ <d61fe144-b47c-4e60-a95e-26522792dd50@stanley.mountain>
+In-Reply-To: <d61fe144-b47c-4e60-a95e-26522792dd50@stanley.mountain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR11MB7585:EE_|SJ2PR11MB8539:EE_
+x-ms-office365-filtering-correlation-id: 10ba6677-da47-4188-d995-08dd5a70c87d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?KitSvwcbgbjfcBp3s2kCD1Ucad+jw3ol+EyI+rva6Lc27OIX9OgsDRZNtPsJ?=
+ =?us-ascii?Q?NnsChLUp20/VYssx431/G6v8PA12dH2ppn4mmLXK09LVAmHr5fU7tHyd0ziX?=
+ =?us-ascii?Q?Drd9ZbQ6WF+pZ7sJUW8KikWkHxUhuQu25PncBnzw1dE8/gvBhdPfH12GuOv2?=
+ =?us-ascii?Q?bLa4SSygjwweFfZTvY2OMoR6jvMqMtdg8GJLOHYgc9AKnf+hvRnQm+Xe5/rq?=
+ =?us-ascii?Q?CgOtX4Ki7LyxwY/IBFffIPAewtzTqioleKXKxdj3Oz/hGGvWhOvG4jnFKVix?=
+ =?us-ascii?Q?Vu0Dc301Ttk00Pu6fLBC1+8dRCAqikngRFQj1sxQf/Q4PDsXrf8qiMF2uHxH?=
+ =?us-ascii?Q?3S3CyyIaleH9Xv8ItGpPFqAA26N7IDJETfWOUOsq17ImOtgvE6/wuNxYH/tf?=
+ =?us-ascii?Q?AQ1/CA/T2ExPLIPtjFVJC3oEDF+o6/y/XjIJPzx7Fz3yM8i2sQEZdZ7Y0kcn?=
+ =?us-ascii?Q?Glr6hQsi2Mc7G7wo1IF5tBEvDAvBqX0EbGY/yGgUfigmfu0DTHAOyN1YIBxc?=
+ =?us-ascii?Q?3EJZe3RMPaQfedk2fvcEKCOxYjuILZqjHouNQfvw/ZDovNTVapMd698YoOtY?=
+ =?us-ascii?Q?udRLkDlOyl25ZcV0NAsxnBF38HhYeQaTjJe+vslLhqwUm0fJPyyNxsvHTzvJ?=
+ =?us-ascii?Q?eJu7K7U7C0t6XE4eP7W/bRNLIvXavyBS39U5swowVGlzswD46bc5tlLLAUdA?=
+ =?us-ascii?Q?ZX5ndgKCpcPyDYIE48TEPyzs7wUEi7/v1gilX690pgGPb99GlX+doyU4VjaX?=
+ =?us-ascii?Q?eONOokzADULBr2OUD6Nq+GK/DPoba+7Gk/qYaggH4Qo76erD1mPpGTqwjwtd?=
+ =?us-ascii?Q?VoTI6PMsQ1Oy5OF4U+aJ5JaK2Guq8x5zsv7w48dbe3hP53zR2uANV22sagZx?=
+ =?us-ascii?Q?VwBC3TnX2W4RsQ81zqn11026GlN4htN7gisj8WszNMtwXheHKQVRmwrk/+Sv?=
+ =?us-ascii?Q?xMXol7B3pb8Wv2YDcA8J/bf/amUwt4/W65aRrFzciXChXdFc0XsuJX0BwMMj?=
+ =?us-ascii?Q?t9210Okwxj+MsVp7C3xLSUaCnVVP1yrrEcZm8UV0gB3zwBx62OEZtmPAGgrm?=
+ =?us-ascii?Q?OfAcuXYaH8dgOAduUe6lWSK8d3PcUF68ChzkuCqw35GRyA26McTfX3Qabq8L?=
+ =?us-ascii?Q?wk+C5BYoz3vn/+lQhREPJ368VUffHGPCf/vtHpkDy5FYd2JFt/vHOCOLyu06?=
+ =?us-ascii?Q?HBPwTnfWR2ocjaRhObO5ZPI68Uqclq/SsxIYkY0u668iGItip7VX1QSvECJf?=
+ =?us-ascii?Q?aMfI3vLumwj9gxL07zpGEyr+GUjPV7b1nDQDD2/iJpjvJn5d9Zp3N0tyHIOM?=
+ =?us-ascii?Q?qWDTpkHPNhvkmyERRhwLatwDYFdXTeQzuDzqyQA4OhkfnhYOXlAVf+DQbY1J?=
+ =?us-ascii?Q?vgD6E3fE4n7Fl5JUjfuIWURo2QPUxe1QxFfdbszJzp7ejKoe4Q=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB7585.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zr3nH1XpZFJRYhRRw+VGVprtANx9bYyc2MAp4KlK7uAspGwLOkh/m6Ca8Y3w?=
+ =?us-ascii?Q?/Ni5wGYD8Z1sw2KO6YH7veGGwvNdjTSn7i5EnuK1BDtwUIfIfAXnBAXOa087?=
+ =?us-ascii?Q?RgNUaC2jmJe8GkDK3KS2KlYrHh6wB2vQS2YOmmYSiE1yVuQcCfxvIXPL+TR0?=
+ =?us-ascii?Q?Pjbq+JKoM7bAeVKr7/+O0C07KSAIZfO3+oN+3sEuGzYHjY5M/WemHa0Dz7Rr?=
+ =?us-ascii?Q?ibasIh6Y++NY+IaHa1SWLS41SInE49RVf7xmne8okyfbSVnhTg/nM5xnSqq8?=
+ =?us-ascii?Q?QqPSOSVn+dvqHs0nW8d0aKABfyGCoipuVL3m2jshh4Wciuc5AA49xa5GJ0bb?=
+ =?us-ascii?Q?6OSsU74HVs97Vv42Of3WPcHc5I8vMBpuwIDwpHq70rJXFqDdMl9qBACJJ1i7?=
+ =?us-ascii?Q?u29b4ntGsEAqsuh9A2eKhYAfux/e5RGXog729oyVgM/Z6CdGxsjAZiS3CKXP?=
+ =?us-ascii?Q?PSKZMJ1psgdnRNg+NbUSqPVAahZn0IUQ93IzFqMW9YRaKCYMHpPOl7b/usbd?=
+ =?us-ascii?Q?0GyQn8S/s4rtCkHhmxfebKXsVQ8lOrrLdsWssM77bPe3ESRaZ80+bs2aeXf6?=
+ =?us-ascii?Q?njTaz9YAyW4YQ9hsnIETHJ3mj2lMJTJaCNB1sJMMh96Ljz/R0wIvR0kfwicW?=
+ =?us-ascii?Q?C3N8Jc3NINsQyeRy7d6k26kupIy32txm6MoXArf8xKoTaHPa83JJwtjotITt?=
+ =?us-ascii?Q?GPasGdWhz/gNm3iwnW2FwyjIzofxolVOmHARQtQwU62BeJBd16iooNi050le?=
+ =?us-ascii?Q?YeWK+pJHJ/21PcUYxsp6qSUk9UREGWQRiNHRjPjjQBuRAXU3odyZIOUBNSUi?=
+ =?us-ascii?Q?/OXUf4n8iMWZmTaW5Tg8jpKR7TVCQMR0N2LUofI779VCvQMTA8ZSk4IdMZyc?=
+ =?us-ascii?Q?e/k0yhqrPDKvvVkQxbeGyaELQuO+B7RwIuFpBZo+8M5n6r+IIzkDUVlL/4Mz?=
+ =?us-ascii?Q?zwKI8NsWnSSv98n2GaNOAWZxQJ7CDFFirH0OxO5LVc0FjAOIlNSngHgg9C28?=
+ =?us-ascii?Q?QUGv+LVSyKF6v3LtglF+CBQWTAm0A7zyfTnjRYbikjFxf4o9zwVShrFcTQZa?=
+ =?us-ascii?Q?S6WcuZ3+VET3xoxLIfPN2eU92embBg5XEvJG/fc80coT1c4RM/+rEdIHqeqI?=
+ =?us-ascii?Q?DvEyaFAaxvIUqD53YZRuBkDYN9Z7lPMv56Ppxx03gaXoEgu+gkTn5qI4Zzi/?=
+ =?us-ascii?Q?H0b+1sUP946Xn3QsGIA0iio47D8qRYES1m+JpuAOWYEfzGyBtb9rwbpbMLEj?=
+ =?us-ascii?Q?5ju6usdYXfghMyIk+xLCXMpulahdibeAReQp17CryP7Zg/izV79jY2j7YwG0?=
+ =?us-ascii?Q?EVRoVVW8OBciaezBkz/2CnCglhmRl78tDKr2hGdo2aczM8hDTqusemfq3Vm5?=
+ =?us-ascii?Q?EbJbj/1e04IkbIW6jLPOuhsSr4IK/v4qVn8L+3SiUJvwDYcqa8p50ySAE3FJ?=
+ =?us-ascii?Q?ikEnCmfdYfSiNhbXD2mj9djptGAtMDVV1lh7mhDCTiZS2d5S7t4ApdtlJ2+z?=
+ =?us-ascii?Q?e3piw+i/WhUakF5eUZt8JYe3B4C7cc57LeYb7FO0RuF9Eh26Gq6s/J+X7L8U?=
+ =?us-ascii?Q?gskq9SCUD7bj8hsfHyM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB7585.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10ba6677-da47-4188-d995-08dd5a70c87d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2025 16:31:00.2744
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W66vvc0VSCVN/xlgVkV/sX9zELyLgTioEGW80lpdCW7Dr4JbWPEL2YThUid5DxA4Tm0A4YUebuHguJYPqHmU3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8539
+X-OriginatorOrg: intel.com
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+Hi Dan,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kelvin Zhang <kelvin.zhang@amlogic.com>
-CC: Neil Armstrong <neil.armstrong@linaro.org>
+Thanks for your comment.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7eb172143d5508b4da468ed59ee857c6e5e01da6
-commit: be90cd4bd422e8ae235f534a2fa46d40dae0816b arm64: dts: amlogic: Add Amlogic C3 PWM
-date:   5 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20250304/202503040046.XSme3I6W-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040046.XSme3I6W-lkp@intel.com/reproduce)
+>Subject: Re: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
+>coredump
+>
+>Hi Kiran,
+>
+>kernel test robot noticed the following build warnings:
+>
+>https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-
+>btintel_pcie-Add-support-for-device-coredump/20250227-181131
+>base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetoot=
+h-
+>next.git master
+>patch link:    https://lore.kernel.org/r/20250227102625.20642-1-
+>kiran.k%40intel.com
+>patch subject: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
+>coredump
+>config: sparc-randconfig-r071-20250302 (https://download.01.org/0day-
+>ci/archive/20250302/202503022332.biRVCDMP-lkp@intel.com/config)
+>compiler: sparc-linux-gcc (GCC) 14.2.0
+>
+>If you fix the issue in a separate patch/commit (i.e. not just a new versi=
+on of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>| Closes: https://lore.kernel.org/r/202503022332.biRVCDMP-lkp@intel.com/
+>
+>New smatch warnings:
+>drivers/bluetooth/btintel_pcie.c:493 btintel_pcie_read_dram_buffers() erro=
+r:
+>snprintf() is printing too much 100 vs 70
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503040046.XSme3I6W-lkp@intel.com/
+Ack. I have fixed this issue in v2 version of the patch.
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:787.22-795.6: Warning (simple_bus_reg): /soc/bus@fe000000/pwm@54000: simple-bus unit address format error, expected "d2f0"
+>
+>vim +493 drivers/bluetooth/btintel_pcie.c
+>
+>b8cc1a1cce30cc Kiran K 2025-02-27  454  static int
+>btintel_pcie_read_dram_buffers(struct btintel_pcie_data *data)
+>b8cc1a1cce30cc Kiran K 2025-02-27  455  {
+>b8cc1a1cce30cc Kiran K 2025-02-27  456  	u32 offset, prev_size,
+>wr_ptr_status, dump_size, i;
+>b8cc1a1cce30cc Kiran K 2025-02-27  457  	struct btintel_pcie_dbgc *dbgc
+>=3D &data->dbgc;
+>b8cc1a1cce30cc Kiran K 2025-02-27  458  	u8 buf_idx, dump_time_len,
+>fw_build;
+>b8cc1a1cce30cc Kiran K 2025-02-27  459  	struct hci_dev *hdev =3D data-
+>>hdev;
+>b8cc1a1cce30cc Kiran K 2025-02-27  460  	struct intel_tlv *tlv;
+>b8cc1a1cce30cc Kiran K 2025-02-27  461  	struct timespec64 now;
+>b8cc1a1cce30cc Kiran K 2025-02-27  462  	struct sk_buff *skb;
+>b8cc1a1cce30cc Kiran K 2025-02-27  463  	struct tm tm_now;
+>b8cc1a1cce30cc Kiran K 2025-02-27  464  	char buf[100];
+>b8cc1a1cce30cc Kiran K 2025-02-27  465  	u16 hdr_len;
+>b8cc1a1cce30cc Kiran K 2025-02-27  466  	int ret;
+>b8cc1a1cce30cc Kiran K 2025-02-27  467
+>b8cc1a1cce30cc Kiran K 2025-02-27  468  	wr_ptr_status =3D
+>btintel_pcie_rd_dev_mem(data,
+>BTINTEL_PCIE_DBGC_CUR_DBGBUFF_STATUS);
+>b8cc1a1cce30cc Kiran K 2025-02-27  469  	offset =3D wr_ptr_status &
+>BTINTEL_PCIE_DBG_OFFSET_BIT_MASK;
+>b8cc1a1cce30cc Kiran K 2025-02-27  470
+>b8cc1a1cce30cc Kiran K 2025-02-27  471  	buf_idx =3D
+>BTINTEL_PCIE_DBGC_DBG_BUF_IDX(wr_ptr_status);
+>b8cc1a1cce30cc Kiran K 2025-02-27  472  	if (buf_idx > dbgc->count) {
+>b8cc1a1cce30cc Kiran K 2025-02-27  473  		bt_dev_warn(hdev,
+>"Buffer index is invalid");
+>b8cc1a1cce30cc Kiran K 2025-02-27  474  		return -EINVAL;
+>b8cc1a1cce30cc Kiran K 2025-02-27  475  	}
+>b8cc1a1cce30cc Kiran K 2025-02-27  476
+>b8cc1a1cce30cc Kiran K 2025-02-27  477  	prev_size =3D buf_idx *
+>BTINTEL_PCIE_DBGC_BUFFER_SIZE;
+>b8cc1a1cce30cc Kiran K 2025-02-27  478  	if (prev_size + offset >=3D
+>prev_size)
+>b8cc1a1cce30cc Kiran K 2025-02-27  479  		data-
+>>dmp_hdr.write_ptr =3D prev_size + offset;
+>b8cc1a1cce30cc Kiran K 2025-02-27  480  	else
+>b8cc1a1cce30cc Kiran K 2025-02-27  481  		return -EINVAL;
+>b8cc1a1cce30cc Kiran K 2025-02-27  482
+>b8cc1a1cce30cc Kiran K 2025-02-27  483  	ktime_get_real_ts64(&now);
+>b8cc1a1cce30cc Kiran K 2025-02-27  484  	time64_to_tm(now.tv_sec, 0,
+>&tm_now);
+>b8cc1a1cce30cc Kiran K 2025-02-27  485  	dump_time_len =3D snprintf(buf,
+>sizeof(buf), "Dump Time: %02d-%02d-%04ld %02d:%02d:%02d",
+>b8cc1a1cce30cc Kiran K 2025-02-27  486
+>tm_now.tm_mday, tm_now.tm_mon + 1, tm_now.tm_year + 1900,
+>b8cc1a1cce30cc Kiran K 2025-02-27  487
+>tm_now.tm_hour, tm_now.tm_min, tm_now.tm_sec);
+>b8cc1a1cce30cc Kiran K 2025-02-27  488
+>b8cc1a1cce30cc Kiran K 2025-02-27  489  	fw_build =3D snprintf(buf +
+>dump_time_len, sizeof(buf),
+>                                                                          =
+               ^^^^^^^^^^^
+>
+>This size should be "sizeof(buf) - dump_time_len".  It's better to use scn=
+printf()
+>here vs snprintf().  The scnprintf() function returns the number of bytes =
+which
+>were actually printed vs the number which were printed if there was enough
+>space.
+>
+>b8cc1a1cce30cc Kiran K 2025-02-27  490  			    "Firmware
+>Timestamp: Year %u WW %02u buildtype %u build %u",
+>b8cc1a1cce30cc Kiran K 2025-02-27  491  			    2000 + (data-
+>>dmp_hdr.fw_timestamp >> 8),
+>b8cc1a1cce30cc Kiran K 2025-02-27  492  			    data-
+>>dmp_hdr.fw_timestamp & 0xff, data->dmp_hdr.fw_build_type,
+>b8cc1a1cce30cc Kiran K 2025-02-27 @493  			    data-
+>>dmp_hdr.fw_build_num);
+>b8cc1a1cce30cc Kiran K 2025-02-27  494
+>b8cc1a1cce30cc Kiran K 2025-02-27  495  	hdr_len =3D sizeof(*tlv) +
+>sizeof(data->dmp_hdr.cnvi_bt) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  496  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.write_ptr) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  497  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.wrap_ctr) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  498  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.trigger_reason) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  499  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.fw_git_sha1) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  500  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.cnvr_top) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  501  		  sizeof(*tlv) +
+>sizeof(data->dmp_hdr.cnvi_top) +
+>b8cc1a1cce30cc Kiran K 2025-02-27  502  		  sizeof(*tlv) +
+>dump_time_len +
+>b8cc1a1cce30cc Kiran K 2025-02-27  503  		  sizeof(*tlv) +
+>fw_build;
+>b8cc1a1cce30cc Kiran K 2025-02-27  504
+>b8cc1a1cce30cc Kiran K 2025-02-27  505  	dump_size =3D hdr_len +
+>sizeof(hdr_len);
+>b8cc1a1cce30cc Kiran K 2025-02-27  506
+>b8cc1a1cce30cc Kiran K 2025-02-27  507  	skb =3D alloc_skb(dump_size,
+>GFP_KERNEL);
+>b8cc1a1cce30cc Kiran K 2025-02-27  508  	if (!skb)
+>b8cc1a1cce30cc Kiran K 2025-02-27  509  		return -ENOMEM;
+>b8cc1a1cce30cc Kiran K 2025-02-27  510
+>b8cc1a1cce30cc Kiran K 2025-02-27  511  	/* Add debug buffers data
+>length to dump size */
+>b8cc1a1cce30cc Kiran K 2025-02-27  512  	dump_size +=3D
+>BTINTEL_PCIE_DBGC_BUFFER_SIZE * dbgc->count;
+>b8cc1a1cce30cc Kiran K 2025-02-27  513
+>b8cc1a1cce30cc Kiran K 2025-02-27  514  	ret =3D hci_devcd_init(hdev,
+>dump_size);
+>b8cc1a1cce30cc Kiran K 2025-02-27  515  	if (ret) {
+>b8cc1a1cce30cc Kiran K 2025-02-27  516  		bt_dev_err(hdev,
+>"Failed to init devcoredump, err %d", ret);
+>b8cc1a1cce30cc Kiran K 2025-02-27  517  		kfree_skb(skb);
+>b8cc1a1cce30cc Kiran K 2025-02-27  518  		return ret;
+>b8cc1a1cce30cc Kiran K 2025-02-27  519  	}
+>b8cc1a1cce30cc Kiran K 2025-02-27  520
+>b8cc1a1cce30cc Kiran K 2025-02-27  521  	skb_put_data(skb, &hdr_len,
+>sizeof(hdr_len));
+>b8cc1a1cce30cc Kiran K 2025-02-27  522
+>b8cc1a1cce30cc Kiran K 2025-02-27  523  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_CNVI_BT, &data->dmp_hdr.cnvi_bt,
+>b8cc1a1cce30cc Kiran K 2025-02-27  524  			      sizeof(data-
+>>dmp_hdr.cnvi_bt));
+>b8cc1a1cce30cc Kiran K 2025-02-27  525
+>b8cc1a1cce30cc Kiran K 2025-02-27  526  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_WRITE_PTR, &data->dmp_hdr.write_ptr,
+>b8cc1a1cce30cc Kiran K 2025-02-27  527  			      sizeof(data-
+>>dmp_hdr.write_ptr));
+>b8cc1a1cce30cc Kiran K 2025-02-27  528
+>b8cc1a1cce30cc Kiran K 2025-02-27  529  	data->dmp_hdr.wrap_ctr =3D
+>btintel_pcie_rd_dev_mem(data,
+>b8cc1a1cce30cc Kiran K 2025-02-27  530
+>			 BTINTEL_PCIE_DBGC_DBGBUFF_WRAP_ARND);
+>b8cc1a1cce30cc Kiran K 2025-02-27  531
+>b8cc1a1cce30cc Kiran K 2025-02-27  532  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_WRAP_CTR, &data->dmp_hdr.wrap_ctr,
+>b8cc1a1cce30cc Kiran K 2025-02-27  533  			      sizeof(data-
+>>dmp_hdr.wrap_ctr));
+>b8cc1a1cce30cc Kiran K 2025-02-27  534
+>b8cc1a1cce30cc Kiran K 2025-02-27  535  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_TRIGGER_REASON, &data->dmp_hdr.trigger_reason,
+>b8cc1a1cce30cc Kiran K 2025-02-27  536  			      sizeof(data-
+>>dmp_hdr.trigger_reason));
+>b8cc1a1cce30cc Kiran K 2025-02-27  537
+>b8cc1a1cce30cc Kiran K 2025-02-27  538  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_FW_SHA, &data->dmp_hdr.fw_git_sha1,
+>b8cc1a1cce30cc Kiran K 2025-02-27  539  			      sizeof(data-
+>>dmp_hdr.fw_git_sha1));
+>b8cc1a1cce30cc Kiran K 2025-02-27  540
+>b8cc1a1cce30cc Kiran K 2025-02-27  541  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_CNVR_TOP, &data->dmp_hdr.cnvr_top,
+>b8cc1a1cce30cc Kiran K 2025-02-27  542  			      sizeof(data-
+>>dmp_hdr.cnvr_top));
+>b8cc1a1cce30cc Kiran K 2025-02-27  543
+>b8cc1a1cce30cc Kiran K 2025-02-27  544  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_CNVI_TOP, &data->dmp_hdr.cnvi_top,
+>b8cc1a1cce30cc Kiran K 2025-02-27  545  			      sizeof(data-
+>>dmp_hdr.cnvi_top));
+>b8cc1a1cce30cc Kiran K 2025-02-27  546
+>b8cc1a1cce30cc Kiran K 2025-02-27  547  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_DUMP_TIME, buf, dump_time_len);
+>b8cc1a1cce30cc Kiran K 2025-02-27  548
+>b8cc1a1cce30cc Kiran K 2025-02-27  549  	btintel_pcie_copy_tlv(skb,
+>BTINTEL_FW_BUILD, buf + dump_time_len, fw_build);
+>b8cc1a1cce30cc Kiran K 2025-02-27  550
+>b8cc1a1cce30cc Kiran K 2025-02-27  551  	ret =3D hci_devcd_append(hdev,
+>skb);
+>b8cc1a1cce30cc Kiran K 2025-02-27  552  	if (ret)
+>b8cc1a1cce30cc Kiran K 2025-02-27  553  		goto exit_err;
+>b8cc1a1cce30cc Kiran K 2025-02-27  554
+>b8cc1a1cce30cc Kiran K 2025-02-27  555  	for (i =3D 0; i < dbgc->count; i+=
++) {
+>b8cc1a1cce30cc Kiran K 2025-02-27  556  		ret =3D
+>btintel_pcie_add_dmp_data(hdev, dbgc->bufs[i].data,
+>b8cc1a1cce30cc Kiran K 2025-02-27  557
+>		BTINTEL_PCIE_DBGC_BUFFER_SIZE);
+>b8cc1a1cce30cc Kiran K 2025-02-27  558  		if (ret)
+>b8cc1a1cce30cc Kiran K 2025-02-27  559  			break;
+>b8cc1a1cce30cc Kiran K 2025-02-27  560  	}
+>b8cc1a1cce30cc Kiran K 2025-02-27  561 b8cc1a1cce30cc Kiran K 2025-02-27
+>562  exit_err:
+>b8cc1a1cce30cc Kiran K 2025-02-27  563  	hci_devcd_complete(hdev);
+>b8cc1a1cce30cc Kiran K 2025-02-27  564  	return ret;
+>b8cc1a1cce30cc Kiran K 2025-02-27  565  }
+>
+>--
+>0-DAY CI Kernel Test Service
+>https://github.com/intel/lkp-tests/wiki
+>
 
-vim +/d2f0 +787 arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi
+Thanks,
+Kiran
 
-02310be6f08007 Xianwei Zhao   2023-05-15   15  
-02310be6f08007 Xianwei Zhao   2023-05-15   16  / {
-02310be6f08007 Xianwei Zhao   2023-05-15   17  	cpus {
-02310be6f08007 Xianwei Zhao   2023-05-15   18  		#address-cells = <2>;
-02310be6f08007 Xianwei Zhao   2023-05-15   19  		#size-cells = <0>;
-02310be6f08007 Xianwei Zhao   2023-05-15   20  
-02310be6f08007 Xianwei Zhao   2023-05-15   21  		cpu0: cpu@0 {
-02310be6f08007 Xianwei Zhao   2023-05-15   22  			device_type = "cpu";
-02310be6f08007 Xianwei Zhao   2023-05-15   23  			compatible = "arm,cortex-a35";
-02310be6f08007 Xianwei Zhao   2023-05-15   24  			reg = <0x0 0x0>;
-02310be6f08007 Xianwei Zhao   2023-05-15   25  			enable-method = "psci";
-02310be6f08007 Xianwei Zhao   2023-05-15   26  		};
-02310be6f08007 Xianwei Zhao   2023-05-15   27  
-02310be6f08007 Xianwei Zhao   2023-05-15   28  		cpu1: cpu@1 {
-02310be6f08007 Xianwei Zhao   2023-05-15   29  			device_type = "cpu";
-02310be6f08007 Xianwei Zhao   2023-05-15   30  			compatible = "arm,cortex-a35";
-02310be6f08007 Xianwei Zhao   2023-05-15   31  			reg = <0x0 0x1>;
-02310be6f08007 Xianwei Zhao   2023-05-15   32  			enable-method = "psci";
-02310be6f08007 Xianwei Zhao   2023-05-15   33  		};
-02310be6f08007 Xianwei Zhao   2023-05-15   34  	};
-02310be6f08007 Xianwei Zhao   2023-05-15   35  
-02310be6f08007 Xianwei Zhao   2023-05-15   36  	timer {
-02310be6f08007 Xianwei Zhao   2023-05-15   37  		compatible = "arm,armv8-timer";
-02310be6f08007 Xianwei Zhao   2023-05-15   38  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao   2023-05-15   39  			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao   2023-05-15   40  			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao   2023-05-15   41  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-02310be6f08007 Xianwei Zhao   2023-05-15   42  	};
-02310be6f08007 Xianwei Zhao   2023-05-15   43  
-02310be6f08007 Xianwei Zhao   2023-05-15   44  	psci {
-02310be6f08007 Xianwei Zhao   2023-05-15   45  		compatible = "arm,psci-1.0";
-02310be6f08007 Xianwei Zhao   2023-05-15   46  		method = "smc";
-02310be6f08007 Xianwei Zhao   2023-05-15   47  	};
-02310be6f08007 Xianwei Zhao   2023-05-15   48  
-02310be6f08007 Xianwei Zhao   2023-05-15   49  	xtal: xtal-clk {
-02310be6f08007 Xianwei Zhao   2023-05-15   50  		compatible = "fixed-clock";
-02310be6f08007 Xianwei Zhao   2023-05-15   51  		clock-frequency = <24000000>;
-02310be6f08007 Xianwei Zhao   2023-05-15   52  		clock-output-names = "xtal";
-02310be6f08007 Xianwei Zhao   2023-05-15   53  		#clock-cells = <0>;
-02310be6f08007 Xianwei Zhao   2023-05-15   54  	};
-02310be6f08007 Xianwei Zhao   2023-05-15   55  
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   56  	sm: secure-monitor {
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   57  		compatible = "amlogic,meson-gxbb-sm";
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   58  
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   59  		pwrc: power-controller {
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   60  			compatible = "amlogic,c3-pwrc";
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   61  			#power-domain-cells = <1>;
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   62  		};
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   63  	};
-22a9b2a488c3f0 Xianwei Zhao   2023-07-07   64  
-ca55a30d27cb37 Xianwei Zhao   2024-09-02   65  	sram@7f50e00 {
-520b792e83171e Xianwei Zhao   2024-08-30   66  		compatible = "mmio-sram";
-520b792e83171e Xianwei Zhao   2024-08-30   67  		reg = <0x0 0x07f50e00 0x0 0x100>;
-520b792e83171e Xianwei Zhao   2024-08-30   68  		#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30   69  		#size-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30   70  		ranges = <0 0x0 0x07f50e00 0x100>;
-520b792e83171e Xianwei Zhao   2024-08-30   71  
-520b792e83171e Xianwei Zhao   2024-08-30   72  		scmi_shmem: sram@0 {
-520b792e83171e Xianwei Zhao   2024-08-30   73  			compatible = "arm,scmi-shmem";
-520b792e83171e Xianwei Zhao   2024-08-30   74  			reg = <0x0 0x100>;
-520b792e83171e Xianwei Zhao   2024-08-30   75  		};
-520b792e83171e Xianwei Zhao   2024-08-30   76  	};
-520b792e83171e Xianwei Zhao   2024-08-30   77  
-520b792e83171e Xianwei Zhao   2024-08-30   78  	firmware {
-520b792e83171e Xianwei Zhao   2024-08-30   79  		scmi: scmi {
-520b792e83171e Xianwei Zhao   2024-08-30   80  			compatible = "arm,scmi-smc";
-520b792e83171e Xianwei Zhao   2024-08-30   81  			arm,smc-id = <0x820000C1>;
-520b792e83171e Xianwei Zhao   2024-08-30   82  			shmem = <&scmi_shmem>;
-520b792e83171e Xianwei Zhao   2024-08-30   83  			#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30   84  			#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30   85  
-520b792e83171e Xianwei Zhao   2024-08-30   86  			scmi_clk: protocol@14 {
-520b792e83171e Xianwei Zhao   2024-08-30   87  				reg = <0x14>;
-520b792e83171e Xianwei Zhao   2024-08-30   88  				#clock-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30   89  			};
-520b792e83171e Xianwei Zhao   2024-08-30   90  		};
-520b792e83171e Xianwei Zhao   2024-08-30   91  	};
-520b792e83171e Xianwei Zhao   2024-08-30   92  
-02310be6f08007 Xianwei Zhao   2023-05-15   93  	soc {
-02310be6f08007 Xianwei Zhao   2023-05-15   94  		compatible = "simple-bus";
-02310be6f08007 Xianwei Zhao   2023-05-15   95  		#address-cells = <2>;
-02310be6f08007 Xianwei Zhao   2023-05-15   96  		#size-cells = <2>;
-02310be6f08007 Xianwei Zhao   2023-05-15   97  		ranges;
-02310be6f08007 Xianwei Zhao   2023-05-15   98  
-02310be6f08007 Xianwei Zhao   2023-05-15   99  		gic: interrupt-controller@fff01000 {
-02310be6f08007 Xianwei Zhao   2023-05-15  100  			compatible = "arm,gic-400";
-02310be6f08007 Xianwei Zhao   2023-05-15  101  			#interrupt-cells = <3>;
-02310be6f08007 Xianwei Zhao   2023-05-15  102  			#address-cells = <0>;
-02310be6f08007 Xianwei Zhao   2023-05-15  103  			interrupt-controller;
-02310be6f08007 Xianwei Zhao   2023-05-15  104  			reg = <0x0 0xfff01000 0 0x1000>,
-02310be6f08007 Xianwei Zhao   2023-05-15  105  			      <0x0 0xfff02000 0 0x2000>,
-02310be6f08007 Xianwei Zhao   2023-05-15  106  			      <0x0 0xfff04000 0 0x2000>,
-02310be6f08007 Xianwei Zhao   2023-05-15  107  			      <0x0 0xfff06000 0 0x2000>;
-02310be6f08007 Xianwei Zhao   2023-05-15  108  			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
-02310be6f08007 Xianwei Zhao   2023-05-15  109  		};
-02310be6f08007 Xianwei Zhao   2023-05-15  110  
-02310be6f08007 Xianwei Zhao   2023-05-15  111  		apb4: bus@fe000000 {
-02310be6f08007 Xianwei Zhao   2023-05-15  112  			compatible = "simple-bus";
-02310be6f08007 Xianwei Zhao   2023-05-15  113  			reg = <0x0 0xfe000000 0x0 0x480000>;
-02310be6f08007 Xianwei Zhao   2023-05-15  114  			#address-cells = <2>;
-02310be6f08007 Xianwei Zhao   2023-05-15  115  			#size-cells = <2>;
-02310be6f08007 Xianwei Zhao   2023-05-15  116  			ranges = <0x0 0x0 0x0 0xfe000000 0x0 0x480000>;
-02310be6f08007 Xianwei Zhao   2023-05-15  117  
-520b792e83171e Xianwei Zhao   2024-08-30  118  			clkc_periphs: clock-controller@0 {
-520b792e83171e Xianwei Zhao   2024-08-30  119  				compatible = "amlogic,c3-peripherals-clkc";
-520b792e83171e Xianwei Zhao   2024-08-30  120  				reg = <0x0 0x0 0x0 0x49c>;
-520b792e83171e Xianwei Zhao   2024-08-30  121  				#clock-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  122  				clocks = <&xtal>,
-520b792e83171e Xianwei Zhao   2024-08-30  123  					 <&scmi_clk CLKID_OSC>,
-520b792e83171e Xianwei Zhao   2024-08-30  124  					 <&scmi_clk CLKID_FIXED_PLL_OSC>,
-520b792e83171e Xianwei Zhao   2024-08-30  125  					 <&clkc_pll CLKID_FCLK_DIV2>,
-520b792e83171e Xianwei Zhao   2024-08-30  126  					 <&clkc_pll CLKID_FCLK_DIV2P5>,
-520b792e83171e Xianwei Zhao   2024-08-30  127  					 <&clkc_pll CLKID_FCLK_DIV3>,
-520b792e83171e Xianwei Zhao   2024-08-30  128  					 <&clkc_pll CLKID_FCLK_DIV4>,
-520b792e83171e Xianwei Zhao   2024-08-30  129  					 <&clkc_pll CLKID_FCLK_DIV5>,
-520b792e83171e Xianwei Zhao   2024-08-30  130  					 <&clkc_pll CLKID_FCLK_DIV7>,
-520b792e83171e Xianwei Zhao   2024-08-30  131  					 <&clkc_pll CLKID_GP0_PLL>,
-520b792e83171e Xianwei Zhao   2024-08-30  132  					 <&scmi_clk CLKID_GP1_PLL_OSC>,
-520b792e83171e Xianwei Zhao   2024-08-30  133  					 <&clkc_pll CLKID_HIFI_PLL>,
-520b792e83171e Xianwei Zhao   2024-08-30  134  					 <&scmi_clk CLKID_SYS_CLK>,
-520b792e83171e Xianwei Zhao   2024-08-30  135  					 <&scmi_clk CLKID_AXI_CLK>,
-520b792e83171e Xianwei Zhao   2024-08-30  136  					 <&scmi_clk CLKID_SYS_PLL_DIV16>,
-520b792e83171e Xianwei Zhao   2024-08-30  137  					 <&scmi_clk CLKID_CPU_CLK_DIV16>;
-520b792e83171e Xianwei Zhao   2024-08-30  138  				clock-names = "xtal_24m",
-520b792e83171e Xianwei Zhao   2024-08-30  139  					      "oscin",
-520b792e83171e Xianwei Zhao   2024-08-30  140  					      "fix",
-520b792e83171e Xianwei Zhao   2024-08-30  141  					      "fdiv2",
-520b792e83171e Xianwei Zhao   2024-08-30  142  					      "fdiv2p5",
-520b792e83171e Xianwei Zhao   2024-08-30  143  					      "fdiv3",
-520b792e83171e Xianwei Zhao   2024-08-30  144  					      "fdiv4",
-520b792e83171e Xianwei Zhao   2024-08-30  145  					      "fdiv5",
-520b792e83171e Xianwei Zhao   2024-08-30  146  					      "fdiv7",
-520b792e83171e Xianwei Zhao   2024-08-30  147  					      "gp0",
-520b792e83171e Xianwei Zhao   2024-08-30  148  					      "gp1",
-520b792e83171e Xianwei Zhao   2024-08-30  149  					      "hifi",
-520b792e83171e Xianwei Zhao   2024-08-30  150  					      "sysclk",
-520b792e83171e Xianwei Zhao   2024-08-30  151  					      "axiclk",
-520b792e83171e Xianwei Zhao   2024-08-30  152  					      "sysplldiv16",
-520b792e83171e Xianwei Zhao   2024-08-30  153  					      "cpudiv16";
-520b792e83171e Xianwei Zhao   2024-08-30  154  			};
-520b792e83171e Xianwei Zhao   2024-08-30  155  
-1e75c2276a4fa0 Zelong Dong    2023-09-14  156  			reset: reset-controller@2000 {
-1e75c2276a4fa0 Zelong Dong    2023-09-14  157  				compatible = "amlogic,c3-reset";
-1e75c2276a4fa0 Zelong Dong    2023-09-14  158  				reg = <0x0 0x2000 0x0 0x98>;
-1e75c2276a4fa0 Zelong Dong    2023-09-14  159  				#reset-cells = <1>;
-1e75c2276a4fa0 Zelong Dong    2023-09-14  160  			};
-1e75c2276a4fa0 Zelong Dong    2023-09-14  161  
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  162  			watchdog@2100 {
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  163  				compatible = "amlogic,c3-wdt", "amlogic,t7-wdt";
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  164  				reg = <0x0 0x2100 0x0 0x10>;
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  165  				clocks = <&xtal>;
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  166  			};
-a30c7a73b0ad50 Huqiang Qin    2023-10-27  167  
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  168  			periphs_pinctrl: pinctrl@4000 {
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  169  				compatible = "amlogic,c3-periphs-pinctrl";
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  170  				#address-cells = <2>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  171  				#size-cells = <2>;
-ca55a30d27cb37 Xianwei Zhao   2024-09-02  172  				ranges = <0x0 0x0 0x0 0x4000 0x0 0x02de>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  173  
-ca55a30d27cb37 Xianwei Zhao   2024-09-02  174  				gpio: bank@0 {
-ca55a30d27cb37 Xianwei Zhao   2024-09-02  175  					reg = <0x0 0x0 0x0 0x004c>,
-ca55a30d27cb37 Xianwei Zhao   2024-09-02  176  					      <0x0 0x100 0x0 0x01de>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  177  					reg-names = "mux", "gpio";
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  178  					gpio-controller;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  179  					#gpio-cells = <2>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  180  					gpio-ranges = <&periphs_pinctrl 0 0 55>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  181  				};
-520b792e83171e Xianwei Zhao   2024-08-30  182  
-520b792e83171e Xianwei Zhao   2024-08-30  183  				i2c0_pins1: i2c0-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  184  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  185  						groups = "i2c0_sda_e",
-520b792e83171e Xianwei Zhao   2024-08-30  186  							 "i2c0_scl_e";
-520b792e83171e Xianwei Zhao   2024-08-30  187  						function = "i2c0";
-520b792e83171e Xianwei Zhao   2024-08-30  188  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  189  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  190  					};
-520b792e83171e Xianwei Zhao   2024-08-30  191  				};
-520b792e83171e Xianwei Zhao   2024-08-30  192  
-520b792e83171e Xianwei Zhao   2024-08-30  193  				i2c0_pins2: i2c0-pins2 {
-520b792e83171e Xianwei Zhao   2024-08-30  194  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  195  						groups = "i2c0_sda_d",
-520b792e83171e Xianwei Zhao   2024-08-30  196  							 "i2c0_scl_d";
-520b792e83171e Xianwei Zhao   2024-08-30  197  						function = "i2c0";
-520b792e83171e Xianwei Zhao   2024-08-30  198  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  199  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  200  					};
-520b792e83171e Xianwei Zhao   2024-08-30  201  				};
-520b792e83171e Xianwei Zhao   2024-08-30  202  
-520b792e83171e Xianwei Zhao   2024-08-30  203  				i2c1_pins1: i2c1-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  204  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  205  						groups = "i2c1_sda_x",
-520b792e83171e Xianwei Zhao   2024-08-30  206  							 "i2c1_scl_x";
-520b792e83171e Xianwei Zhao   2024-08-30  207  						function = "i2c1";
-520b792e83171e Xianwei Zhao   2024-08-30  208  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  209  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  210  					};
-520b792e83171e Xianwei Zhao   2024-08-30  211  				};
-520b792e83171e Xianwei Zhao   2024-08-30  212  
-520b792e83171e Xianwei Zhao   2024-08-30  213  				i2c1_pins2: i2c1-pins2 {
-520b792e83171e Xianwei Zhao   2024-08-30  214  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  215  						groups = "i2c1_sda_d",
-520b792e83171e Xianwei Zhao   2024-08-30  216  							 "i2c1_scl_d";
-520b792e83171e Xianwei Zhao   2024-08-30  217  						function = "i2c1";
-520b792e83171e Xianwei Zhao   2024-08-30  218  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  219  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  220  					};
-520b792e83171e Xianwei Zhao   2024-08-30  221  				};
-520b792e83171e Xianwei Zhao   2024-08-30  222  
-520b792e83171e Xianwei Zhao   2024-08-30  223  				i2c1_pins3: i2c1-pins3 {
-520b792e83171e Xianwei Zhao   2024-08-30  224  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  225  						groups = "i2c1_sda_a",
-520b792e83171e Xianwei Zhao   2024-08-30  226  							 "i2c1_scl_a";
-520b792e83171e Xianwei Zhao   2024-08-30  227  						function = "i2c1";
-520b792e83171e Xianwei Zhao   2024-08-30  228  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  229  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  230  					};
-520b792e83171e Xianwei Zhao   2024-08-30  231  				};
-520b792e83171e Xianwei Zhao   2024-08-30  232  
-520b792e83171e Xianwei Zhao   2024-08-30  233  				i2c1_pins4: i2c1-pins4 {
-520b792e83171e Xianwei Zhao   2024-08-30  234  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  235  						groups = "i2c1_sda_b",
-520b792e83171e Xianwei Zhao   2024-08-30  236  							 "i2c1_scl_b";
-520b792e83171e Xianwei Zhao   2024-08-30  237  						function = "i2c1";
-520b792e83171e Xianwei Zhao   2024-08-30  238  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  239  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  240  					};
-520b792e83171e Xianwei Zhao   2024-08-30  241  				};
-520b792e83171e Xianwei Zhao   2024-08-30  242  
-520b792e83171e Xianwei Zhao   2024-08-30  243  				i2c2_pins1: i2c2-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  244  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  245  						groups = "i2c2_sda",
-520b792e83171e Xianwei Zhao   2024-08-30  246  							 "i2c2_scl";
-520b792e83171e Xianwei Zhao   2024-08-30  247  						function = "i2c2";
-520b792e83171e Xianwei Zhao   2024-08-30  248  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  249  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  250  					};
-520b792e83171e Xianwei Zhao   2024-08-30  251  				};
-520b792e83171e Xianwei Zhao   2024-08-30  252  
-520b792e83171e Xianwei Zhao   2024-08-30  253  				i2c3_pins1: i2c3-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  254  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  255  						groups = "i2c3_sda_c",
-520b792e83171e Xianwei Zhao   2024-08-30  256  							 "i2c3_scl_c";
-520b792e83171e Xianwei Zhao   2024-08-30  257  						function = "i2c3";
-520b792e83171e Xianwei Zhao   2024-08-30  258  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  259  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  260  					};
-520b792e83171e Xianwei Zhao   2024-08-30  261  				};
-520b792e83171e Xianwei Zhao   2024-08-30  262  
-520b792e83171e Xianwei Zhao   2024-08-30  263  				i2c3_pins2: i2c3-pins2 {
-520b792e83171e Xianwei Zhao   2024-08-30  264  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  265  						groups = "i2c3_sda_x",
-520b792e83171e Xianwei Zhao   2024-08-30  266  							 "i2c3_scl_x";
-520b792e83171e Xianwei Zhao   2024-08-30  267  						function = "i2c3";
-520b792e83171e Xianwei Zhao   2024-08-30  268  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  269  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  270  					};
-520b792e83171e Xianwei Zhao   2024-08-30  271  				};
-520b792e83171e Xianwei Zhao   2024-08-30  272  
-520b792e83171e Xianwei Zhao   2024-08-30  273  				i2c3_pins3: i2c3-pins3 {
-520b792e83171e Xianwei Zhao   2024-08-30  274  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  275  						groups = "i2c3_sda_d",
-520b792e83171e Xianwei Zhao   2024-08-30  276  							 "i2c3_scl_d";
-520b792e83171e Xianwei Zhao   2024-08-30  277  						function = "i2c3";
-520b792e83171e Xianwei Zhao   2024-08-30  278  						bias-disable;
-520b792e83171e Xianwei Zhao   2024-08-30  279  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  280  					};
-520b792e83171e Xianwei Zhao   2024-08-30  281  				};
-520b792e83171e Xianwei Zhao   2024-08-30  282  
-520b792e83171e Xianwei Zhao   2024-08-30  283  				nand_pins: nand-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  284  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  285  						groups = "emmc_nand_d0",
-520b792e83171e Xianwei Zhao   2024-08-30  286  							 "emmc_nand_d1",
-520b792e83171e Xianwei Zhao   2024-08-30  287  							 "emmc_nand_d2",
-520b792e83171e Xianwei Zhao   2024-08-30  288  							 "emmc_nand_d3",
-520b792e83171e Xianwei Zhao   2024-08-30  289  							 "emmc_nand_d4",
-520b792e83171e Xianwei Zhao   2024-08-30  290  							 "emmc_nand_d5",
-520b792e83171e Xianwei Zhao   2024-08-30  291  							 "emmc_nand_d6",
-520b792e83171e Xianwei Zhao   2024-08-30  292  							 "emmc_nand_d7",
-520b792e83171e Xianwei Zhao   2024-08-30  293  							 "nand_ce0",
-520b792e83171e Xianwei Zhao   2024-08-30  294  							 "nand_ale",
-520b792e83171e Xianwei Zhao   2024-08-30  295  							 "nand_cle",
-520b792e83171e Xianwei Zhao   2024-08-30  296  							 "nand_wen_clk",
-520b792e83171e Xianwei Zhao   2024-08-30  297  							 "nand_ren_wr";
-520b792e83171e Xianwei Zhao   2024-08-30  298  						function = "nand";
-520b792e83171e Xianwei Zhao   2024-08-30  299  						input-enable;
-520b792e83171e Xianwei Zhao   2024-08-30  300  					};
-520b792e83171e Xianwei Zhao   2024-08-30  301  				};
-520b792e83171e Xianwei Zhao   2024-08-30  302  
-520b792e83171e Xianwei Zhao   2024-08-30  303  				sdcard_pins: sdcard-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  304  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  305  						groups = "sdcard_d0",
-520b792e83171e Xianwei Zhao   2024-08-30  306  							 "sdcard_d1",
-520b792e83171e Xianwei Zhao   2024-08-30  307  							 "sdcard_d2",
-520b792e83171e Xianwei Zhao   2024-08-30  308  							 "sdcard_d3",
-520b792e83171e Xianwei Zhao   2024-08-30  309  							 "sdcard_clk",
-520b792e83171e Xianwei Zhao   2024-08-30  310  							 "sdcard_cmd";
-520b792e83171e Xianwei Zhao   2024-08-30  311  						function = "sdcard";
-520b792e83171e Xianwei Zhao   2024-08-30  312  						bias-pull-up;
-520b792e83171e Xianwei Zhao   2024-08-30  313  						drive-strength-microamp = <4000>;
-520b792e83171e Xianwei Zhao   2024-08-30  314  					};
-520b792e83171e Xianwei Zhao   2024-08-30  315  				};
-520b792e83171e Xianwei Zhao   2024-08-30  316  
-520b792e83171e Xianwei Zhao   2024-08-30  317  				sdcard_clk_gate_pins: sdcard-clk-cmd-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  318  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  319  						groups = "GPIOC_4";
-520b792e83171e Xianwei Zhao   2024-08-30  320  						function = "gpio_periphs";
-520b792e83171e Xianwei Zhao   2024-08-30  321  						bias-pull-down;
-520b792e83171e Xianwei Zhao   2024-08-30  322  						drive-strength-microamp = <4000>;
-520b792e83171e Xianwei Zhao   2024-08-30  323  					};
-520b792e83171e Xianwei Zhao   2024-08-30  324  				};
-520b792e83171e Xianwei Zhao   2024-08-30  325  
-520b792e83171e Xianwei Zhao   2024-08-30  326  				sdio_m_clk_gate_pins: sdio-m-clk-cmd-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  327  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  328  						groups = "sdio_clk";
-520b792e83171e Xianwei Zhao   2024-08-30  329  						function = "sdio";
-520b792e83171e Xianwei Zhao   2024-08-30  330  						bias-pull-down;
-520b792e83171e Xianwei Zhao   2024-08-30  331  						drive-strength-microamp = <4000>;
-520b792e83171e Xianwei Zhao   2024-08-30  332  					};
-520b792e83171e Xianwei Zhao   2024-08-30  333  				};
-520b792e83171e Xianwei Zhao   2024-08-30  334  
-520b792e83171e Xianwei Zhao   2024-08-30  335  				sdio_m_pins: sdio-m-all-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  336  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  337  						groups = "sdio_d0",
-520b792e83171e Xianwei Zhao   2024-08-30  338  							 "sdio_d1",
-520b792e83171e Xianwei Zhao   2024-08-30  339  							 "sdio_d2",
-520b792e83171e Xianwei Zhao   2024-08-30  340  							 "sdio_d3",
-520b792e83171e Xianwei Zhao   2024-08-30  341  							 "sdio_clk",
-520b792e83171e Xianwei Zhao   2024-08-30  342  							 "sdio_cmd";
-520b792e83171e Xianwei Zhao   2024-08-30  343  						function = "sdio";
-520b792e83171e Xianwei Zhao   2024-08-30  344  						input-enable;
-520b792e83171e Xianwei Zhao   2024-08-30  345  						bias-pull-up;
-520b792e83171e Xianwei Zhao   2024-08-30  346  						drive-strength-microamp = <4000>;
-520b792e83171e Xianwei Zhao   2024-08-30  347  					};
-520b792e83171e Xianwei Zhao   2024-08-30  348  				};
-520b792e83171e Xianwei Zhao   2024-08-30  349  
-520b792e83171e Xianwei Zhao   2024-08-30  350  				spicc0_pins1: spicc0-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  351  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  352  						groups = "spi_a_mosi_b",
-520b792e83171e Xianwei Zhao   2024-08-30  353  							 "spi_a_miso_b",
-520b792e83171e Xianwei Zhao   2024-08-30  354  							 "spi_a_clk_b";
-520b792e83171e Xianwei Zhao   2024-08-30  355  						function = "spi_a";
-520b792e83171e Xianwei Zhao   2024-08-30  356  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  357  					};
-520b792e83171e Xianwei Zhao   2024-08-30  358  				};
-520b792e83171e Xianwei Zhao   2024-08-30  359  
-520b792e83171e Xianwei Zhao   2024-08-30  360  				spicc0_pins2: spicc0-pins2 {
-520b792e83171e Xianwei Zhao   2024-08-30  361  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  362  						groups = "spi_a_mosi_c",
-520b792e83171e Xianwei Zhao   2024-08-30  363  							 "spi_a_miso_c",
-520b792e83171e Xianwei Zhao   2024-08-30  364  							 "spi_a_clk_c";
-520b792e83171e Xianwei Zhao   2024-08-30  365  						function = "spi_a";
-520b792e83171e Xianwei Zhao   2024-08-30  366  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  367  					};
-520b792e83171e Xianwei Zhao   2024-08-30  368  				};
-520b792e83171e Xianwei Zhao   2024-08-30  369  
-520b792e83171e Xianwei Zhao   2024-08-30  370  				spicc0_pins3: spicc0-pins3 {
-520b792e83171e Xianwei Zhao   2024-08-30  371  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  372  						groups = "spi_a_mosi_x",
-520b792e83171e Xianwei Zhao   2024-08-30  373  							 "spi_a_miso_x",
-520b792e83171e Xianwei Zhao   2024-08-30  374  							 "spi_a_clk_x";
-520b792e83171e Xianwei Zhao   2024-08-30  375  						function = "spi_a";
-520b792e83171e Xianwei Zhao   2024-08-30  376  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  377  					};
-520b792e83171e Xianwei Zhao   2024-08-30  378  				};
-520b792e83171e Xianwei Zhao   2024-08-30  379  
-520b792e83171e Xianwei Zhao   2024-08-30  380  				spicc1_pins1: spicc1-pins1 {
-520b792e83171e Xianwei Zhao   2024-08-30  381  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  382  						groups = "spi_b_mosi_d",
-520b792e83171e Xianwei Zhao   2024-08-30  383  							 "spi_b_miso_d",
-520b792e83171e Xianwei Zhao   2024-08-30  384  							 "spi_b_clk_d";
-520b792e83171e Xianwei Zhao   2024-08-30  385  						function = "spi_b";
-520b792e83171e Xianwei Zhao   2024-08-30  386  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  387  					};
-520b792e83171e Xianwei Zhao   2024-08-30  388  				};
-520b792e83171e Xianwei Zhao   2024-08-30  389  
-520b792e83171e Xianwei Zhao   2024-08-30  390  				spicc1_pins2: spicc1-pins2 {
-520b792e83171e Xianwei Zhao   2024-08-30  391  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  392  						groups = "spi_b_mosi_x",
-520b792e83171e Xianwei Zhao   2024-08-30  393  							 "spi_b_miso_x",
-520b792e83171e Xianwei Zhao   2024-08-30  394  							 "spi_b_clk_x";
-520b792e83171e Xianwei Zhao   2024-08-30  395  						function = "spi_b";
-520b792e83171e Xianwei Zhao   2024-08-30  396  						drive-strength-microamp = <3000>;
-520b792e83171e Xianwei Zhao   2024-08-30  397  					};
-520b792e83171e Xianwei Zhao   2024-08-30  398  				};
-520b792e83171e Xianwei Zhao   2024-08-30  399  
-520b792e83171e Xianwei Zhao   2024-08-30  400  				spifc_pins: spifc-pins {
-520b792e83171e Xianwei Zhao   2024-08-30  401  					mux {
-520b792e83171e Xianwei Zhao   2024-08-30  402  						groups = "spif_mo",
-520b792e83171e Xianwei Zhao   2024-08-30  403  							 "spif_mi",
-520b792e83171e Xianwei Zhao   2024-08-30  404  							 "spif_clk",
-520b792e83171e Xianwei Zhao   2024-08-30  405  							 "spif_cs",
-520b792e83171e Xianwei Zhao   2024-08-30  406  							 "spif_hold",
-520b792e83171e Xianwei Zhao   2024-08-30  407  							 "spif_wp",
-520b792e83171e Xianwei Zhao   2024-08-30  408  							 "spif_clk_loop";
-520b792e83171e Xianwei Zhao   2024-08-30  409  						function = "spif";
-520b792e83171e Xianwei Zhao   2024-08-30  410  						drive-strength-microamp = <4000>;
-520b792e83171e Xianwei Zhao   2024-08-30  411  					};
-520b792e83171e Xianwei Zhao   2024-08-30  412  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  413  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  414  				pwm_a_pins1: pwm-a-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  415  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  416  						groups = "pwm_a";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  417  						function = "pwm_a";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  418  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  419  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  420  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  421  				pwm_b_pins1: pwm-b-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  422  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  423  						groups = "pwm_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  424  						function = "pwm_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  425  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  426  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  427  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  428  				pwm_c_pins1: pwm-c-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  429  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  430  						groups = "pwm_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  431  						function = "pwm_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  432  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  433  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  434  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  435  				pwm_d_pins1: pwm-d-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  436  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  437  						groups = "pwm_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  438  						function = "pwm_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  439  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  440  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  441  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  442  				pwm_e_pins1: pwm-e-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  443  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  444  						groups = "pwm_e";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  445  						function = "pwm_e";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  446  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  447  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  448  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  449  				pwm_f_pins1: pwm-f-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  450  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  451  						groups = "pwm_f";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  452  						function = "pwm_f";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  453  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  454  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  455  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  456  				pwm_g_pins1: pwm-g-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  457  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  458  						groups = "pwm_g_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  459  						function = "pwm_g";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  460  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  461  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  462  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  463  				pwm_g_pins2: pwm-g-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  464  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  465  						groups = "pwm_g_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  466  						function = "pwm_g";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  467  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  468  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  469  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  470  				pwm_g_pins3: pwm-g-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  471  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  472  						groups = "pwm_g_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  473  						function = "pwm_g";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  474  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  475  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  476  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  477  				pwm_g_pins4: pwm-g-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  478  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  479  						groups = "pwm_g_x0";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  480  						function = "pwm_g";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  481  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  482  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  483  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  484  				pwm_g_pins5: pwm-g-pins5 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  485  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  486  						groups = "pwm_g_x8";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  487  						function = "pwm_g";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  488  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  489  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  490  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  491  				pwm_h_pins1: pwm-h-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  492  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  493  						groups = "pwm_h_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  494  						function = "pwm_h";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  495  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  496  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  497  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  498  				pwm_h_pins2: pwm-h-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  499  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  500  						groups = "pwm_h_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  501  						function = "pwm_h";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  502  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  503  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  504  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  505  				pwm_h_pins3: pwm-h-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  506  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  507  						groups = "pwm_h_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  508  						function = "pwm_h";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  509  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  510  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  511  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  512  				pwm_h_pins4: pwm-h-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  513  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  514  						groups = "pwm_h_x1";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  515  						function = "pwm_h";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  516  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  517  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  518  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  519  				pwm_h_pins5: pwm-h-pins5 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  520  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  521  						groups = "pwm_h_x9";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  522  						function = "pwm_h";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  523  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  524  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  525  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  526  				pwm_i_pins1: pwm-i-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  527  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  528  						groups = "pwm_i_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  529  						function = "pwm_i";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  530  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  531  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  532  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  533  				pwm_i_pins2: pwm-i-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  534  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  535  						groups = "pwm_i_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  536  						function = "pwm_i";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  537  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  538  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  539  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  540  				pwm_i_pins3: pwm-i-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  541  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  542  						groups = "pwm_i_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  543  						function = "pwm_i";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  544  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  545  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  546  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  547  				pwm_i_pins4: pwm-i-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  548  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  549  						groups = "pwm_i_x2";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  550  						function = "pwm_i";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  551  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  552  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  553  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  554  				pwm_i_pins5: pwm-i-pins5 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  555  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  556  						groups = "pwm_i_x10";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  557  						function = "pwm_i";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  558  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  559  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  560  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  561  				pwm_j_pins1: pwm-j-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  562  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  563  						groups = "pwm_j_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  564  						function = "pwm_j";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  565  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  566  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  567  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  568  				pwm_j_pins2: pwm-j-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  569  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  570  						groups = "pwm_j_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  571  						function = "pwm_j";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  572  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  573  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  574  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  575  				pwm_j_pins3: pwm-j-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  576  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  577  						groups = "pwm_j_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  578  						function = "pwm_j";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  579  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  580  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  581  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  582  				pwm_j_pins4: pwm-j-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  583  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  584  						groups = "pwm_j_x3";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  585  						function = "pwm_j";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  586  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  587  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  588  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  589  				pwm_j_pins5: pwm-j-pins5 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  590  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  591  						groups = "pwm_j_x12";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  592  						function = "pwm_j";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  593  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  594  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  595  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  596  				pwm_k_pins1: pwm-k-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  597  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  598  						groups = "pwm_k_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  599  						function = "pwm_k";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  600  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  601  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  602  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  603  				pwm_k_pins2: pwm-k-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  604  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  605  						groups = "pwm_k_d";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  606  						function = "pwm_k";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  607  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  608  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  609  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  610  				pwm_k_pins3: pwm-k-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  611  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  612  						groups = "pwm_k_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  613  						function = "pwm_k";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  614  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  615  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  616  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  617  				pwm_k_pins4: pwm-k-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  618  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  619  						groups = "pwm_k_x4";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  620  						function = "pwm_k";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  621  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  622  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  623  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  624  				pwm_k_pins5: pwm-k-pins5 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  625  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  626  						groups = "pwm_k_x13";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  627  						function = "pwm_k";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  628  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  629  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  630  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  631  				pwm_l_pins1: pwm-l-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  632  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  633  						groups = "pwm_l_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  634  						function = "pwm_l";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  635  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  636  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  637  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  638  				pwm_l_pins2: pwm-l-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  639  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  640  						groups = "pwm_l_x";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  641  						function = "pwm_l";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  642  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  643  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  644  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  645  				pwm_l_pins3: pwm-l-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  646  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  647  						groups = "pwm_l_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  648  						function = "pwm_l";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  649  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  650  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  651  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  652  				pwm_l_pins4: pwm-l-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  653  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  654  						groups = "pwm_l_a";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  655  						function = "pwm_l";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  656  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  657  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  658  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  659  				pwm_m_pins1: pwm-m-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  660  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  661  						groups = "pwm_m_c";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  662  						function = "pwm_m";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  663  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  664  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  665  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  666  				pwm_m_pins2: pwm-m-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  667  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  668  						groups = "pwm_m_x";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  669  						function = "pwm_m";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  670  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  671  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  672  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  673  				pwm_m_pins3: pwm-m-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  674  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  675  						groups = "pwm_m_a";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  676  						function = "pwm_m";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  677  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  678  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  679  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  680  				pwm_m_pins4: pwm-m-pins4 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  681  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  682  						groups = "pwm_m_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  683  						function = "pwm_m";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  684  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  685  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  686  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  687  				pwm_n_pins1: pwm-n-pins1 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  688  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  689  						groups = "pwm_n_x";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  690  						function = "pwm_n";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  691  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  692  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  693  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  694  				pwm_n_pins2: pwm-n-pins2 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  695  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  696  						groups = "pwm_n_a";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  697  						function = "pwm_n";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  698  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  699  				};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  700  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  701  				pwm_n_pins3: pwm-n-pins3 {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  702  					mux {
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  703  						groups = "pwm_n_b";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  704  						function = "pwm_n";
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  705  					};
-be90cd4bd422e8 Kelvin Zhang   2024-09-14  706  				};
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  707  			};
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  708  
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  709  			gpio_intc: interrupt-controller@4080 {
-e5d4d006a8c550 Neil Armstrong 2024-06-06  710  				compatible = "amlogic,c3-gpio-intc", "amlogic,meson-gpio-intc";
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  711  				reg = <0x0 0x4080 0x0 0x0020>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  712  				interrupt-controller;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  713  				#interrupt-cells = <2>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  714  				amlogic,channel-interrupts =
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  715  					<10 11 12 13 14 15 16 17 18 19 20 21>;
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  716  			};
-cac34b2b3f5a9d Huqiang Qin    2023-07-20  717  
-520b792e83171e Xianwei Zhao   2024-08-30  718  			clkc_pll: clock-controller@8000 {
-520b792e83171e Xianwei Zhao   2024-08-30  719  				compatible = "amlogic,c3-pll-clkc";
-520b792e83171e Xianwei Zhao   2024-08-30  720  				reg = <0x0 0x8000 0x0 0x1a4>;
-520b792e83171e Xianwei Zhao   2024-08-30  721  				#clock-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  722  				clocks = <&scmi_clk CLKID_TOP_PLL_OSC>,
-520b792e83171e Xianwei Zhao   2024-08-30  723  					 <&scmi_clk CLKID_MCLK_PLL_OSC>,
-520b792e83171e Xianwei Zhao   2024-08-30  724  					 <&scmi_clk CLKID_FIXED_PLL_OSC>;
-520b792e83171e Xianwei Zhao   2024-08-30  725  				clock-names = "top",
-520b792e83171e Xianwei Zhao   2024-08-30  726  					      "mclk",
-520b792e83171e Xianwei Zhao   2024-08-30  727  					      "fix";
-520b792e83171e Xianwei Zhao   2024-08-30  728  			};
-520b792e83171e Xianwei Zhao   2024-08-30  729  
-520b792e83171e Xianwei Zhao   2024-08-30  730  			eth_phy: mdio-multiplexer@28000 {
-520b792e83171e Xianwei Zhao   2024-08-30  731  				compatible = "amlogic,g12a-mdio-mux";
-520b792e83171e Xianwei Zhao   2024-08-30  732  				reg = <0x0 0x28000 0x0 0xa4>;
-520b792e83171e Xianwei Zhao   2024-08-30  733  
-520b792e83171e Xianwei Zhao   2024-08-30  734  				clocks = <&clkc_periphs CLKID_SYS_ETH_PHY>,
-520b792e83171e Xianwei Zhao   2024-08-30  735  					 <&xtal>,
-520b792e83171e Xianwei Zhao   2024-08-30  736  					 <&clkc_pll CLKID_FCLK_50M>;
-520b792e83171e Xianwei Zhao   2024-08-30  737  				clock-names = "pclk", "clkin0", "clkin1";
-520b792e83171e Xianwei Zhao   2024-08-30  738  				mdio-parent-bus = <&mdio0>;
-520b792e83171e Xianwei Zhao   2024-08-30  739  				#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  740  				#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  741  
-520b792e83171e Xianwei Zhao   2024-08-30  742  				ext_mdio: mdio@0 {
-520b792e83171e Xianwei Zhao   2024-08-30  743  					reg = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  744  					#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  745  					#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  746  				};
-520b792e83171e Xianwei Zhao   2024-08-30  747  
-520b792e83171e Xianwei Zhao   2024-08-30  748  				int_mdio: mdio@1 {
-520b792e83171e Xianwei Zhao   2024-08-30  749  					reg = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  750  					#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  751  					#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  752  
-520b792e83171e Xianwei Zhao   2024-08-30  753  					internal_ephy: ethernet_phy@8 {
-520b792e83171e Xianwei Zhao   2024-08-30  754  						compatible = "ethernet-phy-id0180.3301",
-520b792e83171e Xianwei Zhao   2024-08-30  755  							     "ethernet-phy-ieee802.3-c22";
-520b792e83171e Xianwei Zhao   2024-08-30  756  						interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
-520b792e83171e Xianwei Zhao   2024-08-30  757  						reg = <8>;
-520b792e83171e Xianwei Zhao   2024-08-30  758  						max-speed = <100>;
-520b792e83171e Xianwei Zhao   2024-08-30  759  					};
-520b792e83171e Xianwei Zhao   2024-08-30  760  				};
-520b792e83171e Xianwei Zhao   2024-08-30  761  			};
-520b792e83171e Xianwei Zhao   2024-08-30  762  
-520b792e83171e Xianwei Zhao   2024-08-30  763  			spicc0: spi@50000 {
-520b792e83171e Xianwei Zhao   2024-08-30  764  				compatible = "amlogic,meson-g12a-spicc";
-520b792e83171e Xianwei Zhao   2024-08-30  765  				reg = <0x0 0x50000 0x0 0x44>;
-520b792e83171e Xianwei Zhao   2024-08-30  766  				interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
-520b792e83171e Xianwei Zhao   2024-08-30  767  				clocks = <&clkc_periphs CLKID_SYS_SPICC_0>,
-520b792e83171e Xianwei Zhao   2024-08-30  768  					 <&clkc_periphs CLKID_SPICC_A>;
-520b792e83171e Xianwei Zhao   2024-08-30  769  				clock-names = "core", "pclk";
-520b792e83171e Xianwei Zhao   2024-08-30  770  				#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  771  				#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  772  				status = "disabled";
-520b792e83171e Xianwei Zhao   2024-08-30  773  			};
-520b792e83171e Xianwei Zhao   2024-08-30  774  
-520b792e83171e Xianwei Zhao   2024-08-30  775  			spicc1: spi@52000 {
-520b792e83171e Xianwei Zhao   2024-08-30  776  				compatible = "amlogic,meson-g12a-spicc";
-520b792e83171e Xianwei Zhao   2024-08-30  777  				reg = <0x0 0x52000 0x0 0x44>;
-520b792e83171e Xianwei Zhao   2024-08-30  778  				interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-520b792e83171e Xianwei Zhao   2024-08-30  779  				clocks = <&clkc_periphs CLKID_SYS_SPICC_1>,
-520b792e83171e Xianwei Zhao   2024-08-30  780  					 <&clkc_periphs CLKID_SPICC_B>;
-520b792e83171e Xianwei Zhao   2024-08-30  781  				clock-names = "core", "pclk";
-520b792e83171e Xianwei Zhao   2024-08-30  782  				#address-cells = <1>;
-520b792e83171e Xianwei Zhao   2024-08-30  783  				#size-cells = <0>;
-520b792e83171e Xianwei Zhao   2024-08-30  784  				status = "disabled";
-520b792e83171e Xianwei Zhao   2024-08-30  785  			};
-520b792e83171e Xianwei Zhao   2024-08-30  786  
-be90cd4bd422e8 Kelvin Zhang   2024-09-14 @787  			pwm_mn: pwm@54000 {
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
