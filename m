@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856AE1FC7E1
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Mar 2025 10:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF50F1FCFC9
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Mar 2025 10:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741083697; cv=none; b=VoXszNesEU1vlAsQky7aDxanWO8js4qYpIEtP4x2W7S2lIB9vVBHQhQlIbklSj/jQxZLZph9w8GfAIKRIi6oUeVJ5byh2MwSL+0Y6GFdzElhms2k/FeqU2xfiIHlD4tboGwDTK4iCG5eD3aXQCFacKSblxD7Wz8DmGeyZ4jWAPY=
+	t=1741084094; cv=none; b=q8aDYUR/RdJbxB8K+5jZKC5lgaEbnuHMsRy3x/W4ulGmwTVdgeNNAZzrneMbGp081IorsyuH4YhLTGkTZ6yOU9jiMpNnK+vGG613REZ6jO+9tmdYwMZBNh9MFI6KdScUxD2SONhB+MVWslfyQZq+iDxvf0vewIhNJf/3BjEg71Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741083697; c=relaxed/simple;
-	bh=KhNC1ZRSSqvTJcIxA36fAJphPZsnSZLt61Cd2OYdl9g=;
+	s=arc-20240116; t=1741084094; c=relaxed/simple;
+	bh=97uODZjD3A4OsiJzEIFrZUGbVGhrTGa2NEDYSngpTrQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZS1ZnDMdzTugdGonpAmBtVmWL0TwnK7rLu4hPHvUtM3qPMK81mnE8Ndv6joaBOhjrhecuSg3AWe3LOvRzMCLjMf5JSIJsethy+Q4aa9HJ535UdwlIdZNUtCJyU/a4hoccCOGEjthh74A+72C6uXPi3XCl6cw9DBCekIe25Nhcns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLgx7XQI; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=eWGnWHW3ZeASL7F6vZKrQn3I51ntvrDitA+Rc16N9ZVYJajiBxk8m8h13W8e4QKrk3wIis68BHq+wYiDMciEMsxiSns1FkR3USdm0UfVuID1ekGMWfLkFmSuMDTc7Vi7dZ5y9VKJJsxc7n1vZbFBCdEX/Dy1ulNrPI/R874B4gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qyp4BK08; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLgx7XQI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741083695; x=1772619695;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KhNC1ZRSSqvTJcIxA36fAJphPZsnSZLt61Cd2OYdl9g=;
-  b=TLgx7XQIX9Nr0nSfMH7mxR1V9bDFVDA9NJZPu0Sh/tWhLOzGsDYtoncg
-   5TgWCGvEsGrWtliJvMWfd4ewG5Mw0SMTj1t34iCcD1Orts3v9nFTDIz91
-   Hy2o/YB8w1QYsRRcb5QHPVA65Q/vB9aD5fKXpGzKAwxWh6qbyya4wEMlt
-   dGYwJYbKRN0kmDyfWqFuLtK+k++tsb9v4IPP3Dbijnc6t278RBFabKALF
-   re6aT3v3sz0uFO15zU77noUcrSsaKdfpbesRBxOfXTL1qBrT6Cuij5MMd
-   y/ly8lAY+pTwrrBBJ3fo1VGoRaNWORnqIL4WyemgSLxyearWIarw4de7Q
-   g==;
-X-CSE-ConnectionGUID: 6a9KysFyS0CpYixc0/kdsA==
-X-CSE-MsgGUID: 5MWnvrOAQ6iFg7KY1wOAqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41242845"
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="41242845"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:21:35 -0800
-X-CSE-ConnectionGUID: imlGylNoTdaCA9/bV0Wx9g==
-X-CSE-MsgGUID: 2Q9qFIdaT8yllTzrcCGk9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="118343544"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 04 Mar 2025 02:21:33 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpPP0-000Jai-2Z;
-	Tue, 04 Mar 2025 10:21:30 +0000
-Date: Tue, 4 Mar 2025 18:20:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qyp4BK08"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso35297635e9.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 04 Mar 2025 02:28:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741084089; x=1741688889; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gQ7CoGFD2iFvRPr/ZFej0po5vNDT++pElWgS74U9fxk=;
+        b=qyp4BK08Z/158HvzMub2YMzPtVriaCXsbty/IUky4nibWWrBle44iyrs+L29pnx1oz
+         4sbfbqWE1qMRHideur2tIDkv33n+c/nCeQG85VZVKiyEEXS1nU8PrQdtG4L+o2xV443n
+         W+vI1Guam+I3V6PDX58HOuYUiSCCT8+i5k+j7Hm4EBwHcc4hGIKNKh0G7piIfpghTXZL
+         W6QOyQcDD/9tAPDa928tEPCPPhOiMPBLjtEjubKzCeIdzf1skBwcggglTrXovQp7saKW
+         F7Qt3TRShdH0m90NA2u60zByNqFDtc36hteudwIMX8DKAIneHpEl7ZsHMhh16HGP2++y
+         cypg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741084089; x=1741688889;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gQ7CoGFD2iFvRPr/ZFej0po5vNDT++pElWgS74U9fxk=;
+        b=mgiZPLff+LrPoFbGzAEnKeqf6Vgkpwv1WEW27S6Zc1SR1tfkIkouqvtg8q89Eijzdw
+         WvQGXWRleHFm5/39Fca6AqZ9LkucJZG/52SLHdgGbkj2ZzJuiKDOhOhw9+vI6/X0XSp1
+         77l1N49kRjJyDYnaGDjp5e9Mymsw/V+NEGD/v1l8VTcx5TemoKPUx5ruNUmj9Rj+1TPd
+         X3Ce98gwaqNDzAcrYF9AiCestlce4nYp0nozc5G+oi17TjWydAD9NFCJTxP8Mj4qiMyN
+         KRT1vKCVX4XpCrhsun4dVWW63sILmFLCW7nVlFuUAAuwA8QWFK7GEgz0U3QVEwp7h1eW
+         XNmw==
+X-Gm-Message-State: AOJu0Yy2BipA9z4vYpxZIDc0HrUKCrHUFzkK4f0WywFAOxV2qbF8/NpU
+	wXd9UCkB7YjJSYlMt6g8VxROX3qE4dOmzc7+ZHbrHyy2lWyqzicjNpxfhJX2T7nul+YHn4bh85J
+	4
+X-Gm-Gg: ASbGncsRVEJ9mmBOLN09TmxXbf8IKgRYQpcEVVqVem3dnXtHepYJxldjsV1b3K5hTtU
+	VDJImXqrbDM1y5egXop9b3TX7+U9RuiiP4r1szOsQot5VMDx/Ryrg92F7fzWnut2s9g3PbSX2nP
+	XxyMjZNkRuYYyF5LCbae59+j0xxVikk9o4FshplIrjT53XCEC4JAS71Zf+xAFBW4AJlf7jBLm6j
+	mFBwBdndPDM+t5GDbZEDOKlyJ0lNGzHwjVxo33rfV60JMdbVmJR7chUH6LnI1l5OB1nrLlyyu2q
+	JE3iSq1K5c/o0y1Q5n7FqiQx32u+qUlfymgjeI4spRvJyLVTzA==
+X-Google-Smtp-Source: AGHT+IFJChvuv0JduXGK3MAJXNy1R0ZTDMnT9SqUSVvqelpPlcJ7SMiCGA2ATJvXIXXWQ8WjZgBb/A==
+X-Received: by 2002:a05:600c:1c1a:b0:43b:ce3d:1278 with SMTP id 5b1f17b1804b1-43bce3d1343mr7037665e9.31.1741084089273;
+        Tue, 04 Mar 2025 02:28:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43aba5710f6sm229777655e9.29.2025.03.04.02.28.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 02:28:08 -0800 (PST)
+Date: Tue, 4 Mar 2025 13:28:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, allison.henderson@oracle.com,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard
  messages
-Message-ID: <202503041749.YwkRic8W-lkp@intel.com>
+Message-ID: <bcd9af0a-daf1-455c-a9b0-cbd1c2e65e4f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,46 +72,32 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250227042638.82553-6-allison.henderson@oracle.com>
-References: <20250227042638.82553-6-allison.henderson@oracle.com>
-TO: allison.henderson@oracle.com
-TO: netdev@vger.kernel.org
 
 Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master v6.14-rc5 next-20250303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/allison-henderson-oracle-com/net-rds-Avoid-queuing-superfluous-send-and-recv-work/20250227-123038
 base:   net/main
 patch link:    https://lore.kernel.org/r/20250227042638.82553-6-allison.henderson%40oracle.com
 patch subject: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard messages
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
 config: x86_64-randconfig-161-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041749.YwkRic8W-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202503041749.YwkRic8W-lkp@intel.com/
 
 smatch warnings:
-net/rds/tcp_listen.c:156 rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null (see line 137)
 net/rds/tcp_listen.c:295 rds_tcp_accept_one() warn: inconsistent returns '&rtn->rds_tcp_accept_lock'.
 
 vim +/new_sock +156 net/rds/tcp_listen.c
 
-112b9a7a012048 Gerd Rausch       2025-02-26  108  
 112b9a7a012048 Gerd Rausch       2025-02-26  109  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
 70041088e3b976 Andy Grover       2009-08-21  110  {
 112b9a7a012048 Gerd Rausch       2025-02-26  111  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
@@ -122,9 +119,14 @@ e65d4d96334e3f Ka-Cheong Poon    2018-07-30  126  #endif
 e65d4d96334e3f Ka-Cheong Poon    2018-07-30  127  	int dev_if = 0;
 70041088e3b976 Andy Grover       2009-08-21  128  
 112b9a7a012048 Gerd Rausch       2025-02-26  129  	mutex_lock(&rtn->rds_tcp_accept_lock);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 112b9a7a012048 Gerd Rausch       2025-02-26  130  
 112b9a7a012048 Gerd Rausch       2025-02-26  131  	if (!listen_sock)
 37e14f4fe2991f Sowmini Varadhan  2016-05-18  132  		return -ENETUNREACH;
+                                                                ^^^^^^^^^^^^^^^^^^^^
+Do this before taking the lock?
+
 37e14f4fe2991f Sowmini Varadhan  2016-05-18  133  
 112b9a7a012048 Gerd Rausch       2025-02-26  134  	new_sock = rtn->rds_tcp_accepted_sock;
 112b9a7a012048 Gerd Rausch       2025-02-26  135  	rtn->rds_tcp_accepted_sock = NULL;
@@ -289,8 +291,8 @@ bd7c5f983f3185 Sowmini Varadhan  2016-05-02  288  	if (rs_tcp)
 112b9a7a012048 Gerd Rausch       2025-02-26  294  
 70041088e3b976 Andy Grover       2009-08-21 @295  	return ret;
 70041088e3b976 Andy Grover       2009-08-21  296  }
-70041088e3b976 Andy Grover       2009-08-21  297  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
