@@ -1,1135 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7F61FBEB3
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Mar 2025 09:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856AE1FC7E1
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Mar 2025 10:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741081223; cv=none; b=hnXDXbb9NCk8P4ntZdmmQCxEytoPFD/ZcmfbRPo2Esse+ymLvqlLtQUUGz2n3OqgM6d9Pxoq31TkIU0+OTa5dXYHqncuKz6GrrAIlvAGlhuCnCx4sOssWzk3JfWUv7PyvIHSLXTX/sKvCi/fJX8kdC32RwVruKUFgp8WkWS7sDw=
+	t=1741083697; cv=none; b=VoXszNesEU1vlAsQky7aDxanWO8js4qYpIEtP4x2W7S2lIB9vVBHQhQlIbklSj/jQxZLZph9w8GfAIKRIi6oUeVJ5byh2MwSL+0Y6GFdzElhms2k/FeqU2xfiIHlD4tboGwDTK4iCG5eD3aXQCFacKSblxD7Wz8DmGeyZ4jWAPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741081223; c=relaxed/simple;
-	bh=ei9vNlBNdigVS4B6qe2Rt0K7ks2nvPeOPHpTx21f5bk=;
+	s=arc-20240116; t=1741083697; c=relaxed/simple;
+	bh=KhNC1ZRSSqvTJcIxA36fAJphPZsnSZLt61Cd2OYdl9g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gCxux4pmYuNhZKIfJEpfc221cc+hwfd5olVB19Ph+vD1HPsa88NzVOghqwq6Zz55HH08DRlhnUOskF0KIvlFPyfYKd2nPB1x+cNIhe773bshYTCXeS+vLz1W7GCLtrB9Qm3CAwKdfCiSoWxGcDiGI8B99l0dcFHr6cDFO7Dtbbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OeQ/7H2o; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ZS1ZnDMdzTugdGonpAmBtVmWL0TwnK7rLu4hPHvUtM3qPMK81mnE8Ndv6joaBOhjrhecuSg3AWe3LOvRzMCLjMf5JSIJsethy+Q4aa9HJ535UdwlIdZNUtCJyU/a4hoccCOGEjthh74A+72C6uXPi3XCl6cw9DBCekIe25Nhcns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TLgx7XQI; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OeQ/7H2o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TLgx7XQI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741081218; x=1772617218;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ei9vNlBNdigVS4B6qe2Rt0K7ks2nvPeOPHpTx21f5bk=;
-  b=OeQ/7H2oFh32Ps5TP2UMVKWyQ/Aehs5KvgYl7Vt3lU+Ga7pqL9q1Ccx9
-   DDR80zx37M+M9h71CvdvoX1wtc9BsIhaFS5V0rH565VX4GXNFrFEHX3hI
-   NqyWK0sMyq50zeQqCdr/D+nE4jQDbe9WouYGcF0y/YzLmtMFpZ/XkOo7D
-   XZe9iQbpVWrTBUlu2q1f1dGPtXmY1u/6YumhwmHYvkUDEAw4Rc/L+f1BR
-   Xk7RLbEqRJYyD3/FbHmn0GWJjQpo53wGQ1oZ2V8R3xo/DK0utiLHT9KVf
-   bCh+X+udpuq5M5QkyaEZvaELrirMUr4hXtRBZQgzq/DBmY1JUB9vHxaQc
+  t=1741083695; x=1772619695;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KhNC1ZRSSqvTJcIxA36fAJphPZsnSZLt61Cd2OYdl9g=;
+  b=TLgx7XQIX9Nr0nSfMH7mxR1V9bDFVDA9NJZPu0Sh/tWhLOzGsDYtoncg
+   5TgWCGvEsGrWtliJvMWfd4ewG5Mw0SMTj1t34iCcD1Orts3v9nFTDIz91
+   Hy2o/YB8w1QYsRRcb5QHPVA65Q/vB9aD5fKXpGzKAwxWh6qbyya4wEMlt
+   dGYwJYbKRN0kmDyfWqFuLtK+k++tsb9v4IPP3Dbijnc6t278RBFabKALF
+   re6aT3v3sz0uFO15zU77noUcrSsaKdfpbesRBxOfXTL1qBrT6Cuij5MMd
+   y/ly8lAY+pTwrrBBJ3fo1VGoRaNWORnqIL4WyemgSLxyearWIarw4de7Q
    g==;
-X-CSE-ConnectionGUID: 1Q+nQTyKQLCE2/0mnB33Uw==
-X-CSE-MsgGUID: Lo6hfnMwQJqEdPzoDNoUAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52972073"
+X-CSE-ConnectionGUID: 6a9KysFyS0CpYixc0/kdsA==
+X-CSE-MsgGUID: 5MWnvrOAQ6iFg7KY1wOAqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41242845"
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="52972073"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 01:40:17 -0800
-X-CSE-ConnectionGUID: iXc4Hn+CRcOm8Fa/TchPjw==
-X-CSE-MsgGUID: cOL6HQTqTUGJtAB/zjHIsg==
+   d="scan'208";a="41242845"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:21:35 -0800
+X-CSE-ConnectionGUID: imlGylNoTdaCA9/bV0Wx9g==
+X-CSE-MsgGUID: 2Q9qFIdaT8yllTzrcCGk9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149254079"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="118343544"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2025 01:40:15 -0800
+  by orviesa006.jf.intel.com with ESMTP; 04 Mar 2025 02:21:33 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpOl2-000JYg-2e;
-	Tue, 04 Mar 2025 09:40:12 +0000
-Date: Tue, 4 Mar 2025 17:39:16 +0800
+	id 1tpPP0-000Jai-2Z;
+	Tue, 04 Mar 2025 10:21:30 +0000
+Date: Tue, 4 Mar 2025 18:20:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 3/3] dt-bindings: net: Convert fsl,gianfar to YAML
-Message-ID: <202503041718.huZAp3lD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard
+ messages
+Message-ID: <202503041749.YwkRic8W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250228-gianfar-yaml-v2-3-6beeefbd4818@posteo.net>
-References: <20250228-gianfar-yaml-v2-3-6beeefbd4818@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: Andrew Lunn <andrew+netdev@lunn.ch>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Claudiu Manoil <claudiu.manoil@nxp.com>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: "J. Neuschäfer" <j.ne@posteo.net>
+In-Reply-To: <20250227042638.82553-6-allison.henderson@oracle.com>
+References: <20250227042638.82553-6-allison.henderson@oracle.com>
+TO: allison.henderson@oracle.com
+TO: netdev@vger.kernel.org
 
-Hi Neuschäfer,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master v6.14-rc5 next-20250303]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-net-Convert-fsl-gianfar-mdio-tbi-to-YAML/20250301-013611
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250228-gianfar-yaml-v2-3-6beeefbd4818%40posteo.net
-patch subject: [PATCH v2 3/3] dt-bindings: net: Convert fsl,gianfar to YAML
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: powerpc-randconfig-052-20250302 (https://download.01.org/0day-ci/archive/20250304/202503041718.huZAp3lD-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041718.huZAp3lD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/allison-henderson-oracle-com/net-rds-Avoid-queuing-superfluous-send-and-recv-work/20250227-123038
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250227042638.82553-6-allison.henderson%40oracle.com
+patch subject: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard messages
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041749.YwkRic8W-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503041718.huZAp3lD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503041749.YwkRic8W-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: sdhc@2e000: compatible:0: 'fsl,esdhc' is not one of ['fsl,mpc8536-esdhc', 'fsl,mpc8378-esdhc', 'fsl,p2020-esdhc', 'fsl,p4080-esdhc', 'fsl,t1040-esdhc', 'fsl,t4240-esdhc', 'fsl,ls1012a-esdhc', 'fsl,ls1028a-esdhc', 'fsl,ls1088a-esdhc', 'fsl,ls1043a-esdhc', 'fsl,ls1046a-esdhc', 'fsl,ls2080a-esdhc']
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: sdhc@2e000: compatible: ['fsl,esdhc'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: sdhc@2e000: $nodename:0: 'sdhc@2e000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ethernet@b0000: Unevaluated properties are not allowed ('queue-group@b0000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: ethernet@b1000: Unevaluated properties are not allowed ('queue-group@b1000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9131-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9131-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: /soc@ff700000/memory-controller@2000: failed to match any schema with compatible: ['fsl,bsc9131-memory-controller']
-   arch/powerpc/boot/dts/fsl/bsc9131rdb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr', 'fsl-usb2-dr-v2.2'] is too long
-   	'fsl-usb2-dr' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	'fsl-usb2-dr' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ethernet@b0000: Unevaluated properties are not allowed ('queue-group@b0000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: ethernet@b1000: Unevaluated properties are not allowed ('queue-group@b1000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9132-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: /soc@ff700000/ecm@1000: failed to match any schema with compatible: ['fsl,bsc9132-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/bsc9132qds.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /memory-controller@fffe1e000/cpld@2,0: failed to match any schema with compatible: ['fsl,c293pcie-cpld']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: ethernet@b0000: Unevaluated properties are not allowed ('queue-group@b0000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/c293pcie.dtb: ethernet@b1000: Unevaluated properties are not allowed ('queue-group@b1000' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,c293-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,c293-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: /soc@fffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,c293-memory-controller']
-   arch/powerpc/boot/dts/fsl/c293pcie.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: /soc@ffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: /soc@fffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pa_36b.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: /soc@ffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
---
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1010-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: /soc@fffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1010-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1010rdb-pb_36b.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,ns16550', 'ns16550'] is too long
-   	['fsl,ns16550', 'ns16550'] is too short
-   	'ns8250' was expected
-   	'ns16450' was expected
---
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /localbus@ffe05000/L2switch@2,0: failed to match any schema with compatible: ['vitesse-7385']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1020-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_32b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /localbus@fffe05000/L2switch@2,0: failed to match any schema with compatible: ['vitesse-7385']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000: failed to match any schema with compatible: ['fsl,p1020-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020mbg-pc_36b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_32b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core0.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pc_camp_core1.dtb: serial@4500: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000: failed to match any schema with compatible: ['fsl,mpc8536-espi']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000/slic@0: failed to match any schema with compatible: ['zarlink,le88266']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/spi@7000/slic@1: failed to match any schema with compatible: ['zarlink,le88266']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020rdb-pd.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
---
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: usb@23000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: usb@23000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020rdb_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000: failed to match any schema with compatible: ['fsl,p1020-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_32b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: nor@0,0: $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000: failed to match any schema with compatible: ['fsl,p1020-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1020utm-pc_36b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
---
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021mds.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1021mds.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_32b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1021rdb-pc_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: /soc@ffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_32b.dtb: pcie@ffe09000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
---
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/crypto@30000: failed to match any schema with compatible: ['fsl,sec3.3', 'fsl,sec3.1', 'fsl,sec3.0', 'fsl,sec2.4', 'fsl,sec2.2', 'fsl,sec2.1', 'fsl,sec2.0']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/timer@41100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/message@41400: failed to match any schema with compatible: ['fsl,mpic-v3.1-msgr']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/msi@41600: failed to match any schema with compatible: ['fsl,mpic-msi']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/timer@42100: failed to match any schema with compatible: ['fsl,mpic-global-timer']
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/global-utilities@e0000: failed to match any schema with compatible: ['fsl,p1022-guts']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: /soc@fffe00000/power@e0070: failed to match any schema with compatible: ['fsl,p1022-pmc', 'fsl,mpc8536-pmc', 'fsl,mpc8548-pmc']
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/powerpc/boot/dts/fsl/p1022ds_36b.dtb: pcie@fffe09000: pcie@0:interrupts:0: [16, 2, 0, 0] is too long
---
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: usb@23000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1022rdk.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1022-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1022-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: /soc@ffe00000/memory-controller@2000: failed to match any schema with compatible: ['fsl,p1022-memory-controller']
-   arch/powerpc/boot/dts/fsl/p1022rdk.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_32b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: usb@23000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/usb@23000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1020-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1024rdb_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_32b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: flash@0: 'partition@dtb', 'partition@fs', 'partition@jffs-fs', 'partition@kernel', 'partition@u-boot' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b1000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b1000', 'queue-group@b5000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: /soc@fffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: i2c@3100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1025rdb_36b.dtb: i2c@3100: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
---
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: usb@22000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-usb2-dr-v1.6', 'fsl-usb2-dr'] is too long
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-mph', 'fsl-usb2-dr']
-   	'fsl-usb2-dr-v1.6' is not one of ['fsl-usb2-dr-v2.2', 'fsl-usb2-dr-v2.5']
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: usb@22000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/usb@22000: failed to match any schema with compatible: ['fsl-usb2-dr-v1.6', 'fsl-usb2-dr']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: ptp_clock@b0e00: interrupts: [[68, 2, 0, 0], [69, 2, 0, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/ptp/fsl,ptp.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b0000: queue-group@b0000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b0000: queue-group@b4000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b0000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b0000', 'queue-group@b4000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b1000: queue-group@b1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b1000: queue-group@b5000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b2000: queue-group@b2000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b2000: queue-group@b6000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
->> arch/powerpc/boot/dts/fsl/p1025twr.dtb: ethernet@b2000: Unevaluated properties are not allowed ('fsl,pmc-handle', 'queue-group@b2000', 'queue-group@b6000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm-law@0: failed to match any schema with compatible: ['fsl,ecm-law']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: /soc@ffe00000/ecm@1000: failed to match any schema with compatible: ['fsl,p1021-ecm', 'fsl,ecm']
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/p1025twr.dtb: i2c@3000: Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
+smatch warnings:
+net/rds/tcp_listen.c:156 rds_tcp_accept_one() error: we previously assumed 'new_sock' could be null (see line 137)
+net/rds/tcp_listen.c:295 rds_tcp_accept_one() warn: inconsistent returns '&rtn->rds_tcp_accept_lock'.
+
+vim +/new_sock +156 net/rds/tcp_listen.c
+
+112b9a7a012048 Gerd Rausch       2025-02-26  108  
+112b9a7a012048 Gerd Rausch       2025-02-26  109  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
+70041088e3b976 Andy Grover       2009-08-21  110  {
+112b9a7a012048 Gerd Rausch       2025-02-26  111  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
+70041088e3b976 Andy Grover       2009-08-21  112  	struct socket *new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  113  	struct rds_connection *conn;
+70041088e3b976 Andy Grover       2009-08-21  114  	int ret;
+70041088e3b976 Andy Grover       2009-08-21  115  	struct inet_sock *inet;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  116  	struct rds_tcp_connection *rs_tcp = NULL;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  117  	int conn_state;
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  118  	struct rds_conn_path *cp;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  119  	struct in6_addr *my_addr, *peer_addr;
+92ef0fd55ac80d Jens Axboe        2024-05-09  120  	struct proto_accept_arg arg = {
+92ef0fd55ac80d Jens Axboe        2024-05-09  121  		.flags = O_NONBLOCK,
+92ef0fd55ac80d Jens Axboe        2024-05-09  122  		.kern = true,
+92ef0fd55ac80d Jens Axboe        2024-05-09  123  	};
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  124  #if !IS_ENABLED(CONFIG_IPV6)
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  125  	struct in6_addr saddr, daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  126  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  127  	int dev_if = 0;
+70041088e3b976 Andy Grover       2009-08-21  128  
+112b9a7a012048 Gerd Rausch       2025-02-26  129  	mutex_lock(&rtn->rds_tcp_accept_lock);
+112b9a7a012048 Gerd Rausch       2025-02-26  130  
+112b9a7a012048 Gerd Rausch       2025-02-26  131  	if (!listen_sock)
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  132  		return -ENETUNREACH;
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  133  
+112b9a7a012048 Gerd Rausch       2025-02-26  134  	new_sock = rtn->rds_tcp_accepted_sock;
+112b9a7a012048 Gerd Rausch       2025-02-26  135  	rtn->rds_tcp_accepted_sock = NULL;
+112b9a7a012048 Gerd Rausch       2025-02-26  136  
+112b9a7a012048 Gerd Rausch       2025-02-26 @137  	if (!new_sock) {
+112b9a7a012048 Gerd Rausch       2025-02-26  138  		ret = sock_create_lite(listen_sock->sk->sk_family,
+112b9a7a012048 Gerd Rausch       2025-02-26  139  				       listen_sock->sk->sk_type,
+112b9a7a012048 Gerd Rausch       2025-02-26  140  				       listen_sock->sk->sk_protocol,
+d5a8ac28a7ff2f Sowmini Varadhan  2015-08-05  141  				       &new_sock);
+70041088e3b976 Andy Grover       2009-08-21  142  		if (ret)
+70041088e3b976 Andy Grover       2009-08-21  143  			goto out;
+70041088e3b976 Andy Grover       2009-08-21  144  
+112b9a7a012048 Gerd Rausch       2025-02-26  145  		ret = listen_sock->ops->accept(listen_sock, new_sock, &arg);
+70041088e3b976 Andy Grover       2009-08-21  146  		if (ret < 0)
+70041088e3b976 Andy Grover       2009-08-21  147  			goto out;
+70041088e3b976 Andy Grover       2009-08-21  148  
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  149  		/* sock_create_lite() does not get a hold on the owner module so we
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  150  		 * need to do it here.  Note that sock_release() uses sock->ops to
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  151  		 * determine if it needs to decrement the reference count.  So set
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  152  		 * sock->ops after calling accept() in case that fails.  And there's
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  153  		 * no need to do try_module_get() as the listener should have a hold
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  154  		 * already.
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  155  		 */
+112b9a7a012048 Gerd Rausch       2025-02-26 @156  		new_sock->ops = listen_sock->ops;
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  157  		__module_get(new_sock->ops->owner);
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  158  
+480aeb9639d6a0 Christoph Hellwig 2020-05-28  159  		rds_tcp_keepalive(new_sock);
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  160  		if (!rds_tcp_tune(new_sock)) {
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  161  			ret = -EINVAL;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  162  			goto out;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  163  		}
+70041088e3b976 Andy Grover       2009-08-21  164  
+70041088e3b976 Andy Grover       2009-08-21  165  		inet = inet_sk(new_sock->sk);
+112b9a7a012048 Gerd Rausch       2025-02-26  166  	}
+70041088e3b976 Andy Grover       2009-08-21  167  
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  168  #if IS_ENABLED(CONFIG_IPV6)
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  169  	my_addr = &new_sock->sk->sk_v6_rcv_saddr;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  170  	peer_addr = &new_sock->sk->sk_v6_daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  171  #else
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  172  	ipv6_addr_set_v4mapped(inet->inet_saddr, &saddr);
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  173  	ipv6_addr_set_v4mapped(inet->inet_daddr, &daddr);
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  174  	my_addr = &saddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  175  	peer_addr = &daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  176  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  177  	rdsdebug("accepted family %d tcp %pI6c:%u -> %pI6c:%u\n",
+112b9a7a012048 Gerd Rausch       2025-02-26  178  		 listen_sock->sk->sk_family,
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  179  		 my_addr, ntohs(inet->inet_sport),
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  180  		 peer_addr, ntohs(inet->inet_dport));
+70041088e3b976 Andy Grover       2009-08-21  181  
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  182  #if IS_ENABLED(CONFIG_IPV6)
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  183  	/* sk_bound_dev_if is not set if the peer address is not link local
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  184  	 * address.  In this case, it happens that mcast_oif is set.  So
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  185  	 * just use it.
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  186  	 */
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  187  	if ((ipv6_addr_type(my_addr) & IPV6_ADDR_LINKLOCAL) &&
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  188  	    !(ipv6_addr_type(peer_addr) & IPV6_ADDR_LINKLOCAL)) {
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  189  		struct ipv6_pinfo *inet6;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  190  
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  191  		inet6 = inet6_sk(new_sock->sk);
+d2f011a0bf28c0 Eric Dumazet      2023-12-08  192  		dev_if = READ_ONCE(inet6->mcast_oif);
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  193  	} else {
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  194  		dev_if = new_sock->sk->sk_bound_dev_if;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  195  	}
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  196  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  197  
+112b9a7a012048 Gerd Rausch       2025-02-26  198  	if (!rds_tcp_laddr_check(sock_net(listen_sock->sk), peer_addr, dev_if)) {
+aced3ce57cd37b Rao Shoaib        2021-05-21  199  		/* local address connection is only allowed via loopback */
+aced3ce57cd37b Rao Shoaib        2021-05-21  200  		ret = -EOPNOTSUPP;
+aced3ce57cd37b Rao Shoaib        2021-05-21  201  		goto out;
+aced3ce57cd37b Rao Shoaib        2021-05-21  202  	}
+aced3ce57cd37b Rao Shoaib        2021-05-21  203  
+112b9a7a012048 Gerd Rausch       2025-02-26  204  	conn = rds_conn_create(sock_net(listen_sock->sk),
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  205  			       my_addr, peer_addr,
+3eb450367d0823 Santosh Shilimkar 2018-10-23  206  			       &rds_tcp_transport, 0, GFP_KERNEL, dev_if);
+eee2fa6ab32251 Ka-Cheong Poon    2018-07-23  207  
+70041088e3b976 Andy Grover       2009-08-21  208  	if (IS_ERR(conn)) {
+70041088e3b976 Andy Grover       2009-08-21  209  		ret = PTR_ERR(conn);
+70041088e3b976 Andy Grover       2009-08-21  210  		goto out;
+70041088e3b976 Andy Grover       2009-08-21  211  	}
+f711a6ae062cae Sowmini Varadhan  2015-05-05  212  	/* An incoming SYN request came in, and TCP just accepted it.
+f711a6ae062cae Sowmini Varadhan  2015-05-05  213  	 *
+f711a6ae062cae Sowmini Varadhan  2015-05-05  214  	 * If the client reboots, this conn will need to be cleaned up.
+f711a6ae062cae Sowmini Varadhan  2015-05-05  215  	 * rds_tcp_state_change() will do that cleanup
+f711a6ae062cae Sowmini Varadhan  2015-05-05  216  	 */
+112b9a7a012048 Gerd Rausch       2025-02-26  217  	if (rds_addr_cmp(&conn->c_faddr, &conn->c_laddr) < 0) {
+112b9a7a012048 Gerd Rausch       2025-02-26  218  		/* Try to obtain a free connection slot.
+112b9a7a012048 Gerd Rausch       2025-02-26  219  		 * If unsuccessful, we need to preserve "new_sock"
+112b9a7a012048 Gerd Rausch       2025-02-26  220  		 * that we just accepted, since its "sk_receive_queue"
+112b9a7a012048 Gerd Rausch       2025-02-26  221  		 * may contain messages already that have been acknowledged
+112b9a7a012048 Gerd Rausch       2025-02-26  222  		 * to and discarded by the sender.
+112b9a7a012048 Gerd Rausch       2025-02-26  223  		 * We must not throw those away!
+112b9a7a012048 Gerd Rausch       2025-02-26  224  		 */
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  225  		rs_tcp = rds_tcp_accept_one_path(conn);
+112b9a7a012048 Gerd Rausch       2025-02-26  226  		if (!rs_tcp) {
+112b9a7a012048 Gerd Rausch       2025-02-26  227  			/* It's okay to stash "new_sock", since
+112b9a7a012048 Gerd Rausch       2025-02-26  228  			 * "rds_tcp_conn_slots_available" triggers "rds_tcp_accept_one"
+112b9a7a012048 Gerd Rausch       2025-02-26  229  			 * again as soon as one of the connection slots
+112b9a7a012048 Gerd Rausch       2025-02-26  230  			 * becomes available again
+112b9a7a012048 Gerd Rausch       2025-02-26  231  			 */
+112b9a7a012048 Gerd Rausch       2025-02-26  232  			rtn->rds_tcp_accepted_sock = new_sock;
+112b9a7a012048 Gerd Rausch       2025-02-26  233  			new_sock = NULL;
+112b9a7a012048 Gerd Rausch       2025-02-26  234  			ret = -ENOBUFS;
+112b9a7a012048 Gerd Rausch       2025-02-26  235  			goto out;
+112b9a7a012048 Gerd Rausch       2025-02-26  236  		}
+112b9a7a012048 Gerd Rausch       2025-02-26  237  	} else {
+112b9a7a012048 Gerd Rausch       2025-02-26  238  		/* This connection request came from a peer with
+112b9a7a012048 Gerd Rausch       2025-02-26  239  		 * a larger address.
+112b9a7a012048 Gerd Rausch       2025-02-26  240  		 * Function "rds_tcp_state_change" makes sure
+112b9a7a012048 Gerd Rausch       2025-02-26  241  		 * that the connection doesn't transition
+112b9a7a012048 Gerd Rausch       2025-02-26  242  		 * to state "RDS_CONN_UP", and therefore
+112b9a7a012048 Gerd Rausch       2025-02-26  243  		 * we should not have received any messages
+112b9a7a012048 Gerd Rausch       2025-02-26  244  		 * on this socket yet.
+112b9a7a012048 Gerd Rausch       2025-02-26  245  		 * This is the only case where it's okay to
+112b9a7a012048 Gerd Rausch       2025-02-26  246  		 * not dequeue messages from "sk_receive_queue".
+112b9a7a012048 Gerd Rausch       2025-02-26  247  		 */
+112b9a7a012048 Gerd Rausch       2025-02-26  248  		if (conn->c_npaths <= 1)
+112b9a7a012048 Gerd Rausch       2025-02-26  249  			rds_conn_path_connect_if_down(&conn->c_path[0]);
+112b9a7a012048 Gerd Rausch       2025-02-26  250  		rs_tcp = NULL;
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  251  		goto rst_nsk;
+112b9a7a012048 Gerd Rausch       2025-02-26  252  	}
+112b9a7a012048 Gerd Rausch       2025-02-26  253  
+02105b2ccdd634 Sowmini Varadhan  2016-06-30  254  	mutex_lock(&rs_tcp->t_conn_path_lock);
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  255  	cp = rs_tcp->t_cpath;
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  256  	conn_state = rds_conn_path_state(cp);
+1a0e100fb2c966 Sowmini Varadhan  2016-11-16  257  	WARN_ON(conn_state == RDS_CONN_UP);
+112b9a7a012048 Gerd Rausch       2025-02-26  258  	if (conn_state != RDS_CONN_CONNECTING && conn_state != RDS_CONN_ERROR) {
+112b9a7a012048 Gerd Rausch       2025-02-26  259  		rds_conn_path_drop(cp, 0);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  260  		goto rst_nsk;
+112b9a7a012048 Gerd Rausch       2025-02-26  261  	}
+eb192840266fab Sowmini Varadhan  2016-05-02  262  	if (rs_tcp->t_sock) {
+41500c3e2a19ff Sowmini Varadhan  2017-06-15  263  		/* Duelling SYN has been handled in rds_tcp_accept_one() */
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  264  		rds_tcp_reset_callbacks(new_sock, cp);
+9c79440e2c5e25 Sowmini Varadhan  2016-06-04  265  		/* rds_connect_path_complete() marks RDS_CONN_UP */
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  266  		rds_connect_path_complete(cp, RDS_CONN_RESETTING);
+335b48d980f631 Sowmini Varadhan  2016-06-04  267  	} else {
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  268  		rds_tcp_set_callbacks(new_sock, cp);
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  269  		rds_connect_path_complete(cp, RDS_CONN_CONNECTING);
+e70845e6ecd132 Ka-Cheong Poon    2025-02-26  270  		wake_up(&cp->cp_up_waitq);
+335b48d980f631 Sowmini Varadhan  2016-06-04  271  	}
+70041088e3b976 Andy Grover       2009-08-21  272  	new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  273  	ret = 0;
+69b92b5b741984 Sowmini Varadhan  2017-06-21  274  	if (conn->c_npaths == 0)
+69b92b5b741984 Sowmini Varadhan  2017-06-21  275  		rds_send_ping(cp->cp_conn, cp->cp_index);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  276  	goto out;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  277  rst_nsk:
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  278  	/* reset the newly returned accept sock and bail.
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  279  	 * It is safe to set linger on new_sock because the RDS connection
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  280  	 * has not been brought up on new_sock, so no RDS-level data could
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  281  	 * be pending on it. By setting linger, we achieve the side-effect
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  282  	 * of avoiding TIME_WAIT state on new_sock.
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  283  	 */
+c433594c07457d Christoph Hellwig 2020-05-28  284  	sock_no_linger(new_sock->sk);
+335b48d980f631 Sowmini Varadhan  2016-06-04  285  	kernel_sock_shutdown(new_sock, SHUT_RDWR);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  286  	ret = 0;
+70041088e3b976 Andy Grover       2009-08-21  287  out:
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  288  	if (rs_tcp)
+02105b2ccdd634 Sowmini Varadhan  2016-06-30  289  		mutex_unlock(&rs_tcp->t_conn_path_lock);
+70041088e3b976 Andy Grover       2009-08-21  290  	if (new_sock)
+70041088e3b976 Andy Grover       2009-08-21  291  		sock_release(new_sock);
+112b9a7a012048 Gerd Rausch       2025-02-26  292  
+112b9a7a012048 Gerd Rausch       2025-02-26  293  	mutex_unlock(&rtn->rds_tcp_accept_lock);
+112b9a7a012048 Gerd Rausch       2025-02-26  294  
+70041088e3b976 Andy Grover       2009-08-21 @295  	return ret;
+70041088e3b976 Andy Grover       2009-08-21  296  }
+70041088e3b976 Andy Grover       2009-08-21  297  
 
 -- 
 0-DAY CI Kernel Test Service
