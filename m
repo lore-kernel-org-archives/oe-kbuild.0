@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5623B23770C
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Mar 2025 23:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CC02AE8D
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Mar 2025 01:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741043876; cv=none; b=r1mlVhXI/juvHAQkfhscYNmeTrBFX+LJ8WdcGUsHZC1j973BTrxHrAlvb7mKuXvhQeKkx0jzdjdvzGBBqWzpuZ3onCWPKsml1NMM8k27gGcB3BqcYgsnru+BWCV72EnVjGMGfgQy1dPWq1Y6yprw3gQ3R6Ig1UtMrIrD2nC4+Rw=
+	t=1741053374; cv=none; b=fkUmp5BhvQxuU6IG4GvfftjbdyLdYV8UcDgehx7Hd8wHlHYjAe9LLml3DZ67D+G4lXO02Vl28y4Mh+r4hMOQO72FXMR0l7jpNwCLToHZlvQKzcwfNITFV2qxZTObkkurVHMqZpdwHvaC7Lz1dURi5asQLP1W94Tg1JaBQ7dzJE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741043876; c=relaxed/simple;
-	bh=5xczOuYabcmJJ+CKbEQ+AwZiBPRPMg21UWY0v0NM4YE=;
+	s=arc-20240116; t=1741053374; c=relaxed/simple;
+	bh=zNQNFTjxl4blfb/Kuke0I3loQ/OOqc3D6kBMYntF57g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n1JRPP23IJk6rs6A0HjqC4kqmuNJEgfWYnxnMpXOr47xF+dQk/ijNPjhO6NjeGwaPNhfeg0qLV5w+SLxw4MorrkcUIYto3/79gaY/ccTrlFDtLHxaWP0899PoS0MH58Arl0q2gUtLIBxsaBn1K7vlLgbqWZ7Wo25EY+XU/px9vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcP5azho; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=nbQ7zuekt+k1TDf7F7Pudkmg8WREFGH/igtRbkadq+OG49AdR6uzqztt5zcDzVrTSJN14RTWNR2HFq0l7+saYr/GuOvKyNQVQDPmmZ44sdXLVvICsuxuXseSOLj40CkP/ndCd32MTIHuzouFCfb+91TUOCmff/o9xYk2HsTblyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRuSbN3e; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcP5azho"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRuSbN3e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741043874; x=1772579874;
+  t=1741053372; x=1772589372;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5xczOuYabcmJJ+CKbEQ+AwZiBPRPMg21UWY0v0NM4YE=;
-  b=gcP5azhoSR2dXpdTSHFKNRddv4VTUgeLtBSzPeF+y3x8+7MVO4Wt6P9s
-   L4HMH0QA5PSMhp3dIcuDf6YsXf1FltzGWvf8t0sOeGTLPBEEcVKVL8X7n
-   WQrP8f4kwJT1GKsvrjl9OftPOywbcJk22zgKtro6hMSsgTFrHxF4fzXMv
-   PmEdx12BAnzJipZbhKpGGZhf7RXKV+CECUs1r2SqebT7ZjW+4ULW1SadE
-   KW88J3r9QoKHwl72F3HSCREcygMe9hOdFs0exci2kuPVKiijRdsQ60HHw
-   ULb1wxDo7ZFtv+e3sOCvU0fR1vV8pCdcuE42UCEsa3tTsat7Mwje8IJlb
-   Q==;
-X-CSE-ConnectionGUID: LtqJxQa1TuqKVvJBEXIUBw==
-X-CSE-MsgGUID: oimH8gg1ShOJp2OYxTdpcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41834456"
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="41834456"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 15:17:53 -0800
-X-CSE-ConnectionGUID: USyG253sR3a/uXbToH/kxw==
-X-CSE-MsgGUID: xRLa+7DvQs6P/KmeYjwHBg==
+  bh=zNQNFTjxl4blfb/Kuke0I3loQ/OOqc3D6kBMYntF57g=;
+  b=mRuSbN3eAcDcKYrcp9VE9mOG15d87L//6xlJZfCyVHrG/2oroIsPYGOP
+   Vh2D1x/HPxys9CkBKcFLqhUB1VRxf4xKIOAiIvMgl/+m/U/I7didZBuot
+   wu9bJEUkvEUsxdxcbSUwHdlFNPE4m4Ndu27x/QtcA7CBkL6eOJs7B0uyz
+   Li7NFcmT/hG97xBE9zFevL4l+OZGDUdspyEW6WA1TiKNn0h1M/dKgBFpI
+   SmER1a5CKzvHE8WvDBBeep1QSVbUlx8gVU9juVE+5uGtd6+xK1RZaBWIL
+   WVFJK3cd8IBArvLul06mr9IaH3Azt8G+MIHu+horwStsQfqJsFi5m0hhH
+   g==;
+X-CSE-ConnectionGUID: jnhCuRsiS1avhzLN5IbRdg==
+X-CSE-MsgGUID: 9O6a7y9uQ/ygHxJhd41Suw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52160200"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="52160200"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 17:56:11 -0800
+X-CSE-ConnectionGUID: Sg0B9Qm3RnGPaBJPfj22hw==
+X-CSE-MsgGUID: bs8HwvBMR7m77mxBiv6L3w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="122809424"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="118227499"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Mar 2025 15:17:52 -0800
+  by orviesa006.jf.intel.com with ESMTP; 03 Mar 2025 17:56:10 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpF2k-000J1m-1p;
-	Mon, 03 Mar 2025 23:17:50 +0000
-Date: Tue, 4 Mar 2025 07:17:37 +0800
+	id 1tpHVw-000J9S-0z;
+	Tue, 04 Mar 2025 01:56:08 +0000
+Date: Tue, 4 Mar 2025 09:56:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 1/2] iio: imu: inv_icm42600: add WoM support
-Message-ID: <202503040712.Hluwg7FK-lkp@intel.com>
+Subject: [linux-next:master 3206/7719] drivers/iio/adc/ad4030.c:378
+ ad4030_get_chan_scale() error: 'scan_type' dereferencing possible ERR_PTR()
+Message-ID: <202503040954.n6MhjSsV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,101 +64,50 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954@tdk.com>
-References: <20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954@tdk.com>
-TO: "Jean-Baptiste Maneyrol via B4 Relay" <devnull+jean-baptiste.maneyrol.tdk.com@kernel.org>
-TO: Jonathan Cameron <jic23@kernel.org>
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: linux-iio@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: "Jean-Baptiste Maneyrol" <jean-baptiste.maneyrol@tdk.com>
+TO: Esteban Blanc <eblanc@baylibre.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Hi Jean-Baptiste,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c0f115a8d97599623294c8e9ec28530e19c1e85b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Baptiste-Maneyrol-via-B4-Relay/iio-imu-inv_icm42600-add-WoM-support/20250221-045400
-base:   c0f115a8d97599623294c8e9ec28530e19c1e85b
-patch link:    https://lore.kernel.org/r/20250220-losd-3-inv-icm42600-add-wom-support-v1-1-9b937f986954%40tdk.com
-patch subject: [PATCH 1/2] iio: imu: inv_icm42600: add WoM support
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: sparc64-randconfig-r071-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040712.Hluwg7FK-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cd3215bbcb9d4321def93fea6cfad4d5b42b9d1d
+commit: 949abd1ca5a4342d9fb8c774035222e65dd1cfe4 [3206/7719] iio: adc: ad4030: add averaging support
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 weeks ago
+config: openrisc-randconfig-r071-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040954.n6MhjSsV-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503040712.Hluwg7FK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503040954.n6MhjSsV-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:437 inv_icm42600_accel_enable_wom() warn: inconsistent returns '&st->lock'.
+drivers/iio/adc/ad4030.c:378 ad4030_get_chan_scale() error: 'scan_type' dereferencing possible ERR_PTR()
 
-vim +437 drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c
+vim +/scan_type +378 drivers/iio/adc/ad4030.c
 
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  380  
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  381  static int inv_icm42600_accel_enable_wom(struct iio_dev *indio_dev, bool enable)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  382  {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  383  	struct inv_icm42600_state *st = iio_device_get_drvdata(indio_dev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  384  	struct inv_icm42600_sensor_state *accel_st = iio_priv(indio_dev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  385  	struct device *pdev = regmap_get_device(st->map);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  386  	struct inv_icm42600_sensor_conf conf = INV_ICM42600_SENSOR_CONF_INIT;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  387  	unsigned int sleep_ms = 0;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  388  	int ret;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  389  
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  390  	if (enable) {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  391  		ret = pm_runtime_resume_and_get(pdev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  392  		if (ret)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  393  			return ret;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  394  		scoped_guard(mutex, &st->lock) {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  395  			/* turn on accel sensor */
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  396  			conf.mode = accel_st->power_mode;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  397  			conf.filter = accel_st->filter;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  398  			ret = inv_icm42600_set_accel_conf(st, &conf, &sleep_ms);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  399  			if (ret)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  400  				goto error_suspend;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  401  		}
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  402  		if (sleep_ms)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  403  			msleep(sleep_ms);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  404  		scoped_guard(mutex, &st->lock) {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  405  			ret = inv_icm42600_set_wom(st, true);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  406  			if (ret)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  407  				goto error_suspend;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  408  			st->apex.on++;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  409  			st->apex.wom.enable = true;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  410  		}
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  411  	} else {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  412  		scoped_guard(mutex, &st->lock) {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  413  			st->apex.wom.enable = false;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  414  			st->apex.on--;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  415  			ret = inv_icm42600_set_wom(st, false);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  416  			if (ret)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  417  				goto error_suspend;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  418  			/* turn off accel sensor if not used */
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  419  			if (!st->apex.on && !iio_buffer_enabled(indio_dev)) {
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  420  				conf.mode = INV_ICM42600_SENSOR_MODE_OFF;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  421  				ret = inv_icm42600_set_accel_conf(st, &conf, &sleep_ms);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  422  				if (ret)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  423  					goto error_suspend;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  424  			}
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  425  		}
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  426  		if (sleep_ms)
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  427  			msleep(sleep_ms);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  428  		pm_runtime_mark_last_busy(pdev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  429  		pm_runtime_put_autosuspend(pdev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  430  	}
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  431  
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  432  	return 0;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  433  
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  434  error_suspend:
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  435  	pm_runtime_mark_last_busy(pdev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  436  	pm_runtime_put_autosuspend(pdev);
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20 @437  	return ret;
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  438  }
-bf747588eb604e Jean-Baptiste Maneyrol 2025-02-20  439  
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  365  
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  366  static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  367  				 struct iio_chan_spec const *chan,
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  368  				 int *val,
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  369  				 int *val2)
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  370  {
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  371  	struct ad4030_state *st = iio_priv(indio_dev);
+949abd1ca5a4342 Esteban Blanc 2025-02-14  372  	const struct iio_scan_type *scan_type;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  373  
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  374  	if (chan->differential) {
+949abd1ca5a4342 Esteban Blanc 2025-02-14  375  		scan_type = iio_get_current_scan_type(indio_dev,
+949abd1ca5a4342 Esteban Blanc 2025-02-14  376  						      st->chip->channels);
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  377  		*val = (st->vref_uv * 2) / MILLI;
+949abd1ca5a4342 Esteban Blanc 2025-02-14 @378  		*val2 = scan_type->realbits;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  379  		return IIO_VAL_FRACTIONAL_LOG2;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  380  	}
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  381  
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  382  	*val = st->vref_uv / MILLI;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  383  	*val2 = chan->scan_type.realbits;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  384  	return IIO_VAL_FRACTIONAL_LOG2;
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  385  }
+0cb8b324852f3e3 Esteban Blanc 2025-02-14  386  
 
 -- 
 0-DAY CI Kernel Test Service
