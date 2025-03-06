@@ -1,70 +1,76 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03FF78F45
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Mar 2025 06:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C6319CC37
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Mar 2025 06:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741242829; cv=none; b=FUqsWYkaBFMxOe8unSzV1Rgg4dRtGbVf9nno6a8sxVo1TkNVzH89cIbVvNAnIXlmjVjqEJ4b6TGEOE2K2JrFx2o4XOnTM4EipOJWv0hhiHWz25qzgiULg23blGIYSQ6+RKmBcbhRisrwwQI2a2m33bakUH5bnKAPzAujGHcCoLM=
+	t=1741242934; cv=none; b=akqT6gW2oDt1nwx+roJHRGOF5Yg47oAF0JjiGIeZ3rWIqnDjv/han6qTbqu+VBEWB+ageDmq9FS8LRO8y2Uyoin/tP7ho/nX3ZH5iZpAZyeCmJAkwsd8YcsxkYvUNkW0/6GarBmaxCPG7VXX2OOXV+AoedWkwj5nRNOHk5q5pkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741242829; c=relaxed/simple;
-	bh=MmSo3VFODycTV8o1v3UfHnCpCeXyWl72yNHtu6HAKck=;
+	s=arc-20240116; t=1741242934; c=relaxed/simple;
+	bh=OgVi8LZ/avO7r/TihguE885iMoKtcusZUL+VQwbS8dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cw/oDBnJ6NaH4sTXG7yiYEzOqGMA17ZbvVdarknOn673LfwHLEHvPWXU5wXB+lh3IqsVDWsvACwVR/HCIZ9sx55kSZ2j/PdygJUqCPc+THC5AmZn8THb5OSWWshhEl3I/Z654DoCi3MwVEvO7Tf1b3vw+wqr/ecXDEFzwwuQXRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jeQV3Es/; arc=none smtp.client-ip=209.85.221.41
+	 Content-Disposition:In-Reply-To; b=hGHY/YE46NebRmjC4F084cob+VwGVvO0FkUakupD1Qi/GYvh38xGSwmba2uXvp72QXQ3tw5aA90rUtAbMIj2zddv/JnF5NuqC0mTxLuNHAjYGRDUVMr9N2Z9Yt/DQuQYhzuCNSyj4awduiONqbctFT9tGP0MGwyZxd7tMTmXIsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YY4uFkef; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jeQV3Es/"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso121269f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 05 Mar 2025 22:33:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YY4uFkef"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43bc4b16135so1243665e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 05 Mar 2025 22:35:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741242824; x=1741847624; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=twm03Oy4r5nPGPtZkmiVjVc9lS2x2ybjNxtocoftd9Y=;
-        b=jeQV3Es/srhwD56FsardQYNyJDMFUhRDkf/LVLLtQ7BiBStb+3I6WN8Rd/M/sUNKGl
-         RNF30cPbBla4eRY+k7PdJFn4Ren/Ro2FrN0c8n3ZWhmQShjCYDlewm3gGw7oZvys3gDM
-         vBow9GO373r5bIMb9pgVewepGJTPCjfLqW8hTOiSfAheIvWVUWXASO7TV6PS71g7OFs/
-         yjA4dUXgcUf0mQPLVKWGxjGcFnhapaNuEHGxkLErOAddwUmbIK3UaY5AC8hzczvfoi6t
-         KNFdSebzGz7BegMYx7dRZhwry68Bmqa/z5U5eAswRwKWMm1/N+MXoSjMCKiCcj+IJIaN
-         ZMtg==
+        d=linaro.org; s=google; t=1741242931; x=1741847731; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mx4eXhc4yqpVhI7TdTQuRC9iguxZspH9NuwtaHcC+Lc=;
+        b=YY4uFkefg+0M5M5ErCrvsABWResIc9nRvi3pdf8ys5T++pepvtIj48QFmm5Jyn0B3t
+         QvxGWUDeRQb+YTzyFMlUHKrFwbUTOJMGOEJ5x5UXLqooWuevfSRvMZEJYKmJY+NilI6c
+         lIC1H7t8hLGJEGc7w9ewADhAORXSY9RrjZpfp+IEWLQFJIDmb7hh+Vd3xDZ04SmmIKqQ
+         KWyHTM5X0PdLisBjrchGY11yi3/n2e+Q8JT/oJCJOQPt5HIYYAd2252S9lKCO65umv9N
+         8/rkW6Jq3XYW11cuz8PEvrswydm9E/kgjErMh9+8ZHHrUQMJbwGekvibjld2MKB+k1NS
+         4ELw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741242824; x=1741847624;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=twm03Oy4r5nPGPtZkmiVjVc9lS2x2ybjNxtocoftd9Y=;
-        b=n+2wI79khqmSkikDpAqET9VJDLAFkNMCCrT3f8wlptsohYnQ3DOruJUU59TaAiZxYc
-         51liWTxxd5Y1mml5A4J0vaC9EzRPN084MntC/w5uKx8y0tgZmMZxq5wjTLnQ/S7jke4H
-         /0rNGHOvuFEo8pMLTpxLXWJUkd2hnS0tMy3p6nzE98MKYvyhcCORTcAG3LrNEmI7mdM8
-         DiQBok+olrrLNvwxECyHam/D3sqa+Rm2lhb/ATWvDaNa4/pkukr6nspFFXmNgLV/bVdG
-         nmAnbnmM3wbUDXKFBqw/nUrtp4h93dmBeFLZTnxnk8cKYaw00Qklg0+QTL56eBzbhwWt
-         ICaw==
-X-Gm-Message-State: AOJu0YzdCOAFUpAITBSUUF7bOvdNaJyP2YwBF61HKhbK+RIJBS4F870b
-	3o9zv68xHduTubqjtPr4mDcG6FdxV9mQ/x3oc60+g2NVMwXwhzZpVQVWnFM0Uw6bFQDCp0uV0h5
-	N
-X-Gm-Gg: ASbGncuvYB+VbwDk1ZrBh8+t/8mwQbl+jwb8rbyCvCYUIXJ2vSB+hhSZBy1AvQndDHk
-	+1Qnd+EIJF6RDA/OPXvJAINbT8TSTpjy6Cbwy7e9pbEgW0IIw5LvDyqinpkIHTrnA9ppPiJY2mi
-	Xxn+xjFfeDC+2pEAomamObdZRpSR/WRvF8FpvTXYX8ncoSgAxB92D7HYVEKu6X/i6UhjH7GKHwC
-	0BE5FYolrXiVhHxLsEiv+qXim7WH1gf3HCarwzblvWpFVODj2GgUK/9+XYq/E72ocAblvzHl6HB
-	c30eLLZxM3fm5CzGKJwVrnBZiOy8rlw5l2NtAwx1/FEEusgxcQ==
-X-Google-Smtp-Source: AGHT+IGeNal1Sgc/E3DzZp24+r0BXPhvab8A8uCChGmpF5qLmcYIveJqXWJIACmg+4dgEdduPWpeBg==
-X-Received: by 2002:a5d:6489:0:b0:391:13ef:1b27 with SMTP id ffacd0b85a97d-3911f7ce4b6mr5435387f8f.51.1741242824406;
-        Wed, 05 Mar 2025 22:33:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741242931; x=1741847731;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mx4eXhc4yqpVhI7TdTQuRC9iguxZspH9NuwtaHcC+Lc=;
+        b=TurycEzjDEx4pda4PzcguEd2FSoZUt1lfgs1CJOGXzWeqXn7ZaIWoCGbX8DwHySmTD
+         MXCGNCCCCS13oW/vsRmiFSy8HphaZYTVfpFlzz2l3VJVAw7+OhjX/+X+N2YMfHtoNUSk
+         4UXVy7JNglkK73Qj2Td0T+u3NMica1UAxpPMJSyU/r/zpYZfgcnIRFopp6NDrdS5doMS
+         73/5ArWR3oksC9GIGwUBlRWMN/g41qSh1MJsUrxJBbeT/NEYlP8YNfybdt9Ggn/pOrcL
+         VBuc/KWfrQ1UMxw0E5bl/VPtiPm3DSIZjjYjXsrv1JdCBduOrVS09eGWbGGM+Yht5zFh
+         nJ0Q==
+X-Gm-Message-State: AOJu0Yw91fh5sMRpCj0FUw0aCC16vvn38AouEKPtHPrpGBjCBSo4Jvg7
+	Mh57eS5DVYc7iMnwlU4UKi+896xapPw0i2uw3JGvn/F1AwiB8mSKrn58zTxTjabBkWgBcyN164R
+	S
+X-Gm-Gg: ASbGncuBPF+0mHDni6TVPJY98QYYojBDcXMAiD7Xu1Yp2op6pLaXUy1pGHNj3Y69dD7
+	IV2zURavAEJqpQYCqAflxnZ9kDsARdKa6ESSBhcz3V1zlHq7zqnh/vc6ooUUwIRTm1JLAm29Ce0
+	1gOukEtAdcLb6Cdb7VV2vBQVs5lcdlQyRwpNqgAicKKT4vD+GgySZQ1aCOaXOWpRn00NgS4LqB7
+	SZwfN46udo//TEi9SF133Nwxo6D88K5gIRsd/D7TQzj5LIi1L1GYW8uhzNLV19d6dmaYggF3edh
+	LBeHpJymn9ROcJ+i5hGONRv0MIjtIiv8CkYGL+moLIiR87SxYg==
+X-Google-Smtp-Source: AGHT+IEldEFBJ6GcJ/9AsmwidDi0MW22pFoTiX1DY3pYgmQW8PLpDd7QMPBO5UsdG2P8Z7W4b9nJlQ==
+X-Received: by 2002:a05:600c:1551:b0:43b:cb0c:3556 with SMTP id 5b1f17b1804b1-43bd2af49cemr38379685e9.28.1741242930569;
+        Wed, 05 Mar 2025 22:35:30 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c102db1sm940772f8f.95.2025.03.05.22.33.43
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bdd8c314asm9415525e9.10.2025.03.05.22.35.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 22:33:43 -0800 (PST)
-Date: Thu, 6 Mar 2025 09:33:40 +0300
+        Wed, 05 Mar 2025 22:35:30 -0800 (PST)
+Date: Thu, 6 Mar 2025 09:35:26 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Muna Sinada <muna.sinada@oss.qualcomm.com>
+To: oe-kbuild@lists.linux.dev, steven chen <chenste@linux.microsoft.com>,
+	zohar@linux.ibm.com, stefanb@linux.ibm.com,
+	roberto.sassu@huaweicloud.com, roberto.sassu@huawei.com,
+	eric.snowberg@oracle.com, ebiederm@xmission.com,
+	paul@paul-moore.com, code@tyhicks.com, bauermann@kolabnow.com,
+	linux-integrity@vger.kernel.org, kexec@lists.infradead.org,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jeff Johnson <jjohnson@kernel.org>, Kalle Valo <kvalo@kernel.org>,
-	ath12k@lists.infradead.org,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Subject: [ath:ath12k-split-phy 81/139] net/mac80211/link.c:96
- ieee80211_link_init() warn: can 'master' even be NULL?
-Message-ID: <f3cb8f15-e2a9-49ac-b138-6d1c8b04ca7c@stanley.mountain>
+	madvenka@linux.microsoft.com, nramas@linux.microsoft.com,
+	James.Bottomley@hansenpartnership.com, bhe@redhat.com,
+	vgoyal@redhat.com, dyoung@redhat.com
+Subject: Re: [PATCH v9 2/7] kexec: define functions to map and unmap segments
+Message-ID: <7bde870f-07eb-48a6-8b8d-edac57640775@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,96 +79,86 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250304190351.96975-3-chenste@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-split-phy
-head:   64723c7be2b959dde8f4a8c85401a57d8740af10
-commit: 139c21bdb8c36a8ad201b71678b0d1168856d5d3 [81/139] wifi: mac80211: Create separate links for VLAN interfaces
-config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250306/202503060854.5cPgdKzO-lkp@intel.com/config)
+Hi steven,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/steven-chen/ima-copy-only-complete-measurement-records-across-kexec/20250305-031719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
+patch link:    https://lore.kernel.org/r/20250304190351.96975-3-chenste%40linux.microsoft.com
+patch subject: [PATCH v9 2/7] kexec: define functions to map and unmap segments
+config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061449.gbVGafZc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503060854.5cPgdKzO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503061449.gbVGafZc-lkp@intel.com/
 
 smatch warnings:
-net/mac80211/link.c:96 ieee80211_link_init() warn: can 'master' even be NULL?
+kernel/kexec_core.c:896 kimage_map_segment() error: uninitialized symbol 'dest_page_addr'.
 
-vim +/master +96 net/mac80211/link.c
+vim +/dest_page_addr +896 kernel/kexec_core.c
 
-e73b5e51a05d41 Johannes Berg      2022-09-02   77  void ieee80211_link_init(struct ieee80211_sub_if_data *sdata,
-e73b5e51a05d41 Johannes Berg      2022-09-02   78  			 int link_id,
-e73b5e51a05d41 Johannes Berg      2022-09-02   79  			 struct ieee80211_link_data *link,
-e73b5e51a05d41 Johannes Berg      2022-09-02   80  			 struct ieee80211_bss_conf *link_conf)
-e73b5e51a05d41 Johannes Berg      2022-09-02   81  {
-e73b5e51a05d41 Johannes Berg      2022-09-02   82  	bool deflink = link_id < 0;
-e73b5e51a05d41 Johannes Berg      2022-09-02   83  
-e73b5e51a05d41 Johannes Berg      2022-09-02   84  	if (link_id < 0)
-e73b5e51a05d41 Johannes Berg      2022-09-02   85  		link_id = 0;
-e73b5e51a05d41 Johannes Berg      2022-09-02   86  
-e73b5e51a05d41 Johannes Berg      2022-09-02   87  	rcu_assign_pointer(sdata->vif.link_conf[link_id], link_conf);
-e73b5e51a05d41 Johannes Berg      2022-09-02   88  	rcu_assign_pointer(sdata->link[link_id], link);
-e73b5e51a05d41 Johannes Berg      2022-09-02   89  
-139c21bdb8c36a Muna Sinada        2024-10-17   90  	if (sdata->vif.type == NL80211_IFTYPE_AP_VLAN) {
-139c21bdb8c36a Muna Sinada        2024-10-17   91  		struct ieee80211_sub_if_data *master;
-139c21bdb8c36a Muna Sinada        2024-10-17   92  		struct ieee80211_bss_conf *master_conf;
-139c21bdb8c36a Muna Sinada        2024-10-17   93  
-139c21bdb8c36a Muna Sinada        2024-10-17   94  		master = container_of(sdata->bss,
-139c21bdb8c36a Muna Sinada        2024-10-17   95  				      struct ieee80211_sub_if_data, u.ap);
-139c21bdb8c36a Muna Sinada        2024-10-17  @96  		if (!master)
+bf06eab7ae0f04 steven chen 2025-03-04  870  void *kimage_map_segment(struct kimage *image,
+bf06eab7ae0f04 steven chen 2025-03-04  871  			 unsigned long addr, unsigned long size)
+bf06eab7ae0f04 steven chen 2025-03-04  872  {
+bf06eab7ae0f04 steven chen 2025-03-04  873  	unsigned long eaddr = addr + size;
+bf06eab7ae0f04 steven chen 2025-03-04  874  	unsigned long src_page_addr, dest_page_addr;
+bf06eab7ae0f04 steven chen 2025-03-04  875  	unsigned int npages;
+bf06eab7ae0f04 steven chen 2025-03-04  876  	struct page **src_pages;
+bf06eab7ae0f04 steven chen 2025-03-04  877  	int i;
+bf06eab7ae0f04 steven chen 2025-03-04  878  	kimage_entry_t *ptr, entry;
+bf06eab7ae0f04 steven chen 2025-03-04  879  	void *vaddr = NULL;
+bf06eab7ae0f04 steven chen 2025-03-04  880  
+bf06eab7ae0f04 steven chen 2025-03-04  881  	/*
+bf06eab7ae0f04 steven chen 2025-03-04  882  	 * Collect the source pages and map them in a contiguous VA range.
+bf06eab7ae0f04 steven chen 2025-03-04  883  	 */
+bf06eab7ae0f04 steven chen 2025-03-04  884  	npages = PFN_UP(eaddr) - PFN_DOWN(addr);
+bf06eab7ae0f04 steven chen 2025-03-04  885  	src_pages = kmalloc_array(npages, sizeof(*src_pages), GFP_KERNEL);
+bf06eab7ae0f04 steven chen 2025-03-04  886  	if (!src_pages) {
+bf06eab7ae0f04 steven chen 2025-03-04  887  		pr_err("Could not allocate ima pages array.\n");
+bf06eab7ae0f04 steven chen 2025-03-04  888  		return NULL;
+bf06eab7ae0f04 steven chen 2025-03-04  889  	}
+bf06eab7ae0f04 steven chen 2025-03-04  890  
+bf06eab7ae0f04 steven chen 2025-03-04  891  	i = 0;
+bf06eab7ae0f04 steven chen 2025-03-04  892  	for_each_kimage_entry(image, ptr, entry) {
+bf06eab7ae0f04 steven chen 2025-03-04  893  		if (entry & IND_DESTINATION) {
+bf06eab7ae0f04 steven chen 2025-03-04  894  			dest_page_addr = entry & PAGE_MASK;
 
-master can't be NULL.  container_of() takes "sdata->bss" and subtracts an
-offset.
+Is the first entry always IND_DESTINATION?
 
-139c21bdb8c36a Muna Sinada        2024-10-17   97  			goto skip_vlan_conf;
-139c21bdb8c36a Muna Sinada        2024-10-17   98  
-139c21bdb8c36a Muna Sinada        2024-10-17   99  		master_conf = sdata_dereference(master->vif.link_conf[link_id],
-139c21bdb8c36a Muna Sinada        2024-10-17  100  						master);
-139c21bdb8c36a Muna Sinada        2024-10-17  101  
-139c21bdb8c36a Muna Sinada        2024-10-17  102  		memcpy(link_conf, master_conf, sizeof(*link_conf));
-139c21bdb8c36a Muna Sinada        2024-10-17  103  	}
-139c21bdb8c36a Muna Sinada        2024-10-17  104  
-139c21bdb8c36a Muna Sinada        2024-10-17  105  skip_vlan_conf:
-e73b5e51a05d41 Johannes Berg      2022-09-02  106  	link->sdata = sdata;
-e73b5e51a05d41 Johannes Berg      2022-09-02  107  	link->link_id = link_id;
-e73b5e51a05d41 Johannes Berg      2022-09-02  108  	link->conf = link_conf;
-e73b5e51a05d41 Johannes Berg      2022-09-02  109  	link_conf->link_id = link_id;
-e1f113cc678703 Benjamin Berg      2023-03-01  110  	link_conf->vif = &sdata->vif;
-c4382d5ca1af75 Emmanuel Grumbach  2024-10-07  111  	link->ap_power_level = IEEE80211_UNSET_POWER_LEVEL;
-c4382d5ca1af75 Emmanuel Grumbach  2024-10-07  112  	link->user_power_level = sdata->local->user_power_level;
-c4382d5ca1af75 Emmanuel Grumbach  2024-10-07  113  	link_conf->txpower = INT_MIN;
-e73b5e51a05d41 Johannes Berg      2022-09-02  114  
-344d18cec23142 Johannes Berg      2024-05-06  115  	wiphy_work_init(&link->csa.finalize_work,
-e73b5e51a05d41 Johannes Berg      2022-09-02  116  			ieee80211_csa_finalize_work);
-b38579aeb5b04f Johannes Berg      2023-08-28  117  	wiphy_work_init(&link->color_change_finalize_work,
-e73b5e51a05d41 Johannes Berg      2022-09-02  118  			ieee80211_color_change_finalize_work);
-4cc6f3e5e5765a Remi Pommarel      2024-09-24  119  	wiphy_delayed_work_init(&link->color_collision_detect_work,
-9288188438d85e Lorenzo Bianconi   2023-01-25  120  				ieee80211_color_collision_detection_work);
-e73b5e51a05d41 Johannes Berg      2022-09-02  121  	INIT_LIST_HEAD(&link->assigned_chanctx_list);
-e73b5e51a05d41 Johannes Berg      2022-09-02  122  	INIT_LIST_HEAD(&link->reserved_chanctx_list);
-6241d79f004329 Aditya Kumar Singh 2024-09-06  123  	wiphy_delayed_work_init(&link->dfs_cac_timer_work,
-6241d79f004329 Aditya Kumar Singh 2024-09-06  124  				ieee80211_dfs_cac_timer_work);
-e73b5e51a05d41 Johannes Berg      2022-09-02  125  
-e73b5e51a05d41 Johannes Berg      2022-09-02  126  	if (!deflink) {
-e73b5e51a05d41 Johannes Berg      2022-09-02  127  		switch (sdata->vif.type) {
-e73b5e51a05d41 Johannes Berg      2022-09-02  128  		case NL80211_IFTYPE_AP:
-139c21bdb8c36a Muna Sinada        2024-10-17  129  		case NL80211_IFTYPE_AP_VLAN:
-e73b5e51a05d41 Johannes Berg      2022-09-02  130  			ether_addr_copy(link_conf->addr,
-e73b5e51a05d41 Johannes Berg      2022-09-02  131  					sdata->wdev.links[link_id].addr);
-e73b5e51a05d41 Johannes Berg      2022-09-02  132  			link_conf->bssid = link_conf->addr;
-e73b5e51a05d41 Johannes Berg      2022-09-02  133  			WARN_ON(!(sdata->wdev.valid_links & BIT(link_id)));
-e73b5e51a05d41 Johannes Berg      2022-09-02  134  			break;
-e73b5e51a05d41 Johannes Berg      2022-09-02  135  		case NL80211_IFTYPE_STATION:
-e73b5e51a05d41 Johannes Berg      2022-09-02  136  			/* station sets the bssid in ieee80211_mgd_setup_link */
-e73b5e51a05d41 Johannes Berg      2022-09-02  137  			break;
-e73b5e51a05d41 Johannes Berg      2022-09-02  138  		default:
-e73b5e51a05d41 Johannes Berg      2022-09-02  139  			WARN_ON(1);
-e73b5e51a05d41 Johannes Berg      2022-09-02  140  		}
-170cd6a66d9a16 Benjamin Berg      2023-03-01  141  
-170cd6a66d9a16 Benjamin Berg      2023-03-01  142  		ieee80211_link_debugfs_add(link);
-e73b5e51a05d41 Johannes Berg      2022-09-02  143  	}
-e73b5e51a05d41 Johannes Berg      2022-09-02  144  }
+bf06eab7ae0f04 steven chen 2025-03-04  895  		} else if (entry & IND_SOURCE) {
+bf06eab7ae0f04 steven chen 2025-03-04 @896  			if (dest_page_addr >= addr && dest_page_addr < eaddr) {
+                                                                    ^^^^^^^^^^^^^^
+otherwise this is uninitialized
+
+bf06eab7ae0f04 steven chen 2025-03-04  897  				src_page_addr = entry & PAGE_MASK;
+bf06eab7ae0f04 steven chen 2025-03-04  898  				src_pages[i++] =
+bf06eab7ae0f04 steven chen 2025-03-04  899  					virt_to_page(__va(src_page_addr));
+bf06eab7ae0f04 steven chen 2025-03-04  900  				if (i == npages)
+bf06eab7ae0f04 steven chen 2025-03-04  901  					break;
+bf06eab7ae0f04 steven chen 2025-03-04  902  				dest_page_addr += PAGE_SIZE;
+bf06eab7ae0f04 steven chen 2025-03-04  903  			}
+bf06eab7ae0f04 steven chen 2025-03-04  904  		}
+bf06eab7ae0f04 steven chen 2025-03-04  905  	}
+bf06eab7ae0f04 steven chen 2025-03-04  906  
+bf06eab7ae0f04 steven chen 2025-03-04  907  	/* Sanity check. */
+bf06eab7ae0f04 steven chen 2025-03-04  908  	WARN_ON(i < npages);
+bf06eab7ae0f04 steven chen 2025-03-04  909  
+bf06eab7ae0f04 steven chen 2025-03-04  910  	vaddr = vmap(src_pages, npages, VM_MAP, PAGE_KERNEL);
+bf06eab7ae0f04 steven chen 2025-03-04  911  	kfree(src_pages);
+bf06eab7ae0f04 steven chen 2025-03-04  912  
+bf06eab7ae0f04 steven chen 2025-03-04  913  	if (!vaddr)
+bf06eab7ae0f04 steven chen 2025-03-04  914  		pr_err("Could not map ima buffer.\n");
+bf06eab7ae0f04 steven chen 2025-03-04  915  
+bf06eab7ae0f04 steven chen 2025-03-04  916  	return vaddr;
+bf06eab7ae0f04 steven chen 2025-03-04  917  }
 
 -- 
 0-DAY CI Kernel Test Service
