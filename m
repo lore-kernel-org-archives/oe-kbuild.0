@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BA6218EBD
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 13:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E5021A92F
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 13:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741353825; cv=none; b=n7pByENSkh4evtfSpj8DmFh89RkCVfpwkPGJJTjssTtV+zNlSjzHbtBgEOh/DKcmQm4tyiD5JPJUA0XGN9mXyeC7hX6h/rXMpYjptjcvEJz0I/QIhbYKwcrXY2+XbplNh3EcHOfBVnFC+4R5otjISy9hH7kSXLA9fronHT+ZEwI=
+	t=1741355932; cv=none; b=KBA6F3JrXaJyQaVQjP8Zm3jofI+28Iz0Oi18RahyjVxQtO8yLf+lYRSEZQ5hm3/y3DCgH9LiobWI/MgHG89Iod53p6aMDord4HlHYtT+nSqodDQLJkgw0Cn0uKbqP5mHobU2/IV+pxAsfqjwda9f68ZmEfAD0g6us+Tz0RdQVPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741353825; c=relaxed/simple;
-	bh=cQU9lpzavjwHW26HbJi4eajUuDNk4nattxteY85KcSY=;
+	s=arc-20240116; t=1741355932; c=relaxed/simple;
+	bh=LgdGyBjxDWXmoa9HcdXIpGcy9TdkkZ9WRcWjI+eTOWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ml8FjZGs/qrp89C2tIxkZEpIwVCP9IV317O5pBzRFkZt/Mce14Aej4igAAUzNl4HP4SOBqJCDDu6brIHGjlJHxy3P9YScyO9RB2s09eV8/VuPxEoSukSP96b1vxDPncWLw+6Uiq8m0BPtwcg318jWEw+gs/HbVl8ggdg/rbWHTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZK20HHM; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=IfZRBvVOrgMiWrn31blfv9/wRJ3l/rzz/o88jkYo0wVNFJbJW71S4pblAPcjOp9Mtd4xPvcYK16xOQOP1tr+eOqnB6G5bWkGrbzoUNFgebYdrRMgJrk74xbLVKkkwPb4XlG/Il//uC4Ltcs/RPlEd00WA+oMKjNiuLlYDK7yG2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PKNVkO0d; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZK20HHM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741353823; x=1772889823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cQU9lpzavjwHW26HbJi4eajUuDNk4nattxteY85KcSY=;
-  b=bZK20HHMOmqGSnR4pWrlNcc1D2y0Hmd55JD/SLbDhxeJK9tHdt/YCd7H
-   0GJMDXYZ0JAX6/E8lLQMoa1oIdTJReDNGrU5Dtr4NQla5yB7JWXoHBwnJ
-   0w2p8FB0Pqj98HxlB75f6QPtUAdBDOjpOWRSVeXWQ6xpOFxEBlKR2vbjr
-   Z5h6/ywLiZNFZoCmzhKuJPhLYGCxr2dMI5ekvhPaW80ceo8c23GaFgMWX
-   XnTRdkKCzJxguefFyqEpZfnLI1e4heZ63og75CBBPcR0IzPhIY6C7cbUc
-   3wDUnOaig8rZsGiEyERNjPQwcBBObqpVuqi6Wh7noxk4dInr0la5RV/ea
-   Q==;
-X-CSE-ConnectionGUID: u+fktVF+QK2Xcc2cRwFZlw==
-X-CSE-MsgGUID: fyjahMp4TJm1heoAVEf4VQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52608761"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="52608761"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 05:23:41 -0800
-X-CSE-ConnectionGUID: 1m73zEHQTra5+8GztUT87Q==
-X-CSE-MsgGUID: GkNqqIdqRHO6MUf/nwIN0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="119317842"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Mar 2025 05:23:39 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqXft-0000W3-0k;
-	Fri, 07 Mar 2025 13:23:37 +0000
-Date: Fri, 7 Mar 2025 21:22:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKNVkO0d"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3913958ebf2so127874f8f.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 07 Mar 2025 05:58:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741355928; x=1741960728; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9EGxfAWzHmc0n2XcMsv4xyGAchxM7sK9Sox0qv/mbjM=;
+        b=PKNVkO0dkaxrB30hoV+MOm0MqXLDrf9Ogw5OLXCcALHeu14bi5rFJ+hSdQfLLyVZbx
+         neeaHS5lXuOuuDfhty4LcA1qnu6yQnXAh/sTe0IFPWKu/xxyYzWMGbPmbk9c5NPMSYSM
+         nY/xbyS6svGXDXNQDzK39WndDh5QpBuRErQV5as1WyRTR+5tCABxyO4ipZeXvz/nk6xT
+         xIfzaYh7XMFwHWQJgEOUAYZHWwQXRZxFbjF8hPDRuX078rYe9GY8p01Gdlu5vPWgKVMD
+         qp01ZnmuxNDt2M8zT/qZI7DzHBwtAvgdAPXo0TeYowz/erAtGJeCAEnA8uzkKFypSQx1
+         1KKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741355928; x=1741960728;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9EGxfAWzHmc0n2XcMsv4xyGAchxM7sK9Sox0qv/mbjM=;
+        b=og/Ovscgvj0VPBZJTJsR5EdxeNddN2iVS2HlAWK1CKGCkOsDbTgcgksIBaWDW2slXb
+         agVtDxz0ZzSkfIxa3xGVok2RFuLwTUcVGUrYXbA4LrExvgySZzpuC6SP5Bbw0efASPCY
+         KCB/UurGv33bxRjpjb/p9KM0B/a/rrY7T0r0MA5x0x1kG62etOrheQhmjIissBAxVM1x
+         tWs+R5u4IxdCLTDnuiy0CX3h+N8acaGrjIwI4QoxGS2EZCqv1jRBOnIaXokuj3hQLWuI
+         ldsEnk4PPLPbwHxRwH3MHPEWVleqCz7EExhB9ctGK620IUmzZXgwJUCOxlLscNeqisRF
+         r3Hg==
+X-Gm-Message-State: AOJu0YzNNLmdhpmT/5l0OfVA+ZWGJkHQQSj23BM/aoelpVmwDTKSOhgo
+	JWssI9xUz/LrZInh03ig+G2jbo5VFtwM3ajRNqzhljzzypXrzXFfROF2lw/iRAbjl8MCk30DIor
+	B
+X-Gm-Gg: ASbGncuvunsSmhPvBweV9A2uILcsSZwABtcNdY6rg2NIbcRokDZewac/W0p6P89vbdK
+	vTqKHwz7p3S6gYk/Tg+zlBT5urO98QVi8zrdHVADqOMntRutYrDmHtd6uFmpH7/KzyU/mmQnIiB
+	i0RMwiOrMsSOWhyiBWimG84jelMZDQupkJrVtfgcP5BLdypn+XoWBGp92JtrovuwRtmZKEn9LXX
+	XobadCzY1XR4NoDLs93O0u6E6vSYsEJrtR0xZhswk2gsFSIg8iiuBID5AyFB/Rh5ZWcctkEWMVe
+	uG694q6uSAMaKAek+SdyDLt4QPZ2mmUyAdwqyPYpic8p69GYog==
+X-Google-Smtp-Source: AGHT+IHob9xSwHZHxbIGxOhr+1B8/H6WPDLiz5T5TIbPy4IHpRxIEmfhrIuEHRHdzuZcNtNspVmeNA==
+X-Received: by 2002:adf:8bd7:0:b0:391:39bd:a381 with SMTP id ffacd0b85a97d-39139bda886mr202282f8f.30.1741355928133;
+        Fri, 07 Mar 2025 05:58:48 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912bfb7aefsm5371321f8f.20.2025.03.07.05.58.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 05:58:47 -0800 (PST)
+Date: Fri, 7 Mar 2025 16:58:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Julian Sun <sunjunchao2870@gmail.com>,
+	linux-xfs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, cem@kernel.org,
+	djwong@kernel.org, Julian Sun <sunjunchao2870@gmail.com>
 Subject: Re: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL
  allocation.
-Message-ID: <202503072035.d6QqiZWT-lkp@intel.com>
+Message-ID: <398b4241-bef5-4270-9fff-204e528b76fb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,57 +73,32 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
-References: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
-TO: Julian Sun <sunjunchao2870@gmail.com>
-TO: linux-xfs@vger.kernel.org
-CC: cem@kernel.org
-CC: djwong@kernel.org
-CC: Julian Sun <sunjunchao2870@gmail.com>
 
 Hi Julian,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/xfs-remove-unnecessary-checks-for-__GFP_NOFAIL-allocation/20250228-162815
 base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
 patch link:    https://lore.kernel.org/r/20250228082622.2638686-2-sunjunchao2870%40gmail.com
 patch subject: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL allocation.
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
 config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072035.d6QqiZWT-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202503072035.d6QqiZWT-lkp@intel.com/
 
 New smatch warnings:
 fs/xfs/xfs_mru_cache.c:360 xfs_mru_cache_create() warn: variable dereferenced before check 'mru' (see line 338)
 
-Old smatch warnings:
-fs/xfs/xfs_mru_cache.c:272 _xfs_mru_cache_reap() warn: can 'mru' even be NULL?
-
 vim +/mru +360 fs/xfs/xfs_mru_cache.c
 
-2a82b8be8a8dac David Chinner     2007-07-11  307  
-2a82b8be8a8dac David Chinner     2007-07-11  308  /*
-2a82b8be8a8dac David Chinner     2007-07-11  309   * To initialise a struct xfs_mru_cache pointer, call xfs_mru_cache_create()
-2a82b8be8a8dac David Chinner     2007-07-11  310   * with the address of the pointer, a lifetime value in milliseconds, a group
-2a82b8be8a8dac David Chinner     2007-07-11  311   * count and a free function to use when deleting elements.  This function
-2a82b8be8a8dac David Chinner     2007-07-11  312   * returns 0 if the initialisation was successful.
-2a82b8be8a8dac David Chinner     2007-07-11  313   */
 2a82b8be8a8dac David Chinner     2007-07-11  314  int
 2a82b8be8a8dac David Chinner     2007-07-11  315  xfs_mru_cache_create(
 22328d712dd7fd Christoph Hellwig 2014-04-23  316  	struct xfs_mru_cache	**mrup,
@@ -159,14 +146,21 @@ vim +/mru +360 fs/xfs/xfs_mru_cache.c
 2a82b8be8a8dac David Chinner     2007-07-11  358  
 2a82b8be8a8dac David Chinner     2007-07-11  359  exit:
 2a82b8be8a8dac David Chinner     2007-07-11 @360  	if (err && mru && mru->lists)
+                                                                   ^^^
+
 d4c75a1b40cd03 Dave Chinner      2024-01-16  361  		kfree(mru->lists);
 2a82b8be8a8dac David Chinner     2007-07-11  362  	if (err && mru)
+                                                                   ^^^
+I normally wouldn't hit forward on this zero-day bot thing because it's
+obviously harmless.  But since you're removing NULL checks you could
+remove these two too if you want.
+
 d4c75a1b40cd03 Dave Chinner      2024-01-16  363  		kfree(mru);
 2a82b8be8a8dac David Chinner     2007-07-11  364  
 2a82b8be8a8dac David Chinner     2007-07-11  365  	return err;
 2a82b8be8a8dac David Chinner     2007-07-11  366  }
-2a82b8be8a8dac David Chinner     2007-07-11  367  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
