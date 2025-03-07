@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9806168B1
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 09:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273452054E9
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 09:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741338445; cv=none; b=i3yHj4njoqyud98ieGsKWLnSB3+LTSIADHFcqg8p+fHI9lLX/ofRSQ5z0QDvFJlHYhD3205nK/RhpRbW4K7dhlrT/efsTREGS/qWoSRy/fG/RL/TXX7bAhPY//wE3pxQuuSjTDwtPRfhY2BpQkOFDVvibrusHiRSQRwldcTvbQs=
+	t=1741340114; cv=none; b=BeHN5AFk2mx06Y6yCcrjNEmAr94uNuYw5YJNO5MbraDPqB9qbW1qwNWvVhp6K7K+mTwzB10peGaoW0o/gh1+V8zo0ywBUjSLyBuDEyHAII/Ht7njWTU3ruRpOSBKU5zVGNk0AfhaBnw/hzSmuADY3Zha2rtI05bScub2CcZfWgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741338445; c=relaxed/simple;
-	bh=mWf3efOalElH/cNdKWRvTo/LKk3pnr8IJc9SzQnn4RY=;
+	s=arc-20240116; t=1741340114; c=relaxed/simple;
+	bh=jYoSV8nQfJp7un5aTqDi+A3w76r2felo0UbylAdqFyQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=buNHI1jxXT2nswM0hnwdq5o+/o9s5VEXCw948lLGJvrNdetV/8cI2cPY99lSORS+5tJoswADFa8i0cVwvQ/Dd3jgzTlGKtCGPl38unQi9GEf3g1UgfuzYwiK/ZylV7EkLVJlIC/3+pWQ4g+j4SIZLJVrqTQ0z3cHfzXfshudv64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tj1ZoKMK; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=MHvR/NL8brrVPoX3rTg5r+x7iCuGdQWcErRgNS7slZgir5PZHwrHugqBgxi2xGRQpgT9Vm6LxNr2Md2S4kidHJrLxtz3p23c42N/auqCYBlTzWniLvSKnR7PXKgV9nBtUBSV0Lc/pUhQWnr7ubbXNlQfzFw/t2+DGFBRyNLXiK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mK76bCaF; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tj1ZoKMK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741338444; x=1772874444;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mWf3efOalElH/cNdKWRvTo/LKk3pnr8IJc9SzQnn4RY=;
-  b=Tj1ZoKMKuhjjGKKRunOwWhw9PiNaSefsQFEc1sfcSyJMrYYjIutHiuFH
-   lXV1DhSHnP7PQxGunp2/QFFpuKRM4PZADbMIGbfss939ChHVoHvOkrJpb
-   MK0BvoSMieC2PXslnkhYW5EJyuE0McoXcabp78c0kYGvLutoZD7Z1VDUe
-   ygzjWGJXwjOerx95tusR2yFK/tV+DHDZvACikpLMzW0jsMzSRoeySMWVQ
-   JY/KcsNnbTZcy7++HAgg5P5XaxQMoUi3BswjT97ihU6BCVm2dr/VB+6pP
-   U47C9k6rGj4zaxcruG9XA0k4FJeDHhwroBEsRo/Rli+IjFdSz5H+jBTb5
-   A==;
-X-CSE-ConnectionGUID: Nfq6A1JRTPSSt0uwV3IqVg==
-X-CSE-MsgGUID: NIVBvc8nTBady42pZ01bWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42610251"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="42610251"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:07:23 -0800
-X-CSE-ConnectionGUID: KJoBlYfwRb6P/cWnyKbKKg==
-X-CSE-MsgGUID: l49MSgq5QFWaY4dqVbDptQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="150067968"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Mar 2025 01:07:22 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqTfr-0000CJ-1u;
-	Fri, 07 Mar 2025 09:07:19 +0000
-Date: Fri, 7 Mar 2025 17:06:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cel:nfsd-testing 36/53] fs/nfsd/nfs4state.c:6894 deleg_reaper()
- warn: test_and_set_bit() takes a bit number
-Message-ID: <202503071639.y8jBhHg7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mK76bCaF"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so811196f8f.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 07 Mar 2025 01:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741340110; x=1741944910; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tG4wOjkGDNlxrhDYLef3YLmq5DbwWRyZAglhXkugrhk=;
+        b=mK76bCaFl1q3r1FlLwJVB6/TsDIVAGwj53uRAK5qhklB/idkAhU81m0J7L1rTZjReI
+         DjJCmWPb56nzdp3Yk2BvHvzBOZGogoy0c0QE8q0xa5Joo6skQt3AxJzbfpTWjtPWVA9O
+         IsNLuDye7Jf2WjMnihq6u7uXMROkNSXsz5wPbBlL1SRuRvMW0Y0e0HFBaSf0WLgS5Yio
+         vGaEDpq93j6UE3v0mC9NthGQVfbizKqbl0FJQzpx2ivBfTDqnA3Vv7Z03IW+2Y0Q4QCu
+         VJVluUhOdtOaoUwFPwoK9Qih9HUcQmYeRpJuGtK+pYWiiYSiORFayVh+Fi0Gl63rzCiS
+         UrMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741340110; x=1741944910;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tG4wOjkGDNlxrhDYLef3YLmq5DbwWRyZAglhXkugrhk=;
+        b=ChPaPb1Yi7IW3Mgdiv6tV37+x50ETqsdqGWndBBXzMVMiykoteedwTEGaAiUHhqq3e
+         QdjvZM8eAsEnU8cwF+atWSG937vSPDuWC+bi+FP3GkpKzcFD5rjhs4nR5kPZD24B1/yA
+         DWnhfczXrJvHqbl+LzM06bw5yQO6NsSmcdW8JRE/wmzH6rRVQFzgmz0Rp/YqCfXKYQws
+         oYRZHMMM8fthJkI0FmnSC0KStGa3Df0D0Dvcj1mhDUaQIpgwfyz9/qTUO41T4pOXsTMn
+         W8fduOFl2NfnL7M84yUHQfYmpBmKZUgNz/i6EcFDiH7xZWvfOX5PuYNACYTkV4hV00QE
+         rt0g==
+X-Gm-Message-State: AOJu0YzZyYo0AbEF8MtI6g0F4trLstZrs0T8IktLiiwCsupk+s5IRHbH
+	WOBgHsgDNoJA1D32znp01HFVHW096p/15k9SFV2GbhJC6wMxAo4NEmObcq4PKhhPxxOcArqmS3w
+	I
+X-Gm-Gg: ASbGncvX3xgnEFmG+jd+/czBGIuYpGcYpzOg5QwhDZwn4EKuSQwJ01g5aYeUZH3RS4p
+	ti8CAl2OsdJiIpLWE+08TiHAJfVHMcVmRtg7yzGpQk3+3SzPDbYPLhV2PoVko19AQ+wSX9Xp27p
+	3kIxWplmeaNcaS9tZO48j6zPv3QAy5JN/OJrM3TMBwcv8NtH3cv9mCYDY2bujYLP4QGxnScVsaU
+	LisdO1nrpkYYeLryswPPAA6Cj2iNYUOCGR+slXldtd8S5v0F8iwNoLP495u1gqaEb30hoQjq5mh
+	I++c/d17FPUrUvmnlxZQWXjKJCxnkybj3zruh+Rh0FT9TyjxTg==
+X-Google-Smtp-Source: AGHT+IHkXSAqFp5TDNlCnoK05b/KoISEKKsQipby+FODmtnLx9O7Cb6nJRjyYWBfk3StIU8egQB/bg==
+X-Received: by 2002:a05:6000:1867:b0:38f:2a53:1d78 with SMTP id ffacd0b85a97d-39132d20b9emr1587470f8f.10.1741340110231;
+        Fri, 07 Mar 2025 01:35:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c104acesm4823915f8f.98.2025.03.07.01.35.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 01:35:09 -0800 (PST)
+Date: Fri, 7 Mar 2025 12:35:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Etienne Carriere <etienne.carriere@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Olivier Masse <olivier.masse@nxp.com>
+Subject: [jens-wiklander-tee:testing/tuxbuild 6/10] drivers/tee/tee_shm.c:258
+ tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
+Message-ID: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,73 +74,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Jeff Layton <jlayton@kernel.org>
-CC: Chuck Lever <chuck.lever@oracle.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   312e8dc9f5f591a4927b4786a25840ef381c97d9
-commit: e5655a15d29be9422731a1791fc4b92e70b79f7f [36/53] nfsd: eliminate cl_ra_cblist and NFSD4_CLIENT_CB_RECALL_ANY
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071639.y8jBhHg7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tuxbuild
+head:   f4198d1f9ee51430ec81d02bb21f769cb6fd14c1
+commit: 7fc3cd07fc7e055deefa3b33ff9f702ccd9f7864 [6/10] tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071648.ViJVMQTh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503071639.y8jBhHg7-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503071648.ViJVMQTh-lkp@intel.com/
 
-New smatch warnings:
-fs/nfsd/nfs4state.c:6894 deleg_reaper() warn: test_and_set_bit() takes a bit number
+smatch warnings:
+drivers/tee/tee_shm.c:258 tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-fs/nfsd/nfs4state.c:3234 nfs4_cb_getattr() warn: test_and_set_bit() takes a bit number
-fs/nfsd/nfs4state.c:5427 nfsd_break_one_deleg() warn: test_and_set_bit() takes a bit number
-fs/nfsd/state.h:786 nfsd4_try_run_cb() warn: test_and_set_bit() takes a bit number
-fs/nfsd/nfs4state.c:8024 init_lock_stateid() warn: inconsistent returns '&stp->st_mutex'.
+vim +/PTR_ERR +258 drivers/tee/tee_shm.c
 
-vim +6894 fs/nfsd/nfs4state.c
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  210  struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  211  {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  212  	struct tee_shm_dmabuf_ref *ref;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  213  	int rc;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  214  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  215  	if (!tee_device_get(ctx->teedev))
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  216  		return ERR_PTR(-EINVAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  217  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  218  	teedev_ctx_get(ctx);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  219  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  220  	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  221  	if (!ref) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  222  		rc = -ENOMEM;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  223  		goto err_put_tee;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  224  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  225  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  226  	refcount_set(&ref->shm.refcount, 1);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  227  	ref->shm.ctx = ctx;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  228  	ref->shm.id = -1;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  229  	ref->shm.flags = TEE_SHM_DMA_BUF;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  230  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  231  	ref->dmabuf = dma_buf_get(fd);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  232  	if (IS_ERR(ref->dmabuf)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  233  		rc = PTR_ERR(ref->dmabuf);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  234  		goto err_kfree_ref;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  235  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  236  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  237  	rc = tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  238  					  &ref->offset, &ref->shm,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  239  					  &ref->parent_shm);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  240  	if (!rc)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  241  		goto out;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  242  	if (rc != -EINVAL)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  243  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  244  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  245  	ref->attach = dma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  246  	if (IS_ERR(ref->attach)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  247  		rc = PTR_ERR(ref->attach);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  248  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  249  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  250  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  251  	ref->sgt = dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  252  	if (IS_ERR(ref->sgt)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  253  		rc = PTR_ERR(ref->sgt);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  254  		goto err_detach;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  255  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  256  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  257  	if (sg_nents(ref->sgt->sgl) != 1) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27 @258  		rc = PTR_ERR(ref->sgt->sgl);
 
-7746b32f467b38 Dai Ngo     2022-09-14  6877  
-44df6f439a1790 Dai Ngo     2022-11-16  6878  static void
-44df6f439a1790 Dai Ngo     2022-11-16  6879  deleg_reaper(struct nfsd_net *nn)
-44df6f439a1790 Dai Ngo     2022-11-16  6880  {
-44df6f439a1790 Dai Ngo     2022-11-16  6881  	struct list_head *pos, *next;
-44df6f439a1790 Dai Ngo     2022-11-16  6882  	struct nfs4_client *clp;
-44df6f439a1790 Dai Ngo     2022-11-16  6883  
-44df6f439a1790 Dai Ngo     2022-11-16  6884  	spin_lock(&nn->client_lock);
-44df6f439a1790 Dai Ngo     2022-11-16  6885  	list_for_each_safe(pos, next, &nn->client_lru) {
-44df6f439a1790 Dai Ngo     2022-11-16  6886  		clp = list_entry(pos, struct nfs4_client, cl_lru);
-f933659f330644 Chuck Lever 2025-01-14  6887  
-f933659f330644 Chuck Lever 2025-01-14  6888  		if (clp->cl_state != NFSD4_ACTIVE)
-f933659f330644 Chuck Lever 2025-01-14  6889  			continue;
-f933659f330644 Chuck Lever 2025-01-14  6890  		if (list_empty(&clp->cl_delegations))
-f933659f330644 Chuck Lever 2025-01-14  6891  			continue;
-f933659f330644 Chuck Lever 2025-01-14  6892  		if (atomic_read(&clp->cl_delegs_in_recall))
-f933659f330644 Chuck Lever 2025-01-14  6893  			continue;
-e5655a15d29be9 Jeff Layton 2025-02-20 @6894  		if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &clp->cl_ra->ra_cb.cb_flags))
-f933659f330644 Chuck Lever 2025-01-14  6895  			continue;
-f933659f330644 Chuck Lever 2025-01-14  6896  		if (ktime_get_boottime_seconds() - clp->cl_ra_time < 5)
-f933659f330644 Chuck Lever 2025-01-14  6897  			continue;
-f933659f330644 Chuck Lever 2025-01-14  6898  		if (clp->cl_cb_state != NFSD4_CB_UP)
-44df6f439a1790 Dai Ngo     2022-11-16  6899  			continue;
-44df6f439a1790 Dai Ngo     2022-11-16  6900  
-44df6f439a1790 Dai Ngo     2022-11-16  6901  		/* release in nfsd4_cb_recall_any_release */
-10396f4df8b75f Jeff Layton 2024-04-05  6902  		kref_get(&clp->cl_nfsdfs.cl_ref);
-44df6f439a1790 Dai Ngo     2022-11-16  6903  		clp->cl_ra_time = ktime_get_boottime_seconds();
-44df6f439a1790 Dai Ngo     2022-11-16  6904  		clp->cl_ra->ra_keep = 0;
-5826e09bf3dd44 Dai Ngo     2024-02-17  6905  		clp->cl_ra->ra_bmval[0] = BIT(RCA4_TYPE_MASK_RDATA_DLG) |
-5826e09bf3dd44 Dai Ngo     2024-02-17  6906  						BIT(RCA4_TYPE_MASK_WDATA_DLG);
-638593be55c0b3 Dai Ngo     2022-11-16  6907  		trace_nfsd_cb_recall_any(clp->cl_ra);
-e5655a15d29be9 Jeff Layton 2025-02-20  6908  		nfsd4_run_cb(&clp->cl_ra->ra_cb);
-44df6f439a1790 Dai Ngo     2022-11-16  6909  	}
-e5655a15d29be9 Jeff Layton 2025-02-20  6910  	spin_unlock(&nn->client_lock);
-44df6f439a1790 Dai Ngo     2022-11-16  6911  }
-44df6f439a1790 Dai Ngo     2022-11-16  6912  
+This should be "rc = -EINVAL;"
+
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  259  		goto err_unmap_attachement;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  260  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  261  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  262  	ref->shm.paddr = page_to_phys(sg_page(ref->sgt->sgl));
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  263  	ref->shm.size = ref->sgt->sgl->length;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  264  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  265  out:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  266  	mutex_lock(&ref->shm.ctx->teedev->mutex);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  267  	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  268  				1, 0, GFP_KERNEL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  269  	mutex_unlock(&ref->shm.ctx->teedev->mutex);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  270  	if (ref->shm.id < 0) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  271  		rc = ref->shm.id;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  272  		if (ref->attach)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  273  			goto err_unmap_attachement;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  274  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  275  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  276  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  277  	return &ref->shm;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  278  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  279  err_unmap_attachement:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  280  	dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  281  err_detach:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  282  	dma_buf_detach(ref->dmabuf, ref->attach);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  283  err_put_dmabuf:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  284  	dma_buf_put(ref->dmabuf);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  285  err_kfree_ref:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  286  	kfree(ref);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  287  err_put_tee:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  288  	teedev_ctx_put(ctx);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  289  	tee_device_put(ctx->teedev);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  290  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  291  	return ERR_PTR(rc);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  292  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
