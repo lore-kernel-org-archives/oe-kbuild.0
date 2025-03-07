@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED14614A4F9
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 12:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BA6218EBD
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 13:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741350969; cv=none; b=NnTRfWGdX/7AzBdIgWVYCxFNQxJ54peSmtl7ac53cKOpZNe6wdoanQ7twFVb9Guq5+tT/d5TLXTnH+CGb2dLJh2COpzc8yvRefOE0Z9LnIPVvASj3hNmQUwnhg1/PDPsFa50UZE3lGv9sGGJ2NhNNExxBt2DkkYZldlhxzqzNkM=
+	t=1741353825; cv=none; b=n7pByENSkh4evtfSpj8DmFh89RkCVfpwkPGJJTjssTtV+zNlSjzHbtBgEOh/DKcmQm4tyiD5JPJUA0XGN9mXyeC7hX6h/rXMpYjptjcvEJz0I/QIhbYKwcrXY2+XbplNh3EcHOfBVnFC+4R5otjISy9hH7kSXLA9fronHT+ZEwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741350969; c=relaxed/simple;
-	bh=CAo2t1OI2tTJlndjOM/tRLe3Pvy8fEMhB6pfYRKsOCU=;
+	s=arc-20240116; t=1741353825; c=relaxed/simple;
+	bh=cQU9lpzavjwHW26HbJi4eajUuDNk4nattxteY85KcSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n7Oy16gu4vs5FydKKej5UzgPUyVyzQN+REQYhwK7ulgmW37k8yKlpNh9fS+ULuvyxtGVQZrJC4I6l0+Zd3ksLiezH9fV0Qa2vJDA1qZkWKii13C1jn/dIksa8gatSeI7W8DXzQZmfUe/fmA+4hNTkX+6R4B82rsRSVTGv6yULcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uwx+0eQ+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ml8FjZGs/qrp89C2tIxkZEpIwVCP9IV317O5pBzRFkZt/Mce14Aej4igAAUzNl4HP4SOBqJCDDu6brIHGjlJHxy3P9YScyO9RB2s09eV8/VuPxEoSukSP96b1vxDPncWLw+6Uiq8m0BPtwcg318jWEw+gs/HbVl8ggdg/rbWHTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZK20HHM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uwx+0eQ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZK20HHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741350967; x=1772886967;
+  t=1741353823; x=1772889823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CAo2t1OI2tTJlndjOM/tRLe3Pvy8fEMhB6pfYRKsOCU=;
-  b=Uwx+0eQ+DWzZ+repf3vBlDDJxl5BVumCyPyNEIH7SCJ8A4WtpRCoYt9p
-   YczF5TQCGL6JzE3ShnYnAUGy/+lfyV3kh9ctEgYeYxJ2TJnxzUBX5Jgy+
-   hI5r1cfYV1ibVmvlg1pkwC5k0MuQgqFau8DDaH+eK3DUn51Gl7y6cbLxz
-   ldSUYgs4NRaXTxULtNFsbt2INN3XMlATHGx40f58xNNur8kbL8h8AZ41e
-   baEjAtRRe9KUld6kEs3/GSHhbXHfXZ0xgjiDzrrsZxA9CvGFM2pPoWMYL
-   5ysaZzyQFNiy2QuhvWnxI6wOtPEUWVLOeLrcVBb9bh9bk2rZOh4Pbsng/
-   A==;
-X-CSE-ConnectionGUID: dVjfRDIcSBKGLW3nJawTKw==
-X-CSE-MsgGUID: vvGUASWgRMOF2kiiBHusAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="64837776"
+  bh=cQU9lpzavjwHW26HbJi4eajUuDNk4nattxteY85KcSY=;
+  b=bZK20HHMOmqGSnR4pWrlNcc1D2y0Hmd55JD/SLbDhxeJK9tHdt/YCd7H
+   0GJMDXYZ0JAX6/E8lLQMoa1oIdTJReDNGrU5Dtr4NQla5yB7JWXoHBwnJ
+   0w2p8FB0Pqj98HxlB75f6QPtUAdBDOjpOWRSVeXWQ6xpOFxEBlKR2vbjr
+   Z5h6/ywLiZNFZoCmzhKuJPhLYGCxr2dMI5ekvhPaW80ceo8c23GaFgMWX
+   XnTRdkKCzJxguefFyqEpZfnLI1e4heZ63og75CBBPcR0IzPhIY6C7cbUc
+   3wDUnOaig8rZsGiEyERNjPQwcBBObqpVuqi6Wh7noxk4dInr0la5RV/ea
+   Q==;
+X-CSE-ConnectionGUID: u+fktVF+QK2Xcc2cRwFZlw==
+X-CSE-MsgGUID: fyjahMp4TJm1heoAVEf4VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52608761"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="64837776"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:36:06 -0800
-X-CSE-ConnectionGUID: 6y+xpk7tThWpF8wOEIB87w==
-X-CSE-MsgGUID: T6HK1pztROKRa1dM0j89Ow==
+   d="scan'208";a="52608761"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 05:23:41 -0800
+X-CSE-ConnectionGUID: 1m73zEHQTra5+8GztUT87Q==
+X-CSE-MsgGUID: GkNqqIdqRHO6MUf/nwIN0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="142542877"
+   d="scan'208";a="119317842"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Mar 2025 04:36:05 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 07 Mar 2025 05:23:39 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqWvq-0000Ta-36;
-	Fri, 07 Mar 2025 12:36:02 +0000
-Date: Fri, 7 Mar 2025 20:35:11 +0800
+	id 1tqXft-0000W3-0k;
+	Fri, 07 Mar 2025 13:23:37 +0000
+Date: Fri, 7 Mar 2025 21:22:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 8204/9634] fs/nfsd/nfs4state.c:3235
- nfs4_cb_getattr() warn: set_bit() takes a bit number
-Message-ID: <202503072054.8X4dthV4-lkp@intel.com>
+Subject: Re: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL
+ allocation.
+Message-ID: <202503072035.d6QqiZWT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,54 +64,108 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jeff Layton <jlayton@kernel.org>
-CC: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
+References: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
+TO: Julian Sun <sunjunchao2870@gmail.com>
+TO: linux-xfs@vger.kernel.org
+CC: cem@kernel.org
+CC: djwong@kernel.org
+CC: Julian Sun <sunjunchao2870@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
-commit: 7ba68ad0210d54eb26c499eabd85022fb38ccbf2 [8204/9634] nfsd: replace CB_GETATTR_BUSY with NFSD4_CALLBACK_RUNNING
-:::::: branch date: 27 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250307/202503072054.8X4dthV4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Julian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v6.14-rc5 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/xfs-remove-unnecessary-checks-for-__GFP_NOFAIL-allocation/20250228-162815
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20250228082622.2638686-2-sunjunchao2870%40gmail.com
+patch subject: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL allocation.
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072035.d6QqiZWT-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503072054.8X4dthV4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503072035.d6QqiZWT-lkp@intel.com/
 
 New smatch warnings:
-fs/nfsd/nfs4state.c:3235 nfs4_cb_getattr() warn: set_bit() takes a bit number
+fs/xfs/xfs_mru_cache.c:360 xfs_mru_cache_create() warn: variable dereferenced before check 'mru' (see line 338)
 
 Old smatch warnings:
-fs/nfsd/nfs4state.c:3228 nfs4_cb_getattr() warn: test_and_set_bit() takes a bit number
-fs/nfsd/nfs4state.c:5428 nfsd_break_one_deleg() warn: test_and_set_bit() takes a bit number
-fs/nfsd/nfs4state.c:6895 deleg_reaper() warn: test_and_set_bit() takes a bit number
-fs/nfsd/state.h:783 nfsd4_try_run_cb() warn: test_and_set_bit() takes a bit number
-fs/nfsd/nfs4state.c:8025 init_lock_stateid() warn: inconsistent returns '&stp->st_mutex'.
+fs/xfs/xfs_mru_cache.c:272 _xfs_mru_cache_reap() warn: can 'mru' even be NULL?
 
-vim +3235 fs/nfsd/nfs4state.c
+vim +/mru +360 fs/xfs/xfs_mru_cache.c
 
-c5967721e10636 Dai Ngo     2024-02-15  3222  
-c5967721e10636 Dai Ngo     2024-02-15  3223  static void nfs4_cb_getattr(struct nfs4_cb_fattr *ncf)
-c5967721e10636 Dai Ngo     2024-02-15  3224  {
-c5967721e10636 Dai Ngo     2024-02-15  3225  	struct nfs4_delegation *dp =
-c5967721e10636 Dai Ngo     2024-02-15  3226  			container_of(ncf, struct nfs4_delegation, dl_cb_fattr);
-c5967721e10636 Dai Ngo     2024-02-15  3227  
-7ba68ad0210d54 Jeff Layton 2025-02-20  3228  	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &ncf->ncf_getattr.cb_flags))
-c5967721e10636 Dai Ngo     2024-02-15  3229  		return;
-7ba68ad0210d54 Jeff Layton 2025-02-20  3230  
-c5967721e10636 Dai Ngo     2024-02-15  3231  	/* set to proper status when nfsd4_cb_getattr_done runs */
-c5967721e10636 Dai Ngo     2024-02-15  3232  	ncf->ncf_cb_status = NFS4ERR_IO;
-c5967721e10636 Dai Ngo     2024-02-15  3233  
-7ba68ad0210d54 Jeff Layton 2025-02-20  3234  	/* ensure that wake_bit is done when RUNNING is cleared */
-7ba68ad0210d54 Jeff Layton 2025-02-20 @3235  	set_bit(NFSD4_CALLBACK_WAKE, &ncf->ncf_getattr.cb_flags);
-7ba68ad0210d54 Jeff Layton 2025-02-20  3236  
-c5967721e10636 Dai Ngo     2024-02-15  3237  	refcount_inc(&dp->dl_stid.sc_count);
-c5967721e10636 Dai Ngo     2024-02-15  3238  	nfsd4_run_cb(&ncf->ncf_getattr);
-c5967721e10636 Dai Ngo     2024-02-15  3239  }
-c5967721e10636 Dai Ngo     2024-02-15  3240  
+2a82b8be8a8dac David Chinner     2007-07-11  307  
+2a82b8be8a8dac David Chinner     2007-07-11  308  /*
+2a82b8be8a8dac David Chinner     2007-07-11  309   * To initialise a struct xfs_mru_cache pointer, call xfs_mru_cache_create()
+2a82b8be8a8dac David Chinner     2007-07-11  310   * with the address of the pointer, a lifetime value in milliseconds, a group
+2a82b8be8a8dac David Chinner     2007-07-11  311   * count and a free function to use when deleting elements.  This function
+2a82b8be8a8dac David Chinner     2007-07-11  312   * returns 0 if the initialisation was successful.
+2a82b8be8a8dac David Chinner     2007-07-11  313   */
+2a82b8be8a8dac David Chinner     2007-07-11  314  int
+2a82b8be8a8dac David Chinner     2007-07-11  315  xfs_mru_cache_create(
+22328d712dd7fd Christoph Hellwig 2014-04-23  316  	struct xfs_mru_cache	**mrup,
+7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  317  	void			*data,
+2a82b8be8a8dac David Chinner     2007-07-11  318  	unsigned int		lifetime_ms,
+2a82b8be8a8dac David Chinner     2007-07-11  319  	unsigned int		grp_count,
+2a82b8be8a8dac David Chinner     2007-07-11  320  	xfs_mru_cache_free_func_t free_func)
+2a82b8be8a8dac David Chinner     2007-07-11  321  {
+22328d712dd7fd Christoph Hellwig 2014-04-23  322  	struct xfs_mru_cache	*mru = NULL;
+2a82b8be8a8dac David Chinner     2007-07-11  323  	int			err = 0, grp;
+2a82b8be8a8dac David Chinner     2007-07-11  324  	unsigned int		grp_time;
+2a82b8be8a8dac David Chinner     2007-07-11  325  
+2a82b8be8a8dac David Chinner     2007-07-11  326  	if (mrup)
+2a82b8be8a8dac David Chinner     2007-07-11  327  		*mrup = NULL;
+2a82b8be8a8dac David Chinner     2007-07-11  328  
+2a82b8be8a8dac David Chinner     2007-07-11  329  	if (!mrup || !grp_count || !lifetime_ms || !free_func)
+2451337dd04390 Dave Chinner      2014-06-25  330  		return -EINVAL;
+2a82b8be8a8dac David Chinner     2007-07-11  331  
+2a82b8be8a8dac David Chinner     2007-07-11  332  	if (!(grp_time = msecs_to_jiffies(lifetime_ms) / grp_count))
+2451337dd04390 Dave Chinner      2014-06-25  333  		return -EINVAL;
+2a82b8be8a8dac David Chinner     2007-07-11  334  
+10634530f7ba94 Dave Chinner      2024-01-16  335  	mru = kzalloc(sizeof(*mru), GFP_KERNEL | __GFP_NOFAIL);
+2a82b8be8a8dac David Chinner     2007-07-11  336  
+2a82b8be8a8dac David Chinner     2007-07-11  337  	/* An extra list is needed to avoid reaping up to a grp_time early. */
+2a82b8be8a8dac David Chinner     2007-07-11 @338  	mru->grp_count = grp_count + 1;
+10634530f7ba94 Dave Chinner      2024-01-16  339  	mru->lists = kzalloc(mru->grp_count * sizeof(*mru->lists),
+10634530f7ba94 Dave Chinner      2024-01-16  340  				GFP_KERNEL | __GFP_NOFAIL);
+2a82b8be8a8dac David Chinner     2007-07-11  341  
+2a82b8be8a8dac David Chinner     2007-07-11  342  	for (grp = 0; grp < mru->grp_count; grp++)
+2a82b8be8a8dac David Chinner     2007-07-11  343  		INIT_LIST_HEAD(mru->lists + grp);
+2a82b8be8a8dac David Chinner     2007-07-11  344  
+2a82b8be8a8dac David Chinner     2007-07-11  345  	/*
+2a82b8be8a8dac David Chinner     2007-07-11  346  	 * We use GFP_KERNEL radix tree preload and do inserts under a
+2a82b8be8a8dac David Chinner     2007-07-11  347  	 * spinlock so GFP_ATOMIC is appropriate for the radix tree itself.
+2a82b8be8a8dac David Chinner     2007-07-11  348  	 */
+2a82b8be8a8dac David Chinner     2007-07-11  349  	INIT_RADIX_TREE(&mru->store, GFP_ATOMIC);
+2a82b8be8a8dac David Chinner     2007-07-11  350  	INIT_LIST_HEAD(&mru->reap_list);
+007c61c68640ea Eric Sandeen      2007-10-11  351  	spin_lock_init(&mru->lock);
+2a82b8be8a8dac David Chinner     2007-07-11  352  	INIT_DELAYED_WORK(&mru->work, _xfs_mru_cache_reap);
+2a82b8be8a8dac David Chinner     2007-07-11  353  
+2a82b8be8a8dac David Chinner     2007-07-11  354  	mru->grp_time  = grp_time;
+2a82b8be8a8dac David Chinner     2007-07-11  355  	mru->free_func = free_func;
+7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  356  	mru->data = data;
+2a82b8be8a8dac David Chinner     2007-07-11  357  	*mrup = mru;
+2a82b8be8a8dac David Chinner     2007-07-11  358  
+2a82b8be8a8dac David Chinner     2007-07-11  359  exit:
+2a82b8be8a8dac David Chinner     2007-07-11 @360  	if (err && mru && mru->lists)
+d4c75a1b40cd03 Dave Chinner      2024-01-16  361  		kfree(mru->lists);
+2a82b8be8a8dac David Chinner     2007-07-11  362  	if (err && mru)
+d4c75a1b40cd03 Dave Chinner      2024-01-16  363  		kfree(mru);
+2a82b8be8a8dac David Chinner     2007-07-11  364  
+2a82b8be8a8dac David Chinner     2007-07-11  365  	return err;
+2a82b8be8a8dac David Chinner     2007-07-11  366  }
+2a82b8be8a8dac David Chinner     2007-07-11  367  
 
 -- 
 0-DAY CI Kernel Test Service
