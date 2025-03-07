@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CF018FDDF
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 03:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7132664C6
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 05:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741318826; cv=none; b=jnofTYlTJNawoFjQ1VPlGJnXvHBwgcb822KuLfva7caCIBdCzx0BUdlbOGkS9/4JJVJFRmPg7hDOA+IorBXRA0jgbh+PGcDCnCMbiUoqzjqiSlIhDgFF5EF8QA+HG1mt7bGy+G1cdpBRJAFr73jZ1vU9dFXTsJf+Jdh2ar05jD0=
+	t=1741324107; cv=none; b=pADhoXEWakBV5/8r1EYxNh1+hsDgHXXnnntFm+6j3VrcfjMFRQc8jvIiLDavqzRcSpMdtqwda2uXoHZ++xGQTs7PKQJCGEphlpH5S3ovP4OQp9eLreizsqCSN5ib676HqeyvOgKgwZ20Za0E9dqXun41whES2X/stWqdVgttg7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741318826; c=relaxed/simple;
-	bh=9dvLJCg9NozuiUuidgykl8fQOxwCV+sgufQ7C6/yqyg=;
+	s=arc-20240116; t=1741324107; c=relaxed/simple;
+	bh=rIlRNXtE7VgG1fBqnqiMD715eRPRiqm6BVNOjUjmuwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tqSffkv9YQThXELuZ+GXJpXQQuOYtGX8jmWTuy8uuz5VXo2pPAH8ElZuOfcBLddVGshs2alwnpaz0yfO0C+EXqJWWVO68CfhYVLwFhS6zSWCUsLflNTy1z6PqCDLs+Mk6jmHWcXk7yQoGInwlUfmFWjaA1tRBzZ9S/tsIr0aG5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMDw9Fqz; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=WM11l4JsKGmlGTQhj2lLeMLO3F2O277widrg/+Dgls4j97XD55UhkCF1vLbtd5zu+uKOp2pEcY/Sn0HIJhDbCypoO8uEA6SEVaBHFmMW3uZy/FZyHpW1UdfIavnZimMuyxOpCzALbfJmyji9WBGG3FxVGgVop/D5LR7CQbppVWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/ymj405; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMDw9Fqz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/ymj405"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741318825; x=1772854825;
+  t=1741324106; x=1772860106;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9dvLJCg9NozuiUuidgykl8fQOxwCV+sgufQ7C6/yqyg=;
-  b=WMDw9Fqzf8lyU7aBs27sl4fECQXHpoQqMn401UCjlLVyjLCws5jDIKNi
-   cpix97OGB35VrlIb1fmqzpSyTKajffkBjOFIhQCSVLKMZhADdRijpfa9l
-   niN+BxnmF4mInzs+e31bFIiAuctlZM2PRYcBhPcoiMnps5OUUxTQgPsdD
-   FL3MM4M/A5ER3Jwal1Xfk5CTcGddb9xZEv466Zx/bOjxW66RP2R7j43RB
-   +QTOdo2wlIBFzDYooXwxQ/AJd2tGqE4aGno3MFpyTT0+8X2mq6EXaqQ11
-   RI8JGqH813h9VPmgL0+VSvtdMy1IqHRyG33nRFNF08Pq3wuTuP7UAhi0k
-   g==;
-X-CSE-ConnectionGUID: 7cAvowPmSK64Hh/NvxNOLg==
-X-CSE-MsgGUID: N9RZ8EeHRuiEFZlUAf0W/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53757042"
+  bh=rIlRNXtE7VgG1fBqnqiMD715eRPRiqm6BVNOjUjmuwM=;
+  b=B/ymj405vw8dC4/kKBvYt30RzOnK9m2JSULNP1/kpBR2XzFjOt8PefMo
+   KqextH+xwmUkpKf6i1RTzQR11sIw6xgV7x3kroxpGlpP9ErWEoH4QFY3y
+   JRC93MgyVcTnR8QFeWDNNcIv6SYpiV6yeX32Zo97CYF5qPqJkGCKO+rGH
+   mI63ng67n39/5Zj62S+bg07H4+IAPw3isWyQ4lJ9L8IFsHVVVoG8t1jC8
+   ZKB0JMN0OqxQg47/RYDlb+PBsTG47vlKQBKEFhzwwBDTXJozB0Bnzv028
+   FeZnkaxDZ/f6JCNv+QQeFP9MrRmO72cgxaVgOgEPCyx+yatFi61vJ4ADg
+   w==;
+X-CSE-ConnectionGUID: 9qPT5cs/SkisqBN3w/1H2w==
+X-CSE-MsgGUID: hFdGvDZqTgGsKI4TH90tQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53001694"
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="53757042"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 19:40:24 -0800
-X-CSE-ConnectionGUID: 26umpJePRPKpCC4UrMFpIA==
-X-CSE-MsgGUID: yVpkr0lbS3S+cBlndlU6Jw==
+   d="scan'208";a="53001694"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 21:08:25 -0800
+X-CSE-ConnectionGUID: JxqJM+JwTlyASs+09VJZZQ==
+X-CSE-MsgGUID: LLAFE7mrSR6AklAeo+zGjA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="124139564"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123409100"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2025 19:40:22 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Mar 2025 21:08:24 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqOZJ-000OEW-2m;
-	Fri, 07 Mar 2025 03:40:15 +0000
-Date: Fri, 7 Mar 2025 11:39:05 +0800
+	id 1tqPwZ-000OaC-1e;
+	Fri, 07 Mar 2025 05:08:20 +0000
+Date: Fri, 7 Mar 2025 13:06:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 06/11] misc: amd-sbi: Add support for AMD_SBI IOCTL
-Message-ID: <202503071145.fhmAEjMr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [rockchip:v6.15-armsoc/dts64 68/77]
+ arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: compatible:
+ ['everest,es8388', 'everest,es8328'] is too long
+Message-ID: <202503071311.cyrGPtqX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,91 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250303105902.215009-7-akshay.gupta@amd.com>
-References: <20250303105902.215009-7-akshay.gupta@amd.com>
-TO: Akshay Gupta <akshay.gupta@amd.com>
-TO: linux-hwmon@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: linux@roeck-us.net
-CC: gregkh@linuxfoundation.org
-CC: arnd@arndb.de
-CC: shyam-sundar.s-k@amd.com
-CC: gautham.shenoy@amd.com
-CC: mario.limonciello@amd.com
-CC: naveenkrishna.chatradhi@amd.com
-CC: Akshay Gupta <akshay.gupta@amd.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-Hi Akshay,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus groeck-staging/hwmon-next soc/for-next linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Akshay-Gupta/hwmon-misc-amd-sbi-Move-core-sbrmi-from-hwmon-to-misc/20250303-190830
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20250303105902.215009-7-akshay.gupta%40amd.com
-patch subject: [PATCH v5 06/11] misc: amd-sbi: Add support for AMD_SBI IOCTL
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: riscv-randconfig-r072-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071145.fhmAEjMr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-armsoc/dts64
+head:   5324af2d029d47a39ce22ae1613e2753e5e372a2
+commit: d83f6c32d70f96037cb187e63785e7a58f9e751b [68/77] arm64: dts: rockchip: Add ES8388 audio codec fallback on RK3399 ROC PC PLUS
+:::::: branch date: 15 hours ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071311.cyrGPtqX-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071311.cyrGPtqX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503071145.fhmAEjMr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503071311.cyrGPtqX-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/amd-sbi/rmi-core.c:110 sbrmi_ioctl() warn: can 'data' even be NULL?
-
-vim +/data +110 drivers/misc/amd-sbi/rmi-core.c
-
-dd49a6be4bc20c Akshay Gupta 2025-03-03  100  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  101  static long sbrmi_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
-dd49a6be4bc20c Akshay Gupta 2025-03-03  102  {
-dd49a6be4bc20c Akshay Gupta 2025-03-03  103  	int __user *arguser = (int  __user *)arg;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  104  	struct apml_message msg = { 0 };
-dd49a6be4bc20c Akshay Gupta 2025-03-03  105  	bool read = false;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  106  	int ret;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  107  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  108  	struct sbrmi_data *data = container_of(fp->private_data, struct sbrmi_data,
-dd49a6be4bc20c Akshay Gupta 2025-03-03  109  					       sbrmi_misc_dev);
-dd49a6be4bc20c Akshay Gupta 2025-03-03 @110  	if (!data)
-dd49a6be4bc20c Akshay Gupta 2025-03-03  111  		return -ENODEV;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  112  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  113  	/* Copy the structure from user */
-dd49a6be4bc20c Akshay Gupta 2025-03-03  114  	if (copy_struct_from_user(&msg, sizeof(msg), arguser,
-dd49a6be4bc20c Akshay Gupta 2025-03-03  115  				  sizeof(struct apml_message)))
-dd49a6be4bc20c Akshay Gupta 2025-03-03  116  		return -EFAULT;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  117  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  118  	/* Is this a read/monitor/get request */
-dd49a6be4bc20c Akshay Gupta 2025-03-03  119  	if (msg.data_in.reg_in[AMD_SBI_RD_FLAG_INDEX])
-dd49a6be4bc20c Akshay Gupta 2025-03-03  120  		read = true;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  121  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  122  	switch (msg.cmd) {
-dd49a6be4bc20c Akshay Gupta 2025-03-03  123  	case 0 ... 0x999:
-dd49a6be4bc20c Akshay Gupta 2025-03-03  124  		/* Mailbox protocol */
-dd49a6be4bc20c Akshay Gupta 2025-03-03  125  		ret = rmi_mailbox_xfer(data, &msg);
-dd49a6be4bc20c Akshay Gupta 2025-03-03  126  		break;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  127  	default:
-dd49a6be4bc20c Akshay Gupta 2025-03-03  128  		return -EINVAL;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  129  	}
-dd49a6be4bc20c Akshay Gupta 2025-03-03  130  
-dd49a6be4bc20c Akshay Gupta 2025-03-03  131  	/* Copy results back to user only for get/monitor commands and firmware failures */
-dd49a6be4bc20c Akshay Gupta 2025-03-03  132  	if ((read && !ret) || ret == -EPROTOTYPE) {
-dd49a6be4bc20c Akshay Gupta 2025-03-03  133  		if (copy_to_user(arguser, &msg, sizeof(struct apml_message)))
-dd49a6be4bc20c Akshay Gupta 2025-03-03  134  			ret = -EFAULT;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  135  	}
-dd49a6be4bc20c Akshay Gupta 2025-03-03  136  	return ret;
-dd49a6be4bc20c Akshay Gupta 2025-03-03  137  }
-dd49a6be4bc20c Akshay Gupta 2025-03-03  138  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1356.21-1369.4: Warning (avoid_unnecessary_addr_size): /i2c@ff3d0000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+>> arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: compatible: ['everest,es8388', 'everest,es8328'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'DVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'AVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'PVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: 'HPVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: usb-typec@22: 'connector' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
