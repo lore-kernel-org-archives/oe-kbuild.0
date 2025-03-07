@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C286618C03D
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 11:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED14614A4F9
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Mar 2025 12:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741346161; cv=none; b=YWOQwtswPOkGgIe2ij6fMhevqjstlhVkLWK4B8qAu1ku+A5GuDWiMt8extenL34ATCn3mzfkke/ZJ3lv5MPjZgEv8hQYx0SRpe6CAvVVxhYZI5RVG3G4goSLq/RNkcElQ3/kknBvpJBkIDqBdHCVZ5VLy0qtEwyGTxRR5ZXwDTs=
+	t=1741350969; cv=none; b=NnTRfWGdX/7AzBdIgWVYCxFNQxJ54peSmtl7ac53cKOpZNe6wdoanQ7twFVb9Guq5+tT/d5TLXTnH+CGb2dLJh2COpzc8yvRefOE0Z9LnIPVvASj3hNmQUwnhg1/PDPsFa50UZE3lGv9sGGJ2NhNNExxBt2DkkYZldlhxzqzNkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741346161; c=relaxed/simple;
-	bh=qz+HZUsjakXLSaK9YtyDv/UoIlUkY9pUGRbc6ORcRNM=;
+	s=arc-20240116; t=1741350969; c=relaxed/simple;
+	bh=CAo2t1OI2tTJlndjOM/tRLe3Pvy8fEMhB6pfYRKsOCU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CfDwmyQdoImuDGhvLBOjoJYI9xS4FeO/5b9X90pgehJIS822/fQDVvCuoRSzUVOpQfdLF5Qk95ijrQVQP16cptfyT9gciMMxSNr4eVFa0CRZcA2UeqlR1qdnenj3ZfuKE9k7+OpVYKB/AQMcAeMb98JX3pTjehzkJI6ihTRfmvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9GIAG5X; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=n7Oy16gu4vs5FydKKej5UzgPUyVyzQN+REQYhwK7ulgmW37k8yKlpNh9fS+ULuvyxtGVQZrJC4I6l0+Zd3ksLiezH9fV0Qa2vJDA1qZkWKii13C1jn/dIksa8gatSeI7W8DXzQZmfUe/fmA+4hNTkX+6R4B82rsRSVTGv6yULcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uwx+0eQ+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9GIAG5X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uwx+0eQ+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741346160; x=1772882160;
+  t=1741350967; x=1772886967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qz+HZUsjakXLSaK9YtyDv/UoIlUkY9pUGRbc6ORcRNM=;
-  b=d9GIAG5X7d3Gi55w1eSLWF9ogbqkL+CuzECQZeUEZWiIQe++OxDsdjbO
-   5H9ytjU3qlT8UpaBL7mELt0On6NPNG/JL8RCC/ytiRnEPRBSDi+5oxsnK
-   zzGcIDh0QZ8YqF0KLW07JpyMrKU9n5wavWKOYheF4Aee6VG2akKI2iwg8
-   5e+Ukl97QtgXC+0EluB7WJfV8Kn5U8t7RzxRAY3lVHbYYOkaz4bRu0408
-   vpZUGxq4/hyfjNwq3AwFKOSd8jJzbQs9NcnjeplWCTac+7hKXU9JMl92A
-   iFHIPWCTGlOOGEsqpzpgxxQDYySF0XcFQbUxP3wqFrIvzEFtwU0lLpHvN
-   g==;
-X-CSE-ConnectionGUID: a1J4xyUyQoKIoyu7zS4Lfw==
-X-CSE-MsgGUID: fAWtl7VVTpiZJzHo+dLb7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59794532"
+  bh=CAo2t1OI2tTJlndjOM/tRLe3Pvy8fEMhB6pfYRKsOCU=;
+  b=Uwx+0eQ+DWzZ+repf3vBlDDJxl5BVumCyPyNEIH7SCJ8A4WtpRCoYt9p
+   YczF5TQCGL6JzE3ShnYnAUGy/+lfyV3kh9ctEgYeYxJ2TJnxzUBX5Jgy+
+   hI5r1cfYV1ibVmvlg1pkwC5k0MuQgqFau8DDaH+eK3DUn51Gl7y6cbLxz
+   ldSUYgs4NRaXTxULtNFsbt2INN3XMlATHGx40f58xNNur8kbL8h8AZ41e
+   baEjAtRRe9KUld6kEs3/GSHhbXHfXZ0xgjiDzrrsZxA9CvGFM2pPoWMYL
+   5ysaZzyQFNiy2QuhvWnxI6wOtPEUWVLOeLrcVBb9bh9bk2rZOh4Pbsng/
+   A==;
+X-CSE-ConnectionGUID: dVjfRDIcSBKGLW3nJawTKw==
+X-CSE-MsgGUID: vvGUASWgRMOF2kiiBHusAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="64837776"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="59794532"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 03:15:59 -0800
-X-CSE-ConnectionGUID: DeXJ59gaToSjumIYaL+SlQ==
-X-CSE-MsgGUID: 5tFaR5DfRhiKVzInjE5TZQ==
+   d="scan'208";a="64837776"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:36:06 -0800
+X-CSE-ConnectionGUID: 6y+xpk7tThWpF8wOEIB87w==
+X-CSE-MsgGUID: T6HK1pztROKRa1dM0j89Ow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120220068"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="142542877"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 07 Mar 2025 03:15:58 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 07 Mar 2025 04:36:05 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqVgJ-0000MZ-2W;
-	Fri, 07 Mar 2025 11:15:55 +0000
-Date: Fri, 7 Mar 2025 19:15:04 +0800
+	id 1tqWvq-0000Ta-36;
+	Fri, 07 Mar 2025 12:36:02 +0000
+Date: Fri, 7 Mar 2025 20:35:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1] serial: qcom-geni: Remove alias dependency from qcom
- serial driver
-Message-ID: <202503071840.r1EddvYl-lkp@intel.com>
+Subject: [linux-next:master 8204/9634] fs/nfsd/nfs4state.c:3235
+ nfs4_cb_getattr() warn: set_bit() takes a bit number
+Message-ID: <202503072054.8X4dthV4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,82 +64,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250304071423.4033565-1-quic_vdadhani@quicinc.com>
-References: <20250304071423.4033565-1-quic_vdadhani@quicinc.com>
-TO: Viken Dadhaniya <quic_vdadhani@quicinc.com>
-TO: gregkh@linuxfoundation.org
-TO: jirislaby@kernel.org
-TO: johan+linaro@kernel.org
-TO: dianders@chromium.org
-TO: konradybcio@kernel.org
-TO: linux-arm-msm@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-serial@vger.kernel.org
-CC: quic_msavaliy@quicinc.com
-CC: quic_anupkulk@quicinc.com
-CC: Viken Dadhaniya <quic_vdadhani@quicinc.com>
+TO: Jeff Layton <jlayton@kernel.org>
+CC: Chuck Lever <chuck.lever@oracle.com>
 
-Hi Viken,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Viken-Dadhaniya/serial-qcom-geni-Remove-alias-dependency-from-qcom-serial-driver/20250304-152222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250304071423.4033565-1-quic_vdadhani%40quicinc.com
-patch subject: [PATCH v1] serial: qcom-geni: Remove alias dependency from qcom serial driver
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071840.r1EddvYl-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
+commit: 7ba68ad0210d54eb26c499eabd85022fb38ccbf2 [8204/9634] nfsd: replace CB_GETATTR_BUSY with NFSD4_CALLBACK_RUNNING
+:::::: branch date: 27 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250307/202503072054.8X4dthV4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503071840.r1EddvYl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503072054.8X4dthV4-lkp@intel.com/
 
 New smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:267 get_port_from_line() error: uninitialized symbol 'port'.
+fs/nfsd/nfs4state.c:3235 nfs4_cb_getattr() warn: set_bit() takes a bit number
 
 Old smatch warnings:
-drivers/tty/serial/qcom_geni_serial.c:270 get_port_from_line() error: uninitialized symbol 'port'.
+fs/nfsd/nfs4state.c:3228 nfs4_cb_getattr() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4state.c:5428 nfsd_break_one_deleg() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4state.c:6895 deleg_reaper() warn: test_and_set_bit() takes a bit number
+fs/nfsd/state.h:783 nfsd4_try_run_cb() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4state.c:8025 init_lock_stateid() warn: inconsistent returns '&stp->st_mutex'.
 
-vim +/port +267 drivers/tty/serial/qcom_geni_serial.c
+vim +3235 fs/nfsd/nfs4state.c
 
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  252  
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  253  static struct qcom_geni_serial_port *get_port_from_line(int line, bool console)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  254  {
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  255  	struct qcom_geni_serial_port *port;
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  256  	int nr_ports = console ? GENI_UART_CONS_PORTS : GENI_UART_PORTS;
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  257  
-27911ad181d5ce Viken Dadhaniya             2025-03-04  258  	if (console) {
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  259  		if (line < 0 || line >= nr_ports)
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  260  			return ERR_PTR(-ENXIO);
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  261  
-27911ad181d5ce Viken Dadhaniya             2025-03-04  262  		port = &qcom_geni_console_port;
-27911ad181d5ce Viken Dadhaniya             2025-03-04  263  	} else {
-27911ad181d5ce Viken Dadhaniya             2025-03-04  264  		int max_alias_num = of_alias_get_highest_id("serial");
-27911ad181d5ce Viken Dadhaniya             2025-03-04  265  
-27911ad181d5ce Viken Dadhaniya             2025-03-04  266  		if (line < 0 || line >= nr_ports)
-27911ad181d5ce Viken Dadhaniya             2025-03-04 @267  			line = idr_alloc(&port_idr, (void *)port, max_alias_num + 1, nr_ports,
-27911ad181d5ce Viken Dadhaniya             2025-03-04  268  					 GFP_KERNEL);
-27911ad181d5ce Viken Dadhaniya             2025-03-04  269  		else
-27911ad181d5ce Viken Dadhaniya             2025-03-04  270  			line = idr_alloc(&port_idr, (void *)port, line, nr_ports, GFP_KERNEL);
-27911ad181d5ce Viken Dadhaniya             2025-03-04  271  
-27911ad181d5ce Viken Dadhaniya             2025-03-04  272  		if (line < 0)
-27911ad181d5ce Viken Dadhaniya             2025-03-04  273  			return ERR_PTR(-ENXIO);
-27911ad181d5ce Viken Dadhaniya             2025-03-04  274  
-27911ad181d5ce Viken Dadhaniya             2025-03-04  275  		port = &qcom_geni_uart_ports[line];
-27911ad181d5ce Viken Dadhaniya             2025-03-04  276  	}
-8a8a66a1a18a1d Girish Mahadevan            2018-07-13  277  	return port;
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  278  }
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  279  
+c5967721e10636 Dai Ngo     2024-02-15  3222  
+c5967721e10636 Dai Ngo     2024-02-15  3223  static void nfs4_cb_getattr(struct nfs4_cb_fattr *ncf)
+c5967721e10636 Dai Ngo     2024-02-15  3224  {
+c5967721e10636 Dai Ngo     2024-02-15  3225  	struct nfs4_delegation *dp =
+c5967721e10636 Dai Ngo     2024-02-15  3226  			container_of(ncf, struct nfs4_delegation, dl_cb_fattr);
+c5967721e10636 Dai Ngo     2024-02-15  3227  
+7ba68ad0210d54 Jeff Layton 2025-02-20  3228  	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &ncf->ncf_getattr.cb_flags))
+c5967721e10636 Dai Ngo     2024-02-15  3229  		return;
+7ba68ad0210d54 Jeff Layton 2025-02-20  3230  
+c5967721e10636 Dai Ngo     2024-02-15  3231  	/* set to proper status when nfsd4_cb_getattr_done runs */
+c5967721e10636 Dai Ngo     2024-02-15  3232  	ncf->ncf_cb_status = NFS4ERR_IO;
+c5967721e10636 Dai Ngo     2024-02-15  3233  
+7ba68ad0210d54 Jeff Layton 2025-02-20  3234  	/* ensure that wake_bit is done when RUNNING is cleared */
+7ba68ad0210d54 Jeff Layton 2025-02-20 @3235  	set_bit(NFSD4_CALLBACK_WAKE, &ncf->ncf_getattr.cb_flags);
+7ba68ad0210d54 Jeff Layton 2025-02-20  3236  
+c5967721e10636 Dai Ngo     2024-02-15  3237  	refcount_inc(&dp->dl_stid.sc_count);
+c5967721e10636 Dai Ngo     2024-02-15  3238  	nfsd4_run_cb(&ncf->ncf_getattr);
+c5967721e10636 Dai Ngo     2024-02-15  3239  }
+c5967721e10636 Dai Ngo     2024-02-15  3240  
 
 -- 
 0-DAY CI Kernel Test Service
