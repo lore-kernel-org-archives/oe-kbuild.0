@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B149C2C8
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Mar 2025 01:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64738AD2C
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Mar 2025 02:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741482436; cv=none; b=FXK+bEPblIGJ6muPAz5ockMh0F+WFPhUPptFv0NCa+LV6mOqWS268i4t7x51lrSfxix5ZDWrxpJAl74Be3Ru61kjZChfGa5Llvspw4R+lul0CpvoxVNJ5eCUiUJny5fQlYE6QCtJRwuOwFbmkFDudOFiHemBMJIHcmEnWte+dUo=
+	t=1741486827; cv=none; b=aJdCTGxhbx42v2V5O/xEavfoUVz9bckVHmTmxsSjpcbHdwCCJBAPw39q2YJirjdFq+6ly6iD13xrb7SOSLgSd2fTuoLZgzWDwl5CVeZag9UXj03IF9AZWI5FGhLPqSXXVxWCHjZnAPgWiucFTgnrg08W+WeJ8pqQ2ahCDY737Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741482436; c=relaxed/simple;
-	bh=LrGXxA6B/WulJkR6FeGm5vHLEmX2nYwxm3cYqR4T0yU=;
+	s=arc-20240116; t=1741486827; c=relaxed/simple;
+	bh=GDMMvvAuPEz5kC4HJo9fte20fUiTZY/+W3vhGnaCqCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ngqz0cdLTHl5C3Jw8bw8DZK6i9MfM+zP888BpMhxp/WAKLRORGHX6GXiRG+oEFPvxDv+wmoGcRJPCGRLiSjWgPuSIHDoTnrjO6sNHx+6JrgJP6N0QexRrLXCB2nS6wjss8n1kx5kFrDyd5a4OFKfRiGDwQ7p5K+mUXi1jWXmIm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IURp9NM3; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=vB7j79GhPi3wPu5BwcI8eAW8jyOfDrhbh5YmYg6GHs9C0llqaelAapaVivRneLOAdYmJrUrWp0JWUF9JvLQnuYHRplwbVUVnWx4yu/pFRKuonVd/HWV01AxElgX7mfLsftve1nTiW2FoBZGGymip9HeHrdlmoqwhuIjegvl/RNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFq9IOqK; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IURp9NM3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFq9IOqK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741482432; x=1773018432;
+  t=1741486825; x=1773022825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LrGXxA6B/WulJkR6FeGm5vHLEmX2nYwxm3cYqR4T0yU=;
-  b=IURp9NM3b0a6UFcoyHYgjyzH/398YKoZmj/lfujdofYTAMoOnYkM09lE
-   DUOqwmRiVfsUIBoQspWB0bnGPNOGBMAu9LLRQwrH0opGfqrZoZEtn9lNK
-   PQ1zrhb5ygJGPtN32OBGzhyK4hCxt6qmw7YF+5KV2XqiHVZOJ+Mv4DJVl
-   Fd8sHYjVpLJJbLcwNXXpJdGv40v8kj75bL53/j1rSHF5Q7wl2QgEdlTrZ
-   EjnidGvtk3OhFalMopfbs9BR08b6A4+M6feWKfdXLqAIH3T9m4h0UbCDi
-   mYtgx3UJch41hZ8Vvmy4n5n3BE64ba+mxoU9s0C/nKWkBi5OyOzjKtZxH
+  bh=GDMMvvAuPEz5kC4HJo9fte20fUiTZY/+W3vhGnaCqCs=;
+  b=PFq9IOqK4B6zT9bDpcGwGbfwFVGiwNJ8x1d08J1baEoq8wnOVyOShHKX
+   skzpAsAmP1b2JDkhwShJfcyqBuudeXWTIfEhOs9ee1hXsWIPcixSwsKhV
+   XekCSA5RQ97qfyOgtr+4RUT5Y7kLiSFAW18eb51ewvL3gDjTXj5A/zcK4
+   fNnv9/1N+FIKSrpXt0CcRDP4n1DoKYu63roPfnWnkcvQRmrn3IJztThrj
+   BwoeetPdXIbcFlvFLjDO/Ts60SGMwaP81WPpfj8a/Km0DNMehi4ryjOrH
+   E1zvhjX3KDG2uYXIod+sFofzjLsZQ7gHKQ0ln2ZU+bw5/u+KJmF159fxm
    Q==;
-X-CSE-ConnectionGUID: h3HXwwkjSSy0JcSEzfWGSw==
-X-CSE-MsgGUID: DTBNfptwQ16O1dslLLCskw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="41754289"
+X-CSE-ConnectionGUID: tJong+d5S6a19tTOk3rQsw==
+X-CSE-MsgGUID: e3CUiix/Q4Otlol/PXiCrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42724694"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="41754289"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 17:07:11 -0800
-X-CSE-ConnectionGUID: 3pG19ZYYQoy2Z5TmKVJHeg==
-X-CSE-MsgGUID: gPWRe+mnQ2yych8UMaBH0A==
+   d="scan'208";a="42724694"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 18:20:24 -0800
+X-CSE-ConnectionGUID: MOQb7vxnRgW8sKSf13SF5A==
+X-CSE-MsgGUID: XYgBRweIRG+Ud639eyhRzg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="124741189"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="156874576"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Mar 2025 17:07:10 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Mar 2025 18:20:23 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tr58F-0002Vc-2Y;
-	Sun, 09 Mar 2025 01:07:07 +0000
-Date: Sun, 9 Mar 2025 09:06:33 +0800
+	id 1tr6H7-0002Ye-0e;
+	Sun, 09 Mar 2025 02:20:21 +0000
+Date: Sun, 9 Mar 2025 10:19:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: clock: ti: Convert ti-clkctrl.txt to
- json-schema
-Message-ID: <202503090807.S1GLjdG8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v6 6/6] drm/xe/xe_vm: Implement xe_vm_get_faults_ioctl
+Message-ID: <202503091053.Hg9hUB8c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,586 +61,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250305224722.66360-1-andreas@kemnade.info>
-References: <20250305224722.66360-1-andreas@kemnade.info>
-TO: Andreas Kemnade <andreas@kemnade.info>
-TO: mturquette@baylibre.com
-TO: sboyd@kernel.org
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: tony@atomide.com
-TO: linux-clk@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-omap@vger.kernel.org
-CC: Andreas Kemnade <andreas@kemnade.info>
+In-Reply-To: <20250307224125.111430-7-jonathan.cavitt@intel.com>
+References: <20250307224125.111430-7-jonathan.cavitt@intel.com>
+TO: Jonathan Cavitt <jonathan.cavitt@intel.com>
+TO: intel-xe@lists.freedesktop.org
+CC: saurabhg.gupta@intel.com
+CC: alex.zuo@intel.com
+CC: jonathan.cavitt@intel.com
+CC: joonas.lahtinen@linux.intel.com
+CC: matthew.brost@intel.com
+CC: jianxun.zhang@intel.com
+CC: shuicheng.lin@intel.com
+CC: dri-devel@lists.freedesktop.org
 
-Hi Andreas,
+Hi Jonathan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250306]
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on next-20250307]
+[cannot apply to linus/master v6.14-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-clock-ti-Convert-ti-clkctrl-txt-to-json-schema/20250306-064856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250305224722.66360-1-andreas%40kemnade.info
-patch subject: [PATCH] dt-bindings: clock: ti: Convert ti-clkctrl.txt to json-schema
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-053-20250307 (https://download.01.org/0day-ci/archive/20250309/202503090807.S1GLjdG8-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090807.S1GLjdG8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_gt_pagefault-Disallow-writes-to-read-only-VMAs/20250308-064247
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250307224125.111430-7-jonathan.cavitt%40intel.com
+patch subject: [PATCH v6 6/6] drm/xe/xe_vm: Implement xe_vm_get_faults_ioctl
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: i386-randconfig-141-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091053.Hg9hUB8c-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503090807.S1GLjdG8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503091053.Hg9hUB8c-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: prcm@180000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: prcm@180000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000: failed to match any schema with compatible: ['ti,dm814-prcm', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk4_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk5_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk6_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk8_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/default_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_cm@1400: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_ethernet_cm@15d4: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: pllss@1c5000: $nodename:0: 'pllss@1c5000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: pllss@1c5000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: pllss@1c5000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/pllss@1c5000: failed to match any schema with compatible: ['ti,dm814-pllss', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@40: failed to match any schema with compatible: ['ti,dm814-adpll-s-clock']
-   arch/arm/boot/dts/ti/omap/am3874-iceboard.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@80: failed to match any schema with compatible: ['ti,dm814-adpll-lj-clock']
---
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: prcm@180000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: prcm@180000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000: failed to match any schema with compatible: ['ti,dm814-prcm', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk4_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk5_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk6_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk8_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/default_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_cm@1400: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_ethernet_cm@15d4: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: pllss@1c5000: $nodename:0: 'pllss@1c5000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: pllss@1c5000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: pllss@1c5000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000: failed to match any schema with compatible: ['ti,dm814-pllss', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@40: failed to match any schema with compatible: ['ti,dm814-adpll-s-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@80: failed to match any schema with compatible: ['ti,dm814-adpll-lj-clock']
---
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: prcm@180000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: prcm@180000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000: failed to match any schema with compatible: ['ti,dm814-prcm', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk4_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk5_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk6_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk8_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/default_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_cm@1400: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_ethernet_cm@15d4: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: pllss@1c5000: $nodename:0: 'pllss@1c5000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: pllss@1c5000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: pllss@1c5000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/pllss@1c5000: failed to match any schema with compatible: ['ti,dm814-pllss', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@40: failed to match any schema with compatible: ['ti,dm814-adpll-s-clock']
-   arch/arm/boot/dts/ti/omap/dm8148-t410.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@80: failed to match any schema with compatible: ['ti,dm814-adpll-lj-clock']
---
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: ocp: $nodename:0: 'ocp' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: prcm@48180000: $nodename:0: 'prcm@48180000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: prcm@48180000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: prcm@48180000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: /ocp/prcm@48180000: failed to match any schema with compatible: ['ti,dm816-prcm', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: /ocp/prcm@48180000/default_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: /ocp/prcm@48180000/alwon_cm@1400: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: scrm@48140000: $nodename:0: 'scrm@48140000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: scrm@48140000: audio_fapll: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: scrm@48140000: ddr_fapll: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: scrm@48140000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dm8168-evm.dtb: scrm@48140000: video_fapll: 'ranges' is a required property
---
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: prcm@180000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: prcm@180000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000: failed to match any schema with compatible: ['ti,dm814-prcm', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk4_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk5_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk6_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/clocks/sysclk8_ck: failed to match any schema with compatible: ['ti,fixed-factor-clock']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/default_cm@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_cm@1400: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/prcm@180000/alwon_ethernet_cm@15d4: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: clk@0: 'clock-output-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: pllss@1c5000: $nodename:0: 'pllss@1c5000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: pllss@1c5000: clocks: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: pllss@1c5000: clockdomains: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000: failed to match any schema with compatible: ['ti,dm814-pllss', 'simple-bus']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@40: failed to match any schema with compatible: ['ti,dm814-adpll-s-clock']
-   arch/arm/boot/dts/ti/omap/dra62x-j5eco-evm.dtb: /ocp/l4ls@48000000/pllss@1c5000/adpll@80: failed to match any schema with compatible: ['ti,dm814-adpll-lj-clock']
---
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am571x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am572x-idk-overlays.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
---
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clocks/clock-dpll-gmac-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@300: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@300: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@400: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@400: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@500: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@500: failed to match any schema with compatible: ['ti,omap4-cm']
->> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@20: 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/ti,clkctrl.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@600: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@600: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@700: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@700: failed to match any schema with compatible: ['ti,omap4-cm']
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock@760: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@5000/cm_core_aon@0/clock@760: failed to match any schema with compatible: ['ti,omap4-cm']
+New smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:3557 fill_faults() warn: iterator 'i' not incremented
+
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2368 new_vma() error: we previously assumed 'bo' could be null (see line 2342)
+drivers/gpu/drm/xe/xe_vm.c:3084 vm_bind_ioctl_ops_execute() error: uninitialized symbol 'fence'.
+drivers/gpu/drm/xe/xe_vm.c:3950 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
+
+vim +/i +3557 drivers/gpu/drm/xe/xe_vm.c
+
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3551  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3552  static int fill_faults(struct xe_vm *vm,
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3553  		       struct drm_xe_vm_get_faults *args)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3554  {
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3555  	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->faults);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3556  	struct xe_vm_pf_entry *entry;
+24e54814071dd04 Jonathan Cavitt 2025-03-07 @3557  	int ret = 0, i = 0;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3558  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3559  	spin_lock(&vm->pfs.lock);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3560  	list_for_each_entry(entry, &vm->pfs.list, list) {
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3561  		struct xe_pagefault *pf = entry->pf;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3562  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3563  		ret = put_user(pf->page_addr, &usr_ptr->address);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3564  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3565  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3566  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3567  		ret = put_user(pf->address_type, &usr_ptr->address_type);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3568  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3569  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3570  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3571  		ret = put_user(1, &usr_ptr->address_precision);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3572  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3573  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3574  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3575  		usr_ptr++;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3576  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3577  		if (i == args->fault_count)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3578  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3579  	}
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3580  	spin_unlock(&vm->pfs.lock);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3581  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3582  	return ret ? -EFAULT : 0;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3583  }
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3584  
 
 -- 
 0-DAY CI Kernel Test Service
