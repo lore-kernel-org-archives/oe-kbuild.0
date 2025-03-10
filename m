@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E156D24B34
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Mar 2025 06:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8693222590
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Mar 2025 08:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741586566; cv=none; b=QRiO/ObzfMgy0ywoPsv1FHf2YCW0hkoc0R7xCcm8LiM8z7KLToKamRhfn49PsZJ34BRidJ9CSQ3tqOkiP8x9a7Mr68PClCaajRYeRuKekokbDnFHX+8SvpCXmPXR9JdCWAedPdtRPYE1C1ljIiZPZZCe5njRqHbtEvxc3KIhgaA=
+	t=1741593745; cv=none; b=RTXHVzinicDl6FVjG5RkxZWUMYRNEQUfsAsA7bMGXf5kkIrZ3fM3dUqok+xCPC6hxveUrPNSDE45/tWOTN9dPZgP7LH7Y+6o3n9GFdSdT/OGwIqpVvPL5vrRpqUe0VwopVdQd1TLMznj8Ww1T4GIOEXVPCmXWnLuNu2ArJO+7cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741586566; c=relaxed/simple;
-	bh=mvBaijclFPk4NOj/7PGv8NTPq1BTiIDDzq4bm1echjo=;
+	s=arc-20240116; t=1741593745; c=relaxed/simple;
+	bh=nRzXGoBd19Y5/W3RnginWzeNUeeDAMRlSdLs5vQ01QE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SHgTJpDFRDzpk0mIyxxcWGHS7ze7nipDwtBtV4H08g4WuoLCrW798d3MTkPRybNgqfrZkv8uvSNmfd5yQLutq7FzUWod4/wmK31zpGbRw3r0Uv36WtRsgxQNrv4RPzU4cVN67M2zBGhmVUHRg50LB2F0zlFjF82bngDJ8t1m75s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JToaivUR; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=sCeq9NRDziWmmx2KegZEEBHSM2KCN8CqiUjNBxTaQGQqTWUnRXmTVv+nPe3S6dykpQmcWuyiF9XTsJijWq+HFp3USAHvyZaTB9g6H4PhwkbLm+d5FC3qmnH274LdeBsX42rfdp0epiSKkLzEhsDJGrwIxS6rGsUQaaEd9jR74aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FxLiEwXy; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JToaivUR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741586565; x=1773122565;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mvBaijclFPk4NOj/7PGv8NTPq1BTiIDDzq4bm1echjo=;
-  b=JToaivURAi87Dorq/bbbkZ4qE98OHF7Q31AEj+0q86r7V0bNQMQLY5k+
-   qHlvhqsIKx6ffSNsQnvN7G3Jd/wgo44cv2iTJ4m6zYtkGhVaqfQDaZ+Co
-   kZtpyBuRDSaZXATQgFCenhHUm5UyQtPf/Axbz8UE3sNXAw7b1mxcLwCg4
-   zQfNtsY9C3ENgnXvqWNHD/1A2qj5qK9BaqzSN6fVtbdbMou/1L2ti5pdu
-   PXJbb3DkLIzVbEQTvvllAi1IkTTyUlWhsHZvvnACGnM8IMPO7dTZis4Ic
-   38504zbaxI3I0bYwjVDiuKtHiXbp2q6RqjNG+VFcp09Os5daZYS+yKaMo
-   w==;
-X-CSE-ConnectionGUID: 7nOho3I2TaOzRTdc84rVTg==
-X-CSE-MsgGUID: naTIgGGcQdu5LhXhvs7OSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="53946835"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="53946835"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 23:02:44 -0700
-X-CSE-ConnectionGUID: +NN7l8DwR8KMgaNeegByzw==
-X-CSE-MsgGUID: tZy5Kis4S1uQRcKaeoCcrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="150664316"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 09 Mar 2025 23:02:43 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trWDo-0003rL-1S;
-	Mon, 10 Mar 2025 06:02:40 +0000
-Date: Mon, 10 Mar 2025 14:01:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/irqchip/irq-renesas-rzv2h.c:496:1-7: ERROR: missing
- put_device; call of_find_device_by_node on line 432, but without a
- corresponding object release within this function.
-Message-ID: <202503101313.TvXU5fjz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FxLiEwXy"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf257158fso4901815e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 10 Mar 2025 01:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741593741; x=1742198541; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i8vsoR0XtNwhNc8uqv+HeeAftIb3SZaHuCchGTf/qK4=;
+        b=FxLiEwXyLexpTrrlFc4l0NipsABI97GmaZyfWg0ykwTYB8W610SpP+5+lQ7dCCVYra
+         TvcDv9r97e5FgENsjF4BieSkThw6V6zfqLw1aDWAohkyJjAJflyDfpnaLfqidmtSTjpU
+         r94f2qsQ2qaZ4I2jhsooPjNFGfKA23JLG2O4AQWSQWkyvp3uWIQP/hz9Wxp9Lskw0uhf
+         7o7AD4klev+onXOYKOK6GgFwf4CT7ja5U+8Xr0wcvGGEAhs4R0wNwHleWcr7ZwvBFya9
+         Lr8Fs4eS4i9hJu/dBacArAVDGG8Id9QpFHD34qczdYIGVjVFH4BsgWZTJ90XnEwNyRw1
+         9L2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741593741; x=1742198541;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i8vsoR0XtNwhNc8uqv+HeeAftIb3SZaHuCchGTf/qK4=;
+        b=ciNAnQIZZGdSszmSmKj0Zep+QmlYDbJur3f5ec0eAzK6CEa1pjT0S3Qlw3PvxD+F39
+         hgpy1z+at+Z73sqaOAnizftdF1jeHXbhJBx56rZbw9PFYQqE9Gg7WgOZCdoR02WJ3mIi
+         UPgKeK9OB83dPqQYk7iPAwd+V04pTLvSyem4ntmVEDUMWP1rUSktFS4M3aO9u4uxrlgS
+         l+rM/EsbL40I+7os4R7yMGeDuQteCgbQ2Y/F1VSaaWRZ5OsQrqzU9WRHo4zyv1Ux7Z1G
+         WZJPLXGpQuthgZS4FhTU7S49vF2+8+tZ84Z9PosuWEoRyURo8AX7vWFiuTmSrkXl8I1A
+         a56g==
+X-Gm-Message-State: AOJu0YzOsmuGFFoXe6DDu5WyUf5ujUGvkTvIjz2RMiR51QvToX/weDjX
+	E+sMZ4Dx5979fZn7dl7Utybr5gW5gbOND47UpyGDrPj4NlcLSHCxrGYCTkVVxMw8JSUiwVd3Gh+
+	l
+X-Gm-Gg: ASbGncsiWMe/GGLap+Md95G1ZaGaEAQDTCY+Oi0g6T1FrJ8NbEAv+IYs4BLhKFGO+9D
+	DCySPRkbKTX1sGEK1GxjZtF1FDH9cGFyVwEIHNmf3faHylrQJ0Ii0SwjNkG9q5ACtN1Yb44mZNQ
+	td094vER03BTM3TmGJNOB35ZK3Wb33Hyc86MHjFP1TC1II7yEU1KlRhqktmO7YNg00OtXAw4bVM
+	hJZVkvjL2htCYm+qmgz6nWw1bMbzAYt0R1kRJZ1juSyRICCINGWspSMmYphs1cXc8Vt8e5JbMKA
+	kVuO5sOBdRLgeKWpWm05f2lCGiooL+xPsLeTe/FMBxaQndY2Zw==
+X-Google-Smtp-Source: AGHT+IEmOTKGzx90VNTsmr7R1QpkX49RScln2y40rBh0JpkUW/vdZodH2LPxETHoGOKthxkf0ChEcg==
+X-Received: by 2002:a7b:c4d4:0:b0:43c:f513:9591 with SMTP id 5b1f17b1804b1-43cf5139abdmr22749185e9.14.1741593741591;
+        Mon, 10 Mar 2025 01:02:21 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43cf7c8249bsm28163885e9.7.2025.03.10.01.02.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 01:02:20 -0700 (PDT)
+Date: Mon, 10 Mar 2025 11:02:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jonathan Cavitt <jonathan.cavitt@intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, saurabhg.gupta@intel.com,
+	alex.zuo@intel.com, jonathan.cavitt@intel.com,
+	joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+	jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 6/6] drm/xe/xe_vm: Implement xe_vm_get_faults_ioctl
+Message-ID: <8c122809-5aa9-4531-8967-66e03e5023b2@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,120 +75,69 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250307224125.111430-7-jonathan.cavitt@intel.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+Hi Jonathan,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-commit: 0d7605e75ac2d8620929148f932cde54746c485f irqchip: Add RZ/V2H(P) Interrupt Control Unit (ICU) driver
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: microblaze-randconfig-r061-20250310 (https://download.01.org/0day-ci/archive/20250310/202503101313.TvXU5fjz-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_gt_pagefault-Disallow-writes-to-read-only-VMAs/20250308-064247
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250307224125.111430-7-jonathan.cavitt%40intel.com
+patch subject: [PATCH v6 6/6] drm/xe/xe_vm: Implement xe_vm_get_faults_ioctl
+config: i386-randconfig-141-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091053.Hg9hUB8c-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503101313.TvXU5fjz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503091053.Hg9hUB8c-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-renesas-rzv2h.c:496:1-7: ERROR: missing put_device; call of_find_device_by_node on line 432, but without a corresponding object release within this function.
+New smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:3557 fill_faults() warn: iterator 'i' not incremented
 
-vim +496 drivers/irqchip/irq-renesas-rzv2h.c
+vim +/i +3557 drivers/gpu/drm/xe/xe_vm.c
 
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  423  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  424  static int rzv2h_icu_init(struct device_node *node, struct device_node *parent)
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  425  {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  426  	struct irq_domain *irq_domain, *parent_domain;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  427  	struct rzv2h_icu_priv *rzv2h_icu_data;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  428  	struct platform_device *pdev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  429  	struct reset_control *resetn;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  430  	int ret;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  431  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10 @432  	pdev = of_find_device_by_node(node);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  433  	if (!pdev)
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  434  		return -ENODEV;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  435  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  436  	parent_domain = irq_find_host(parent);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  437  	if (!parent_domain) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  438  		dev_err(&pdev->dev, "cannot find parent domain\n");
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  439  		ret = -ENODEV;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  440  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  441  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  442  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  443  	rzv2h_icu_data = devm_kzalloc(&pdev->dev, sizeof(*rzv2h_icu_data), GFP_KERNEL);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  444  	if (!rzv2h_icu_data) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  445  		ret = -ENOMEM;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  446  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  447  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  448  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  449  	rzv2h_icu_data->irqchip = &rzv2h_icu_chip;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  450  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  451  	rzv2h_icu_data->base = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  452  	if (IS_ERR(rzv2h_icu_data->base)) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  453  		ret = PTR_ERR(rzv2h_icu_data->base);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  454  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  455  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  456  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  457  	ret = rzv2h_icu_parse_interrupts(rzv2h_icu_data, node);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  458  	if (ret) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  459  		dev_err(&pdev->dev, "cannot parse interrupts: %d\n", ret);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  460  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  461  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  462  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  463  	resetn = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  464  	if (IS_ERR(resetn)) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  465  		ret = PTR_ERR(resetn);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  466  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  467  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  468  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  469  	ret = reset_control_deassert(resetn);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  470  	if (ret) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  471  		dev_err(&pdev->dev, "failed to deassert resetn pin, %d\n", ret);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  472  		goto put_dev;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  473  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  474  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  475  	pm_runtime_enable(&pdev->dev);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  476  	ret = pm_runtime_resume_and_get(&pdev->dev);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  477  	if (ret < 0) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  478  		dev_err(&pdev->dev, "pm_runtime_resume_and_get failed: %d\n", ret);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  479  		goto pm_disable;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  480  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  481  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  482  	raw_spin_lock_init(&rzv2h_icu_data->lock);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  483  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  484  	irq_domain = irq_domain_add_hierarchy(parent_domain, 0, ICU_NUM_IRQ, node,
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  485  					      &rzv2h_icu_domain_ops, rzv2h_icu_data);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  486  	if (!irq_domain) {
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  487  		dev_err(&pdev->dev, "failed to add irq domain\n");
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  488  		ret = -ENOMEM;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  489  		goto pm_put;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  490  	}
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  491  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  492  	/*
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  493  	 * coccicheck complains about a missing put_device call before returning, but it's a false
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  494  	 * positive. We still need &pdev->dev after successfully returning from this function.
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  495  	 */
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10 @496  	return 0;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  497  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  498  pm_put:
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  499  	pm_runtime_put(&pdev->dev);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  500  pm_disable:
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  501  	pm_runtime_disable(&pdev->dev);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  502  	reset_control_assert(resetn);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  503  put_dev:
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  504  	put_device(&pdev->dev);
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  505  
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  506  	return ret;
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  507  }
-0d7605e75ac2d86 Fabrizio Castro 2024-10-10  508  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3552  static int fill_faults(struct xe_vm *vm,
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3553  		       struct drm_xe_vm_get_faults *args)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3554  {
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3555  	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->faults);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3556  	struct xe_vm_pf_entry *entry;
+24e54814071dd04 Jonathan Cavitt 2025-03-07 @3557  	int ret = 0, i = 0;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3558  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3559  	spin_lock(&vm->pfs.lock);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3560  	list_for_each_entry(entry, &vm->pfs.list, list) {
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3561  		struct xe_pagefault *pf = entry->pf;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3562  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3563  		ret = put_user(pf->page_addr, &usr_ptr->address);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3564  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3565  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3566  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3567  		ret = put_user(pf->address_type, &usr_ptr->address_type);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3568  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3569  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3570  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3571  		ret = put_user(1, &usr_ptr->address_precision);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3572  		if (ret)
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3573  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3574  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3575  		usr_ptr++;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3576  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3577  		if (i == args->fault_count)
+
+if (++i >= args->fault_count) ?
+
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3578  			break;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3579  	}
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3580  	spin_unlock(&vm->pfs.lock);
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3581  
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3582  	return ret ? -EFAULT : 0;
+24e54814071dd04 Jonathan Cavitt 2025-03-07  3583  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
