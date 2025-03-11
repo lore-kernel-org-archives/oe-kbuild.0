@@ -1,59 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E3B22154E
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Mar 2025 23:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49831EEE9;
+	Tue, 11 Mar 2025 03:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741649222; cv=none; b=cAg1ivaT5w9hXD0Nksy7EES0N3jHSd3zpEAJDPPPIfA+tJJBIq1oeQClwqG2PefjDE4yj5M5A36cX3NO8g/489ng6TaUctgMXrrqMMqQ8t0EqV8iSaleP2MfzYVwlK4NHiJznWAEzsbKEaXw+dWUtmiAd0uROwZWcuw48xMNo8E=
+	t=1741662846; cv=none; b=i0k2bFwNUeadVV/bpaelygs82R2EszEzIKXVAUUiJFtHL01tcy1yUj/Qo+lJE4iVZs7yM+ptMa4PV34ICHO7VmTShiVSxoLzTPVeN4/nj1Ki423eNsUoRhFt+P47ZtTu0Apq82wCzIR3xPtB3rrRvGUxPRicYESCpEPKzbtL5Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741649222; c=relaxed/simple;
-	bh=Qu9Pl1QNobO1AWNbMc7hLzk2e0nhbQLurU8PWut7bV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LIM+mGmdxioffZbAqquuVSYpq6vereTZAGRXkz2adtztZtFYYetPMUVQoPCYu+VmjGSRnDViHToRWevs6tjFcXaAkm4UW5Xpd6O2nd7SHOrnqXhy2/pRBMczHSIxwtvjxBVDZpZqf9l2/rXdMEs3un0Rm2nqbzhmdjhs9dTNiBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bgTy+FQA; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741662846; c=relaxed/simple;
+	bh=A3dl8TbM+7V0uUAWMPYSgH6TFClyBGIWRy0nk1p3EoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T3LOx4w1Q6B6J5pkWR2D7XlfnaHyNB9ZdWhXWxuexh7Su0nRfO/ejwoeh6YWoP101W05Vq6T9DhjYZbeV4UjRC2sOfbHapEtuqFE7OQpBtd5zRGRj07rCLTZ1W5ILp5Wlj4MZUbBEE43QypXo6XCK3WFNNEnDTovN2JdRtoyOTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=ibj9x/bm; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgTy+FQA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741649221; x=1773185221;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qu9Pl1QNobO1AWNbMc7hLzk2e0nhbQLurU8PWut7bV8=;
-  b=bgTy+FQA2ptf0HtUdXUpBLe9FLsaSL8Iae5lWH7zlWG/hBvpxkffxwZm
-   jrh9MRUFFSiQKyJme3eSdTHveTiGpBc8v8S1vFT300Y/FOr+ZRr5AhmdC
-   /Y1rXjnLyGUZ0Fmw8D07dOeX0N4bsazlXqW0QBVurKIpwT8MX4hrR+CGq
-   P7yc8C2EEIgyyN2UnzXDPo6VFrEUXvCVMhMzyxpjAKNeewXjjv7278i2F
-   x8PF1yFrK9wU5MYPItew7p1kvFz8b968jvKdZTQ44frsThW7JPbSyFk42
-   UK77EHe7yKQ8pyx2NGrAO3nHLWeFlUVvIw6AcMtEKiSqme2Qq0Ju5YqW7
-   Q==;
-X-CSE-ConnectionGUID: pk0Qk876QO2hMeE0S7/DlA==
-X-CSE-MsgGUID: NbUtaC5WSwCof4Ue9573Ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="53658379"
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="53658379"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 16:26:57 -0700
-X-CSE-ConnectionGUID: 7HHsP+k7TW2LHAh8fKMlOw==
-X-CSE-MsgGUID: klCYWH3UQ5m7gdDzFQ6Krg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="125352966"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 10 Mar 2025 16:26:56 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trmWL-0006B6-27;
-	Mon, 10 Mar 2025 23:26:53 +0000
-Date: Tue, 11 Mar 2025 07:26:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [rockchip:v6.15-armsoc/dts64 71/89]
- arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/hdmi@27da0000: failed
- to match any schema with compatible: ['rockchip,rk3576-dw-hdmi-qp']
-Message-ID: <202503110703.n9Evw0xO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="ibj9x/bm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=xAheGL4dA8pSA51QLwCh3t3r0eg7T6m+5koMy1K8VvU=; b=ibj9x/bmsCWfqE+vywO+3azRGC
+	ugVJQXeGs1pZHdSpmNg87U/CpZsfhNuvJF4d3w7/a/qmGN5NfbJWbDCsoSyehKghxz3sWL55bKpdH
+	rNgIZklwsu2TVuX0FrmiDJyFOfS6WHxs+qODEf5qvVCdbhgQlLfR58cz42AXfegt+0Dqw+s63zUgz
+	aWnEIajdp02kXOL6vK8XUKO13oKK1U3RMdELNeR6nIsCqFbOslGSNC2NzstRJZ/lf1LxJMADMqKg1
+	LmvKodr4qX9cJmKrP80kWZ0WoTK8A7CJ94jeoMLEpUFkTKxfy0Sdl4i/C/PqWdXD1cG9HUIHLC/eM
+	uYot24lw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1trq40-005TVP-0s;
+	Tue, 11 Mar 2025 11:13:53 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 11 Mar 2025 11:13:52 +0800
+Date: Tue, 11 Mar 2025 11:13:52 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Yosry Ahmed <yosry.ahmed@linux.dev>,
+	Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [v3 PATCH 7/8] crypto: scomp - Remove support for most
+ non-trivial destination SG lists
+Message-ID: <Z8-qcLGAIaZXo5fc@gondor.apana.org.au>
+References: <205f05023b5ff0d8cf7deb6e0a5fbb4643f02e00.1741488107.git.herbert@gondor.apana.org.au>
+ <914f6ea6-bb6c-4feb-a4ac-23508a8ff335@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,84 +55,27 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <914f6ea6-bb6c-4feb-a4ac-23508a8ff335@stanley.mountain>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On Mon, Mar 10, 2025 at 10:31:06PM +0300, Dan Carpenter wrote:
+>
+> New smatch warnings:
+> crypto/scompress.c:180 scomp_acomp_comp_decomp() error: we previously assumed 'req->dst' could be null (see line 174)
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Andy Yan <andy.yan@rock-chips.com>
-CC: Heiko Stuebner <heiko@sntech.de>
+I think this is a false positive.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-armsoc/dts64
-head:   ba82f56bbf20e4166c988621cd0507509872848e
-commit: ad0ea230ab2a3535b186f7fb863b4bca7050e06f [71/89] arm64: dts: rockchip: Add hdmi for rk3576
-:::::: branch date: 2 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-051-20250310 (https://download.01.org/0day-ci/archive/20250311/202503110703.n9Evw0xO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110703.n9Evw0xO-lkp@intel.com/reproduce)
+> 5b855462cc7e3f3 Herbert Xu                2025-03-09 @174  	if (req->dst && !dlen)
+>                                                                     ^^^^^^^^
+> Is this check necessary?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503110703.n9Evw0xO-lkp@intel.com/
+This is not trying to catch a null req->dst, but it's trying to
+detect an combination of a non-null req->dst with a zero dlen.
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1942.20-2008.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/vop@27d00000: failed to match any schema with compatible: ['rockchip,rk3576-vop']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/hdmi@27da0000: failed to match any schema with compatible: ['rockchip,rk3576-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/otp@2a580000: failed to match any schema with compatible: ['rockchip,rk3576-otp']
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: compatible:0: 'rockchip,rk3576-hdptx-phy' is not one of ['rockchip,rk3588-hdptx-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: compatible: ['rockchip,rk3576-hdptx-phy', 'rockchip,rk3588-hdptx-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: resets: [[18, 428], [18, 450], [18, 451], [18, 452]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: reset-names:0: 'phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: reset-names:1: 'apb' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: reset-names:2: 'init' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: reset-names:3: 'cmn' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: hdmiphy@2b000000: reset-names: ['apb', 'init', 'cmn', 'lane'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
->> arch/arm64/boot/dts/rockchip/rk3576-evb1-v10.dtb: /soc/hdmiphy@2b000000: failed to match any schema with compatible: ['rockchip,rk3576-hdptx-phy', 'rockchip,rk3588-hdptx-phy']
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1942.20-2008.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/vop@27d00000: failed to match any schema with compatible: ['rockchip,rk3576-vop']
->> arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/hdmi@27da0000: failed to match any schema with compatible: ['rockchip,rk3576-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: /soc/otp@2a580000: failed to match any schema with compatible: ['rockchip,rk3576-otp']
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: hdmiphy@2b000000: compatible:0: 'rockchip,rk3576-hdptx-phy' is not one of ['rockchip,rk3588-hdptx-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: hdmiphy@2b000000: compatible: ['rockchip,rk3576-hdptx-phy', 'rockchip,rk3588-hdptx-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: hdmiphy@2b000000: resets: [[18, 428], [18, 450], [18, 451], [18, 452]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: hdmiphy@2b000000: reset-names:0: 'phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-roc-pc.dtb: hdmiphy@2b000000: reset-names:1: 'apb' was expected
---
-   arch/arm64/boot/dts/rockchip/rk3576.dtsi:1942.20-2008.5: Warning (simple_bus_reg): /soc/pinctrl: missing or empty reg/ranges property
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/vop@27d00000: failed to match any schema with compatible: ['rockchip,rk3576-vop']
->> arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/hdmi@27da0000: failed to match any schema with compatible: ['rockchip,rk3576-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: /soc/otp@2a580000: failed to match any schema with compatible: ['rockchip,rk3576-otp']
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: hdmiphy@2b000000: compatible:0: 'rockchip,rk3576-hdptx-phy' is not one of ['rockchip,rk3588-hdptx-phy']
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: hdmiphy@2b000000: compatible: ['rockchip,rk3576-hdptx-phy', 'rockchip,rk3588-hdptx-phy'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: hdmiphy@2b000000: resets: [[18, 428], [18, 450], [18, 451], [18, 452]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: hdmiphy@2b000000: reset-names:0: 'phy' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/rockchip,rk3588-hdptx-phy.yaml#
-   arch/arm64/boot/dts/rockchip/rk3576-rock-4d.dtb: hdmiphy@2b000000: reset-names:1: 'apb' was expected
+A zero dlen is used to allocate req->dst on demand, which would
+conflict with a non-null req->dst.
 
+Cheers,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
