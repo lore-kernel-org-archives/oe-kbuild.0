@@ -1,121 +1,155 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2723E23D
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Mar 2025 12:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E8C15A856
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Mar 2025 16:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741781618; cv=none; b=slENFIXNkhhw/loTxEFvPc8FRISfWwM0023ExzGsjhh4C3zd0HJYIkVYMelTkbEbI/DTxNBbcRfrJIi3NcHPIWbzurxmIQMdgRojle8a5RIoQB7YCvH7tgXmg6ZoYfs+mR4P8eXbJSvyJVtjp5H07CIYcVuTUsskV9greltcqrA=
+	t=1741797789; cv=none; b=JFBsrnBjxv2+XUvAq38joaIa0qz1GJDxZd/q3E/bzLgPXPur9iwDYKC/GdotM3PI5ousoINNUXOBFs3BuVxojVIJJgy1qmRxGIlwlukaiRQExQtrJhdVzLZDpz8mbQyPmeyLq/KZ/HmFcXv6Jr5pJPFbRXaVg4QGVNBmXVgutN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741781618; c=relaxed/simple;
-	bh=LDDmEy4JWt4lRRvfekJUGmpuCWM91cRLOxMEcmFeHWg=;
+	s=arc-20240116; t=1741797789; c=relaxed/simple;
+	bh=luQWoF3ApbhENCJhxDpnwO64nHcQxub84jcvHUNFH3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dSw8H19+6CdP8oEgaY4Jf+slst+6WtWZ0aiLNNEctbqYRQ+rglfvLbox2fr9C98jRReI0HKaPhrizKPfhVA8eB/8bvTB94YBtkdw2+sD8fOkfPlo9A6hSwOxwHwPyY5AZBtFAbD5QFlsKSSkCtTk84nAb7kFF2WYB9k9HXCCFIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gFOF7NBP; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=j2pC65p3q8RB0y61oOfOoOrsTwGcRx+QWaywtiLNpEpt7HR2cvnlu+MYpU4Rvl3Km4MPb7fivmtAqNcuFH9RdcCjbYjtvNgsyCSKC00rGtYXEEEci5vfSYlGDsOBK/TxNe8hrLcJGNRDmpKWDmWBS8bQ7K1s85UUtMHhuOPxnQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bhiof6JY; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gFOF7NBP"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43d07ca6a80so9582425e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 12 Mar 2025 05:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741781615; x=1742386415; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UunO1TKA1JVm6fqr/6xageFiEYXWOspGofoP+25AegM=;
-        b=gFOF7NBPZm7F6Wpjdqsl7QEI7FL3Hp9vGt2tjCr9d1ugptFha0S3I1XYuEU7sQ99zS
-         klTBKwZKl6VXjRbDuIRleYKH9Ae6ZIHU9nn7XdC2n5yBeLcF/kDUOXRuhs70O31AuANu
-         MCYdHqYwMZM+k9r8BRYbOwC5tymvgbpBl0PqOyGvln1kgF3oQUNzepEqUrza/mdUOWHq
-         0yrR0DP/QNhRjGDyw+HlulOstu4vBREkkX18Ev4GxpN175lA1PuTIlPmNEduxQm9CnSD
-         nLa3/lKgZwc4kbYJpFHu7ZFw/Ae0DLQlkx1lyl2/Af94TWMSoBM920Tca7a5HUvmGlFh
-         9Csw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741781615; x=1742386415;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UunO1TKA1JVm6fqr/6xageFiEYXWOspGofoP+25AegM=;
-        b=u92JNusaegYnIJ0J7kYQbndBtEz5PKmHIykONtxkviKbXRfhNv46zmjea1wQ8ATGvr
-         o/SpAkCq/cEUw2h8x20xwNegy1O+Rm4pYl09kgTl0PD0KhXXaYvYk6u+qN1HpefsZnzl
-         Te3nssjTCIZy08pk/xC1HjQwc0wxAViisz7BqWIjuGl6jHX1CjNItvVgqeiYuJfF9P7G
-         VTVt0xNOfGsbPEuPLWcngYxZrsdeuQgVjYjvOYcdw5l8JsWxiHBjjQB5Et1wXe92oNPD
-         Nt/R6cuX4qHlaNFEC4YkKTG7hTw//xlsWyNNBl2TobA7rjrDBvMTQ8AlkKHsceGIZ3fm
-         oABw==
-X-Gm-Message-State: AOJu0Yzlxxf+MaGmBx0QPgJbMyWRcWKnUyg1e8bMIKqwftfriK/uF6j1
-	5XvHXoqmvtWbY7GicM7BCdtGAoFCfYMA7JSJ+78aCDX2fTZSK/yAjAhxUVT/m91E3CF2xZgYsVo
-	B
-X-Gm-Gg: ASbGncuRXiCjED6zKTDm5yCncNcemH6vCGtk8TjXBjk7qYlyHGIRJDeKQ5jNpZbGMCW
-	A+rSKjq5/yXDHcFuuZ7XuTP8P6533IsJobOHdC8kl7CtNW+wHIpX8qoVrVrJawQjtdFXrxbqBTm
-	uPStXbTLSOd6q1c7tWYA2khopX4zJ/S9pvkfVqDWyDf9Edw7+NGRo44LklJNfXpFCH7TnF7Nn7p
-	3Xr63IX6KVhMhkkTyvNJWM7gqnZ9/JhZT1jg9eF+rxWzj0kKE0JJNolD/+mu8EprQ8FkQZ+w4UX
-	/EDTcz4IUY+8fluwVY391NuHsEFedwrw+EyHJ2TsXGtqzLksdw==
-X-Google-Smtp-Source: AGHT+IF3uJLUjQRNpRxK9+a8Tm/6pvpMPNh5b4EMZn826iGT3YN7zl75T4N1qjZzbaDK149DrMtpwQ==
-X-Received: by 2002:adf:a397:0:b0:391:3f4f:a169 with SMTP id ffacd0b85a97d-3913f4fa2d3mr9385827f8f.32.1741781614900;
-        Wed, 12 Mar 2025 05:13:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d0a75b324sm19495165e9.24.2025.03.12.05.13.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 05:13:34 -0700 (PDT)
-Date: Wed, 12 Mar 2025 15:13:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 2/2] fs/btrfs/subpage.c:332
- btrfs_folio_end_lock_bitmap() warn: variable dereferenced before check
- 'fs_info' (see line 326)
-Message-ID: <6a23c1a6-3358-4084-95d6-be5b3e6a89c7@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bhiof6JY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741797787; x=1773333787;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=luQWoF3ApbhENCJhxDpnwO64nHcQxub84jcvHUNFH3M=;
+  b=Bhiof6JYdosi+5QEXtNuRv59XTmbQePSljGTtEFSxm8mT9+IFX9VTSsr
+   36JU3tf7K+dadgSBkv9QwrFS79xqzdmyqJxCUYntRaAv9V5DtNATA5tRD
+   GKcPVbdGNp4/dOc+D1XESTN7e59glqE85s4V8DenMQ1ZQ46jETstNV30F
+   e6aU2B3K/VauElpcRVeNcl6UoVaj83wvNmJ+EL7CVWUXL/aqcNSggr2OL
+   7U6xiz9of0VoNbXqK3fCf2VhfX1f4xY7TWCfZDn058pKl/rmI1JHXV1bO
+   GQ9uDGC8wbFKiYoHB8KiokBaD0ckZqhelD66D0Ua+Y7z5+kYJypR0YsCE
+   A==;
+X-CSE-ConnectionGUID: KAZYQy+fRqirbnn/0JAE2g==
+X-CSE-MsgGUID: dGKnSjDaQOCEd6PiAxFZgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="45664108"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="45664108"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 09:43:05 -0700
+X-CSE-ConnectionGUID: obQbH/X7RyabFRqv0vI/pQ==
+X-CSE-MsgGUID: SymPmoqASYySYkG7/x3R1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="125755008"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 12 Mar 2025 09:43:04 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsPAb-0008jI-0h;
+	Wed, 12 Mar 2025 16:43:01 +0000
+Date: Thu, 13 Mar 2025 00:42:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] rust: add new macro for common bitwise operations
+Message-ID: <202503130214.myqzPlR6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   501e3c4dad2caa7d89416bbca980b0b803316a2e
-commit: 0138f46fea3f5a250a5f49c33bd6174dec138369 [2/2] btrfs: rename btrfs_folio_(set|start|end)_writer_lock()
-config: i386-randconfig-141-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121943.LRPJGfum-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b@gmail.com>
+References: <20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b@gmail.com>
+TO: Filipe Xavier <felipeaggger@gmail.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Alex Gaynor <alex.gaynor@gmail.com>
+TO: Boqun Feng <boqun.feng@gmail.com>
+TO: Gary Guo <gary@garyguo.net>
+TO: "Björn Roy Baron" <bjorn3_gh@protonmail.com>
+TO: Benno Lossin <benno.lossin@proton.me>
+TO: Andreas Hindborg <a.hindborg@kernel.org>
+TO: Alice Ryhl <aliceryhl@google.com>
+TO: Trevor Gross <tmgross@umich.edu>
+TO: Danilo Krummrich <dakr@kernel.org>
+CC: daniel.almeida@collabora.com
+CC: rust-for-linux@vger.kernel.org
+CC: felipe_life@live.com
+CC: Filipe Xavier <felipeaggger@gmail.com>
+
+Hi Filipe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-add-new-macro-for-common-bitwise-operations/20250304-205635
+base:   beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
+patch link:    https://lore.kernel.org/r/20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b%40gmail.com
+patch subject: [PATCH] rust: add new macro for common bitwise operations
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503121943.LRPJGfum-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503130214.myqzPlR6-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/subpage.c:332 btrfs_folio_end_lock_bitmap() warn: variable dereferenced before check 'fs_info' (see line 326)
+All errors (new ones prefixed by >>):
 
-vim +/fs_info +332 fs/btrfs/subpage.c
-
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  322  void btrfs_folio_end_lock_bitmap(const struct btrfs_fs_info *fs_info,
-bd610c0937aaf03 Qu Wenruo 2024-09-02  323  				 struct folio *folio, unsigned long bitmap)
-bd610c0937aaf03 Qu Wenruo 2024-09-02  324  {
-bd610c0937aaf03 Qu Wenruo 2024-09-02  325  	struct btrfs_subpage *subpage = folio_get_private(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02 @326  	const int start_bit = fs_info->sectors_per_page * btrfs_bitmap_nr_locked;
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-bd610c0937aaf03 Qu Wenruo 2024-09-02  327  	unsigned long flags;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  328  	bool last = false;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  329  	int cleared = 0;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  330  	int bit;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  331  
-bd610c0937aaf03 Qu Wenruo 2024-09-02 @332  	if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->mapping)) {
-                                                             ^^^^^^^^
-Checked too late.
-
-bd610c0937aaf03 Qu Wenruo 2024-09-02  333  		folio_unlock(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  334  		return;
-bd610c0937aaf03 Qu Wenruo 2024-09-02  335  	}
-bd610c0937aaf03 Qu Wenruo 2024-09-02  336  
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  337  	if (atomic_read(&subpage->nr_locked) == 0) {
-0138f46fea3f5a2 Qu Wenruo 2024-10-09  338  		/* No subpage lock, locked by plain lock_page(). */
-bd610c0937aaf03 Qu Wenruo 2024-09-02  339  		folio_unlock(folio);
-bd610c0937aaf03 Qu Wenruo 2024-09-02  340  		return;
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/prelude.rs at line 22:
+    pub use super::{build_assert, build_error};
+    
+    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
+   +pub use super::bitmask;
+    #[doc(no_inline)]
+    pub use super::dbg;
+    pub use super::fmt;
+   Diff in rust/kernel/prelude.rs at line 28:
+   -pub use super::bitmask;
+    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
+    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
+    
+>> Diff in rust/kernel/prelude.rs at line 22:
+    pub use super::{build_assert, build_error};
+    
+    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
+   +pub use super::bitmask;
+    #[doc(no_inline)]
+    pub use super::dbg;
+    pub use super::fmt;
+   Diff in rust/kernel/prelude.rs at line 28:
+   -pub use super::bitmask;
+    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
+    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
+    
+   make[2]: *** [Makefile:1816: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
