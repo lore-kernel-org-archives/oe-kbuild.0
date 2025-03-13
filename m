@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96EEC267738
-	for <oe-kbuild@lists.linux.dev>; Thu, 13 Mar 2025 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62982690D1
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Mar 2025 15:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741875710; cv=none; b=PfXnKdZmgfTNqwvnKbQuOJudqup6Gaffjmr29w8QaRl9okWFzUxO3KmHwYjayura0kl4H5Od5KeQlv5kaw7FN6dRJRzHZgfynQyo11W2Hx5NLDLrwDIccLVhm5BicMVBgL57Y2ZQtpgEqFiXEQlDI95ih+Tu5v2eAvnN6345xRI=
+	t=1741881485; cv=none; b=RG4Tq9TMctd/10IBYJtCOq/nly/ZOqVFjEtnOh8ZcG3DK1PpBYh2rGHYVYmnfvtI0EigZytoXJv4xHSJbA9CHVLz47zmAc7bu14PLf0gZMVqSC6GOgGaxWc1cOqW847zmv5db0IPuqcByE3GRxjt0tUriSq3vDQK3gwifrNY6OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741875710; c=relaxed/simple;
-	bh=xO8CxGRVuXKq1UPP5amXTtEFj4tqxmGWP7jRp8tFto8=;
+	s=arc-20240116; t=1741881485; c=relaxed/simple;
+	bh=lBHKS2iPAsTaiA4uMgREgWTU/6VH5EISH9yaAzJgQLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t8+54wLi261DXwBKEmGzk8GiBJm14Yr0xG0uJGpH6+LocnoUZFKhcLVQbjKJ5QKEfl3cq0ut3FvfQn4CZv/Xi9mJRx14rMsHwqa6i7/jXlx/zi6tvERzQnjy4y//VgvYkVYs7qgO/GI4H7UpUNv9Hi4Bnsuishc0ilC5Md8pyYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h609wxUc; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=PvC5Jr2I2RwY8aocU3JxrYhxolo1NUbNtBmPYKdmVrG8KFQ0pAgawMAIusU/SM92KPmSY+1R+sZROTzKbG+vG3J+P3cKBW5rIDbJDTBuMBgPq5aEDQIp6cKems8CoKTupvqBdIyjKWyGCUXQdKz6W1G7vWUQOxtCAno0JP1YAME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfaRpSC0; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h609wxUc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfaRpSC0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741875708; x=1773411708;
+  t=1741881483; x=1773417483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xO8CxGRVuXKq1UPP5amXTtEFj4tqxmGWP7jRp8tFto8=;
-  b=h609wxUcAPLaTM7XGwz4K0bs1lGAgzPhmF5z758PS0eaZR+KiB2DOD9M
-   0xZ9rDtqUKHX4EHvZbyvIXMVZnpHcn+iOxUD7gpo2LO7V3OlAE7ETkdxg
-   N9QwAayVr0uGibI04/NGw+cE7CDshJla6arAyioNtDHXx51rYtv97PJWB
-   CL+8i+IN3IjyLZQO65vkRqfzjlMuWD3LIu/UBau7UnsA7j5k2kqX2alg8
-   6RTyGf/g55eyhYC6yjmb8FgQ3QzIPFi5n1dLZE4XJBSMB1QXU4U0lN8wh
-   fKzhz2hi4iW7KRKPjj0vteteQxCBRaDGULU8A9WfmCT1EO2myNEmu0i9K
-   Q==;
-X-CSE-ConnectionGUID: xeo6vxCST8+zHTOHcyGt3w==
-X-CSE-MsgGUID: Xdz/lKwbSd+idkNt8AkYHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="46780903"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="46780903"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 07:21:48 -0700
-X-CSE-ConnectionGUID: 4lEXQK/hTxa7EcIdR51Hbw==
-X-CSE-MsgGUID: gu7EMdGPTFyMWq+G5oNiHA==
+  bh=lBHKS2iPAsTaiA4uMgREgWTU/6VH5EISH9yaAzJgQLM=;
+  b=XfaRpSC0jNebQ1stXLK6zJOYTHRcWoanCD5fQ1ZOKcXoQKdhgNYbGBqR
+   QvHZZt6J6wkmBrqzSlFqmNkQ7We45XToIh2AKMGkZw0x4SOdlCQxKbYpP
+   a/dj99KHHlhICiWEzN6cUW3Gq3BEHnRSJVLXEfpfRX74NsGQ5s69Vk+mD
+   nsrlmf6kcZ4fVx8Vxdp4k2pFa1SETyI5KY4GhX7FKvVdkhnSS07L5iZQ0
+   DORR5R1/8Y/yMnS/pls4J0Sl9w7XLSGi5kZPyo8Jlry3hHqPzqzX9EufX
+   8x4gqUKRC3IM0ah/urJZAwUQ1AaiS2Kck2Mc/aC03DAL49W+O57A5SRY/
+   A==;
+X-CSE-ConnectionGUID: tFzqTIy9SJ+domWzuuqf4A==
+X-CSE-MsgGUID: NW6UJj2YSYy0WILit4Owsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42177501"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="42177501"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 08:58:02 -0700
+X-CSE-ConnectionGUID: PWm34eh/RlCSa3Co4ooiIA==
+X-CSE-MsgGUID: HbfThQn0S1uduE/nLNZqug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="121176805"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="121493700"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Mar 2025 07:21:47 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Mar 2025 08:58:01 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsjRR-0009Vl-04;
-	Thu, 13 Mar 2025 14:21:45 +0000
-Date: Thu, 13 Mar 2025 22:21:01 +0800
+	id 1tskwY-0009cG-0y;
+	Thu, 13 Mar 2025 15:57:58 +0000
+Date: Thu, 13 Mar 2025 23:57:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jpirko-mlxsw:wip_dl_pfs_parent_v2 1/3] error[E0061]: this function
- takes 4 arguments but 3 arguments were supplied
-Message-ID: <202503132249.hd1b9k8P-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ
+ number from DeviceTree
+Message-ID: <202503132345.uKNehsnm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,48 +62,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jiri Pirko <jiri@nvidia.com>
+In-Reply-To: <20250307220304.247725-9-romank@linux.microsoft.com>
+References: <20250307220304.247725-9-romank@linux.microsoft.com>
+TO: Roman Kisel <romank@linux.microsoft.com>
+TO: arnd@arndb.de
+TO: bhelgaas@google.com
+TO: bp@alien8.de
+TO: catalin.marinas@arm.com
+TO: conor+dt@kernel.org
+TO: dave.hansen@linux.intel.com
+TO: decui@microsoft.com
+TO: haiyangz@microsoft.com
+TO: hpa@zytor.com
+TO: joey.gouly@arm.com
+TO: krzk+dt@kernel.org
+TO: kw@linux.com
+TO: kys@microsoft.com
+TO: lenb@kernel.org
+TO: lpieralisi@kernel.org
+TO: manivannan.sadhasivam@linaro.org
+TO: mark.rutland@arm.com
+TO: maz@kernel.org
+TO: mingo@redhat.com
+TO: oliver.upton@linux.dev
+TO: rafael@kernel.org
+TO: robh@kernel.org
+TO: ssengar@linux.microsoft.com
+TO: sudeep.holla@arm.com
+TO: suzuki.poulose@arm.com
+TO: tglx@linutronix.de
+TO: wei.liu@kernel.org
+TO: will@kernel.org
+TO: yuzenghui@huawei.com
+TO: devicetree@vger.kernel.org
 
-tree:   https://github.com/jpirko/linux_mlxsw wip_dl_pfs_parent_v2
-head:   1fdd8341aac55462589828d0fed5b7d375cbfb0b
-commit: 92dddc55f6a92701975cc749a90f9b33f0964f4d [1/3] faux: extend the creation function for module namespace
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250313/202503132249.hd1b9k8P-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503132249.hd1b9k8P-lkp@intel.com/reproduce)
+Hi Roman,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3a7f7785eae7cf012af128ca9e383c91e4955354]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/arm64-kvm-smccc-Introduce-and-use-API-for-detectting-hypervisor-presence/20250308-060639
+base:   3a7f7785eae7cf012af128ca9e383c91e4955354
+patch link:    https://lore.kernel.org/r/20250307220304.247725-9-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ number from DeviceTree
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250313/202503132345.uKNehsnm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503132249.hd1b9k8P-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503132345.uKNehsnm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hv/vmbus_drv.c:2355 vmbus_set_irq() warn: platform_get_irq() does not return zero
 
->> error[E0061]: this function takes 4 arguments but 3 arguments were supplied
-   --> rust/kernel/faux.rs:31:28
-   |
-   31    |         let dev = unsafe { bindings::faux_device_create(name.as_char_ptr(), null_mut(), null()) };
-   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^----------------------------------------
-   |                                                        ||
-   |                                                        |unexpected argument of type `*const u8`
-   |                                                        two arguments of type `*mut bindings::device` and `*const bindings::faux_device_ops` are missing
-   |
-   note: function defined here
-   --> rust/bindings/bindings_generated.rs:59032:12
-   |
-   59032 |     pub fn faux_device_create(
-   |            ^^^^^^^^^^^^^^^^^^
-   help: did you mean
-   |
-   31    |         let dev = unsafe { bindings::faux_device_create(null(), null_mut(), /* *mut bindings::device */, /* *const bindings::faux_device_ops */) };
-   |                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +2355 drivers/hv/vmbus_drv.c
+
+f83705a51275ed2 Saurabh Sengar 2023-03-20  2347  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2348  static int __maybe_unused vmbus_set_irq(struct platform_device *pdev)
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2349  {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2350  	struct irq_data *data;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2351  	int irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2352  	irq_hw_number_t hwirq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2353  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2354  	irq = platform_get_irq(pdev, 0);
+2e494cbd89c51d1 Roman Kisel    2025-03-07 @2355  	if (irq == 0) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2356  		pr_err("VMBus interrupt mapping failure\n");
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2357  		return -EINVAL;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2358  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2359  	if (irq < 0) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2360  		pr_err("VMBus interrupt data can't be read from DeviceTree, error %d\n", irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2361  		return irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2362  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2363  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2364  	data = irq_get_irq_data(irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2365  	if (!data) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2366  		pr_err("No interrupt data for VMBus virq %d\n", irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2367  		return -ENODEV;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2368  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2369  	hwirq = irqd_to_hwirq(data);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2370  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2371  	vmbus_irq = irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2372  	vmbus_interrupt = hwirq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2373  	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2374  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2375  	return 0;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2376  }
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2377  
 
 -- 
 0-DAY CI Kernel Test Service
