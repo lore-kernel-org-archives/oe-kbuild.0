@@ -1,127 +1,188 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4628F1F0E5C;
-	Thu, 13 Mar 2025 18:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B111C07D9
+	for <oe-kbuild@lists.linux.dev>; Thu, 13 Mar 2025 22:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741890927; cv=none; b=L6TZ/nypAxU9cw/wBd3cPVRxVmC/I7KiWu2Klj8VeizCCn25wh2m0Vel6dWxeN5Gs4B5ZaGIAqFRrkzb/mb158ezTg7DTL+20Y8brZtdRAECg4RK7kX3LPIMNodIJf5cXBsKia+Gt5rppMgqO7Hry3gHkCMFs8NA4rLi7yNgmsU=
+	t=1741903678; cv=none; b=seAsfEsagTZlxf9UwCN+aEzFKDgRBaHKTvOBmUA0rTz7VEDu/S2x/vHP4hxOyUl7BuIELpgh8YWby0CeR4l2TSEVOrOr3xDawWLaeXEsd20v8Wc9BezUJ7Gkr2utUsGgbGgzxwW49KYZO5DfmheJBkIAMsS2NMNRL4Lo2KI5GYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741890927; c=relaxed/simple;
-	bh=nbOvgBh0jcDI3V6QjtI0zbK4uC/YEsPGJkhXblvDu5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pPsW2hhe60n3GALV8rive+Ko/J3mOBWTs0edSIkFSfT0/e7IfFU2laQjIVOmv5ycdPjJ8JzIuq9vAwtdXOD6mbX3CRw0mfoCVNdufUtgXTIA+JS0DEWZp55hf+p4z87ACFXNF2jDY9IjbHNrFQz1DsHu99OA8gAJAf3JuvNSpT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UOJ9ZOaT; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1741903678; c=relaxed/simple;
+	bh=1xsOc82ez0rIH2Q1xlpPjvZQwko6X52/OS9XbD6SI9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MIFKnXDe/OQRxFNIeHIaDWnfUI07mGSHG7iAgFjlmKlyUqXQiLmmuflxtWWr8VR6NVRTDo0kqr/woZL+JcXxw37JUmGNgM6xauGIZFJwuV8K1Jx+fm8kkY+EPEmsIasFHGyoOKhIHl8XoCY5Cd3RD6PRsiTQrRFA153aBNqIXpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kw2woBRN; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UOJ9ZOaT"
-Received: from [10.137.184.60] (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CD97C203342B;
-	Thu, 13 Mar 2025 11:35:19 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CD97C203342B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1741890920;
-	bh=tNqJX/qEaOMydES5c/dNox4XEByona5+1N1jSjRC9OI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UOJ9ZOaTezeQyFtNXBX+62pQzoScifC62wedW6h0Ny71PmkqPoEqkCFrLjam/1h51
-	 BHC3yOLS02Yj2l5z0EZ5xQLDZ4B8ylwU5dkPF7IWuMljiw+wabVr1xLGmBW8y+0BvH
-	 ZLniDlIMbEJhIBMa8BjCQoZzOxHCdiwtlIICg0iI=
-Message-ID: <cfb17505-fb4a-42c4-91cf-de636a8efa87@linux.microsoft.com>
-Date: Thu, 13 Mar 2025 11:35:19 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kw2woBRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741903676; x=1773439676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1xsOc82ez0rIH2Q1xlpPjvZQwko6X52/OS9XbD6SI9E=;
+  b=Kw2woBRNdAkKPjCgTMA9HslEbkuMyfkgFOq5n0VVBJ77S0EC1IoLEcsX
+   ryDIyHM1jbPWhOFLQk8blGKP4v1Sw+PIhvQeuaFJEwXKDE9EroL0Sr1fL
+   05RgmOI4nKaZge8t8HuoqvEWGQKaQ0wNPNTm0G32aUYUpM4vxDtbPVezq
+   BwHTUnllrNQ58pmt3bt1Y6NUlpie5UOwq9/aeLjeKHLgRtSvQa9dVSwel
+   CuEcNpjOFF2g7NgnmSt29v6etN0TrArNcAmapTMwKLR1hYBodR+OKTApf
+   0I35ntVNEY0PbjGG2Y6ITHv7WoZE0i0rtrXOBAWZ4jexXtMzUAx4dQqW2
+   w==;
+X-CSE-ConnectionGUID: TTYtDoJZQjKFeX2mz8Vt/Q==
+X-CSE-MsgGUID: lW4xtC61TWKevCzqU2z0Bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="45813735"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="45813735"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 15:07:56 -0700
+X-CSE-ConnectionGUID: 5scq3NiGQ8K+IIGsSrkCXQ==
+X-CSE-MsgGUID: 2bhtpsaORJu7NMkTsxLbcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="126123289"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2025 15:07:55 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsqiW-0009xA-1z;
+	Thu, 13 Mar 2025 22:07:52 +0000
+Date: Fri, 14 Mar 2025 06:07:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
+Message-ID: <202503140559.3mp2n2oI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ
- number from DeviceTree
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- arnd@arndb.de, bhelgaas@google.com, bp@alien8.de, catalin.marinas@arm.com,
- conor+dt@kernel.org, dave.hansen@linux.intel.com, decui@microsoft.com,
- haiyangz@microsoft.com, hpa@zytor.com, joey.gouly@arm.com,
- krzk+dt@kernel.org, kw@linux.com, kys@microsoft.com, lenb@kernel.org,
- lpieralisi@kernel.org, manivannan.sadhasivam@linaro.org,
- mark.rutland@arm.com, maz@kernel.org, mingo@redhat.com,
- oliver.upton@linux.dev, rafael@kernel.org, robh@kernel.org,
- ssengar@linux.microsoft.com, sudeep.holla@arm.com, suzuki.poulose@arm.com,
- tglx@linutronix.de, wei.liu@kernel.org, will@kernel.org,
- yuzenghui@huawei.com, devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <1283ab3a-a66b-4fe2-9ba4-8d5972daa89b@stanley.mountain>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <1283ab3a-a66b-4fe2-9ba4-8d5972daa89b@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
+References: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
+TO: Pratap Nirujogi <pratap.nirujogi@amd.com>
+TO: mchehab@kernel.org
+TO: sakari.ailus@linux.intel.com
+TO: hverkuil@xs4all.nl
+TO: laurent.pinchart@ideasonboard.com
+TO: dave.stevenson@raspberrypi.com
+CC: linux-media@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: benjamin.chan@amd.com
+CC: Pratap Nirujogi <pratap.nirujogi@amd.com>
 
+Hi Pratap,
 
-On 3/13/2025 11:31 AM, Dan Carpenter wrote:
-> Hi Roman,
+kernel test robot noticed the following build warnings:
 
-Hi Dan,
+[auto build test WARNING on linuxtv-media-pending/master]
+[also build test WARNING on linus/master sailus-media-tree/master v6.14-rc6 next-20250313]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Appreciate helping with that very much!
+url:    https://github.com/intel-lab-lkp/linux/commits/Pratap-Nirujogi/media-i2c-Add-OV05C-camera-sensor-driver/20250301-005638
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250228165317.3468075-1-pratap.nirujogi%40amd.com
+patch subject: [PATCH] media: i2c: Add OV05C camera sensor driver
+:::::: branch date: 13 days ago
+:::::: commit date: 13 days ago
+config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250314/202503140559.3mp2n2oI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503140559.3mp2n2oI-lkp@intel.com/
+
+smatch warnings:
+drivers/media/i2c/ov05c.c:936 ov05c_probe() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +936 drivers/media/i2c/ov05c.c
+
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  921  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  922  static int ov05c_probe(struct i2c_client *client)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  923  {
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  924  	struct ov05c *ov05c;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  925  	int i, ret;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  926  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  927  	ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  928  	if (!ov05c)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  929  		return -ENOMEM;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  930  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  931  	client->dev.init_name = DRV_NAME;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  932  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  933  	/* create sensor enable gpio control */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  934  	ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  935  	if (IS_ERR_OR_NULL(ov05c->enable_gpio))
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28 @936  		return PTR_ERR(ov05c->enable_gpio);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  937  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  938  	/* Initialize subdev */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  939  	v4l2_i2c_subdev_init(&ov05c->sd, client, &ov05c_subdev_ops);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  940  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  941  	/* Initialize CCI */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  942  	ov05c->regmap = devm_cci_regmap_init_i2c(client, 8);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  943  	if (IS_ERR(ov05c->regmap)) {
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  944  		dev_err(&client->dev, "Failed to initialize CCI\n");
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  945  		return PTR_ERR(ov05c->regmap);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  946  	}
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  947  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  948  	/* Set default mode to max resolution */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  949  	ov05c->cur_mode = &supported_modes[0];
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  950  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  951  	/* Initialize V4L2 controls */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  952  	ret = ov05c_init_controls(ov05c);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  953  	if (ret)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  954  		return ret;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  955  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  956  	/* Initialize V4L2 subdev */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  957  	ov05c->sd.internal_ops = &ov05c_internal_ops;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  958  	ov05c->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  959  	ov05c->sd.entity.ops = &ov05c_subdev_entity_ops;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  960  	ov05c->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  961  	ov05c->sd.entity.name = "OV05C";
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  962  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  963  	/* Initialize source pad */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  964  	for (i = 0; i < NUM_OF_PADS; i++)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  965  		ov05c->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  966  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  967  	ret = media_entity_pads_init(&ov05c->sd.entity, NUM_OF_PADS, ov05c->pads);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  968  	if (ret)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  969  		goto error_handler_free;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  970  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  971  	ret = v4l2_async_register_subdev_sensor(&ov05c->sd);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  972  	if (ret)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  973  		goto error_media_entity;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  974  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  975  	/*
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  976  	 * Device is already turned on by i2c-core with ACPI domain PM.
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  977  	 * Enable runtime PM and turn off the device.
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  978  	 */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  979  	pm_runtime_set_active(&client->dev);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  980  	pm_runtime_enable(&client->dev);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  981  	pm_runtime_idle(&client->dev);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  982  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  983  	dev_info(&client->dev, "%s success", __func__);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  984  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  985  	return 0;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  986  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  987  error_media_entity:
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  988  	media_entity_cleanup(&ov05c->sd.entity);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  989  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  990  error_handler_free:
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  991  	ov05c_free_controls(ov05c);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  992  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  993  	return ret;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  994  }
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  995  
 
 -- 
-Thank you,
-Roman
-
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/arm64-kvm-smccc-Introduce-and-use-API-for-detectting-hypervisor-presence/20250308-060639
-> base:   3a7f7785eae7cf012af128ca9e383c91e4955354
-> patch link:    https://lore.kernel.org/r/20250307220304.247725-9-romank%40linux.microsoft.com
-> patch subject: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ number from DeviceTree
-> config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250313/202503132345.uKNehsnm-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202503132345.uKNehsnm-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hv/vmbus_drv.c:2355 vmbus_set_irq() warn: platform_get_irq() does not return zero
-> 
-> vim +2355 drivers/hv/vmbus_drv.c
-> 
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2348  static int __maybe_unused vmbus_set_irq(struct platform_device *pdev)
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2349  {
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2350  	struct irq_data *data;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2351  	int irq;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2352  	irq_hw_number_t hwirq;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2353
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2354  	irq = platform_get_irq(pdev, 0);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07 @2355  	if (irq == 0) {
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2356  		pr_err("VMBus interrupt mapping failure\n");
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2357  		return -EINVAL;
-> 
-> You can delete this if statement.  It's dead code.  See the comment
-> next to platform_get_irq().  I wrote a blog about the history of
-> this:
-> https://staticthinking.wordpress.com/2023/08/07/writing-a-check-for-zero-irq-error-codes/
-> 
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2358  	}
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2359  	if (irq < 0) {
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2360  		pr_err("VMBus interrupt data can't be read from DeviceTree, error %d\n", irq);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2361  		return irq;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2362  	}
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2363
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2364  	data = irq_get_irq_data(irq);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2365  	if (!data) {
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2366  		pr_err("No interrupt data for VMBus virq %d\n", irq);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2367  		return -ENODEV;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2368  	}
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2369  	hwirq = irqd_to_hwirq(data);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2370
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2371  	vmbus_irq = irq;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2372  	vmbus_interrupt = hwirq;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2373  	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2374
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2375  	return 0;
-> 2e494cbd89c51d1 Roman Kisel    2025-03-07  2376  }
-> 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
