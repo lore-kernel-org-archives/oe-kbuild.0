@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07141DE2A5
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Mar 2025 09:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27C51DF98D
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Mar 2025 10:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741943593; cv=none; b=tVMmvgHxYmvM3Etickn+mf8lnUE7oUguC/cCpmu/vvRWw1DH0rMXG/4QoyrFuqGlldsQIvppVX1S/Hdn3b7t9S4hTg7H13HS2Glm0qOXp7Pvff4ZzOmBxf7P0BiNwxQkm9oiOf8RgGaO57ZtEW+r5/pgBSMS2o42VpWMyX/Hg2o=
+	t=1741947974; cv=none; b=rieMWspapKYyAQ+Dw8lyS7lOvYMTvFWg82q24x46pQ7YBq6cgu7bPaFIxMRbVyUI+l1oUbjlXb4JF330cUCvaZgICxTJy9A/PnvnnDd22+rN4G94MppCRWMOk32A2CPolDRFEdoLJpKvnIuvJKUzxNE4zjGBVkhLKiNEDnL1Ipo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741943593; c=relaxed/simple;
-	bh=aAho7jlggJUdPkzef5oSxFShk1qSMV7Wv7V2gM2/q3w=;
+	s=arc-20240116; t=1741947974; c=relaxed/simple;
+	bh=QnM3/8jLmPEtGOF3IMrMgxJMf0cxRgceVIS1D+7hos8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oSLL6nRj1qqpfuce19pBaDp1VSjmcQpE0YSJw6xL95+MXgBCuGKzcx1Bf+sZaylMTe5+XK/NCsO8ircG4kGzcIyZgzFU3hEEiL0L37XDNejV4rmrrZjd2C+LuOJXjzEqUXtcJrdK+pjzdy30FatB3VL7dJTvW8H3654pZdxtzO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/fpiDbv; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=gFejQQyAYgL8jhNUDbGXI3105BDGGa6QEHISacW3klj49CzW56wEdi5lozFRr6KFNDWZw28wszsOt4mUdGrvBm08JrtCUNfO/Bx30QgCCDCWxQ+/S0KcYXhlHCGiBjNAMmBSwu7Q1Ryb7gNZcA22QVw8P1e9mnUkK3UQpx5tPuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jaWatBOT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/fpiDbv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jaWatBOT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741943592; x=1773479592;
+  t=1741947972; x=1773483972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aAho7jlggJUdPkzef5oSxFShk1qSMV7Wv7V2gM2/q3w=;
-  b=O/fpiDbvMmqiT2ge6TetgPlNPeM0NDkx8BIfbH6moLwVZkR98HTvHWvX
-   rGJyIyMCgPnDSF05O8PJo5badPGQRoDhM97FKOfkI3jETBfYnEiIB1PlE
-   +YyHs+6NhWyBUAvAFDgUPrGxWcoO/uNbOxbOL940TRBKSWtdyfvueRZ3X
-   52mhElvu+pAPPBrtkxEBJ8nmw0fTmuFke890MZo0g6d/qL0/KBsjTcx3S
-   I08DepXtHD80Ei1kGSTap5dypZb0sxvoP/+Q2raEs92MnVg3Azf5OR0EU
-   HTrSNbdHe1fPDSV8E7LePgzYeSz+iDzu9Ag9RMCD84EdYiSvQm4T+5j00
-   Q==;
-X-CSE-ConnectionGUID: +4XIBe2uRPeaRqlCBez8pA==
-X-CSE-MsgGUID: qaTqeDKvSqOutNsODus/3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43216149"
+  bh=QnM3/8jLmPEtGOF3IMrMgxJMf0cxRgceVIS1D+7hos8=;
+  b=jaWatBOTdSf0b9AhhQWgGiiDdt2EYrlM9DikAvGbHgae95MWeFYQ0iSU
+   ZlhqgqYUAbLujyzMgF0VE5nQXSMYrI0XWAjHIP/v/6M0FDpsTdG3YQvTL
+   J6BD9paQ7zNYak+y/2fIl2Pu5kh2GiED96/HsUyHoDgFSALb0Zp1UlLJc
+   bXS177jk1Iy28b4fmTua2eOhv7KDX2dyl/MO+0/U+0f8nJ4ygvtk8R7en
+   dRbfbLTJO5QhEewN326eT8RJr85k6ko9JO8Qtm+kq9RmfS6BIutG/WWD7
+   8dOgL4087g0ZhonqSygl+bGXxiZjSQzd96ALAywUbDaPJ7NIXSRD+lhlk
+   A==;
+X-CSE-ConnectionGUID: 0ENH7YE3QaijA1OFcyCZzQ==
+X-CSE-MsgGUID: k8/o/xIDQe+EfC7G6qQfjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60633557"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="43216149"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 02:13:11 -0700
-X-CSE-ConnectionGUID: CnjsIZsESDmjvAcV904sUA==
-X-CSE-MsgGUID: YqZw3y7XSzKlPQxXu7wEUA==
+   d="scan'208";a="60633557"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 03:26:11 -0700
+X-CSE-ConnectionGUID: ubQbOsk2ROWee4mtEUm13Q==
+X-CSE-MsgGUID: wj3wS9dvSweONpltco0gqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121709786"
+   d="scan'208";a="158380955"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 14 Mar 2025 02:13:09 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 Mar 2025 03:26:10 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tt16J-000AHG-1H;
-	Fri, 14 Mar 2025 09:13:07 +0000
-Date: Fri, 14 Mar 2025 17:12:15 +0800
+	id 1tt2Ey-000AKy-19;
+	Fri, 14 Mar 2025 10:26:08 +0000
+Date: Fri, 14 Mar 2025 18:26:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 1/3] dt-bindings: Add cros-ec-ucsi to cros-ec-typec
- device tree documentation
-Message-ID: <202503141610.tpeCgQIn-lkp@intel.com>
+Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: sm6125: Initial support for
+ xiaomi-ginkgo
+Message-ID: <202503141829.ludI9lKl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,92 +68,62 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250312195951.1579682-2-jthies@google.com>
-References: <20250312195951.1579682-2-jthies@google.com>
-TO: Jameson Thies <jthies@google.com>
-TO: tzungbi@kernel.org
-TO: ukaszb@chromium.org
-TO: bleung@chromium.org
-TO: heikki.krogerus@linux.intel.com
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: groeck@chromium.org
-TO: swboyd@chromium.org
-TO: akuchynski@chromium.org
+In-Reply-To: <20250311003353.8250-3-semfault@disroot.org>
+References: <20250311003353.8250-3-semfault@disroot.org>
+TO: Gabriel Gonzales <semfault@disroot.org>
+CC: Gabriel Gonzales <semfault@disroot.org>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Konrad Dybcio <konradybcio@kernel.org>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Kees Cook <kees@kernel.org>
+CC: Tony Luck <tony.luck@intel.com>
+CC: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+CC: linux-arm-msm@vger.kernel.org
 CC: devicetree@vger.kernel.org
-CC: chrome-platform@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: Jameson Thies <jthies@google.com>
+CC: linux-hardening@vger.kernel.org
 
-Hi Jameson,
+Hi Gabriel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 9fc83373f0ffb8834da48b1446a5c2fef9525bb1]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc6 next-20250314]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jameson-Thies/dt-bindings-Add-cros-ec-ucsi-to-cros-ec-typec-device-tree-documentation/20250313-040216
-base:   9fc83373f0ffb8834da48b1446a5c2fef9525bb1
-patch link:    https://lore.kernel.org/r/20250312195951.1579682-2-jthies%40google.com
-patch subject: [PATCH v1 1/3] dt-bindings: Add cros-ec-ucsi to cros-ec-typec device tree documentation
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250313 (https://download.01.org/0day-ci/archive/20250314/202503141610.tpeCgQIn-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Gonzales/dt-bindings-arm-qcom-Add-Xiaomi-Redmi-Note-8/20250311-083731
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250311003353.8250-3-semfault%40disroot.org
+patch subject: [PATCH v3 2/2] arm64: dts: qcom: sm6125: Initial support for xiaomi-ginkgo
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20250313 (https://download.01.org/0day-ci/archive/20250314/202503141829.ludI9lKl-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
 dtschema version: 2025.3.dev4+g7b57675
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141610.tpeCgQIn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141829.ludI9lKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503141610.tpeCgQIn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503141829.ludI9lKl-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:1084.21-1102.6: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@8c0000/i2c@890000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+   arch/arm64/boot/dts/qcom/sm6125.dtsi:1321.27-1387.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@5e00000/dsi@5e94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm6125.dtsi:1279.11-1289.7: Warning (graph_child_address): /soc@0/display-subsystem@5e00000/display-controller@5e01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo.dtb: /: qcom,msm-id:0: [394] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo.dtb: geniqup@4ac0000: #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo.dtb: geniqup@4ac0000: #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo.dtb: geniqup@4cc0000: #address-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
+   arch/arm64/boot/dts/qcom/sm6125-xiaomi-ginkgo.dtb: geniqup@4cc0000: #size-cells: 2 was expected
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,geni-se.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
