@@ -1,72 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89BB189919
-	for <oe-kbuild@lists.linux.dev>; Fri, 14 Mar 2025 07:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07141DE2A5
+	for <oe-kbuild@lists.linux.dev>; Fri, 14 Mar 2025 09:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741938130; cv=none; b=GIz2xF4BR6PKzNzg7R11WTUNerOXDfaJpajvVdLrxXdf8cTNZLce/aDJlWnPoxQEnoFwr+rgXDK4qteypb2qewc1kE8CQLe5GV6PSEuyVWaRRYW3agjWmMAfRCa76Y1YwdsmLOjJeCH1v/ogN8Tcd0TndVXrHbYuu0ouzRYnkdQ=
+	t=1741943593; cv=none; b=tVMmvgHxYmvM3Etickn+mf8lnUE7oUguC/cCpmu/vvRWw1DH0rMXG/4QoyrFuqGlldsQIvppVX1S/Hdn3b7t9S4hTg7H13HS2Glm0qOXp7Pvff4ZzOmBxf7P0BiNwxQkm9oiOf8RgGaO57ZtEW+r5/pgBSMS2o42VpWMyX/Hg2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741938130; c=relaxed/simple;
-	bh=TFKMPnY7DyEVxOFjIJ3Z/VwODwE5uOu6Wfsj5MAkP4o=;
+	s=arc-20240116; t=1741943593; c=relaxed/simple;
+	bh=aAho7jlggJUdPkzef5oSxFShk1qSMV7Wv7V2gM2/q3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Tf6PwboCJCd/YbVK0sf27HGNCACGnS4wh1asyiZlEQpsYbyEzk64VTyi4RV7vTQHcreLL1iK8MaE5WcxAB6hQkWUNcygSr3DKcPdQvsgqZz1yBIJEgrzNMHUmTAvzXfmEbfCS78aIITrAxXMfKk+mQTePnssReqkVtaabT5Orbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XFC25S4A; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=oSLL6nRj1qqpfuce19pBaDp1VSjmcQpE0YSJw6xL95+MXgBCuGKzcx1Bf+sZaylMTe5+XK/NCsO8ircG4kGzcIyZgzFU3hEEiL0L37XDNejV4rmrrZjd2C+LuOJXjzEqUXtcJrdK+pjzdy30FatB3VL7dJTvW8H3654pZdxtzO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/fpiDbv; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XFC25S4A"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso1489233f8f.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 14 Mar 2025 00:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741938126; x=1742542926; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5VICj1mgoxCCVFexS9kMcpPesi2AHSs3Nxw6/os/EPE=;
-        b=XFC25S4AxQ7Iq+E3kxN96bfY5FCNUJNV9FP8LdwKcSvVsDaxIjxeWyFfVM3kR81O/k
-         xNyaj1Rg2b+W+bY9vCKFQ7TTzrLQ4lTyqqWqs0BeIohg7zxj1faVGJSL1NtZkhDIgCzF
-         8dcolGaTq7OwgZDwWM8m3MoDekszZznHHxy3TO/uMVFxfeqJokiKDVPodqPxvRCnlFnY
-         kwx5bgmNFiijp5k7lKUeA7CTfGebkuvrxmz8sg7NxN0p2+r96aCOdntTHtyQ7Wh4WZvS
-         2oJiWPMEoon64aY9KpZ4FDGLpS1zFdxPKsF2zbicCmh9F9qfZ/7Y68sUKyM2DsVWIlU4
-         I4rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741938126; x=1742542926;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5VICj1mgoxCCVFexS9kMcpPesi2AHSs3Nxw6/os/EPE=;
-        b=UGQdnENmCQSwA7Pp0T92A+QzquEmSCDWLjZaVHHLmgXR5No+G7p0nJmAOjBv++883H
-         tuYacphap9q3SBU3jFO2AwAUzRHJMi9TYGu2cOg3H055ZKAcfvaOriFOFDRdtNCLSl52
-         9BTVwh71dxQijer3XkzPeVxq8SwZGMBIM5mOSKyBcCbC0XU3oVp1MrHwbuNM6c8zo1AL
-         2dzdh8X5sYjL2PWk5+c0UfBcZ908wE85RKrShNnI5Rsv6+fmaN4WvLBwpiuhf2CxCQx+
-         Fqy32vii7Bp6dkFau/yyRhgHrVsRydykyUtgv02ClXoG4b5efNPHs8mHwnB6US9Znf3E
-         Wsag==
-X-Gm-Message-State: AOJu0Yy+jffAGTZI5Cg3rBd9HJ6SzDuW5Y2wA5NKKmythQflvpszC8Vd
-	J8lXfILZwDYUQVP65YbIvsk7pLkANsli4kdvHS3hyUt/nkDhP36r+4js2lYA+jgB8qodp3/9Znm
-	0
-X-Gm-Gg: ASbGncuNpoZ2WuJ/eLG4DDY66sP1lKrcCYtCiF4aUpiX7T7Fqf4OFx1piXnOjBKJ2AP
-	2pJq34acRSrwOh216IiD/MDNKlZc2dHgF7WdINvzZP+SLpgNX75gC/eeyxqnJBGM9fsEv6yOlBx
-	ZlDJu2+jOZ4IMNGkrfdxISF2ZMr+V02fR5z5AN0aKYJyAb1A1ak+pppVeIaYvyVY6185dgZZaD/
-	AkZNf4Kl3EgCEDedW9Y3VYWztGCKp2ruYcKq5c5jN1orj7bteLG+FEGvXin59geJKW2EJ/MITRn
-	SHVd/zJdfclyiTlNUk+9i3oyOG9uxuO6ZXUEY2hMq9M5wZWHcV+djLp6aXdD
-X-Google-Smtp-Source: AGHT+IFm7E17nEcoSOxY7Tw6+e0xDZ8rnIFbb6oMH7ZJtR8SbLPv6jsqnXgR/epND77bkL5mfCoWCw==
-X-Received: by 2002:a5d:598b:0:b0:38d:badf:9df5 with SMTP id ffacd0b85a97d-3971d2378a8mr1262317f8f.17.1741938125641;
-        Fri, 14 Mar 2025 00:42:05 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395cb7ebe4bsm4738082f8f.98.2025.03.14.00.42.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 00:42:05 -0700 (PDT)
-Date: Fri, 14 Mar 2025 10:42:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pratap Nirujogi <pratap.nirujogi@amd.com>,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-	dave.stevenson@raspberrypi.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benjamin.chan@amd.com, Pratap Nirujogi <pratap.nirujogi@amd.com>
-Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
-Message-ID: <237cb63f-6cfa-4a66-8bc7-21cf48c8e760@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/fpiDbv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741943592; x=1773479592;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aAho7jlggJUdPkzef5oSxFShk1qSMV7Wv7V2gM2/q3w=;
+  b=O/fpiDbvMmqiT2ge6TetgPlNPeM0NDkx8BIfbH6moLwVZkR98HTvHWvX
+   rGJyIyMCgPnDSF05O8PJo5badPGQRoDhM97FKOfkI3jETBfYnEiIB1PlE
+   +YyHs+6NhWyBUAvAFDgUPrGxWcoO/uNbOxbOL940TRBKSWtdyfvueRZ3X
+   52mhElvu+pAPPBrtkxEBJ8nmw0fTmuFke890MZo0g6d/qL0/KBsjTcx3S
+   I08DepXtHD80Ei1kGSTap5dypZb0sxvoP/+Q2raEs92MnVg3Azf5OR0EU
+   HTrSNbdHe1fPDSV8E7LePgzYeSz+iDzu9Ag9RMCD84EdYiSvQm4T+5j00
+   Q==;
+X-CSE-ConnectionGUID: +4XIBe2uRPeaRqlCBez8pA==
+X-CSE-MsgGUID: qaTqeDKvSqOutNsODus/3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43216149"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="43216149"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 02:13:11 -0700
+X-CSE-ConnectionGUID: CnjsIZsESDmjvAcV904sUA==
+X-CSE-MsgGUID: YqZw3y7XSzKlPQxXu7wEUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="121709786"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 14 Mar 2025 02:13:09 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tt16J-000AHG-1H;
+	Fri, 14 Mar 2025 09:13:07 +0000
+Date: Fri, 14 Mar 2025 17:12:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v1 1/3] dt-bindings: Add cros-ec-ucsi to cros-ec-typec
+ device tree documentation
+Message-ID: <202503141610.tpeCgQIn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,60 +61,100 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
 
-Hi Pratap,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250312195951.1579682-2-jthies@google.com>
+References: <20250312195951.1579682-2-jthies@google.com>
+TO: Jameson Thies <jthies@google.com>
+TO: tzungbi@kernel.org
+TO: ukaszb@chromium.org
+TO: bleung@chromium.org
+TO: heikki.krogerus@linux.intel.com
+TO: robh+dt@kernel.org
+TO: krzysztof.kozlowski+dt@linaro.org
+TO: groeck@chromium.org
+TO: swboyd@chromium.org
+TO: akuchynski@chromium.org
+CC: devicetree@vger.kernel.org
+CC: chrome-platform@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: linux-usb@vger.kernel.org
+CC: Jameson Thies <jthies@google.com>
+
+Hi Jameson,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 9fc83373f0ffb8834da48b1446a5c2fef9525bb1]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pratap-Nirujogi/media-i2c-Add-OV05C-camera-sensor-driver/20250301-005638
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250228165317.3468075-1-pratap.nirujogi%40amd.com
-patch subject: [PATCH] media: i2c: Add OV05C camera sensor driver
-config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250314/202503140559.3mp2n2oI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jameson-Thies/dt-bindings-Add-cros-ec-ucsi-to-cros-ec-typec-device-tree-documentation/20250313-040216
+base:   9fc83373f0ffb8834da48b1446a5c2fef9525bb1
+patch link:    https://lore.kernel.org/r/20250312195951.1579682-2-jthies%40google.com
+patch subject: [PATCH v1 1/3] dt-bindings: Add cros-ec-ucsi to cros-ec-typec device tree documentation
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250313 (https://download.01.org/0day-ci/archive/20250314/202503141610.tpeCgQIn-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+dtschema version: 2025.3.dev4+g7b57675
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141610.tpeCgQIn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503140559.3mp2n2oI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503141610.tpeCgQIn-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/ov05c.c:936 ov05c_probe() warn: passing zero to 'PTR_ERR'
-
-vim +/PTR_ERR +936 drivers/media/i2c/ov05c.c
-
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  922  static int ov05c_probe(struct i2c_client *client)
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  923  {
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  924  	struct ov05c *ov05c;
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  925  	int i, ret;
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  926  
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  927  	ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  928  	if (!ov05c)
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  929  		return -ENOMEM;
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  930  
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  931  	client->dev.init_name = DRV_NAME;
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  932  
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  933  	/* create sensor enable gpio control */
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  934  	ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  935  	if (IS_ERR_OR_NULL(ov05c->enable_gpio))
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28 @936  		return PTR_ERR(ov05c->enable_gpio);
-
-If devm_gpiod_get() returns NULL then we'd return success, but actually
-devm_gpiod_get() can't return NULL.  Only error pointers.
-
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  937  
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  938  	/* Initialize subdev */
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  939  	v4l2_i2c_subdev_init(&ov05c->sd, client, &ov05c_subdev_ops);
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  940  
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  941  	/* Initialize CCI */
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  942  	ov05c->regmap = devm_cci_regmap_init_i2c(client, 8);
-6da03431f4f1e18 Pratap Nirujogi 2025-02-28  943  	if (IS_ERR(ov05c->regmap)) {
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-kb.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r10-lte.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-r10.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:1084.21-1102.6: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@8c0000/i2c@890000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sc7180.dtsi:3265.27-3336.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm6150.dtsi:135.30-143.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@0/adc-tm@3500: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: ec@0: typec:compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: typec: compatible: ['google,cros-ec-typec'] is too short
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-limozeen-nots-r10.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
