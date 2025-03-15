@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195A5197A8E
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 20:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3EF197A8B
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 21:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742072068; cv=none; b=c5RE1K1+OX495fkI2udawLjOJxzRI9Y9ucoddFllwObuj2r4F99IL5FSULl6xS3gTNEFk7sqWqMub3qQqWqLOaFNwjP6br3CYzgp15fq5mXpvgyLaig/1Vv7C4wgw0zms3f+WlLmpUSMFwEMaOsuMU626T0lRDQvlH9MMJRxdv8=
+	t=1742072728; cv=none; b=X32DdkVdyM7bwarLCyLq1sba35Y9FEf1U0Yp8NRN2Dlf8lt89KntSKnqrtnTf2zbpEFi7p2QhwGZeI5iM4zxybmaejBYfHhkIdYWhC4AZugo0mXduwkZPFAoLpFwhLNk4qgaZZARgCmh8AnboDNYW9FTjtnYb8QcqKTHQUSSBsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742072068; c=relaxed/simple;
-	bh=rBjctBJDcg7l0gKm7E93RVf/JBRtUgitfXplAQ/BEww=;
+	s=arc-20240116; t=1742072728; c=relaxed/simple;
+	bh=FMVkYCbpuSbEhmTdcQ4qMeQF7JbCS3scifYqSxFS35s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pb0MRLSOieB0LyBHW3jfaZs+HbdDyVjI9L0pLx44sx2Nbi9Tge89nmqGAMqadDHCjU8e9j17Aqx8kr/3VaqNEDJjtSrEyx0CqUD+50OcVzuxToTGrgpjeThZZW4wxHwOZ8e/QBPaPZpkXroyrd0U9swjMXLTJektKTOj39PKY8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/f//zpd; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=J1HLMcSsDdv23LbybbsLKshAG5+OhmF6GMG82/zHauWoa3C9ltywQPe1qAASU53j9U3LJ37dbsBUgexocsRAgtfP+5CXZaMTa0FKiM+8Fw8EQCu7uMBDCxDL9MyXh5bqzMH26B8MFKlRlFG8uRt45NHV3/pXvOYaAwEtU94aoFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeflQRZM; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/f//zpd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeflQRZM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742072066; x=1773608066;
+  t=1742072726; x=1773608726;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rBjctBJDcg7l0gKm7E93RVf/JBRtUgitfXplAQ/BEww=;
-  b=N/f//zpd9fDzZIYXQvgjF5UWyEbc6OiXEAxsKhiaTf2B/MCheolEwNom
-   zng2oHOGNTZCrBYMArjAuoBZHtzKnWhEXbS9jZoQJ2/9oqHfXlsmF5une
-   IgQ8CeIuuSQXXH18J42bvo+ubWeB5oQ6vcamJ3PuGHZ+UT6krVnYkXkYd
-   V3G3Ok2V+WIqpW0qEoHgfRpKqqd3hE7imjLuDoEcVqU0FYBHejxzXE6BM
-   seqIUB7UqOre01CvJjjstfUlYCED/yvUsK/gpYZasbORk1QdZfvRDIvCQ
-   1pirt9ks98OG6V9HIAOl/4uh8nTgDd+ezK5PFtoyFcMqz4oJf+UsQ0az1
-   w==;
-X-CSE-ConnectionGUID: URQoIQHPQR6n1ktDMiHyfw==
-X-CSE-MsgGUID: UWNeunhJTX6+UGde75M+nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="43074921"
+  bh=FMVkYCbpuSbEhmTdcQ4qMeQF7JbCS3scifYqSxFS35s=;
+  b=eeflQRZMFOdEsMp9Mq5SCRtza9vbyWvUDsA23jsAA95HVcQV3TrRx/FC
+   weXdj0+M0swyuIeDY3EiCnDiKoeckI+MXECZUh20mJ5v3MuKLSBQ7PF8E
+   Guhjj12td3lXVY0HykWo/cqYRsiOPp1I11UmACIFYHbke5mOtNKdeXwyN
+   /mSDIwOpWKLLbJIDhZilFCAvbAOECQrLONO938mIY9up5jWAP21frIOE8
+   /q2MKiOV5E+OXibA8kpcbEaWyTJkKh2bR7AlXNqOHmGwu8P/uN/Bk66ux
+   FiBFEYjSXP1MRajLXJnjo14mAl+egBPHgM0hjLGC8icqmMeccRNUSIveP
+   A==;
+X-CSE-ConnectionGUID: DsGysoUIRaORrwWK2h0x0Q==
+X-CSE-MsgGUID: lCdA+WprQGG2aaqqlwyWnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="47100382"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="43074921"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 13:54:25 -0700
-X-CSE-ConnectionGUID: 6/o2RcwhQrCfFr0SHQFQQw==
-X-CSE-MsgGUID: E3MByjpqRYq66oG4HucKfQ==
+   d="scan'208";a="47100382"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 14:05:25 -0700
+X-CSE-ConnectionGUID: uVcQIQv7TH2u6soWV+A00Q==
+X-CSE-MsgGUID: dWf/pRZpQu6rHhs4GXA7ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="126222299"
+   d="scan'208";a="121776228"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Mar 2025 13:54:24 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Mar 2025 14:05:24 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttYWT-000Be7-36;
-	Sat, 15 Mar 2025 20:54:21 +0000
-Date: Sun, 16 Mar 2025 04:53:42 +0800
+	id 1ttYh8-000BeF-1Y;
+	Sat, 15 Mar 2025 21:05:22 +0000
+Date: Sun, 16 Mar 2025 05:04:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/block/brd.c:377 brd_alloc() warn: passing positive error
- code '(-17),(-12)' to 'PTR_ERR'
-Message-ID: <202503160430.qAqqQLLc-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [peterz-queue:objtool/core 13/13] arch/x86/mm/fault.o: error:
+ objtool: do_user_addr_fault+0x8ec: __stack_chk_fail() missing __noreturn in
+ .c/.h or NORETURN() in noreturns.h
+Message-ID: <202503160527.0I8PQxpK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,93 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Yang Erkun <yangerkun@huawei.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Christoph Hellwig <hch@lst.de>
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3571e8b091f4270d869dda7a6cc43616c6ad6897
-commit: 826cc42adf44930a633d11a5993676d85ddb0842 brd: defer automatic disk creation until module initialization succeeds
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250316/202503160430.qAqqQLLc-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git objtool/core
+head:   3ea93b53ecb339bb78a5eedbb51714a899640584
+commit: 3ea93b53ecb339bb78a5eedbb51714a899640584 [13/13] objtool: Add CONFIG_OBJTOOL_WERROR
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: x86_64-randconfig-076-20250315 (https://download.01.org/0day-ci/archive/20250316/202503160527.0I8PQxpK-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160527.0I8PQxpK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503160430.qAqqQLLc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503160527.0I8PQxpK-lkp@intel.com/
 
-smatch warnings:
-drivers/block/brd.c:377 brd_alloc() warn: passing positive error code '(-17),(-12)' to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +377 drivers/block/brd.c
-
-826cc42adf44930 Yang Erkun        2024-10-30  352  
-7f9b348cb5e9425 Christoph Hellwig 2021-05-21  353  static int brd_alloc(int i)
-9db5579be4bb532 Nicholas Piggin   2008-02-08  354  {
-9db5579be4bb532 Nicholas Piggin   2008-02-08  355  	struct brd_device *brd;
-9db5579be4bb532 Nicholas Piggin   2008-02-08  356  	struct gendisk *disk;
-f4be591f1436aff Calvin Owens      2021-04-16  357  	char buf[DISK_NAME_LEN];
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  358  	int err = -ENOMEM;
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  359  	struct queue_limits lim = {
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  360  		/*
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  361  		 * This is so fdisk will align partitions on 4k, because of
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  362  		 * direct_access API needing 4k alignment, returning a PFN
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  363  		 * (This is only a problem on very small devices <= 4M,
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  364  		 *  otherwise fdisk will align on 1M. Regardless this call
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  365  		 *  is harmless)
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  366  		 */
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  367  		.physical_block_size	= PAGE_SIZE,
-9ead7efc6f3f2b4 Keith Busch       2024-04-29  368  		.max_hw_discard_sectors	= UINT_MAX,
-9ead7efc6f3f2b4 Keith Busch       2024-04-29  369  		.max_discard_segments	= 1,
-9ead7efc6f3f2b4 Keith Busch       2024-04-29  370  		.discard_granularity	= PAGE_SIZE,
-f76af42f8bf13d2 Christoph Hellwig 2024-06-17  371  		.features		= BLK_FEAT_SYNCHRONOUS |
-f76af42f8bf13d2 Christoph Hellwig 2024-06-17  372  					  BLK_FEAT_NOWAIT,
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  373  	};
-9db5579be4bb532 Nicholas Piggin   2008-02-08  374  
-826cc42adf44930 Yang Erkun        2024-10-30  375  	brd = brd_find_or_alloc_device(i);
-826cc42adf44930 Yang Erkun        2024-10-30  376  	if (IS_ERR(brd))
-826cc42adf44930 Yang Erkun        2024-10-30 @377  		return PTR_ERR(brd);
-f7bf35862477d6d Tetsuo Handa      2021-09-07  378  
-786bb02458819df Pankaj Raghav     2023-05-11  379  	xa_init(&brd->brd_pages);
-9db5579be4bb532 Nicholas Piggin   2008-02-08  380  
-f4be591f1436aff Calvin Owens      2021-04-16  381  	snprintf(buf, DISK_NAME_LEN, "ram%d", i);
-f4be591f1436aff Calvin Owens      2021-04-16  382  	if (!IS_ERR_OR_NULL(brd_debugfs_dir))
-f4be591f1436aff Calvin Owens      2021-04-16  383  		debugfs_create_u64(buf, 0444, brd_debugfs_dir,
-f4be591f1436aff Calvin Owens      2021-04-16  384  				&brd->brd_nr_pages);
-f4be591f1436aff Calvin Owens      2021-04-16  385  
-b5baaba4ce5c8a0 Christoph Hellwig 2024-02-15  386  	disk = brd->brd_disk = blk_alloc_disk(&lim, NUMA_NO_NODE);
-74fa8f9c553f7b5 Christoph Hellwig 2024-02-15  387  	if (IS_ERR(disk)) {
-74fa8f9c553f7b5 Christoph Hellwig 2024-02-15  388  		err = PTR_ERR(disk);
-7f9b348cb5e9425 Christoph Hellwig 2021-05-21  389  		goto out_free_dev;
-74fa8f9c553f7b5 Christoph Hellwig 2024-02-15  390  	}
-9db5579be4bb532 Nicholas Piggin   2008-02-08  391  	disk->major		= RAMDISK_MAJOR;
-937af5ecd0591e8 Boaz Harrosh      2015-01-07  392  	disk->first_minor	= i * max_part;
-7f9b348cb5e9425 Christoph Hellwig 2021-05-21  393  	disk->minors		= max_part;
-9db5579be4bb532 Nicholas Piggin   2008-02-08  394  	disk->fops		= &brd_fops;
-9db5579be4bb532 Nicholas Piggin   2008-02-08  395  	disk->private_data	= brd;
-e55e1b4831563e5 Wolfram Sang      2022-08-18  396  	strscpy(disk->disk_name, buf, DISK_NAME_LEN);
-9db5579be4bb532 Nicholas Piggin   2008-02-08  397  	set_capacity(disk, rd_size * 2);
-9db5579be4bb532 Nicholas Piggin   2008-02-08  398  	
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  399  	err = add_disk(disk);
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  400  	if (err)
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  401  		goto out_cleanup_disk;
-316ba5736c9caa5 SeongJae Park     2018-05-03  402  
-7f9b348cb5e9425 Christoph Hellwig 2021-05-21  403  	return 0;
-9db5579be4bb532 Nicholas Piggin   2008-02-08  404  
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  405  out_cleanup_disk:
-8b9ab62662048a3 Christoph Hellwig 2022-06-19  406  	put_disk(disk);
-9db5579be4bb532 Nicholas Piggin   2008-02-08  407  out_free_dev:
-826cc42adf44930 Yang Erkun        2024-10-30  408  	brd_free_device(brd);
-e1528830bd4ebf4 Luis Chamberlain  2021-10-15  409  	return err;
-9db5579be4bb532 Nicholas Piggin   2008-02-08  410  }
-9db5579be4bb532 Nicholas Piggin   2008-02-08  411  
+>> arch/x86/mm/fault.o: error: objtool: do_user_addr_fault+0x8ec: __stack_chk_fail() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+   arch/x86/mm/fault.o: error: objtool: do_user_addr_fault+0x8f1: unreachable instruction
+>> arch/x86/mm/fault.o: error: objtool: 2 warning(s) upgraded to errors
+   ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --orc --static-call --uaccess --Werror --backtrace arch/x86/mm/fault.o.orig -o arch/x86/mm/fault.o
 
 -- 
 0-DAY CI Kernel Test Service
