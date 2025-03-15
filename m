@@ -1,307 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CEAEC0
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 01:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D5A13A41F
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 03:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742003514; cv=none; b=PyOQiG6Ysc3h/+Pwc9LniwntWfE1dl2CQH9enPmqiESFd1P6wtjJY2WSMyn+/MlfE0VxEplho2hrUdUblZQH11LRSLJr3ekoTwn04CQKmPRlgIpnTyh8DR9FuX2NkWc8bnuJDM1q/MdUCgsgTm3byuuCEEYBKQ3DT5vF9QeZAF8=
+	t=1742009825; cv=none; b=dsj61teBXQkSaOWDYF3/3KgoZe7vWHzXMK3go8YS3/zSL98ZleJ6hKKAmtQenENhZz3Z2AP9P8m8yKPCnb570wCHmDCe9bhQBHocOd5GIo+7j5INx3ElfDrrXN1o5MEkz++2/A3zyZ3KO0FDTEgxv8N5VCOoxMTcOOhWkkCzwtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742003514; c=relaxed/simple;
-	bh=C2hN7kZcGT/XRPXSQoI6xpStJoY0mqAsH/30sMZveS8=;
+	s=arc-20240116; t=1742009825; c=relaxed/simple;
+	bh=texeLWgmPaQm62eGOeEg+dFweoX+i+T8nSfxEIlASnc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YaiYxCStwY9l1y5CDV8dbIsVdqzq52FH2ddIjYxiQ/t3JT/VIKMLq6Ed1PE3iHFg//mYap1kOtKDspkiobohznrRGWAotSO+LcLXvx+WFODnehtcp34hMn8xXhrx3CUQWOhym1NeFeUmzgQsy/Hi/KjiFm2aDh9AflLddWFP2uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGR2lI3g; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=lwr2S4LXbDrXNbE9vCUj8beFTTjZfeYdt6Moa5nxMThd9ff2istCZkhoWRvFTeoJHaDlY81nXLgiu4OlYmv/5RHYD+HQ7MtxMvGhZ41Tk2U2Im1LfNMW8p5jQmwdERoKzSITMP0O1rsIAomcPah08to0BmOpqTO0/bd7uKO0pw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/Uttwtg; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGR2lI3g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/Uttwtg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742003512; x=1773539512;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=C2hN7kZcGT/XRPXSQoI6xpStJoY0mqAsH/30sMZveS8=;
-  b=oGR2lI3grS/CrvPVvha2WeWlW6gB5mzmUKT63Jp4FNUxJXQjT/fxOl7n
-   8W58dQvhOw+pb6mu9aia25Q//D9N36OxInWRBMRntmH0yn8kx5PisaziB
-   8+4CwqTGjiE4XGJNHtKFYnZtqTDJ03Cc6Lna29NbBqB//Xk72Pz6kF9oS
-   yxDoAuGfygz3OqMvoxjdvyrhEiIY/oHgfWeuWJfvYzgrdznYyhyLaUYz3
-   NSvpOB6OYVgwZklmf6rQvAQLTKfoQU810mBa7d7saz02dgS+T3WEBAAyb
-   iJyaIUka8+j/Y6Mlay+/VM71aUvsG0AyhjuBjtqkpwY1pciosp1gOFIAX
-   A==;
-X-CSE-ConnectionGUID: Mw4QrD9pSueHq5pfPvwD9A==
-X-CSE-MsgGUID: j0+9y1WnR/2qX1CcGfN1CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54540495"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="54540495"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 18:51:50 -0700
-X-CSE-ConnectionGUID: FayGbUDfS7ejNYZYwAwViA==
-X-CSE-MsgGUID: WmrOuPtqSzWCR/w7ljh9vg==
+  t=1742009823; x=1773545823;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=texeLWgmPaQm62eGOeEg+dFweoX+i+T8nSfxEIlASnc=;
+  b=d/UttwtgA8C+5KoEol6nEqp1e/kOvylXu+3/jUdKxSSz0TG5a2A2bug6
+   +3plhXZpCiNoBH2EbD/dyNMF6/IEjyAXrHb7w3PiO/beeF1RYahSAMBmg
+   3CMkGUSbKr6Ibk4rbLecn+Mpj5qqvpRB6CCrzmIV0FVc6pobuwexXO6aF
+   rQOGWBEN9Coytvm7+amlwV8P7qWb+fMQhDoCDyi0qVE9PtBI2ugMrCFNo
+   oYf0hXsCdsGSZ649zAFvvYwGMyRhBpm656CxXEu0Tc1gkO1NadpyXhbd9
+   RRmiSE8GwHrkzgT6rcgIWlcl55F2h7/SUagd9rxAJYYepWiDtaJiSUQvH
+   g==;
+X-CSE-ConnectionGUID: Ap/ibIxqT3m95EyeITTwkQ==
+X-CSE-MsgGUID: LoXheN7uSJWPQvNdydq16Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54556564"
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="54556564"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 20:37:00 -0700
+X-CSE-ConnectionGUID: SDCrIiNXQgSfEk9IKpHeuw==
+X-CSE-MsgGUID: CgQvFYtdTkG+eA40d6I+9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="122387743"
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="144646470"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 14 Mar 2025 18:51:48 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 14 Mar 2025 20:36:58 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttGgj-000Az5-1c;
-	Sat, 15 Mar 2025 01:51:45 +0000
-Date: Sat, 15 Mar 2025 09:50:51 +0800
+	id 1ttIKW-000B2N-03;
+	Sat, 15 Mar 2025 03:36:56 +0000
+Date: Sat, 15 Mar 2025 11:36:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/usb/gadget/function/f_fs.c:1021 ffs_epfile_io() warn: 'ep'
- can also be NULL
-Message-ID: <202503150959.Y7gphwDY-lkp@intel.com>
+Subject: drivers/remoteproc/ti_k3_r5_remoteproc.c:1560 k3_r5_core_of_init()
+ warn: passing positive error code '(-22)' to 'PTR_ERR'
+Message-ID: <202503151126.t4vhCMJI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Paul Cercueil <paul@crapouillou.net>
+TO: Andrew Davis <afd@ti.com>
+CC: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+Hi Andrew,
+
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a29967be967eebf049e89edb14c4edf9991bc929
-commit: 799970a5b15deec8bbcb098b11a73d8acc55d075 usb: gadget: functionfs: Factorize wait-for-endpoint code
-date:   1 year, 1 month ago
-:::::: branch date: 83 minutes ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-161-20250315 (https://download.01.org/0day-ci/archive/20250315/202503150959.Y7gphwDY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: be3e6529a8b90b1284a55117a4e23095ccbeaeaf remoteproc: k3-r5: Add compile testing support
+date:   5 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 5 months ago
+config: openrisc-randconfig-r072-20250314 (https://download.01.org/0day-ci/archive/20250315/202503151126.t4vhCMJI-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503150959.Y7gphwDY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503151126.t4vhCMJI-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/gadget/function/f_fs.c:1021 ffs_epfile_io() warn: 'ep' can also be NULL
+smatch warnings:
+drivers/remoteproc/ti_k3_r5_remoteproc.c:1560 k3_r5_core_of_init() warn: passing positive error code '(-22)' to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/usb/gadget/function/f_fs.c:1044 ffs_epfile_io() warn: 'ep' can also be NULL
-drivers/usb/gadget/function/f_fs.c:1064 ffs_epfile_io() warn: 'ep' can also be NULL
-drivers/usb/gadget/function/f_fs.c:1113 ffs_epfile_io() warn: 'ep' can also be NULL
+vim +1560 drivers/remoteproc/ti_k3_r5_remoteproc.c
 
-vim +/ep +1021 drivers/usb/gadget/function/f_fs.c
+ea47c6887b6d99e Suman Anna          2020-10-02  1512  
+6dedbd1d544389d Suman Anna          2020-10-02  1513  static int k3_r5_core_of_init(struct platform_device *pdev)
+6dedbd1d544389d Suman Anna          2020-10-02  1514  {
+6dedbd1d544389d Suman Anna          2020-10-02  1515  	struct device *dev = &pdev->dev;
+6dedbd1d544389d Suman Anna          2020-10-02  1516  	struct device_node *np = dev_of_node(dev);
+6dedbd1d544389d Suman Anna          2020-10-02  1517  	struct k3_r5_core *core;
+6dedbd1d544389d Suman Anna          2020-10-02  1518  	int ret;
+6dedbd1d544389d Suman Anna          2020-10-02  1519  
+6dedbd1d544389d Suman Anna          2020-10-02  1520  	if (!devres_open_group(dev, k3_r5_core_of_init, GFP_KERNEL))
+6dedbd1d544389d Suman Anna          2020-10-02  1521  		return -ENOMEM;
+6dedbd1d544389d Suman Anna          2020-10-02  1522  
+6dedbd1d544389d Suman Anna          2020-10-02  1523  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+6dedbd1d544389d Suman Anna          2020-10-02  1524  	if (!core) {
+6dedbd1d544389d Suman Anna          2020-10-02  1525  		ret = -ENOMEM;
+6dedbd1d544389d Suman Anna          2020-10-02  1526  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1527  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1528  
+6dedbd1d544389d Suman Anna          2020-10-02  1529  	core->dev = dev;
+6dedbd1d544389d Suman Anna          2020-10-02  1530  	/*
+6dedbd1d544389d Suman Anna          2020-10-02  1531  	 * Use SoC Power-on-Reset values as default if no DT properties are
+6dedbd1d544389d Suman Anna          2020-10-02  1532  	 * used to dictate the TCM configurations
+6dedbd1d544389d Suman Anna          2020-10-02  1533  	 */
+6dedbd1d544389d Suman Anna          2020-10-02  1534  	core->atcm_enable = 0;
+6dedbd1d544389d Suman Anna          2020-10-02  1535  	core->btcm_enable = 1;
+6dedbd1d544389d Suman Anna          2020-10-02  1536  	core->loczrama = 1;
+6dedbd1d544389d Suman Anna          2020-10-02  1537  
+6dedbd1d544389d Suman Anna          2020-10-02  1538  	ret = of_property_read_u32(np, "ti,atcm-enable", &core->atcm_enable);
+6dedbd1d544389d Suman Anna          2020-10-02  1539  	if (ret < 0 && ret != -EINVAL) {
+6dedbd1d544389d Suman Anna          2020-10-02  1540  		dev_err(dev, "invalid format for ti,atcm-enable, ret = %d\n",
+6dedbd1d544389d Suman Anna          2020-10-02  1541  			ret);
+6dedbd1d544389d Suman Anna          2020-10-02  1542  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1543  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1544  
+6dedbd1d544389d Suman Anna          2020-10-02  1545  	ret = of_property_read_u32(np, "ti,btcm-enable", &core->btcm_enable);
+6dedbd1d544389d Suman Anna          2020-10-02  1546  	if (ret < 0 && ret != -EINVAL) {
+6dedbd1d544389d Suman Anna          2020-10-02  1547  		dev_err(dev, "invalid format for ti,btcm-enable, ret = %d\n",
+6dedbd1d544389d Suman Anna          2020-10-02  1548  			ret);
+6dedbd1d544389d Suman Anna          2020-10-02  1549  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1550  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1551  
+6dedbd1d544389d Suman Anna          2020-10-02  1552  	ret = of_property_read_u32(np, "ti,loczrama", &core->loczrama);
+6dedbd1d544389d Suman Anna          2020-10-02  1553  	if (ret < 0 && ret != -EINVAL) {
+6dedbd1d544389d Suman Anna          2020-10-02  1554  		dev_err(dev, "invalid format for ti,loczrama, ret = %d\n", ret);
+6dedbd1d544389d Suman Anna          2020-10-02  1555  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1556  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1557  
+6dedbd1d544389d Suman Anna          2020-10-02  1558  	core->ti_sci = devm_ti_sci_get_by_phandle(dev, "ti,sci");
+6dedbd1d544389d Suman Anna          2020-10-02  1559  	if (IS_ERR(core->ti_sci)) {
+fa9f7efe9ea9f6c Krzysztof Kozlowski 2024-10-11 @1560  		ret = dev_err_probe(dev, PTR_ERR(core->ti_sci), "failed to get ti-sci handle\n");
+6dedbd1d544389d Suman Anna          2020-10-02  1561  		core->ti_sci = NULL;
+6dedbd1d544389d Suman Anna          2020-10-02  1562  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1563  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1564  
+6dedbd1d544389d Suman Anna          2020-10-02  1565  	ret = of_property_read_u32(np, "ti,sci-dev-id", &core->ti_sci_id);
+6dedbd1d544389d Suman Anna          2020-10-02  1566  	if (ret) {
+6dedbd1d544389d Suman Anna          2020-10-02  1567  		dev_err(dev, "missing 'ti,sci-dev-id' property\n");
+6dedbd1d544389d Suman Anna          2020-10-02  1568  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1569  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1570  
+6dedbd1d544389d Suman Anna          2020-10-02  1571  	core->reset = devm_reset_control_get_exclusive(dev, NULL);
+6dedbd1d544389d Suman Anna          2020-10-02  1572  	if (IS_ERR_OR_NULL(core->reset)) {
+6dedbd1d544389d Suman Anna          2020-10-02  1573  		ret = PTR_ERR_OR_ZERO(core->reset);
+6dedbd1d544389d Suman Anna          2020-10-02  1574  		if (!ret)
+6dedbd1d544389d Suman Anna          2020-10-02  1575  			ret = -ENODEV;
+fa9f7efe9ea9f6c Krzysztof Kozlowski 2024-10-11  1576  		dev_err_probe(dev, ret, "failed to get reset handle\n");
+6dedbd1d544389d Suman Anna          2020-10-02  1577  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1578  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1579  
+ce6acb2240f40f2 Andrew Davis        2024-08-02  1580  	core->tsp = ti_sci_proc_of_get_tsp(dev, core->ti_sci);
+6dedbd1d544389d Suman Anna          2020-10-02  1581  	if (IS_ERR(core->tsp)) {
+fa9f7efe9ea9f6c Krzysztof Kozlowski 2024-10-11  1582  		ret = dev_err_probe(dev, PTR_ERR(core->tsp),
+fa9f7efe9ea9f6c Krzysztof Kozlowski 2024-10-11  1583  				    "failed to construct ti-sci proc control\n");
+6dedbd1d544389d Suman Anna          2020-10-02  1584  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1585  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1586  
+6dedbd1d544389d Suman Anna          2020-10-02  1587  	ret = k3_r5_core_of_get_internal_memories(pdev, core);
+6dedbd1d544389d Suman Anna          2020-10-02  1588  	if (ret) {
+6dedbd1d544389d Suman Anna          2020-10-02  1589  		dev_err(dev, "failed to get internal memories, ret = %d\n",
+6dedbd1d544389d Suman Anna          2020-10-02  1590  			ret);
+6dedbd1d544389d Suman Anna          2020-10-02  1591  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1592  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1593  
+ea47c6887b6d99e Suman Anna          2020-10-02  1594  	ret = k3_r5_core_of_get_sram_memories(pdev, core);
+ea47c6887b6d99e Suman Anna          2020-10-02  1595  	if (ret) {
+ea47c6887b6d99e Suman Anna          2020-10-02  1596  		dev_err(dev, "failed to get sram memories, ret = %d\n", ret);
+ea47c6887b6d99e Suman Anna          2020-10-02  1597  		goto err;
+ea47c6887b6d99e Suman Anna          2020-10-02  1598  	}
+ea47c6887b6d99e Suman Anna          2020-10-02  1599  
+6dedbd1d544389d Suman Anna          2020-10-02  1600  	ret = ti_sci_proc_request(core->tsp);
+6dedbd1d544389d Suman Anna          2020-10-02  1601  	if (ret < 0) {
+6dedbd1d544389d Suman Anna          2020-10-02  1602  		dev_err(dev, "ti_sci_proc_request failed, ret = %d\n", ret);
+6dedbd1d544389d Suman Anna          2020-10-02  1603  		goto err;
+6dedbd1d544389d Suman Anna          2020-10-02  1604  	}
+6dedbd1d544389d Suman Anna          2020-10-02  1605  
+6dedbd1d544389d Suman Anna          2020-10-02  1606  	platform_set_drvdata(pdev, core);
+6dedbd1d544389d Suman Anna          2020-10-02  1607  	devres_close_group(dev, k3_r5_core_of_init);
+6dedbd1d544389d Suman Anna          2020-10-02  1608  
+6dedbd1d544389d Suman Anna          2020-10-02  1609  	return 0;
+6dedbd1d544389d Suman Anna          2020-10-02  1610  
+6dedbd1d544389d Suman Anna          2020-10-02  1611  err:
+6dedbd1d544389d Suman Anna          2020-10-02  1612  	devres_release_group(dev, k3_r5_core_of_init);
+6dedbd1d544389d Suman Anna          2020-10-02  1613  	return ret;
+6dedbd1d544389d Suman Anna          2020-10-02  1614  }
+6dedbd1d544389d Suman Anna          2020-10-02  1615  
 
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   957  
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   958  static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   959  {
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   960  	struct ffs_epfile *epfile = file->private_data;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   961  	struct usb_request *req;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   962  	struct ffs_ep *ep;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   963  	char *data = NULL;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   964  	ssize_t ret, data_len = -EINVAL;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   965  	int halt;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   966  
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   967  	/* Are we still active? */
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   968  	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   969  		return -ENODEV;
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   970  
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   971  	ep = ffs_epfile_wait_ep(file);
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   972  	if (IS_ERR(ep))
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   973  		return PTR_ERR(ep);
-799970a5b15deec drivers/usb/gadget/function/f_fs.c Paul Cercueil         2024-01-30   974  
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05   975  	/* Do we halt? */
-2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-02-10   976  	halt = (!io_data->read == !epfile->in);
-b3591f67b9f9607 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04   977  	if (halt && epfile->isoc)
-b3591f67b9f9607 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04   978  		return -EINVAL;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05   979  
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   980  	/* We will be using request and read_buffer */
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   981  	ret = ffs_mutex_lock(&epfile->mutex, file->f_flags & O_NONBLOCK);
-8704fd73bf5658b drivers/usb/gadget/function/f_fs.c Greg Kroah-Hartman    2020-11-27   982  	if (ret)
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   983  		goto error;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   984  
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05   985  	/* Allocate & copy */
-7fa6803483ed215 drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09   986  	if (!halt) {
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   987  		struct usb_gadget *gadget;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   988  
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   989  		/*
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   990  		 * Do we have buffered data from previous partial read?  Check
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   991  		 * that for synchronous case only because we do not have
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   992  		 * facility to ‘wake up’ a pending asynchronous read and push
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   993  		 * buffered data to it which we would need to make things behave
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   994  		 * consistently.
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   995  		 */
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   996  		if (!io_data->aio && io_data->read) {
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   997  			ret = __ffs_epfile_read_buffered(epfile, &io_data->data);
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   998  			if (ret)
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21   999  				goto error_mutex;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1000  		}
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1001  
-f0f42204d0cc04a drivers/usb/gadget/f_fs.c          Andrzej Pietrasiewicz 2014-01-20  1002  		/*
-f0f42204d0cc04a drivers/usb/gadget/f_fs.c          Andrzej Pietrasiewicz 2014-01-20  1003  		 * if we _do_ wait above, the epfile->ffs->gadget might be NULL
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1004  		 * before the waiting completes, so do not assign to 'gadget'
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1005  		 * earlier
-f0f42204d0cc04a drivers/usb/gadget/f_fs.c          Andrzej Pietrasiewicz 2014-01-20  1006  		 */
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1007  		gadget = epfile->ffs->gadget;
-f0f42204d0cc04a drivers/usb/gadget/f_fs.c          Andrzej Pietrasiewicz 2014-01-20  1008  
-97839ca4b06ab27 drivers/usb/gadget/f_fs.c          Chao Bi               2014-04-14  1009  		spin_lock_irq(&epfile->ffs->eps_lock);
-97839ca4b06ab27 drivers/usb/gadget/f_fs.c          Chao Bi               2014-04-14  1010  		/* In the meantime, endpoint got disabled or changed. */
-97839ca4b06ab27 drivers/usb/gadget/f_fs.c          Chao Bi               2014-04-14  1011  		if (epfile->ep != ep) {
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1012  			ret = -ESHUTDOWN;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1013  			goto error_lock;
-97839ca4b06ab27 drivers/usb/gadget/f_fs.c          Chao Bi               2014-04-14  1014  		}
-c993c39b86398c6 drivers/usb/gadget/function/f_fs.c Al Viro               2015-01-31  1015  		data_len = iov_iter_count(&io_data->data);
-219580e64f035bb drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1016  		/*
-219580e64f035bb drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1017  		 * Controller may require buffer size to be aligned to
-219580e64f035bb drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1018  		 * maxpacketsize of an out endpoint.
-219580e64f035bb drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1019  		 */
-c993c39b86398c6 drivers/usb/gadget/function/f_fs.c Al Viro               2015-01-31  1020  		if (io_data->read)
-c993c39b86398c6 drivers/usb/gadget/function/f_fs.c Al Viro               2015-01-31 @1021  			data_len = usb_ep_align_maybe(gadget, ep->ep, data_len);
-4833a94eb383f5b drivers/usb/gadget/function/f_fs.c Fei Yang              2019-06-12  1022  
-4833a94eb383f5b drivers/usb/gadget/function/f_fs.c Fei Yang              2019-06-12  1023  		io_data->use_sg = gadget->sg_supported && data_len > PAGE_SIZE;
-97839ca4b06ab27 drivers/usb/gadget/f_fs.c          Chao Bi               2014-04-14  1024  		spin_unlock_irq(&epfile->ffs->eps_lock);
-219580e64f035bb drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1025  
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1026  		data = ffs_alloc_buffer(io_data, data_len);
-8704fd73bf5658b drivers/usb/gadget/function/f_fs.c Greg Kroah-Hartman    2020-11-27  1027  		if (!data) {
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1028  			ret = -ENOMEM;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1029  			goto error_mutex;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1030  		}
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1031  		if (!io_data->read &&
-cbbd26b8b1a6af9 drivers/usb/gadget/function/f_fs.c Al Viro               2016-11-01  1032  		    !copy_from_iter_full(data, data_len, &io_data->data)) {
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1033  			ret = -EFAULT;
-9353afbbfa7b107 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1034  			goto error_mutex;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1035  		}
-2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-02-10  1036  	}
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1037  
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1038  	spin_lock_irq(&epfile->ffs->eps_lock);
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1039  
-7fa6803483ed215 drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1040  	if (epfile->ep != ep) {
-7fa6803483ed215 drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1041  		/* In the meantime, endpoint got disabled or changed. */
-7fa6803483ed215 drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1042  		ret = -ESHUTDOWN;
-7fa6803483ed215 drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2013-12-09  1043  	} else if (halt) {
-cdff9f8ee1688f7 drivers/usb/gadget/function/f_fs.c Jerry Zhang           2017-08-11  1044  		ret = usb_ep_set_halt(ep->ep);
-cdff9f8ee1688f7 drivers/usb/gadget/function/f_fs.c Jerry Zhang           2017-08-11  1045  		if (!ret)
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1046  			ret = -EBADMSG;
-8704fd73bf5658b drivers/usb/gadget/function/f_fs.c Greg Kroah-Hartman    2020-11-27  1047  	} else if (data_len == -EINVAL) {
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1048  		/*
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1049  		 * Sanity Check: even though data_len can't be used
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1050  		 * uninitialized at the time I write this comment, some
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1051  		 * compilers complain about this situation.
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1052  		 * In order to keep the code clean from warnings, data_len is
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1053  		 * being initialized to -EINVAL during its declaration, which
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1054  		 * means we can't rely on compiler anymore to warn no future
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1055  		 * changes won't result in data_len being used uninitialized.
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1056  		 * For such reason, we're adding this redundant sanity check
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1057  		 * here.
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1058  		 */
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1059  		WARN(1, "%s: data_len == -EINVAL\n", __func__);
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1060  		ret = -EINVAL;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1061  	} else if (!io_data->aio) {
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1062  		bool interrupted = false;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1063  
-2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-02-10  1064  		req = ep->req;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1065  		if (io_data->use_sg) {
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1066  			req->buf = NULL;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1067  			req->sg	= io_data->sgt.sgl;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1068  			req->num_sgs = io_data->sgt.nents;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1069  		} else {
-2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-02-10  1070  			req->buf = data;
-d2450c6937018d4 drivers/usb/gadget/function/f_fs.c Peter Chen            2019-12-12  1071  			req->num_sgs = 0;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1072  		}
-c0d31b3c3d9a025 drivers/usb/gadget/function/f_fs.c David Cohen           2014-10-13  1073  		req->length = data_len;
-2e4c7553cd6f9c6 drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-02-10  1074  
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1075  		io_data->buf = data;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1076  
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1077  		init_completion(&io_data->done);
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1078  		req->context  = io_data;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1079  		req->complete = ffs_epfile_io_complete;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1080  
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1081  		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-8704fd73bf5658b drivers/usb/gadget/function/f_fs.c Greg Kroah-Hartman    2020-11-27  1082  		if (ret < 0)
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1083  			goto error_lock;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1084  
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1085  		spin_unlock_irq(&epfile->ffs->eps_lock);
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1086  
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1087  		if (wait_for_completion_interruptible(&io_data->done)) {
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1088  			spin_lock_irq(&epfile->ffs->eps_lock);
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1089  			if (epfile->ep != ep) {
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1090  				ret = -ESHUTDOWN;
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1091  				goto error_lock;
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1092  			}
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1093  			/*
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1094  			 * To avoid race condition with ffs_epfile_io_complete,
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1095  			 * dequeue the request first then check
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1096  			 * status. usb_ep_dequeue API should guarantee no race
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1097  			 * condition with req->complete callback.
-ef15088440e2b34 drivers/usb/gadget/function/f_fs.c Changbin Du           2015-12-29  1098  			 */
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1099  			usb_ep_dequeue(ep->ep, req);
-0698f0209d8032e drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1100  			spin_unlock_irq(&epfile->ffs->eps_lock);
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1101  			wait_for_completion(&io_data->done);
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1102  			interrupted = io_data->status < 0;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1103  		}
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1104  
-c662a31be755f5e drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1105  		if (interrupted)
-c662a31be755f5e drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1106  			ret = -EINTR;
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1107  		else if (io_data->read && io_data->status > 0)
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1108  			ret = __ffs_epfile_read_data(epfile, data, io_data->status,
-c662a31be755f5e drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1109  						     &io_data->data);
-c662a31be755f5e drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-05-21  1110  		else
-fb1f16d74e263ba drivers/usb/gadget/function/f_fs.c Linyu Yuan            2022-06-10  1111  			ret = io_data->status;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1112  		goto error_mutex;
-30bf90ccdec1da9 drivers/usb/gadget/function/f_fs.c Vincent Pelletier     2017-11-26  1113  	} else if (!(req = usb_ep_alloc_request(ep->ep, GFP_ATOMIC))) {
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1114  		ret = -ENOMEM;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1115  	} else {
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1116  		if (io_data->use_sg) {
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1117  			req->buf = NULL;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1118  			req->sg	= io_data->sgt.sgl;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1119  			req->num_sgs = io_data->sgt.nents;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1120  		} else {
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1121  			req->buf = data;
-d2450c6937018d4 drivers/usb/gadget/function/f_fs.c Peter Chen            2019-12-12  1122  			req->num_sgs = 0;
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1123  		}
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1124  		req->length = data_len;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1125  
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1126  		io_data->buf = data;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1127  		io_data->ep = ep->ep;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1128  		io_data->req = req;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1129  		io_data->ffs = epfile->ffs;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1130  
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1131  		req->context  = io_data;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1132  		req->complete = ffs_epfile_async_io_complete;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1133  
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1134  		ret = usb_ep_queue(ep->ep, req, GFP_ATOMIC);
-8704fd73bf5658b drivers/usb/gadget/function/f_fs.c Greg Kroah-Hartman    2020-11-27  1135  		if (ret) {
-f63ec55ff904b2f drivers/usb/gadget/function/f_fs.c Sriharsha Allenki     2020-03-26  1136  			io_data->req = NULL;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1137  			usb_ep_free_request(ep->ep, req);
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1138  			goto error_lock;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1139  		}
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1140  
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1141  		ret = -EIOCBQUEUED;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1142  		/*
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1143  		 * Do not kfree the buffer in this function.  It will be freed
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1144  		 * by ffs_user_copy_worker.
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1145  		 */
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1146  		data = NULL;
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1147  	}
-48968f8d5f2234f drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-03-10  1148  
-48968f8d5f2234f drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-03-10  1149  error_lock:
-48968f8d5f2234f drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-03-10  1150  	spin_unlock_irq(&epfile->ffs->eps_lock);
-ae76e13477d8de0 drivers/usb/gadget/function/f_fs.c Michal Nazarewicz     2016-01-04  1151  error_mutex:
-48968f8d5f2234f drivers/usb/gadget/f_fs.c          Robert Baldyga        2014-03-10  1152  	mutex_unlock(&epfile->mutex);
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1153  error:
-73103c7f958b995 drivers/usb/gadget/function/f_fs.c Fei Yang              2019-03-19  1154  	if (ret != -EIOCBQUEUED) /* don't free if there is iocb queued */
-772a7a724f69d25 drivers/usb/gadget/function/f_fs.c Andrzej Pietrasiewicz 2018-11-14  1155  		ffs_free_buffer(io_data);
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1156  	return ret;
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1157  }
-ddf8abd2599491c drivers/usb/gadget/f_fs.c          Michal Nazarewicz     2010-05-05  1158  
+:::::: The code at line 1560 was first introduced by commit
+:::::: fa9f7efe9ea9f6cb226fce315f241dd0ff670c92 remoteproc: ti_k3_r5: Simplify with dev_err_probe()
 
-:::::: The code at line 1021 was first introduced by commit
-:::::: c993c39b86398c627afda36b45dc92de655e213e gadget/function/f_fs.c: use put iov_iter into io_data
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+:::::: CC: Mathieu Poirier <mathieu.poirier@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
