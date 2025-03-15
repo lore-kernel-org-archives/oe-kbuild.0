@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583DF1F755E
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 14:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB661DFED
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Mar 2025 15:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742047801; cv=none; b=hkX8DAWpJVjX97V0//jd4XE2bnbtDUl/Ta3FM8ynUDeDeS+Sq+BGq3Ltwjq2/1nIfY7lpasoa7FPD0f2H41dS5D/SIqhmfN3mvuYAUclmLATFrmbI+erLpIq8j67+LC+6K3u6AN3XVro5Mk3374BqQDIBC8tJjRhVRXwz8FuwKw=
+	t=1742052815; cv=none; b=UyLW6zz0hL10ipq+R/x4S3iwXUuL1FvDrhk25LGd+vPNxSEY5oxvnRWIBv9Kc1/JQn3WMy706HihK9Zk6dxTTgjL/77TN0s5b8Z+zn1zNGxkyYT98IAmvFF942ktolY81Cj7V49kS6Cexhxk/ENY1gS7MrI8rVg2cDOBTH24iLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742047801; c=relaxed/simple;
-	bh=iYqEIQjkb+2HFMU/xpW0ERcXUge3nRLe1jneXhRiQe4=;
+	s=arc-20240116; t=1742052815; c=relaxed/simple;
+	bh=TsNKpfUzuK2juLZJakgTZEMn3jp37yCLjU/jCqBFK4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KJbSRPi8t7OuJrrIGCFokHw2MsaE14adEznm6JeCz0QicABv4QBFpKvftsMJ7RcAd5QsNYCsuV/LxHngiBzPA6H1Y7USrJWeZJwyJX8UshC1OgCR9MFuCIwiRxdR66VprMjppympuetjxElKyxazbb8pphrAnFbDsRAFLqUCZs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nYOmFYl+; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=IrYu1Aj7dh//LVuuCoLZy8dQ91im3J7VtbvYQliIPvywvUbVbo5VsQMaE32/N9GAQwkzCIMafdufgwv+qO6cC7UWNGToR156D0bszB6sVWW+fLOYW9GLVG1xvP5mXKoi8zkjgcwLmOQnqAEPbmSq+AibOZKMv7iY57YnL9ViiVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEdaZ2IW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nYOmFYl+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEdaZ2IW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742047799; x=1773583799;
+  t=1742052813; x=1773588813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iYqEIQjkb+2HFMU/xpW0ERcXUge3nRLe1jneXhRiQe4=;
-  b=nYOmFYl+wXyg4KaL3s5eorstAp5MXjc0ncuIpuSbzVRNaHf3K/OxiClK
-   7A4mwTg7xXASnAMIIJcdRkYmJ38fL8i84xNKaVUOEML6oFsl7MGV7eEnT
-   NC8L9B9h5w5v4k1NtP1JIagza6syv/0B0Wa99pb0IUv2KhhoVAvTUOaS7
-   Wff05VuC+TmhsBpSf3iHhZFFMUUglKi5eJWjAwYnY+q5ffC5ad+gmy6uS
-   R2Zt0bZ6rJc9mbNG/f9U1R802ZTmKAzlLv8Y5cnis2FyLw1dfgPoCx4uO
-   P7joFqLcGVQbvJFsB0eE6awDCuIIlYINnTdDY8eY4aTCY9bz2wvdmoxwD
-   A==;
-X-CSE-ConnectionGUID: /6mNRH5CQXi6WSer22eKKA==
-X-CSE-MsgGUID: tH72qosSTHSwHRaN2QFQSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="46976046"
+  bh=TsNKpfUzuK2juLZJakgTZEMn3jp37yCLjU/jCqBFK4g=;
+  b=LEdaZ2IWkPLA0aIHuGhjsq2BhLlOYDjKHP49krwMiBcNHkwM66scQusr
+   CYuGdFbcQrupnUt6hZ5IYi4eFiTW7yqBjn8GFpqpWH4IjIwRbpLacb5j1
+   WcboP9EIKe3Jq/S/HHXNZX5GMMnIO7ZDp+tEa84aFY7GkTa5eC9F80K/V
+   cUIb9AokdWbFplxA7PRuft2HFBBq9WaXVlpIfTtr3RB4vK5TLPgAnEKX8
+   rQP8ri0bmFD6Le9aVsaWAG16QIwKHC2xUBG+u38XVSKiX4keuCfu34o+3
+   NOAtAeff+RJ9e5y8xUMNXa0V915IRcVy/YIMlCAS+qZIEM2SsmTJJHvVY
+   Q==;
+X-CSE-ConnectionGUID: bgMp+B8yQVGlU2XJlC+OsQ==
+X-CSE-MsgGUID: A0YBYdMDRdC/dtwzbAuwLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="43065286"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="46976046"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 07:09:58 -0700
-X-CSE-ConnectionGUID: MBXar3/MRKaTlE+t2XPbew==
-X-CSE-MsgGUID: 2aL0ospfQ2O6GsuPb/mESg==
+   d="scan'208";a="43065286"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 08:33:33 -0700
+X-CSE-ConnectionGUID: a8v74GIXR0GzSe4bLETQpw==
+X-CSE-MsgGUID: fQ0i/QCYSvWSPfIGUNRJhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="126726715"
+   d="scan'208";a="126410882"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2025 07:09:57 -0700
+  by orviesa003.jf.intel.com with ESMTP; 15 Mar 2025 08:33:32 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttSD4-000BNf-2I;
-	Sat, 15 Mar 2025 14:09:54 +0000
-Date: Sat, 15 Mar 2025 22:09:36 +0800
+	id 1ttTVx-000BPj-1z;
+	Sat, 15 Mar 2025 15:33:29 +0000
+Date: Sat, 15 Mar 2025 23:33:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [soc:imx/dt64 66/84]
- arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb:
- clock-controller@30380000: 'fsl,operating-mode' does not match any of the
- regexes: 'pinctrl-[0-9]+'
-Message-ID: <202503152216.fdnlXbwG-lkp@intel.com>
+Subject: [morimoto:sound-msiof-2025-03-14 7/8]
+ arch/arm64/boot/dts/renesas/r8a779g3-lcb.dtb: spi@e6ea0000: Unevaluated
+ properties are not allowed ('port' was unexpected)
+Message-ID: <202503152314.tbuASZ1o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,40 +69,41 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: arm@kernel.org
-TO: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: Ahmad Fatoum <a.fatoum@pengutronix.de>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git imx/dt64
-head:   5a690619426fc4b09c7fd3f40d3a69264ef3db0f
-commit: 34662050b023399c5de6ddcb4de121b24297bcc9 [66/84] arm64: dts: imx8mp-skov: add basic board as fallback
-:::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250312 (https://download.01.org/0day-ci/archive/20250315/202503152216.fdnlXbwG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/morimoto/linux sound-msiof-2025-03-14
+head:   4a682853dba80568b028cfd58b4b96bae534c280
+commit: 010d136b642fbf45d827ae232e4a852d71d0d4d0 [7/8] hoge
+:::::: branch date: 33 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250315 (https://download.01.org/0day-ci/archive/20250315/202503152314.tbuASZ1o-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
 dtschema version: 2025.3.dev4+g7b57675
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503152216.fdnlXbwG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503152314.tbuASZ1o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503152216.fdnlXbwG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503152314.tbuASZ1o-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,ls2088a' was expected
-   	'fsl,lx2160a' was expected
-   	'solidrun,lx2160a-cex7' was expected
-   	'solidrun,lx2162a-som' was expected
-   	'tq,lx2160a-tqmlx2160a' was expected
-   	'nxp,s32g2' was expected
-   	'nxp,s32g3' was expected
-   	'fsl,s32v234' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: /: failed to match any schema with compatible: ['skov,imx8mp-skov-basic', 'fsl,imx8mp']
->> arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: clock-controller@30380000: 'fsl,operating-mode' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/clock/imx8m-clock.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1357.12-1367.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1386.12-1396.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1415.12-1425.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1444.12-1454.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1473.12-1483.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1502.12-1512.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1531.12-1541.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1560.12-1570.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2244.12-2254.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g3-lcb.dtb: spi@e6ea0000: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/spi/renesas,sh-msiof.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g3-lcb.dtb: can-phy0: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,mcp2558fd', 'ti,tcan1042'] is too long
+   	'microchip,mcp2558fd' is not one of ['microchip,ata6561']
+   	'microchip,mcp2558fd' is not one of ['ti,tcan1042', 'ti,tcan1043', 'nxp,tjr1443']
+   	from schema $id: http://devicetree.org/schemas/phy/ti,tcan104x-can.yaml#
+   arch/arm64/boot/dts/renesas/r8a779g3-lcb.dtb: /can-phy0: failed to match any schema with compatible: ['microchip,mcp2558fd', 'ti,tcan1042']
 
 -- 
 0-DAY CI Kernel Test Service
