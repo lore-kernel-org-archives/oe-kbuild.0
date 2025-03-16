@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B6E42A96
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 08:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E233A8C1F
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 09:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742112861; cv=none; b=dN3P+qWLeVGLD1PaWjneWStmqmsWbLVKBS/8r7cLDZWqGhDZPuAHwiif/ZGT4TuVQdKDx2ZK6/+2gA2xFFdxTaXqRxOB6EJwGjOosI6ygvnHL7JJ2oiQYFDEWLyPReGGBydk6Kw/jALLYF4+9Loq2LO+wHtYsU7jUDfqsYYnoOo=
+	t=1742117327; cv=none; b=taWm1YNFMi119K3YKcLJ6fBaYkuNw2QBwuos0PCbCv4T6Hvjj55dARhewiRkTq+P6o0uabLCOjME14rGomNkTczPkip52nA4T3BoQx66Xt979JcwpqaZK2E/LRpVSIDX9aCDRZ8KDVh70UxFnheMuz7uLGBRbFy4s0l55dE7vLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742112861; c=relaxed/simple;
-	bh=c8gq69QL1W/CJykDwu+lF0pK3YoN+Xmlg8DFruxF+j4=;
+	s=arc-20240116; t=1742117327; c=relaxed/simple;
+	bh=kLVmoDTptokBKUDPwZQZ6zK4dGtMLWZYHO/15TtdfJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IvWgqkOVCh3uwPxWFINz3zmPgu6S3wrLNUl5S2AXYRGAZS5wye5qqxMzOuc/SOUjNWt6WsYlfiyHlr+fx4W2yRHClMvXUqkkwEOK7ZXeQC9SKiBlX+72MCzI4XPTSSVbbFd2Y83mbdNRANcmQB6sbMtyqjme2e/k4ecWnM9yD3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb7Tv6O5; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=AX6QGTIBCb35/6K8yQl376XswIDKO/iqEXOO0hk5w8CgNJy4MIui6ZujWsvOrAHa9NXe96Ij/souH2nJ1l/iZRTwsTRFkx/avpHl8QOZFWQSDV39WNeZd+ElwuLeghC9rX7hFrFbhWaS8L7S+m8IPyzcz4hHo4xOOEyn2DpkBTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmlcJYT2; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb7Tv6O5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmlcJYT2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742112859; x=1773648859;
+  t=1742117324; x=1773653324;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c8gq69QL1W/CJykDwu+lF0pK3YoN+Xmlg8DFruxF+j4=;
-  b=lb7Tv6O5ybzsd4syKnNgKosqhgYv4lm+kO3c4Z+Ofa+9q19sr5x4pWNB
-   Kce7Tl1+WAieqQquBmozExrGRAfvjQxwNcaDEERvD8noEXUvTIpGCt7Cn
-   IpLRQ7fSuXJw+QVJ287vx0B0HkrCJuVUAI2hRxeVLO3fgS1Ei4gk0+ek6
-   dmqd4jy1bO+/MPk7+ZqZMddQBV54FqDgalnLYCeK/jU8C+3b9P2g/IgXI
-   1GKovoVyQlBQ3NtsLbXJ6o13JRyc/Jyl3di2MXtsPKPSCjKxpaIbpts7x
-   HsN/nEQO+0ZnR7J/8vYI+5CZT+WFgKJesWBRHxtk8OkXMMRg+inlFj7QC
-   g==;
-X-CSE-ConnectionGUID: wVZjsCPDQ02PnOqgfaK7Qg==
-X-CSE-MsgGUID: 2OwSLvhUTnCEFl6G+RphKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="47116814"
+  bh=kLVmoDTptokBKUDPwZQZ6zK4dGtMLWZYHO/15TtdfJk=;
+  b=AmlcJYT2RHvfmoSqqNWZtgcXvk/eLh4Vq1vRI+8+awOLACRC7y6Jj5F9
+   q24BqjyJ2g1KZoge1Q8DxznpiP+/y+2CU6b1WEOdplkpe2y2ekiQJ1FLx
+   WWy4ZkVLzjgvZTMnJOyq2txS3DV/dTPD9ivjt6CbSomKMbuoxVDLslKoJ
+   8CfSiYfqdsNoVu0jT+0vddeYLrEj3T6QaeucbNj5SR1BPTWHrxL/0ybsS
+   S9L7ZUenotsk9gBYAHIyZDBROLkr32e4NsW0wo2pgRG2WFDWY8jeItz0/
+   ZXzINn/xe9By+XauNQNibxQrt2BiklWo+Uvsoqb7SzOUYqBYaE2Y286Ib
+   w==;
+X-CSE-ConnectionGUID: F6JHFO8ERBSHcwu3C9fUVg==
+X-CSE-MsgGUID: Kr7aDlLAQAiW7SFTmAPamQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="30812145"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="47116814"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 01:14:19 -0700
-X-CSE-ConnectionGUID: cVrwowWdSSSubqcav1RMPQ==
-X-CSE-MsgGUID: dEsf3BKIQSmDNkQY3PSROw==
+   d="scan'208";a="30812145"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 02:28:42 -0700
+X-CSE-ConnectionGUID: 3r6VUTISQnyvjgIfAPlcCQ==
+X-CSE-MsgGUID: IW0qGsZSQeaMZcE/vNcIoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="121858992"
+   d="scan'208";a="126536985"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Mar 2025 01:14:18 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Mar 2025 02:28:41 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttj8S-000BuN-0C;
-	Sun, 16 Mar 2025 08:14:16 +0000
-Date: Sun, 16 Mar 2025 16:14:02 +0800
+	id 1ttkIQ-000Bvb-2F;
+	Sun, 16 Mar 2025 09:28:38 +0000
+Date: Sun, 16 Mar 2025 17:27:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-Message-ID: <202503161513.yeRBTxjg-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [koverstreet-bcachefs:bcachefs-testing 137/160]
+ fs/bcachefs/sysfs.c:670:47-54: ERROR: ca is NULL but dereferenced.
+Message-ID: <202503161720.QjMsmKAa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,80 +64,93 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
-References: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
-TO: Marcelo Schmitt <marcelo.schmitt@analog.com>
-TO: linux-iio@vger.kernel.org
-TO: linux-doc@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: jic23@kernel.org
-CC: lars@metafoo.de
-CC: Michael.Hennerich@analog.com
-CC: corbet@lwn.net
-CC: marcelo.schmitt1@gmail.com
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Marcelo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on af94f401e26f686f7391ce79b38a6129417c22dc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4000-Add-support-for-SPI-offload/20250315-012316
-base:   af94f401e26f686f7391ce79b38a6129417c22dc
-patch link:    https://lore.kernel.org/r/301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r072-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161513.yeRBTxjg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   6d7f54c162635934218ea0cede09f68e40e3bc2f
+commit: 864ff7743569d302f47681629973680dd52d5584 [137/160] bcachefs: Filesystem discard option now propagates to devices
+:::::: branch date: 8 hours ago
+:::::: commit date: 32 hours ago
+config: mips-randconfig-r064-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161720.QjMsmKAa-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503161513.yeRBTxjg-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503161720.QjMsmKAa-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/adc/ad4000.c:862 ad4000_spi_offload_setup() warn: passing zero to 'PTR_ERR'
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/sysfs.c:670:47-54: ERROR: ca is NULL but dereferenced.
+   fs/bcachefs/sysfs.c:670:63-70: ERROR: ca is NULL but dereferenced.
 
-Old smatch warnings:
-drivers/iio/adc/ad4000.c:556 ad4000_fill_scale_tbl() warn: unsigned '__x' is never less than zero.
+vim +670 fs/bcachefs/sysfs.c
 
-vim +/PTR_ERR +862 drivers/iio/adc/ad4000.c
-
-e74205e82803041 Marcelo Schmitt 2025-03-14  845  
-e74205e82803041 Marcelo Schmitt 2025-03-14  846  static int ad4000_spi_offload_setup(struct iio_dev *indio_dev,
-e74205e82803041 Marcelo Schmitt 2025-03-14  847  				    struct ad4000_state *st)
-e74205e82803041 Marcelo Schmitt 2025-03-14  848  {
-e74205e82803041 Marcelo Schmitt 2025-03-14  849  	struct spi_device *spi = st->spi;
-e74205e82803041 Marcelo Schmitt 2025-03-14  850  	struct device *dev = &spi->dev;
-e74205e82803041 Marcelo Schmitt 2025-03-14  851  	struct dma_chan *rx_dma;
-e74205e82803041 Marcelo Schmitt 2025-03-14  852  	int ret;
-e74205e82803041 Marcelo Schmitt 2025-03-14  853  
-e74205e82803041 Marcelo Schmitt 2025-03-14  854  	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
-e74205e82803041 Marcelo Schmitt 2025-03-14  855  							   SPI_OFFLOAD_TRIGGER_PERIODIC);
-e74205e82803041 Marcelo Schmitt 2025-03-14  856  	if (IS_ERR(st->offload_trigger))
-e74205e82803041 Marcelo Schmitt 2025-03-14  857  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-e74205e82803041 Marcelo Schmitt 2025-03-14  858  				     "Failed to get offload trigger\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  859  
-e74205e82803041 Marcelo Schmitt 2025-03-14  860  	ret = ad4000_set_sampling_freq(st, st->max_rate_hz);
-e74205e82803041 Marcelo Schmitt 2025-03-14  861  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14 @862  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-e74205e82803041 Marcelo Schmitt 2025-03-14  863  				     "Failed to set sampling frequency\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  864  
-e74205e82803041 Marcelo Schmitt 2025-03-14  865  	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
-e74205e82803041 Marcelo Schmitt 2025-03-14  866  	if (IS_ERR(rx_dma))
-e74205e82803041 Marcelo Schmitt 2025-03-14  867  		return dev_err_probe(dev, PTR_ERR(rx_dma),
-e74205e82803041 Marcelo Schmitt 2025-03-14  868  				     "Failed to get offload RX DMA\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  869  
-e74205e82803041 Marcelo Schmitt 2025-03-14  870  	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-e74205e82803041 Marcelo Schmitt 2025-03-14  871  							  IIO_BUFFER_DIRECTION_IN);
-e74205e82803041 Marcelo Schmitt 2025-03-14  872  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14  873  		return dev_err_probe(dev, ret, "Failed to setup DMA buffer\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  874  
-e74205e82803041 Marcelo Schmitt 2025-03-14  875  	return 0;
-e74205e82803041 Marcelo Schmitt 2025-03-14  876  }
-e74205e82803041 Marcelo Schmitt 2025-03-14  877  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  618  
+35e8417972f9735 Kent Overstreet 2025-03-11  619  static ssize_t sysfs_opt_store(struct bch_fs *c,
+35e8417972f9735 Kent Overstreet 2025-03-11  620  			       struct bch_dev *ca,
+35e8417972f9735 Kent Overstreet 2025-03-11  621  			       enum bch_opt_id id,
+35e8417972f9735 Kent Overstreet 2025-03-11  622  			       const char *buf, size_t size)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  623  {
+35e8417972f9735 Kent Overstreet 2025-03-11  624  	const struct bch_option *opt = bch2_opt_table + id;
+35e8417972f9735 Kent Overstreet 2025-03-11  625  	int ret = 0;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  626  
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  627  	/*
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  628  	 * We don't need to take c->writes for correctness, but it eliminates an
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  629  	 * unsightly error message in the dmesg log when we're RO:
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  630  	 */
+d94189ad568f6cb Kent Overstreet 2023-02-09  631  	if (unlikely(!bch2_write_ref_tryget(c, BCH_WRITE_REF_sysfs)))
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  632  		return -EROFS;
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  633  
+a94f317aaacb7f1 Kent Overstreet 2025-03-13  634  	down_write(&c->state_lock);
+a94f317aaacb7f1 Kent Overstreet 2025-03-13  635  
+35e8417972f9735 Kent Overstreet 2025-03-11  636  	char *tmp = kstrdup(buf, GFP_KERNEL);
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  637  	if (!tmp) {
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  638  		ret = -ENOMEM;
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  639  		goto err;
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  640  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  641  
+35e8417972f9735 Kent Overstreet 2025-03-11  642  	u64 v;
+35e8417972f9735 Kent Overstreet 2025-03-11  643  	ret =   bch2_opt_parse(c, opt, strim(tmp), &v, NULL) ?:
+35e8417972f9735 Kent Overstreet 2025-03-11  644  		bch2_opt_check_may_set(c, ca, id, v);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  645  	kfree(tmp);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  646  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  647  	if (ret < 0)
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  648  		goto err;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  649  
+35e8417972f9735 Kent Overstreet 2025-03-11  650  	bch2_opt_set_sb(c, ca, opt, v);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  651  	bch2_opt_set_by_id(&c->opts, id, v);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  652  
+d7e77f53e90e1eb Kent Overstreet 2024-01-16  653  	if (v &&
+d7e77f53e90e1eb Kent Overstreet 2024-01-16  654  	    (id == Opt_background_target ||
+f4a9c8c16ff8e90 Kent Overstreet 2025-03-13  655  	     (id == Opt_foreground_target && !c->opts.background_target) ||
+d7e77f53e90e1eb Kent Overstreet 2024-01-16  656  	     id == Opt_background_compression ||
+d7e77f53e90e1eb Kent Overstreet 2024-01-16  657  	     (id == Opt_compression && !c->opts.background_compression)))
+fb3f57bb1177ae4 Kent Overstreet 2023-10-20  658  		bch2_set_rebalance_needs_scan(c, 0);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  659  
+c22508470439014 Kent Overstreet 2024-10-24  660  	if (v && id == Opt_rebalance_enabled)
+c22508470439014 Kent Overstreet 2024-10-24  661  		rebalance_wakeup(c);
+c22508470439014 Kent Overstreet 2024-10-24  662  
+c22508470439014 Kent Overstreet 2024-10-24  663  	if (v && id == Opt_copygc_enabled &&
+c22508470439014 Kent Overstreet 2024-10-24  664  	    c->copygc_thread)
+c22508470439014 Kent Overstreet 2024-10-24  665  		wake_up_process(c->copygc_thread);
+c22508470439014 Kent Overstreet 2024-10-24  666  
+864ff7743569d30 Kent Overstreet 2025-03-13  667  	if (id == Opt_discard && !ca) {
+864ff7743569d30 Kent Overstreet 2025-03-13  668  		mutex_lock(&c->sb_lock);
+864ff7743569d30 Kent Overstreet 2025-03-13  669  		for_each_member_device(c, ca)
+864ff7743569d30 Kent Overstreet 2025-03-13 @670  			opt->set_member(bch2_members_v2_get_mut(ca->disk_sb.sb, ca->dev_idx), v);
+864ff7743569d30 Kent Overstreet 2025-03-13  671  
+864ff7743569d30 Kent Overstreet 2025-03-13  672  		bch2_write_super(c);
+864ff7743569d30 Kent Overstreet 2025-03-13  673  		mutex_unlock(&c->sb_lock);
+864ff7743569d30 Kent Overstreet 2025-03-13  674  	}
+864ff7743569d30 Kent Overstreet 2025-03-13  675  
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  676  	ret = size;
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  677  err:
+a94f317aaacb7f1 Kent Overstreet 2025-03-13  678  	up_write(&c->state_lock);
+d94189ad568f6cb Kent Overstreet 2023-02-09  679  	bch2_write_ref_put(c, BCH_WRITE_REF_sysfs);
+f0cc5d2931378b7 Kent Overstreet 2022-03-06  680  	return ret;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  681  }
+35e8417972f9735 Kent Overstreet 2025-03-11  682  
 
 -- 
 0-DAY CI Kernel Test Service
