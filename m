@@ -1,172 +1,157 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E0B2629D
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 19:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8D7176AC5
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 20:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742153687; cv=none; b=dTkQbVLhQOyfe5OqZIZC2q9HuxdBy/Pf9FzV6wnK4CVvrAu1WWolSJ3foTKOft2TX5LdsbxJwecpmR51EBnInROvo3ED+8OjQiK+No7DOTdg/nGukeRqSY+h29N1sSQ3i9/6hvMdBh+K3TY6pcGqFkwVUUVcABGfkXukcFATHos=
+	t=1742156762; cv=none; b=E+2b9DI8DmMqYiCeA5AXNL4WC0lvC+AIxFoxbSgB2x+1C8rcAQrZinNjmLbbVx8V1aSNYLNbJHgI3Z8H/4+YwNiisZRyXk7jM9AlNMFpjq7u0prJ5sCwCkYez+0eOCkb+GXAtcMjI8quSR3s7KLXLfwEYplfTdj7k8oQOWy3dD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742153687; c=relaxed/simple;
-	bh=aYBdW9ZSyOHNX8CjdTXkHvN+1oKH9yL307EgeuWDM8s=;
+	s=arc-20240116; t=1742156762; c=relaxed/simple;
+	bh=qLNHjGl6MAG5XLiT2LGm7IWTZzZ8JZtOcVuDekzcPzg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IUVrFvcTtqTYnyEwBdMu5/4IBjjetBfrkMK6NNpCcr07BPkndQ1mf6bUtyUmuYMt8kDTf+mD9pF+j3wt93oWt/0BEAqPxqJ0JrKI2MGG7xhdIS3H2iJ5cSfjkP2WJ5b+a0slRq8qM3zwDYTW3Cb/Fii1UFpTvu3B68QR+U6Xk3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCEBKt2I; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=d1jNLTMYA197Ol2alKD+82I3+rtcsjRabagJfT6HP4L482fnykS8B8Uz3IJOZGOz9fV8Y3/ZeOHt5RHYV8+4i9f4swJdkl/Jb+vbLr2tTp626ZZEPX90Cfnm0al/XLvNOdp6VG6rUzK7UtPvJgcb2zKpiyN1OVB/x/WpvmLe4TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnbK6TVt; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCEBKt2I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnbK6TVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742153685; x=1773689685;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aYBdW9ZSyOHNX8CjdTXkHvN+1oKH9yL307EgeuWDM8s=;
-  b=eCEBKt2I5KRLxYIVgdz23eDMN+0GwJ/PqC0KgQv8GIr2zHeajzBUyTgS
-   75a/+T0TnwJ2DsnMw8gF0dGdLxO41t9o6HHGD42txSlqjQrGWZdvC5Qs3
-   /QssEY/OtGNrYDTYlwYa9bWxwdfd6mT90ZmCIfjvdmj01J7CsJYjHApru
-   B/ZOrDNw6kQALEbroPsMFgKL5UhC0VU9e0upM3/PZdklZjbmZx5QysNLj
-   oDe8KzaXvOfDpXejwKZ6DVnApdcZkC+O4x+zxUwqCACz7mm76fkK2v0On
-   0K4/gXy/aj7dtRSD81WjrnUF97MPuvvjThP6Iwo6Cya3ktXa9IjkUV/mf
+  t=1742156761; x=1773692761;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qLNHjGl6MAG5XLiT2LGm7IWTZzZ8JZtOcVuDekzcPzg=;
+  b=dnbK6TVtRrhmw8jDWZ5ai84NeL45+NDM1x4gt2+JpNIZek4R7EOpffoF
+   holl27S27UpRTCu/cpyBJsmucGIGp7zhCvGqig/d9bYt1X/bHMNU1pV7V
+   8olI6tNR/je+F3sy4I+kXIQlVEiJroJgFWVTUlNGHeBm5WB4Uc5CxmYIR
+   Xjmxy0OtrapulkppDy63+X6XVqS1RMwQWvodYBF0GG8QbI90GZOf/DOip
+   YCIOXZmio0S3Owz23lVf4j7D6vOgWcm3GgO2zQlIT7i7ZOCQgz2VRl+5T
+   Jpozz/qHP86Oq0/tDWEysc3Wj5sYZSjDAHjCxRZmz5vXJSe+OE/+gVK+B
    g==;
-X-CSE-ConnectionGUID: fwwD0a1pRKqkH2AocaYcLg==
-X-CSE-MsgGUID: +r9I+ov0QYikGpDuTs1//A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="30829760"
+X-CSE-ConnectionGUID: 9c3KtHk3TBCCxDxaOSx1NQ==
+X-CSE-MsgGUID: kK0hqUFBSlevbb0e7CCDZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="30831092"
 X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="30829760"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 12:34:44 -0700
-X-CSE-ConnectionGUID: KeG5OZENQWCyz4x+Zdz7mw==
-X-CSE-MsgGUID: ZAXw4hqMSEu6qGqc/2LvVQ==
+   d="scan'208";a="30831092"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 13:26:00 -0700
+X-CSE-ConnectionGUID: RwM7bJX3SUCQu6sEmV/wRQ==
+X-CSE-MsgGUID: bWFYn5ZKRkqrbhvb3YqHhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="121469511"
+   d="scan'208";a="158900507"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Mar 2025 12:34:43 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Mar 2025 13:25:58 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tttkv-000CDP-0O;
-	Sun, 16 Mar 2025 19:34:41 +0000
-Date: Mon, 17 Mar 2025 03:34:29 +0800
+	id 1ttuYV-000CE7-38;
+	Sun, 16 Mar 2025 20:25:55 +0000
+Date: Mon, 17 Mar 2025 04:25:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/5] power: supply: core: add function to get supplies
- from fwnode
-Message-ID: <202503170343.AW93SIMu-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 1/4] dt-bindings: mtd: raw-nand-chip: Relax node name
+ pattern
+Message-ID: <202503170426.DryKGsbf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250312-batt_ops-v1-2-88e0bb3129fd@google.com>
-References: <20250312-batt_ops-v1-2-88e0bb3129fd@google.com>
-TO: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
-TO: Rob Herring <robh@kernel.org>
+In-Reply-To: <20250313-ppcyaml-elbc-v4-1-55903722d9ea@posteo.net>
+References: <20250313-ppcyaml-elbc-v4-1-55903722d9ea@posteo.net>
+TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
 TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Rob Herring <robh@kernel.org>
 TO: Conor Dooley <conor+dt@kernel.org>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Badhri Jagan Sridharan <badhri@google.com>
-TO: Sebastian Reichel <sre@kernel.org>
-TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-TO: "Rafael J. Wysocki" <rafael@kernel.org>
-TO: Len Brown <len.brown@intel.com>
-TO: Pavel Machek <pavel@kernel.org>
-CC: devicetree@vger.kernel.org
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Richard Weinberger <richard@nod.at>
+TO: Vignesh Raghavendra <vigneshr@ti.com>
+TO: Crystal Wood <oss@buserror.net>
+TO: Madhavan Srinivasan <maddy@linux.ibm.com>
+TO: Michael Ellerman <mpe@ellerman.id.au>
+TO: Nicholas Piggin <npiggin@gmail.com>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+TO: Naveen N Rao <naveen@kernel.org>
+CC: Frank Li <Frank.Li@nxp.com>
 CC: linux-kernel@vger.kernel.org
-CC: linux-usb@vger.kernel.org
-CC: linux-pm@vger.kernel.org
-CC: RD Babiera <rdbabiera@google.com>
-CC: Kyle Tso <kyletso@google.com>
-CC: Amit Sunil Dhamne <amitsd@google.com>
+CC: devicetree@vger.kernel.org
+CC: linux-mtd@lists.infradead.org
+CC: linuxppc-dev@lists.ozlabs.org
+CC: "J. Neuschäfer" <j.ne@posteo.net>
 
-Hi Amit,
+Hi Neuschäfer,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 80e54e84911a923c40d7bee33a34c1b4be148d7a]
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Sunil-Dhamne-via-B4-Relay/dt-bindings-connector-add-fixed-batteries-property/20250313-074635
-base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-patch link:    https://lore.kernel.org/r/20250312-batt_ops-v1-2-88e0bb3129fd%40google.com
-patch subject: [PATCH 2/5] power: supply: core: add function to get supplies from fwnode
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: riscv-randconfig-r073-20250316 (https://download.01.org/0day-ci/archive/20250317/202503170343.AW93SIMu-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-mtd-raw-nand-chip-Relax-node-name-pattern/20250314-053651
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250313-ppcyaml-elbc-v4-1-55903722d9ea%40posteo.net
+patch subject: [PATCH v4 1/4] dt-bindings: mtd: raw-nand-chip: Relax node name pattern
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-052-20250315 (https://download.01.org/0day-ci/archive/20250317/202503170426.DryKGsbf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev4+g7b57675
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250317/202503170426.DryKGsbf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503170343.AW93SIMu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503170426.DryKGsbf-lkp@intel.com/
 
-smatch warnings:
-drivers/power/supply/power_supply_core.c:649 power_supply_get_by_fwnode_reference_array() error: uninitialized symbol 'ret'.
-
-vim +/ret +649 drivers/power/supply/power_supply_core.c
-
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  600  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  601  /**
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  602   * power_supply_get_by_fwnode_reference_array() - Returns an array of power
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  603   * supply objects associated with each fwnode reference present in the property
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  604   * @fwnode: Pointer to fwnode to lookup property
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  605   * @property: Name of property holding references
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  606   * @psy: Resulting array of power_supply pointers. To be provided by the caller.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  607   * @size: size of power_supply pointer array.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  608   *
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  609   * If power supply was found, it increases reference count for the
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  610   * internal power supply's device. The user should power_supply_put()
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  611   * after usage.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  612   *
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  613   * Return: On success returns the number of power supply objects filled
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  614   * in the @psy array.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  615   * -EOVERFLOW when size of @psy array is not suffice.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  616   * -EINVAL when @psy is NULL or @size is 0.
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  617   * -ENODATA when fwnode does not contain the given property
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  618   */
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  619  int power_supply_get_by_fwnode_reference_array(struct fwnode_handle *fwnode,
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  620  					       const char *property,
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  621  					       struct power_supply **psy,
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  622  					       ssize_t size)
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  623  {
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  624  	int ret, index, count = 0;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  625  	struct fwnode_reference_args args;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  626  	struct device *dev;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  627  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  628  	if (!psy || !size)
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  629  		return -EINVAL;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  630  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  631  	for (index = 0; index < size &&
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  632  	     !(ret = fwnode_property_get_reference_args(fwnode, property, NULL,
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  633  							0, index, &args));
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  634  	     ++index) {
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  635  		dev = class_find_device(&power_supply_class, NULL, args.fwnode,
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  636  					power_supply_match_fwnode);
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  637  		fwnode_handle_put(args.fwnode);
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  638  		if (!dev)
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  639  			continue;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  640  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  641  		if (count > size)
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  642  			return -EOVERFLOW;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  643  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  644  		psy[count] = dev_get_drvdata(dev);
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  645  		atomic_inc(&psy[count]->use_cnt);
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  646  		++count;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  647  	}
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  648  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12 @649  	if (ret != -ENOENT)
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  650  		return ret;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  651  
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  652  	return index ? count : -ENODATA;
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  653  }
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  654  EXPORT_SYMBOL_GPL(power_supply_get_by_fwnode_reference_array);
-0c8087f6d68b4cd Amit Sunil Dhamne 2025-03-12  655  
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: ohci@500000: Unevaluated properties are not allowed ('clock-names', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ohci@500000: failed to match any schema with compatible: ['atmel,at91rm9200-ohci', 'usb-ohci']
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ebi@10000000: failed to match any schema with compatible: ['atmel,at91sam9260-ebi']
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand-controller: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand-controller: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ebi@10000000/nand-controller: failed to match any schema with compatible: ['atmel,at91sam9260-nand-controller']
+>> arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand@40000000: 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+>> arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand@40000000: 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: i2c-gpio-0: 'sda-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: i2c-gpio-0: 'scl-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: ohci@500000: Unevaluated properties are not allowed ('clock-names', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ohci@500000: failed to match any schema with compatible: ['atmel,at91rm9200-ohci', 'usb-ohci']
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ebi@10000000: failed to match any schema with compatible: ['atmel,at91sam9260-ebi']
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand-controller: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand-controller: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ebi@10000000/nand-controller: failed to match any schema with compatible: ['atmel,at91sam9260-nand-controller']
+>> arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand@40000000: 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+>> arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand@40000000: 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: i2c-gpio-0: 'sda-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: i2c-gpio-0: 'scl-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
