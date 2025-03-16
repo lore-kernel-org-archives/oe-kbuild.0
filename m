@@ -1,71 +1,59 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A2F18C01D
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 10:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC02171E49
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 10:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742121141; cv=none; b=auwiVVCDskOpkDg4MGrIjJOU6EXsBprVISx0bPIuEnXv/6T2AXPi+OP4GVv+mRZhPN7WIW6sAqKyVDoCsuJQXMFsYtzI0CkkrvvAPon7e6zxSHBCxsUEEh0SwdNmBlI80/eaxzgfhepjYCTQ0wZxlR9LpPM38BX9fy5ytULsjEM=
+	t=1742122694; cv=none; b=Z1cS/zoKkVyoWAgILqQIqMdNwhpDzt3Ry1ntOS9HInXj8Uaa3Lvi3jKJQL1TXI2LZWKm4dPiC0jM1p9/dq+xsKg92dBz7xIKL/3j7xkPokeq/Ya1mZlizckQBrKZ8kb0UBAVMoUR+j7l1FsH7ftsXx4/t+fKW7eYIOXkaiBCvkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742121141; c=relaxed/simple;
-	bh=rrZy0viAniqPbhoR+1hQ7ijtZ9CkDKXykVMVhgwnyzA=;
+	s=arc-20240116; t=1742122694; c=relaxed/simple;
+	bh=reS7CHZKvTXU0F3ckQlWpiQr9I4dZ7tIzrEBM9wriwc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oUP9Nh63tIT2Ye/F/cyrSoo1y4zKiPGtOPVDX4wO2ZbgWJQ8BJQrwCjJtrY30QIv2w9+FIqF89SarSH4L1A101w0SUjF/uqAhJArahkqljDrLVSL3ERebU0J0UXpOci1NvVVgbPdntYZLrOf+mOJz4qNW+IITZMXQ196/nPx2qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fNqoGJzd; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=BJCvP4HKpfI9yjI7Rai3QhP7EOo187TNc3YqyrZSuPJitLumYXHUVHa64Lr4CdcujUEdpLst3nGE7vjDi4KqLxWktylx0EaXixyjlGXB+zuWGG2/bOquEJSCFboSZ6HDeif7YG2Yo8QFmixLooKTLZOPA71EpSMYXk9vz5mG5uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D72ZrP75; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fNqoGJzd"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so1914238f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 03:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742121137; x=1742725937; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HbB3Zun3gDrzT2BzlBXVO8tDPzz0kaoZWWFSKmDuYmw=;
-        b=fNqoGJzdUNmTxnj899UeWUaQoz5gjkZsRUMrwfcm5HFzXzjIzyCExBzZM2IrkA+udp
-         ACD7wxFK581/vsOwyzL5zO2kHWsJh6cQY00Gl9zLBSWorASlHm8oreavNQn5wg6vwcm+
-         6FpKTlaDQv9BoO+bMWk2aBrHBUa1rWsWIsQnIzTbDEACR2CI/P1blKCtTDpuadljz2jV
-         LFf+SxXCnnEZTmb/DdKX1KUX3Feqxc/g4D9CedEnqhcSPVS38bFzWbGGoSnbXqJys0iU
-         MfrxKC2Pb3lNhvxfAGUjZrGPpRg3lxmYBXdjH9UcrRE7D0a0Sgyxqcko6WdX+NH5td/b
-         70Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742121137; x=1742725937;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HbB3Zun3gDrzT2BzlBXVO8tDPzz0kaoZWWFSKmDuYmw=;
-        b=m8q3T+yuRLXRupMuZ+fJ3dTNzyQI/tJXgjkGhzQrhmQQHLbMoB42v7r13s7Rs8crGi
-         88Orih+uakdPi8qMNAfT3MeWhMEgdPB7MhpH5dTqGG8PlMKAET9uLnZNxxb6anfSsCBz
-         IuSDOSrV5Lq21PERPoS5z0P+m8hUkyoLSJV8RSXxfP83U8PlenIxBWVpUz72tc0Dx5BL
-         EdJITFZtAV1SMwrVh9gOQzvLrvTnCMCLUJpDb1sEEVUE5topwziXbtYH9OIwAhZSZrYW
-         B9UpEgYCW/lTFUbJKLtUgZhVCnyJkPgwb+MQGeox9rL9SWI/kRCqqBMawm2eIIlrLgxC
-         ibLQ==
-X-Gm-Message-State: AOJu0Yy54gSjMfNRGz625c3TxF6/o/JBdZJUaaUOoIfMPME9EymT7YnL
-	7EKdzSDe06ZRKPgSau5fT80KbTk50QdS3yjpJqUJ/PdFRkwrvCDSmUS+lCO7RqzjA6vhndCGQ26
-	I
-X-Gm-Gg: ASbGncu/5YhZsEj2S5mJIMusNJIPFQLRmjTFC2MXly/+ciIh5dC7/YSkjOyuf1+KJ8l
-	IqFkdjlmQjQUNZqoONT+gPUGL8BzTSAgsjexVpgEpfw/tevucBGnz18JmUYsgo2AWm0HeOgA5Us
-	RpyfnYjNf9aScerK9cIkmOxSmnBbjd/syISRx+tJBXI1Wl3QBhiUYgK9WXfymLzGMyW9ON5Vf7q
-	OqgbbqZn+yPUzcKaXp8z12omw6UEnp5Se0/eIEMiKIEertkVkagSMd84BNOj5PwV6jPXshbqILa
-	i53ofAsK+12u43fE1VqOh8EDG7rDzFH0Zr+WAoeUVvvpHTu48Q==
-X-Google-Smtp-Source: AGHT+IGPUH+kPc//pK+nbCVSTVrqoPbY9VyOj+oM6MVV21R+0n68FEr8K6JofP1y8x4JU00kKq6+Og==
-X-Received: by 2002:adf:c790:0:b0:391:41fb:89ff with SMTP id ffacd0b85a97d-3971f60b104mr9360022f8f.27.1742121137018;
-        Sun, 16 Mar 2025 03:32:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395c888152dsm11459147f8f.48.2025.03.16.03.32.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 03:32:16 -0700 (PDT)
-Date: Sun, 16 Mar 2025 13:32:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com, corbet@lwn.net,
-	marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-Message-ID: <0658073a-059b-417a-aafc-c83651e922cf@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D72ZrP75"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742122693; x=1773658693;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=reS7CHZKvTXU0F3ckQlWpiQr9I4dZ7tIzrEBM9wriwc=;
+  b=D72ZrP75ARn2ezupiPxbrVFnIiN696zc1unlHrks+eAEvfw/PZJ5wvi5
+   QdpsdNEr7mjeckQbszpYznCPhIdZ00eV6sDJHcn6yDPaAC8TPgVFIwrEr
+   wXqdPk0wEMyNN/C01dsnGL+qU5Rbq7Elq6/9eIsPhgZy39QOCA+DHTyQn
+   LJ+kp8RoEmUDGdXlDQvc7VZMak75e+tj0LIKJzK5w9lbaI8hUnddEecvw
+   9l3Ceh6Jw4icwlaODNnOzhUrg8pudczb5BNm7LVaQnEaOY+SvJiG3rWq2
+   uz97akRMxSxlmquu7n6ceM1iWtFGIv0Uym2mJutfbriW+yBnnObLIOZMz
+   g==;
+X-CSE-ConnectionGUID: ovI5io9fT4m6SAzoRRVAdQ==
+X-CSE-MsgGUID: k25ZpEmeQxmzBm36NDmveg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="53887479"
+X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
+   d="scan'208";a="53887479"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 03:58:12 -0700
+X-CSE-ConnectionGUID: rVbi3TBLQK2Dyydkml5xyA==
+X-CSE-MsgGUID: olNTBIpETCS1QptEeCUeaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
+   d="scan'208";a="122169819"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 16 Mar 2025 03:58:11 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ttlh2-000Bxr-0h;
+	Sun, 16 Mar 2025 10:58:08 +0000
+Date: Sun, 16 Mar 2025 18:57:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android14-kiwi-6.1 290/290]
+ drivers/gpu/drm/drm_displayid.c:31 validate_displayid() warn: passing
+ positive error code '(-22)' to 'PTR_ERR'
+Message-ID: <202503161817.AZJv9oo9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,66 +62,60 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
 
-Hi Marcelo,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4000-Add-support-for-SPI-offload/20250315-012316
-base:   af94f401e26f686f7391ce79b38a6129417c22dc
-patch link:    https://lore.kernel.org/r/301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-config: parisc-randconfig-r072-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161513.yeRBTxjg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d71786d14d19c4686859f15454883795f59bef15
+commit: 4b17053ba268bf952c19ecb58d66d5d72e782d13 [290/290] drm/displayid: add displayid_get_header() and check bounds better
+:::::: branch date: 28 hours ago
+:::::: commit date: 1 year, 10 months ago
+config: i386-randconfig-141-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161817.AZJv9oo9-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503161513.yeRBTxjg-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503161817.AZJv9oo9-lkp@intel.com/
 
-New smatch warnings:
-drivers/iio/adc/ad4000.c:862 ad4000_spi_offload_setup() warn: passing zero to 'PTR_ERR'
+smatch warnings:
+drivers/gpu/drm/drm_displayid.c:31 validate_displayid() warn: passing positive error code '(-22)' to 'PTR_ERR'
 
-vim +/PTR_ERR +862 drivers/iio/adc/ad4000.c
+vim +31 drivers/gpu/drm/drm_displayid.c
 
-e74205e82803041 Marcelo Schmitt 2025-03-14  846  static int ad4000_spi_offload_setup(struct iio_dev *indio_dev,
-e74205e82803041 Marcelo Schmitt 2025-03-14  847  				    struct ad4000_state *st)
-e74205e82803041 Marcelo Schmitt 2025-03-14  848  {
-e74205e82803041 Marcelo Schmitt 2025-03-14  849  	struct spi_device *spi = st->spi;
-e74205e82803041 Marcelo Schmitt 2025-03-14  850  	struct device *dev = &spi->dev;
-e74205e82803041 Marcelo Schmitt 2025-03-14  851  	struct dma_chan *rx_dma;
-e74205e82803041 Marcelo Schmitt 2025-03-14  852  	int ret;
-e74205e82803041 Marcelo Schmitt 2025-03-14  853  
-e74205e82803041 Marcelo Schmitt 2025-03-14  854  	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
-e74205e82803041 Marcelo Schmitt 2025-03-14  855  							   SPI_OFFLOAD_TRIGGER_PERIODIC);
-e74205e82803041 Marcelo Schmitt 2025-03-14  856  	if (IS_ERR(st->offload_trigger))
-e74205e82803041 Marcelo Schmitt 2025-03-14  857  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-e74205e82803041 Marcelo Schmitt 2025-03-14  858  				     "Failed to get offload trigger\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  859  
-e74205e82803041 Marcelo Schmitt 2025-03-14  860  	ret = ad4000_set_sampling_freq(st, st->max_rate_hz);
-e74205e82803041 Marcelo Schmitt 2025-03-14  861  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14 @862  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-
-s/PTR_ERR(st->offload_trigger)/ret/
-
-e74205e82803041 Marcelo Schmitt 2025-03-14  863  				     "Failed to set sampling frequency\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  864  
-e74205e82803041 Marcelo Schmitt 2025-03-14  865  	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
-e74205e82803041 Marcelo Schmitt 2025-03-14  866  	if (IS_ERR(rx_dma))
-e74205e82803041 Marcelo Schmitt 2025-03-14  867  		return dev_err_probe(dev, PTR_ERR(rx_dma),
-e74205e82803041 Marcelo Schmitt 2025-03-14  868  				     "Failed to get offload RX DMA\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  869  
-e74205e82803041 Marcelo Schmitt 2025-03-14  870  	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-e74205e82803041 Marcelo Schmitt 2025-03-14  871  							  IIO_BUFFER_DIRECTION_IN);
-e74205e82803041 Marcelo Schmitt 2025-03-14  872  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14  873  		return dev_err_probe(dev, ret, "Failed to setup DMA buffer\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  874  
-e74205e82803041 Marcelo Schmitt 2025-03-14  875  	return 0;
-e74205e82803041 Marcelo Schmitt 2025-03-14  876  }
+4b17053ba268bf9 Jani Nikula 2023-02-16  22  
+4cc4f09eaa06178 Jani Nikula 2021-03-29  23  static int validate_displayid(const u8 *displayid, int length, int idx)
+4cc4f09eaa06178 Jani Nikula 2021-03-29  24  {
+4cc4f09eaa06178 Jani Nikula 2021-03-29  25  	int i, dispid_length;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  26  	u8 csum = 0;
+339be1a8e9af736 Jani Nikula 2021-03-29  27  	const struct displayid_header *base;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  28  
+4b17053ba268bf9 Jani Nikula 2023-02-16  29  	base = displayid_get_header(displayid, length, idx);
+4b17053ba268bf9 Jani Nikula 2023-02-16  30  	if (IS_ERR(base))
+4b17053ba268bf9 Jani Nikula 2023-02-16 @31  		return PTR_ERR(base);
+4cc4f09eaa06178 Jani Nikula 2021-03-29  32  
+4cc4f09eaa06178 Jani Nikula 2021-03-29  33  	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
+4cc4f09eaa06178 Jani Nikula 2021-03-29  34  		      base->rev, base->bytes, base->prod_id, base->ext_count);
+4cc4f09eaa06178 Jani Nikula 2021-03-29  35  
+4cc4f09eaa06178 Jani Nikula 2021-03-29  36  	/* +1 for DispID checksum */
+4cc4f09eaa06178 Jani Nikula 2021-03-29  37  	dispid_length = sizeof(*base) + base->bytes + 1;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  38  	if (dispid_length > length - idx)
+4cc4f09eaa06178 Jani Nikula 2021-03-29  39  		return -EINVAL;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  40  
+4cc4f09eaa06178 Jani Nikula 2021-03-29  41  	for (i = 0; i < dispid_length; i++)
+4cc4f09eaa06178 Jani Nikula 2021-03-29  42  		csum += displayid[idx + i];
+4cc4f09eaa06178 Jani Nikula 2021-03-29  43  	if (csum) {
+4cc4f09eaa06178 Jani Nikula 2021-03-29  44  		DRM_NOTE("DisplayID checksum invalid, remainder is %d\n", csum);
+4cc4f09eaa06178 Jani Nikula 2021-03-29  45  		return -EINVAL;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  46  	}
+4cc4f09eaa06178 Jani Nikula 2021-03-29  47  
+4cc4f09eaa06178 Jani Nikula 2021-03-29  48  	return 0;
+4cc4f09eaa06178 Jani Nikula 2021-03-29  49  }
+4cc4f09eaa06178 Jani Nikula 2021-03-29  50  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
