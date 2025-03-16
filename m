@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED5A10A1F
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 03:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B6E42A96
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 08:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742096904; cv=none; b=Ata4BIB/IanOTKhhBesgAV5M1WdkQqWoCL/rjGP6Yf2XdQRS4wG4U+mGEKWkm6iybynynbG3bf9BQ+ex+ECoqI0r1qa2jP3etLstccW182EIp1+Fe20ZaypZVar7O3c7WHcemwFyrNnK2luqgQMT4/0xaFSxbb8l2YBcuK37N8U=
+	t=1742112861; cv=none; b=dN3P+qWLeVGLD1PaWjneWStmqmsWbLVKBS/8r7cLDZWqGhDZPuAHwiif/ZGT4TuVQdKDx2ZK6/+2gA2xFFdxTaXqRxOB6EJwGjOosI6ygvnHL7JJ2oiQYFDEWLyPReGGBydk6Kw/jALLYF4+9Loq2LO+wHtYsU7jUDfqsYYnoOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742096904; c=relaxed/simple;
-	bh=afPHJnpkrG0fbWvBL5Ch+RJRAPng2PXYKmWCGXoq1kk=;
+	s=arc-20240116; t=1742112861; c=relaxed/simple;
+	bh=c8gq69QL1W/CJykDwu+lF0pK3YoN+Xmlg8DFruxF+j4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R0l6CANfAWbCWkSzSUq0jV3jmZIIwxrNPWaGZGF23+MH9Tbk2QG8McX1i6wM/seeHrMUPelwQGs15kJZVVY8VG7WkUhxvLqIjFzWTAdULnKLzmdKycuXhS3s5Mt2bsZCWP4FitFWABUoS3NEpj/i7bVA9pi59h8mp7VPUB2UObg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbDO3WFp; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=IvWgqkOVCh3uwPxWFINz3zmPgu6S3wrLNUl5S2AXYRGAZS5wye5qqxMzOuc/SOUjNWt6WsYlfiyHlr+fx4W2yRHClMvXUqkkwEOK7ZXeQC9SKiBlX+72MCzI4XPTSSVbbFd2Y83mbdNRANcmQB6sbMtyqjme2e/k4ecWnM9yD3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lb7Tv6O5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbDO3WFp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lb7Tv6O5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742096901; x=1773632901;
+  t=1742112859; x=1773648859;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=afPHJnpkrG0fbWvBL5Ch+RJRAPng2PXYKmWCGXoq1kk=;
-  b=RbDO3WFphksMn+VdcbDTS2KtPQFyGjWtgPBE+zjlSR+o06n9IjfGZEfK
-   AyJYNna4Wch1HJQr6wfGAZ2GmETsnryFvm+FOmgPBQXWGn66klKJR5IYQ
-   A/h8CW4Vf3d5/Y35os6T8nkMk1PCXz6Tx/GrmQgsIomhiaUB/V2ziN//H
-   zAtCaMp6jVybXtAyNaXEBuCfknyZvTPeiNMonW++ItiT9ziyltEjGRc6S
-   4jFiq9kyuqIPXCLUP+6YzawblFuIKMNuf/zNCS/xbOdkDys5wnNhEeIpG
-   ws9DCLH6aKTvHitPIN52h0B1uSI2p6Tbkf4dWvirjDTHsnW3lMVj68jy2
-   w==;
-X-CSE-ConnectionGUID: yuDcJK0hRB2naYM/bOupUA==
-X-CSE-MsgGUID: V8+5Ij0BSbm0nWhkF8lH2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="53846471"
+  bh=c8gq69QL1W/CJykDwu+lF0pK3YoN+Xmlg8DFruxF+j4=;
+  b=lb7Tv6O5ybzsd4syKnNgKosqhgYv4lm+kO3c4Z+Ofa+9q19sr5x4pWNB
+   Kce7Tl1+WAieqQquBmozExrGRAfvjQxwNcaDEERvD8noEXUvTIpGCt7Cn
+   IpLRQ7fSuXJw+QVJ287vx0B0HkrCJuVUAI2hRxeVLO3fgS1Ei4gk0+ek6
+   dmqd4jy1bO+/MPk7+ZqZMddQBV54FqDgalnLYCeK/jU8C+3b9P2g/IgXI
+   1GKovoVyQlBQ3NtsLbXJ6o13JRyc/Jyl3di2MXtsPKPSCjKxpaIbpts7x
+   HsN/nEQO+0ZnR7J/8vYI+5CZT+WFgKJesWBRHxtk8OkXMMRg+inlFj7QC
+   g==;
+X-CSE-ConnectionGUID: wVZjsCPDQ02PnOqgfaK7Qg==
+X-CSE-MsgGUID: 2OwSLvhUTnCEFl6G+RphKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="47116814"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="53846471"
+   d="scan'208";a="47116814"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 20:48:20 -0700
-X-CSE-ConnectionGUID: FkmEU7raRTa0D9VQPNsnGw==
-X-CSE-MsgGUID: Bs3FmFsRQDygwAdfVEy8hw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 01:14:19 -0700
+X-CSE-ConnectionGUID: cVrwowWdSSSubqcav1RMPQ==
+X-CSE-MsgGUID: dEsf3BKIQSmDNkQY3PSROw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="121821900"
+   d="scan'208";a="121858992"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Mar 2025 20:48:19 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Mar 2025 01:14:18 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttez3-000BqF-0d;
-	Sun, 16 Mar 2025 03:48:17 +0000
-Date: Sun, 16 Mar 2025 11:47:35 +0800
+	id 1ttj8S-000BuN-0C;
+	Sun, 16 Mar 2025 08:14:16 +0000
+Date: Sun, 16 Mar 2025 16:14:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20250311 20/30]
- drivers/iommu/iommufd/device.c:478 iommufd_hw_pagetable_attach() warn:
- passing positive error code '4294950918-4294967294' to 'PTR_ERR'
-Message-ID: <202503161104.CANtg5Ng-lkp@intel.com>
+Subject: Re: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
+Message-ID: <202503161513.yeRBTxjg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,115 +63,80 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yi Liu <yi.l.liu@intel.com>
-TO: Kevin Tian <kevin.tian@intel.com>
+In-Reply-To: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
+References: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
+TO: Marcelo Schmitt <marcelo.schmitt@analog.com>
+TO: linux-iio@vger.kernel.org
+TO: linux-doc@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: jic23@kernel.org
+CC: lars@metafoo.de
+CC: Michael.Hennerich@analog.com
+CC: corbet@lwn.net
+CC: marcelo.schmitt1@gmail.com
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20250311
-head:   61681190f00a2bd3a65f06f64d4279c5a9987c75
-commit: 88f4b638c9af4670720e029522e8fee6e55cb26d [20/30] iommufd/device: Add pasid_attach array to track per-PASID attach
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250316/202503161104.CANtg5Ng-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+Hi Marcelo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on af94f401e26f686f7391ce79b38a6129417c22dc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4000-Add-support-for-SPI-offload/20250315-012316
+base:   af94f401e26f686f7391ce79b38a6129417c22dc
+patch link:    https://lore.kernel.org/r/301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: parisc-randconfig-r072-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161513.yeRBTxjg-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503161104.CANtg5Ng-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503161513.yeRBTxjg-lkp@intel.com/
 
 New smatch warnings:
-drivers/iommu/iommufd/device.c:478 iommufd_hw_pagetable_attach() warn: passing positive error code '4294950918-4294967294' to 'PTR_ERR'
+drivers/iio/adc/ad4000.c:862 ad4000_spi_offload_setup() warn: passing zero to 'PTR_ERR'
 
 Old smatch warnings:
-drivers/iommu/iommufd/device.c:843 iommufd_device_change_pt() warn: passing positive error code '(-22)' to 'PTR_ERR'
-drivers/iommu/iommufd/device.c:1350 iommufd_access_rw() error: uninitialized symbol 'rc'.
+drivers/iio/adc/ad4000.c:556 ad4000_fill_scale_tbl() warn: unsigned '__x' is never less than zero.
 
-vim +478 drivers/iommu/iommufd/device.c
+vim +/PTR_ERR +862 drivers/iio/adc/ad4000.c
 
-fb21b1568adaa76 Nicolin Chen    2025-02-03  462  
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  463  int iommufd_hw_pagetable_attach(struct iommufd_hw_pagetable *hwpt,
-0e3f068ad552018 Yi Liu          2025-02-26  464  				struct iommufd_device *idev, ioasid_t pasid)
-e8d57210035b637 Jason Gunthorpe 2022-11-29  465  {
-b2f44814680b569 Nicolin Chen    2024-08-06  466  	struct iommufd_hwpt_paging *hwpt_paging = find_hwpt_paging(hwpt);
-509c6c6f3098710 Yi Liu          2025-02-26  467  	bool attach_resv = hwpt_paging && pasid == IOMMU_NO_PASID;
-88f4b638c9af467 Yi Liu          2025-03-09  468  	struct iommufd_hw_pagetable *old_hwpt = NULL;
-481d086162ecc90 Yi Liu          2025-03-06  469  	struct iommufd_group *igroup = idev->igroup;
-80ca6ff4d5b9edf Yi Liu          2025-03-08  470  	struct iommufd_attach_handle *handle;
-e8d57210035b637 Jason Gunthorpe 2022-11-29  471  	int rc;
-e8d57210035b637 Jason Gunthorpe 2022-11-29  472  
-481d086162ecc90 Yi Liu          2025-03-06  473  	mutex_lock(&igroup->lock);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  474  
-88f4b638c9af467 Yi Liu          2025-03-09  475  	handle = xa_cmpxchg(&igroup->pasid_attach, pasid, NULL,
-88f4b638c9af467 Yi Liu          2025-03-09  476  			    XA_ZERO_ENTRY, GFP_KERNEL);
-88f4b638c9af467 Yi Liu          2025-03-09  477  	if (xa_is_err(handle)) {
-88f4b638c9af467 Yi Liu          2025-03-09 @478  		rc = PTR_ERR(handle);
-88f4b638c9af467 Yi Liu          2025-03-09  479  		goto err_unlock;
-88f4b638c9af467 Yi Liu          2025-03-09  480  	}
-88f4b638c9af467 Yi Liu          2025-03-09  481  
-c8cb4382bcb8855 Yi Liu          2025-03-09  482  	if (!handle) {
-80ca6ff4d5b9edf Yi Liu          2025-03-08  483  		handle = kzalloc(sizeof(*handle), GFP_KERNEL);
-80ca6ff4d5b9edf Yi Liu          2025-03-08  484  		if (!handle) {
-80ca6ff4d5b9edf Yi Liu          2025-03-08  485  			rc = -ENOMEM;
-88f4b638c9af467 Yi Liu          2025-03-09  486  			goto err_release_id;
-80ca6ff4d5b9edf Yi Liu          2025-03-08  487  		}
-80ca6ff4d5b9edf Yi Liu          2025-03-08  488  		handle->idev = idev;
-405653abe7c7f0c Yi Liu          2025-03-08  489  		xa_init(&handle->device_array);
-80ca6ff4d5b9edf Yi Liu          2025-03-08  490  	}
-80ca6ff4d5b9edf Yi Liu          2025-03-08  491  
-c8cb4382bcb8855 Yi Liu          2025-03-09  492  	old_hwpt = handle->hwpt;
-c8cb4382bcb8855 Yi Liu          2025-03-09  493  
-405653abe7c7f0c Yi Liu          2025-03-08  494  	rc = xa_insert(&handle->device_array, idev->obj.id, idev, GFP_KERNEL);
-3c97e09cef9ed05 Yi Liu          2025-03-08  495  	if (rc) {
-3c97e09cef9ed05 Yi Liu          2025-03-08  496  		WARN_ON(rc == -EBUSY && !old_hwpt);
-3c97e09cef9ed05 Yi Liu          2025-03-08  497  		goto err_free_handle;
-3c97e09cef9ed05 Yi Liu          2025-03-08  498  	}
-3c97e09cef9ed05 Yi Liu          2025-03-08  499  
-c8cb4382bcb8855 Yi Liu          2025-03-09  500  	if (old_hwpt && old_hwpt != hwpt) {
-c8cb4382bcb8855 Yi Liu          2025-03-09  501  		rc = -EINVAL;
-3c97e09cef9ed05 Yi Liu          2025-03-08  502  		goto err_erase_dev;
-c8cb4382bcb8855 Yi Liu          2025-03-09  503  	}
-c8cb4382bcb8855 Yi Liu          2025-03-09  504  
-509c6c6f3098710 Yi Liu          2025-02-26  505  	if (attach_resv) {
-b2f44814680b569 Nicolin Chen    2024-08-06  506  		rc = iommufd_device_attach_reserved_iova(idev, hwpt_paging);
-e8d57210035b637 Jason Gunthorpe 2022-11-29  507  		if (rc)
-3c97e09cef9ed05 Yi Liu          2025-03-08  508  			goto err_erase_dev;
-58d84f430dc7f73 Jason Gunthorpe 2023-10-25  509  	}
-e8d57210035b637 Jason Gunthorpe 2022-11-29  510  
-e8d57210035b637 Jason Gunthorpe 2022-11-29  511  	/*
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  512  	 * Only attach to the group once for the first device that is in the
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  513  	 * group. All the other devices will follow this attachment. The user
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  514  	 * should attach every device individually to the hwpt as the per-device
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  515  	 * reserved regions are only updated during individual device
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  516  	 * attachment.
-e8d57210035b637 Jason Gunthorpe 2022-11-29  517  	 */
-88f4b638c9af467 Yi Liu          2025-03-09  518  	if (!iommufd_group_device_num(igroup, pasid)) {
-80ca6ff4d5b9edf Yi Liu          2025-03-08  519  		rc = iommufd_hwpt_attach_device(hwpt, idev, pasid, handle);
-e8d57210035b637 Jason Gunthorpe 2022-11-29  520  		if (rc)
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  521  			goto err_unresv;
-c8cb4382bcb8855 Yi Liu          2025-03-09  522  		handle->hwpt = hwpt;
-88f4b638c9af467 Yi Liu          2025-03-09  523  		WARN_ON(xa_is_err(xa_store(&igroup->pasid_attach, pasid, handle,
-88f4b638c9af467 Yi Liu          2025-03-09  524  					   GFP_KERNEL)));
-e8d57210035b637 Jason Gunthorpe 2022-11-29  525  	}
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  526  	refcount_inc(&hwpt->obj.users);
-481d086162ecc90 Yi Liu          2025-03-06  527  	mutex_unlock(&igroup->lock);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  528  	return 0;
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  529  err_unresv:
-509c6c6f3098710 Yi Liu          2025-02-26  530  	if (attach_resv)
-b2f44814680b569 Nicolin Chen    2024-08-06  531  		iopt_remove_reserved_iova(&hwpt_paging->ioas->iopt, idev->dev);
-3c97e09cef9ed05 Yi Liu          2025-03-08  532  err_erase_dev:
-405653abe7c7f0c Yi Liu          2025-03-08  533  	xa_erase(&handle->device_array, idev->obj.id);
-80ca6ff4d5b9edf Yi Liu          2025-03-08  534  err_free_handle:
-c8cb4382bcb8855 Yi Liu          2025-03-09  535  	if (!old_hwpt)
-80ca6ff4d5b9edf Yi Liu          2025-03-08  536  		kfree(handle);
-88f4b638c9af467 Yi Liu          2025-03-09  537  err_release_id:
-88f4b638c9af467 Yi Liu          2025-03-09  538  	if (!old_hwpt)
-88f4b638c9af467 Yi Liu          2025-03-09  539  		xa_release(&igroup->pasid_attach, pasid);
-91a2e17e243f70e Jason Gunthorpe 2023-07-17  540  err_unlock:
-481d086162ecc90 Yi Liu          2025-03-06  541  	mutex_unlock(&igroup->lock);
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  542  	return rc;
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  543  }
-339fbf3ae144263 Jason Gunthorpe 2023-03-01  544  
+e74205e82803041 Marcelo Schmitt 2025-03-14  845  
+e74205e82803041 Marcelo Schmitt 2025-03-14  846  static int ad4000_spi_offload_setup(struct iio_dev *indio_dev,
+e74205e82803041 Marcelo Schmitt 2025-03-14  847  				    struct ad4000_state *st)
+e74205e82803041 Marcelo Schmitt 2025-03-14  848  {
+e74205e82803041 Marcelo Schmitt 2025-03-14  849  	struct spi_device *spi = st->spi;
+e74205e82803041 Marcelo Schmitt 2025-03-14  850  	struct device *dev = &spi->dev;
+e74205e82803041 Marcelo Schmitt 2025-03-14  851  	struct dma_chan *rx_dma;
+e74205e82803041 Marcelo Schmitt 2025-03-14  852  	int ret;
+e74205e82803041 Marcelo Schmitt 2025-03-14  853  
+e74205e82803041 Marcelo Schmitt 2025-03-14  854  	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
+e74205e82803041 Marcelo Schmitt 2025-03-14  855  							   SPI_OFFLOAD_TRIGGER_PERIODIC);
+e74205e82803041 Marcelo Schmitt 2025-03-14  856  	if (IS_ERR(st->offload_trigger))
+e74205e82803041 Marcelo Schmitt 2025-03-14  857  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
+e74205e82803041 Marcelo Schmitt 2025-03-14  858  				     "Failed to get offload trigger\n");
+e74205e82803041 Marcelo Schmitt 2025-03-14  859  
+e74205e82803041 Marcelo Schmitt 2025-03-14  860  	ret = ad4000_set_sampling_freq(st, st->max_rate_hz);
+e74205e82803041 Marcelo Schmitt 2025-03-14  861  	if (ret)
+e74205e82803041 Marcelo Schmitt 2025-03-14 @862  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
+e74205e82803041 Marcelo Schmitt 2025-03-14  863  				     "Failed to set sampling frequency\n");
+e74205e82803041 Marcelo Schmitt 2025-03-14  864  
+e74205e82803041 Marcelo Schmitt 2025-03-14  865  	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
+e74205e82803041 Marcelo Schmitt 2025-03-14  866  	if (IS_ERR(rx_dma))
+e74205e82803041 Marcelo Schmitt 2025-03-14  867  		return dev_err_probe(dev, PTR_ERR(rx_dma),
+e74205e82803041 Marcelo Schmitt 2025-03-14  868  				     "Failed to get offload RX DMA\n");
+e74205e82803041 Marcelo Schmitt 2025-03-14  869  
+e74205e82803041 Marcelo Schmitt 2025-03-14  870  	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
+e74205e82803041 Marcelo Schmitt 2025-03-14  871  							  IIO_BUFFER_DIRECTION_IN);
+e74205e82803041 Marcelo Schmitt 2025-03-14  872  	if (ret)
+e74205e82803041 Marcelo Schmitt 2025-03-14  873  		return dev_err_probe(dev, ret, "Failed to setup DMA buffer\n");
+e74205e82803041 Marcelo Schmitt 2025-03-14  874  
+e74205e82803041 Marcelo Schmitt 2025-03-14  875  	return 0;
+e74205e82803041 Marcelo Schmitt 2025-03-14  876  }
+e74205e82803041 Marcelo Schmitt 2025-03-14  877  
 
 -- 
 0-DAY CI Kernel Test Service
