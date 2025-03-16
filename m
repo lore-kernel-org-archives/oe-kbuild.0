@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7401F10F2
-	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 11:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E6710F2
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Mar 2025 11:00:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742122835; cv=none; b=nhvG3+m86pnGs/HBwj0fp+L9UjtEek4I3am08DNmtalqWb7G7NZA7i4ZB24gmkzAep+WShB5gT1LtU9jBwXt58jN2CDCu2a7WWDGn5Jt4uBs5lOmQtWFKaMC0eBr4HF3isue0nhlpZyFXmUsGkXIZ0BEyQckuVI80FMAfX2LZoA=
+	t=1742122838; cv=none; b=TSU0Ec+o7oSod0KcB7VCNC6d0fxOLfbaMPg5zgmPmImIFBujOTDhEH5JZ5GpqglDwXllnBu61a8ucSsjWlI1aeTxhoR+5UccM2yW8cfnZIGUUeCPCsYReOkIfjU4/U2xVeXpcJ4vLL6BItZYd6ycrHllyzObq+XO9YtFQTt6j24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742122835; c=relaxed/simple;
-	bh=HThbD9Kvw4bNdQOYoZbG/Db3A2plP6aFJxleBnu5Jp4=;
+	s=arc-20240116; t=1742122838; c=relaxed/simple;
+	bh=8NKm1fwfYc8x/LVu00+c4MtwDCG9cFqIFdAJ3wp5nuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cUyYNfuRL5nyug5GWCPx0JNb+zpMLlPOA3e4sbFeOFLKZS4nlUzdcrNdGbaz2O4BN8v2SexCiYGiQ3+OVJ0fxZyOqjGrPphqLwuQZpyY5voSMSH+/I5RA1K5EFKZcXyYjzo9DjgBKUY4hc7U8ZJ/OaW8lk73pn45mWae3+Q9o8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpMYgkv4; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=OXwpaIyWd5tGdY7vN7CLTyIiQnuY5bcrouvZkI8akllSy1EL3Sfmpu1+T+/73S/EdTT+aRMrhDOcTvECnmO8iLRcS2XXXhz3vMqouEqkCapP2TVIM6BzrWWG5oiOFjt9xSVqlgz9H17Ors4SWT22c1Tqz8vkHyC4sEQpESF5RBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcBrDYhC; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpMYgkv4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcBrDYhC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742122833; x=1773658833;
+  t=1742122836; x=1773658836;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HThbD9Kvw4bNdQOYoZbG/Db3A2plP6aFJxleBnu5Jp4=;
-  b=SpMYgkv40fhh4GNbqCoc6GwK+IggRqwe7k5n4mF0ortChUk3GvL0vvtP
-   70AEvzX2uZ8yMUuAiFvzwc+Wd9KawW9I7jA3zyT9K8Q8QgXYZX09jOW6r
-   vQ+YK1ehItAottzDZx9zwnYyqeVnQeCrAOsQ6AKpiT49R50RC1LGAwIh/
-   0cnEgWa9Afw3zq05CO3NlTYOj65fJbO0iUXquJHGTfX+IRvdSzwKUaZB4
-   7FW2WV4MbDPxasJOpb8sOSL3sWE2iUmAG54lSWFM4L9kIpCi52sU/B8je
-   p/1gEaG7MB34GeaIKpOLrd9BxF8JdllLz7eDKOSAs/0sbTJhnnF+3Tc65
-   Q==;
-X-CSE-ConnectionGUID: NFXgFt4kRGutvBuGkA+wQw==
-X-CSE-MsgGUID: M4ZpiGZ9T82F8I9f3tIxGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="43258332"
+  bh=8NKm1fwfYc8x/LVu00+c4MtwDCG9cFqIFdAJ3wp5nuM=;
+  b=EcBrDYhCzWdqDCEqvNqHesRg6atMlZNGc8fcwMP0H7/aWWZmhBMAf13g
+   0q8ztQNbMhR1aEojZ1VgOX5jAPdBKbxg1Ivsr6NfM/WLQZ/0nk5GdXgBM
+   LFFvgmeWWJeECaBdUgPdJaJrjUi9/+5k7FXKwH0E3YjQN3fXeQ6huk1Hw
+   fHrkF3A47vHeJbznt2cvzK5TJxt/vCeTVkYXwqm2K3FoygLvtuBlfyYK2
+   Pkx/DORnC/YBfe7T4p6R8HGDxvTrmej80a+FzLFsVLUxK6u1mcORBbfXj
+   2zrrfpW4rPMHYKKWYq/lO8D8w0BazJMhMTN1zz12R4unhBo/FPy5kq03g
+   A==;
+X-CSE-ConnectionGUID: nqv5tIE0TPuiGtb2LjqREw==
+X-CSE-MsgGUID: iMNLebu/TnW4WoUpWdsTHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="43258333"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="43258332"
+   d="scan'208";a="43258333"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 03:58:12 -0700
-X-CSE-ConnectionGUID: sA8V44j1RISfkKVBSlaPyw==
-X-CSE-MsgGUID: 0G+lzjSoT6ywjG/PYTdEAQ==
+X-CSE-ConnectionGUID: EJIGWgsaS/CaMnYrPclTiQ==
+X-CSE-MsgGUID: fpJxLN0kQxGJgvQswv/Vnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="121503366"
+   d="scan'208";a="121503368"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by fmviesa006.fm.intel.com with ESMTP; 16 Mar 2025 03:58:10 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttlh2-000Bxt-0m;
+	id 1ttlh2-000Bxw-0q;
 	Sun, 16 Mar 2025 10:58:08 +0000
-Date: Sun, 16 Mar 2025 18:57:24 +0800
+Date: Sun, 16 Mar 2025 18:57:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [peterz-queue:objtool/core 13/13] drivers/spi/spi-amd.o: error:
- objtool: 1 warning(s) upgraded to errors
-Message-ID: <202503161828.RUk9EhWx-lkp@intel.com>
+Subject: [qcom:arm64-for-6.15 123/172]
+ arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000: Unevaluated
+ properties are not allowed ('interconnect-names', 'interconnects' were
+ unexpected)
+Message-ID: <202503161811.SHeA2JhS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,38 +65,114 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Lad Prabhakar <prabhakar.csengg@gmail.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git objtool/core
-head:   3ea93b53ecb339bb78a5eedbb51714a899640584
-commit: 3ea93b53ecb339bb78a5eedbb51714a899640584 [13/13] objtool: Add CONFIG_OBJTOOL_WERROR
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-071-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161828.RUk9EhWx-lkp@intel.com/config)
-compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503161828.RUk9EhWx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.15
+head:   27b85be287f96180de2499b981eec83850df0da9
+commit: df52f9ab185e91886c8fb0660a0768d29b4cc379 [123/172] arm64: dts: qcom: Drop `tx-sched-sp` property
+:::::: branch date: 32 hours ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20250315 (https://download.01.org/0day-ci/archive/20250316/202503161811.SHeA2JhS-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
+dtschema version: 2025.3.dev4+g7b57675
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503161811.SHeA2JhS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503161828.RUk9EhWx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503161811.SHeA2JhS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/spi/spi-amd.o: error: objtool: amd_set_spi_freq() falls through to next function amd_spi_set_opcode()
-   drivers/spi/spi-amd.o: error: objtool:   amd_set_spi_freq+0x55: (branch)
-   drivers/spi/spi-amd.o: error: objtool:   amd_set_spi_freq+0x68: (branch)
-   drivers/spi/spi-amd.o: error: objtool:   amd_set_spi_freq+0x3e: (branch)
-   drivers/spi/spi-amd.o: error: objtool:   amd_set_spi_freq+0x0: <=== (sym)
->> drivers/spi/spi-amd.o: error: objtool: 1 warning(s) upgraded to errors
-   ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --stackval --static-call --uaccess --Werror --backtrace drivers/spi/spi-amd.o.orig -o drivers/spi/spi-amd.o
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sa8775p-mdss.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000: clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wifi@0: 'qcom,calibration-variant' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+--
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sa8775p-mdss.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000: clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wifi@0: 'qcom,calibration-variant' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+--
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sa8775p-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000: clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wifi@0: 'qcom,calibration-variant' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+--
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: bluetooth: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/bluetooth/qualcomm-bluetooth.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('phy@aec2a00', 'phy@aec5a00' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sa8775p-mdss.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000: clock-names:0: 'nrt_bus' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: display-controller@ae01000: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-dpu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wifi@0: 'qcom,calibration-variant' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu: 'vddpmumx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: wcn6855-pmu: 'vddpmucx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/qcom,qca6390-pmu.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
