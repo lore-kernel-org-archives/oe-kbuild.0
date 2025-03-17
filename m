@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF639196
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Mar 2025 00:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BE5944E
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Mar 2025 02:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742169890; cv=none; b=IQNjwlvSThGZp9cQDnnrOnqeBsLdw4YSYCIRRMH4wVWwYOhPZFjdwxKKLCvldkbHOt1z8m6R8pC+k3TB+hnhS02kn5SDRAPT1QMt4G/HGPoYPTi4prQzRxAtYAeos1jrx58wipmktwE04idEbPyNDEaPOzybl49d0XGyRsxGTaA=
+	t=1742177891; cv=none; b=iPdBYPwlcx/l+Fns0JXpwDQ8L5nGpXUHnaV/2EHrsvJQwgNABSzCeS7Ho/VFu7YCtzmyH5DcbGvQgL/nwvbBxJlJVUnuAiibXd7JY1V4mMdJcXrKKVNGrsbIatzigfWuMFrAqpo0SP+sdnR7sJYv5XFZwQCLyoOPSZkkG7dvOU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742169890; c=relaxed/simple;
-	bh=RlyLyi3R3kUy679fZ7tCo2pGZFZnYJLQrcqMhnffVjo=;
+	s=arc-20240116; t=1742177891; c=relaxed/simple;
+	bh=6yywcN9emV7pP6stUmCNi/2btA5cUHNq7ZH+iuSf3VA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ok4t0w6HZPUDI8cafsDjDybZz2PACNB0uiiHANbGLRHCbx2WM2nhpLwxWlpf8Lsd4OPptOmxJqFaTH58dT0JGdS8U4Ei7bNKPmtKmV7grcH6vafN+UsWPlfpcpP09YdrywVltNIxCPx//NYJdejqeWL5dF3LTSFe/bIfVZE1tDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPIyg2v7; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=TPOYHCPkIeZti1B595YTohWv3nJ06fjJpE5lsWk7kTWyXGdCdiE2k6L3Ipf0QVdQR8VmOAZ/QjtCZ+HbuihfhlCaFxEN3FJjswQq2dpgRFotz/E4Sia0lrknmsouFL732GL18gGuze7uTVsTHSRpkdxwteL357Ebs96XiJ4IRMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lz4TKwZo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPIyg2v7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lz4TKwZo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742169888; x=1773705888;
+  t=1742177889; x=1773713889;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RlyLyi3R3kUy679fZ7tCo2pGZFZnYJLQrcqMhnffVjo=;
-  b=dPIyg2v71o/Yd7OkDGFTO3dUTSFY1Aii+lXlCCa2CjsTmWMjo/rAa5Wl
-   XbKcyQqAuZWyf9VeKPR3J+T1TB6I/0h+m1zl5R8wlMhiqW7UeQ3wv6JY3
-   ClKc/l/4XycRShRYKW7dfWeyPrZbUwMFiOGKuOX4ilY3Vw31MuE7tMdCd
-   9slki+MNRaVUzpVpibzcBw1fl8LU0s4/b2oQnT4d8bQBxhkvf7pjS+rjo
-   1Afco/yldPNjKx5tV+S8ysvM2crjSPEVq/JYjQkjWO4ZL5LoaeN75BvRc
-   EgPT3pCUt4AjWAu/AZFwjbjK7ZdcuMvYMKoW1w2ibcDIpuXyIchH8xNhv
-   Q==;
-X-CSE-ConnectionGUID: PiY35LJ5QV2R4ujcbnxfxg==
-X-CSE-MsgGUID: ONccSqKEQEaZsOna2FT9yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="43428375"
+  bh=6yywcN9emV7pP6stUmCNi/2btA5cUHNq7ZH+iuSf3VA=;
+  b=Lz4TKwZoaOaQKd/PnurDjkgAzWRxSM6aqXRRVWySCQMGTnbiFQaJ9LNz
+   cLtP1+VqmjoyAJteGn6XEvyKGBPki0yDIbkSk1fS4Gq+WeQc3cSBHSHyc
+   IRV0YA8Wo1fJonZc9/ryyytKzPg0KwcS6EZFUzPokUT11cE6zMjvILTZh
+   Gen2daW8YiM4gCGVkQEckI8b5854UjuelaWlQqOFJ+Qj6QDIaGB3Bpa/C
+   0qR1gRLNJ5Ni3/86XQmJ8Dtmp/IHBQEWsKI4z2racSVzA4HMo+W+RhLUJ
+   xuCQJv7iQidZaOX3lWLeNIwRUwylOaW5YGg8AgAOlZ4enMBBL1xxwTGWR
+   g==;
+X-CSE-ConnectionGUID: NrK5IuqbTgK8g8ixJTBybg==
+X-CSE-MsgGUID: 0JvzUoQ6ROSAy9ocukj5xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="47156574"
 X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="43428375"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 17:04:47 -0700
-X-CSE-ConnectionGUID: rZGn7NFmRpeWvS1oRiCxNA==
-X-CSE-MsgGUID: vATXQvlZT1aqFN5zA3npHA==
+   d="scan'208";a="47156574"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 19:18:08 -0700
+X-CSE-ConnectionGUID: 930/a7kKQZGv16z4LK5xKg==
+X-CSE-MsgGUID: GXxcwaDuTy2CG/FLdFU/Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="152710672"
+   d="scan'208";a="126664845"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Mar 2025 17:04:45 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Mar 2025 19:18:07 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttxyF-000CJX-1U;
-	Mon, 17 Mar 2025 00:04:43 +0000
-Date: Mon, 17 Mar 2025 08:03:51 +0800
+	id 1tu03I-000CNT-1f;
+	Mon, 17 Mar 2025 02:18:04 +0000
+Date: Mon, 17 Mar 2025 10:17:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v8 2/5] firmware: thead: Add AON firmware protocol driver
-Message-ID: <202503170718.p0RnkGc7-lkp@intel.com>
+Subject: kernel/bpf/crypto.c:160 bpf_crypto_ctx_create() warn: passing
+ positive error code '(-2)' to 'PTR_ERR'
+Message-ID: <202503171022.0ppeu0Qt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,133 +64,125 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250311171900.1549916-3-m.wilczynski@samsung.com>
-References: <20250311171900.1549916-3-m.wilczynski@samsung.com>
-TO: Michal Wilczynski <m.wilczynski@samsung.com>
+CC: linux-kernel@vger.kernel.org
+TO: Vadim Fedorenko <vadfed@meta.com>
+CC: Martin KaFai Lau <martin.lau@kernel.org>
 
-Hi Michal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.14-rc6]
-[cannot apply to next-20250314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/dt-bindings-firmware-thead-th1520-Add-support-for-firmware-node/20250312-012349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250311171900.1549916-3-m.wilczynski%40samsung.com
-patch subject: [PATCH v8 2/5] firmware: thead: Add AON firmware protocol driver
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: riscv-randconfig-r073-20250316 (https://download.01.org/0day-ci/archive/20250317/202503170718.p0RnkGc7-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+commit: 3e1c6f35409f9e447bf37f64840f5b65576bfb78 bpf: make common crypto API for TC/XDP programs
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250317/202503171022.0ppeu0Qt-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503170718.p0RnkGc7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503171022.0ppeu0Qt-lkp@intel.com/
 
-New smatch warnings:
-drivers/firmware/thead,th1520-aon.c:174 th1520_aon_power_update() error: buffer overflow 'data' 2 <= 3
-drivers/firmware/thead,th1520-aon.c:221 th1520_aon_init() error: dereferencing freed memory 'aon_chan' (line 220)
+smatch warnings:
+kernel/bpf/crypto.c:160 bpf_crypto_ctx_create() warn: passing positive error code '(-2)' to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/firmware/thead,th1520-aon.c:174 th1520_aon_power_update() error: buffer overflow 'data' 2 <= 2
+vim +160 kernel/bpf/crypto.c
 
-vim +/data +174 drivers/firmware/thead,th1520-aon.c
-
-19057a09c5121ea Michal Wilczynski 2025-03-11  143  
-19057a09c5121ea Michal Wilczynski 2025-03-11  144  /**
-19057a09c5121ea Michal Wilczynski 2025-03-11  145   * th1520_aon_power_update() - Change power state of a resource via TH1520 AON
-19057a09c5121ea Michal Wilczynski 2025-03-11  146   * @aon_chan: Pointer to the AON channel structure
-19057a09c5121ea Michal Wilczynski 2025-03-11  147   * @rsrc: Resource ID whose power state needs to be updated
-19057a09c5121ea Michal Wilczynski 2025-03-11  148   * @power_on: Boolean indicating whether the resource should be powered on (true)
-19057a09c5121ea Michal Wilczynski 2025-03-11  149   *            or powered off (false)
-19057a09c5121ea Michal Wilczynski 2025-03-11  150   *
-19057a09c5121ea Michal Wilczynski 2025-03-11  151   * This function requests the TH1520 AON subsystem to set the power mode of the
-19057a09c5121ea Michal Wilczynski 2025-03-11  152   * given resource (@rsrc) to either on or off. It constructs the message in
-19057a09c5121ea Michal Wilczynski 2025-03-11  153   * `struct th1520_aon_msg_req_set_resource_power_mode` and then invokes
-19057a09c5121ea Michal Wilczynski 2025-03-11  154   * th1520_aon_call_rpc() to make the request. If the AON call fails, an error
-19057a09c5121ea Michal Wilczynski 2025-03-11  155   * message is logged along with the specific return code.
-19057a09c5121ea Michal Wilczynski 2025-03-11  156   *
-19057a09c5121ea Michal Wilczynski 2025-03-11  157   * Return:
-19057a09c5121ea Michal Wilczynski 2025-03-11  158   * * 0 on success
-19057a09c5121ea Michal Wilczynski 2025-03-11  159   * * A negative error code in case of failures (propagated from
-19057a09c5121ea Michal Wilczynski 2025-03-11  160   *   th1520_aon_call_rpc()).
-19057a09c5121ea Michal Wilczynski 2025-03-11  161   */
-19057a09c5121ea Michal Wilczynski 2025-03-11  162  int th1520_aon_power_update(struct th1520_aon_chan *aon_chan, u16 rsrc,
-19057a09c5121ea Michal Wilczynski 2025-03-11  163  			    bool power_on)
-19057a09c5121ea Michal Wilczynski 2025-03-11  164  {
-19057a09c5121ea Michal Wilczynski 2025-03-11  165  	struct th1520_aon_msg_req_set_resource_power_mode msg = {};
-19057a09c5121ea Michal Wilczynski 2025-03-11  166  	struct th1520_aon_rpc_msg_hdr *hdr = &msg.hdr;
-19057a09c5121ea Michal Wilczynski 2025-03-11  167  	int ret;
-19057a09c5121ea Michal Wilczynski 2025-03-11  168  
-19057a09c5121ea Michal Wilczynski 2025-03-11  169  	hdr->svc = TH1520_AON_RPC_SVC_PM;
-19057a09c5121ea Michal Wilczynski 2025-03-11  170  	hdr->func = TH1520_AON_PM_FUNC_SET_RESOURCE_POWER_MODE;
-19057a09c5121ea Michal Wilczynski 2025-03-11  171  	hdr->size = TH1520_AON_RPC_MSG_NUM;
-19057a09c5121ea Michal Wilczynski 2025-03-11  172  
-19057a09c5121ea Michal Wilczynski 2025-03-11  173  	RPC_SET_BE16(&msg.resource, 0, rsrc);
-19057a09c5121ea Michal Wilczynski 2025-03-11 @174  	RPC_SET_BE16(&msg.resource, 2,
-19057a09c5121ea Michal Wilczynski 2025-03-11  175  		     (power_on ? TH1520_AON_PM_PW_MODE_ON :
-19057a09c5121ea Michal Wilczynski 2025-03-11  176  				 TH1520_AON_PM_PW_MODE_OFF));
-19057a09c5121ea Michal Wilczynski 2025-03-11  177  
-19057a09c5121ea Michal Wilczynski 2025-03-11  178  	ret = th1520_aon_call_rpc(aon_chan, &msg);
-19057a09c5121ea Michal Wilczynski 2025-03-11  179  	if (ret)
-19057a09c5121ea Michal Wilczynski 2025-03-11  180  		dev_err(aon_chan->cl.dev, "failed to power %s resource %d ret %d\n",
-19057a09c5121ea Michal Wilczynski 2025-03-11  181  			power_on ? "up" : "off", rsrc, ret);
-19057a09c5121ea Michal Wilczynski 2025-03-11  182  
-19057a09c5121ea Michal Wilczynski 2025-03-11  183  	return ret;
-19057a09c5121ea Michal Wilczynski 2025-03-11  184  }
-19057a09c5121ea Michal Wilczynski 2025-03-11  185  EXPORT_SYMBOL_GPL(th1520_aon_power_update);
-19057a09c5121ea Michal Wilczynski 2025-03-11  186  
-19057a09c5121ea Michal Wilczynski 2025-03-11  187  /**
-19057a09c5121ea Michal Wilczynski 2025-03-11  188   * th1520_aon_init() - Initialize TH1520 AON firmware protocol interface
-19057a09c5121ea Michal Wilczynski 2025-03-11  189   * @dev: Device pointer for the AON subsystem
-19057a09c5121ea Michal Wilczynski 2025-03-11  190   *
-19057a09c5121ea Michal Wilczynski 2025-03-11  191   * This function initializes the TH1520 AON firmware protocol interface by:
-19057a09c5121ea Michal Wilczynski 2025-03-11  192   * - Allocating and initializing the AON channel structure
-19057a09c5121ea Michal Wilczynski 2025-03-11  193   * - Setting up the mailbox client
-19057a09c5121ea Michal Wilczynski 2025-03-11  194   * - Requesting the AON mailbox channel
-19057a09c5121ea Michal Wilczynski 2025-03-11  195   * - Initializing synchronization primitives
-19057a09c5121ea Michal Wilczynski 2025-03-11  196   *
-19057a09c5121ea Michal Wilczynski 2025-03-11  197   * Return:
-19057a09c5121ea Michal Wilczynski 2025-03-11  198   * * Valid pointer to th1520_aon_chan structure on success
-19057a09c5121ea Michal Wilczynski 2025-03-11  199   * * ERR_PTR(-ENOMEM) if memory allocation fails
-19057a09c5121ea Michal Wilczynski 2025-03-11  200   * * ERR_PTR() with other negative error codes from mailbox operations
-19057a09c5121ea Michal Wilczynski 2025-03-11  201   */
-19057a09c5121ea Michal Wilczynski 2025-03-11  202  struct th1520_aon_chan *th1520_aon_init(struct device *dev)
-19057a09c5121ea Michal Wilczynski 2025-03-11  203  {
-19057a09c5121ea Michal Wilczynski 2025-03-11  204  	struct th1520_aon_chan *aon_chan;
-19057a09c5121ea Michal Wilczynski 2025-03-11  205  	struct mbox_client *cl;
-19057a09c5121ea Michal Wilczynski 2025-03-11  206  
-19057a09c5121ea Michal Wilczynski 2025-03-11  207  	aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-19057a09c5121ea Michal Wilczynski 2025-03-11  208  	if (!aon_chan)
-19057a09c5121ea Michal Wilczynski 2025-03-11  209  		return ERR_PTR(-ENOMEM);
-19057a09c5121ea Michal Wilczynski 2025-03-11  210  
-19057a09c5121ea Michal Wilczynski 2025-03-11  211  	cl = &aon_chan->cl;
-19057a09c5121ea Michal Wilczynski 2025-03-11  212  	cl->dev = dev;
-19057a09c5121ea Michal Wilczynski 2025-03-11  213  	cl->tx_block = true;
-19057a09c5121ea Michal Wilczynski 2025-03-11  214  	cl->tx_tout = MAX_TX_TIMEOUT;
-19057a09c5121ea Michal Wilczynski 2025-03-11  215  	cl->rx_callback = th1520_aon_rx_callback;
-19057a09c5121ea Michal Wilczynski 2025-03-11  216  
-19057a09c5121ea Michal Wilczynski 2025-03-11  217  	aon_chan->ch = mbox_request_channel_byname(cl, "aon");
-19057a09c5121ea Michal Wilczynski 2025-03-11  218  	if (IS_ERR(aon_chan->ch)) {
-19057a09c5121ea Michal Wilczynski 2025-03-11  219  		dev_err(dev, "Failed to request aon mbox chan\n");
-19057a09c5121ea Michal Wilczynski 2025-03-11 @220  		kfree(aon_chan);
-19057a09c5121ea Michal Wilczynski 2025-03-11 @221  		return ERR_CAST(aon_chan->ch);
-19057a09c5121ea Michal Wilczynski 2025-03-11  222  	}
-19057a09c5121ea Michal Wilczynski 2025-03-11  223  
-19057a09c5121ea Michal Wilczynski 2025-03-11  224  	mutex_init(&aon_chan->transaction_lock);
-19057a09c5121ea Michal Wilczynski 2025-03-11  225  	init_completion(&aon_chan->done);
-19057a09c5121ea Michal Wilczynski 2025-03-11  226  
-19057a09c5121ea Michal Wilczynski 2025-03-11  227  	return aon_chan;
-19057a09c5121ea Michal Wilczynski 2025-03-11  228  }
-19057a09c5121ea Michal Wilczynski 2025-03-11  229  EXPORT_SYMBOL_GPL(th1520_aon_init);
-19057a09c5121ea Michal Wilczynski 2025-03-11  230  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  128  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  129  /**
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  130   * bpf_crypto_ctx_create() - Create a mutable BPF crypto context.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  131   *
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  132   * Allocates a crypto context that can be used, acquired, and released by
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  133   * a BPF program. The crypto context returned by this function must either
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  134   * be embedded in a map as a kptr, or freed with bpf_crypto_ctx_release().
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  135   * As crypto API functions use GFP_KERNEL allocations, this function can
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  136   * only be used in sleepable BPF programs.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  137   *
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  138   * bpf_crypto_ctx_create() allocates memory for crypto context.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  139   * It may return NULL if no memory is available.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  140   * @params:	pointer to struct bpf_crypto_params which contains all the
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  141   *		details needed to initialise crypto context.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  142   * @params__sz:	size of steuct bpf_crypto_params usef by bpf program
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  143   * @err:	integer to store error code when NULL is returned.
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  144   */
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  145  __bpf_kfunc struct bpf_crypto_ctx *
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  146  bpf_crypto_ctx_create(const struct bpf_crypto_params *params, u32 params__sz,
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  147  		      int *err)
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  148  {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  149  	const struct bpf_crypto_type *type;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  150  	struct bpf_crypto_ctx *ctx;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  151  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  152  	if (!params || params->reserved[0] || params->reserved[1] ||
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  153  	    params__sz != sizeof(struct bpf_crypto_params)) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  154  		*err = -EINVAL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  155  		return NULL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  156  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  157  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  158  	type = bpf_crypto_get_type(params->type);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  159  	if (IS_ERR(type)) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22 @160  		*err = PTR_ERR(type);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  161  		return NULL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  162  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  163  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  164  	if (!type->has_algo(params->algo)) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  165  		*err = -EOPNOTSUPP;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  166  		goto err_module_put;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  167  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  168  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  169  	if (!!params->authsize ^ !!type->setauthsize) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  170  		*err = -EOPNOTSUPP;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  171  		goto err_module_put;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  172  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  173  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  174  	if (!params->key_len || params->key_len > sizeof(params->key)) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  175  		*err = -EINVAL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  176  		goto err_module_put;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  177  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  178  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  179  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  180  	if (!ctx) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  181  		*err = -ENOMEM;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  182  		goto err_module_put;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  183  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  184  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  185  	ctx->type = type;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  186  	ctx->tfm = type->alloc_tfm(params->algo);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  187  	if (IS_ERR(ctx->tfm)) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  188  		*err = PTR_ERR(ctx->tfm);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  189  		goto err_free_ctx;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  190  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  191  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  192  	if (params->authsize) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  193  		*err = type->setauthsize(ctx->tfm, params->authsize);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  194  		if (*err)
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  195  			goto err_free_tfm;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  196  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  197  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  198  	*err = type->setkey(ctx->tfm, params->key, params->key_len);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  199  	if (*err)
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  200  		goto err_free_tfm;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  201  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  202  	if (type->get_flags(ctx->tfm) & CRYPTO_TFM_NEED_KEY) {
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  203  		*err = -EINVAL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  204  		goto err_free_tfm;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  205  	}
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  206  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  207  	ctx->siv_len = type->ivsize(ctx->tfm) + type->statesize(ctx->tfm);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  208  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  209  	refcount_set(&ctx->usage, 1);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  210  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  211  	return ctx;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  212  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  213  err_free_tfm:
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  214  	type->free_tfm(ctx->tfm);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  215  err_free_ctx:
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  216  	kfree(ctx);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  217  err_module_put:
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  218  	module_put(type->owner);
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  219  
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  220  	return NULL;
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  221  }
+3e1c6f35409f9e4 Vadim Fedorenko 2024-04-22  222  
 
 -- 
 0-DAY CI Kernel Test Service
