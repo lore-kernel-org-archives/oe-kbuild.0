@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006C9460
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Mar 2025 01:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E3A1E1E19
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Mar 2025 07:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742262274; cv=none; b=RVLc8RaB2R9XsSWXt7tD9Jk7kCouqjP0XSBkd9+bHolwjYoP1AqrdcMFj+fSCCExoKnmAXttzrhl8w0g8n8OrC+P3oomijzEMcrPjctuf0R7m4JdWVk7ElndtdCXIGb0PWM6w/kP49ugZlVZze6w3Dz1PdyPLV79KTnUvrY0D7Y=
+	t=1742283118; cv=none; b=bmJwz8FE7EephvUGCweu44G9lZ80uSOTs/eQL7jsiSBqY55JuMUfCeH53Q6VnpCkcnA0hQYt1hxYVbP8N5vhPFVo4OkYvibMGfJJjaGy0GxbCXLeVQEYeWIE7Zl6u2rFsSFUemfnkea6cKmUL+Yvf+tALoiphrF1wANjhZPg0gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742262274; c=relaxed/simple;
-	bh=i8F7YiVFWKlbGcGqGhkURNMsWvVfxrv0/2Jg5uOWrLU=;
+	s=arc-20240116; t=1742283118; c=relaxed/simple;
+	bh=HASSBOyc77dV8/oi7aVzYlAzNW/73sohmGkFOQWqGKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NWQJLLmgUVVYlgTYWD6zgtls/NRDBoEtjBP+HvmOLLjfe8b7yppYdIpc1gRrQzL9IUOD4Syj2QSv05gAPvcPus5szRYL0OMb26OhuBKVP2nN2JNz8x/qOEgHWick4LAIeNUeQBkSlTUHi1XD5/0Gs7ZA0iCdnYuoUJVMFMmjgOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfZeHc+c; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=K2b+Kn0CNLamYHAHirKSRM02MjGb8WVHPUTT4naU6lSWPqNm7i+Qjif29r1/rPW672eAfS/XY8lO4Jo2PbErEEEbU10agpMT2Oxo5a4kuxSt2xN6PBKMVNSYHWS37nZKzW6rE2z1Fm03vqdAF2XfkkzYixlmgNoCLC0Mica/92o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcgyVKUs; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfZeHc+c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcgyVKUs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742262273; x=1773798273;
+  t=1742283116; x=1773819116;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i8F7YiVFWKlbGcGqGhkURNMsWvVfxrv0/2Jg5uOWrLU=;
-  b=nfZeHc+c5MB1KoW94ItXBvPAFrwODO09hozCPOoM+zGXzH4IJXKscCc+
-   tDn6H/XIfj+s+9YA1D6nFMuWxOna3ZrmwyFiA9HZHSyEbpOBJmxOIEovp
-   ENvSIysXLxT7laDcJvw6OB04qpt3sQHXOQnjzCZ0cTpujfevgQtAnHUo2
-   gCnq+R5desjeAe++xeyMzUoZkbgz/lSbRWsVp/DVyDFyYcd7O/lxRMf/U
-   OZi9Nw3+caBXvF+QCXNwETLPPxKECOpwfIJuUVjMon1Mbj/vxg8S35svE
-   vOTjLvTBBpHG1GYDAb/mpkTEQ8yk995nrfSCHDzgsuhsbybHOsPAwPEmd
-   g==;
-X-CSE-ConnectionGUID: I5J/dYTJRLC8D6+0im0m/w==
-X-CSE-MsgGUID: ToUtwP2JTP6xT9mKkGlUBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43574028"
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="43574028"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 18:44:31 -0700
-X-CSE-ConnectionGUID: 3fIEfz8GT0+JIM8p87oh8A==
-X-CSE-MsgGUID: 1FgjoQH/So+J2mENOL9djw==
+  bh=HASSBOyc77dV8/oi7aVzYlAzNW/73sohmGkFOQWqGKQ=;
+  b=hcgyVKUs8jwd+xAyakXHP6agROkCGe2eGqjYDEo2Og0gk1dI0nxgcQt9
+   /c4HiSNkjFpaBgzjmwmOzQrFhoGLAL+uH2eNr92e6F57AeL8eMVLsfOR8
+   FZk3K7TtYXnzD9SeK3VeBo238CT1XuFiCglpyLhtAaiIdtIJK4dbJVRKt
+   Rx0PdlBTN15sfXaN06KPt77pOfW6fS4FQjLXeeqC38pjv1WMhb0f98guB
+   6XQuSfotIx4MvSbd5GYFGevVXn0Yl+5wThPnyQfzCGJpI2/DcnOGJuos/
+   8YUJ+oKJPt6KKOZjGruE7T4MQFY4lNKA+BKYVRRNqmgk0dz+GwDWiCfzg
+   Q==;
+X-CSE-ConnectionGUID: jK0AzNNHQ16xJuC1zzVIXQ==
+X-CSE-MsgGUID: 27FOJbFHQW++Uxx1aGOPXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="42656335"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="42656335"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 00:31:52 -0700
+X-CSE-ConnectionGUID: wf/VyPqIS46BUcfPwfmx4A==
+X-CSE-MsgGUID: AUAuPRzeQL+D5TaA+UFlGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="127198853"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="126372051"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Mar 2025 18:44:30 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Mar 2025 00:31:51 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuM0J-000DIe-2f;
-	Tue, 18 Mar 2025 01:44:27 +0000
-Date: Tue, 18 Mar 2025 09:43:04 +0800
+	id 1tuRQS-000DWk-25;
+	Tue, 18 Mar 2025 07:31:48 +0000
+Date: Tue, 18 Mar 2025 15:31:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/opp/core.c:2516 _opp_set_required_dev() warn: passing
- positive error code '(-95)' to 'PTR_ERR'
-Message-ID: <202503180951.Qi8Xbvog-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [geert-renesas-devel:renesas-dts-for-v6.16 37/43]
+ arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: mmc@15c00000:
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202503181513.B4UGmX7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,92 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ulf Hansson <ulf.hansson@linaro.org>
+CC: linux-renesas-soc@vger.kernel.org
+TO: Biju Das <biju.das.jz@bp.renesas.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Wolfram Sang <wsa-dev@sang-engineering.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
-commit: 0e8158b4a82eb5bfb69df17510d210b073896f00 OPP: Rework _set_required_devs() to manage a single device per call
-date:   5 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250318/202503180951.Qi8Xbvog-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.16
+head:   4c78b0707043146e31671548c813f07ddddd24f7
+commit: 8136204f83985653e4b600c10c92ef74189421fe [37/43] arm64: dts: renesas: r9a09g047: Add SDHI0-SDHI2 nodes
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: arm64-randconfig-051-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181513.B4UGmX7r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev4+g7b57675
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181513.B4UGmX7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503180951.Qi8Xbvog-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503181513.B4UGmX7r-lkp@intel.com/
 
-New smatch warnings:
-drivers/opp/core.c:2516 _opp_set_required_dev() warn: passing positive error code '(-95)' to 'PTR_ERR'
-
-Old smatch warnings:
-drivers/opp/core.c:2958 _opp_set_availability() warn: passing positive error code '(-19)' to 'PTR_ERR'
-drivers/opp/core.c:3034 dev_pm_opp_adjust_voltage() warn: passing positive error code '(-19)' to 'PTR_ERR'
-
-vim +2516 drivers/opp/core.c
-
-4f018bc0e1cfde Viresh Kumar 2018-06-26  2475  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2476  static int _opp_set_required_dev(struct opp_table *opp_table,
-e37440e7e2c276 Viresh Kumar 2023-10-27  2477  				 struct device *dev,
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2478  				 struct device *required_dev,
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2479  				 unsigned int index)
-e37440e7e2c276 Viresh Kumar 2023-10-27  2480  {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2481  	struct opp_table *required_table, *pd_table;
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2482  	struct device *gdev;
-e37440e7e2c276 Viresh Kumar 2023-10-27  2483  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2484  	/* Genpd core takes care of propagation to parent genpd */
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2485  	if (opp_table->is_genpd) {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2486  		dev_err(dev, "%s: Operation not supported for genpds\n", __func__);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2487  		return -EOPNOTSUPP;
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2488  	}
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2489  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2490  	if (index >= opp_table->required_opp_count) {
-e37440e7e2c276 Viresh Kumar 2023-10-27  2491  		dev_err(dev, "Required OPPs not available, can't set required devs\n");
-e37440e7e2c276 Viresh Kumar 2023-10-27  2492  		return -EINVAL;
-e37440e7e2c276 Viresh Kumar 2023-10-27  2493  	}
-e37440e7e2c276 Viresh Kumar 2023-10-27  2494  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2495  	required_table = opp_table->required_opp_tables[index];
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2496  	if (IS_ERR(required_table)) {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2497  		dev_err(dev, "Missing OPP table, unable to set the required devs\n");
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2498  		return -ENODEV;
-925141432fa4d8 Viresh Kumar 2023-11-16  2499  	}
-925141432fa4d8 Viresh Kumar 2023-11-16  2500  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2501  	/*
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2502  	 * The required_opp_tables parsing is not perfect, as the OPP core does
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2503  	 * the parsing solely based on the DT node pointers. The core sets the
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2504  	 * required_opp_tables entry to the first OPP table in the "opp_tables"
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2505  	 * list, that matches with the node pointer.
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2506  	 *
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2507  	 * If the target DT OPP table is used by multiple devices and they all
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2508  	 * create separate instances of 'struct opp_table' from it, then it is
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2509  	 * possible that the required_opp_tables entry may be set to the
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2510  	 * incorrect sibling device.
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2511  	 *
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2512  	 * Cross check it again and fix if required.
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2513  	 */
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2514  	gdev = dev_to_genpd_dev(required_dev);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2515  	if (IS_ERR(gdev))
-0e8158b4a82eb5 Ulf Hansson  2024-10-02 @2516  		return PTR_ERR(gdev);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2517  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2518  	pd_table = _find_opp_table(gdev);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2519  	if (!IS_ERR(pd_table)) {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2520  		if (pd_table != required_table) {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2521  			dev_pm_opp_put_opp_table(required_table);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2522  			opp_table->required_opp_tables[index] = pd_table;
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2523  		} else {
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2524  			dev_pm_opp_put_opp_table(pd_table);
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2525  		}
-925141432fa4d8 Viresh Kumar 2023-11-16  2526  	}
-e37440e7e2c276 Viresh Kumar 2023-10-27  2527  
-0e8158b4a82eb5 Ulf Hansson  2024-10-02  2528  	opp_table->required_devs[index] = required_dev;
-e37440e7e2c276 Viresh Kumar 2023-10-27  2529  	return 0;
-e37440e7e2c276 Viresh Kumar 2023-10-27  2530  }
-e37440e7e2c276 Viresh Kumar 2023-10-27  2531  
+dtcheck warnings: (new ones prefixed by >>)
+   	'renesas,r9a09g047-wdt' is not one of ['renesas,r8a779a0-wdt', 'renesas,r8a779f0-wdt', 'renesas,r8a779g0-wdt', 'renesas,r8a779h0-wdt']
+   	'renesas,r9a09g057-wdt' was expected
+   	'renesas,rza-wdt' was expected
+   	'renesas,rzn1-wdt' was expected
+   	'renesas,rzg2l-wdt' was expected
+   	'renesas,rzv2m-wdt' was expected
+   	'renesas,rcar-gen2-wdt' was expected
+   	'renesas,rcar-gen3-wdt' was expected
+   	'renesas,rcar-gen4-wdt' was expected
+   	from schema $id: http://devicetree.org/schemas/watchdog/renesas,wdt.yaml#
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: mmc@15c00000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,sdhi-r9a09g047', 'renesas,sdhi-r9a09g057'] is too long
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7742', 'renesas,sdhi-r8a7743', 'renesas,sdhi-r8a7744', 'renesas,sdhi-r8a7745', 'renesas,sdhi-r8a77470', 'renesas,sdhi-r8a7790', 'renesas,sdhi-r8a7791', 'renesas,sdhi-r8a7792', 'renesas,sdhi-r8a7793', 'renesas,sdhi-r8a7794']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a774a1', 'renesas,sdhi-r8a774b1', 'renesas,sdhi-r8a774c0', 'renesas,sdhi-r8a774e1', 'renesas,sdhi-r8a7795', 'renesas,sdhi-r8a7796', 'renesas,sdhi-r8a77961', 'renesas,sdhi-r8a77965', 'renesas,sdhi-r8a77970', 'renesas,sdhi-r8a77980', 'renesas,sdhi-r8a77990', 'renesas,sdhi-r8a77995']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a779a0', 'renesas,sdhi-r8a779f0', 'renesas,sdhi-r8a779g0', 'renesas,sdhi-r8a779h0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r9a07g043', 'renesas,sdhi-r9a07g044', 'renesas,sdhi-r9a07g054', 'renesas,sdhi-r9a08g045', 'renesas,sdhi-r9a09g011']
+   	'renesas,rcar-gen1-sdhi' was expected
+   	'renesas,rcar-gen2-sdhi' was expected
+   	'renesas,rcar-gen3-sdhi' was expected
+   	'renesas,rcar-gen4-sdhi' was expected
+   	'renesas,rzg2l-sdhi' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/renesas,sdhi.yaml#
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: mmc@15c10000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,sdhi-r9a09g047', 'renesas,sdhi-r9a09g057'] is too long
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7742', 'renesas,sdhi-r8a7743', 'renesas,sdhi-r8a7744', 'renesas,sdhi-r8a7745', 'renesas,sdhi-r8a77470', 'renesas,sdhi-r8a7790', 'renesas,sdhi-r8a7791', 'renesas,sdhi-r8a7792', 'renesas,sdhi-r8a7793', 'renesas,sdhi-r8a7794']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a774a1', 'renesas,sdhi-r8a774b1', 'renesas,sdhi-r8a774c0', 'renesas,sdhi-r8a774e1', 'renesas,sdhi-r8a7795', 'renesas,sdhi-r8a7796', 'renesas,sdhi-r8a77961', 'renesas,sdhi-r8a77965', 'renesas,sdhi-r8a77970', 'renesas,sdhi-r8a77980', 'renesas,sdhi-r8a77990', 'renesas,sdhi-r8a77995']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a779a0', 'renesas,sdhi-r8a779f0', 'renesas,sdhi-r8a779g0', 'renesas,sdhi-r8a779h0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r9a07g043', 'renesas,sdhi-r9a07g044', 'renesas,sdhi-r9a07g054', 'renesas,sdhi-r9a08g045', 'renesas,sdhi-r9a09g011']
+   	'renesas,rcar-gen1-sdhi' was expected
+   	'renesas,rcar-gen2-sdhi' was expected
+   	'renesas,rcar-gen3-sdhi' was expected
+   	'renesas,rcar-gen4-sdhi' was expected
+   	'renesas,rzg2l-sdhi' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/renesas,sdhi.yaml#
+>> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: mmc@15c20000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,sdhi-r9a09g047', 'renesas,sdhi-r9a09g057'] is too long
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a7742', 'renesas,sdhi-r8a7743', 'renesas,sdhi-r8a7744', 'renesas,sdhi-r8a7745', 'renesas,sdhi-r8a77470', 'renesas,sdhi-r8a7790', 'renesas,sdhi-r8a7791', 'renesas,sdhi-r8a7792', 'renesas,sdhi-r8a7793', 'renesas,sdhi-r8a7794']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a774a1', 'renesas,sdhi-r8a774b1', 'renesas,sdhi-r8a774c0', 'renesas,sdhi-r8a774e1', 'renesas,sdhi-r8a7795', 'renesas,sdhi-r8a7796', 'renesas,sdhi-r8a77961', 'renesas,sdhi-r8a77965', 'renesas,sdhi-r8a77970', 'renesas,sdhi-r8a77980', 'renesas,sdhi-r8a77990', 'renesas,sdhi-r8a77995']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r8a779a0', 'renesas,sdhi-r8a779f0', 'renesas,sdhi-r8a779g0', 'renesas,sdhi-r8a779h0']
+   	'renesas,sdhi-r9a09g047' is not one of ['renesas,sdhi-r9a07g043', 'renesas,sdhi-r9a07g044', 'renesas,sdhi-r9a07g054', 'renesas,sdhi-r9a08g045', 'renesas,sdhi-r9a09g011']
+   	'renesas,rcar-gen1-sdhi' was expected
+   	'renesas,rcar-gen2-sdhi' was expected
+   	'renesas,rcar-gen3-sdhi' was expected
 
 -- 
 0-DAY CI Kernel Test Service
