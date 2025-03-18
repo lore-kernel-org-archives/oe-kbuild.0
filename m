@@ -1,134 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA7A19A
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Mar 2025 00:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006C9460
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Mar 2025 01:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742257319; cv=none; b=iTl7RiXdKK5GaduDCjoLWHKWPszvzINJcjJT5Ty2HDSFkTm4Srivj1wmZf3SESWDr7EUN/FlV+D4FM99hMPQz3+3x0eGLJsuAdzZ6UB+VhJuc6MI7F8WUMx5Io9CU+g/edtKxQuCQhUU9/Qq3xe5dzafY3G/TVd0gUsqjNCy3EQ=
+	t=1742262274; cv=none; b=RVLc8RaB2R9XsSWXt7tD9Jk7kCouqjP0XSBkd9+bHolwjYoP1AqrdcMFj+fSCCExoKnmAXttzrhl8w0g8n8OrC+P3oomijzEMcrPjctuf0R7m4JdWVk7ElndtdCXIGb0PWM6w/kP49ugZlVZze6w3Dz1PdyPLV79KTnUvrY0D7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742257319; c=relaxed/simple;
-	bh=Iwd7h8sVyG1wH8PHtkbgC5SGH3sWuDHW/4nsArruVMs=;
+	s=arc-20240116; t=1742262274; c=relaxed/simple;
+	bh=i8F7YiVFWKlbGcGqGhkURNMsWvVfxrv0/2Jg5uOWrLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fah3k3jIn96eHwg+oytDqYHd3aG57wDbal6GURzMW83nQ2R6wz2rtnJJMmzuAGFed0uogm/Opy8G06ZJqMzNN4XttNbbUQDIjDz7e0LkxXOU78CK353N5N/z2yRwmsBLw0idUYQa1/rY9adiK4FU/XAPiqdXg7Br4YmmwecRC4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iT2qYTH8; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=NWQJLLmgUVVYlgTYWD6zgtls/NRDBoEtjBP+HvmOLLjfe8b7yppYdIpc1gRrQzL9IUOD4Syj2QSv05gAPvcPus5szRYL0OMb26OhuBKVP2nN2JNz8x/qOEgHWick4LAIeNUeQBkSlTUHi1XD5/0Gs7ZA0iCdnYuoUJVMFMmjgOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfZeHc+c; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iT2qYTH8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfZeHc+c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742257317; x=1773793317;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Iwd7h8sVyG1wH8PHtkbgC5SGH3sWuDHW/4nsArruVMs=;
-  b=iT2qYTH82sEv4t3POdMvZL9gys5G+nLy2zYHGFAfzCw5acWBuT5dGWBd
-   X9QqRaTTLWDvs6bv18EnyzEKm56S/+qPeScjV9ICHIpUnK0SfAvRGvQo3
-   6kJm/jx+J+rFZ5VFquOF9g0AjpllOGVyZ8iI3kpVqJlGDchJtb8VuZDpL
-   +sXeO0a9lXVvV7WIM1UKnNNFmvWHZF7yGmq0BxRf59KDbf5BCiavRKrDP
-   5HoRJ9TZPy5GcadHGcUkeHzpNrf3umYaml9HwiL4C9jHeDeuvJfj9mLqs
-   jWbuH4h0LuQHQ53wdlIUBgsPUz7x+jsgsWBaTEjUYGRnMoIe9OU5P3kX0
-   Q==;
-X-CSE-ConnectionGUID: WKD4Ep5dQE2witcayDojxw==
-X-CSE-MsgGUID: g+HTWbZ/Sti9+VV/FNP0tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="42552437"
+  t=1742262273; x=1773798273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i8F7YiVFWKlbGcGqGhkURNMsWvVfxrv0/2Jg5uOWrLU=;
+  b=nfZeHc+c5MB1KoW94ItXBvPAFrwODO09hozCPOoM+zGXzH4IJXKscCc+
+   tDn6H/XIfj+s+9YA1D6nFMuWxOna3ZrmwyFiA9HZHSyEbpOBJmxOIEovp
+   ENvSIysXLxT7laDcJvw6OB04qpt3sQHXOQnjzCZ0cTpujfevgQtAnHUo2
+   gCnq+R5desjeAe++xeyMzUoZkbgz/lSbRWsVp/DVyDFyYcd7O/lxRMf/U
+   OZi9Nw3+caBXvF+QCXNwETLPPxKECOpwfIJuUVjMon1Mbj/vxg8S35svE
+   vOTjLvTBBpHG1GYDAb/mpkTEQ8yk995nrfSCHDzgsuhsbybHOsPAwPEmd
+   g==;
+X-CSE-ConnectionGUID: I5J/dYTJRLC8D6+0im0m/w==
+X-CSE-MsgGUID: ToUtwP2JTP6xT9mKkGlUBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43574028"
 X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="42552437"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 17:21:56 -0700
-X-CSE-ConnectionGUID: GeY4PyZLQf+RJ0B1c6eRTQ==
-X-CSE-MsgGUID: qdmKfccLSiCy/QxaoPXBTw==
+   d="scan'208";a="43574028"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 18:44:31 -0700
+X-CSE-ConnectionGUID: 3fIEfz8GT0+JIM8p87oh8A==
+X-CSE-MsgGUID: 1FgjoQH/So+J2mENOL9djw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="126753727"
+   d="scan'208";a="127198853"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Mar 2025 17:21:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Mar 2025 18:44:30 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuKiO-000DFb-2h;
-	Tue, 18 Mar 2025 00:21:52 +0000
-Date: Tue, 18 Mar 2025 08:21:07 +0800
+	id 1tuM0J-000DIe-2f;
+	Tue, 18 Mar 2025 01:44:27 +0000
+Date: Tue, 18 Mar 2025 09:43:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 11408/11415]
- lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: '##' failed:
- concatenation is not a valid token
-Message-ID: <202503180806.WdbmHQEr-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/opp/core.c:2516 _opp_set_required_dev() warn: passing
+ positive error code '(-95)' to 'PTR_ERR'
+Message-ID: <202503180951.Qi8Xbvog-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: '##' failed: concatenation is not a valid token"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kees Cook <kees@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Ulf Hansson <ulf.hansson@linaro.org>
 
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e94bd4ec45ac156616da285a0bf03056cd7430fc
-commit: 8d483b174d31ef9aff98089d67401e6fc6ad4ea7 [11408/11415] Merge branch 'for-next/kspp' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
-:::::: branch date: 11 hours ago
-:::::: commit date: 13 hours ago
-config: csky-randconfig-r131-20250318 (https://download.01.org/0day-ci/archive/20250318/202503180806.WdbmHQEr-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250318/202503180806.WdbmHQEr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+commit: 0e8158b4a82eb5bfb69df17510d210b073896f00 OPP: Rework _set_required_devs() to manage a single device per call
+date:   5 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 5 months ago
+config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250318/202503180951.Qi8Xbvog-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503180806.WdbmHQEr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503180951.Qi8Xbvog-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: '##' failed: concatenation is not a valid token
->> lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:29:14: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:29:14: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:34:23: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:34:23: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:37:1: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:37:1: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:64:47: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:64:47: sparse: sparse: '##' failed: concatenation is not a valid token
-   lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: Expected ; at end of declaration
-   lib/tests/longest_symbol_kunit.c:28:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
-   lib/tests/longest_symbol_kunit.c:29:14: sparse: sparse: Expected ; at end of declaration
-   lib/tests/longest_symbol_kunit.c:29:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
-   lib/tests/longest_symbol_kunit.c:32:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/tests/longest_symbol_kunit.c:32:1: sparse: sparse: got }
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: Expected ) after typeof
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: undefined identifier '__right'
-   lib/tests/longest_symbol_kunit.c:41:9: sparse: sparse: undefined identifier '__right'
+New smatch warnings:
+drivers/opp/core.c:2516 _opp_set_required_dev() warn: passing positive error code '(-95)' to 'PTR_ERR'
 
-vim +28 lib/tests/longest_symbol_kunit.c
+Old smatch warnings:
+drivers/opp/core.c:2958 _opp_set_availability() warn: passing positive error code '(-19)' to 'PTR_ERR'
+drivers/opp/core.c:3034 dev_pm_opp_adjust_voltage() warn: passing positive error code '(-19)' to 'PTR_ERR'
 
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  27  
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02 @28  noinline int LONGEST_SYM_NAME(void);
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  29  noinline int LONGEST_SYM_NAME(void)
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  30  {
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  31  	return RETURN_LONGEST_SYM;
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  32  }
-c104c16073b7fd lib/longest_symbol_kunit.c Sergio González Collado 2025-03-02  33  
+vim +2516 drivers/opp/core.c
 
-:::::: The code at line 28 was first introduced by commit
-:::::: c104c16073b7fdb3e4eae18f66f4009f6b073d6f Kunit to check the longest symbol length
-
-:::::: TO: Sergio González Collado <sergio.collado@gmail.com>
-:::::: CC: Shuah Khan <shuah@kernel.org>
+4f018bc0e1cfde Viresh Kumar 2018-06-26  2475  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2476  static int _opp_set_required_dev(struct opp_table *opp_table,
+e37440e7e2c276 Viresh Kumar 2023-10-27  2477  				 struct device *dev,
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2478  				 struct device *required_dev,
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2479  				 unsigned int index)
+e37440e7e2c276 Viresh Kumar 2023-10-27  2480  {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2481  	struct opp_table *required_table, *pd_table;
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2482  	struct device *gdev;
+e37440e7e2c276 Viresh Kumar 2023-10-27  2483  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2484  	/* Genpd core takes care of propagation to parent genpd */
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2485  	if (opp_table->is_genpd) {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2486  		dev_err(dev, "%s: Operation not supported for genpds\n", __func__);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2487  		return -EOPNOTSUPP;
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2488  	}
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2489  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2490  	if (index >= opp_table->required_opp_count) {
+e37440e7e2c276 Viresh Kumar 2023-10-27  2491  		dev_err(dev, "Required OPPs not available, can't set required devs\n");
+e37440e7e2c276 Viresh Kumar 2023-10-27  2492  		return -EINVAL;
+e37440e7e2c276 Viresh Kumar 2023-10-27  2493  	}
+e37440e7e2c276 Viresh Kumar 2023-10-27  2494  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2495  	required_table = opp_table->required_opp_tables[index];
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2496  	if (IS_ERR(required_table)) {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2497  		dev_err(dev, "Missing OPP table, unable to set the required devs\n");
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2498  		return -ENODEV;
+925141432fa4d8 Viresh Kumar 2023-11-16  2499  	}
+925141432fa4d8 Viresh Kumar 2023-11-16  2500  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2501  	/*
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2502  	 * The required_opp_tables parsing is not perfect, as the OPP core does
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2503  	 * the parsing solely based on the DT node pointers. The core sets the
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2504  	 * required_opp_tables entry to the first OPP table in the "opp_tables"
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2505  	 * list, that matches with the node pointer.
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2506  	 *
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2507  	 * If the target DT OPP table is used by multiple devices and they all
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2508  	 * create separate instances of 'struct opp_table' from it, then it is
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2509  	 * possible that the required_opp_tables entry may be set to the
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2510  	 * incorrect sibling device.
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2511  	 *
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2512  	 * Cross check it again and fix if required.
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2513  	 */
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2514  	gdev = dev_to_genpd_dev(required_dev);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2515  	if (IS_ERR(gdev))
+0e8158b4a82eb5 Ulf Hansson  2024-10-02 @2516  		return PTR_ERR(gdev);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2517  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2518  	pd_table = _find_opp_table(gdev);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2519  	if (!IS_ERR(pd_table)) {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2520  		if (pd_table != required_table) {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2521  			dev_pm_opp_put_opp_table(required_table);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2522  			opp_table->required_opp_tables[index] = pd_table;
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2523  		} else {
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2524  			dev_pm_opp_put_opp_table(pd_table);
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2525  		}
+925141432fa4d8 Viresh Kumar 2023-11-16  2526  	}
+e37440e7e2c276 Viresh Kumar 2023-10-27  2527  
+0e8158b4a82eb5 Ulf Hansson  2024-10-02  2528  	opp_table->required_devs[index] = required_dev;
+e37440e7e2c276 Viresh Kumar 2023-10-27  2529  	return 0;
+e37440e7e2c276 Viresh Kumar 2023-10-27  2530  }
+e37440e7e2c276 Viresh Kumar 2023-10-27  2531  
 
 -- 
 0-DAY CI Kernel Test Service
