@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AFEA50
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 00:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0F01F8739
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 07:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742429297; cv=none; b=TzlXay0Qk8Co8q/MTsWM7gH/zP+066F+YvGdcTJM8OA//wMAz2pSJGgzdMWiOGC5RySu3pjPbUxHeA25Af3P2Hqbq7GTztUBR7NrqV0g/aypvJeqcJajmkzZd4ig9Xij2Ug+tBD1CrL+l4V1rPhJqu4Qjzua/ogk2X0z8PFFGI0=
+	t=1742455432; cv=none; b=BEAewmMasrrUACgHqIu8ZkBMjR8DGwUylr8ZhBFwPRIHZg5r37xH3IPHGuo2CGPSzm4Js7DKDltBq8XBWC2Lx92L9dWJT+JQMMei57TKV5S9wM/zv+470KyctfhDsTcuCX2LgG3VdA/yArMDE1Tz3rkC/JeyNA2gzwV9Z5+s2Ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742429297; c=relaxed/simple;
-	bh=MiUghm+b4NNoea1KWAsf/Tod82rHo1MvXSgtVzZ95G4=;
+	s=arc-20240116; t=1742455432; c=relaxed/simple;
+	bh=GKvn1ef8qw5PplLGIEpCezqbDM9Tiw+YpJKW7Fz+u7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Id6WWedzA8ABElUwIUXPWTApnMiQ92341oSFyCrDn/YM5DO/HMGaldC2/wtXkRtRGgMqB9zmH6Jjm2hJwhMglad43MeRpjK1PJWBvB66QvB3wB2qAQT0s75HQhY7LYb9VQcD4F13xrpT20d/nOR3DdvYUw8eX6hvFq8TsI+H1rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDGTkHTa; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ddX20vBIOKkKivxlOtcVQvnC1+laEt2QSlHNIP/4Z9Alqf5DAw8ribaE52XsGTox0VyDIrrdlGaf++oPuG+V234PSnsEhgWTksY7bZh+GBAWVse+iydZOZfGHtgfoIoIRjicELOTZhGYKDkoQ8rxWG0B0AXSMJsrmZCON3W8Huk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWv/PIQX; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDGTkHTa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWv/PIQX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742429296; x=1773965296;
+  t=1742455431; x=1773991431;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MiUghm+b4NNoea1KWAsf/Tod82rHo1MvXSgtVzZ95G4=;
-  b=eDGTkHTasjNO55lE6mp3xHM2Cf2Mx4ZWgxQZ44YAd/i4CNB5/h5LjMlz
-   o2QS8tXRRJqiHGLFdMXOp2dpSh5fKIh20v+YzUrxVw/IN4oJEuu6ixAqe
-   uTGknn3q4alhbsqNeOQaWRPa3mucD/Gq0Z8eEtykuUOFq0KKZIt5IkxKJ
-   EzsAc3pcF2fP8O8PhCB9j/ohEG8rj6TFMYchoYblFovNDivOAbphLyV90
-   tzqUae3BQ7M8Eqs0bV2RehmkxVSSafgN84ePmatsd2OQPwI0+PgkJsu4L
-   1iZh4Jxg/dwGIqR3dIIS1Ba1i0CSFnIh1qMgUwDJ5LFk7PK/VGbc8l3gf
-   w==;
-X-CSE-ConnectionGUID: 0Em82a5/SH+bXIinhW18Mw==
-X-CSE-MsgGUID: mGehkGBSRHKrQNrOrDLclw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43756799"
-X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="43756799"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 17:08:15 -0700
-X-CSE-ConnectionGUID: HhVRv2n+SfK2pVr10m7xcA==
-X-CSE-MsgGUID: P08AwRIbRLyyuuTS6fPNsw==
+  bh=GKvn1ef8qw5PplLGIEpCezqbDM9Tiw+YpJKW7Fz+u7M=;
+  b=SWv/PIQXJyqS8OzeMPNyBLzIr5TJcVj0BKQ2VVB/1jZQERr9zpMrcbTv
+   1jUU0QDGfe0KFRAbqdP6dI44V6HIMwEzEgJ134AsH07lLfEy1Kcv5Ca/1
+   R4Trn9oAargMwSuW2F/JygLH1PgszD/rI+h/u++zbFNvn6a9D/Ju3iy97
+   itG/MPhCiOLFc2Fgjg/J4oDIvzhqoe4M36dp3uw+NTO4U4Wvd1d+nMiM3
+   deOFjCmkM2Ljg3qtvQDVGaos8xs7cvV4l2NLFlWzawoPqLqCHvrz8yA/N
+   1dP6CMgIz5UdktSml51MMCXXpq48hDJMrYick8HcSXTM1ZTmQCY0SbPDr
+   g==;
+X-CSE-ConnectionGUID: be/TKxo6T9uFZmKgExGXJg==
+X-CSE-MsgGUID: I8t6lXadR9KcikJWRHw31w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43549557"
+X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
+   d="scan'208";a="43549557"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 00:23:50 -0700
+X-CSE-ConnectionGUID: rXHR2d8ISbCK6se3lcKjQQ==
+X-CSE-MsgGUID: k5PhrV6LSYSNtHtWQSeRrg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="153751469"
+X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
+   d="scan'208";a="128216493"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 19 Mar 2025 17:08:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2025 00:23:49 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tv3SF-00001z-1v;
-	Thu, 20 Mar 2025 00:08:11 +0000
-Date: Thu, 20 Mar 2025 08:07:46 +0800
+	id 1tvAFm-0000HB-2K;
+	Thu, 20 Mar 2025 07:23:46 +0000
+Date: Thu, 20 Mar 2025 15:23:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: [morimoto:sound-msiof-2025-03-18-2 3/11]
  arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: regulator-vcc-sdhi:
  'gpios' is a required property
-Message-ID: <202503200855.a1DYyC2z-lkp@intel.com>
+Message-ID: <202503201534.xle7jx3T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,15 +77,15 @@ head:   920e565f45c3b4a2065fdab49586b975b90f1712
 commit: df1969bba83d97b1d9d0e36ccf1fad660f9c3967 [3/11] arm64: dts: renesas: r8a779g3: Add Renesas R-Car V4H Sparrow Hawk board support
 :::::: branch date: 2 days ago
 :::::: commit date: 3 days ago
-config: arm64-randconfig-052-20250319 (https://download.01.org/0day-ci/archive/20250320/202503200855.a1DYyC2z-lkp@intel.com/config)
+config: arm64-randconfig-052-20250319 (https://download.01.org/0day-ci/archive/20250320/202503201534.xle7jx3T-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 9.5.0
 dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200855.a1DYyC2z-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201534.xle7jx3T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503200855.a1DYyC2z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503201534.xle7jx3T-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
    arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1357.12-1367.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
