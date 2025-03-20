@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0F01F8739
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 07:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA7915A8
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 08:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742455432; cv=none; b=BEAewmMasrrUACgHqIu8ZkBMjR8DGwUylr8ZhBFwPRIHZg5r37xH3IPHGuo2CGPSzm4Js7DKDltBq8XBWC2Lx92L9dWJT+JQMMei57TKV5S9wM/zv+470KyctfhDsTcuCX2LgG3VdA/yArMDE1Tz3rkC/JeyNA2gzwV9Z5+s2Ss=
+	t=1742458082; cv=none; b=WDzSmfyKr01/NjBnGXdCq6xRYJP310WO6Iu8Remcl6/lCkUVWTSLvbDHA/OP98p7/vRenPJXjp23SEPuNY1UfhwfIfiVvtqCBu7WaH4XNaA3TrM0pZEJoN0EHUoHM1mtCgzvslxvktOhXhlD7jaeCjY/2a9A6gDC10ep2c/69A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742455432; c=relaxed/simple;
-	bh=GKvn1ef8qw5PplLGIEpCezqbDM9Tiw+YpJKW7Fz+u7M=;
+	s=arc-20240116; t=1742458082; c=relaxed/simple;
+	bh=yFa4V2SvkmHrT4J2sobVQRPjvxwHytsKhV7+AL+C3do=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ddX20vBIOKkKivxlOtcVQvnC1+laEt2QSlHNIP/4Z9Alqf5DAw8ribaE52XsGTox0VyDIrrdlGaf++oPuG+V234PSnsEhgWTksY7bZh+GBAWVse+iydZOZfGHtgfoIoIRjicELOTZhGYKDkoQ8rxWG0B0AXSMJsrmZCON3W8Huk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SWv/PIQX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=BvjkCJakEJvTWPo5NinAvCf4J6CBcOWknSfR29GWJEnrmhCQOBYoL/0+IzWSXyqIt2k+cxR4ZBb/EMO85c0WLCR8aW8PAYp4MK22TGUUqwbej5rfoj1wdZTtwbJQIPcZAlnDnvEnN/6yR4GttK4zYlh7D0mseVTzQapXJC0lk1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dXkQg7+y; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SWv/PIQX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXkQg7+y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742455431; x=1773991431;
+  t=1742458081; x=1773994081;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GKvn1ef8qw5PplLGIEpCezqbDM9Tiw+YpJKW7Fz+u7M=;
-  b=SWv/PIQXJyqS8OzeMPNyBLzIr5TJcVj0BKQ2VVB/1jZQERr9zpMrcbTv
-   1jUU0QDGfe0KFRAbqdP6dI44V6HIMwEzEgJ134AsH07lLfEy1Kcv5Ca/1
-   R4Trn9oAargMwSuW2F/JygLH1PgszD/rI+h/u++zbFNvn6a9D/Ju3iy97
-   itG/MPhCiOLFc2Fgjg/J4oDIvzhqoe4M36dp3uw+NTO4U4Wvd1d+nMiM3
-   deOFjCmkM2Ljg3qtvQDVGaos8xs7cvV4l2NLFlWzawoPqLqCHvrz8yA/N
-   1dP6CMgIz5UdktSml51MMCXXpq48hDJMrYick8HcSXTM1ZTmQCY0SbPDr
-   g==;
-X-CSE-ConnectionGUID: be/TKxo6T9uFZmKgExGXJg==
-X-CSE-MsgGUID: I8t6lXadR9KcikJWRHw31w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43549557"
+  bh=yFa4V2SvkmHrT4J2sobVQRPjvxwHytsKhV7+AL+C3do=;
+  b=dXkQg7+yubHdY+pzPKicrLQmUc1llM9SWZeDXurxMlzrC/p/LPzrpEtz
+   0MOjLMeI0PwCI3za2wjyUCCZVU27pdvfRradhJR/3Yer3yb9f7AH+Ipeb
+   Wwv09H+WqVqLRjqacUQzg/Vm4vOoJg9voFSTn3FvjVfawHWR+VWqV0HLE
+   lKFj+ocUufJY0oyb4u79m7zMyDKT5NDFz/sTQL4zsNFXLIsAMTYbwst2w
+   hvl+sZC5jq0WHt7IzIqRZO/0R1MQ7mJTxhA72k9p+tS8tKwFsuUbldhxn
+   WcChdwWQ/M/q8+E+Ynzj2t2Ol03zwgkqZavhZabgxpKKu4RBwN9Ch0eQN
+   w==;
+X-CSE-ConnectionGUID: yomeOlBoS5WxLoWX91FGJw==
+X-CSE-MsgGUID: UNbAhrD1R+6hNANRy3veCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="54341850"
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="43549557"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 00:23:50 -0700
-X-CSE-ConnectionGUID: rXHR2d8ISbCK6se3lcKjQQ==
-X-CSE-MsgGUID: k5PhrV6LSYSNtHtWQSeRrg==
+   d="scan'208";a="54341850"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 01:08:00 -0700
+X-CSE-ConnectionGUID: Kfwn8oDYT6yUAe5+CckLhw==
+X-CSE-MsgGUID: gcFWEubjQpm2p0FrhUvVOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="128216493"
+   d="scan'208";a="127187583"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2025 00:23:49 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Mar 2025 01:07:59 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvAFm-0000HB-2K;
-	Thu, 20 Mar 2025 07:23:46 +0000
-Date: Thu, 20 Mar 2025 15:23:39 +0800
+	id 1tvAwX-0000IB-0Q;
+	Thu, 20 Mar 2025 08:07:57 +0000
+Date: Thu, 20 Mar 2025 16:07:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [morimoto:sound-msiof-2025-03-18-2 3/11]
- arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: regulator-vcc-sdhi:
- 'gpios' is a required property
-Message-ID: <202503201534.xle7jx3T-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 10772/12447] mm/hugetlb.c:3668:21-30: opportunity
+ for str_plural(nrinvalid)
+Message-ID: <202503201522.13UePnXd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,44 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Marek Vasut <marek.vasut+renesas@mailbox.org>
-CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+TO: Frank van der Linden <fvdl@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/morimoto/linux sound-msiof-2025-03-18-2
-head:   920e565f45c3b4a2065fdab49586b975b90f1712
-commit: df1969bba83d97b1d9d0e36ccf1fad660f9c3967 [3/11] arm64: dts: renesas: r8a779g3: Add Renesas R-Car V4H Sparrow Hawk board support
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ff7f9b199e3f4cc7d61df5a9a26a7cbb5c1492e6
+commit: 14ed3a595fa4e8f5bceddb91cbcd1ba566c9669b [10772/12447] mm/hugetlb: check bootmem pages for zone intersections
+:::::: branch date: 22 hours ago
 :::::: commit date: 3 days ago
-config: arm64-randconfig-052-20250319 (https://download.01.org/0day-ci/archive/20250320/202503201534.xle7jx3T-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201534.xle7jx3T-lkp@intel.com/reproduce)
+config: x86_64-randconfig-r054-20250320 (https://download.01.org/0day-ci/archive/20250320/202503201522.13UePnXd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503201534.xle7jx3T-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503201522.13UePnXd-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1357.12-1367.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1386.12-1396.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1415.12-1425.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1444.12-1454.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1473.12-1483.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1502.12-1512.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1531.12-1541.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1560.12-1570.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2244.12-2254.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: regulator-vcc-sdhi: 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml#
->> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: regulator-vcc-sdhi: Unevaluated properties are not allowed ('gpio' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> mm/hugetlb.c:3668:21-30: opportunity for str_plural(nrinvalid)
+
+vim +3668 mm/hugetlb.c
+
+e5ff215941d59f Andi Kleen           2008-07-23  3651  
+e5ff215941d59f Andi Kleen           2008-07-23  3652  static void __init report_hugepages(void)
+e5ff215941d59f Andi Kleen           2008-07-23  3653  {
+e5ff215941d59f Andi Kleen           2008-07-23  3654  	struct hstate *h;
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3655  	unsigned long nrinvalid;
+e5ff215941d59f Andi Kleen           2008-07-23  3656  
+e5ff215941d59f Andi Kleen           2008-07-23  3657  	for_each_hstate(h) {
+4abd32dbab201c Andi Kleen           2008-07-23  3658  		char buf[32];
+c6247f72d46457 Matthew Wilcox       2017-07-10  3659  
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3660  		nrinvalid = hstate_boot_nrinvalid[hstate_index(h)];
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3661  		h->max_huge_pages -= nrinvalid;
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3662  
+c6247f72d46457 Matthew Wilcox       2017-07-10  3663  		string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
+6213834c10de95 Muchun Song          2022-06-28  3664  		pr_info("HugeTLB: registered %s page size, pre-allocated %ld pages\n",
+c6247f72d46457 Matthew Wilcox       2017-07-10  3665  			buf, h->free_huge_pages);
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3666  		if (nrinvalid)
+14ed3a595fa4e8 Frank van der Linden 2025-02-28  3667  			pr_info("HugeTLB: %s page size: %lu invalid page%s discarded\n",
+14ed3a595fa4e8 Frank van der Linden 2025-02-28 @3668  					buf, nrinvalid, nrinvalid > 1 ? "s" : "");
+6213834c10de95 Muchun Song          2022-06-28  3669  		pr_info("HugeTLB: %d KiB vmemmap can be freed for a %s page\n",
+6213834c10de95 Muchun Song          2022-06-28  3670  			hugetlb_vmemmap_optimizable_size(h) / SZ_1K, buf);
+e5ff215941d59f Andi Kleen           2008-07-23  3671  	}
+e5ff215941d59f Andi Kleen           2008-07-23  3672  }
+e5ff215941d59f Andi Kleen           2008-07-23  3673  
 
 -- 
 0-DAY CI Kernel Test Service
