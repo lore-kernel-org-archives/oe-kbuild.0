@@ -1,157 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DD7221F03
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 22:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B2822A4F6
+	for <oe-kbuild@lists.linux.dev>; Thu, 20 Mar 2025 22:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742509914; cv=none; b=YbNhjp/MUkX7bA8rJPHcwo30l6+o5cHb19Yzp33U102aVlDwexyDKg3RfDTV5m8z2VtlvpqZc/7xb/OTDwffSzJVHzNri17mraW25Lyap+racco61yvkh5dIq8B7l/XbLGtgb+MyYfnmnHK1fStUwdmv4QL1BGdihXvslmUv3dE=
+	t=1742510702; cv=none; b=RDLzAaMme6DXIyS29tcPiXHBGgdrRmTg2Q14UuwiAZEOhwaAqvXo3uMPAly+hbVdoRe3223olsIj6FqGsclkUhYekRV0fy/ef1YlROCiRT7rN2F9KMuTvGfLLQ8jq27lhiWVUxsFlsGxpsRh3Wen7A8bKLCF2DDgePHiMDZa47E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742509914; c=relaxed/simple;
-	bh=ft8iW4azfufGjfCFzlHC0MsveBbIfbaHUDjguDLJCRo=;
+	s=arc-20240116; t=1742510702; c=relaxed/simple;
+	bh=6RdURT24XNdOYZZeydEm7df/w3SudpsKIRaFa+rpx0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pb1nid/N3m4uZswQfs8BQX+UN3TiiCe88PODO8WrcDAsZPurm6Y1Pa52tchv0cIwICPxioTo/tOy5BZtyZNuW+HBWfZjjYdPAfDoQS2HCUSkt+0HQuvQMH4Bl8L9I2SSRKli9bU/Ki3eNtkdRQtKWmSXFO8x7ze2re9HZls4WLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eq1M73oB; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=kE/k1Enm+FJ73s4Q0evhtw+tim8DUC734uEgMzOPz7cX6gnXYe/x1u1diYuK7OIWFKWTE9Y/5AQyJzbQ1rPbLNseuGCk18X+mh61uZEkutwhMKa9yHVSeU51v10xSl9OD/KFVx80lv75pJmZ4PSmMAu0vDzEXg9KJtt+J860Ox0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dknjhIH7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eq1M73oB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dknjhIH7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742509912; x=1774045912;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ft8iW4azfufGjfCFzlHC0MsveBbIfbaHUDjguDLJCRo=;
-  b=Eq1M73oBP/IixiJikewZ37SPD8CfzFu4TkQP30OILbH5Edsl+yrJrWOH
-   v34PCRB8kx2U7okKU86GQUDJAF9+/uwnsLAkkkJdVV2SkBelzI3srWovT
-   ym0dYubqyrAcY2QI3gclGDQK7glhP7c6VT+X6IVdYmL5IF8s8i+/4rKcp
-   LZZJ2Q8+KHGgD9ZEeR8tsYtydsTvBSuMbA3G0biRvwmlDlNWfWhdekDRi
-   3IpHK6Q21UFfM0an2ekQi68kcHx83xzNPqWsQtjX47bqKk3UwD/dFW28L
-   4m3Zc7A7Et+8JIAskulWS7GSkJsjPs7PNis0sz1ioh2+BfMa0e+DJCv4A
+  t=1742510700; x=1774046700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6RdURT24XNdOYZZeydEm7df/w3SudpsKIRaFa+rpx0s=;
+  b=dknjhIH7iVj72WXq+WNkBtLsiRW5DVwm3ywunnCJ7YaWgkN8pgOoi7Wg
+   0y4zgQmTskEtVK/kHzAxdQPs1XUmEDI3BMrCpDlJdSD/Dg7iM2u1qIe+P
+   hfvf7d94oIHCX9sobj/94c5YeXaMmw9rCddn96HYCYShQvFzLTyN2lA+c
+   Tn0xXrGsg83UEeZ7z5/eHRNYFWvXPOqoTuzDgp2LDG2NfNnkDIEZSGrSB
+   6PMjFOchQtYA2ZOVf5X27IeQAmj1uzGa8bD1kVwXESGxrofzU0HDipQMD
+   oOL3hOvozqw293OUT+7/szUxA30QVdnfmat8mjOrvTGUx56kMsuBBv1Ti
    A==;
-X-CSE-ConnectionGUID: xv5BKK+jRi21AQpmjUnGJA==
-X-CSE-MsgGUID: r3SuB62OTnSLWG8pYgp+JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="55149317"
+X-CSE-ConnectionGUID: fudFKvNgS0SBnGm6Og0rJQ==
+X-CSE-MsgGUID: L1OuIj9hQQip9FMEJPUjNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="53986063"
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="55149317"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:31:39 -0700
-X-CSE-ConnectionGUID: QSiYwG7sThqQ0S8mHxLKrw==
-X-CSE-MsgGUID: EBfebRF4RkWS7SUroXrLgQ==
+   d="scan'208";a="53986063"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:45:00 -0700
+X-CSE-ConnectionGUID: J9jIxauRSbiC0oOyUJiOtg==
+X-CSE-MsgGUID: Wl1ZeM2+Sqekm4987io61Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="127912356"
+   d="scan'208";a="128451972"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Mar 2025 15:31:35 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Mar 2025 15:45:00 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvOQH-0000p9-1b;
-	Thu, 20 Mar 2025 22:31:33 +0000
-Date: Fri, 21 Mar 2025 06:31:18 +0800
+	id 1tvOdB-0000qB-1t;
+	Thu, 20 Mar 2025 22:44:54 +0000
+Date: Fri, 21 Mar 2025 06:43:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4 1/4] dt-bindings: mtd: raw-nand-chip: Relax node name
- pattern
-Message-ID: <202503210631.KaRoBeqN-lkp@intel.com>
+Subject: [linux-next:master 11107/12769]
+ drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x100:
+ (alt)
+Message-ID: <202503210602.fvH5DO1i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "only suspicious fbc files changed"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250313-ppcyaml-elbc-v4-1-55903722d9ea@posteo.net>
-References: <20250313-ppcyaml-elbc-v4-1-55903722d9ea@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Richard Weinberger <richard@nod.at>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: Crystal Wood <oss@buserror.net>
-TO: Madhavan Srinivasan <maddy@linux.ibm.com>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Nicholas Piggin <npiggin@gmail.com>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Naveen N Rao <naveen@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-mtd@lists.infradead.org
-CC: linuxppc-dev@lists.ozlabs.org
-CC: "J. Neuschäfer" <j.ne@posteo.net>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-Hi Neuschäfer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-mtd-raw-nand-chip-Relax-node-name-pattern/20250314-053651
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250313-ppcyaml-elbc-v4-1-55903722d9ea%40posteo.net
-patch subject: [PATCH v4 1/4] dt-bindings: mtd: raw-nand-chip: Relax node name pattern
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-052-20250315 (https://download.01.org/0day-ci/archive/20250321/202503210631.KaRoBeqN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210631.KaRoBeqN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   73b8c1dbc2508188e383023080ce6a582ff5f279
+commit: 36799069b48198e5ce92d99310060c4aecb4b3e3 [11107/12769] objtool: Add CONFIG_OBJTOOL_WERROR
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210602.fvH5DO1i-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210602.fvH5DO1i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503210631.KaRoBeqN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503210602.fvH5DO1i-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: ohci@500000: Unevaluated properties are not allowed ('clock-names', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ohci@500000: failed to match any schema with compatible: ['atmel,at91rm9200-ohci', 'usb-ohci']
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ebi@10000000: failed to match any schema with compatible: ['atmel,at91sam9260-ebi']
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand-controller: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand-controller: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: /ahb/ebi@10000000/nand-controller: failed to match any schema with compatible: ['atmel,at91sam9260-nand-controller']
->> arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand@40000000: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
->> arch/arm/boot/dts/microchip/at91sam9260ek.dtb: nand@40000000: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: i2c-gpio-0: 'sda-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/microchip/at91sam9260ek.dtb: i2c-gpio-0: 'scl-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: ohci@500000: Unevaluated properties are not allowed ('clock-names', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ohci@500000: failed to match any schema with compatible: ['atmel,at91rm9200-ohci', 'usb-ohci']
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ebi@10000000: failed to match any schema with compatible: ['atmel,at91sam9260-ebi']
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand-controller: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand-controller: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: /ahb/ebi@10000000/nand-controller: failed to match any schema with compatible: ['atmel,at91sam9260-nand-controller']
->> arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand@40000000: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: nand@40000000: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/mtd/raw-nand-chip.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: i2c-gpio-0: 'sda-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9_l9260.dtb: i2c-gpio-0: 'scl-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/media/dvb-frontends/dib8000.o: error: objtool: dib8000_tune() falls through to next function dib8096p_cfg_DibRx()
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x332e: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x4097: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x32f5: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x406d: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x32d9: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x32ad: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x37df: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x5177: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x37ae: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3281: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3130: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x4042: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3122: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x4025: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x30e9: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x49a0: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x30af: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3082: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3068: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3034: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3882: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x300b: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x2fe4: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x386a: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x2fbc: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x2f90: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1ba5: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x285f: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1b95: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x467b: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1b89: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1b15: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x4000: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1afb: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3fdd: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x1ad9: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x13b: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3f6d: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x12a: (branch)
+>> drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x100: (alt)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x3aa6: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0xd8: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x9a: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x63: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x39: (branch)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool:   dib8000_tune+0x0: <=== (sym)
+   drivers/media/dvb-frontends/dib8000.o: error: objtool: 1 warning(s) upgraded to errors
+   ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --static-call --uaccess --Werror --backtrace drivers/media/dvb-frontends/dib8000.o.orig -o drivers/media/dvb-frontends/dib8000.o
 
 -- 
 0-DAY CI Kernel Test Service
