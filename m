@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1032321B8F6
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Mar 2025 11:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC14E262A6
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Mar 2025 14:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742555125; cv=none; b=W7c75zqwBHmKbzC1yqzyh8F6iPvHPpTci2Hsl7FNFz5gtaOcMgxRssoOfJOD9N1VAaLfSGuL5UzJnqu8aJEqzlP3oZ5FIq60CWQzyHjhiwWd5D/iiaqTrR/dAglJnNMLxxwnQeCWtAgjKihRTFJa5yj+03w8T7ilAfpMIlS22Mw=
+	t=1742566799; cv=none; b=l5B37kN0d4OzNnClAnE+24vbhgXFQNYFDiIz8NUw8ia7IIKF0Z1Ql+q8CECxTL3VYKHtsTnmnvqIbE48+2ZlG0cZWA4hhTy8XvD1ux46WTwaTgFOF38FlmgpVxeYdj6QU7ZqUnCtJ69/pK4lzmfE3HvWAYL75NjMHLv2fa4CCv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742555125; c=relaxed/simple;
-	bh=mgXNuXzI10rHFm4RWmj5L3ukCGneSrct8ZaQ/zijl14=;
+	s=arc-20240116; t=1742566799; c=relaxed/simple;
+	bh=CSPqXv5xCh0kEWyfDJ+4CE+JTR3P7EK0+g98iyv1fMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WsLG87pXAzgB1y6TJXjcp61huoCXb66XimMbXA061qWK8tIuHhkjjBHpuSszTxnueB/Y7gVNsQ0iulbiO15zGutiyE4NU9Ypo1u74WiYx4fEv4NK3uH7+lf72+aULCQcJhtlPt0YPOKZdOfdcJud8glKAtQpwzaCskWhqRRPtLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ML18T2mh; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=pKD4F/G9CMmS8wIUsci9qWci+zocIDzhWpVk0hWzO5Gs3KqypkR1w4Sna/J+h29P6bsoUhg0aUpYvd/Q9BI7NNAhonRuONyl1DG33a7eZXt0iZY6mALKnbJGa75I2MDZAhQhDTQmI44bsMUi0W9b6edb6fhrag03cOzY2rl7pe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvShF+rj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ML18T2mh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvShF+rj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742555123; x=1774091123;
+  t=1742566798; x=1774102798;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mgXNuXzI10rHFm4RWmj5L3ukCGneSrct8ZaQ/zijl14=;
-  b=ML18T2mhcBB3uccecYyOyu5zD7A+uiKsy1zVgu7fP8R/tQ7nEcTIq4Vx
-   rwWqJQoZyRusn0Ie5uANmxQM1Q4lTt4xRj7zEVFqti12EvOSvgcfxyPfS
-   kOUSYmBMHF2o2Ia8EUWct/I2MW/BmXhnQVKr9Jol/MjmtzA21qVBXyc/C
-   7UD5GQY7hhL3CpISumbKOzNXEbTOlnsMJYlbwqW0rzF41Sdc6NJmIvqV9
-   deq9bhiQjp5QKXhU/52ODwW+yXaAFxB8QggujbUXyP13rKWVshz9r+xv6
-   ishy4bX68EX+uyZ3TTGJmwhpH26j+5RJ/aXpCUYK62WNSEdrym2ONjfp0
+  bh=CSPqXv5xCh0kEWyfDJ+4CE+JTR3P7EK0+g98iyv1fMM=;
+  b=VvShF+rjg2KQU+DBc4IIvZ6AvGCKnbaLy+Crauij04Xn8ne1nFR5aICf
+   PLWmIpVXAgZ1Q1YhnBQCMFUe3YmJtF5JlFYE64zYYBhBOrkSnO2RfxpZz
+   n0VutRKFqDZxeAz7oXLvAZ3R9D1IGHf6IJHjQlxvcUWvO/2dCfc8Sbkbm
+   odqCA0eyfFCG6iMkQoNtqTLg42QQbrTRvHVpP51Vudz081c+oEDxtcHOo
+   fuZf2WsfJrIlGw5FziYSSgzvbYM2R8cSHMSdDrk4sYZgA2aQ8rYwkvFci
+   Ud8ZvzFDfry0KJ7+dADGJoTQbis/oItgntYFeicRDDjrLtGPI8dBmS96K
    g==;
-X-CSE-ConnectionGUID: n5yJfbG/TreURCofCaW/pA==
-X-CSE-MsgGUID: 9X+OjOm0QZubUTxcRzyYNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="55197149"
+X-CSE-ConnectionGUID: 0OAZCDiwRaOltRj/terPyQ==
+X-CSE-MsgGUID: L4eXCxXYSPeZvsUDAJRcQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43561872"
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="55197149"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 04:05:22 -0700
-X-CSE-ConnectionGUID: dSJ7D7okRri+4973bEgOfA==
-X-CSE-MsgGUID: OnECCReyR9i/560+RbCHig==
+   d="scan'208";a="43561872"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 07:19:57 -0700
+X-CSE-ConnectionGUID: 6YGe3WdGRQ+jAfhxU05bfw==
+X-CSE-MsgGUID: I9gVcA/3RV+90Gp/IO8yQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="128594630"
+   d="scan'208";a="154301599"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 21 Mar 2025 04:05:20 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Mar 2025 07:19:56 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvaBi-0001Hg-1B;
-	Fri, 21 Mar 2025 11:05:18 +0000
-Date: Fri, 21 Mar 2025 19:04:54 +0800
+	id 1tvdE1-0001Nn-1W;
+	Fri, 21 Mar 2025 14:19:53 +0000
+Date: Fri, 21 Mar 2025 22:19:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 10451/11415] mm/swapfile.c:1294
- folio_alloc_swap() warn: missing unwind goto?
-Message-ID: <202503211807.3kAltggo-lkp@intel.com>
+Subject: [android-common:android14-6.1 2/2] mm/vmscan.c:5449 shrink_many()
+ error: uninitialized symbol 'lruvec'.
+Message-ID: <202503212243.y4I6GS9Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,90 +64,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kairui Song <kasong@tencent.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   73b8c1dbc2508188e383023080ce6a582ff5f279
-commit: dfa3afbdc51f3c4c440360c1f472eafb0b32285a [10451/11415] mm, swap: simplify folio swap allocation
-:::::: branch date: 25 hours ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-161-20250318 (https://download.01.org/0day-ci/archive/20250321/202503211807.3kAltggo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   5145d157731fcdde380e5da461c483b5080a8df5
+commit: 0500235e3f9d430936afc1377ac2efd76487ae9a [2/2] ANDROID: vendor_hook: Add vendor hook to decide scan abort policy
+:::::: branch date: 17 hours ago
+:::::: commit date: 1 year, 6 months ago
+config: i386-randconfig-141-20250321 (https://download.01.org/0day-ci/archive/20250321/202503212243.y4I6GS9Z-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503211807.3kAltggo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503212243.y4I6GS9Z-lkp@intel.com/
 
 smatch warnings:
-mm/swapfile.c:1294 folio_alloc_swap() warn: missing unwind goto?
+mm/vmscan.c:5449 shrink_many() error: uninitialized symbol 'lruvec'.
 
-vim +1294 mm/swapfile.c
+vim +/lruvec +5449 mm/vmscan.c
 
-dfa3afbdc51f3c Kairui Song 2025-03-14  1254  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1255  /**
-dfa3afbdc51f3c Kairui Song 2025-03-14  1256   * folio_alloc_swap - allocate swap space for a folio
-dfa3afbdc51f3c Kairui Song 2025-03-14  1257   * @folio: folio we want to move to swap
-dfa3afbdc51f3c Kairui Song 2025-03-14  1258   * @gfp: gfp mask for shadow nodes
-dfa3afbdc51f3c Kairui Song 2025-03-14  1259   *
-dfa3afbdc51f3c Kairui Song 2025-03-14  1260   * Allocate swap space for the folio and add the folio to the
-dfa3afbdc51f3c Kairui Song 2025-03-14  1261   * swap cache.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1262   *
-dfa3afbdc51f3c Kairui Song 2025-03-14  1263   * Context: Caller needs to hold the folio lock.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1264   * Return: Whether the folio was added to the swap cache.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1265   */
-dfa3afbdc51f3c Kairui Song 2025-03-14  1266  int folio_alloc_swap(struct folio *folio, gfp_t gfp)
-dfa3afbdc51f3c Kairui Song 2025-03-14  1267  {
-dfa3afbdc51f3c Kairui Song 2025-03-14  1268  	unsigned int order = folio_order(folio);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1269  	unsigned int size = 1 << order;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1270  	swp_entry_t entry = {};
-dfa3afbdc51f3c Kairui Song 2025-03-14  1271  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1272  	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1273  	VM_BUG_ON_FOLIO(!folio_test_uptodate(folio), folio);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1274  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1275  	/*
-dfa3afbdc51f3c Kairui Song 2025-03-14  1276  	 * Should not even be attempting large allocations when huge
-dfa3afbdc51f3c Kairui Song 2025-03-14  1277  	 * page swap is disabled. Warn and fail the allocation.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1278  	 */
-dfa3afbdc51f3c Kairui Song 2025-03-14  1279  	if (order && (!IS_ENABLED(CONFIG_THP_SWAP) || size > SWAPFILE_CLUSTER)) {
-dfa3afbdc51f3c Kairui Song 2025-03-14  1280  		VM_WARN_ON_ONCE(1);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1281  		return -EINVAL;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1282  	}
-dfa3afbdc51f3c Kairui Song 2025-03-14  1283  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1284  	local_lock(&percpu_swap_cluster.lock);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1285  	if (!swap_alloc_fast(&entry, order))
-dfa3afbdc51f3c Kairui Song 2025-03-14  1286  		swap_alloc_slow(&entry, order);
-dfff186787d57e Kairui Song 2025-03-14  1287  	local_unlock(&percpu_swap_cluster.lock);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1288  
-6076b3206d4b8f Kairui Song 2025-03-14  1289  	/* Need to call this even if allocation failed, for MEMCG_SWAP_FAIL. */
-dfa3afbdc51f3c Kairui Song 2025-03-14  1290  	if (mem_cgroup_try_charge_swap(folio, entry))
-dfa3afbdc51f3c Kairui Song 2025-03-14  1291  		goto out_free;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1292  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1293  	if (!entry.val)
-dfa3afbdc51f3c Kairui Song 2025-03-14 @1294  		return -ENOMEM;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1295  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1296  	/*
-dfa3afbdc51f3c Kairui Song 2025-03-14  1297  	 * XArray node allocations from PF_MEMALLOC contexts could
-dfa3afbdc51f3c Kairui Song 2025-03-14  1298  	 * completely exhaust the page allocator. __GFP_NOMEMALLOC
-dfa3afbdc51f3c Kairui Song 2025-03-14  1299  	 * stops emergency reserves from being allocated.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1300  	 *
-dfa3afbdc51f3c Kairui Song 2025-03-14  1301  	 * TODO: this could cause a theoretical memory reclaim
-dfa3afbdc51f3c Kairui Song 2025-03-14  1302  	 * deadlock in the swap out path.
-dfa3afbdc51f3c Kairui Song 2025-03-14  1303  	 */
-dfa3afbdc51f3c Kairui Song 2025-03-14  1304  	if (add_to_swap_cache(folio, entry, gfp | __GFP_NOMEMALLOC, NULL))
-dfa3afbdc51f3c Kairui Song 2025-03-14  1305  		goto out_free;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1306  
-6076b3206d4b8f Kairui Song 2025-03-14  1307  	atomic_long_sub(size, &nr_swap_pages);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1308  	return 0;
-dfa3afbdc51f3c Kairui Song 2025-03-14  1309  
-dfa3afbdc51f3c Kairui Song 2025-03-14  1310  out_free:
-dfa3afbdc51f3c Kairui Song 2025-03-14  1311  	put_swap_folio(folio, entry);
-dfa3afbdc51f3c Kairui Song 2025-03-14  1312  	return -ENOMEM;
-36005bae205da3 Tim Chen    2017-02-22  1313  }
-36005bae205da3 Tim Chen    2017-02-22  1314  
+014f97baadc9bc Yu Zhao      2022-12-21  5397  
+014f97baadc9bc Yu Zhao      2022-12-21  5398  static void shrink_many(struct pglist_data *pgdat, struct scan_control *sc)
+014f97baadc9bc Yu Zhao      2022-12-21  5399  {
+3792ff78b1a131 Yu Zhao      2023-02-13  5400  	int op;
+014f97baadc9bc Yu Zhao      2022-12-21  5401  	int gen;
+014f97baadc9bc Yu Zhao      2022-12-21  5402  	int bin;
+014f97baadc9bc Yu Zhao      2022-12-21  5403  	int first_bin;
+014f97baadc9bc Yu Zhao      2022-12-21  5404  	struct lruvec *lruvec;
+0500235e3f9d43 Kalesh Singh 2023-07-13  5405  	struct lru_gen_folio *lrugen = NULL;
+3792ff78b1a131 Yu Zhao      2023-02-13  5406  	struct mem_cgroup *memcg;
+014f97baadc9bc Yu Zhao      2022-12-21  5407  	const struct hlist_nulls_node *pos;
+014f97baadc9bc Yu Zhao      2022-12-21  5408  
+014f97baadc9bc Yu Zhao      2022-12-21  5409  	bin = first_bin = get_random_u32_below(MEMCG_NR_BINS);
+014f97baadc9bc Yu Zhao      2022-12-21  5410  restart:
+3792ff78b1a131 Yu Zhao      2023-02-13  5411  	op = 0;
+3792ff78b1a131 Yu Zhao      2023-02-13  5412  	memcg = NULL;
+014f97baadc9bc Yu Zhao      2022-12-21  5413  	gen = get_memcg_gen(READ_ONCE(pgdat->memcg_lru.seq));
+014f97baadc9bc Yu Zhao      2022-12-21  5414  
+014f97baadc9bc Yu Zhao      2022-12-21  5415  	rcu_read_lock();
+014f97baadc9bc Yu Zhao      2022-12-21  5416  
+014f97baadc9bc Yu Zhao      2022-12-21  5417  	hlist_nulls_for_each_entry_rcu(lrugen, pos, &pgdat->memcg_lru.fifo[gen][bin], list) {
+014f97baadc9bc Yu Zhao      2022-12-21  5418  		if (op)
+014f97baadc9bc Yu Zhao      2022-12-21  5419  			lru_gen_rotate_memcg(lruvec, op);
+014f97baadc9bc Yu Zhao      2022-12-21  5420  
+014f97baadc9bc Yu Zhao      2022-12-21  5421  		mem_cgroup_put(memcg);
+014f97baadc9bc Yu Zhao      2022-12-21  5422  
+014f97baadc9bc Yu Zhao      2022-12-21  5423  		lruvec = container_of(lrugen, struct lruvec, lrugen);
+014f97baadc9bc Yu Zhao      2022-12-21  5424  		memcg = lruvec_memcg(lruvec);
+014f97baadc9bc Yu Zhao      2022-12-21  5425  
+014f97baadc9bc Yu Zhao      2022-12-21  5426  		if (!mem_cgroup_tryget(memcg)) {
+014f97baadc9bc Yu Zhao      2022-12-21  5427  			op = 0;
+014f97baadc9bc Yu Zhao      2022-12-21  5428  			memcg = NULL;
+014f97baadc9bc Yu Zhao      2022-12-21  5429  			continue;
+014f97baadc9bc Yu Zhao      2022-12-21  5430  		}
+014f97baadc9bc Yu Zhao      2022-12-21  5431  
+014f97baadc9bc Yu Zhao      2022-12-21  5432  		rcu_read_unlock();
+014f97baadc9bc Yu Zhao      2022-12-21  5433  
+014f97baadc9bc Yu Zhao      2022-12-21  5434  		op = shrink_one(lruvec, sc);
+014f97baadc9bc Yu Zhao      2022-12-21  5435  
+014f97baadc9bc Yu Zhao      2022-12-21  5436  		rcu_read_lock();
+3792ff78b1a131 Yu Zhao      2023-02-13  5437  
+0500235e3f9d43 Kalesh Singh 2023-07-13  5438  		if (should_abort_scan(lruvec, sc))
+3792ff78b1a131 Yu Zhao      2023-02-13  5439  			break;
+014f97baadc9bc Yu Zhao      2022-12-21  5440  	}
+014f97baadc9bc Yu Zhao      2022-12-21  5441  
+014f97baadc9bc Yu Zhao      2022-12-21  5442  	rcu_read_unlock();
+014f97baadc9bc Yu Zhao      2022-12-21  5443  
+3792ff78b1a131 Yu Zhao      2023-02-13  5444  	if (op)
+3792ff78b1a131 Yu Zhao      2023-02-13  5445  		lru_gen_rotate_memcg(lruvec, op);
+3792ff78b1a131 Yu Zhao      2023-02-13  5446  
+3792ff78b1a131 Yu Zhao      2023-02-13  5447  	mem_cgroup_put(memcg);
+3792ff78b1a131 Yu Zhao      2023-02-13  5448  
+0500235e3f9d43 Kalesh Singh 2023-07-13 @5449  	if (lruvec && should_abort_scan(lruvec, sc))
+3792ff78b1a131 Yu Zhao      2023-02-13  5450  		return;
+3792ff78b1a131 Yu Zhao      2023-02-13  5451  
+014f97baadc9bc Yu Zhao      2022-12-21  5452  	/* restart if raced with lru_gen_rotate_memcg() */
+014f97baadc9bc Yu Zhao      2022-12-21  5453  	if (gen != get_nulls_value(pos))
+014f97baadc9bc Yu Zhao      2022-12-21  5454  		goto restart;
+014f97baadc9bc Yu Zhao      2022-12-21  5455  
+014f97baadc9bc Yu Zhao      2022-12-21  5456  	/* try the rest of the bins of the current generation */
+014f97baadc9bc Yu Zhao      2022-12-21  5457  	bin = get_memcg_bin(bin + 1);
+014f97baadc9bc Yu Zhao      2022-12-21  5458  	if (bin != first_bin)
+014f97baadc9bc Yu Zhao      2022-12-21  5459  		goto restart;
+014f97baadc9bc Yu Zhao      2022-12-21  5460  }
+014f97baadc9bc Yu Zhao      2022-12-21  5461  
 
 -- 
 0-DAY CI Kernel Test Service
