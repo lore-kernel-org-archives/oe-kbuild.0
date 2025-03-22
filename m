@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C451233153
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 20:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BDC1C84C4
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 22:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742674410; cv=none; b=J/crLnBA8Koh/8Uec1uWUg5b2rmCB1eHBiV+Q2tBCa4IF7BShM7qqMPAaRHKEPq4zSCJhN3P3ErdMfSvM9BIEdQuNCD261xhRof45pu7TfeeLDOkO7qB2ZPKLJ8NsgHofaC5TXCSL3nTdNCdJ31PGJ6dOZ2XDnFCRGCVgoAudMI=
+	t=1742681760; cv=none; b=BtlnwcXhNC6qsVOY3gYRTmDUQOJ4Dl6+b94oQlZVmY52oYcpb1WjTmjjKxnw+2CPU9+4XLIbB6LMtG61RS4EPch2zr3La3Qb+uQuDmKfp3yQ+XE1TbBLd9yxFN60h6mFHPN3P8sgzt5LFu2pCAuJk9A/R/qUiUcAFh1h397Gfgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742674410; c=relaxed/simple;
-	bh=uDlbUQ/SdktmzaK7CkGn1tCeL+ba6lK4n3M6weGScfY=;
+	s=arc-20240116; t=1742681760; c=relaxed/simple;
+	bh=o4yuR55QZqxr9RO6gSxeIOAmPh3myi6c5gu2zFlsxsk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eiy+DL4R/7YlDrPzfNdYK5d0Vr1RI7M1KZMOvGWOYyzBVt2l1vh7ox7kSYpqzXBoHn9KWBWRAP0qAeIScW1Q532UoOJ7OQq6AB2fm3ceg9zHSNuDoJbIDrtCGcnYMar2G2S6wTy17q/HoXGwKbbZ6a5RQ3DmyS3EfGPNNuHYuII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxFo0M0I; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=k2qNWhUvgrw+HZjSeo30sLHlyxALqa0sn3iBzuQ0O2/e5P0JD8oLgVx0eraW4OjF9jBqpupsdGdNF8NqHk0i8rBCI448xc4a+DPY5PyYTHlnp9LUl0po3DpfNIag/Kwn3Q+SNOVZSPzKE8x0G6fkBQSPZy8nMc97oeqbrTO/75M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAqs3IV5; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxFo0M0I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAqs3IV5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742674408; x=1774210408;
+  t=1742681759; x=1774217759;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uDlbUQ/SdktmzaK7CkGn1tCeL+ba6lK4n3M6weGScfY=;
-  b=DxFo0M0IGUFjP03HqMRgQPDDmX6WRf5g+rj99tLo7kDrS6/ZsTBropoZ
-   tIvkduJFuuty+XA9dwNUJtIsNy5NTaXxWCorFrh4aLr4qSK/iwhecVtRk
-   vAUVrLq7bOPKb6t6diH4zfGrzCCJLCNIX7uCrAtXi/F8DNnMd5+UnI7GR
-   2C042SBjIyDWXB6REqmXWY/m+Qw1RqI/pRfgQDNmcBwCySswvc5Zr1Con
-   f2lj+LKweb0BOIIM9K+xDu+cp7EOwUjNcZpY78jeQNpOrbeyBdC8Px1e+
-   YqdMWejVxGXy+UATBqr+6OPWkvFWd+5CHDGWp7WsyCFFVNT6HINtA1Jgt
+  bh=o4yuR55QZqxr9RO6gSxeIOAmPh3myi6c5gu2zFlsxsk=;
+  b=nAqs3IV5+vWOR3n8eESL+U4mj5OcB2hfKyjXMYDLmxYHX04pBGnWUeJY
+   cU1s6BdkBrnuA9UTuiM7wtAl3og4gDkv2Hu/QUewr2iefFKoaOn3v3dVq
+   orH5cBqHdueSMN/kNG3Fl3cCMVsSaliz8S5Hm/Q2XU5CEnMq/DcMCBTe9
+   LH4W5sG2q4QFpzP41of16zS7/q9vbY0YN8B6zVwmP/paSbIZEQDmYbrcy
+   uDngEwybjHN5XrbCSNErh1sBihFGobbLM+rfJFF5ryOHHthKw31xnQfA8
+   apB/vtJ4+4sUapZWoGLMpabFivK04eApDfcpdQaDUIOesw2If3UtsZu3S
    g==;
-X-CSE-ConnectionGUID: V49b3qPNQxu5P+SMv7FZVg==
-X-CSE-MsgGUID: Wflwpab2STC31/ZCimZBHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="44101935"
+X-CSE-ConnectionGUID: MWS6m39ZRkyvnmB6no2xMg==
+X-CSE-MsgGUID: d+jzw8gwQauuoNCLn+UG0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="61439234"
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="44101935"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 13:13:27 -0700
-X-CSE-ConnectionGUID: 6Iv8xMUTT9SiwGuvi/SgjQ==
-X-CSE-MsgGUID: VIuwCac7SS+fJIjvACPwSg==
+   d="scan'208";a="61439234"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 15:15:58 -0700
+X-CSE-ConnectionGUID: QfBROB/ZTuWEYuxUDiUiiw==
+X-CSE-MsgGUID: TZ7jK1KEQMC3++NbyTx+8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="123401223"
+   d="scan'208";a="124157522"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Mar 2025 13:13:26 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Mar 2025 15:15:57 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tw5Df-0002My-0I;
-	Sat, 22 Mar 2025 20:13:23 +0000
-Date: Sun, 23 Mar 2025 04:13:17 +0800
+	id 1tw78E-0002Qf-1t;
+	Sat, 22 Mar 2025 22:15:54 +0000
+Date: Sun, 23 Mar 2025 06:15:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/usb/misc/onboard_usb_dev_pdevs.c:124:0-1: ERROR: missing
- put_device; call of_find_device_by_node on line 96, but without a
- corresponding object release within this function.
-Message-ID: <202503230428.ZqMTz9xf-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:110:2-12: second lock on
+ line 110
+Message-ID: <202503230626.MAJvTz11-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,130 +65,79 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Javier Carrasco <javier.carrasco@wolfvision.net>
+TO: Lijo Lazar <lijo.lazar@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Feifei Xu <feifxu@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   88d324e69ea9f3ae1c1905ea75d717c08bdb8e15
-commit: 31e7f6c015d9eb35e77ae9868801c53ab0ff19ac usb: misc: onboard_hub: rename to onboard_dev
-date:   12 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 12 months ago
-config: loongarch-randconfig-r064-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230428.ZqMTz9xf-lkp@intel.com/config)
+commit: 1e4acf4d93cdc3ffae1b835e304a3f491e4d363e drm/amdgpu: Add reset on init handler for XGMI
+date:   6 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 6 months ago
+config: loongarch-randconfig-r064-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230626.MAJvTz11-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503230428.ZqMTz9xf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503230626.MAJvTz11-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/usb/misc/onboard_usb_dev_pdevs.c:124:0-1: ERROR: missing put_device; call of_find_device_by_node on line 96, but without a corresponding object release within this function.
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:110:2-12: second lock on line 110
 
-vim +124 drivers/usb/misc/onboard_usb_dev_pdevs.c
+vim +110 drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
 
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   31  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   32  /**
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   33   * onboard_dev_create_pdevs -- create platform devices for onboard USB devices
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   34   * @parent_hub	: parent hub to scan for connected onboard devices
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   35   * @pdev_list	: list of onboard platform devices owned by the parent hub
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   36   *
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   37   * Creates a platform device for each supported onboard device that is connected
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   38   * to the given parent hub. The platform device is in charge of initializing the
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   39   * device (enable regulators, take the device out of reset, ...). For onboard
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   40   * hubs, it can optionally control whether the device remains powered during
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   41   * system suspend or not.
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   42   *
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   43   * To keep track of the platform devices they are added to a list that is owned
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   44   * by the parent hub.
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   45   *
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   46   * Some background about the logic in this function, which can be a bit hard
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   47   * to follow:
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   48   *
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   49   * Root hubs don't have dedicated device tree nodes, but use the node of their
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   50   * HCD. The primary and secondary HCD are usually represented by a single DT
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   51   * node. That means the root hubs of the primary and secondary HCD share the
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   52   * same device tree node (the HCD node). As a result this function can be called
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   53   * twice with the same DT node for root hubs. We only want to create a single
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   54   * platform device for each physical onboard device, hence for root hubs the
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   55   * loop is only executed for the root hub of the primary HCD. Since the function
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   56   * scans through all child nodes it still creates pdevs for onboard devices
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   57   * connected to the root hub of the secondary HCD if needed.
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   58   *
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   59   * Further there must be only one platform device for onboard hubs with a peer
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   60   * hub (the hub is a single physical device). To achieve this two measures are
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   61   * taken: pdevs for onboard hubs with a peer are only created when the function
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   62   * is called on behalf of the parent hub that is connected to the primary HCD
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   63   * (directly or through other hubs). For onboard hubs connected to root hubs
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   64   * the function processes the nodes of both peers. A platform device is only
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   65   * created if the peer hub doesn't have one already.
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   66   */
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   67  void onboard_dev_create_pdevs(struct usb_device *parent_hub, struct list_head *pdev_list)
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   68  {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   69  	int i;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   70  	struct usb_hcd *hcd = bus_to_hcd(parent_hub->bus);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   71  	struct device_node *np, *npc;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   72  	struct platform_device *pdev;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   73  	struct pdev_list_entry *pdle;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   74  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   75  	if (!parent_hub->dev.of_node)
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   76  		return;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   77  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   78  	if (!parent_hub->parent && !usb_hcd_is_primary_hcd(hcd))
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   79  		return;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   80  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   81  	for (i = 1; i <= parent_hub->maxchild; i++) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   82  		np = usb_of_get_device_node(parent_hub, i);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   83  		if (!np)
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   84  			continue;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   85  
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25   86  		if (!of_is_onboard_usb_dev(np))
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   87  			goto node_put;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   88  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   89  		npc = of_parse_phandle(np, "peer-hub", 0);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   90  		if (npc) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   91  			if (!usb_hcd_is_primary_hcd(hcd)) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   92  				of_node_put(npc);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   93  				goto node_put;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   94  			}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   95  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  @96  			pdev = of_find_device_by_node(npc);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   97  			of_node_put(npc);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   98  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30   99  			if (pdev) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  100  				put_device(&pdev->dev);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  101  				goto node_put;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  102  			}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  103  		}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  104  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  105  		pdev = of_platform_device_create(np, NULL, &parent_hub->dev);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  106  		if (!pdev) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  107  			dev_err(&parent_hub->dev,
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25  108  				"failed to create platform device for onboard dev '%pOF'\n", np);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  109  			goto node_put;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  110  		}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  111  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  112  		pdle = kzalloc(sizeof(*pdle), GFP_KERNEL);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  113  		if (!pdle) {
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  114  			of_platform_device_destroy(&pdev->dev, NULL);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  115  			goto node_put;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  116  		}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  117  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  118  		pdle->pdev = pdev;
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  119  		list_add(&pdle->node, pdev_list);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  120  
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  121  node_put:
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  122  		of_node_put(np);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  123  	}
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30 @124  }
-31e7f6c015d9eb drivers/usb/misc/onboard_usb_dev_pdevs.c Javier Carrasco   2024-03-25  125  EXPORT_SYMBOL_GPL(onboard_dev_create_pdevs);
-8bc063641cebf9 drivers/usb/misc/onboard_usb_hub_pdevs.c Matthias Kaehlcke 2022-06-30  126  
-
-:::::: The code at line 124 was first introduced by commit
-:::::: 8bc063641cebf9d555e41d135db2b5035b521768 usb: misc: Add onboard_usb_hub driver
-
-:::::: TO: Matthias Kaehlcke <mka@chromium.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21   97  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21   98  static int amdgpu_reset_xgmi_reset_on_init_perform_reset(
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21   99  	struct amdgpu_reset_control *reset_ctl,
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  100  	struct amdgpu_reset_context *reset_context)
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  101  {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  102  	struct amdgpu_device *adev = (struct amdgpu_device *)reset_ctl->handle;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  103  	struct list_head *reset_device_list = reset_context->reset_device_list;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  104  	struct amdgpu_device *tmp_adev = NULL;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  105  	int r;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  106  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  107  	dev_dbg(adev->dev, "xgmi roi - hw reset\n");
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  108  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  109  	list_for_each_entry(tmp_adev, reset_device_list, reset_list) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21 @110  		mutex_lock(&tmp_adev->reset_cntl->reset_lock);
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  111  		tmp_adev->reset_cntl->active_reset =
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  112  			amdgpu_asic_reset_method(adev);
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  113  	}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  114  	r = 0;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  115  	/* Mode1 reset needs to be triggered on all devices together */
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  116  	list_for_each_entry(tmp_adev, reset_device_list, reset_list) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  117  		/* For XGMI run all resets in parallel to speed up the process */
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  118  		if (!queue_work(system_unbound_wq, &tmp_adev->xgmi_reset_work))
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  119  			r = -EALREADY;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  120  		if (r) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  121  			dev_err(tmp_adev->dev,
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  122  				"xgmi reset on init: reset failed with error, %d",
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  123  				r);
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  124  			break;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  125  		}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  126  	}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  127  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  128  	/* For XGMI wait for all resets to complete before proceed */
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  129  	if (!r) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  130  		list_for_each_entry(tmp_adev, reset_device_list, reset_list) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  131  			flush_work(&tmp_adev->xgmi_reset_work);
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  132  			r = tmp_adev->asic_reset_res;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  133  			if (r)
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  134  				break;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  135  		}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  136  	}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  137  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  138  	list_for_each_entry(tmp_adev, reset_device_list, reset_list) {
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  139  		mutex_unlock(&tmp_adev->reset_cntl->reset_lock);
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  140  		tmp_adev->reset_cntl->active_reset = AMD_RESET_METHOD_NONE;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  141  	}
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  142  
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  143  	return r;
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  144  }
+1e4acf4d93cdc3 Lijo Lazar 2024-08-21  145  
 
 -- 
 0-DAY CI Kernel Test Service
