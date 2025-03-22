@@ -1,150 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881AE6AAD
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 16:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191A81C84B6
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 17:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742662714; cv=none; b=h8UBZL+PIiwfXYYCUhUzbhFygwTjwtAzxeS487iOO1xkUSW4l2xhzuRvAIozcZjTPiTmyQgdAzDHrYe9dkZkppU174XICmU80uMZ1YKkAD+flOx0xZwkxEZeD/6rkXa8u9GpFeWTxRZEgxI7dzFKNEoLoLM9ZLphmeQBKtGaWZM=
+	t=1742664190; cv=none; b=OzkmqgQqIbmy55KjdAOvgwlksBW+mWJyqztsn0Yyg+lFdkG6o8s+Xdv3Fc99SbeP7uXUET3lz+PC/pP9MzXi6lJNYWuAvn5ShXDPvvuX0/kBXnjFyy9TnYDFUt/2h9RhjaPkwJc1FIVhrKnyvQkCXB80l7vJ6dCWfV0VSlsEifs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742662714; c=relaxed/simple;
-	bh=j0GadwOaF1uVmBuGhuSDZahIDM/DzbxKsagJ/DFm+9Q=;
+	s=arc-20240116; t=1742664190; c=relaxed/simple;
+	bh=AlSQwxeFSvZ/eH6sNlsPVVY8Sc3bDvwMirQr0L2Rzlg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D/Sw4qfjPH0H+MWHi7rw2/XCktgiAMgTbspBgeuHQ4oQe/I/GH7YKujlFjmJthp90hiuPpnAJ/SXgFW8FDIXDkbja1PTAuh/99r17Ur5spSOVl5bI/HC+dQxHOx5T+wjp25oTYxfuBmbdBlFktIb83l8XTBg5jE1dtu08OV80AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KaHOqveM; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=WjIf6XMdhMap0PI186NMTNdbsi5mxNewBMJ7vkbVyaUxCMoaUtghT/V0LBQVKpfT4x1JqALt2+2st1RPCKQjhoAu/Pztjvqez4FbJfI+GL1EKKgh7j8CEjSAolvTxSNmxjnxh8H7D5fg0Ot0zewxT7+tbapjhRZvAdo5gFRzZgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrLSQASb; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KaHOqveM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742662712; x=1774198712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j0GadwOaF1uVmBuGhuSDZahIDM/DzbxKsagJ/DFm+9Q=;
-  b=KaHOqveMHe0ryQ9UmtjwDbg1QEDsrDtclL3wvWtJouqnSDDpjqqbPoqO
-   Q/AI1M1HjjYd+PRsAqQw3C+vqPWOrBMQiH/Mr6VJFhq+XxTqFpf8JPRgB
-   cCWgYm91cz9jbIJX/XohPrjEYqvi2rZGgBGzpKXNAJJ4p+BNs/9CGPduc
-   5xyNlsvLsn3JZUpPA0KmhGrpmRXbJAHanGdN30R2G+nY6D49MTqo4k1HD
-   VyFI8ErWvI8nJXdt1OMVQubohf5ljHZKAxn/Zz9lY944qnRWrcOgDYT+F
-   pPNRqtKNv+c2pce0Rgn5YTHVksxSxN58+1OMdIxZJ/1uAHwTRp3Czbpjr
-   g==;
-X-CSE-ConnectionGUID: aRzUluADTbuz/aKHxovSkw==
-X-CSE-MsgGUID: 1InGAyYYQomfcsHauM8bng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="44072853"
-X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="44072853"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 09:58:32 -0700
-X-CSE-ConnectionGUID: tooWJ/6jSluvSyt+lXeJ0w==
-X-CSE-MsgGUID: fnRegGFaTXa805M3i9zUkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="124441963"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Mar 2025 09:58:30 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tw2AL-0002Hn-2Y;
-	Sat, 22 Mar 2025 16:58:04 +0000
-Date: Sun, 23 Mar 2025 00:57:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [morimoto:sound-msiof-2025-03-18-2 8/11]
- sound/soc/renesas/rcar/adg.c:423 rsnd_adg_clk_control() warn: 'adg->adg'
- from clk_prepare_enable() not released on lines: 423.
-Message-ID: <202503230043.MWzWn8oQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrLSQASb"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d04ea9d9aso13799375e9.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 10:23:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742664186; x=1743268986; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KLBM96GK8Vo2bxF4XJ5k9cl07rF/cnDeLjPmLmQH8R8=;
+        b=mrLSQASbxXVH2+pXAgs/NBdTRxl9S68OlljzdxkEZKFCw9Xd9OiBSQa5wS8yeQF+Yh
+         Xoq4FRto1JEYyWd7kNkw7rAWDtWnVfwpicF/ahBXMIr9dN63URTneIlcsgSHElwx9fvc
+         hM5MEdFCGGxYBQUeu6QajY32pZzLMqMpT0jiUAhvW4Ndj8m+XqZp2qmZ/DhTKD8+uYQ9
+         6f9QfO+b5pnx/gKWnannpzGvekzLBDnbdVkB31vpW4kPrNlRuCI2lK+XDVnadKWFd4hP
+         Kcw/HvjlvaTSy8qo6xtXTfrxwuJ1qI2fDPcdFbLhxo9YAXN+MCulPCpMPnLpXY+2Dzqi
+         uI2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742664186; x=1743268986;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KLBM96GK8Vo2bxF4XJ5k9cl07rF/cnDeLjPmLmQH8R8=;
+        b=W7HOum+1jGinMk/c6FBJi6FyGM2eRpx1ikTzy/zFnFYYQYU2tMEONomUJiqkgaLZao
+         1otWXfG008owIhO/CyeVBnMneOlo005jnfaCBGh4x6+mgw/nAhlwD9SEw5D4oAPqqYnG
+         9TyhSbCNHYz4rtlDoeI+WRHbFmb5nR3OUqHSa2g4irSINaEOkqsJj4EudVwVxSMHzOcH
+         9Sf5YgSpQUDAL1SOWXRlVoc6Ol84W3s0Reoh9Ztg14HQt6ncWFdFW//qidtsXVK5ljs+
+         7vwGy91s+HPelxuUjgHz8Kd314za1RQ13FsolOlcjBvLYBgj9S+8trNmV/vIOOXuaX6D
+         QlwQ==
+X-Gm-Message-State: AOJu0YzARHZoeymrR6AWt0X640bwuWrXCPyib6wftHnjEZDsRMKxgyC7
+	M2HowM15aLszfbuXR7ZQ8S5TPp8rr8D58PzYtY2z1YWFe6XBATEGKUwHnhqplANWKPpAXTgjvNP
+	UB6o=
+X-Gm-Gg: ASbGncs+Vpm/vrVOc5gccgmVMjN2j5IqxVhDOswMqCrddk5JbVXJj6e44K9LIBUXGl8
+	WboH8x/gRCio9H7DkXzqwecomDovrIKQ8NSPzLd0KuqE/YyKIuTRKHRI3+L6YU+VNzjPmjMpFZ6
+	Z1cAsaJ5WEeYPOhS2r9nlL8CwHQ0AJvpOPDMm99cqIGhzEQ2+KqaR/aCa/Gz29euX3TJ5Ainmgz
+	HVYag3vnD5gPQEO15WMLnM8OynvRypSLtsGcWQ4FzWq2DKc8LqUqjO2IjyI67JFEdpW4VBJXnmI
+	cfPZRcCEIacHnOloDHAA/Pbls6MOKrxQMKCkObUNQxvO+mvP4A==
+X-Google-Smtp-Source: AGHT+IFIxrSX1h4lb/P7EJ1WT0XnDe4ratVjsi8oj/rTNnzAaf8kaqG7dznaMIlHFsUSHtkmsXQDlg==
+X-Received: by 2002:a05:600c:83c4:b0:43c:fffc:7886 with SMTP id 5b1f17b1804b1-43d509ec52fmr66809825e9.8.1742664185409;
+        Sat, 22 Mar 2025 10:23:05 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d4fd17cfesm62340695e9.10.2025.03.22.10.23.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Mar 2025 10:23:04 -0700 (PDT)
+Date: Sat, 22 Mar 2025 20:23:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth
+ before & after link re-training
+Message-ID: <9e956655-8ec6-4279-93db-9d12f6fa8d28@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Krishna,
 
-tree:   https://github.com/morimoto/linux sound-msiof-2025-03-18-2
-head:   920e565f45c3b4a2065fdab49586b975b90f1712
-commit: c88340e663e79b3431fbb6f7647c3d9b1f94b994 [8/11] ASoC: rsnd: enable to use "adg" clock
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230043.MWzWn8oQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-update-current-bus-speed-as-part-of-pci_bus_add_devices/20250313-195014
+base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
+patch link:    https://lore.kernel.org/r/20250313-mhi_bw_up-v2-2-869ca32170bf%40oss.qualcomm.com
+patch subject: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth before & after link re-training
+config: openrisc-randconfig-r073-20250321 (https://download.01.org/0day-ci/archive/20250322/202503222212.TmaQlYi5-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503230043.MWzWn8oQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503222212.TmaQlYi5-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/renesas/rcar/adg.c:423 rsnd_adg_clk_control() warn: 'adg->adg' from clk_prepare_enable() not released on lines: 423.
+smatch warnings:
+drivers/pci/pcie/bwctrl.c:213 pcie_set_target_speed() error: we previously assumed 'bus' could be null (see line 173)
 
-Old smatch warnings:
-sound/soc/renesas/rcar/adg.c:436 rsnd_adg_create_null_clk() warn: passing zero to 'ERR_CAST'
+vim +/bus +213 drivers/pci/pcie/bwctrl.c
 
-vim +423 sound/soc/renesas/rcar/adg.c
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  161  int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  162  			  bool use_lt)
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  163  {
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  164  	struct pci_host_bridge *host = pci_find_host_bridge(port->bus);
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  165  	bool is_rootport = pci_is_root_bus(port->bus);
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  166  	struct pci_bus *bus = port->subordinate;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  167  	u16 target_speed;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  168  	int ret;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  169  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  170  	if (WARN_ON_ONCE(!pcie_valid_speed(speed_req)))
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  171  		return -EINVAL;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  172  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18 @173  	if (bus && bus->cur_bus_speed == speed_req)
+                                                                    ^^^^
+This code assumes bus can be NULL
 
-dfc9403b7c1f56 sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2013-07-21  377  
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  378  int rsnd_adg_clk_control(struct rsnd_priv *priv, int enable)
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  379  {
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  380  	struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  381  	struct clk *clk;
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  382  	int ret = 0, i;
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  383  
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  384  	/* enable adg */
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  385  	if (enable) {
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  386  		ret = clk_prepare_enable(adg->adg);
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  387  		if (ret < 0)
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  388  			return ret;
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  389  	}
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  390  
-4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  391  	for_each_rsnd_clkin(clk, adg, i) {
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  392  		if (enable) {
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  393  			ret = clk_prepare_enable(clk);
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  394  
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  395  			/*
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  396  			 * We shouldn't use clk_get_rate() under
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  397  			 * atomic context. Let's keep it when
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  398  			 * rsnd_adg_clk_enable() was called
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  399  			 */
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  400  			if (ret < 0)
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  401  				break;
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  402  
-4bbff16d26e83a sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2023-02-01  403  			adg->clkin_rate[i] = clk_get_rate(clk);
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  404  		} else {
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  405  			if (adg->clkin_rate[i])
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  406  				clk_disable_unprepare(clk);
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  407  
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  408  			adg->clkin_rate[i] = 0;
-06e8f5c842f2db sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2019-08-06  409  		}
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  410  	}
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  411  
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  412  	/*
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  413  	 * rsnd_adg_clk_enable() might return error (_disable() will not).
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  414  	 * We need to rollback in such case
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  415  	 */
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  416  	if (ret < 0)
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  417  		rsnd_adg_clk_disable(priv);
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09  418  
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  419  	/* disable adg */
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  420  	if (!enable)
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  421  		clk_disable_unprepare(adg->adg);
-c88340e663e79b sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-03-18  422  
-139fa599cea0fd sound/soc/renesas/rcar/adg.c Kuninori Morimoto 2025-01-09 @423  	return ret;
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  424  }
-c2d3171847611e sound/soc/sh/rcar/adg.c      Kuninori Morimoto 2016-12-07  425  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  174  		return 0;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  175  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  176  	target_speed = pcie_bwctrl_select_speed(port, speed_req);
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  177  
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  178  	/*
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  179  	 * The controller driver may need to be scaled for targeted speed
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  180  	 * otherwise link might not come up at requested speed.
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  181  	 */
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  182  	if (is_rootport && host->ops->pre_scale_bus_bw) {
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  183  		ret = host->ops->pre_scale_bus_bw(host->bus, target_speed);
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  184  		if (ret)
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  185  			return ret;
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  186  	}
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  187  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  188  	scoped_guard(rwsem_read, &pcie_bwctrl_setspeed_rwsem) {
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  189  		struct pcie_bwctrl_data *data = port->link_bwctrl;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  190  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  191  		/*
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  192  		 * port->link_bwctrl is NULL during initial scan when called
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  193  		 * e.g. from the Target Speed quirk.
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  194  		 */
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  195  		if (data)
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  196  			mutex_lock(&data->set_speed_mutex);
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  197  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  198  		ret = pcie_bwctrl_change_speed(port, target_speed, use_lt);
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  199  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  200  		if (data)
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  201  			mutex_unlock(&data->set_speed_mutex);
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  202  	}
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  203  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  204  	/*
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  205  	 * Despite setting higher speed into the Target Link Speed, empty
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  206  	 * bus won't train to 5GT+ speeds.
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  207  	 */
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  208  	if (!ret && bus && bus->cur_bus_speed != speed_req &&
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  209  	    !list_empty(&bus->devices))
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  210  		ret = -EAGAIN;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  211  
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  212  	if (is_rootport && host->ops->post_scale_bus_bw)
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13 @213  		host->ops->post_scale_bus_bw(host->bus, pci_bus_speed2lnkctl2(bus->cur_bus_speed));
+                                                                                                                                      ^^^^^^^^^^^^^^^^^^
+But here it's dereferenced without checking.
 
-:::::: The code at line 423 was first introduced by commit
-:::::: 139fa599cea0fd9d38e00246ea9f79af6c59acbd ASoC: rsnd: check rsnd_adg_clk_enable() return value
-
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  214  
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  215  	return ret;
+de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  216  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
