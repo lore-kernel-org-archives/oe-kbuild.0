@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B6B1F4615
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 12:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2841EB184
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 14:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742646723; cv=none; b=a2UHCWiqZgixE/xmRMT4QG8TCd5HmrCeZ6ZIrBCnFruQTM/JAMs4GviEx7c+dbghZ4h1+o3cXpR7oOAb2dQYVosrcLf1MMNvfSKh7HHxsztxBwvWzZQhPGGaHqXwZVTZ6CuIL8AZDqvWQ+KpUSq+s2flLvMoLv1qHorqkFCXyWk=
+	t=1742653459; cv=none; b=EM3IGPqI7DEH87e+jFgZIBKlpHnE16EJFHVWq72x8A0R9SFNs0PPC85qymkEN71q8TEFlceYm7gD9R1nHykGjjT6akGBxfIehlpDOyhkXf5a1CKOaXdwqrCpSLAySX3yHwEpK0ukAjBG+l/ecBd21RTltyYHxnLO4KSzfBYGocA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742646723; c=relaxed/simple;
-	bh=5WDk4DZ0DEQBP7iLpWrKczOWQaPs5ZxTZQrC9fRSDoM=;
+	s=arc-20240116; t=1742653459; c=relaxed/simple;
+	bh=P7yNCgGGWQapCr9GvxWsFargWfuPlwk4HGGuTNwJnEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UINrEVaP9TTGss4febQwclKSEr4mPFA/KQCh7KztYOpVLxay1elgLB3+NRfTm70tG1qrPPvIRF6ae3xAwPZXPIURVBmZq8dbNWll6VpLpu5NVda0Hv8X5nNDvvQfei3VFRHN0wsQ79uFcFt4PEGmkX5Gg1vtEdMtc83A/fpdUK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWOWhpVh; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ZXpVJaT6NLYlkiufQqhKZEohBL/MjfmKNFP2mXwgUdBnAhWER0JUaOgXM+lf0Qy74+2NNFFMdr+dMFw7j59D72rhK93vojSVs+UYGJofMO4Wtfnkg8FyyLQqizTDt5rm1bttyzbEXjspuZCruAGQhEbrdnrAx1ij7E2c4xBbdQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfMnybzA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWOWhpVh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfMnybzA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742646721; x=1774182721;
+  t=1742653457; x=1774189457;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5WDk4DZ0DEQBP7iLpWrKczOWQaPs5ZxTZQrC9fRSDoM=;
-  b=fWOWhpVh1O8nCxcEPkOUBtFN+OgV4YIuw/HyDL/qa24nwR0+s03fJUFR
-   danr9MiSAEq4VqCqXMyEq7srcYRZPeCEzwmJdf6qCSzO9KQtQ0s/gu4oa
-   4sCF2jICJQtVQhu81fV38csWaD/XqT4QKtSvv7W0ApZuNd5KwAnv+DEuc
-   2NPzt0LltZ2GEM28TTex4KkqtuDHHS1iUBCkQkt+TWnD1AnQ2AE9EMrqP
-   c8/9FvFRXnrMjxoj5M19BYCt0dE15cZ+ZeRLBjkTqa8cJTl5Nb493exao
-   bE2bbcGPVGjyLcXNeRQ3ILWHGF+M/F7aRTpgmKxEAvSZ1aL3gGouIHcx8
+  bh=P7yNCgGGWQapCr9GvxWsFargWfuPlwk4HGGuTNwJnEc=;
+  b=OfMnybzAb1yPVb8iwqyGJjbU+VQfoMaw1GP+CauCLTp+EZ6IDuyEvbVC
+   ec9QDy+rSv6wuNKijnijvHGVyOHcPFr4Kma3nXhUbyQ+PWzLD/WysGAw1
+   3qUVbUh4RRJZolixBfCDUJGAIqS+E1IT1LHHEr36m3eOVA6HKO1k4otDe
+   3J2H/JCaerhD3V+fqap+Zdg6/SOREUVBAXsWIz9oIe0WDFaexZG7qGRd0
+   m/kaeWG5gRyAgs9WrzqTJ5Ina+DZDgh5yJHVVWFjqRVDwPmWKqTCixVfS
+   xBs/fa8ednwK6B8ETp/gczFHB7LTU0ET3MkCb8pXqdCa98nOXATXIfpRP
    g==;
-X-CSE-ConnectionGUID: mSLQcGYDQE2iMDIJBVb3Mw==
-X-CSE-MsgGUID: uzzJZ7ZdSuWoRPABET3/3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="69254416"
+X-CSE-ConnectionGUID: DxDgXpavTuKm0gjZDq4apQ==
+X-CSE-MsgGUID: yzIlYlqYRialhz+RB1uFdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43072865"
 X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="69254416"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 05:31:57 -0700
-X-CSE-ConnectionGUID: Oar284rYRJOMKPq3kv0HqQ==
-X-CSE-MsgGUID: JR7n489DQH6ANr4IL0v55Q==
+   d="scan'208";a="43072865"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 07:24:14 -0700
+X-CSE-ConnectionGUID: csdW9hOQRrC3XtNsVDcvsg==
+X-CSE-MsgGUID: YmswRr5BQu6i8cZKCemRnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="123437047"
+   d="scan'208";a="124598520"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Mar 2025 05:31:56 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Mar 2025 07:24:13 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvy13-00028v-39;
-	Sat, 22 Mar 2025 12:31:53 +0000
-Date: Sat, 22 Mar 2025 20:31:17 +0800
+	id 1tvzli-0002BR-0x;
+	Sat, 22 Mar 2025 14:24:10 +0000
+Date: Sat, 22 Mar 2025 22:24:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:311:49-70: opportunity for
- str_true_false(vpe -> collaborate_mode)
-Message-ID: <202503222049.sUXL3q6w-lkp@intel.com>
+Subject: mm/vmalloc.c:1078:3-9: preceding lock on line 1074
+Message-ID: <202503222250.NcdogNZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,55 +64,79 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Lang Yu <Lang.Yu@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+TO: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   88d324e69ea9f3ae1c1905ea75d717c08bdb8e15
-commit: f9070b0f2f9edb503b20b12782d4d601cafc6d5e drm/amdgpu/vpe: add VPE 6.1.1 support
-date:   1 year ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 1 year ago
-config: loongarch-randconfig-r064-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222049.sUXL3q6w-lkp@intel.com/config)
+commit: fc2c22693c608125bbce174c1952eb4db2f8d07f mm: vmalloc: fix lockdep warning
+date:   12 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 12 months ago
+config: loongarch-randconfig-r064-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222250.NcdogNZ7-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503222049.sUXL3q6w-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503222250.NcdogNZ7-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c:311:49-70: opportunity for str_true_false(vpe -> collaborate_mode)
+>> mm/vmalloc.c:1078:3-9: preceding lock on line 1074
 
-vim +311 drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+vim +1078 mm/vmalloc.c
 
-9d4346bdbc6484 Lang Yu    2022-05-23  290  
-9d4346bdbc6484 Lang Yu    2022-05-23  291  static int vpe_early_init(void *handle)
-9d4346bdbc6484 Lang Yu    2022-05-23  292  {
-9d4346bdbc6484 Lang Yu    2022-05-23  293  	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
-9d4346bdbc6484 Lang Yu    2022-05-23  294  	struct amdgpu_vpe *vpe = &adev->vpe;
-9d4346bdbc6484 Lang Yu    2022-05-23  295  
-4e8303cf2c4dd2 Lijo Lazar 2023-09-11  296  	switch (amdgpu_ip_version(adev, VPE_HWIP, 0)) {
-9d4346bdbc6484 Lang Yu    2022-05-23  297  	case IP_VERSION(6, 1, 0):
-9d4346bdbc6484 Lang Yu    2022-05-23  298  		vpe_v6_1_set_funcs(vpe);
-9d4346bdbc6484 Lang Yu    2022-05-23  299  		break;
-f9070b0f2f9edb Lang Yu    2023-11-15  300  	case IP_VERSION(6, 1, 1):
-f9070b0f2f9edb Lang Yu    2023-11-15  301  		vpe_v6_1_set_funcs(vpe);
-f9070b0f2f9edb Lang Yu    2023-11-15  302  		vpe->collaborate_mode = true;
-f9070b0f2f9edb Lang Yu    2023-11-15  303  		break;
-9d4346bdbc6484 Lang Yu    2022-05-23  304  	default:
-9d4346bdbc6484 Lang Yu    2022-05-23  305  		return -EINVAL;
-9d4346bdbc6484 Lang Yu    2022-05-23  306  	}
-9d4346bdbc6484 Lang Yu    2022-05-23  307  
-9d4346bdbc6484 Lang Yu    2022-05-23  308  	vpe_set_ring_funcs(adev);
-9d4346bdbc6484 Lang Yu    2022-05-23  309  	vpe_set_regs(vpe);
-9d4346bdbc6484 Lang Yu    2022-05-23  310  
-f9070b0f2f9edb Lang Yu    2023-11-15 @311  	dev_info(adev->dev, "VPE: collaborate mode %s", vpe->collaborate_mode ? "true" : "false");
-f9070b0f2f9edb Lang Yu    2023-11-15  312  
-9d4346bdbc6484 Lang Yu    2022-05-23  313  	return 0;
-9d4346bdbc6484 Lang Yu    2022-05-23  314  }
-9d4346bdbc6484 Lang Yu    2022-05-23  315  
+f181234a5a21fd Chen Wandun             2021-09-02  1038  
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1039) /*
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1040)  * Returns a node where a first VA, that satisfies addr < va_end, resides.
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1041)  * If success, a node is locked. A user is responsible to unlock it when a
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1042)  * VA is no longer needed to be accessed.
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1043)  *
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1044)  * Returns NULL if nothing found.
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1045)  */
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1046) static struct vmap_node *
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1047) find_vmap_area_exceed_addr_lock(unsigned long addr, struct vmap_area **va)
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1048) {
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1049) 	unsigned long va_start_lowest;
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1050) 	struct vmap_node *vn;
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1051) 	int i;
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1052) 
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1053) repeat:
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1054) 	for (i = 0, va_start_lowest = 0; i < nr_vmap_nodes; i++) {
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1055) 		vn = &vmap_nodes[i];
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1056) 
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1057) 		spin_lock(&vn->busy.lock);
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1058) 		*va = __find_vmap_area_exceed_addr(addr, &vn->busy.root);
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1059) 
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1060) 		if (*va)
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1061) 			if (!va_start_lowest || (*va)->va_start < va_start_lowest)
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1062) 				va_start_lowest = (*va)->va_start;
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1063) 		spin_unlock(&vn->busy.lock);
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1064) 	}
+53becf32aec1c8 Uladzislau Rezki (Sony  2024-01-02  1065) 
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1066) 	/*
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1067) 	 * Check if found VA exists, it might have gone away.  In this case we
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1068) 	 * repeat the search because a VA has been removed concurrently and we
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1069) 	 * need to proceed to the next one, which is a rare case.
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1070) 	 */
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1071) 	if (va_start_lowest) {
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1072) 		vn = addr_to_node(va_start_lowest);
+db64fe02258f15 Nicholas Piggin         2008-10-18  1073  
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28 @1074) 		spin_lock(&vn->busy.lock);
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1075) 		*va = __find_vmap_area(va_start_lowest, &vn->busy.root);
+4aff1dc4fb3a5a Andrey Konovalov        2022-03-24  1076  
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1077) 		if (*va)
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28 @1078) 			return vn;
+db64fe02258f15 Nicholas Piggin         2008-10-18  1079  
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1080) 		spin_unlock(&vn->busy.lock);
+fc2c22693c6081 Uladzislau Rezki (Sony  2024-03-28  1081) 		goto repeat;
+db64fe02258f15 Nicholas Piggin         2008-10-18  1082  	}
+db64fe02258f15 Nicholas Piggin         2008-10-18  1083  
+db64fe02258f15 Nicholas Piggin         2008-10-18  1084  	return NULL;
+db64fe02258f15 Nicholas Piggin         2008-10-18  1085  }
+db64fe02258f15 Nicholas Piggin         2008-10-18  1086  
 
 -- 
 0-DAY CI Kernel Test Service
