@@ -1,76 +1,59 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F30622FF44
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 17:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920DF4C6C
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 17:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742664347; cv=none; b=CbfG1FWg5GrwhcmtFhDXSog0643uQ8HTPXSfIxHDo9K8W3ZOmyaNmGKSBPRv5t/RbDwW2MInduUg4w91P+rQI6/R0xrUCyH5ZICMBHCuBTfm7wqsX5ZaXcDFX1Bw5T7CBr+t8I9EX1IMk6PNzR/GWVsA4pwGU2pH7db3QqmE3E8=
+	t=1742665701; cv=none; b=ft6gn4caGyKKRNcLq1vNcrYtL7RiWOugLMnpfxHd7qs8JAZxgcFqb0ShVQrrz3ds2OqIga0mL2u4qe5S/+frxtnnlxItChoDFtqaAlVbfyERQGnoRtudoQ6HEDzBXPI+tvq8YJU4X9XkcA+o2rrznwEtNCmesEXkFEONA/h11zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742664347; c=relaxed/simple;
-	bh=KVVLbJ1zXJko3vgx6YQzBovfOIgGOqxXxDsSp81uYyk=;
+	s=arc-20240116; t=1742665701; c=relaxed/simple;
+	bh=VpDGkBPD44zHMjcgcC+oQ3jwp/EKobMHKYuDi+xUzM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=l+7A331+d73fSFXkZ8rBHSn+rHgUsUbsVsBErSHzHM0MrxoSbZq6mJ/klNPdzjPhr8fByJw1Zf0Cg1r7WhmKKSgJ55VPgSCg5rUXcBAeaSvmxh+vhn3j1xUpJxaeKZxWjVpneVQvrgeFzTwlP8M33KKSIdRWa+M+4xP+bDV5Jxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eALqMrbk; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=EZ/T6AoKfAjvGUFbqshhCrPH0coZqrXciUHVpHgD8vA7AxhVtRv0sL0oKaXPOntKmojJ7LBchpjsHhJU+qjwh43doKhA7P0M7gVvSOVqiJbptkc7SoEuWbm+ai5JWWaDPWGxVKpQpxsTui/cX3ejeasWNCajWtKBM70l5OEvivI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fN3OhE+V; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eALqMrbk"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso30233145e9.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 10:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742664343; x=1743269143; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F6maXy0URBuJqvOhBuuvKx2+7wYA7mqrbNOfziAWZLY=;
-        b=eALqMrbkobl7K1ekbqj5vV3cE76oD4OPWuzR9pFcpnrvNngDIxrs8XQkoRqcmIYX64
-         jPBnOpYAIAf9GkPJB3Dk4ZA6Nre0qiYc2iUNVmgyPcLNdHZ9Q0kfQIUye8kUCwYhTT6S
-         lFeOUDtgvzOaiKh4ic5T4pQCTrF5obCYYsXl+gIdyyCZ96h+suxmQhljByg4Lpzl95Qr
-         cE+CDLHbiRtitmnNPdGHrZ1e4AahfLFxvodDRX3r/IyIHmcIHaUS3dXyPa41Un/XJCE3
-         vdKxg+VIPZn28Pb+IEEjWajvXlrWj7Qzk4Aq489HAy+BKNKkiHCbyjaP/stKJU5X6TeY
-         cRdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742664343; x=1743269143;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F6maXy0URBuJqvOhBuuvKx2+7wYA7mqrbNOfziAWZLY=;
-        b=qTMIF8lU22OrCGbtZRtpx8Pul60WqL7eXllU5WKjWC1vCuxE89qj0snDFpGiDxvMcZ
-         EJoDvWLix3klwFYFkcvLVGnV9jcz/hhPaKm69BQLZjvOY//6zh+QcX56xF+S7oxYqbPT
-         LmnTStBs4KiRaUi6gSxJ4Cdxv9sgMjIx57Cb1yF+j6ZGUxd9pnMIVmt3EfMU6q/5+V27
-         lhxE5DZ6piX0rCcdczlMgbsMSOuAt0T2OAujgFBA2cMRmpnKGWlocKNT+HbDmoSXPewa
-         GO8o7Kl0Ebw8O8JSl45xEdDRVwXo/6aeL0X9FLrZIUs4+a4vR1J1AVGid/cysCBPJLkL
-         4edA==
-X-Gm-Message-State: AOJu0Yzzxty6eGmDPXaU7kvTE2YYVBhGCNoQL5loZ0+pAAd0DQVa5cZ/
-	GYTq6v+uMHS+s94iTkoSaCrEzN580XbH3XQt5ddsepWQKu2o4PMC59VRstfEVda3geeoJfare+M
-	XAW8=
-X-Gm-Gg: ASbGncuOxXfLRJOk3DKqIoWNZDSb2k/U/2IGLJDAI9iNAdWbYx8JnnJRJtcKKtAjMyD
-	vxyaZJl7OQL7JDkiqIlloBX/gpv1vbucAEcBWTn1TZ7j/5WchEt50fbvDK3J1G1ohuMxVSkctaY
-	ACmpNdR6bZWdYYqXTB0xXnxBPElf4I/Waadmcn7IUjeY+UFIYmNmVzXoCKyizjpPI5qlpSpRvBB
-	sjAMWNmBXDlC/XotXjtutQZKtt7PMf23ChVx6C9adnudo+cbOFTFWqwo2ACytOcZesxw9uzLwkw
-	9px2MTpZv5Vg+Ugq2zO5+mV/aR3rhqQfIgoHjNLJqeU7wCczLg==
-X-Google-Smtp-Source: AGHT+IHwieQKergX1rC+mWOvJOQ5sn9Ft8OV5mIRdJ/Pxfgl8ge9rxEOgVtIeqtby3893whER7DmRQ==
-X-Received: by 2002:a05:600c:5742:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-43d510fff60mr50928825e9.19.1742664342720;
-        Sat, 22 Mar 2025 10:25:42 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d4fd26cecsm61977195e9.17.2025.03.22.10.25.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 10:25:42 -0700 (PDT)
-Date: Sat, 22 Mar 2025 20:25:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Angelo Dureghello <adureghello@baylibre.com>,
-	Alexandru Ardelean <aardelean@baylibre.com>,
-	Beniamin Bia <beniamin.bia@analog.com>,
-	Stefan Popa <stefan.popa@analog.com>, linux-kernel@vger.kernel.org,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
- info
-Message-ID: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fN3OhE+V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742665699; x=1774201699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VpDGkBPD44zHMjcgcC+oQ3jwp/EKobMHKYuDi+xUzM4=;
+  b=fN3OhE+V0vhAV954cIuTwANeik60QjduLGtTm80gXZ4+CwkK/YBNCoAr
+   FfySAVsVh1uavr7iD6dMZr4UpddSMvv2hbLnzHhRtgcvGGZQgfmCO7pb0
+   J0eSdlVI6ePrXo1I4mHL3q5nX9s4BDR57p0MSmYeuYFEZMvjIa69reP5U
+   gHqNActprp8OXfzb/RxlgD2HYfCNNjr+QknRNUyzWtCmJ9zHOkSV6dF2e
+   78T/ujx1KhVY5zMmpIObCmDCvpR+hTu3qRJFGzqckHpDf5riuaGURiKr6
+   pyrFPE51i4GSTO6AhO1egIWUPVccP11SmpWV6KjsXYO1VaGM1266BRL0i
+   Q==;
+X-CSE-ConnectionGUID: q5UKQgA5QwubwdDe3loOnw==
+X-CSE-MsgGUID: N/0LqVBxTbiZGPaHHIf3Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="46657148"
+X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
+   d="scan'208";a="46657148"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 10:48:17 -0700
+X-CSE-ConnectionGUID: fhqOkbZCRZC3dI5+mIyKHg==
+X-CSE-MsgGUID: 4gTt8yr7QQiQuzXMKcLdJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
+   d="scan'208";a="128782107"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 22 Mar 2025 10:48:15 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tw2xB-0002J5-1h;
+	Sat, 22 Mar 2025 17:48:13 +0000
+Date: Sun, 23 Mar 2025 01:47:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android-mainline-rust 2/2]
+ mm/kasan/kasan_test_c.c:1515:1-4: ERROR: reference preceded by free on line
+ 1507
+Message-ID: <202503230138.jMbN15E3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -79,115 +62,90 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c@baylibre.com>
 
-Hi David,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-kernel test robot noticed the following build warnings:
+Hi Matthew,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
-base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
-patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
-patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
-config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-rust
+head:   69e641afed13f4ee53e66be0464646d326f9b5b1
+commit: a2f11547052001bd448ccec81dd1e68409078fbb [2/2] kasan: rust: Add KASAN smoke test via UAF
+:::::: branch date: 2 days ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-103-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230138.jMbN15E3-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503230138.jMbN15E3-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
+cocci warnings: (new ones prefixed by >>)
+>> mm/kasan/kasan_test_c.c:1515:1-4: ERROR: reference preceded by free on line 1507
+   mm/kasan/kasan_test_c.c:788:47-50: ERROR: reference preceded by free on line 787
+   mm/kasan/kasan_test_c.c:262:49-52: ERROR: reference preceded by free on line 260
+   mm/kasan/kasan_test_c.c:625:49-52: ERROR: reference preceded by free on line 624
+   mm/kasan/kasan_test_c.c:672:49-53: ERROR: reference preceded by free on line 658
+   mm/kasan/kasan_test_c.c:698:49-53: ERROR: reference preceded by free on line 692
+   mm/kasan/kasan_test_c.c:472:40-44: ERROR: reference preceded by free on line 470
+   mm/kasan/kasan_test_c.c:645:38-41: ERROR: reference preceded by free on line 644
+   mm/kasan/kasan_test_c.c:427:47-51: ERROR: reference preceded by free on line 425
+   mm/kasan/kasan_test_c.c:832:20-23: ERROR: reference preceded by free on line 830
+   mm/kasan/kasan_test_c.c:857:36-38: ERROR: reference preceded by free on line 856
+--
+>> mm/kasan/kasan_test_c.c:1835:11-12: WARNING kmalloc is used to allocate this memory at line 1809
 
-vim +1270 drivers/iio/adc/ad7606.c
+vim +1515 mm/kasan/kasan_test_c.c
 
-87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
-87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
-87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
-87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
-87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
-87cf5705725eeb David Lechner      2025-03-18  1203  
-87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
-87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
-87cf5705725eeb David Lechner      2025-03-18  1206  
-87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
-87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
-87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
-87cf5705725eeb David Lechner      2025-03-18  1210  
-87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
-87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
-87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
-f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
-f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
-87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {
-87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
-87cf5705725eeb David Lechner      2025-03-18  1218  
-87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
-87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
-87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
-87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
-87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
-87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
-87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
-87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
-f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
-87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
-87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
-87cf5705725eeb David Lechner      2025-03-18  1230  
-87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
-87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
-87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
-87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
-87cf5705725eeb David Lechner      2025-03-18  1235  
-87cf5705725eeb David Lechner      2025-03-18  1236  			/*
-87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
-87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
-87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
-87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
-87cf5705725eeb David Lechner      2025-03-18  1241  			 */
-87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
-87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
-87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-87cf5705725eeb David Lechner      2025-03-18  1245  			else
-87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
-87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-87cf5705725eeb David Lechner      2025-03-18  1248  
-87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
-87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
-87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
-87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
-87cf5705725eeb David Lechner      2025-03-18  1254  
-87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
-87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
-87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-87cf5705725eeb David Lechner      2025-03-18  1258  		}
-87cf5705725eeb David Lechner      2025-03-18  1259  
-87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
-87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
-87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
-87cf5705725eeb David Lechner      2025-03-18  1263  
-87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
-87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
-87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
-                                                                ^^^^^^^^^^^
-i is == indio_dev->num_channels so this is out of bounds by one element.
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1492  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1493  static void kasan_strings(struct kunit *test)
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1494  {
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1495  	char *ptr;
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1496  	size_t size = 24;
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1497  
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1498  	/*
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1499  	 * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1500  	 * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
+0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1501  	 */
+da17e377723f50 lib/test_kasan.c Andrey Konovalov 2021-02-24  1502  	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1503  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1504  	ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1505  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1506  
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1507  	kfree(ptr);
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1508  
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1509  	/*
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1510  	 * Try to cause only 1 invalid access (less spam in dmesg).
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1511  	 * For that we need ptr to point to zeroed byte.
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1512  	 * Skip metadata that could be stored in freed object so ptr
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1513  	 * will likely point to zeroed byte.
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1514  	 */
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1515  	ptr += 16;
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1516  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strchr(ptr, '1'));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1517  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1518  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strrchr(ptr, '1'));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1519  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1520  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strcmp(ptr, "2"));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1521  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1522  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strncmp(ptr, "2", 1));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1523  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1524  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strlen(ptr));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1525  
+73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1526  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strnlen(ptr, 1));
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1527  }
+0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1528  
 
-87cf5705725eeb David Lechner      2025-03-18  1271  
-87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
-87cf5705725eeb David Lechner      2025-03-18  1273  
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
-e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
+:::::: The code at line 1515 was first introduced by commit
+:::::: 0c96350a2d2f64fe777b444c995f6bb633c5d069 lib/test_kasan.c: add tests for several string/memory API functions
+
+:::::: TO: Andrey Ryabinin <aryabinin@virtuozzo.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
