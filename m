@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E30D3398A
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 14:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C646282FA
+	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 15:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742654119; cv=none; b=hPn5Ib9F772Zw7WjkS4knAkfWS0dlzAH4BgYi2SOTAgNvNxiK5Tr5z+L0Gt1scZcrrFTmMBRNpiYa9wmTTo+dQToUWFCLCJ21jAsh2OKDY0cRbbeP6z2ROyEExw0bfD9zFrOsWy13zjZeIB/iDSG7cFOdJWFrniAVOs5caSEe3s=
+	t=1742656535; cv=none; b=S/loC1Ts1bRsV1/2Cns/xndN+FTlCIAXavbuNxdak6XsBgBEx1NYN01fKmRk3RNKQNkrxxTB+fz5b+Fxn1u90g89veyrqCvfKExsIFe21jt/cRx+r0jJkcViaF517eV0trh/tvZbC/RcBZa28B5izefaSBl2nAebGHpYQ5DVcsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742654119; c=relaxed/simple;
-	bh=52kGjk1ojxucYiooCFZbfHm2JqoB1DRPjeUq/y8BJtU=;
+	s=arc-20240116; t=1742656535; c=relaxed/simple;
+	bh=uTaI0/K84aHYvdelJf4CRl52XvFnIU6Y4U4eyB7tc1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uWHBw22DICoifxBNT//AqMY/sqbsB+OytSJ7WPHBS0lwEmmo/T6yX0LCQJ/f+qLecrMNHDosnR/Dl3uohwAqspnPRA1sOt0O2Sc4gwMWmRBYoCchCqrJEZbzMfoZ5yaOhaO4lxmCcLC9BfPfIT++7cTsQDDGG3iwDxvLY29PeCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LnM0pmIq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=sv0DL9tKiymAYpFcouth0Iicxj7TUjhFoo2QXjS1IsZTVeFVtAYOLa0mZytxXP6D86V7ym1WrzsViyVcDvM7JvctX1+pAqzD+SXIftSNiYM2LZO/mhlsRYdwE61LFV1PxFVZir8wDcSYLl2WaqbdHqtoxaYXxT4IjB/WgPzDPyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wx5SzBY3; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnM0pmIq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wx5SzBY3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742654117; x=1774190117;
+  t=1742656533; x=1774192533;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=52kGjk1ojxucYiooCFZbfHm2JqoB1DRPjeUq/y8BJtU=;
-  b=LnM0pmIqeUsCb621wcorGjGmUOEXaSafEEiTgFqNCwBlX/tFGuRb7QOL
-   EpG+4jW7ukb9l5P1Yc0m87XjxLf0sGpUbmSypAZgG876uhKeiOsHbtLHc
-   C61h6SiKfDs4YRQa1rBocRTJo1OF3STULSgUzlwjh769UYlfphOzSEpya
-   //tQYxUD0XVFYcB7B9LQp1SLnVP+Ivxhpv9WdhDZqmkVnNPVbeOeWtWHj
-   9xf9FIej1oejPzS3gWKSwCl2Y5F74gvrHejp1V7v4ymaWw0Erg+Gvl1M5
-   S51vtU/fONdGTf5sGZANfMdcZBpMbKuJYw1PTo5pRc25IUB64doVu1g+C
+  bh=uTaI0/K84aHYvdelJf4CRl52XvFnIU6Y4U4eyB7tc1I=;
+  b=Wx5SzBY31s8Y2XMyc8t6dm5Ni9Rtij734zFRx1B9yPT1izVcsrgJofo/
+   tYI1NoPbcMm8xMCzpCFTt+9NFgRjfrPpNd+oeu5T8UPR8+pFaCz+aLOgR
+   uExgY19DUym77vtwG21c3VJv4Dnt4/qHj+S93nIB8fzR/e+M2bULX52il
+   Fno2GvcWPlzawTCZhLI5/+2UUERWjznLYrGWPLnsCMD/nSYQoeTMsSH7s
+   n2t/LUhHAwqNudxiGpWy0D2MVN6f2IFy0vCLOn2gbTGx1znSFhduNpjfV
+   YVa076XhC9aj2mSGbjQuVdkLapFliwxjqutT9KPfS1clHNntEclooDeTw
    g==;
-X-CSE-ConnectionGUID: u+QExTp+Q2Oy2FdUHDJ80g==
-X-CSE-MsgGUID: OZicfyWbS52fFvOOAwahGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="55286005"
+X-CSE-ConnectionGUID: QFy84ZPxQwK+m89TrLLswg==
+X-CSE-MsgGUID: 6pFs0nytTuG8RW9cpK74JQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="69260778"
 X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="55286005"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 07:35:14 -0700
-X-CSE-ConnectionGUID: B7NHz2O1TviG9SNqKV6jDQ==
-X-CSE-MsgGUID: Ff4sAsJlTmORoVvnofHWIg==
+   d="scan'208";a="69260778"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 08:15:32 -0700
+X-CSE-ConnectionGUID: pw8sQvI7QGmamqvTiZ3MCg==
+X-CSE-MsgGUID: 9wZGG8V8T36o1WyiDJaRWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,267,1736841600"; 
-   d="scan'208";a="128757544"
+   d="scan'208";a="128325808"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Mar 2025 07:35:13 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Mar 2025 08:15:31 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvzwN-0002Bz-0p;
-	Sat, 22 Mar 2025 14:35:11 +0000
-Date: Sat, 22 Mar 2025 22:34:15 +0800
+	id 1tw0ZM-0002D1-1n;
+	Sat, 22 Mar 2025 15:15:28 +0000
+Date: Sat, 22 Mar 2025 23:14:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth
- before & after link re-training
-Message-ID: <202503222212.TmaQlYi5-lkp@intel.com>
+Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
+ info
+Message-ID: <202503222246.RafigmhQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,111 +66,129 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
-References: <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
-TO: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c@baylibre.com>
+References: <20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c@baylibre.com>
+TO: David Lechner <dlechner@baylibre.com>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: linux-iio@vger.kernel.org
+CC: Michael Hennerich <Michael.Hennerich@analog.com>
+CC: Angelo Dureghello <adureghello@baylibre.com>
+CC: Alexandru Ardelean <aardelean@baylibre.com>
+CC: Beniamin Bia <beniamin.bia@analog.com>
+CC: Stefan Popa <stefan.popa@analog.com>
+CC: linux-kernel@vger.kernel.org
+CC: David Lechner <dlechner@baylibre.com>
+CC: "Nuno Sá" <nuno.sa@analog.com>
 
-Hi Krishna,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 80e54e84911a923c40d7bee33a34c1b4be148d7a]
+[auto build test WARNING on 9f36acefb2621d980734a5bb7d74e0e24e0af166]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-update-current-bus-speed-as-part-of-pci_bus_add_devices/20250313-195014
-base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-patch link:    https://lore.kernel.org/r/20250313-mhi_bw_up-v2-2-869ca32170bf%40oss.qualcomm.com
-patch subject: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth before & after link re-training
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: openrisc-randconfig-r073-20250321 (https://download.01.org/0day-ci/archive/20250322/202503222212.TmaQlYi5-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
+base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
+patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
+patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503222212.TmaQlYi5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
 
 smatch warnings:
-drivers/pci/pcie/bwctrl.c:213 pcie_set_target_speed() error: we previously assumed 'bus' could be null (see line 173)
+drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
+drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
 
-vim +/bus +213 drivers/pci/pcie/bwctrl.c
+vim +1270 drivers/iio/adc/ad7606.c
 
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  143  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  144  /**
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  145   * pcie_set_target_speed - Set downstream Link Speed for PCIe Port
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  146   * @port:	PCIe Port
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  147   * @speed_req:	Requested PCIe Link Speed
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  148   * @use_lt:	Wait for the LT or DLLLA bit to detect the end of link training
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  149   *
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  150   * Attempt to set PCIe Port Link Speed to @speed_req. @speed_req may be
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  151   * adjusted downwards to the best speed supported by both the Port and PCIe
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  152   * Device underneath it.
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  153   *
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  154   * Return:
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  155   * * 0		- on success
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  156   * * -EINVAL	- @speed_req is not a PCIe Link Speed
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  157   * * -ENODEV	- @port is not controllable
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  158   * * -ETIMEDOUT	- changing Link Speed took too long
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  159   * * -EAGAIN	- Link Speed was changed but @speed_req was not achieved
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  160   */
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  161  int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  162  			  bool use_lt)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  163  {
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  164  	struct pci_host_bridge *host = pci_find_host_bridge(port->bus);
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  165  	bool is_rootport = pci_is_root_bus(port->bus);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  166  	struct pci_bus *bus = port->subordinate;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  167  	u16 target_speed;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  168  	int ret;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  169  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  170  	if (WARN_ON_ONCE(!pcie_valid_speed(speed_req)))
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  171  		return -EINVAL;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  172  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18 @173  	if (bus && bus->cur_bus_speed == speed_req)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  174  		return 0;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  175  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  176  	target_speed = pcie_bwctrl_select_speed(port, speed_req);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  177  
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  178  	/*
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  179  	 * The controller driver may need to be scaled for targeted speed
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  180  	 * otherwise link might not come up at requested speed.
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  181  	 */
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  182  	if (is_rootport && host->ops->pre_scale_bus_bw) {
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  183  		ret = host->ops->pre_scale_bus_bw(host->bus, target_speed);
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  184  		if (ret)
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  185  			return ret;
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  186  	}
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  187  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  188  	scoped_guard(rwsem_read, &pcie_bwctrl_setspeed_rwsem) {
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  189  		struct pcie_bwctrl_data *data = port->link_bwctrl;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  190  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  191  		/*
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  192  		 * port->link_bwctrl is NULL during initial scan when called
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  193  		 * e.g. from the Target Speed quirk.
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  194  		 */
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  195  		if (data)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  196  			mutex_lock(&data->set_speed_mutex);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  197  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  198  		ret = pcie_bwctrl_change_speed(port, target_speed, use_lt);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  199  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  200  		if (data)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  201  			mutex_unlock(&data->set_speed_mutex);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  202  	}
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  203  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  204  	/*
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  205  	 * Despite setting higher speed into the Target Link Speed, empty
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  206  	 * bus won't train to 5GT+ speeds.
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  207  	 */
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  208  	if (!ret && bus && bus->cur_bus_speed != speed_req &&
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  209  	    !list_empty(&bus->devices))
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  210  		ret = -EAGAIN;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  211  
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  212  	if (is_rootport && host->ops->post_scale_bus_bw)
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13 @213  		host->ops->post_scale_bus_bw(host->bus, pci_bus_speed2lnkctl2(bus->cur_bus_speed));
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  214  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  215  	return ret;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  216  }
-665745f274870c Ilpo Järvinen             2024-10-18  217  
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1195  
+87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
+87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
+87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
+87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
+87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
+87cf5705725eeb David Lechner      2025-03-18  1203  
+87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
+87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
+87cf5705725eeb David Lechner      2025-03-18  1206  
+87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
+87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
+87cf5705725eeb David Lechner      2025-03-18  1210  
+87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
+87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
+87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
+87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {
+87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
+87cf5705725eeb David Lechner      2025-03-18  1218  
+87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
+87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
+87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
+87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
+87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
+87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
+87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
+87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
+87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
+87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
+87cf5705725eeb David Lechner      2025-03-18  1230  
+87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
+87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
+87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1235  
+87cf5705725eeb David Lechner      2025-03-18  1236  			/*
+87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
+87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
+87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
+87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
+87cf5705725eeb David Lechner      2025-03-18  1241  			 */
+87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
+87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1245  			else
+87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1248  
+87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
+87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
+87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
+87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1254  
+87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
+87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1258  		}
+87cf5705725eeb David Lechner      2025-03-18  1259  
+87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
+87cf5705725eeb David Lechner      2025-03-18  1263  
+87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
+87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
+87cf5705725eeb David Lechner      2025-03-18  1271  
+87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
+87cf5705725eeb David Lechner      2025-03-18  1273  
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1276  
 
 -- 
 0-DAY CI Kernel Test Service
