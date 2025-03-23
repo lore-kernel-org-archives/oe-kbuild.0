@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D371754B
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 09:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794631DE4CE
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 12:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742720501; cv=none; b=FQ/uj6m0EnwP+Vk+Fw5QLRUC77rFB0Ho6fzi66XPr0oXqBpRh12GQNgAOQaoU7GHRiGcKpGiV8x450YxIGBVYahbe/c6dXAAiSwwLxWMU9Dd61iujXJDXqC/KUD9PIc8wzf/MTAAFXbH1q7g/htamMWV6fULgNMkaJEgf4mOEJg=
+	t=1742731571; cv=none; b=G5IfmFpk+YbGOSshW+eizyYp0AQ+lzH6Uax/O9kohfRRemGpO6as1BzwH8L1PVfx1mRUTib1njEiGexHbv+ax7bIqaiirxGuc464YPshoqhHeXWYkgzFlJRvrgVad+miw2L0c8GIkIStfdTK7WyJTb3A5q7Sbgi6oEHsb2fxHJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742720501; c=relaxed/simple;
-	bh=KZyYIgu6rL+2ojw+n4yYH1B9dK5t7gSSjcjo8lukH/g=;
+	s=arc-20240116; t=1742731571; c=relaxed/simple;
+	bh=xyXaJ7Oq4QwsMHvvDMaQwte9ZW+kfJvNwT9ukYZ7gKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RPjiEfNvbTrPlEXM4cAuOf5wFzsOe5LYdTlLELINeohEPXGYRsEK3Uj05v5dJTXjyJET+SzTPQUNg8N93qYqXSBxSyNCCQoLfceoCl1/9pjBTgEVEz7/sc9FQp216XykGCRDaffVlzIB1IOCtICydorsSAHLj+rkKHDpLsdUPY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ies4o5bX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=i0IIG36YrrBwAasdMpYybAbYZwNnpYdz/YACZA8/Y7L0g2QfARFBvbtmWbZ1Kjfa2GU41AlRU2Bwo5ZHpmvCwZdzf+7qyCBIXE3z2Lczh1V6HXAVc7GoQpJ/yBknGBjqPTARy3S1Y9FzCBu78fi+o3vvTnkl9KZpC9P38oSn2/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jraAjrtX; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ies4o5bX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jraAjrtX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742720499; x=1774256499;
+  t=1742731569; x=1774267569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KZyYIgu6rL+2ojw+n4yYH1B9dK5t7gSSjcjo8lukH/g=;
-  b=ies4o5bXnKbQs0bX3F/S3gcxAdS2oFZOfQdhx+VeOyMKKq7wS8rdTR98
-   F1TurO1VofXpLuOglAINwsVRGEc2mBlMzL5cE+uE6PfY9ZwJjSrGDHrzE
-   T/r9X4BrrYrai6A2//J0lY4gtHhCirp8FPDV6Lwe5+TCOksjCo32mvvvr
-   iZ46YVTijWAljkQFpZ6twFPuGzf+lh1jCs7sSFopjJ/tqwao3yu1QCCxi
-   2EIXd5IkPVv20gvIfMkmn0vzf9z4eXUpmEjrdtB3T34iZhas06RPV8MbV
-   nggGsyCCJl8a0gqCPppjUaaFRRZ92iT5B8riCTEcIUtTvNz+UFhd4kDXF
-   w==;
-X-CSE-ConnectionGUID: 14dYlJtPTRSyrK9TWnzrVQ==
-X-CSE-MsgGUID: JRG1uIoPSOq4CMeaTc7JIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43947469"
+  bh=xyXaJ7Oq4QwsMHvvDMaQwte9ZW+kfJvNwT9ukYZ7gKE=;
+  b=jraAjrtXo3uWLYBnSlrEASP2S3K6zPo4m/hD9BQvhIyyI7p+H2kI4vY2
+   nkuS8wR6NYqj6kPz20FrBRB/06tlxbShXUO1u4tZutMh+CFGcBuZH2eOT
+   EJWSwXSh7637eT5cVZPd02HnyKTA4P6ui02m/ahwPnDWqDUA9FU1jHicF
+   Im04T+qMNqgRz+1VZX0mwOOs1a42OZpLLnQl0OG8xq6xBg0WZiXKusfAB
+   cm+HXvzgkFK1i45yO6M6N3VU/zCZOnIHDbDOUHK9U/dhENaARQgXs+DFw
+   6BjIyZoX+gmZVHPYjV4UQ6vIcFikEhiLdqm9pB5mQi8R5WnM5/Nrl3pGP
+   Q==;
+X-CSE-ConnectionGUID: ciS03aGwQ4WzBChdiusxtg==
+X-CSE-MsgGUID: 53TFPWgSRCaoLfAeKyqStQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="47599668"
 X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="43947469"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 02:01:38 -0700
-X-CSE-ConnectionGUID: td2SicEqRfe5CniwR2ffjQ==
-X-CSE-MsgGUID: EYUQ+BDkTFyrmib7EVy0Aw==
+   d="scan'208";a="47599668"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 05:06:08 -0700
+X-CSE-ConnectionGUID: FQgZ/hqTTuSohZzUVumWyw==
+X-CSE-MsgGUID: v31BbgxURiqcOOpNRYoyRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="124238823"
+   d="scan'208";a="128624557"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Mar 2025 02:01:37 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Mar 2025 05:06:07 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twHCt-0002gF-1X;
-	Sun, 23 Mar 2025 09:01:32 +0000
-Date: Sun, 23 Mar 2025 17:00:39 +0800
+	id 1twK5c-0002jv-1v;
+	Sun, 23 Mar 2025 12:06:04 +0000
+Date: Sun, 23 Mar 2025 20:05:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9040/13068]
- drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn:
- variable dereferenced before check 'desc' (see line 345)
-Message-ID: <202503231648.IEt8P4U5-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2818/2818]
+ drivers/ub/urma/ubcore/ubcore_cmd.h:134 ubcore_copy_to_user() warn: maybe
+ return -EFAULT instead of the bytes remaining?
+Message-ID: <202503232011.rximxwnv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,72 +65,46 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-CC: Vinod Koul <vkoul@kernel.org>
+TO: kernel@openeuler.org
+TO: Yizhen Fan <fanyizhen@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9388ec571cb1adba59d1cded2300eeb11827679c
-commit: 6565439894570a07b00dba0b739729fe6b56fba4 [9040/13068] dmaengine: ptdma: Utilize the AE4DMA engine's multi-queue functionality
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a7973281031cedabf6c66de13ffc2c313a71695f
+commit: aeda8188894b2ed9ecf04dabaf5e147bce811725 [2818/2818] ub: change name in kconfig, and kconfig content of ub
 :::::: branch date: 2 days ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-161-20250323 (https://download.01.org/0day-ci/archive/20250323/202503231648.IEt8P4U5-lkp@intel.com/config)
+:::::: commit date: 1 year, 5 months ago
+config: x86_64-randconfig-161-20250322 (https://download.01.org/0day-ci/archive/20250323/202503232011.rximxwnv-lkp@intel.com/config)
 compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503231648.IEt8P4U5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503232011.rximxwnv-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn: variable dereferenced before check 'desc' (see line 345)
+New smatch warnings:
+drivers/ub/urma/ubcore/ubcore_cmd.h:134 ubcore_copy_to_user() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/desc +358 drivers/dma/amd/ptdma/ptdma-dmaengine.c
+Old smatch warnings:
+drivers/ub/urma/ubcore/ubcore_main.c:506 ubcore_query_res_arg() warn: returning -1 instead of -ENOMEM is sloppy
 
-b0b4a6b10577a2 drivers/dma/ptdma/ptdma-dmaengine.c     Sanjay R Mehta    2021-08-17  335  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  336  static void pt_cmd_callback_work(void *data, int err)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  337  {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  338  	struct dma_async_tx_descriptor *tx_desc;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  339  	struct pt_dma_desc *desc = data;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  340  	struct dma_chan *dma_chan;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  341  	struct virt_dma_desc *vd;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  342  	struct pt_dma_chan *chan;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  343  	unsigned long flags;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  344  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @345  	dma_chan = desc->vd.tx.chan;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  346  	chan = to_pt_chan(dma_chan);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  347  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  348  	if (err == -EINPROGRESS)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  349  		return;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  350  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  351  	tx_desc = &desc->vd.tx;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  352  	vd = &desc->vd;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  353  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  354  	if (err)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  355  		desc->status = DMA_ERROR;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  356  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  357  	spin_lock_irqsave(&chan->vc.lock, flags);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @358  	if (desc) {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  359  		if (desc->status != DMA_COMPLETE) {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  360  			if (desc->status != DMA_ERROR)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  361  				desc->status = DMA_COMPLETE;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  362  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  363  			dma_cookie_complete(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  364  			dma_descriptor_unmap(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  365  		} else {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  366  			tx_desc = NULL;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  367  		}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  368  	}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  369  	spin_unlock_irqrestore(&chan->vc.lock, flags);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  370  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  371  	if (tx_desc) {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  372  		dmaengine_desc_get_callback_invoke(tx_desc, NULL);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  373  		dma_run_dependencies(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  374  		list_del(&desc->vd.node);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  375  		vchan_vdesc_fini(vd);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  376  	}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  377  }
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  378  
+vim +134 drivers/ub/urma/ubcore/ubcore_cmd.h
+
+95c713224477ac Yizhen Fan 2023-09-09  126  
+95c713224477ac Yizhen Fan 2023-09-09  127  /* copy kernel args to user_space addr */
+95c713224477ac Yizhen Fan 2023-09-09  128  static inline int ubcore_copy_to_user(void *args_addr, const void *args, unsigned long args_size)
+95c713224477ac Yizhen Fan 2023-09-09  129  {
+95c713224477ac Yizhen Fan 2023-09-09  130  	int ret = (int)copy_to_user(args_addr, args, args_size);
+95c713224477ac Yizhen Fan 2023-09-09  131  
+95c713224477ac Yizhen Fan 2023-09-09  132  	if (ret != 0)
+95c713224477ac Yizhen Fan 2023-09-09  133  		ubcore_log_err("copy to user failed ret:%d.\n", ret);
+95c713224477ac Yizhen Fan 2023-09-09 @134  	return ret;
+
+:::::: The code at line 134 was first introduced by commit
+:::::: 95c713224477ac3433652331dd715e9bbcbc793a ub: init ubcore module
+
+:::::: TO: Yizhen Fan <fanyizhen@huawei.com>
+:::::: CC: fanyizhen1995 <en_0015767@163.com>
 
 -- 
 0-DAY CI Kernel Test Service
