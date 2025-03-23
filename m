@@ -1,170 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984D59476
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Mar 2025 22:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A42BA38
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 00:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742681760; cv=none; b=qgxBw0bSYrGkN7xMHPbXZDJ1TpoufFBRmajzZVDpL9LjA4SW8mg4+lArYekqkWpbTSlRr5NFNBjCQ0CU0lN+M3yKG/h9KMh6LYDa1dDIgR2Anl8NLyeZ/JDLvr0CNhbKbKJoog+kN/8OXDzTWUE/uQ8/QPZjxS3ClM2ILVsQ3ZM=
+	t=1742688454; cv=none; b=h7LJdsoq2/bXyAzzzXYZXpqy7j4mtJH1vf2mxech50PK0PSViqp3Xixi6WvaK01on3fm3GnXIesqu98tloGbKg/RmIo5/pLewow36eutGRxHSjBdbhEZtFmoQ1OMjyZ6fSSKU0BXP9qCUoiY1s2JGZiDZ5UPch+eZAjH50wlUwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742681760; c=relaxed/simple;
-	bh=bYwChL8YP4syzPTsuiEkxCZkP9ZMDh5DCZQzUhdMcSE=;
+	s=arc-20240116; t=1742688454; c=relaxed/simple;
+	bh=ucQgU+4EOfQr6ogOBryLTfKfJEWjJL0/zdOwC+aHRyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PymmgZf4HThoib8SfMR14rpgI1aYu9//w4H8NK8PmhitkN+IYcx64in2gPQNPWCMlDi53xEz51KaX7opz3PTJq4UHticUoYzSOUnRFNblAJ1mfhwnKwxvBxPr9ECFqGqDb1+HP5SJ9UHn9xo1i9+XVPYGTzO1v+ciFJf0wx8LX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PadbtbZw; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=t4Mf7AEjAieBkNk2SaYcBGH+HJu2TzaXhg0Enb37p4s2ANXTyY4odr6fqaZrsc41sb80vN2E+s+R+jsYAmG9PNFdz7njTkjL1gZMFCdL3a2HPXMbrd226AnnRW64vd7ET6VWyFHUCl/MuJWzYvawUkhNy9TaqZCTRWJucX1TZ8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYlBJxnT; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PadbtbZw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYlBJxnT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742681758; x=1774217758;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bYwChL8YP4syzPTsuiEkxCZkP9ZMDh5DCZQzUhdMcSE=;
-  b=PadbtbZw8dDc7cqfPtxiYK3TQGvn4hlyQ6Ud8D6SwOtIz0onqyhkfZJ0
-   Sx1AyEcPZrdkZS6vcSZo+KHGFLguEp9+5mdsZYPZOnErH0/TAzmJjLcsD
-   7w/B9KVROTSGd06BeASCkvOpjMNTvCF7TydAnFKPQmiadfQaRECkxBCR9
-   5DCz45ijNUzLHbQKTEBjf2BDc4J8pEDSRxpbjBOsQoeSu1KExeSHW4U0y
-   qepbkoY8MZ6I19Sen4/S/xfcYtql7YH0EbLcns8RUcnhFLF4j8W9ISTCG
-   FyItPbw6OfFGcvjL06mcI11nxKIqwnpfILohw9fyObnQttM/Hh2Hzk/Sj
-   g==;
-X-CSE-ConnectionGUID: JoltBariS4ex8ItDFND6UQ==
-X-CSE-MsgGUID: 05HDtnkUT4iEIDxRA3t4ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="54913290"
+  t=1742688452; x=1774224452;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ucQgU+4EOfQr6ogOBryLTfKfJEWjJL0/zdOwC+aHRyU=;
+  b=NYlBJxnTBUH+5fWOhXy2eon7WuU4QsqafWCf/VRN/QhdcAkEyRBZnDR+
+   wFl//Bw1h50/lVArdpvl3EXK8IqeTA9cgbMN9Ct8M3IE7sjgUZzALr+c0
+   iOAHg6QDWHWM5NkLrOIz8Ibl+6Rg0Z9vqpRcjxU4f0dnBftH0tOY2nqJv
+   cCz0m1E7usG5+ad3aGROA7Ee0MccaOazFp2zO3zLnYrvBbzOkDSFedEb9
+   jB9jWSkC8DqLtlaA49KEg/Lytlve2g7TvhZUHrEsho8k7hALedCIMKpzx
+   Ymq9wcTti18tiYkb9Kve5Yk0A9KPi/XtqC7MV7cDZklDCNOC2zy5upCkn
+   w==;
+X-CSE-ConnectionGUID: DpFs7UbkQYmFCZRr/d4sFQ==
+X-CSE-MsgGUID: 3cods4QVQ0SXA+a9e+8gVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43649513"
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="54913290"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 15:15:58 -0700
-X-CSE-ConnectionGUID: T8/r8br2The2mr6GX6Nefg==
-X-CSE-MsgGUID: PXiSoLdOTcaRtRvuEIHyMA==
+   d="scan'208";a="43649513"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 17:07:31 -0700
+X-CSE-ConnectionGUID: Md3MKXC7TS+SGS5i9rNE3g==
+X-CSE-MsgGUID: Fsrmqc6QRJKyejW3mjQXHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="154592479"
+   d="scan'208";a="127857576"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 22 Mar 2025 15:15:57 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 22 Mar 2025 17:07:30 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tw78E-0002Qd-1n;
-	Sat, 22 Mar 2025 22:15:54 +0000
-Date: Sun, 23 Mar 2025 06:15:46 +0800
+	id 1tw8sC-0002Sx-0W;
+	Sun, 23 Mar 2025 00:07:28 +0000
+Date: Sun, 23 Mar 2025 08:07:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android-mainline-rust 2/2]
- drivers/usb/gadget/configfs.c:2050:7-46: ERROR: reference preceded by free
- on line 2048
-Message-ID: <202503230650.8qAKzUnQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+ 55/76] arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb:
+ /soc@0/power-manager@b088000: failed to match any schema with compatible:
+ ['qcom,msm8916-kpss-acc']
+Message-ID: <202503230838.EOFNVpBy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-rust
-head:   69e641afed13f4ee53e66be0464646d326f9b5b1
-commit: 957b40b3b769bc23db3d6491db267e3166f91316 [2/2] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
-:::::: branch date: 2 days ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-103-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230650.8qAKzUnQ-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+head:   0f317f352994cb64676e93a4b91c8c7464f13c98
+commit: 35f6fc60ebb2425c3947dc79c60af0c1c4962483 [55/76] arm64: dts: qcom: msm8916: Fix KPSS ACC compatible
+:::::: branch date: 5 days ago
+:::::: commit date: 10 days ago
+config: arm-randconfig-052-20250318 (https://download.01.org/0day-ci/archive/20250323/202503230838.EOFNVpBy-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev5+g0f9dc23
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503230838.EOFNVpBy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503230650.8qAKzUnQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503230838.EOFNVpBy-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/configfs.c:2050:7-46: ERROR: reference preceded by free on line 2048
-
-vim +2050 drivers/usb/gadget/configfs.c
-
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1980  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1981  static struct config_group *gadgets_make(
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1982  		struct config_group *group,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1983  		const char *name)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1984  {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1985  	struct gadget_info *gi;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1986  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1987  	gi = kzalloc(sizeof(*gi), GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1988  	if (!gi)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1989  		return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1990  
-1ae1602de028ac Christoph Hellwig         2016-02-26  1991  	config_group_init_type_name(&gi->group, name, &gadget_root_type);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1992  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1993  	config_group_init_type_name(&gi->functions_group, "functions",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1994  			&functions_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1995  	configfs_add_default_group(&gi->functions_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1996  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1997  	config_group_init_type_name(&gi->configs_group, "configs",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1998  			&config_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1999  	configfs_add_default_group(&gi->configs_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2000  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2001  	config_group_init_type_name(&gi->strings_group, "strings",
-6e2a512d9532c5 Daniel Scally             2023-02-06  2002  			&gadget_language_strings_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2003  	configfs_add_default_group(&gi->strings_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2004  
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2005  	config_group_init_type_name(&gi->os_desc_group, "os_desc",
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2006  			&os_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2007  	configfs_add_default_group(&gi->os_desc_group, &gi->group);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2008  
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2009  	config_group_init_type_name(&gi->webusb_group, "webusb",
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2010  			&webusb_type);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2011  	configfs_add_default_group(&gi->webusb_group, &gi->group);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2012  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2013  	gi->composite.bind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2014  	gi->composite.unbind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2015  	gi->composite.suspend = NULL;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2016  	gi->composite.resume = NULL;
-e2459108b5a060 taehyun.cho               2021-01-07  2017  	gi->composite.max_speed = USB_SPEED_SUPER_PLUS;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2018  
-093edc2baad2c2 Wei Yongjun               2019-10-30  2019  	spin_lock_init(&gi->spinlock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2020  	mutex_init(&gi->lock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2021  	INIT_LIST_HEAD(&gi->string_list);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2022  	INIT_LIST_HEAD(&gi->available_func);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2023  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2024  	composite_init_dev(&gi->cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2025  	gi->cdev.desc.bLength = USB_DT_DEVICE_SIZE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2026  	gi->cdev.desc.bDescriptorType = USB_DT_DEVICE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2027  	gi->cdev.desc.bcdDevice = cpu_to_le16(get_default_bcdDevice());
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2028  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2030  
-7c07553807c512 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
-7c07553807c512 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
-7c07553807c512 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
-7c07553807c512 Chanh Nguyen              2023-01-11  2034  		goto err;
-7c07553807c512 Chanh Nguyen              2023-01-11  2035  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2038  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
-7c07553807c512 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2041  
-957b40b3b769bc Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
-957b40b3b769bc Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
-957b40b3b769bc Neill Kapron              2024-02-01  2044  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
-7c07553807c512 Chanh Nguyen              2023-01-11  2046  
-7c07553807c512 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
-7c07553807c512 Chanh Nguyen              2023-01-11 @2048  	kfree(gi->composite.gadget_driver.driver.name);
-957b40b3b769bc Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
-957b40b3b769bc Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
-957b40b3b769bc Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2052  err:
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2055  }
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2056  
+dtcheck warnings: (new ones prefixed by >>)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: bridge@39: #sound-dai-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+--
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+--
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+--
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: touchscreen@50: linux,keycodes: [580, 158] is too short
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/imagis,ist3038c.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: touchscreen@50: linux,keycodes: False schema does not allow [580, 158]
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/imagis,ist3038c.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+--
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
+   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+>> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
 
 -- 
 0-DAY CI Kernel Test Service
