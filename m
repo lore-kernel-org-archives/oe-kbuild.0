@@ -1,152 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A42BA38
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 00:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8201A1684B4
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 01:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742688454; cv=none; b=h7LJdsoq2/bXyAzzzXYZXpqy7j4mtJH1vf2mxech50PK0PSViqp3Xixi6WvaK01on3fm3GnXIesqu98tloGbKg/RmIo5/pLewow36eutGRxHSjBdbhEZtFmoQ1OMjyZ6fSSKU0BXP9qCUoiY1s2JGZiDZ5UPch+eZAjH50wlUwM=
+	t=1742692173; cv=none; b=Rg50rnLJkPRCIaedFgjlds/wd+NbPqAqATeCf5X/R2FERkm7PxbNstw9igExUv2qC98gvkIa9C9H8yJ0YNMm+vzMcdL/lAFJvUwa4XGwvS0Y+i6pDAdHCXDsB6yQJ64D3tUc9M88zO//F2rObW/3by2c4auZ29mcMROHmKIH/eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742688454; c=relaxed/simple;
-	bh=ucQgU+4EOfQr6ogOBryLTfKfJEWjJL0/zdOwC+aHRyU=;
+	s=arc-20240116; t=1742692173; c=relaxed/simple;
+	bh=b6sB9BCxfkNzSlFKpRiZ9nGs1frdk4DTQp9ami4ijVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t4Mf7AEjAieBkNk2SaYcBGH+HJu2TzaXhg0Enb37p4s2ANXTyY4odr6fqaZrsc41sb80vN2E+s+R+jsYAmG9PNFdz7njTkjL1gZMFCdL3a2HPXMbrd226AnnRW64vd7ET6VWyFHUCl/MuJWzYvawUkhNy9TaqZCTRWJucX1TZ8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYlBJxnT; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Tzt6TCDQZ6NUM9z40mr/ZfnLQHK1i2RiBEqEcVHCKsl4+lSV5u9aBHFkxr2vm3cbJ9osp5cv1Nh4Vg528im5zc8JtkShpY+xOJEI2ELFEBR6Iun2LXuUFbp4AV33DdqVNZRRrWtXeABCBqnGWdwqutQfUyK4Il3+4J19oAVFlwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QudbWI3u; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYlBJxnT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QudbWI3u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742688452; x=1774224452;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ucQgU+4EOfQr6ogOBryLTfKfJEWjJL0/zdOwC+aHRyU=;
-  b=NYlBJxnTBUH+5fWOhXy2eon7WuU4QsqafWCf/VRN/QhdcAkEyRBZnDR+
-   wFl//Bw1h50/lVArdpvl3EXK8IqeTA9cgbMN9Ct8M3IE7sjgUZzALr+c0
-   iOAHg6QDWHWM5NkLrOIz8Ibl+6Rg0Z9vqpRcjxU4f0dnBftH0tOY2nqJv
-   cCz0m1E7usG5+ad3aGROA7Ee0MccaOazFp2zO3zLnYrvBbzOkDSFedEb9
-   jB9jWSkC8DqLtlaA49KEg/Lytlve2g7TvhZUHrEsho8k7hALedCIMKpzx
-   Ymq9wcTti18tiYkb9Kve5Yk0A9KPi/XtqC7MV7cDZklDCNOC2zy5upCkn
-   w==;
-X-CSE-ConnectionGUID: DpFs7UbkQYmFCZRr/d4sFQ==
-X-CSE-MsgGUID: 3cods4QVQ0SXA+a9e+8gVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43649513"
+  t=1742692171; x=1774228171;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=b6sB9BCxfkNzSlFKpRiZ9nGs1frdk4DTQp9ami4ijVs=;
+  b=QudbWI3ueEFwdPcaOWKLVaOkGqGZQR9j8KQSezTMbyJgCu9mcBmKJsJG
+   QHt0B1ZQb8COXjitateWI1LrnFv6OvtrpJCsPSXi56z8gwwl0aXkxAikW
+   wkNIF9iDnfu1rS+KzdyGQrn3Nrtt0QmcIsS+DkT53x8tyQNmQay/xuUAP
+   lJrVVLrRlzr1PVGdgzLMAl5MNfN0dWDlGqRJsmhEBQWnD4h9FnVAZ+Np0
+   MTXtWOLAvDgZw09TzNziDAxmbt1Oh/lJeoIjD6V2zSB5p8jqeIKFkGJxM
+   QoAqXuKbE2KFdD90csMD5uknWrfeRaINj5QiFXbnDUm92zPbJV2RFKfkX
+   g==;
+X-CSE-ConnectionGUID: lyJqjG5PT4WmK02ySdRHxg==
+X-CSE-MsgGUID: h5EmK2dwT4+Cx1RFlOhy6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43855981"
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="43649513"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 17:07:31 -0700
-X-CSE-ConnectionGUID: Md3MKXC7TS+SGS5i9rNE3g==
-X-CSE-MsgGUID: Fsrmqc6QRJKyejW3mjQXHQ==
+   d="scan'208";a="43855981"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 18:09:30 -0700
+X-CSE-ConnectionGUID: DNf2SBnTTz6ndfERzV/ZAA==
+X-CSE-MsgGUID: Ob1rc6D9T8qF02uLfKgQaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="127857576"
+   d="scan'208";a="128539689"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Mar 2025 17:07:30 -0700
+  by orviesa003.jf.intel.com with ESMTP; 22 Mar 2025 18:09:29 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tw8sC-0002Sx-0W;
-	Sun, 23 Mar 2025 00:07:28 +0000
-Date: Sun, 23 Mar 2025 08:07:22 +0800
+	id 1tw9q8-0002VJ-1k;
+	Sun, 23 Mar 2025 01:09:25 +0000
+Date: Sun, 23 Mar 2025 09:08:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 55/76] arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb:
- /soc@0/power-manager@b088000: failed to match any schema with compatible:
- ['qcom,msm8916-kpss-acc']
-Message-ID: <202503230838.EOFNVpBy-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android-mainline-rust 2/2] mm/shmem.c:4277:6-13:
+ WARNING: Unsigned expression compared with zero: version < 0
+Message-ID: <202503230810.79D4qmtG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   0f317f352994cb64676e93a4b91c8c7464f13c98
-commit: 35f6fc60ebb2425c3947dc79c60af0c1c4962483 [55/76] arm64: dts: qcom: msm8916: Fix KPSS ACC compatible
-:::::: branch date: 5 days ago
-:::::: commit date: 10 days ago
-config: arm-randconfig-052-20250318 (https://download.01.org/0day-ci/archive/20250323/202503230838.EOFNVpBy-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503230838.EOFNVpBy-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-rust
+head:   69e641afed13f4ee53e66be0464646d326f9b5b1
+commit: 58e55efd6c72cbc3e76423a1086f7b4d6c2ae9c2 [2/2] tmpfs: Add casefold lookup support
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-103-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230810.79D4qmtG-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503230838.EOFNVpBy-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503230810.79D4qmtG-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: bridge@39: #sound-dai-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-apq8016-sbc.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
---
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e5.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
---
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-e7.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
---
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: touchscreen@50: linux,keycodes: [580, 158] is too short
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/imagis,ist3038c.yaml#
-   arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: touchscreen@50: linux,keycodes: False schema does not allow [580, 158]
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/imagis,ist3038c.yaml#
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-grandmax.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
---
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   scripts/dtc/include-prefixes/arm64/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
->> arch/arm/boot/dts/qcom/qcom-msm8916-samsung-serranove.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-kpss-acc']
+cocci warnings: (new ones prefixed by >>)
+>> mm/shmem.c:4277:6-13: WARNING: Unsigned expression compared with zero: version < 0
+
+vim +4277 mm/shmem.c
+
+626c3920aeb457 Al Viro       2019-09-08  4261  
+58e55efd6c72cb André Almeida 2024-10-21  4262  #if IS_ENABLED(CONFIG_UNICODE)
+58e55efd6c72cb André Almeida 2024-10-21  4263  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+58e55efd6c72cb André Almeida 2024-10-21  4264  				    bool latest_version)
+58e55efd6c72cb André Almeida 2024-10-21  4265  {
+58e55efd6c72cb André Almeida 2024-10-21  4266  	struct shmem_options *ctx = fc->fs_private;
+58e55efd6c72cb André Almeida 2024-10-21  4267  	unsigned int version = UTF8_LATEST;
+58e55efd6c72cb André Almeida 2024-10-21  4268  	struct unicode_map *encoding;
+58e55efd6c72cb André Almeida 2024-10-21  4269  	char *version_str = param->string + 5;
+58e55efd6c72cb André Almeida 2024-10-21  4270  
+58e55efd6c72cb André Almeida 2024-10-21  4271  	if (!latest_version) {
+58e55efd6c72cb André Almeida 2024-10-21  4272  		if (strncmp(param->string, "utf8-", 5))
+58e55efd6c72cb André Almeida 2024-10-21  4273  			return invalfc(fc, "Only UTF-8 encodings are supported "
+58e55efd6c72cb André Almeida 2024-10-21  4274  				       "in the format: utf8-<version number>");
+58e55efd6c72cb André Almeida 2024-10-21  4275  
+58e55efd6c72cb André Almeida 2024-10-21  4276  		version = utf8_parse_version(version_str);
+58e55efd6c72cb André Almeida 2024-10-21 @4277  		if (version < 0)
+58e55efd6c72cb André Almeida 2024-10-21  4278  			return invalfc(fc, "Invalid UTF-8 version: %s", version_str);
+58e55efd6c72cb André Almeida 2024-10-21  4279  	}
+58e55efd6c72cb André Almeida 2024-10-21  4280  
+58e55efd6c72cb André Almeida 2024-10-21  4281  	encoding = utf8_load(version);
+58e55efd6c72cb André Almeida 2024-10-21  4282  
+58e55efd6c72cb André Almeida 2024-10-21  4283  	if (IS_ERR(encoding)) {
+58e55efd6c72cb André Almeida 2024-10-21  4284  		return invalfc(fc, "Failed loading UTF-8 version: utf8-%u.%u.%u\n",
+58e55efd6c72cb André Almeida 2024-10-21  4285  			       unicode_major(version), unicode_minor(version),
+58e55efd6c72cb André Almeida 2024-10-21  4286  			       unicode_rev(version));
+58e55efd6c72cb André Almeida 2024-10-21  4287  	}
+58e55efd6c72cb André Almeida 2024-10-21  4288  
+58e55efd6c72cb André Almeida 2024-10-21  4289  	pr_info("tmpfs: Using encoding : utf8-%u.%u.%u\n",
+58e55efd6c72cb André Almeida 2024-10-21  4290  		unicode_major(version), unicode_minor(version), unicode_rev(version));
+58e55efd6c72cb André Almeida 2024-10-21  4291  
+58e55efd6c72cb André Almeida 2024-10-21  4292  	ctx->encoding = encoding;
+58e55efd6c72cb André Almeida 2024-10-21  4293  
+58e55efd6c72cb André Almeida 2024-10-21  4294  	return 0;
+58e55efd6c72cb André Almeida 2024-10-21  4295  }
+58e55efd6c72cb André Almeida 2024-10-21  4296  #else
+58e55efd6c72cb André Almeida 2024-10-21  4297  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+58e55efd6c72cb André Almeida 2024-10-21  4298  				    bool latest_version)
+58e55efd6c72cb André Almeida 2024-10-21  4299  {
+58e55efd6c72cb André Almeida 2024-10-21  4300  	return invalfc(fc, "tmpfs: Kernel not built with CONFIG_UNICODE\n");
+58e55efd6c72cb André Almeida 2024-10-21  4301  }
+58e55efd6c72cb André Almeida 2024-10-21  4302  #endif
+58e55efd6c72cb André Almeida 2024-10-21  4303  
 
 -- 
 0-DAY CI Kernel Test Service
