@@ -1,154 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DBD25D55A
-	for <oe-kbuild@lists.linux.dev>; Mon, 24 Mar 2025 10:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092DE1EDA31
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Mar 2025 13:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742812856; cv=none; b=sTzll6gLaePUM0VsyjFy4IHOg6PJpmjm62B274G+xzz19M2tidTXBg0yJnPOLltY0yICg2ituf3qWNncCgKkL9cQo9ZORFQWm1lENeJ9XgvwOVbHBN8pINnkiwaBPkxWAMzgHwlYNo+D33UuXvtRjAfZ+IGwQlAXQ2fIFgQ62XA=
+	t=1742824222; cv=none; b=p85IeiIDXqQklJp271uEAzymHF3ibVDG1uLl+JWaYQUY7Kw+EUZ0ZiIP82VNfgevpsDusu5rr2usnfGbYoz8NsQkz56CSjiGbRq+iIXYnVG+LQYcJymxEzYR1CHukHXb0xa+s+DyDOZRLSN+bcxMn0ZiM5ojEsIpOs+hA539ZEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742812856; c=relaxed/simple;
-	bh=48GjXNLZlbDsYtv3PVA1oFZb1ohcTNGqRy5lcNeFwWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SjgwUrfj9BEdyKbGCxsaQY4FShINEUIsspAQPrS1Y7JVQRBd7224ZBdrcbcUkKU9HowLq5fB+mghLT5XYvTBLF4blrWYuDpyk+qZN4rXIipZIzuYgzFLBSRDSn1EH5b7fdkULcpPzZ4/RRL81ewu2E50XyLh5y6+xXBYWV3I1xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+7jQFf2; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742824222; c=relaxed/simple;
+	bh=idBIRQzC41pEK3vxHCsW3jlGzyWUmPmwM/kPI+tS88M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WAnZ3K/k9yGOkHIake+Zql+eL+UdT126PORqoETU3D4m/neqEVxwflw5sVMfLyVQxEoR4IaTeMfUvgA/D5ZW4ceegkytm7Pxbji5/wLTP/1VudRTW9L/HLxywwhvZ/Y9tGFM9GMOqQ/eYhMhXM7/57pb21T6lTnYMZB28ud9BnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LIwCr9kZ; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+7jQFf2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742812855; x=1774348855;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=48GjXNLZlbDsYtv3PVA1oFZb1ohcTNGqRy5lcNeFwWM=;
-  b=g+7jQFf2q5wVImXm5c6BvkN881w9H7Uw9kh2qAVXFP/+/SGuim3MEXiH
-   vTliAKive+HSvt1FkLgXYH0+DjlcInpgT8NQf6+yE4BguJFlydCBcc97c
-   ZXy+PxyyKoxpt0Mbzd4kEHXSlpd8Wsmu8QNzzFFIf7ji9l49H7DnHMifY
-   jg3LkV+4QJQoiOjwPbgrZctJ9Bi4ZgQgQ6xTQigqIA6loszvDKJFqlPSk
-   lCL/7GCURbJMCVsQnPTvdtCKpNd1Atp8YOxetL1TXwFue2OUlCRWYYSiD
-   lQKFCb68m47m5kNs4MO8aqYe9u6DYUs5N+PkPp1ArSiRoD43gTvoKHFor
-   w==;
-X-CSE-ConnectionGUID: JDwCN0BATN6Of62Fq6rs8A==
-X-CSE-MsgGUID: ShASgwgEQMSk81404aqkDQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="61406336"
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="61406336"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 03:40:53 -0700
-X-CSE-ConnectionGUID: e+kFHnbPSa+HEWZ/IoAwiA==
-X-CSE-MsgGUID: 8iOBcFRLT9m7u6txb0BPlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="129084266"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 Mar 2025 03:40:52 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twfEY-0003U2-2I;
-	Mon, 24 Mar 2025 10:40:43 +0000
-Date: Mon, 24 Mar 2025 18:39:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2818/2818]
- drivers/ub/urma/ubcore/ubcore_device.c:822
- ubcore_config_device_in_register() warn: double check that we're allocating
- correct size: 20 vs 168
-Message-ID: <202503241803.vldvrKSP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LIwCr9kZ"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-601c12ac8d0so2271648eaf.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 24 Mar 2025 06:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742824218; x=1743429018; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CdxeeM9Wzx2ULG71chhuAoOD2bPZ1lIe5eeC/XTvSI0=;
+        b=LIwCr9kZkR6f/jmDHqxeLwoT2tADp7bGM+wcWDRCTvf3QtMzPH+IA33sVUrhk1QMhD
+         Xnt0h0Xhr/xUBYKzFkaoUnoS3wh5a8qExFlHasNeBgGyU6w+gAhe0jAQHS7aycxnFlRS
+         Yt01pBmWsM+D0yMbMP7iBicmRjrWs+EWcnxQoKMAkQZCDVlpkJ58DkkbT5iKWtoYwNlJ
+         xaAKTenebRvjbbL5XBwg+iqn4IUDo5SUzVaRaqsbytoFy1nxEs8MV5G3zbwX7E15eo5H
+         rqN3omr3ZXePVj8HXZxa2ImppkNq8nhrQfRdmyx9y1UncTxy9BGDa7LDPjvgh4TL1pr/
+         PNOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742824218; x=1743429018;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CdxeeM9Wzx2ULG71chhuAoOD2bPZ1lIe5eeC/XTvSI0=;
+        b=jQV3OUO0kXKrot5dxeNRfWBTnIp3do81Vq9FcS2G2hRtDvaThIMIlN46Y+Xkzu5diD
+         as9Uu/ezWbnfpHmwhqguYSa3PLd6RsibkSlbgSTa2hpaRRitOJXIEjLggEerUyVIRTXq
+         lKkz0Jv6D04TQ0xMzxaVPeSwTTfDN1exaABEq9TfqgvUxriX22IqKmqC4q/yizrop58r
+         Xgtble8ZQraae/VKbLdRmbtGSRmNErqcuBtYu05cDrLs/KLZR/5PXffQyPi+5GWpNm0a
+         Md+tNvXVD4YUEpF4TmWtmCnhkgl3MgUDlwxF4IQ3cVGlyYRCNmahRfwC4xmsrlfmfyUZ
+         WWuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIqzHSUi2Z2+c44/mJf59jX/CHuFCSssSLguv7clW/5hUY1qShW8ioMIPCWmxMW/lozN/3ZuWn6LE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9cl6dhQNrkmoHkkLHtFXuJqmDeVjTAOlMvtPIQU/PCv2wP9C+
+	231wboGUnObcjcgyjuBiRaQhD6FPEC+V5n+dHyqaPTinXfYzWS79vUOqXLcYzp4=
+X-Gm-Gg: ASbGncso0m5AId2kMEHC1qm+I1GNvzk1RnSshB3EJo4zrOL305QGtcoPJH3lWnPa9qS
+	sGtWKqDq9dNuzyVa88tZ7uzzIqZsBzqne9++USorr3VtEN0lk7MQ6RCylhniNEyALzHl9p0FbO7
+	WiXQUrTjpgLYYKSAFTfvko6rt9JST3QT57CX4UtI979/f5hQ7z3gjZ1I+26dLZJKPDiPP7MXabN
+	mk+Y3210+Pm4d+7c+qrYxgJQoHMII0KwYobjQCak5GiDTG2lEkGAEcj27XqWnF1CRFLm95e5vkr
+	wFw1GoiC9knW75WusqOWllmbHXmR+m3djHrLG2PiyuG9maXNZbGT0P1Akyl3IUvGhIgnFHWk+FP
+	KF5Ho0A==
+X-Google-Smtp-Source: AGHT+IGUKGUnBQQj8euBvc40iv5UxLc92QmBpQeJUNQcD9g9q1Gn7KRpSWRrk0DYtdOznF3qMa6O7Q==
+X-Received: by 2002:a05:6871:530b:b0:29e:3de0:d400 with SMTP id 586e51a60fabf-2c77fdcc096mr8345834fac.0.1742824217751;
+        Mon, 24 Mar 2025 06:50:17 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2c77f0f3fbcsm2025356fac.49.2025.03.24.06.50.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Mar 2025 06:50:17 -0700 (PDT)
+Message-ID: <4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
+Date: Mon, 24 Mar 2025 08:50:15 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
+ info
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Angelo Dureghello <adureghello@baylibre.com>,
+ Alexandru Ardelean <aardelean@baylibre.com>,
+ Beniamin Bia <beniamin.bia@analog.com>, Stefan Popa
+ <stefan.popa@analog.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+References: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yizhen Fan <fanyizhen@huawei.com>
+On 3/22/25 12:25 PM, Dan Carpenter wrote:
+> Hi David,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
+> base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
+> patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
+> patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
+> config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
+> 
+> vim +1270 drivers/iio/adc/ad7606.c
+> 
+> 87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
+> 87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
+> 87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
+> 87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
+> 87cf5705725eeb David Lechner      2025-03-18  1203  
+> 87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
+> 87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1206  
+> 87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
+> 87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
+> 87cf5705725eeb David Lechner      2025-03-18  1210  
+> 87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
+> 87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
+> 87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
+> 87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a7973281031cedabf6c66de13ffc2c313a71695f
-commit: 84e122368ec3a37e074c9657bc09422b62f6ccd0 [2818/2818] ub: add new feature for urma
-:::::: branch date: 3 days ago
-:::::: commit date: 1 year, 4 months ago
-config: x86_64-randconfig-161-20250322 (https://download.01.org/0day-ci/archive/20250324/202503241803.vldvrKSP-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+The fix is to change this line to:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503241803.vldvrKSP-lkp@intel.com/
+							for (i = 0; i < st->chip_info->num_adc_channels; i++) {
 
-New smatch warnings:
-drivers/ub/urma/ubcore/ubcore_device.c:822 ubcore_config_device_in_register() warn: double check that we're allocating correct size: 20 vs 168
-drivers/ub/urma/ubcore/ubcore_tp.c:1124 ubcore_send_del_tp_req() warn: double check that we're allocating correct size: 20 vs 276
-drivers/ub/urma/uburma/uburma_dev_ops.c:99 uburma_open() warn: this array is probably non-NULL. 'ubc_dev->dev_name'
-drivers/ub/urma/ubcore/ubcore_msg.c:442 ubcore_msg_discover_eid() warn: double check that we're allocating correct size: 20 vs 160
-drivers/ub/urma/uburma/uburma_event.c:381 uburma_get_async_event() warn: can 'event' even be NULL?
-drivers/ub/urma/ubcore/ubcore_uvs_cmd.c:715 ubcore_copy_target_tpg_udrv_data() warn: maybe return -EFAULT instead of the bytes remaining?
+> 87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
+> 87cf5705725eeb David Lechner      2025-03-18  1218  
+> 87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
+> 87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
+> 87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
+> 87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
+> 87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
+> 87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
+> 87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
+> 87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
+> f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
+> 87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
+> 87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
+> 87cf5705725eeb David Lechner      2025-03-18  1230  
+> 87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
+> 87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
+> 87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1235  
+> 87cf5705725eeb David Lechner      2025-03-18  1236  			/*
+> 87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
+> 87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
+> 87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
+> 87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
+> 87cf5705725eeb David Lechner      2025-03-18  1241  			 */
+> 87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
+> 87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1245  			else
+> 87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1248  
+> 87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
+> 87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
+> 87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
+> 87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
+> 87cf5705725eeb David Lechner      2025-03-18  1254  
+> 87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
+> 87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+> 87cf5705725eeb David Lechner      2025-03-18  1258  		}
+> 87cf5705725eeb David Lechner      2025-03-18  1259  
+> 87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
+> 87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
+> 87cf5705725eeb David Lechner      2025-03-18  1263  
+> 87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
+> 87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
+> 87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
+>                                                                 ^^^^^^^^^^^
+> i is == indio_dev->num_channels so this is out of bounds by one element.
+> 
+> 87cf5705725eeb David Lechner      2025-03-18  1271  
+> 87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
+> 87cf5705725eeb David Lechner      2025-03-18  1273  
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
+> e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
+> 
 
-Old smatch warnings:
-drivers/ub/urma/ubcore/ubcore_tp.c:138 ubcore_set_tp_peer_ext() warn: maybe return -EFAULT instead of the bytes remaining?
-drivers/ub/urma/ubcore/ubcore_tp.c:204 ubcore_nl_handle_create_tp_resp_cb() error: we previously assumed 'udata' could be null (see line 203)
-drivers/ub/urma/ubcore/ubcore_tp.c:212 ubcore_nl_handle_create_tp_resp_cb() warn: maybe return -EFAULT instead of the bytes remaining?
-drivers/ub/urma/ubcore/ubcore_msg.c:164 ubcore_tpf2fe_msg() error: dereferencing freed memory 's' (line 162)
-drivers/ub/urma/ubcore/ubcore_cmd.h:136 ubcore_copy_to_user() warn: maybe return -EFAULT instead of the bytes remaining?
-drivers/ub/urma/ubcore/ubcore_uvs_cmd.c:210 ubcore_copy_tpg_udrv_data() warn: maybe return -EFAULT instead of the bytes remaining?
-
-vim +822 drivers/ub/urma/ubcore/ubcore_device.c
-
-84e122368ec3a3 Yizhen Fan 2023-11-20  802  
-84e122368ec3a3 Yizhen Fan 2023-11-20  803  static int ubcore_config_device_in_register(struct ubcore_device *dev)
-84e122368ec3a3 Yizhen Fan 2023-11-20  804  {
-84e122368ec3a3 Yizhen Fan 2023-11-20  805  	struct ubcore_msg_config_device_req *data;
-84e122368ec3a3 Yizhen Fan 2023-11-20  806  	struct ubcore_msg *req_msg;
-84e122368ec3a3 Yizhen Fan 2023-11-20  807  	struct ubcore_resp_cb cb = {
-84e122368ec3a3 Yizhen Fan 2023-11-20  808  		.callback = ubcore_config_device_rsp_msg_cb,
-84e122368ec3a3 Yizhen Fan 2023-11-20  809  		.user_arg = NULL
-84e122368ec3a3 Yizhen Fan 2023-11-20  810  	};
-84e122368ec3a3 Yizhen Fan 2023-11-20  811  	int ret;
-84e122368ec3a3 Yizhen Fan 2023-11-20  812  
-84e122368ec3a3 Yizhen Fan 2023-11-20  813  	if (dev->transport_type != UBCORE_TRANSPORT_UB)
-84e122368ec3a3 Yizhen Fan 2023-11-20  814  		return 0;
-84e122368ec3a3 Yizhen Fan 2023-11-20  815  
-84e122368ec3a3 Yizhen Fan 2023-11-20  816  	if (ubcore_get_netlink_valid() == false) {
-84e122368ec3a3 Yizhen Fan 2023-11-20  817  		ubcore_log_info("UVS is not connected, and use default config. dev: %s.\n",
-84e122368ec3a3 Yizhen Fan 2023-11-20  818  			dev->dev_name);
-84e122368ec3a3 Yizhen Fan 2023-11-20  819  		return ubcore_config_device_default(dev);
-84e122368ec3a3 Yizhen Fan 2023-11-20  820  	}
-84e122368ec3a3 Yizhen Fan 2023-11-20  821  
-84e122368ec3a3 Yizhen Fan 2023-11-20 @822  	req_msg = kcalloc(1, sizeof(struct ubcore_msg) +
-84e122368ec3a3 Yizhen Fan 2023-11-20  823  		sizeof(struct ubcore_msg_config_device_req), GFP_KERNEL);
-84e122368ec3a3 Yizhen Fan 2023-11-20  824  	if (req_msg == NULL)
-84e122368ec3a3 Yizhen Fan 2023-11-20  825  		return -ENOMEM;
-84e122368ec3a3 Yizhen Fan 2023-11-20  826  
-84e122368ec3a3 Yizhen Fan 2023-11-20  827  	req_msg->hdr.type = UBCORE_MSG_TYPE_FE2TPF;
-84e122368ec3a3 Yizhen Fan 2023-11-20  828  	req_msg->hdr.opcode = UBCORE_MSG_CONFIG_DEVICE;
-84e122368ec3a3 Yizhen Fan 2023-11-20  829  	req_msg->hdr.len = (uint32_t)sizeof(struct ubcore_msg_config_device_req);
-84e122368ec3a3 Yizhen Fan 2023-11-20  830  
-84e122368ec3a3 Yizhen Fan 2023-11-20  831  	data = (struct ubcore_msg_config_device_req *)req_msg->data;
-84e122368ec3a3 Yizhen Fan 2023-11-20  832  	(void)memcpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME);
-84e122368ec3a3 Yizhen Fan 2023-11-20  833  	data->max_rc_cnt = dev->attr.dev_cap.max_rc;
-84e122368ec3a3 Yizhen Fan 2023-11-20  834  	data->max_rc_depth = dev->attr.dev_cap.max_rc_depth;
-84e122368ec3a3 Yizhen Fan 2023-11-20  835  	data->min_slice = dev->attr.dev_cap.min_slice;
-84e122368ec3a3 Yizhen Fan 2023-11-20  836  	data->max_slice = dev->attr.dev_cap.max_slice;
-84e122368ec3a3 Yizhen Fan 2023-11-20  837  
-84e122368ec3a3 Yizhen Fan 2023-11-20  838  	/* New TPF devices need to be query suspend info. */
-84e122368ec3a3 Yizhen Fan 2023-11-20  839  	data->is_tpf_dev = dev->attr.tp_maintainer;
-84e122368ec3a3 Yizhen Fan 2023-11-20  840  
-84e122368ec3a3 Yizhen Fan 2023-11-20  841  	ret = ubcore_send_fe2tpf_msg(dev, req_msg, true, &cb);
-84e122368ec3a3 Yizhen Fan 2023-11-20  842  	if (ret != 0) {
-84e122368ec3a3 Yizhen Fan 2023-11-20  843  		ubcore_log_err("send fe2tpf failed.\n");
-84e122368ec3a3 Yizhen Fan 2023-11-20  844  		return ubcore_config_device_default(dev);
-84e122368ec3a3 Yizhen Fan 2023-11-20  845  	}
-84e122368ec3a3 Yizhen Fan 2023-11-20  846  	return ret;
-84e122368ec3a3 Yizhen Fan 2023-11-20  847  }
-84e122368ec3a3 Yizhen Fan 2023-11-20  848  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
