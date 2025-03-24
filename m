@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4674B433A6
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Mar 2025 18:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D84163
+	for <oe-kbuild@lists.linux.dev>; Mon, 24 Mar 2025 00:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742753666; cv=none; b=IFxJcYltRsRqRw8BcH+PPcCugws5PxJro1dOu9Axzuy1ldMkueYcoVHBG1XjL8MGWCUttp5yCwh2kKMmh62F1AcdUwEKEuPLHgmX18nF7MbzWyehRuNMAKiiTSvf2k8oSnl97JWVfsB1uWEZ8NMCRt8jgYSbr2sSkTo2JNnhHns=
+	t=1742775325; cv=none; b=GqH8+kC6MLtkUm2uFzbDWsy3VP9/kkANXX9XxHKwNZoAAarRQMGy/8xm/F0FN9fPrWrMamluz+Ff1QFpxZl+ZwqnaeE55OuoZFuflApjuiinxHvk3wnZKOPxq0OhWHA67HuR7K0R82vuWFuUPCseTnjDzSSTsDWs28c502MO838=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742753666; c=relaxed/simple;
-	bh=0KOixeHQG3PtdB7wfb0jbRnI+kyMCYDcg9PSIQAC/Ho=;
+	s=arc-20240116; t=1742775325; c=relaxed/simple;
+	bh=XfdvoqmBnx6N8Tknegv/0LlHgS+/iNOeRQDiaT5Evrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PsczH1/V8if7+KJmHzsKnN4PTw5kYOVJkgEfn56o7SKqFeEvUku3BP9idhGtInaPz5oMsxwoqkTkTvsJvqwUi/iZwwvrG1j6LYaSXuPxJlsyqctxabqv623NZbPRhvnUbkeJSpB08sp72PdJKXQaSf5wwTRvEnKtGla2qEIPLIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9jV9GoJ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=mzEBu5Yphv7XIoD5uEyqwYdN27NvZBe+l1J94xqq8IpJazvMaMX3x/iNH7cDxfYFDEJukgZJO1XdsztEGURJCTOiP2RpB7cYe4nmNR5o9w9TVRk//SMv7KJZdk7gLcLHig2WGkdla9TDI0yYHAAoxvuoQexaIdCZeJ9m7ctiBT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZT837aKo; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9jV9GoJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZT837aKo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742753664; x=1774289664;
+  t=1742775322; x=1774311322;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0KOixeHQG3PtdB7wfb0jbRnI+kyMCYDcg9PSIQAC/Ho=;
-  b=H9jV9GoJkxsdSXuHO6FalUptcbhuSpCs2R2neotV828MCYT+fs8OVRLt
-   dD2RsGbhVgSGAac8K3Yet5M9cAvFZ/X8sucNs1sGgFoT4yDta8+ACRVUb
-   cEGiEq9fIj3YQNZfkUoCQ/v1/3TShqimo5ND+1WX8TIlDgQ6lSKZcOriA
-   nC01ajPDtlO+dLwXN1wAi/IOq94CaZPUu+O4zXxjQNqs/1E1kQaX9nN+s
-   dzje1V0Jmr/2d/HzCBnSD5Nx24PUsIR+YbbPApJOUvIDWlO0566chhAnn
-   Emdte1a+Ag5w74JICncSH3ANsDJweyO/eqmfvzh0znAkdJaXyNfgooD/U
-   Q==;
-X-CSE-ConnectionGUID: SorjE3OVQZWM97iK7cIWew==
-X-CSE-MsgGUID: ZOIVHciGQK2SGmgjaAWIcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="31555332"
-X-IronPort-AV: E=Sophos;i="6.14,270,1736841600"; 
-   d="scan'208";a="31555332"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 11:14:24 -0700
-X-CSE-ConnectionGUID: pTeD+JOkRiqPmQGbzHcLmA==
-X-CSE-MsgGUID: VvDYsqA7QxmjoduceND3lw==
+  bh=XfdvoqmBnx6N8Tknegv/0LlHgS+/iNOeRQDiaT5Evrg=;
+  b=ZT837aKomdZlP+FKVp1/zxT2Kdgs/C+CZuIJ5Ow2dg9bPd26gDmpbjEP
+   8eNjfjDlBIkeyNTJ102gU9Z4p2N/p45oGDBwXEWRI8yGzzS5IaxkK5qjm
+   qGz8ZdD0E9tXwAeAuydNvUMsaecT0+YqSckcwIq8QsfoI6L4FMekbhv6t
+   s2jAKTBK6Py2EzxTrST/KxhggnpTRKtIHviVVH9cqTWBZTKmcXOT43wza
+   SYqbO2CNmPR0l++/19FCu90LvZWA/Nj0dX0tmoz/AGXTrZxLXlzUbvsCj
+   Cu+pGg0rw/XW/KU5sk25D9atgp4cgJXWntvktXJRQZXA5+KvHpchAoUDm
+   w==;
+X-CSE-ConnectionGUID: pMOUeDnJTKKG5ZsU+Qga5g==
+X-CSE-MsgGUID: WIbubbivSLyFfV5k5wAaWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="43842461"
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="43842461"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 17:15:22 -0700
+X-CSE-ConnectionGUID: GWKtNYmySxqqkac5sVLjxQ==
+X-CSE-MsgGUID: hRY6MxAGShS/N/5YaIaI2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,270,1736841600"; 
-   d="scan'208";a="123569131"
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="124837864"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 Mar 2025 11:14:23 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Mar 2025 17:15:21 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twPpx-0002tg-2C;
-	Sun, 23 Mar 2025 18:14:18 +0000
-Date: Mon, 24 Mar 2025 02:13:16 +0800
+	id 1twVTK-000318-1m;
+	Mon, 24 Mar 2025 00:15:18 +0000
+Date: Mon, 24 Mar 2025 08:15:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cminyard-ipmi:remove-srcu 8/15]
- drivers/char/ipmi/ipmi_msghandler.c:768 ipmi_smi_watcher_register() warn:
- iterator used outside loop: 'intf'
-Message-ID: <202503240244.LR7pOwyr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
+Message-ID: <202503240732.t9Rrn7e2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,87 +61,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Corey Minyard <corey@minyard.net>
+In-Reply-To: <20250321123731.1373596-3-jason-hsu@quantatw.com>
+References: <20250321123731.1373596-3-jason-hsu@quantatw.com>
+TO: Jason Hsu <jasonhell19@gmail.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: conor+dt@kernel.org
+TO: joel@jms.id.au
+TO: andrew@codeconstruct.com.au
+TO: patrick@stwcx.xyz
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
+TO: linux-kernel@vger.kernel.org
+CC: yang.chen@quantatw.com
+CC: jerry.lin@quantatw.com
+CC: Jason Hsu <jason-hsu@quantatw.com>
 
-tree:   https://github.com/cminyard/linux-ipmi remove-srcu
-head:   952a7280d75bee86fb667526304477074b678a68
-commit: ed7043aba7c5cb3017e4d2d7dd6e9c5f2dbb1df7 [8/15] ipmi:msghandler: Remove srcu for the ipmi_interfaces list
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b3ee1e4609512dfff642a96b34d7e5dfcdc92d05]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Hsu/dt-bindings-arm-aspeed-add-Meta-Ventura-board/20250321-204530
+base:   b3ee1e4609512dfff642a96b34d7e5dfcdc92d05
+patch link:    https://lore.kernel.org/r/20250321123731.1373596-3-jason-hsu%40quantatw.com
+patch subject: [PATCH v6 2/2] ARM: dts: aspeed: ventura: add Meta Ventura BMC
 :::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
-config: openrisc-randconfig-r073-20250321 (https://download.01.org/0day-ci/archive/20250324/202503240244.LR7pOwyr-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
+:::::: commit date: 2 days ago
+config: arm-randconfig-052-20250323 (https://download.01.org/0day-ci/archive/20250324/202503240732.t9Rrn7e2-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+dtschema version: 2025.3.dev5+g0f9dc23
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503240732.t9Rrn7e2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503240244.LR7pOwyr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503240732.t9Rrn7e2-lkp@intel.com/
 
-smatch warnings:
-drivers/char/ipmi/ipmi_msghandler.c:768 ipmi_smi_watcher_register() warn: iterator used outside loop: 'intf'
-
-vim +/intf +768 drivers/char/ipmi/ipmi_msghandler.c
-
-393d2cc354d150 Corey Minyard  2005-11-07  720  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  721  int ipmi_smi_watcher_register(struct ipmi_smi_watcher *watcher)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  722  {
-a567b6230066e3 Corey Minyard  2018-04-05  723  	struct ipmi_smi *intf;
-ed7043aba7c5cb Corey Minyard  2025-03-18  724  	unsigned int count = 0, i;
-ed7043aba7c5cb Corey Minyard  2025-03-18  725  	int *interfaces = NULL;
-ed7043aba7c5cb Corey Minyard  2025-03-18  726  	int rv = 0;
-913a89f009d98c Corey Minyard  2018-12-20  727  
-913a89f009d98c Corey Minyard  2018-12-20  728  	/*
-913a89f009d98c Corey Minyard  2018-12-20  729  	 * Make sure the driver is actually initialized, this handles
-913a89f009d98c Corey Minyard  2018-12-20  730  	 * problems with initialization order.
-913a89f009d98c Corey Minyard  2018-12-20  731  	 */
-913a89f009d98c Corey Minyard  2018-12-20  732  	rv = ipmi_init_msghandler();
-913a89f009d98c Corey Minyard  2018-12-20  733  	if (rv)
-913a89f009d98c Corey Minyard  2018-12-20  734  		return rv;
-bca0324d09e413 Corey Minyard  2006-12-06  735  
-b2c03941b50944 Corey Minyard  2006-12-06  736  	mutex_lock(&smi_watchers_mutex);
-b2c03941b50944 Corey Minyard  2006-12-06  737  
-b2c03941b50944 Corey Minyard  2006-12-06  738  	list_add(&watcher->link, &smi_watchers);
-bca0324d09e413 Corey Minyard  2006-12-06  739  
-ed7043aba7c5cb Corey Minyard  2025-03-18  740  	/*
-ed7043aba7c5cb Corey Minyard  2025-03-18  741  	 * Build an array of ipmi interfaces and fill it in.  We can't
-ed7043aba7c5cb Corey Minyard  2025-03-18  742  	 * call the callback with ipmi_interfaces_mutex held.
-ed7043aba7c5cb Corey Minyard  2025-03-18  743  	 * smi_watchers_mutex will keep things in order for the user.
-ed7043aba7c5cb Corey Minyard  2025-03-18  744  	 */
-ed7043aba7c5cb Corey Minyard  2025-03-18  745  	mutex_lock(&ipmi_interfaces_mutex);
-ed7043aba7c5cb Corey Minyard  2025-03-18  746  	list_for_each_entry(intf, &ipmi_interfaces, link)
-ed7043aba7c5cb Corey Minyard  2025-03-18  747  		count++;
-ed7043aba7c5cb Corey Minyard  2025-03-18  748  	if (count > 0) {
-ed7043aba7c5cb Corey Minyard  2025-03-18  749  		interfaces = kmalloc_array(count, sizeof(*interfaces),
-ed7043aba7c5cb Corey Minyard  2025-03-18  750  					   GFP_KERNEL);
-ed7043aba7c5cb Corey Minyard  2025-03-18  751  		if (!interfaces)
-ed7043aba7c5cb Corey Minyard  2025-03-18  752  			rv = -ENOMEM;
-ed7043aba7c5cb Corey Minyard  2025-03-18  753  		count = 0;
-ed7043aba7c5cb Corey Minyard  2025-03-18  754  	}
-ed7043aba7c5cb Corey Minyard  2025-03-18  755  	if (interfaces) {
-ed7043aba7c5cb Corey Minyard  2025-03-18  756  		list_for_each_entry(intf, &ipmi_interfaces, link) {
-e86ee2d44b4405 Corey Minyard  2018-04-05  757  			int intf_num = READ_ONCE(intf->intf_num);
-bca0324d09e413 Corey Minyard  2006-12-06  758  
-e86ee2d44b4405 Corey Minyard  2018-04-05  759  			if (intf_num == -1)
-e86ee2d44b4405 Corey Minyard  2018-04-05  760  				continue;
-ed7043aba7c5cb Corey Minyard  2025-03-18  761  			interfaces[count++] = intf_num;
-ed7043aba7c5cb Corey Minyard  2025-03-18  762  		}
-ed7043aba7c5cb Corey Minyard  2025-03-18  763  	}
-ed7043aba7c5cb Corey Minyard  2025-03-18  764  	mutex_unlock(&ipmi_interfaces_mutex);
-ed7043aba7c5cb Corey Minyard  2025-03-18  765  
-ed7043aba7c5cb Corey Minyard  2025-03-18  766  	if (interfaces) {
-ed7043aba7c5cb Corey Minyard  2025-03-18  767  		for (i = 0; i < count; i++)
-ed7043aba7c5cb Corey Minyard  2025-03-18 @768  			watcher->new_smi(interfaces[i], intf->si_dev);
-ed7043aba7c5cb Corey Minyard  2025-03-18  769  		kfree(interfaces);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  770  	}
-bca0324d09e413 Corey Minyard  2006-12-06  771  
-b2c03941b50944 Corey Minyard  2006-12-06  772  	mutex_unlock(&smi_watchers_mutex);
-bca0324d09e413 Corey Minyard  2006-12-06  773  
-ed7043aba7c5cb Corey Minyard  2025-03-18  774  	return rv;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  775  }
-c70d749986f6f1 Corey Minyard  2008-04-29  776  EXPORT_SYMBOL(ipmi_smi_watcher_register);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  777  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: adc@1e6e9000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: adc@1e6e9100: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
