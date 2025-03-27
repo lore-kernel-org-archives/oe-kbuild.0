@@ -1,67 +1,61 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAF9212D79
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 11:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C5A21422C
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 14:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743074979; cv=none; b=TPrBMXtr5m6qD50hT+ImCPLXSFbmxXHei63gIT1MitPVkneaag7Km0lii7o71SFnhBWfssy+GgL8b/s8qVyaXgR8nSZRFOTsb/v0n1GaM2ZkdJIerO3LiA9DWbFretvuoGjj+kJhUcJLzsDDFynic3RRHqLwQNTuK23QoYG8NGk=
+	t=1743085371; cv=none; b=K4zQNdLSWwklVa3Y5AaCvnu59iDCWFWX84GPHGSv7bMhvxqS4vgkusdl1W5uEH8v3YWglSpAQr0cZ4RxcOhKBFbQb2cJCzBn6c4fkEnoTXqSaTB1GUcR0qpamA80vlAzrUHqHqxzQhFvkwA7+nIxgndxnEQ561UGyj6HlYcXlR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743074979; c=relaxed/simple;
-	bh=6LWSWBpkPrQW4IYf5zDsEILowIO6XhHZRpzO09snwhU=;
+	s=arc-20240116; t=1743085371; c=relaxed/simple;
+	bh=jqBThOSdFL4naz9zo/ZuZ1BZR29ZPH1vIdUTWXTcWxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MlVpjNs/1Td0rsAzaD+pb2lJgB7j8NS06EVKpj25Po9dHLXx1FkiZ4F/vk7uSOdaCU6G+Ar4lUb1ZavcOzZfld3VKrMnUQbI7VYpBolvTbJl3wDTFYnOURLUb8sDygo8tOe86wQY9Rv9u0p7nOtIhHrHQCfC1rk4RDmY7JU+H78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dUgnFwcC; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=m43Xc7TC/zEq3kpVgYC50uc4hajzNw1lWbJCAXi28KFwQdnfYvOBxXqZ5dgL9spRs39+WxDZHJ2bFpFyZHcoIW1R+XbzLggy4+GOA80hKzYIvHG7x09hjTe+SJLu7gTwIxu6hsr+77LzIVqEFgBaVjIh9+n1GZMunuPC1kmJPHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8qVFJQg; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dUgnFwcC"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4393dc02b78so5976995e9.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 04:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743074975; x=1743679775; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zZ+3xAr/weJucKnkN/ZzUO48S98jjHi3abVGsFfKd4g=;
-        b=dUgnFwcCKEgmvWJkCw7V4jgdVOaU/pTp6W0JZITb3ZeRIZD3PFTqE2Wv4DvVUq79C9
-         J8P4p0ILhbmY/F0hbmkglt0O2RZLv0sCyw/RUdXDs47h9SyssQQz5BhMvukyloiPgmPf
-         7ur13qadayUpMlbfy/o5XfYCuGKQHSdgGgPhlrABtFjNid1RS3QbMI3VBVOwVBuZt8Ms
-         ba9O+RdQJLTImWKRv1SR+BcmBihQ3Yzj7+qjHcnL09aUNp/zUuKk961zJRlZ/V7By757
-         nzzhag4KtSzIjnQKcM8tXasc2KZZwcECO26X09zEAXmR/EddeTl1XIZzlKFriEt3xrw4
-         sbjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743074975; x=1743679775;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zZ+3xAr/weJucKnkN/ZzUO48S98jjHi3abVGsFfKd4g=;
-        b=I85wXhX4h9wFfyeBVfhmxNLwaiuK0wxLAiUDEXOO7tW01EBZEfIpkbnJZzMCfX33zR
-         yaqnLLljVEYZsbXMKa5CTtrCYNVQYmWdGYxSleIj/XepRQWG/RY5WH18VjaKwSKssOo0
-         fKZFRGhmIzMdUvuM6xI138ADtmTb5CAc/kiad6mYPSwT+XN0dnXnGXYFQq2iZYH7pkqA
-         ZL0yAF3IbDGVWQoD1UhaB+YXmVAbJHFH9jsn9VMQIYfZQdU6UiGwQ7nrk/N62FhNIRbo
-         qtwHz9X0PidE2cnxhTdSs0MECAmoCssTVY6b/ECJF81hMC8kgNYRFxTomGOmSe9Yl0wE
-         8DaA==
-X-Gm-Message-State: AOJu0YznMLWG4JQydXpcSquYgfMa1Ay3WxyVjr09Ul2MBPHanY/oWE7l
-	LChxdJd37DvhQb0OxQ2EZUCoJ7Ct9ViqV3zqKCdK0G4J6YPeNq4FnHCusNgYVhHQEn2OJjaOCWh
-	G
-X-Gm-Gg: ASbGncvbceRRdDOW7vMP9sTF46ADYKex6TZ3IQwDMRwELj+vV82vDJ/kVOIR81cEqln
-	UdVSBE80b4JfhLua76Zcn1JhMgbkzm86QuCFH8jc/Kg3fXqBL6HOoyqutZOUXNC1t2LmraljQTQ
-	CJASjJIMC50ob+2W42xN5rgOrhifw8PoY4oVTzRXG3SfIhYg48y1rGBVuCRLvsJBlY1DZvxF8Ce
-	0IXb/DcSJpMIKICeiCBnYhuLb9vh6WJsotb6dqXfDkTTqvO1WZnXphgtOcZ4xqZW826926YI7K1
-	ZrlZbNyPZrGGPQ4d1erqZx6zBnYsipZluw1KI7bfR6NXZTZNJg==
-X-Google-Smtp-Source: AGHT+IHnFVXz1zWLFoVTNLq3A+8aEkQAkczXoO2gAwQgWjk3CvezkR1sU/oqM7u2DjZ74uiNLxNxaA==
-X-Received: by 2002:a05:600c:4ca3:b0:43b:cc3c:60bc with SMTP id 5b1f17b1804b1-43d853fdc93mr18089135e9.15.1743074974543;
-        Thu, 27 Mar 2025 04:29:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d82a041d4sm36633905e9.0.2025.03.27.04.29.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 04:29:34 -0700 (PDT)
-Date: Thu, 27 Mar 2025 14:29:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2060/2060] drivers/hid/hid-thrustmaster.c:178
- thrustmaster_interrupts() warn: possible memory leak of 'send_buf'
-Message-ID: <1ed61874-c857-46d4-bac3-d021ded1cf44@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8qVFJQg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743085369; x=1774621369;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jqBThOSdFL4naz9zo/ZuZ1BZR29ZPH1vIdUTWXTcWxE=;
+  b=N8qVFJQgp5TO0bDJ9MCGNeCziYGjh3QCknVfoPwui4r4sKSgkYvmCJrQ
+   Jkr0dzQOy5/pdgnAidBMhU9kED0qMHdE3ERvqEOxPSz9zzYdVjf+OTvWo
+   ExId07cGMvDP56xxvyed5UC40pBOSyx/yUf8P0R0e+cMkj1sBAOr6dUb3
+   gsxq22qKry4jDB8fIu3P5BaCN3sueom1WgOkOoMdFef7RlXq4nlvxYoN6
+   MY9KfXYVMLUq94DGiX2Wp9CPY5jya2m+Bj2M7PDA/ZEPyU90Stb6g1nMi
+   s3Fzv+o5DtFk8gr4HwgB9QRvFM/imWH5LPu94VhHHsjcHxAU4ZqBkY/uc
+   g==;
+X-CSE-ConnectionGUID: qUh5jr4zSyy7sUuoXMx5EQ==
+X-CSE-MsgGUID: 4QwgWvuFSdG/tUeBKmisHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61811812"
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="61811812"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 07:22:48 -0700
+X-CSE-ConnectionGUID: G1Gt2oiFR6CCw+qzVGUacg==
+X-CSE-MsgGUID: msn6+RGhQB++6SaSoMmhSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="125133637"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 27 Mar 2025 07:22:44 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1txo82-0006h9-0t;
+	Thu, 27 Mar 2025 14:22:42 +0000
+Date: Thu, 27 Mar 2025 22:21:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [wsa:renesas/n1d/enablement 9/9]
+ arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: keyboard: 'eight',
+ 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of
+ the regexes:
+ '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|swi...
+Message-ID: <202503272228.G23ldajB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,78 +65,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   b28aab59b06935f0d1c9bce8f013f25b4094764d
-commit: 477cfc70d964fafd811f91a889f14c356f937b8e [2060/2060] HID: hid-thrustmaster: Fix warning in thrustmaster_probe by adding endpoint check
-config: x86_64-randconfig-161-20250326 (https://download.01.org/0day-ci/archive/20250327/202503271832.WycjTkRa-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+head:   8062afb33fe16880df4bfb6622c18e15c069c320
+commit: 8062afb33fe16880df4bfb6622c18e15c069c320 [9/9] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe keys
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: arm-randconfig-053-20250327 (https://download.01.org/0day-ci/archive/20250327/202503272228.G23ldajB-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+dtschema version: 2025.3.dev5+g0f9dc23
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503272228.G23ldajB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503271832.WycjTkRa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503272228.G23ldajB-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-thrustmaster.c:178 thrustmaster_interrupts() warn: possible memory leak of 'send_buf'
-
-vim +/send_buf +178 drivers/hid/hid-thrustmaster.c
-
-c49c33637802a2 Dario Pagani     2021-01-31  150  static void thrustmaster_interrupts(struct hid_device *hdev)
-c49c33637802a2 Dario Pagani     2021-01-31  151  {
-c49c33637802a2 Dario Pagani     2021-01-31  152  	int ret, trans, i, b_ep;
-c49c33637802a2 Dario Pagani     2021-01-31  153  	u8 *send_buf = kmalloc(256, GFP_KERNEL);
-c49c33637802a2 Dario Pagani     2021-01-31  154  	struct usb_host_endpoint *ep;
-c49c33637802a2 Dario Pagani     2021-01-31  155  	struct device *dev = &hdev->dev;
-c49c33637802a2 Dario Pagani     2021-01-31  156  	struct usb_interface *usbif = to_usb_interface(dev->parent);
-c49c33637802a2 Dario Pagani     2021-01-31  157  	struct usb_device *usbdev = interface_to_usbdev(usbif);
-c49c33637802a2 Dario Pagani     2021-01-31  158  
-c49c33637802a2 Dario Pagani     2021-01-31  159  	if (!send_buf) {
-c49c33637802a2 Dario Pagani     2021-01-31  160  		hid_err(hdev, "failed allocating send buffer\n");
-c49c33637802a2 Dario Pagani     2021-01-31  161  		return;
-c49c33637802a2 Dario Pagani     2021-01-31  162  	}
-c49c33637802a2 Dario Pagani     2021-01-31  163  
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  164  	if (usbif->cur_altsetting->desc.bNumEndpoints < 2) {
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  165  		kfree(send_buf);
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  166  		hid_err(hdev, "Wrong number of endpoints?\n");
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  167  		return;
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  168  	}
-fc3ef2e3297b3c Pavel Skripkin   2022-02-20  169  
-c49c33637802a2 Dario Pagani     2021-01-31  170  	ep = &usbif->cur_altsetting->endpoint[1];
-c49c33637802a2 Dario Pagani     2021-01-31  171  	b_ep = ep->desc.bEndpointAddress;
-c49c33637802a2 Dario Pagani     2021-01-31  172  
-477cfc70d964fa Karol Przybylski 2024-12-05  173  	/* Are the expected endpoints present? */
-477cfc70d964fa Karol Przybylski 2024-12-05  174  	u8 ep_addr[1] = {b_ep};
-477cfc70d964fa Karol Przybylski 2024-12-05  175  
-477cfc70d964fa Karol Przybylski 2024-12-05  176  	if (!usb_check_int_endpoints(usbif, ep_addr)) {
-477cfc70d964fa Karol Przybylski 2024-12-05  177  		hid_err(hdev, "Unexpected non-int endpoint\n");
-477cfc70d964fa Karol Przybylski 2024-12-05 @178  		return;
-
-kfree(send_buf);
-
-477cfc70d964fa Karol Przybylski 2024-12-05  179  	}
-477cfc70d964fa Karol Przybylski 2024-12-05  180  
-c49c33637802a2 Dario Pagani     2021-01-31  181  	for (i = 0; i < ARRAY_SIZE(setup_arr); ++i) {
-c49c33637802a2 Dario Pagani     2021-01-31  182  		memcpy(send_buf, setup_arr[i], setup_arr_sizes[i]);
-c49c33637802a2 Dario Pagani     2021-01-31  183  
-c49c33637802a2 Dario Pagani     2021-01-31  184  		ret = usb_interrupt_msg(usbdev,
-c49c33637802a2 Dario Pagani     2021-01-31  185  			usb_sndintpipe(usbdev, b_ep),
-c49c33637802a2 Dario Pagani     2021-01-31  186  			send_buf,
-c49c33637802a2 Dario Pagani     2021-01-31  187  			setup_arr_sizes[i],
-c49c33637802a2 Dario Pagani     2021-01-31  188  			&trans,
-c49c33637802a2 Dario Pagani     2021-01-31  189  			USB_CTRL_SET_TIMEOUT);
-c49c33637802a2 Dario Pagani     2021-01-31  190  
-c49c33637802a2 Dario Pagani     2021-01-31  191  		if (ret) {
-c49c33637802a2 Dario Pagani     2021-01-31  192  			hid_err(hdev, "setup data couldn't be sent\n");
-c3800eed22d21c Evgeny Novikov   2021-07-30  193  			kfree(send_buf);
-c49c33637802a2 Dario Pagani     2021-01-31  194  			return;
-c49c33637802a2 Dario Pagani     2021-01-31  195  		}
-c49c33637802a2 Dario Pagani     2021-01-31  196  	}
-c49c33637802a2 Dario Pagani     2021-01-31  197  
-c49c33637802a2 Dario Pagani     2021-01-31  198  	kfree(send_buf);
-c49c33637802a2 Dario Pagani     2021-01-31  199  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/renesas/r9a06g032.dtsi:415.27-464.5: Warning (avoid_unnecessary_addr_size): /soc/switch@44050000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: cpus: cpu@1:enable-method:0: 'spin-table' was expected
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
+   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: switch@44050000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
+>> arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: keyboard: 'eight', 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+--
+   arch/arm/boot/dts/renesas/r9a06g032.dtsi:415.27-464.5: Warning (avoid_unnecessary_addr_size): /soc/switch@44050000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: cpus: cpu@1:enable-method:0: 'spin-table' was expected
+   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
+   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: switch@44050000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
+>> arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: keyboard: 'eight', 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
