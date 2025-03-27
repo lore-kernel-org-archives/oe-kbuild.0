@@ -1,149 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0496C1392
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 00:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAAF749C
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 02:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743033631; cv=none; b=L7hkspfgORMHqVEZtNlBg6u+EX/pfnMhds/T7BndMy4NGr+1ZMdRWnef8Ti6xmialKMNAYDrF9GrQNy50K4amFx4ByyhSNtgdy9q1PYrqh99z/SsDfrOmsjnSiCvH7V3Kitrcy7iMZNTuo52R71h3kjlaITsfmhcTN/uNXZUljc=
+	t=1743040820; cv=none; b=ohYaIkVTdk1yQNIWyIhRXCMOplNqkmOxddYoHvq8khufwr9kC8Xg1AZvhVh9FPueN+xNmkCfje4mMIx7TqvZgfOa07x+sKi64E1yR4puz8zNXCSe33HKVbPNWdnpCw9Lo/zc5n4zjI12GG3Cu/MpauEq0TU7IaIA/7Wo+5hLO5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743033631; c=relaxed/simple;
-	bh=zJd1LnHH+4+wjErjAj6KShyRxVbPHh18sXUJpu0jllc=;
+	s=arc-20240116; t=1743040820; c=relaxed/simple;
+	bh=VOzJdh+ZFmpP17WaeJR8BT2aEE1tuLO8ejTGpw0CvsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ME1PO3BrdiyCYF0kSyzeMD1UHBOIaWmj48acW115KMeLC1a2F7vW5zsoIcntiZRrYKkEFWhFaWtHEFj7lzDuaMlJiqf3iVOpvTf30+fzQNDUJXhMT+teyXdHFrTcqH5RrjJU7C5igm5TfU5pRkfXaSIQFy9H5IZkcMdznuIWkOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUL9kQ73; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=QzPXEGFiCs7aPn7JQepWfZWekQtrQJVTODxWSyPzPJZIF+ud/tIbAxGB2YSHF/Jt7nAi3JxN/vROE8u+H3OfnA2jUXENz+C0HS21cuXasWTeRo4cBu4XRH21ZTJdH2X8cJkrd5dBirvx4buzEicg1WC9hFdx4qJZ5B7EgI7u4Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFV5Zz+q; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUL9kQ73"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFV5Zz+q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743033629; x=1774569629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zJd1LnHH+4+wjErjAj6KShyRxVbPHh18sXUJpu0jllc=;
-  b=nUL9kQ73GIAahzgEb0LZ7jlTHIf1fRp7F3Pyw51QBaODPK3hxG6YxfN8
-   qF1N34ScTBGcmMayOqgEoHz2oXEq7mGAHydpEmKyY+XcPlOiorZ64FZ1b
-   d3L5Dxh+lOU78MabZ1ldjJ6Qp4ESL4kpEfIFTPnzHYIJQja5L/5t/gaEp
-   41mMrsdkKWB3H+tbUEujXQIThwUfEZ9ulZ+dK8lelRDq8TSkbnRCE7f7d
-   BJ0EtwrdJoFDdUY04IssihJkDtqCEn82jpM5R+h42pj7eyvZ4HUJeeC6R
-   OHRtTjeRTGxG0LI+wWoqN21WFUaep+JSgPau/Yx4Lb+rzDZw/BkzA5IWZ
-   Q==;
-X-CSE-ConnectionGUID: oa9p5nwUTtaMdwJ3x7Gn1Q==
-X-CSE-MsgGUID: G7xl5PDbTQmltmo7l4zrog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="55711925"
+  t=1743040817; x=1774576817;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VOzJdh+ZFmpP17WaeJR8BT2aEE1tuLO8ejTGpw0CvsQ=;
+  b=KFV5Zz+q0PUFSIosUHdFKQP3eq4OuHLRTBUL1MAexjAcjX23LiROaOZk
+   N88tIlVQjGTDdoKQglpwEMD5MGZhnNP6xqKCPSjDucou8wTkpl8bMkFli
+   QAzmaMFwFdsiJ5jouL9jFEWA3UAV/AkjRzFnrnvrLIcWgAQ0ewZjrZKkA
+   K2jaB0CLsRTg/uvm62L3EurS/C857mog1COOqzDE1ZhNIU8vbo6ssHttx
+   94iGYJWYd/xVohK9QrnKAJMUfwIzF2DIBluUWy/kjHkuVy28eX1lmdp4A
+   Ij+pHNpeUDIXR7CzcCZcwsj1CfjHVovQdVfJ/DdqZD6PUloJO8Xvn65Ns
+   g==;
+X-CSE-ConnectionGUID: HiiZc5KHRWWAndAlvK9xxg==
+X-CSE-MsgGUID: mnaNPPTFRKaw65HvBZ3doA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48008791"
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="55711925"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 17:00:28 -0700
-X-CSE-ConnectionGUID: CyrbYwGLRvuMq8Aw4NBYYg==
-X-CSE-MsgGUID: 6AgNxyDpRrOyLQoYeu4K0A==
+   d="scan'208";a="48008791"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 19:00:17 -0700
+X-CSE-ConnectionGUID: DTZJziskQJ258Dz5+ByCRA==
+X-CSE-MsgGUID: Bv8Q3rL3RjuzP4d6vikgdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,279,1736841600"; 
-   d="scan'208";a="125407661"
+   d="scan'208";a="125931181"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Mar 2025 17:00:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Mar 2025 19:00:15 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txafZ-0006Ch-0Q;
-	Thu, 27 Mar 2025 00:00:25 +0000
-Date: Thu, 27 Mar 2025 07:59:50 +0800
+	id 1txcX1-0006HL-15;
+	Thu, 27 Mar 2025 01:59:51 +0000
+Date: Thu, 27 Mar 2025 09:59:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe()
- warn: 'iommu->irqs_count' unsigned <= 0
-Message-ID: <202503270710.nzXdpHfG-lkp@intel.com>
+Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
+ copy_page_range()
+Message-ID: <202503270941.IFILyNCX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tomasz Jeznach <tjeznach@rivosinc.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Nick Kossifidis <mick@ics.forth.gr>
-CC: Sebastien Boeuf <seb@rivosinc.com>
-CC: Lu Baolu <baolu.lu@linux.intel.com>
+In-Reply-To: <20250325191951.471185-1-david@redhat.com>
+References: <20250325191951.471185-1-david@redhat.com>
+TO: David Hildenbrand <david@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f6e0150b2003fb2b9265028a618aa1732b3edc8f
-commit: 5c0ebbd3c6c6e00af112fe053e81ac0c7cafe647 iommu/riscv: Add RISC-V IOMMU platform device driver
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270710.nzXdpHfG-lkp@intel.com/config)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Hildenbrand/x86-mm-pat-Fix-VM_PAT-handling-when-fork-fails-in-copy_page_range/20250326-032200
+base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
+patch link:    https://lore.kernel.org/r/20250325191951.471185-1-david%40redhat.com
+patch subject: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in copy_page_range()
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: hexagon-randconfig-r073-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270941.IFILyNCX-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503270710.nzXdpHfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503270941.IFILyNCX-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/riscv/iommu-platform.c:54 riscv_iommu_platform_probe() warn: 'iommu->irqs_count' unsigned <= 0
+mm/memory.c:1428 copy_page_range() error: uninitialized symbol 'pfn'.
 
-vim +54 drivers/iommu/riscv/iommu-platform.c
+vim +/pfn +1428 mm/memory.c
 
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  19  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  20  static int riscv_iommu_platform_probe(struct platform_device *pdev)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  21  {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  22  	struct device *dev = &pdev->dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  23  	struct riscv_iommu_device *iommu = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  24  	struct resource *res = NULL;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  25  	int vec;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  26  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  27  	iommu = devm_kzalloc(dev, sizeof(*iommu), GFP_KERNEL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  28  	if (!iommu)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  29  		return -ENOMEM;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  30  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  31  	iommu->dev = dev;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  32  	iommu->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  33  	if (IS_ERR(iommu->reg))
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  34  		return dev_err_probe(dev, PTR_ERR(iommu->reg),
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  35  				     "could not map register region\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  36  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  37  	dev_set_drvdata(dev, iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  38  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  39  	/* Check device reported capabilities / features. */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  40  	iommu->caps = riscv_iommu_readq(iommu, RISCV_IOMMU_REG_CAPABILITIES);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  41  	iommu->fctl = riscv_iommu_readl(iommu, RISCV_IOMMU_REG_FCTL);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  42  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  43  	/* For now we only support WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  44  	switch (FIELD_GET(RISCV_IOMMU_CAPABILITIES_IGS, iommu->caps)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  45  	case RISCV_IOMMU_CAPABILITIES_IGS_WSI:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  46  	case RISCV_IOMMU_CAPABILITIES_IGS_BOTH:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  47  		break;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  48  	default:
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  49  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  50  				     "unable to use wire-signaled interrupts\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  51  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  52  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  53  	iommu->irqs_count = platform_irq_count(pdev);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15 @54  	if (iommu->irqs_count <= 0)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  55  		return dev_err_probe(dev, -ENODEV,
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  56  				     "no IRQ resources provided\n");
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  57  	if (iommu->irqs_count > RISCV_IOMMU_INTR_COUNT)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  58  		iommu->irqs_count = RISCV_IOMMU_INTR_COUNT;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  59  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  60  	for (vec = 0; vec < iommu->irqs_count; vec++)
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  61  		iommu->irqs[vec] = platform_get_irq(pdev, vec);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  62  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  63  	/* Enable wire-signaled interrupts, fctl.WSI */
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  64  	if (!(iommu->fctl & RISCV_IOMMU_FCTL_WSI)) {
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  65  		iommu->fctl |= RISCV_IOMMU_FCTL_WSI;
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  66  		riscv_iommu_writel(iommu, RISCV_IOMMU_REG_FCTL, iommu->fctl);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  67  	}
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  68  
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  69  	return riscv_iommu_init(iommu);
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  70  };
-5c0ebbd3c6c6e0 Tomasz Jeznach 2024-10-15  71  
+c56d1b62cce836 Peter Xu                      2022-05-12  1360  
+c78f463649d60f Peter Xu                      2020-10-13  1361  int
+c78f463649d60f Peter Xu                      2020-10-13  1362  copy_page_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma)
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1363  {
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1364  	pgd_t *src_pgd, *dst_pgd;
+c78f463649d60f Peter Xu                      2020-10-13  1365  	unsigned long addr = src_vma->vm_start;
+c78f463649d60f Peter Xu                      2020-10-13  1366  	unsigned long end = src_vma->vm_end;
+c78f463649d60f Peter Xu                      2020-10-13  1367  	struct mm_struct *dst_mm = dst_vma->vm_mm;
+c78f463649d60f Peter Xu                      2020-10-13  1368  	struct mm_struct *src_mm = src_vma->vm_mm;
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1369  	struct mmu_notifier_range range;
+ebd5c0670e88d9 David Hildenbrand             2025-03-25  1370  	unsigned long next, pfn;
+2ec74c3ef2d8c5 Sagi Grimberg                 2012-10-08  1371  	bool is_cow;
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1372  	int ret;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1373  
+c56d1b62cce836 Peter Xu                      2022-05-12  1374  	if (!vma_needs_copy(dst_vma, src_vma))
+d992895ba2b27c Nicholas Piggin               2005-08-28  1375  		return 0;
+d992895ba2b27c Nicholas Piggin               2005-08-28  1376  
+c78f463649d60f Peter Xu                      2020-10-13  1377  	if (is_vm_hugetlb_page(src_vma))
+bc70fbf269fdff Peter Xu                      2022-05-12  1378  		return copy_hugetlb_page_range(dst_mm, src_mm, dst_vma, src_vma);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1379  
+c78f463649d60f Peter Xu                      2020-10-13  1380  	if (unlikely(src_vma->vm_flags & VM_PFNMAP)) {
+ebd5c0670e88d9 David Hildenbrand             2025-03-25  1381  		ret = track_pfn_copy(dst_vma, src_vma, &pfn);
+2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  1382  		if (ret)
+2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  1383  			return ret;
+2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  1384  	}
+2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  1385  
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1386  	/*
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1387  	 * We need to invalidate the secondary MMU mappings only when
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1388  	 * there could be a permission downgrade on the ptes of the
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1389  	 * parent mm. And a permission downgrade will only happen if
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1390  	 * is_cow_mapping() returns true.
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1391  	 */
+c78f463649d60f Peter Xu                      2020-10-13  1392  	is_cow = is_cow_mapping(src_vma->vm_flags);
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1393  
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1394  	if (is_cow) {
+7269f999934b28 Jérôme Glisse                 2019-05-13  1395  		mmu_notifier_range_init(&range, MMU_NOTIFY_PROTECTION_PAGE,
+7d4a8be0c4b2b7 Alistair Popple               2023-01-10  1396  					0, src_mm, addr, end);
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1397  		mmu_notifier_invalidate_range_start(&range);
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1398  		/*
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1399  		 * Disabling preemption is not needed for the write side, as
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1400  		 * the read side doesn't spin, but goes to the mmap_lock.
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1401  		 *
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1402  		 * Use the raw variant of the seqcount_t write API to avoid
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1403  		 * lockdep complaining about preemptibility.
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1404  		 */
+e727bfd5e73a35 Suren Baghdasaryan            2023-08-04  1405  		vma_assert_write_locked(src_vma);
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1406  		raw_write_seqcount_begin(&src_mm->write_protect_seq);
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1407  	}
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1408  
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1409  	ret = 0;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1410  	dst_pgd = pgd_offset(dst_mm, addr);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1411  	src_pgd = pgd_offset(src_mm, addr);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1412  	do {
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1413  		next = pgd_addr_end(addr, end);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1414  		if (pgd_none_or_clear_bad(src_pgd))
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1415  			continue;
+c78f463649d60f Peter Xu                      2020-10-13  1416  		if (unlikely(copy_p4d_range(dst_vma, src_vma, dst_pgd, src_pgd,
+c78f463649d60f Peter Xu                      2020-10-13  1417  					    addr, next))) {
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1418  			ret = -ENOMEM;
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1419  			break;
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1420  		}
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1421  	} while (dst_pgd++, src_pgd++, addr = next, addr != end);
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1422  
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1423  	if (is_cow) {
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1424  		raw_write_seqcount_end(&src_mm->write_protect_seq);
+ac46d4f3c43241 Jérôme Glisse                 2018-12-28  1425  		mmu_notifier_invalidate_range_end(&range);
+57efa1fe595769 Jason Gunthorpe               2020-12-14  1426  	}
+ebd5c0670e88d9 David Hildenbrand             2025-03-25  1427  	if (ret && unlikely(src_vma->vm_flags & VM_PFNMAP))
+ebd5c0670e88d9 David Hildenbrand             2025-03-25 @1428  		untrack_pfn_copy(dst_vma, pfn);
+cddb8a5c14aa89 Andrea Arcangeli              2008-07-28  1429  	return ret;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1430  }
+^1da177e4c3f41 Linus Torvalds                2005-04-16  1431  
 
 -- 
 0-DAY CI Kernel Test Service
