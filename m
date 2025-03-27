@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C5A21422C
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 14:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A3A28EC
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 20:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743085371; cv=none; b=K4zQNdLSWwklVa3Y5AaCvnu59iDCWFWX84GPHGSv7bMhvxqS4vgkusdl1W5uEH8v3YWglSpAQr0cZ4RxcOhKBFbQb2cJCzBn6c4fkEnoTXqSaTB1GUcR0qpamA80vlAzrUHqHqxzQhFvkwA7+nIxgndxnEQ561UGyj6HlYcXlR8=
+	t=1743106862; cv=none; b=UqYC5MT+D0C95ikcdI1CPkkTkvesypKiO9Q6pwd0ZEIzpXMVajvHmd0AoCbHMS4LgKihS8VtAkVsoNnltpPjGoKdBxJWilJj0tmd+K1/TEdM2ys4VkfqlNg+OzT3O+SLL4Bzq2Au8LBq7USX4W0wt+lRj3S03akeEZM+Xci28O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743085371; c=relaxed/simple;
-	bh=jqBThOSdFL4naz9zo/ZuZ1BZR29ZPH1vIdUTWXTcWxE=;
+	s=arc-20240116; t=1743106862; c=relaxed/simple;
+	bh=UEOItwrc0O/RHb00tzmTYl8D9cj7JXYo1fzgv1Cah14=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m43Xc7TC/zEq3kpVgYC50uc4hajzNw1lWbJCAXi28KFwQdnfYvOBxXqZ5dgL9spRs39+WxDZHJ2bFpFyZHcoIW1R+XbzLggy4+GOA80hKzYIvHG7x09hjTe+SJLu7gTwIxu6hsr+77LzIVqEFgBaVjIh9+n1GZMunuPC1kmJPHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8qVFJQg; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=QM0DIlsPIrgMmqQWa/v8crwSK75Nm3Wmptfd38nhh6HwVb6YHHWfX3bOyoIvjU3yHwln/xZRRdkgQ95DLw6L1F3NgMSkLGFqDoW/WUxd7djHcMlpmFc0gibbT2/bLmi8FsQ5+/UtVpQFHsSxfF1hNq9vJwOoDox7SYJ3nz8pU8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzNOU6Xn; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8qVFJQg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzNOU6Xn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743085369; x=1774621369;
+  t=1743106860; x=1774642860;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jqBThOSdFL4naz9zo/ZuZ1BZR29ZPH1vIdUTWXTcWxE=;
-  b=N8qVFJQgp5TO0bDJ9MCGNeCziYGjh3QCknVfoPwui4r4sKSgkYvmCJrQ
-   Jkr0dzQOy5/pdgnAidBMhU9kED0qMHdE3ERvqEOxPSz9zzYdVjf+OTvWo
-   ExId07cGMvDP56xxvyed5UC40pBOSyx/yUf8P0R0e+cMkj1sBAOr6dUb3
-   gsxq22qKry4jDB8fIu3P5BaCN3sueom1WgOkOoMdFef7RlXq4nlvxYoN6
-   MY9KfXYVMLUq94DGiX2Wp9CPY5jya2m+Bj2M7PDA/ZEPyU90Stb6g1nMi
-   s3Fzv+o5DtFk8gr4HwgB9QRvFM/imWH5LPu94VhHHsjcHxAU4ZqBkY/uc
+  bh=UEOItwrc0O/RHb00tzmTYl8D9cj7JXYo1fzgv1Cah14=;
+  b=gzNOU6Xnuc4tLwch2ilnYMfmKM3SBb1fUTin7P6TT3j7Aax6FoQ2zrYI
+   Etej5YWVeljZhaZCq2dtlN6bYUBeVtBI3+t0GkG1dFBydwIYMJF09Eyg7
+   ngEh5XXgPplc04u2IHv2JwmlXYAKK6i2DNbf3ob7FdcJklur0kgt0EKRL
+   MJFhcHz2k//p/H1B+p2WEgNU3eknzTKjScwXm5V6VM5zy+EFKTSOj5LPV
+   Z89STn9YN95VSEeRa7XotZjR08jMEM7hU186f/ccrlInx7PlEtbhmLQZ7
+   0j9Mf61zqgJsdFc+7sEHVYmzF7hqty+IjYvM+WZZKNWxgqSQ1YYafXx9Y
    g==;
-X-CSE-ConnectionGUID: qUh5jr4zSyy7sUuoXMx5EQ==
-X-CSE-MsgGUID: 4QwgWvuFSdG/tUeBKmisHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="61811812"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="61811812"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 07:22:48 -0700
-X-CSE-ConnectionGUID: G1Gt2oiFR6CCw+qzVGUacg==
-X-CSE-MsgGUID: msn6+RGhQB++6SaSoMmhSg==
+X-CSE-ConnectionGUID: TRL43syfSpmWgJmWBDiX1A==
+X-CSE-MsgGUID: SNpVTuGGSLu+9vAJ7rLrpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="48242121"
+X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
+   d="scan'208";a="48242121"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 13:20:54 -0700
+X-CSE-ConnectionGUID: mhW0sbgTQzCSx0kajMAaUA==
+X-CSE-MsgGUID: g+kUhFDHQCuDziZzFQzSTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="125133637"
+X-IronPort-AV: E=Sophos;i="6.14,281,1736841600"; 
+   d="scan'208";a="130109467"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Mar 2025 07:22:44 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Mar 2025 13:20:54 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1txo82-0006h9-0t;
-	Thu, 27 Mar 2025 14:22:42 +0000
-Date: Thu, 27 Mar 2025 22:21:45 +0800
+	id 1txtid-0006wZ-0l;
+	Thu, 27 Mar 2025 20:20:51 +0000
+Date: Fri, 28 Mar 2025 04:20:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [wsa:renesas/n1d/enablement 9/9]
- arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: keyboard: 'eight',
- 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of
- the regexes:
- '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|swi...
-Message-ID: <202503272228.G23ldajB-lkp@intel.com>
+Subject: Re: [PATCH 3/5] arm64: dts: rockchip: fix internal USB hub
+ instability on RK3399 Puma
+Message-ID: <202503280317.Q51aTqRE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,39 +68,64 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+In-Reply-To: <20250326-onboard_usb_dev-v1-3-a4b0a5d1b32c@thaumatec.com>
+References: <20250326-onboard_usb_dev-v1-3-a4b0a5d1b32c@thaumatec.com>
+TO: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+TO: Matthias Kaehlcke <mka@chromium.org>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Benjamin Bara <benjamin.bara@skidata.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: Klaus Goger <klaus.goger@theobroma-systems.com>
+CC: linux-usb@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+CC: quentin.schulz@cherry.de
+CC: stable@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
-head:   8062afb33fe16880df4bfb6622c18e15c069c320
-commit: 8062afb33fe16880df4bfb6622c18e15c069c320 [9/9] ARM: dts: renesas: r9a06g032-rzn1d400-db: describe keys
+Hi Lukasz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1e26c5e28ca5821a824e90dd359556f5e9e7b89f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukasz-Czechowski/usb-misc-onboard_usb_dev-fix-support-for-Cypress-HX3-hubs/20250327-002824
+base:   1e26c5e28ca5821a824e90dd359556f5e9e7b89f
+patch link:    https://lore.kernel.org/r/20250326-onboard_usb_dev-v1-3-a4b0a5d1b32c%40thaumatec.com
+patch subject: [PATCH 3/5] arm64: dts: rockchip: fix internal USB hub instability on RK3399 Puma
 :::::: branch date: 28 hours ago
 :::::: commit date: 28 hours ago
-config: arm-randconfig-053-20250327 (https://download.01.org/0day-ci/archive/20250327/202503272228.G23ldajB-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+config: arm64-randconfig-051-20250327 (https://download.01.org/0day-ci/archive/20250328/202503280317.Q51aTqRE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
 dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250327/202503272228.G23ldajB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250328/202503280317.Q51aTqRE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503272228.G23ldajB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503280317.Q51aTqRE-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/renesas/r9a06g032.dtsi:415.27-464.5: Warning (avoid_unnecessary_addr_size): /soc/switch@44050000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: cpus: cpu@1:enable-method:0: 'spin-table' was expected
-   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
-   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: switch@44050000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
->> arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-db.dtb: keyboard: 'eight', 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
---
-   arch/arm/boot/dts/renesas/r9a06g032.dtsi:415.27-464.5: Warning (avoid_unnecessary_addr_size): /soc/switch@44050000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: cpus: cpu@1:enable-method:0: 'spin-table' was expected
-   	from schema $id: http://devicetree.org/schemas/cpus.yaml#
-   arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: switch@44050000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/renesas,rzn1-a5psw.yaml#
->> arch/arm/boot/dts/renesas/r9a06g032-rzn1d400-eb.dtb: keyboard: 'eight', 'five', 'four', 'one', 'seven', 'six', 'three', 'two' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@1: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@1: 'vdd2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@2: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: hub@2: 'vdd2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/cypress,hx3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
 
 -- 
 0-DAY CI Kernel Test Service
