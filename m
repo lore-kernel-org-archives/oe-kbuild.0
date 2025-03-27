@@ -1,69 +1,58 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381D01547C9
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 05:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEE6186A
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Mar 2025 10:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743053235; cv=none; b=J1WY6umyC5TSfKlWC832C/WjLLw3hodV8r5rH/o8u81sEsglwoBclr20wEs1pIGQJHDEs3g9pzbSzVRR53YfOSzEAZOw4CEBLf/IZSn1/QcPwrNiSy++AN65X/MuP1l3p3g7P4w8+k5w2WuZUmG+jTLVe3uedCN1nDOLRJIGr5I=
+	t=1743073030; cv=none; b=AIhjQRtntLdSt74/FMu2Z5vak7FWlg1Tb+stKWlhqJrx9whNpWceeI3rsLD6MwpbtUD8dL6S7JGmSI1US+D5IxftWalXSSiQ9OuOjLPRTw47gJNSXVU/k5pu6DkPyWNOBOMTlAqdj2cJihv8g2vTZfbnIHRuRQ6Yrn112RnqVok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743053235; c=relaxed/simple;
-	bh=thMbS49qbqX11dIS6IU1v+POK8UjDMlFhVuo86bY83w=;
+	s=arc-20240116; t=1743073030; c=relaxed/simple;
+	bh=U6Wl8RTXa4sRMnFTnEP2ZExcbfFf2HH1ITBwhU1PHUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E2orAo+PbS1FCOfIA03Ibk+96t5qtNo2FxtrpXDAlOuOtb8kR+iV9sn1bIIFjg5QDESy66dRT/Eu4Ei69mffii8W53FApJCrruixKbpinoqFOueT3XLiXnNc2RHx8fJrgaUCWiLEfh+fnWQeljZ8mXEagaFsgHLmhCwsOoOEQ8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CY2GBxTC; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=lBLeWdCMDzRdck+orLfPiqrSnLLo9D/WYmInekG4NMVvojC9v1eTc4yJjbZ5KfKGxml5O5a2xU7RpkrbG2RsHlRmXzY3PzCQJgg563IvZvUOFiPjS4uHb4ojl4pp1U6NyVh29qXLh4BkJK6B2DlCCCAbVgrRr6z4aVplC4CqWC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6juW/ox; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CY2GBxTC"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-399737f4fa4so147681f8f.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 26 Mar 2025 22:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743053231; x=1743658031; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
-        b=CY2GBxTCPtLC+e3im1rdgbvVYAVWo/sGYIFG7GIpHgBo2956Kb8VQLjUbCP3O6i3xx
-         KT4+YVtVNI2FXhZ8Ux+E1JHrWS4E0mal3GSWBPO8hJFUazLZ+gBJ5qiZXRxMmCbR0oTO
-         nK47pN2tA4oRAFsTxjQVD7EhbZnErGybiKSv/NWx06mHVClQDDaUp0x7C3jB0xsH36zr
-         JrqELyDl/sgIl7TbShW/GVbFMy2XL4dnXLQQRaNxI57rECplUdONofemAr9jhntFLYZk
-         MoAU1+FJLMIS3w3t+0m6X+8DtKYD08O6Wjhhu36jv1kJftjnjRx9K/hSP0OMNgUbgTFI
-         VDfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743053231; x=1743658031;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bOR1/27k/4vBaaEK3EepMLA9XBiPxa8J1dvmh2SqxNw=;
-        b=fOAFLis2HFnKf4nBAORem3YO2H7OLTrhxecYDbYPEM54lZ1ccKiM1Bs24DFFk4AEwL
-         2JY16i69fqrrGzW8gSvjYpwGgQbtGQogyhA+AiiAOu5tuYkw0FQtoikfyI8XOrhBffVF
-         IeXFy81Xx4GOso/d5oY76Nm/fqtws8f88CyzVzb3cI15bukqyLYoCoqZft8uicbelGha
-         emJPwFI5xwM2pmtdSaU9it5+vm5y/S6gqDUyGG1rZsNWpTf+YIJTyMtcaZaALIHPUC+P
-         ZFnt4CXupWnKHn9ScLQO9WsfkipxkO+kc/WmBLkO/i+CnBkZGTJyI3zdOu+cHNrqJw0t
-         34Yw==
-X-Gm-Message-State: AOJu0Yy9NIjnpBRQ5ETc+idMEZKoHuGEKy93e8Np80nxPG0psldnWVLK
-	z4n0Gkrt57qFr3QgfzyMxpmpEqQ3/UHzTIZuCWlH22rZ6iZxaH4vax4FkdzXpBoYShZVq1MLX3m
-	3
-X-Gm-Gg: ASbGnctFXbkx7qySoR35eGmv6ugdAJIAQ7JEpqaTcVNYWtB1/8ir7KPBNC5YTCmLM5B
-	O8AWF1v4gypt8YjyPsF06G7arNld1vB37we6xmzoH229fZaeg3Qwld45jbck8tHaCJkS17ydNSb
-	4K4ub+dkAAk65d+d2H5VRGgeFz2R18tnE5MWerFXlDUHWoYrbA/8NN0CXFbTinzvlkunhyofwby
-	D9N8rHiMq6/hkTWX7Z8os7SeaF6WHVT0qQah3KlZKSrSfUBCwVWUKywLLtgdhXfpOEeTZqSVR7T
-	VilASh3lT9dDG9STDynYCfeT7RF2r3Oew3M8RkK1fPWrfqO/
-X-Google-Smtp-Source: AGHT+IFLd8YKgFKCb7L1uBamCMCBX0eWmWNcOnDWI+FLxNyMIgaY+v6wmWEz+tnV3jRSSNoPcBgWmA==
-X-Received: by 2002:a05:6000:40e1:b0:391:3fa7:bf77 with SMTP id ffacd0b85a97d-39ad1773089mr1658583f8f.31.1743053230795;
-        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
-Received: from localhost ([41.210.155.240])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f9efc90sm19036327f8f.98.2025.03.26.22.27.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 22:27:10 -0700 (PDT)
-Date: Thu, 27 Mar 2025 08:27:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>, Jens Axboe <axboe@kernel.dk>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: [asahilinux:bits/030-misc 1/40] drivers/soc/apple/rtkit.c:371
- apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
-Message-ID: <e29ace87-880c-48f6-8f72-7dfa8101ebea@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6juW/ox"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743073029; x=1774609029;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U6Wl8RTXa4sRMnFTnEP2ZExcbfFf2HH1ITBwhU1PHUU=;
+  b=D6juW/oxbig+99kEwpoE8a7zg/UybPj38d3+BVzwcaBHAzX4aOVwBtPU
+   jWAn805flV6LaOxUo2hA6OG97IDn1GdcD7giTTdX+Wq3qVv3Ix6kqnQZ8
+   Aja0FkD9widYf0Y/+FSs6jToSYcaDCItHyo1+DxY7UHTPoWX2MATad65e
+   V53kkjpvILgHCVli96xjD90qzusA1dTkSEXGzB7xV5xp9MsauI08trB3x
+   toj6KEXQ8GApiDORGKh9ly578u1LZCIXl9xVd7onB1vK3bSGSHypSLCea
+   dPnhLPKrdFbAf8ek+LvvNW4gVH56xb8+E68h8AiBATMErXEnLS0BUR4ud
+   g==;
+X-CSE-ConnectionGUID: 1UVkp4UNRfe4qknpx0oIGg==
+X-CSE-MsgGUID: fRPdv94pS5iXsnBz0arV+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44287100"
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="44287100"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 03:57:08 -0700
+X-CSE-ConnectionGUID: o5KqLEviT7OnYhRnHawbLQ==
+X-CSE-MsgGUID: gnJDpgXTQuaizu9HePCQPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="125620954"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 27 Mar 2025 03:57:07 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1txkv2-0006bV-1r;
+	Thu, 27 Mar 2025 10:57:04 +0000
+Date: Thu, 27 Mar 2025 18:56:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:OLK-6.6 2060/2060] drivers/hid/hid-thrustmaster.c:178
+ thrustmaster_interrupts() warn: possible memory leak of 'send_buf'
+Message-ID: <202503271832.WycjTkRa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,68 +62,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/030-misc
-head:   da85ded736004f61e37a67eaac233c87e42ab459
-commit: 037dde44780dec39060eed27b25a910d7b6e812b [1/40] soc: apple: rtkit: Pass the crashlog to the crashed() callback
-config: sparc64-randconfig-r072-20250327 (https://download.01.org/0day-ci/archive/20250327/202503271318.nPEG98L6-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.4.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b28aab59b06935f0d1c9bce8f013f25b4094764d
+commit: 477cfc70d964fafd811f91a889f14c356f937b8e [2060/2060] HID: hid-thrustmaster: Fix warning in thrustmaster_probe by adding endpoint check
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20250326 (https://download.01.org/0day-ci/archive/20250327/202503271832.WycjTkRa-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503271318.nPEG98L6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202503271832.WycjTkRa-lkp@intel.com/
 
 smatch warnings:
-drivers/soc/apple/rtkit.c:371 apple_rtkit_crashlog_rx() warn: passing freed memory 'bfr' (line 365)
+drivers/hid/hid-thrustmaster.c:178 thrustmaster_interrupts() warn: possible memory leak of 'send_buf'
 
-vim +/bfr +371 drivers/soc/apple/rtkit.c
+vim +/send_buf +178 drivers/hid/hid-thrustmaster.c
 
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  334  static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  335  {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  336  	u8 type = FIELD_GET(APPLE_RTKIT_SYSLOG_TYPE, msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  337  	u8 *bfr;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  338  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  339  	if (type != APPLE_RTKIT_CRASHLOG_CRASH) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  340  		dev_warn(rtk->dev, "RTKit: Unknown crashlog message: %llx\n",
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  341  			 msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  342  		return;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  343  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  344  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  345  	if (!rtk->crashlog_buffer.size) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  346  		apple_rtkit_common_rx_get_buffer(rtk, &rtk->crashlog_buffer,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  347  						 APPLE_RTKIT_EP_CRASHLOG, msg);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  348  		return;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  349  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  350  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  351  	dev_err(rtk->dev, "RTKit: co-processor has crashed\n");
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  352  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  353  	/*
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  354  	 * create a shadow copy here to make sure the co-processor isn't able
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  355  	 * to change the log while we're dumping it. this also ensures
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  356  	 * the buffer is in normal memory and not iomem for e.g. the SMC
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  357  	 */
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  358  	bfr = kzalloc(rtk->crashlog_buffer.size, GFP_KERNEL);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  359  	if (bfr) {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  360  		apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  361  				   rtk->crashlog_buffer.size);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  362  		apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  363  		kfree(bfr);
-                                                              ^^^
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  364  	} else {
-9bd1d9a0d8bb1a Sven Peter 2022-05-01 @365  		dev_err(rtk->dev,
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  366  			"RTKit: Couldn't allocate crashlog shadow buffer\n");
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  367  	}
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  368  
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  369  	rtk->crashed = true;
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  370  	if (rtk->ops->crashed)
-037dde44780dec Asahi Lina 2025-02-02 @371  		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
-                                                                                       ^^^
-bfr is either NULL or freed.
-
-9bd1d9a0d8bb1a Sven Peter 2022-05-01  372  }
+c49c33637802a2 Dario Pagani     2021-01-31  144  
+e9bb37ff35bb6f Lee Jones        2021-03-26  145  /*
+c49c33637802a2 Dario Pagani     2021-01-31  146   * On some setups initializing the T300RS crashes the kernel,
+c49c33637802a2 Dario Pagani     2021-01-31  147   * these interrupts fix that particular issue. So far they haven't caused any
+c49c33637802a2 Dario Pagani     2021-01-31  148   * adverse effects in other wheels.
+c49c33637802a2 Dario Pagani     2021-01-31  149   */
+c49c33637802a2 Dario Pagani     2021-01-31  150  static void thrustmaster_interrupts(struct hid_device *hdev)
+c49c33637802a2 Dario Pagani     2021-01-31  151  {
+c49c33637802a2 Dario Pagani     2021-01-31  152  	int ret, trans, i, b_ep;
+c49c33637802a2 Dario Pagani     2021-01-31  153  	u8 *send_buf = kmalloc(256, GFP_KERNEL);
+c49c33637802a2 Dario Pagani     2021-01-31  154  	struct usb_host_endpoint *ep;
+c49c33637802a2 Dario Pagani     2021-01-31  155  	struct device *dev = &hdev->dev;
+c49c33637802a2 Dario Pagani     2021-01-31  156  	struct usb_interface *usbif = to_usb_interface(dev->parent);
+c49c33637802a2 Dario Pagani     2021-01-31  157  	struct usb_device *usbdev = interface_to_usbdev(usbif);
+c49c33637802a2 Dario Pagani     2021-01-31  158  
+c49c33637802a2 Dario Pagani     2021-01-31  159  	if (!send_buf) {
+c49c33637802a2 Dario Pagani     2021-01-31  160  		hid_err(hdev, "failed allocating send buffer\n");
+c49c33637802a2 Dario Pagani     2021-01-31  161  		return;
+c49c33637802a2 Dario Pagani     2021-01-31  162  	}
+c49c33637802a2 Dario Pagani     2021-01-31  163  
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  164  	if (usbif->cur_altsetting->desc.bNumEndpoints < 2) {
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  165  		kfree(send_buf);
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  166  		hid_err(hdev, "Wrong number of endpoints?\n");
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  167  		return;
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  168  	}
+fc3ef2e3297b3c Pavel Skripkin   2022-02-20  169  
+c49c33637802a2 Dario Pagani     2021-01-31  170  	ep = &usbif->cur_altsetting->endpoint[1];
+c49c33637802a2 Dario Pagani     2021-01-31  171  	b_ep = ep->desc.bEndpointAddress;
+c49c33637802a2 Dario Pagani     2021-01-31  172  
+477cfc70d964fa Karol Przybylski 2024-12-05  173  	/* Are the expected endpoints present? */
+477cfc70d964fa Karol Przybylski 2024-12-05  174  	u8 ep_addr[1] = {b_ep};
+477cfc70d964fa Karol Przybylski 2024-12-05  175  
+477cfc70d964fa Karol Przybylski 2024-12-05  176  	if (!usb_check_int_endpoints(usbif, ep_addr)) {
+477cfc70d964fa Karol Przybylski 2024-12-05  177  		hid_err(hdev, "Unexpected non-int endpoint\n");
+477cfc70d964fa Karol Przybylski 2024-12-05 @178  		return;
+477cfc70d964fa Karol Przybylski 2024-12-05  179  	}
+477cfc70d964fa Karol Przybylski 2024-12-05  180  
+c49c33637802a2 Dario Pagani     2021-01-31  181  	for (i = 0; i < ARRAY_SIZE(setup_arr); ++i) {
+c49c33637802a2 Dario Pagani     2021-01-31  182  		memcpy(send_buf, setup_arr[i], setup_arr_sizes[i]);
+c49c33637802a2 Dario Pagani     2021-01-31  183  
+c49c33637802a2 Dario Pagani     2021-01-31  184  		ret = usb_interrupt_msg(usbdev,
+c49c33637802a2 Dario Pagani     2021-01-31  185  			usb_sndintpipe(usbdev, b_ep),
+c49c33637802a2 Dario Pagani     2021-01-31  186  			send_buf,
+c49c33637802a2 Dario Pagani     2021-01-31  187  			setup_arr_sizes[i],
+c49c33637802a2 Dario Pagani     2021-01-31  188  			&trans,
+c49c33637802a2 Dario Pagani     2021-01-31  189  			USB_CTRL_SET_TIMEOUT);
+c49c33637802a2 Dario Pagani     2021-01-31  190  
+c49c33637802a2 Dario Pagani     2021-01-31  191  		if (ret) {
+c49c33637802a2 Dario Pagani     2021-01-31  192  			hid_err(hdev, "setup data couldn't be sent\n");
+c3800eed22d21c Evgeny Novikov   2021-07-30  193  			kfree(send_buf);
+c49c33637802a2 Dario Pagani     2021-01-31  194  			return;
+c49c33637802a2 Dario Pagani     2021-01-31  195  		}
+c49c33637802a2 Dario Pagani     2021-01-31  196  	}
+c49c33637802a2 Dario Pagani     2021-01-31  197  
+c49c33637802a2 Dario Pagani     2021-01-31  198  	kfree(send_buf);
+c49c33637802a2 Dario Pagani     2021-01-31  199  }
+c49c33637802a2 Dario Pagani     2021-01-31  200  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
