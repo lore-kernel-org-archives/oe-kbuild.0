@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF126FBF
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Mar 2025 23:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE922AD2A
+	for <oe-kbuild@lists.linux.dev>; Sat, 29 Mar 2025 09:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743206274; cv=none; b=DcQYNzCfVc9Ek4BnHUx+qfOyIpKHN0LWr3o6aoq0+u5GyiJEUAThYY9HfFLMqOOibf6gcIZ2OQkLlCl9x04pQwvB777EOAG1+ioJIVT4h04lvuNQP1MMHy7fhOCNTun5pe9iL31KjPFeAqNBMxrJNXrZ3qjgpyb9V05c0pBp9fQ=
+	t=1743240554; cv=none; b=t6RGpcIyZGjCz6MmYcvwNogqvgoPjgD2P8jnAlfU5QS9Ypl58sdknBwe53DkoZ4iGQ5eBBmx7p0sTdW47zldw8VO3c63FaEEARiSSk6fOWJAAAr1wCOO/qWr4Kr2Pv8fy3GuLuXSsL9UfwBz65iAjD4WEqHbQ6qrOXItlzZFnxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743206274; c=relaxed/simple;
-	bh=AV4j/QHz8aYdbQWkmCD0RybMQOTQheZB2YDfTbgdYUM=;
+	s=arc-20240116; t=1743240554; c=relaxed/simple;
+	bh=Wxm3DMgXF5VNXgRoVut8Ho+xu2Q2JnwmDM7hVk+0z0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YKHAXavxzsN6HyUI2Id2qzKfuglJB16ND2tNDhTKNfaB+6jB9oapMZv+Kyby3eK9+mu3aGwLQZAt0oJxLg04U0CvGkI3Xf7ZrWRA5EHKhC7vkJdubU8gqGJOFl/0BxAG2IxrVtUcO2wbGdyG9IU4OuHxMpByRH7TPgkqE4E+c6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZEGokVe; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=qNJjkmpvKCKog0M3sQ9AxOjdyCDmpd7VqNHf8RSaBR/6ONxwBvtEi5A6hRiDw8eP+KQXpo9Egyj2b5xcGjXKsjC2Upz8N8RwFc6AELzfWSMnOmE0XGPwwBf2DVVK/ZTkoccyGfqil8J9yp37mlGiAN0i3W98sBSeNXbYkmN1bak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXIvMY+O; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZEGokVe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXIvMY+O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743206272; x=1774742272;
+  t=1743240553; x=1774776553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AV4j/QHz8aYdbQWkmCD0RybMQOTQheZB2YDfTbgdYUM=;
-  b=RZEGokVeKYr65YCoa6hDY2XrVvCu4sHBPYftc9Ye7UYkSKEUwjCacQhA
-   MA5tgbPTGEdFyJ3yhRvkTZ75gjv+bNlVh96zMw1AYqJLnFTQxZhc2V/lz
-   oRVNvjzOk8QjL373rfExsRZqR4wfsvUhbntT/wZDK1WimXRtPC32W5dBZ
-   3mwrzmfRako5dihoq0b8GfBqsTRI+1W6p3QfgA8/L/gjPo8gq90YRKwhI
-   S6gvg/WMvjHAeM6Yt7P0xUMJivUAX6WhlJ3s9B9BYv/cG3VOTOZCPIMfb
-   kd7GmBQb1M3i6hx7NcVSkHmZMD9scQqx0o2nb1e3R8a3e2Gp4qi5rPyiH
-   w==;
-X-CSE-ConnectionGUID: nN0thkheRsu47jzdPlRd5Q==
-X-CSE-MsgGUID: TyPXxy+JQtW3jXuG5IjE8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48452053"
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="48452053"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 16:57:51 -0700
-X-CSE-ConnectionGUID: iujZ4ZqETEmq71QAc6uF1w==
-X-CSE-MsgGUID: DWHNizBWQZKrvlxXxOAaJw==
+  bh=Wxm3DMgXF5VNXgRoVut8Ho+xu2Q2JnwmDM7hVk+0z0o=;
+  b=eXIvMY+OChjWPJLahnv7Tk/ms/NlIIQuY0qHCzHkTI7hGlc0AOdHWL0b
+   EBF0LmgS/ympZLNXrnbhHRDD0owpnQPgzqojNID6sYzDzNbKPKxzPV/RC
+   nsJBBFs9TSUyxV5aJeBRzrJ4SXNLe/yDz5c3vwMjzYk7NkCci2Yknm88G
+   nrTXfaih+shUsmkZF8XBrXx/Dphayedg6qXgN0zVZyAHzaMNMWb9fGufZ
+   cDbfBei6HSev7u5bDOBPaCEr4rlnSMDRXgdOaVUeUNsehVgnZbOtqVFwF
+   mN8mDJm+32t6QlE0hbzXHSJlw8wbVPfTd4E4sRMax9bX+uEGpPU6yzvKx
+   A==;
+X-CSE-ConnectionGUID: r9vgfEQtQKuXd2GcXKqNsA==
+X-CSE-MsgGUID: /11yhVzfQBmqfMwdbJyJJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44317435"
+X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
+   d="scan'208";a="44317435"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 02:29:12 -0700
+X-CSE-ConnectionGUID: VocuDTTtQcCXRLEtKdW2Zw==
+X-CSE-MsgGUID: iel3fNASS66ZyDUpb8u23A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="148756753"
+X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
+   d="scan'208";a="130691811"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Mar 2025 16:57:50 -0700
+  by orviesa004.jf.intel.com with ESMTP; 29 Mar 2025 02:29:11 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyJa7-0007mQ-2G;
-	Fri, 28 Mar 2025 23:57:47 +0000
-Date: Sat, 29 Mar 2025 07:57:19 +0800
+	id 1tySV2-00081S-24;
+	Sat, 29 Mar 2025 09:29:08 +0000
+Date: Sat, 29 Mar 2025 17:28:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arm-integrator:b4/bcmbca-peripherals-arm 9/14]
- arch/arm/boot/dts/broadcom/bcm63148.dtsi:103.19-110.5: Warning
- (simple_bus_reg): /bus@ff800000/gpio@100: simple-bus unit address format
- error, expected "500"
-Message-ID: <202503290728.WXEc2GQQ-lkp@intel.com>
+Subject: Re: [PATCH 2/3] arm64: dts: add imx8mp-libra-rdk-fpsc board
+Message-ID: <202503291717.53lDVLTF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,124 +67,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20250328-wip-y-moog-phytec-de-imx8mp-phycore-fpsc-v1-2-28324c7f81fa@phytec.de>
+References: <20250328-wip-y-moog-phytec-de-imx8mp-phycore-fpsc-v1-2-28324c7f81fa@phytec.de>
+TO: Yannic Moog <y.moog@phytec.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+CC: upstream@lists.phytec.de
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
+CC: Benjamin Hahn <b.hahn@phytec.de>
+CC: Jan Remmet <j.remmet@phytec.de>
+CC: Teresa Remmet <t.remmet@phytec.de>
+CC: Yashwanth Varakala <y.varakala@phytec.de>
+CC: Yannic Moog <y.moog@phytec.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/bcmbca-peripherals-arm
-head:   80a24d5a52c1453c91f4424a44bfd717bdb76211
-commit: c09876b718f5489124c9fc621364e4518ead4287 [9/14] ARM: dts: bcm63148: Add BCMBCA peripherals
-:::::: branch date: 25 hours ago
-:::::: commit date: 27 hours ago
-config: arm-randconfig-052-20250328 (https://download.01.org/0day-ci/archive/20250329/202503290728.WXEc2GQQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
+Hi Yannic,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 90453dc4dee29b96b9162895f45776bc25526e07]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yannic-Moog/dt-bindings-add-imx8mp-libra-rdk-fpsc/20250328-210746
+base:   90453dc4dee29b96b9162895f45776bc25526e07
+patch link:    https://lore.kernel.org/r/20250328-wip-y-moog-phytec-de-imx8mp-phycore-fpsc-v1-2-28324c7f81fa%40phytec.de
+patch subject: [PATCH 2/3] arm64: dts: add imx8mp-libra-rdk-fpsc board
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: arm64-randconfig-051-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291717.53lDVLTF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
 dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290728.WXEc2GQQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291717.53lDVLTF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503290728.WXEc2GQQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503291717.53lDVLTF-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/broadcom/bcm63148.dtsi:103.19-110.5: Warning (simple_bus_reg): /bus@ff800000/gpio@100: simple-bus unit address format error, expected "500"
-
-vim +/500 +103 arch/arm/boot/dts/broadcom/bcm63148.dtsi
-
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09    8  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09    9  / {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   10  	compatible = "brcm,bcm63148", "brcm,bcmbca";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   11  	#address-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   12  	#size-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   13  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   14  	interrupt-parent = <&gic>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   15  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   16  	cpus {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   17  		#address-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   18  		#size-cells = <0>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   19  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   20  		B15_0: cpu@0 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   21  			device_type = "cpu";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   22  			compatible = "brcm,brahma-b15";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   23  			reg = <0x0>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   24  			next-level-cache = <&L2_0>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   25  			enable-method = "psci";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   26  		};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   27  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   28  		B15_1: cpu@1 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   29  			device_type = "cpu";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   30  			compatible = "brcm,brahma-b15";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   31  			reg = <0x1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   32  			next-level-cache = <&L2_0>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   33  			enable-method = "psci";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   34  		};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   35  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   36  		L2_0: l2-cache0 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   37  			compatible = "cache";
-b23024676a2f13 arch/arm/boot/dts/bcm63148.dtsi          Pierre Gondois      2022-11-22   38  			cache-level = <2>;
-0db4bb045b038e arch/arm/boot/dts/bcm63148.dtsi          Krzysztof Kozlowski 2023-04-23   39  			cache-unified;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   40  		};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   41  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   42  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   43  	timer {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   44  		compatible = "arm,armv7-timer";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   45  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   46  			<GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   47  			<GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   48  			<GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   49  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   50  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   51  	pmu: pmu {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   52  		compatible = "arm,cortex-a15-pmu";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   53  		interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   54  			<GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   55  		interrupt-affinity = <&B15_0>, <&B15_1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   56  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   57  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   58  	clocks: clocks {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   59  		periph_clk: periph-clk {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   60  			compatible = "fixed-clock";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   61  			#clock-cells = <0>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   62  			clock-frequency = <50000000>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   63  		};
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   64  
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   65  		hsspi_pll: hsspi-pll {
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   66  			compatible = "fixed-clock";
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   67  			#clock-cells = <0>;
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   68  			clock-frequency = <400000000>;
-7858dded8c1e98 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2023-02-06   69  		};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   70  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   71  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   72  	psci {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   73  		compatible = "arm,psci-0.2";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   74  		method = "smc";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   75  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   76  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   77  	axi@80030000 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   78  		compatible = "simple-bus";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   79  		#address-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   80  		#size-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   81  		ranges = <0 0x80030000 0x8000>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   82  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   83  		gic: interrupt-controller@1000 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   84  			compatible = "arm,cortex-a15-gic";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   85  			#interrupt-cells = <3>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   86  			interrupt-controller;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   87  			reg = <0x1000 0x1000>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   88  				<0x2000 0x2000>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   89  				<0x4000 0x2000>,
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   90  				<0x6000 0x2000>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   91  			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) |
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   92  					IRQ_TYPE_LEVEL_HIGH)>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   93  		};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   94  	};
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   95  
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   96  	bus@ff800000 {
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   97  		compatible = "simple-bus";
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   98  		#address-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09   99  		#size-cells = <1>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09  100  		ranges = <0 0xfffe8000 0x8000>;
-03b7500f5c3485 arch/arm/boot/dts/bcm63148.dtsi          William Zhang       2022-06-09  101  
-c09876b718f548 arch/arm/boot/dts/broadcom/bcm63148.dtsi Linus Walleij       2025-03-27  102  		/* GPIOs 0 .. 31 */
-c09876b718f548 arch/arm/boot/dts/broadcom/bcm63148.dtsi Linus Walleij       2025-03-27 @103  		gpio0: gpio@100 {
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182], [2, 321]] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-libra-rdk-fpsc.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7', 'axi'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
