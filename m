@@ -1,173 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547821D61BC;
-	Sun, 30 Mar 2025 18:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAD429D0D
+	for <oe-kbuild@lists.linux.dev>; Sun, 30 Mar 2025 18:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743358033; cv=none; b=jlEjS5sm17dGgGdeo8k/1hkSMA9ZBjDtlanJcl3MN1CQBRwVc2Xr8rOhyTN8KPKy6412ypKOcJxCpAns7NiEVLbvs+nYIV4mGH6wuxlbDl0I4fv6heLHDvQBTrzEazUVbZ6+t8Xx3bHRl9euQX9Op1shKnDSECgoMeMzNbnDX6Y=
+	t=1743359143; cv=none; b=u8fGZjaDeB+ftZHqklsfBH9n2hxegLiUXsegqwzGMOW8eZmL4zJl11uhSYj+lKbfOYbGZTRGCLKFn0J9WZfQWM74Zr6IlkJjE97SO2+ZZuhhEYwzFe6TySsdmrgU3h/KU3h/6C8l21y+fbpNfwsRWVfGH1/goPZtV6AV2lZ4xIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743358033; c=relaxed/simple;
-	bh=9L+rkjvLISsAkTy8wBCwcU83sAKXupjGFDQkxg92qx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=roxoEJ3cjJb1uFOiRC5kQm+2uwTbvfnXsd02ZzINrfYJoiYVOujcAEHjIhA96l1LrNKp6nrEUOllcEupe9iq1XiX2CzNFAkDiCUoohF9Tgllqr979VOp1OiutNUbvZqAfRxkscfJiP5FjXCY7MoCQHU73D8ecg/00cvb2yZC4ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRqsi6n3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743359143; c=relaxed/simple;
+	bh=yeC5qTEw74CLJXXHMiIJSwSs7W3M2ppoSG+kMw1k0fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J9H/nXjg96QEnck4GpnmXuaadH+ySY3+o64fWVh8Qu1JbTx3iqqVvK2SC3A8P7rGw+5rI64VKWNugGEBVVw0O401PbXmlxX7oEhEw3XCeWkVa1md+bzWyb9AkW3WJQA8FfWS5d+e2rSzf43AcSZBJEtA28avhR5dtQ9DY53mQkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEjIOpbs; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRqsi6n3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054E8C4CEDD;
-	Sun, 30 Mar 2025 18:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743358032;
-	bh=9L+rkjvLISsAkTy8wBCwcU83sAKXupjGFDQkxg92qx0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FRqsi6n39l45qx8OyexNvZRR8ud3YvcOOy05DcKkNVydnBEakybz+2UDFidBhE6PG
-	 +M7o8Z1fb01/KcWTOrax0iWNKcpRBUkUYUNfcsYqHs5MIslZjFQbx7jK59/nCvdHpM
-	 KvC7i+uIlHXgk2H5eGWAx6Ua6Wus4nk1M57u0rNk7tNawn19h1p+bH8l/MtWUu997e
-	 pi3wpI+75y6ZSey3TV4OGSyTufnWrP6t9hqIxOowwegRm+9QrswL3ib3D78YB0LxNX
-	 rRsmNAJ2h9xJItQQEdp2x1oyZZDpDr3gTl4fnqbiUb34JRZdmWiP7VutAnQ7z1npU4
-	 1W+2eHhj+PpIA==
-Date: Sun, 30 Mar 2025 19:07:03 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- linux-iio@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Michael Hennerich <Michael.Hennerich@analog.com>, Angelo Dureghello
- <adureghello@baylibre.com>, Alexandru Ardelean <aardelean@baylibre.com>,
- Beniamin Bia <beniamin.bia@analog.com>, Stefan Popa
- <stefan.popa@analog.com>, linux-kernel@vger.kernel.org, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>
-Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
- info
-Message-ID: <20250330190703.51e97942@jic23-huawei>
-In-Reply-To: <4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
-References: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
-	<4854b569-5032-4b75-80a6-8c5822845dc7@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEjIOpbs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743359141; x=1774895141;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yeC5qTEw74CLJXXHMiIJSwSs7W3M2ppoSG+kMw1k0fo=;
+  b=fEjIOpbsTGtLVSf1TTXQYqJVbF6OwPQoh9FhGuQWnTjrZ9KczlfYoes0
+   YXxAyxswbck7KzLDLJbMv7nX0Bh3HDcafoUI+5UI/tF4NGuTQk1chO2Y6
+   2IBgM8MT6/VtQ6ZQSou2dXJngqmuRK6dfQHuTQTq4NH7PX5YflsVK8/7N
+   uOtDLbWanoKFwyREgitC6MxieJgl4SS69H7r5ZKMWKSUJoj2GYR7Qw/tZ
+   TD4xzzRKlTTPru3yZr7TOIsQbUHTzJ5FgkUJEouvfxtCgNh2tkWG2hNd1
+   4GeJQJumfpacPoWaRFHuKimi7lqPt/eL2v/joIIfJD0R8ZUtWD0Chlszx
+   w==;
+X-CSE-ConnectionGUID: s3am3jypSm61E28OQ4GewA==
+X-CSE-MsgGUID: q4Y73ztBTnCu/rFKt/hKfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48317234"
+X-IronPort-AV: E=Sophos;i="6.14,289,1736841600"; 
+   d="scan'208";a="48317234"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2025 11:25:40 -0700
+X-CSE-ConnectionGUID: B+Z4xqZgQmKAej7/VGk5YQ==
+X-CSE-MsgGUID: TVKdIazMQTi8Xjck8RkoGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,289,1736841600"; 
+   d="scan'208";a="130612249"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Mar 2025 11:25:39 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tyxLl-0008qs-0j;
+	Sun, 30 Mar 2025 18:25:37 +0000
+Date: Mon, 31 Mar 2025 02:25:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
+Message-ID: <202503310200.UBXGitB4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 24 Mar 2025 08:50:15 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Gabriele Monaco <gmonaco@redhat.com>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-> On 3/22/25 12:25 PM, Dan Carpenter wrote:
-> > Hi David,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
-> > base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
-> > patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
-> > patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
-> > config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
-> > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
-> > 
-> > vim +1270 drivers/iio/adc/ad7606.c
-> > 
-> > 87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
-> > 87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
-> > 87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
-> > 87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
-> > 87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
-> > 87cf5705725eeb David Lechner      2025-03-18  1203  
-> > 87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
-> > 87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
-> > 87cf5705725eeb David Lechner      2025-03-18  1206  
-> > 87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
-> > 87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
-> > 87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
-> > 87cf5705725eeb David Lechner      2025-03-18  1210  
-> > 87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
-> > 87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
-> > 87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
-> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
-> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
-> > 87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {  
-> 
-> The fix is to change this line to:
-> 
-> 							for (i = 0; i < st->chip_info->num_adc_channels; i++) {
-> 
-Tweaked and applied.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7f2ff7b6261742ed52aa973ccdf99151b7cc3a50
+commit: cb85c660fcd4b3a03ed993affa0b2d1a8af2f06b rv: Add option for nested monitors and include sched
+date:   6 days ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 6 days ago
+config: loongarch-randconfig-r061-20250330 (https://download.01.org/0day-ci/archive/20250331/202503310200.UBXGitB4-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
-> > 87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
-> > 87cf5705725eeb David Lechner      2025-03-18  1218  
-> > 87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
-> > 87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
-> > 87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
-> > 87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
-> > 87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
-> > 87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
-> > 87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
-> > 87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
-> > f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
-> > 87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
-> > 87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
-> > 87cf5705725eeb David Lechner      2025-03-18  1230  
-> > 87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
-> > 87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
-> > 87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
-> > 87cf5705725eeb David Lechner      2025-03-18  1235  
-> > 87cf5705725eeb David Lechner      2025-03-18  1236  			/*
-> > 87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
-> > 87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
-> > 87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
-> > 87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
-> > 87cf5705725eeb David Lechner      2025-03-18  1241  			 */
-> > 87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
-> > 87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-> > 87cf5705725eeb David Lechner      2025-03-18  1245  			else
-> > 87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-> > 87cf5705725eeb David Lechner      2025-03-18  1248  
-> > 87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-> > 87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
-> > 87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
-> > 87cf5705725eeb David Lechner      2025-03-18  1254  
-> > 87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
-> > 87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
-> > 87cf5705725eeb David Lechner      2025-03-18  1258  		}
-> > 87cf5705725eeb David Lechner      2025-03-18  1259  
-> > 87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
-> > 87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
-> > 87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
-> > 87cf5705725eeb David Lechner      2025-03-18  1263  
-> > 87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
-> > 87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
-> > 87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
-> >                                                                 ^^^^^^^^^^^
-> > i is == indio_dev->num_channels so this is out of bounds by one element.
-> > 
-> > 87cf5705725eeb David Lechner      2025-03-18  1271  
-> > 87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
-> > 87cf5705725eeb David Lechner      2025-03-18  1273  
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
-> > e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
-> >   
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503310200.UBXGitB4-lkp@intel.com/
 
+cocci warnings: (new ones prefixed by >>)
+>> kernel/trace/rv/rv.c:812:2-8: preceding lock on line 790
+
+vim +812 kernel/trace/rv/rv.c
+
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  771  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  772  /**
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  773   * rv_register_monitor - register a rv monitor.
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  774   * @monitor:    The rv_monitor to be registered.
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  775   * @parent:     The parent of the monitor to be registered, NULL if not nested.
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  776   *
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  777   * Returns 0 if successful, error otherwise.
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  778   */
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  779  int rv_register_monitor(struct rv_monitor *monitor, struct rv_monitor *parent)
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  780  {
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  781  	struct rv_monitor_def *r, *p = NULL;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  782  	int retval = 0;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  783  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  784  	if (strlen(monitor->name) >= MAX_RV_MONITOR_NAME_SIZE) {
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  785  		pr_info("Monitor %s has a name longer than %d\n", monitor->name,
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  786  			MAX_RV_MONITOR_NAME_SIZE);
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  787  		return -EINVAL;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  788  	}
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  789  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29 @790  	mutex_lock(&rv_interface_lock);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  791  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  792  	list_for_each_entry(r, &rv_monitors_list, list) {
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  793  		if (strcmp(monitor->name, r->monitor->name) == 0) {
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  794  			pr_info("Monitor %s is already registered\n", monitor->name);
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  795  			retval = -EEXIST;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  796  			goto out_unlock;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  797  		}
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  798  	}
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  799  
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  800  	if (parent) {
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  801  		list_for_each_entry(r, &rv_monitors_list, list) {
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  802  			if (strcmp(parent->name, r->monitor->name) == 0) {
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  803  				p = r;
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  804  				break;
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  805  			}
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  806  		}
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  807  	}
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  808  
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  809  	if (p && rv_is_nested_monitor(p)) {
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  810  		pr_info("Parent monitor %s is already nested, cannot nest further\n",
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  811  			parent->name);
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05 @812  		return -EINVAL;
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  813  	}
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  814  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  815  	r = kzalloc(sizeof(struct rv_monitor_def), GFP_KERNEL);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  816  	if (!r) {
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  817  		retval = -ENOMEM;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  818  		goto out_unlock;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  819  	}
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  820  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  821  	r->monitor = monitor;
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  822  	r->parent = parent;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  823  
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  824  	retval = create_monitor_dir(r, p);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  825  	if (retval) {
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  826  		kfree(r);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  827  		goto out_unlock;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  828  	}
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  829  
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  830  	/* keep children close to the parent for easier visualisation */
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  831  	if (p)
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  832  		list_add(&r->list, &p->list);
+cb85c660fcd4b3a Gabriele Monaco            2025-03-05  833  	else
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  834  		list_add_tail(&r->list, &rv_monitors_list);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  835  
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  836  out_unlock:
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  837  	mutex_unlock(&rv_interface_lock);
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  838  	return retval;
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  839  }
+102227b970a1525 Daniel Bristot de Oliveira 2022-07-29  840  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
