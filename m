@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB3A17C2
-	for <oe-kbuild@lists.linux.dev>; Sun, 30 Mar 2025 04:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBD7320F
+	for <oe-kbuild@lists.linux.dev>; Sun, 30 Mar 2025 05:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743308321; cv=none; b=hPQHL0LZjTceFyAI8xmIzeZ646eRRNf7t80Ftr37omem/xHW/DxPg7V4wIH+A3md5hIdQ8EDD+yr3XCvVbnIwSl9DMpe/iynVyVEpN8TMwJDz/0O5PLgeSmxkZLCreSYmnFVwSkbh7Jz+Yu96HG1PhULqyjgCs5p8CCiLcV6ZDM=
+	t=1743313300; cv=none; b=Gi8Yg+rHZwA+MGAsU7+/R8xMOT32s+OPR3abtgO7nC+7kVp3qiNJ2ib6Zr87nZwS0Kj2nx5O7lXJy6n/RCMien3UAo5UAGaRHSlCsP7tmCySh0EmtPmWaavejeGSMAzvAkAFXhscb5RkFHYO/a+wfln154BSRWLJPo/qeWfc7Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743308321; c=relaxed/simple;
-	bh=OWxnEQCFsddD7ibZ4WDcRHXh5ZWl1vOTa/WCGgI8Xew=;
+	s=arc-20240116; t=1743313300; c=relaxed/simple;
+	bh=lOrkVem4YisD85VjpVJ2pB6R2+EXyBaz6fwW+qm+3eI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D3Asr3AmKg9hvd30/vpKsefy0IQvMQdzSbdtE341wMertCzvbodmc25uwD+efuYYwn9YuaVjk0OI71SABYIaU3p4E7K3UhRnJiDyjrh7lMMayBmd/0aE53AL2xQhP8R+e9Z97ldk8rNViakN9NFSPofWA6k+HI4u+JHot/vsrO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORdBzatr; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ofP4KUbMSxFU5FZZzNJyJYSojHr5ZVobTuAT88ybjRAsUaL1FrRi3DkQJx5yaQM2lhToKG7t80+1Pv0upQJJsTKvMupd8zfW3yi8RPt5By6/CqZ/F+1ixQpKAt1tSit+m8iaIPAPXU8XGoEUMmLFWZeu1ULOaEDY5SBgV8UYcWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BGtj4CUc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORdBzatr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BGtj4CUc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743308320; x=1774844320;
+  t=1743313299; x=1774849299;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OWxnEQCFsddD7ibZ4WDcRHXh5ZWl1vOTa/WCGgI8Xew=;
-  b=ORdBzatrSg81hai+iO0NMOEw8PcN6w7h6WK6SaH1oNOJxegoYWA6QZJa
-   R8TxAp+i/MXWxDnz0SXxVewvkpBw7/E7G7PUpbTnV/Z35oF1Gng5wotf7
-   2fIeau6Y3ualT9uH5Zam5G0pxAv28W+ppFv559UM1Tp/ED3jPUwMq2z+D
-   rw06+1HB/llhRT+hJdd01HPlXTbBvGiqH9SGkqQSComq2q3QqWOyVYOCK
-   CCbbIRc1I8WQC5az0y6CdDN1nr5mtNFDHWQ+CWsczirKHCXB4dHdoBMJd
-   B8dLsVEY/sQ61Huz5AotX2nZddX8lmqrfKM0g4KCjQ9ZzYzJ6/tJmVI8Z
-   Q==;
-X-CSE-ConnectionGUID: OX6n17PSQQiwIA0Go3aM6Q==
-X-CSE-MsgGUID: Pl6KN1LrRkyet0kO0qrZgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="54828172"
+  bh=lOrkVem4YisD85VjpVJ2pB6R2+EXyBaz6fwW+qm+3eI=;
+  b=BGtj4CUcwuuZbY2KetIuh2TQeqqitypmPQkohjrWpRss6XtwnptgV/65
+   gpdPl3hcXseyuaAhBY1ipxQuQs+23tztAEkQH4p0f65raXve9lAFNgduM
+   OjwYo0NVPav2MVaO7aPOluoj9ji4KV8OPF1PzoV3/1JOiGujetAg1Tqb0
+   dMTUOXAAvOF5Ktx7N6GdBGkco9iWLgTqOD/QbKONWi7cMTZMXngvO2GHE
+   oaGf/ll64UNVArRpYMtQexhT0Q3QW10yso0bp97ABMFN8HD9B5uSWkW70
+   FwFPhv4MkIgFo5W82NidCW8HZbYOiJ11VD7zaUm6+SGsduPZmHLnDqqn3
+   A==;
+X-CSE-ConnectionGUID: 1/BLjhxRReCZArWK+93UuQ==
+X-CSE-MsgGUID: hMJc2xYqScedwzyFNWNoIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11388"; a="44542271"
 X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
-   d="scan'208";a="54828172"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 21:18:40 -0700
-X-CSE-ConnectionGUID: I2GpboqHRAO1/ty57ag0nA==
-X-CSE-MsgGUID: OOAZHHApTZe0TA9N/ME8Yg==
+   d="scan'208";a="44542271"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 22:41:38 -0700
+X-CSE-ConnectionGUID: fcbRmosxSPuQPLbxrkAf9g==
+X-CSE-MsgGUID: 2y/mxeG3TaibdgRdMLNVOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,287,1736841600"; 
-   d="scan'208";a="126250068"
+   d="scan'208";a="126048923"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Mar 2025 21:18:38 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Mar 2025 22:41:37 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tyk83-0008VK-2B;
-	Sun, 30 Mar 2025 04:18:35 +0000
-Date: Sun, 30 Mar 2025 12:18:14 +0800
+	id 1tylQH-0008XD-2l;
+	Sun, 30 Mar 2025 05:41:31 +0000
+Date: Sun, 30 Mar 2025 13:41:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/chelsio/cxgb4/l2t.c:570 t4_l2t_update() warn:
- inconsistent returns 'bh'.
-Message-ID: <202503301230.erUyI3bB-lkp@intel.com>
+Subject: [litex-hub:litex-rebase 6/15] drivers/gpio/gpio-litex.c:228
+ litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
+Message-ID: <202503301335.C7M94pcE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,107 +64,75 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
+TO: Robert Winkler <rwinkler@internships.antmicro.com>
+CC: Gabriel Somlo <gsomlo@gmail.com>
+CC: Marek Czerski <m.czerski@ap-tech.pl>
+CC: Stafford Horne <shorne@gmail.com>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7f2ff7b6261742ed52aa973ccdf99151b7cc3a50
-commit: b5f463486b212c56d837c2592d87de7fb4833662 s390: Support PREEMPT_DYNAMIC
-date:   4 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 months ago
-config: s390-randconfig-r072-20250330 (https://download.01.org/0day-ci/archive/20250330/202503301230.erUyI3bB-lkp@intel.com/config)
+tree:   https://github.com/litex-hub/linux litex-rebase
+head:   896969d069ea7223671dd1aac991c551baa91bac
+commit: 3eb679a2997bf7eb6be1760544632505440a563f [6/15] LiteX: driver for LiteGPIO interface
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-r072-20250330 (https://download.01.org/0day-ci/archive/20250330/202503301335.C7M94pcE-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202503301230.erUyI3bB-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503301335.C7M94pcE-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/chelsio/cxgb4/l2t.c:570 t4_l2t_update() warn: inconsistent returns 'bh'.
-drivers/net/ethernet/chelsio/cxgb4/clip_tbl.c:142 cxgb4_clip_get() warn: inconsistent returns '&ctbl->lock'.
-drivers/net/ethernet/chelsio/cxgb4/clip_tbl.c:188 cxgb4_clip_release() warn: inconsistent returns '&ctbl->lock'.
-drivers/net/ethernet/chelsio/cxgb4/clip_tbl.c:188 cxgb4_clip_release() warn: inconsistent returns 'bh'.
+drivers/gpio/gpio-litex.c:228 litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
 
-vim +/bh +570 drivers/net/ethernet/chelsio/cxgb4/l2t.c
+vim +228 drivers/gpio/gpio-litex.c
 
-dcf7b6f5bdeaa1 drivers/net/ethernet/chelsio/cxgb4/l2t.c Kumar Sanghvi        2013-12-18  504  
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  505  /*
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  506   * Called when the host's neighbor layer makes a change to some entry that is
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  507   * loaded into the HW L2 table.
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  508   */
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  509  void t4_l2t_update(struct adapter *adap, struct neighbour *neigh)
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  510  {
-01ccdf126ca5f9 drivers/net/ethernet/chelsio/cxgb4/l2t.c Alexey Dobriyan      2017-09-23  511  	unsigned int addr_len = neigh->tbl->key_len;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  512  	u32 *addr = (u32 *) neigh->primary_key;
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  513  	int hash, ifidx = neigh->dev->ifindex;
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  514  	struct sk_buff_head *arpq = NULL;
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  515  	struct l2t_data *d = adap->l2t;
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  516  	struct l2t_entry *e;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  517  
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  518  	hash = addr_hash(d, addr, addr_len, ifidx);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  519  	read_lock_bh(&d->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  520  	for (e = d->l2tab[hash].first; e; e = e->next)
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  521  		if (!addreq(e, addr) && e->ifindex == ifidx) {
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  522  			spin_lock(&e->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  523  			if (atomic_read(&e->refcnt))
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  524  				goto found;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  525  			spin_unlock(&e->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  526  			break;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  527  		}
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  528  	read_unlock_bh(&d->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  529  	return;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  530  
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  531   found:
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  532  	read_unlock(&d->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  533  
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  534  	if (neigh != e->neigh)
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  535  		neigh_replace(e, neigh);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  536  
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  537  	if (e->state == L2T_STATE_RESOLVING) {
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  538  		if (neigh->nud_state & NUD_FAILED) {
-749cb5fe48bb29 drivers/net/ethernet/chelsio/cxgb4/l2t.c Hariprasad Shenai    2015-12-17  539  			arpq = &e->arpq;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  540  		} else if ((neigh->nud_state & (NUD_CONNECTED | NUD_STALE)) &&
-749cb5fe48bb29 drivers/net/ethernet/chelsio/cxgb4/l2t.c Hariprasad Shenai    2015-12-17  541  			   !skb_queue_empty(&e->arpq)) {
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  542  			write_l2e(adap, e, 1);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  543  		}
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  544  	} else {
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  545  		e->state = neigh->nud_state & NUD_CONNECTED ?
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  546  			L2T_STATE_VALID : L2T_STATE_STALE;
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  547  		if (memcmp(e->dmac, neigh->ha, sizeof(e->dmac)))
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  548  			write_l2e(adap, e, 0);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  549  	}
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  550  
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  551  	if (arpq) {
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  552  		struct sk_buff *skb;
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  553  
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  554  		/* Called when address resolution fails for an L2T
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  555  		 * entry to handle packets on the arpq head. If a
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  556  		 * packet specifies a failure handler it is invoked,
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  557  		 * otherwise the packet is sent to the device.
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  558  		 */
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  559  		while ((skb = __skb_dequeue(&e->arpq)) != NULL) {
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  560  			const struct l2t_skb_cb *cb = L2T_SKB_CB(skb);
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  561  
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  562  			spin_unlock(&e->lock);
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  563  			if (cb->arp_err_handler)
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  564  				cb->arp_err_handler(cb->handle, skb);
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  565  			else
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  566  				t4_ofld_send(adap, skb);
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  567  			spin_lock(&e->lock);
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  568  		}
-11d8cd5c9f3b46 drivers/net/ethernet/chelsio/cxgb4/l2t.c Rahul Lakkireddy     2020-06-24  569  	}
-749cb5fe48bb29 drivers/net/ethernet/chelsio/cxgb4/l2t.c Hariprasad Shenai    2015-12-17 @570  	spin_unlock_bh(&e->lock);
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  571  }
-625ba2c2eed763 drivers/net/cxgb4/l2t.c                  Dimitris Michailidis 2010-04-01  572  
-
-:::::: The code at line 570 was first introduced by commit
-:::::: 749cb5fe48bb29f55f2cdde4d76183340e11547e cxgb4: Replace arpq_head/arpq_tail with SKB double link-list code
-
-:::::: TO: Hariprasad Shenai <hariprasad@chelsio.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+3eb679a2997bf7 Robert Winkler 2020-12-22  187  
+3eb679a2997bf7 Robert Winkler 2020-12-22  188  static int litex_gpio_irq_set_type(struct irq_data *idata, unsigned int type)
+3eb679a2997bf7 Robert Winkler 2020-12-22  189  {
+3eb679a2997bf7 Robert Winkler 2020-12-22  190  	struct gpio_chip *chip = irq_data_get_irq_chip_data(idata);
+3eb679a2997bf7 Robert Winkler 2020-12-22  191  	struct litex_gpio *gpio_s = gpiochip_get_data(chip);
+3eb679a2997bf7 Robert Winkler 2020-12-22  192  	int offset = irqd_to_hwirq(idata) % GPIO_PINS_MAX;
+3eb679a2997bf7 Robert Winkler 2020-12-22  193  	unsigned long flags;
+3eb679a2997bf7 Robert Winkler 2020-12-22  194  	u32 bit = BIT(offset);
+3eb679a2997bf7 Robert Winkler 2020-12-22  195  	u32 mode, edge;
+3eb679a2997bf7 Robert Winkler 2020-12-22  196  
+3eb679a2997bf7 Robert Winkler 2020-12-22  197  	spin_lock_irqsave(&gpio_s->gpio_lock, flags);
+3eb679a2997bf7 Robert Winkler 2020-12-22  198  
+3eb679a2997bf7 Robert Winkler 2020-12-22  199  	mode = litex_gpio_get_reg(gpio_s, LITEX_GPIO_MODE_OFFSET);
+3eb679a2997bf7 Robert Winkler 2020-12-22  200  	edge = litex_gpio_get_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET);
+3eb679a2997bf7 Robert Winkler 2020-12-22  201  
+3eb679a2997bf7 Robert Winkler 2020-12-22  202  	switch (type & IRQ_TYPE_SENSE_MASK) {
+3eb679a2997bf7 Robert Winkler 2020-12-22  203  		case IRQ_TYPE_NONE:
+3eb679a2997bf7 Robert Winkler 2020-12-22  204  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  205  
+3eb679a2997bf7 Robert Winkler 2020-12-22  206  		case IRQ_TYPE_EDGE_RISING:
+3eb679a2997bf7 Robert Winkler 2020-12-22  207              mode &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  208  			edge &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  209  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  210  
+3eb679a2997bf7 Robert Winkler 2020-12-22  211  		case IRQ_TYPE_EDGE_FALLING:
+3eb679a2997bf7 Robert Winkler 2020-12-22  212              mode &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  213  			edge |= bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  214  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  215  
+3eb679a2997bf7 Robert Winkler 2020-12-22  216          case IRQ_TYPE_EDGE_BOTH:
+3eb679a2997bf7 Robert Winkler 2020-12-22  217  			mode |= bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  218              break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  219  
+3eb679a2997bf7 Robert Winkler 2020-12-22  220  		default:
+3eb679a2997bf7 Robert Winkler 2020-12-22  221  			return -EINVAL;
+3eb679a2997bf7 Robert Winkler 2020-12-22  222  	}
+3eb679a2997bf7 Robert Winkler 2020-12-22  223  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_MODE_OFFSET, mode);
+3eb679a2997bf7 Robert Winkler 2020-12-22  224  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET, edge);
+3eb679a2997bf7 Robert Winkler 2020-12-22  225  
+3eb679a2997bf7 Robert Winkler 2020-12-22  226  	spin_unlock_irqrestore(&gpio_s->gpio_lock, flags);
+3eb679a2997bf7 Robert Winkler 2020-12-22  227  
+3eb679a2997bf7 Robert Winkler 2020-12-22 @228  	return 0;
+3eb679a2997bf7 Robert Winkler 2020-12-22  229  }
+3eb679a2997bf7 Robert Winkler 2020-12-22  230  
 
 -- 
 0-DAY CI Kernel Test Service
