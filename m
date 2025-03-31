@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00C943172
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Mar 2025 06:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209591DC991
+	for <oe-kbuild@lists.linux.dev>; Mon, 31 Mar 2025 09:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743401452; cv=none; b=Rzsv/lEEe5OGBxEvNZA9nBVWmMgH7ylvcT9p4oTCY5UP524Imz/UF2YDHJKrpnzgV+aquZhgxuWnJ1IFi+uhG266M3l2DZbi0d3azQpaNseR0WYpcFn82AxQO/6oTj6aYfkHXMlSnGfdbpU8QM4ZwlA804hvzau9OukW90UX0dM=
+	t=1743413930; cv=none; b=LUiI0qo8DTrsMSkp4p8cx7SEeA3gcLruWnudUlIyVU3DkrDdpTQvfA1Ijh80FQFeciiV9f3QiCrgWOqDnF5muUGByVDMEJ/wazQEpuv55nIGcg7IHmeZHq3DWRLRgwJHYdWy9B5GDwMzUDyFpxswAJBAXKkurxkBpQiocxKBL+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743401452; c=relaxed/simple;
-	bh=0kgnic6ElRIXtvicJD5SLwSVPaoh9fAInlLObk4F9H4=;
+	s=arc-20240116; t=1743413930; c=relaxed/simple;
+	bh=I7UNyDBbA9jDRS+zpL+Q1Gy4CwKC+2rj1AFqEXPNc+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCZ43u2qgvOTchhg/nRSPl7DyKNgXJx/9jPOay9dB17uHjpfw65o3UKSMb6FUlYAbBNqybwPtervYZpK619dMXsKreHlQ4DHJ4JKDJkN+VRJElvE2Csa6H8LmxgaO5QP6nbiSG+zdl2aFvoQXrx4tGDRV7j02os35LM7FVnviK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlELI2T9; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=AzpM4V/jvNqhdnw8stJKzNxsyWMJJLecBGBcAyxcnxOGPB6uIn17YEYR1kWHuF3ZOHnVPatSAGAVTiTc2t5FZQi/VoNqh3ypfDm+zXRKi4PmSHH85L+R6xOvL8zXDhHnzhu9DHrM2QkWe76pg8RPqnZRov7NA2loOARxf4cbz5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KRBRiSc/; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlELI2T9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743401450; x=1774937450;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0kgnic6ElRIXtvicJD5SLwSVPaoh9fAInlLObk4F9H4=;
-  b=ZlELI2T97bkSTqOu2/B8iyS4uRRbukWdvGwayNwTbEZZdeWrpR8CVR2s
-   vzRPr3hyjBs7RCTDe8XlB7Ubbvwo6SLEnGGA1z3eb9Y/JrPJrwfWFupWV
-   NdM0XoO2dzkO2+081W9UxloAcBMpbljgb3Er8r3WJOOKH21mFIEwKUG/g
-   wecEP3Yk4svIKLPn0JYkuG5jwqLYDxYebuTpwKzPqs5qVT7uV9Iu8Yv8p
-   gG7CtFRrLRXdncYcLPG4Mm+2xLZEzzx3C2j5lYaSCBx/JnOLORJRYyMQ6
-   GKVoF7qpf68l93asIwu7144Qq9wsGKjUPB0/HXOPeszHGRBU/lh8H7QVd
-   Q==;
-X-CSE-ConnectionGUID: 22OdGmpGSoemcVVIxqYQ8g==
-X-CSE-MsgGUID: Zp5gl+GJRzi5Xx9PctbDFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="43926849"
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="43926849"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2025 23:10:50 -0700
-X-CSE-ConnectionGUID: cNczTbWcTR6CpLO4z/OCBg==
-X-CSE-MsgGUID: tg6Hk4KjTbO459/45qwk6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="156926569"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 30 Mar 2025 23:10:49 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tz8MA-000958-2J;
-	Mon, 31 Mar 2025 06:10:46 +0000
-Date: Mon, 31 Mar 2025 14:10:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [tip:objtool/urgent 5/25] vmlinux.o: error: objtool:
- intel_idle_ibrs+0x13: call to sched_smt_active() leaves .noinstr.text
- section
-Message-ID: <202503311434.lyw2Tveh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KRBRiSc/"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so48727905e9.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 31 Mar 2025 02:38:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743413926; x=1744018726; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PTvbIUBPW1DmF7yCVGeHkhbc+ahxTr1adm6t4e4kNrY=;
+        b=KRBRiSc/lQbCkwtwNUmbopYmCwNavMSTqatskN5YTer6dZpYDBhE+ZYTJ8dnJ7oJ8h
+         psogVuGPmwzlNLbPOl7IOZX7tCvi0HFf8hwc5GL8RlZy+DJiJt/XjGYpjhe144/+8Joo
+         gwTwnHJHi41QVUIsNjD2ro4XJMnudYTT7SBsr1ZbUXLMYM0XyKeKlJBOJJ8qLKa+V179
+         BLwAFqWE44dZ93UzLfs0jzAOUMF1vhQ9ck5vVfOiQGSGvUthdWUvpzftRzIeJDbtJi7s
+         pagOyLmLOtqGYkFsfnuTYTGAfVWjXtgrzzdJsRUfH2mi/S+lfEDJ9rGbWGduQYCoclhe
+         Ix6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743413926; x=1744018726;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PTvbIUBPW1DmF7yCVGeHkhbc+ahxTr1adm6t4e4kNrY=;
+        b=tYZR/U7gOKTJ/MN2pifuHh0qfX9/rosIx29nlH0UmvxGc6qxCdji/OOJ+j4EQCp3Xe
+         upwLdrMEAoUbA/emH7sb3AXzULF4JcQXC6vkB0yd/Jz/3Jqlk1nugpSYc0QiPNcqXVde
+         tPmTKY/Kjk0ET3QmN8z1jHMMCnKNpsl+IMQQ2P2pxVqMCWMnNjCgEzfO9D0qfgZnsHAr
+         H8Uh42BS6TLgFW7Sub5zZ0qX8PwtTXAmQ84cRuphnRJTP3EdDlumbRXFnO6NHJA7E3vc
+         1XyHKVWHY63RkHC/3fqNqiF3PIqcFRenxyoEQu7ZUbxYKbnFM4kODGRYCEw1VN7fhYWa
+         ajZQ==
+X-Gm-Message-State: AOJu0Ywo8aJKFcl1lJ7+tRdYhYbwWkgac0oDMDD8el95GLhW/AjaTMXW
+	DxDvI2wl0+Fu/tDiMfSgCMKoLi8hoCr/hvKSXv13/TfwoH1Dg78EBGvEFBIn+doVHWsNxV7dnso
+	6Je4=
+X-Gm-Gg: ASbGncs3/8dJYFVwwz0UmJdi9TcL4/AU6gEMVw5QG6ezew6jqpViJRuBSo1QYyydNe5
+	PFlAiqLLWg0u0p50gab4cp6x71PKkad+M+KjsQnFhgolPIx/6kKSsEVprgE9T2qb4M52dOZWtxm
+	NjlwdR4JZjfLyOl/oYXbVEllEp/KpI1WxBEjSwgmrSoBWIAM8GjkckJUfBp2kYRRUn/OLgHdLf4
+	JJbuSTdAPNnHMjE3vcf+WlB6wJy3HEOF0kJ+p6rqvSvcfIWpQZRik+9GPjw5XJVfUBOQ7or4X2Q
+	2qkzZTR37WdznCKPaJIClSSgc+kWUCEVGGvlWUicl0JtW8wwRuuWu0C/fRP9
+X-Google-Smtp-Source: AGHT+IHGnNUC+2mfT8wXcz6JVOv/TUyQEYUhFeLpUqCUkFasATg/jdDibO3HGsXSjZ3Kbed9rjwnHA==
+X-Received: by 2002:a05:600c:4e87:b0:43c:f5fe:5c26 with SMTP id 5b1f17b1804b1-43db61d8249mr63350045e9.4.1743413925790;
+        Mon, 31 Mar 2025 02:38:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d82dedd03sm159698295e9.3.2025.03.31.02.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 02:38:45 -0700 (PDT)
+Date: Mon, 31 Mar 2025 12:38:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Robert Winkler <rwinkler@internships.antmicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Gabriel Somlo <gsomlo@gmail.com>,
+	Marek Czerski <m.czerski@ap-tech.pl>,
+	Stafford Horne <shorne@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [litex-hub:litex-rebase 6/15] drivers/gpio/gpio-litex.c:228
+ litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
+Message-ID: <f8480c68-70e3-478b-927f-d21f9d0cef14@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,37 +76,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Ingo Molnar <mingo@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/urgent
-head:   ae958b12940bcd4ffa32c44684e4f2878bc5e140
-commit: 4759670bc3e670069c055c2b33174813099fea4f [5/25] objtool: Fix CONFIG_OBJTOOL_WERROR for vmlinux.o
-:::::: branch date: 3 days ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-121-20250331 (https://download.01.org/0day-ci/archive/20250331/202503311434.lyw2Tveh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250331/202503311434.lyw2Tveh-lkp@intel.com/reproduce)
+tree:   https://github.com/litex-hub/linux litex-rebase
+head:   896969d069ea7223671dd1aac991c551baa91bac
+commit: 3eb679a2997bf7eb6be1760544632505440a563f [6/15] LiteX: driver for LiteGPIO interface
+config: s390-randconfig-r072-20250330 (https://download.01.org/0day-ci/archive/20250330/202503301335.C7M94pcE-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503311434.lyw2Tveh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503301335.C7M94pcE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpio/gpio-litex.c:228 litex_gpio_irq_set_type() warn: inconsistent returns '&gpio_s->gpio_lock'.
 
->> vmlinux.o: error: objtool: intel_idle_ibrs+0x13: call to sched_smt_active() leaves .noinstr.text section
-   vmlinux.o: error: objtool: 1 warning(s) upgraded to errors
-   ./tools/objtool/objtool --Werror --noinstr --link vmlinux.o.orig -o vmlinux.o
+vim +228 drivers/gpio/gpio-litex.c
+
+3eb679a2997bf7 Robert Winkler 2020-12-22  188  static int litex_gpio_irq_set_type(struct irq_data *idata, unsigned int type)
+3eb679a2997bf7 Robert Winkler 2020-12-22  189  {
+3eb679a2997bf7 Robert Winkler 2020-12-22  190  	struct gpio_chip *chip = irq_data_get_irq_chip_data(idata);
+3eb679a2997bf7 Robert Winkler 2020-12-22  191  	struct litex_gpio *gpio_s = gpiochip_get_data(chip);
+3eb679a2997bf7 Robert Winkler 2020-12-22  192  	int offset = irqd_to_hwirq(idata) % GPIO_PINS_MAX;
+3eb679a2997bf7 Robert Winkler 2020-12-22  193  	unsigned long flags;
+3eb679a2997bf7 Robert Winkler 2020-12-22  194  	u32 bit = BIT(offset);
+3eb679a2997bf7 Robert Winkler 2020-12-22  195  	u32 mode, edge;
+3eb679a2997bf7 Robert Winkler 2020-12-22  196  
+3eb679a2997bf7 Robert Winkler 2020-12-22  197  	spin_lock_irqsave(&gpio_s->gpio_lock, flags);
+3eb679a2997bf7 Robert Winkler 2020-12-22  198  
+3eb679a2997bf7 Robert Winkler 2020-12-22  199  	mode = litex_gpio_get_reg(gpio_s, LITEX_GPIO_MODE_OFFSET);
+3eb679a2997bf7 Robert Winkler 2020-12-22  200  	edge = litex_gpio_get_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET);
+3eb679a2997bf7 Robert Winkler 2020-12-22  201  
+3eb679a2997bf7 Robert Winkler 2020-12-22  202  	switch (type & IRQ_TYPE_SENSE_MASK) {
+3eb679a2997bf7 Robert Winkler 2020-12-22  203  		case IRQ_TYPE_NONE:
+3eb679a2997bf7 Robert Winkler 2020-12-22  204  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  205  
+3eb679a2997bf7 Robert Winkler 2020-12-22  206  		case IRQ_TYPE_EDGE_RISING:
+3eb679a2997bf7 Robert Winkler 2020-12-22  207              mode &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  208  			edge &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  209  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  210  
+3eb679a2997bf7 Robert Winkler 2020-12-22  211  		case IRQ_TYPE_EDGE_FALLING:
+3eb679a2997bf7 Robert Winkler 2020-12-22  212              mode &= ~bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  213  			edge |= bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  214  			break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  215  
+3eb679a2997bf7 Robert Winkler 2020-12-22  216          case IRQ_TYPE_EDGE_BOTH:
+3eb679a2997bf7 Robert Winkler 2020-12-22  217  			mode |= bit;
+3eb679a2997bf7 Robert Winkler 2020-12-22  218              break;
+3eb679a2997bf7 Robert Winkler 2020-12-22  219  
+3eb679a2997bf7 Robert Winkler 2020-12-22  220  		default:
+3eb679a2997bf7 Robert Winkler 2020-12-22  221  			return -EINVAL;
+
+unlock before returning.
+
+3eb679a2997bf7 Robert Winkler 2020-12-22  222  	}
+3eb679a2997bf7 Robert Winkler 2020-12-22  223  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_MODE_OFFSET, mode);
+3eb679a2997bf7 Robert Winkler 2020-12-22  224  	litex_gpio_set_reg(gpio_s, LITEX_GPIO_EDGE_OFFSET, edge);
+3eb679a2997bf7 Robert Winkler 2020-12-22  225  
+3eb679a2997bf7 Robert Winkler 2020-12-22  226  	spin_unlock_irqrestore(&gpio_s->gpio_lock, flags);
+3eb679a2997bf7 Robert Winkler 2020-12-22  227  
+3eb679a2997bf7 Robert Winkler 2020-12-22 @228  	return 0;
+3eb679a2997bf7 Robert Winkler 2020-12-22  229  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
