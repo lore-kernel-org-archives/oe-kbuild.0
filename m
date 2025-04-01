@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0091379C0
-	for <oe-kbuild@lists.linux.dev>; Mon, 31 Mar 2025 20:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28ABC1EDA3D
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Apr 2025 09:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743452280; cv=none; b=qsJ+YVmuR2XK5s8AtRmf7V16VrFRd7A4HqnBRQVKlZpKN9o0+zur3CEIoWbeuCxL//zKotcoNS9FCP8+RZqAssTQAZ8CIZKyZkVmiP8bQcOGBxc3uT90W0EzWPlF7LHmbeHW+Nl8MqT0no0JpWBh2TgXOF1MmTYXg6ZP3f1GUHQ=
+	t=1743499258; cv=none; b=YBxVelaMHUCz+pbSfo331TI3GlNPe0jj/gRte8FIW7Od7Scf/lN3GCQ47rHlJQvyhk9avYMyik3WtiOhhC89Rl9Sl69/W5GcMVVBQQ1LcN4vBB0r+tmJnwXCKfcZoYNo2GVlf1qYoE35RLn5/IPhsW+u7+ADr3rjOc0OUsOM1kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743452280; c=relaxed/simple;
-	bh=zsIXyuRULzO2w4i1FS0ddQGRZsDIzUds+vqwkjvpyr4=;
+	s=arc-20240116; t=1743499258; c=relaxed/simple;
+	bh=WORnQNZBjoxXe1T3UAHdtYIO9qp7z3KXZp+TDl9cETY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wx8IwcJzXXvaPHPsXVbE+1Uu22WfO8d0pLKxvEk6ZQ2z4/eIECcDYFGwkf4Vf+E16lS8uB47LJeBCUyqXkXyZzaRnjnuN3LS06RtWz/5OUimo7OFVZkhnSeBXpjA+NXaF/geGTC0mj3m0We51rXzJeJBRU3EefCj3rYbgNSUBKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gY88VpqA; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=b5XiBn+PzgXvMIOLRbYVbL/l8dQakdkLKDicmXzCQGIh72WZ9rnnENXaZZP+PYBm5mTRw3yP9tlK73Hbxb/SQ8aQXu+QaewymUWQQxsQTwZDANDh5WrNFW8B/eUdTQ4Mh1kHC/cK/1NmH+jhAA2xCO8CuFM4ZuPG1jMfclp/8JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6Xwh9Ro; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gY88VpqA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6Xwh9Ro"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743452278; x=1774988278;
+  t=1743499257; x=1775035257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zsIXyuRULzO2w4i1FS0ddQGRZsDIzUds+vqwkjvpyr4=;
-  b=gY88VpqAW00iu9JQRXxyNeWkL192tSrS3AGIWcBVoKGrhMKpf2aVSzMb
-   co5mGFcvOW+4MSNOJe5a6fHQVkzswX9knRNNifrTBFXTaId1QI0ACUY3p
-   03U0goi5FqZKw/807GVAZXcvadpEREguCFX90IBD9bvM4OfUQ3qy+GJ3l
-   KOZq0CLQFhrcB0td/SF9v+US5GqT6WIM4VOHoBgEMTHfEVYSXTG0oZJS/
-   fSd1P4A5nOrOuCbUc46enh/zdNMqdLep9b5te4uekvBzgVWy9KatE9kdX
-   JV3Beab/FA+SJIW5VRmIiDdL2Dm/VI1fZHswCgyRkG7ohNiXNUiyKiofz
-   w==;
-X-CSE-ConnectionGUID: nfzmQlLGR1StVfn4Fq1h3A==
-X-CSE-MsgGUID: rFiVjOFGRLqWr1IWxwSDqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="44665280"
-X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
-   d="scan'208";a="44665280"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 13:17:58 -0700
-X-CSE-ConnectionGUID: xJoUjPPoTJSauiktW/SrPg==
-X-CSE-MsgGUID: 5H+/lp9OQiWHLJ4whTsLyw==
+  bh=WORnQNZBjoxXe1T3UAHdtYIO9qp7z3KXZp+TDl9cETY=;
+  b=X6Xwh9Ro26OKeKSSwagnj0jtfMfcrjCoVAAUtIW15sJ6HRIdBGs5Uhbk
+   1YUN8zeQuAafjvPhDyUCkyIOHoSIJ/UnLKMEMHBf4mZpOOSm6SufN8oD3
+   Z0jBuUoDsiIz0/IrCeZwA0F2YRqSyPmcxQwyM1gGeqokwHyYEFH8EEDzu
+   bUxu6JTiTPQxQ3+/SPRUgyIsHZF35ZlFD1HtRm92JL3tddN2lw27AI4v2
+   qXpfpxzgQJhNRfFdPApvWtkfL4GNraSuYoUSlkogSk0C8YOAjUnMkV31X
+   0O0JlcNrukI9J75xF6FhYVLQTMyCxLCLgc+T9edh9senypaiVWobL2Vlg
+   A==;
+X-CSE-ConnectionGUID: M35Swm7JTmmqEOkh6k+Tcg==
+X-CSE-MsgGUID: 7YJtQcgITaikmRo6e6tusw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="48683345"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
+   d="scan'208";a="48683345"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:20:55 -0700
+X-CSE-ConnectionGUID: 0RQIoWJxQ+qQimYnxJjORw==
+X-CSE-MsgGUID: db0QRfW+T0G80gKBz+XczA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
-   d="scan'208";a="149369112"
+X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
+   d="scan'208";a="157260001"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Mar 2025 13:17:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 01 Apr 2025 02:20:55 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tzLZy-0009Qa-19;
-	Mon, 31 Mar 2025 20:17:54 +0000
-Date: Tue, 1 Apr 2025 04:17:09 +0800
+	id 1tzXng-0009ks-0E;
+	Tue, 01 Apr 2025 09:20:52 +0000
+Date: Tue, 1 Apr 2025 17:19:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jpoimboe:objtool-werror 3/4] check.c:3538:10: error: no member
- named 'warnings' in 'struct symbol'
-Message-ID: <202504010444.FAFVZ3BR-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/mediatek/mt76/channel.c:307
+ mt76_put_vif_phy_link() warn: variable dereferenced before IS_ERR check
+ 'mlink' (see line 305)
+Message-ID: <202504011739.HvUKtUUe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,46 +63,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Felix Fietkau <nbd@nbd.name>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-werror
-head:   fed6a8b43d3441f6b9d0700b429bc7a686023b9d
-commit: d69b7d42d9b26e320e50855413577be6c3b51a35 [3/4] Revert "objtool: Increase per-function WARN_FUNC() rate limit"
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: powerpc-randconfig-001-20250401 (https://download.01.org/0day-ci/archive/20250401/202504010444.FAFVZ3BR-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504010444.FAFVZ3BR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   08733088b566b58283f0f12fb73f5db6a9a9de30
+commit: 3ba20af886d1f604dceeb4d4c8ff872e2c4e885e wifi: mt76: scan: set vif offchannel link for scanning/roc
+date:   13 days ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 13 days ago
+config: x86_64-randconfig-161-20250401 (https://download.01.org/0day-ci/archive/20250401/202504011739.HvUKtUUe-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504010444.FAFVZ3BR-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504011739.HvUKtUUe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/wireless/mediatek/mt76/channel.c:307 mt76_put_vif_phy_link() warn: variable dereferenced before IS_ERR check 'mlink' (see line 305)
 
->> check.c:3538:10: error: no member named 'warnings' in 'struct symbol'
-    3538 |                         func->warnings++;
-         |                         ~~~~  ^
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:85: tools/objtool/check.o] Error 1 shuffle=1485354277
-   make[5]: Target '__build' not remade because of errors.
-   make[4]: *** [Makefile:65: tools/objtool/objtool-in.o] Error 2 shuffle=1485354277
-   make[4]: Target 'all' not remade because of errors.
-   make[3]: *** [Makefile:72: objtool] Error 2 shuffle=1485354277
-   make[2]: *** [Makefile:1438: tools/objtool] Error 2 shuffle=1485354277
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1485354277
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1485354277
-   make: Target 'prepare' not remade because of errors.
+vim +/mlink +307 drivers/net/wireless/mediatek/mt76/channel.c
+
+e411b8190fe7c9 Felix Fietkau 2025-01-02  300  
+e411b8190fe7c9 Felix Fietkau 2025-01-02  301  void mt76_put_vif_phy_link(struct mt76_phy *phy, struct ieee80211_vif *vif,
+e411b8190fe7c9 Felix Fietkau 2025-01-02  302  			   struct mt76_vif_link *mlink)
+e411b8190fe7c9 Felix Fietkau 2025-01-02  303  {
+e411b8190fe7c9 Felix Fietkau 2025-01-02  304  	struct mt76_dev *dev = phy->dev;
+3ba20af886d1f6 Felix Fietkau 2025-03-11 @305  	struct mt76_vif_data *mvif = mlink->mvif;
+e411b8190fe7c9 Felix Fietkau 2025-01-02  306  
+e411b8190fe7c9 Felix Fietkau 2025-01-02 @307  	if (IS_ERR_OR_NULL(mlink) || !mlink->offchannel)
+e411b8190fe7c9 Felix Fietkau 2025-01-02  308  		return;
+e411b8190fe7c9 Felix Fietkau 2025-01-02  309  
+3ba20af886d1f6 Felix Fietkau 2025-03-11  310  	rcu_assign_pointer(mvif->offchannel_link, NULL);
+e411b8190fe7c9 Felix Fietkau 2025-01-02  311  	dev->drv->vif_link_remove(phy, vif, &vif->bss_conf, mlink);
+e411b8190fe7c9 Felix Fietkau 2025-01-02  312  	kfree(mlink);
+e411b8190fe7c9 Felix Fietkau 2025-01-02  313  }
+a8f424c1287cc7 Felix Fietkau 2025-01-02  314  
+
+:::::: The code at line 307 was first introduced by commit
+:::::: e411b8190fe7c969c668eedb5b01f2865c89b1af wifi: mt76: add multi-radio support to scanning code
+
+:::::: TO: Felix Fietkau <nbd@nbd.name>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
