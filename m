@@ -1,133 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6309A2080DD
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Apr 2025 07:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16D7230272
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Apr 2025 08:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743578692; cv=none; b=S3+dDCweD+BSZ8uhP+tf0n/AjsbYj3gvF+H32zcU9tOtd2oPkzK2LaspNFw6HwkN2pKU2j4YIHcYtKQ5AwtnS4tLijkC/jt60xlLFgro3aF28eyAHwb66EDzuTmjcI8IUdIAw1E4KhRI0xng8B/ktfHz+DpKyNJ3PF8tHN1Z3EE=
+	t=1743582822; cv=none; b=pCq2QdkhVRnV+p1pAzkxG7stvmSLtt+7jUzV9/xweCkb6m+YTJggfhYgf2tqqsbVQ5xVZTUByQtXFsN7+MulKDUegronvG5CsBvEAB0eypI2Xj6LQr1YPq5YMjxNdVBpXXh9dmz9BMZ2qUIgtCUEPJMaIY4hBZwjoHsNvKmWxeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743578692; c=relaxed/simple;
-	bh=P/yR6fEAdZ7D6WMfLOT8h4AI7Zybtn/KhBsOuxFTarM=;
+	s=arc-20240116; t=1743582822; c=relaxed/simple;
+	bh=9I9XHZRgnlgkSyK6bk18GShdXhlb3cRo4eQ4FSWfEgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=usWrA02RYwClZ2o9BiuelFIcFjtIXrWPbbmx/BIS5alP0O82GsztgpJjPM2olnxMeEw4hUB9ijgRtyBMXeCEp6oJVeVpeIlCsh1hp7y4YVFcdGlvTFV9D9lxqmQxrji/hRQs8znrpJLaP1XEld9J9/wV50GO8VIk6lRGiBqaTrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b20lrBfj; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=urKnwR4PcBW6APs9EE/SQ0kPGFfgn2HzQtIlXUfMyNC9ok0fZjB3U9MXNaEdMP8r9G+J2wtLp6NQ4wCfS8IGPIaxfxAc7WIl18G5LORBxvEx33f/UYmYkshLWtuEPCMVkKVFbimz+nLdJA2mJXgS1TmWjCmMf+60t5/nfwq9jHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OQFYUGOf; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b20lrBfj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743578690; x=1775114690;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=P/yR6fEAdZ7D6WMfLOT8h4AI7Zybtn/KhBsOuxFTarM=;
-  b=b20lrBfj/JziJozazsqCliJ2u81tkeGVfg4/n3tSOwGGZDBIk7qCWYnR
-   bGtTRgFAgeboI1krxlhlC64/2mRwupFax0pVKtohyUR3JKHl+yqhM0pwo
-   3tHM69SqDCmruF0faxfCSNYAmW4onl422itv/v/Tqc0HCois0Hz1srIaC
-   cvj+sUHQzQz4lvqLhtQDFSiEvdUcDgnR/ql9InKtw5FRdYE7+WKAy4l59
-   K+mBs8IgGtCg7/Vn5dZruiUL6CEK+iC2iMGn2vv7/yOcjyEsN1Eoxbk3B
-   Y48N6cXFErRV1p95mUea0mp90myNeC0EuxdCjsKFjSFaZoKcFttG0U2JU
-   w==;
-X-CSE-ConnectionGUID: cp4HzSulQ6OGUEvi7vWHrg==
-X-CSE-MsgGUID: D5UI1+laTmqTLnXqR1u+vA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="48594946"
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="48594946"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 00:24:46 -0700
-X-CSE-ConnectionGUID: laY9OvZVS3axIMV65tpiDQ==
-X-CSE-MsgGUID: wU+DHUGTTIC2BIiqN2PnTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,295,1736841600"; 
-   d="scan'208";a="157603287"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Apr 2025 00:24:45 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tzsSp-000AXL-04;
-	Wed, 02 Apr 2025 07:24:43 +0000
-Date: Wed, 2 Apr 2025 15:23:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error:
- uninitialized symbol 'ret'.
-Message-ID: <202504021500.3AM1hKKS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OQFYUGOf"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1478647f8f.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 02 Apr 2025 01:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743582819; x=1744187619; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RflM3eIUeAykRn7gfmZiAZuq4DaaLmevr7UucAIeFSc=;
+        b=OQFYUGOfAO2+iAxmTbQVQUWxx6DTR0a24TADCiv/mKcnSfV7SKu7jvI4Y2h34Gu+RC
+         iEWYiLR/OWxJYcgcvIHIexinxDyDUA7R6vSK/G0yjl9PEV37zNNvT51Fu42gX3P1qDiM
+         HMKlXBO8zliRuKof4PE+QL3IwTHYII6tjL6O2xYhaGg6QC+NTI3JPCNHraIy6R/RgN+i
+         w6ZvM77QZOV+pOefRd6vkeRRjZ2jPCA/Q29D92BiJH8kDjyzHgeW2K/5UVzek3fCqK7r
+         sVy4Vkb6YLXiGBwKI1CMNCAC+l929tVp+CuexPVJKWFKBVP4mMH5mzuDO4J8NhMDBL0M
+         YYNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743582819; x=1744187619;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RflM3eIUeAykRn7gfmZiAZuq4DaaLmevr7UucAIeFSc=;
+        b=pLIpkHUk1lhWsypVG9ZjyOnRebI7mI4qs2Xpr9jFH/VCUnSe8VJSS/9rqg1AMna2hq
+         41UfJ0tbrmXgyJGUUWSELgSOmOmkN2/a6Emyngb22ZnVJe0BJHenalZE1wA/EFHEAW3X
+         1GcrtgsH44cikYogNFmTfJdjJNnT4hi8vLUcA86jn48tQKRB+I98DaXQ/pUe1KSWakdP
+         q5MQBKJN13e0pB5lw549pnpYx8dFGHLy9YFBzYrg6HW1gXmvvE8Y3jccFGv3bvY217MT
+         Y6jZD8D9mHWa1R0eSocOyFfWY/3zpeON7DC18LQ17laQRY6wcr4zNR30DyiMoTI6KjtE
+         rR4Q==
+X-Gm-Message-State: AOJu0YwcuxjU8MeGup84lSlPvulkLI5RpPYdAE8q1flrbdU2+cB6JpDP
+	IhxSBLhOCUfFj8Go05TjxqP9Od8ZeW8rfR8aXBOpW69wluj/97GDAd7YLzDQM+dYDSWEuo3n5s/
+	w
+X-Gm-Gg: ASbGncv6Ndard/H2Iw42NPMnWbEAk1faT1vBc6K5FKDtQHbu0Xk7mNhz7UiklQB2pHL
+	sfPWCFNGpju8UPfnGn+PwmXYg+aQRhh04noscASacBALP7fbbhpoW8O4/Iqaaffjf9hsp++MNNz
+	XRQHjII/hmn7TmCILzNMYLf54mx4HeEu4la6aGg6XxWF+pDSrzOzALgRKDDbtYhvQ6LnqiS0ry8
+	2TccIn65irSkweDQPSPbhfwDYYDVo4b6R58FlbTvrSFXGlQSMc3JAgyNbEpbD5T7YKjpDXTA2jx
+	4e9Zkap/Cf9F0f/MXfIdxO4ahpRTzb66WTWI9gz2HhBcq9Xq/A==
+X-Google-Smtp-Source: AGHT+IF60L370xApA1IohVIjYQPwT3lpHbrDLuhxkwVDRvR1TS0O+uW7nY7HDfqyeIQWm5MDbCeb7Q==
+X-Received: by 2002:a5d:64c9:0:b0:39c:1f10:ba54 with SMTP id ffacd0b85a97d-39c29769561mr1219466f8f.35.1743582818911;
+        Wed, 02 Apr 2025 01:33:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43eb613aabesm13363625e9.39.2025.04.02.01.33.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 01:33:38 -0700 (PDT)
+Date: Wed, 2 Apr 2025 11:33:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev.2025.03.25a 45/45] lib/ratelimit.c:45 ___ratelimit()
+ warn: 'burst' unsigned <= 0
+Message-ID: <922c17a3-d075-47f8-9af1-f14e0bbf6da2@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Maíra Canal" <mcanal@igalia.com>
-CC: Melissa Wen <mwen@igalia.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   acc4d5ff0b61eb1715c498b6536c38c1feb7f3c1
-commit: 04630796c437a9285643097825cbd3cd06603f47 drm/vc4: Use DRM Execution Contexts
-date:   2 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 months ago
-config: arm64-randconfig-r073-20250402 (https://download.01.org/0day-ci/archive/20250402/202504021500.3AM1hKKS-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/paulmckrcu/linux dev.2025.03.25a
+head:   cedfad9ced72fc8c873e11a4c6a089a415489166
+commit: cedfad9ced72fc8c873e11a4c6a089a415489166 [45/45] ratelimit: Reduce ratelimit's false-positive misses
+config: x86_64-randconfig-161-20250402 (https://download.01.org/0day-ci/archive/20250402/202504020656.TgN4JCta-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504021500.3AM1hKKS-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504020656.TgN4JCta-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/vc4/vc4_gem.c:604 vc4_lock_bo_reservations() error: uninitialized symbol 'ret'.
+New smatch warnings:
+lib/ratelimit.c:45 ___ratelimit() warn: 'burst' unsigned <= 0
+lib/ratelimit.c:45 ___ratelimit() warn: 'interval' unsigned <= 0
 
-vim +/ret +604 drivers/gpu/drm/vc4/vc4_gem.c
+vim +/burst +45 lib/ratelimit.c
 
-cdec4d3613230f Eric Anholt 2017-04-12  581  
-cdec4d3613230f Eric Anholt 2017-04-12  582  /* Takes the reservation lock on all the BOs being referenced, so that
-cdec4d3613230f Eric Anholt 2017-04-12  583   * at queue submit time we can update the reservations.
-cdec4d3613230f Eric Anholt 2017-04-12  584   *
-cdec4d3613230f Eric Anholt 2017-04-12  585   * We don't lock the RCL the tile alloc/state BOs, or overflow memory
-cdec4d3613230f Eric Anholt 2017-04-12  586   * (all of which are on exec->unref_list).  They're entirely private
-cdec4d3613230f Eric Anholt 2017-04-12  587   * to vc4, so we don't attach dma-buf fences to them.
-cdec4d3613230f Eric Anholt 2017-04-12  588   */
-cdec4d3613230f Eric Anholt 2017-04-12  589  static int
-04630796c437a9 Maíra Canal 2024-12-20  590  vc4_lock_bo_reservations(struct vc4_exec_info *exec,
-04630796c437a9 Maíra Canal 2024-12-20  591  			 struct drm_exec *exec_ctx)
-cdec4d3613230f Eric Anholt 2017-04-12  592  {
-04630796c437a9 Maíra Canal 2024-12-20  593  	int ret;
-cdec4d3613230f Eric Anholt 2017-04-12  594  
-cdec4d3613230f Eric Anholt 2017-04-12  595  	/* Reserve space for our shared (read-only) fence references,
-cdec4d3613230f Eric Anholt 2017-04-12  596  	 * before we commit the CL to the hardware.
-cdec4d3613230f Eric Anholt 2017-04-12  597  	 */
-04630796c437a9 Maíra Canal 2024-12-20  598  	drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT, exec->bo_count);
-04630796c437a9 Maíra Canal 2024-12-20  599  	drm_exec_until_all_locked(exec_ctx) {
-04630796c437a9 Maíra Canal 2024-12-20  600  		ret = drm_exec_prepare_array(exec_ctx, exec->bo,
-04630796c437a9 Maíra Canal 2024-12-20  601  					     exec->bo_count, 1);
-04630796c437a9 Maíra Canal 2024-12-20  602  	}
-cdec4d3613230f Eric Anholt 2017-04-12  603  
-cdec4d3613230f Eric Anholt 2017-04-12 @604  	if (ret) {
-04630796c437a9 Maíra Canal 2024-12-20  605  		drm_exec_fini(exec_ctx);
-cdec4d3613230f Eric Anholt 2017-04-12  606  		return ret;
-7edabee06a5622 Eric Anholt 2016-09-27  607  	}
-d5b1a78a772f1e Eric Anholt 2015-11-30  608  
-cdec4d3613230f Eric Anholt 2017-04-12  609  	return 0;
-cdec4d3613230f Eric Anholt 2017-04-12  610  }
-cdec4d3613230f Eric Anholt 2017-04-12  611  
+5c828713358cb9 Christian Borntraeger 2009-10-23  27  int ___ratelimit(struct ratelimit_state *rs, const char *func)
+5f97a5a8799b8d Dave Young            2008-04-29  28  {
+cedfad9ced72fc Paul E. McKenney      2025-03-31  29  	unsigned long begin;
+cedfad9ced72fc Paul E. McKenney      2025-03-31  30  	unsigned long burst = READ_ONCE(rs->burst);
+                                                        ^^^^^^^^^^^^^^^^^^^
 
-:::::: The code at line 604 was first introduced by commit
-:::::: cdec4d3613230fc15723fae206cb17825b914cee drm/vc4: Expose dma-buf fences for V3D rendering.
-
-:::::: TO: Eric Anholt <eric@anholt.net>
-:::::: CC: Eric Anholt <eric@anholt.net>
+cedfad9ced72fc Paul E. McKenney      2025-03-31  31  	int delta = 0;
+4d9c377c81d377 Alexey Dobriyan       2008-07-28  32  	unsigned long flags;
+cedfad9ced72fc Paul E. McKenney      2025-03-31  33  	bool gotlock = false;
+cedfad9ced72fc Paul E. McKenney      2025-03-31  34  	bool initialized;
+cedfad9ced72fc Paul E. McKenney      2025-03-31  35  	unsigned long interval = READ_ONCE(rs->interval);
+cedfad9ced72fc Paul E. McKenney      2025-03-31  36  	unsigned long j;
+cedfad9ced72fc Paul E. McKenney      2025-03-31  37  	int n_left;
+5f97a5a8799b8d Dave Young            2008-04-29  38  
+edaac8e3167501 Ingo Molnar           2009-09-22  39  	/*
+cedfad9ced72fc Paul E. McKenney      2025-03-31  40  	 * If the burst or interval settings mark this ratelimit_state
+cedfad9ced72fc Paul E. McKenney      2025-03-31  41  	 * structure as disabled, then clear the RATELIMIT_INITIALIZED bit
+cedfad9ced72fc Paul E. McKenney      2025-03-31  42  	 * in ->flags to force resetting of the ratelimiting interval when
+cedfad9ced72fc Paul E. McKenney      2025-03-31  43  	 * this ratelimit_state structure is next re-enabled.
+edaac8e3167501 Ingo Molnar           2009-09-22  44  	 */
+cedfad9ced72fc Paul E. McKenney      2025-03-31 @45  	if (burst <= 0 || interval <= 0) {
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+unsigned can't be less than zero.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
