@@ -1,203 +1,175 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEABA24EF8C
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Apr 2025 15:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945121EE7B1
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Apr 2025 20:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743693260; cv=none; b=nSo7Ck117hs+FSHvoC7mKOwPDGoOOgRCl6wf7JAy0aVtzB6tZ9NNVSQ/GmYWLES7q4KTeThBzN0OASW7oo7TIM6//SfD3KWEcVGF4cu74RQWf9E7Trv1TFXSHWQN8Z7obVW/xsxKp1belFZct18XTiQBokm8gzRYSSOdiCAgevI=
+	t=1743713960; cv=none; b=INufbX18IjbL10BghoMpcTPTlbOxvlWtsIOJESWfOS36Km9xVBz3Izkp8h120V6xCVMHXm81trpzHQHNfVKJmvKhzzVfJRWmPcmxaTpbGqk3M0TuOJkmfqzDVgDJgFHRY83zCYR8JNdhYdv/iOxfmDctOSwgpF2La9LRIdwAFys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743693260; c=relaxed/simple;
-	bh=Bg+dtnYpl2VdhNpsVZPf6Taz3ai8xl6l07TTWY3wZo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5vhlvaNZYF2BPbbMiBdKMfytJCTKOnX8s6TbiYpJD+1fO268F532uxacozCeEvT6lqN+jVzdXUWNtLSkqp+Jc9BEuJFhb6wiFnlBbQJ5vpwZdsxSOg45YOxaCogelwk+IQ2cIxUrJlJKHhqa/IgaKg/ib1YLhx5uUfArfFsExY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y+FRCkt0; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743713960; c=relaxed/simple;
+	bh=a0P1Ypvcm7vsNFG9CyYoKGQYsQ55XPGkbHxldE31IGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hziuflwc6udKFn7IC6B4zbDDlKaJvLJ6Qwms1QOVYmCstlW9oZJqmMQ9cLompZi02LQflH83exD1vq4vVCkBChhkeyHhhgdt+LVx9AWsObh2lwwDHF6AeE0C6mfYVXYadwIucpf3d8gmQKKKGlbQumcBT27P7EZ2/05waHcPq+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dj33VQGJ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y+FRCkt0"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c266c2dd5so904016f8f.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 03 Apr 2025 08:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743693256; x=1744298056; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zesTfvhE2YJxqZrUkOmQImcB4JZs5LCDw+hQnMIH21A=;
-        b=Y+FRCkt04/mtMRhRsB/bscdRm09FTc/1qxeIM96QDjdEMciCVXEGJx3lmoBxzteKdE
-         mcxTkrEVGByNwuRW2qr9RvSVvMvZw9m1Ik1SzcGoVj2UEeHeAMe+h3i4l6jYjvD9Wr8x
-         U1WeJ7OE4d/FjNUyuZGXqq9vDUI9Qd4vbalxcrL5cUGA5+kosSlw3spVbfSwNIGyaU9V
-         9n+TgRya5Qb2fkkXHKseu3vgZQy1Oca1EXi/sZl41gDU0mOnndeN6ni/HSnkMkfS7KKX
-         OxCx4Ygq+yF0oNV2vMZ6l3AZK8Tz9CY7IL8rGl6SuEZVHQ0j79kHqqMZWI8TyT/tX837
-         vKng==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dj33VQGJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743713957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=okPcXkwc0pba7YOQSP6Wfu/C299mxzOOCAmFdcpAZ/U=;
+	b=Dj33VQGJ8EsjGMBUX/RFDVOL6L/0gdLlHXv8Badr8bB0hUckz/GpBrAFGRLCOpTU/udbc9
+	tOirRac6rrmo99BRNJIVOy3A16Kc6GB7aGgghMVBbIwL1m4SUoKWNwaq1C9l9V+gUoJRKE
+	vS3aQ2e/gYOxhInlZ5hcONYwckLLhM0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-122-yg3P_oPtMXi81pONoEkjMg-1; Thu, 03 Apr 2025 16:59:16 -0400
+X-MC-Unique: yg3P_oPtMXi81pONoEkjMg-1
+X-Mimecast-MFC-AGG-ID: yg3P_oPtMXi81pONoEkjMg_1743713955
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-39c2da64df9so1015172f8f.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 03 Apr 2025 13:59:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743693256; x=1744298056;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zesTfvhE2YJxqZrUkOmQImcB4JZs5LCDw+hQnMIH21A=;
-        b=pCAOZtlnzszvsifoychqKccgyk6Vo41JZgRRmuLOo19pwBfVPgDk51a2a9ZeML2/z4
-         kaOx1SfclGpyLzUDC7Xa6aExgKtH8L5sNFkESuhE84uEr3+1u1EySsMOaZeX8WvdficH
-         QM2+RI+Hcyf0RWSsOIyiajibgwx8UIaZm+xvt6i8e6DTSEkYMU8mr0y8/CzH5QGlo8wT
-         yNBoHsWHAZkU9REQraUjmdFOkORqQXzdcCi7CNnRqbWi6Pb3oxeyPlc7KDzzpKeq8K8/
-         gia4scre4TQ+YI57f9gZiZD6HpxOFCDdCAyjGPUCluxjiqkm4APOQZGyuWi5eZ2LRMEI
-         wDBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbUp0u3/zfniSlpKcsWClWyuNKgtfmc22YwbFtqdU9yejanoChuRINV6kttZUSuBJr2ND5fu36mCc=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmgOl2ZeCwgETT1iwowlXCHehYtcd9sQaQsqiPciAPAuWZUQ26
-	6V4aQdv9ZEG4tbb6RIEmlolh5oyyA5oGLNK+kibXGvbWoGXKuIPLSrR/5rBWBBo=
-X-Gm-Gg: ASbGncsmllRbpj4TbLris316oIu2Uy/mbRFAhUqTnGTZbljVKoPP6gFNnwbmptxn7vf
-	BB025M7dEyr88xxotCOhey39bwB/UCNJkMcbDXySdg7QTmlnEOAMnOEPZ3s43P+Aej90h78RA+j
-	n+8mLQ3dyG8AttDZ/dYeWur9XFEaolDnSNEa1KUebyeVvd5qykd4o/yLEgPujq+QvyJHmKoCj8L
-	gZ3oaTi/a2JcH4xVlLzh+NBDGudA+azHlDDAsZTgVXaDe95Jhp5LNKvB8WFmwC0olDr5eGha/0w
-	WYlgFFy7nB0oI/eT0njetWl2w2vqOkhOuWxEImeDHwdW5YoHlg==
-X-Google-Smtp-Source: AGHT+IFMCCjbDEb0ODe6Sl1fKegMQn7DnIEF6seKhoqCEcHbDlk903Mu/qkvcsEO6a7wEAqglg0Faw==
-X-Received: by 2002:a05:6000:290f:b0:390:f552:d291 with SMTP id ffacd0b85a97d-39c120dc53emr22332900f8f.22.1743693255931;
-        Thu, 03 Apr 2025 08:14:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c301a6796sm2085299f8f.31.2025.04.03.08.14.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 08:14:15 -0700 (PDT)
-Date: Thu, 3 Apr 2025 18:14:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: David Hildenbrand <david@redhat.com>, kernel test robot <lkp@intel.com>,
-	oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, x86@kernel.org
-Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
- copy_page_range()
-Message-ID: <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
-References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
+        d=1e100.net; s=20230601; t=1743713955; x=1744318755;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=okPcXkwc0pba7YOQSP6Wfu/C299mxzOOCAmFdcpAZ/U=;
+        b=qUO4G5tq1nMMVWy4mxbcBJuK7GydAGwnOUrffecYHMlbVC8p8UA/Mas7E949o+zu0I
+         VdJTziDCnIHCjesB9lD2cfFaNC0pP4bKbeEQiQ4rWdMBdAzBTWOB9HOP1akV7SUG08MK
+         7fUjU/CdNfaf8/FRSBxooT4EfzJrmx7h9bC8NeWxUXMQP0/n22mlROR55nk0gU8yoaUy
+         oGQBLgfOeKBoxLSX1SsvykcERaxzN6NuwFM5VWZrfKB/8jq51yaLmWYpJLmdspy827wW
+         t5A9WM2q8AGbYnm2wVvBrg//EF6LpF0NFBatB2ChlYvFBfApZhMzjWCnfRZ3J5Y130B9
+         LmlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrSEbtstnIdRYnGSvaAwt/8kvHunLUoL3vgP2aNLaONCe1otVZloNkz0NksPEm0S7TavRrIfSJN3I=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWfX2olTO0x67B42sbEFMiVUGkEHLF4N/PP5aIfwmxcZTN1WV1
+	AEMcGjsoSdduvzZmfc+7wzDv/R95u1Eoxr/Kb+KFmYbOamSoDIGIa86OM6MKbfaUVCdr4NReULE
+	AvGW1LpjwkRQSVsCdpioNPqc/P0C0vkl+mwePX44Fu4CCTTvmZ3/kEitJpw==
+X-Gm-Gg: ASbGnctW416/Tcyn5kKVS5RWvDGLDoTrhYLV5/LiC3gEDqdO+A5+kgk7p48MBE/RnzN
+	BLDEBGmkK8lllpEy84cJskhcIvmn97g9QMROhRaNQtkD4f0vVwBU8Lw3TPM2NSwVnbQULyVpx0w
+	6N24UlQ9ZdAkFyWnLwXqGPPjBpynRC2zWxKkedcEEDeOiXEbQPD8pEJtjo/arpu5Gxo0Lpe3mSe
+	V7NeXotTc4+d2itscF5SGJaR7Qy58dXkBsUefwqwgREA6Z+byLtNVnC9FzXtIrLmjdFDnflpHdT
+	TGv2Krxluwx4OOCK7brnCvrFxTbwMRRbCvVvsO9zSKCtrMC0wLygGoE5q3H1rEUHL5k+4c0LkJH
+	m6Kfpe7L0O0/q8hvGAkm/4JdeesCJKb04EiROa9rcRIw=
+X-Received: by 2002:a05:6000:23c2:b0:390:e1e0:1300 with SMTP id ffacd0b85a97d-39cba93cff3mr433663f8f.33.1743713954851;
+        Thu, 03 Apr 2025 13:59:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsWOY+2shD/NONc8uSSm4VliRSdcVCeRxk5qB7v8EplW3KLanR1fhTMZTqT4/Mlb1KdWPuEw==
+X-Received: by 2002:a05:6000:23c2:b0:390:e1e0:1300 with SMTP id ffacd0b85a97d-39cba93cff3mr433646f8f.33.1743713954396;
+        Thu, 03 Apr 2025 13:59:14 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:7b00:54a7:eb96:63bc:ccf4? (p200300cbc70a7b0054a7eb9663bcccf4.dip0.t-ipconnect.de. [2003:cb:c70a:7b00:54a7:eb96:63bc:ccf4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a7586sm2752181f8f.38.2025.04.03.13.59.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Apr 2025 13:59:13 -0700 (PDT)
+Message-ID: <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
+Date: Thu, 3 Apr 2025 22:59:12 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
+ copy_page_range()
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
+ Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ x86@kernel.org
+References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
+ <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 3XesaGILqU-7-rJgJUeFsgyxuXtQPe8RdAB9cA9vfwE_1743713955
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sorry, I've been having trouble with my email recently...  I replied
-earlier but my email got eaten on the way out.
+On 03.04.25 17:14, Dan Carpenter wrote:
+> Sorry, I've been having trouble with my email recently...  I replied
+> earlier but my email got eaten on the way out.
+> 
+> What happened here is that the zero day bot emails go to me first and
+> then I review them or forward them depending on if they're a real
+> issue or not.
+> 
+> Here it's a false postive because it's set and used if the
+> (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
+> this correctly.  I've been meaning to fix this in Smatch for a
+> while.
 
-What happened here is that the zero day bot emails go to me first and
-then I review them or forward them depending on if they're a real
-issue or not.
+There is a slight complication (on top of the VM_PFNMAP checks):
 
-Here it's a false postive because it's set and used if the
-(src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
-this correctly.  I've been meaning to fix this in Smatch for a
-while.
+If "src_vma->vm_flags & VM_PAT" we
+* set pfn
+* set dst_vma->vm_flags |= VM_PFNMAP
 
-But these days more and more people are using lei and b4 to get their
-email so they see the unreviewed Smatch warnings.
+Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
 
-regards,
-dan carpenter
+While we won't be using the uninitialized pfn (good), we'd still pass an 
+uninitialized pfn, which IIRC is UB; likely nothing happens on GCC 
+clang, but we better handle it.
 
-On Wed, Apr 02, 2025 at 12:37:24PM +0100, Lorenzo Stoakes wrote:
-> Bcc:
-> Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
->  copy_page_range()
-> Message-ID: <0f94adaf-37a4-4d38-b952-01c2dc474a2c@lucifer.local>
-> Reply-To:
-> In-Reply-To: <b21bcd61-faf0-4ad8-b644-99794794594f@redhat.com>
-> 
-> Actually let me +cc a few more so this isn't lost further :P
-> 
-> On Wed, Apr 02, 2025 at 01:32:52PM +0200, David Hildenbrand wrote:
-> > On 02.04.25 13:19, Lorenzo Stoakes wrote:
-> > > On Thu, Mar 27, 2025 at 09:59:02AM +0800, kernel test robot wrote:
-> > > > BCC: lkp@intel.com
-> > > > CC: oe-kbuild-all@lists.linux.dev
-> > > > In-Reply-To: <20250325191951.471185-1-david@redhat.com>
-> > > > References: <20250325191951.471185-1-david@redhat.com>
-> > > > TO: David Hildenbrand <david@redhat.com>
-> > > >
-> > > > Hi David,
-> > > >
-> > > > kernel test robot noticed the following build warnings:
-> > > >
-> > > > [auto build test WARNING on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
-> > > >
-> > > > url:    https://github.com/intel-lab-lkp/linux/commits/David-Hildenbrand/x86-mm-pat-Fix-VM_PAT-handling-when-fork-fails-in-copy_page_range/20250326-032200
-> > > > base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
-> > > > patch link:    https://lore.kernel.org/r/20250325191951.471185-1-david%40redhat.com
-> > > > patch subject: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in copy_page_range()
-> > > > :::::: branch date: 31 hours ago
-> > > > :::::: commit date: 31 hours ago
-> > > > config: hexagon-randconfig-r073-20250327 (https://download.01.org/0day-ci/archive/20250327/202503270941.IFILyNCX-lkp@intel.com/config)
-> > > > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-> > > >
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > > | Closes: https://lore.kernel.org/r/202503270941.IFILyNCX-lkp@intel.com/
-> > > >
-> > > > smatch warnings:
-> > > > mm/memory.c:1428 copy_page_range() error: uninitialized symbol 'pfn'.
-> >
-> > Huh,
-> >
-> > how did the original report not make it into my inbox ? :/
-> 
-> Yeah it's odd... maybe broken script?
-> 
-> >
-> > Thanks for replying Lorenzo!
-> 
-> NP!
-> 
-> >
-> > >
-> > > I have a feeling this is because if ndef __HAVE_PFNMAP_TRACKING you just
-> > > don't touch pfn at all, but also I see in the new track_pfn_copy() there
-> > > are code paths where pfn doesn't get set, but you still pass the
-> > > uninitialised pfn to untrack_pfn_copy()...
-> >
-> > If track_pfn_copy() returns 0 and VM_PAT applies, the pfn is set. Otherwise
-> > (returns an error), we immediately return from copy_page_range().
-> >
-> > So once we reach untrack_pfn_copy() ... the PFN was set.
-> >
-> > In case of !__HAVE_PFNMAP_TRACKING the pfn is not set and not used.
-> >
-> > >
-> > > I mean it could also be in the case of !(src_vma->vm_flags & VM_PAT) (but &
-> > > VM_PFNMAP), where we return 0 but still pass pfn to untrack_pfn_copy()...
-> >
-> > I assume that's what it is complaining about, and it doesn't figure out that
-> > the parameter is unused.
-> >
-> > So likely it's best to just initialize pfn to 0.
-> >
-> > >
-> > > This is all super icky, we probably want to actually have track_pfn_copy()
-> > > indicate whether we want to later untrack, not only if there's an error.
-> >
-> > Sounds overly-complicated. But having a pfn != 0 might work.
-> >
-> > > > Will comment accordingly on patch, but I mean I don't like the idea of
-> > us
-> > > just initialising the pfn here, because... what to?... :)
-> >
-> 
-> Sure, I mean for all of above let's have the debate on the main patch I guess so
-> it's in one place...
-> 
-> > Stared at that code for too long (and I reached a point where the PAT stuff
-> > absolutely annoys me).
-> 
-> But, also lol. Can. Relate.
-> 
-> >
-> > Thanks!
-> >
-> > --
-> > Cheers,
-> >
-> > David / dhildenb
-> >
-> 
-> Cheers, Lorenzo
+So that should better be changed; I'll send a fix.
+
+Thanks!
+
+-- 
+Cheers,
+
+David / dhildenb
+
