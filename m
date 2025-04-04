@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656661E1DE2
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A238B1DDC29
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743769263; cv=none; b=U/7fQuO4t62xt/tY4djGJNNospopjQR3v+tXcgMxYMtaugz5LyYB+V1A+WTOWGVRdcRPXFm0ANdlRTFwjDKhw4RD96gmzBvdkMRXsew5phgxJVDLfO7GP5LUKidW9GMGUfTuHw0AuD4zX2oUO1ENrVFiptP/dLdVgnLdgOPXyi0=
+	t=1743769655; cv=none; b=Yi9X/PP5TpBDhIChD73mbvbRHrxdEj9dmXcoAhOiz/XG4ddQ3m/GEVH0S21dvdlDRWtEDyCeff1eZNG+3D3O4akmuRgp5QRwJ/uHYwsIfewC2cePMCuyeXryGzPIHzx716XJNMmGkjhNtZ0YbQp0LG1BBMNogpNW2RG7vgDgGj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743769263; c=relaxed/simple;
-	bh=ALnNmdCEbY92eNfnBFg426mUkeeRgyu+A9JRnKWfamU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VxMBuD5l+7GwAXxyks7hOZaAZyzz73+4pbpmV0hfIc/pwjzOfAy1VvrUK+BVIzGdHrxyczpC+UmYpIkTKpuuSEMvW3Vfn7tmOir6vehSZHvwNjshdJtWu0le+Ht2CTdhnqfkJsbC17VZbMN4NevSXygCANKJoNSzFxernoN1lUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZFl3b783; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1743769655; c=relaxed/simple;
+	bh=S9+fW9jDaiGWggO/G99OVpMxjxgFEh1PJM5b81cf49Q=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=r+Jl7IA3zajVputnjdQi8k+gdnq/X+vPRDTXSC+QAlQFX6guDdlyFutscHqsm81/lFeHpldbELfqNRDfWIaqmmPfmCT4PRBl3Hpwlp9x9jdDfQ6LP0aY6ArVaQbhziq5Vlf6qd/fmNtl1L9vo3P8NeUVJh7748WAja+B36TVCGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=edDZDXOf; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZFl3b783"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="edDZDXOf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743769258;
+	s=mimecast20190719; t=1743769652;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VIhuCyeDrsmnPnB8pGt8PLSgdLaa+nCdx1GzcqoTy0s=;
-	b=ZFl3b783MGsztyb/RpjO8O0+rdLborbaakN0tfuhXFnl0qNn2QuI14tqqQesiFOElppw0n
-	RYkfmEblCpBclQGtZwMp69qYI86mVVTF6N1ZzFjFF53yLebHxld2OUUbiTc+oShxX+fgI6
-	oNdXPLme5nQd93ivBPXKe0AWpzhk0Gk=
+	bh=GLwMeURzuMh3nERtIkv27OCcHdi53UzzaDVQnEDcAlU=;
+	b=edDZDXOf3qwfYvkbZGd1SubPW9pt8EylSrn2K9waoBguFiHeizXOqd7e6feHcioT2QBylo
+	qUERo51pqPCHj4QAsn5OEzTT96QBlg3mes1waI+X4otvjHqBRXYlssMfy7CO6/uDsJHFu+
+	sLbpzqBl7Mdx/hN4x3bruhRwFHZ1xyA=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-14-O8_uGDHZPxyHrUvU67UUkQ-1; Fri, 04 Apr 2025 08:20:57 -0400
-X-MC-Unique: O8_uGDHZPxyHrUvU67UUkQ-1
-X-Mimecast-MFC-AGG-ID: O8_uGDHZPxyHrUvU67UUkQ_1743769256
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3913f546dfdso1161490f8f.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 04 Apr 2025 05:20:57 -0700 (PDT)
+ us-mta-650-HjkdgYESN3KVM_HMTfKong-1; Fri, 04 Apr 2025 08:27:30 -0400
+X-MC-Unique: HjkdgYESN3KVM_HMTfKong-1
+X-Mimecast-MFC-AGG-ID: HjkdgYESN3KVM_HMTfKong_1743769649
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-39126c3469fso903706f8f.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 04 Apr 2025 05:27:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743769256; x=1744374056;
+        d=1e100.net; s=20230601; t=1743769649; x=1744374449;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
+         :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=VIhuCyeDrsmnPnB8pGt8PLSgdLaa+nCdx1GzcqoTy0s=;
-        b=vZWCi+ttshHLNKrFQLpWTpbDZLY6Ak4cmXwmRL8iulAAtZVqbUODys/osYujC/UIaM
-         L9TgeNnq4mLz6bY/Nb41r07pjbBBoNUuJccuSXGT3TDWdAZA0qwc26EgJOajOh0pmYqX
-         iFZEquzqNbMaB2QluvKUw0vWn7iWmF/mPT1ZF6lf+UVei4ANiJN2W67a3ovAnMS2mL9D
-         ZgVuyegabiZRe6I0THpPs9SQeS6u6bL4WgooffR6C/13iTJTb2XA0T9Fut4CnhnYxM6D
-         6U8b7RP3K1/0ss2NEkWjHnm7p1V+HPZ8VVUCDL70f4/mzpBEyfhNNaENDzrAIBzpAm+E
-         2UuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+TL/Ja6RhXX4R7G/su6FRzc5Z/iBInu4F0NeB5hagJh5VSzdDWAUCKFyFe1q/5Ir9N6g9nJPY5sQ=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzrwexh4HaphztAmwc5usiG/wTBdFqQYU2WKdSJIu56GL/APWNm
-	S9SDDM5DlobclTX7scfxREo1bpnHnXGQE0QPibZicqx1OlDnX5e3zpQhs75tNlb43/o2qPEUqUL
-	Ao2hnftMe2yPScTkCxtzY1bqb2uj+QmoQOtddBkg80/T0EvwaJ2Bv8kWqKg==
-X-Gm-Gg: ASbGncso7r/R3iUzLHe7+gIQdBZljXhFsGFT34Ypl22SwFBXpMNqPgOMwze/HcieKq1
-	s0cq0FIpEdql6mzZrNK3vFYgFc0y733K2svzHaGk2WX2a33FcgQ5A2f4Ar8Mkwb4Ej3HrOHMOou
-	ALeoeA7xmVAbqSNrI+3p67UiaB3YRjoOQfcYIax6aSygoij576kw7xbDDHMbogq7NAVhqqQQ64f
-	PoAhekkDjfYgIFVsmSfUoyO/6lS/+w/ed4cBT5TEKP6ql/4NSBep7girM4nz8Mfh7TN2VPbiD9/
-	UT1A1ZOX1iGnRSPXt7loXCAMpHX8hMUuhYhkuD7VEB7qbBWN4k1gL8ju2wov7mjj2/fDKRvjUQ2
-	Cluiy+CRTFDMGffTnxu2Eo7iFM0SHMlExpdHE+mVufDU=
-X-Received: by 2002:a05:6000:22c6:b0:39c:1efc:1c1c with SMTP id ffacd0b85a97d-39cb35b38b6mr2772408f8f.34.1743769256218;
-        Fri, 04 Apr 2025 05:20:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxAz0EVhDE9pl7+g3KgrnsgGbNPVPUInVovmdboQhXyfEyTXXaCK1I1dauswN4Z0E48Gi3bg==
-X-Received: by 2002:a05:6000:22c6:b0:39c:1efc:1c1c with SMTP id ffacd0b85a97d-39cb35b38b6mr2772377f8f.34.1743769255749;
-        Fri, 04 Apr 2025 05:20:55 -0700 (PDT)
+        bh=GLwMeURzuMh3nERtIkv27OCcHdi53UzzaDVQnEDcAlU=;
+        b=VxtJlpH6ABQ5jAXvHNF1g4glALUWWhssUvKgLJnjsnY91h9wAl5aGuzqiEWbpgqV3u
+         aNnQIwBQI6VMzM4p62CWGvkHL33kMDbD5CPLfjJWzGz7J9nhplkVm8ldF3lE/C1tyhyx
+         Cst32jjT1NYlZTFVoEN/diGAwVpRv/pTgV/voQqDa1B+Y382hMZSjjmffSDJuenEg1n/
+         OkgNyjQwL/rcs6QofIeCgxEAlpiip/IkVk6F4VEgRitDqzCckzI/wLtdaYOzBaT0JY3j
+         bo9VXEMoEdQwu9fqpudEL0GOycDEKeo448D0JJlbCQBmiSzcjvHhAsfpXpKuSK5xrYzT
+         97oA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVWLJxEvrWSGTI527agVa0LJqt7x54dFvvmPaMeo6MBMhABpP890GbR07N3Rx15rKhtFMEa95WzWo=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyULJzgepK7lbLnKWO6Lx267Kx2sKErMUKoXs0iVBHRmAOg+HBC
+	aNxgL6752hkrRJl/+lDLaQdzJ65jibhVxII/fekaodOK5AnB63GnnqDpi1CrOa2ZAdxL47Dw0pC
+	/42UOjJ33dfNh+9189/KORP0+LR44hCgNKLug1sP1RIPDGDAEEBltEL+u3A==
+X-Gm-Gg: ASbGncuhBKolgVk4YMPSCDofU3UoEdSK/hSmQKWkD74ennI5l8UOSO5mJWXsplZ1UpR
+	Y4XH6i9gnVBuDBq8Sjnc3rA12hJpfB+Z3PLHW+QrzIuKj8wql41/b7ObGSxA40FgU11Mgmk/BmJ
+	HzK4f3+mj9d2/8JMY0EXAjZqppRrUGXicx/CRRK1Yc1IokkhH897mv9FN3Y5a5KJP6Oq6LXDo7g
+	/tE+fcaTEq/WA2Hjq/C7DqovXHK8npZtfUwP8WIiZi9j1dLR/N/tUziAke71SCHgDsPPXhmro1M
+	aCGB48LSZnCzpu8o9uTNBsYCl0d/pTUmwzsFplHLO1Zy0n88T/B6CAkMWvlS0m36JCLMFAMLU9Q
+	GYeoitb3CQO5FUOQT5gq5MDrey7DiFdBhwWG1uSnx7sM=
+X-Received: by 2002:a05:6000:4210:b0:390:e1c5:fe2 with SMTP id ffacd0b85a97d-39cba975cb2mr2102799f8f.38.1743769649194;
+        Fri, 04 Apr 2025 05:27:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHDaeuJ+2foR+W6LwpzdkHucTnoX0fNEEY1FkOxSODlHwM7VGi2JXLd91UUY8W5456NWELZiA==
+X-Received: by 2002:a05:6000:4210:b0:390:e1c5:fe2 with SMTP id ffacd0b85a97d-39cba975cb2mr2102778f8f.38.1743769648811;
+        Fri, 04 Apr 2025 05:27:28 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c71b:7900:8752:fae3:f9c9:a07e? (p200300cbc71b79008752fae3f9c9a07e.dip0.t-ipconnect.de. [2003:cb:c71b:7900:8752:fae3:f9c9:a07e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a6796sm4297167f8f.31.2025.04.04.05.20.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096964sm4271241f8f.15.2025.04.04.05.27.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 05:20:55 -0700 (PDT)
-Message-ID: <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
-Date: Fri, 4 Apr 2025 14:20:54 +0200
+        Fri, 04 Apr 2025 05:27:28 -0700 (PDT)
+Message-ID: <18abdf06-9d45-42bf-b666-af1a416bf2a6@redhat.com>
+Date: Fri, 4 Apr 2025 14:27:27 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -77,6 +77,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
  copy_page_range()
+From: David Hildenbrand <david@redhat.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
  kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
@@ -87,7 +88,7 @@ References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
  <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
  <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
  <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
+ <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -133,132 +134,51 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
+In-Reply-To: <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rRS-EebevD67eUKD6NQVCLa7jbm1fkkJvfOEhnFIQ-w_1743769256
+X-Mimecast-MFC-PROC-ID: omaZhSGhQQJ7whvigPBW9n5yBPUKES0gJUbPZt5vfIg_1743769649
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04.04.25 13:52, Lorenzo Stoakes wrote:
-> On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
->> On 03.04.25 17:14, Dan Carpenter wrote:
->>> Sorry, I've been having trouble with my email recently...  I replied
->>> earlier but my email got eaten on the way out.
+On 04.04.25 14:20, David Hildenbrand wrote:
+> On 04.04.25 13:52, Lorenzo Stoakes wrote:
+>> On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
+>>> On 03.04.25 17:14, Dan Carpenter wrote:
+>>>> Sorry, I've been having trouble with my email recently...  I replied
+>>>> earlier but my email got eaten on the way out.
+>>>>
+>>>> What happened here is that the zero day bot emails go to me first and
+>>>> then I review them or forward them depending on if they're a real
+>>>> issue or not.
+>>>>
+>>>> Here it's a false postive because it's set and used if the
+>>>> (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
+>>>> this correctly.  I've been meaning to fix this in Smatch for a
+>>>> while.
 >>>
->>> What happened here is that the zero day bot emails go to me first and
->>> then I review them or forward them depending on if they're a real
->>> issue or not.
+>>> There is a slight complication (on top of the VM_PFNMAP checks):
 >>>
->>> Here it's a false postive because it's set and used if the
->>> (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
->>> this correctly.  I've been meaning to fix this in Smatch for a
->>> while.
+>>> If "src_vma->vm_flags & VM_PAT" we
+>>> * set pfn
+>>> * set dst_vma->vm_flags |= VM_PFNMAP
+>>>
+>>> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
+>>>
+>>> While we won't be using the uninitialized pfn (good), we'd still pass an
+>>> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
+>>> but we better handle it.
+>>>
+>>> So that should better be changed; I'll send a fix.
 >>
->> There is a slight complication (on top of the VM_PFNMAP checks):
->>
->> If "src_vma->vm_flags & VM_PAT" we
->> * set pfn
->> * set dst_vma->vm_flags |= VM_PFNMAP
->>
->> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
->>
->> While we won't be using the uninitialized pfn (good), we'd still pass an
->> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
->> but we better handle it.
->>
->> So that should better be changed; I'll send a fix.
+>> Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
 > 
-> Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
-
-I'm planning on doing the following, just didn't get to testing it:
-
-
- From d340fac886c4a15d39d8e963aa8c647b19589413 Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Tue, 29 Oct 2024 22:03:31 +0100
-Subject: [PATCH] x86/mm/pat: (un)track_pfn_copy() fix + improvements
-
-We got a late smatch warning and some additional review feedback.
-
-	smatch warnings:
-	mm/memory.c:1428 copy_page_range() error: uninitialized symbol 'pfn'.
-
-We actually use the pfn only when it is properly initialized; however,
-we may pass an uninitialized value to a function -- although it will not
-use it that likely still is UB in C.
-
-Fix it by always initializing pfn when track_pfn_copy() returns 0 --
-just as documented.
-
-While at it, clarify the doc of untrack_pfn_copy(), that internal checks
-make sure if we actually have to untrack anything.
-
-Fixes: dc84bc2aba85 ("x86/mm/pat: Fix VM_PAT handling when fork() fails in copy_page_range()")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202503270941.IFILyNCX-lkp@intel.com/
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Rik van Riel <riel@surriel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  arch/x86/mm/pat/memtype.c | 4 +++-
-  include/linux/pgtable.h   | 5 ++++-
-  2 files changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
-index 72d8cbc611583..9ad3e5b055d8a 100644
---- a/arch/x86/mm/pat/memtype.c
-+++ b/arch/x86/mm/pat/memtype.c
-@@ -992,8 +992,10 @@ int track_pfn_copy(struct vm_area_struct *dst_vma,
-  	pgprot_t pgprot;
-  	int rc;
-  
--	if (!(src_vma->vm_flags & VM_PAT))
-+	if (!(src_vma->vm_flags & VM_PAT)) {
-+		*pfn = 0;
-  		return 0;
-+	}
-  
-  	/*
-  	 * Duplicate the PAT information for the dst VMA based on the src
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index e2b705c149454..9457064292141 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1517,12 +1517,15 @@ static inline void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
-  static inline int track_pfn_copy(struct vm_area_struct *dst_vma,
-  		struct vm_area_struct *src_vma, unsigned long *pfn)
-  {
-+	*pfn = 0;
-  	return 0;
-  }
-  
-  /*
-   * untrack_pfn_copy is called when a VM_PFNMAP VMA failed to copy during
-- * copy_page_range(), but after track_pfn_copy() was already called.
-+ * copy_page_range(), but after track_pfn_copy() was already called. Can
-+ * be called even if track_pfn_copy() did not actually track anything:
-+ * handled internally.
-   */
-  static inline void untrack_pfn_copy(struct vm_area_struct *dst_vma,
-  		unsigned long pfn)
--- 
-2.48.1
-
-
+> I'm planning on doing the following, just didn't get to testing it:
 > 
-> I mean the patch is already upstream at dc84bc2aba85. So I guess these fixes are
-> intended for rc generally?
 
-Yes.
+Ah, now I get your comment. Yeah, we could just set pfn=0 in the caller 
+as well to make smatch completely happy I guess.
 
 -- 
 Cheers,
