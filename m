@@ -1,318 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DF216132F
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 09:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743759491; cv=none; b=jVSGhao8N5hUc2D1v1uqV4t3CD9wB0yHgozlrtdnCBt2BEZg5eKmkObjEcMjtYgoaHhoBhhHW/tmV7gBQEGVqaKhQhyhYfLzhltHJBLEUf/YTl8GGUufg4Re7AZA3nldXnO+E/jG9+RAQHiwuTncTF7d/Wn97VA/BY0zPUR1dVo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743759491; c=relaxed/simple;
-	bh=cDnVKyezGOqltIMi0+T81ldPRnPV+i5Gh+m0XMu2TFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hyVqsf2KxM2LQlhKfgfHvRnJU2ePtYB5/lDe329G21zbd2D+y4Ff3EBxzmOV+do9QHrD0wuW6LwIQntb9K06IOTXeA9fbmlll5Nwuce9i5DtBXQ/jSBuzm+/q+lCVxy2at3iHMzZ+AoThDDBfEzwRthobBAu9fX5bC7ga58Y630=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUO0vayb; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C0C1DF721
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 11:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743767572; cv=fail; b=DRq4g/tWCIQ69W0m4sle2/Uc5fIntc1DL4lpAEXekuUapUHXmTh+MZrrJeZYCSeSO6b5ofACOPUwN4UPWB4WR4pbLQcHmvlEnhUZvpOf+DpMYOiYSAA0p9qrtiCZEh955e8LJdvLvs6sxjAbBJgHvEv+fu0Y+apj9cGXcUDUHvw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743767572; c=relaxed/simple;
+	bh=eCMMKylCk+f/L6efrHfAlkNOLb9YYcQTXvcw0V8oZ1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=rwgV0RDsjg+tHuul49R73GlEmRE052W2h+u/usslfZriZr6Ff3/vqocWIduvrSVo5coviWD8TSvrFa5PgWNes4qAnYjCZK9Ada5NGrH0Q1b523LSQUe160zle/XDI9RnGDR9vLi/l4yD8bvsTa3J8LSL1oRZ5l3aPD1yOv/+KwQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lq/Sis1A; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=KYJYY8KR; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUO0vayb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743759489; x=1775295489;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cDnVKyezGOqltIMi0+T81ldPRnPV+i5Gh+m0XMu2TFw=;
-  b=nUO0vaybdaCFzGLkgkvGSicrREbYZDqKrtZXOMVYdOa2Cn2dpwSJVK5T
-   NbC4Q9qOIyhxdyNel2BPJwKwUdajtqDxppSB7m31S0CbKOHJH8sb34Zep
-   xD4Lq/+bo1b5gnLEmP5uWEPJQaF8ZyLMCoXj22u7FQF78hqih3KYcdEMU
-   5N7kWqeDbgFdgYLh6X5/4WtUwxeMrpN1gGjiCHpRQXdL2BfSacoyylTgJ
-   6BtElWIRtU5+v05YBFu2BHNscFpXGg/t4nLgC65BRTjKVHfGr0vPTDb9P
-   Z6TQ1vP5L8/+5FdIMebNPJSk1uSJGp/NquEhw0eVX5xlaMGfkD71236cN
-   g==;
-X-CSE-ConnectionGUID: w59eVv1jSr+T1Usy+seVPw==
-X-CSE-MsgGUID: cCV75rEkRcyPcSb4IxogMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45079895"
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="45079895"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 02:38:09 -0700
-X-CSE-ConnectionGUID: HJMiJDC2SaKZ4+zFdEGl8A==
-X-CSE-MsgGUID: z8JgYqqXR+uhPt25NBZkVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="132238117"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Apr 2025 02:38:07 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0dUy-000185-2k;
-	Fri, 04 Apr 2025 09:38:04 +0000
-Date: Fri, 4 Apr 2025 17:37:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/mlx5/fs.c:2446 mlx5_ib_matcher_ns() error:
- uninitialized symbol '_val'.
-Message-ID: <202504041738.HLTp9IbR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lq/Sis1A";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="KYJYY8KR"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5348N4Ui009446;
+	Fri, 4 Apr 2025 11:52:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=iy/6hNBezHnAT9ePXs
+	+/gx1Gzq+QIZ2HugA8GuObGGg=; b=lq/Sis1AjTlcdQVgigpgSDd3C+ZdTKPoN5
+	SoQN7+Vc0mKLTRNhrb4J1Ot/eDPUSXLOLWCUQHart/3y9hMr7F6PvPMqenfJc9i8
+	QaaqI/88T7TT5PWTGC2w1mOD/qg3JpYPZ+e1Dt6dLA9n7mm2jbssZBvcRQSiyN72
+	B5bOGqykvhUnjtxjNPqDFA+7EE1NWHj6h0R5CI6y4NOneRzs910OXMpByDQUnHrV
+	P1Jz/kuq5WgiWqIhbE40PHKkO0DNcYBYJsKK8nxbMz3SGEt9ukJ+h5E9f8sa1ICB
+	6nKR9lZf7HJGO/o1JSBlZJk9dJoycLP56jnWuhByvaSNA4So0pcg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45p9dtpvrd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 04 Apr 2025 11:52:40 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 534B8a3q013862;
+	Fri, 4 Apr 2025 11:52:39 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45t31f5fkb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 04 Apr 2025 11:52:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D5qk6MG8kn2cQoWSxrOXQTZWii/r536Pjbug+ShKKf/VU5R0rzILDNnZg/eTkMvbw5ws6a5PZZjXzIn7Ys9uNYXUJxkTsTR4lK8b1mDBsOfnmeXnT+mds4xmW9Kfm50YBGa36znzyC2I8XMZIDfSxs/IbyJyyI0oAjqFkjuJwwZotkc0DSGRE5xqupAgH2B9sj2c2NAoEewPOSho+eOI9Dba3nSDpXnVDRVjACNqLKX2uK8OXldXtc6635Jy0RSGLMmjliZCM/gZKQSEzYrCjUUzbZf97DPhsdMuNNkAE/afvPmx7+nGwEa2HWcyMlOBaFEg6KCHaoLrOlBM7C6V/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iy/6hNBezHnAT9ePXs+/gx1Gzq+QIZ2HugA8GuObGGg=;
+ b=wcKf3C3SgST6bU95/lMwLSUe8h3FiE+MV/mL2/QRCFYejjC79dsTT2QeTSVOBwmS8y3jmNYttR0d0GRU3YsTVduUtC80zffVgPHam/XiBuxOOO3Ye4AjmZjwjR8CvnGd+3+FT6+PgfrV83xTUyNPWnkYGBo1ig+RQ95Shj6rkkLSd7RRIDJ6QiGTcV0scusOntvbdBXfrkNYRtqR/5iAjl6vrxZe2ffL+QYr82skAM2b4MjaG9GJSpZAPZFijNX0KWjsYo80PgnrSLuY7P0cf2rven4hrdX/7GlwtT6tiAVbRDe4Hi2/PY2/uF76TGGBZw6cGMxpTroHOy9U46zCuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iy/6hNBezHnAT9ePXs+/gx1Gzq+QIZ2HugA8GuObGGg=;
+ b=KYJYY8KRscJdrmBk1RGNJJjDfDQHaUr8P6QA4qVL4vnJfSR72WATXa3NRFLe6O1Y1It68HPFtHqk0uZ1sCFmi+CHIHXxHQZc8eJ5suQFnh/nE8sBVhRHBEb8NiEvbOjAMcga8VrmqcoudoRvL23XvwHoQhbtSOVwi3r09UlWB3M=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by DM6PR10MB4251.namprd10.prod.outlook.com (2603:10b6:5:21d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.27; Fri, 4 Apr
+ 2025 11:52:37 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%3]) with mapi id 15.20.8583.041; Fri, 4 Apr 2025
+ 11:52:37 +0000
+Date: Fri, 4 Apr 2025 12:52:30 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+        kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
+        Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>, x86@kernel.org
+Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
+ copy_page_range()
+Message-ID: <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
+References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
+ <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
+ <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
+X-ClientProxiedBy: LO4P123CA0404.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::13) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|DM6PR10MB4251:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ba5839c-d918-43a6-06ac-08dd736f3080
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3OaBO2oV3k7sRAZHu7hiN+044xdsmhjIB9yqca0utYWzureE1EgvoyzjDlvX?=
+ =?us-ascii?Q?jlgKYoQ5U6x8Bdom8UJCRnKK7eNOo1zKvMnHNiJy4BlqKhWRiUXDhyWuNQ6L?=
+ =?us-ascii?Q?nfrQa79dUHqycnQYQY8yokgA6MsBdNk0f6cPprbrnqVsDeNBZxXV1Hsz9H0b?=
+ =?us-ascii?Q?N1A0HIWp0RBymdAG02k3LIFPoTChqJg9pfhifOU2MtlgRoxBuftpqSA14N3y?=
+ =?us-ascii?Q?9rlCqBhwSc1PW68PZHhYsNGf32P+CexxE4gnulqLBlou++zVZpVpTy3wY6yI?=
+ =?us-ascii?Q?rf8ab1/G7K65MX13PstbFtnu63A8IVxhRTauAxrNN/WzCI+eoGF4Cos7SDSR?=
+ =?us-ascii?Q?BIT37VOLglk1Bagv90/I2A+xhucXQWjEWga2ZMlssJv6atDOhD4eXFJr9GiK?=
+ =?us-ascii?Q?/qfvdtaI4+2DDc+xY78CZYICsqrA0InrcUcpmvs6bRDrYGbWvYySWIw3I3Zy?=
+ =?us-ascii?Q?qVJFDaKGSpgjC878TF/anRhD0idkANcvkDvl2ib8V7nVALUWSdH5uvioC3sZ?=
+ =?us-ascii?Q?pUDU9zQzCwn4/TCUNdq5DXT2ixratwLXicoBRuCtfgtXfeeanOhgn89Q98+d?=
+ =?us-ascii?Q?UWEnU1V/k0IByyC3JpE7R2eyzCtq6CPPbXzmoQxLlc39j1UxXCn0DHS4xJVt?=
+ =?us-ascii?Q?bKoq/v61bjkrpYVxIw/qb8SN6MCHJZCP8/L+vVbEeLZITe14p+DdVmRy0Zg6?=
+ =?us-ascii?Q?ILPIPaQwrOExs/YU+gzdfhopV/CBWRAelD3cdtzcZiJ35zrJwUonYEepkiNT?=
+ =?us-ascii?Q?x55wda9p8U6of2RiPqw62fV0esKZyPPxvYTtyGsiZU+5YT6zHdV7wDl92aUW?=
+ =?us-ascii?Q?jn7t9ahJ7osrG46FucCW3EaogXYTnUQjgHSSiI8z6zy1rL/sLz+G3myKVfbX?=
+ =?us-ascii?Q?wQlm75IeemBHAvpYF+be2GlCKn3M51WEpCfFZ5k3nK5wME0C2uZtJa6gLTAu?=
+ =?us-ascii?Q?W98xq7NauTZ9GkwraqlcLsAHOcmmG5HkbHUYEViXOC9T7R2scwtke/ED7K6n?=
+ =?us-ascii?Q?DG4I5cup27i2oS034N+YiqToBWaBgw6zI+NFNkwPFUaY8LAEmK9SREXZcCjt?=
+ =?us-ascii?Q?iARWgGFDesxoAGLD3YH69hJ+9HPtpVbnv7PPeMgFFmPfcL4jHxV8dI1yOK3h?=
+ =?us-ascii?Q?XS2h3sYMIrggUw4ed7+VVmZvuzOhodBMheR8Ods2QVUivimq689KNkn1Rcvy?=
+ =?us-ascii?Q?8Hh/UeRpRC9MRlagw3c2hKqJaulexoseUOaHxiP9Gu7pKyV/6XEykXhYCQ2f?=
+ =?us-ascii?Q?TE1EtBOpIdg3ar/50IdYaWjZgPD4wIHd54mvwcogbvt4EXl4Eulyt5v+LVJU?=
+ =?us-ascii?Q?7cw1TIhrCGGFH6mwfz0gH0paMCXdgF5ii4RsFNlmZE8aA9G1Ju7LZl6CZQqS?=
+ =?us-ascii?Q?MAYkAN2oS1urdx11S3zMHU2YhyMI?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3PKCu8MakNf/K0PEgNdXENn+m45sEpoEhEyHP4yPiRwyGcQ6cz5NA0h84gE6?=
+ =?us-ascii?Q?jLOAug17/7TCg9EL5/UPUWPf4WMShHCYPZ15qlrpRXW7AxVLZLlsgMmbUZsH?=
+ =?us-ascii?Q?AEKInIvW1I5Xav0h567WfWGm4n+dfogpb/ICdEoHqEjSj4iCtc0rGxiA6lTq?=
+ =?us-ascii?Q?25YW4ahSljQqpeB/3nC/iWlCbsHLGsayPFF3jzOBB8zKrbu9+b72VLy9ZVeM?=
+ =?us-ascii?Q?gE7NsQH8510hKeuXLgDWK9qkjV76ob6H3IN5Q/xItrbR+0EPabZ2va9gBvx5?=
+ =?us-ascii?Q?m5NK2/eWPK+6kWj1+fZw1U/TC2JhbuhBFwZG+am8mVOAcDVMTJLy2CeE8/i6?=
+ =?us-ascii?Q?BeQV3EXdHtwHj/gW/p0Ekb+WK7dgReEP3tvzmUHTUQcbCZ80WZTwFre84TAc?=
+ =?us-ascii?Q?m8pH971Nats7v47o9jHVGOVm49PY2CITsLngMWvj38MkeL50Tuc/eAnkxL5T?=
+ =?us-ascii?Q?qZNn4Y61XATwsigWzFxhtZqG01e7ThxCXjDETH4UbWmEDSf0c7lbrlHuWfzL?=
+ =?us-ascii?Q?Nb++JeDxBiTObRlfJiJ/eVtX4hfRgQkCE/ddpgrlhxDYN3zKUzg+RH4u5fY2?=
+ =?us-ascii?Q?PLIQ1BL5baGV5wAmBds5TnYqeyxdfV1pjYnfm2U8DeBoprBAWZOmoG3csZJD?=
+ =?us-ascii?Q?cfyqMmCuhEp+xWNgNwmtCH/xwivZRbfGFLcRm/L+dTPGbdAKLIx3cRDAgCKB?=
+ =?us-ascii?Q?uUUc6NjUr7DljZysvCBSyAS2LLrLdrRLPP/LQQPMOu04g1jtBwnaAfbiAUAf?=
+ =?us-ascii?Q?SORRPuD1ociReMTGq4FbzjxePQk8swK4f27qoGMhcK8PKV81lfNFYiZPZyHM?=
+ =?us-ascii?Q?wTCIocGXIlFWP1pQDSoJFZ9J3JSd9Yo29UGuMUGrvLZCDjKRhMRHJjQon0PJ?=
+ =?us-ascii?Q?6dulH6o5yxgk8yDl8llhO+97qx9sGkt9jnVb4+AN/bSB4Sg9aA1JlMWRNQu3?=
+ =?us-ascii?Q?OaaYQ6g2xs2irYz8h1f0DV6WgSljl6+ioTVUh9fqF+ZbhGoFLKea8fewUGqm?=
+ =?us-ascii?Q?ZGMEqh2EFWWhwjzZRP0VZ+BrXX2c5iK6d5zRkJ85QY5Gio9T1hzf+S0PsubY?=
+ =?us-ascii?Q?x/x92iP3jQGlR7ljHNXVqFYg7Q7iM8cgwcPdRrtednTxQgaYLBJKOUjNre80?=
+ =?us-ascii?Q?8ttMQOnwnDDEm6Rp9+ElrFfLN/6K8IZElpKUS7o3QvsjtMDRHfMJQ5Tm8r5/?=
+ =?us-ascii?Q?dON5RnSFXTgxOVxUQMb2GZFWL2luepIa3ZNnBiwowQCoqSvtQxtoQ2FFynoi?=
+ =?us-ascii?Q?9zfPuFkkNcbc4WZ1NwHYIrYwrx3xxwGPq6h5h7BXSdHUrwvOX57Ftv3kx1uB?=
+ =?us-ascii?Q?JN4DBbwR7HADTL5aLQxZSqAwhD63yDZKUYf42Kq7QgRIWaB1iP5aL/gmc/lN?=
+ =?us-ascii?Q?Ox3a1I+sMvDSgKi+++F6sUMxyQyKlocuyPdNDqYcqgim6EqQg0lQU7Ruywot?=
+ =?us-ascii?Q?/kCL6aBayrOyTmsyv8lpzYQRwVLxZbSD9HoJTkhJm1NUFiEQRR5LXiapCupy?=
+ =?us-ascii?Q?Ch1+epkWN6hZHo+b2cipv5rkuykuVh7GOW/8xF53vO58VtwDh+Pwm7CCvUPD?=
+ =?us-ascii?Q?XO81stiOqTY/0Lve9Z6YVOXpwTL+FPU4BxzbpIQq8q4bsHXikNiDf0zuMhWw?=
+ =?us-ascii?Q?Og=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	GebyBYCGbALAHmBA9PUJNl0cReq+QL3T7NWUpVUvDch+eNRfdlqd/gqpdx17elcGrO9lq9HdyYbgZomC6P5zvtzhWxonhP7yp7DQOyNnObuDkKHg/0vSNi2JgMvYM72HvXMaHxJl77RRJ1zLkGq/M7wlLY9oFlE9YXvXurt3PflMDIENp189gXbf9wU96CPsWRcBMK231Zg+c+4NJ6KS754KAmOaMI3CfLjPHcZshOWGrUSuOPZ9VT0kch9ob1/jJXawd9RFV7M8YrHJ+ukxIVmnOdDkqyiqEuPBSjS/cW0Oe3wYEwWBzMBbomITOKvIjdFi9Df4UXU15Mh7yEqBIPjnQZsmzgLa/mroW/oOUgOP8HyH56RKc2hYEFIcy7PgUlDI9ABpDsulSwk2Hk0SMNbX0hn5BPyiAS22MvvjlZtFAQ4HBM7XRYYHhuczjDP8jKXO8DXDJ9RaX59UfIf7nAOekzLjraIoYrFWUW+B6nON2yiWu41HYqhJzIdAoFCZsb/LbQ6YiGbbvWWMM3xLE635nkn1DODdcoPdehTcVgdLEJUMENzk4/6Ov++q1ti1dD5lp372dxGOllmf2d6G5jOs8QGrv8VWXoUEDbkP8S8=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ba5839c-d918-43a6-06ac-08dd736f3080
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 11:52:36.9484
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hagiLu/MSEjbSlAnRV1E2GykxWuWdS8SDdP3MIcl46KIvrATV+3hC2LiUqv56CB/JOjdb872W28U+uii8quaE/yv9DXDWPpJyNV7O3Qa5w4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4251
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-04_05,2025-04-03_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
+ definitions=main-2504040081
+X-Proofpoint-ORIG-GUID: oqZoNkrS171IE_pys1YY_KlFdDz5-K9M
+X-Proofpoint-GUID: oqZoNkrS171IE_pys1YY_KlFdDz5-K9M
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Patrisious Haddad <phaddad@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
+> On 03.04.25 17:14, Dan Carpenter wrote:
+> > Sorry, I've been having trouble with my email recently...  I replied
+> > earlier but my email got eaten on the way out.
+> >
+> > What happened here is that the zero day bot emails go to me first and
+> > then I review them or forward them depending on if they're a real
+> > issue or not.
+> >
+> > Here it's a false postive because it's set and used if the
+> > (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
+> > this correctly.  I've been meaning to fix this in Smatch for a
+> > while.
+>
+> There is a slight complication (on top of the VM_PFNMAP checks):
+>
+> If "src_vma->vm_flags & VM_PAT" we
+> * set pfn
+> * set dst_vma->vm_flags |= VM_PFNMAP
+>
+> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
+>
+> While we won't be using the uninitialized pfn (good), we'd still pass an
+> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
+> but we better handle it.
+>
+> So that should better be changed; I'll send a fix.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e48e99b6edf41c69c5528aa7ffb2daf3c59ee105
-commit: 36e0d433672f1e65400d69e7eaf7150752c45e29 RDMA/mlx5: Compile fs.c regardless of INFINIBAND_USER_ACCESS config
-date:   2 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 weeks ago
-config: loongarch-randconfig-r072-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041738.HLTp9IbR-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504041738.HLTp9IbR-lkp@intel.com/
+I mean the patch is already upstream at dc84bc2aba85. So I guess these fixes are
+intended for rc generally?
 
-smatch warnings:
-drivers/infiniband/hw/mlx5/fs.c:2446 mlx5_ib_matcher_ns() error: uninitialized symbol '_val'.
-drivers/infiniband/hw/mlx5/fs.c:2580 mlx5_ib_handler_MLX5_IB_METHOD_STEERING_ANCHOR_CREATE() error: uninitialized symbol '_val'.
-drivers/infiniband/hw/mlx5/fs.c:2710 mlx5_ib_handler_MLX5_IB_METHOD_FLOW_ACTION_CREATE_MODIFY_HEADER() error: uninitialized symbol '_val'.
-drivers/infiniband/hw/mlx5/fs.c:2823 mlx5_ib_handler_MLX5_IB_METHOD_FLOW_ACTION_CREATE_PACKET_REFORMAT() error: uninitialized symbol '_val'.
-
-vim +/_val +2446 drivers/infiniband/hw/mlx5/fs.c
-
-e1f4a52ac171dd Mark Bloch        2023-06-05  2429  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2430  static int mlx5_ib_matcher_ns(struct uverbs_attr_bundle *attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2431  			      struct mlx5_ib_flow_matcher *obj)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2432  {
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2433  	enum mlx5_ib_uapi_flow_table_type ft_type =
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2434  		MLX5_IB_UAPI_FLOW_TABLE_TYPE_NIC_RX;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2435  	u32 flags;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2436  	int err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2437  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2438  	/* New users should use MLX5_IB_ATTR_FLOW_MATCHER_FT_TYPE and older
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2439  	 * users should switch to it. We leave this to not break userspace
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2440  	 */
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2441  	if (uverbs_attr_is_valid(attrs, MLX5_IB_ATTR_FLOW_MATCHER_FT_TYPE) &&
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2442  	    uverbs_attr_is_valid(attrs, MLX5_IB_ATTR_FLOW_MATCHER_FLOW_FLAGS))
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2443  		return -EINVAL;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2444  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2445  	if (uverbs_attr_is_valid(attrs, MLX5_IB_ATTR_FLOW_MATCHER_FT_TYPE)) {
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02 @2446  		err = uverbs_get_const(&ft_type, attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2447  				       MLX5_IB_ATTR_FLOW_MATCHER_FT_TYPE);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2448  		if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2449  			return err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2450  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2451  		err = mlx5_ib_ft_type_to_namespace(ft_type, &obj->ns_type);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2452  		if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2453  			return err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2454  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2455  		return 0;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2456  	}
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2457  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2458  	if (uverbs_attr_is_valid(attrs, MLX5_IB_ATTR_FLOW_MATCHER_FLOW_FLAGS)) {
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2459  		err = uverbs_get_flags32(&flags, attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2460  					 MLX5_IB_ATTR_FLOW_MATCHER_FLOW_FLAGS,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2461  					 IB_FLOW_ATTR_FLAGS_EGRESS);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2462  		if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2463  			return err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2464  
-c9776457bd5eaa Maor Gottlieb     2022-07-31  2465  		if (flags)
-c9776457bd5eaa Maor Gottlieb     2022-07-31  2466  			return mlx5_ib_ft_type_to_namespace(
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2467  				MLX5_IB_UAPI_FLOW_TABLE_TYPE_NIC_TX,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2468  				&obj->ns_type);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2469  	}
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2470  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2471  	obj->ns_type = MLX5_FLOW_NAMESPACE_BYPASS;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2472  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2473  	return 0;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2474  }
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2475  
-74934ddf124a6f Patrisious Haddad 2025-03-06  2476  static bool verify_context_caps(struct mlx5_ib_dev *dev, u64 enabled_caps)
-74934ddf124a6f Patrisious Haddad 2025-03-06  2477  {
-74934ddf124a6f Patrisious Haddad 2025-03-06  2478  	if (is_mdev_switchdev_mode(dev->mdev))
-74934ddf124a6f Patrisious Haddad 2025-03-06  2479  		return UCAP_ENABLED(enabled_caps,
-74934ddf124a6f Patrisious Haddad 2025-03-06  2480  				    RDMA_UCAP_MLX5_CTRL_OTHER_VHCA);
-74934ddf124a6f Patrisious Haddad 2025-03-06  2481  
-74934ddf124a6f Patrisious Haddad 2025-03-06  2482  	return UCAP_ENABLED(enabled_caps, RDMA_UCAP_MLX5_CTRL_LOCAL);
-74934ddf124a6f Patrisious Haddad 2025-03-06  2483  }
-74934ddf124a6f Patrisious Haddad 2025-03-06  2484  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2485  static int UVERBS_HANDLER(MLX5_IB_METHOD_FLOW_MATCHER_CREATE)(
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2486  	struct uverbs_attr_bundle *attrs)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2487  {
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2488  	struct ib_uobject *uobj = uverbs_attr_get_uobject(
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2489  		attrs, MLX5_IB_ATTR_FLOW_MATCHER_CREATE_HANDLE);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2490  	struct mlx5_ib_dev *dev = mlx5_udata_to_mdev(&attrs->driver_udata);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2491  	struct mlx5_ib_flow_matcher *obj;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2492  	int err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2493  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2494  	obj = kzalloc(sizeof(struct mlx5_ib_flow_matcher), GFP_KERNEL);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2495  	if (!obj)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2496  		return -ENOMEM;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2497  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2498  	obj->mask_len = uverbs_attr_get_len(
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2499  		attrs, MLX5_IB_ATTR_FLOW_MATCHER_MATCH_MASK);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2500  	err = uverbs_copy_from(&obj->matcher_mask,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2501  			       attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2502  			       MLX5_IB_ATTR_FLOW_MATCHER_MATCH_MASK);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2503  	if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2504  		goto end;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2505  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2506  	obj->flow_type = uverbs_attr_get_enum_id(
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2507  		attrs, MLX5_IB_ATTR_FLOW_MATCHER_FLOW_TYPE);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2508  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2509  	if (obj->flow_type == MLX5_IB_FLOW_TYPE_NORMAL) {
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2510  		err = uverbs_copy_from(&obj->priority,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2511  				       attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2512  				       MLX5_IB_ATTR_FLOW_MATCHER_FLOW_TYPE);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2513  		if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2514  			goto end;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2515  	}
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2516  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2517  	err = uverbs_copy_from(&obj->match_criteria_enable,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2518  			       attrs,
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2519  			       MLX5_IB_ATTR_FLOW_MATCHER_MATCH_CRITERIA);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2520  	if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2521  		goto end;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2522  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2523  	err = mlx5_ib_matcher_ns(attrs, obj);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2524  	if (err)
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2525  		goto end;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2526  
-22c3f2f56bd9c9 Maor Gottlieb     2021-12-01  2527  	if (obj->ns_type == MLX5_FLOW_NAMESPACE_FDB_BYPASS &&
-edc0b0bccc9c80 Mark Bloch        2021-06-07  2528  	    mlx5_eswitch_mode(dev->mdev) != MLX5_ESWITCH_OFFLOADS) {
-edc0b0bccc9c80 Mark Bloch        2021-06-07  2529  		err = -EINVAL;
-edc0b0bccc9c80 Mark Bloch        2021-06-07  2530  		goto end;
-edc0b0bccc9c80 Mark Bloch        2021-06-07  2531  	}
-edc0b0bccc9c80 Mark Bloch        2021-06-07  2532  
-74934ddf124a6f Patrisious Haddad 2025-03-06  2533  	if (uverbs_attr_is_valid(attrs, MLX5_IB_ATTR_FLOW_MATCHER_IB_PORT)) {
-74934ddf124a6f Patrisious Haddad 2025-03-06  2534  		err = uverbs_copy_from(&obj->ib_port, attrs,
-74934ddf124a6f Patrisious Haddad 2025-03-06  2535  				       MLX5_IB_ATTR_FLOW_MATCHER_IB_PORT);
-74934ddf124a6f Patrisious Haddad 2025-03-06  2536  		if (err)
-74934ddf124a6f Patrisious Haddad 2025-03-06  2537  			goto end;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2538  		if (!rdma_is_port_valid(&dev->ib_dev, obj->ib_port)) {
-74934ddf124a6f Patrisious Haddad 2025-03-06  2539  			err = -EINVAL;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2540  			goto end;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2541  		}
-74934ddf124a6f Patrisious Haddad 2025-03-06  2542  		if (obj->ns_type != MLX5_FLOW_NAMESPACE_RDMA_TRANSPORT_RX &&
-74934ddf124a6f Patrisious Haddad 2025-03-06  2543  		    obj->ns_type != MLX5_FLOW_NAMESPACE_RDMA_TRANSPORT_TX) {
-74934ddf124a6f Patrisious Haddad 2025-03-06  2544  			err = -EINVAL;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2545  			goto end;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2546  		}
-74934ddf124a6f Patrisious Haddad 2025-03-06  2547  		if (!verify_context_caps(dev, uobj->context->enabled_caps)) {
-74934ddf124a6f Patrisious Haddad 2025-03-06  2548  			err = -EOPNOTSUPP;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2549  			goto end;
-74934ddf124a6f Patrisious Haddad 2025-03-06  2550  		}
-74934ddf124a6f Patrisious Haddad 2025-03-06  2551  	}
-74934ddf124a6f Patrisious Haddad 2025-03-06  2552  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2553  	uobj->object = obj;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2554  	obj->mdev = dev->mdev;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2555  	atomic_set(&obj->usecnt, 0);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2556  	return 0;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2557  
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2558  end:
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2559  	kfree(obj);
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2560  	return err;
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2561  }
-f7c4ffda0cbf78 Leon Romanovsky   2020-07-02  2562  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2563  static int UVERBS_HANDLER(MLX5_IB_METHOD_STEERING_ANCHOR_CREATE)(
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2564  	struct uverbs_attr_bundle *attrs)
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2565  {
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2566  	struct ib_uobject *uobj = uverbs_attr_get_uobject(
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2567  		attrs, MLX5_IB_ATTR_STEERING_ANCHOR_CREATE_HANDLE);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2568  	struct mlx5_ib_dev *dev = mlx5_udata_to_mdev(&attrs->driver_udata);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2569  	enum mlx5_ib_uapi_flow_table_type ib_uapi_ft_type;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2570  	enum mlx5_flow_namespace_type ns_type;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2571  	struct mlx5_ib_steering_anchor *obj;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2572  	struct mlx5_ib_flow_prio *ft_prio;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2573  	u16 priority;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2574  	u32 ft_id;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2575  	int err;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2576  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2577  	if (!capable(CAP_NET_RAW))
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2578  		return -EPERM;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2579  
-0c6ab0ca9a662d Mark Bloch        2022-07-03 @2580  	err = uverbs_get_const(&ib_uapi_ft_type, attrs,
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2581  			       MLX5_IB_ATTR_STEERING_ANCHOR_FT_TYPE);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2582  	if (err)
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2583  		return err;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2584  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2585  	err = mlx5_ib_ft_type_to_namespace(ib_uapi_ft_type, &ns_type);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2586  	if (err)
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2587  		return err;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2588  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2589  	err = uverbs_copy_from(&priority, attrs,
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2590  			       MLX5_IB_ATTR_STEERING_ANCHOR_PRIORITY);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2591  	if (err)
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2592  		return err;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2593  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2594  	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2595  	if (!obj)
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2596  		return -ENOMEM;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2597  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2598  	mutex_lock(&dev->flow_db->lock);
-e1f4a52ac171dd Mark Bloch        2023-06-05  2599  
-74934ddf124a6f Patrisious Haddad 2025-03-06  2600  	ft_prio = _get_flow_table(dev, priority, ns_type, 0, 0);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2601  	if (IS_ERR(ft_prio)) {
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2602  		err = PTR_ERR(ft_prio);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2603  		goto free_obj;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2604  	}
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2605  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2606  	ft_prio->refcount++;
-e1f4a52ac171dd Mark Bloch        2023-06-05  2607  
-e1f4a52ac171dd Mark Bloch        2023-06-05  2608  	if (!ft_prio->anchor.rule_goto_table_ref) {
-e1f4a52ac171dd Mark Bloch        2023-06-05  2609  		err = steering_anchor_create_res(dev, ft_prio, ns_type);
-e1f4a52ac171dd Mark Bloch        2023-06-05  2610  		if (err)
-e1f4a52ac171dd Mark Bloch        2023-06-05  2611  			goto put_flow_table;
-e1f4a52ac171dd Mark Bloch        2023-06-05  2612  	}
-e1f4a52ac171dd Mark Bloch        2023-06-05  2613  
-e1f4a52ac171dd Mark Bloch        2023-06-05  2614  	ft_prio->anchor.rule_goto_table_ref++;
-e1f4a52ac171dd Mark Bloch        2023-06-05  2615  
-e1f4a52ac171dd Mark Bloch        2023-06-05  2616  	ft_id = mlx5_flow_table_id(ft_prio->anchor.ft);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2617  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2618  	err = uverbs_copy_to(attrs, MLX5_IB_ATTR_STEERING_ANCHOR_FT_ID,
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2619  			     &ft_id, sizeof(ft_id));
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2620  	if (err)
-e1f4a52ac171dd Mark Bloch        2023-06-05  2621  		goto destroy_res;
-e1f4a52ac171dd Mark Bloch        2023-06-05  2622  
-e1f4a52ac171dd Mark Bloch        2023-06-05  2623  	mutex_unlock(&dev->flow_db->lock);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2624  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2625  	uobj->object = obj;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2626  	obj->dev = dev;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2627  	obj->ft_prio = ft_prio;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2628  	atomic_set(&obj->usecnt, 0);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2629  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2630  	return 0;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2631  
-e1f4a52ac171dd Mark Bloch        2023-06-05  2632  destroy_res:
-e1f4a52ac171dd Mark Bloch        2023-06-05  2633  	--ft_prio->anchor.rule_goto_table_ref;
-e1f4a52ac171dd Mark Bloch        2023-06-05  2634  	mlx5_steering_anchor_destroy_res(ft_prio);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2635  put_flow_table:
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2636  	put_flow_table(dev, ft_prio, true);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2637  free_obj:
-2fad8f06a582cd Hamdan Igbaria    2023-09-20  2638  	mutex_unlock(&dev->flow_db->lock);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2639  	kfree(obj);
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2640  
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2641  	return err;
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2642  }
-0c6ab0ca9a662d Mark Bloch        2022-07-03  2643  
-
-:::::: The code at line 2446 was first introduced by commit
-:::::: f7c4ffda0cbf7823915cbfebdbbe8460e7eeca67 RDMA/mlx5: Separate flow steering logic from main.c
-
-:::::: TO: Leon Romanovsky <leonro@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> Thanks!
+>
+> --
+> Cheers,
+>
+> David / dhildenb
+>
