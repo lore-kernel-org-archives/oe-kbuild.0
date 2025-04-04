@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DDB2E62B6
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA091DA53
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 13:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743771446; cv=none; b=m7PCGfIGtiXXk1zq/FCSaw0lhFq/CKZ3NOFlOynXdTkA/BJrR1EL1jPKueaqJ25xQfUjvVUGqvmbo5il8+ml/BH8CMjPlnqEqlfWUv0fR/cMPAO5qdt2Lh12SHAHBEqpF5RZSdBsGewweDKF3TrsFLboKN0yGbxkRD/f/QVIPsM=
+	t=1743772032; cv=none; b=QJvBtMeqnvqprO4324vS8Y/4cSFNd92fFGBBhnEpgfKnSnRjAftOCxt1oD3J++UgZquNk0gn3j3+VOalULAFT1JMS4HHngk7Jf2q4ejA53t7gjcx0HKlWQX7Yf/nV20ZqnqoIPm/d7xfWhJTBPdAM7a1ES+7c19u7k4afXMv+/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743771446; c=relaxed/simple;
-	bh=y9pzPlaz63bUzg+92/GXjWBqpDXUk2qdSUI8Dp1T8TU=;
+	s=arc-20240116; t=1743772032; c=relaxed/simple;
+	bh=W44BrKOK8AS0+ffWoA1gfrvUNI6jWPJ1YWK9rj1wwQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jycXwShKfMmfDBHOj3P4oga0JrS2uKejmD5kbAHp0IjrYzeJ3wEgIp5e6zxYYXfQRs5K5HuWVtO1XJ/WjzPHPcV49vrbzroxsZIbW/+kuPWO5Ls7zLIFG9q2MFwZs+kv4MSWqKXSIuJ8pqThaNvh+yef1mfNo27n9cr7GIlYr/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hn/OlCbN; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=WiZztGwGwUOIY7nE21pza615ZxXV7C6FS920dQAyCWOe70Hz3f/nwhSV0gsbjOwxwB51jRRcn6cxoF9IL5HzvWr0uv7EoWxRY0dx6urynLcvj0AUd+eNheiLkJZCBwHvoJmmbw5SNgR6tNvhG5aJqe/LIjOHiAtMjzuMUvhjKAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SsxeXchM; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hn/OlCbN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743771445; x=1775307445;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y9pzPlaz63bUzg+92/GXjWBqpDXUk2qdSUI8Dp1T8TU=;
-  b=hn/OlCbN55BCjaLwRdffSWheRcJlbxhWcQr2bR0i+teCNR3VaXV99kXx
-   z/8Qa/b8PACPho/yJF0w8v5e3mVGpudeYgi3Q6fanJgnO8WHeweNb8acA
-   pdf6IY0QGLDsqxElju/zbxeLwl9seqzqGKIKKQOesdtWpIVWRv11dSTbO
-   gV/nnlSuve97GgkUtU7i5wx76zx9pVnI6g6JLg7mxMlSqbprQ01yLRSbr
-   AaxyV9GcDvMGvmeB1dxGWjWhmJBRTYpHrAst0Bb6r72RMCNsLzJdUY8IV
-   vuDeSROzYqHwF4yDEm+9UeD8LzTPy798+z+A2PdhnddkkgGqV1v9JYu77
-   g==;
-X-CSE-ConnectionGUID: DlamX/AsTeezfxb8gktbkQ==
-X-CSE-MsgGUID: yu2ayxWJQbWybSdFq591Hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="56576686"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="56576686"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 05:57:24 -0700
-X-CSE-ConnectionGUID: iOLdZb5oRHefOm4yziElUg==
-X-CSE-MsgGUID: RSRmRPpiRLqWXdbB3scoAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="158292370"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 05:57:22 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0gbo-0001FT-1a;
-	Fri, 04 Apr 2025 12:57:20 +0000
-Date: Fri, 4 Apr 2025 20:57:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SsxeXchM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43ed8d32a95so3277375e9.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 04 Apr 2025 06:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743772028; x=1744376828; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5KXhq05ViDXh7e+CB6BbZ2L92h5jQPNDQUsuB4QpPaA=;
+        b=SsxeXchMJUk1GWTsL2TpXwz4BdukSYtso7n/iQp2+NN7wCaZMIoOK4J1sV2Q0BBASf
+         gSIVEl8N12mYLq/t8TG+VLV9uDvClowyfHw25bPceef0UOkrSqyGVlk2ntFEN5wXmULr
+         kuhSNf3fodp1/ys7JdVfwby0M79/zfwi+yHgxwNTbyFysD+tTsuBzAHW8AISRYBLUzeU
+         INNpNk+LnZv20Mz2YjG+PSR6FndQf3h9q1GctJ8DOA31y5FaTIWC0sT4b8rGL2KvUtqo
+         wnfBCimhNHCiHTP91q2IxJ1pa0WcT5PNtegPPbDogc2K74h52PkJ8yJeUt8uKQWcGfQW
+         RW0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743772028; x=1744376828;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5KXhq05ViDXh7e+CB6BbZ2L92h5jQPNDQUsuB4QpPaA=;
+        b=egohropJF3UTz/bopKp7IyWobx191dBmmQ2DqLPNNWhQrOcn76VW/pUijufXBUE1g/
+         C+UF9fjj7yKjutwpUzAAcvm8vBO2biOUqRXV4sgvWXj0EsZTfsMNxXDQbwcS3gHFQ8ol
+         wI+UrQKLzHt5sKKwbHIm1Yl/AsFl/B8yWl1633rtKok4cPK0gtvBGANCm9WUdW9x7eDP
+         r9pbYNVK8eFBc2U3CW+cNxAfe5KtQWS5vaodh95cqVu3i4kg6UOLjihLC4kBteCohxVV
+         Qd8EW5YziOuDwp6916kpXE/ChMZQiGQ0VwbvjqEXam6t6/sszuAZk6k9oYS+Puizjgd/
+         iJiQ==
+X-Gm-Message-State: AOJu0YypmixFCCzA07ZfOP7qpMsAOF24ib3Tl5K5ChNdZUf4rTDGSdvq
+	tPia/nTu3IRRr8rNTDZs3Ter0p5YdCXQvkl92TpLsy7CEdw6fT1FJificvB//WkxVGch41u+vSR
+	8
+X-Gm-Gg: ASbGncvSQnyiqGWcSEoZ/QMkLeiXmV9r2nbY5d5GEFyJVgXSfnOS5miggHakYGzEPwl
+	NiyP5MAiQ+UXry13vogUuQx/D2WZMQWrZ/tBjc3NxldCbacy733bIxkA1poONsRxHhrtU0S3tqV
+	QLPtvZ4meacXultlapjFGHUbL9N4vgwolj3deo73imONsWe4MG2IafNywKyXUHkVgLcJ/iBMOhe
+	f2udQIA+TK0Yw27mFoApNe42ZnvihmC2zBs+OfNISHLwHe+DylKz9mft5J6PEL8RXzMbsmesECs
+	9m5rysNVqtg6pIQiRyRjqNx4ljnhpOeHGmFoOa7ufRwfD9mKIQ==
+X-Google-Smtp-Source: AGHT+IHFeLCxSi+dpe6OsYojj32lSmxQ+0JrEaVpOz7wOqLY4Kdknhz1oy9PvzMuPM+otutqMoyIGA==
+X-Received: by 2002:a05:600c:1f0c:b0:43c:f81d:34 with SMTP id 5b1f17b1804b1-43ecf85db8bmr29052385e9.9.1743772026779;
+        Fri, 04 Apr 2025 06:07:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec36699e0sm45610875e9.35.2025.04.04.06.07.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 06:07:06 -0700 (PDT)
+Date: Fri, 4 Apr 2025 16:07:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Marc Dionne <marc.dionne@auristor.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
 Subject: fs/cachefiles/namei.c:203 cachefiles_get_directory() warn: passing
  zero to 'ERR_PTR'
-Message-ID: <202504042052.d4liiRat-lkp@intel.com>
+Message-ID: <a767137a-10fe-497c-a199-0750f8d25529@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,25 +73,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Marc Dionne <marc.dionne@auristor.com>
-CC: Christian Brauner <brauner@kernel.org>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   e48e99b6edf41c69c5528aa7ffb2daf3c59ee105
 commit: 406fad7698f5bf21ab6b5ca195bf4b9e0b3990ed cachefiles: Fix oops in vfs_mkdir from cachefiles_get_directory
-date:   10 days ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 10 days ago
 config: i386-randconfig-141-20250404 (https://download.01.org/0day-ci/archive/20250404/202504042052.d4liiRat-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202504042052.d4liiRat-lkp@intel.com/
 
 smatch warnings:
@@ -88,10 +90,6 @@ fs/cachefiles/namei.c:203 cachefiles_get_directory() warn: passing zero to 'ERR_
 
 vim +/ERR_PTR +203 fs/cachefiles/namei.c
 
-169379eaef933c David Howells  2021-11-18   80  
-32759f7d7af545 David Howells  2021-10-21   81  /*
-32759f7d7af545 David Howells  2021-10-21   82   * get a subdirectory
-32759f7d7af545 David Howells  2021-10-21   83   */
 32759f7d7af545 David Howells  2021-10-21   84  struct dentry *cachefiles_get_directory(struct cachefiles_cache *cache,
 32759f7d7af545 David Howells  2021-10-21   85  					struct dentry *dir,
 32759f7d7af545 David Howells  2021-10-21   86  					const char *dirname,
@@ -142,12 +140,18 @@ vim +/ERR_PTR +203 fs/cachefiles/namei.c
 406fad7698f5bf Marc Dionne    2025-03-25  131  		ret = cachefiles_inject_write_error();
 406fad7698f5bf Marc Dionne    2025-03-25  132  		if (ret == 0)
 c54b386969a581 NeilBrown      2025-02-27  133  			subdir = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), subdir, 0700);
+                                                                ^^^^^^^^^^^^^^^^^^
+Let's say this fails.
+
 406fad7698f5bf Marc Dionne    2025-03-25  134  		else
 406fad7698f5bf Marc Dionne    2025-03-25  135  			subdir = ERR_PTR(ret);
 c54b386969a581 NeilBrown      2025-02-27  136  		if (IS_ERR(subdir)) {
 32759f7d7af545 David Howells  2021-10-21  137  			trace_cachefiles_vfs_error(NULL, d_inode(dir), ret,
 32759f7d7af545 David Howells  2021-10-21  138  						   cachefiles_trace_mkdir_error);
 32759f7d7af545 David Howells  2021-10-21  139  			goto mkdir_error;
+
+Then it means "ret" is zero and we return a NULL.  Intentional?
+
 32759f7d7af545 David Howells  2021-10-21  140  		}
 8c39b8bc82aafc David Howells  2022-01-14  141  		trace_cachefiles_mkdir(dir, subdir);
 32759f7d7af545 David Howells  2021-10-21  142  
@@ -224,14 +228,8 @@ c54b386969a581 NeilBrown      2025-02-27  200  	if (!IS_ERR(subdir))
 32759f7d7af545 David Howells  2021-10-21  213  	_leave(" = -ENOMEM");
 32759f7d7af545 David Howells  2021-10-21  214  	return ERR_PTR(-ENOMEM);
 32759f7d7af545 David Howells  2021-10-21  215  }
-32759f7d7af545 David Howells  2021-10-21  216  
-
-:::::: The code at line 203 was first introduced by commit
-:::::: 32759f7d7af5454c616574190c388e1a59184f92 cachefiles: Implement a function to get/create a directory in the cache
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
