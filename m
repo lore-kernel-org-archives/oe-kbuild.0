@@ -1,220 +1,267 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C0C1DF721
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 11:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743767572; cv=fail; b=DRq4g/tWCIQ69W0m4sle2/Uc5fIntc1DL4lpAEXekuUapUHXmTh+MZrrJeZYCSeSO6b5ofACOPUwN4UPWB4WR4pbLQcHmvlEnhUZvpOf+DpMYOiYSAA0p9qrtiCZEh955e8LJdvLvs6sxjAbBJgHvEv+fu0Y+apj9cGXcUDUHvw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743767572; c=relaxed/simple;
-	bh=eCMMKylCk+f/L6efrHfAlkNOLb9YYcQTXvcw0V8oZ1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rwgV0RDsjg+tHuul49R73GlEmRE052W2h+u/usslfZriZr6Ff3/vqocWIduvrSVo5coviWD8TSvrFa5PgWNes4qAnYjCZK9Ada5NGrH0Q1b523LSQUe160zle/XDI9RnGDR9vLi/l4yD8bvsTa3J8LSL1oRZ5l3aPD1yOv/+KwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=lq/Sis1A; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=KYJYY8KR; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656661E1DE2
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743769263; cv=none; b=U/7fQuO4t62xt/tY4djGJNNospopjQR3v+tXcgMxYMtaugz5LyYB+V1A+WTOWGVRdcRPXFm0ANdlRTFwjDKhw4RD96gmzBvdkMRXsew5phgxJVDLfO7GP5LUKidW9GMGUfTuHw0AuD4zX2oUO1ENrVFiptP/dLdVgnLdgOPXyi0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743769263; c=relaxed/simple;
+	bh=ALnNmdCEbY92eNfnBFg426mUkeeRgyu+A9JRnKWfamU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VxMBuD5l+7GwAXxyks7hOZaAZyzz73+4pbpmV0hfIc/pwjzOfAy1VvrUK+BVIzGdHrxyczpC+UmYpIkTKpuuSEMvW3Vfn7tmOir6vehSZHvwNjshdJtWu0le+Ht2CTdhnqfkJsbC17VZbMN4NevSXygCANKJoNSzFxernoN1lUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZFl3b783; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lq/Sis1A";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="KYJYY8KR"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5348N4Ui009446;
-	Fri, 4 Apr 2025 11:52:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=iy/6hNBezHnAT9ePXs
-	+/gx1Gzq+QIZ2HugA8GuObGGg=; b=lq/Sis1AjTlcdQVgigpgSDd3C+ZdTKPoN5
-	SoQN7+Vc0mKLTRNhrb4J1Ot/eDPUSXLOLWCUQHart/3y9hMr7F6PvPMqenfJc9i8
-	QaaqI/88T7TT5PWTGC2w1mOD/qg3JpYPZ+e1Dt6dLA9n7mm2jbssZBvcRQSiyN72
-	B5bOGqykvhUnjtxjNPqDFA+7EE1NWHj6h0R5CI6y4NOneRzs910OXMpByDQUnHrV
-	P1Jz/kuq5WgiWqIhbE40PHKkO0DNcYBYJsKK8nxbMz3SGEt9ukJ+h5E9f8sa1ICB
-	6nKR9lZf7HJGO/o1JSBlZJk9dJoycLP56jnWuhByvaSNA4So0pcg==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45p9dtpvrd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 04 Apr 2025 11:52:40 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 534B8a3q013862;
-	Fri, 4 Apr 2025 11:52:39 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45t31f5fkb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 04 Apr 2025 11:52:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D5qk6MG8kn2cQoWSxrOXQTZWii/r536Pjbug+ShKKf/VU5R0rzILDNnZg/eTkMvbw5ws6a5PZZjXzIn7Ys9uNYXUJxkTsTR4lK8b1mDBsOfnmeXnT+mds4xmW9Kfm50YBGa36znzyC2I8XMZIDfSxs/IbyJyyI0oAjqFkjuJwwZotkc0DSGRE5xqupAgH2B9sj2c2NAoEewPOSho+eOI9Dba3nSDpXnVDRVjACNqLKX2uK8OXldXtc6635Jy0RSGLMmjliZCM/gZKQSEzYrCjUUzbZf97DPhsdMuNNkAE/afvPmx7+nGwEa2HWcyMlOBaFEg6KCHaoLrOlBM7C6V/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iy/6hNBezHnAT9ePXs+/gx1Gzq+QIZ2HugA8GuObGGg=;
- b=wcKf3C3SgST6bU95/lMwLSUe8h3FiE+MV/mL2/QRCFYejjC79dsTT2QeTSVOBwmS8y3jmNYttR0d0GRU3YsTVduUtC80zffVgPHam/XiBuxOOO3Ye4AjmZjwjR8CvnGd+3+FT6+PgfrV83xTUyNPWnkYGBo1ig+RQ95Shj6rkkLSd7RRIDJ6QiGTcV0scusOntvbdBXfrkNYRtqR/5iAjl6vrxZe2ffL+QYr82skAM2b4MjaG9GJSpZAPZFijNX0KWjsYo80PgnrSLuY7P0cf2rven4hrdX/7GlwtT6tiAVbRDe4Hi2/PY2/uF76TGGBZw6cGMxpTroHOy9U46zCuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iy/6hNBezHnAT9ePXs+/gx1Gzq+QIZ2HugA8GuObGGg=;
- b=KYJYY8KRscJdrmBk1RGNJJjDfDQHaUr8P6QA4qVL4vnJfSR72WATXa3NRFLe6O1Y1It68HPFtHqk0uZ1sCFmi+CHIHXxHQZc8eJ5suQFnh/nE8sBVhRHBEb8NiEvbOjAMcga8VrmqcoudoRvL23XvwHoQhbtSOVwi3r09UlWB3M=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by DM6PR10MB4251.namprd10.prod.outlook.com (2603:10b6:5:21d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.27; Fri, 4 Apr
- 2025 11:52:37 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%3]) with mapi id 15.20.8583.041; Fri, 4 Apr 2025
- 11:52:37 +0000
-Date: Fri, 4 Apr 2025 12:52:30 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-        kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
-        Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>, x86@kernel.org
-Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
- copy_page_range()
-Message-ID: <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
-References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
- <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
- <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
-X-ClientProxiedBy: LO4P123CA0404.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:189::13) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZFl3b783"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743769258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VIhuCyeDrsmnPnB8pGt8PLSgdLaa+nCdx1GzcqoTy0s=;
+	b=ZFl3b783MGsztyb/RpjO8O0+rdLborbaakN0tfuhXFnl0qNn2QuI14tqqQesiFOElppw0n
+	RYkfmEblCpBclQGtZwMp69qYI86mVVTF6N1ZzFjFF53yLebHxld2OUUbiTc+oShxX+fgI6
+	oNdXPLme5nQd93ivBPXKe0AWpzhk0Gk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-O8_uGDHZPxyHrUvU67UUkQ-1; Fri, 04 Apr 2025 08:20:57 -0400
+X-MC-Unique: O8_uGDHZPxyHrUvU67UUkQ-1
+X-Mimecast-MFC-AGG-ID: O8_uGDHZPxyHrUvU67UUkQ_1743769256
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3913f546dfdso1161490f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 04 Apr 2025 05:20:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743769256; x=1744374056;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VIhuCyeDrsmnPnB8pGt8PLSgdLaa+nCdx1GzcqoTy0s=;
+        b=vZWCi+ttshHLNKrFQLpWTpbDZLY6Ak4cmXwmRL8iulAAtZVqbUODys/osYujC/UIaM
+         L9TgeNnq4mLz6bY/Nb41r07pjbBBoNUuJccuSXGT3TDWdAZA0qwc26EgJOajOh0pmYqX
+         iFZEquzqNbMaB2QluvKUw0vWn7iWmF/mPT1ZF6lf+UVei4ANiJN2W67a3ovAnMS2mL9D
+         ZgVuyegabiZRe6I0THpPs9SQeS6u6bL4WgooffR6C/13iTJTb2XA0T9Fut4CnhnYxM6D
+         6U8b7RP3K1/0ss2NEkWjHnm7p1V+HPZ8VVUCDL70f4/mzpBEyfhNNaENDzrAIBzpAm+E
+         2UuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+TL/Ja6RhXX4R7G/su6FRzc5Z/iBInu4F0NeB5hagJh5VSzdDWAUCKFyFe1q/5Ir9N6g9nJPY5sQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzrwexh4HaphztAmwc5usiG/wTBdFqQYU2WKdSJIu56GL/APWNm
+	S9SDDM5DlobclTX7scfxREo1bpnHnXGQE0QPibZicqx1OlDnX5e3zpQhs75tNlb43/o2qPEUqUL
+	Ao2hnftMe2yPScTkCxtzY1bqb2uj+QmoQOtddBkg80/T0EvwaJ2Bv8kWqKg==
+X-Gm-Gg: ASbGncso7r/R3iUzLHe7+gIQdBZljXhFsGFT34Ypl22SwFBXpMNqPgOMwze/HcieKq1
+	s0cq0FIpEdql6mzZrNK3vFYgFc0y733K2svzHaGk2WX2a33FcgQ5A2f4Ar8Mkwb4Ej3HrOHMOou
+	ALeoeA7xmVAbqSNrI+3p67UiaB3YRjoOQfcYIax6aSygoij576kw7xbDDHMbogq7NAVhqqQQ64f
+	PoAhekkDjfYgIFVsmSfUoyO/6lS/+w/ed4cBT5TEKP6ql/4NSBep7girM4nz8Mfh7TN2VPbiD9/
+	UT1A1ZOX1iGnRSPXt7loXCAMpHX8hMUuhYhkuD7VEB7qbBWN4k1gL8ju2wov7mjj2/fDKRvjUQ2
+	Cluiy+CRTFDMGffTnxu2Eo7iFM0SHMlExpdHE+mVufDU=
+X-Received: by 2002:a05:6000:22c6:b0:39c:1efc:1c1c with SMTP id ffacd0b85a97d-39cb35b38b6mr2772408f8f.34.1743769256218;
+        Fri, 04 Apr 2025 05:20:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxAz0EVhDE9pl7+g3KgrnsgGbNPVPUInVovmdboQhXyfEyTXXaCK1I1dauswN4Z0E48Gi3bg==
+X-Received: by 2002:a05:6000:22c6:b0:39c:1efc:1c1c with SMTP id ffacd0b85a97d-39cb35b38b6mr2772377f8f.34.1743769255749;
+        Fri, 04 Apr 2025 05:20:55 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c71b:7900:8752:fae3:f9c9:a07e? (p200300cbc71b79008752fae3f9c9a07e.dip0.t-ipconnect.de. [2003:cb:c71b:7900:8752:fae3:f9c9:a07e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301a6796sm4297167f8f.31.2025.04.04.05.20.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Apr 2025 05:20:55 -0700 (PDT)
+Message-ID: <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
+Date: Fri, 4 Apr 2025 14:20:54 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|DM6PR10MB4251:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ba5839c-d918-43a6-06ac-08dd736f3080
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3OaBO2oV3k7sRAZHu7hiN+044xdsmhjIB9yqca0utYWzureE1EgvoyzjDlvX?=
- =?us-ascii?Q?jlgKYoQ5U6x8Bdom8UJCRnKK7eNOo1zKvMnHNiJy4BlqKhWRiUXDhyWuNQ6L?=
- =?us-ascii?Q?nfrQa79dUHqycnQYQY8yokgA6MsBdNk0f6cPprbrnqVsDeNBZxXV1Hsz9H0b?=
- =?us-ascii?Q?N1A0HIWp0RBymdAG02k3LIFPoTChqJg9pfhifOU2MtlgRoxBuftpqSA14N3y?=
- =?us-ascii?Q?9rlCqBhwSc1PW68PZHhYsNGf32P+CexxE4gnulqLBlou++zVZpVpTy3wY6yI?=
- =?us-ascii?Q?rf8ab1/G7K65MX13PstbFtnu63A8IVxhRTauAxrNN/WzCI+eoGF4Cos7SDSR?=
- =?us-ascii?Q?BIT37VOLglk1Bagv90/I2A+xhucXQWjEWga2ZMlssJv6atDOhD4eXFJr9GiK?=
- =?us-ascii?Q?/qfvdtaI4+2DDc+xY78CZYICsqrA0InrcUcpmvs6bRDrYGbWvYySWIw3I3Zy?=
- =?us-ascii?Q?qVJFDaKGSpgjC878TF/anRhD0idkANcvkDvl2ib8V7nVALUWSdH5uvioC3sZ?=
- =?us-ascii?Q?pUDU9zQzCwn4/TCUNdq5DXT2ixratwLXicoBRuCtfgtXfeeanOhgn89Q98+d?=
- =?us-ascii?Q?UWEnU1V/k0IByyC3JpE7R2eyzCtq6CPPbXzmoQxLlc39j1UxXCn0DHS4xJVt?=
- =?us-ascii?Q?bKoq/v61bjkrpYVxIw/qb8SN6MCHJZCP8/L+vVbEeLZITe14p+DdVmRy0Zg6?=
- =?us-ascii?Q?ILPIPaQwrOExs/YU+gzdfhopV/CBWRAelD3cdtzcZiJ35zrJwUonYEepkiNT?=
- =?us-ascii?Q?x55wda9p8U6of2RiPqw62fV0esKZyPPxvYTtyGsiZU+5YT6zHdV7wDl92aUW?=
- =?us-ascii?Q?jn7t9ahJ7osrG46FucCW3EaogXYTnUQjgHSSiI8z6zy1rL/sLz+G3myKVfbX?=
- =?us-ascii?Q?wQlm75IeemBHAvpYF+be2GlCKn3M51WEpCfFZ5k3nK5wME0C2uZtJa6gLTAu?=
- =?us-ascii?Q?W98xq7NauTZ9GkwraqlcLsAHOcmmG5HkbHUYEViXOC9T7R2scwtke/ED7K6n?=
- =?us-ascii?Q?DG4I5cup27i2oS034N+YiqToBWaBgw6zI+NFNkwPFUaY8LAEmK9SREXZcCjt?=
- =?us-ascii?Q?iARWgGFDesxoAGLD3YH69hJ+9HPtpVbnv7PPeMgFFmPfcL4jHxV8dI1yOK3h?=
- =?us-ascii?Q?XS2h3sYMIrggUw4ed7+VVmZvuzOhodBMheR8Ods2QVUivimq689KNkn1Rcvy?=
- =?us-ascii?Q?8Hh/UeRpRC9MRlagw3c2hKqJaulexoseUOaHxiP9Gu7pKyV/6XEykXhYCQ2f?=
- =?us-ascii?Q?TE1EtBOpIdg3ar/50IdYaWjZgPD4wIHd54mvwcogbvt4EXl4Eulyt5v+LVJU?=
- =?us-ascii?Q?7cw1TIhrCGGFH6mwfz0gH0paMCXdgF5ii4RsFNlmZE8aA9G1Ju7LZl6CZQqS?=
- =?us-ascii?Q?MAYkAN2oS1urdx11S3zMHU2YhyMI?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3PKCu8MakNf/K0PEgNdXENn+m45sEpoEhEyHP4yPiRwyGcQ6cz5NA0h84gE6?=
- =?us-ascii?Q?jLOAug17/7TCg9EL5/UPUWPf4WMShHCYPZ15qlrpRXW7AxVLZLlsgMmbUZsH?=
- =?us-ascii?Q?AEKInIvW1I5Xav0h567WfWGm4n+dfogpb/ICdEoHqEjSj4iCtc0rGxiA6lTq?=
- =?us-ascii?Q?25YW4ahSljQqpeB/3nC/iWlCbsHLGsayPFF3jzOBB8zKrbu9+b72VLy9ZVeM?=
- =?us-ascii?Q?gE7NsQH8510hKeuXLgDWK9qkjV76ob6H3IN5Q/xItrbR+0EPabZ2va9gBvx5?=
- =?us-ascii?Q?m5NK2/eWPK+6kWj1+fZw1U/TC2JhbuhBFwZG+am8mVOAcDVMTJLy2CeE8/i6?=
- =?us-ascii?Q?BeQV3EXdHtwHj/gW/p0Ekb+WK7dgReEP3tvzmUHTUQcbCZ80WZTwFre84TAc?=
- =?us-ascii?Q?m8pH971Nats7v47o9jHVGOVm49PY2CITsLngMWvj38MkeL50Tuc/eAnkxL5T?=
- =?us-ascii?Q?qZNn4Y61XATwsigWzFxhtZqG01e7ThxCXjDETH4UbWmEDSf0c7lbrlHuWfzL?=
- =?us-ascii?Q?Nb++JeDxBiTObRlfJiJ/eVtX4hfRgQkCE/ddpgrlhxDYN3zKUzg+RH4u5fY2?=
- =?us-ascii?Q?PLIQ1BL5baGV5wAmBds5TnYqeyxdfV1pjYnfm2U8DeBoprBAWZOmoG3csZJD?=
- =?us-ascii?Q?cfyqMmCuhEp+xWNgNwmtCH/xwivZRbfGFLcRm/L+dTPGbdAKLIx3cRDAgCKB?=
- =?us-ascii?Q?uUUc6NjUr7DljZysvCBSyAS2LLrLdrRLPP/LQQPMOu04g1jtBwnaAfbiAUAf?=
- =?us-ascii?Q?SORRPuD1ociReMTGq4FbzjxePQk8swK4f27qoGMhcK8PKV81lfNFYiZPZyHM?=
- =?us-ascii?Q?wTCIocGXIlFWP1pQDSoJFZ9J3JSd9Yo29UGuMUGrvLZCDjKRhMRHJjQon0PJ?=
- =?us-ascii?Q?6dulH6o5yxgk8yDl8llhO+97qx9sGkt9jnVb4+AN/bSB4Sg9aA1JlMWRNQu3?=
- =?us-ascii?Q?OaaYQ6g2xs2irYz8h1f0DV6WgSljl6+ioTVUh9fqF+ZbhGoFLKea8fewUGqm?=
- =?us-ascii?Q?ZGMEqh2EFWWhwjzZRP0VZ+BrXX2c5iK6d5zRkJ85QY5Gio9T1hzf+S0PsubY?=
- =?us-ascii?Q?x/x92iP3jQGlR7ljHNXVqFYg7Q7iM8cgwcPdRrtednTxQgaYLBJKOUjNre80?=
- =?us-ascii?Q?8ttMQOnwnDDEm6Rp9+ElrFfLN/6K8IZElpKUS7o3QvsjtMDRHfMJQ5Tm8r5/?=
- =?us-ascii?Q?dON5RnSFXTgxOVxUQMb2GZFWL2luepIa3ZNnBiwowQCoqSvtQxtoQ2FFynoi?=
- =?us-ascii?Q?9zfPuFkkNcbc4WZ1NwHYIrYwrx3xxwGPq6h5h7BXSdHUrwvOX57Ftv3kx1uB?=
- =?us-ascii?Q?JN4DBbwR7HADTL5aLQxZSqAwhD63yDZKUYf42Kq7QgRIWaB1iP5aL/gmc/lN?=
- =?us-ascii?Q?Ox3a1I+sMvDSgKi+++F6sUMxyQyKlocuyPdNDqYcqgim6EqQg0lQU7Ruywot?=
- =?us-ascii?Q?/kCL6aBayrOyTmsyv8lpzYQRwVLxZbSD9HoJTkhJm1NUFiEQRR5LXiapCupy?=
- =?us-ascii?Q?Ch1+epkWN6hZHo+b2cipv5rkuykuVh7GOW/8xF53vO58VtwDh+Pwm7CCvUPD?=
- =?us-ascii?Q?XO81stiOqTY/0Lve9Z6YVOXpwTL+FPU4BxzbpIQq8q4bsHXikNiDf0zuMhWw?=
- =?us-ascii?Q?Og=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	GebyBYCGbALAHmBA9PUJNl0cReq+QL3T7NWUpVUvDch+eNRfdlqd/gqpdx17elcGrO9lq9HdyYbgZomC6P5zvtzhWxonhP7yp7DQOyNnObuDkKHg/0vSNi2JgMvYM72HvXMaHxJl77RRJ1zLkGq/M7wlLY9oFlE9YXvXurt3PflMDIENp189gXbf9wU96CPsWRcBMK231Zg+c+4NJ6KS754KAmOaMI3CfLjPHcZshOWGrUSuOPZ9VT0kch9ob1/jJXawd9RFV7M8YrHJ+ukxIVmnOdDkqyiqEuPBSjS/cW0Oe3wYEwWBzMBbomITOKvIjdFi9Df4UXU15Mh7yEqBIPjnQZsmzgLa/mroW/oOUgOP8HyH56RKc2hYEFIcy7PgUlDI9ABpDsulSwk2Hk0SMNbX0hn5BPyiAS22MvvjlZtFAQ4HBM7XRYYHhuczjDP8jKXO8DXDJ9RaX59UfIf7nAOekzLjraIoYrFWUW+B6nON2yiWu41HYqhJzIdAoFCZsb/LbQ6YiGbbvWWMM3xLE635nkn1DODdcoPdehTcVgdLEJUMENzk4/6Ov++q1ti1dD5lp372dxGOllmf2d6G5jOs8QGrv8VWXoUEDbkP8S8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ba5839c-d918-43a6-06ac-08dd736f3080
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 11:52:36.9484
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hagiLu/MSEjbSlAnRV1E2GykxWuWdS8SDdP3MIcl46KIvrATV+3hC2LiUqv56CB/JOjdb872W28U+uii8quaE/yv9DXDWPpJyNV7O3Qa5w4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4251
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-04_05,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
- mlxscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2504040081
-X-Proofpoint-ORIG-GUID: oqZoNkrS171IE_pys1YY_KlFdDz5-K9M
-X-Proofpoint-GUID: oqZoNkrS171IE_pys1YY_KlFdDz5-K9M
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
+ copy_page_range()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+ kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
+ Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ x86@kernel.org
+References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
+ <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
+ <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
+ <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: rRS-EebevD67eUKD6NQVCLa7jbm1fkkJvfOEhnFIQ-w_1743769256
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
-> On 03.04.25 17:14, Dan Carpenter wrote:
-> > Sorry, I've been having trouble with my email recently...  I replied
-> > earlier but my email got eaten on the way out.
-> >
-> > What happened here is that the zero day bot emails go to me first and
-> > then I review them or forward them depending on if they're a real
-> > issue or not.
-> >
-> > Here it's a false postive because it's set and used if the
-> > (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
-> > this correctly.  I've been meaning to fix this in Smatch for a
-> > while.
->
-> There is a slight complication (on top of the VM_PFNMAP checks):
->
-> If "src_vma->vm_flags & VM_PAT" we
-> * set pfn
-> * set dst_vma->vm_flags |= VM_PFNMAP
->
-> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
->
-> While we won't be using the uninitialized pfn (good), we'd still pass an
-> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
-> but we better handle it.
->
-> So that should better be changed; I'll send a fix.
+On 04.04.25 13:52, Lorenzo Stoakes wrote:
+> On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
+>> On 03.04.25 17:14, Dan Carpenter wrote:
+>>> Sorry, I've been having trouble with my email recently...  I replied
+>>> earlier but my email got eaten on the way out.
+>>>
+>>> What happened here is that the zero day bot emails go to me first and
+>>> then I review them or forward them depending on if they're a real
+>>> issue or not.
+>>>
+>>> Here it's a false postive because it's set and used if the
+>>> (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
+>>> this correctly.  I've been meaning to fix this in Smatch for a
+>>> while.
+>>
+>> There is a slight complication (on top of the VM_PFNMAP checks):
+>>
+>> If "src_vma->vm_flags & VM_PAT" we
+>> * set pfn
+>> * set dst_vma->vm_flags |= VM_PFNMAP
+>>
+>> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
+>>
+>> While we won't be using the uninitialized pfn (good), we'd still pass an
+>> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
+>> but we better handle it.
+>>
+>> So that should better be changed; I'll send a fix.
+> 
+> Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
 
-Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
+I'm planning on doing the following, just didn't get to testing it:
 
-I mean the patch is already upstream at dc84bc2aba85. So I guess these fixes are
-intended for rc generally?
 
->
-> Thanks!
->
-> --
-> Cheers,
->
-> David / dhildenb
->
+ From d340fac886c4a15d39d8e963aa8c647b19589413 Mon Sep 17 00:00:00 2001
+From: David Hildenbrand <david@redhat.com>
+Date: Tue, 29 Oct 2024 22:03:31 +0100
+Subject: [PATCH] x86/mm/pat: (un)track_pfn_copy() fix + improvements
+
+We got a late smatch warning and some additional review feedback.
+
+	smatch warnings:
+	mm/memory.c:1428 copy_page_range() error: uninitialized symbol 'pfn'.
+
+We actually use the pfn only when it is properly initialized; however,
+we may pass an uninitialized value to a function -- although it will not
+use it that likely still is UB in C.
+
+Fix it by always initializing pfn when track_pfn_copy() returns 0 --
+just as documented.
+
+While at it, clarify the doc of untrack_pfn_copy(), that internal checks
+make sure if we actually have to untrack anything.
+
+Fixes: dc84bc2aba85 ("x86/mm/pat: Fix VM_PAT handling when fork() fails in copy_page_range()")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202503270941.IFILyNCX-lkp@intel.com/
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Rik van Riel <riel@surriel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+  arch/x86/mm/pat/memtype.c | 4 +++-
+  include/linux/pgtable.h   | 5 ++++-
+  2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
+index 72d8cbc611583..9ad3e5b055d8a 100644
+--- a/arch/x86/mm/pat/memtype.c
++++ b/arch/x86/mm/pat/memtype.c
+@@ -992,8 +992,10 @@ int track_pfn_copy(struct vm_area_struct *dst_vma,
+  	pgprot_t pgprot;
+  	int rc;
+  
+-	if (!(src_vma->vm_flags & VM_PAT))
++	if (!(src_vma->vm_flags & VM_PAT)) {
++		*pfn = 0;
+  		return 0;
++	}
+  
+  	/*
+  	 * Duplicate the PAT information for the dst VMA based on the src
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index e2b705c149454..9457064292141 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1517,12 +1517,15 @@ static inline void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+  static inline int track_pfn_copy(struct vm_area_struct *dst_vma,
+  		struct vm_area_struct *src_vma, unsigned long *pfn)
+  {
++	*pfn = 0;
+  	return 0;
+  }
+  
+  /*
+   * untrack_pfn_copy is called when a VM_PFNMAP VMA failed to copy during
+- * copy_page_range(), but after track_pfn_copy() was already called.
++ * copy_page_range(), but after track_pfn_copy() was already called. Can
++ * be called even if track_pfn_copy() did not actually track anything:
++ * handled internally.
+   */
+  static inline void untrack_pfn_copy(struct vm_area_struct *dst_vma,
+  		unsigned long pfn)
+-- 
+2.48.1
+
+
+> 
+> I mean the patch is already upstream at dc84bc2aba85. So I guess these fixes are
+> intended for rc generally?
+
+Yes.
+
+-- 
+Cheers,
+
+David / dhildenb
+
