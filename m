@@ -1,187 +1,237 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A238B1DDC29
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DDB2E62B6
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 12:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743769655; cv=none; b=Yi9X/PP5TpBDhIChD73mbvbRHrxdEj9dmXcoAhOiz/XG4ddQ3m/GEVH0S21dvdlDRWtEDyCeff1eZNG+3D3O4akmuRgp5QRwJ/uHYwsIfewC2cePMCuyeXryGzPIHzx716XJNMmGkjhNtZ0YbQp0LG1BBMNogpNW2RG7vgDgGj8=
+	t=1743771446; cv=none; b=m7PCGfIGtiXXk1zq/FCSaw0lhFq/CKZ3NOFlOynXdTkA/BJrR1EL1jPKueaqJ25xQfUjvVUGqvmbo5il8+ml/BH8CMjPlnqEqlfWUv0fR/cMPAO5qdt2Lh12SHAHBEqpF5RZSdBsGewweDKF3TrsFLboKN0yGbxkRD/f/QVIPsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743769655; c=relaxed/simple;
-	bh=S9+fW9jDaiGWggO/G99OVpMxjxgFEh1PJM5b81cf49Q=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=r+Jl7IA3zajVputnjdQi8k+gdnq/X+vPRDTXSC+QAlQFX6guDdlyFutscHqsm81/lFeHpldbELfqNRDfWIaqmmPfmCT4PRBl3Hpwlp9x9jdDfQ6LP0aY6ArVaQbhziq5Vlf6qd/fmNtl1L9vo3P8NeUVJh7748WAja+B36TVCGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=edDZDXOf; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1743771446; c=relaxed/simple;
+	bh=y9pzPlaz63bUzg+92/GXjWBqpDXUk2qdSUI8Dp1T8TU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jycXwShKfMmfDBHOj3P4oga0JrS2uKejmD5kbAHp0IjrYzeJ3wEgIp5e6zxYYXfQRs5K5HuWVtO1XJ/WjzPHPcV49vrbzroxsZIbW/+kuPWO5Ls7zLIFG9q2MFwZs+kv4MSWqKXSIuJ8pqThaNvh+yef1mfNo27n9cr7GIlYr/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hn/OlCbN; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="edDZDXOf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743769652;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=GLwMeURzuMh3nERtIkv27OCcHdi53UzzaDVQnEDcAlU=;
-	b=edDZDXOf3qwfYvkbZGd1SubPW9pt8EylSrn2K9waoBguFiHeizXOqd7e6feHcioT2QBylo
-	qUERo51pqPCHj4QAsn5OEzTT96QBlg3mes1waI+X4otvjHqBRXYlssMfy7CO6/uDsJHFu+
-	sLbpzqBl7Mdx/hN4x3bruhRwFHZ1xyA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-HjkdgYESN3KVM_HMTfKong-1; Fri, 04 Apr 2025 08:27:30 -0400
-X-MC-Unique: HjkdgYESN3KVM_HMTfKong-1
-X-Mimecast-MFC-AGG-ID: HjkdgYESN3KVM_HMTfKong_1743769649
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-39126c3469fso903706f8f.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 04 Apr 2025 05:27:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743769649; x=1744374449;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GLwMeURzuMh3nERtIkv27OCcHdi53UzzaDVQnEDcAlU=;
-        b=VxtJlpH6ABQ5jAXvHNF1g4glALUWWhssUvKgLJnjsnY91h9wAl5aGuzqiEWbpgqV3u
-         aNnQIwBQI6VMzM4p62CWGvkHL33kMDbD5CPLfjJWzGz7J9nhplkVm8ldF3lE/C1tyhyx
-         Cst32jjT1NYlZTFVoEN/diGAwVpRv/pTgV/voQqDa1B+Y382hMZSjjmffSDJuenEg1n/
-         OkgNyjQwL/rcs6QofIeCgxEAlpiip/IkVk6F4VEgRitDqzCckzI/wLtdaYOzBaT0JY3j
-         bo9VXEMoEdQwu9fqpudEL0GOycDEKeo448D0JJlbCQBmiSzcjvHhAsfpXpKuSK5xrYzT
-         97oA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVWLJxEvrWSGTI527agVa0LJqt7x54dFvvmPaMeo6MBMhABpP890GbR07N3Rx15rKhtFMEa95WzWo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YyULJzgepK7lbLnKWO6Lx267Kx2sKErMUKoXs0iVBHRmAOg+HBC
-	aNxgL6752hkrRJl/+lDLaQdzJ65jibhVxII/fekaodOK5AnB63GnnqDpi1CrOa2ZAdxL47Dw0pC
-	/42UOjJ33dfNh+9189/KORP0+LR44hCgNKLug1sP1RIPDGDAEEBltEL+u3A==
-X-Gm-Gg: ASbGncuhBKolgVk4YMPSCDofU3UoEdSK/hSmQKWkD74ennI5l8UOSO5mJWXsplZ1UpR
-	Y4XH6i9gnVBuDBq8Sjnc3rA12hJpfB+Z3PLHW+QrzIuKj8wql41/b7ObGSxA40FgU11Mgmk/BmJ
-	HzK4f3+mj9d2/8JMY0EXAjZqppRrUGXicx/CRRK1Yc1IokkhH897mv9FN3Y5a5KJP6Oq6LXDo7g
-	/tE+fcaTEq/WA2Hjq/C7DqovXHK8npZtfUwP8WIiZi9j1dLR/N/tUziAke71SCHgDsPPXhmro1M
-	aCGB48LSZnCzpu8o9uTNBsYCl0d/pTUmwzsFplHLO1Zy0n88T/B6CAkMWvlS0m36JCLMFAMLU9Q
-	GYeoitb3CQO5FUOQT5gq5MDrey7DiFdBhwWG1uSnx7sM=
-X-Received: by 2002:a05:6000:4210:b0:390:e1c5:fe2 with SMTP id ffacd0b85a97d-39cba975cb2mr2102799f8f.38.1743769649194;
-        Fri, 04 Apr 2025 05:27:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHDaeuJ+2foR+W6LwpzdkHucTnoX0fNEEY1FkOxSODlHwM7VGi2JXLd91UUY8W5456NWELZiA==
-X-Received: by 2002:a05:6000:4210:b0:390:e1c5:fe2 with SMTP id ffacd0b85a97d-39cba975cb2mr2102778f8f.38.1743769648811;
-        Fri, 04 Apr 2025 05:27:28 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c71b:7900:8752:fae3:f9c9:a07e? (p200300cbc71b79008752fae3f9c9a07e.dip0.t-ipconnect.de. [2003:cb:c71b:7900:8752:fae3:f9c9:a07e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096964sm4271241f8f.15.2025.04.04.05.27.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 05:27:28 -0700 (PDT)
-Message-ID: <18abdf06-9d45-42bf-b666-af1a416bf2a6@redhat.com>
-Date: Fri, 4 Apr 2025 14:27:27 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hn/OlCbN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743771445; x=1775307445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y9pzPlaz63bUzg+92/GXjWBqpDXUk2qdSUI8Dp1T8TU=;
+  b=hn/OlCbN55BCjaLwRdffSWheRcJlbxhWcQr2bR0i+teCNR3VaXV99kXx
+   z/8Qa/b8PACPho/yJF0w8v5e3mVGpudeYgi3Q6fanJgnO8WHeweNb8acA
+   pdf6IY0QGLDsqxElju/zbxeLwl9seqzqGKIKKQOesdtWpIVWRv11dSTbO
+   gV/nnlSuve97GgkUtU7i5wx76zx9pVnI6g6JLg7mxMlSqbprQ01yLRSbr
+   AaxyV9GcDvMGvmeB1dxGWjWhmJBRTYpHrAst0Bb6r72RMCNsLzJdUY8IV
+   vuDeSROzYqHwF4yDEm+9UeD8LzTPy798+z+A2PdhnddkkgGqV1v9JYu77
+   g==;
+X-CSE-ConnectionGUID: DlamX/AsTeezfxb8gktbkQ==
+X-CSE-MsgGUID: yu2ayxWJQbWybSdFq591Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="56576686"
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="56576686"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 05:57:24 -0700
+X-CSE-ConnectionGUID: iOLdZb5oRHefOm4yziElUg==
+X-CSE-MsgGUID: RSRmRPpiRLqWXdbB3scoAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="158292370"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 05:57:22 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u0gbo-0001FT-1a;
+	Fri, 04 Apr 2025 12:57:20 +0000
+Date: Fri, 4 Apr 2025 20:57:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/cachefiles/namei.c:203 cachefiles_get_directory() warn: passing
+ zero to 'ERR_PTR'
+Message-ID: <202504042052.d4liiRat-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
- copy_page_range()
-From: David Hildenbrand <david@redhat.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
- Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- x86@kernel.org
-References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
- <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
- <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
- <e75ca8d9-0386-4de6-bee9-e6044b001a30@lucifer.local>
- <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <92c40df4-2e93-40ca-929e-a0b50ab2b631@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: omaZhSGhQQJ7whvigPBW9n5yBPUKES0gJUbPZt5vfIg_1743769649
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04.04.25 14:20, David Hildenbrand wrote:
-> On 04.04.25 13:52, Lorenzo Stoakes wrote:
->> On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
->>> On 03.04.25 17:14, Dan Carpenter wrote:
->>>> Sorry, I've been having trouble with my email recently...  I replied
->>>> earlier but my email got eaten on the way out.
->>>>
->>>> What happened here is that the zero day bot emails go to me first and
->>>> then I review them or forward them depending on if they're a real
->>>> issue or not.
->>>>
->>>> Here it's a false postive because it's set and used if the
->>>> (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
->>>> this correctly.  I've been meaning to fix this in Smatch for a
->>>> while.
->>>
->>> There is a slight complication (on top of the VM_PFNMAP checks):
->>>
->>> If "src_vma->vm_flags & VM_PAT" we
->>> * set pfn
->>> * set dst_vma->vm_flags |= VM_PFNMAP
->>>
->>> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
->>>
->>> While we won't be using the uninitialized pfn (good), we'd still pass an
->>> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
->>> but we better handle it.
->>>
->>> So that should better be changed; I'll send a fix.
->>
->> Maybe just worth setting pfn = 0 _as well_ in the caller, belts + braces maybe?
-> 
-> I'm planning on doing the following, just didn't get to testing it:
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Marc Dionne <marc.dionne@auristor.com>
+CC: Christian Brauner <brauner@kernel.org>
 
-Ah, now I get your comment. Yeah, we could just set pfn=0 in the caller 
-as well to make smatch completely happy I guess.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e48e99b6edf41c69c5528aa7ffb2daf3c59ee105
+commit: 406fad7698f5bf21ab6b5ca195bf4b9e0b3990ed cachefiles: Fix oops in vfs_mkdir from cachefiles_get_directory
+date:   10 days ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-141-20250404 (https://download.01.org/0day-ci/archive/20250404/202504042052.d4liiRat-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504042052.d4liiRat-lkp@intel.com/
+
+smatch warnings:
+fs/cachefiles/namei.c:203 cachefiles_get_directory() warn: passing zero to 'ERR_PTR'
+
+vim +/ERR_PTR +203 fs/cachefiles/namei.c
+
+169379eaef933c David Howells  2021-11-18   80  
+32759f7d7af545 David Howells  2021-10-21   81  /*
+32759f7d7af545 David Howells  2021-10-21   82   * get a subdirectory
+32759f7d7af545 David Howells  2021-10-21   83   */
+32759f7d7af545 David Howells  2021-10-21   84  struct dentry *cachefiles_get_directory(struct cachefiles_cache *cache,
+32759f7d7af545 David Howells  2021-10-21   85  					struct dentry *dir,
+32759f7d7af545 David Howells  2021-10-21   86  					const char *dirname,
+32759f7d7af545 David Howells  2021-10-21   87  					bool *_is_new)
+32759f7d7af545 David Howells  2021-10-21   88  {
+32759f7d7af545 David Howells  2021-10-21   89  	struct dentry *subdir;
+32759f7d7af545 David Howells  2021-10-21   90  	struct path path;
+32759f7d7af545 David Howells  2021-10-21   91  	int ret;
+32759f7d7af545 David Howells  2021-10-21   92  
+32759f7d7af545 David Howells  2021-10-21   93  	_enter(",,%s", dirname);
+32759f7d7af545 David Howells  2021-10-21   94  
+32759f7d7af545 David Howells  2021-10-21   95  	/* search the current directory for the element name */
+32759f7d7af545 David Howells  2021-10-21   96  	inode_lock_nested(d_inode(dir), I_MUTEX_PARENT);
+32759f7d7af545 David Howells  2021-10-21   97  
+32759f7d7af545 David Howells  2021-10-21   98  retry:
+32759f7d7af545 David Howells  2021-10-21   99  	ret = cachefiles_inject_read_error();
+32759f7d7af545 David Howells  2021-10-21  100  	if (ret == 0)
+32759f7d7af545 David Howells  2021-10-21  101  		subdir = lookup_one_len(dirname, dir, strlen(dirname));
+32759f7d7af545 David Howells  2021-10-21  102  	else
+32759f7d7af545 David Howells  2021-10-21  103  		subdir = ERR_PTR(ret);
+8c39b8bc82aafc David Howells  2022-01-14  104  	trace_cachefiles_lookup(NULL, dir, subdir);
+32759f7d7af545 David Howells  2021-10-21  105  	if (IS_ERR(subdir)) {
+32759f7d7af545 David Howells  2021-10-21  106  		trace_cachefiles_vfs_error(NULL, d_backing_inode(dir),
+32759f7d7af545 David Howells  2021-10-21  107  					   PTR_ERR(subdir),
+32759f7d7af545 David Howells  2021-10-21  108  					   cachefiles_trace_lookup_error);
+32759f7d7af545 David Howells  2021-10-21  109  		if (PTR_ERR(subdir) == -ENOMEM)
+32759f7d7af545 David Howells  2021-10-21  110  			goto nomem_d_alloc;
+32759f7d7af545 David Howells  2021-10-21  111  		goto lookup_error;
+32759f7d7af545 David Howells  2021-10-21  112  	}
+32759f7d7af545 David Howells  2021-10-21  113  
+32759f7d7af545 David Howells  2021-10-21  114  	_debug("subdir -> %pd %s",
+32759f7d7af545 David Howells  2021-10-21  115  	       subdir, d_backing_inode(subdir) ? "positive" : "negative");
+32759f7d7af545 David Howells  2021-10-21  116  
+32759f7d7af545 David Howells  2021-10-21  117  	/* we need to create the subdir if it doesn't exist yet */
+32759f7d7af545 David Howells  2021-10-21  118  	if (d_is_negative(subdir)) {
+3929eca769b5a2 David Howells  2021-10-21  119  		ret = cachefiles_has_space(cache, 1, 0,
+3929eca769b5a2 David Howells  2021-10-21  120  					   cachefiles_has_space_for_create);
+32759f7d7af545 David Howells  2021-10-21  121  		if (ret < 0)
+32759f7d7af545 David Howells  2021-10-21  122  			goto mkdir_error;
+32759f7d7af545 David Howells  2021-10-21  123  
+32759f7d7af545 David Howells  2021-10-21  124  		_debug("attempt mkdir");
+32759f7d7af545 David Howells  2021-10-21  125  
+32759f7d7af545 David Howells  2021-10-21  126  		path.mnt = cache->mnt;
+32759f7d7af545 David Howells  2021-10-21  127  		path.dentry = dir;
+32759f7d7af545 David Howells  2021-10-21  128  		ret = security_path_mkdir(&path, subdir, 0700);
+32759f7d7af545 David Howells  2021-10-21  129  		if (ret < 0)
+32759f7d7af545 David Howells  2021-10-21  130  			goto mkdir_error;
+406fad7698f5bf Marc Dionne    2025-03-25  131  		ret = cachefiles_inject_write_error();
+406fad7698f5bf Marc Dionne    2025-03-25  132  		if (ret == 0)
+c54b386969a581 NeilBrown      2025-02-27  133  			subdir = vfs_mkdir(&nop_mnt_idmap, d_inode(dir), subdir, 0700);
+406fad7698f5bf Marc Dionne    2025-03-25  134  		else
+406fad7698f5bf Marc Dionne    2025-03-25  135  			subdir = ERR_PTR(ret);
+c54b386969a581 NeilBrown      2025-02-27  136  		if (IS_ERR(subdir)) {
+32759f7d7af545 David Howells  2021-10-21  137  			trace_cachefiles_vfs_error(NULL, d_inode(dir), ret,
+32759f7d7af545 David Howells  2021-10-21  138  						   cachefiles_trace_mkdir_error);
+32759f7d7af545 David Howells  2021-10-21  139  			goto mkdir_error;
+32759f7d7af545 David Howells  2021-10-21  140  		}
+8c39b8bc82aafc David Howells  2022-01-14  141  		trace_cachefiles_mkdir(dir, subdir);
+32759f7d7af545 David Howells  2021-10-21  142  
+c54b386969a581 NeilBrown      2025-02-27  143  		if (unlikely(d_unhashed(subdir) || d_is_negative(subdir))) {
+c54b386969a581 NeilBrown      2025-02-27  144  			dput(subdir);
+32759f7d7af545 David Howells  2021-10-21  145  			goto retry;
+32759f7d7af545 David Howells  2021-10-21  146  		}
+32759f7d7af545 David Howells  2021-10-21  147  		ASSERT(d_backing_inode(subdir));
+32759f7d7af545 David Howells  2021-10-21  148  
+32759f7d7af545 David Howells  2021-10-21  149  		_debug("mkdir -> %pd{ino=%lu}",
+32759f7d7af545 David Howells  2021-10-21  150  		       subdir, d_backing_inode(subdir)->i_ino);
+32759f7d7af545 David Howells  2021-10-21  151  		if (_is_new)
+32759f7d7af545 David Howells  2021-10-21  152  			*_is_new = true;
+32759f7d7af545 David Howells  2021-10-21  153  	}
+32759f7d7af545 David Howells  2021-10-21  154  
+32759f7d7af545 David Howells  2021-10-21  155  	/* Tell rmdir() it's not allowed to delete the subdir */
+32759f7d7af545 David Howells  2021-10-21  156  	inode_lock(d_inode(subdir));
+32759f7d7af545 David Howells  2021-10-21  157  	inode_unlock(d_inode(dir));
+32759f7d7af545 David Howells  2021-10-21  158  
+08d7a6fb7e44ae Miklos Szeredi 2022-09-24  159  	if (!__cachefiles_mark_inode_in_use(NULL, d_inode(subdir))) {
+08d7a6fb7e44ae Miklos Szeredi 2022-09-24  160  		pr_notice("cachefiles: Inode already in use: %pd (B=%lx)\n",
+08d7a6fb7e44ae Miklos Szeredi 2022-09-24  161  			  subdir, d_inode(subdir)->i_ino);
+32759f7d7af545 David Howells  2021-10-21  162  		goto mark_error;
+08d7a6fb7e44ae Miklos Szeredi 2022-09-24  163  	}
+32759f7d7af545 David Howells  2021-10-21  164  
+32759f7d7af545 David Howells  2021-10-21  165  	inode_unlock(d_inode(subdir));
+32759f7d7af545 David Howells  2021-10-21  166  
+32759f7d7af545 David Howells  2021-10-21  167  	/* we need to make sure the subdir is a directory */
+32759f7d7af545 David Howells  2021-10-21  168  	ASSERT(d_backing_inode(subdir));
+32759f7d7af545 David Howells  2021-10-21  169  
+32759f7d7af545 David Howells  2021-10-21  170  	if (!d_can_lookup(subdir)) {
+32759f7d7af545 David Howells  2021-10-21  171  		pr_err("%s is not a directory\n", dirname);
+32759f7d7af545 David Howells  2021-10-21  172  		ret = -EIO;
+32759f7d7af545 David Howells  2021-10-21  173  		goto check_error;
+32759f7d7af545 David Howells  2021-10-21  174  	}
+32759f7d7af545 David Howells  2021-10-21  175  
+32759f7d7af545 David Howells  2021-10-21  176  	ret = -EPERM;
+32759f7d7af545 David Howells  2021-10-21  177  	if (!(d_backing_inode(subdir)->i_opflags & IOP_XATTR) ||
+32759f7d7af545 David Howells  2021-10-21  178  	    !d_backing_inode(subdir)->i_op->lookup ||
+32759f7d7af545 David Howells  2021-10-21  179  	    !d_backing_inode(subdir)->i_op->mkdir ||
+32759f7d7af545 David Howells  2021-10-21  180  	    !d_backing_inode(subdir)->i_op->rename ||
+32759f7d7af545 David Howells  2021-10-21  181  	    !d_backing_inode(subdir)->i_op->rmdir ||
+32759f7d7af545 David Howells  2021-10-21  182  	    !d_backing_inode(subdir)->i_op->unlink)
+32759f7d7af545 David Howells  2021-10-21  183  		goto check_error;
+32759f7d7af545 David Howells  2021-10-21  184  
+32759f7d7af545 David Howells  2021-10-21  185  	_leave(" = [%lu]", d_backing_inode(subdir)->i_ino);
+32759f7d7af545 David Howells  2021-10-21  186  	return subdir;
+32759f7d7af545 David Howells  2021-10-21  187  
+32759f7d7af545 David Howells  2021-10-21  188  check_error:
+32759f7d7af545 David Howells  2021-10-21  189  	cachefiles_put_directory(subdir);
+32759f7d7af545 David Howells  2021-10-21  190  	_leave(" = %d [check]", ret);
+32759f7d7af545 David Howells  2021-10-21  191  	return ERR_PTR(ret);
+32759f7d7af545 David Howells  2021-10-21  192  
+32759f7d7af545 David Howells  2021-10-21  193  mark_error:
+32759f7d7af545 David Howells  2021-10-21  194  	inode_unlock(d_inode(subdir));
+32759f7d7af545 David Howells  2021-10-21  195  	dput(subdir);
+32759f7d7af545 David Howells  2021-10-21  196  	return ERR_PTR(-EBUSY);
+32759f7d7af545 David Howells  2021-10-21  197  
+32759f7d7af545 David Howells  2021-10-21  198  mkdir_error:
+32759f7d7af545 David Howells  2021-10-21  199  	inode_unlock(d_inode(dir));
+c54b386969a581 NeilBrown      2025-02-27  200  	if (!IS_ERR(subdir))
+32759f7d7af545 David Howells  2021-10-21  201  		dput(subdir);
+32759f7d7af545 David Howells  2021-10-21  202  	pr_err("mkdir %s failed with error %d\n", dirname, ret);
+32759f7d7af545 David Howells  2021-10-21 @203  	return ERR_PTR(ret);
+32759f7d7af545 David Howells  2021-10-21  204  
+32759f7d7af545 David Howells  2021-10-21  205  lookup_error:
+32759f7d7af545 David Howells  2021-10-21  206  	inode_unlock(d_inode(dir));
+32759f7d7af545 David Howells  2021-10-21  207  	ret = PTR_ERR(subdir);
+32759f7d7af545 David Howells  2021-10-21  208  	pr_err("Lookup %s failed with error %d\n", dirname, ret);
+32759f7d7af545 David Howells  2021-10-21  209  	return ERR_PTR(ret);
+32759f7d7af545 David Howells  2021-10-21  210  
+32759f7d7af545 David Howells  2021-10-21  211  nomem_d_alloc:
+32759f7d7af545 David Howells  2021-10-21  212  	inode_unlock(d_inode(dir));
+32759f7d7af545 David Howells  2021-10-21  213  	_leave(" = -ENOMEM");
+32759f7d7af545 David Howells  2021-10-21  214  	return ERR_PTR(-ENOMEM);
+32759f7d7af545 David Howells  2021-10-21  215  }
+32759f7d7af545 David Howells  2021-10-21  216  
+
+:::::: The code at line 203 was first introduced by commit
+:::::: 32759f7d7af5454c616574190c388e1a59184f92 cachefiles: Implement a function to get/create a directory in the cache
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
-Cheers,
-
-David / dhildenb
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
