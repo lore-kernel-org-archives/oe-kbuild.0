@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179C0405F7
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 03:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0EA14A0A8
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Apr 2025 05:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743739132; cv=none; b=qkk/zufr5sFXDGan5IdU3hNmwaRWBdrGZ1hjsL6PQVETYugnocOW1d9N5qQO8OeC3HhfCc+UUQMiQ6nW2FKJ20EhP+7gR9qzeUM3FH3+ZVEpLvjU5gC6ZAY/82JsUShMRYj90gA+viPgairyd9leVIPKDIi6fgkc/J1TYyOkolw=
+	t=1743744650; cv=none; b=n4tEhdMMVu6/ml/jW7/y9Xmp8RVJ/2Y8b3v7EHwDdRH4UVqr+2aBYUGxU1keAGYYsoHh6nMDNDwkq6V+TR51KvHPOcHDcXuQb2NY6IKlxU2Rj9ppof9NuT+YcgXHd/g1rQ0HU5HpHq8CmPnqdPhXWV74J95iSOfYumWEoPmVBAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743739132; c=relaxed/simple;
-	bh=kPrIBLwNdI5YaVvTqRGbT7KTz0lTF5EMTOTbUFLSfUc=;
+	s=arc-20240116; t=1743744650; c=relaxed/simple;
+	bh=YmSnHq+qx/qcp5g6divUXY5skgvaTwn0jE5riq+HgBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uvfj03N++cXc0/f4ER1xGFFby2E5y6yUY3z3YfLhHA680GUhYWRJcNHnoWB/2D+7y+WRgB8cOg83OrnlY1m0BDTG9HZO1wgR5nezuV8BFfjroQiOkXvX8Bop8qDtFHNR/iXLXy+uggaD/DmA27sZL35kSwwVZzOW4Rzi7UakvDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gz1BKCUu; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=H2hMvqV0w5Zp8/HRfDz/O9VASNLZDtm5n1oGGkDKr+GJ9PX0QgNVqMPN57amcz1T5ztzLlyCq3Z7Obk0EMVcACI6KLwS7VJ1mkiZcWYkdV3xyAHViUQcsk29jZHHv5CapK3dUB+8P/N5n66RmmCPGsqCEw6mmZZNZoUMW4x3/qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SH+ivvFy; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gz1BKCUu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SH+ivvFy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743739130; x=1775275130;
+  t=1743744647; x=1775280647;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kPrIBLwNdI5YaVvTqRGbT7KTz0lTF5EMTOTbUFLSfUc=;
-  b=gz1BKCUuPU3RMzcXyuBe3NXn1ZUqh/bIYAaTzgI5Qj4frvIt6b8Ko5AH
-   tVHsCh+V8BVO/efCVlz2VgzvC/L2kUb5gTdqcgbDqMvXAoaXb44z7s7G5
-   R8p7v8nlpyxXV36+1YopdzrjU3/KiUHyrYzOnnRSsQr0N7GKSePp5wed7
-   vsSXzBEcaQMmtRKKZbkjxx6aQS+BmbSW5KRHNdQLRuz9n5cRW3jhgL6/B
-   mETSUfP8fq0FZYUOFa4U/SMr71yaR+aLyMKK/baJes9qXZpAylHPhcSB0
-   E2q1JEmUQcSNFYma7ETlpnhGe/iHcasuZov4HOyxc/5oFplnsl0HqAEXf
-   Q==;
-X-CSE-ConnectionGUID: 7uhQnKIrTMK5npRAKxdPlA==
-X-CSE-MsgGUID: RmCXtL8JQhGmuHMIJvO6qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45266891"
+  bh=YmSnHq+qx/qcp5g6divUXY5skgvaTwn0jE5riq+HgBM=;
+  b=SH+ivvFyvvxu2tiSNNMha9cMiPKzNhVIcvCOYC5phpcawqt30a6eXYkm
+   7L88S616XKmRTkiHt8uzPouX/8Oon1Yx83aX5UpOm+7L+v45WOBeA5QyW
+   F/inBk4z5IQbdvDe3uaIjGRFd+TO6syuk+jkXWj8jM7KDkkE4CHRfYj94
+   s1G6a4vrJisZXWlmNBT4QX38WByTY7CZHcb7j+co3LMJFjsnf2Q2VKpz4
+   JIJVRibPLN+zOyVa08XgzZgxCTLSuvkyt39Frwv+LLb+bnTYQFWTg/upM
+   5uUPK4vJiSjHPzaxMAmRlJhanz2gjuxjz7K2Z8xtfFYi/0E85jDBaQhRs
+   g==;
+X-CSE-ConnectionGUID: XRIMPzozSdqCx5mC+1XFOw==
+X-CSE-MsgGUID: J1b10G68R4yqVmQDKYj9Gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45297737"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="45266891"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 20:58:49 -0700
-X-CSE-ConnectionGUID: crSU2n6zSk63iZ3RTJ7gQQ==
-X-CSE-MsgGUID: X6btTHfOQkCXpILUP1VlrA==
+   d="scan'208";a="45297737"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 22:30:45 -0700
+X-CSE-ConnectionGUID: Ltmkv8l8QDmIuK2mUcHJUw==
+X-CSE-MsgGUID: jyF/1eZZSW+/g1npFjQ2Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="127495377"
+   d="scan'208";a="127166904"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Apr 2025 20:58:36 -0700
+  by orviesa006.jf.intel.com with ESMTP; 03 Apr 2025 22:30:44 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u0YCQ-0000yh-1B;
-	Fri, 04 Apr 2025 03:58:34 +0000
-Date: Fri, 4 Apr 2025 11:57:34 +0800
+	id 1u0Zda-00011J-0W;
+	Fri, 04 Apr 2025 05:30:42 +0000
+Date: Fri, 4 Apr 2025 13:30:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ast-bpf:trylock 6/7] drivers/connector/cn_proc.c:92 send_msg()
- warn: statement has no effect 31
-Message-ID: <202504041146.lvvNhYSs-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [wsa:renesas/n1d/enablement 10/12]
+ arch/arm/boot/dts/xilinx/zynq-cc108.dtb: mmc@e0100000: interrupts: [[0, 24,
+ 4]] is too short
+Message-ID: <202504041340.w0z9oh5b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,73 +63,370 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Shakeel Butt <shakeel.butt@linux.dev>
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git trylock
-head:   ba0c224914b31e80b0b9e310d72f508a639fb465
-commit: a77ef21f99e8a7fb857b4ec27fd7ba01f8b2dc7f [6/7] locking/local_lock, mm: Replace localtry_ helpers with local_trylock_t type
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-config: i386-randconfig-141-20250404 (https://download.01.org/0day-ci/archive/20250404/202504041146.lvvNhYSs-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/n1d/enablement
+head:   17b4fb2aac13dc15816c7989fdf136483e900806
+commit: 759d2b7a1bcb6167602aaba0b098258e847933a4 [10/12] dt-bindings: mmc: arasan,sdhci: Add Renesas RZ/N1D
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-053-20250329 (https://download.01.org/0day-ci/archive/20250404/202504041340.w0z9oh5b-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 7eccafc3c84606587a175c0a8c1ebea6e4fb21cd)
+dtschema version: 2025.3.dev6+gb64c5c3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504041340.w0z9oh5b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504041146.lvvNhYSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504041340.w0z9oh5b-lkp@intel.com/
 
-New smatch warnings:
-drivers/connector/cn_proc.c:92 send_msg() warn: statement has no effect 31
-mm/swapfile.c:1284 folio_alloc_swap() warn: statement has no effect 31
-include/linux/radix-tree.h:260 radix_tree_preload_end() warn: statement has no effect 31
-include/linux/radix-tree.h:260 radix_tree_preload_end() warn: statement has no effect 31
-
-Old smatch warnings:
-drivers/connector/cn_proc.c:114 send_msg() warn: statement has no effect 31
-fs/xfs/xfs_mru_cache.c:272 _xfs_mru_cache_reap() warn: can 'mru' even be NULL?
-
-vim +92 drivers/connector/cn_proc.c
-
-2aa1f7a1f47ce8 Anjali Kulkarni 2023-07-19   87  
-ab8ed951080e8f Aaron Campbell  2016-06-24   88  static inline void send_msg(struct cn_msg *msg)
-9f46080c41d5f3 Matt Helsley    2005-11-07   89  {
-743acf351bae1f Anjali Kulkarni 2023-07-19   90  	__u32 filter_data[2];
-743acf351bae1f Anjali Kulkarni 2023-07-19   91  
-3e92fd7bd2b841 Mike Galbraith  2020-05-27  @92  	local_lock(&local_event.lock);
-ab8ed951080e8f Aaron Campbell  2016-06-24   93  
-3e92fd7bd2b841 Mike Galbraith  2020-05-27   94  	msg->seq = __this_cpu_inc_return(local_event.count) - 1;
-ab8ed951080e8f Aaron Campbell  2016-06-24   95  	((struct proc_event *)msg->data)->cpu = smp_processor_id();
-ab8ed951080e8f Aaron Campbell  2016-06-24   96  
-ab8ed951080e8f Aaron Campbell  2016-06-24   97  	/*
-3e92fd7bd2b841 Mike Galbraith  2020-05-27   98  	 * local_lock() disables preemption during send to ensure the messages
-3e92fd7bd2b841 Mike Galbraith  2020-05-27   99  	 * are ordered according to their sequence numbers.
-ab8ed951080e8f Aaron Campbell  2016-06-24  100  	 *
-ab8ed951080e8f Aaron Campbell  2016-06-24  101  	 * If cn_netlink_send() fails, the data is not sent.
-ab8ed951080e8f Aaron Campbell  2016-06-24  102  	 */
-743acf351bae1f Anjali Kulkarni 2023-07-19  103  	filter_data[0] = ((struct proc_event *)msg->data)->what;
-743acf351bae1f Anjali Kulkarni 2023-07-19  104  	if (filter_data[0] == PROC_EVENT_EXIT) {
-743acf351bae1f Anjali Kulkarni 2023-07-19  105  		filter_data[1] =
-743acf351bae1f Anjali Kulkarni 2023-07-19  106  		((struct proc_event *)msg->data)->event_data.exit.exit_code;
-743acf351bae1f Anjali Kulkarni 2023-07-19  107  	} else {
-743acf351bae1f Anjali Kulkarni 2023-07-19  108  		filter_data[1] = 0;
-743acf351bae1f Anjali Kulkarni 2023-07-19  109  	}
-743acf351bae1f Anjali Kulkarni 2023-07-19  110  
-8929f95b2b5877 Keqi Wang       2024-02-09  111  	cn_netlink_send_mult(msg, msg->len, 0, CN_IDX_PROC, GFP_NOWAIT,
-8929f95b2b5877 Keqi Wang       2024-02-09  112  			     cn_filter, (void *)filter_data);
-ab8ed951080e8f Aaron Campbell  2016-06-24  113  
-3e92fd7bd2b841 Mike Galbraith  2020-05-27  114  	local_unlock(&local_event.lock);
-9f46080c41d5f3 Matt Helsley    2005-11-07  115  }
-9f46080c41d5f3 Matt Helsley    2005-11-07  116  
-
-:::::: The code at line 92 was first introduced by commit
-:::::: 3e92fd7bd2b8418b53cb7304855b8b69bedbe2b4 connector/cn_proc: Protect send_msg() with a local lock
-
-:::::: TO: Mike Galbraith <umgwanakikbuti@gmail.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: ethernet@e000b000: ethernet-phy@1: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-cc108.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-cc108.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-cc108.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+>> arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: pinctrl@700: gpio0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: pinctrl@700: sdhci0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-ebaz4205.dtb: pinctrl@700: sdhci0-default:conf-cd: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+>> arch/arm/boot/dts/xilinx/zynq-microzed.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-microzed.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: pinctrl@700: usb0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-microzed.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/i2c@e0004000/isl9305@68: failed to match any schema with compatible: ['isil,isl9305']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: ethernet@e000b000: ethernet-phy@0: Unevaluated properties are not allowed ('device_type', 'marvell,reg-init' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-parallella.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-parallella.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-parallella.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: hdmi-tx@39: 'dvdd-3v-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: hdmi-tx@39: 'bgvdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/i2c@e0004000/i2c-mux@74/i2c@7/hwmon@34: failed to match any schema with compatible: ['ti,ucd9248']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/i2c@e0004000/i2c-mux@74/i2c@7/hwmon@35: failed to match any schema with compatible: ['ti,ucd9248']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/i2c@e0004000/i2c-mux@74/i2c@7/hwmon@36: failed to match any schema with compatible: ['ti,ucd9248']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: ethernet@e000b000: ethernet-phy@7: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc702.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc702.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: pinctrl@700: can0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: pinctrl@700: gem0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc702.dtb: pinctrl@700: gem0-default:conf-mdio: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: hdmi-tx@39: 'pvdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: hdmi-tx@39: 'dvdd-3v-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: hdmi-tx@39: 'bgvdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: /axi/i2c@e0004000/i2c-mux@74/i2c@7/ucd90120@65: failed to match any schema with compatible: ['ti,ucd90120']
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: ethernet@e000b000: ethernet-phy@7: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc706.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc706.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: pinctrl@700: gem0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: pinctrl@700: gem0-default:conf-mdio: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc706.dtb: pinctrl@700: gpio0-default:conf: 'io-standard' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/xlnx,pinctrl-zynq.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: ethernet@e000b000: ethernet-phy@7: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm010.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm011.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm012.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: /axi/i2c@e0005000/clock-generator@55: failed to match any schema with compatible: ['silabs,si570']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: ethernet@e000c000: ethernet-phy@7: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zc770-xm013.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: ethernet@e000b000: ethernet-phy@0: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zed.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zed.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zed.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: accelerometer@53: 'interrupt-names' is a dependency of 'interrupts'
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zturn.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zturn.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: accelerometer@53: 'interrupt-names' is a dependency of 'interrupts'
+   	from schema $id: http://devicetree.org/schemas/iio/accel/adi,adxl345.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zturn-v5.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: ethernet@e000b000: ethernet-phy@0: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zybo.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zybo.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+--
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: fpga-full: $nodename:0: 'fpga-full' does not match '^fpga-region(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/fpga-region.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: pmu@f8891000: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/pmu.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: /axi/adc@f8007100: failed to match any schema with compatible: ['xlnx,zynq-xadc-1.00.a']
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: ethernet@e000b000: ethernet-phy@0: Unevaluated properties are not allowed ('device_type' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/cdns,macb.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: mmc@e0100000: interrupts: [[0, 24, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+>> arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: mmc@e0101000: interrupts: [[0, 47, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/arasan,sdhci.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: /axi/slcr@f8000000: failed to match any schema with compatible: ['xlnx,zynq-slcr', 'syscon', 'simple-mfd']
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: /axi/slcr@f8000000/clkc@100: failed to match any schema with compatible: ['xlnx,ps7-clkc']
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: /axi/slcr@f8000000/rstc@200: failed to match any schema with compatible: ['xlnx,zynq-reset']
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: etb@f8801000: clocks: [[1, 27], [1, 46], [1, 47]] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: etb@f8801000: clock-names:1: 'atclk' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
+   arch/arm/boot/dts/xilinx/zynq-zybo-z7.dtb: etb@f8801000: clock-names: ['apb_pclk', 'dbg_trc', 'dbg_apb'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-etb10.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
