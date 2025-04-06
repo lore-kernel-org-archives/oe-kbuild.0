@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78971186E2D
-	for <oe-kbuild@lists.linux.dev>; Sun,  6 Apr 2025 20:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DDE17A30B
+	for <oe-kbuild@lists.linux.dev>; Sun,  6 Apr 2025 20:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743969713; cv=none; b=CA6wVYFkxSEqoQXstiVTWvYeCtHKh66zjh2ZmzSDoSfQdJMpXc9PHAv0pXKsYxkeqOpBFNkNnDUkgBe84ctveSCowBoF0tfayTSILPnflBmznaVqKZEsvO69TbhbL47NVzNO6nwi/CwR9o70206jvEl6sGG55AgI581OvWy1GAA=
+	t=1743970915; cv=none; b=YeXFu3zSGT1OEHAFkQOfDdmafwVObxC26TD/4kfVNxWm7/DAQwgV+/IRp1lyVj4g1ZEdzM6Nue0F8jad49Nd36dsIdu6hZBdbTgm3tmTZaK3o45P5EV3gCHDLs/oUvH8liKOKSangaTtb1cY6PDCwrfJlrOEVGnGNcYwJaYw0hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743969713; c=relaxed/simple;
-	bh=z0EzjAGVGXaARQp9A6otf9Riwz1VrFPvfMdvb7Sm2y0=;
+	s=arc-20240116; t=1743970915; c=relaxed/simple;
+	bh=paDZ0fgT5b5/YRt2DldvGSprhhDiJ/h4nQobz2SusOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fR14R5B71rtDdPR6G2WH/00DFrd37sWd+aZsrlaVrUNaZo5WoxfyOFWJbu8nWGWid7fs2+I6TaXNeDnvLNQC3/t0zRjPjW41MPT0j91OVLM0WYVtPnopkG+u6SPEWz8wbdQWyXS0IkNGsAvByqH99Hq5XTe0U5u/nmFLKfCHUMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMk99MYZ; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Uq3pt/R4OK1LbhHZFwjzVZy40c8AGUIPWuotUwUJXviryeZGCP+cNOksQIIITVJA6k4SdVsE9l3vCGYyQw4wLlhjZ9U/nKnG9a95zdMpExksBf5rTV6XpA38+li2kp5XtO5ARbAlnTqvEDhcDOk3larIlQ2v1v6kx5KdvadeOG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fueqSpge; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMk99MYZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fueqSpge"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743969711; x=1775505711;
+  t=1743970913; x=1775506913;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z0EzjAGVGXaARQp9A6otf9Riwz1VrFPvfMdvb7Sm2y0=;
-  b=UMk99MYZ2vbL1we4j5yZMvghEzMbOg6RIFFvLBGQEOJKFWsQ+YJnBnVv
-   DEjMxqPiqr428p3sC925JtS3fMH+8ioH0WpsclQzLIPmRqbnQcgd/epxu
-   /LvaB8UNctfJf6UpELj+EZBceGpve8djeIbzntARcHXQTguSa9Dm5wQf6
-   4BoIYMTafNyEeb3DxSt8tg0iUVbffgAL3mhVKzIrmDNzAV4bOhs075gjJ
-   hgkdkC0EGEdgbA9LkEaP9J0OOBBNuI597gHB6eD0mlXGkast4QFcO0bgQ
-   kOrPpshbrOpBUe63VvVKBMf8KTn7BZh2cgAxhAIqS7shwUFh0T4gOBvMO
-   g==;
-X-CSE-ConnectionGUID: 63cIXwBYQFqZdb9hzK+olw==
-X-CSE-MsgGUID: xc9iuRmuRpWuydwfg7Etdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="55980370"
+  bh=paDZ0fgT5b5/YRt2DldvGSprhhDiJ/h4nQobz2SusOY=;
+  b=fueqSpgez98OYAib5okUO6NaDMWO02/khLTRDVyOlRZwarOsPu51eycA
+   Vggs4bxQyyiKiTshzVS5Xn5XxYGf6VVUYK9Er8kl69056ZmnM3sIgIHL9
+   tiOOklvWkongQBbP9qt0Q1TZvdj/YzP0gKOTrqtb89o1Y6wh/FhOfHKXY
+   Ldq1ZNOtzk99udp3h84M29TeWOG10iA7WXFYPJF9qEz2z5eL0g7hqYw2P
+   5v+ENf7oeUvSbfcgu0gP3UEWAR9B22Dh915fS6ZXWSt2MogD17tSh4AJg
+   /Hul2k9PgKRTRwJkLTT4Uly8MuvPp3O/CS/2xTfW2G6fHdyh3acxR0Nsq
+   w==;
+X-CSE-ConnectionGUID: mfv7x8HuREG8BtBXhUrHbg==
+X-CSE-MsgGUID: DjJIAGKRQZWQdIboc5XZmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="44488552"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="55980370"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 13:01:51 -0700
-X-CSE-ConnectionGUID: bqB08HfjSpO7RGsPbG5xkg==
-X-CSE-MsgGUID: 7O92Dz5uS1y5NSiQ8IeFIw==
+   d="scan'208";a="44488552"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 13:21:52 -0700
+X-CSE-ConnectionGUID: sye+1mEsTPyC7LP9qvq+Zg==
+X-CSE-MsgGUID: /l1+2QczTJOMUuUwuAlZSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="164956927"
+   d="scan'208";a="127519554"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Apr 2025 13:01:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Apr 2025 13:21:51 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1WBf-0002kx-0r;
-	Sun, 06 Apr 2025 20:01:47 +0000
-Date: Mon, 7 Apr 2025 04:01:20 +0800
+	id 1u1WV2-0002lJ-25;
+	Sun, 06 Apr 2025 20:21:48 +0000
+Date: Mon, 7 Apr 2025 04:21:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] phy: qualcomm: phy-qcom-eusb2-repeater: rework reg
- override handler
-Message-ID: <202504070335.fFATCENZ-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [morimoto:sound-msiof-2025-03-26 21/24]
+ sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to
+ 'PTR_ERR'
+Message-ID: <202504070441.9TXJ68nR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,65 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250405174319.405975-1-mitltlatltl@gmail.com>
-References: <20250405174319.405975-1-mitltlatltl@gmail.com>
-TO: Pengyu Luo <mitltlatltl@gmail.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-CC: Pengyu Luo <mitltlatltl@gmail.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-phy@lists.infradead.org
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Hi Pengyu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.14 next-20250404]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/phy-qualcomm-phy-qcom-eusb2-repeater-rework-reg-override-handler/20250406-014621
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250405174319.405975-1-mitltlatltl%40gmail.com
-patch subject: [PATCH] phy: qualcomm: phy-qcom-eusb2-repeater: rework reg override handler
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm64-randconfig-052-20250406 (https://download.01.org/0day-ci/archive/20250407/202504070335.fFATCENZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.3.dev6+gb64c5c3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504070335.fFATCENZ-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-msiof-2025-03-26
+head:   ba9316799e85a9ef14dd8a3e5580be4c97149576
+commit: adf5f819442084ec2b0ea13a5834b05d10750e24 [21/24] ASoC: renesas: add MSIOF sound support
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: openrisc-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250407/202504070441.9TXJ68nR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504070335.fFATCENZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504070441.9TXJ68nR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3193.27-3267.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550.dtsi:3288.27-3343.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: display-subsystem@ae00000: interconnects: [[180, 3, 0, 31, 1, 0]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
-   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: pmic@7: phy@fd00: 'qcom,host-param-override-seq', 'qcom,param-override-seq' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
->> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: phy@fd00: 'qcom,host-param-override-seq', 'qcom,param-override-seq' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,snps-eusb2-repeater.yaml#
+smatch warnings:
+sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +367 sound/soc/renesas/rcar/msiof.c
+
+adf5f819442084e Kuninori Morimoto 2025-03-24  355  
+adf5f819442084e Kuninori Morimoto 2025-03-24  356  static int msiof_open(struct snd_soc_component *component,
+adf5f819442084e Kuninori Morimoto 2025-03-24  357  		      struct snd_pcm_substream *substream)
+adf5f819442084e Kuninori Morimoto 2025-03-24  358  {
+adf5f819442084e Kuninori Morimoto 2025-03-24  359  	struct device *dev = component->dev;
+adf5f819442084e Kuninori Morimoto 2025-03-24  360  	struct dma_chan *chan;
+adf5f819442084e Kuninori Morimoto 2025-03-24  361  	static const char *dma_names[] = {"rx", "tx"};
+adf5f819442084e Kuninori Morimoto 2025-03-24  362  	int is_play = msiof_is_play(substream);
+adf5f819442084e Kuninori Morimoto 2025-03-24  363  	int ret;
+adf5f819442084e Kuninori Morimoto 2025-03-24  364  
+adf5f819442084e Kuninori Morimoto 2025-03-24  365  	chan = of_dma_request_slave_channel(dev->of_node, dma_names[is_play]);
+adf5f819442084e Kuninori Morimoto 2025-03-24  366  	if (IS_ERR_OR_NULL(chan))
+adf5f819442084e Kuninori Morimoto 2025-03-24 @367  		return PTR_ERR(chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  368  
+adf5f819442084e Kuninori Morimoto 2025-03-24  369  	ret = snd_dmaengine_pcm_open(substream, chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  370  	if (ret < 0)
+adf5f819442084e Kuninori Morimoto 2025-03-24  371  		goto open_err_dma;
+adf5f819442084e Kuninori Morimoto 2025-03-24  372  
+adf5f819442084e Kuninori Morimoto 2025-03-24  373  	snd_soc_set_runtime_hwparams(substream, &msiof_pcm_hardware);
+adf5f819442084e Kuninori Morimoto 2025-03-24  374  
+adf5f819442084e Kuninori Morimoto 2025-03-24  375  	ret = snd_pcm_hw_constraint_integer(substream->runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+adf5f819442084e Kuninori Morimoto 2025-03-24  376  
+adf5f819442084e Kuninori Morimoto 2025-03-24  377  open_err_dma:
+adf5f819442084e Kuninori Morimoto 2025-03-24  378  	if (ret < 0)
+adf5f819442084e Kuninori Morimoto 2025-03-24  379  		dma_release_channel(chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  380  
+adf5f819442084e Kuninori Morimoto 2025-03-24  381  	return ret;
+adf5f819442084e Kuninori Morimoto 2025-03-24  382  }
+adf5f819442084e Kuninori Morimoto 2025-03-24  383  
 
 -- 
 0-DAY CI Kernel Test Service
