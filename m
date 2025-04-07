@@ -1,105 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D37C1FF612
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 16:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0942420A5D6
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 17:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744041719; cv=none; b=BdJpfSzb6f93n4Ux1pi5wee7B37Od54g6zqfCC8QQ79wUg6Ss8oAExIaO6ydmhOspbHpYzhLUYaVNW+8nWYW/jfkX6mYf+p0PseH4QVB/t20vjG9nk92fJ4jenQX5gWu0kPh7oQFtY/3FVfa1vsRiX6A0JlurikfCzoxgEySlnY=
+	t=1744047851; cv=none; b=P9m+hGhjxu52GyQh/gpZQxHPATAf1jUIIGrYQiT3jxvFA6AKNxqEmkoYjJLzAPQIoocmLS+LDXUGiW6CmnN0FWkKg04cOcNA8eKSqtrnfEZGETqd/HLt0n/cCqg142LbUi/tLi/r97QWBp4hSozJX8XA/Xk1JeOHuKCsYQI+Ns0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744041719; c=relaxed/simple;
-	bh=v3Gy1kjn+DtOcGjt0gGARhZ/+r2PIFYWQ3ec7PBi0rM=;
+	s=arc-20240116; t=1744047851; c=relaxed/simple;
+	bh=vHMyQw+3U8ZnksVeK1j0Y7Cvi13qLx2r6H8p08xhvas=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hKBl1Aw1EFGC+AB/4apQqlWZXobLleNx9pSDhSxrA3gqAARq6SdR09ynSv5ellhX1UIxiQAwq0XbnjZG4D+Hood8EW1jpHIJYY9p6ULqqJEq5mzyJOOYueP1UbP68AJj07UDTMxI15G5SvKa/EtbGvP7JeCyeJHErq3GzAwCvUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cNfxhL/Q; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=rhGIiqHk/I9xYM/ep26rqBLQ8X226HZIOU8ViImWCbSENtRjI+JnbOFOp5c7sIaBwE9ZA+wxCg6cQwTedX9fTZyBrkv2q/R7nqEW01NZeUWqmTkAoGzfC8HzQd3oq7Lkzxgv1S5bvU1BNvE676e8V7cb7JAzUUlUp0bXeZlRGys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPr1vkUT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cNfxhL/Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPr1vkUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744041717; x=1775577717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v3Gy1kjn+DtOcGjt0gGARhZ/+r2PIFYWQ3ec7PBi0rM=;
-  b=cNfxhL/QZxd/Qws8xpz6bhqXOBB3gLfx740DEVlcEGWduSSEhUbOwz02
-   NTT2BkcVPypkzvrydzy1pig3hcT2Z8lCnkFjvkd9Ca+DAEC+KBF1/xGpt
-   gfojYrd7YTP7BpZle5J0vCXniqP+6CizDItedZcnen/yVnmnOa8BwyRj9
-   hOQijfh7KqZvZQ+vHy5FW2Fso36lCyuiw0uFmS3RARFNwDulYmyQSFFZm
-   tstOEJBxUGN9Cw5M5IO/qlEGH4boxTKKc2SC66kn1V5RHEPUN86i8YSNr
-   +CaIXuCIUcu0Qlj2FRB86mBdqbHOoBP0QFoBjozvrIncwal+txSvpE1kw
-   w==;
-X-CSE-ConnectionGUID: 6JpZf2tJTH6B8xEmxNag4w==
-X-CSE-MsgGUID: 8gWCpmadSa+9BD3YO6buwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="48149464"
+  t=1744047849; x=1775583849;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vHMyQw+3U8ZnksVeK1j0Y7Cvi13qLx2r6H8p08xhvas=;
+  b=TPr1vkUTSDUna64Mo5wtVcvCokQwyu1WfXJ0qMsZSoDUhA12XG0cbz4c
+   qZIGdZTZLN0TfZ/8kPIb1/PDSaXdoNbZkRYH0jUEodpwLw/1/5kw2lMY5
+   yiUjE3ADrcd7G6D0CkdDh+YS53KZ+LMs8GE+VU3jyV+XMWD5tWZTbcp20
+   e4ITKPqMNCBW18Ro6MGby18AqX9y4CGA5x5CsdRn//0EoWTRJD2npgP5O
+   f1QT2Q0LrtQjn7aqPg2MJ0DQYC2fM/h9mLti8qSw4NlfIRRj0eU4Fgjah
+   ojSYTR/xHOhpHMDxX7LTqcdM+ElIt2whkrmgAVsWwlKwwf6qeWOU0geeS
+   g==;
+X-CSE-ConnectionGUID: QvIYOx7cRZq611iUY2RtyQ==
+X-CSE-MsgGUID: Oq31jpLVSX6OSLO2C1DSyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45617241"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="48149464"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 09:01:56 -0700
-X-CSE-ConnectionGUID: Wk3r+zlCTAqFGprxNEVecQ==
-X-CSE-MsgGUID: RvDQSqGiR1CbBKU4LpH71g==
+   d="scan'208";a="45617241"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 10:44:08 -0700
+X-CSE-ConnectionGUID: KNOq66l9TOyoRhqFhatONA==
+X-CSE-MsgGUID: DwwE+CzqTa+6wSQgpSxCjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="132970519"
+   d="scan'208";a="132752893"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Apr 2025 09:01:55 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 07 Apr 2025 10:44:07 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1ov3-0003Z1-1u;
-	Mon, 07 Apr 2025 16:01:53 +0000
-Date: Tue, 8 Apr 2025 00:01:39 +0800
+	id 1u1qVx-0003fP-01;
+	Mon, 07 Apr 2025 17:44:05 +0000
+Date: Tue, 8 Apr 2025 01:43:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e-t14s 68/102]
- arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb:
- /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with
- compatible: ['ovti,ov02c10']
-Message-ID: <202504072319.7yxjusor-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [toke:page-pool-track-dma 3/3] include/net/page_pool/types.h:319
+ page_pool_page_is_pp() warn: masked condition '(page->pp_magic & ~(((0) +
+ (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) -
+ (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) <
+ (__ffs((6767463209352822784)) -...
+Message-ID: <202504080108.OQLQmxdd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: "Toke Høiland-Jørgensen" <toke@redhat.com>
+CC: Mina Almasry <almasrymina@google.com>
+CC: Jesper Dangaard Brouer <hawk@kernel.org>
 
-tree:   https://github.com/krzk/linux track/x1e-t14s
-head:   239252d33658f16e30ebbe940292946ccc610d00
-commit: 41dec11db306e0e0cfbc150b942552fc309a25ec [68/102] arm64: dts: qcom: x1e80100-lenovo-yoga-slim7x: Add in Camera stuff TODO: break this up a bit
-:::::: branch date: 25 hours ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250407/202504072319.7yxjusor-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-dtschema version: 2025.3.dev6+gb64c5c3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504072319.7yxjusor-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git page-pool-track-dma
+head:   00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d
+commit: 00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d [3/3] page_pool: Track DMA-mapped pages and unmap them when destroying the pool
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: powerpc64-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250408/202504080108.OQLQmxdd-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504072319.7yxjusor-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504080108.OQLQmxdd-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfa1p2-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddrfa1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddpcie0p9-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddpcie1p8-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
-   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'qcom,ath12k-calibration-variant' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
->> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with compatible: ['ovti,ov02c10']
+smatch warnings:
+include/net/page_pool/types.h:319 page_pool_page_is_pp() warn: masked condition '(page->pp_magic & ~(((0) + (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) < (__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) ?(32):(__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) + (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))) - 1))))) | 3)) == (64 + (6767463209352822784))' is always false.
+
+vim +319 include/net/page_pool/types.h
+
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  316  
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  317  static inline bool page_pool_page_is_pp(struct page *page)
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  318  {
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10 @319  	return (page->pp_magic & PP_MAGIC_MASK) == PP_SIGNATURE;
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  320  }
+a9ca9f9ceff382b Yunsheng Lin           2023-08-04  321  #else
+a9ca9f9ceff382b Yunsheng Lin           2023-08-04  322  static inline void page_pool_destroy(struct page_pool *pool)
+a9ca9f9ceff382b Yunsheng Lin           2023-08-04  323  {
+a9ca9f9ceff382b Yunsheng Lin           2023-08-04  324  }
+a9ca9f9ceff382b Yunsheng Lin           2023-08-04  325  
+
+:::::: The code at line 319 was first introduced by commit
+:::::: a4a22a1caf31aeb57416327c9dfca479614b6b76 page_pool: Move pp_magic check into helper functions
+
+:::::: TO: Toke Høiland-Jørgensen <toke@redhat.com>
+:::::: CC: Toke Høiland-Jørgensen <toke@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
