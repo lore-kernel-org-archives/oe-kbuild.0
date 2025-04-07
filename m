@@ -1,113 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0942420A5D6
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 17:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540322580EE
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 18:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744047851; cv=none; b=P9m+hGhjxu52GyQh/gpZQxHPATAf1jUIIGrYQiT3jxvFA6AKNxqEmkoYjJLzAPQIoocmLS+LDXUGiW6CmnN0FWkKg04cOcNA8eKSqtrnfEZGETqd/HLt0n/cCqg142LbUi/tLi/r97QWBp4hSozJX8XA/Xk1JeOHuKCsYQI+Ns0=
+	t=1744052247; cv=none; b=O8EGpwdxWpZxAYNwBtfEqEJ+KxsW0CsMw4n0h55EL9S70ug2hR+HlgcZyrDK53CjAaUe/+B3ICtLcD9dk4dAecsqNEQUQIW45kOLyiIgvC1Gwns+udzoki61IYFLTtN6IGQlOSA6XC7+YvlkWeMOnkHfbCLqHzrhlsz+b003/kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744047851; c=relaxed/simple;
-	bh=vHMyQw+3U8ZnksVeK1j0Y7Cvi13qLx2r6H8p08xhvas=;
+	s=arc-20240116; t=1744052247; c=relaxed/simple;
+	bh=6RLQ9Nw79Rvp4CtY/W5TSVvvgLYuXMd363rSLaNMijo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rhGIiqHk/I9xYM/ep26rqBLQ8X226HZIOU8ViImWCbSENtRjI+JnbOFOp5c7sIaBwE9ZA+wxCg6cQwTedX9fTZyBrkv2q/R7nqEW01NZeUWqmTkAoGzfC8HzQd3oq7Lkzxgv1S5bvU1BNvE676e8V7cb7JAzUUlUp0bXeZlRGys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPr1vkUT; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=iSgzwrTmlu6E6LsB5wmrXxdajqLQ0r1ASNL3WXMyQjmBJhoIBurQoTlz5LwpRlVGOy7Gna/srTYnij5SvO5FVvXOBN0mHEtNfdO6RDz+nB1JCZfOBgmZso4TsVvFHHjryp32R2ywYyqpuzb4tKM5EIlOAyyKtEBRUy4ZJ06CB04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1CGzzdj; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPr1vkUT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1CGzzdj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744047849; x=1775583849;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vHMyQw+3U8ZnksVeK1j0Y7Cvi13qLx2r6H8p08xhvas=;
-  b=TPr1vkUTSDUna64Mo5wtVcvCokQwyu1WfXJ0qMsZSoDUhA12XG0cbz4c
-   qZIGdZTZLN0TfZ/8kPIb1/PDSaXdoNbZkRYH0jUEodpwLw/1/5kw2lMY5
-   yiUjE3ADrcd7G6D0CkdDh+YS53KZ+LMs8GE+VU3jyV+XMWD5tWZTbcp20
-   e4ITKPqMNCBW18Ro6MGby18AqX9y4CGA5x5CsdRn//0EoWTRJD2npgP5O
-   f1QT2Q0LrtQjn7aqPg2MJ0DQYC2fM/h9mLti8qSw4NlfIRRj0eU4Fgjah
-   ojSYTR/xHOhpHMDxX7LTqcdM+ElIt2whkrmgAVsWwlKwwf6qeWOU0geeS
-   g==;
-X-CSE-ConnectionGUID: QvIYOx7cRZq611iUY2RtyQ==
-X-CSE-MsgGUID: Oq31jpLVSX6OSLO2C1DSyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45617241"
+  t=1744052246; x=1775588246;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6RLQ9Nw79Rvp4CtY/W5TSVvvgLYuXMd363rSLaNMijo=;
+  b=i1CGzzdjvYrSsge7OEYWF6gSkddP+V1vEJBzUX8drEdQYvuPoE4kUmbQ
+   oXLsJvRymghc0Tdp8/seTeNAPs+waGRV+hRtpIatyJv3lmmlMkAj23A+E
+   eZr87ibbnHn+9v5oRhH1j6Sr5cgeCnCJJEbSlBe3TYpH29MQwhWGkwiRO
+   rwU+i94O7mZkQOlNXJ//CjLXSvkTHyGiuCu6Uzn7To3FYi1VzHHmqW8cY
+   MEQahDB4ZmhcdVvbxDVRf1vsIpioAxg8J2eoNbZ8VJFt+cvan9YBzneO9
+   DuddS6JwXL2XhNNhfD9S7/luIiF43yjFzdVXXJxVQRScBVXxa4jeJN4gd
+   Q==;
+X-CSE-ConnectionGUID: SSfKSWunQCy/PtLDHZPcOg==
+X-CSE-MsgGUID: 1mjDI/i8RSWvCu9nG6Adlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49112757"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="45617241"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 10:44:08 -0700
-X-CSE-ConnectionGUID: KNOq66l9TOyoRhqFhatONA==
-X-CSE-MsgGUID: DwwE+CzqTa+6wSQgpSxCjQ==
+   d="scan'208";a="49112757"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 11:57:25 -0700
+X-CSE-ConnectionGUID: nm6OolpET6awQVSO2+lrhw==
+X-CSE-MsgGUID: x3p1QWxKSX2pEkjnmB7EnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="132752893"
+   d="scan'208";a="151228699"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Apr 2025 10:44:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 11:57:23 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1qVx-0003fP-01;
-	Mon, 07 Apr 2025 17:44:05 +0000
-Date: Tue, 8 Apr 2025 01:43:27 +0800
+	id 1u1req-0003iV-2Y;
+	Mon, 07 Apr 2025 18:57:20 +0000
+Date: Tue, 8 Apr 2025 02:57:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [toke:page-pool-track-dma 3/3] include/net/page_pool/types.h:319
- page_pool_page_is_pp() warn: masked condition '(page->pp_magic & ~(((0) +
- (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) -
- (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) <
- (__ffs((6767463209352822784)) -...
-Message-ID: <202504080108.OQLQmxdd-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android13-5.15-2024-05 0/1]
+ drivers/scsi/elx/efct/efct_scsi.c:47:2-8: preceding lock on line 41
+Message-ID: <202504080232.mFbjlZmr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Toke Høiland-Jørgensen" <toke@redhat.com>
-CC: Mina Almasry <almasrymina@google.com>
-CC: Jesper Dangaard Brouer <hawk@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git page-pool-track-dma
-head:   00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d
-commit: 00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d [3/3] page_pool: Track DMA-mapped pages and unmap them when destroying the pool
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: powerpc64-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250408/202504080108.OQLQmxdd-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2024-05
+head:   96ddb774d408960590543f104a10aba091d123d6
+commit: a013c71c6315d6e9d6364d12251b98c75c9a2861 [0/1] scsi: elx: efct: Delete stray unlock statement
+:::::: branch date: 5 days ago
+:::::: commit date: 3 years, 6 months ago
+config: i386-randconfig-052-20250403 (https://download.01.org/0day-ci/archive/20250408/202504080232.mFbjlZmr-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504080108.OQLQmxdd-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202504080232.mFbjlZmr-lkp@intel.com/
 
-smatch warnings:
-include/net/page_pool/types.h:319 page_pool_page_is_pp() warn: masked condition '(page->pp_magic & ~(((0) + (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) < (__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) ?(32):(__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) + (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))) - 1))))) | 3)) == (64 + (6767463209352822784))' is always false.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/elx/efct/efct_scsi.c:47:2-8: preceding lock on line 41
 
-vim +319 include/net/page_pool/types.h
+vim +47 drivers/scsi/elx/efct/efct_scsi.c
 
-a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  316  
-a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  317  static inline bool page_pool_page_is_pp(struct page *page)
-a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  318  {
-a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10 @319  	return (page->pp_magic & PP_MAGIC_MASK) == PP_SIGNATURE;
-a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  320  }
-a9ca9f9ceff382b Yunsheng Lin           2023-08-04  321  #else
-a9ca9f9ceff382b Yunsheng Lin           2023-08-04  322  static inline void page_pool_destroy(struct page_pool *pool)
-a9ca9f9ceff382b Yunsheng Lin           2023-08-04  323  {
-a9ca9f9ceff382b Yunsheng Lin           2023-08-04  324  }
-a9ca9f9ceff382b Yunsheng Lin           2023-08-04  325  
+3e6414003bf9ac James Smart   2021-06-01  14  
+3e6414003bf9ac James Smart   2021-06-01  15  #define scsi_io_printf(io, fmt, ...) \
+3e6414003bf9ac James Smart   2021-06-01  16  	efc_log_debug(io->efct, "[%s]" SCSI_IOFMT fmt, \
+3e6414003bf9ac James Smart   2021-06-01  17  		io->node->display_name, io->instance_index,\
+3e6414003bf9ac James Smart   2021-06-01  18  		io->init_task_tag, io->tgt_task_tag, io->hw_tag, ##__VA_ARGS__)
+3e6414003bf9ac James Smart   2021-06-01  19  
+3e6414003bf9ac James Smart   2021-06-01  20  #define EFCT_LOG_ENABLE_SCSI_TRACE(efct)                \
+3e6414003bf9ac James Smart   2021-06-01  21  		(((efct) != NULL) ? (((efct)->logmask & (1U << 2)) != 0) : 0)
+3e6414003bf9ac James Smart   2021-06-01  22  
+3e6414003bf9ac James Smart   2021-06-01  23  #define scsi_io_trace(io, fmt, ...) \
+3e6414003bf9ac James Smart   2021-06-01  24  	do { \
+3e6414003bf9ac James Smart   2021-06-01  25  		if (EFCT_LOG_ENABLE_SCSI_TRACE(io->efct)) \
+3e6414003bf9ac James Smart   2021-06-01  26  			scsi_io_printf(io, fmt, ##__VA_ARGS__); \
+3e6414003bf9ac James Smart   2021-06-01  27  	} while (0)
+3e6414003bf9ac James Smart   2021-06-01  28  
+3e6414003bf9ac James Smart   2021-06-01  29  struct efct_io *
+3e6414003bf9ac James Smart   2021-06-01  30  efct_scsi_io_alloc(struct efct_node *node)
+3e6414003bf9ac James Smart   2021-06-01  31  {
+3e6414003bf9ac James Smart   2021-06-01  32  	struct efct *efct;
+3e6414003bf9ac James Smart   2021-06-01  33  	struct efct_xport *xport;
+3e6414003bf9ac James Smart   2021-06-01  34  	struct efct_io *io;
+a013c71c6315d6 Dan Carpenter 2021-10-04  35  	unsigned long flags;
+3e6414003bf9ac James Smart   2021-06-01  36  
+3e6414003bf9ac James Smart   2021-06-01  37  	efct = node->efct;
+3e6414003bf9ac James Smart   2021-06-01  38  
+3e6414003bf9ac James Smart   2021-06-01  39  	xport = efct->xport;
+3e6414003bf9ac James Smart   2021-06-01  40  
+3e6414003bf9ac James Smart   2021-06-01 @41  	spin_lock_irqsave(&node->active_ios_lock, flags);
+3e6414003bf9ac James Smart   2021-06-01  42  
+3e6414003bf9ac James Smart   2021-06-01  43  	io = efct_io_pool_io_alloc(efct->xport->io_pool);
+3e6414003bf9ac James Smart   2021-06-01  44  	if (!io) {
+3e6414003bf9ac James Smart   2021-06-01  45  		efc_log_err(efct, "IO alloc Failed\n");
+3e6414003bf9ac James Smart   2021-06-01  46  		atomic_add_return(1, &xport->io_alloc_failed_count);
+3e6414003bf9ac James Smart   2021-06-01 @47  		return NULL;
+3e6414003bf9ac James Smart   2021-06-01  48  	}
+3e6414003bf9ac James Smart   2021-06-01  49  
+3e6414003bf9ac James Smart   2021-06-01  50  	/* initialize refcount */
+3e6414003bf9ac James Smart   2021-06-01  51  	kref_init(&io->ref);
+3e6414003bf9ac James Smart   2021-06-01  52  	io->release = _efct_scsi_io_free;
+3e6414003bf9ac James Smart   2021-06-01  53  
+3e6414003bf9ac James Smart   2021-06-01  54  	/* set generic fields */
+3e6414003bf9ac James Smart   2021-06-01  55  	io->efct = efct;
+3e6414003bf9ac James Smart   2021-06-01  56  	io->node = node;
+3e6414003bf9ac James Smart   2021-06-01  57  	kref_get(&node->ref);
+3e6414003bf9ac James Smart   2021-06-01  58  
+3e6414003bf9ac James Smart   2021-06-01  59  	/* set type and name */
+3e6414003bf9ac James Smart   2021-06-01  60  	io->io_type = EFCT_IO_TYPE_IO;
+3e6414003bf9ac James Smart   2021-06-01  61  	io->display_name = "scsi_io";
+3e6414003bf9ac James Smart   2021-06-01  62  
+3e6414003bf9ac James Smart   2021-06-01  63  	io->cmd_ini = false;
+3e6414003bf9ac James Smart   2021-06-01  64  	io->cmd_tgt = true;
+3e6414003bf9ac James Smart   2021-06-01  65  
+3e6414003bf9ac James Smart   2021-06-01  66  	/* Add to node's active_ios list */
+3e6414003bf9ac James Smart   2021-06-01  67  	INIT_LIST_HEAD(&io->list_entry);
+3e6414003bf9ac James Smart   2021-06-01  68  	list_add(&io->list_entry, &node->active_ios);
+3e6414003bf9ac James Smart   2021-06-01  69  
+3e6414003bf9ac James Smart   2021-06-01  70  	spin_unlock_irqrestore(&node->active_ios_lock, flags);
+3e6414003bf9ac James Smart   2021-06-01  71  
+3e6414003bf9ac James Smart   2021-06-01  72  	return io;
+3e6414003bf9ac James Smart   2021-06-01  73  }
+3e6414003bf9ac James Smart   2021-06-01  74  
 
-:::::: The code at line 319 was first introduced by commit
-:::::: a4a22a1caf31aeb57416327c9dfca479614b6b76 page_pool: Move pp_magic check into helper functions
+:::::: The code at line 47 was first introduced by commit
+:::::: 3e6414003bf9acd3b7e20474f950779fafb658d5 scsi: elx: efct: SCSI I/O handling routines
 
-:::::: TO: Toke Høiland-Jørgensen <toke@redhat.com>
-:::::: CC: Toke Høiland-Jørgensen <toke@redhat.com>
+:::::: TO: James Smart <jsmart2021@gmail.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
