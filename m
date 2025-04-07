@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2034F17BA5
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 03:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C4913777E
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 04:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743995608; cv=none; b=rFMWKfqsaOVwGNO/OYoiONJh7382RtrhBWTUOdKsU2P0Cqv+WnVHBG/Zd7A4B9pgdz5Xx+lUDmf77nEGnqUqh6Et6Gg6EaT3JN22DDO7shJgNF37jIvJhqqF7h3QI2cgKvH3D3rfWMi0KiHEXu+5UW7Ssd/cEFoXhnmQJ1PWEjo=
+	t=1744000537; cv=none; b=WDgE//ixDOpxPnwjotYpwdQ75ugE0jAU/05bGGRoozq3AUvpeMTHCtEcQajyxwPF46PaNVpUEZB51rfu0Jz0DPEHSQE9CWAd1zjdgXsn5MHssrM5+9R0b4LHIB+PEmKo6V1I8BbU+scB+90dVFIHhsxWThJyxPIRqF3AgijTynE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743995608; c=relaxed/simple;
-	bh=CBhysBIFAq9685+JzOojy6AW3RXqqqbJhdqgKUMkYa8=;
+	s=arc-20240116; t=1744000537; c=relaxed/simple;
+	bh=mz1Wq9SdWj5nf7v9GLA3TX4ps486eqYfX3poTZeuP9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lZF4vr70E+wpl426HEWH3A9cteIBKw1qaehE2NfwojuTEA269MBUuA2SgiVoyRcQCAZ1S9S1j636NRKq/dYZhUQIB5JsZ59Uo+nVTAHQpcNlvdKVesEKYsLCIar4bFTYuuWVIpeo2xNwJNlKsnWSCPWru3G6JYO9hlK3jWieFH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjIC7cIL; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=t0Cr7r6Jb7u6F/ierAJeWnsmVK3Ajjuzo2a5SlwIEoBOS+R2rcyJ8NOkrkoagVwdrcr9xNKO2lGR0CVXbtzfC2baso9RHtOPhfwP4K5cVWhdTVw17zXifegwLI9+twQmJzLqOAuv7pGITrlQlAE+qq1FswcB6a3JcTSGeDyafkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+gRYa0F; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjIC7cIL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+gRYa0F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743995606; x=1775531606;
+  t=1744000536; x=1775536536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CBhysBIFAq9685+JzOojy6AW3RXqqqbJhdqgKUMkYa8=;
-  b=RjIC7cILhczFbgBB/mctqSTPA3kpakFk91LAxiu9C5gPoGs2ySjLmzAG
-   GmuThNckikH6ZzXl3uGWwmiR6KUuDbI2L04XOEmmzmN8BzhVgdjlKuZm3
-   QpuSkns97is9A+hKAi4Nblq/x9h7fQ0szpRQEXSUD69JJW7ujkdA0SDlW
-   XaTylHqd8Jys5zN8Huqeyykr+7DlH/wp9i08yfWc+QBx6NAisfhDPSSQv
-   jHaVrRC/IUDr9WdXt1QgTjsRxerB5TJuMjfcXAWCy6LaK23QEiz0zmqqi
-   fENTWhCLHBrz1xCIMOKSgk8mwV71ZuWVdbMmw91vdXLQrOB2d3mQxgu/D
+  bh=mz1Wq9SdWj5nf7v9GLA3TX4ps486eqYfX3poTZeuP9Q=;
+  b=T+gRYa0Fv54QTtj7OEAR81qW2alAzTl4vqEBJojsUQ4LI2srffyfUvFw
+   Ds6HFC0fc3kNXssg1at3Z8sp6kqRk9I7GMVwCLelv4XOL3HVXUrtzkbtB
+   ah/bdMtKutNmDrAGD/tWboXEaBCywO9wDsDKgSk88HGB5jKCtkMqmSdhg
+   HUnEygpAarW7yOuVWEnuH9DqYvQMUdKGrpgrgkUwSoGHyODtG6i3x/3Er
+   ZvRUVY1if8trIlFbeRPTPQLVOvADqCjQj2O5aQuf2wHlg5VykUmQE9cki
+   nLD2cJQApOuw5gtKa6kBayv1w5+gWAFMgonr1Al/EjSkzlLqW1rhX6cJb
    A==;
-X-CSE-ConnectionGUID: TjoeQ7G1RzqMAaUHpBAjcQ==
-X-CSE-MsgGUID: WPnDcfntT8StAc7tKTthPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="44609563"
+X-CSE-ConnectionGUID: QWXfMtgjRcyv4SXtlbwo/g==
+X-CSE-MsgGUID: 0K/YcJjNRq2z3/WH8qLNUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62764545"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="44609563"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 20:13:25 -0700
-X-CSE-ConnectionGUID: GFP7nEJlRbCmThZyb5RFXg==
-X-CSE-MsgGUID: uzb5x5MGSEW10W+0t0IiXw==
+   d="scan'208";a="62764545"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 21:35:34 -0700
+X-CSE-ConnectionGUID: lY8Eut/zSku61Xs1h5adQw==
+X-CSE-MsgGUID: x2okPyE7T+2bm5K8c1+Vuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="132664669"
+   d="scan'208";a="158809902"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2025 20:13:24 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Apr 2025 21:35:32 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1cvJ-0002wd-1a;
-	Mon, 07 Apr 2025 03:13:21 +0000
-Date: Mon, 7 Apr 2025 11:12:56 +0800
+	id 1u1eCo-0002zX-0w;
+	Mon, 07 Apr 2025 04:35:30 +0000
+Date: Mon, 7 Apr 2025 12:35:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e-t14s 28/102]
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000:
- clock-names:12: 'gcc_camera_ahb' was expected
-Message-ID: <202504071100.CcRaHyNr-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/regulator/pf9453-regulator.c:820:7-32: WARNING: Threaded IRQ
+ with no primary handler requested without IRQF_ONESHOT (unless it is nested
+ IRQ)
+Message-ID: <202504071237.GAhUodOT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,192 +63,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vikram Sharma <quic_vikramsa@quicinc.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Suresh Vankadara <quic_svankada@quicinc.com>
-CC: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+CC: linux-kernel@vger.kernel.org
+TO: Joy Zou <joy.zou@nxp.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Frank Li <Frank.Li@nxp.com>
 
-tree:   https://github.com/krzk/linux track/x1e-t14s
-head:   239252d33658f16e30ebbe940292946ccc610d00
-commit: 351a5736d35848f1abe6b253a2a6e0ae8f63a331 [28/102] arm64: dts: qcom: sc7280: Add support for camss
-:::::: branch date: 12 hours ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071100.CcRaHyNr-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-dtschema version: 2025.3.dev6+gb64c5c3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071100.CcRaHyNr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0af2f6be1b4281385b618cb86ad946eded089ac8
+commit: 0959b6706325bf147f253841eea312e27a3bf013 regulator: pf9453: add PMIC PF9453 support
+date:   3 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-r062-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071237.GAhUodOT-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504071100.CcRaHyNr-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202504071237.GAhUodOT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pmic@2: pwm:nvmem: [[345, 346]] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pwm: nvmem: [[345, 346]] is too short
-   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:152.29-155.5: Warning (unique_unit_address_if_enabled): /reserved-memory/video@8b200000: duplicate unit-address (also used in node /reserved-memory/memory@8b200000)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
---
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4764.26-4835.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4037.10-4047.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
->> arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> drivers/regulator/pf9453-regulator.c:820:7-32: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+
+vim +820 drivers/regulator/pf9453-regulator.c
+
+0959b6706325bf Joy Zou 2025-03-14  767  
+0959b6706325bf Joy Zou 2025-03-14  768  static int pf9453_i2c_probe(struct i2c_client *i2c)
+0959b6706325bf Joy Zou 2025-03-14  769  {
+0959b6706325bf Joy Zou 2025-03-14  770  	const struct pf9453_regulator_desc *regulator_desc = of_device_get_match_data(&i2c->dev);
+0959b6706325bf Joy Zou 2025-03-14  771  	struct regulator_config config = { };
+0959b6706325bf Joy Zou 2025-03-14  772  	unsigned int reset_ctrl;
+0959b6706325bf Joy Zou 2025-03-14  773  	unsigned int device_id;
+0959b6706325bf Joy Zou 2025-03-14  774  	struct pf9453 *pf9453;
+0959b6706325bf Joy Zou 2025-03-14  775  	int ret;
+0959b6706325bf Joy Zou 2025-03-14  776  
+0959b6706325bf Joy Zou 2025-03-14  777  	if (!i2c->irq)
+0959b6706325bf Joy Zou 2025-03-14  778  		return dev_err_probe(&i2c->dev, -EINVAL, "No IRQ configured?\n");
+0959b6706325bf Joy Zou 2025-03-14  779  
+0959b6706325bf Joy Zou 2025-03-14  780  	pf9453 = devm_kzalloc(&i2c->dev, sizeof(struct pf9453), GFP_KERNEL);
+0959b6706325bf Joy Zou 2025-03-14  781  	if (!pf9453)
+0959b6706325bf Joy Zou 2025-03-14  782  		return -ENOMEM;
+0959b6706325bf Joy Zou 2025-03-14  783  
+0959b6706325bf Joy Zou 2025-03-14  784  	pf9453->regmap = devm_regmap_init_i2c(i2c, &pf9453_regmap_config);
+0959b6706325bf Joy Zou 2025-03-14  785  	if (IS_ERR(pf9453->regmap))
+0959b6706325bf Joy Zou 2025-03-14  786  		return dev_err_probe(&i2c->dev, PTR_ERR(pf9453->regmap),
+0959b6706325bf Joy Zou 2025-03-14  787  				     "regmap initialization failed\n");
+0959b6706325bf Joy Zou 2025-03-14  788  
+0959b6706325bf Joy Zou 2025-03-14  789  	pf9453->irq = i2c->irq;
+0959b6706325bf Joy Zou 2025-03-14  790  	pf9453->dev = &i2c->dev;
+0959b6706325bf Joy Zou 2025-03-14  791  
+0959b6706325bf Joy Zou 2025-03-14  792  	dev_set_drvdata(&i2c->dev, pf9453);
+0959b6706325bf Joy Zou 2025-03-14  793  
+0959b6706325bf Joy Zou 2025-03-14  794  	ret = regmap_read(pf9453->regmap, PF9453_REG_DEV_ID, &device_id);
+0959b6706325bf Joy Zou 2025-03-14  795  	if (ret)
+0959b6706325bf Joy Zou 2025-03-14  796  		return dev_err_probe(&i2c->dev, ret, "Read device id error\n");
+0959b6706325bf Joy Zou 2025-03-14  797  
+0959b6706325bf Joy Zou 2025-03-14  798  	/* Check your board and dts for match the right pmic */
+0959b6706325bf Joy Zou 2025-03-14  799  	if ((device_id >> 4) != 0xb)
+0959b6706325bf Joy Zou 2025-03-14  800  		return dev_err_probe(&i2c->dev, -EINVAL, "Device id(%x) mismatched\n",
+0959b6706325bf Joy Zou 2025-03-14  801  				     device_id >> 4);
+0959b6706325bf Joy Zou 2025-03-14  802  
+0959b6706325bf Joy Zou 2025-03-14  803  	while (regulator_desc->desc.name) {
+0959b6706325bf Joy Zou 2025-03-14  804  		const struct regulator_desc *desc;
+0959b6706325bf Joy Zou 2025-03-14  805  		struct regulator_dev *rdev;
+0959b6706325bf Joy Zou 2025-03-14  806  
+0959b6706325bf Joy Zou 2025-03-14  807  		desc = &regulator_desc->desc;
+0959b6706325bf Joy Zou 2025-03-14  808  
+0959b6706325bf Joy Zou 2025-03-14  809  		config.regmap = pf9453->regmap;
+0959b6706325bf Joy Zou 2025-03-14  810  		config.dev = pf9453->dev;
+0959b6706325bf Joy Zou 2025-03-14  811  
+0959b6706325bf Joy Zou 2025-03-14  812  		rdev = devm_regulator_register(pf9453->dev, desc, &config);
+0959b6706325bf Joy Zou 2025-03-14  813  		if (IS_ERR(rdev))
+0959b6706325bf Joy Zou 2025-03-14  814  			return dev_err_probe(pf9453->dev, PTR_ERR(rdev),
+0959b6706325bf Joy Zou 2025-03-14  815  					     "Failed to register regulator(%s)\n", desc->name);
+0959b6706325bf Joy Zou 2025-03-14  816  
+0959b6706325bf Joy Zou 2025-03-14  817  		regulator_desc++;
+0959b6706325bf Joy Zou 2025-03-14  818  	}
+0959b6706325bf Joy Zou 2025-03-14  819  
+0959b6706325bf Joy Zou 2025-03-14 @820  	ret = devm_request_threaded_irq(pf9453->dev, pf9453->irq, NULL, pf9453_irq_handler,
+0959b6706325bf Joy Zou 2025-03-14  821  					(IRQF_TRIGGER_FALLING | IRQF_ONESHOT),
+0959b6706325bf Joy Zou 2025-03-14  822  					"pf9453-irq", pf9453);
+0959b6706325bf Joy Zou 2025-03-14  823  	if (ret)
+0959b6706325bf Joy Zou 2025-03-14  824  		return dev_err_probe(pf9453->dev, ret, "Failed to request IRQ: %d\n", pf9453->irq);
+0959b6706325bf Joy Zou 2025-03-14  825  
+0959b6706325bf Joy Zou 2025-03-14  826  	/* Unmask all interrupt except PWRON/WDOG/RSVD */
+0959b6706325bf Joy Zou 2025-03-14  827  	ret = pf9453_pmic_write(pf9453, PF9453_REG_INT1_MASK,
+0959b6706325bf Joy Zou 2025-03-14  828  				IRQ_ONKEY | IRQ_RESETKEY | IRQ_RSTB | IRQ_VR_FLT1
+0959b6706325bf Joy Zou 2025-03-14  829  				| IRQ_LOWVSYS | IRQ_THERM_100 | IRQ_THERM_80, IRQ_RSVD);
+0959b6706325bf Joy Zou 2025-03-14  830  	if (ret)
+0959b6706325bf Joy Zou 2025-03-14  831  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
+0959b6706325bf Joy Zou 2025-03-14  832  
+0959b6706325bf Joy Zou 2025-03-14  833  	if (of_property_read_bool(i2c->dev.of_node, "nxp,wdog_b-warm-reset"))
+0959b6706325bf Joy Zou 2025-03-14  834  		reset_ctrl = WDOG_B_CFG_WARM;
+0959b6706325bf Joy Zou 2025-03-14  835  	else
+0959b6706325bf Joy Zou 2025-03-14  836  		reset_ctrl = WDOG_B_CFG_COLD;
+0959b6706325bf Joy Zou 2025-03-14  837  
+0959b6706325bf Joy Zou 2025-03-14  838  	/* Set reset behavior on assertion of WDOG_B signal */
+0959b6706325bf Joy Zou 2025-03-14  839  	ret = pf9453_pmic_write(pf9453, PF9453_REG_RESET_CTRL, WDOG_B_CFG_MASK, reset_ctrl);
+0959b6706325bf Joy Zou 2025-03-14  840  	if (ret)
+0959b6706325bf Joy Zou 2025-03-14  841  		return dev_err_probe(&i2c->dev, ret, "Failed to set WDOG_B reset behavior\n");
+0959b6706325bf Joy Zou 2025-03-14  842  
+0959b6706325bf Joy Zou 2025-03-14  843  	/*
+0959b6706325bf Joy Zou 2025-03-14  844  	 * The driver uses the LDO1OUT_H register to control the LDO1 regulator.
+0959b6706325bf Joy Zou 2025-03-14  845  	 * This is only valid if the SD_VSEL input of the PMIC is high. Let's
+0959b6706325bf Joy Zou 2025-03-14  846  	 * check if the pin is available as GPIO and set it to high.
+0959b6706325bf Joy Zou 2025-03-14  847  	 */
+0959b6706325bf Joy Zou 2025-03-14  848  	pf9453->sd_vsel_gpio = gpiod_get_optional(pf9453->dev, "sd-vsel", GPIOD_OUT_HIGH);
+0959b6706325bf Joy Zou 2025-03-14  849  
+0959b6706325bf Joy Zou 2025-03-14  850  	if (IS_ERR(pf9453->sd_vsel_gpio))
+0959b6706325bf Joy Zou 2025-03-14  851  		return dev_err_probe(&i2c->dev, PTR_ERR(pf9453->sd_vsel_gpio),
+0959b6706325bf Joy Zou 2025-03-14  852  				     "Failed to get SD_VSEL GPIO\n");
+0959b6706325bf Joy Zou 2025-03-14  853  
+0959b6706325bf Joy Zou 2025-03-14  854  	return 0;
+0959b6706325bf Joy Zou 2025-03-14  855  }
+0959b6706325bf Joy Zou 2025-03-14  856  
 
 -- 
 0-DAY CI Kernel Test Service
