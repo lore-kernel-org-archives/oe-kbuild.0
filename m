@@ -1,69 +1,60 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4146922A7E9
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 07:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0722AE75
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 09:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744010162; cv=none; b=T3LImhxUHQyv4JoFlPGeXK86uY440ffZax9bKjsRy6N0McD5qx4MfEQ9yHalwGY+t6KjjqsacSlhn3fJ8vZDNgqOipXSVGhPpuqtcp74je6ZWNACsZSHJEwPOs+GUyAgk/VyHZuAIkUwDUlBOq4D1dccrwLt1mE+1E3PK1JKGy4=
+	t=1744016949; cv=none; b=ExFo/6QFMXVBzVHg//+VyoJEBHH6uBe4LF9/HhU00x04riwiub6iRUg6/v7QXir3HFnqg2l6UXCgYycaDysImylsBDLbVGIM8ygU5V/eocsrPgIvnV8k5h0r75KsunB5kAuuwyMoN8WyJ0HqGIJjMh320OKzzk4eBDhvbkSiwZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744010162; c=relaxed/simple;
-	bh=TFHb9jwv0UJ9scWKxpEMq9nwa38PClYIeK+KBhs32os=;
+	s=arc-20240116; t=1744016949; c=relaxed/simple;
+	bh=3JHEL37tvSBgxN7dNt7266yn+yTGkCpnBv9wAr0QD4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tcgaRGEwcbf997qLh6UvuI1a8C+J3wn3c1ek3SdfXCQibQkwN7hz1q9lFSfu+bY1EGi/j/Fyv7oiIpjXLHRpF9q++9fuJP9ky4WDElTBvV35s5+nqq91KGX+suVJsZ0Ql10yh9tmZCs3xDu66w+Ta8KE2TObXFKCK0fhHtGQk4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=enFtYer6; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=u0vwzqpF4F6dskQoUPfsRNiEv7lVfuuV8+LJep+B4r18d9zrI7N+wY8lmlAFCIrlVK+xpOMvkebj4OCJWOzdOnv7/HKsbCtvuK2kAhW4+qG98CkJ2vebXE+heRQt40M09MwDFwiLgrK0HSvnyQ32pJjjhMeI1ihquOXfcy+1lXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gO48eU37; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="enFtYer6"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so25602005e9.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 07 Apr 2025 00:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744010158; x=1744614958; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A6xaQ0k8E/GTOsok41VClhYmiK7cHYHv73jrSD8IYao=;
-        b=enFtYer6cEKvbUmir6G30gVitRqJFwRRTJjjNgMfg+43u2Su9N0zX4SuGuZtCtDQ0o
-         stfycz+xyDld1YFjBUpHXxNhhtaxOmfCQL3CujazQw4NNgRxHztbkWI3M032gr3V27PJ
-         0br9Fp4kAtQtjBZLwXIAC+OJcCV74knhIZUSFapYmbP2Wmp6CGPLmF1giL5B0xRe3yG2
-         ucekcO9vzbye0NYMwJ9wNAewoh8s0REhK9vzubfO57UngdAxvFjMTMb0QeAWwbgS5gA5
-         4dGZx0eqCRamsTnDQWh2UXwOp02l9DoDYkxieK7Rv4l9wm0ua/YRJ1sX3T+85tpCX8k4
-         8jIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744010158; x=1744614958;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A6xaQ0k8E/GTOsok41VClhYmiK7cHYHv73jrSD8IYao=;
-        b=XlY4/fZPduzs7/tGWhiLysh4t7+fW+8f5u4qOMnDI8FWvaQgrI1LriGPTtyWHBXQp8
-         SEjc8hfEFtgBjtFXULVm8D7WN8l/hYMeviuTb3kJKVZkqylB1Iq6FN49Kq4Bjs7OhrzO
-         +3JhR1zbN6AoJbvbJlKArgk0rAiwrq1dBltF6tIaCRdLF+cSMFSAuLTe+UvXy3wOqppF
-         UH7E1VMF/1QW65bYflV9BLopp+I72Ele0K9Cbx+9WP4xY1lpAv/4bckvqacBvnsOrxHy
-         zh+bat4kK4hL1+owDeQYino8Rkw95wFoAGFcAZbWR3J8je/FdBxrYrhUNTqPfDeWBm/v
-         dleg==
-X-Gm-Message-State: AOJu0YyPqgjB/PenE46Gq+gaD/xEiKQawWgTlaQ1ETlauLVkkmAGteLA
-	naM143mOo0Gc1hZhLm/NfDDE8+oxRR2TQf5UgqMWkz+3zsWz0x4Su5vtac1hzLFABmwlBX0sN/H
-	e
-X-Gm-Gg: ASbGncusMS/wkmRGu55QOZneNGTX/qNaExeMMqaQf7/zkR1fSf2PgBIdVdH1Q6ZjXTs
-	GiDVNaPSwNh+4fggG9tSs5cEgqjwIrEAY6SSxRc+pnx8wj0diQI0UTBiU8iFZCRZfJ4flskz327
-	Hp5XD6koDNxaT8LTovVblCxOw0bVADOkRfXfgDqB6FnOfyb5BPI+vOMgJ86/EXRZfW4PJPsvrtr
-	jYfQRe7dmk1IbB36j9pAqk2d7ORix+R1fEWApnbwiEfyAvoakkX4FSdDhEi7so0UWmiZzXypYMS
-	8/zB/B5tdR04ahmqSEXNIYce6hM/S8XgYTBBRw8CgHE5zYpmSg==
-X-Google-Smtp-Source: AGHT+IE0yvUp003v7ANegxVMAf+lXFywEGIzWlDTx8NnJOOMHWUiiwpPL+cDtZZw/dVy3RRRVB84Iw==
-X-Received: by 2002:a05:600c:3484:b0:43e:afca:808f with SMTP id 5b1f17b1804b1-43ed0db4006mr113880375e9.31.1744010157861;
-        Mon, 07 Apr 2025 00:15:57 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec366a699sm119704075e9.38.2025.04.07.00.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 00:15:57 -0700 (PDT)
-Date: Mon, 7 Apr 2025 10:15:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-msiof-2025-03-26 21/24]
- sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to
- 'PTR_ERR'
-Message-ID: <42101bfa-e3e7-4ae0-9c9e-c37593b8ece9@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gO48eU37"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744016949; x=1775552949;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3JHEL37tvSBgxN7dNt7266yn+yTGkCpnBv9wAr0QD4w=;
+  b=gO48eU37qhdeA1wiSoQMPbNgpSxnw6nOOlYBh3XoT71iwv8kZEAfMCnO
+   UVwuhkYl5dChvMiRG4W1Co7VkuJIpCadhLwhV6LsyuoEzLrD4n8cG7+FI
+   ghYW23PVb/pMNeb4E42MvAUYQHHj8ql6O2O8L/dCu/vabT28JUhH3SYpR
+   8pPLlA/6/Qn7ny41Qk3QfP5U+duoEtyZqIfuNcYivyPYZEU7k8klttIh8
+   daGsy2gpKmpX3rmbNNHeyiUQApYBvxEmFsQ4Uf6SEOF1s7tdIsf2fOS4I
+   pKZbEQQSmMfzRWMHusCNG+YtW2Lbo1gihhHmDj3CQeF9jNiPd/ccXYn76
+   A==;
+X-CSE-ConnectionGUID: DRUvCvpUShSGn7iDBiKa1g==
+X-CSE-MsgGUID: kL2kN24BQ66EH7Pjr6ua1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="49044840"
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="49044840"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 02:09:08 -0700
+X-CSE-ConnectionGUID: IlbjdYZ3SOuhnWTPLqzx8g==
+X-CSE-MsgGUID: Q8gSLatuSSeavsHSeKp+pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="128221980"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 02:09:07 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1iTY-0003Bn-2Z;
+	Mon, 07 Apr 2025 09:09:04 +0000
+Date: Mon, 7 Apr 2025 17:08:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [krzk-github:track/x1e-t14s 64/102]
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb:
+ /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with
+ compatible: ['ovti,ov02c10']
+Message-ID: <202504071733.Z96ysefH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,57 +64,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux sound-msiof-2025-03-26
-head:   ba9316799e85a9ef14dd8a3e5580be4c97149576
-commit: adf5f819442084ec2b0ea13a5834b05d10750e24 [21/24] ASoC: renesas: add MSIOF sound support
-config: openrisc-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250407/202504070441.9TXJ68nR-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 10.5.0
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+
+tree:   https://github.com/krzk/linux track/x1e-t14s
+head:   239252d33658f16e30ebbe940292946ccc610d00
+commit: 17a5b6a1a79b2796247f1f3281302a50fbe95313 [64/102] arm64: dts: qcom: x1e80100-t14s: Add vreg_l7b the 2p8 RGB sensor supply
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071733.Z96ysefH-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+dtschema version: 2025.3.dev6+gb64c5c3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071733.Z96ysefH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202504070441.9TXJ68nR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504071733.Z96ysefH-lkp@intel.com/
 
-smatch warnings:
-sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to 'PTR_ERR'
-
-vim +/PTR_ERR +367 sound/soc/renesas/rcar/msiof.c
-
-adf5f819442084e Kuninori Morimoto 2025-03-24  356  static int msiof_open(struct snd_soc_component *component,
-adf5f819442084e Kuninori Morimoto 2025-03-24  357  		      struct snd_pcm_substream *substream)
-adf5f819442084e Kuninori Morimoto 2025-03-24  358  {
-adf5f819442084e Kuninori Morimoto 2025-03-24  359  	struct device *dev = component->dev;
-adf5f819442084e Kuninori Morimoto 2025-03-24  360  	struct dma_chan *chan;
-adf5f819442084e Kuninori Morimoto 2025-03-24  361  	static const char *dma_names[] = {"rx", "tx"};
-adf5f819442084e Kuninori Morimoto 2025-03-24  362  	int is_play = msiof_is_play(substream);
-adf5f819442084e Kuninori Morimoto 2025-03-24  363  	int ret;
-adf5f819442084e Kuninori Morimoto 2025-03-24  364  
-adf5f819442084e Kuninori Morimoto 2025-03-24  365  	chan = of_dma_request_slave_channel(dev->of_node, dma_names[is_play]);
-adf5f819442084e Kuninori Morimoto 2025-03-24  366  	if (IS_ERR_OR_NULL(chan))
-
-of_dma_request_slave_channel() can't return NULL, but the zero-day bot
-doesn't do cross function analysis and the IS_ERR_OR_NULL() check tricks
-Smatch into thinking "chan" can be NULL.
-
-adf5f819442084e Kuninori Morimoto 2025-03-24 @367  		return PTR_ERR(chan);
-adf5f819442084e Kuninori Morimoto 2025-03-24  368  
-adf5f819442084e Kuninori Morimoto 2025-03-24  369  	ret = snd_dmaengine_pcm_open(substream, chan);
-adf5f819442084e Kuninori Morimoto 2025-03-24  370  	if (ret < 0)
-adf5f819442084e Kuninori Morimoto 2025-03-24  371  		goto open_err_dma;
-adf5f819442084e Kuninori Morimoto 2025-03-24  372  
-adf5f819442084e Kuninori Morimoto 2025-03-24  373  	snd_soc_set_runtime_hwparams(substream, &msiof_pcm_hardware);
-adf5f819442084e Kuninori Morimoto 2025-03-24  374  
-adf5f819442084e Kuninori Morimoto 2025-03-24  375  	ret = snd_pcm_hw_constraint_integer(substream->runtime, SNDRV_PCM_HW_PARAM_PERIODS);
-adf5f819442084e Kuninori Morimoto 2025-03-24  376  
-adf5f819442084e Kuninori Morimoto 2025-03-24  377  open_err_dma:
-adf5f819442084e Kuninori Morimoto 2025-03-24  378  	if (ret < 0)
-adf5f819442084e Kuninori Morimoto 2025-03-24  379  		dma_release_channel(chan);
-adf5f819442084e Kuninori Morimoto 2025-03-24  380  
-adf5f819442084e Kuninori Morimoto 2025-03-24  381  	return ret;
-adf5f819442084e Kuninori Morimoto 2025-03-24  382  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:5211.22-5394.5: Warning (simple_bus_reg): /soc@0/isp@acb6000: simple-bus unit address format error, expected "acb7000"
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4838.11-4848.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with compatible: ['ovti,ov02c10']
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:5211.22-5394.5: Warning (simple_bus_reg): /soc@0/isp@acb6000: simple-bus unit address format error, expected "acb7000"
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4838.11-4848.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with compatible: ['ovti,ov02c10']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
