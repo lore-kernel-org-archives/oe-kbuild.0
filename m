@@ -1,101 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D0722AE75
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 09:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC7F1A9B53
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 09:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744016949; cv=none; b=ExFo/6QFMXVBzVHg//+VyoJEBHH6uBe4LF9/HhU00x04riwiub6iRUg6/v7QXir3HFnqg2l6UXCgYycaDysImylsBDLbVGIM8ygU5V/eocsrPgIvnV8k5h0r75KsunB5kAuuwyMoN8WyJ0HqGIJjMh320OKzzk4eBDhvbkSiwZw=
+	t=1744019358; cv=none; b=Z6vOAFeCwAF5FxnKgOmC+AO1hKClfCAi4dkBY9WV4cRLiGMeZ8RE+GhRVkPwFBdfYYAfZj7pubYSNDqEHL5XebNJY5DJAoiyYmZ3Yct/55T3P87f1GlteG9fnbwrrOdZMgIsBMe1jl8NOJmHbbXmp/WuqZG64p9Xa8LRWOz/0FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744016949; c=relaxed/simple;
-	bh=3JHEL37tvSBgxN7dNt7266yn+yTGkCpnBv9wAr0QD4w=;
+	s=arc-20240116; t=1744019358; c=relaxed/simple;
+	bh=Hriky9kxX851kfdflZ9mdkT17cDinha4Z4GaR5M2hHc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0vwzqpF4F6dskQoUPfsRNiEv7lVfuuV8+LJep+B4r18d9zrI7N+wY8lmlAFCIrlVK+xpOMvkebj4OCJWOzdOnv7/HKsbCtvuK2kAhW4+qG98CkJ2vebXE+heRQt40M09MwDFwiLgrK0HSvnyQ32pJjjhMeI1ihquOXfcy+1lXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gO48eU37; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=nW+eWkcxX7MsEU6PZ9n82+bCLF81U9pV6BLxkLkPz8bHDiyrvI8MrqabOYnsNv9lFIHKJmS642sEFltXjNEgU0IcDaMH15VDsR4Nb2ey6hFcBmEmBDpcpym7iOEk0ixD6DoTu5rbMfslySEmHXeQdesOygb/M6GzuBdLvCVAFAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCW1Fn0W; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gO48eU37"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCW1Fn0W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744016949; x=1775552949;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3JHEL37tvSBgxN7dNt7266yn+yTGkCpnBv9wAr0QD4w=;
-  b=gO48eU37qhdeA1wiSoQMPbNgpSxnw6nOOlYBh3XoT71iwv8kZEAfMCnO
-   UVwuhkYl5dChvMiRG4W1Co7VkuJIpCadhLwhV6LsyuoEzLrD4n8cG7+FI
-   ghYW23PVb/pMNeb4E42MvAUYQHHj8ql6O2O8L/dCu/vabT28JUhH3SYpR
-   8pPLlA/6/Qn7ny41Qk3QfP5U+duoEtyZqIfuNcYivyPYZEU7k8klttIh8
-   daGsy2gpKmpX3rmbNNHeyiUQApYBvxEmFsQ4Uf6SEOF1s7tdIsf2fOS4I
-   pKZbEQQSmMfzRWMHusCNG+YtW2Lbo1gihhHmDj3CQeF9jNiPd/ccXYn76
-   A==;
-X-CSE-ConnectionGUID: DRUvCvpUShSGn7iDBiKa1g==
-X-CSE-MsgGUID: kL2kN24BQ66EH7Pjr6ua1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="49044840"
-X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="49044840"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 02:09:08 -0700
-X-CSE-ConnectionGUID: IlbjdYZ3SOuhnWTPLqzx8g==
-X-CSE-MsgGUID: Q8gSLatuSSeavsHSeKp+pw==
+  t=1744019357; x=1775555357;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Hriky9kxX851kfdflZ9mdkT17cDinha4Z4GaR5M2hHc=;
+  b=fCW1Fn0WqTUCIFshVhKsbBZHTT6Or64+f+p27Z448A/1yC86yPetWbTd
+   tBf5UrZIRzsBdKADfdeZLKdaAXd0MhliXzogAwMf2o0yzYPvJsAQ5nH+9
+   24FVEWJZ8MNUIfSsK0gzQ3rVQzgWC3QcZxLvZJwVdvOrplm5V7ElUbBqo
+   quU+40Db4RqWRA4Xfxbk6vQc5BY2/phK84epE8AGNUjbPnUmbV4bkL61j
+   9RdP7AHlp5mEV77Hna0P6RHNH4RqL47X8IIhrw9VQXZ9vIdejAK3V39jh
+   nK2dtYkSPbhArHPrK9v8hdKGv6UoRuv40Nv0wvil0mjfJOpOVaxNudSYu
+   g==;
+X-CSE-ConnectionGUID: ZD9OBQT1QyORjiiiAnPugg==
+X-CSE-MsgGUID: /9KTTthDTuWvEN93bWSOZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="56028746"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="56028746"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 02:49:16 -0700
+X-CSE-ConnectionGUID: WRkRfA8XQA+qiogeTK4VOg==
+X-CSE-MsgGUID: OaqFsK49RSiJLX1lc0KAfA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="128221980"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="151096084"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Apr 2025 02:09:07 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 02:49:15 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1iTY-0003Bn-2Z;
-	Mon, 07 Apr 2025 09:09:04 +0000
-Date: Mon, 7 Apr 2025 17:08:18 +0800
+	id 1u1j6O-0003F3-2u;
+	Mon, 07 Apr 2025 09:49:12 +0000
+Date: Mon, 7 Apr 2025 17:48:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:track/x1e-t14s 64/102]
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb:
- /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with
- compatible: ['ovti,ov02c10']
-Message-ID: <202504071733.Z96ysefH-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [toke:page-pool-track-dma 3/3] net/core/netmem_priv.h:25
+ netmem_is_pp() warn: masked condition '(netmem_get_pp_magic(netmem) & ~(((0)
+ + (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) -
+ (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) <
+ (__ffs((6767463209352822784)) - (1...
+Message-ID: <202504071733.hpPO5lLy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: "Toke Høiland-Jørgensen" <toke@redhat.com>
+CC: Mina Almasry <almasrymina@google.com>
+CC: Jesper Dangaard Brouer <hawk@kernel.org>
 
-tree:   https://github.com/krzk/linux track/x1e-t14s
-head:   239252d33658f16e30ebbe940292946ccc610d00
-commit: 17a5b6a1a79b2796247f1f3281302a50fbe95313 [64/102] arm64: dts: qcom: x1e80100-t14s: Add vreg_l7b the 2p8 RGB sensor supply
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071733.Z96ysefH-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-dtschema version: 2025.3.dev6+gb64c5c3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071733.Z96ysefH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git page-pool-track-dma
+head:   00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d
+commit: 00a0b4613ed5cb0e10f2e370a7fd613a742e2c1d [3/3] page_pool: Track DMA-mapped pages and unmap them when destroying the pool
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: powerpc64-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071733.hpPO5lLy-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504071733.Z96ysefH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504071733.hpPO5lLy-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:5211.22-5394.5: Warning (simple_bus_reg): /soc@0/isp@acb6000: simple-bus unit address format error, expected "acb7000"
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4838.11-4848.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with compatible: ['ovti,ov02c10']
---
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:5211.22-5394.5: Warning (simple_bus_reg): /soc@0/isp@acb6000: simple-bus unit address format error, expected "acb7000"
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4838.11-4848.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: /soc@0/cci@ac16000/i2c-bus@1/camera@36: failed to match any schema with compatible: ['ovti,ov02c10']
+New smatch warnings:
+net/core/netmem_priv.h:25 netmem_is_pp() warn: masked condition '(netmem_get_pp_magic(netmem) & ~(((0) + (((~((0))) << ((1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) & (~((0)) >> (64 - 1 - ((((32) < (__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) ?(32):(__ffs((6767463209352822784)) - (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))))) + (1 + __fls((64 + (6767463209352822784)) - (6767463209352822784))) - 1))))) | 3)) == (64 + (6767463209352822784))' is always false.
+
+Old smatch warnings:
+net/core/skbuff.c:4771 skb_segment() error: we previously assumed 'list_skb' could be null (see line 4706)
+
+vim +25 net/core/netmem_priv.h
+
+8ab79ed50cf10f3 Mina Almasry           2024-09-10  22  
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  23  static inline bool netmem_is_pp(netmem_ref netmem)
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  24  {
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10 @25  	return (netmem_get_pp_magic(netmem) & PP_MAGIC_MASK) == PP_SIGNATURE;
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  26  }
+a4a22a1caf31aeb Toke Høiland-Jørgensen 2025-03-10  27  
+
+:::::: The code at line 25 was first introduced by commit
+:::::: a4a22a1caf31aeb57416327c9dfca479614b6b76 page_pool: Move pp_magic check into helper functions
+
+:::::: TO: Toke Høiland-Jørgensen <toke@redhat.com>
+:::::: CC: Toke Høiland-Jørgensen <toke@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
