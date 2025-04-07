@@ -1,75 +1,69 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23702248AA
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 07:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4146922A7E9
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 07:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744009891; cv=none; b=iOE3lOHBauPozaO7cWzl+rYD4DIQ272c8Ycna4i4J9rszdx9VaIlBxWEc2rATzY8Uenr69+A/AqUjji8BnjSvQaZrAh6yxX0Tk/KpkMC4IbYTBvzcS0Sozn4uDvcWs5WWpXGDPg31JhgcoYyk9kYLR0QjVe5GmTSyZ9CRZ7HgIY=
+	t=1744010162; cv=none; b=T3LImhxUHQyv4JoFlPGeXK86uY440ffZax9bKjsRy6N0McD5qx4MfEQ9yHalwGY+t6KjjqsacSlhn3fJ8vZDNgqOipXSVGhPpuqtcp74je6ZWNACsZSHJEwPOs+GUyAgk/VyHZuAIkUwDUlBOq4D1dccrwLt1mE+1E3PK1JKGy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744009891; c=relaxed/simple;
-	bh=bgbX/1TAGw3gEOnX+gc4RFwpwUDnnTk45cRn6/6NpE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VNbnWnMrmqGO8Z+4PuZ7pMgySrYBIMzF8O1lQrl6eEzJp6bY4/DJDYs/kerfUJTghc4lM6dtu+ll18mLwzWpfXyLRcU3ptfyDZbdj1wGAVnbD2++NkNjF6O2W9LkYJaWlk7T2k6khP/ztHoOlddN/8ECcQAzgEG/ujdIc2WyWQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VoNqSgnW; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1744010162; c=relaxed/simple;
+	bh=TFHb9jwv0UJ9scWKxpEMq9nwa38PClYIeK+KBhs32os=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tcgaRGEwcbf997qLh6UvuI1a8C+J3wn3c1ek3SdfXCQibQkwN7hz1q9lFSfu+bY1EGi/j/Fyv7oiIpjXLHRpF9q++9fuJP9ky4WDElTBvV35s5+nqq91KGX+suVJsZ0Ql10yh9tmZCs3xDu66w+Ta8KE2TObXFKCK0fhHtGQk4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=enFtYer6; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VoNqSgnW"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfb6e9031so37116645e9.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 07 Apr 2025 00:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="enFtYer6"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so25602005e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 07 Apr 2025 00:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744009888; x=1744614688; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rh2kVYU0upvV4LKj4WnQxMYuJ0Huyu7zHvLhWV/epMg=;
-        b=VoNqSgnWBzfG2juhiQnIEOvdM+cLEf4HaOOtsgP5nHjps4V/ZRGJGdJ0t54NJAM27f
-         R71uY+crPL9zdz4U7MvzkUBuRhobezQ1RD8teo5gHU/QGncMulLKgMLbeIjqsSRrtato
-         GN1f7uwHAEij2WUZwfqVzf2Ln5Mo0+7Db+tvgz1XiQAHYrL5dO6I9gLmAS3/dOkxtU2k
-         n/EQxwAivNZj7fB9mtjpBiC1XvuIvPdXQJvbKYNjgfJhl1f9msBuSLLF3k0lOFnrC73F
-         qTFB7fgaJuE2oBT9U8upo62BDWFqsLPZ6zHPkiUlBg6GVLz8z+/Lzj8Ps+eAjXwtzIhK
-         wdjg==
+        d=linaro.org; s=google; t=1744010158; x=1744614958; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A6xaQ0k8E/GTOsok41VClhYmiK7cHYHv73jrSD8IYao=;
+        b=enFtYer6cEKvbUmir6G30gVitRqJFwRRTJjjNgMfg+43u2Su9N0zX4SuGuZtCtDQ0o
+         stfycz+xyDld1YFjBUpHXxNhhtaxOmfCQL3CujazQw4NNgRxHztbkWI3M032gr3V27PJ
+         0br9Fp4kAtQtjBZLwXIAC+OJcCV74knhIZUSFapYmbP2Wmp6CGPLmF1giL5B0xRe3yG2
+         ucekcO9vzbye0NYMwJ9wNAewoh8s0REhK9vzubfO57UngdAxvFjMTMb0QeAWwbgS5gA5
+         4dGZx0eqCRamsTnDQWh2UXwOp02l9DoDYkxieK7Rv4l9wm0ua/YRJ1sX3T+85tpCX8k4
+         8jIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744009888; x=1744614688;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rh2kVYU0upvV4LKj4WnQxMYuJ0Huyu7zHvLhWV/epMg=;
-        b=t/XJEMeLNl7D33YSvjoNjSyeSznDFAMI047UU7KJfR/yVt8CU7FgXl5ZVfAXXk5kqe
-         XLn8aB+ngNYzbCHSyPoG7Bwppshk8xg9Wb7Hjif/uIFbU29uhf0Nd9ilgxGli5j6jghM
-         hW6NBq56mG07Ek1BltGKO9H3k1MoeaXbXnKWY0wIBO3s/GwvpBhPkfiPmPJ6qrZUuCgK
-         jf/hRqAasy6QPihln2yrTp6bImy1/fhkicOWFy14D3qdQvqsU0tBOV/H6k/tigbb2J4F
-         h1N3lMS3YG97Oa1mgB4AvABGN284h/+p4HhHlN+r1HBrcnvzxR1ZLcE/kd4TtrxQqmpU
-         hkVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNc5pPhAqyE/jRG9oyaVL0Ij4HyC+TdTNJ7WOqD6tGrhOc4hIJgu6FDUWa3G7svSpPX8daV3kRMFw=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0DgzwIhnPk+ceZLmXKINLQuNAIniGYS00Nh2db9R439skrJX6
-	uecwtdXKHC307yxFt0N2rkFpAKwInk00TJvfv0VwQgL8d1IbmfK7nJJbK096kLA=
-X-Gm-Gg: ASbGncvSNeFZLfvaRxngKfKjzmg1Hg6KqUY5xbxEUI9ldPcxtHngBnilDlRxQcCIfGK
-	Rt48DVg9IsQ+3ykhLZZHi+k1NSZhyFXpL1GFzZuIXvSrsZw/299wjmnn8DjN4NFGoAktPJoPF40
-	VC9SBzba+oRnNfwy4fRcwvO63a/ln1I3AJQI/+BKHSCjS6A8KZ+8tRZMh5odCapPTOuzwA+4P3a
-	p/Q6Be9baUNS2SIP5wUC+fmq9ygDljaJBHi9G3af0zclj/UgK4j4stggxu69FNrgCkWvvlEbcU6
-	/68jzStKOdQL6G0x9vpgLO7sdeM9Qbme34gKXJbXkqactwy2LQ==
-X-Google-Smtp-Source: AGHT+IHSxbAtFG8xM4hSgYaqnUaxFKwYLaPl6ubSMAn718vF9KSqrQf2fosBFbGX2G2epezcb1G3bw==
-X-Received: by 2002:a5d:59a3:0:b0:39c:30cd:352c with SMTP id ffacd0b85a97d-39cb36b299cmr8256949f8f.8.1744009888228;
-        Mon, 07 Apr 2025 00:11:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744010158; x=1744614958;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A6xaQ0k8E/GTOsok41VClhYmiK7cHYHv73jrSD8IYao=;
+        b=XlY4/fZPduzs7/tGWhiLysh4t7+fW+8f5u4qOMnDI8FWvaQgrI1LriGPTtyWHBXQp8
+         SEjc8hfEFtgBjtFXULVm8D7WN8l/hYMeviuTb3kJKVZkqylB1Iq6FN49Kq4Bjs7OhrzO
+         +3JhR1zbN6AoJbvbJlKArgk0rAiwrq1dBltF6tIaCRdLF+cSMFSAuLTe+UvXy3wOqppF
+         UH7E1VMF/1QW65bYflV9BLopp+I72Ele0K9Cbx+9WP4xY1lpAv/4bckvqacBvnsOrxHy
+         zh+bat4kK4hL1+owDeQYino8Rkw95wFoAGFcAZbWR3J8je/FdBxrYrhUNTqPfDeWBm/v
+         dleg==
+X-Gm-Message-State: AOJu0YyPqgjB/PenE46Gq+gaD/xEiKQawWgTlaQ1ETlauLVkkmAGteLA
+	naM143mOo0Gc1hZhLm/NfDDE8+oxRR2TQf5UgqMWkz+3zsWz0x4Su5vtac1hzLFABmwlBX0sN/H
+	e
+X-Gm-Gg: ASbGncusMS/wkmRGu55QOZneNGTX/qNaExeMMqaQf7/zkR1fSf2PgBIdVdH1Q6ZjXTs
+	GiDVNaPSwNh+4fggG9tSs5cEgqjwIrEAY6SSxRc+pnx8wj0diQI0UTBiU8iFZCRZfJ4flskz327
+	Hp5XD6koDNxaT8LTovVblCxOw0bVADOkRfXfgDqB6FnOfyb5BPI+vOMgJ86/EXRZfW4PJPsvrtr
+	jYfQRe7dmk1IbB36j9pAqk2d7ORix+R1fEWApnbwiEfyAvoakkX4FSdDhEi7so0UWmiZzXypYMS
+	8/zB/B5tdR04ahmqSEXNIYce6hM/S8XgYTBBRw8CgHE5zYpmSg==
+X-Google-Smtp-Source: AGHT+IE0yvUp003v7ANegxVMAf+lXFywEGIzWlDTx8NnJOOMHWUiiwpPL+cDtZZw/dVy3RRRVB84Iw==
+X-Received: by 2002:a05:600c:3484:b0:43e:afca:808f with SMTP id 5b1f17b1804b1-43ed0db4006mr113880375e9.31.1744010157861;
+        Mon, 07 Apr 2025 00:15:57 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec16a3aefsm124095515e9.21.2025.04.07.00.11.27
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec366a699sm119704075e9.38.2025.04.07.00.15.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 00:11:27 -0700 (PDT)
-Date: Mon, 7 Apr 2025 10:11:24 +0300
+        Mon, 07 Apr 2025 00:15:57 -0700 (PDT)
+Date: Mon, 7 Apr 2025 10:15:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, x86@kernel.org
-Subject: Re: [PATCH v3] x86/mm/pat: Fix VM_PAT handling when fork() fails in
- copy_page_range()
-Message-ID: <202ba609-277d-4f16-92df-8a5a94f99ad4@stanley.mountain>
-References: <g5vxcrmdjjsvrjeo5k6uzwypctv2mvbteoommwwpv6sfjpbcyd@lackqksyahfs>
- <94c35e89-f915-4122-b1a0-436893201373@stanley.mountain>
- <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
+To: oe-kbuild@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-msiof-2025-03-26 21/24]
+ sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to
+ 'PTR_ERR'
+Message-ID: <42101bfa-e3e7-4ae0-9c9e-c37593b8ece9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -78,37 +72,58 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a33df3aa-7f37-4d1b-bde8-642115dd1441@redhat.com>
 
-On Thu, Apr 03, 2025 at 10:59:12PM +0200, David Hildenbrand wrote:
-> On 03.04.25 17:14, Dan Carpenter wrote:
-> > Sorry, I've been having trouble with my email recently...  I replied
-> > earlier but my email got eaten on the way out.
-> > 
-> > What happened here is that the zero day bot emails go to me first and
-> > then I review them or forward them depending on if they're a real
-> > issue or not.
-> > 
-> > Here it's a false postive because it's set and used if the
-> > (src_vma->vm_flags & VM_PFNMAP) flag is set.  Smatch doesn't parse
-> > this correctly.  I've been meaning to fix this in Smatch for a
-> > while.
-> 
-> There is a slight complication (on top of the VM_PFNMAP checks):
-> 
-> If "src_vma->vm_flags & VM_PAT" we
-> * set pfn
-> * set dst_vma->vm_flags |= VM_PFNMAP
-> 
-> Then, we only consume the pfn if "dst_vma->vm_flags & VM_PFNMAP"
-> 
-> While we won't be using the uninitialized pfn (good), we'd still pass an
-> uninitialized pfn, which IIRC is UB; likely nothing happens on GCC clang,
-> but we better handle it.
+tree:   https://github.com/morimoto/linux sound-msiof-2025-03-26
+head:   ba9316799e85a9ef14dd8a3e5580be4c97149576
+commit: adf5f819442084ec2b0ea13a5834b05d10750e24 [21/24] ASoC: renesas: add MSIOF sound support
+config: openrisc-randconfig-r071-20250407 (https://download.01.org/0day-ci/archive/20250407/202504070441.9TXJ68nR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
 
-Passing an uninitialized variable is UB, but if the function is inlined
-then it's fine.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504070441.9TXJ68nR-lkp@intel.com/
 
-regards,
-dan carpenter
+smatch warnings:
+sound/soc/renesas/rcar/msiof.c:367 msiof_open() warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +367 sound/soc/renesas/rcar/msiof.c
+
+adf5f819442084e Kuninori Morimoto 2025-03-24  356  static int msiof_open(struct snd_soc_component *component,
+adf5f819442084e Kuninori Morimoto 2025-03-24  357  		      struct snd_pcm_substream *substream)
+adf5f819442084e Kuninori Morimoto 2025-03-24  358  {
+adf5f819442084e Kuninori Morimoto 2025-03-24  359  	struct device *dev = component->dev;
+adf5f819442084e Kuninori Morimoto 2025-03-24  360  	struct dma_chan *chan;
+adf5f819442084e Kuninori Morimoto 2025-03-24  361  	static const char *dma_names[] = {"rx", "tx"};
+adf5f819442084e Kuninori Morimoto 2025-03-24  362  	int is_play = msiof_is_play(substream);
+adf5f819442084e Kuninori Morimoto 2025-03-24  363  	int ret;
+adf5f819442084e Kuninori Morimoto 2025-03-24  364  
+adf5f819442084e Kuninori Morimoto 2025-03-24  365  	chan = of_dma_request_slave_channel(dev->of_node, dma_names[is_play]);
+adf5f819442084e Kuninori Morimoto 2025-03-24  366  	if (IS_ERR_OR_NULL(chan))
+
+of_dma_request_slave_channel() can't return NULL, but the zero-day bot
+doesn't do cross function analysis and the IS_ERR_OR_NULL() check tricks
+Smatch into thinking "chan" can be NULL.
+
+adf5f819442084e Kuninori Morimoto 2025-03-24 @367  		return PTR_ERR(chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  368  
+adf5f819442084e Kuninori Morimoto 2025-03-24  369  	ret = snd_dmaengine_pcm_open(substream, chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  370  	if (ret < 0)
+adf5f819442084e Kuninori Morimoto 2025-03-24  371  		goto open_err_dma;
+adf5f819442084e Kuninori Morimoto 2025-03-24  372  
+adf5f819442084e Kuninori Morimoto 2025-03-24  373  	snd_soc_set_runtime_hwparams(substream, &msiof_pcm_hardware);
+adf5f819442084e Kuninori Morimoto 2025-03-24  374  
+adf5f819442084e Kuninori Morimoto 2025-03-24  375  	ret = snd_pcm_hw_constraint_integer(substream->runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+adf5f819442084e Kuninori Morimoto 2025-03-24  376  
+adf5f819442084e Kuninori Morimoto 2025-03-24  377  open_err_dma:
+adf5f819442084e Kuninori Morimoto 2025-03-24  378  	if (ret < 0)
+adf5f819442084e Kuninori Morimoto 2025-03-24  379  		dma_release_channel(chan);
+adf5f819442084e Kuninori Morimoto 2025-03-24  380  
+adf5f819442084e Kuninori Morimoto 2025-03-24  381  	return ret;
+adf5f819442084e Kuninori Morimoto 2025-03-24  382  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
