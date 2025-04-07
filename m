@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C4913777E
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 04:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BA52A8C1
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 06:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744000537; cv=none; b=WDgE//ixDOpxPnwjotYpwdQ75ugE0jAU/05bGGRoozq3AUvpeMTHCtEcQajyxwPF46PaNVpUEZB51rfu0Jz0DPEHSQE9CWAd1zjdgXsn5MHssrM5+9R0b4LHIB+PEmKo6V1I8BbU+scB+90dVFIHhsxWThJyxPIRqF3AgijTynE=
+	t=1744007150; cv=none; b=pXgvmAjD+EqTIokmcj+PAuKfglv6Ok1/h2DTbGRhR0B7eAEBgyGk104lQMGY54mB/pA2sp8fr/lX16G5RqMcSrAvrWx+VWLpysrUzjey3LRTDDb3uYhve4FJOnd0ZNgSbgvuquB8vtNADxVT8yvWA/+vedDdsQ2K+Ps5ggBxc3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744000537; c=relaxed/simple;
-	bh=mz1Wq9SdWj5nf7v9GLA3TX4ps486eqYfX3poTZeuP9Q=;
+	s=arc-20240116; t=1744007150; c=relaxed/simple;
+	bh=7QI1nve89bqiOnWE3I0tjCbZMLYlFcMm8dQfJ0FpZI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t0Cr7r6Jb7u6F/ierAJeWnsmVK3Ajjuzo2a5SlwIEoBOS+R2rcyJ8NOkrkoagVwdrcr9xNKO2lGR0CVXbtzfC2baso9RHtOPhfwP4K5cVWhdTVw17zXifegwLI9+twQmJzLqOAuv7pGITrlQlAE+qq1FswcB6a3JcTSGeDyafkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+gRYa0F; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=X+9zcsT65LS9/uxMOrnbeVSL5tVDgGGy40YfMPEGl+zYLqc8vx/osJg9+QLHlXlDDmiBn9pRpbHMFn9avzBXqMVGpvSupSHnwJZPgbk5aZZoPI+y984iywRLdPM3/bYje1lgvp47r6fL6rXz5C+lxrouuDlRqxddEGSfL1VA+Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jdo/hO+C; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+gRYa0F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jdo/hO+C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744000536; x=1775536536;
+  t=1744007149; x=1775543149;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mz1Wq9SdWj5nf7v9GLA3TX4ps486eqYfX3poTZeuP9Q=;
-  b=T+gRYa0Fv54QTtj7OEAR81qW2alAzTl4vqEBJojsUQ4LI2srffyfUvFw
-   Ds6HFC0fc3kNXssg1at3Z8sp6kqRk9I7GMVwCLelv4XOL3HVXUrtzkbtB
-   ah/bdMtKutNmDrAGD/tWboXEaBCywO9wDsDKgSk88HGB5jKCtkMqmSdhg
-   HUnEygpAarW7yOuVWEnuH9DqYvQMUdKGrpgrgkUwSoGHyODtG6i3x/3Er
-   ZvRUVY1if8trIlFbeRPTPQLVOvADqCjQj2O5aQuf2wHlg5VykUmQE9cki
-   nLD2cJQApOuw5gtKa6kBayv1w5+gWAFMgonr1Al/EjSkzlLqW1rhX6cJb
+  bh=7QI1nve89bqiOnWE3I0tjCbZMLYlFcMm8dQfJ0FpZI8=;
+  b=jdo/hO+C6orZZqRWHFYBu+j4+w1L4UHOONv8XpVBekz59Ev1JaYLQCpT
+   w3bsYJ0pNhGcOXyLufaSCQjJr77AqW+Jxfg8WUYriyKOkjf4Wu6fHVNtS
+   RRe0moJybmgyK3OdaM7EqMz4VGsBgLrOTG/e0oychRIrhf33LAGTvqwBU
+   a8GGTv+q6VqmFAhIG+9z9m8ewoXd9lK9YG91jQFoZn58bY5Ao8hUN+F8D
+   BQgRkbhNg2CeQGzRhAkV3z+7PVT25dpLsYrKGnzsb6QS7pgW0mvyxrGDm
+   juWV5Qa90iIg+MF+yMVys/PWbwJze6UAWBiZweCkAvL3uUbmpIM2vsD0x
    A==;
-X-CSE-ConnectionGUID: QWXfMtgjRcyv4SXtlbwo/g==
-X-CSE-MsgGUID: 0K/YcJjNRq2z3/WH8qLNUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="62764545"
+X-CSE-ConnectionGUID: SCOifu+rQU62kjH1XBW4qQ==
+X-CSE-MsgGUID: 5mINW1P4SR2mo4VJ/PWtAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="70748083"
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="62764545"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 21:35:34 -0700
-X-CSE-ConnectionGUID: lY8Eut/zSku61Xs1h5adQw==
-X-CSE-MsgGUID: x2okPyE7T+2bm5K8c1+Vuw==
+   d="scan'208";a="70748083"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 23:25:46 -0700
+X-CSE-ConnectionGUID: uquhc6kCQ2yKrWmUKMYlwQ==
+X-CSE-MsgGUID: +iyIhXN4TXalj0lRyW6gcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="158809902"
+   d="scan'208";a="127704940"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Apr 2025 21:35:32 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 06 Apr 2025 23:25:45 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1eCo-0002zX-0w;
-	Mon, 07 Apr 2025 04:35:30 +0000
-Date: Mon, 7 Apr 2025 12:35:16 +0800
+	id 1u1fvT-00032N-0L;
+	Mon, 07 Apr 2025 06:25:43 +0000
+Date: Mon, 7 Apr 2025 14:24:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/regulator/pf9453-regulator.c:820:7-32: WARNING: Threaded IRQ
- with no primary handler requested without IRQF_ONESHOT (unless it is nested
- IRQ)
-Message-ID: <202504071237.GAhUodOT-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:track/x1e-t14s 29/102]
+ arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: isp@acb3000:
+ clock-names:12: 'gcc_camera_ahb' was expected
+Message-ID: <202504071445.DIPa4d3h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,123 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Joy Zou <joy.zou@nxp.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Frank Li <Frank.Li@nxp.com>
+TO: Vikram Sharma <quic_vikramsa@quicinc.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Hariram Purushothaman <quic_hariramp@quicinc.com>
+CC: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0af2f6be1b4281385b618cb86ad946eded089ac8
-commit: 0959b6706325bf147f253841eea312e27a3bf013 regulator: pf9453: add PMIC PF9453 support
-date:   3 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-r062-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071237.GAhUodOT-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://github.com/krzk/linux track/x1e-t14s
+head:   239252d33658f16e30ebbe940292946ccc610d00
+commit: 33ce75c6898356ce742118443ddb063fd14e5c76 [29/102] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250407/202504071445.DIPa4d3h-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+dtschema version: 2025.3.dev6+gb64c5c3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250407/202504071445.DIPa4d3h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202504071237.GAhUodOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504071445.DIPa4d3h-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/regulator/pf9453-regulator.c:820:7-32: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-
-vim +820 drivers/regulator/pf9453-regulator.c
-
-0959b6706325bf Joy Zou 2025-03-14  767  
-0959b6706325bf Joy Zou 2025-03-14  768  static int pf9453_i2c_probe(struct i2c_client *i2c)
-0959b6706325bf Joy Zou 2025-03-14  769  {
-0959b6706325bf Joy Zou 2025-03-14  770  	const struct pf9453_regulator_desc *regulator_desc = of_device_get_match_data(&i2c->dev);
-0959b6706325bf Joy Zou 2025-03-14  771  	struct regulator_config config = { };
-0959b6706325bf Joy Zou 2025-03-14  772  	unsigned int reset_ctrl;
-0959b6706325bf Joy Zou 2025-03-14  773  	unsigned int device_id;
-0959b6706325bf Joy Zou 2025-03-14  774  	struct pf9453 *pf9453;
-0959b6706325bf Joy Zou 2025-03-14  775  	int ret;
-0959b6706325bf Joy Zou 2025-03-14  776  
-0959b6706325bf Joy Zou 2025-03-14  777  	if (!i2c->irq)
-0959b6706325bf Joy Zou 2025-03-14  778  		return dev_err_probe(&i2c->dev, -EINVAL, "No IRQ configured?\n");
-0959b6706325bf Joy Zou 2025-03-14  779  
-0959b6706325bf Joy Zou 2025-03-14  780  	pf9453 = devm_kzalloc(&i2c->dev, sizeof(struct pf9453), GFP_KERNEL);
-0959b6706325bf Joy Zou 2025-03-14  781  	if (!pf9453)
-0959b6706325bf Joy Zou 2025-03-14  782  		return -ENOMEM;
-0959b6706325bf Joy Zou 2025-03-14  783  
-0959b6706325bf Joy Zou 2025-03-14  784  	pf9453->regmap = devm_regmap_init_i2c(i2c, &pf9453_regmap_config);
-0959b6706325bf Joy Zou 2025-03-14  785  	if (IS_ERR(pf9453->regmap))
-0959b6706325bf Joy Zou 2025-03-14  786  		return dev_err_probe(&i2c->dev, PTR_ERR(pf9453->regmap),
-0959b6706325bf Joy Zou 2025-03-14  787  				     "regmap initialization failed\n");
-0959b6706325bf Joy Zou 2025-03-14  788  
-0959b6706325bf Joy Zou 2025-03-14  789  	pf9453->irq = i2c->irq;
-0959b6706325bf Joy Zou 2025-03-14  790  	pf9453->dev = &i2c->dev;
-0959b6706325bf Joy Zou 2025-03-14  791  
-0959b6706325bf Joy Zou 2025-03-14  792  	dev_set_drvdata(&i2c->dev, pf9453);
-0959b6706325bf Joy Zou 2025-03-14  793  
-0959b6706325bf Joy Zou 2025-03-14  794  	ret = regmap_read(pf9453->regmap, PF9453_REG_DEV_ID, &device_id);
-0959b6706325bf Joy Zou 2025-03-14  795  	if (ret)
-0959b6706325bf Joy Zou 2025-03-14  796  		return dev_err_probe(&i2c->dev, ret, "Read device id error\n");
-0959b6706325bf Joy Zou 2025-03-14  797  
-0959b6706325bf Joy Zou 2025-03-14  798  	/* Check your board and dts for match the right pmic */
-0959b6706325bf Joy Zou 2025-03-14  799  	if ((device_id >> 4) != 0xb)
-0959b6706325bf Joy Zou 2025-03-14  800  		return dev_err_probe(&i2c->dev, -EINVAL, "Device id(%x) mismatched\n",
-0959b6706325bf Joy Zou 2025-03-14  801  				     device_id >> 4);
-0959b6706325bf Joy Zou 2025-03-14  802  
-0959b6706325bf Joy Zou 2025-03-14  803  	while (regulator_desc->desc.name) {
-0959b6706325bf Joy Zou 2025-03-14  804  		const struct regulator_desc *desc;
-0959b6706325bf Joy Zou 2025-03-14  805  		struct regulator_dev *rdev;
-0959b6706325bf Joy Zou 2025-03-14  806  
-0959b6706325bf Joy Zou 2025-03-14  807  		desc = &regulator_desc->desc;
-0959b6706325bf Joy Zou 2025-03-14  808  
-0959b6706325bf Joy Zou 2025-03-14  809  		config.regmap = pf9453->regmap;
-0959b6706325bf Joy Zou 2025-03-14  810  		config.dev = pf9453->dev;
-0959b6706325bf Joy Zou 2025-03-14  811  
-0959b6706325bf Joy Zou 2025-03-14  812  		rdev = devm_regulator_register(pf9453->dev, desc, &config);
-0959b6706325bf Joy Zou 2025-03-14  813  		if (IS_ERR(rdev))
-0959b6706325bf Joy Zou 2025-03-14  814  			return dev_err_probe(pf9453->dev, PTR_ERR(rdev),
-0959b6706325bf Joy Zou 2025-03-14  815  					     "Failed to register regulator(%s)\n", desc->name);
-0959b6706325bf Joy Zou 2025-03-14  816  
-0959b6706325bf Joy Zou 2025-03-14  817  		regulator_desc++;
-0959b6706325bf Joy Zou 2025-03-14  818  	}
-0959b6706325bf Joy Zou 2025-03-14  819  
-0959b6706325bf Joy Zou 2025-03-14 @820  	ret = devm_request_threaded_irq(pf9453->dev, pf9453->irq, NULL, pf9453_irq_handler,
-0959b6706325bf Joy Zou 2025-03-14  821  					(IRQF_TRIGGER_FALLING | IRQF_ONESHOT),
-0959b6706325bf Joy Zou 2025-03-14  822  					"pf9453-irq", pf9453);
-0959b6706325bf Joy Zou 2025-03-14  823  	if (ret)
-0959b6706325bf Joy Zou 2025-03-14  824  		return dev_err_probe(pf9453->dev, ret, "Failed to request IRQ: %d\n", pf9453->irq);
-0959b6706325bf Joy Zou 2025-03-14  825  
-0959b6706325bf Joy Zou 2025-03-14  826  	/* Unmask all interrupt except PWRON/WDOG/RSVD */
-0959b6706325bf Joy Zou 2025-03-14  827  	ret = pf9453_pmic_write(pf9453, PF9453_REG_INT1_MASK,
-0959b6706325bf Joy Zou 2025-03-14  828  				IRQ_ONKEY | IRQ_RESETKEY | IRQ_RSTB | IRQ_VR_FLT1
-0959b6706325bf Joy Zou 2025-03-14  829  				| IRQ_LOWVSYS | IRQ_THERM_100 | IRQ_THERM_80, IRQ_RSVD);
-0959b6706325bf Joy Zou 2025-03-14  830  	if (ret)
-0959b6706325bf Joy Zou 2025-03-14  831  		return dev_err_probe(&i2c->dev, ret, "Unmask irq error\n");
-0959b6706325bf Joy Zou 2025-03-14  832  
-0959b6706325bf Joy Zou 2025-03-14  833  	if (of_property_read_bool(i2c->dev.of_node, "nxp,wdog_b-warm-reset"))
-0959b6706325bf Joy Zou 2025-03-14  834  		reset_ctrl = WDOG_B_CFG_WARM;
-0959b6706325bf Joy Zou 2025-03-14  835  	else
-0959b6706325bf Joy Zou 2025-03-14  836  		reset_ctrl = WDOG_B_CFG_COLD;
-0959b6706325bf Joy Zou 2025-03-14  837  
-0959b6706325bf Joy Zou 2025-03-14  838  	/* Set reset behavior on assertion of WDOG_B signal */
-0959b6706325bf Joy Zou 2025-03-14  839  	ret = pf9453_pmic_write(pf9453, PF9453_REG_RESET_CTRL, WDOG_B_CFG_MASK, reset_ctrl);
-0959b6706325bf Joy Zou 2025-03-14  840  	if (ret)
-0959b6706325bf Joy Zou 2025-03-14  841  		return dev_err_probe(&i2c->dev, ret, "Failed to set WDOG_B reset behavior\n");
-0959b6706325bf Joy Zou 2025-03-14  842  
-0959b6706325bf Joy Zou 2025-03-14  843  	/*
-0959b6706325bf Joy Zou 2025-03-14  844  	 * The driver uses the LDO1OUT_H register to control the LDO1 regulator.
-0959b6706325bf Joy Zou 2025-03-14  845  	 * This is only valid if the SD_VSEL input of the PMIC is high. Let's
-0959b6706325bf Joy Zou 2025-03-14  846  	 * check if the pin is available as GPIO and set it to high.
-0959b6706325bf Joy Zou 2025-03-14  847  	 */
-0959b6706325bf Joy Zou 2025-03-14  848  	pf9453->sd_vsel_gpio = gpiod_get_optional(pf9453->dev, "sd-vsel", GPIOD_OUT_HIGH);
-0959b6706325bf Joy Zou 2025-03-14  849  
-0959b6706325bf Joy Zou 2025-03-14  850  	if (IS_ERR(pf9453->sd_vsel_gpio))
-0959b6706325bf Joy Zou 2025-03-14  851  		return dev_err_probe(&i2c->dev, PTR_ERR(pf9453->sd_vsel_gpio),
-0959b6706325bf Joy Zou 2025-03-14  852  				     "Failed to get SD_VSEL GPIO\n");
-0959b6706325bf Joy Zou 2025-03-14  853  
-0959b6706325bf Joy Zou 2025-03-14  854  	return 0;
-0959b6706325bf Joy Zou 2025-03-14  855  }
-0959b6706325bf Joy Zou 2025-03-14  856  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pmic@2: pwm:nvmem: [[345, 346]] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+   arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtb: pwm: nvmem: [[345, 346]] is too short
+   	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
