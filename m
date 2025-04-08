@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960172144A1
-	for <oe-kbuild@lists.linux.dev>; Tue,  8 Apr 2025 14:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276472405EB
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Apr 2025 22:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744121165; cv=none; b=uWPj/9gZTgJNf5xysHlQ65KmpXZnsXC2zQh4vh3U6xrxFgjmBHtYE/8RUZAOuveVo3lYXdn32DmmY5kld8GeldPXyI6qKvrteuzQQ5arpmh0cefuHhwBwlqBXLAbnM4bn7g6AyzBmYwOtmqFlTf9WylNmITGnGSp/XhzZFr2M4w=
+	t=1744152789; cv=none; b=WHJ4BLw/VH3G/FOUc3mgC8/cb8lOPI6/onoGKtzf5exyxwKpsw+wQ2Wz2zKgixXfUAoIJuNPCm4I/7GEgL7++EyqAUpeiqnph8SM1dvQm/apNkUYV9OkOvvOhhQAFlrsJFjUuXIwf45FobArh27Bjcv+El2SgUF2KmFi9MTImx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744121165; c=relaxed/simple;
-	bh=LXjko/SE3QxhXis7wStClGb6zDjo39VMqP/020gQyGg=;
+	s=arc-20240116; t=1744152789; c=relaxed/simple;
+	bh=sEaBVDaTKlUIWDRVr+VaDiOPSntVdWbFeLMSqVlQd7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HHeu68o4y3lb9y00EY2q0iZcDkGtejv9jXlJaUKpYLKwPrI6Nj/Mj7YowTViaGp4O7jZSB2RCc2lP99snzrAgMuklyNxQhKvz0mYWwPBAY8SwHuOG+zVA+afEPPZ9Ee0cwprSn7774vHyt5wwUi8OY15J8JndkXwFT94pt74cG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEGiKpYX; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ML9Jx3HXt8Y6opNLzsYinUv65fGcshd//E+ChFStdmmd4lqrqO/eJs6RhYMN0FXWQ76hyCEZWupOre5Sc1hhb55XFdd3lKKZY6CSUDCmDrjcfHmdObp410FmeijX6JCb0gzc1GoZ0fnbxy2OlOg1H1ADEuWqu72Vjsnc9cEWXj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9nH6AGC; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEGiKpYX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9nH6AGC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744121164; x=1775657164;
+  t=1744152787; x=1775688787;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LXjko/SE3QxhXis7wStClGb6zDjo39VMqP/020gQyGg=;
-  b=LEGiKpYXbH5Zfpw1m57ogWx14th3qy5S//uZSen9Hu6110Jv4uNRVFUn
-   xVQezUUoMAfxNJC+KcCxDq4zBe0caEoMT9fwLPDQELW34a0I9IqM1pKcz
-   vP4E5AFPTfz+UYMo6Z/st/YIzvCVfZk6kc3PjNlUp65iWj3FUxnd9KyWX
-   oE3RIoAS9v+rhtB/9mCGL3sSH9qGHzDDwyEumaBwGBnXmAzHf5RbeItWB
-   pBU2pMc/qXsNRY0tNWKNXKXkypHTgAj5fdfQYNDIL2Ftob0qgBm2JQc8m
-   zj3I8GzQbR17n3kwQEGRG/u4mIcHa4lduJy8nPJ1TZ2FPAhF9fS/N05jb
-   w==;
-X-CSE-ConnectionGUID: 5pkzjL0ORl22ab47LBN2Vw==
-X-CSE-MsgGUID: 72yYdTKoRGafHVb9G0zUEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="33159142"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="33159142"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 07:06:03 -0700
-X-CSE-ConnectionGUID: Vj3sTp+PSj6/YyxYqMxPkA==
-X-CSE-MsgGUID: 9AAfZ0rtRUeONcIzgdlhug==
+  bh=sEaBVDaTKlUIWDRVr+VaDiOPSntVdWbFeLMSqVlQd7E=;
+  b=V9nH6AGC/Ky82HIwc9u7n7rDuZMJ9NVs9JpzmDydozRDs/ic6+K+x+zM
+   DLHwigLWX6kOwgP9OBA9nHrv6gb8Yfi1LosSSBMPoQXzFezR06Bz7mIDX
+   r8+HBy1P6jTYmX10iRPo8KIYplSEb7m+OYpfw2KhqvaLBiTiWsmL6yo8i
+   qvw+F4qZA6sm3loL2VaUvmzheKVc07ZCU11jFfAi63hS1943LFTfPX/kE
+   BTMCpge8mJDYcWwHzTGiNP3CNmdX2QX4INmNdYCMM3LXPvIx3ZqI8DI18
+   k0cwgtLQoS45Y/7+nz0SZDnuHR3Fh7el2eFDoXXGSs5B7Kd6V13Sb14kF
+   A==;
+X-CSE-ConnectionGUID: D7/KPXuuQ/+DoIMutvFD7Q==
+X-CSE-MsgGUID: rfUixneeSy+zf2UaT+U1kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45770160"
+X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; 
+   d="scan'208";a="45770160"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 15:53:07 -0700
+X-CSE-ConnectionGUID: b002KXkmTKewszmztdk1VQ==
+X-CSE-MsgGUID: Pk0F7s3dR4Gl1m3DuB0Ayg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="128152898"
+X-IronPort-AV: E=Sophos;i="6.15,199,1739865600"; 
+   d="scan'208";a="132533088"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Apr 2025 07:06:01 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 Apr 2025 15:53:05 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u29aR-0007WJ-1Y;
-	Tue, 08 Apr 2025 14:05:59 +0000
-Date: Tue, 8 Apr 2025 22:05:00 +0800
+	id 1u2HoV-00082v-03;
+	Tue, 08 Apr 2025 22:53:03 +0000
+Date: Wed, 9 Apr 2025 06:52:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 1070/1936] fs/nfsd/nfs4callback.c:1393:26-29:
- ERROR: invalid reference to the index variable of the iterator on line 1373
-Message-ID: <202504082137.uuO3MtBv-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/hv/mshv_root_hv_call.c:85 hv_call_withdraw_memory() error:
+ uninitialized symbol 'status'.
+Message-ID: <202504090616.nq8gpISj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,94 +64,108 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Chuck Lever <chuck.lever@oracle.com>
-CC: Jeff Layton <jlayton@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Anirudh Rayabharam <anrayabh@linux.microsoft.com>
+CC: Jinank Jain <jinankjain@microsoft.com>
+CC: Mukesh Rathor <mrathor@linux.microsoft.com>
+CC: Muminul Islam <muislam@microsoft.com>
+CC: Praveen K Paladugu <prapal@linux.microsoft.com>
+CC: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+CC: Roman Kisel <romank@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7702d0130dc002bab2c3571ddb6ff68f82d99aea
-commit: 1893a098bca47504d628f1668bfceeaf18e01bbb [1070/1936] NFSD: Implement CB_SEQUENCE referring call lists
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-104-20250408 (https://download.01.org/0day-ci/archive/20250408/202504082137.uuO3MtBv-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bec7dcbc242c6c087cede1a6fdfaeb5d6eaf25bf
+commit: 621191d709b14882270dfd8ea5d7d6cdfebe2c35 Drivers: hv: Introduce mshv_root module to expose /dev/mshv to VMMs
+date:   3 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-r071-20250409 (https://download.01.org/0day-ci/archive/20250409/202504090616.nq8gpISj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202504082137.uuO3MtBv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504090616.nq8gpISj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/nfsd/nfs4callback.c:1393:26-29: ERROR: invalid reference to the index variable of the iterator on line 1373
+New smatch warnings:
+drivers/hv/mshv_root_hv_call.c:85 hv_call_withdraw_memory() error: uninitialized symbol 'status'.
+drivers/hv/mshv_root_main.c:989 mshv_partition_ioctl_create_vp() error: uninitialized symbol 'ghcb_page'.
+drivers/hv/mshv_root_main.c:1005 mshv_partition_ioctl_create_vp() warn: potential spectre issue 'partition->pt_vp_array' [w]
 
-vim +1393 fs/nfsd/nfs4callback.c
+Old smatch warnings:
+arch/x86/include/asm/mshyperv.h:157 _hv_do_fast_hypercall8() warn: inconsistent indenting
 
-2bbfed98a4d82a Trond Myklebust 2019-10-23  1350  
-1893a098bca475 Chuck Lever     2025-03-01  1351  /**
-1893a098bca475 Chuck Lever     2025-03-01  1352   * nfsd41_cb_referring_call - add a referring call to a callback operation
-1893a098bca475 Chuck Lever     2025-03-01  1353   * @cb: context of callback to add the rc to
-1893a098bca475 Chuck Lever     2025-03-01  1354   * @sessionid: referring call's session ID
-1893a098bca475 Chuck Lever     2025-03-01  1355   * @slotid: referring call's session slot index
-1893a098bca475 Chuck Lever     2025-03-01  1356   * @seqno: referring call's slot sequence number
-1893a098bca475 Chuck Lever     2025-03-01  1357   *
-1893a098bca475 Chuck Lever     2025-03-01  1358   * Caller serializes access to @cb.
-1893a098bca475 Chuck Lever     2025-03-01  1359   *
-1893a098bca475 Chuck Lever     2025-03-01  1360   * NB: If memory allocation fails, the referring call is not added.
-1893a098bca475 Chuck Lever     2025-03-01  1361   */
-1893a098bca475 Chuck Lever     2025-03-01  1362  void nfsd41_cb_referring_call(struct nfsd4_callback *cb,
-1893a098bca475 Chuck Lever     2025-03-01  1363  			      struct nfs4_sessionid *sessionid,
-1893a098bca475 Chuck Lever     2025-03-01  1364  			      u32 slotid, u32 seqno)
-1893a098bca475 Chuck Lever     2025-03-01  1365  {
-1893a098bca475 Chuck Lever     2025-03-01  1366  	struct nfsd4_referring_call_list *rcl;
-1893a098bca475 Chuck Lever     2025-03-01  1367  	struct nfsd4_referring_call *rc;
-1893a098bca475 Chuck Lever     2025-03-01  1368  	bool found;
-1893a098bca475 Chuck Lever     2025-03-01  1369  
-1893a098bca475 Chuck Lever     2025-03-01  1370  	might_sleep();
-1893a098bca475 Chuck Lever     2025-03-01  1371  
-1893a098bca475 Chuck Lever     2025-03-01  1372  	found = false;
-1893a098bca475 Chuck Lever     2025-03-01 @1373  	list_for_each_entry(rcl, &cb->cb_referring_call_list, __list) {
-1893a098bca475 Chuck Lever     2025-03-01  1374  		if (!memcmp(rcl->rcl_sessionid.data, sessionid->data,
-1893a098bca475 Chuck Lever     2025-03-01  1375  			   NFS4_MAX_SESSIONID_LEN)) {
-1893a098bca475 Chuck Lever     2025-03-01  1376  			found = true;
-1893a098bca475 Chuck Lever     2025-03-01  1377  			break;
-1893a098bca475 Chuck Lever     2025-03-01  1378  		}
-1893a098bca475 Chuck Lever     2025-03-01  1379  	}
-1893a098bca475 Chuck Lever     2025-03-01  1380  	if (!found) {
-1893a098bca475 Chuck Lever     2025-03-01  1381  		rcl = kmalloc(sizeof(*rcl), GFP_KERNEL);
-1893a098bca475 Chuck Lever     2025-03-01  1382  		if (!rcl)
-1893a098bca475 Chuck Lever     2025-03-01  1383  			return;
-1893a098bca475 Chuck Lever     2025-03-01  1384  		memcpy(rcl->rcl_sessionid.data, sessionid->data,
-1893a098bca475 Chuck Lever     2025-03-01  1385  		       NFS4_MAX_SESSIONID_LEN);
-1893a098bca475 Chuck Lever     2025-03-01  1386  		rcl->__nr_referring_calls = 0;
-1893a098bca475 Chuck Lever     2025-03-01  1387  		INIT_LIST_HEAD(&rcl->rcl_referring_calls);
-1893a098bca475 Chuck Lever     2025-03-01  1388  		list_add(&rcl->__list, &cb->cb_referring_call_list);
-1893a098bca475 Chuck Lever     2025-03-01  1389  		cb->cb_nr_referring_call_list++;
-1893a098bca475 Chuck Lever     2025-03-01  1390  	}
-1893a098bca475 Chuck Lever     2025-03-01  1391  
-1893a098bca475 Chuck Lever     2025-03-01  1392  	found = false;
-1893a098bca475 Chuck Lever     2025-03-01 @1393  	list_for_each_entry(rc, &rcl->rcl_referring_calls, __list) {
-1893a098bca475 Chuck Lever     2025-03-01  1394  		if (rc->rc_sequenceid == seqno && rc->rc_slotid == slotid) {
-1893a098bca475 Chuck Lever     2025-03-01  1395  			found = true;
-1893a098bca475 Chuck Lever     2025-03-01  1396  			break;
-1893a098bca475 Chuck Lever     2025-03-01  1397  		}
-1893a098bca475 Chuck Lever     2025-03-01  1398  	}
-1893a098bca475 Chuck Lever     2025-03-01  1399  	if (!found) {
-1893a098bca475 Chuck Lever     2025-03-01  1400  		rc = kmalloc(sizeof(*rc), GFP_KERNEL);
-1893a098bca475 Chuck Lever     2025-03-01  1401  		if (!rc)
-1893a098bca475 Chuck Lever     2025-03-01  1402  			goto out;
-1893a098bca475 Chuck Lever     2025-03-01  1403  		rc->rc_sequenceid = seqno;
-1893a098bca475 Chuck Lever     2025-03-01  1404  		rc->rc_slotid = slotid;
-1893a098bca475 Chuck Lever     2025-03-01  1405  		rcl->__nr_referring_calls++;
-1893a098bca475 Chuck Lever     2025-03-01  1406  		list_add(&rc->__list, &rcl->rcl_referring_calls);
-1893a098bca475 Chuck Lever     2025-03-01  1407  	}
-1893a098bca475 Chuck Lever     2025-03-01  1408  
-1893a098bca475 Chuck Lever     2025-03-01  1409  out:
-1893a098bca475 Chuck Lever     2025-03-01  1410  	if (!rcl->__nr_referring_calls) {
-1893a098bca475 Chuck Lever     2025-03-01  1411  		cb->cb_nr_referring_call_list--;
-1893a098bca475 Chuck Lever     2025-03-01  1412  		kfree(rcl);
-1893a098bca475 Chuck Lever     2025-03-01  1413  	}
-1893a098bca475 Chuck Lever     2025-03-01  1414  }
-1893a098bca475 Chuck Lever     2025-03-01  1415  
+vim +/status +85 drivers/hv/mshv_root_hv_call.c
+
+621191d709b148 Nuno Das Neves 2025-03-14  22  
+621191d709b148 Nuno Das Neves 2025-03-14  23  #define HV_WITHDRAW_BATCH_SIZE	(HV_HYP_PAGE_SIZE / sizeof(u64))
+621191d709b148 Nuno Das Neves 2025-03-14  24  #define HV_MAP_GPA_BATCH_SIZE	\
+621191d709b148 Nuno Das Neves 2025-03-14  25  	((HV_HYP_PAGE_SIZE - sizeof(struct hv_input_map_gpa_pages)) \
+621191d709b148 Nuno Das Neves 2025-03-14  26  		/ sizeof(u64))
+621191d709b148 Nuno Das Neves 2025-03-14  27  #define HV_GET_VP_STATE_BATCH_SIZE	\
+621191d709b148 Nuno Das Neves 2025-03-14  28  	((HV_HYP_PAGE_SIZE - sizeof(struct hv_input_get_vp_state)) \
+621191d709b148 Nuno Das Neves 2025-03-14  29  		/ sizeof(u64))
+621191d709b148 Nuno Das Neves 2025-03-14  30  #define HV_SET_VP_STATE_BATCH_SIZE	\
+621191d709b148 Nuno Das Neves 2025-03-14  31  	((HV_HYP_PAGE_SIZE - sizeof(struct hv_input_set_vp_state)) \
+621191d709b148 Nuno Das Neves 2025-03-14  32  		/ sizeof(u64))
+621191d709b148 Nuno Das Neves 2025-03-14  33  #define HV_GET_GPA_ACCESS_STATES_BATCH_SIZE	\
+621191d709b148 Nuno Das Neves 2025-03-14  34  	((HV_HYP_PAGE_SIZE - sizeof(union hv_gpa_page_access_state)) \
+621191d709b148 Nuno Das Neves 2025-03-14  35  		/ sizeof(union hv_gpa_page_access_state))
+621191d709b148 Nuno Das Neves 2025-03-14  36  #define HV_MODIFY_SPARSE_SPA_PAGE_HOST_ACCESS_MAX_PAGE_COUNT		       \
+621191d709b148 Nuno Das Neves 2025-03-14  37  	((HV_HYP_PAGE_SIZE -						       \
+621191d709b148 Nuno Das Neves 2025-03-14  38  	  sizeof(struct hv_input_modify_sparse_spa_page_host_access)) /        \
+621191d709b148 Nuno Das Neves 2025-03-14  39  	 sizeof(u64))
+621191d709b148 Nuno Das Neves 2025-03-14  40  
+621191d709b148 Nuno Das Neves 2025-03-14  41  int hv_call_withdraw_memory(u64 count, int node, u64 partition_id)
+621191d709b148 Nuno Das Neves 2025-03-14  42  {
+621191d709b148 Nuno Das Neves 2025-03-14  43  	struct hv_input_withdraw_memory *input_page;
+621191d709b148 Nuno Das Neves 2025-03-14  44  	struct hv_output_withdraw_memory *output_page;
+621191d709b148 Nuno Das Neves 2025-03-14  45  	struct page *page;
+621191d709b148 Nuno Das Neves 2025-03-14  46  	u16 completed;
+621191d709b148 Nuno Das Neves 2025-03-14  47  	unsigned long remaining = count;
+621191d709b148 Nuno Das Neves 2025-03-14  48  	u64 status;
+621191d709b148 Nuno Das Neves 2025-03-14  49  	int i;
+621191d709b148 Nuno Das Neves 2025-03-14  50  	unsigned long flags;
+621191d709b148 Nuno Das Neves 2025-03-14  51  
+621191d709b148 Nuno Das Neves 2025-03-14  52  	page = alloc_page(GFP_KERNEL);
+621191d709b148 Nuno Das Neves 2025-03-14  53  	if (!page)
+621191d709b148 Nuno Das Neves 2025-03-14  54  		return -ENOMEM;
+621191d709b148 Nuno Das Neves 2025-03-14  55  	output_page = page_address(page);
+621191d709b148 Nuno Das Neves 2025-03-14  56  
+621191d709b148 Nuno Das Neves 2025-03-14  57  	while (remaining) {
+621191d709b148 Nuno Das Neves 2025-03-14  58  		local_irq_save(flags);
+621191d709b148 Nuno Das Neves 2025-03-14  59  
+621191d709b148 Nuno Das Neves 2025-03-14  60  		input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
+621191d709b148 Nuno Das Neves 2025-03-14  61  
+621191d709b148 Nuno Das Neves 2025-03-14  62  		memset(input_page, 0, sizeof(*input_page));
+621191d709b148 Nuno Das Neves 2025-03-14  63  		input_page->partition_id = partition_id;
+621191d709b148 Nuno Das Neves 2025-03-14  64  		status = hv_do_rep_hypercall(HVCALL_WITHDRAW_MEMORY,
+621191d709b148 Nuno Das Neves 2025-03-14  65  					     min(remaining, HV_WITHDRAW_BATCH_SIZE),
+621191d709b148 Nuno Das Neves 2025-03-14  66  					     0, input_page, output_page);
+621191d709b148 Nuno Das Neves 2025-03-14  67  
+621191d709b148 Nuno Das Neves 2025-03-14  68  		local_irq_restore(flags);
+621191d709b148 Nuno Das Neves 2025-03-14  69  
+621191d709b148 Nuno Das Neves 2025-03-14  70  		completed = hv_repcomp(status);
+621191d709b148 Nuno Das Neves 2025-03-14  71  
+621191d709b148 Nuno Das Neves 2025-03-14  72  		for (i = 0; i < completed; i++)
+621191d709b148 Nuno Das Neves 2025-03-14  73  			__free_page(pfn_to_page(output_page->gpa_page_list[i]));
+621191d709b148 Nuno Das Neves 2025-03-14  74  
+621191d709b148 Nuno Das Neves 2025-03-14  75  		if (!hv_result_success(status)) {
+621191d709b148 Nuno Das Neves 2025-03-14  76  			if (hv_result(status) == HV_STATUS_NO_RESOURCES)
+621191d709b148 Nuno Das Neves 2025-03-14  77  				status = HV_STATUS_SUCCESS;
+621191d709b148 Nuno Das Neves 2025-03-14  78  			break;
+621191d709b148 Nuno Das Neves 2025-03-14  79  		}
+621191d709b148 Nuno Das Neves 2025-03-14  80  
+621191d709b148 Nuno Das Neves 2025-03-14  81  		remaining -= completed;
+621191d709b148 Nuno Das Neves 2025-03-14  82  	}
+621191d709b148 Nuno Das Neves 2025-03-14  83  	free_page((unsigned long)output_page);
+621191d709b148 Nuno Das Neves 2025-03-14  84  
+621191d709b148 Nuno Das Neves 2025-03-14 @85  	return hv_result_to_errno(status);
+621191d709b148 Nuno Das Neves 2025-03-14  86  }
+621191d709b148 Nuno Das Neves 2025-03-14  87  
 
 -- 
 0-DAY CI Kernel Test Service
