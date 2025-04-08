@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3086B2040BF
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Apr 2025 22:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD12C1CAA67
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Apr 2025 02:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744066611; cv=none; b=AQdTbZ5rKMcuovEnEV0kcMpXOdhY94+1AW4ZyZTQ6s0VjUM5UgNlcJGAKSewKyL/Vvl4aokMSH+xaPSwLGaiMVjTwO5letIaQdVtQ4KapaVmR4kSOVnd7VsoXw/V6tDj0Nf9gat2lcGGWPmTjNVNjNL7DetgBHp6hulSCfBPXB8=
+	t=1744079773; cv=none; b=DoOVE+ind115/O0mJTdhipxuSaPiHJ0CLWd3G9bLL1CNRU3z6+IwqaNU01cGkKNeuIXNgl4EAtDLxpowIYWYN6F6yYp/29m0RBd4g2s6wxjlx8HsI6jMGAslgLCj6nyRcM3a4wTmaeSJk4nuHOhyLA18vCIoYsz+yaR0VqyQpK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744066611; c=relaxed/simple;
-	bh=yf/+yeY+Iqo4P5FW8jPFkhr9pMfrTYemoS8HoJYCsDo=;
+	s=arc-20240116; t=1744079773; c=relaxed/simple;
+	bh=V2Qfh3vsmWLOjDO2wd9+88/1rtenkm8WIMFLw0mGzbs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RHxhp/+2gxFeFQ/fbXuEP8htIMdJErinwtRsny48toj4UZ92RvvAyeBSJ2glb0KCOs6lcsNK2e81YMSDCXHNzRUswUXszrFOA/Akr8VuLRstA8PRfGDqZn23WI9E7XH8JvtLymIpXN/IZmpz3n0QAepuoxma2NhX3LDhIrg5BEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBTCeX2o; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Ahn6JlX6aqmtuROEy2Vc+jn2Km6a1I1mNUkGEWwIb0eOJeP9zlnpeoQdeaPpH8ewN47Jv8h/Tlp6GCWftyQKH19SKuci7Q1fv20gGrqNekYEqjIbrReTSePXA6+7dBIEFltdNCA/RJIPEqwt7+RDF95ogD+4aggOetBROS/jEOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O7kJkP9y; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBTCeX2o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7kJkP9y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744066609; x=1775602609;
+  t=1744079772; x=1775615772;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yf/+yeY+Iqo4P5FW8jPFkhr9pMfrTYemoS8HoJYCsDo=;
-  b=ZBTCeX2oJKavsc0AMElTdr/vIC5/6oP09qsk3YiJmOKBPFTIaV18JDcz
-   d7LhDsw4TvB79sv8tqb9m29Ay6slaTl39K2CoD10euouxzl4a7ZYKggx/
-   glP1iLukDQqzNZI5wIsKKhFvZ9z4RuIhrB8T+2xGE1f7eXGwbx52Hbw/w
-   fRIq5C7qn5jX0BRyBnJp8aj8ejqzNiv6dm6ZuE+qYCezJSy7AupkvpmdC
-   xiNm45A4rdnIbWleQyyuDa6Cx36VdjD19YR0sOIbM5+Aj7nxkaBfQmzmt
-   BZcVr3pbgrailqV+szHquvnUn+pY3c6dAbNOhKI2CTu4LE9FaYq2qvLuz
+  bh=V2Qfh3vsmWLOjDO2wd9+88/1rtenkm8WIMFLw0mGzbs=;
+  b=O7kJkP9yG7c8AjPIwYILV5NYTqVS6A0+ky1v443LdQpZSG+YnMK9r4wk
+   Cuv60O+SM0oO5TRoxbWHt+kja4BrocAS+gopo0fTDhumdonDUr2bAT7ak
+   cB3RndcMPCxGOF8XOoVf+JaM9D0pt3HHpRpKgT6dvDioz9Lv61z8+S3e3
+   P4GGgi4qalkKNPbgsqXQLKBXvKXYv0Khuj0Q3iGAZw2OPG4gl66UrKG9Y
+   rdPyoZqFigClG+5Vvcl4+irRogIth9E7Nefucd8AnFb+njHD0h276iuT0
+   n90eC9Weej0CcTjdLuCxbrnJbzFsUy9/8dQojNz7FeuEb0cd2LiLv5W24
    g==;
-X-CSE-ConnectionGUID: 1NpI/EemTueknIGXsiOX7g==
-X-CSE-MsgGUID: 58sWoigORnmOHxnzTflVHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45193156"
+X-CSE-ConnectionGUID: 1q1ZGAauSU6V03bAvSNjrA==
+X-CSE-MsgGUID: oMSlZHM8QVCZPjYRfEXKSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56860722"
 X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="45193156"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 15:56:48 -0700
-X-CSE-ConnectionGUID: 7G2nRXk4ScKXc2ocrY6sqw==
-X-CSE-MsgGUID: YFf+fOXESXi9YSlRoXUZxw==
+   d="scan'208";a="56860722"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 19:36:10 -0700
+X-CSE-ConnectionGUID: mHhm2GxXS3Wm91mQwBfxhw==
+X-CSE-MsgGUID: avfaNHZ4TA2vmllseUB6qQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,196,1739865600"; 
-   d="scan'208";a="133255636"
+   d="scan'208";a="132262112"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Apr 2025 15:56:47 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Apr 2025 19:36:09 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u1vOX-0003sz-0s;
-	Mon, 07 Apr 2025 22:56:45 +0000
-Date: Tue, 8 Apr 2025 06:55:49 +0800
+	id 1u1yoo-00041s-1X;
+	Tue, 08 Apr 2025 02:36:06 +0000
+Date: Tue, 8 Apr 2025 10:35:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [mcgrof:20250406-migraiton-bh-fix-v3 1/4] fs/buffer.c:248:1-7:
- preceding lock on line 205
-Message-ID: <202504080628.6sPRifqX-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [krzk-github:track/x1e-t14s 83/102]
+ arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: clock-controller@ad00000:
+ Unevaluated properties are not allowed ('required-opps' was unexpected)
+Message-ID: <202504081002.Z5Kbeglw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,109 +63,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Davidlohr Bueso <dave@stgolabs.net>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+TO: Jagadeesh Kona <quic_jkona@quicinc.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20250406-migraiton-bh-fix-v3
-head:   0eab9b2a908054d4ad963b2f4ebf05d50f17249b
-commit: f0b6282cf5ca5c69457cc5ddcddcff8f81f9b311 [1/4] fs/buffer: rely on the folio lock for lookups when possible
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: microblaze-randconfig-r051-20250408 (https://download.01.org/0day-ci/archive/20250408/202504080628.6sPRifqX-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/krzk/linux track/x1e-t14s
+head:   239252d33658f16e30ebbe940292946ccc610d00
+commit: c7f32d54eb631a7880c604c76129d46f4308a2bb [83/102] dt-bindings: clock: qcom: Update sc8280xp camcc bindings
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20250407 (https://download.01.org/0day-ci/archive/20250408/202504081002.Z5Kbeglw-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+dtschema version: 2025.3.dev6+gb64c5c3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250408/202504081002.Z5Kbeglw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202504080628.6sPRifqX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504081002.Z5Kbeglw-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/buffer.c:248:1-7: preceding lock on line 205
-
-vim +248 fs/buffer.c
-
-^1da177e4c3f41 Linus Torvalds          2005-04-16  178  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  179  static struct buffer_head *
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  180  __find_get_block_slow(struct block_device *bdev, sector_t block, bool atomic)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  181  {
-53cd4cd3b12d8a Al Viro                 2024-04-28  182  	struct address_space *bd_mapping = bdev->bd_mapping;
-53cd4cd3b12d8a Al Viro                 2024-04-28  183  	const int blkbits = bd_mapping->host->i_blkbits;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  184  	struct buffer_head *ret = NULL;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  185  	pgoff_t index;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  186  	struct buffer_head *bh;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  187  	struct buffer_head *head;
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  188) 	struct folio *folio;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  189  	int all_mapped = 1;
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  190  	bool folio_locked = true;
-43636c804df012 Tetsuo Handa            2019-01-21  191  	static DEFINE_RATELIMIT_STATE(last_warned, HZ, 1);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  192  
-53cd4cd3b12d8a Al Viro                 2024-04-28  193  	index = ((loff_t)block << blkbits) / PAGE_SIZE;
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  194) 	folio = __filemap_get_folio(bd_mapping, index, FGP_ACCESSED, 0);
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  195) 	if (IS_ERR(folio))
-^1da177e4c3f41 Linus Torvalds          2005-04-16  196  		goto out;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  197  
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  198  	/*
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  199  	 * Folio lock protects the buffers. Callers that cannot block
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  200  	 * will fallback to serializing vs try_to_free_buffers() via
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  201  	 * the i_private_lock.
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  202  	 */
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  203  	if (!folio_trylock(folio)) {
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  204  		if (atomic) {
-600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17 @205) 			spin_lock(&bd_mapping->i_private_lock);
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  206  			folio_locked = false;
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  207  		} else
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  208  			folio_lock(folio);
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  209  	}
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  210  
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  211) 	head = folio_buffers(folio);
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  212) 	if (!head)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  213  		goto out_unlock;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  214  	bh = head;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  215  	do {
-97f76d3d197f20 Nikanth Karthikesan     2009-04-02  216  		if (!buffer_mapped(bh))
-97f76d3d197f20 Nikanth Karthikesan     2009-04-02  217  			all_mapped = 0;
-97f76d3d197f20 Nikanth Karthikesan     2009-04-02  218  		else if (bh->b_blocknr == block) {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  219  			ret = bh;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  220  			get_bh(bh);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  221  			goto out_unlock;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  222  		}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  223  		bh = bh->b_this_page;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  224  	} while (bh != head);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  225  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  226  	/* we might be here because some of the buffers on this page are
-^1da177e4c3f41 Linus Torvalds          2005-04-16  227  	 * not mapped.  This is due to various races between
-^1da177e4c3f41 Linus Torvalds          2005-04-16  228  	 * file io on the block device and getblk.  It gets dealt with
-^1da177e4c3f41 Linus Torvalds          2005-04-16  229  	 * elsewhere, don't buffer_error if we had some unmapped buffers
-^1da177e4c3f41 Linus Torvalds          2005-04-16  230  	 */
-43636c804df012 Tetsuo Handa            2019-01-21  231  	ratelimit_set_flags(&last_warned, RATELIMIT_MSG_ON_RELEASE);
-43636c804df012 Tetsuo Handa            2019-01-21  232  	if (all_mapped && __ratelimit(&last_warned)) {
-43636c804df012 Tetsuo Handa            2019-01-21  233  		printk("__find_get_block_slow() failed. block=%llu, "
-43636c804df012 Tetsuo Handa            2019-01-21  234  		       "b_blocknr=%llu, b_state=0x%08lx, b_size=%zu, "
-43636c804df012 Tetsuo Handa            2019-01-21  235  		       "device %pg blocksize: %d\n",
-205f87f6b34244 Badari Pulavarty        2006-03-26  236  		       (unsigned long long)block,
-43636c804df012 Tetsuo Handa            2019-01-21  237  		       (unsigned long long)bh->b_blocknr,
-43636c804df012 Tetsuo Handa            2019-01-21  238  		       bh->b_state, bh->b_size, bdev,
-53cd4cd3b12d8a Al Viro                 2024-04-28  239  		       1 << blkbits);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  240  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  241  out_unlock:
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  242  	if (folio_locked)
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  243  		folio_unlock(folio);
-f0b6282cf5ca5c Davidlohr Bueso         2025-04-04  244  	else
-600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17  245) 		spin_unlock(&bd_mapping->i_private_lock);
-eee25182a80a8c Matthew Wilcox (Oracle  2023-06-12  246) 	folio_put(folio);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  247  out:
-^1da177e4c3f41 Linus Torvalds          2005-04-16 @248  	return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  249  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  250  
-
-:::::: The code at line 248 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sa8295p-adp.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@20000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@20000: Unevaluated properties are not allowed ('max-speed', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8540p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('fixed-link', 'max-speed', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-crd.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-huawei-gaokun3.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc8280xp.dtsi:4160.12-4164.7: Warning (graph_child_address): /soc@0/camss@ac5a000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddrfa0p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddrfa1p2-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddrfa1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddpcie0p9-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+   arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: wifi@0: 'vddpcie1p8-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath11k-pci.yaml#
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-arcata.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sc8280xp-microsoft-blackrock.dtb: clock-controller@ad00000: Unevaluated properties are not allowed ('required-opps' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sa8775p-camcc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
