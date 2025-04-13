@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8D078C91
-	for <oe-kbuild@lists.linux.dev>; Sun, 13 Apr 2025 04:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61585D738
+	for <oe-kbuild@lists.linux.dev>; Sun, 13 Apr 2025 10:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744517507; cv=none; b=uoJPgrTM6jBsqk0iBJ51z4rG94LbJj9MhX1e9dD+j3PcUytV9ltIULFxsqreYWaD9odSmG+aCRtYfng99IjBzrReK9zoZ767aRKzOyvcFBNpzK32Bkxtbnf6Iy/7rubnlZqQJJm4BHChvofI3D8s+T3SBUSHTocSgqA5ZHjyoyw=
+	t=1744539203; cv=none; b=MZMfIJc1e+DIe/yfXWAy9X0f1f+eY5TTe6z4r6apD3DtkW2uuoD0B0/MjW8rsf/lL6DRcs6Rgdzqcsj2jMOX6MBB6nfW2swOCN+xXL6zsZdS4ZrDoUGHjDZVDuKLrbYrBpUPV6HOVrvj3f5Yss3WF7sa/IhEBGEwU+U9L1x/+fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744517507; c=relaxed/simple;
-	bh=5+1oM48sGu1v6XOwQjgju8U6Wkqjovc0Gd9VJOSR1qw=;
+	s=arc-20240116; t=1744539203; c=relaxed/simple;
+	bh=CaVbGnJgAywP9n0WZD2lR7MdDJvnjQw8NnOjsO86v7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uQEp6cfu1ChNPitoR0myL3zQTq2AO7qDaBfB+8J5jmggZlc629cjvmgxScQ3KwUFVrn4UkZ9Y5RmH19cWy5Q+hCIJj5CozN4htsHGrHzuVW4yhfaq1cexYy6VK83bQSRrLZDCI+ErR0I8iEdqd/4hzG9+obhr17pvLLBLJi/rKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdy5su0d; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=M+Xkz8y3rXG0qwWTnXJI0BhcywzLodQHmfUlj8fLT0KT69tKG1CP9tcCavk2KfZS3sweQVEjs5xO5qYPTce/1u97mlZGz6nMKa/aUmHYD2CMEm29hmOYl43K1VChHqwYGjs+EoC2kOQ7u1JJ6rjD4QnZYOhDOA+xXYAnBfEFb2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwnSYyvU; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdy5su0d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwnSYyvU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744517502; x=1776053502;
+  t=1744539201; x=1776075201;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5+1oM48sGu1v6XOwQjgju8U6Wkqjovc0Gd9VJOSR1qw=;
-  b=cdy5su0dmLT6aW8LC7GiqQYNBPeVpMlfFRHSy6t7NtDApKmVTJ+4Vbor
-   UtaZGRGqrNFZMgsUEWmSEA/qH0mWMza2nvR/cbq3NDj1w6wBI0z8qaFwL
-   XN9TkMTkVS7kPbUMtDBVA0jvOj6+bbvVDCOFKPULY/870D+LLlSGwUZ7F
-   IKB2pumD25Si2HfMn9VL5pt3/QyEkLDwnKFd1i6a8dSu5AfdPrIlGdS7V
-   idfUTum7M8A85idkfBfRpwXMz2V6yBZg5tKDGUftHmSdhVDINrj7ptkSq
-   vmF4mTEU9Va4kLyzVbK7r5HLfAwAukQm/uXrdcJAPP/XJo/dakWQSIZxf
-   A==;
-X-CSE-ConnectionGUID: Uua0xkRcTj2CmPl691Ydvw==
-X-CSE-MsgGUID: 4xzMNvVVTTG+xBRO0Rg45g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46152983"
+  bh=CaVbGnJgAywP9n0WZD2lR7MdDJvnjQw8NnOjsO86v7U=;
+  b=lwnSYyvUIQlTz8/ZZqqz+tXPdJLIAj8G9A/9Z+QmHmOoomGPwJN02c3R
+   LKrbXpbeUDlfv/BpwoLLRBz3W6ZuTdHxOBq9RqVG2XRHZh4vpheSf9vv9
+   BFMEhvxJESHCRGjW9p09dJBi2NVbUuz5QtBPmFt7NizDgDYNeIPx+hk4j
+   wUpv+pNHH/Lrean6+x921fOKWaUmo/Nwa144J4WMfKSGPdg3QN2licsd4
+   YEigT/04XYwtYhKTdr2SLyWpHaOpnGqEnw92RllttEMF1zwAfhmTarFrb
+   B8BtdIuJuQNFtPkA2wmDZhv2IupKZ7F8pjU2hDmTck7t868yQF2ko2IjO
+   w==;
+X-CSE-ConnectionGUID: 8wSX1dvaR96lSHfFsshq+g==
+X-CSE-MsgGUID: RaeruhFHSb6OaEnP0fpaTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="33640962"
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="46152983"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 21:11:39 -0700
-X-CSE-ConnectionGUID: ebav7eZtQlu+AYXewFsVvQ==
-X-CSE-MsgGUID: ee/Bn22MSfOOsb3ADnwhxA==
+   d="scan'208";a="33640962"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 03:13:20 -0700
+X-CSE-ConnectionGUID: aLDuFETCTTCE27nygddAOg==
+X-CSE-MsgGUID: Gn2H1YjdSy2R84nkDCgBmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,209,1739865600"; 
-   d="scan'208";a="129861075"
+   d="scan'208";a="134657840"
 Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Apr 2025 21:11:38 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Apr 2025 03:13:18 -0700
 Received: from kbuild by b207828170a5 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u3ogx-000CMi-2n;
-	Sun, 13 Apr 2025 04:11:35 +0000
-Date: Sun, 13 Apr 2025 12:10:40 +0800
+	id 1u3uKy-000CYw-2M;
+	Sun, 13 Apr 2025 10:13:16 +0000
+Date: Sun, 13 Apr 2025 18:12:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [tip:perf/core 5/13] kernel/events/core.c:5774:6-11: ERROR: iterator
- variable bound on line 5733 cannot be NULL
-Message-ID: <202504131217.uBg7uyR2-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jic23-iio:testing 145/170] drivers/iio/adc/ad7606_spi.c:321
+ ad7606_spi_offload_probe() warn: passing zero to 'PTR_ERR'
+Message-ID: <202504131808.qk2lrRY4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,137 +64,90 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ravi Bangoria <ravi.bangoria@amd.com>
+TO: Angelo Dureghello <adureghello@baylibre.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: David Lechner <dlechner@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/core
-head:   1734d98fbcce343eafba16e18e3a3001b3e94ab5
-commit: 3e8671e00e57b3d006ed8ae5ef055807506e44b2 [5/13] perf: Simplify perf_event_release_kernel()
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arc-randconfig-r051-20250413 (https://download.01.org/0day-ci/archive/20250413/202504131217.uBg7uyR2-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   251fedd7b6dc495c433b959e31c29a867c079872
+commit: b9c731a0e9a582b17128cb335a816163ac21734d [145/170] iio: adc: ad7606: add SPI offload support
+:::::: branch date: 16 hours ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-141-20250413 (https://download.01.org/0day-ci/archive/20250413/202504131808.qk2lrRY4-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202504131217.uBg7uyR2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504131808.qk2lrRY4-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/events/core.c:5774:6-11: ERROR: iterator variable bound on line 5733 cannot be NULL
---
->> kernel/events/core.c:5733:1-20: iterator with update on line 5768
+smatch warnings:
+drivers/iio/adc/ad7606_spi.c:321 ad7606_spi_offload_probe() warn: passing zero to 'PTR_ERR'
 
-vim +5774 kernel/events/core.c
+vim +/PTR_ERR +321 drivers/iio/adc/ad7606_spi.c
 
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5689  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5690  /*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5691   * Kill an event dead; while event:refcount will preserve the event
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5692   * object, it will not preserve its functionality. Once the last 'user'
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5693   * gives up the object, we'll destroy the thing.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5694   */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5695  int perf_event_release_kernel(struct perf_event *event)
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5696  {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5697  	struct perf_event_context *ctx = event->ctx;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5698  	struct perf_event *child, *tmp;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5699  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5700  	/*
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5701  	 * If we got here through err_alloc: free_event(event); we will not
-bd27568117664b kernel/events/core.c Peter Zijlstra      2022-10-08  5702  	 * have attached to a context yet.
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5703  	 */
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5704  	if (!ctx) {
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5705  		WARN_ON_ONCE(event->attach_state &
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5706  				(PERF_ATTACH_CONTEXT|PERF_ATTACH_GROUP));
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5707  		goto no_ctx;
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5708  	}
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5709  
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5710  	if (!is_kernel_event(event))
-f86977620ee463 kernel/events/core.c Jiri Olsa           2014-08-01  5711  		perf_remove_from_owner(event);
-8882135bcd332f kernel/perf_event.c  Peter Zijlstra      2010-11-09  5712  
-5fa7c8ec57f70a kernel/events/core.c Peter Zijlstra      2016-01-26  5713  	ctx = perf_event_ctx_lock(event);
-a83fe28e2e4539 kernel/events/core.c Peter Zijlstra      2015-01-29  5714  	WARN_ON_ONCE(ctx->parent_ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5715  
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5716  	/*
-d8a8cfc76919b6 kernel/events/core.c Peter Zijlstra      2017-03-16  5717  	 * Mark this event as STATE_DEAD, there is no external reference to it
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5718  	 * anymore.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5719  	 *
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5720  	 * Anybody acquiring event->child_mutex after the below loop _must_
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5721  	 * also see this, most importantly inherit_event() which will avoid
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5722  	 * placing more children on the list.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5723  	 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5724  	 * Thus this guarantees that we will in fact observe and kill _ALL_
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5725  	 * child events.
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5726  	 */
-517e6a301f3461 kernel/events/core.c Peter Zijlstra      2022-11-24  5727  	perf_remove_from_context(event, DETACH_GROUP|DETACH_DEAD);
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5728  
-a69b0ca4ac3bf5 kernel/events/core.c Peter Zijlstra      2016-02-24  5729  	perf_event_ctx_unlock(event, ctx);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5730  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5731  again:
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5732  	mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15 @5733  	list_for_each_entry(child, &event->child_list, child_list) {
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5734  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5735  		 * Cannot change, child events are not migrated, see the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5736  		 * comment with perf_event_ctx_lock_nested().
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5737  		 */
-506458efaf153c kernel/events/core.c Will Deacon         2017-10-24  5738  		ctx = READ_ONCE(child->ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5739  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5740  		 * Since child_mutex nests inside ctx::mutex, we must jump
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5741  		 * through hoops. We start by grabbing a reference on the ctx.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5742  		 *
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5743  		 * Since the event cannot get freed while we hold the
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5744  		 * child_mutex, the context must also exist and have a !0
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5745  		 * reference count.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5746  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5747  		get_ctx(ctx);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5748  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5749  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5750  		 * Now that we have a ctx ref, we can drop child_mutex, and
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5751  		 * acquire ctx::mutex without fear of it going away. Then we
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5752  		 * can re-acquire child_mutex.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5753  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5754  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5755  		mutex_lock(&ctx->mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5756  		mutex_lock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5757  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5758  		/*
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5759  		 * Now that we hold ctx::mutex and child_mutex, revalidate our
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5760  		 * state, if child is still the first entry, it didn't get freed
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5761  		 * and we can continue doing so.
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5762  		 */
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5763  		tmp = list_first_entry_or_null(&event->child_list,
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5764  					       struct perf_event, child_list);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5765  		if (tmp == child) {
-0a00a43b8c200d kernel/events/core.c Peter Zijlstra      2025-01-17  5766  			perf_remove_from_context(child, DETACH_GROUP | DETACH_CHILD);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5767  		} else {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17 @5768  			child = NULL;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5769  		}
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5770  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5771  		mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5772  		mutex_unlock(&ctx->mutex);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5773  
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17 @5774  		if (child) {
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5775  			/* Last reference unless ->pending_task work is pending */
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5776  			put_event(child);
-3e8671e00e57b3 kernel/events/core.c Peter Zijlstra      2025-01-17  5777  		}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5778  		put_ctx(ctx);
-74751ef5c1912e kernel/events/core.c Haifeng Xu          2024-05-13  5779  
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5780  		goto again;
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5781  	}
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5782  	mutex_unlock(&event->child_mutex);
-c6e5b73242d2d9 kernel/events/core.c Peter Zijlstra      2016-01-15  5783  
-a4f4bb6d0c69d0 kernel/events/core.c Peter Zijlstra      2016-02-24  5784  no_ctx:
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5785  	/*
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5786  	 * Last reference unless ->pending_task work is pending on this event
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5787  	 * or any of its children.
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5788  	 */
-56799bc0356587 kernel/events/core.c Frederic Weisbecker 2025-03-04  5789  	put_event(event);
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5790  	return 0;
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5791  }
-683ede43dd412c kernel/events/core.c Peter Zijlstra      2014-05-05  5792  EXPORT_SYMBOL_GPL(perf_event_release_kernel);
-a6fa941d94b411 kernel/events/core.c Al Viro             2012-08-20  5793  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  271  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  272  static int ad7606_spi_offload_probe(struct device *dev,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  273  				    struct iio_dev *indio_dev)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  274  {
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  275  	struct ad7606_state *st = iio_priv(indio_dev);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  276  	struct spi_device *spi = to_spi_device(dev);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  277  	struct spi_bus_data *bus_data;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  278  	struct dma_chan *rx_dma;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  279  	struct spi_offload_trigger_info trigger_info = {
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  280  		.fwnode = dev_fwnode(dev),
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  281  		.ops = &ad7606_offload_trigger_ops,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  282  		.priv = st,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  283  	};
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  284  	int ret;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  285  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  286  	bus_data = devm_kzalloc(dev, sizeof(*bus_data), GFP_KERNEL);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  287  	if (!bus_data)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  288  		return -ENOMEM;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  289  	st->bus_data = bus_data;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  290  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  291  	bus_data->offload = devm_spi_offload_get(dev, spi,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  292  						 &ad7606_spi_offload_config);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  293  	ret = PTR_ERR_OR_ZERO(bus_data->offload);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  294  	if (ret && ret != -ENODEV)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  295  		return dev_err_probe(dev, ret, "failed to get SPI offload\n");
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  296  	/* Allow main ad7606_probe function to continue. */
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  297  	if (ret == -ENODEV)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  298  		return 0;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  299  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  300  	ret = devm_spi_offload_trigger_register(dev, &trigger_info);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  301  	if (ret)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  302  		return dev_err_probe(dev, ret,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  303  				     "failed to register offload trigger\n");
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  304  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  305  	bus_data->offload_trigger = devm_spi_offload_trigger_get(dev,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  306  		bus_data->offload, SPI_OFFLOAD_TRIGGER_DATA_READY);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  307  	if (IS_ERR(bus_data->offload_trigger))
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  308  		return dev_err_probe(dev, PTR_ERR(bus_data->offload_trigger),
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  309  				     "failed to get offload trigger\n");
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  310  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  311  	/* TODO: PWM setup should be ok, done for the backend. PWM mutex ? */
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  312  	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  313  							     bus_data->offload);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  314  	if (IS_ERR(rx_dma))
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  315  		return dev_err_probe(dev, PTR_ERR(rx_dma),
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  316  				     "failed to get offload RX DMA\n");
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  317  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  318  	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev,
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  319  		rx_dma, IIO_BUFFER_DIRECTION_IN);
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  320  	if (ret)
+b9c731a0e9a582 Angelo Dureghello 2025-04-03 @321  		return dev_err_probe(dev, PTR_ERR(rx_dma),
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  322  				     "failed to setup offload RX DMA\n");
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  323  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  324  	/* Use offload ops. */
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  325  	indio_dev->setup_ops = &ad7606_offload_buffer_setup_ops;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  326  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  327  	st->offload_en = true;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  328  
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  329  	return 0;
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  330  }
+b9c731a0e9a582 Angelo Dureghello 2025-04-03  331  
 
 -- 
 0-DAY CI Kernel Test Service
