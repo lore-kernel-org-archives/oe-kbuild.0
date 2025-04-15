@@ -1,42 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C797111BF;
-	Tue, 15 Apr 2025 00:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA399236445
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Apr 2025 04:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744677026; cv=none; b=BY/RAKnyVmY+vIMDuxm/8Tiiti9jMadcr9pCab0kc0GACK5xzXyTJm2Is9zhS84osxjzVRA1g7hgl4ZK6Cyq4EBN7PSdDScO20MX1+MGeZIbAymlTsXA1ms4MTdb0Esv0yZe1zBjt44YafPpgrzWR0pBbz8Ks2EIhLRssrqL5l8=
+	t=1744691756; cv=none; b=OCPWuSDpr3FEoIkrtVzwNMDDrJVbSrmWqUaK9NaZ4dcKZ4jZMhAnWqSMVIrvq/pBzNAZoCsVVV+uoXTQK/NiWCVGE5PfNdTnOH408JzNgxgtGq6bg2g/YfsupKDLwc5bMw1QPiOdjKhfyZsTQWxgMJmovwx294lqvE4+pcZY5Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744677026; c=relaxed/simple;
-	bh=R/jA1CbfZlsUN+WRI+vx0KtRdgdrUf5aF4FWtf0ZaTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EmtzeP1xgnNjQwDtYWeYYLvto3atjPHsFr+TM1P/fVJ0SsQkXg/QpMK3JE6RyfZI1Tiy0bl3YO0X0tb+b2wcUfRyYS4wG9EMTiMc8IcujkjHh+hdOXbGU5K1bcdCIpM0ESwhDA7v8rI1Kg1ZLNvmIWbloA2mxMbSO85u3sn4Cnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PexqHRZJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744691756; c=relaxed/simple;
+	bh=hTW8SkY/f7Ar6d18CIVMl0f277tBkPEZb5GQg82fgq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=U/Ew0MWEBXHYq9iog/ElvpItJXcRD8fOJ32weXykJ4vEk5sV2VKlNU3Rbpbt10AmBODgWsLne1n/QhpIG0GiPZ26ZsgvqGGdl1HniqwaHuvcblO/Xc++j24i7qhvUTZV8rV9WGb9rjAJvGtH9h4AhvBvGAbhZquz/x6FR1orbZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3FrEXa3; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PexqHRZJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3661BC4CEE2;
-	Tue, 15 Apr 2025 00:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744677025;
-	bh=R/jA1CbfZlsUN+WRI+vx0KtRdgdrUf5aF4FWtf0ZaTo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PexqHRZJc7Tnw2QojVij8F8fLCRAhspDhuggp8+c+8s0OfzMlcFGCogeTt/5jI6tO
-	 LlsdCYpvaRzcdcTppFqvqbEfp8eQW/+XTV0vDjKQu60WoC4LNtOLuC4lBNhEJX2+MJ
-	 K5UXwijAvQAAEPFRQLprsQ0ayd6x4DyQxLsqCz+ugFUwLd/Wo6DzKmdI4qNSgnBiyl
-	 +/VxMpI3lytwGILWpZHIvosIEnKaRDg5ftbUvLct9wN+KI+Wp26U/gpsCuEY1IfxQC
-	 jOmHIBCMWJ0N2NeWlazBpy7f7kBT5TuTfrBnFaXcOm8Ivdnb8uxlKVbwWPmnJra3FJ
-	 4+a/bZeHBHJBg==
-Date: Mon, 14 Apr 2025 17:30:21 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
-	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-	Kees Cook <kees@kernel.org>
-Subject: Re: drivers/bluetooth/hci_vhci.o: error: objtool:
- vhci_coredump_hdr(): STT_FUNC at end of section
-Message-ID: <20250415003021.GA4163917@ax162>
-References: <202504130652.o7UWcPMe-lkp@intel.com>
- <lvkw74yzzsqh2jnt267wdqir43leq35jehy6spcblwv2havo7w@pwqle5eer2h3>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3FrEXa3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744691754; x=1776227754;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hTW8SkY/f7Ar6d18CIVMl0f277tBkPEZb5GQg82fgq0=;
+  b=C3FrEXa38Q2QHf4d8myxU+fO6MRFkbcBIvvkoDvzU3z0py4biextK29C
+   Bh0jnLm6VD0yY+UqNFlv5Tr20FTOONchwkMZS7koY+pEHJ5pPXxgpqqhm
+   XAoVCcMIqhjKTTz2my7nyc7fDJOB5TB+i+VRqlt6SrrG+n3j/KjrAjHRD
+   1swiwEu1Mp7upBhWFLoVpPq8h19wd2q6+1tJBKxgVfskKMwbFcJW3V0Gf
+   pZZa5BVWAvSGI8sJiDGfztTxPW4Spmh9+LU+hy/kNpg55HsYGeuElLo2N
+   +V2kIA+Q4X/fwdJLhQ61UaG+305s3H1RcgecGBKKcvU7RTzbMxpqUcfaY
+   g==;
+X-CSE-ConnectionGUID: 60G6GGeQSDWNyBmKDvqlcg==
+X-CSE-MsgGUID: PEbBq37eTHScq/ibmfcVMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="57564027"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="57564027"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 21:35:53 -0700
+X-CSE-ConnectionGUID: AmmEUSQFQS+Drwl6sRrCNA==
+X-CSE-MsgGUID: drmkXKFDRTiOq8aHjXL+Yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="160970603"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 14 Apr 2025 21:35:51 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4Y1V-000FCw-1W;
+	Tue, 15 Apr 2025 04:35:49 +0000
+Date: Tue, 15 Apr 2025 12:34:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: ld.lld: error: Function Import: link error: linking module flags
+ 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at
+ 1555976), and 'i32 1' from vmlinux.a(super.o at 1617056)
+Message-ID: <202504151211.HeGYKvMw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -45,64 +62,55 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <lvkw74yzzsqh2jnt267wdqir43leq35jehy6spcblwv2havo7w@pwqle5eer2h3>
 
-Hi Josh,
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-On Mon, Apr 14, 2025 at 05:18:08PM -0700, Josh Poimboeuf wrote:
-> On Sun, Apr 13, 2025 at 06:16:42AM +0800, kernel test robot wrote:
-> > :::::: 
-> > :::::: Manual check reason: "only suspicious fbc files changed"
-> > :::::: 
-> > 
-> > BCC: lkp@intel.com
-> > CC: llvm@lists.linux.dev
-> > CC: oe-kbuild-all@lists.linux.dev
-> > CC: linux-kernel@vger.kernel.org
-> > TO: Josh Poimboeuf <jpoimboe@kernel.org>
-> > CC: Ingo Molnar <mingo@kernel.org>
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   b676ac484f847bbe5c7d29603f41475b64fefe55
-> > commit: 3e7be635937d19b91bab70695328214a3d789d51 objtool: Change "warning:" to "error: " for fatal errors
-> > date:   12 days ago
-> > :::::: branch date: 2 hours ago
-> > :::::: commit date: 12 days ago
-> > config: x86_64-buildonly-randconfig-001-20250413 (https://download.01.org/0day-ci/archive/20250413/202504130652.o7UWcPMe-lkp@intel.com/config)
-> > compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> > rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250413/202504130652.o7UWcPMe-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/r/202504130652.o7UWcPMe-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> > >> drivers/bluetooth/hci_vhci.o: error: objtool: vhci_coredump_hdr(): STT_FUNC at end of section
-> 
-> This is looking like a Clang bug to me.  .text.vhci_coredump_hdr has
-> zero bytes, and its zero-length vhci_coredump_hdr() function is
-> referenced by force_devcd_write() as a function pointer.  I wasn't able
-> to find any undefined behavior that might trigger that somehow.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
-Indeed, this is https://github.com/ClangBuiltLinux/linux/issues/2073,
-which does have a fix in LLVM 21 now:
-https://github.com/llvm/llvm-project/commit/ea2e66aa8b6e363b89df66dc44275a0d7ecd70ce
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   834a4a689699090a406d1662b03affa8b155d025
+commit: 695ed93bb30e03e9f826ee70abdd83f970741a37 kbuild: fix Clang LTO with CONFIG_OBJTOOL=n
+date:   2 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 2 months ago
+config: riscv-randconfig-r053-20250414 (https://download.01.org/0day-ci/archive/20250415/202504151211.HeGYKvMw-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151211.HeGYKvMw-lkp@intel.com/reproduce)
 
-I forgot to request a backport for LLVM 20 but I am not really sure I
-want to draw more attention to the patch (since the Clang folks will be
-asked to ack a backport) since it had some contention in the LLVM issue
-after it was merged:
-https://github.com/llvm/llvm-project/issues/130649#issuecomment-2719119408
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202504151211.HeGYKvMw-lkp@intel.com/
 
-Kees, do you have any thoughts on requesting a backport for that?
+All errors (new ones prefixed by >>):
 
-Regardless of it being fixed in LLVM 20, the warning impacts all
-supported clang versions IIRC, so we should probably submit Kees's patch
-to just use a 'const char *' with the string literals instead of calling
-snprintf() on the 80 character array.
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(super.o at 1617056)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(core.o at 1571096)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(filter.o at 1848416)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(inode.o at 1617656)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(skbuff.o at 1847336)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(trace.o at 1566416)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(smartpqi_init.o at 1756016)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(syscall.o at 1568336)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(mballoc.o at 1587416)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(volumes.o at 1618196)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(slub.o at 1574636)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(ipr.o at 1757636)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(memcontrol.o at 1575536)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(tcp.o at 1853216)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(af_packet.o at 1858736)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(core.o at 1758056)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(e1000_main.o at 1769156)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(target_core_transport.o at 1761356)
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(mpt3sas_base.o at 1756736)
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 1555976), and 'i32 1' from vmlinux.a(hugetlb.o at 1575056)
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
