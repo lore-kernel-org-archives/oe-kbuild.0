@@ -1,398 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FFE12E5D
-	for <oe-kbuild@lists.linux.dev>; Sun, 20 Apr 2025 16:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA922110
+	for <oe-kbuild@lists.linux.dev>; Mon, 21 Apr 2025 04:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745168307; cv=none; b=kr+3J1J3OOb7VRlS236Px+DSBQBDJVnjNe2p9Ea7+JQFAsFhdUz1Na32ykg5UxhgH/EyB3F71HEHPOuS5WAA3d7in5Vt4wlmH8p+SJ8Tu1wuaNF4uzHb1hunqb6FotsYP+VLo+o+e1D8MSCu/+ECSjR+qM/tN7T4JSzmG1ptZkY=
+	t=1745210353; cv=none; b=biMaZVmdCysJI1X4ct8BAQwmVAD98fqiZ8vT3uDvsRVm3P7ZtHDC1R4AldRQwnVxnFYrLfX96vux2sQxupKa2N+SxpOI9AhQzaaT5wPMZiUIV2u/SOMoqKv2NkRlAiynuAZZHxVaQs9Lun5ZzT5Z704gdvLOfZIcCdIOm8mqApw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745168307; c=relaxed/simple;
-	bh=muFTxsugLWsvps71vs2d0QAxocdYGF8oESY6hGf0JUM=;
+	s=arc-20240116; t=1745210353; c=relaxed/simple;
+	bh=POVW3rdQc674C2dJdsbzYK6RiKe+mLgN6CuavOfAOfQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZQbdNv0U1/SjEtiLF7c15PaWyPaAUt14o+NMSpd+TDu9hKTkNgKDWjRbzJMT+7fEw6ajq54JpCT4hdgGjfvXtwHbenmM7ATPBh4THLi8o5klQ+Y3Iz8CoF3IppJkVm8Q/Hx7tXZuk2NuMhfmttdqfjLnVFy6qgxDyMKsi6o1YMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NC7IEnUC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=EjPEgoGHveY2wNi3XFszMqJljmY9Finn8MTf+Y+fnINqKAn7frDhmV5YPa9bxwN9GLHa1VQCsnUBXMDqHnZuQkv+5/WwI/hQ3oewWB+wTa2rhoHTHtKNyFkgGJTEuZO7V97vacMTpZac/Lc6bfPr4WFtXSAWWVyXlM4RefpXvV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dASWqvjx; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NC7IEnUC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dASWqvjx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745168304; x=1776704304;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=muFTxsugLWsvps71vs2d0QAxocdYGF8oESY6hGf0JUM=;
-  b=NC7IEnUCqIyifYh1loQFHF3e6wYWPCAOAtRutr0TMAAcKRVorUIkNMqP
-   2lAKYYv4L0iOp7XkdlcgdUhr2JxBTyBd+yYO1APgfIWQDRdErxSIOOnf5
-   XwK36QjV4I2p7dwa1F1P9kM59UbLevdVDM1b49cXFCjekAscehl7BmPvX
-   2ivCbAz8DgRPvDYciXF7/AuoH5amJidrNV40SPwfxmBMpr9S8kmRQBf2+
-   q2FHqSFEknwnxEEC0p/ncI5Zssvb7eJh+mnaVqyPZLqUPW0/4lgISqnec
-   F29qyv2Kn1oJ8DPxg5sxHSL3CFblV6yURR1RsXfWxKYC+HCvZ/w/SE6OE
+  t=1745210351; x=1776746351;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=POVW3rdQc674C2dJdsbzYK6RiKe+mLgN6CuavOfAOfQ=;
+  b=dASWqvjxoYUBWmeWEVxV+whKVnqG3UtxX1YzqGBjpOnyZkN3AF/gxhcW
+   HpllxG8+UQIR27TmfFm4AbJRl/Pv1mLRX0lxWqbmU9AMEq0SniqaEyqZ1
+   EI0lJov7ewJ0Im6keffjhpnLm+WeOxZEj+K9fPNTRY5IOBdswe2vMT7qx
+   YX2Ns4U/vbS/RWuZeqAnQg6Wh7mhFIxPRe9hwKlLi2NflU09oQPN46j/p
+   yFwCGZUmMFfRgoRuY39xFBz+6mHVOxeDx4DglvoPpPz9TwwwiirOAOevu
+   HMv3w0YafKvoXYsHXXKlBKv2Bikuyu0JhS4yRdgdQwOCKScyoTrZDH658
    Q==;
-X-CSE-ConnectionGUID: r0DPmNbrSiqZZIFSygP58g==
-X-CSE-MsgGUID: zWNRK+4qR1Cb5Eq/mVeLXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46845643"
-X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="46845643"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 09:58:23 -0700
-X-CSE-ConnectionGUID: GdYdUwA1QwKt9/RRavCh4w==
-X-CSE-MsgGUID: OyhuV9vQQyexQ+58qtFJhw==
+X-CSE-ConnectionGUID: Y3XJrEZ6Tg+1cflNy1zeQg==
+X-CSE-MsgGUID: v7TB2w74REWntHW4XZV34Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11409"; a="46656244"
+X-IronPort-AV: E=Sophos;i="6.15,227,1739865600"; 
+   d="scan'208";a="46656244"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2025 21:39:10 -0700
+X-CSE-ConnectionGUID: WgjTqeAaT4GnbSevTcCVpg==
+X-CSE-MsgGUID: odxYt8fmShWkcSmf7IjqTQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,225,1739865600"; 
-   d="scan'208";a="136629201"
-Received: from lkp-server01.sh.intel.com (HELO 61e10e65ea0f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Apr 2025 09:58:18 -0700
-Received: from kbuild by 61e10e65ea0f with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.15,227,1739865600"; 
+   d="scan'208";a="154791030"
+Received: from lkp-server01.sh.intel.com (HELO 9c2f37e2d822) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Apr 2025 21:39:08 -0700
+Received: from kbuild by 9c2f37e2d822 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u6Xzk-0004n3-2b;
-	Sun, 20 Apr 2025 16:58:16 +0000
-Date: Mon, 21 Apr 2025 00:57:56 +0800
+	id 1u6ivy-00008L-1i;
+	Mon, 21 Apr 2025 04:39:06 +0000
+Date: Mon, 21 Apr 2025 12:39:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] powerpc: p2020: Rename wdt@ nodes to watchdog@
-Message-ID: <202504210052.B0pPNOCu-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [riteshharjani:vfs.all-ext4-atomic-write-bigalloc-lsfmm-rfcv2-wipv1-0day
+ 4/4] fs/ext4/inode.c:3406:18-31: opportunity for
+ str_true_false(mixed_mapping)
+Message-ID: <202504211206.jhmSOTdR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250418-watchdog-v1-4-987ff2046272@posteo.net>
-References: <20250418-watchdog-v1-4-987ff2046272@posteo.net>
-TO: "J. Neuschäfer via B4 Relay" <devnull+j.ne.posteo.net@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Madhavan Srinivasan <maddy@linux.ibm.com>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: Nicholas Piggin <npiggin@gmail.com>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Naveen N Rao <naveen@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: linuxppc-dev@lists.ozlabs.org
-CC: linux-kernel@vger.kernel.org
-CC: "J. Neuschäfer" <j.ne@posteo.net>
+TO: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 
-Hi Neuschäfer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/powerpc-512x-Rename-wdt-node-to-watchdog/20250419-033055
-base:   0af2f6be1b4281385b618cb86ad946eded089ac8
-patch link:    https://lore.kernel.org/r/20250418-watchdog-v1-4-987ff2046272%40posteo.net
-patch subject: [PATCH 4/4] powerpc: p2020: Rename wdt@ nodes to watchdog@
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc-randconfig-052-20250420 (https://download.01.org/0day-ci/archive/20250421/202504210052.B0pPNOCu-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev19+g53ef030
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250421/202504210052.B0pPNOCu-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux vfs.all-ext4-atomic-write-bigalloc-lsfmm-rfcv2-wipv1-0day
+head:   99132117c47d6ba564925d4129dee057f5fd200a
+commit: 99132117c47d6ba564925d4129dee057f5fd200a [4/4] ext4: Add multi-fsblock atomic write support with bigalloc
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: nios2-randconfig-r051-20250421 (https://download.01.org/0day-ci/archive/20250421/202504211206.jhmSOTdR-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504210052.B0pPNOCu-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202504211206.jhmSOTdR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/powerpc/boot/dts/fsl/pq3-power.dtsi:10.25-12.4: Warning (unit_address_vs_reg): /soc@fef00000/power@e0070/soc-clk@24: node has a unit name, but no reg or ranges property
-   arch/powerpc/boot/dts/fsl/pq3-power.dtsi:13.25-15.4: Warning (unit_address_vs_reg): /soc@fef00000/power@e0070/soc-clk@25: node has a unit name, but no reg or ranges property
-   arch/powerpc/boot/dts/fsl/pq3-power.dtsi:16.25-18.4: Warning (unit_address_vs_reg): /soc@fef00000/power@e0070/soc-clk@26: node has a unit name, but no reg or ranges property
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:50.11-68.5: Warning (simple_bus_reg): /localbus@fef05000/nor@1,0: simple-bus unit address format error, expected "100000000"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:70.13-74.5: Warning (simple_bus_reg): /localbus@fef05000/nvram@3,0: simple-bus unit address format error, expected "300000000"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:76.12-79.5: Warning (simple_bus_reg): /localbus@fef05000/fpga@4,0: simple-bus unit address format error, expected "400000000"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:81.21-88.5: Warning (simple_bus_reg): /localbus@fef05000/pic@4,20: simple-bus unit address format error, expected "400000020"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:90.24-95.5: Warning (simple_bus_reg): /localbus@fef05000/gpio@4,400: simple-bus unit address format error, expected "400000400"
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dts:97.18-103.5: Warning (simple_bus_reg): /localbus@fef05000/watchdog@4,800: simple-bus unit address format error, expected "400000800"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:115.12-118.5: Warning (simple_bus_reg): /localbus@fef05000/nand@6,0: simple-bus unit address format error, expected "600000000"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dts:120.12-123.5: Warning (simple_bus_reg): /localbus@fef05000/nand@7,0: simple-bus unit address format error, expected "700000000"
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /: failed to match any schema with compatible: ['ge,imp3a']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: / (ge,imp3a): memory: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: / (ge,imp3a): memory: False schema does not allow {'device_type': ['memory']}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: localbus@fef05000 (fsl,p2020-elbc): nor@1,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: localbus@fef05000 (fsl,p2020-elbc): nand@6,0: 'ranges' is a required property
---
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000: failed to match any schema with compatible: ['fsl,p2020-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: nor@1,0 (ge,imp3a-paged-flash): $nodename:0: 'nor@1,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: nor@1,0 (ge,imp3a-paged-flash): Unevaluated properties are not allowed ('partition@0', 'partition@7800000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nvram@3,0: failed to match any schema with compatible: ['simtek,stk14ca8']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/fpga@4,0: failed to match any schema with compatible: ['ge,imp3a-fpga-regs']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/pic@4,20: failed to match any schema with compatible: ['ge,imp3a-fpga-pic', 'gef,fpga-pic-1.00']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/pic@4,20: failed to match any schema with compatible: ['ge,imp3a-fpga-pic', 'gef,fpga-pic-1.00']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/gpio@4,400: failed to match any schema with compatible: ['ge,imp3a-gpio']
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,800: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,fpga-wdt-1.00', 'gef,fpga-wdt']
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,800: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,fpga-wdt-1.00', 'gef,fpga-wdt']
->> arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/watchdog@4,800: failed to match any schema with compatible: ['ge,imp3a-fpga-wdt', 'gef,fpga-wdt-1.00', 'gef,fpga-wdt']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nand@6,0: failed to match any schema with compatible: ['fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /localbus@fef05000/nand@7,0: failed to match any schema with compatible: ['fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: /soc@fef00000: failed to match any schema with compatible: ['fsl,p2020-immr', 'simple-bus']
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: i2c@3000 (fsl-i2c): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
-   	'fsl-i2c' is not one of ['mpc5200-i2c', 'fsl,mpc5200-i2c', 'fsl,mpc5121-i2c', 'fsl,mpc8313-i2c', 'fsl,mpc8543-i2c', 'fsl,mpc8544-i2c']
-   	'fsl,mpc5200b-i2c' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
-   arch/powerpc/boot/dts/fsl/ge_imp3a.dtb: i2c@3000 (fsl-i2c): Unevaluated properties are not allowed ('cell-index', 'compatible', 'dfsrr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> fs/ext4/inode.c:3406:18-31: opportunity for str_true_false(mixed_mapping)
 
-vim +/400000800 +97 arch/powerpc/boot/dts/fsl/ge_imp3a.dts
+vim +3406 fs/ext4/inode.c
 
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   12  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   13  / {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   14  	model = "GE_IMP3A";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   15  	compatible = "ge,imp3a";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   16  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   17  	memory {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   18  		device_type = "memory";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   19  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   20  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   21  	lbc: localbus@fef05000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   22  		reg = <0 0xfef05000 0 0x1000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   23  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   24  		ranges = <0x0 0x0 0x0 0xff000000 0x01000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   25  			  0x1 0x0 0x0 0xe0000000 0x08000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   26  			  0x2 0x0 0x0 0xe8000000 0x08000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   27  			  0x3 0x0 0x0 0xfc100000 0x00020000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   28  			  0x4 0x0 0x0 0xfc000000 0x00008000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   29  			  0x5 0x0 0x0 0xfc008000 0x00008000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   30  			  0x6 0x0 0x0 0xfee00000 0x00040000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   31  			  0x7 0x0 0x0 0xfee80000 0x00040000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   32  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   33  		/* nor@0,0 is a mirror of part of the memory in nor@1,0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   34  		nor@0,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   35  			#address-cells = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   36  			#size-cells = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   37  			compatible = "ge,imp3a-firmware-mirror", "cfi-flash";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   38  			reg = <0x0 0x0 0x1000000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   39  			bank-width = <2>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   40  			device-width = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   41  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   42  			partition@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   43  				label = "firmware";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   44  				reg = <0x0 0x1000000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   45  				read-only;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   46  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   47  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   48  		*/
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   49  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   50  		nor@1,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   51  			#address-cells = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   52  			#size-cells = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   53  			compatible = "ge,imp3a-paged-flash", "cfi-flash";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   54  			reg = <0x1 0x0 0x8000000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   55  			bank-width = <2>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   56  			device-width = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   57  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   58  			partition@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   59  				label = "user";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   60  				reg = <0x0 0x7800000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   61  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   62  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   63  			partition@7800000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   64  				label = "firmware";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   65  				reg = <0x7800000 0x800000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   66  				read-only;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   67  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   68  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   69  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   70  		nvram@3,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   71  			device_type = "nvram";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   72  			compatible = "simtek,stk14ca8";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   73  			reg = <0x3 0x0 0x20000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   74  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   75  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   76  		fpga@4,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   77  			compatible = "ge,imp3a-fpga-regs";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   78  			reg = <0x4 0x0 0x20>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   79  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   80  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   81  		gef_pic: pic@4,20 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   82  			#interrupt-cells = <1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   83  			interrupt-controller;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   84  			device_type = "interrupt-controller";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   85  			compatible = "ge,imp3a-fpga-pic", "gef,fpga-pic-1.00";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   86  			reg = <0x4 0x20 0x20>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   87  			interrupts = <6 7 0 0>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   88  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   89  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   90  		gef_gpio: gpio@4,400 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   91  			#gpio-cells = <2>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   92  			compatible = "ge,imp3a-gpio";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   93  			reg = <0x4 0x400 0x24>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   94  			gpio-controller;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   95  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   96  
-1fab68667a3026b arch/powerpc/boot/dts/fsl/ge_imp3a.dts J. Neuschäfer 2025-04-18  @97  		watchdog@4,800 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   98  			compatible = "ge,imp3a-fpga-wdt", "gef,fpga-wdt-1.00",
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12   99  				"gef,fpga-wdt";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  100  			reg = <0x4 0x800 0x8>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  101  			interrupts = <10 4>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  102  			interrupt-parent = <&gef_pic>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  103  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  104  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  105  		/* Second watchdog available, driver currently supports one.
-1fab68667a3026b arch/powerpc/boot/dts/fsl/ge_imp3a.dts J. Neuschäfer 2025-04-18  106  		watchdog@4,808 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  107  			compatible = "gef,imp3a-fpga-wdt", "gef,fpga-wdt-1.00",
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  108  				"gef,fpga-wdt";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  109  			reg = <0x4 0x808 0x8>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  110  			interrupts = <9 4>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  111  			interrupt-parent = <&gef_pic>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  112  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  113  		*/
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  114  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  115  		nand@6,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  116  			compatible = "fsl,elbc-fcm-nand";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  117  			reg = <0x6 0x0 0x40000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  118  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  119  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  120  		nand@7,0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  121  			compatible = "fsl,elbc-fcm-nand";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  122  			reg = <0x7 0x0 0x40000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  123  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  124  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  125  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  126  	soc: soc@fef00000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  127  		ranges = <0x0 0 0xfef00000 0x100000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  128  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  129  		i2c@3000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  130  			hwmon@48 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  131  				compatible = "national,lm92";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  132  				reg = <0x48>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  133  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  134  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  135  			hwmon@4c {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  136  				compatible = "adi,adt7461";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  137  				reg = <0x4c>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  138  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  139  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  140  			rtc@51 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  141  				compatible = "epson,rx8581";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  142  				reg = <0x51>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  143  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  144  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  145  			eti@6b {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  146  				compatible = "dallas,ds1682";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  147  				reg = <0x6b>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  148  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  149  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  150  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  151  		usb@22000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  152  			phy_type = "ulpi";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  153  			dr_mode = "host";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  154  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  155  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  156  		mdio@24520 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  157  			phy0: ethernet-phy@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  158  				interrupt-parent = <&gef_pic>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  159  				interrupts = <0xc 0x4>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  160  				reg = <0x1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  161  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  162  			phy1: ethernet-phy@1 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  163  				interrupt-parent = <&gef_pic>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  164  				interrupts = <0xb 0x4>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  165  				reg = <0x2>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  166  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  167  			tbi0: tbi-phy@11 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  168  				reg = <0x11>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  169  				device_type = "tbi-phy";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  170  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  171  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  172  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  173  		mdio@25520 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  174  			tbi1: tbi-phy@11 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  175  				reg = <0x11>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  176  				device_type = "tbi-phy";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  177  			};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  178  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  179  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  180  		mdio@26520 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  181  			status = "disabled";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  182  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  183  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  184  		enet0: ethernet@24000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  185  			tbi-handle = <&tbi0>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  186  			phy-handle = <&phy0>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  187  			phy-connection-type = "gmii";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  188  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  189  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  190  		enet1: ethernet@25000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  191  			tbi-handle = <&tbi1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  192  			phy-handle = <&phy1>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  193  			phy-connection-type = "gmii";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  194  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  195  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  196  		enet2: ethernet@26000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  197  			status = "disabled";
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  198  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  199  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  200  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  201  	pci0: pcie@fef08000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  202  		ranges = <0x2000000 0x0 0xc0000000 0 0xc0000000 0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  203  			  0x1000000 0x0 0x00000000 0 0xfe020000 0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  204  		reg = <0 0xfef08000 0 0x1000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  205  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  206  		pcie@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  207  			ranges = <0x2000000 0x0 0xc0000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  208  				  0x2000000 0x0 0xc0000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  209  				  0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  210  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  211  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  212  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  213  				  0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  214  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  215  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  216  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  217  	pci1: pcie@fef09000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  218  		reg = <0 0xfef09000 0 0x1000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  219  		ranges = <0x2000000 0x0 0xa0000000 0 0xa0000000 0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  220  			  0x1000000 0x0 0x00000000 0 0xfe010000 0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  221  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  222  		pcie@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  223  			ranges = <0x2000000 0x0 0xa0000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  224  				  0x2000000 0x0 0xa0000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  225  				  0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  226  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  227  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  228  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  229  				  0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  230  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  231  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  232  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  233  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  234  	pci2: pcie@fef0a000 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  235  		reg = <0 0xfef0a000 0 0x1000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  236  		ranges = <0x2000000 0x0 0x80000000 0 0x80000000 0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  237  			  0x1000000 0x0 0x00000000 0 0xfe000000 0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  238  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  239  		pcie@0 {
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  240  			ranges = <0x2000000 0x0 0x80000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  241  				  0x2000000 0x0 0x80000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  242  				  0x0 0x20000000
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  243  
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  244  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  245  				  0x1000000 0x0 0x0
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  246  				  0x0 0x10000>;
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  247  		};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  248  	};
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  249  };
-e041013ac0df7fc arch/powerpc/boot/dts/ge_imp3a.dts     Martyn Welch  2012-03-12  250  
+b8a6176c214cf9 Jan Kara             2017-11-01  3280  
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3281  static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3282  			   struct ext4_map_blocks *map, loff_t offset,
+de205114777101 Christoph Hellwig    2021-11-29  3283  			   loff_t length, unsigned int flags)
+364443cbcfe70f Jan Kara             2016-11-20  3284  {
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3285  	u8 blkbits = inode->i_blkbits;
+364443cbcfe70f Jan Kara             2016-11-20  3286  
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3287  	/*
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3288  	 * Writes that span EOF might trigger an I/O size update on completion,
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3289  	 * so consider them to be dirty for the purpose of O_DSYNC, even if
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3290  	 * there is no other metadata changes being made or are pending.
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3291  	 */
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3292  	iomap->flags = 0;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3293  	if (ext4_inode_datasync_dirty(inode) ||
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3294  	    offset + length > i_size_read(inode))
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3295  		iomap->flags |= IOMAP_F_DIRTY;
+545052e9e35a34 Christoph Hellwig    2017-10-01  3296  
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3297  	if (map->m_flags & EXT4_MAP_NEW)
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3298  		iomap->flags |= IOMAP_F_NEW;
+545052e9e35a34 Christoph Hellwig    2017-10-01  3299  
+370a6de7651b97 John Garry           2025-03-20  3300  	/* HW-offload atomics are always used */
+370a6de7651b97 John Garry           2025-03-20  3301  	if (flags & IOMAP_ATOMIC)
+370a6de7651b97 John Garry           2025-03-20  3302  		iomap->flags |= IOMAP_F_ATOMIC_BIO;
+370a6de7651b97 John Garry           2025-03-20  3303  
+de205114777101 Christoph Hellwig    2021-11-29  3304  	if (flags & IOMAP_DAX)
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3305  		iomap->dax_dev = EXT4_SB(inode->i_sb)->s_daxdev;
+de205114777101 Christoph Hellwig    2021-11-29  3306  	else
+de205114777101 Christoph Hellwig    2021-11-29  3307  		iomap->bdev = inode->i_sb->s_bdev;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3308  	iomap->offset = (u64) map->m_lblk << blkbits;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3309  	iomap->length = (u64) map->m_len << blkbits;
+545052e9e35a34 Christoph Hellwig    2017-10-01  3310  
+6386722a329824 Ritesh Harjani       2020-02-28  3311  	if ((map->m_flags & EXT4_MAP_MAPPED) &&
+6386722a329824 Ritesh Harjani       2020-02-28  3312  	    !ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
+6386722a329824 Ritesh Harjani       2020-02-28  3313  		iomap->flags |= IOMAP_F_MERGED;
+6386722a329824 Ritesh Harjani       2020-02-28  3314  
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3315  	/*
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3316  	 * Flags passed to ext4_map_blocks() for direct I/O writes can result
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3317  	 * in m_flags having both EXT4_MAP_MAPPED and EXT4_MAP_UNWRITTEN bits
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3318  	 * set. In order for any allocated unwritten extents to be converted
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3319  	 * into written extents correctly within the ->end_io() handler, we
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3320  	 * need to ensure that the iomap->type is set appropriately. Hence, the
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3321  	 * reason why we need to check whether the EXT4_MAP_UNWRITTEN bit has
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3322  	 * been set first.
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3323  	 */
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3324  	if (map->m_flags & EXT4_MAP_UNWRITTEN) {
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3325  		iomap->type = IOMAP_UNWRITTEN;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3326  		iomap->addr = (u64) map->m_pblk << blkbits;
+de205114777101 Christoph Hellwig    2021-11-29  3327  		if (flags & IOMAP_DAX)
+de205114777101 Christoph Hellwig    2021-11-29  3328  			iomap->addr += EXT4_SB(inode->i_sb)->s_dax_part_off;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3329  	} else if (map->m_flags & EXT4_MAP_MAPPED) {
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3330  		iomap->type = IOMAP_MAPPED;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3331  		iomap->addr = (u64) map->m_pblk << blkbits;
+de205114777101 Christoph Hellwig    2021-11-29  3332  		if (flags & IOMAP_DAX)
+de205114777101 Christoph Hellwig    2021-11-29  3333  			iomap->addr += EXT4_SB(inode->i_sb)->s_dax_part_off;
+ec9d669eba4c27 Zhang Yi             2024-01-27  3334  	} else if (map->m_flags & EXT4_MAP_DELAYED) {
+ec9d669eba4c27 Zhang Yi             2024-01-27  3335  		iomap->type = IOMAP_DELALLOC;
+ec9d669eba4c27 Zhang Yi             2024-01-27  3336  		iomap->addr = IOMAP_NULL_ADDR;
+776722e85d3b09 Jan Kara             2016-11-20  3337  	} else {
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3338  		iomap->type = IOMAP_HOLE;
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3339  		iomap->addr = IOMAP_NULL_ADDR;
+545052e9e35a34 Christoph Hellwig    2017-10-01  3340  	}
+545052e9e35a34 Christoph Hellwig    2017-10-01  3341  }
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3342) /*
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3343)  * ext4_map_blocks_atomic: Helper routine to ensure the entire requested mapping
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3344)  * [map.m_lblk, map.m_len] is one single contiguous extent with no mixed
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3345)  * mappings. This function is only called when the bigalloc is enabled, so we
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3346)  * know that the allocated physical extent start is always aligned properly.
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3347)  *
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3348)  * We call EXT4_GET_BLOCKS_ZERO only when the underlying physical extent for the
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3349)  * requested range does not have a single mapping type (Hole, Mapped, or
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3350)  * Unwritten) throughout. In that case we will loop over the requested range to
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3351)  * allocate and zero out the unwritten / holes in between, to get a single
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3352)  * mapped extent from [m_lblk, m_len]. This case is mostly non-performance
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3353)  * critical path, so it should be ok to loop using ext4_map_blocks() with
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3354)  * appropriate flags to allocate & zero the underlying short holes/unwritten
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3355)  * extents within the requested range.
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3356)  */
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3357) static int ext4_map_blocks_atomic(handle_t *handle, struct inode *inode,
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3358) 				  struct ext4_map_blocks *map)
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3359) {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3360) 	ext4_lblk_t m_lblk = map->m_lblk;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3361) 	unsigned int m_len = map->m_len;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3362) 	unsigned int mapped_len = 0, flags = 0;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3363) 	u8 blkbits = inode->i_blkbits;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3364) 	bool mixed_mapping = false;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3365) 	int ret = 0;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3366) 
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3367) 	WARN_ON(!ext4_has_feature_bigalloc(inode->i_sb));
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3368) 
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3369) 	if (((loff_t)map->m_lblk << blkbits) >= i_size_read(inode)) {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3370) 		flags = EXT4_GET_BLOCKS_CREATE;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3371) 	} else {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3372) 		ret = ext4_map_blocks(handle, inode, map, 0);
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3373) 		if ((ret == 0 && map->m_len >= m_len) ||
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3374) 			(ret >= m_len && map->m_flags & EXT4_MAP_UNWRITTEN)) {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3375) 			flags = EXT4_GET_BLOCKS_IO_CREATE_EXT;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3376) 		} else {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3377) 			mixed_mapping = true;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3378) 			flags = EXT4_GET_BLOCKS_CREATE_ZERO;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3379) 		}
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3380) 	}
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3381) 
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3382) 	do {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3383) 		ret = ext4_map_blocks(handle, inode, map, flags);
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3384) 		if (ret < 0)
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3385) 			goto out;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3386) 		WARN_ON_ONCE(!mixed_mapping && ret < m_len);
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3387) 		if (ret == m_len)
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3388) 			goto out;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3389) 		mapped_len += map->m_len;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3390) 		map->m_lblk += map->m_len;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3391) 		map->m_len = m_len - mapped_len;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3392) 	} while (mapped_len < m_len);
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3393) 
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3394) 	/*
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3395) 	 * We might have done some work in above loop, so we need to query the
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3396) 	 * start of the physical extent, based on the origin m_lblk and m_len.
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3397) 	 * Let's also ensure we were able to allocate the required range for
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3398) 	 * mixed mapping case.
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3399) 	 */
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3400) 	map->m_lblk = m_lblk;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3401) 	map->m_len = m_len;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3402) 
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3403) 	ret = ext4_map_blocks(handle, inode, map, 0);
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3404) 	if (ret != m_len) {
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3405) 		ext4_warning_inode(inode, "allocation failed for atomic write request pos:%u, len:%u, mixed_mapping:%s\n",
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23 @3406) 			m_lblk, m_len, mixed_mapping ? "true" : "false");
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3407) 		ret = -EINVAL;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3408) 	}
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3409) out:
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3410) 	return ret;
+99132117c47d6b Ritesh Harjani (IBM  2025-03-23  3411) }
+c8fdfe29418745 Matthew Bobrowski    2019-11-05  3412  
 
 -- 
 0-DAY CI Kernel Test Service
