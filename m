@@ -1,143 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB4B215173
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Apr 2025 09:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADD719CCF5
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Apr 2025 19:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745486641; cv=none; b=cv7sMPO+KCOr2HxSE8Ut1uV9nNuK9G2l8UpGm+qS1vH/KbhkSEpbktoa+4M8H2eoTplwAAHh4Rm8MAX6A9CQPv04mgvCFGx7279sXI1Io0ewYgVysQpT39tz4FgB0DjZNFpjAd8t5JacGhs7F00cORciF+0AmNGv385RzIvDSgc=
+	t=1745523709; cv=none; b=DRM9905EWuDrPupFsFLzWUaYHbqOWoAn71ZVuW3vy5HDzMaUSCxiHuoRGTRMd1b0hM9Q0eIQsdQg/zp9jkCR7LzYIMIVVO4d2kYYbZCrqOa2BekDgNLQVaT86PRvoU8LkMVuzOLDZ6aHQw6AdAt+Wti4UgStVz4rQQhh6obfrTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745486641; c=relaxed/simple;
-	bh=gludjyDwipCJoetXG35c3OKC80L2HUe7Oc3Mhn22s3M=;
+	s=arc-20240116; t=1745523709; c=relaxed/simple;
+	bh=ybu+5CdhUnkbdC5jSt/m1AGyFQsNRlrxdLGGBFeRhuY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TE9T9+nUJlLDrS6V9nPz7loDCE0rk35sgysyNBBXoeLLFuOakON8JGKvaiI/4tfDmubcNJ4ECVzH7t4JgqPuGdifj3Jjm8zXns0vCQtzCqi3rx8NYJ9qPFH+5mTogljcqqCritTRqB0U4eUsWLIW9bJbvH3HXrHjeRVBQosGZO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1J4XG1K; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=haS5Swb4ekEQnM2rV7QvMnBG6xlRxODJUgX2Sxn2vwmFRPfs2pGpWLzo4G6v2yeUFiN6zLSvT/YbK4hk+vzIlOwiVUj/9N6vopixrJ38gAXdr4B1SV00VGvi58eTCPpPcidYRbY7Hs8SZobpSDA2oH99n+jwHtxPl2ARRxaU0u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWxwnPNQ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1J4XG1K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWxwnPNQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745486639; x=1777022639;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gludjyDwipCJoetXG35c3OKC80L2HUe7Oc3Mhn22s3M=;
-  b=m1J4XG1KQJl88CCTFHUaDPS9MxH7U8atLQcv5pULIFovDILxpNNhL2Nr
-   jtOqJ2juyFQ6du07cPigBrHxuMS3z2y/0285JAgxgScOLBRObNFfjsYt9
-   YRT9sKD6ZvFJhxFua07/kU0oyb2H0r01870tXy+sevqAEtCWO6g8ddLOQ
-   yaPIZ/TiSn5b/EkJ43GvFSxR5CJqHk3JMEQPjRVMK2QwBvdiWCdNQmqCA
-   M6p+TcgNWI4hvhRafVP3khYwt0S5OZnKhWZkFVIwxWNuA7kIB8TP2uQvd
-   auTbJj21fIjmOUP3kIbUksA0MkFsSKB/dFLCDe3GZo9xIwnzr7MQb8a6l
-   A==;
-X-CSE-ConnectionGUID: oXDcA8MlRMqZ2f55RwbloA==
-X-CSE-MsgGUID: 60xNh/iGTGSK/uMfVuDI4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="69594772"
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="69594772"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 02:23:53 -0700
-X-CSE-ConnectionGUID: 2Jkw/ZI1SjuLqlae5tYaaA==
-X-CSE-MsgGUID: r5UT+TwOS1GdtasL7fkj1w==
+  t=1745523708; x=1777059708;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ybu+5CdhUnkbdC5jSt/m1AGyFQsNRlrxdLGGBFeRhuY=;
+  b=KWxwnPNQYCZOmjvMmaTORpG1hgZwcHc7udS8FBnePrMKJVx4H4R+7sOL
+   oMOjgOL3lo9ocd8q6x/VNNv7jkMNiilrblyAYiR0gYXf42mYMjd8Uu2So
+   5sudQCs8z97/CVvuOsK99PI10ltyg7lTLZ/nR1A7gZURgv6+VtyzzCi/S
+   BxAMPgcDATINL4hbIrG6KNyJ4g3WRe0YfrKV58HSNJZgu+Fv6wE/8ILor
+   RXnnHL7WSdxw9Z2okTwAzlRg3w6h2k10NGDwBpD2wrmukzZKHWRnMkIBP
+   s30oVTAbF00Z68ADZg9wCh/YIIHFqQjSXN0M3PoqPPCFTmht/aTLEPWqe
+   Q==;
+X-CSE-ConnectionGUID: Lf1wC8kySkKwGWZTDZYeBA==
+X-CSE-MsgGUID: fvbkxpPSR9q7qVAEOk8WTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="58165982"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; 
+   d="scan'208";a="58165982"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 12:41:47 -0700
+X-CSE-ConnectionGUID: z3D05zCxT82uQDmpX+6oew==
+X-CSE-MsgGUID: ckOOyspqQqWCU/s3buUzZg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="133466664"
+X-IronPort-AV: E=Sophos;i="6.15,236,1739865600"; 
+   d="scan'208";a="133676825"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Apr 2025 02:23:52 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 Apr 2025 12:41:45 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u7so9-000425-1r;
-	Thu, 24 Apr 2025 09:23:49 +0000
-Date: Thu, 24 Apr 2025 17:23:20 +0800
+	id 1u82S7-0004VN-0r;
+	Thu, 24 Apr 2025 19:41:43 +0000
+Date: Fri, 25 Apr 2025 03:41:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android16-6.12-desktop 6/6]
- drivers/bluetooth/btintel_pcie.c:134 btintel_pcie_setup_dbgc() warn: right
- shifting more than type allows 32 vs 32
-Message-ID: <202504241739.dTYHMKJi-lkp@intel.com>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 5/38]
+ drivers/platform/x86/dell/alienware-wmi-wmax.c:658
+ awcc_platform_profile_probe() error: uninitialized symbol 'id'.
+Message-ID: <202504250322.KrZP3Rca-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+TO: Kurt Borja <kuurtb@gmail.com>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+CC: Armin Wolf <W_Armin@gmx.de>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2702b613398960226fb5496ee2b48f631186f8f1
-commit: 277a489a74a56c03863c799b2d50515d9d547b90 [6/6] FROMGIT: Bluetooth: btintel_pcie: Setup buffers for firmware traces
-:::::: branch date: 25 hours ago
-:::::: commit date: 6 weeks ago
-config: i386-randconfig-141-20250424 (https://download.01.org/0day-ci/archive/20250424/202504241739.dTYHMKJi-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   4d1e8c8f11c611db5828e4bae7292bc295eea8ef
+commit: 45983d19f305a562386f4d13accd11056b99f48a [5/38] platform/x86: alienware-wmi-wmax: Improve internal AWCC API
+:::::: branch date: 7 hours ago
+:::::: commit date: 13 days ago
+config: x86_64-randconfig-161-20250424 (https://download.01.org/0day-ci/archive/20250425/202504250322.KrZP3Rca-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504241739.dTYHMKJi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504250322.KrZP3Rca-lkp@intel.com/
 
 smatch warnings:
-drivers/bluetooth/btintel_pcie.c:134 btintel_pcie_setup_dbgc() warn: right shifting more than type allows 32 vs 32
+drivers/platform/x86/dell/alienware-wmi-wmax.c:658 awcc_platform_profile_probe() error: uninitialized symbol 'id'.
 
-vim +134 drivers/bluetooth/btintel_pcie.c
+vim +/id +658 drivers/platform/x86/dell/alienware-wmi-wmax.c
 
-277a489a74a56c0 Kiran K 2025-02-25   90  
-277a489a74a56c0 Kiran K 2025-02-25   91  /* This function initializes the memory for DBGC buffers and formats the
-277a489a74a56c0 Kiran K 2025-02-25   92   * DBGC fragment which consists header info and DBGC buffer's LSB, MSB and
-277a489a74a56c0 Kiran K 2025-02-25   93   * size as the payload
-277a489a74a56c0 Kiran K 2025-02-25   94   */
-277a489a74a56c0 Kiran K 2025-02-25   95  static int btintel_pcie_setup_dbgc(struct btintel_pcie_data *data)
-277a489a74a56c0 Kiran K 2025-02-25   96  {
-277a489a74a56c0 Kiran K 2025-02-25   97  	struct btintel_pcie_dbgc_ctxt db_frag;
-277a489a74a56c0 Kiran K 2025-02-25   98  	struct data_buf *buf;
-277a489a74a56c0 Kiran K 2025-02-25   99  	int i;
-277a489a74a56c0 Kiran K 2025-02-25  100  
-277a489a74a56c0 Kiran K 2025-02-25  101  	data->dbgc.count = BTINTEL_PCIE_DBGC_BUFFER_COUNT;
-277a489a74a56c0 Kiran K 2025-02-25  102  	data->dbgc.bufs = devm_kcalloc(&data->pdev->dev, data->dbgc.count,
-277a489a74a56c0 Kiran K 2025-02-25  103  				       sizeof(*buf), GFP_KERNEL);
-277a489a74a56c0 Kiran K 2025-02-25  104  	if (!data->dbgc.bufs)
-277a489a74a56c0 Kiran K 2025-02-25  105  		return -ENOMEM;
-277a489a74a56c0 Kiran K 2025-02-25  106  
-277a489a74a56c0 Kiran K 2025-02-25  107  	data->dbgc.buf_v_addr = dmam_alloc_coherent(&data->pdev->dev,
-277a489a74a56c0 Kiran K 2025-02-25  108  						    data->dbgc.count *
-277a489a74a56c0 Kiran K 2025-02-25  109  						    BTINTEL_PCIE_DBGC_BUFFER_SIZE,
-277a489a74a56c0 Kiran K 2025-02-25  110  						    &data->dbgc.buf_p_addr,
-277a489a74a56c0 Kiran K 2025-02-25  111  						    GFP_KERNEL | __GFP_NOWARN);
-277a489a74a56c0 Kiran K 2025-02-25  112  	if (!data->dbgc.buf_v_addr)
-277a489a74a56c0 Kiran K 2025-02-25  113  		return -ENOMEM;
-277a489a74a56c0 Kiran K 2025-02-25  114  
-277a489a74a56c0 Kiran K 2025-02-25  115  	data->dbgc.frag_v_addr = dmam_alloc_coherent(&data->pdev->dev,
-277a489a74a56c0 Kiran K 2025-02-25  116  						     sizeof(struct btintel_pcie_dbgc_ctxt),
-277a489a74a56c0 Kiran K 2025-02-25  117  						     &data->dbgc.frag_p_addr,
-277a489a74a56c0 Kiran K 2025-02-25  118  						     GFP_KERNEL | __GFP_NOWARN);
-277a489a74a56c0 Kiran K 2025-02-25  119  	if (!data->dbgc.frag_v_addr)
-277a489a74a56c0 Kiran K 2025-02-25  120  		return -ENOMEM;
-277a489a74a56c0 Kiran K 2025-02-25  121  
-277a489a74a56c0 Kiran K 2025-02-25  122  	data->dbgc.frag_size = sizeof(struct btintel_pcie_dbgc_ctxt);
-277a489a74a56c0 Kiran K 2025-02-25  123  
-277a489a74a56c0 Kiran K 2025-02-25  124  	db_frag.magic_num = BTINTEL_PCIE_MAGIC_NUM;
-277a489a74a56c0 Kiran K 2025-02-25  125  	db_frag.ver = BTINTEL_PCIE_DBGC_FRAG_VERSION;
-277a489a74a56c0 Kiran K 2025-02-25  126  	db_frag.total_size = BTINTEL_PCIE_DBGC_FRAG_PAYLOAD_SIZE;
-277a489a74a56c0 Kiran K 2025-02-25  127  	db_frag.num_buf = BTINTEL_PCIE_DBGC_FRAG_BUFFER_COUNT;
-277a489a74a56c0 Kiran K 2025-02-25  128  
-277a489a74a56c0 Kiran K 2025-02-25  129  	for (i = 0; i < data->dbgc.count; i++) {
-277a489a74a56c0 Kiran K 2025-02-25  130  		buf = &data->dbgc.bufs[i];
-277a489a74a56c0 Kiran K 2025-02-25  131  		buf->data_p_addr = data->dbgc.buf_p_addr + i * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
-277a489a74a56c0 Kiran K 2025-02-25  132  		buf->data = data->dbgc.buf_v_addr + i * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
-277a489a74a56c0 Kiran K 2025-02-25  133  		db_frag.bufs[i].buf_addr_lsb = (u32)(buf->data_p_addr & 0xffffffff);
-277a489a74a56c0 Kiran K 2025-02-25 @134  		db_frag.bufs[i].buf_addr_msb = (u32)((buf->data_p_addr >> 32) & 0xffffffff);
-277a489a74a56c0 Kiran K 2025-02-25  135  		db_frag.bufs[i].buf_size = BTINTEL_PCIE_DBGC_BUFFER_SIZE;
-277a489a74a56c0 Kiran K 2025-02-25  136  	}
-277a489a74a56c0 Kiran K 2025-02-25  137  
-277a489a74a56c0 Kiran K 2025-02-25  138  	memcpy(data->dbgc.frag_v_addr, &db_frag, sizeof(db_frag));
-277a489a74a56c0 Kiran K 2025-02-25  139  	return 0;
-277a489a74a56c0 Kiran K 2025-02-25  140  }
-277a489a74a56c0 Kiran K 2025-02-25  141  
+8cc2c415d092e1 Kurt Borja 2025-02-07  631  
+8a1a0fb55f8a8e Kurt Borja 2025-03-29  632  static int awcc_platform_profile_probe(void *drvdata, unsigned long *choices)
+8cc2c415d092e1 Kurt Borja 2025-02-07  633  {
+8cc2c415d092e1 Kurt Borja 2025-02-07  634  	enum platform_profile_option profile;
+8cc2c415d092e1 Kurt Borja 2025-02-07  635  	struct awcc_priv *priv = drvdata;
+8a1a0fb55f8a8e Kurt Borja 2025-03-29  636  	enum awcc_thermal_profile mode;
+8cc2c415d092e1 Kurt Borja 2025-02-07  637  	u8 sys_desc[4];
+8cc2c415d092e1 Kurt Borja 2025-02-07  638  	u32 first_mode;
+8cc2c415d092e1 Kurt Borja 2025-02-07  639  	int ret;
+a000da9dbc2496 Kurt Borja 2025-03-29  640  	u8 id;
+8cc2c415d092e1 Kurt Borja 2025-02-07  641  
+8a1a0fb55f8a8e Kurt Borja 2025-03-29  642  	ret = awcc_thermal_information(priv->wdev, AWCC_OP_GET_SYSTEM_DESCRIPTION,
+8cc2c415d092e1 Kurt Borja 2025-02-07  643  				       0, (u32 *) &sys_desc);
+8cc2c415d092e1 Kurt Borja 2025-02-07  644  	if (ret < 0)
+8cc2c415d092e1 Kurt Borja 2025-02-07  645  		return ret;
+8cc2c415d092e1 Kurt Borja 2025-02-07  646  
+8cc2c415d092e1 Kurt Borja 2025-02-07  647  	first_mode = sys_desc[0] + sys_desc[1];
+8cc2c415d092e1 Kurt Borja 2025-02-07  648  
+8cc2c415d092e1 Kurt Borja 2025-02-07  649  	for (u32 i = 0; i < sys_desc[3]; i++) {
+45983d19f305a5 Kurt Borja 2025-03-29  650  		ret = awcc_op_get_resource_id(priv->wdev, i + first_mode, &id);
+8cc2c415d092e1 Kurt Borja 2025-02-07  651  
+8cc2c415d092e1 Kurt Borja 2025-02-07  652  		if (ret == -EIO)
+8cc2c415d092e1 Kurt Borja 2025-02-07  653  			return ret;
+8cc2c415d092e1 Kurt Borja 2025-02-07  654  
+8cc2c415d092e1 Kurt Borja 2025-02-07  655  		if (ret == -EBADRQC)
+8cc2c415d092e1 Kurt Borja 2025-02-07  656  			break;
+8cc2c415d092e1 Kurt Borja 2025-02-07  657  
+a000da9dbc2496 Kurt Borja 2025-03-29 @658  		if (!is_awcc_thermal_profile_id(id))
+8cc2c415d092e1 Kurt Borja 2025-02-07  659  			continue;
+8cc2c415d092e1 Kurt Borja 2025-02-07  660  
+a000da9dbc2496 Kurt Borja 2025-03-29  661  		mode = FIELD_GET(AWCC_THERMAL_MODE_MASK, id);
+8a1a0fb55f8a8e Kurt Borja 2025-03-29  662  		profile = awcc_mode_to_platform_profile[mode];
+a000da9dbc2496 Kurt Borja 2025-03-29  663  		priv->supported_thermal_profiles[profile] = id;
+8cc2c415d092e1 Kurt Borja 2025-02-07  664  
+8cc2c415d092e1 Kurt Borja 2025-02-07  665  		set_bit(profile, choices);
+8cc2c415d092e1 Kurt Borja 2025-02-07  666  	}
+8cc2c415d092e1 Kurt Borja 2025-02-07  667  
+8cc2c415d092e1 Kurt Borja 2025-02-07  668  	if (bitmap_empty(choices, PLATFORM_PROFILE_LAST))
+8cc2c415d092e1 Kurt Borja 2025-02-07  669  		return -ENODEV;
+8cc2c415d092e1 Kurt Borja 2025-02-07  670  
+8cc2c415d092e1 Kurt Borja 2025-02-07  671  	if (awcc->gmode) {
+8cc2c415d092e1 Kurt Borja 2025-02-07  672  		priv->supported_thermal_profiles[PLATFORM_PROFILE_PERFORMANCE] =
+8a1a0fb55f8a8e Kurt Borja 2025-03-29  673  			AWCC_THERMAL_MODE_GMODE;
+8cc2c415d092e1 Kurt Borja 2025-02-07  674  
+8cc2c415d092e1 Kurt Borja 2025-02-07  675  		set_bit(PLATFORM_PROFILE_PERFORMANCE, choices);
+8cc2c415d092e1 Kurt Borja 2025-02-07  676  	}
+8cc2c415d092e1 Kurt Borja 2025-02-07  677  
+8cc2c415d092e1 Kurt Borja 2025-02-07  678  	return 0;
+8cc2c415d092e1 Kurt Borja 2025-02-07  679  }
+8cc2c415d092e1 Kurt Borja 2025-02-07  680  
+
+:::::: The code at line 658 was first introduced by commit
+:::::: a000da9dbc249642233587a80df03130e8983d10 platform/x86: alienware-wmi-wmax: Improve ID processing
+
+:::::: TO: Kurt Borja <kuurtb@gmail.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
