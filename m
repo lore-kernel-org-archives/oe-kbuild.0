@@ -1,151 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E801E0DD8
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 20:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2862C13B7A3
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 23:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745611376; cv=none; b=SvL9eUhqRPMrj/+AFbEAzIah73lfjL9TmEXEf7Ljf5hRyASSyrPPkicGhH+E0FvHQ3O0JMbB448xwE9KECKfjsJvDZix2EtXNIsAJFcnnuvQE1FVWepTTwvkN13RgRgLgFyuXO5lEDu8jcShGjKLNq3uQMT0bcnuYC8b2I/4ShY=
+	t=1745624352; cv=none; b=hE7XET8IpTcSsPMvZyGOz3xYM4/65YRSQb9d+JhyuSRG1PKKdrJN2QSaFxXcg6ziEwoCzwajk87HN0Lju5wBkKXOhb0U/wtENCq4HYl0Rfi/F6XktxvtuvK+OSIL0UqWTDs1LjgSdEfWwal+oILAOqnAD7DNx2rms6NA96BOOLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745611376; c=relaxed/simple;
-	bh=PF1QvOQCpeMEa2T4S9xkM2PW9HMnbE2PxLyB9JU5MI4=;
+	s=arc-20240116; t=1745624352; c=relaxed/simple;
+	bh=2gUDKsfEno+NWNNw39wqNtV5FbOVfMK5vflP1SfXuco=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BPzsAvDdHokRgCgfHViLIDnVXRUHzLG91hDHRH0b4b8LIZNIfHf+/31kEndxxMjdCf6R1FgmAtWV+t4j3IVNe39hv09jrLy2NxLtd6qJCNal3XFR2AoSL2rV+XleKc7IOv/afiJnlfHJqgrz+K1qaCcPn47mzL5xk6oRqJ6hqqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aehITFY7; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=F3S95aeavNvz8ciur22PDy3tMpIipNjIkP4bobLybdFNZ8FPJSW8VlrzdyVCIIAVlkun4VNoOvMfNFn+W45u61LjJGzHQVV8arTFRR7ukMo2kzTxtJdqV83Ncvzm1fnjLDy2gEqDVmCD7qrYbKIG+h9HuLAMCJABW9X9rTgyW5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ilhh8G4C; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aehITFY7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ilhh8G4C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745611374; x=1777147374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PF1QvOQCpeMEa2T4S9xkM2PW9HMnbE2PxLyB9JU5MI4=;
-  b=aehITFY7gHYM7w5HgvpVngf4VvqTb0Gsl7hq7EyBT8ttdx1u9xbUqc5p
-   R32TqwnKjEFW0D5QHDewQAs6mn4yn5x8cFkEbshAaGWGUikghgqYwJaeg
-   9U9XsAbf3145H+Qpi6sThz5Hu8Av5NolD74AX8aUJiq/gdxNyrvF3d0sF
-   IgejeM2prD6U7ZdOLUgfPMM3MPaIuongeF8LEEJSMx464QoXp1CxLAHLp
-   psPx3/VGoE2bEOYig9iPKAt8UuRsRaFQZY3XLEYplzKZLfE5J41ml2F7s
-   A6RUyWH2D798uIX02bL5e6tQYEmQ7Yc4IBrkJ2e53HLZZQYTyi8B8KGh8
+  t=1745624350; x=1777160350;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2gUDKsfEno+NWNNw39wqNtV5FbOVfMK5vflP1SfXuco=;
+  b=Ilhh8G4Czd5bve0Td9v23ilHwxc9WTh0QL3Vc+fkVvaF98lcitdWY6T+
+   N0nku+Lc2XrnU95jl9h7NOb0m2a3bk+3YMKaWtsp0/AWHfdE16jAeyN1U
+   MsYimv9K7QuMunUIqBWowmeLZIOajEeMW58C4vhPOy3GVK1by+69UXnJy
+   N27mCc4RVJk890kA1jaDCAABpVO3GL6sGYAi23rK647lGVNx/l12KNRH1
+   uaqd53hPrLwSx9Wvqx3H1QFiXp+8Jf0CgDmPnTDvL51QvtXuqJz+BoHJj
+   U4cwLv/vmC87+KuAaKW7HsQ5d1NG0Vtdw1WjmpTJxn8HRm6zE4jO/Y5Jj
    g==;
-X-CSE-ConnectionGUID: RG9eF4UmQkCbN6M+MBC8Ow==
-X-CSE-MsgGUID: XluHqG2kQD2GPaLsACRNuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64812444"
+X-CSE-ConnectionGUID: yzWOtUQ2RXuzKAnrV+8CWw==
+X-CSE-MsgGUID: whpKhS12T4KiihBf6TJVkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47005222"
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="64812444"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 13:02:52 -0700
-X-CSE-ConnectionGUID: Q6Nd7N9sQ6COwBjr3J4L7Q==
-X-CSE-MsgGUID: XSMCLoU6Sg2UExMfaYljgg==
+   d="scan'208";a="47005222"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 16:39:09 -0700
+X-CSE-ConnectionGUID: 1afJWVJDRlWUBDeM7UbSkQ==
+X-CSE-MsgGUID: c+wlUVcoSKaNoVFRb0PHRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="133511546"
+   d="scan'208";a="137074835"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Apr 2025 13:02:51 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 25 Apr 2025 16:39:08 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8PG4-0005Tv-0X;
-	Fri, 25 Apr 2025 20:02:48 +0000
-Date: Sat, 26 Apr 2025 04:02:35 +0800
+	id 1u8SdO-0005aL-0I;
+	Fri, 25 Apr 2025 23:39:06 +0000
+Date: Sat, 26 Apr 2025 07:39:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:wip/todo-on-top-of-sm8750-display-dts 17/22]
- arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000:
- failed to match any schema with compatible: ['qcom,sm8750-mdss']
-Message-ID: <202504260314.Kllw7UED-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 1509/6092]
+ sound/soc/intel/avs/board_selection.c:497 avs_register_i2s_test_board()
+ warn: excess argument passed to 'devm_kasprintf'
+Message-ID: <202504260749.g5LSVAmY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
-tree:   https://github.com/krzk/linux wip/todo-on-top-of-sm8750-display-dts
-head:   2d2f95c3e8d8faec5d7050461c87e1cc4a9d85e8
-commit: a880ed13c2dd5b41ad39e2110b00f40680007b4b [17/22] arm64: dts: qcom: sm8750: Add display (MDSS) with Display CC
-:::::: branch date: 29 hours ago
-:::::: commit date: 31 hours ago
-config: arm64-randconfig-051-20250425 (https://download.01.org/0day-ci/archive/20250426/202504260314.Kllw7UED-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.3.dev19+g53ef030
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504260314.Kllw7UED-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   393d0c54cae31317deaa9043320c5fd9454deabc
+commit: 7d859189de13f06fdc511761c745f3b302bed7b6 [1509/6092] ASoC: Intel: avs: Allow to specify custom configurations with i2s_test
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-141-20250424 (https://download.01.org/0day-ci/archive/20250426/202504260749.g5LSVAmY-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504260314.Kllw7UED-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504260749.g5LSVAmY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000: failed to match any schema with compatible: ['qcom,sm8750-mdss']
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/display-controller@ae01000: failed to match any schema with compatible: ['qcom,sm8750-dpu']
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clock-names: ['byte', 'byte_intf', 'pixel', 'core', 'iface', 'bus', 'dsi_pll_pixel', 'dsi_pll_byte', 'esync', 'osc', 'byte_src', 'pixel_src'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clocks: [[129, 8], [129, 11], [129, 70], [129, 60], [129, 6], [35, 16], [141, 1], [141, 0], [129, 0], [129, 81], [129, 9], [129, 71]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/dsi@ae94000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/phy@ae95000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae96000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/dsi@ae96000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/phy@ae97000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
-   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: displayport-controller@af54000 (qcom,sm8750-dp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dp', 'qcom,sm8650-dp'] is too long
-   	'qcom,sm8750-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
-   	'qcom,sm8750-dp' is not one of ['qcom,sm6350-dp', 'qcom,sm8150-dp', 'qcom,sm8250-dp', 'qcom,sm8450-dp', 'qcom,sm8550-dp']
-   	'qcom,sm8350-dp' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@af54000: failed to match any schema with compatible: ['qcom,sm8750-dp', 'qcom,sm8650-dp']
---
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000: failed to match any schema with compatible: ['qcom,sm8750-mdss']
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/display-controller@ae01000: failed to match any schema with compatible: ['qcom,sm8750-dpu']
-   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clock-names: ['byte', 'byte_intf', 'pixel', 'core', 'iface', 'bus', 'dsi_pll_pixel', 'dsi_pll_byte', 'esync', 'osc', 'byte_src', 'pixel_src'] is too long
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clocks: [[123, 8], [123, 11], [123, 70], [123, 60], [123, 6], [35, 16], [135, 1], [135, 0], [123, 0], [123, 81], [123, 9], [123, 71]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
-   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/dsi@ae94000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/phy@ae95000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
-   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae96000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
-   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
-   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/dsi@ae96000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/phy@ae97000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
-   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: displayport-controller@af54000 (qcom,sm8750-dp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sm8750-dp', 'qcom,sm8650-dp'] is too long
-   	'qcom,sm8750-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
-   	'qcom,sm8750-dp' is not one of ['qcom,sm6350-dp', 'qcom,sm8150-dp', 'qcom,sm8250-dp', 'qcom,sm8450-dp', 'qcom,sm8550-dp']
-   	'qcom,sm8350-dp' was expected
-   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@af54000: failed to match any schema with compatible: ['qcom,sm8750-dp', 'qcom,sm8650-dp']
+smatch warnings:
+sound/soc/intel/avs/board_selection.c:497 avs_register_i2s_test_board() warn: excess argument passed to 'devm_kasprintf'
+
+vim +/devm_kasprintf +497 sound/soc/intel/avs/board_selection.c
+
+beed983621fbdfd Cezary Rojewski    2022-05-16  486  
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  487  static int avs_register_i2s_test_board(struct avs_dev *adev, int ssp_port, int tdm_slot)
+beed983621fbdfd Cezary Rojewski    2022-05-16  488  {
+beed983621fbdfd Cezary Rojewski    2022-05-16  489  	struct snd_soc_acpi_mach *mach;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  490  	int tdm_mask = BIT(tdm_slot);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  491  	unsigned long *tdm_cfg;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  492  	char *tplg_name;
+beed983621fbdfd Cezary Rojewski    2022-05-16  493  	int ret;
+beed983621fbdfd Cezary Rojewski    2022-05-16  494  
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  495  	mach = devm_kzalloc(adev->dev, sizeof(*mach), GFP_KERNEL);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  496  	tdm_cfg = devm_kcalloc(adev->dev, ssp_port + 1, sizeof(unsigned long), GFP_KERNEL);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04 @497  	tplg_name = devm_kasprintf(adev->dev, GFP_KERNEL, AVS_STRING_FMT("i2s", "-test-tplg.bin",
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  498  				   ssp_port, tdm_slot));
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  499  	if (!mach || !tdm_cfg || !tplg_name)
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  500  		return -ENOMEM;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  501  
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  502  	mach->drv_name = "avs_i2s_test";
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  503  	mach->mach_params.i2s_link_mask = AVS_SSP(ssp_port);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  504  	tdm_cfg[ssp_port] = tdm_mask;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  505  	mach->pdata = tdm_cfg;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  506  	mach->tplg_filename = tplg_name;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  507  
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  508  	ret = avs_register_i2s_board(adev, mach);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  509  	if (ret < 0) {
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  510  		dev_warn(adev->dev, "register i2s %s failed: %d\n", mach->drv_name, ret);
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  511  		return ret;
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  512  	}
+7d859189de13f06 Amadeusz Sławiński 2025-04-04  513  
+beed983621fbdfd Cezary Rojewski    2022-05-16  514  	return 0;
+beed983621fbdfd Cezary Rojewski    2022-05-16  515  }
+beed983621fbdfd Cezary Rojewski    2022-05-16  516  
 
 -- 
 0-DAY CI Kernel Test Service
