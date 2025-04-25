@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E23253348
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 11:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB532472A0
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 13:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745582179; cv=none; b=Pu2CXXvqdvSKq/HIlo0L01WnnzmCuNmSrPq7hyr+p77QetFIw1Sqwu0H36bozsGubkyrvesOoSozD24BktPZQfC1PmdJoMt/XXTf3440H1yjAfDSJMwNqQTdJK5+4qZXjThYk4J0fUbkCr8VilOTNZXWKRS1EgBDzP8gSLeGstM=
+	t=1745586731; cv=none; b=f9dTCWtpOe+JFoj3ctzTGMC2o43WA3Wk7SDnwrwkFYYpQoUgBQXuGgfVunfvdRdLsQlgJDj3KaxloFwfjeXfRSrskMLRCDNJkBed58uNNqhahj0PN4zhZL4SHeuECGFLPSik4gzwiFLkztQKnhpaw1G7PqV0JoEmmLTJrxJlvjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745582179; c=relaxed/simple;
-	bh=rR1R7P5PVVUQHuxp7N2y4uJtizZtZPfVXxgRSkOs8tw=;
+	s=arc-20240116; t=1745586731; c=relaxed/simple;
+	bh=GWNSpW8Q2zHYggDEL314pnHlb5AIr7sdd6QxUoSi+5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m8tbzvAMhWA7980ApbIuH7Q6TWgzH88fiDTJkP/QS7jQ72sBjYr1tenRbxZrlpphhk/NL+6kYqgf2XjZLC1lE/XIKquIp5jv5bNRJR2mV51LwHkN9e1pRTYVQA2meI5CjE7Mwxkmmy5YfpPBTifJ5o83c8sbMI+yrkdOfbPhkh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bR71O2zs; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=JGC9VWEAHZybwxy2yLXETeyU/5bY2OxxX+9i/CQurPYs/m+jfvs6KzeCFW91b261ofDn0BLcx8SJkumBCxIOfF/j9c9YblYZAWuVxYVdoHG56KhWVBAGfDsKPrxxk7svFkmRKeB75GmBsWL1EQFBvMr0XCXHmAxvbWVT6de78ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yd1y4dKA; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bR71O2zs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745582176; x=1777118176;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rR1R7P5PVVUQHuxp7N2y4uJtizZtZPfVXxgRSkOs8tw=;
-  b=bR71O2zsbI/l17A7RWWvxBWQxbrCcFRig8FeRckBuomuOcJncPwnd4Pl
-   1FgQUre3sw+yCl7jpXrifV4L4uLje0RKazm0z22P/v3kn0f9jeD52sp0B
-   58TMz5pI7tZjiFOaOIIAevz1girRZzB2lPUWf+DbdTyEQI5JLgXFCN4rE
-   iag09RLyf4xcOZrwUGh3xv1ZIQ86U+D6bCwbviLMyUWyPTLrAUljicOir
-   Tr2ycLIApqIXXz6V4F8ajoZlSnjSAe5plnPRVvrjjttXMt1AImj5yofTM
-   EQOra4iSGEYMxQ43fOOaQt250sUGnzTi6sTIf0MOZ/7h9SyqwPj2IUUeE
-   g==;
-X-CSE-ConnectionGUID: Mdsi791YRwWoZe//hZW+4w==
-X-CSE-MsgGUID: 48TaI3v9QROv0rSV7+Mskw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="51050963"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="51050963"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 04:56:11 -0700
-X-CSE-ConnectionGUID: hTnK5hFkRzOUTTwBFFdJbw==
-X-CSE-MsgGUID: NB6TkbqrSFSMmnbEuWxZ3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="137881065"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Apr 2025 04:56:10 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u8Hf5-00058d-0m;
-	Fri, 25 Apr 2025 11:56:07 +0000
-Date: Fri, 25 Apr 2025 19:55:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202504251907.byTlI08E-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yd1y4dKA"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf680d351so19920835e9.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 06:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745586727; x=1746191527; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
+        b=Yd1y4dKA5vwr3kvSM9uf6pgvk4Ff0KBdL8G4z4ybaT8euZa3Ad3Bkl1cuPadnCcOHy
+         w4yeLILMlh7+AyBb8lVgv1XsUGxcbzToJDQNZLbU6LiecTuip+bDkHB7iLWIPBgT+2Qo
+         jgI1ytGFN7S04uImW5CYMEoaSkgL4cIqFMp3lastoPU3WYBz9fKDdL0vTf8ynUxFBJaW
+         yWdEGeCUllqvtGT1uLt03oMDag1VKtHAKTQYADnHC5icdFBDneKypRRobYfehA9Qc4JE
+         TmWHe586vXvh0kWOmQgmWbqc6eoN4kLjsaSHiXCyG0rcFGfB9nCoNbkvva+BimKNlUeF
+         koYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745586727; x=1746191527;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2mJzYQDvuI9M7uIZt86YPzc2zUlO98o0UWqYzD5/Yo=;
+        b=szY6TXQdGeT0d+gpvjqR2nO+zS+Ffi0+atoL+rNOj/Lm0g7xdLJACQWggSLvR4N0Y7
+         NTkkAXFshoNNaWIUR7SOt9D5zDBkFs5f5QKVhVLq8lJ0fwH+foVN79xUatauNYOfoLun
+         OmSOc1gcp2SRzno7corhQicLJdioyu/pKkZ5nEV5yk2NrMr3x+EU/hBM22sU0ZTIiGYg
+         mi/ZHibQfQVlWlo12W3XBFwmr3Uuxfl3R5fZ/Hs097Zp+V+M7zO5ltM/h697EChDoaCB
+         9zq9T2pCtHOr0PzhWj1V6/mM/LpHCHuTpxE2o5EJOa0YL2E+kyZchNfyPfEwHdm4UbON
+         ohEQ==
+X-Gm-Message-State: AOJu0Ywcoig56eEVIrI79JTG0G+UF0Mm1Cj06/6O0EiZnz2znTICaEUc
+	l23ITJ6+RL0Dke8YeLdAz45twJeTDQH7mPrPRkU/1jQE3C0ioiMsZGcyE71ozzjknY3j/fvPCCu
+	I
+X-Gm-Gg: ASbGncusVgCqh6oYBmDlC0iT4UsUjXmLJx4ZoO/Y+Y2Qk6JRNSigcmCWU3Gr7v/cNKe
+	iiabQVCcVk/ijqorWlW8lq+xd13ZTHfKw+QuMdEQvwnH4uMngHE2jPC5IDnvhYK1FyylzckgG5/
+	h6yPeVx0W9p7X4Kh8NSm5KHHv9w4DprOu2lfPyGn08bP8Yz/y+Ja4kwuPbFFsFgvs027wcqcTfH
+	EKzrFtrhv35iSLC4rmn6m6W4WfE8QjyrlrrEIXTrm5qMpSgvgilnXX9HFqCgEjGN+wykIJwIMu3
+	UkleP43ycJjJB8pOGFqL9sJDbhofpgO4ow+k5hXuCq6K8KKYtLuaklZR
+X-Google-Smtp-Source: AGHT+IHQmpmStrmy566OJribqD8RtwP6KL/xHNY9xGU4rAa44Vf23D8eyGlStk+WGDGCfO0FlEnwUA==
+X-Received: by 2002:a7b:ce14:0:b0:43b:baf7:76e4 with SMTP id 5b1f17b1804b1-4409c453b1fmr53981615e9.1.1745586727231;
+        Fri, 25 Apr 2025 06:12:07 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d2ac5a9sm57367865e9.23.2025.04.25.06.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 06:12:06 -0700 (PDT)
+Date: Fri, 25 Apr 2025 16:12:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kurt Borja <kuurtb@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Armin Wolf <W_Armin@gmx.de>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 9/38]
+ drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init()
+ error: uninitialized symbol 'temp_id'.
+Message-ID: <202504250521.HEkFK1Jy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,155 +75,99 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Message-ID: <20250425131203.0hsrsDYEOq7LhyooBzqQQ0senYWRwXEYpDGoGr-fWro@z>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   08111f03f1ec65598372cfe9bf64f366d575671e
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 years, 2 months ago
-config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250425/202504251907.byTlI08E-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   4d1e8c8f11c611db5828e4bae7292bc295eea8ef
+commit: d699907834959c87a6b6c5214d5e9a3e8ba6b5a1 [9/38] platform/x86: alienware-wmi-wmax: Add HWMON support
+config: x86_64-randconfig-161-20250424 (https://download.01.org/0day-ci/archive/20250425/202504250521.HEkFK1Jy-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202504251907.byTlI08E-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202504250521.HEkFK1Jy-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+New smatch warnings:
+drivers/platform/x86/dell/alienware-wmi-wmax.c:931 awcc_hwmon_fans_init() error: uninitialized symbol 'temp_id'.
 
-vim +2306 block/blk-throttle.c
+vim +/temp_id +931 drivers/platform/x86/dell/alienware-wmi-wmax.c
 
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+d699907834959c Kurt Borja 2025-03-29  882  static int awcc_hwmon_fans_init(struct wmi_device *wdev)
+d699907834959c Kurt Borja 2025-03-29  883  {
+d699907834959c Kurt Borja 2025-03-29  884  	struct awcc_priv *priv = dev_get_drvdata(&wdev->dev);
+d699907834959c Kurt Borja 2025-03-29  885  	unsigned long fan_temps[AWCC_ID_BITMAP_LONGS];
+d699907834959c Kurt Borja 2025-03-29  886  	unsigned long gather[AWCC_ID_BITMAP_LONGS];
+d699907834959c Kurt Borja 2025-03-29  887  	u32 min_rpm, max_rpm, temp_count, temp_id;
+d699907834959c Kurt Borja 2025-03-29  888  	struct awcc_fan_data *fan_data;
+d699907834959c Kurt Borja 2025-03-29  889  	unsigned int i, j;
+d699907834959c Kurt Borja 2025-03-29  890  	char *label;
+d699907834959c Kurt Borja 2025-03-29  891  	int ret;
+d699907834959c Kurt Borja 2025-03-29  892  	u8 id;
+d699907834959c Kurt Borja 2025-03-29  893  
+d699907834959c Kurt Borja 2025-03-29  894  	for (i = 0; i < priv->fan_count; i++) {
+d699907834959c Kurt Borja 2025-03-29  895  		fan_data = devm_kzalloc(&wdev->dev, sizeof(*fan_data), GFP_KERNEL);
+d699907834959c Kurt Borja 2025-03-29  896  		if (!fan_data)
+d699907834959c Kurt Borja 2025-03-29  897  			return -ENOMEM;
+d699907834959c Kurt Borja 2025-03-29  898  
+d699907834959c Kurt Borja 2025-03-29  899  		/*
+d699907834959c Kurt Borja 2025-03-29  900  		 * Fan IDs are listed first at offset 0
+d699907834959c Kurt Borja 2025-03-29  901  		 */
+d699907834959c Kurt Borja 2025-03-29  902  		ret = awcc_op_get_resource_id(wdev, i, &id);
+d699907834959c Kurt Borja 2025-03-29  903  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  904  			return ret;
+d699907834959c Kurt Borja 2025-03-29  905  
+d699907834959c Kurt Borja 2025-03-29  906  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MIN_RPM, id,
+d699907834959c Kurt Borja 2025-03-29  907  					       &min_rpm);
+d699907834959c Kurt Borja 2025-03-29  908  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  909  			return ret;
+d699907834959c Kurt Borja 2025-03-29  910  
+d699907834959c Kurt Borja 2025-03-29  911  		ret = awcc_thermal_information(wdev, AWCC_OP_GET_FAN_MAX_RPM, id,
+d699907834959c Kurt Borja 2025-03-29  912  					       &max_rpm);
+d699907834959c Kurt Borja 2025-03-29  913  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  914  			return ret;
+d699907834959c Kurt Borja 2025-03-29  915  
+d699907834959c Kurt Borja 2025-03-29  916  		ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_TOTAL_FAN_TEMPS, id,
+d699907834959c Kurt Borja 2025-03-29  917  					   0, &temp_count);
+d699907834959c Kurt Borja 2025-03-29  918  		if (ret)
+d699907834959c Kurt Borja 2025-03-29  919  			return ret;
+d699907834959c Kurt Borja 2025-03-29  920  
+d699907834959c Kurt Borja 2025-03-29  921  		for (j = 0; j < temp_count; j++) {
+d699907834959c Kurt Borja 2025-03-29  922  			ret = awcc_get_fan_sensors(wdev, AWCC_OP_GET_FAN_TEMP_ID,
+d699907834959c Kurt Borja 2025-03-29  923  						   id, j, &temp_id);
+d699907834959c Kurt Borja 2025-03-29  924  			if (ret)
+d699907834959c Kurt Borja 2025-03-29  925  				break;
 
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+return ret?
 
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+d699907834959c Kurt Borja 2025-03-29  926  
+d699907834959c Kurt Borja 2025-03-29  927  			temp_id = FIELD_GET(AWCC_RESOURCE_ID_MASK, temp_id);
+d699907834959c Kurt Borja 2025-03-29  928  			__set_bit(temp_id, fan_temps);
+d699907834959c Kurt Borja 2025-03-29  929  		}
+d699907834959c Kurt Borja 2025-03-29  930  
+d699907834959c Kurt Borja 2025-03-29 @931  		label = awcc_get_fan_label(&wdev->dev, temp_count, temp_id);
+                                                                                                           ^^^^^^^
+uninitialized.
+
+d699907834959c Kurt Borja 2025-03-29  932  		if (!label)
+d699907834959c Kurt Borja 2025-03-29  933  			return -ENOMEM;
+d699907834959c Kurt Borja 2025-03-29  934  
+d699907834959c Kurt Borja 2025-03-29  935  		fan_data->id = id;
+d699907834959c Kurt Borja 2025-03-29  936  		fan_data->min_rpm = min_rpm;
+d699907834959c Kurt Borja 2025-03-29  937  		fan_data->max_rpm = max_rpm;
+d699907834959c Kurt Borja 2025-03-29  938  		fan_data->label = label;
+d699907834959c Kurt Borja 2025-03-29  939  		bitmap_gather(gather, fan_temps, priv->temp_sensors, AWCC_ID_BITMAP_SIZE);
+d699907834959c Kurt Borja 2025-03-29  940  		bitmap_copy(&fan_data->auto_channels_temp, gather, BITS_PER_LONG);
+d699907834959c Kurt Borja 2025-03-29  941  		priv->fan_data[i] = fan_data;
+d699907834959c Kurt Borja 2025-03-29  942  
+d699907834959c Kurt Borja 2025-03-29  943  		bitmap_zero(fan_temps, AWCC_ID_BITMAP_SIZE);
+d699907834959c Kurt Borja 2025-03-29  944  	}
+d699907834959c Kurt Borja 2025-03-29  945  
+d699907834959c Kurt Borja 2025-03-29  946  	return 0;
+d699907834959c Kurt Borja 2025-03-29  947  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
