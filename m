@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FC91F8BA6
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Apr 2025 23:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE9C227E93
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 05:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745535847; cv=none; b=NJmvkb4pCz5lhZZbPz00YMSCNDHWf9ATKlEnXOjnenpqgVvCLWF1Pa5llRhJhVGf/MFnPhfLpcBPfE+6LWTxOVnd/2ZbDHYDU7k7V4K9EkI9kZ5sYu5ugkP3jUaSfSEK1cxq4HHae+IlJUBfOuULTM7deAGxxqlVIfM5kc6DQe0=
+	t=1745559052; cv=none; b=qgcTD0rRrufQXGJwg+8k8pxVHqwy2URJX1g7uMl/ZLzk04ni2rV81KtE4bnfK8S57+35slOAP2pAXJjxK9QbQ9e315lScnoViPE+lPX9zwxW5xegSK8+z4WHRpZqsLgThkHJQYeSKYwkopLB0qzYC5Nlfv9s3SCXF9tLhwtsgI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745535847; c=relaxed/simple;
-	bh=pBMf89YZ3TNr/TKunqJMmyt+9gxyl7VbLI32O+xMTS4=;
+	s=arc-20240116; t=1745559052; c=relaxed/simple;
+	bh=sn8wDtqUzYZODyz0BKa4nbezCew67VKKfogko3Smiyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JdwCt4NvPPyNtuuKwhkoliK+l+WLF0Gh22RUWozRnW9WdDrVXmcIrG8SDhZ/tmMdUxwOCG7oCexc4BHJtpcNnAkfy8NcxOsoquWbe9ReY33KPQveC372/wQuvNjqk8ftB3p4NuNB34l55O9HAMhAoBJgn/N+Tz2YiJP/Wjli/Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLfL0jN6; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Lj0l6J4/4ThHTHB0SX2/oJINrb+or1qH57aoeaY1cCuGOzTyDXH0OVrccsMlZJHPw+rodY9yuMq/+GyySbj9D+JdYhr17D9irpGVUlCT/QOhSiEV+zchiZVpI4wa8+TrWg2o5iSCWxjhYbk4YgWf0XnFC96zPk/IKtfIMruNR+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OcA7Y6ox; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLfL0jN6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcA7Y6ox"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745535845; x=1777071845;
+  t=1745559050; x=1777095050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pBMf89YZ3TNr/TKunqJMmyt+9gxyl7VbLI32O+xMTS4=;
-  b=BLfL0jN6rtReJAWfxGZUXnpD5IcWv90Qx3dKPQAtKu1KYerHTguSa5bx
-   Uf10Ij0vJbjAbiCqjLaEDJTd1MBiRCfcwF46e6V4JNyrNX56siZuVRfe4
-   /2b2GMx/mMtu64qxPiTN4XDuWzGmuob/sC/6iSkAgEgup2jvGh4gOGAt+
-   mHAqo/LsDDM8t6QwNh3w6+W6o/8KG4gu5Azmseb3dnWXrt2V9/r5PMuTF
-   Rx/WbmK/PRyR7g4zbym0Z6jHNjCTRQ/3LQTkDKyAJ5E/cA7/75YsA0fYL
-   JM0XK6s40Vphkg22B7kQo7QNdv60qOkuN6PSkZtQxBul87OwCin8HmR0M
-   A==;
-X-CSE-ConnectionGUID: Ha+EfO/KRuSWlB4ZZd0w4A==
-X-CSE-MsgGUID: qI6IDwJlTHGhn9GB2jfFyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="64719620"
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="64719620"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 16:04:04 -0700
-X-CSE-ConnectionGUID: xhTl1ZCURnmXVhDVxIfaRA==
-X-CSE-MsgGUID: wjq+bqpgTnC0zrmnvs+o4A==
+  bh=sn8wDtqUzYZODyz0BKa4nbezCew67VKKfogko3Smiyo=;
+  b=OcA7Y6oxW/INen93/FwhM8hvyy4ykBEBAiOKUEWBn7SvJDzub+pjT6qf
+   TmJap6yeiWS6mO4CYA5Tbtuesa1QKrQ4E05mwK1g4E/AoOq3YL4qIqc8Y
+   dD/JkdO8RZ/j83nfqKljdhgZg4i5o5h1J42xpQiG1NnXBBYWStL4jsmPA
+   y1Gno7KLln2PkLSvWeq65Fz+R8DEiU553uoslqHVafYKIGE3+RgFPnR1Z
+   ioo9cgRBZ+hroGq3fFU1LclKPEekzbk6obXJJuPeKsK7RO6xHf1NHO4Xx
+   MeUw5ydsGpzdKGbiWiuQNVx4BU7bkuKe9Y7iCBYCeNyRO2R/iU2wY4Jtu
+   w==;
+X-CSE-ConnectionGUID: MVsmtoP8T2uMn3zT34Krow==
+X-CSE-MsgGUID: GBMr8jSJTTuQcsFTaDQmnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47348004"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="47348004"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 22:30:49 -0700
+X-CSE-ConnectionGUID: qum61J27SKysBhHznKk++w==
+X-CSE-MsgGUID: N97vYKWmSYeEbeLnqV6NDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="133716137"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="137973591"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Apr 2025 16:04:03 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Apr 2025 22:30:37 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u85bs-0004er-1G;
-	Thu, 24 Apr 2025 23:04:00 +0000
-Date: Fri, 25 Apr 2025 07:03:16 +0800
+	id 1u8Bdy-0004r1-0Y;
+	Fri, 25 Apr 2025 05:30:34 +0000
+Date: Fri, 25 Apr 2025 13:30:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- !__builtin_constant_p(~var)
-Message-ID: <202504250608.oNSEBwAo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: mm/huge_memory.c:3808 __split_unmapped_folio() error: we previously
+ assumed 'mapping' could be null (see line 3796)
+Message-ID: <202504251345.9f3beTHC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,133 +62,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
-
-Hi Johannes,
-
-FYI, the error/warning still remains.
+TO: Zi Yan <ziy@nvidia.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   02ddfb981de88a2c15621115dd7be2431252c568
-commit: 53585f9ea40a9466ab9c1151f15984513eb542f7 um: enable UBSAN
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250425/202504250608.oNSEBwAo-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250425/202504250608.oNSEBwAo-lkp@intel.com/reproduce)
+commit: 00527733d0dc806a72bb9a56cfbd6c44d5f74872 mm/huge_memory: add two new (not yet used) functions for folio_split()
+date:   5 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-161-20250425 (https://download.01.org/0day-ci/archive/20250425/202504251345.9f3beTHC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504250608.oNSEBwAo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504251345.9f3beTHC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+mm/huge_memory.c:3808 __split_unmapped_folio() error: we previously assumed 'mapping' could be null (see line 3796)
 
->> lib/test_bitmap.c:1278:2: error: call to '__compiletime_assert_331' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(~var)
-    1278 |         BUILD_BUG_ON(!__builtin_constant_p(~var));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:510:2: note: expanded from macro 'compiletime_assert'
-     510 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:498:2: note: expanded from macro '_compiletime_assert'
-     498 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:491:4: note: expanded from macro '__compiletime_assert'
-     491 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:7:1: note: expanded from here
-       7 | __compiletime_assert_331
-         | ^
-   1 error generated.
+vim +/mapping +3808 mm/huge_memory.c
 
-
-vim +1278 lib/test_bitmap.c
-
-291f93ca339f5b Barry Song        2021-08-06  1227  
-2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
-2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
-2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
-2356d198d2b4dd Yury Norov        2023-07-17  1231   */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
-dc34d5036692c6 Alexander Lobakin 2022-06-24 @1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
-7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
-dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
-
-:::::: The code at line 1278 was first introduced by commit
-:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-
-:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+00527733d0dc80 Zi Yan 2025-03-07  3751  
+00527733d0dc80 Zi Yan 2025-03-07  3752  
+00527733d0dc80 Zi Yan 2025-03-07  3753  		/* complete memcg works before add pages to LRU */
+00527733d0dc80 Zi Yan 2025-03-07  3754  		split_page_memcg(&folio->page, old_order, split_order);
+00527733d0dc80 Zi Yan 2025-03-07  3755  		split_page_owner(&folio->page, old_order, split_order);
+00527733d0dc80 Zi Yan 2025-03-07  3756  		pgalloc_tag_split(folio, old_order, split_order);
+00527733d0dc80 Zi Yan 2025-03-07  3757  
+00527733d0dc80 Zi Yan 2025-03-07  3758  		__split_folio_to_order(folio, old_order, split_order);
+00527733d0dc80 Zi Yan 2025-03-07  3759  
+00527733d0dc80 Zi Yan 2025-03-07  3760  after_split:
+00527733d0dc80 Zi Yan 2025-03-07  3761  		/*
+00527733d0dc80 Zi Yan 2025-03-07  3762  		 * Iterate through after-split folios and perform related
+00527733d0dc80 Zi Yan 2025-03-07  3763  		 * operations. But in buddy allocator like split, the folio
+00527733d0dc80 Zi Yan 2025-03-07  3764  		 * containing the specified page is skipped until its order
+00527733d0dc80 Zi Yan 2025-03-07  3765  		 * is new_order, since the folio will be worked on in next
+00527733d0dc80 Zi Yan 2025-03-07  3766  		 * iteration.
+00527733d0dc80 Zi Yan 2025-03-07  3767  		 */
+00527733d0dc80 Zi Yan 2025-03-07  3768  		for (release = folio; release != end_folio; release = next) {
+00527733d0dc80 Zi Yan 2025-03-07  3769  			next = folio_next(release);
+00527733d0dc80 Zi Yan 2025-03-07  3770  			/*
+00527733d0dc80 Zi Yan 2025-03-07  3771  			 * for buddy allocator like split, the folio containing
+00527733d0dc80 Zi Yan 2025-03-07  3772  			 * page will be split next and should not be released,
+00527733d0dc80 Zi Yan 2025-03-07  3773  			 * until the folio's order is new_order or stop_split
+00527733d0dc80 Zi Yan 2025-03-07  3774  			 * is set to true by the above xas_split() failure.
+00527733d0dc80 Zi Yan 2025-03-07  3775  			 */
+00527733d0dc80 Zi Yan 2025-03-07  3776  			if (release == page_folio(split_at)) {
+00527733d0dc80 Zi Yan 2025-03-07  3777  				folio = release;
+00527733d0dc80 Zi Yan 2025-03-07  3778  				if (split_order != new_order && !stop_split)
+00527733d0dc80 Zi Yan 2025-03-07  3779  					continue;
+00527733d0dc80 Zi Yan 2025-03-07  3780  			}
+00527733d0dc80 Zi Yan 2025-03-07  3781  			if (folio_test_anon(release)) {
+00527733d0dc80 Zi Yan 2025-03-07  3782  				mod_mthp_stat(folio_order(release),
+00527733d0dc80 Zi Yan 2025-03-07  3783  						MTHP_STAT_NR_ANON, 1);
+00527733d0dc80 Zi Yan 2025-03-07  3784  			}
+00527733d0dc80 Zi Yan 2025-03-07  3785  
+00527733d0dc80 Zi Yan 2025-03-07  3786  			/*
+00527733d0dc80 Zi Yan 2025-03-07  3787  			 * origin_folio should be kept frozon until page cache
+00527733d0dc80 Zi Yan 2025-03-07  3788  			 * entries are updated with all the other after-split
+00527733d0dc80 Zi Yan 2025-03-07  3789  			 * folios to prevent others seeing stale page cache
+00527733d0dc80 Zi Yan 2025-03-07  3790  			 * entries.
+00527733d0dc80 Zi Yan 2025-03-07  3791  			 */
+00527733d0dc80 Zi Yan 2025-03-07  3792  			if (release == origin_folio)
+00527733d0dc80 Zi Yan 2025-03-07  3793  				continue;
+00527733d0dc80 Zi Yan 2025-03-07  3794  
+00527733d0dc80 Zi Yan 2025-03-07  3795  			folio_ref_unfreeze(release, 1 +
+00527733d0dc80 Zi Yan 2025-03-07 @3796  					((mapping || swap_cache) ?
+00527733d0dc80 Zi Yan 2025-03-07  3797  						folio_nr_pages(release) : 0));
+00527733d0dc80 Zi Yan 2025-03-07  3798  
+00527733d0dc80 Zi Yan 2025-03-07  3799  			lru_add_page_tail(origin_folio, &release->page,
+00527733d0dc80 Zi Yan 2025-03-07  3800  						lruvec, list);
+00527733d0dc80 Zi Yan 2025-03-07  3801  
+00527733d0dc80 Zi Yan 2025-03-07  3802  			/* Some pages can be beyond EOF: drop them from cache */
+00527733d0dc80 Zi Yan 2025-03-07  3803  			if (release->index >= end) {
+00527733d0dc80 Zi Yan 2025-03-07  3804  				if (shmem_mapping(mapping))
+00527733d0dc80 Zi Yan 2025-03-07  3805  					nr_dropped += folio_nr_pages(release);
+00527733d0dc80 Zi Yan 2025-03-07  3806  				else if (folio_test_clear_dirty(release))
+00527733d0dc80 Zi Yan 2025-03-07  3807  					folio_account_cleaned(release,
+00527733d0dc80 Zi Yan 2025-03-07 @3808  						inode_to_wb(mapping->host));
+00527733d0dc80 Zi Yan 2025-03-07  3809  				__filemap_remove_folio(release, NULL);
+00527733d0dc80 Zi Yan 2025-03-07  3810  				folio_put_refs(release, folio_nr_pages(release));
+00527733d0dc80 Zi Yan 2025-03-07  3811  			} else if (mapping) {
+00527733d0dc80 Zi Yan 2025-03-07  3812  				__xa_store(&mapping->i_pages,
+00527733d0dc80 Zi Yan 2025-03-07  3813  						release->index, release, 0);
+00527733d0dc80 Zi Yan 2025-03-07  3814  			} else if (swap_cache) {
+00527733d0dc80 Zi Yan 2025-03-07  3815  				__xa_store(&swap_cache->i_pages,
+00527733d0dc80 Zi Yan 2025-03-07  3816  						swap_cache_index(release->swap),
+00527733d0dc80 Zi Yan 2025-03-07  3817  						release, 0);
+00527733d0dc80 Zi Yan 2025-03-07  3818  			}
+00527733d0dc80 Zi Yan 2025-03-07  3819  		}
+00527733d0dc80 Zi Yan 2025-03-07  3820  	}
+00527733d0dc80 Zi Yan 2025-03-07  3821  
+00527733d0dc80 Zi Yan 2025-03-07  3822  	/*
+00527733d0dc80 Zi Yan 2025-03-07  3823  	 * Unfreeze origin_folio only after all page cache entries, which used
+00527733d0dc80 Zi Yan 2025-03-07  3824  	 * to point to it, have been updated with new folios. Otherwise,
+00527733d0dc80 Zi Yan 2025-03-07  3825  	 * a parallel folio_try_get() can grab origin_folio and its caller can
+00527733d0dc80 Zi Yan 2025-03-07  3826  	 * see stale page cache entries.
+00527733d0dc80 Zi Yan 2025-03-07  3827  	 */
+00527733d0dc80 Zi Yan 2025-03-07  3828  	folio_ref_unfreeze(origin_folio, 1 +
+00527733d0dc80 Zi Yan 2025-03-07  3829  		((mapping || swap_cache) ? folio_nr_pages(origin_folio) : 0));
+00527733d0dc80 Zi Yan 2025-03-07  3830  
+00527733d0dc80 Zi Yan 2025-03-07  3831  	unlock_page_lruvec(lruvec);
+00527733d0dc80 Zi Yan 2025-03-07  3832  
+00527733d0dc80 Zi Yan 2025-03-07  3833  	if (swap_cache)
+00527733d0dc80 Zi Yan 2025-03-07  3834  		xa_unlock(&swap_cache->i_pages);
+00527733d0dc80 Zi Yan 2025-03-07  3835  	if (mapping)
+00527733d0dc80 Zi Yan 2025-03-07  3836  		xa_unlock(&mapping->i_pages);
+00527733d0dc80 Zi Yan 2025-03-07  3837  
+00527733d0dc80 Zi Yan 2025-03-07  3838  	/* Caller disabled irqs, so they are still disabled here */
+00527733d0dc80 Zi Yan 2025-03-07  3839  	local_irq_enable();
+00527733d0dc80 Zi Yan 2025-03-07  3840  
+00527733d0dc80 Zi Yan 2025-03-07  3841  	if (nr_dropped)
+00527733d0dc80 Zi Yan 2025-03-07  3842  		shmem_uncharge(mapping->host, nr_dropped);
+00527733d0dc80 Zi Yan 2025-03-07  3843  
+00527733d0dc80 Zi Yan 2025-03-07  3844  	remap_page(origin_folio, 1 << order,
+00527733d0dc80 Zi Yan 2025-03-07  3845  			folio_test_anon(origin_folio) ?
+00527733d0dc80 Zi Yan 2025-03-07  3846  				RMP_USE_SHARED_ZEROPAGE : 0);
+00527733d0dc80 Zi Yan 2025-03-07  3847  
+00527733d0dc80 Zi Yan 2025-03-07  3848  	/*
+00527733d0dc80 Zi Yan 2025-03-07  3849  	 * At this point, folio should contain the specified page.
+00527733d0dc80 Zi Yan 2025-03-07  3850  	 * For uniform split, it is left for caller to unlock.
+00527733d0dc80 Zi Yan 2025-03-07  3851  	 * For buddy allocator like split, the first after-split folio is left
+00527733d0dc80 Zi Yan 2025-03-07  3852  	 * for caller to unlock.
+00527733d0dc80 Zi Yan 2025-03-07  3853  	 */
+00527733d0dc80 Zi Yan 2025-03-07  3854  	for (new_folio = origin_folio; new_folio != next_folio; new_folio = next) {
+00527733d0dc80 Zi Yan 2025-03-07  3855  		next = folio_next(new_folio);
+00527733d0dc80 Zi Yan 2025-03-07  3856  		if (new_folio == page_folio(lock_at))
+00527733d0dc80 Zi Yan 2025-03-07  3857  			continue;
+00527733d0dc80 Zi Yan 2025-03-07  3858  
+00527733d0dc80 Zi Yan 2025-03-07  3859  		folio_unlock(new_folio);
+00527733d0dc80 Zi Yan 2025-03-07  3860  		/*
+00527733d0dc80 Zi Yan 2025-03-07  3861  		 * Subpages may be freed if there wasn't any mapping
+00527733d0dc80 Zi Yan 2025-03-07  3862  		 * like if add_to_swap() is running on a lru page that
+00527733d0dc80 Zi Yan 2025-03-07  3863  		 * had its mapping zapped. And freeing these pages
+00527733d0dc80 Zi Yan 2025-03-07  3864  		 * requires taking the lru_lock so we do the put_page
+00527733d0dc80 Zi Yan 2025-03-07  3865  		 * of the tail pages after the split is complete.
+00527733d0dc80 Zi Yan 2025-03-07  3866  		 */
+00527733d0dc80 Zi Yan 2025-03-07  3867  		free_page_and_swap_cache(&new_folio->page);
+00527733d0dc80 Zi Yan 2025-03-07  3868  	}
+00527733d0dc80 Zi Yan 2025-03-07  3869  	return ret;
+00527733d0dc80 Zi Yan 2025-03-07  3870  }
+00527733d0dc80 Zi Yan 2025-03-07  3871  
 
 -- 
 0-DAY CI Kernel Test Service
