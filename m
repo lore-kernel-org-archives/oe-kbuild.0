@@ -1,126 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2862C13B7A3
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Apr 2025 23:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8574C1E834D
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Apr 2025 02:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745624352; cv=none; b=hE7XET8IpTcSsPMvZyGOz3xYM4/65YRSQb9d+JhyuSRG1PKKdrJN2QSaFxXcg6ziEwoCzwajk87HN0Lju5wBkKXOhb0U/wtENCq4HYl0Rfi/F6XktxvtuvK+OSIL0UqWTDs1LjgSdEfWwal+oILAOqnAD7DNx2rms6NA96BOOLE=
+	t=1745634745; cv=none; b=GGs9ZL/xaa5haXy9Phn0ESd+0rUIG6/bqsfY7fTmfahhJBsdXUeacT8U9ZEECf9Ek0NJANoB8/FKo7LdpGbMUCXfYoqpjUkPA56dZRbe0q4YySTMC9lhTkJUNr15vTwc1K5s5RYWkLRzMEGk7BnMRdfzEMzD2QqcHDPvMuvP5ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745624352; c=relaxed/simple;
-	bh=2gUDKsfEno+NWNNw39wqNtV5FbOVfMK5vflP1SfXuco=;
+	s=arc-20240116; t=1745634745; c=relaxed/simple;
+	bh=EgFOUzmQoE45YSawxvmrtPvZVmSdt8CWLLoHHVlgBnU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F3S95aeavNvz8ciur22PDy3tMpIipNjIkP4bobLybdFNZ8FPJSW8VlrzdyVCIIAVlkun4VNoOvMfNFn+W45u61LjJGzHQVV8arTFRR7ukMo2kzTxtJdqV83Ncvzm1fnjLDy2gEqDVmCD7qrYbKIG+h9HuLAMCJABW9X9rTgyW5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ilhh8G4C; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Lt5VkblYvSDVr3j+CSLxWxQO5nvnRmyoBE5gbGxemvq+Y6uveGKT6NZYohCUD+aNLHJRcM3JHaFFECVrpHgmpJuXhmD9QAige4WmhaB8JH5VDbPa2ZYFYD/sOz+uN0OEB0psDghgidQZ9qi0GGi/ah/Gv+7O1rVAyhg28kusEeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYuAO568; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ilhh8G4C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYuAO568"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745624350; x=1777160350;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2gUDKsfEno+NWNNw39wqNtV5FbOVfMK5vflP1SfXuco=;
-  b=Ilhh8G4Czd5bve0Td9v23ilHwxc9WTh0QL3Vc+fkVvaF98lcitdWY6T+
-   N0nku+Lc2XrnU95jl9h7NOb0m2a3bk+3YMKaWtsp0/AWHfdE16jAeyN1U
-   MsYimv9K7QuMunUIqBWowmeLZIOajEeMW58C4vhPOy3GVK1by+69UXnJy
-   N27mCc4RVJk890kA1jaDCAABpVO3GL6sGYAi23rK647lGVNx/l12KNRH1
-   uaqd53hPrLwSx9Wvqx3H1QFiXp+8Jf0CgDmPnTDvL51QvtXuqJz+BoHJj
-   U4cwLv/vmC87+KuAaKW7HsQ5d1NG0Vtdw1WjmpTJxn8HRm6zE4jO/Y5Jj
+  t=1745634743; x=1777170743;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EgFOUzmQoE45YSawxvmrtPvZVmSdt8CWLLoHHVlgBnU=;
+  b=FYuAO568ydlL1AhOm6DG2vBIp9lbupkF0Q0Gy6VdejubRc+M5aTS4tb5
+   Bf2sHxV1aSXpLGlDOQN3bJbAq+mMbiFG1RyNes5qE2vMvf8fgVwaobD2f
+   FN6II/nP3u26txtvS67i4wNV0BbwKpW7WE8R6O8uQE7GVFnPEknWtpr+0
+   mzNds6ekXJmx43ZRmlwQnq40KhrqUUJDjaazh7D/aLllqGea5zK3+TqdH
+   G+Nv9v1mLvhkZ7CzsHJYqUH4hHJ5sG7YOfbh8oiyKS0hg/1CxLChWM6n3
+   4T1e12IW1qeNovsYMH8CUtxlpGwJnZp73zkN4LHqSBLsU0u6iFYyXATvW
    g==;
-X-CSE-ConnectionGUID: yzWOtUQ2RXuzKAnrV+8CWw==
-X-CSE-MsgGUID: whpKhS12T4KiihBf6TJVkA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47005222"
+X-CSE-ConnectionGUID: lebxUPLlRheZBXw3waNepA==
+X-CSE-MsgGUID: P8B9raqVQk6/An8mj1hIOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="57945571"
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="47005222"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 16:39:09 -0700
-X-CSE-ConnectionGUID: 1afJWVJDRlWUBDeM7UbSkQ==
-X-CSE-MsgGUID: c+wlUVcoSKaNoVFRb0PHRw==
+   d="scan'208";a="57945571"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 19:32:22 -0700
+X-CSE-ConnectionGUID: LFLKBrDLQMO+Il/xQrtZAA==
+X-CSE-MsgGUID: 1W6t9MvIT6S8SoJxi3lWvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,240,1739865600"; 
-   d="scan'208";a="137074835"
+   d="scan'208";a="132932226"
 Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Apr 2025 16:39:08 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Apr 2025 19:32:21 -0700
 Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u8SdO-0005aL-0I;
-	Fri, 25 Apr 2025 23:39:06 +0000
-Date: Sat, 26 Apr 2025 07:39:00 +0800
+	id 1u8VL1-0005f1-0c;
+	Sat, 26 Apr 2025 02:32:19 +0000
+Date: Sat, 26 Apr 2025 10:32:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1509/6092]
- sound/soc/intel/avs/board_selection.c:497 avs_register_i2s_test_board()
- warn: excess argument passed to 'devm_kasprintf'
-Message-ID: <202504260749.g5LSVAmY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/powerpc/mm/mem.c:428:2: error: call to
+ '__compiletime_assert_508' declared with 'error' attribute: BUILD_BUG_ON
+ failed: TASK_SIZE > MODULES_VADDR
+Message-ID: <202504261027.aDQM0ra4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Mike Rapoport (IBM)" <rppt@kernel.org>
+CC: Luis Chamberlain <mcgrof@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   393d0c54cae31317deaa9043320c5fd9454deabc
-commit: 7d859189de13f06fdc511761c745f3b302bed7b6 [1509/6092] ASoC: Intel: avs: Allow to specify custom configurations with i2s_test
-:::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: i386-randconfig-141-20250424 (https://download.01.org/0day-ci/archive/20250426/202504260749.g5LSVAmY-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: 7582b7be16d0ba90e3dbd9575a730cabd9eb852a kprobes: remove dependency on CONFIG_MODULES
+date:   12 months ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 12 months ago
+config: powerpc-randconfig-r111-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261027.aDQM0ra4-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250426/202504261027.aDQM0ra4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504260749.g5LSVAmY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504261027.aDQM0ra4-lkp@intel.com/
 
-smatch warnings:
-sound/soc/intel/avs/board_selection.c:497 avs_register_i2s_test_board() warn: excess argument passed to 'devm_kasprintf'
+All errors (new ones prefixed by >>):
 
-vim +/devm_kasprintf +497 sound/soc/intel/avs/board_selection.c
+   In file included from arch/powerpc/mm/mem.c:15:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/powerpc/mm/mem.c:428:2: error: call to '__compiletime_assert_508' declared with 'error' attribute: BUILD_BUG_ON failed: TASK_SIZE > MODULES_VADDR
+     428 |         BUILD_BUG_ON(TASK_SIZE > MODULES_VADDR);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:467:2: note: expanded from macro 'compiletime_assert'
+     467 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:455:2: note: expanded from macro '_compiletime_assert'
+     455 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:448:4: note: expanded from macro '__compiletime_assert'
+     448 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:189:1: note: expanded from here
+     189 | __compiletime_assert_508
+         | ^
+   1 warning and 1 error generated.
 
-beed983621fbdfd Cezary Rojewski    2022-05-16  486  
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  487  static int avs_register_i2s_test_board(struct avs_dev *adev, int ssp_port, int tdm_slot)
-beed983621fbdfd Cezary Rojewski    2022-05-16  488  {
-beed983621fbdfd Cezary Rojewski    2022-05-16  489  	struct snd_soc_acpi_mach *mach;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  490  	int tdm_mask = BIT(tdm_slot);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  491  	unsigned long *tdm_cfg;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  492  	char *tplg_name;
-beed983621fbdfd Cezary Rojewski    2022-05-16  493  	int ret;
-beed983621fbdfd Cezary Rojewski    2022-05-16  494  
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  495  	mach = devm_kzalloc(adev->dev, sizeof(*mach), GFP_KERNEL);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  496  	tdm_cfg = devm_kcalloc(adev->dev, ssp_port + 1, sizeof(unsigned long), GFP_KERNEL);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04 @497  	tplg_name = devm_kasprintf(adev->dev, GFP_KERNEL, AVS_STRING_FMT("i2s", "-test-tplg.bin",
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  498  				   ssp_port, tdm_slot));
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  499  	if (!mach || !tdm_cfg || !tplg_name)
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  500  		return -ENOMEM;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  501  
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  502  	mach->drv_name = "avs_i2s_test";
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  503  	mach->mach_params.i2s_link_mask = AVS_SSP(ssp_port);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  504  	tdm_cfg[ssp_port] = tdm_mask;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  505  	mach->pdata = tdm_cfg;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  506  	mach->tplg_filename = tplg_name;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  507  
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  508  	ret = avs_register_i2s_board(adev, mach);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  509  	if (ret < 0) {
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  510  		dev_warn(adev->dev, "register i2s %s failed: %d\n", mach->drv_name, ret);
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  511  		return ret;
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  512  	}
-7d859189de13f06 Amadeusz Sławiński 2025-04-04  513  
-beed983621fbdfd Cezary Rojewski    2022-05-16  514  	return 0;
-beed983621fbdfd Cezary Rojewski    2022-05-16  515  }
-beed983621fbdfd Cezary Rojewski    2022-05-16  516  
+
+vim +428 arch/powerpc/mm/mem.c
+
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  413) 
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  414) struct execmem_info __init *execmem_arch_setup(void)
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  415) {
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  416) 	pgprot_t kprobes_prot = strict_module_rwx_enabled() ? PAGE_KERNEL_ROX : PAGE_KERNEL_EXEC;
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  417) 	pgprot_t prot = strict_module_rwx_enabled() ? PAGE_KERNEL : PAGE_KERNEL_EXEC;
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  418) 	unsigned long fallback_start = 0, fallback_end = 0;
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  419) 	unsigned long start, end;
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  420) 
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  421) 	/*
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  422) 	 * BOOK3S_32 and 8xx define MODULES_VADDR for text allocations and
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  423) 	 * allow allocating data in the entire vmalloc space
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  424) 	 */
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  425) #ifdef MODULES_VADDR
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  426) 	unsigned long limit = (unsigned long)_etext - SZ_32M;
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05  427) 
+0cc2dc4902f425 Mike Rapoport (IBM  2024-05-05 @428) 	BUILD_BUG_ON(TASK_SIZE > MODULES_VADDR);
+
+:::::: The code at line 428 was first introduced by commit
+:::::: 0cc2dc4902f425e346d46deeea2352d9fba75375 arch: make execmem setup available regardless of CONFIG_MODULES
+
+:::::: TO: Mike Rapoport (IBM) <rppt@kernel.org>
+:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
