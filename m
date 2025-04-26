@@ -1,69 +1,57 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4817B21772D
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Apr 2025 08:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604D01DF759
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Apr 2025 19:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745655020; cv=none; b=oMQRupIaZXuiokubcs185jrrriiatsbULDrj8MGDRLn4BzDign3v8ItY9adtQmXhNNyI4eVhoCuLZZZdxNJpctgsjRZF8Sxd8WwvH3f02t0eHvLpFkHwD0HhHrU+2CfG2MoepGElk3zWhaetJe84ziNiiQWP5PMLm5+q6w+KEn8=
+	t=1745695594; cv=none; b=SgpjGSzhjkvTxQvVQgjleAqsXpJ4Vw37dIK+Hjkp7yn/0pduS58aZCzQ2zgnwDS35F/t8NK4cyM+rZXavwoXl8UyxwGh97ap/EyUVWwGjaRR8WUPyY/zsrwTc+6PHGQZ9KTFsDhxoU5E3/naEVSaESlburhABzIgnk+C/Gb8M6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745655020; c=relaxed/simple;
-	bh=wJ1WplUCyFn0t9VfxUYVzwC1BraW4VGvOcfhzZtZfXk=;
+	s=arc-20240116; t=1745695594; c=relaxed/simple;
+	bh=4kLdb9L2K37Wfc2AFfS+bh7vtbLI1T8+8YcD0q+YSXc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ra3LSdU73+U/LBEhzsmLFozQjqFPv+vrkk0KJmxiYfqQuZSf1UoS/aI76oBBaN/Y6zo6uYJkvvuCQelwiIIIL1KV3/HrALiHl8N1W3luWJ5JayYzaR+m4eW8SPyxtl2b0YQ2fNPxYaUrmOwY0xoCIFQzvI4cSpZIsQgNo1PKoDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tCON7HBM; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=uar989/LP+y8esYQ+x6xoifyMcHKrOO2YQEIvysQAp9KbPSkvis9bZsETGm49cgQDmAFpatGZ/+/VYYsVso2IHw8cHqtxMYeL1ols0PJ/NBjiIJuZRcMxoOtPR3tNPE5vUvwptLE22Tzps+l98tKvvcwPZcEFOUUWH8isNpOFrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBKP1c1y; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tCON7HBM"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3913b539aabso1690585f8f.2
-        for <oe-kbuild@lists.linux.dev>; Sat, 26 Apr 2025 01:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745655016; x=1746259816; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5AOQ3YRUY7vkqhTlxjQxyYug106qzI78jFzS/zqp5JM=;
-        b=tCON7HBMP5tc7SIp4dVIr4J9Fga5sPA9/4oe2XeNEuBArfhjsLRScmPrUvCClUas32
-         ZUdSO9fMsaXGRXIJq8Wlbci28bWi13WldpUhrZMYmUaNXWYEsq3inO6YZ4PYDclzyKxd
-         1wkwtbKQI2y/wuMSZm0DiMRA7j1mloMQgFHyeAeQJ0Gm52Dkxg0a/uYg2PCjAwZ0kWwV
-         5rl9ERN2obU9rx6JnoU97+Yx9oS4L+QsmBXwFQH3erL7d9m+Totp+7cXyi/HZ+EupNnF
-         lbdJKCt+3g0JxOQk5k0nfhhn/oRWm7raVHkAGtpp2vBGpktAdcHQDxFaChTEld327Jyt
-         uueg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745655016; x=1746259816;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5AOQ3YRUY7vkqhTlxjQxyYug106qzI78jFzS/zqp5JM=;
-        b=OZHhH37e7OHIYX84Y9yahQuidVBuSy9pgz7O9WUpZ/4r8lxNEHX1Me1Gc1uLrobXMZ
-         THe0MNYRvmzY0KVsXcCnT3iLEnzEi9hGdYfQCLcgxweyP9gEZ9wu2Xbp/Nay/qHLUlK9
-         awc61W9k7AkHNX1eypLyu6jvAhWzjtIVhrIRAslU9bmJTotEp9crE23XE5ZjGEJQbspb
-         G3E0z+VeefuDLJ8eoy79AyLMVLsMvM7HlT2e3dQBNrZTPj+pr+mwmEf0snyju+f7y0RD
-         eiOaCobbGTdb5OMSXpiwMSQojohuBjowzJ/xS3H4Yg0V75OXF12bx+Ta6/sCnSFSfc2i
-         elKg==
-X-Gm-Message-State: AOJu0YxXg8BPb4jCTm9PhrJa7HfLN6ncCLk7/bzkFY3h4muqClqxa+Lx
-	dKx6uxItE5v+3fpFC3GbqC7devfR/5WCYRNdAMnSrlPJk5aQnSzUUC4O/is+ovPz31PcVZ9tG0N
-	+xm8=
-X-Gm-Gg: ASbGncvgHqXylGWb20Y3kqvtDZ/HDq3U2IJmV6oPkkpF+OV8DMm2gmRzODwzv/AYtib
-	9aTRqASOQkqIfVkokd7CUqHZiQrZeOtPuZsiTN7ye5SWbMeXcXMtbAdu6IrjTdNyB4B2cD7W/O+
-	ZOxZ//ixZBj8HpjVXlqo0IZ6DTxmt90icsFkrUFpvjoTXFqq3bQ34EZRk+okYVapQiN+IB0VBYZ
-	qjR1NdkaNHhvPrlxRnKenmt26Mde+2U2vFbBDrPtJWiXZjieeWND7dY8lJsm35eesaUZh44+qfy
-	mgJgTq3ztHWGpfF/dmrrr3sueA631QaDa6TEpoqHw1pVSg==
-X-Google-Smtp-Source: AGHT+IFKPt5U2AXRfqpb4dvQleqsA4Io95y/3AlV2YfjiRdAEv2fUHXxsmr5zzEEERFrZXoUo1Cp8A==
-X-Received: by 2002:a5d:588a:0:b0:39c:3122:ad55 with SMTP id ffacd0b85a97d-3a07aa666f0mr1295122f8f.18.1745655015720;
-        Sat, 26 Apr 2025 01:10:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e46a49sm4675034f8f.61.2025.04.26.01.10.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 01:10:15 -0700 (PDT)
-Date: Sat, 26 Apr 2025 11:10:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [brauner-vfs:vfs.fixes 5/7] drivers/base/devtmpfs.c:358
- handle_remove() error: uninitialized symbol 'err'.
-Message-ID: <202504261201.An2vRIlC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBKP1c1y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745695593; x=1777231593;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4kLdb9L2K37Wfc2AFfS+bh7vtbLI1T8+8YcD0q+YSXc=;
+  b=aBKP1c1y6l2pn50zS00BaRL0dtbIiNijxxSvWjcn1MW71qRzo5IdqXhM
+   juoKuScb/+74LjTAijE3VGCAPnD1UzRfqLSD6W2zf3lODgxW5C+hQBhdR
+   tAgns0Seo3PqA/CCNNuGbphxk0jJnHW/0+X7XZhcppfZhe5IxrRZI3EUa
+   5L3oVCtu+pE42hf4BbC6vtyRwSf6y57JelpoQJWGThjCcMAmWBG1sVbmS
+   f7yWfFSwBcyOB48Yj+Qx2ef53m3twsr6p1jW/t8M1pLfh887keP1eJAvr
+   X9XQ5Zh5SJXCzmdAsIC4F5JYRV6JAw7Zia5pN2vwP6gLejNZEbE9hEHd2
+   Q==;
+X-CSE-ConnectionGUID: +5xcWpKVT3u5/yNfGrIqdw==
+X-CSE-MsgGUID: VJviXtd+S4eMX9PECTAYYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="47212129"
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="47212129"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 12:26:32 -0700
+X-CSE-ConnectionGUID: DPyLTap0Rxq7EUiRYpB0KQ==
+X-CSE-MsgGUID: qAVW+HGIRzCssftgpTxAww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="138147974"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 26 Apr 2025 12:26:31 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8lAS-0005xl-0m;
+	Sat, 26 Apr 2025 19:26:28 +0000
+Date: Sun, 27 Apr 2025 03:25:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v5 03/11] fuse: refactor fuse_fill_write_pages()
+Message-ID: <202504270319.GmkEM1Xg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,70 +60,137 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250426081011.AtTYwXXoNZQN1Hl4s79wh8GEvBQP8g1GPt1Uwd0hBsU@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.fixes
-head:   9664179186fb2ae576315b0e22b0e21f5de1a0e2
-commit: 5a876a5097fed90a4742438fbc22357d67d9ea60 [5/7] devtmpfs: don't use vfs_getattr_nosec to query i_mode
-config: i386-randconfig-141-20250426 (https://download.01.org/0day-ci/archive/20250426/202504261201.An2vRIlC-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250426000828.3216220-4-joannelkoong@gmail.com>
+References: <20250426000828.3216220-4-joannelkoong@gmail.com>
+TO: Joanne Koong <joannelkoong@gmail.com>
+TO: miklos@szeredi.hu
+CC: linux-fsdevel@vger.kernel.org
+CC: jlayton@kernel.org
+CC: jefflexu@linux.alibaba.com
+CC: josef@toxicpanda.com
+CC: bernd.schubert@fastmail.fm
+CC: willy@infradead.org
+CC: kernel-team@meta.com
+
+Hi Joanne,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mszeredi-fuse/for-next]
+[also build test WARNING on next-20250424]
+[cannot apply to linus/master v6.15-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/fuse-support-copying-large-folios/20250426-081219
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20250426000828.3216220-4-joannelkoong%40gmail.com
+patch subject: [PATCH v5 03/11] fuse: refactor fuse_fill_write_pages()
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-141-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270319.GmkEM1Xg-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202504261201.An2vRIlC-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202504270319.GmkEM1Xg-lkp@intel.com/
 
 smatch warnings:
-drivers/base/devtmpfs.c:358 handle_remove() error: uninitialized symbol 'err'.
+fs/fuse/file.c:1207 fuse_fill_write_pages() error: uninitialized symbol 'err'.
 
-vim +/err +358 drivers/base/devtmpfs.c
+vim +/err +1207 fs/fuse/file.c
 
-2780f1ff6aec0c Al Viro           2011-06-27  320  static int handle_remove(const char *nodename, struct device *dev)
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  321  {
-79714f72d3b964 Al Viro           2012-06-15  322  	struct path parent;
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  323  	struct dentry *dentry;
-5a876a5097fed9 Christoph Hellwig 2025-04-23  324  	struct inode *inode;
-fbde7c6119f99a Axel Lin          2013-11-16  325  	int deleted = 0;
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  326  	int err;
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  327  
-79714f72d3b964 Al Viro           2012-06-15  328  	dentry = kern_path_locked(nodename, &parent);
-79714f72d3b964 Al Viro           2012-06-15  329  	if (IS_ERR(dentry))
-79714f72d3b964 Al Viro           2012-06-15  330  		return PTR_ERR(dentry);
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  331  
-5a876a5097fed9 Christoph Hellwig 2025-04-23  332  	inode = d_inode(dentry);
-5a876a5097fed9 Christoph Hellwig 2025-04-23  333  	if (dev_mynode(dev, inode)) {
-5e31d76f2817bd Kay Sievers       2010-01-13  334  		struct iattr newattrs;
-5e31d76f2817bd Kay Sievers       2010-01-13  335  		/*
-5e31d76f2817bd Kay Sievers       2010-01-13  336  		 * before unlinking this node, reset permissions
-5e31d76f2817bd Kay Sievers       2010-01-13  337  		 * of possible references like hardlinks
-5e31d76f2817bd Kay Sievers       2010-01-13  338  		 */
-91fa2ccaa87368 Eric W. Biederman 2012-04-25  339  		newattrs.ia_uid = GLOBAL_ROOT_UID;
-91fa2ccaa87368 Eric W. Biederman 2012-04-25  340  		newattrs.ia_gid = GLOBAL_ROOT_GID;
-5a876a5097fed9 Christoph Hellwig 2025-04-23  341  		newattrs.ia_mode = inode->i_mode & ~0777;
-5e31d76f2817bd Kay Sievers       2010-01-13  342  		newattrs.ia_valid =
-5e31d76f2817bd Kay Sievers       2010-01-13  343  			ATTR_UID|ATTR_GID|ATTR_MODE;
-5955102c9984fa Al Viro           2016-01-22  344  		inode_lock(d_inode(dentry));
-abf08576afe315 Christian Brauner 2023-01-13  345  		notify_change(&nop_mnt_idmap, dentry, &newattrs, NULL);
-5955102c9984fa Al Viro           2016-01-22  346  		inode_unlock(d_inode(dentry));
-abf08576afe315 Christian Brauner 2023-01-13  347  		err = vfs_unlink(&nop_mnt_idmap, d_inode(parent.dentry),
-6521f891708292 Christian Brauner 2021-01-21  348  				 dentry, NULL);
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  349  		if (!err || err == -ENOENT)
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  350  			deleted = 1;
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  351  	}
-
-err is uninitialized on else path.
-
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  352  	dput(dentry);
-5955102c9984fa Al Viro           2016-01-22  353  	inode_unlock(d_inode(parent.dentry));
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  354  
-79714f72d3b964 Al Viro           2012-06-15  355  	path_put(&parent);
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  356  	if (deleted && strchr(nodename, '/'))
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  357  		delete_path(nodename);
-2b2af54a5bb6f7 Kay Sievers       2009-04-30 @358  	return err;
-2b2af54a5bb6f7 Kay Sievers       2009-04-30  359  }
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1126  
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1127  static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1128  				     struct address_space *mapping,
+338f2e3f3341a9 Miklos Szeredi     2019-09-10  1129  				     struct iov_iter *ii, loff_t pos,
+338f2e3f3341a9 Miklos Szeredi     2019-09-10  1130  				     unsigned int max_pages)
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1131  {
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1132  	struct fuse_args_pages *ap = &ia->ap;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1133  	struct fuse_conn *fc = get_fuse_conn(mapping->host);
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1134  	unsigned offset = pos & (PAGE_SIZE - 1);
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1135  	size_t count = 0;
+dfda790dfda452 Joanne Koong       2025-04-25  1136  	unsigned int num;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1137  	int err;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1138  
+dfda790dfda452 Joanne Koong       2025-04-25  1139  	num = min(iov_iter_count(ii), fc->max_write);
+dfda790dfda452 Joanne Koong       2025-04-25  1140  	num = min(num, max_pages << PAGE_SHIFT);
+dfda790dfda452 Joanne Koong       2025-04-25  1141  
+338f2e3f3341a9 Miklos Szeredi     2019-09-10  1142  	ap->args.in_pages = true;
+68bfb7eb7f7de3 Joanne Koong       2024-10-24  1143  	ap->descs[0].offset = offset;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1144  
+dfda790dfda452 Joanne Koong       2025-04-25  1145  	while (num) {
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1146  		size_t tmp;
+9bafbe7ae01321 Josef Bacik        2024-09-30  1147  		struct folio *folio;
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1148  		pgoff_t index = pos >> PAGE_SHIFT;
+dfda790dfda452 Joanne Koong       2025-04-25  1149  		unsigned bytes = min(PAGE_SIZE - offset, num);
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1150  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1151   again:
+9bafbe7ae01321 Josef Bacik        2024-09-30  1152  		folio = __filemap_get_folio(mapping, index, FGP_WRITEBEGIN,
+9bafbe7ae01321 Josef Bacik        2024-09-30  1153  					    mapping_gfp_mask(mapping));
+9bafbe7ae01321 Josef Bacik        2024-09-30  1154  		if (IS_ERR(folio)) {
+9bafbe7ae01321 Josef Bacik        2024-09-30  1155  			err = PTR_ERR(folio);
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1156  			break;
+9bafbe7ae01321 Josef Bacik        2024-09-30  1157  		}
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1158  
+931e80e4b3263d anfei zhou         2010-02-02  1159  		if (mapping_writably_mapped(mapping))
+9bafbe7ae01321 Josef Bacik        2024-09-30  1160  			flush_dcache_folio(folio);
+931e80e4b3263d anfei zhou         2010-02-02  1161  
+9bafbe7ae01321 Josef Bacik        2024-09-30  1162  		tmp = copy_folio_from_iter_atomic(folio, offset, bytes, ii);
+9bafbe7ae01321 Josef Bacik        2024-09-30  1163  		flush_dcache_folio(folio);
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1164  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1165  		if (!tmp) {
+9bafbe7ae01321 Josef Bacik        2024-09-30  1166  			folio_unlock(folio);
+9bafbe7ae01321 Josef Bacik        2024-09-30  1167  			folio_put(folio);
+faa794dd2e17e7 Dave Hansen        2025-01-29  1168  
+faa794dd2e17e7 Dave Hansen        2025-01-29  1169  			/*
+faa794dd2e17e7 Dave Hansen        2025-01-29  1170  			 * Ensure forward progress by faulting in
+faa794dd2e17e7 Dave Hansen        2025-01-29  1171  			 * while not holding the folio lock:
+faa794dd2e17e7 Dave Hansen        2025-01-29  1172  			 */
+faa794dd2e17e7 Dave Hansen        2025-01-29  1173  			if (fault_in_iov_iter_readable(ii, bytes)) {
+faa794dd2e17e7 Dave Hansen        2025-01-29  1174  				err = -EFAULT;
+faa794dd2e17e7 Dave Hansen        2025-01-29  1175  				break;
+faa794dd2e17e7 Dave Hansen        2025-01-29  1176  			}
+faa794dd2e17e7 Dave Hansen        2025-01-29  1177  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1178  			goto again;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1179  		}
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1180  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1181  		err = 0;
+f2ef459bab7326 Joanne Koong       2024-10-24  1182  		ap->folios[ap->num_folios] = folio;
+68bfb7eb7f7de3 Joanne Koong       2024-10-24  1183  		ap->descs[ap->num_folios].length = tmp;
+f2ef459bab7326 Joanne Koong       2024-10-24  1184  		ap->num_folios++;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1185  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1186  		count += tmp;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1187  		pos += tmp;
+dfda790dfda452 Joanne Koong       2025-04-25  1188  		num -= tmp;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1189  		offset += tmp;
+09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1190  		if (offset == PAGE_SIZE)
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1191  			offset = 0;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1192  
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1193  		/* If we copied full page, mark it uptodate */
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1194  		if (tmp == PAGE_SIZE)
+9bafbe7ae01321 Josef Bacik        2024-09-30  1195  			folio_mark_uptodate(folio);
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1196  
+9bafbe7ae01321 Josef Bacik        2024-09-30  1197  		if (folio_test_uptodate(folio)) {
+9bafbe7ae01321 Josef Bacik        2024-09-30  1198  			folio_unlock(folio);
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1199  		} else {
+f2ef459bab7326 Joanne Koong       2024-10-24  1200  			ia->write.folio_locked = true;
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1201  			break;
+4f06dd92b5d0a6 Vivek Goyal        2020-10-21  1202  		}
+dfda790dfda452 Joanne Koong       2025-04-25  1203  		if (!fc->big_writes || offset != 0)
+78bb6cb9a890d3 Miklos Szeredi     2008-05-12  1204  			break;
+dfda790dfda452 Joanne Koong       2025-04-25  1205  	}
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1206  
+ea9b9907b82a09 Nicholas Piggin    2008-04-30 @1207  	return count > 0 ? count : err;
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1208  }
+ea9b9907b82a09 Nicholas Piggin    2008-04-30  1209  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
