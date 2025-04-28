@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A611ABEC5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3811953A1
 	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 01:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745889582; cv=none; b=aoGtPoXlBV8e2JwZdeiwEThReW8HFPtW9gbSrpwlAB/uRmQVaY9E5jsTE05CXfIBAqNgRhZ8YtPgBjQ/ueX6AiRbP1kVFAP7c+m63hAExEpCEbaca9V5A4vHgUeReKSjWenqrZdPSz9FuB1R40xZHuk/ID0p/66AZVbTXM6Dn70=
+	t=1745889582; cv=none; b=vEN4q/y/KvjMEq04moyVV6t9eTpsTJV1JW8hQKcvB/0cYz7A0kuBB9N/xuBAw/xO4xz09EQ9uRKlFeGQBMUTZpIb2Nd7M67JXTTuhpjA6hK8G9ajVdOOM2xB1YndrFdYJjWv1FgD44/TJCmT3AqTMWhT9FV2UFAoA+25rukgFNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745889582; c=relaxed/simple;
-	bh=2ieQzdA/1u145y2cF0dzmS1B8vHp3zkBqz4t7ue5wj8=;
+	bh=Fd52qdDZNT6l0JhPCEFfRH/jPgdnnrMybquj3biiUig=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n3xyVIuNB7pZDjWXuO/rvagGF+0qjlXlM4+PAUvkvsUsTaYefbF/l1i6fqAVVVXmD1xGOle1zFNpj3SDc7FSB0pSD80TDccm2TCLKpWvTUFRrfah9O/2cdQ7qhjI3fP2Yby9wuDg3SYCItvAyAwrdAWXI4Tfdf/JdrBRbIr0J4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IG2+f3dH; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=eQ6I6x60mK3bxuQM12n+q0DILNC6TXlzlwHljDt7Mo1Z5m7r98Pfcn4E6bKza0ZSeeloVC1s96fYUrVQi5H5XgGT4HjOP40t9IgSVZa/97413OV53F8jwOrcaMVfL/8jCJyaeQCMvPrT0QLwyi2ruUW1vJjdN0xlaupSUgpvR6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZP29Ahy9; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IG2+f3dH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZP29Ahy9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1745889580; x=1777425580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2ieQzdA/1u145y2cF0dzmS1B8vHp3zkBqz4t7ue5wj8=;
-  b=IG2+f3dHTZBeihVV92ntJNSnw11ywvhtPfyvO+yx5LP8T2/k/CvnuY0f
-   IJyJzOWj887VstNmWkImSzw9SQ8fI8RE3UH0U4S6aUi7XeiuYa5r6K1iF
-   5COq3gYGwBpoJOn8exMTizbifKrXhAAl0APPCGlPl+A85vcFcG5OMkndG
-   hjZT/zAb12s+AtwEhsCNFMBuaVqrs1iKIypAGBOxBSkWOKhHviwVT+/ld
-   Yo9nkXnNSp2YHOmt8MEH4yM8MJtCZJfwNU63sEP0f9bdMsZ2yK9eNZ7C7
-   6HNlSTL/GMCr9xBhigxngYGBZzVVsVPjSi+pugq0IHYP8TM7Em6P6oH/O
-   Q==;
-X-CSE-ConnectionGUID: tYncB9QkSPmJfWQ0/OG4hg==
-X-CSE-MsgGUID: C08aYiV4QmuqYBhYDvmr4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51313347"
+  bh=Fd52qdDZNT6l0JhPCEFfRH/jPgdnnrMybquj3biiUig=;
+  b=ZP29Ahy973B2BWiLiPyNh6YDUGJkU21uQIXgayIZihfuFFQniPelsg7u
+   IE9gV8HjMyvA2pIR23jV2c0zHLXS4ZAQVJutBRvBTkOwnmCo1lYVXR52f
+   QiSDfv+fgOsDlq9liiy7Fg3X5HyFfUhA3rKTz6f9RgCZGbkiGihwZh4Uv
+   O5HPPPf11jcJ6OOcoR3qvc0+ac7iQLCOmzmoiglLkeJckgqO9GfGRwNdN
+   TORoiZ/HXakvZXmayjpicAPuYs7WjSrLLGLJiSyzP5p2rqF++iJgv+e0f
+   XAQftLvElUwPrxLlmBWb7xEltsjBEo/C3hb1hF/OFkWiPAHozt+8Xo/wm
+   w==;
+X-CSE-ConnectionGUID: 2LqEQJumQ9OLGMqwiHW6/g==
+X-CSE-MsgGUID: mMvNn8tjRUSBX94hPLmG7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="51313345"
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="51313347"
+   d="scan'208";a="51313345"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 18:19:39 -0700
-X-CSE-ConnectionGUID: eOcRVKdGT/qJEQIIV1tehQ==
-X-CSE-MsgGUID: Ye2CmyzXRvKZMFo6iA3MdQ==
+X-CSE-ConnectionGUID: okYfOX7vT7StrVLpnpVBtw==
+X-CSE-MsgGUID: J/y63NjQSRuvJcIxF6a89A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="164637888"
+   d="scan'208";a="164637885"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 28 Apr 2025 18:19:39 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9ZdI-0000Ln-0F;
+	id 1u9ZdI-0000Lt-0N;
 	Tue, 29 Apr 2025 01:19:36 +0000
-Date: Tue, 29 Apr 2025 02:13:34 +0800
+Date: Tue, 29 Apr 2025 02:13:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000
- (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-Message-ID: <202504290259.1kSRQIjn-lkp@intel.com>
+Subject: arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb:
+ i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match
+ '^i2c(@.+|-[a-z0-9]+)?$'
+Message-ID: <202504290246.GOpYV0HH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,70 +70,32 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Binbin Zhou <zhoubinbin@loongson.cn>
-CC: Huacai Chen <chenhuacai@kernel.org>
+TO: Samuel Holland <samuel@sholland.org>
+CC: "Chen-Yu Tsai" <wens@csie.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   b4432656b36e5cc1d50a1f2dc15357543add530e
-commit: 900f6267e9e39f9f601f5eaf0ea32d620b9130d2 LoongArch: dts: Add I2S support to Loongson-2K2000
-date:   5 months ago
+commit: 0ce1d34678e5d214746ee4887f9f7714c39e331f riscv: dts: allwinner: Add ClockworkPi and DevTerm devicetrees
+date:   10 months ago
 :::::: branch date: 20 hours ago
-:::::: commit date: 5 months ago
-config: loongarch-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250429/202504290259.1kSRQIjn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
+:::::: commit date: 10 months ago
+config: riscv-randconfig-052-20250428 (https://download.01.org/0day-ci/archive/20250429/202504290246.GOpYV0HH-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290259.1kSRQIjn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504290246.GOpYV0HH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504290259.1kSRQIjn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504290246.GOpYV0HH-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0: [78, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts: [[78, 4], [79, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bus-range', 'device_type', 'display@6,1', 'ethernet@3,0', 'ethernet@3,1', 'ethernet@3,2', 'i2s@7,0', 'msi-parent', 'pcie@10,0', 'pcie@9,0', 'pcie@a,0', 'pcie@b,0', 'pcie@c,0', 'pcie@d,0', 'pcie@e,0', 'pcie@f,0', 'sata@8,0', 'usb@19,0', 'usb@4,0' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/loongson.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): ethernet@3,0:interrupts:0:0: 12 is not one of [1, 2, 3, 4]
---
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@4,0:interrupts:0: [48, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0:0: 22 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): usb@19,0:interrupts:0: [22, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0:0: 28 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): display@6,1:interrupts:0: [28, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0:0: 78 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
->> arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts:0: [78, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): i2s@7,0:interrupts: [[78, 4], [79, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/loongarch/boot/dts/loongson-2k2000-ref.dtb: pcie@1a000000 (loongson,ls2k-pci): sata@8,0:interrupts:0: [16, 4] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb: syscon@3000000 (allwinner,sun20i-d1-system-control): 'regulators@3000150' does not match any of the regexes: '^sram@[a-f0-9]+', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sram/allwinner,sun4i-a10-system-control.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb: i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb: i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'adc@54' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
