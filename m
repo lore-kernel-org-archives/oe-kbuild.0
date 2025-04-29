@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0916A20D4E2
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 05:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3432920409A
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 05:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745904318; cv=none; b=Ocut2ezxWXJYE6asMRY3NEgD/9xy9myVx85nEj958GdJyAUAcMqSmx8akEJqTQoq6NJjZwT40G/EeGStYnxxpukpi+y1pUbjl4Ap8Lv6JCaaYYBp2WP/WC/Vh5rMBmurtiFHJlH17dF7eqWURhkkr4riY0lQkluFxghQDdp9N1k=
+	t=1745906300; cv=none; b=IG1dr0YWqH5K0G63Rh6kqzSqRA5/AxOx9rHif2FL4xHOCjDqTrlYJos/IjDNpdYTip/mdjENHqefRdIbelIQv9YoTMbJ02OpZrECuHcONSyGXG5+3jeh+pnJt0qqMWxGB2hU6GblKaaNwstN5YcXProj+JI4ZN0QDZ8kwMxHJzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745904318; c=relaxed/simple;
-	bh=7QmsYK+6Dqf0vuzqCqk2oxrkkdeMvtOeTY6ncV1goWA=;
+	s=arc-20240116; t=1745906300; c=relaxed/simple;
+	bh=k5AGAJzAhYRRJVvEjK6+yAoVBNG0R2oe9Xlm4YdwpQY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EuhfdVuLCYdUcd+JSeyW9pAnwzVHKwN8SB3kVSukFO/FPrx/6i195yoloiK7BaacYXAhlq2iASDTzyFhj9xfthTrFc6Zry6SNpgicRgy3uy7M4ZOX+x9reHpJMoJjhWqahQkjJm0pYQMSjgbFI+6wMpT7dT8N3Bhl0Pp0E77a80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3EzpE2E; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=ajDmm7QLmJHefUuG1/7zdz0N+MxJKEzufIreh1zvGIWIcfAKE+gQyVyobWe+9URkV2j2wcwiyBR71vWDJASSpKOcv/G2NxW/teEtZO1tYSidIi1g6/3Pw1w/yAG0hX2eK3BK1sEYwZHvqjYltnvsCHnUtexZhxHkqgiOJBCApxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLvhxmxK; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3EzpE2E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLvhxmxK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745904316; x=1777440316;
+  t=1745906298; x=1777442298;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7QmsYK+6Dqf0vuzqCqk2oxrkkdeMvtOeTY6ncV1goWA=;
-  b=N3EzpE2EsQT4KKsr5dIrFqo+aiAWgi4/aGInLhFMO7m+E8HuUOJctr5u
-   AY0UXxHJOidKH50qur8OYecQgX2KdqYm4zW8QP8nFS4ormwF5eTKw0OQG
-   atZT/v2f+caJq7fgovXJ4azt0STPNUGKxZvSe5XHg6aVv13JIzjHATefo
-   gakmR6o6LXvLa7dV+4V5+dDxQi2bC0izB3t8Y4frGEbsOS32FZdzH8yCH
-   1WZaebkRg3j0Ltg/YCaDMa/z0N9VGZXqYqgwLXXrek0ix8HBZCDHWAF4H
-   +pN3DbRVCfkp2LShSAt1T8xS4IEu4IOoIBk1xKWIiq+73dHIug0dUzXrQ
-   g==;
-X-CSE-ConnectionGUID: sN9TaBbCSHeo9y2PlrvfRw==
-X-CSE-MsgGUID: wsSJYj+xRFCC+bCdop1a9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="65047596"
+  bh=k5AGAJzAhYRRJVvEjK6+yAoVBNG0R2oe9Xlm4YdwpQY=;
+  b=VLvhxmxKqHEaZpm3LTZJy3Saz9WSQE8AHFcktqAusuX8IAn3gyOZR16/
+   SNh099n8Qpv8sAH9OKdwwuIy8K6zCtr5L8C8mKteeyVtBedIjxWul8Rk1
+   rhSybY7OOOOi5tSVp4074aIqlRf+eR2qGxhxyp1UGt9ZI7U5FANSfufkA
+   YxQQmY4UnvHWmXNMbWKIti/DBEw9IRpOYOsoXMetAGToz11Ksk4GZyz7x
+   Pe1/+QWGPXa6x29PznFxp3EjzJ4u3s6s27CJONc7EEGzrHjowHWsStlIb
+   wRC+9YbRlA43SAOdh+HwUhqOiz7BCjvQ2dObERlVMvPWty2pVl5cvJgsQ
+   w==;
+X-CSE-ConnectionGUID: bNRj4OrHT8S5TRzjE3NQYA==
+X-CSE-MsgGUID: jFqqj3DUR6miucJKISCg+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="47655628"
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="65047596"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 22:25:15 -0700
-X-CSE-ConnectionGUID: r2owAtmpR2KJpbMhlUWDHw==
-X-CSE-MsgGUID: Kyn2g8+pSfqluROfF7whPg==
+   d="scan'208";a="47655628"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 22:58:17 -0700
+X-CSE-ConnectionGUID: VNyC9tMeTiWtQWNQlU6NSQ==
+X-CSE-MsgGUID: hcP36xEZT72/kieDj0Dz5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="138519727"
+   d="scan'208";a="156958120"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Apr 2025 22:25:14 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Apr 2025 22:58:17 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9dSx-0000U3-0M;
-	Tue, 29 Apr 2025 05:25:11 +0000
-Date: Tue, 29 Apr 2025 13:25:05 +0800
+	id 1u9dyw-0000V1-1P;
+	Tue, 29 Apr 2025 05:58:14 +0000
+Date: Tue, 29 Apr 2025 13:57:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-5.15 1/1] mm/kasan/kasan_test.c:214
- kmalloc_pagealloc_uaf() error: dereferencing freed memory 'ptr' (line 212)
-Message-ID: <202504291335.KC1qwSMz-lkp@intel.com>
+Subject: [android-common:android12-5.4 1/1]
+ drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffer
+ overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
+Message-ID: <202504291334.co8G1svG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,48 +67,64 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   72c5444cd5a90b322c55d9df9b536afa21a76a78
-commit: 58398549294199f2629f73cb73165e86f082701e [1/1] UPSTREAM: kasan: move tests to mm/kasan/
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   cd8e74fa0fa3de9f66c12c5c2c2868442d2f6728
+commit: e3919bfeb0066ab9b5f9765e5610b95672990e64 [1/1] ANDROID: dma-buf: system_heap: Add deferred freeing to the system heap
 :::::: branch date: 3 days ago
-:::::: commit date: 2 years, 4 months ago
-config: x86_64-randconfig-161-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291335.KC1qwSMz-lkp@intel.com/config)
+:::::: commit date: 4 years, 3 months ago
+config: x86_64-randconfig-161-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291334.co8G1svG-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504291335.KC1qwSMz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504291334.co8G1svG-lkp@intel.com/
 
 smatch warnings:
-mm/kasan/kasan_test.c:214 kmalloc_pagealloc_uaf() error: dereferencing freed memory 'ptr' (line 212)
-mm/kasan/kasan_test.c:564 kmalloc_uaf() error: dereferencing freed memory 'ptr' (line 563)
-mm/kasan/kasan_test.c:609 kmalloc_uaf2() error: dereferencing freed memory 'ptr1' (line 595)
+drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
 
-vim +/ptr +214 mm/kasan/kasan_test.c
+vim +351 drivers/dma-buf/heaps/system_heap.c
 
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  202  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  203  static void kmalloc_pagealloc_uaf(struct kunit *test)
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  204  {
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  205  	char *ptr;
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  206  	size_t size = KMALLOC_MAX_CACHE_SIZE + 10;
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  207  
-da17e377723f50 lib/test_kasan.c Andrey Konovalov 2021-02-24  208  	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_SLUB);
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  209  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  210  	ptr = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  211  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06 @212  	kfree(ptr);
-858bdeb046f6dc lib/test_kasan.c Andrey Konovalov 2021-02-24  213  
-8fbad19bdcb4b9 lib/test_kasan.c Andrey Konovalov 2021-09-02 @214  	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  215  }
-47adccce3e8a31 lib/test_kasan.c Dmitry Vyukov    2018-02-06  216  
+44008f99d9ca07 John Stultz 2019-06-06  325  
+e3919bfeb0066a John Stultz 2020-12-09  326  static void system_heap_buf_free(struct deferred_freelist_item *item,
+e3919bfeb0066a John Stultz 2020-12-09  327  				 enum df_reason reason)
+fc004422dadc12 John Stultz 2020-09-25  328  {
+e3919bfeb0066a John Stultz 2020-12-09  329  	struct system_heap_buffer *buffer;
+fc004422dadc12 John Stultz 2020-09-25  330  	struct sg_table *table;
+fc004422dadc12 John Stultz 2020-09-25  331  	struct scatterlist *sg;
+44008f99d9ca07 John Stultz 2019-06-06  332  	int i, j;
+44008f99d9ca07 John Stultz 2019-06-06  333  
+e3919bfeb0066a John Stultz 2020-12-09  334  	buffer = container_of(item, struct system_heap_buffer, deferred_free);
+44008f99d9ca07 John Stultz 2019-06-06  335  	/* Zero the buffer pages before adding back to the pool */
+e3919bfeb0066a John Stultz 2020-12-09  336  	if (reason == DF_NORMAL)
+e3919bfeb0066a John Stultz 2020-12-09  337  		if (system_heap_zero_buffer(buffer))
+e3919bfeb0066a John Stultz 2020-12-09  338  			reason = DF_UNDER_PRESSURE; // On failure, just free
+fc004422dadc12 John Stultz 2020-09-25  339  
+fc004422dadc12 John Stultz 2020-09-25  340  	table = &buffer->sg_table;
+703f43c5810e08 John Stultz 2020-09-26  341  	for_each_sg(table->sgl, sg, table->nents, i) {
+703f43c5810e08 John Stultz 2020-09-26  342  		struct page *page = sg_page(sg);
+703f43c5810e08 John Stultz 2020-09-26  343  
+e3919bfeb0066a John Stultz 2020-12-09  344  		if (reason == DF_UNDER_PRESSURE) {
+e3919bfeb0066a John Stultz 2020-12-09  345  			__free_pages(page, compound_order(page));
+e3919bfeb0066a John Stultz 2020-12-09  346  		} else {
+44008f99d9ca07 John Stultz 2019-06-06  347  			for (j = 0; j < NUM_ORDERS; j++) {
+44008f99d9ca07 John Stultz 2019-06-06  348  				if (compound_order(page) == orders[j])
+44008f99d9ca07 John Stultz 2019-06-06  349  					break;
+44008f99d9ca07 John Stultz 2019-06-06  350  			}
+44008f99d9ca07 John Stultz 2019-06-06 @351  			dmabuf_page_pool_free(pools[j], page);
+703f43c5810e08 John Stultz 2020-09-26  352  		}
+e3919bfeb0066a John Stultz 2020-12-09  353  	}
+fc004422dadc12 John Stultz 2020-09-25  354  	sg_free_table(table);
+c02e6ccc5a4aab John Stultz 2019-12-03  355  	kfree(buffer);
+c02e6ccc5a4aab John Stultz 2019-12-03  356  }
+c02e6ccc5a4aab John Stultz 2019-12-03  357  
 
-:::::: The code at line 214 was first introduced by commit
-:::::: 8fbad19bdcb4b9be8131536e5bb9616ab2e4eeb3 kasan: test: avoid writing invalid memory
+:::::: The code at line 351 was first introduced by commit
+:::::: 44008f99d9ca0793e2562967e1da01fa74ee4a41 ANDROID: dma-buf: system_heap: Add pagepool support to system heap
 
-:::::: TO: Andrey Konovalov <andreyknvl@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
