@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412AB2AEE1
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 03:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202D5132103
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 03:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745896082; cv=none; b=PmWC9/C/N5uS1qagywlTPq1gCyi2icjzO8Zd7u2bD/jgfgN+u1dLhlFBxxvDLJv43pD2CY+pyShxW2vL3BOA5T0dCVf4OtNsJ0a4ZKHUxT3IxhPm88ZYNb3KAvMO2AIaJnpcxNYz8PjJUNZOtDZW2gnv9jh/JyagKZGgIhxYx8A=
+	t=1745896743; cv=none; b=rA+T0hW+VfjlrQ/UwO/XummZloU+8t8uHfIsbtcuK9mnaVJupcBWPfBXwiwrFm/C++mNkrV7RLsXiXrt2D90PGoww/FtVd72zEdx6vie2DyRHOPBVHTR56EB/awUpM/esElzc4oXskk8QYlQ1EJVqFwYpRH/GAwWs5pcCo1WsYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745896082; c=relaxed/simple;
-	bh=5du8+b7WtmZFjoCbf0VfRFAbSkXKGR49Rz5cnc7jyrg=;
+	s=arc-20240116; t=1745896743; c=relaxed/simple;
+	bh=L36/ivuYBxmnykB0vS+h1/3K9uOBRUgrcOypalTkiII=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SpPkgzV2izICCZoJJQG6NRtM5OeaEqdJQbOL3uTUF0Wn5G0SacVSLp3c8viH6Rhvf8PT6+wjDAONbysdqKrqmWkQyXxIV59qgJ/7Mgy1dZw2A8NeIZefjNO+Cotn7bStjCcwcn8nr6rh/BnRHpDZYn2ptIFWirmdh/XMW29tRQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pk+feEIh; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=stfe0xFzdAsKmKJ4g8W2mSNvZtMcc/6/3/u5b0+E5QXALxaBv4JauQo55BbpQlLvat1rrhjav5jWMKont+88CSIjhT/IJdPeKNN/iguKt6MMT76ZsgCxaSH/p9N7JerULAaXEGgiPRCMgrmOFGJwZVPQishIxZD4f0SaUQ208Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=McU4QrIF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pk+feEIh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="McU4QrIF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745896080; x=1777432080;
+  t=1745896741; x=1777432741;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5du8+b7WtmZFjoCbf0VfRFAbSkXKGR49Rz5cnc7jyrg=;
-  b=Pk+feEIhBRIC2EfizUUtvIQ/2ax46tvEPHTvoB0wGZgvxQ7HJCzLFbD3
-   yqj6FrIlSRrH62VcJMMmCPKGmjAVSsPC8h0WOgHEdGTJ+gq/690gmyfwb
-   Mla0X/48aP00cZ5pxQTXo30AorPy5V7zD9EWReK7DZRorCCdDZ1qD9Co1
-   XoNz9KMFA1cuRlpcos4HE+lSRLTbpjw9ysSiZdDmg5Og0YybDTW/o2x4A
-   fgun2+DVEgjjZdKBGXelEuSbOvXNWsqfaVbH/xvm2Ijihxu6VyfSB29wZ
-   Gv+f+UKCYTc44e4LnlRtsOMswySgj3zhi72mjlVOcPsnwaFQB3Et1kiRc
-   g==;
-X-CSE-ConnectionGUID: GX61q2/xTfWMQB9iULp6Dw==
-X-CSE-MsgGUID: GZH4Pg1TQ8aCxYTIDeMdrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="47212483"
+  bh=L36/ivuYBxmnykB0vS+h1/3K9uOBRUgrcOypalTkiII=;
+  b=McU4QrIFXTY7BixptVx0AQ7yNHmvQda8VcsmNZxbX3wvzlT2GQZwvHru
+   vJ81lFiXmq8475W/V7ncQyr6R4okyhJ/lt4XKcw5z8SLA06aiEuHvJ4Dt
+   CXMah7k9+6PUnWzQnBCkJgCvQ3rxljg1Y0WQq+rw6S+K7t7nHRhwpWEqQ
+   6kNFhzATBCQ+eYoV8dwZIGJ/ECZCituZhfGQV7+vuVpiIOZ2+3QwcOQzy
+   scXC7X7qqmBpGgAyl0DKhopfGRGPAap7TXKkr58c2jr+aqRkhHB5AuJcm
+   1CEsCe2pfrRnn1NIy1RZe1hHPGDl4DtD/zCDQfZe4FtF/j7Ay4ckW0grr
+   w==;
+X-CSE-ConnectionGUID: cVxWmMmMTgKzbvh2O7r0JA==
+X-CSE-MsgGUID: 0/dxtKy5SBuxmWkOXQN0Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="58157907"
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="47212483"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 20:08:00 -0700
-X-CSE-ConnectionGUID: en2D4tQdQxSvwcfpmdRR2w==
-X-CSE-MsgGUID: OMSUVPdOSTCjMWAnNFX93Q==
+   d="scan'208";a="58157907"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 20:19:00 -0700
+X-CSE-ConnectionGUID: MPCuxFPKQFunV5XaBP+ZuA==
+X-CSE-MsgGUID: WCXp1PcjTlGXwp4w3IurrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="134214994"
+   d="scan'208";a="138509179"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Apr 2025 20:07:58 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Apr 2025 20:18:59 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9bK8-0000Qx-05;
-	Tue, 29 Apr 2025 03:07:56 +0000
-Date: Tue, 29 Apr 2025 11:07:38 +0800
+	id 1u9bUm-0000RL-2p;
+	Tue, 29 Apr 2025 03:18:56 +0000
+Date: Tue, 29 Apr 2025 11:17:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-5.4 1/1] block/blk-core.c:1664
- blk_rq_prep_clone() error: uninitialized symbol 'bio'.
-Message-ID: <202504291009.fidDXFaU-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202504291112.fWe6OzOY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,99 +64,151 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   cd8e74fa0fa3de9f66c12c5c2c2868442d2f6728
-commit: e08dcf9e2d01fdb05d812f6795c436dfe65fc788 [1/1] UPSTREAM: block: make blk_crypto_rq_bio_prep() able to fail
-:::::: branch date: 3 days ago
-:::::: commit date: 4 years, 6 months ago
-config: x86_64-randconfig-161-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291009.fidDXFaU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   7bd21c560a6f5df598200cc367cad1a683cef8ef
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 71 minutes ago
+:::::: commit date: 3 years, 2 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250429/202504291112.fWe6OzOY-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504291009.fidDXFaU-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202504291112.fWe6OzOY-lkp@intel.com/
 
-New smatch warnings:
-block/blk-core.c:1664 blk_rq_prep_clone() error: uninitialized symbol 'bio'.
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-Old smatch warnings:
-block/blk-core.c:540 blk_alloc_queue_node() warn: use 'gfp_mask' here instead of GFP_KERNEL?
+vim +2306 block/blk-throttle.c
 
-vim +/bio +1664 block/blk-core.c
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-78d8e58a086b214 Mike Snitzer    2015-06-26  1609  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1610  /**
-78d8e58a086b214 Mike Snitzer    2015-06-26  1611   * blk_rq_prep_clone - Helper function to setup clone request
-78d8e58a086b214 Mike Snitzer    2015-06-26  1612   * @rq: the request to be setup
-78d8e58a086b214 Mike Snitzer    2015-06-26  1613   * @rq_src: original request to be cloned
-78d8e58a086b214 Mike Snitzer    2015-06-26  1614   * @bs: bio_set that bios for clone are allocated from
-78d8e58a086b214 Mike Snitzer    2015-06-26  1615   * @gfp_mask: memory allocation mask for bio
-78d8e58a086b214 Mike Snitzer    2015-06-26  1616   * @bio_ctr: setup function to be called for each clone bio.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1617   *           Returns %0 for success, non %0 for failure.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1618   * @data: private data to be passed to @bio_ctr
-78d8e58a086b214 Mike Snitzer    2015-06-26  1619   *
-78d8e58a086b214 Mike Snitzer    2015-06-26  1620   * Description:
-78d8e58a086b214 Mike Snitzer    2015-06-26  1621   *     Clones bios in @rq_src to @rq, and copies attributes of @rq_src to @rq.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1622   *     The actual data parts of @rq_src (e.g. ->cmd, ->sense)
-78d8e58a086b214 Mike Snitzer    2015-06-26  1623   *     are not copied, and copying such parts is the caller's responsibility.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1624   *     Also, pages which the original bios are pointing to are not copied
-78d8e58a086b214 Mike Snitzer    2015-06-26  1625   *     and the cloned bios just point same pages.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1626   *     So cloned bios must be completed before original bios, which means
-78d8e58a086b214 Mike Snitzer    2015-06-26  1627   *     the caller must complete @rq before @rq_src.
-78d8e58a086b214 Mike Snitzer    2015-06-26  1628   */
-78d8e58a086b214 Mike Snitzer    2015-06-26  1629  int blk_rq_prep_clone(struct request *rq, struct request *rq_src,
-78d8e58a086b214 Mike Snitzer    2015-06-26  1630  		      struct bio_set *bs, gfp_t gfp_mask,
-78d8e58a086b214 Mike Snitzer    2015-06-26  1631  		      int (*bio_ctr)(struct bio *, struct bio *, void *),
-78d8e58a086b214 Mike Snitzer    2015-06-26  1632  		      void *data)
-78d8e58a086b214 Mike Snitzer    2015-06-26  1633  {
-78d8e58a086b214 Mike Snitzer    2015-06-26  1634  	struct bio *bio, *bio_src;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1635  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1636  	if (!bs)
-f4f8154a08bc580 Kent Overstreet 2018-05-08  1637  		bs = &fs_bio_set;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1638  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1639  	__rq_for_each_bio(bio_src, rq_src) {
-78d8e58a086b214 Mike Snitzer    2015-06-26  1640  		bio = bio_clone_fast(bio_src, gfp_mask, bs);
-78d8e58a086b214 Mike Snitzer    2015-06-26  1641  		if (!bio)
-78d8e58a086b214 Mike Snitzer    2015-06-26  1642  			goto free_and_out;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1643  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1644  		if (bio_ctr && bio_ctr(bio, bio_src, data))
-78d8e58a086b214 Mike Snitzer    2015-06-26  1645  			goto free_and_out;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1646  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1647  		if (rq->bio) {
-78d8e58a086b214 Mike Snitzer    2015-06-26  1648  			rq->biotail->bi_next = bio;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1649  			rq->biotail = bio;
-e08dcf9e2d01fdb Eric Biggers    2020-09-15  1650  		} else {
-78d8e58a086b214 Mike Snitzer    2015-06-26  1651  			rq->bio = rq->biotail = bio;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1652  		}
-e08dcf9e2d01fdb Eric Biggers    2020-09-15  1653  		bio = NULL;
-e08dcf9e2d01fdb Eric Biggers    2020-09-15  1654  	}
-78d8e58a086b214 Mike Snitzer    2015-06-26  1655  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1656  	__blk_rq_prep_clone(rq, rq_src);
-78d8e58a086b214 Mike Snitzer    2015-06-26  1657  
-e08dcf9e2d01fdb Eric Biggers    2020-09-15  1658  	if (rq->bio && blk_crypto_rq_bio_prep(rq, rq->bio, gfp_mask) < 0)
-e08dcf9e2d01fdb Eric Biggers    2020-09-15  1659  		goto free_and_out;
-02fea3fe34f4be5 Satya Tangirala 2020-05-14  1660  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1661  	return 0;
-78d8e58a086b214 Mike Snitzer    2015-06-26  1662  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1663  free_and_out:
-78d8e58a086b214 Mike Snitzer    2015-06-26 @1664  	if (bio)
-78d8e58a086b214 Mike Snitzer    2015-06-26  1665  		bio_put(bio);
-78d8e58a086b214 Mike Snitzer    2015-06-26  1666  	blk_rq_unprep_clone(rq);
-78d8e58a086b214 Mike Snitzer    2015-06-26  1667  
-78d8e58a086b214 Mike Snitzer    2015-06-26  1668  	return -ENOMEM;
-b0fd271d5fba0b2 Kiyoshi Ueda    2009-06-11  1669  }
-b0fd271d5fba0b2 Kiyoshi Ueda    2009-06-11  1670  EXPORT_SYMBOL_GPL(blk_rq_prep_clone);
-b0fd271d5fba0b2 Kiyoshi Ueda    2009-06-11  1671  
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-:::::: The code at line 1664 was first introduced by commit
-:::::: 78d8e58a086b214dddf1fd463e20a7e1d82d7866 Revert "block, dm: don't copy bios for request clones"
-
-:::::: TO: Mike Snitzer <snitzer@redhat.com>
-:::::: CC: Mike Snitzer <snitzer@redhat.com>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
