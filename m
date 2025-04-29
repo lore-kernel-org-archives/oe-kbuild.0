@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DD029E059
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 10:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A9F21B18A
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Apr 2025 16:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745923459; cv=none; b=ZmRTu73uHNKX/DFd0Nh1BOZm+1oDWc/KqekgXBnbR3o3TTcModj0zWaDhoJr/wSQwYPmZD8iso1R9VNS4sN6bbc8SOKvdXjkYskVrYYFkshrebr859kkjoEPy3awocgwDw6/TaU2FchUht/GpWBvn3Hd/RUEeSOdCyKTf0BilsU=
+	t=1745943396; cv=none; b=MEgE5A3GJrMCOreX0ZFt+Zgw4pol/MXlbr/1CIfvmb6oLEG/JRgx9kbp+W7BZ0E0l2Mthns0HI8iF7CwqJucQiBgwK34trEdcq9ny4e15Ee55tqS73Pk4Y9WPyahmPnEhbmMDdokWpkLomVU5V6uyw8RInqrcavTIClspIY4Ksk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745923459; c=relaxed/simple;
-	bh=I7VkdIO/tKc/L8AsoeB+YgZt+s4lhWMwd4org3IxhEs=;
+	s=arc-20240116; t=1745943396; c=relaxed/simple;
+	bh=UjyXFdGZtYfbvZOepw69JyZSrsOa8xwNE5X3H6l6j+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ctbcvxhN7dei0tOqK+9ZYYlql48aEpEcDnD2740sWNQe4uJ1ZNB/8luWNh0S7Mta7PAeqa19J0DY8xrajie0znUWVdyY7iZ17gKhYZ8LAfq5t42EO2+r8AVpZ2nBiMailGrNtRy8l7Pj9f9RfBvxn6uwu0bEZFshEE/TxjuRWIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/BCILyl; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=C99ejOzsS+fpz0wxci5YPDoudz8xPwOXbYPuiNK25e8CI16EGRw3X5m6g2tASe5b+c4gDMcXNICRg5T04N6UxFEjjD05RLJF8ePcUAFo/ps1/Ie3GedhZVVBjTnvlQAOUY5a4jDf9JO04v0u7orSBeXwLG3Meop9lYUCPmzJOEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kf8UhAfW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/BCILyl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kf8UhAfW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745923454; x=1777459454;
+  t=1745943393; x=1777479393;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I7VkdIO/tKc/L8AsoeB+YgZt+s4lhWMwd4org3IxhEs=;
-  b=T/BCILyl1BBKllXAAzOOvh6XmkaoAGpmTCaBJiF287mfnnOwuWPxS53j
-   9w9x5/FYvGwDn57hDCUseXjQMukxZvK4HTpa9YTRVdsrZAMHtc6cyVfA3
-   cRX/eh80aM1JTkcSq6Mk3V/KIK7aZ36CIKHfVUxn9EkfnTRwKT+i+MTNZ
-   TaQK1n4MHlXdeM9V6MKhTQzyKd1EmcQfSx/7duCOIONRlZY/plLQOdUa4
-   xmowLKfdsZgyucUCHt2WxMYZiZVkx4VdTgkTkRyxu6aWIAUI0iKub69M4
-   QEdacPQNX2d/bEYGNTy0N2Tqvzm/Bp+CPPOboqOUUmpNrUS704SBqIuNB
+  bh=UjyXFdGZtYfbvZOepw69JyZSrsOa8xwNE5X3H6l6j+U=;
+  b=Kf8UhAfWBgXtmevAOZDmHbQUELS+2U12rcRKFcjOfUMpgHVAZ6frgTae
+   sI68C6Zxtk5hXLSCl4HOQHtjWZUyLb1TUHIsQZ5zQcnM1W3cqhvPGmxSM
+   MPEoI8wiMFOIMjU+kVqzdR6xxQBIbx/1zzI+xVJcgavzTJaZMfHefpsla
+   hli9aKdKWOQVRlEB6THtiWvuC7ngvtl6M2X/RTrW6pGkOrPDxvN0haUQL
+   6MUjo0SExbm9FSjIzSzqRc6q7P9IWQ5XQFHTkx3ktG0C9wf2QegXFAirm
+   LzwsFkYd5+3zTHrDXmPrNKoQMCZ0Oxg1YXf3/NZGfbol2U/5Air0bby2m
    Q==;
-X-CSE-ConnectionGUID: JM1MQ3LpQ7eG9BCuGWoPYg==
-X-CSE-MsgGUID: 6KZ1ASAfReuOtKHmax5yBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="47422749"
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="47422749"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 03:44:14 -0700
-X-CSE-ConnectionGUID: J+cUFlVPStWlUsQwMRqO8g==
-X-CSE-MsgGUID: q9X8OYG0TbGwQSmBWPmiQw==
+X-CSE-ConnectionGUID: v4zu7rSWTkOGnkgb2tzQ9g==
+X-CSE-MsgGUID: rTDdVRAnRAO7NdUpeOoN1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47713524"
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="47713524"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 09:16:32 -0700
+X-CSE-ConnectionGUID: rpqkz7fgRpO6yUvTFRCK1Q==
+X-CSE-MsgGUID: 0q696Ru2SyaSLfbZAcGNPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="137829326"
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="138980859"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2025 03:44:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Apr 2025 09:16:30 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1u9iRd-0000f9-0s;
-	Tue, 29 Apr 2025 10:44:09 +0000
-Date: Tue, 29 Apr 2025 18:43:17 +0800
+	id 1u9ndE-0000tj-1m;
+	Tue, 29 Apr 2025 16:16:28 +0000
+Date: Wed, 30 Apr 2025 00:15:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android12-5.4 1/1] fs/f2fs/data.c:300
- f2fs_read_end_io() warn: bitwise AND condition is false here
-Message-ID: <202504291841.5NpDfkME-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/2] arm64: dts: rockchip: Add rk3399-evb-ind board
+Message-ID: <202504292323.mhKD7CV8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,58 +61,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250427094211.246-3-kernel@airkyi.com>
+References: <20250427094211.246-3-kernel@airkyi.com>
+TO: Chaoyi Chen <kernel@airkyi.com>
+TO: Heiko Stuebner <heiko@sntech.de>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Jonas Karlman <jonas@kwiboo.se>
+CC: Kever Yang <kever.yang@rock-chips.com>
+CC: Jianfeng Liu <liujianfeng1994@gmail.com>
+CC: Dragan Simic <dsimic@manjaro.org>
+CC: Jimmy Hon <honyuenkwun@gmail.com>
+CC: Quentin Schulz <quentin.schulz@cherry.de>
+CC: FUKAUMI Naoki <naoki@radxa.com>
+CC: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+CC: Alexey Charkov <alchark@gmail.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
+CC: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   cd8e74fa0fa3de9f66c12c5c2c2868442d2f6728
-commit: df0f904d74036f724050cf2aa4ca5200cf4a9b1a [1/1] f2fs: clean up post-read processing
-:::::: branch date: 3 days ago
-:::::: commit date: 4 years, 3 months ago
-config: x86_64-randconfig-161-20250429 (https://download.01.org/0day-ci/archive/20250429/202504291841.5NpDfkME-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Chaoyi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on rockchip/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.15-rc4 next-20250429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-arm-rockchip-Add-rk3399-industry-evaluation-board/20250427-174445
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250427094211.246-3-kernel%40airkyi.com
+patch subject: [PATCH 2/2] arm64: dts: rockchip: Add rk3399-evb-ind board
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250429/202504292323.mhKD7CV8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250429/202504292323.mhKD7CV8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202504291841.5NpDfkME-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504292323.mhKD7CV8-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/data.c:300 f2fs_read_end_io() warn: bitwise AND condition is false here
-
-Old smatch warnings:
-fs/f2fs/data.c:229 f2fs_verify_and_finish_bio() warn: bitwise AND condition is false here
-fs/f2fs/data.c:276 f2fs_post_read_work() warn: bitwise AND condition is false here
-fs/f2fs/data.c:279 f2fs_post_read_work() warn: bitwise AND condition is false here
-
-vim +300 fs/f2fs/data.c
-
-6dbb17961f46b2 Eric Biggers      2018-04-18  284  
-6dbb17961f46b2 Eric Biggers      2018-04-18  285  static void f2fs_read_end_io(struct bio *bio)
-6dbb17961f46b2 Eric Biggers      2018-04-18  286  {
-3d6b1a34f2a3f2 Chao Yu           2019-11-01  287  	struct f2fs_sb_info *sbi = F2FS_P_SB(bio_first_page_all(bio));
-df0f904d74036f Eric Biggers      2021-01-04  288  	struct bio_post_read_ctx *ctx = bio->bi_private;
-3d6b1a34f2a3f2 Chao Yu           2019-11-01  289  
-3d6b1a34f2a3f2 Chao Yu           2019-11-01  290  	if (time_to_inject(sbi, FAULT_READ_IO)) {
-3d6b1a34f2a3f2 Chao Yu           2019-11-01  291  		f2fs_show_injection_info(sbi, FAULT_READ_IO);
-4e4cbee93d5613 Christoph Hellwig 2017-06-03  292  		bio->bi_status = BLK_STS_IOERR;
-55523519bc7227 Chao Yu           2017-02-25  293  	}
-8b038c70dfe4fd Chao Yu           2016-09-18  294  
-df0f904d74036f Eric Biggers      2021-01-04  295  	if (bio->bi_status) {
-df0f904d74036f Eric Biggers      2021-01-04  296  		f2fs_finish_read_bio(bio);
-4375a33664de17 Jaegeuk Kim       2015-04-23  297  		return;
-4375a33664de17 Jaegeuk Kim       2015-04-23  298  	}
-4375a33664de17 Jaegeuk Kim       2015-04-23  299  
-df0f904d74036f Eric Biggers      2021-01-04 @300  	if (ctx && (ctx->enabled_steps & (STEP_DECRYPT | STEP_DECOMPRESS))) {
-df0f904d74036f Eric Biggers      2021-01-04  301  		INIT_WORK(&ctx->work, f2fs_post_read_work);
-df0f904d74036f Eric Biggers      2021-01-04  302  		queue_work(ctx->sbi->post_read_wq, &ctx->work);
-df0f904d74036f Eric Biggers      2021-01-04  303  	} else {
-df0f904d74036f Eric Biggers      2021-01-04  304  		f2fs_verify_and_finish_bio(bio);
-df0f904d74036f Eric Biggers      2021-01-04  305  	}
-f1e8866016b53b Jaegeuk Kim       2015-04-09  306  }
-f1e8866016b53b Jaegeuk Kim       2015-04-09  307  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+>> arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: tcs4526@10 (tcs,tcs4525): Unevaluated properties are not allowed ('regulator-compatible', 'regulator-initial-state' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: pmic: vsel2-gpio: {'rockchip,pins': [[1, 14, 0, 164]], 'phandle': 113} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
