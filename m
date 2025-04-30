@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EA51E98E7
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Apr 2025 05:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5759C1B5EB5
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Apr 2025 10:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745992632; cv=none; b=Y9b/wTDzMDVblnO/hF2cwkysqagw1bzRztYTr5ARNrXn3/GlkGGmJAhZAf6ANtTlDjSa5JCX8SbZu8uM9k0sAl6xXnmpd7h+sKngiDo3I4u5v2N6ClORsb/UOCdT3sW9fRGKRrlflXNQBk5dhlvheXvpUqkDFL8t0e5epkKdWbQ=
+	t=1746008565; cv=none; b=oFBa8vCU85MJN9hgDCwnYm9yEg1xPgw4FMPXn9OrhFXHw0bAN8Gf9WI6B9syuryNOpQ5RGXjwfMtc2nyd7g7EXAH5h008FXFGkH6l/nKyhoZhiQJBPtRyjmGnCXxS5ua6D4j364wSECaD8xtKiQIjGOfsRKakOPVT4vvBIkXyR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745992632; c=relaxed/simple;
-	bh=M+RXPTd6KcN78+YPnIaE2mOQ7eQwcd+0rE+lVJZLiPw=;
+	s=arc-20240116; t=1746008565; c=relaxed/simple;
+	bh=slkhqJDf0daK4FIHvRabawFLxRCccYY9MEnUBrfGdPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AiKsl/666wOTdKKBLKcQG1/n/UwFQv9WobFAMjWb4bvLdBQgLHGg97wNhsiv7gUHLpDZuP+kuJD0lvLyRbB9ci9+QGYKTI+TvlYO0krcZaxhmXikYX77JvyFFdmu2yLe91Hi4eoEUsgE6RP7tqTnyzxqOajnslts/uLNsn2D3UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5j/jJvA; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Mpo49fFboKNWtpXdgzb4LkC8yUg8jyNjGw39da7XiyHd5EUzXbX/aWXcgaxgo8q3W6bTG1WyQ8hR6nO7pndZswI7NepJfkaHgoWvPVl7/tjeoy2MfonKmla50djyYgRF2o2Jpnv+noMQeL2zl/C8ZVVffkc+yAX+PzVEWZnq0Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HIVyRBim; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5j/jJvA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HIVyRBim"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745992631; x=1777528631;
+  t=1746008564; x=1777544564;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M+RXPTd6KcN78+YPnIaE2mOQ7eQwcd+0rE+lVJZLiPw=;
-  b=g5j/jJvAq6em0O8xPVS4fECxglyphmfmkUL3yFUuH0/WrDMF8/bNJDt2
-   3eNa/Y4VWnkwKI4trGMefz1Be0HD+b2jkmx+HbPCeLUDXQMY5Rwu5fiio
-   jauHCjpeQLVBofLUAOlvi9lc+tIYbp/iIopB2N6Jtuc3Jw3SyGMmg6fUC
-   VGobIkJOjAX985NmQYIcDuvxEPw72ORARDrVpDfO0t2yNHld/OvcbjXuF
-   j5fSWGIPbdMjHKS/qa+lEgLfbAgaKoep2fNH7zxSe/T+whCa/hrhMZV3E
-   cR94A714nTrDiV5a/wUCAx/VCgHzxULNVBbYhTraJ8dwxNuBnPk/qAJrO
-   Q==;
-X-CSE-ConnectionGUID: xYu8dXX3SWOmHlDpx0nsfw==
-X-CSE-MsgGUID: XJ2Wi/yPSiOSurpnlBzfzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51456255"
+  bh=slkhqJDf0daK4FIHvRabawFLxRCccYY9MEnUBrfGdPQ=;
+  b=HIVyRBimOQlTS/CZR4LlaNJfVJlxRvPSR8qs8CQZKvrNcbQ57vC50QBN
+   3qn5NmJfjzWv2D2ufYr5A4JS4vGR25qhtH8T1tHC7hgNBxwso+IXqGwM2
+   yXVvSSPt+co9Z3iUghRVXEA3khWPIkRrRKEsGJp5vDEmMH3xC1S5fdx+I
+   RkS7MoGUOgx7VphV+fwrZ7TpX+8XL9SB19t8cgHqFzm5AS7qwD+72hHxV
+   ug30D5TOl3PveQO20o+S1UIIr9K0yhqLMJGlVbeGDiPcu2CLJ1EfRr1Kg
+   vJ0OT+5YOWC44uGLJNLRnB6JDVS95uBsq20AdBinni4Wsm7vECiIRhdd9
+   A==;
+X-CSE-ConnectionGUID: dCE93vkfQNCP3QP15HyuQw==
+X-CSE-MsgGUID: 91eN2bjSRgK7AW8bxkj4pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47801925"
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="51456255"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 22:57:10 -0700
-X-CSE-ConnectionGUID: 5BzM0JhsQL2WvjvOBtRXnw==
-X-CSE-MsgGUID: kyaYQhfZSeWC37LsjMbKQQ==
+   d="scan'208";a="47801925"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 03:22:42 -0700
+X-CSE-ConnectionGUID: bk8ngEs7RzW0nsPUvmSzLw==
+X-CSE-MsgGUID: ++kqXsMhTUC1dksagYwbKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="171272483"
+   d="scan'208";a="134598762"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2025 22:57:09 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2025 03:22:40 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uA0RO-0003Cz-0c;
-	Wed, 30 Apr 2025 05:57:06 +0000
-Date: Wed, 30 Apr 2025 13:56:20 +0800
+	id 1uA4aM-0003Nh-17;
+	Wed, 30 Apr 2025 10:22:38 +0000
+Date: Wed, 30 Apr 2025 18:22:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [android-common:android16-6.12-desktop 0/8]
- include/linux/jump_label.h: linux/atomic.h is included more than once.
-Message-ID: <202504301333.v2VgXVP9-lkp@intel.com>
+Subject: Re: [PATCH v7 1/4] dt-bindings: can: m_can: Add wakeup properties
+Message-ID: <202504301827.w9uZQYHG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,113 +62,169 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20250421-topic-mcan-wakeup-source-v6-12-v7-1-1b7b916c9832@baylibre.com>
+References: <20250421-topic-mcan-wakeup-source-v6-12-v7-1-1b7b916c9832@baylibre.com>
+TO: "Markus Schneider-Pargmann" <msp@baylibre.com>
+TO: Chandrasekar Ramakrishnan <rcsekar@samsung.com>
+TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: Vishal Mahaveer <vishalm@ti.com>
+CC: Kevin Hilman <khilman@baylibre.com>
+CC: Dhruva Gole <d-gole@ti.com>
+CC: Sebin Francis <sebin.francis@ti.com>
+CC: Kendall Willis <k-willis@ti.com>
+CC: Akashdeep Kaur <a-kaur@ti.com>
+CC: Simon Horman <horms@kernel.org>
+CC: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+CC: linux-can@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: "Markus Schneider-Pargmann" <msp@baylibre.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   74912b718e9ab4e3472b80384b60f4af0389190b
-commit: 6bfb9916dcaefd1e4c35ee4ea287c02343449c59 [0/8] ANDROID: jump_label: disable jump labels in fips140.ko
-:::::: branch date: 14 hours ago
-:::::: commit date: 5 months ago
+Hi Markus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0af2f6be1b4281385b618cb86ad946eded089ac8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-can-m_can-Add-wakeup-properties/20250421-161216
+base:   0af2f6be1b4281385b618cb86ad946eded089ac8
+patch link:    https://lore.kernel.org/r/20250421-topic-mcan-wakeup-source-v6-12-v7-1-1b7b916c9832%40baylibre.com
+patch subject: [PATCH v7 1/4] dt-bindings: can: m_can: Add wakeup properties
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250430/202504301827.w9uZQYHG-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504301827.w9uZQYHG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504301333.v2VgXVP9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504301827.w9uZQYHG-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> include/linux/jump_label.h: linux/atomic.h is included more than once.
-
-vim +200 include/linux/jump_label.h
-
-   199	
- > 200	#include <linux/atomic.h>
-   201	
-   202	static inline int static_key_count(struct static_key *key)
-   203	{
-   204		return raw_atomic_read(&key->enabled);
-   205	}
-   206	
-   207	static __always_inline bool static_key_false(struct static_key *key)
-   208	{
-   209		if (unlikely(static_key_count(key) > 0))
-   210			return true;
-   211		return false;
-   212	}
-   213	
-   214	static __always_inline bool static_key_true(struct static_key *key)
-   215	{
-   216		if (likely(static_key_count(key) > 0))
-   217			return true;
-   218		return false;
-   219	}
-   220	
-   221	#elif defined(CONFIG_JUMP_LABEL)
-   222	
-   223	#define JUMP_TYPE_FALSE		0UL
-   224	#define JUMP_TYPE_TRUE		1UL
-   225	#define JUMP_TYPE_LINKED	2UL
-   226	#define JUMP_TYPE_MASK		3UL
-   227	
-   228	static __always_inline bool static_key_false(struct static_key *key)
-   229	{
-   230		return arch_static_branch(key, false);
-   231	}
-   232	
-   233	static __always_inline bool static_key_true(struct static_key *key)
-   234	{
-   235		return !arch_static_branch(key, true);
-   236	}
-   237	
-   238	extern struct jump_entry __start___jump_table[];
-   239	extern struct jump_entry __stop___jump_table[];
-   240	
-   241	extern void jump_label_init(void);
-   242	extern void jump_label_init_ro(void);
-   243	extern void jump_label_lock(void);
-   244	extern void jump_label_unlock(void);
-   245	extern void arch_jump_label_transform(struct jump_entry *entry,
-   246					      enum jump_label_type type);
-   247	extern bool arch_jump_label_transform_queue(struct jump_entry *entry,
-   248						    enum jump_label_type type);
-   249	extern void arch_jump_label_transform_apply(void);
-   250	extern int jump_label_text_reserved(void *start, void *end);
-   251	extern bool static_key_slow_inc(struct static_key *key);
-   252	extern bool static_key_fast_inc_not_disabled(struct static_key *key);
-   253	extern void static_key_slow_dec(struct static_key *key);
-   254	extern bool static_key_slow_inc_cpuslocked(struct static_key *key);
-   255	extern void static_key_slow_dec_cpuslocked(struct static_key *key);
-   256	extern int static_key_count(struct static_key *key);
-   257	extern void static_key_enable(struct static_key *key);
-   258	extern void static_key_disable(struct static_key *key);
-   259	extern void static_key_enable_cpuslocked(struct static_key *key);
-   260	extern void static_key_disable_cpuslocked(struct static_key *key);
-   261	extern enum jump_label_type jump_label_init_type(struct jump_entry *entry);
-   262	
-   263	/*
-   264	 * We should be using ATOMIC_INIT() for initializing .enabled, but
-   265	 * the inclusion of atomic.h is problematic for inclusion of jump_label.h
-   266	 * in 'low-level' headers. Thus, we are initializing .enabled with a
-   267	 * raw value, but have added a BUILD_BUG_ON() to catch any issues in
-   268	 * jump_label_init() see: kernel/jump_label.c.
-   269	 */
-   270	#define STATIC_KEY_INIT_TRUE					\
-   271		{ .enabled = { 1 },					\
-   272		  { .type = JUMP_TYPE_TRUE } }
-   273	#define STATIC_KEY_INIT_FALSE					\
-   274		{ .enabled = { 0 },					\
-   275		  { .type = JUMP_TYPE_FALSE } }
-   276	
-   277	#else  /* !CONFIG_JUMP_LABEL */
-   278	
- > 279	#include <linux/atomic.h>
-   280	#include <linux/bug.h>
-   281	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48004000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+   arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: adc@48003000 (st,stm32mp13-adc-core): adc@0:interrupts: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/iio/adc/st,stm32-adc.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp135f-dhcor-dhsbc.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcom-drc02.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-dhcor-drc-compact.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen1.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-fairytux2-gen2.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-lxa-tac-gen3.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp153c-mecio1r1.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-avenger96.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157a-dhcor-avenger96.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-pdk2.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-dhcom-picoitx.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen1.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-lxa-tac-gen2.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: can@4400e000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-osd32mp1-red.dtb: can@4400e000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+--
+   arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: touch@44 (st,stmpe811): touchscreen: Unevaluated properties are not allowed ('st,adc-freq', 'st,mod-12b', 'st,ref-sel', 'st,sample-time' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: can@4400f000 (bosch,m_can): pinctrl-names:1: 'wakeup' was expected
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
+>> arch/arm/boot/dts/st/stm32mp157c-phycore-stm32mp1-3.dtb: can@4400f000 (bosch,m_can): Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/can/bosch,m_can.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
