@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104CF25D1F4
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Apr 2025 14:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B63616DC28
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Apr 2025 15:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746024034; cv=none; b=V8t4ep+dMIYs1OWxhyo0iLo1IEoLtpQrBQZ3gchFV+8MCrt00TRkaaySy3aiWiEvi2yGLgXXDaogZT+UpG7pAq3XfzkU80LBnAJhtsKjSZXZ23tSB90zGto8thgVYvQQtpMirVUiI05ISKtcO+mCKYnzslBcyWv1C6Jy0l1TJWM=
+	t=1746025998; cv=none; b=ppqrUW35eNvb97hht4mKA5vjVfqVs6kdT+cv7p9MlXGbhroNqa0Hj5MW48NR/xbaSQXah50EdOh+CsGEnl/xmGqcta7UvvjbhDWImAm1LmFVFHa+C7XXXfzZBLiCmNKp633Z161lpXzZpSiCnf7ZHFTkCLp5c4PTcNuZ6GivAVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746024034; c=relaxed/simple;
-	bh=z+g6/cClUaz0n3QR9cfStBmaghzyJ8lqSIQFIS9D3mQ=;
+	s=arc-20240116; t=1746025998; c=relaxed/simple;
+	bh=Jt4w5UHWnJ+w9Cp7/d/w9t+7fyPrgkZ1FLfO8Hx7DRE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YzxRA+QMLUeqLtCY8h/ZSlrafPfnU4zoGtam5sTOlQFps4BAHyenb5rMvzJ0eyXbYWuk3TB3V3rJNVgBOUF7wDNiSsxe2EN11rBwz/3qZkqnk0U5/CM8xA73+fpAPAiKO6KxHGwM1wxWHghTQjVx2OdQCdbWg3fIr4kSVWM7iAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq1mQi6b; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=dBadzru6zzapS/WZbRJ3lxIIyGFJGUhAIW+vQGMIiXYZDwQhwkgGaOlKxCvlo2zlDTcSzyzd++KdqDb7deLmYowwEwORJvqL2nNN+2LLXQJ0MByQ6FF49G4BhznF0ayWDyI2sZEr3S2u5IqoJEeGNp3dK2gh2ldrvVsK+8YCwdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evd7IsRc; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq1mQi6b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evd7IsRc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746024032; x=1777560032;
+  t=1746025996; x=1777561996;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z+g6/cClUaz0n3QR9cfStBmaghzyJ8lqSIQFIS9D3mQ=;
-  b=Qq1mQi6bBIABqC6OTns11u1lTAm5NOSeB9VjDY6Lt+ZhW8WZ6Oo41Y5P
-   oGCBU27mo7O8w3rju1VI1ofhWccL1CumZdTVRPvWBKBRu1eebNxYpgS66
-   utxqRZAdJAsv1sZHulaJRQGtW8j3XyY6+UD8kdc9S16iIXUNDeqg2vq2G
-   egdewRDUfqtKTMerEQoDCOvapQXoWG4dHZ47rARnCVr7aXb/ksKDMurI9
-   3be6lmdkwtFryQ5cqGF8Ddh3t3xrOI0Ggje4Ihl4gJZP7QLZZQC6xy2a0
-   HblZ2zi8BM7Asc5rVJf08gqWle0NXaVcDQqGQaW35JAGfirfuBfjwax/s
-   Q==;
-X-CSE-ConnectionGUID: lgASD1L9QpSttwttId1pDg==
-X-CSE-MsgGUID: wkdy2YuDQp6x8x9+km7Tkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="58348808"
+  bh=Jt4w5UHWnJ+w9Cp7/d/w9t+7fyPrgkZ1FLfO8Hx7DRE=;
+  b=evd7IsRcLAb8iU6Zp8vGqMTgFwHxr5oiW2rd+DoGKWtS1+Yi3hULa4jh
+   QC2XRMnW7ejTP1dNslFFPjE/PkigG3AnZ6VKvSZADU81g5v0HLiocxXar
+   Duhi1U1a1eirAOdU27LYaTEyVekk2GV5GxOV83JZ/VCrWfmNYboF7AYxn
+   dR6ztSACK2sF4MfCdMPuLZ282/WFbQmmm2p8SDKB9lJeR2vuwZeP3tyFt
+   9G1mNJGYvdIifP53Wvffu9ro+1IZtcJU8ydvRZ4tMpKLUs+tMWg9RnxVm
+   CUPYuVk0GN11q+v4VznbRk1ndXWFzRfuaZS20+97wiKYxUCPSqvQp1cLh
+   A==;
+X-CSE-ConnectionGUID: of/dz/rRSWCrBV9coXOMFQ==
+X-CSE-MsgGUID: MrLxtcWjTaCXGYKAdmIhow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="46937286"
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="58348808"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 07:40:31 -0700
-X-CSE-ConnectionGUID: 65K2farMSySgsiogaisdAw==
-X-CSE-MsgGUID: aEOgvAgGRMeMC08+Ic1XIQ==
+   d="scan'208";a="46937286"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 08:13:15 -0700
+X-CSE-ConnectionGUID: jePu4f+JQNCIsf0gjwXzNQ==
+X-CSE-MsgGUID: QfflCH8WToq7axtlKeZQDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="134643946"
+   d="scan'208";a="171380703"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2025 07:40:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Apr 2025 08:13:13 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uA8br-0003XD-1T;
-	Wed, 30 Apr 2025 14:40:27 +0000
-Date: Wed, 30 Apr 2025 22:39:47 +0800
+	id 1uA97X-0003YD-14;
+	Wed, 30 Apr 2025 15:13:11 +0000
+Date: Wed, 30 Apr 2025 23:12:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [ulfh-mmc:next 44/48] arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb:
- esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed
- ('big-endian', 'bus-width' were unexpected)
-Message-ID: <202504302231.PtBsJs7f-lkp@intel.com>
+Subject: [krzk-github:n/sm8750-audio-part-3 17/23]
+ arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl):
+ clock-names: ['byte', 'byte_intf', 'pixel', 'core', 'iface', 'bus',
+ 'dsi_pll_pixel', 'dsi_pll_byte', 'esync', 'osc', 'byte_src', 'pixel_src'] is
+ too long
+Message-ID: <202504302350.N3JjNdef-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,127 +71,83 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git next
-head:   c0b5481043a46e7fca1beadab4d786089b9b4354
-commit: 0ebe3247f844c0e186fd123a2c5fe65207a2fe07 [44/48] dt-bindings: mmc: fsl,esdhc: add compatible string fsl,ls1021a-esdhc
-:::::: branch date: 28 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250430/202504302231.PtBsJs7f-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://github.com/krzk/linux n/sm8750-audio-part-3
+head:   ec641b25cc78eae045852d032319ef3a846f2912
+commit: a880ed13c2dd5b41ad39e2110b00f40680007b4b [17/23] arm64: dts: qcom: sm8750: Add display (MDSS) with Display CC
+:::::: branch date: 22 hours ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-052-20250430 (https://download.01.org/0day-ci/archive/20250430/202504302350.N3JjNdef-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504302231.PtBsJs7f-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250430/202504302350.N3JjNdef-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202504302231.PtBsJs7f-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202504302350.N3JjNdef-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:738.27-765.5: Warning (simple_bus_reg): /soc/ethernet@2d50000: missing or empty reg/ranges property
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:767.27-794.5: Warning (simple_bus_reg): /soc/ethernet@2d90000: missing or empty reg/ranges property
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:920.32-938.5: Warning (simple_bus_reg): /soc/dma-controller@8390000: simple-bus unit address format error, expected "8388000"
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: memory-controller@1080000 (fsl,qoriq-memory-controller): 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: adc@35 (maxim,max1239): '#io-channel-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/maxim,max1238.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000: failed to match any schema with compatible: ['qcom,sm8750-mdss']
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/display-controller@ae01000: failed to match any schema with compatible: ['qcom,sm8750-dpu']
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clock-names: ['byte', 'byte_intf', 'pixel', 'core', 'iface', 'bus', 'dsi_pll_pixel', 'dsi_pll_byte', 'esync', 'osc', 'byte_src', 'pixel_src'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clocks: [[129, 8], [129, 11], [129, 70], [129, 60], [129, 6], [35, 16], [141, 1], [141, 0], [129, 0], [129, 81], [129, 9], [129, 71]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/dsi@ae94000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/phy@ae95000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: dsi@ae96000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/dsi@ae96000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/phy@ae97000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: displayport-controller@af54000 (qcom,sm8750-dp): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dp', 'qcom,sm8650-dp'] is too long
+   	'qcom,sm8750-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
+   	'qcom,sm8750-dp' is not one of ['qcom,sm6350-dp', 'qcom,sm8150-dp', 'qcom,sm8250-dp', 'qcom,sm8450-dp', 'qcom,sm8550-dp']
+   	'qcom,sm8350-dp' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@af54000: failed to match any schema with compatible: ['qcom,sm8750-dp', 'qcom,sm8650-dp']
 --
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: memory-controller@1530000 (fsl,ifc): board-control@3,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bank-width', 'compatible', 'device-width', 'mdio-mux-emi1', 'ranges', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): compatible: ['mdio-mux-mmioreg'] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: mdio-mux-emi1 (mdio-mux-mmioreg): Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mdio-mux-mmioreg.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: at45db021d@0 (atmel,at45db021d): $nodename:0: 'at45db021d@0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/atmel,dataflash.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: at45db021d@0 (atmel,at45db021d): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'spi-cpha', 'spi-cpol' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/atmel,dataflash.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-qds.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
---
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:738.27-765.5: Warning (simple_bus_reg): /soc/ethernet@2d50000: missing or empty reg/ranges property
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:767.27-794.5: Warning (simple_bus_reg): /soc/ethernet@2d90000: missing or empty reg/ranges property
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:920.32-938.5: Warning (simple_bus_reg): /soc/dma-controller@8390000: simple-bus unit address format error, expected "8388000"
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a.dtsi:67.19-106.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: memory-controller@1080000 (fsl,qoriq-memory-controller): 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tqmls1021a-mbls1021a.dtb: sai@2b50000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
---
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:767.27-794.5: Warning (simple_bus_reg): /soc/ethernet@2d90000: missing or empty reg/ranges property
-   arch/arm/boot/dts/nxp/ls/ls1021a.dtsi:920.32-938.5: Warning (simple_bus_reg): /soc/dma-controller@8390000: simple-bus unit address format error, expected "8388000"
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dts:254.10-282.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1550000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dts:41.29-104.4: Warning (avoid_unnecessary_addr_size): /soc/spi@2100000/ethernet-switch@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: memory-controller@1080000 (fsl,qoriq-memory-controller): 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: ethernet-switch@1 (nxp,sja1105t): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/dsa/nxp,sja1105.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-tsn.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
---
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: aliases: 'enet0_sgmii_phy', 'enet1_sgmii_phy', 'enet2_rgmii_phy' do not match any of the regexes: '^[a-z][a-z0-9\\-]*$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/aliases.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: memory-controller@1080000 (fsl,qoriq-memory-controller): 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: memory-controller@1530000 (fsl,ifc): 'nor@0,0' does not match any of the regexes: '(flash|fpga|board-control|cpld)@[a-f0-9]+(,[a-f0-9]+)+$', '^nand@[a-f0-9]+(,[a-f0-9]+)+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ifc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: nor@0,0 (cfi-flash): $nodename:0: 'nor@0,0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/mtd-physmap.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): $nodename:0: 'esdhc@1560000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: esdhc@1560000 (fsl,ls1021a-esdhc): Unevaluated properties are not allowed ('big-endian', 'bus-width' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: /soc/counter@29d0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: /soc/counter@29e0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: /soc/counter@29f0000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: /soc/counter@2a00000: failed to match any schema with compatible: ['fsl,ftm-quaddec']
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-twr.dtb: sai@2b50000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000: failed to match any schema with compatible: ['qcom,sm8750-mdss']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/display-controller@ae01000: failed to match any schema with compatible: ['qcom,sm8750-dpu']
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clock-names: ['byte', 'byte_intf', 'pixel', 'core', 'iface', 'bus', 'dsi_pll_pixel', 'dsi_pll_byte', 'esync', 'osc', 'byte_src', 'pixel_src'] is too long
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): clocks: [[123, 8], [123, 11], [123, 70], [123, 60], [123, 6], [35, 16], [135, 1], [135, 0], [123, 0], [123, 81], [123, 9], [123, 71]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae94000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/dsi@ae94000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/phy@ae95000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: dsi@ae96000 (qcom,sm8750-dsi-ctrl): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,apq8064-dsi-ctrl', 'qcom,msm8226-dsi-ctrl', 'qcom,msm8916-dsi-ctrl', 'qcom,msm8953-dsi-ctrl', 'qcom,msm8974-dsi-ctrl', 'qcom,msm8976-dsi-ctrl', 'qcom,msm8996-dsi-ctrl', 'qcom,msm8998-dsi-ctrl', 'qcom,qcm2290-dsi-ctrl', 'qcom,sc7180-dsi-ctrl', 'qcom,sc7280-dsi-ctrl', 'qcom,sdm660-dsi-ctrl', 'qcom,sdm670-dsi-ctrl', 'qcom,sdm845-dsi-ctrl', 'qcom,sm6115-dsi-ctrl', 'qcom,sm6125-dsi-ctrl', 'qcom,sm6150-dsi-ctrl', 'qcom,sm6350-dsi-ctrl', 'qcom,sm6375-dsi-ctrl', 'qcom,sm7150-dsi-ctrl', 'qcom,sm8150-dsi-ctrl', 'qcom,sm8250-dsi-ctrl', 'qcom,sm8350-dsi-ctrl', 'qcom,sm8450-dsi-ctrl', 'qcom,sm8550-dsi-ctrl', 'qcom,sm8650-dsi-ctrl']
+   	'qcom,sm8750-dsi-ctrl' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,mdss-dsi-ctrl']
+   	from schema $id: http://devicetree.org/schemas/display/msm/dsi-controller-main.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/dsi@ae96000: failed to match any schema with compatible: ['qcom,sm8750-dsi-ctrl', 'qcom,mdss-dsi-ctrl']
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/phy@ae97000: failed to match any schema with compatible: ['qcom,sm8750-dsi-phy-3nm']
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: displayport-controller@af54000 (qcom,sm8750-dp): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,sm8750-dp', 'qcom,sm8650-dp'] is too long
+   	'qcom,sm8750-dp' is not one of ['qcom,sa8775p-dp', 'qcom,sc7180-dp', 'qcom,sc7280-dp', 'qcom,sc7280-edp', 'qcom,sc8180x-dp', 'qcom,sc8180x-edp', 'qcom,sc8280xp-dp', 'qcom,sc8280xp-edp', 'qcom,sdm845-dp', 'qcom,sm8350-dp', 'qcom,sm8650-dp']
+   	'qcom,sm8750-dp' is not one of ['qcom,sm6350-dp', 'qcom,sm8150-dp', 'qcom,sm8250-dp', 'qcom,sm8450-dp', 'qcom,sm8550-dp']
+   	'qcom,sm8350-dp' was expected
+   	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+   arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: /soc@0/display-subsystem@ae00000/displayport-controller@af54000: failed to match any schema with compatible: ['qcom,sm8750-dp', 'qcom,sm8650-dp']
 
 -- 
 0-DAY CI Kernel Test Service
