@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A004C79
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 May 2025 04:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3702C944F
+	for <oe-kbuild@lists.linux.dev>; Thu,  1 May 2025 05:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746074211; cv=none; b=pn1TohOcf+IwRZIXso8R+feMoazcHYuLcGXm+vwRuIIwszsm9VzpimYZ6F4ATBqZrAsSd59kqjWRPgAJTY5SYz9zb7FQ04MUU/NyN5Khg/eUfyET4mSFdgEHWAc4Lp49F74kesyNPMCKtoqzNx0gxRT0vShZ4/6GHX/9Yw3F8oQ=
+	t=1746077518; cv=none; b=Tzn7VjSvheQwPov3p+h/amlg5823+6Dg2DAcoD7k1TPau2vbn2jb9h9CFTX6vYx+PaG54k6ztJyPWZ+Q22btsnHvWpOrZZZ/UR8xKpuNMRgOHFHxL+K4BmPJ53FRVUThwiaAK8mzFlSO7qqaJavCcw4HWjnOAorRby5v28bC2DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746074211; c=relaxed/simple;
-	bh=y+tlGc+ZDyE3LnpXUDHngSioXfo508nVhMGoJ2WD/Rg=;
+	s=arc-20240116; t=1746077518; c=relaxed/simple;
+	bh=NC5PDu6551RQ4Ru5QwfeZG+txBHHOQoONo1msLo+HSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hb/4bsCK2ug65vxE4KomN5GSsYcQp8RHVYuJDZBGBGplucPvrAvL06Z7DDGxxV3N11FfEjFLXSbFjdasmrEhJGB/0MlunbxatISklBCMep+8OiYrjJ4Ndchft56zYKljNLVpmoAyjqWBdUHiUq6PAuP6TxO4yJLujjP5Fux5S54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWUCdGjP; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=ODGS1DsGkXqEpCOuGFYnZNnT4dppd7cc7yQRw9svS7kM9AyDPvhBCSATolWS/42vCEAhb3murfnha3qA0zJkANomYMczWZqjY3jcfmgovaDtwA6kLuIBYlwPd02ZI8H7rl7VgPRrac3c0PeXtPJoQ+MFR047r8U8GxnKX7Qk+BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VG9yx2n1; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWUCdGjP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VG9yx2n1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746074208; x=1777610208;
+  t=1746077515; x=1777613515;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y+tlGc+ZDyE3LnpXUDHngSioXfo508nVhMGoJ2WD/Rg=;
-  b=LWUCdGjPlXNimGQ6WqLEdyQQNEXHyXiKfjmAgRsGh66YAp4+Tt/yMCEI
-   RilxqzL32Dh/XzM8sTh9qlr5HbmDNnBleNy5fhmCiqPhnXGYK9ErJ67Ft
-   CpKS/v/vdJeU5g3PMTbgwMzBJbOOT/kheJR6NmNZ/SR/pFevjkCkWiuWM
-   ccEeKhGmqPLz5pxtJVv+zzvr0fEXKVm2CNbKhC74AhWAsV4g/ektixIuw
-   nfy7LBm2nBDxkKOkJh9dtkMntJkxGY+uo7Pa/kkCt9vF/JK4NdcMy0fCs
-   vcleHtFadTonNTFhmLEc123nMOdJs6dPZaeRwTsnmHB/4vuUbKXYibWxT
-   Q==;
-X-CSE-ConnectionGUID: YnauDsn6QRWpUUNPIYi+eQ==
-X-CSE-MsgGUID: uydGrrRjSiqR+Ik4lWpq4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="51569956"
+  bh=NC5PDu6551RQ4Ru5QwfeZG+txBHHOQoONo1msLo+HSI=;
+  b=VG9yx2n13HYF69Lv8TqIBq4KvbSvqYJ5MtYJqDgG0SEJkc44KnQkjfUy
+   MesgZEc0k62cET1HotP3ryPiw2gixUe8Xd9uu9ZcnRllxnvc9OGdx6cIr
+   ssuQU7AqiLkTjmBCTNLEh8XXW2BteQJ5bYAyoEmX954abLH6STyED10+w
+   2RXVI6kL7YCDpObqpZlk9zF9iHK8Jw/iFRn5hmOk1XdQzKg4UeXxl+wsB
+   kvyqg1fGuMKeR4ZeARA+UUiD5MwtOhGAA2b+LNV3jSB5IXvKEAjIMpwSE
+   p/fl/JfxQ2H223GsLuQrvfbZkQg6WWqie6dRG+XS3ooXgkNeeHTWVpkZw
+   A==;
+X-CSE-ConnectionGUID: 9E3WNvW3S5+QF2UvXz+F1g==
+X-CSE-MsgGUID: fFV35Do/TkO5da2irzaYcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="47887044"
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="51569956"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 21:36:48 -0700
-X-CSE-ConnectionGUID: ah9ANU0KS+6aBeWn62WIKw==
-X-CSE-MsgGUID: YrytSv0HQ8Gb+UZwV19tSg==
+   d="scan'208";a="47887044"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 22:31:54 -0700
+X-CSE-ConnectionGUID: i7D8kBOuTj65eO+lptCxcA==
+X-CSE-MsgGUID: f4XG9ZlpSkCXdstCmwERIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,253,1739865600"; 
-   d="scan'208";a="165367302"
+   d="scan'208";a="134251154"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Apr 2025 21:36:46 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Apr 2025 22:31:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uALfA-0003xp-0Q;
-	Thu, 01 May 2025 04:36:44 +0000
-Date: Thu, 1 May 2025 12:36:39 +0800
+	id 1uAMWV-0003z3-0O;
+	Thu, 01 May 2025 05:31:51 +0000
+Date: Thu, 1 May 2025 13:31:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: lib/tests/slub_kunit.c:59 test_next_pointer() error: dereferencing
- freed memory 'p' (line 55)
-Message-ID: <202505011225.nbEC7MPq-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: sham@0 (ti,omap4-sham):
+ 'ti,hwmods' is a required property
+Message-ID: <202505011344.6XVlNviI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,122 +62,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kees Cook <kees@kernel.org>
-CC: David Gow <davidgow@google.com>
-CC: Rae Moar <rmoar@google.com>
+TO: Animesh Agarwal <animeshagarwal28@gmail.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7a13c14ee59d4f6c5f4277a86516cbc73a1383a8
-commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
-date:   3 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-141-20250501 (https://download.01.org/0day-ci/archive/20250501/202505011225.nbEC7MPq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+head:   b6ea1680d0ac0e45157a819c41b46565f4616186
+commit: a00dce05ba31fbea58ca64158e0601cdc99d8929 dt-bindings: crypto: ti,omap-sham: Convert to dtschema
+date:   1 year, 1 month ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: arm-randconfig-053-20250429 (https://download.01.org/0day-ci/archive/20250501/202505011344.6XVlNviI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250501/202505011344.6XVlNviI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505011225.nbEC7MPq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505011344.6XVlNviI-lkp@intel.com/
 
-New smatch warnings:
-lib/tests/slub_kunit.c:59 test_next_pointer() error: dereferencing freed memory 'p' (line 55)
-lib/tests/slub_kunit.c:114 test_clobber_50th_byte() error: dereferencing freed memory 'p' (line 113)
-
-Old smatch warnings:
-lib/tests/slub_kunit.c:99 test_first_word() error: dereferencing freed memory 'p' (line 98)
-lib/tests/slub_kunit.c:131 test_clobber_redzone_free() error: dereferencing freed memory 'p' (line 130)
-
-vim +/p +59 lib/tests/slub_kunit.c
-
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   45  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   46  #ifndef CONFIG_KASAN
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   47  static void test_next_pointer(struct kunit *test)
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   48  {
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30   49  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_next_ptr_free",
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30   50  							64, SLAB_POISON);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   51  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   52  	unsigned long tmp;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   53  	unsigned long *ptr_addr;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   54  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  @55  	kmem_cache_free(s, p);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   56  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   57  	ptr_addr = (unsigned long *)(p + s->offset);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   58  	tmp = *ptr_addr;
-b1080c667b3b2c lib/slub_kunit.c Guenter Roeck 2024-04-02  @59  	p[s->offset] = ~p[s->offset];
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   60  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   61  	/*
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   62  	 * Expecting three errors.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   63  	 * One for the corrupted freechain and the other one for the wrong
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   64  	 * count of objects in use. The third error is fixing broken cache.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   65  	 */
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   66  	validate_slab_cache(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   67  	KUNIT_EXPECT_EQ(test, 3, slab_errors);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   68  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   69  	/*
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   70  	 * Try to repair corrupted freepointer.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   71  	 * Still expecting two errors. The first for the wrong count
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   72  	 * of objects in use.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   73  	 * The second error is for fixing broken cache.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   74  	 */
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   75  	*ptr_addr = tmp;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   76  	slab_errors = 0;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   77  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   78  	validate_slab_cache(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   79  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   80  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   81  	/*
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   82  	 * Previous validation repaired the count of objects in use.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   83  	 * Now expecting no error.
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   84  	 */
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   85  	slab_errors = 0;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   86  	validate_slab_cache(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   87  	KUNIT_EXPECT_EQ(test, 0, slab_errors);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   88  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   89  	kmem_cache_destroy(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   90  }
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   91  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   92  static void test_first_word(struct kunit *test)
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   93  {
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30   94  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_1th_word_free",
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30   95  							64, SLAB_POISON);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   96  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   97  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   98  	kmem_cache_free(s, p);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28   99  	*p = 0x78;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  100  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  101  	validate_slab_cache(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  102  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  103  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  104  	kmem_cache_destroy(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  105  }
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  106  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  107  static void test_clobber_50th_byte(struct kunit *test)
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  108  {
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30  109  	struct kmem_cache *s = test_kmem_cache_create("TestSlub_50th_word_free",
-4d9dd4b0ce8807 lib/slub_kunit.c Feng Tang     2022-11-30  110  							64, SLAB_POISON);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  111  	u8 *p = kmem_cache_alloc(s, GFP_KERNEL);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  112  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28 @113  	kmem_cache_free(s, p);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28 @114  	p[50] = 0x9a;
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  115  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  116  	validate_slab_cache(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  117  	KUNIT_EXPECT_EQ(test, 2, slab_errors);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  118  
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  119  	kmem_cache_destroy(s);
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  120  }
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  121  #endif
-1f9f78b1b376f8 lib/slub_kunit.c Oliver Glitta 2021-06-28  122  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: b1080c667b3b2c8c38a7fa83ca5567124887abae mm/slub, kunit: Use inverted data to corrupt kmem cache
-
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Vlastimil Babka <vbabka@suse.cz>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+>> arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
+   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm/boot/dts/ti/omap/omap5-cm-t54.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
+--
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+>> arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
+   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm/boot/dts/ti/omap/omap5-igep0050.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
+--
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+>> arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
+   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm/boot/dts/ti/omap/omap5-sbc-t54.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
+--
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap5-dmm']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4d000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d5']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: emif@0 (ti,emif-4d5): '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4b501000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@4b701000/aes@0: failed to match any schema with compatible: ['ti,omap4-aes']
+>> arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: sham@0 (ti,omap4-sham): 'ti,hwmods' is a required property
+   	from schema $id: http://devicetree.org/schemas/crypto/ti,omap-sham.yaml#
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/bandgap@4a0021e0: failed to match any schema with compatible: ['ti,omap5430-bandgap']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0: failed to match any schema with compatible: ['ti,omap5-dss']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@1000/dispc@0: failed to match any schema with compatible: ['ti,omap5-dispc']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@2000/encoder@0: failed to match any schema with compatible: ['ti,omap5-rfbi']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@4000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@9000/encoder@0: failed to match any schema with compatible: ['ti,omap5-dsi']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/target-module@58000000/dss@0/target-module@40000/encoder@0: failed to match any schema with compatible: ['ti,omap5-hdmi']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/regulator-abb-mpu: failed to match any schema with compatible: ['ti,abb-v2']
+   arch/arm/boot/dts/ti/omap/omap5-uevm.dtb: /ocp/regulator-abb-mm: failed to match any schema with compatible: ['ti,abb-v2']
 
 -- 
 0-DAY CI Kernel Test Service
