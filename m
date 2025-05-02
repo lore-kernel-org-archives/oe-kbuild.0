@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BEC11713
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 May 2025 13:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3DD22D4DB
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 May 2025 15:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746192859; cv=none; b=uIhngcO+J86SJ7xhHzL0jxaYUb07i7KGXehIJnvd+haiEk54ULchLj9C8b/YfI6BGCYuxdM2lFEB1Y0Mr5wm+u+v+zSBmXgp4gavsDL7ZvSgXG3NwcKv6DQ1ABIB3zg88kT8SMpyHElZB1OlM4GpYvBJEGlsBQpn3CJbp2DZgfA=
+	t=1746200847; cv=none; b=ngL/GyilF37OhziunubcIPUST77kVUrX9isW8IEZeBcHnIXDbq3twX67vGh4HtMjmIQoCjrI5UiRnTrOmy7/w12f6EIwoHBqq2mS3mazpZKj7PPdYUr69C05XFUL/AfBOUm3Ju6aJXIwC1PCjCXVWlbAw8mM2yd12/V9Xtb0Adc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746192859; c=relaxed/simple;
-	bh=GfpjJh2yVHmehObZg8qOxG2mcknmUD5z0FFOw7Mdm68=;
+	s=arc-20240116; t=1746200847; c=relaxed/simple;
+	bh=J2Hs9Z1n4emX8SJvaCUuBAbXZetYsZMQlcPuDMIRSOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ecqsH2YmAqaiNIcGx5VfLmk01JkGiFP4qgrbAidoRcVFv5K1Rsovbfaq8EzbYJXRIOYQ+tIKnpqWoAYDz1e5TkdVGEuCLlaOIwxGc+ICLkGKRVfaMhivYqxBlk7ZGrnyaFpkxLwooZY10lNYX5lXe9RaBQRWP+89oR6b0K18gaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8g1nxBa; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=Od4dRg+3t1553gEPy+buWI6t+eLEoD4ta/uQQYJwDNnimPzyQ26kBnr5cFvrfbFU04AvIAIkhyhKtyvob3odW7fVHNdEcr2CIr2uX4cz8mV6PuYAkXpe0LMt/ea1xOW7ZHtiagSvRJyl8jgFJpMA44zlFfHTx6jSVcXfr/mxAH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpVWOZaJ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8g1nxBa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpVWOZaJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746192857; x=1777728857;
+  t=1746200845; x=1777736845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GfpjJh2yVHmehObZg8qOxG2mcknmUD5z0FFOw7Mdm68=;
-  b=N8g1nxBaU7N3RV2s9LC8o3fnnumqPZc9FKQcBaUfXdckP1ZljpbTzYgw
-   CI6Z0ltq/f33pMOZkI8lqWJAeOuUPD5gVIsdXOn5qCy28OswzxCJtP0vl
-   Pqf+YJn4iwGYBAiKsAQnE6hWFk5Qtz0uDwHxB7v+TfC7Uw1IOumP000/l
-   4FRTpQZSwTR8/dtc2RdPbrEyYPVOIBwZSEgT8EZRiZ9WP4Egx/P63U+rh
-   Fyav4kDnKkssxRebcvB0q8i6Lht+eE6DKdNhowkdsb5EyYc7DinR919b4
-   h5dgKd00F6d/m+Z+6salF+s5MrlPL5/V4gUTkRqY+Y9fn0cy6O8ta3mJG
+  bh=J2Hs9Z1n4emX8SJvaCUuBAbXZetYsZMQlcPuDMIRSOo=;
+  b=hpVWOZaJcIPhSmFGjtQMQLuwvWMv2m0Q67B+fnSdPRO/mhnRnyffdtMz
+   mPVc2Q7G+9wZWjrFy0imaKaZhvvGcLDzuQ5X/y5sXTgOVY0mnGZAIYk8H
+   lQX94HHN08NVePJzmRzRJpiWJOyOBf5ptA5bkw7SF7FtqI4bTgP2m9spp
+   qiAGrDm3AWVs3RqYREeC7FXVYmAtwKGctrK1GzfnT9PJBLRHjgv5b8g2s
+   LDX5LAeTpMeqHOoN2GZ4yW6ofkA8XfbtDX6uTc6FCm+2UYiEFwNkffZho
+   ziHFKg521VixAJCc3Lj2qoNgynC463RK+tmB9CSrVBAJZOSC5S6oAtwkz
    g==;
-X-CSE-ConnectionGUID: xB3LMZSHQnqnISO2JBaCnw==
-X-CSE-MsgGUID: P/SNmCFQStOQG++F05/9LA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="58496838"
+X-CSE-ConnectionGUID: SC4PIEdrQ6msh6LnrpoWwA==
+X-CSE-MsgGUID: mnaKJxSTRvy5dOrp6B2WCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="70392529"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="58496838"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 06:34:17 -0700
-X-CSE-ConnectionGUID: 6wuetqa+TdKkKHWsJ5c4wA==
-X-CSE-MsgGUID: ji1k9UGwQnalyqv/QPbrdA==
+   d="scan'208";a="70392529"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 08:47:25 -0700
+X-CSE-ConnectionGUID: mPTB+oPzSeG0bV/QSyCC9w==
+X-CSE-MsgGUID: v25XHBqXRlWv11/3pKDeKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="171887785"
+   d="scan'208";a="139455617"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 May 2025 06:34:16 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 May 2025 08:47:23 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAqWr-0004mP-1S;
-	Fri, 02 May 2025 13:34:13 +0000
-Date: Fri, 2 May 2025 21:33:38 +0800
+	id 1uAsbg-0004qX-2w;
+	Fri, 02 May 2025 15:47:20 +0000
+Date: Fri, 2 May 2025 23:46:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1 05/10] ARM: dts: exynos: Add rtc clock definitions for
- MAX77686 PMIC for Exynos4412 p4note
-Message-ID: <202505022148.52gEO826-lkp@intel.com>
+Subject: [robh:dt-convert-irq 37/44] arch/arc/boot/dts/axs103.dtb:
+ archs-intc@cpu (snps,archs-intc): 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202505022344.2vnuykWh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,55 +69,221 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250425132727.5160-6-linux.amoon@gmail.com>
-References: <20250425132727.5160-6-linux.amoon@gmail.com>
-TO: Anand Moon <linux.amoon@gmail.com>
-TO: Chanwoo Choi <cw00.choi@samsung.com>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Alim Akhtar <alim.akhtar@samsung.com>
-TO: linux-kernel@vger.kernel.org
-TO: linux-clk@vger.kernel.org
-TO: devicetree@vger.kernel.org
-CC: Anand Moon <linux.amoon@gmail.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Anand,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 02ddfb981de88a2c15621115dd7be2431252c568]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/dt-bindings-clock-Add-RTC-clock-binding-for-Maxim-MAX77686/20250425-213549
-base:   02ddfb981de88a2c15621115dd7be2431252c568
-patch link:    https://lore.kernel.org/r/20250425132727.5160-6-linux.amoon%40gmail.com
-patch subject: [PATCH v1 05/10] ARM: dts: exynos: Add rtc clock definitions for MAX77686 PMIC for Exynos4412 p4note
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-052-20250429 (https://download.01.org/0day-ci/archive/20250502/202505022148.52gEO826-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert-irq
+head:   271e22adde83e0cc6fce40f70c5f660bf1a8e2e3
+commit: f4353e4ddc1cb693532e7342c51587d5c612f2fb [37/44] dt-bindings: interrupt-controller: Convert snps,archs-intc to DT schema
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: arc-randconfig-051-20250502 (https://download.01.org/0day-ci/archive/20250502/202505022344.2vnuykWh-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022148.52gEO826-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505022344.2vnuykWh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505022148.52gEO826-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505022344.2vnuykWh-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: pmic@9 (maxim,max77686): 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77686.yaml#
-   arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: i2c-gpio-1 (i2c-gpio): $nodename:0: 'i2c-gpio-1' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: i2c-gpio-1 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'magnetometer@c' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: i2c-gpio-2 (i2c-gpio): $nodename:0: 'i2c-gpio-2' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: i2c-gpio-2 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'fuel-gauge@36' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm/boot/dts/samsung/exynos4412-p4note-n8010.dtb: i2c-gpio-3 (i2c-gpio): $nodename:0: 'i2c-gpio-3' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103.dtb: cpu_card (simple-bus): archs-intc@cpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103.dtb: cpu_card (simple-bus): input-clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103.dtb: cpu_card (simple-bus): $nodename:0: 'cpu_card' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103.dtb: cpu_card (simple-bus): 'archs-intc@cpu' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arc/boot/dts/axs103.dtb: /cpu_card/core-clk@80: failed to match any schema with compatible: ['snps,axs10x-arc-pll-clock']
+>> arch/arc/boot/dts/axs103.dtb: archs-intc@cpu (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/axs103.dtb: dw-apb-gpio@2000 (snps,dw-apb-gpio): $nodename:0: 'dw-apb-gpio@2000' does not match '^gpio@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/snps,dw-apb-gpio.yaml#
+   arch/arc/boot/dts/axs103.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/axs103.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/axs103.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: cpu_card (simple-bus): archs-intc@cpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: cpu_card (simple-bus): idu-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: cpu_card (simple-bus): $nodename:0: 'cpu_card' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: cpu_card (simple-bus): 'archs-intc@cpu' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: /cpu_card/core-clk@80: failed to match any schema with compatible: ['snps,axs10x-arc-pll-clock']
+>> arch/arc/boot/dts/axs103_idu.dtb: archs-intc@cpu (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: dw-apb-gpio@2000 (snps,dw-apb-gpio): $nodename:0: 'dw-apb-gpio@2000' does not match '^gpio@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/snps,dw-apb-gpio.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/axs103_idu.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arc/boot/dts/haps_hs.dtb: /rtc: failed to match any schema with compatible: ['snps,archs-timer-rtc']
+   arch/arc/boot/dts/haps_hs.dtb: /timer1: failed to match any schema with compatible: ['snps,arc-timer']
+   arch/arc/boot/dts/haps_hs.dtb: fpga (simple-bus): core_clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: fpga (simple-bus): pct: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: fpga (simple-bus): interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arc/boot/dts/haps_hs.dtb: interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: serial@f0000000 (ns16550a): no-loopback-test: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: serial@f0000000 (ns16550a): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
+   arch/arc/boot/dts/haps_hs.dtb: pct (snps,archs-pct): 'reg' is a required property
+--
+   arch/arc/boot/dts/haps_hs_idu.dtb: fpga (simple-bus): core_clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: fpga (simple-bus): interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: fpga (simple-bus): pct: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: fpga (simple-bus): idu-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arc/boot/dts/haps_hs_idu.dtb: interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: serial@f0000000 (ns16550a): no-loopback-test: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: serial@f0000000 (ns16550a): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: pct (snps,archs-pct): '#interrupt-cells', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
+   arch/arc/boot/dts/haps_hs_idu.dtb: pct (snps,archs-pct): 'reg' is a required property
+--
+   arch/arc/boot/dts/hsdk.dts:189.28-193.5: Warning (simple_bus_reg): /soc/gpu-cfg-clk: missing or empty reg/ranges property
+   arch/arc/boot/dts/hsdk.dts:195.32-199.5: Warning (simple_bus_reg): /soc/dmac-core-clk: missing or empty reg/ranges property
+   arch/arc/boot/dts/hsdk.dts:201.34-205.5: Warning (simple_bus_reg): /soc/dmac-gpu-cfg-clk: missing or empty reg/ranges property
+   arch/arc/boot/dts/hsdk.dtb: /: failed to match any schema with compatible: ['snps,hsdk']
+   arch/arc/boot/dts/hsdk.dtb: / (snps,hsdk): memory@80000000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arc/boot/dts/hsdk.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['snps,archs38']
+   arch/arc/boot/dts/hsdk.dtb: /cpus/cpu@1: failed to match any schema with compatible: ['snps,archs38']
+   arch/arc/boot/dts/hsdk.dtb: /cpus/cpu@2: failed to match any schema with compatible: ['snps,archs38']
+   arch/arc/boot/dts/hsdk.dtb: /cpus/cpu@3: failed to match any schema with compatible: ['snps,archs38']
+>> arch/arc/boot/dts/hsdk.dtb: cpu-interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/hsdk.dtb: pct (snps,archs-pct): 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
+   arch/arc/boot/dts/hsdk.dtb: pct (snps,archs-pct): 'reg' is a required property
+   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
+   arch/arc/boot/dts/hsdk.dtb: pct (snps,archs-pct): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/arc/snps,archs-pct.yaml#
+   arch/arc/boot/dts/hsdk.dtb: /timer: failed to match any schema with compatible: ['snps,arc-timer']
+--
+   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): core_clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): core-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): pct: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): pguclk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arc/boot/dts/nsimosci_hs.dtb: core-interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: serial@f0000000 (ns8250): no-loopback-test: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: serial@f0000000 (ns8250): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/nsimosci_hs.dtb: /fpga/pgu@f9000000: failed to match any schema with compatible: ['snps,arcpgu']
+   arch/arc/boot/dts/nsimosci_hs.dtb: /fpga/ps2@f9001000: failed to match any schema with compatible: ['snps,arc_ps2']
+   arch/arc/boot/dts/nsimosci_hs.dtb: /fpga/ethernet@f0003000: failed to match any schema with compatible: ['ezchip,nps-mgt-enet']
+--
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): core-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): pct: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): pguclk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): idu-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: fpga (simple-bus): $nodename:0: 'fpga' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arc/boot/dts/nsimosci_hs_idu.dtb: core-interrupt-controller (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: serial@f0000000 (ns8250): no-loopback-test: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: serial@f0000000 (ns8250): Unevaluated properties are not allowed ('baud', 'no-loopback-test' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: /fpga/pgu@f9000000: failed to match any schema with compatible: ['snps,arcpgu']
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: /fpga/ps2@f9001000: failed to match any schema with compatible: ['snps,arc_ps2']
+   arch/arc/boot/dts/nsimosci_hs_idu.dtb: /fpga/ethernet@f0003000: failed to match any schema with compatible: ['ezchip,nps-mgt-enet']
+--
+   arch/arc/boot/dts/vdk_hs38.dtb: /rtc: failed to match any schema with compatible: ['snps,archs-timer-rtc']
+   arch/arc/boot/dts/vdk_hs38.dtb: /timer1: failed to match any schema with compatible: ['snps,arc-timer']
+   arch/arc/boot/dts/vdk_hs38.dtb: cpu_card (simple-bus): core_clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: cpu_card (simple-bus): archs-intc@cpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: cpu_card (simple-bus): $nodename:0: 'cpu_card' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: cpu_card (simple-bus): 'archs-intc@cpu' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arc/boot/dts/vdk_hs38.dtb: archs-intc@cpu (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/vdk_hs38.dtb: /interrupt-controller@e0012000: failed to match any schema with compatible: ['snps,dw-apb-ictl']
+   arch/arc/boot/dts/vdk_hs38.dtb: axs10x_mb_vdk (simple-bus): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+--
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: cpu_card (simple-bus): core_clk: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: cpu_card (simple-bus): idu-interrupt-controller: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: cpu_card (simple-bus): archs-intc@cpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: cpu_card (simple-bus): $nodename:0: 'cpu_card' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: cpu_card (simple-bus): 'archs-intc@cpu' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arc/boot/dts/vdk_hs38_smp.dtb: archs-intc@cpu (snps,archs-intc): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/snps,archs-intc.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): $nodename:0: 'dw-apb-uart@5000' does not match '^serial(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: dw-apb-uart@5000 (snps,dw-apb-uart): Unevaluated properties are not allowed ('baud' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/snps-dw-apb-uart.yaml#
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: /interrupt-controller@e0012000: failed to match any schema with compatible: ['snps,dw-apb-ictl']
+   arch/arc/boot/dts/vdk_hs38_smp.dtb: axs10x_mb_vdk (simple-bus): clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
