@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C5514B06C
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 May 2025 05:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5681991B6
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 May 2025 07:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746250985; cv=none; b=B8Q5sCnyrDcOP4fTYOD0nRt81sCNz0Yd1mnH4abU4tIEHa47xEUUEkydFg/WOhJyIZf8U/PO9kZg1JL1mDWLgzHVfvzUHLBq73dLJ8JrT/MVcOAQHDaoE8qaQAVxLMotVoaHkXqWf1UFDGGQg4S4sDc+5yHIcvbdXHckX9kvdsg=
+	t=1746258401; cv=none; b=SS8iKztRa0DqbOoynyxBHQIWbuaoPnVbg9DrOaXaK4INJ+uFmXeMlGxxzreogjovYMgUMU94R7Eya5OqPnBB1EswHdhuimrMIcOq8OyHRcibISYshVZ8ooNjVa5WkK0ugv4wdapI86oKds2yFyXtPSd4VtfwqqrTBLgEw5vgh9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746250985; c=relaxed/simple;
-	bh=EqlAyYs18fHWObQQ1VeFey6f+MKIG4LmT1wOdeEsKws=;
+	s=arc-20240116; t=1746258401; c=relaxed/simple;
+	bh=tSDGnw73VfangGgIckq3gvfm/ciNQurXEy7MxqcJ3nk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m7RqyMieSwFKLSzVCppdJaV6yh3QggCLa0cTxJu62FO/aQyd8ChCnvU1LOWfYX4baxzL4mLNmLqfFf/oa+6iuSb5Iowj9UiJk50CrDYNNM6wQEGAV131UanJsi2pPbJ37Tas9dxbLgEl2q4uXY8ATRzbgDlV2s5FqRI0G0eBGf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfCgCtnB; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=N6K1cI1DSKJ5lOKtx898+kX193XXEW8hTd6FLexnTCZa1xi4I10RSWZNeRYaX5udkscZEO1HLIdyBF7Db4BYoVlZrquToQfEmaoXD9nROA2PEwDm1nUxPrPE+9Noq/KPPNZBInHC8JtORTgjv6PZadhM7tpU+0C00JZwrExLUc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wpzu+SMT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfCgCtnB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wpzu+SMT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746250983; x=1777786983;
+  t=1746258399; x=1777794399;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EqlAyYs18fHWObQQ1VeFey6f+MKIG4LmT1wOdeEsKws=;
-  b=DfCgCtnBryHEGhcbvsbNKsfU1238DKxvk47HD4g682EJ9C92N/+Abyw1
-   GtJz24UsjofnfpyGP97qTdIZbOO0QcWve0k8O1KqU+/BZX0P+2vgjUmx+
-   9+bEHSTVTZheYuvPdywV74opd+cV7miFQdB9pMtbiM+230oiDcSKo8BRo
-   IJXMBGQdnaZzvONfJ6m782rVfTzFJoJAG1P+ykySoDaF+ldcrjcLy2Hnz
-   ymH8fFTVTeGW8RIlPwshqGsYGgZW7a38RtbIAVFwhERSOnHvEkwdSVe16
-   EtxxyGFln8aIyCyCKDlv4srgUOjkhVGzaRiineZJm/6kt2ZJaPs5xZZUs
-   w==;
-X-CSE-ConnectionGUID: uhbIlIw1Q6CukqFolLrncw==
-X-CSE-MsgGUID: zCwOuj9DQPiAny+Swz1U7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="59289898"
+  bh=tSDGnw73VfangGgIckq3gvfm/ciNQurXEy7MxqcJ3nk=;
+  b=Wpzu+SMT/Vw+QtGaJlbbtAS2IU56q5CIkM9vDTnF2v+JdkhDXJCbsRYX
+   OJXAS8o3u0RN9LEVXv529iBFc6ZZSQa/S4bsgim51gva2AJQKlYBte+zN
+   KF+dInmDNZLR6HhGd00JKJ++Y/9Qf1OuvwA2akEupLVNvcRQ2EOMhaxB3
+   5ma1Qun21PLfQGL7MgTgCZ4U2ekOOFhMphTyBtSAm/8Xgl0c81PhxcDVL
+   1ONsfvsJeoPPBUUbbWl58vROvQcPI9Nbm8tTgduSouQ/J2KHjjaleU3gG
+   hJOTGArCGSz+bG66/CEvn4K8TGdbDxR0e0Y72+y/NtnOnQwbUW0chYUYt
+   A==;
+X-CSE-ConnectionGUID: AmJMfpFaREC2BXVcgjNhaQ==
+X-CSE-MsgGUID: MNSIftrZQCC450qaZfJ9vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="59321714"
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="59289898"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 22:43:02 -0700
-X-CSE-ConnectionGUID: j/Qd36KAT1y70MD8revYhA==
-X-CSE-MsgGUID: 6aXYV0SjQouImN1AjI2ikg==
+   d="scan'208";a="59321714"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2025 00:46:38 -0700
+X-CSE-ConnectionGUID: c4CYkO4oTgemHvp1Hop6mQ==
+X-CSE-MsgGUID: A+sOf4zuR3K/GarNMf67hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,258,1739865600"; 
-   d="scan'208";a="134726861"
+   d="scan'208";a="135142446"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 May 2025 22:43:01 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 May 2025 00:46:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uB5eM-0005DB-1D;
-	Sat, 03 May 2025 05:42:58 +0000
-Date: Sat, 3 May 2025 13:40:00 +0800
+	id 1uB7Zy-0005Fl-0J;
+	Sat, 03 May 2025 07:46:34 +0000
+Date: Sat, 3 May 2025 15:46:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 3131/4324] arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic
- (mediatek,mt6359): '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not
- match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202505031342.tPEU6Lct-lkp@intel.com>
+Subject: [robh:dt-convert-irq 19/44]
+ arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000
+ (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+Message-ID: <202505031517.60GrWie6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,37 +69,131 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   da2f3a9f5091c2c6ee04ce79f7031338e6decac3
-commit: 85fbc56f6b9120c56423361ea389462606f739dc [3131/4324] arm64: dts: mediatek: add device-tree for Genio 510 EVK board
-:::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-052-20250503 (https://download.01.org/0day-ci/archive/20250503/202505031342.tPEU6Lct-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert-irq
+head:   271e22adde83e0cc6fce40f70c5f660bf1a8e2e3
+commit: a27a490fd711a07f6ff475f1004f1612c84d725b [19/44] dt-bindings: interrupt-controller: Convert hisilicon,mbigen-v2 to DT schema
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: arm64-randconfig-051-20250502 (https://download.01.org/0day-ci/archive/20250503/202505031517.60GrWie6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031342.tPEU6Lct-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250503/202505031517.60GrWie6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505031342.tPEU6Lct-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505031517.60GrWie6-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pinctrl@10005000 (mediatek,mt8188-pinctrl): 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt6359): '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: jpeg-decoder@1a040000 (mediatek,mt8188-jpgdec): iommus: [[123, 685], [123, 686], [123, 690], [123, 691], [123, 692], [123, 693]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /ethernet-0: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /ethernet-1: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /ethernet-4: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: /ethernet-5: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000 (hisilicon,mbigen-v2): 'intc_pcie0', 'intc_sas1', 'intc_sas2', 'intc_usb' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_pcie@a0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_dsa@c0080000 (hisilicon,mbigen-v2): 'intc-sas0', 'intc_dsaf0' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_dsa@c0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_dsa@c0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_dsa@c0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: mbigen_dsa@c0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: serial@2f8 (ns16550a): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: usb@a7030000 (generic-ohci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: usb@a7020000 (generic-ehci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: sds_ctrl@c2200000 (syscon): compatible: ['syscon'] is too short
+--
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-0: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-1: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-2: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-3: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@60080000 (hisilicon,mbigen-v2): 'uart_intc' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@60080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@60080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@60080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@60080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@a0080000 (hisilicon,mbigen-v2): 'intc_pcie2_a', 'intc_sas1', 'intc_sas2', 'intc_smmu_pcie', 'intc_usb' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@a0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@a0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@a0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@a0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@d0080000 (hisilicon,mbigen-v2): 'intc_sec', 'intc_smmu_alg' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@d0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@d0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@d0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@d0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@8,d0080000 (hisilicon,mbigen-v2): 'intc_sec', 'intc_smmu_alg' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@8,d0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@8,d0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@8,d0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@8,d0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+--
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@408,d0080000 (hisilicon,mbigen-v2): 'intc_sec', 'intc_smmu_alg' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@408,d0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@408,d0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@408,d0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@408,d0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@c0080000 (hisilicon,mbigen-v2): 'intc-roce', 'intc-sas0', 'intc_dsaf0', 'intc_smmu_dsa' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@c0080000 (hisilicon,mbigen-v2): 'interrupt-controller' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@c0080000 (hisilicon,mbigen-v2): 'msi-parent' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@c0080000 (hisilicon,mbigen-v2): 'num-pins' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: interrupt-controller@c0080000 (hisilicon,mbigen-v2): '#interrupt-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/hisilicon,mbigen-v2.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/serial@602b0000: failed to match any schema with compatible: ['arm,sbsa-uart']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7030000 (generic-ohci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7020000 (generic-ehci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: dsa_cpld@78000010 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: sds_ctrl@c2200000 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
