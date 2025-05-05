@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AA713AA53
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 May 2025 13:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6476525D203
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 May 2025 15:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746452693; cv=none; b=Yw9z+rhb1EAp1zYTxFWZv4uj6yuJWPw/nlK8YtM20lUOaCrmeknP0JwW1nJg+uzHp4QACoBjNtW1yWiaDZzBL9HNZw2hFjd8lGGEVCeleQk+rL530IO5JowUaCDi2Nl6oi8JNmjECMYM6JRfP4zy56s0rfZcVVvPwSxR5AZUnJE=
+	t=1746459540; cv=none; b=qeSOsnqMosyDaJlq2+InCDUhw7zrRH7dPFI8crI0lt4Uj/iVZgsDBt10X8f3ytb2y07q6Gpp7X+hC3v4IthHcAsyvffP/pkpEDaOZuDWyOAO5ILNfHXIb6QWzvcqtsWx9pxIQFFixFlLpho18iqDuaWkOLqX3BxkLfI/cJ56i04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746452693; c=relaxed/simple;
-	bh=RghmvCmsCr29DwchhuFHvdoYVKvK/KRtXq54fF6NfC8=;
+	s=arc-20240116; t=1746459540; c=relaxed/simple;
+	bh=wOoHMO1eJ0UC4FDxHmkbrVwgQUQ1G/HppY9fMyCJ0tg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a3hWHsJfV/C/GvofdQpPTn+5Z5VlamirzMDgk43p4iWvm3wUb2AmnyTMZ3SRIWgQUUE7yUv//26zhVqkKp6iv9o+BadJ2E+lICnDKCgW8T1VXGjsAVAZaOafffT4igBM0qiR2+eiijXbOU7M6gGQss3hYuNeAkwPAcxN0tH74ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSFrdqNN; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=uEoNxRVr8MbLWOMDiG9twZfLQJUCtp13YjkRsueAIFrCkMIQVebhZd20M0F2WeBgpkqw4AV5kx2kKl5+jacZU0oOfWjFbw/LXkW79bQUu6ubN9UTCYxeZC+RsB/+WJzcqc9Zf/MetiPH4thOfiwGzKHBjhh7p7N35G9TVk0iU6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgLVDoFL; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSFrdqNN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgLVDoFL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746452691; x=1777988691;
+  t=1746459539; x=1777995539;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RghmvCmsCr29DwchhuFHvdoYVKvK/KRtXq54fF6NfC8=;
-  b=VSFrdqNNTxoA+XzUSPTzzQOKa7Ok+JQ8FWOX8X6LdhTWlkzFPxxZqOcN
-   HFzdVPAEHrve2era7eoZ8MRzzz8Ju7H3pumnNnLy7y3VyuHoWk9KG84XX
-   SKzv2MjDEeOKzlwgrmKdYpqnriYsGHy7gYLFlx3i6l+1hWrol57VK5qlS
-   /nqd6Gnwj3UMIVcCcnuIVa9Xn5PSUiqlUbtsSqkD0FXm/bDzVh3PuXwOU
-   GYD/L2IX1T6qX+fcF9MnnaoOBudF8/ZDQk68gjy5fvJ24x4At++7OpTbq
-   uNGFJJ8rcuZ3pXkCcb65GNTn0Ue6+wbRzXwoFMXhT10K1JCNNPFcHEXMq
+  bh=wOoHMO1eJ0UC4FDxHmkbrVwgQUQ1G/HppY9fMyCJ0tg=;
+  b=ZgLVDoFLjxxUzjgkQ5/0HH2i3bKmkT8mweKyIFJdCqK2XujlE94c8CVh
+   dGE6jTzcdT6X2j3fm4ZQ/+Wh8Lpl8t0VPLV1x9Rg26oGT3IW3/AFSsx28
+   dbWNSRTT3MLoq+36WQYW1lbogF7BnU0OYcUsCvjOxWZDK07wahU/a2CcH
+   txsJlqXudbwSVs01hx8BAaE2MEGFkHeO8yCqx4VGlRVh54aVNp7v4WWev
+   7ne53FnHQ5dRuIgIoEYRxobjVWm/lQWcpFA2UcHzCYJ3UWbu/J8T4T3wr
+   IFxr8DsTPYmMwMeRL3AekIt041YGTUtUyWGVJxVpuNorq/FJM2rBjssD5
    Q==;
-X-CSE-ConnectionGUID: AVagWJs5RqeEplrJIxX31w==
-X-CSE-MsgGUID: xamo/fqxSEWYgZD2VVU+Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="59452987"
+X-CSE-ConnectionGUID: 992zo/mxRXSBQ3HtXutUpA==
+X-CSE-MsgGUID: SnpMmCX9SfGd8Tciouew7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48218791"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="59452987"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:44:51 -0700
-X-CSE-ConnectionGUID: j1XQDJAdQ12pX+xeCeAFRQ==
-X-CSE-MsgGUID: cfKc92CvSiWZS6LlPDpfKQ==
+   d="scan'208";a="48218791"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 08:38:57 -0700
+X-CSE-ConnectionGUID: 6QVDZOfbRvWtWYxJsrCBLw==
+X-CSE-MsgGUID: RUsopXKmTVKxMFlbPEnwfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="140246999"
+   d="scan'208";a="135792059"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 May 2025 06:44:49 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 May 2025 08:38:55 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBw7h-0005lb-26;
-	Mon, 05 May 2025 13:44:45 +0000
-Date: Mon, 5 May 2025 21:44:04 +0800
+	id 1uBxu9-0005sh-0I;
+	Mon, 05 May 2025 15:38:53 +0000
+Date: Mon, 5 May 2025 23:37:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v8 12/13] KVM: x86: KVM_X86_SW_PROTECTED_VM to support
- guest_memfd shared memory
-Message-ID: <202505052105.0TM3zWdn-lkp@intel.com>
+Subject: [linux-next:master 6836/8712]
+ drivers/pinctrl/pinctrl-at91.c:1829:23: sparse: sparse: invalid access below
+ 'gpio_chips' (-712 40)
+Message-ID: <202505052343.UHF1Zo93-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,158 +64,127 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/pinctrl/pinctrl-at91.c:1829:23: sparse: sparse: invalid access below 'gpio_chips' (-712 40)"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250430165655.605595-13-tabba@google.com>
-References: <20250430165655.605595-13-tabba@google.com>
-TO: Fuad Tabba <tabba@google.com>
-TO: kvm@vger.kernel.org
-TO: linux-arm-msm@vger.kernel.org
-TO: linux-mm@kvack.org
-CC: pbonzini@redhat.com
-CC: chenhuacai@kernel.org
-CC: mpe@ellerman.id.au
-CC: anup@brainfault.org
-CC: paul.walmsley@sifive.com
-CC: palmer@dabbelt.com
-CC: aou@eecs.berkeley.edu
-CC: seanjc@google.com
-CC: viro@zeniv.linux.org.uk
-CC: brauner@kernel.org
-CC: willy@infradead.org
-CC: akpm@linux-foundation.org
-CC: xiaoyao.li@intel.com
-CC: yilun.xu@intel.com
-CC: chao.p.peng@linux.intel.com
-CC: jarkko@kernel.org
-CC: amoorthy@google.com
-CC: dmatlack@google.com
-CC: isaku.yamahata@intel.com
-CC: mic@digikod.net
-CC: vbabka@suse.cz
-CC: vannapurve@google.com
-CC: ackerleytng@google.com
-CC: mail@maciej.szmigiero.name
-CC: david@redhat.com
-CC: michael.roth@amd.com
-CC: wei.w.wang@intel.com
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
 
-Hi Fuad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b4432656b36e5cc1d50a1f2dc15357543add530e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/KVM-Rename-CONFIG_KVM_PRIVATE_MEM-to-CONFIG_KVM_GMEM/20250501-005807
-base:   b4432656b36e5cc1d50a1f2dc15357543add530e
-patch link:    https://lore.kernel.org/r/20250430165655.605595-13-tabba%40google.com
-patch subject: [PATCH v8 12/13] KVM: x86: KVM_X86_SW_PROTECTED_VM to support guest_memfd shared memory
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-013-20250505 (https://download.01.org/0day-ci/archive/20250505/202505052105.0TM3zWdn-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505052105.0TM3zWdn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   407f60a151df3c44397e5afc0111eb9b026c38d3
+commit: 8e86af65f39df6a8f1c1f033b90a5f7d5457ee7a [6836/8712] pinctrl: at91: allow building the module with COMPILE_TEST=y
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 days ago
+config: mips-randconfig-r133-20250503 (https://download.01.org/0day-ci/archive/20250505/202505052343.UHF1Zo93-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250505/202505052343.UHF1Zo93-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505052105.0TM3zWdn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505052343.UHF1Zo93-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/pinctrl-at91.c:1829:23: sparse: sparse: invalid access below 'gpio_chips' (-712 40)
 
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:577:2: error: call to '__compiletime_assert_587' declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(gfn_t) != sizeof(slot->gmem.pgoff)
-     577 |         BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:145:1: note: expanded from here
-     145 | __compiletime_assert_587
-         | ^
-   1 error generated.
+vim +/gpio_chips +1829 drivers/pinctrl/pinctrl-at91.c
 
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1814  
+150632b09aadf1 Greg Kroah-Hartman               2012-12-21  1815  static int at91_gpio_probe(struct platform_device *pdev)
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1816  {
+f494c1913cbb34 Andy Shevchenko                  2023-02-15  1817  	struct device *dev = &pdev->dev;
+f494c1913cbb34 Andy Shevchenko                  2023-02-15  1818  	struct device_node *np = dev->of_node;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1819  	struct at91_gpio_chip *at91_chip = NULL;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1820  	struct gpio_chip *chip;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1821  	struct pinctrl_gpio_range *range;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1822  	int ret = 0;
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1823  	int irq, i;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1824  	int alias_idx = of_alias_get_id(np, "gpio");
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1825  	uint32_t ngpio;
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1826  	char **names;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1827  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1828  	BUG_ON(alias_idx >= ARRAY_SIZE(gpio_chips));
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15 @1829  	if (gpio_chips[alias_idx])
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1830  		return dev_err_probe(dev, -EBUSY, "%d slot is occupied.\n", alias_idx);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1831  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1832  	irq = platform_get_irq(pdev, 0);
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1833  	if (irq < 0)
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1834  		return irq;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1835  
+00408f28c344fd Andy Shevchenko                  2023-02-15  1836  	at91_chip = devm_kzalloc(dev, sizeof(*at91_chip), GFP_KERNEL);
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1837  	if (!at91_chip)
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1838  		return -ENOMEM;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1839  
+4b024225c4a824 YueHaibing                       2019-11-04  1840  	at91_chip->regbase = devm_platform_ioremap_resource(pdev, 0);
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1841  	if (IS_ERR(at91_chip->regbase))
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1842  		return PTR_ERR(at91_chip->regbase);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1843  
+63bffc2d3a99ea Rob Herring                      2023-10-09  1844  	at91_chip->ops = device_get_match_data(dev);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1845  	at91_chip->pioc_virq = irq;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1846  
+00408f28c344fd Andy Shevchenko                  2023-02-15  1847  	at91_chip->clock = devm_clk_get_enabled(dev, NULL);
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1848  	if (IS_ERR(at91_chip->clock))
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1849  		return dev_err_probe(dev, PTR_ERR(at91_chip->clock), "failed to get clock, ignoring.\n");
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1850  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1851  	at91_chip->chip = at91_gpio_template;
+a5752075836762 Claudiu Beznea                   2022-08-31  1852  	at91_chip->id = alias_idx;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1853  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1854  	chip = &at91_chip->chip;
+00408f28c344fd Andy Shevchenko                  2023-02-15  1855  	chip->label = dev_name(dev);
+00408f28c344fd Andy Shevchenko                  2023-02-15  1856  	chip->parent = dev;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1857  	chip->owner = THIS_MODULE;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1858  	chip->base = alias_idx * MAX_NB_GPIO_PER_BANK;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1859  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1860  	if (!of_property_read_u32(np, "#gpio-lines", &ngpio)) {
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1861  		if (ngpio >= MAX_NB_GPIO_PER_BANK)
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1862  			dev_err(dev, "at91_gpio.%d, gpio-nb >= %d failback to %d\n",
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1863  				alias_idx, MAX_NB_GPIO_PER_BANK, MAX_NB_GPIO_PER_BANK);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1864  		else
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1865  			chip->ngpio = ngpio;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1866  	}
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1867  
+f494c1913cbb34 Andy Shevchenko                  2023-02-15  1868  	names = devm_kasprintf_strarray(dev, "pio", chip->ngpio);
+35216718c9ac2a Dan Carpenter                    2023-05-22  1869  	if (IS_ERR(names))
+35216718c9ac2a Dan Carpenter                    2023-05-22  1870  		return PTR_ERR(names);
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1871  
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1872  	for (i = 0; i < chip->ngpio; i++)
+f494c1913cbb34 Andy Shevchenko                  2023-02-15  1873  		strreplace(names[i], '-', alias_idx + 'A');
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1874  
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1875  	chip->names = (const char *const *)names;
+32b01a366eb5d7 Jean-Christophe PLAGNIOL-VILLARD 2012-11-07  1876  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1877  	range = &at91_chip->range;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1878  	range->name = chip->label;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1879  	range->id = alias_idx;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1880  	range->pin_base = range->base = range->id * MAX_NB_GPIO_PER_BANK;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1881  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1882  	range->npins = chip->ngpio;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1883  	range->gc = chip;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1884  
+35dea5d746b2ba Linus Walleij                    2019-10-01  1885  	ret = at91_gpio_of_irq_setup(pdev, at91_chip);
+35dea5d746b2ba Linus Walleij                    2019-10-01  1886  	if (ret)
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1887  		return ret;
+35dea5d746b2ba Linus Walleij                    2019-10-01  1888  
+370ea61134e9d1 Linus Walleij                    2015-12-08  1889  	ret = gpiochip_add_data(chip, at91_chip);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1890  	if (ret)
+472bbb2cfd6384 Andy Shevchenko                  2023-02-15  1891  		return ret;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1892  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1893  	gpio_chips[alias_idx] = at91_chip;
+a5752075836762 Claudiu Beznea                   2022-08-31  1894  	platform_set_drvdata(pdev, at91_chip);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1895  	gpio_banks = max(gpio_banks, alias_idx + 1);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1896  
+00408f28c344fd Andy Shevchenko                  2023-02-15  1897  	dev_info(dev, "at address %p\n", at91_chip->regbase);
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1898  
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1899  	return 0;
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1900  }
+6732ae5cb47c4f Jean-Christophe PLAGNIOL-VILLARD 2012-07-12  1901  
 
-vim +577 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
+:::::: The code at line 1829 was first introduced by commit
+:::::: 472bbb2cfd6384fe4c4b956af2170c1225fe2a92 pinctrl: at91: Use dev_err_probe() instead of custom messaging
 
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  566  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  567  int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  568  		  unsigned int fd, loff_t offset)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  569  {
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  570  	loff_t size = slot->npages << PAGE_SHIFT;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  571  	unsigned long start, end;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  572  	struct kvm_gmem *gmem;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  573  	struct inode *inode;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  574  	struct file *file;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  575  	int r = -EINVAL;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  576  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13 @577  	BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  578  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  579  	file = fget(fd);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  580  	if (!file)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  581  		return -EBADF;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  582  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  583  	if (file->f_op != &kvm_gmem_fops)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  584  		goto err;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  585  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  586  	gmem = file->private_data;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  587  	if (gmem->kvm != kvm)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  588  		goto err;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  589  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  590  	inode = file_inode(file);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  591  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  592  	if (offset < 0 || !PAGE_ALIGNED(offset) ||
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  593  	    offset + size > i_size_read(inode))
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  594  		goto err;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  595  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  596  	filemap_invalidate_lock(inode->i_mapping);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  597  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  598  	start = offset >> PAGE_SHIFT;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  599  	end = start + slot->npages;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  600  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  601  	if (!xa_empty(&gmem->bindings) &&
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  602  	    xa_find(&gmem->bindings, &start, end - 1, XA_PRESENT)) {
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  603  		filemap_invalidate_unlock(inode->i_mapping);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  604  		goto err;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  605  	}
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  606  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  607  	/*
-67b43038ce14d6 Yan Zhao            2024-11-04  608  	 * memslots of flag KVM_MEM_GUEST_MEMFD are immutable to change, so
-67b43038ce14d6 Yan Zhao            2024-11-04  609  	 * kvm_gmem_bind() must occur on a new memslot.  Because the memslot
-67b43038ce14d6 Yan Zhao            2024-11-04  610  	 * is not visible yet, kvm_gmem_get_pfn() is guaranteed to see the file.
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  611  	 */
-67b43038ce14d6 Yan Zhao            2024-11-04  612  	WRITE_ONCE(slot->gmem.file, file);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  613  	slot->gmem.pgoff = start;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  614  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  615  	xa_store_range(&gmem->bindings, start, end - 1, slot, GFP_KERNEL);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  616  	filemap_invalidate_unlock(inode->i_mapping);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  617  
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  618  	/*
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  619  	 * Drop the reference to the file, even on success.  The file pins KVM,
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  620  	 * not the other way 'round.  Active bindings are invalidated if the
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  621  	 * file is closed before memslots are destroyed.
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  622  	 */
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  623  	r = 0;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  624  err:
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  625  	fput(file);
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  626  	return r;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  627  }
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  628  
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
