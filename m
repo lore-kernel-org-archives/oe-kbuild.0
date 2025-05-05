@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96BF153BE8
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 May 2025 06:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AA713AA53
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 May 2025 13:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746426582; cv=none; b=GAckLIOy+cyzuwROnWcHt4qxHpKV2oro3/sLy1IOBqekva+6OxLJSdK6G6hneZr0Lawmgr6dtQtj2hckRo1YE7KJ6wKJA2t3xaadLpwJQezicVMgSW69PA0I+anBtoO2uB9ZeTCIde3D29KNscfUc/pv8nMPR06tdNUVzx/BZBo=
+	t=1746452693; cv=none; b=Yw9z+rhb1EAp1zYTxFWZv4uj6yuJWPw/nlK8YtM20lUOaCrmeknP0JwW1nJg+uzHp4QACoBjNtW1yWiaDZzBL9HNZw2hFjd8lGGEVCeleQk+rL530IO5JowUaCDi2Nl6oi8JNmjECMYM6JRfP4zy56s0rfZcVVvPwSxR5AZUnJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746426582; c=relaxed/simple;
-	bh=OitHcl1g4s02YXV8xBdQK0qwFeWRsyvS7sAYFGLqRHw=;
+	s=arc-20240116; t=1746452693; c=relaxed/simple;
+	bh=RghmvCmsCr29DwchhuFHvdoYVKvK/KRtXq54fF6NfC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RU91x8orUX/cGf58CrRaQgfW6quz/XdLQdU+IIUHjLGST9ohFMSZ3PCtxU2S9FndcZFNRCAuM1HieaLxvV/s0GzO/2UmhpYHmyWvb/ygo81GpzyF3HKiA9/rD95ezef2IxnquLLPKXYpHsiZywE8ZANo4MqGgXJd9UoOmHGYhkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gl/fXWMF; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=a3hWHsJfV/C/GvofdQpPTn+5Z5VlamirzMDgk43p4iWvm3wUb2AmnyTMZ3SRIWgQUUE7yUv//26zhVqkKp6iv9o+BadJ2E+lICnDKCgW8T1VXGjsAVAZaOafffT4igBM0qiR2+eiijXbOU7M6gGQss3hYuNeAkwPAcxN0tH74ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSFrdqNN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gl/fXWMF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSFrdqNN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746426580; x=1777962580;
+  t=1746452691; x=1777988691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OitHcl1g4s02YXV8xBdQK0qwFeWRsyvS7sAYFGLqRHw=;
-  b=Gl/fXWMFErcUeFyrjb9kO1OsxQBrl4x4hkL4QSfUYOldEY2sULQtEyNw
-   XsJFHNDtW6IxzToLTET6N8SJCQ5RNK5rlgBs2kBXGiKsLDuWuh1ZVBhXl
-   lOpI7tV6H21UtGCxFFiLq5Ldj6gUyfk628YzoLpV2ya1qZ+Pvd3gLdXvV
-   KDeySdcdTDaT0kLePK2MYQyzkGcl3yzzXsIHRm/rj8thiDIcOlyaYv9mV
-   mynRAGaCvdb10z0fXDbOxJyzec6+k/XU5I7ZaI6+62P3z7Vqmrayo2CFX
-   LTt87V33KFDtN2N3znxyStcBVFLtotGmIUTUdBtffltf0KlaRX9vrtv/P
-   w==;
-X-CSE-ConnectionGUID: 7qAeX65LRiu5Srn23+3teg==
-X-CSE-MsgGUID: LjB4j6UcSHO97zaJUeIS7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="47925970"
+  bh=RghmvCmsCr29DwchhuFHvdoYVKvK/KRtXq54fF6NfC8=;
+  b=VSFrdqNNTxoA+XzUSPTzzQOKa7Ok+JQ8FWOX8X6LdhTWlkzFPxxZqOcN
+   HFzdVPAEHrve2era7eoZ8MRzzz8Ju7H3pumnNnLy7y3VyuHoWk9KG84XX
+   SKzv2MjDEeOKzlwgrmKdYpqnriYsGHy7gYLFlx3i6l+1hWrol57VK5qlS
+   /nqd6Gnwj3UMIVcCcnuIVa9Xn5PSUiqlUbtsSqkD0FXm/bDzVh3PuXwOU
+   GYD/L2IX1T6qX+fcF9MnnaoOBudF8/ZDQk68gjy5fvJ24x4At++7OpTbq
+   uNGFJJ8rcuZ3pXkCcb65GNTn0Ue6+wbRzXwoFMXhT10K1JCNNPFcHEXMq
+   Q==;
+X-CSE-ConnectionGUID: AVagWJs5RqeEplrJIxX31w==
+X-CSE-MsgGUID: xamo/fqxSEWYgZD2VVU+Yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="59452987"
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="47925970"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 23:29:39 -0700
-X-CSE-ConnectionGUID: mXn4pMm2Rjay57SMELaygQ==
-X-CSE-MsgGUID: HT2JgU+0TwqI/wtHD5rz2Q==
+   d="scan'208";a="59452987"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 06:44:51 -0700
+X-CSE-ConnectionGUID: j1XQDJAdQ12pX+xeCeAFRQ==
+X-CSE-MsgGUID: cfKc92CvSiWZS6LlPDpfKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="135686522"
+   d="scan'208";a="140246999"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 May 2025 23:29:38 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 May 2025 06:44:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uBpKZ-0005cD-21;
-	Mon, 05 May 2025 06:29:35 +0000
-Date: Mon, 5 May 2025 14:28:58 +0800
+	id 1uBw7h-0005lb-26;
+	Mon, 05 May 2025 13:44:45 +0000
+Date: Mon, 5 May 2025 21:44:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 7/7] arm64: dts: qcom: qcm6490-idp: Add sound card
-Message-ID: <202505051355.m7GgCOGF-lkp@intel.com>
+Subject: Re: [PATCH v8 12/13] KVM: x86: KVM_X86_SW_PROTECTED_VM to support
+ guest_memfd shared memory
+Message-ID: <202505052105.0TM3zWdn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,64 +63,158 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250429092430.21477-8-quic_pkumpatl@quicinc.com>
-References: <20250429092430.21477-8-quic_pkumpatl@quicinc.com>
-TO: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: cros-qcom-dts-watchers@chromium.org
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: kernel@oss.qualcomm.com
-CC: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-CC: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+In-Reply-To: <20250430165655.605595-13-tabba@google.com>
+References: <20250430165655.605595-13-tabba@google.com>
+TO: Fuad Tabba <tabba@google.com>
+TO: kvm@vger.kernel.org
+TO: linux-arm-msm@vger.kernel.org
+TO: linux-mm@kvack.org
+CC: pbonzini@redhat.com
+CC: chenhuacai@kernel.org
+CC: mpe@ellerman.id.au
+CC: anup@brainfault.org
+CC: paul.walmsley@sifive.com
+CC: palmer@dabbelt.com
+CC: aou@eecs.berkeley.edu
+CC: seanjc@google.com
+CC: viro@zeniv.linux.org.uk
+CC: brauner@kernel.org
+CC: willy@infradead.org
+CC: akpm@linux-foundation.org
+CC: xiaoyao.li@intel.com
+CC: yilun.xu@intel.com
+CC: chao.p.peng@linux.intel.com
+CC: jarkko@kernel.org
+CC: amoorthy@google.com
+CC: dmatlack@google.com
+CC: isaku.yamahata@intel.com
+CC: mic@digikod.net
+CC: vbabka@suse.cz
+CC: vannapurve@google.com
+CC: ackerleytng@google.com
+CC: mail@maciej.szmigiero.name
+CC: david@redhat.com
+CC: michael.roth@amd.com
+CC: wei.w.wang@intel.com
 
-Hi Prasad,
+Hi Fuad,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 33035b665157558254b3c21c3f049fd728e72368]
+[auto build test ERROR on b4432656b36e5cc1d50a1f2dc15357543add530e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prasad-Kumpatla/arm64-dts-qcom-qcs6490-audioreach-Add-gpr-node/20250429-172836
-base:   33035b665157558254b3c21c3f049fd728e72368
-patch link:    https://lore.kernel.org/r/20250429092430.21477-8-quic_pkumpatl%40quicinc.com
-patch subject: [PATCH v2 7/7] arm64: dts: qcom: qcm6490-idp: Add sound card
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-053-20250502 (https://download.01.org/0day-ci/archive/20250505/202505051355.m7GgCOGF-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/KVM-Rename-CONFIG_KVM_PRIVATE_MEM-to-CONFIG_KVM_GMEM/20250501-005807
+base:   b4432656b36e5cc1d50a1f2dc15357543add530e
+patch link:    https://lore.kernel.org/r/20250430165655.605595-13-tabba%40google.com
+patch subject: [PATCH v8 12/13] KVM: x86: KVM_X86_SW_PROTECTED_VM to support guest_memfd shared memory
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-013-20250505 (https://download.01.org/0day-ci/archive/20250505/202505052105.0TM3zWdn-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051355.m7GgCOGF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505052105.0TM3zWdn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505051355.m7GgCOGF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505052105.0TM3zWdn-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:6400.15-6401.4: Warning (avoid_unnecessary_addr_size): /sound: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sc7280.dtsi:4106.10-4116.6: Warning (graph_child_address): /soc@0/eud@88e0000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: codec@3370000 (qcom,sc7280-lpass-va-macro): clock-names: ['mclk', 'macro', 'dcodec'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
-   arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: codec@3370000 (qcom,sc7280-lpass-va-macro): clocks: [[203, 56, 1], [203, 102, 1], [203, 103, 1]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,lpass-va-macro.yaml#
-   arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: pinctrl@33c0000 (qcom,sc7280-lpass-lpi-pinctrl): Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,sc7280-lpass-lpi-pinctrl.yaml#
->> arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: sound (qcom,qcm6490-idp-sndcard): '#address-cells', '#size-cells' do not match any of the regexes: '.*-dai-link$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,sm8250.yaml#
-   arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: audio-codec-0 (qcom,wcd9370-codec): 'qcom,micbias4-microvolt' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,wcd937x.yaml#
-   arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: audio-codec-0 (qcom,wcd9370-codec): Unevaluated properties are not allowed ('qcom,micbias1-microvolt', 'qcom,micbias2-microvolt', 'qcom,micbias3-microvolt', 'qcom,rx-device', 'qcom,tx-device', 'reset-gpios', 'vdd-buck-supply', 'vdd-mic-bias-supply', 'vdd-rxtx-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,wcd937x.yaml#
+All errors (new ones prefixed by >>):
+
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:577:2: error: call to '__compiletime_assert_587' declared with 'error' attribute: BUILD_BUG_ON failed: sizeof(gfn_t) != sizeof(slot->gmem.pgoff)
+     577 |         BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
+     545 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:145:1: note: expanded from here
+     145 | __compiletime_assert_587
+         | ^
+   1 error generated.
+
+
+vim +577 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
+
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  566  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  567  int kvm_gmem_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  568  		  unsigned int fd, loff_t offset)
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  569  {
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  570  	loff_t size = slot->npages << PAGE_SHIFT;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  571  	unsigned long start, end;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  572  	struct kvm_gmem *gmem;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  573  	struct inode *inode;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  574  	struct file *file;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  575  	int r = -EINVAL;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  576  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13 @577  	BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  578  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  579  	file = fget(fd);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  580  	if (!file)
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  581  		return -EBADF;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  582  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  583  	if (file->f_op != &kvm_gmem_fops)
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  584  		goto err;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  585  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  586  	gmem = file->private_data;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  587  	if (gmem->kvm != kvm)
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  588  		goto err;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  589  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  590  	inode = file_inode(file);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  591  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  592  	if (offset < 0 || !PAGE_ALIGNED(offset) ||
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  593  	    offset + size > i_size_read(inode))
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  594  		goto err;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  595  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  596  	filemap_invalidate_lock(inode->i_mapping);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  597  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  598  	start = offset >> PAGE_SHIFT;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  599  	end = start + slot->npages;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  600  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  601  	if (!xa_empty(&gmem->bindings) &&
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  602  	    xa_find(&gmem->bindings, &start, end - 1, XA_PRESENT)) {
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  603  		filemap_invalidate_unlock(inode->i_mapping);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  604  		goto err;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  605  	}
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  606  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  607  	/*
+67b43038ce14d6 Yan Zhao            2024-11-04  608  	 * memslots of flag KVM_MEM_GUEST_MEMFD are immutable to change, so
+67b43038ce14d6 Yan Zhao            2024-11-04  609  	 * kvm_gmem_bind() must occur on a new memslot.  Because the memslot
+67b43038ce14d6 Yan Zhao            2024-11-04  610  	 * is not visible yet, kvm_gmem_get_pfn() is guaranteed to see the file.
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  611  	 */
+67b43038ce14d6 Yan Zhao            2024-11-04  612  	WRITE_ONCE(slot->gmem.file, file);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  613  	slot->gmem.pgoff = start;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  614  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  615  	xa_store_range(&gmem->bindings, start, end - 1, slot, GFP_KERNEL);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  616  	filemap_invalidate_unlock(inode->i_mapping);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  617  
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  618  	/*
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  619  	 * Drop the reference to the file, even on success.  The file pins KVM,
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  620  	 * not the other way 'round.  Active bindings are invalidated if the
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  621  	 * file is closed before memslots are destroyed.
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  622  	 */
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  623  	r = 0;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  624  err:
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  625  	fput(file);
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  626  	return r;
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  627  }
+a7800aa80ea4d5 Sean Christopherson 2023-11-13  628  
 
 -- 
 0-DAY CI Kernel Test Service
