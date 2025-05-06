@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA4B1ACED9
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 May 2025 17:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E4922DFA5
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 May 2025 21:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746551048; cv=none; b=BPtSy/cOOAmH7HjpLqLnkxnhjeQeiz/xh01/nzel6/HOxrlw7GMZsM/w4T6XWXRk9hGZIjYRApIPBoQ2fFyJ7C1GHEsFgAh/T3bIf+6eaahFv0iadcykC0ojM7BORp1ZMIlqN08iefVFNORikPKRGWif8e4/OTioIXheCq+gTxU=
+	t=1746567422; cv=none; b=epr8RRic8eEnPqVV9DKU+FNfZ5Smii3kVSTT2ctOSf98SQrysUPM13JpJLmpPtyolBRzReWqAqDCEmYStS8HsNBlPBcjOS9wx07WXCgooLZdzww5clLur05d9qd1CpIHBxLV2chb0onRY4s2kSIw42g2vGxwaVKTtlris5c18qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746551048; c=relaxed/simple;
-	bh=DCjFyaE5/cmtkXGs1k+1cWTwSWiOWb+kmvFzpnLERd0=;
+	s=arc-20240116; t=1746567422; c=relaxed/simple;
+	bh=oKL62tmiDPRsh3b/cqkIdMdEM64PBGFAh4thvubo/n8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U3bT1BRhrBl7g4aMkUBPZ5qylcrZxpPmxp7kCrFsw3pdYLjG89xvR9qzVGRs1dtZYOjlfXIgNq9L5tK5MCB1jxrZbo5NQx0pCHJPSB+q1AybbgYADWAl6xEMWz2fxCcuejZFfmC2VJApDNLLVPJXuwHTOAc2veTUpKwGbfEiElA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JU681buE; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=JGawfjAyC8zts5FEjjdwq65M7HooOy1cdWm2CxI20NPx+YfS7oIacV3gwcFrFlqX/FkxJhqLMEAAz1x6ZlGZzKn9TgxRdShhoytRRSfvHxIpu8iR4UZjwLkwPD0kYe8izUCoToRgubLCl5rh0sUMs1UDdXxSd7r++V8ujGwtAWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIEPZ3Fr; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JU681buE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIEPZ3Fr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746551047; x=1778087047;
+  t=1746567420; x=1778103420;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DCjFyaE5/cmtkXGs1k+1cWTwSWiOWb+kmvFzpnLERd0=;
-  b=JU681buEkzP9G3E2uYshdKJSgBOAHMnKzIHKkzBTvXM6mNZp+bcikwli
-   J4tTVW1SVoO/zhX8XSuvWkCzNSOjNvhTY62uCekL9djwDfodVcX+zGrN8
-   lFMzmJxfk/W3dqzHptfdWU83pLC2U/nPPKNoFfiq5iiOjrH2iufZTJj0j
-   BLWiLqhhMq8viHr2nshaa6sqU3V3W2sqnFD2IQERktqeiXXUIw250X+1Z
-   5KubNKOE8oNw8xoUrStSNlpmJlbyJcV5DF6NH4Q6WM/vBfByITLPVDeR3
-   ktWIdd8eC4dgTbZwDMqz0brpnfjE3vkiqt9R8KFpsdj6QmkdPHFvByeN8
+  bh=oKL62tmiDPRsh3b/cqkIdMdEM64PBGFAh4thvubo/n8=;
+  b=aIEPZ3FrF24CCUPAfn0wsdhXoRd8S0XHJLy/ragY+zgT6jUJU/M3kQuU
+   nrAejiePQK9bJty5jAjZlssuQoer1USNGIt2JqX+rEItUUkqIuSnH9vEa
+   EWFqswVDnlEqw5qhRfCjt4CZJDMG9Zu8y/jlMzbLaUc1QuOQmCtyC9Ev6
+   DEBDjegCurhVP9WUlnXOTi7sBE/ZyBn+Co53ufqK5Qm475tjERErJpu8+
+   Klojw1ar1g+3X/MEBtfnCzlnUGgOFa3EXHlvlhbSZg3+CixW3dxQ5DZOR
+   OM8ap8A7noFfs00jQs3C/NCp6KGlIVQT8b3BoqG1lacVqiJKHMnpACYjP
    Q==;
-X-CSE-ConnectionGUID: d2VNfPBXSLWxNux0Ph3Vog==
-X-CSE-MsgGUID: 0colCh46Rt+XhiUELXhgtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="51884943"
+X-CSE-ConnectionGUID: rwA1aLyNSM2DsDdh+J2yvQ==
+X-CSE-MsgGUID: JMlNeEzjRsGcHn2itmHz4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48169070"
 X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
-   d="scan'208";a="51884943"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 10:03:44 -0700
-X-CSE-ConnectionGUID: iHQgDbd5STiXn3FE24Ujhw==
-X-CSE-MsgGUID: znMzRg6KTCCxVoPx+2Svaw==
+   d="scan'208";a="48169070"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 14:36:59 -0700
+X-CSE-ConnectionGUID: r0lqUB+kQfmYuj7uF4aCkw==
+X-CSE-MsgGUID: wGJEegR7QkWWHr1+0YBJvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="140793320"
+X-IronPort-AV: E=Sophos;i="6.15,267,1739865600"; 
+   d="scan'208";a="135460909"
 Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 May 2025 10:03:42 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 May 2025 14:36:58 -0700
 Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCLhk-00004M-1S;
-	Tue, 06 May 2025 17:03:40 +0000
-Date: Wed, 7 May 2025 01:03:09 +0800
+	id 1uCPyC-00005s-0g;
+	Tue, 06 May 2025 21:36:56 +0000
+Date: Wed, 7 May 2025 05:36:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: switch@1f
- (mediatek,mt7531): 'interrupts' is a dependency of 'interrupt-controller'
-Message-ID: <202505070125.cf5f57yG-lkp@intel.com>
+Subject: arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: /mbox@ff6b0000:
+ failed to match any schema with compatible: ['rockchip,rk3368-mailbox']
+Message-ID: <202505070534.Scrq5oHO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,38 +69,30 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Frank Wunderlich <frank-w@public-files.de>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Alex Bee <knaerzche@gmail.com>
+CC: Heiko Stuebner <heiko@sntech.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   01f95500a162fca88cefab9ed64ceded5afabc12
-commit: df768350a87031971a3c834b480aef6ad6f1f1a0 arm64: dts: mt7622: fix switch probe on bananapi-r64
-date:   10 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 10 months ago
-config: arm64-randconfig-2051-20250429 (https://download.01.org/0day-ci/archive/20250507/202505070125.cf5f57yG-lkp@intel.com/config)
+head:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
+commit: 7b4a8097e58b608638d416bd57469f8a9ab70e7b arm64: dts: rockchip: Add Neardi LBA3368 board
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: arm64-randconfig-2051-20250429 (https://download.01.org/0day-ci/archive/20250507/202505070534.Scrq5oHO-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070125.cf5f57yG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250507/202505070534.Scrq5oHO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505070125.cf5f57yG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505070534.Scrq5oHO-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
-   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller (mediatek,mt7622-audio): 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a143000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a145000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: ethernet@1b100000 (mediatek,mt7622-eth): mediatek,pcie-mirror:0: 60 is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: ethernet@1b100000 (mediatek,mt7622-eth): Unevaluated properties are not allowed ('mediatek,pcie-mirror' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
->> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: switch@1f (mediatek,mt7531): 'interrupts' is a dependency of 'interrupt-controller'
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: /i2c@ff660000/codec@1c: failed to match any schema with compatible: ['realtek,rt5640']
+>> arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: /mbox@ff6b0000: failed to match any schema with compatible: ['rockchip,rk3368-mailbox']
+   arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: i2s-8ch@ff898000 (rockchip,rk3368-i2s): '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip-i2s.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
