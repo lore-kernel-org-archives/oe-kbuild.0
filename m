@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A70156F45
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 May 2025 21:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D09300A53
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 May 2025 02:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746480480; cv=none; b=CWOfeI4mqkBF5AoSivBe7D/3ZHtdSKv8DHzfuXaZ9XHu7AFn/ZJRxaR4LyGHNKKyz9x00QK5hL28WINtnJnq4RjokthQTboBDc0AbCVi0am2WmljxR7zoxVENI387RFLUWyzRpv+uhDVPPn5TDkw/dHv71PE6mpbzhhGnGOLw/w=
+	t=1746498198; cv=none; b=Pa9z4VQMgkfdTAbKXEvuu1uOndUtyIaV0OMKFxXZ8eqTfYttXlhsvzyFZNx32GC+YMB0ZmbsBiA7H/Xdqpr1I6fVZgTQMozpS4Saqf1jel6NOElYsBJbl6YhiKO6H73XIC4DHOlr9FSJd97yk1obSShMr2kr72MDbsH5zQIrYiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746480480; c=relaxed/simple;
-	bh=WD9j5R2iyxmRPRdxwnmnB7+2jVfpZkTTuwPHRc1y2mM=;
+	s=arc-20240116; t=1746498198; c=relaxed/simple;
+	bh=D6HEbuVDVkndGurVc8iyaYIMIEM0fhOZ4hYLt7bfp2M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uq+tbNAUCSJnHj22uNDjb7K93mxyPCsq7O1CbWMTapOH+o6vwdYGZ2xF134FmfMco5NzMEScJwmZygRnubCL4BOe2CpG30Ix950/ZO2Ii2GMbAmbMy9iX139Q0491FlP5d+a76kujqvEW0e2SFrUwqHq9c9AOgyaDtct9Hcijg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTEno3eM; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=MjnYD/m10FuoMV7Fb+G6PEjFX6kV4lGiFdVebHWB1CK3ue/fH7Fynfhe/NHpTvhKyhz7YojXawPoHx2RuGfqgZrkmaWXgfCcW2xyachhVpYEUjc2zfaQ7ZARMReCJW+RbSWKNFBT2IIJSSTJznnxdIM/EZ8dCNbKxOX1Z8EpGJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUSzCjrr; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTEno3eM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUSzCjrr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746480478; x=1778016478;
+  t=1746498196; x=1778034196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WD9j5R2iyxmRPRdxwnmnB7+2jVfpZkTTuwPHRc1y2mM=;
-  b=hTEno3eM9uEwvrtZ38j372AKth63kmYdPAxXog9dXzYEiHK8XYaMiUQV
-   JBfd9631DdhIydvJDtMHpcDlMUmS7jKp0QooEayaso5JWuByf/+CZsVM+
-   6aJ2YxMzfBVZJdnD9zkjDfHLmDxqDhpzGO8fv8cUcHKLkP/kXYKWL02Kg
-   y+nxUz+rowgTRsEFy5QIz/hb/m7QAXLLfTm4yOhA9mUJSeGUhPEM2XeTc
-   npd7vUxsSb/JJktctD2AnM5iy/LxKYv3/ysxDdPJbdHNdByZWymSx6LEU
-   IJOXHF2MBKyRjrX+LnYMUl8A4FfYIi29xPHR0hef/wzz7PMavdZqq8qSG
-   A==;
-X-CSE-ConnectionGUID: hT4033jRSqi16FXVULoVQA==
-X-CSE-MsgGUID: 9JKS/sfHSOmr2GSBod2hKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="59099650"
-X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; 
-   d="scan'208";a="59099650"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 14:27:57 -0700
-X-CSE-ConnectionGUID: SKrMMwReTfG1EDff8rFtAA==
-X-CSE-MsgGUID: dRYKsxmLQ7iSMpwqwRUVsA==
+  bh=D6HEbuVDVkndGurVc8iyaYIMIEM0fhOZ4hYLt7bfp2M=;
+  b=eUSzCjrrjwpfQwNi26ijS1u5T/b6F9AMYn22HP6GVLyvStAm22TomzLY
+   LyWZ0SWMRu6H/0URoeKWAO2H34s04+9sQxjcHdng2uqt5wIe55292XiDU
+   sJItsjYWN69Y77XtDutJ3ru/9WmmiCpERCo39FNwos9c4BsQt+aHzjmCo
+   Ieq/pK5EOMs+EmJWl7ZL15/VN0vZGCTuXs8gedqg5x4Mqgo0w+X5xfIlh
+   XUGCPvINm3U+feIUmouhrTkNRIwOLgDBf4vNFEbCMjb3DArcOLdfZa4Y9
+   5m85DT2cizgmb5Tr7uAqXZGPT7xfcuiiHTFeCoq+QX6abMNnzUpIlZ0n5
+   g==;
+X-CSE-ConnectionGUID: cHgJIJP5QGSGySw5A1vJlw==
+X-CSE-MsgGUID: wCCBE4fHRBuEzH5fFhsUtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="51946931"
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="51946931"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 19:23:15 -0700
+X-CSE-ConnectionGUID: UJxMoGB0Tzqg0htyDUAp7w==
+X-CSE-MsgGUID: fTxJkDsqRUyt44k8GGDgEg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; 
-   d="scan'208";a="166296118"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 May 2025 14:27:55 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="172660170"
+Received: from igk-lkp-server01.igk.intel.com (HELO fc6c8d864a4c) ([10.211.3.150])
+  by orviesa001.jf.intel.com with ESMTP; 05 May 2025 19:23:14 -0700
+Received: from kbuild by fc6c8d864a4c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uC3Lt-00064x-1f;
-	Mon, 05 May 2025 21:27:53 +0000
-Date: Tue, 6 May 2025 05:27:39 +0800
+	id 1uC7xe-0000ke-1n;
+	Tue, 06 May 2025 02:23:10 +0000
+Date: Tue, 6 May 2025 10:22:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202505060722.BJvXgwm2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000
+ (mediatek,mt8188-gce): 'clock-names' is a required property
+Message-ID: <202505061054.AL5OvX40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,153 +62,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a48a35466505c8a52da57596944bd0b4485e825f
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 7 days ago
-:::::: commit date: 3 years, 2 months ago
-config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250506/202505060722.BJvXgwm2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   01f95500a162fca88cefab9ed64ceded5afabc12
+commit: 45682a4fffdd9abd6e2df9c5c534d22f2eda94f9 arm64: dts: mediatek: mt8188: Add Global Command Engine mailboxes
+date:   10 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-2051-20250429 (https://download.01.org/0day-ci/archive/20250506/202505061054.AL5OvX40-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250506/202505061054.AL5OvX40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202505060722.BJvXgwm2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505061054.AL5OvX40-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-
-vim +2306 block/blk-throttle.c
-
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
-
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+   	'mediatek,mt7623-mmsys' was expected
+   	'mediatek,mt8195-vdosys0' was expected
 
 -- 
 0-DAY CI Kernel Test Service
