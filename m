@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979001B87D5
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 May 2025 17:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B7329A0
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 May 2025 19:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746639630; cv=none; b=W/v1SCoGuWT+P7EWBiOFrRF8VgDqZtuCMLSWfX5mRxYD+MyVk2hIiduXbRy1NGt6Uk2/Tl+FkaQRaziL+iVmApT2F9Q6iistYim/h7S5yCJFh6HvBichuHZqxIdnfgU5lAelzeEUgUK4u7cODJmkoyUZztLexpM7BtAkUSxS/CE=
+	t=1746644577; cv=none; b=rNa3Jsz6QwzLTEQe/z9wePd1QmuvmaNBhBE4jeSNiGk5jofEhHpI5t0Ar//JLwq5DdXYdFA0iNmbWPQ0u+h52aYgVfetU/stN2IxtqZ/xWbTjFesLlAzMuT5AYVQjoOfTiwMad9r2RJXkI2HzMV2rMYAVzGEuXOiWPcSCRg6C94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746639630; c=relaxed/simple;
-	bh=XEU3JtVP0JCqEl1+ZIKdtCUKhyrQ/nzLh/xf7m7tLw0=;
+	s=arc-20240116; t=1746644577; c=relaxed/simple;
+	bh=6fbqhmA1RpdPadXT7jzezDSDMCvkO/ssx+BaocRBEhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QhI0HVkV9e9lWMb/0nbkeBVkQE0QZcZK6l5kvyBIzQxIQkH/yHa9ZH+DVkf/TKU0+Fsg73RqVRtW1bCSOPFmkMtshsDejo7Hx524XTsMfnuMKYSbArFrZmtoR3x6wxFef8l3Z/pmarLZJpz2p72VDoCykuwzP9/YnIWmVkLVWJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOKEeooJ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=ehd1gtfVd5pAzYwTKMVG3RREpd9BZTTI2oEmUHcfoAzdKqgxr5aWH8aMO16VRG0ZfFNmazz8ed36QnUeAVCwhxnEhIZVCIKcJyjmscumkarZXQXw0L01+f4wJSJH+jAg9lWATnRF9L+IUBaxSUXg3IEzy8OkLTnSRmqtZTTyNxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dbl6SIma; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOKEeooJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dbl6SIma"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746639629; x=1778175629;
+  t=1746644575; x=1778180575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XEU3JtVP0JCqEl1+ZIKdtCUKhyrQ/nzLh/xf7m7tLw0=;
-  b=jOKEeooJGy5Yc57rrNAgaU1uBLJbUlZNtaMe0lzBrSGqOLCwkW1QP4Ho
-   fZXgZ3U51XSGmhp4Hdt6zMMlWUBAbpyf5Fm4+YWPRL4/jPPxmLO9TSIdj
-   NcBi0SqQnKkIk5/zYpLzPDOPZiF2ZLuDdhc0QQejVYGkrh+GVjzpHUYjH
-   aIooeCKGaDrg9Y6A+62KF8PtGZTwZhCdX8eGLSADNbuavBamu7HRYI8JU
-   eJd7JrU9xsj76qu/hbBiyR/4h17nI4OKzyllFsqzrvRirWZ4jlODbAg1o
-   Yx+3rijSZtM1qXuQC39BzR+vst5I0brWC9fMWUV6lurNXlmjDA4OcrFUR
-   A==;
-X-CSE-ConnectionGUID: r0MH7CsQT6S2KpkeTLzlwQ==
-X-CSE-MsgGUID: UdDqjsYmSRufzxJxehFrIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="73775041"
+  bh=6fbqhmA1RpdPadXT7jzezDSDMCvkO/ssx+BaocRBEhw=;
+  b=Dbl6SImah5h+Vrc1h6GzpfDDU2pOLuWjmaJJHbtJ7wvmAfqMAu9l5Xj4
+   4mrjrBQCRQgvOye0hVRm1XBTtBFXKyacY7SjN+OXe1Mvw2N4rK9hsHsOd
+   DiMSilZ9BgcvAv5+KBXYoYv5ncoPPRM+0yoZ5bnWsuVhY6IFCv3nJ0C6E
+   MAwwP4fLy4d4RFcW109UlbW/z5YaFVrQAd1J9FoShR+KAGSZnMX21n1SM
+   hwxEadp2oRAIvnB9VLDENZgIa25ZZaQ4FXu/b1x3U/sD66oKEWC3VSO/j
+   BqJk/D+KmMjgu9E9EmvEKCg7Wa/FDrNWks8uk8/Z3oBO4PyY2nS5HDoyQ
+   g==;
+X-CSE-ConnectionGUID: cvlY0m8aTJu/sC3JRGwhwQ==
+X-CSE-MsgGUID: odbYwSK8TvKJGSbxkk0KQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48305709"
 X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
-   d="scan'208";a="73775041"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 10:40:28 -0700
-X-CSE-ConnectionGUID: vx4XmfbZQGatlWtX9JUseA==
-X-CSE-MsgGUID: dFNSfwh7S9S4YJGnl3pqQQ==
+   d="scan'208";a="48305709"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 12:02:55 -0700
+X-CSE-ConnectionGUID: iCgRig6wQWSqN+/KIZJOQQ==
+X-CSE-MsgGUID: PfIc5IgKTjWT8SE6hxvUbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
-   d="scan'208";a="140779312"
+   d="scan'208";a="159361699"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 May 2025 10:40:26 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 12:02:53 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCikq-0008Ex-1r;
-	Wed, 07 May 2025 17:40:24 +0000
-Date: Thu, 8 May 2025 01:39:39 +0800
+	id 1uCk2d-0008i2-1B;
+	Wed, 07 May 2025 19:02:51 +0000
+Date: Thu, 8 May 2025 03:02:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/2] arm64: dts: rockchip: Add rk3399-evb-ind board
-Message-ID: <202505080106.d5ZOICtU-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even
+ be NULL?
+Message-ID: <202505080231.7OXwq4Te-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,76 +62,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250506034347.57-3-kernel@airkyi.com>
-References: <20250506034347.57-3-kernel@airkyi.com>
-TO: Chaoyi Chen <kernel@airkyi.com>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Andrew Lunn <andrew@lunn.ch>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Jonas Karlman <jonas@kwiboo.se>
-CC: Kever Yang <kever.yang@rock-chips.com>
-CC: Jianfeng Liu <liujianfeng1994@gmail.com>
-CC: Dragan Simic <dsimic@manjaro.org>
-CC: Jimmy Hon <honyuenkwun@gmail.com>
-CC: Quentin Schulz <quentin.schulz@cherry.de>
-CC: FUKAUMI Naoki <naoki@radxa.com>
-CC: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-CC: Alexey Charkov <alchark@gmail.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Sebastian Reichel <sebastian.reichel@collabora.com>
-CC: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
+TO: Namjae Jeon <linkinjeon@kernel.org>
+CC: Steve French <stfrench@microsoft.com>
 
-Hi Chaoyi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on robh/for-next linus/master v6.15-rc5 next-20250507]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-arm-rockchip-Add-rk3399-industry-evaluation-board/20250506-151352
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20250506034347.57-3-kernel%40airkyi.com
-patch subject: [PATCH v3 2/2] arm64: dts: rockchip: Add rk3399-evb-ind board
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: arm64-randconfig-052-20250507 (https://download.01.org/0day-ci/archive/20250508/202505080106.d5ZOICtU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505080106.d5ZOICtU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   707df3375124b51048233625a7e1c801e8c8a7fd
+commit: 18b4fac5ef17f77fed9417d22210ceafd6525fc7 ksmbd: fix use-after-free in smb_break_all_levII_oplock()
+date:   3 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-141-20250416 (https://download.01.org/0day-ci/archive/20250508/202505080231.7OXwq4Te-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505080106.d5ZOICtU-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505080231.7OXwq4Te-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
->> arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: regulator@10 (tcs,tcs4525): Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: regulator@1c (tcs,tcs4525): Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+New smatch warnings:
+fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even be NULL?
+
+Old smatch warnings:
+fs/smb/server/oplock.c:1000 find_same_lease_key() warn: missing error code 'err'
+
+vim +/opinfo +155 fs/smb/server/oplock.c
+
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  144  
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  145  static struct oplock_info *opinfo_get_list(struct ksmbd_inode *ci)
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  146  {
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  147  	struct oplock_info *opinfo;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  148  
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  149  	if (list_empty(&ci->m_op_list))
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  150  		return NULL;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  151  
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  152  	down_read(&ci->m_lock);
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  153  	opinfo = list_first_entry(&ci->m_op_list, struct oplock_info,
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  154  					op_entry);
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19 @155  	if (opinfo) {
+c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  156  		if (opinfo->conn == NULL ||
+c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  157  		    !atomic_inc_not_zero(&opinfo->refcount))
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  158  			opinfo = NULL;
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  159  		else {
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  160  			if (ksmbd_conn_releasing(opinfo->conn)) {
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  161  				atomic_dec(&opinfo->refcount);
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  162  				opinfo = NULL;
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  163  			}
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  164  		}
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  165  	}
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  166  	up_read(&ci->m_lock);
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  167  
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  168  	return opinfo;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  169  }
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  170  
+
+:::::: The code at line 155 was first introduced by commit
+:::::: 36322523dddb11107e9f7f528675a0dec2536103 ksmbd: fix UAF issue from opinfo->conn
+
+:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
