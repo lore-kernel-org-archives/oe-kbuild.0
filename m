@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120C91FDA8E
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 May 2025 05:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A2A1DF247
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 May 2025 06:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746596997; cv=none; b=cUE/UMcjgNQ/30UNSlULp6XA8roNocggwJJQy3bUBl0ujqKoEE4V9bPqShKLS81SIRNGFJwrFawGNjYng+DNV/3ncAGcQSuubvLRX4iLvb+h1At2p0p/HP9/lvG4Ja7uujs2FAOzK9IGChfjVYpO6nsWpry1KOqjMyyeXLK9oqo=
+	t=1746598029; cv=none; b=I48BK3yiznJglvPmJ0/2fAyTEo18wzR9//oyTfBiWDxatjI7bb9PXZU5lVuOUky5DEpbhob3auuMLBYbPipDSp4oHZS8s6MASHAgmA0kM2+PwEfTRdTwaFJ+rHKqTs0wAOWAeAMwiwFTfWVaCxs7Kf4Uw0cTisByoKpZJEtPw2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746596997; c=relaxed/simple;
-	bh=NHYnicfdBO7EFR9YF0nJjcZob0ghdljxyAlN1Fq+prY=;
+	s=arc-20240116; t=1746598029; c=relaxed/simple;
+	bh=ggBZ73ThK9ERX4dWmXF77HDYCGZ1bxSvPxike41m5Ik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lcU7W164rpXUNIjrPYPVjamqiu+tXmXOg/jKKPxxtofIkbEWzrsgk8604zpvbgXhhbRs7OVby/SBBeLoPVrzUETBCj8BJVK4JquhSenIngcFI0u/JASyHsDiAuicFLmUFJkcxEhsaj19k4kxx9NgfI9w7ngg4oJ6NvjzZgB/jUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gmWA2il9; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=GitDHGQLNcIDsDMW0YLbXE6V+nU7G8pimw9e7RQ6W7qqXpecCgp3SKiJJJvf1uehLFPNw/QirGlONXwCoP58ojwX1lQy7KYi7AGA3sZ7eLk+Y7h5gPWRBsWZ8mNaNP8HH4qA/ZYOWUnFrbLsTHK1vAg7UGPQX8JuwTOAX7oD+3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TL6lb/ZZ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gmWA2il9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TL6lb/ZZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746596994; x=1778132994;
+  t=1746598028; x=1778134028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NHYnicfdBO7EFR9YF0nJjcZob0ghdljxyAlN1Fq+prY=;
-  b=gmWA2il9AoK1M1/qaEoOq/BA/+wZH/HlWOzqmBDuOjnvTbIRVj1X/ChP
-   xdT5Rj+QwJnPTr3CBKHjeTrK0Bm/WWe8XKRhh/zt31ozkRAfy9aHOD1Sq
-   Yj4D7r1n5ZznCcyoOxhan0aEhIK/aCw7fCf2GaAstQVDeKKaQGsdU1SJI
-   unEEIdYWrSP6j5f8RV/d1ysqHFBGH2EtsICjgvcpP7v9aHTn8bysPS7ub
-   5w4+IXR4hlnXRWxHNoDV/BO26077N50A25iiuitIN6C8aU1SJS7H43KYf
-   jYHg3lyF8J98U1iMEFhtbf80Akfymdn/5gcqCkpNoeK/D3RVZt70iFNXh
-   g==;
-X-CSE-ConnectionGUID: V/xlFP/4SOibJulgpA+Emw==
-X-CSE-MsgGUID: OuEr+RFtSemTmsTJdLAzaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="52120523"
+  bh=ggBZ73ThK9ERX4dWmXF77HDYCGZ1bxSvPxike41m5Ik=;
+  b=TL6lb/ZZEPNRzPRkSgT9nZJC3he5o/Hqju95LXCmgsXhZqA9DQRtEgQu
+   jxMU9fvjMT5sdXxG6Qt95AL+joImOJ+zwbruLjjRji0IXZR9gQx7M8Mfp
+   CwwoPrvnSwkI7CsfWLHlBaK8p1nBLH6wThJvXIw7uXbKIfqdn+4gWBuNd
+   /ogOInaA3666kEyLycU9sM7RCCl9iqXgOW9B/2NanQNoAdciYLYmUnICH
+   8jnqgkorkikuBfItYFjkWRKf7027XK0rJkLCZZZv90yBR1xlr5u/+LF4w
+   FJ7uQjcHyCH3AwdeFxtwtExqb+dl8ftq5m7G27IyCD/X40Q4CtdtcB+gn
+   A==;
+X-CSE-ConnectionGUID: tSXxn41LQ4+4fac+5Tv8YA==
+X-CSE-MsgGUID: zgdYVc5CR7mcopDs5JCwHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48452752"
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="52120523"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 22:49:50 -0700
-X-CSE-ConnectionGUID: t1tB0s1XR/aab70Cq8TFgA==
-X-CSE-MsgGUID: gh2v5xbzRcWu9YziPGAbbQ==
+   d="scan'208";a="48452752"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 23:07:07 -0700
+X-CSE-ConnectionGUID: jTPvFo+7TcuTbtGeojj+Dw==
+X-CSE-MsgGUID: uKNqunKhRPuscXHpP8ebow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="140580429"
+   d="scan'208";a="136252156"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 May 2025 22:49:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 06 May 2025 23:07:05 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCXf8-00077W-1z;
-	Wed, 07 May 2025 05:49:46 +0000
-Date: Wed, 7 May 2025 13:49:41 +0800
+	id 1uCXvr-00079e-0t;
+	Wed, 07 May 2025 06:07:03 +0000
+Date: Wed, 7 May 2025 14:06:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v4 5/8] x86/resctrl: Add user interface to enable/disable
- io_alloc feature
-Message-ID: <202505071345.YXfXRmjW-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around
+ initializer
+Message-ID: <202505071309.jMtzwUXF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,138 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <963710cb374d55856053989e4edc61d7fd033662.1745275431.git.babu.moger@amd.com>
-References: <963710cb374d55856053989e4edc61d7fd033662.1745275431.git.babu.moger@amd.com>
-TO: Babu Moger <babu.moger@amd.com>
-TO: tony.luck@intel.com
-TO: reinette.chatre@intel.com
-TO: tglx@linutronix.de
-TO: mingo@redhat.com
-TO: bp@alien8.de
-TO: dave.hansen@linux.intel.com
-CC: babu.moger@amd.com
-CC: corbet@lwn.net
-CC: x86@kernel.org
-CC: hpa@zytor.com
-CC: akpm@linux-foundation.org
-CC: paulmck@kernel.org
-CC: rostedt@goodmis.org
-CC: thuth@redhat.com
-CC: ardb@kernel.org
-CC: gregkh@linuxfoundation.org
-CC: thomas.lendacky@amd.com
-CC: mario.limonciello@amd.com
-CC: perry.yuan@amd.com
-CC: seanjc@google.com
-CC: kai.huang@intel.com
-CC: xiaoyao.li@intel.com
-CC: kan.liang@linux.intel.com
-CC: riel@surriel.com
-CC: xin3.li@intel.com
-CC: xin@zytor.com
-CC: sohil.mehta@intel.com
-CC: ak@linux.intel.com
-CC: ebiggers@google.com
-CC: andrew.cooper3@citrix.com
+CC: linux-kernel@vger.kernel.org
+TO: Huacai Chen <chenhuacai@loongson.cn>
 
-Hi Babu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.15-rc5 next-20250506]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-cpufeatures-Add-support-for-L3-Smart-Data-Cache-Injection-Allocation-Enforcement/20250422-064804
-base:   linus/master
-patch link:    https://lore.kernel.org/r/963710cb374d55856053989e4edc61d7fd033662.1745275431.git.babu.moger%40amd.com
-patch subject: [PATCH v4 5/8] x86/resctrl: Add user interface to enable/disable io_alloc feature
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-051-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071345.YXfXRmjW-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0d8d44db295ccad20052d6301ef49ff01fb8ae2d
+commit: 614d7e99752e02ff6f6d447a83d2929b9649b6cb LoongArch: Add ARCH_HAS_DEBUG_VM_PGTABLE support
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
+config: loongarch-randconfig-r123-20250429 (https://download.01.org/0day-ci/archive/20250507/202505071309.jMtzwUXF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071309.jMtzwUXF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202505071345.YXfXRmjW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505071309.jMtzwUXF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:2007:5-20: WARNING: Unsigned expression compared with zero: io_alloc_closid < 0
+sparse warnings: (new ones prefixed by >>)
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+>> mm/debug_vm_pgtable.c:863:15: sparse: sparse: missing braces around initializer
+   mm/debug_vm_pgtable.c:1374:17: sparse: sparse: context imbalance in 'debug_vm_pgtable' - unexpected unlock
 
-vim +2007 arch/x86/kernel/cpu/resctrl/rdtgroup.c
+vim +863 mm/debug_vm_pgtable.c
 
-aa84e389d98f323 Babu Moger 2025-04-21  1980  
-aa84e389d98f323 Babu Moger 2025-04-21  1981  static ssize_t resctrl_io_alloc_write(struct kernfs_open_file *of, char *buf,
-aa84e389d98f323 Babu Moger 2025-04-21  1982  				      size_t nbytes, loff_t off)
-aa84e389d98f323 Babu Moger 2025-04-21  1983  {
-aa84e389d98f323 Babu Moger 2025-04-21  1984  	struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
-aa84e389d98f323 Babu Moger 2025-04-21  1985  	struct rdt_resource *r = s->res;
-aa84e389d98f323 Babu Moger 2025-04-21  1986  	char const *grp_name;
-aa84e389d98f323 Babu Moger 2025-04-21  1987  	u32 io_alloc_closid;
-aa84e389d98f323 Babu Moger 2025-04-21  1988  	bool enable;
-aa84e389d98f323 Babu Moger 2025-04-21  1989  	int ret;
-aa84e389d98f323 Babu Moger 2025-04-21  1990  
-aa84e389d98f323 Babu Moger 2025-04-21  1991  	ret = kstrtobool(buf, &enable);
-aa84e389d98f323 Babu Moger 2025-04-21  1992  	if (ret)
-aa84e389d98f323 Babu Moger 2025-04-21  1993  		return ret;
-aa84e389d98f323 Babu Moger 2025-04-21  1994  
-aa84e389d98f323 Babu Moger 2025-04-21  1995  	cpus_read_lock();
-aa84e389d98f323 Babu Moger 2025-04-21  1996  	mutex_lock(&rdtgroup_mutex);
-aa84e389d98f323 Babu Moger 2025-04-21  1997  
-aa84e389d98f323 Babu Moger 2025-04-21  1998  	rdt_last_cmd_clear();
-aa84e389d98f323 Babu Moger 2025-04-21  1999  
-aa84e389d98f323 Babu Moger 2025-04-21  2000  	if (!r->cache.io_alloc_capable || s->conf_type == CDP_DATA) {
-aa84e389d98f323 Babu Moger 2025-04-21  2001  		rdt_last_cmd_puts("io_alloc feature is not supported on the resource\n");
-aa84e389d98f323 Babu Moger 2025-04-21  2002  		ret = -ENODEV;
-aa84e389d98f323 Babu Moger 2025-04-21  2003  		goto out_io_alloc;
-aa84e389d98f323 Babu Moger 2025-04-21  2004  	}
-aa84e389d98f323 Babu Moger 2025-04-21  2005  
-aa84e389d98f323 Babu Moger 2025-04-21  2006  	io_alloc_closid = resctrl_io_alloc_closid_get(r, s);
-aa84e389d98f323 Babu Moger 2025-04-21 @2007  	if (io_alloc_closid < 0) {
-aa84e389d98f323 Babu Moger 2025-04-21  2008  		rdt_last_cmd_puts("Max CLOSID to support io_alloc is not available\n");
-aa84e389d98f323 Babu Moger 2025-04-21  2009  		ret = -EINVAL;
-aa84e389d98f323 Babu Moger 2025-04-21  2010  		goto out_io_alloc;
-aa84e389d98f323 Babu Moger 2025-04-21  2011  	}
-aa84e389d98f323 Babu Moger 2025-04-21  2012  
-aa84e389d98f323 Babu Moger 2025-04-21  2013  	if (resctrl_arch_get_io_alloc_enabled(r) != enable) {
-aa84e389d98f323 Babu Moger 2025-04-21  2014  		if (enable) {
-aa84e389d98f323 Babu Moger 2025-04-21  2015  			ret = resctrl_io_alloc_closid_alloc(io_alloc_closid);
-aa84e389d98f323 Babu Moger 2025-04-21  2016  			if (ret < 0) {
-aa84e389d98f323 Babu Moger 2025-04-21  2017  				grp_name = rdtgroup_name_by_closid(io_alloc_closid);
-aa84e389d98f323 Babu Moger 2025-04-21  2018  				rdt_last_cmd_printf("CLOSID for io_alloc is used by %s group\n",
-aa84e389d98f323 Babu Moger 2025-04-21  2019  						    grp_name ? grp_name : "another");
-aa84e389d98f323 Babu Moger 2025-04-21  2020  				ret = -EINVAL;
-aa84e389d98f323 Babu Moger 2025-04-21  2021  				goto out_io_alloc;
-aa84e389d98f323 Babu Moger 2025-04-21  2022  			}
-aa84e389d98f323 Babu Moger 2025-04-21  2023  
-aa84e389d98f323 Babu Moger 2025-04-21  2024  			ret = resctrl_io_alloc_init_cat(r, s, io_alloc_closid);
-aa84e389d98f323 Babu Moger 2025-04-21  2025  			if (ret) {
-aa84e389d98f323 Babu Moger 2025-04-21  2026  				rdt_last_cmd_puts("Failed to initialize io_alloc allocations\n");
-aa84e389d98f323 Babu Moger 2025-04-21  2027  				resctrl_io_alloc_closid_free(io_alloc_closid);
-aa84e389d98f323 Babu Moger 2025-04-21  2028  				goto out_io_alloc;
-aa84e389d98f323 Babu Moger 2025-04-21  2029  			}
-aa84e389d98f323 Babu Moger 2025-04-21  2030  
-aa84e389d98f323 Babu Moger 2025-04-21  2031  		} else {
-aa84e389d98f323 Babu Moger 2025-04-21  2032  			resctrl_io_alloc_closid_free(io_alloc_closid);
-aa84e389d98f323 Babu Moger 2025-04-21  2033  		}
-aa84e389d98f323 Babu Moger 2025-04-21  2034  
-aa84e389d98f323 Babu Moger 2025-04-21  2035  		ret = resctrl_arch_io_alloc_enable(r, enable);
-aa84e389d98f323 Babu Moger 2025-04-21  2036  	}
-aa84e389d98f323 Babu Moger 2025-04-21  2037  
-aa84e389d98f323 Babu Moger 2025-04-21  2038  out_io_alloc:
-aa84e389d98f323 Babu Moger 2025-04-21  2039  	mutex_unlock(&rdtgroup_mutex);
-aa84e389d98f323 Babu Moger 2025-04-21  2040  	cpus_read_unlock();
-aa84e389d98f323 Babu Moger 2025-04-21  2041  
-aa84e389d98f323 Babu Moger 2025-04-21  2042  	return ret ?: nbytes;
-aa84e389d98f323 Babu Moger 2025-04-21  2043  }
-aa84e389d98f323 Babu Moger 2025-04-21  2044  
+05289402d71736b Anshuman Khandual 2020-08-06  850  
+05289402d71736b Anshuman Khandual 2020-08-06  851  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+5f447e8067fd9f4 Gavin Shan        2021-09-02  852  static void __init pmd_swap_tests(struct pgtable_debug_args *args)
+05289402d71736b Anshuman Khandual 2020-08-06  853  {
+05289402d71736b Anshuman Khandual 2020-08-06  854  	swp_entry_t swp;
+05289402d71736b Anshuman Khandual 2020-08-06  855  	pmd_t pmd;
+05289402d71736b Anshuman Khandual 2020-08-06  856  
+65ac1a60a57e2c5 Anshuman Khandual 2021-06-28  857  	if (!has_transparent_hugepage())
+65ac1a60a57e2c5 Anshuman Khandual 2021-06-28  858  		return;
+65ac1a60a57e2c5 Anshuman Khandual 2021-06-28  859  
+6315df41afccf12 Anshuman Khandual 2020-08-06  860  	pr_debug("Validating PMD swap\n");
+5f447e8067fd9f4 Gavin Shan        2021-09-02  861  	pmd = pfn_pmd(args->fixed_pmd_pfn, args->page_prot);
+05289402d71736b Anshuman Khandual 2020-08-06  862  	swp = __pmd_to_swp_entry(pmd);
+05289402d71736b Anshuman Khandual 2020-08-06 @863  	pmd = __swp_entry_to_pmd(swp);
+5f447e8067fd9f4 Gavin Shan        2021-09-02  864  	WARN_ON(args->fixed_pmd_pfn != pmd_pfn(pmd));
+05289402d71736b Anshuman Khandual 2020-08-06  865  }
+05289402d71736b Anshuman Khandual 2020-08-06  866  #else  /* !CONFIG_ARCH_ENABLE_THP_MIGRATION */
+5f447e8067fd9f4 Gavin Shan        2021-09-02  867  static void __init pmd_swap_tests(struct pgtable_debug_args *args) { }
+05289402d71736b Anshuman Khandual 2020-08-06  868  #endif /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
+05289402d71736b Anshuman Khandual 2020-08-06  869  
+
+:::::: The code at line 863 was first introduced by commit
+:::::: 05289402d71736bd275902372e4b25664aeac6b8 mm/debug_vm_pgtable: add tests validating arch helpers for core MM features
+
+:::::: TO: Anshuman Khandual <anshuman.khandual@arm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
