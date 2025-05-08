@@ -1,138 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D636C195FE8
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 07:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704824B1E7C
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 10:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746690277; cv=none; b=FvK37usoSB4fms64F6oMzSkobEhLT/5BAnS4GIEY5uqMying3e/d8yGJvzVbmeNqGn9mI1CZS2p/GqHpMe6JO8C5ZfFKKbY19TF6SqjnbYmfVBXmltdptTfHud5WgdMlrSLLp44cAHH89QDkMz7WmS9MUTqfdvK6hghvNdPxGTU=
+	t=1746700250; cv=none; b=phkwnYR9SNR2tKgsEq7gmsjyQc54IPgoBQarktlBYIoWw4wA1qOUaNpBv15SdAStQE+Xlc4ze7Nrb9EPlX26Tm6L0dGo6fTN/L5mpUIJTNav011Oj4pyCbIJf7X8dlcz+pyrpX6rn6XFCpsDyGeSwCx+iiwUB17baBfjIK7KP0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746690277; c=relaxed/simple;
-	bh=Ii+6Rl0YeiLy9mFjPLuGenKg7Ai7qOXxDLIPxSKhofo=;
+	s=arc-20240116; t=1746700250; c=relaxed/simple;
+	bh=7KR/QllfiM5hVxEMsFZSwDAlbw4IqYZbROmmyGA0b8o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QWsqBk9sL09R37OXajtkObXvwK0cr4hFnuk02EYm4RNwHuIg3LlDxY4N30YQLsVzAHwxiTGxvspl4q8zXU6OShFwuE2aG8Ep3tUnPMiSIYaPAm/fJrX5HLBp72+Izu+8OiqqdMwQ6nDRHJ6QUN9lUI9CJWxqny+tyvPIL/kLbmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/T+BSiw; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=KBRzyRxx93mcT833z10TojLOGkDnpixqp5Grb1IR10I4aot3c7zZoBQEJz2oqBGSxQ2f5Yx46XlxxzHUBKmMSzW7P5/t0iH04kTdzGvKj8HJxChSPpRjzQVV4tBUokm/4o7i51yW2y0ViWkk9Hb/IAJvCNE70kZPg7/eMk3wE28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsoyKFFA; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/T+BSiw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsoyKFFA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746690276; x=1778226276;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Ii+6Rl0YeiLy9mFjPLuGenKg7Ai7qOXxDLIPxSKhofo=;
-  b=d/T+BSiwCfH4IUDiRcjv1eFDZ8IoIldeZZPPenNVvKHBOdGN5GcgH4m9
-   i8UhIvfWQNNe1jYMqm3a/cvKIw9USKZSQhoy4r5eSLqjeZHudVdIOtHna
-   +6HFFCV/yp8r9cUI92u9esxJ2zmQ+f3EACxkDF3DPnT4Ht+n5i+vmDkre
-   KVQgDUQX0+H16DoN+k6U0qWUk0LaygdM5EdX85kpVlz08XsisbCL37elw
-   s0fBayPMJU+ZaAfi5mSAFWZVTIJgAr0Gnt/MX82oXVmLuc3ZZHbQ1VhFs
-   ODP3i4e0g3ld0vd92Ln2Rdjjc5cKvG3yKPvTsaRVA9lPgYk18CsOUIG1d
-   w==;
-X-CSE-ConnectionGUID: Y74L48YvQs+xaa7S3LAJ7w==
-X-CSE-MsgGUID: hqt6eWFMRQaK9y55r9GLEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59120944"
+  t=1746700248; x=1778236248;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7KR/QllfiM5hVxEMsFZSwDAlbw4IqYZbROmmyGA0b8o=;
+  b=jsoyKFFAqyWGN+LRwqXBcy7YPMRVEQ0SkvCEvknAQpj+4vN+ZecdRMxu
+   Bjst1C4xNHaGzrUV8s8VWGUXMr1tozHki6QKxdBUgwTlhsO08Uh28DZ64
+   8LRzbC9TxEfW55wg32cSG0igG91nYVN66XmA17sofaDJ2p0cozzFydfOG
+   ZnKDQGU4nYJK0kUs5ZEBbucFrRp6qRQbq5lKnW/23puHbCBSXBSH7dc1j
+   qVHaGQ45ewnJhpu1zEQdqDUx90uBfFQB3S8qG8jP6FfOznossRXz7f27f
+   /UZHHRE9/8fDp4k8QT2Bt6Bqm+4slw0We4mIO/jO/oqlFJP12RcHu7EB4
+   Q==;
+X-CSE-ConnectionGUID: GJpcw5fHR5WG7AUNfU5CiA==
+X-CSE-MsgGUID: fCWyqi9hQcq8ZTmVoDk2tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="58677335"
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="59120944"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 00:44:33 -0700
-X-CSE-ConnectionGUID: xkyB/MwySaS3hYW23qwRPQ==
-X-CSE-MsgGUID: 14arekIyRUG5YShgDbJKBg==
+   d="scan'208";a="58677335"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:30:47 -0700
+X-CSE-ConnectionGUID: UC1V/9sdRCOneWvTJaCPZg==
+X-CSE-MsgGUID: CPMU9rIBQ8GIcW12dHTnVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="173410752"
+   d="scan'208";a="159562111"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 May 2025 00:44:32 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 03:30:46 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCvvi-000AlD-0q;
-	Thu, 08 May 2025 07:44:30 +0000
-Date: Thu, 8 May 2025 15:44:08 +0800
+	id 1uCyWZ-000Arz-0G;
+	Thu, 08 May 2025 10:30:43 +0000
+Date: Thu, 8 May 2025 18:30:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [agd5f:drm-next 194/507] drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:100
- amdgpu_gem_update_bo_mapping() error: we previously assumed 'bo_va' could be
- null (see line 85)
-Message-ID: <202505081542.y8PfJPbZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: serial: Convert arm,sbsa-uart to DT schema
+Message-ID: <202505081819.ErYsK7Bc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Arvind Yadav <arvind.yadav@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: "Christian König" <christian.koenig@amd.com>
-CC: Shashank Sharma <shashank.sharma@amd.com>
+In-Reply-To: <20250506220016.2545637-1-robh@kernel.org>
+References: <20250506220016.2545637-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   b54695dae995590fa5db899234871ce49fd077a8
-commit: 70773bef4e091ff6d2a91e3dfb4f29013eb81f1f [194/507] drm/amdgpu: update userqueue BOs and PDs
-:::::: branch date: 10 hours ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-161-20250410 (https://download.01.org/0day-ci/archive/20250508/202505081542.y8PfJPbZ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Rob,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus krzk-dt/for-next linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-serial-Convert-arm-sbsa-uart-to-DT-schema/20250507-060357
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20250506220016.2545637-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: serial: Convert arm,sbsa-uart to DT schema
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20250508 (https://download.01.org/0day-ci/archive/20250508/202505081819.ErYsK7Bc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081819.ErYsK7Bc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505081542.y8PfJPbZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505081819.ErYsK7Bc-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:100 amdgpu_gem_update_bo_mapping() error: we previously assumed 'bo_va' could be null (see line 85)
-
-vim +/bo_va +100 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-
-70773bef4e091ff Arvind Yadav 2024-09-25   75  
-70773bef4e091ff Arvind Yadav 2024-09-25   76  static void
-70773bef4e091ff Arvind Yadav 2024-09-25   77  amdgpu_gem_update_bo_mapping(struct drm_file *filp,
-70773bef4e091ff Arvind Yadav 2024-09-25   78  			     struct amdgpu_bo_va *bo_va,
-70773bef4e091ff Arvind Yadav 2024-09-25   79  			     uint32_t operation,
-70773bef4e091ff Arvind Yadav 2024-09-25   80  			     uint64_t point,
-70773bef4e091ff Arvind Yadav 2024-09-25   81  			     struct dma_fence *fence,
-70773bef4e091ff Arvind Yadav 2024-09-25   82  			     struct drm_syncobj *syncobj,
-70773bef4e091ff Arvind Yadav 2024-09-25   83  			     struct dma_fence_chain *chain)
-70773bef4e091ff Arvind Yadav 2024-09-25   84  {
-70773bef4e091ff Arvind Yadav 2024-09-25  @85  	struct amdgpu_bo *bo = bo_va ? bo_va->base.bo : NULL;
-70773bef4e091ff Arvind Yadav 2024-09-25   86  	struct amdgpu_fpriv *fpriv = filp->driver_priv;
-70773bef4e091ff Arvind Yadav 2024-09-25   87  	struct amdgpu_vm *vm = &fpriv->vm;
-70773bef4e091ff Arvind Yadav 2024-09-25   88  	struct dma_fence *last_update;
-70773bef4e091ff Arvind Yadav 2024-09-25   89  
-70773bef4e091ff Arvind Yadav 2024-09-25   90  	if (!syncobj)
-70773bef4e091ff Arvind Yadav 2024-09-25   91  		return;
-70773bef4e091ff Arvind Yadav 2024-09-25   92  
-70773bef4e091ff Arvind Yadav 2024-09-25   93  	/* Find the last update fence */
-70773bef4e091ff Arvind Yadav 2024-09-25   94  	switch (operation) {
-70773bef4e091ff Arvind Yadav 2024-09-25   95  	case AMDGPU_VA_OP_MAP:
-70773bef4e091ff Arvind Yadav 2024-09-25   96  	case AMDGPU_VA_OP_REPLACE:
-70773bef4e091ff Arvind Yadav 2024-09-25   97  		if (bo && (bo->tbo.base.resv == vm->root.bo->tbo.base.resv))
-70773bef4e091ff Arvind Yadav 2024-09-25   98  			last_update = vm->last_update;
-70773bef4e091ff Arvind Yadav 2024-09-25   99  		else
-70773bef4e091ff Arvind Yadav 2024-09-25 @100  			last_update = bo_va->last_pt_update;
-70773bef4e091ff Arvind Yadav 2024-09-25  101  		break;
-70773bef4e091ff Arvind Yadav 2024-09-25  102  	case AMDGPU_VA_OP_UNMAP:
-70773bef4e091ff Arvind Yadav 2024-09-25  103  	case AMDGPU_VA_OP_CLEAR:
-70773bef4e091ff Arvind Yadav 2024-09-25  104  		last_update = fence;
-70773bef4e091ff Arvind Yadav 2024-09-25  105  		break;
-70773bef4e091ff Arvind Yadav 2024-09-25  106  	default:
-70773bef4e091ff Arvind Yadav 2024-09-25  107  		return;
-70773bef4e091ff Arvind Yadav 2024-09-25  108  	}
-70773bef4e091ff Arvind Yadav 2024-09-25  109  
-70773bef4e091ff Arvind Yadav 2024-09-25  110  	/* Add fence to timeline */
-70773bef4e091ff Arvind Yadav 2024-09-25  111  	if (!point)
-70773bef4e091ff Arvind Yadav 2024-09-25  112  		drm_syncobj_replace_fence(syncobj, last_update);
-70773bef4e091ff Arvind Yadav 2024-09-25  113  	else
-70773bef4e091ff Arvind Yadav 2024-09-25  114  		drm_syncobj_add_point(syncobj, chain, last_update, point);
-70773bef4e091ff Arvind Yadav 2024-09-25  115  }
-70773bef4e091ff Arvind Yadav 2024-09-25  116  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-1: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-2: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-3: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@60080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@a0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@8,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@400,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@408,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@c0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: serial@602b0000 (arm,sbsa-uart): Unevaluated properties are not allowed ('reg-io-width' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/arm,sbsa-uart.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7030000 (generic-ohci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7020000 (generic-ehci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: dsa_cpld@78000010 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: sds_ctrl@c2200000 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/mdio@603c0000: failed to match any schema with compatible: ['hisilicon,hns-mdio']
 
 -- 
 0-DAY CI Kernel Test Service
