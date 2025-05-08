@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704824B1E7C
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 10:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FD717A2F0
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 12:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746700250; cv=none; b=phkwnYR9SNR2tKgsEq7gmsjyQc54IPgoBQarktlBYIoWw4wA1qOUaNpBv15SdAStQE+Xlc4ze7Nrb9EPlX26Tm6L0dGo6fTN/L5mpUIJTNav011Oj4pyCbIJf7X8dlcz+pyrpX6rn6XFCpsDyGeSwCx+iiwUB17baBfjIK7KP0s=
+	t=1746705658; cv=none; b=ELzEB4lE7Ie1+h0S6KDRfI/f2pOoAzJ1Zh1OZ+sk+LDksCMeu9VLg9dCfjssUYCQl/poNV7cD19wwi8SMzsT8Wl1MAlFvj38LPRyaHcamslIDog410NQWjrPBriulTwd8AKexRvlSzHqLl8tsiPZdk1avmLIV/7Q7CNH69Q5TzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746700250; c=relaxed/simple;
-	bh=7KR/QllfiM5hVxEMsFZSwDAlbw4IqYZbROmmyGA0b8o=;
+	s=arc-20240116; t=1746705658; c=relaxed/simple;
+	bh=hxaqDNJiB2bWgOY48v8+UOQpXbaSEPjVoqBc8XQHvBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KBRzyRxx93mcT833z10TojLOGkDnpixqp5Grb1IR10I4aot3c7zZoBQEJz2oqBGSxQ2f5Yx46XlxxzHUBKmMSzW7P5/t0iH04kTdzGvKj8HJxChSPpRjzQVV4tBUokm/4o7i51yW2y0ViWkk9Hb/IAJvCNE70kZPg7/eMk3wE28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsoyKFFA; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=dRxuGt5MexYqUMrX+hlvpg1mx2rqqVOQ2mSQ3T+YcWcfG+VTgOaq/zpry5U7X38bWmyIrSVsO6l02vBImUiaZHLvwnrikrbqXcaf3FfFWCi/ZId28vx94kO30BeqFO69g40WCdUfFHbj2oyRifSqie/doWmvOAN0lBi4Fop0/Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCsE2kcV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsoyKFFA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCsE2kcV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746700248; x=1778236248;
+  t=1746705656; x=1778241656;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7KR/QllfiM5hVxEMsFZSwDAlbw4IqYZbROmmyGA0b8o=;
-  b=jsoyKFFAqyWGN+LRwqXBcy7YPMRVEQ0SkvCEvknAQpj+4vN+ZecdRMxu
-   Bjst1C4xNHaGzrUV8s8VWGUXMr1tozHki6QKxdBUgwTlhsO08Uh28DZ64
-   8LRzbC9TxEfW55wg32cSG0igG91nYVN66XmA17sofaDJ2p0cozzFydfOG
-   ZnKDQGU4nYJK0kUs5ZEBbucFrRp6qRQbq5lKnW/23puHbCBSXBSH7dc1j
-   qVHaGQ45ewnJhpu1zEQdqDUx90uBfFQB3S8qG8jP6FfOznossRXz7f27f
-   /UZHHRE9/8fDp4k8QT2Bt6Bqm+4slw0We4mIO/jO/oqlFJP12RcHu7EB4
+  bh=hxaqDNJiB2bWgOY48v8+UOQpXbaSEPjVoqBc8XQHvBo=;
+  b=PCsE2kcVRVE3x0eV7Qq9RQ/AIeVMmvPr4qb+d9DhPhazC+Ir3kG6vULd
+   EepNdQlWtdrG38GJIwhhU42W9wo3ULZH73fvTU81QZ8iLPhFv67GsachK
+   PYyu9/rMYm5psHT4cPHQEde3bAEO/ClbCIuEjhX+dM5mtMYMuz/uFstqI
+   42lA9I9f9MGZ9ZlSraVqqkUcztzu+5GSuTGdsb3Mi3CC/UoBLiEqW/sbb
+   nTzXuDPmeFJqjq+HoTxrisOapBNANgyoS/BmSlL6vddGWlmOWbJpa4gGR
+   l6XKbCuDeFyPmScw6eTNDLdzEvP/7xPGompksK3dB9mV+AYyWvyy9eyIy
    Q==;
-X-CSE-ConnectionGUID: GJpcw5fHR5WG7AUNfU5CiA==
-X-CSE-MsgGUID: fCWyqi9hQcq8ZTmVoDk2tQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="58677335"
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="58677335"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:30:47 -0700
-X-CSE-ConnectionGUID: UC1V/9sdRCOneWvTJaCPZg==
-X-CSE-MsgGUID: CPMU9rIBQ8GIcW12dHTnVA==
+X-CSE-ConnectionGUID: SgpMVxpCRQ2oZp91GjGNlw==
+X-CSE-MsgGUID: qrcnMgmfTQu9NVyOZqtPJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="59880222"
+X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
+   d="scan'208";a="59880222"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 05:00:55 -0700
+X-CSE-ConnectionGUID: 5dnVbfwMSMiYTXaIUMmbRg==
+X-CSE-MsgGUID: jakQ/RwrSl65CaOHN0DqlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
-   d="scan'208";a="159562111"
+X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
+   d="scan'208";a="141226684"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 03:30:46 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 May 2025 05:00:54 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uCyWZ-000Arz-0G;
-	Thu, 08 May 2025 10:30:43 +0000
-Date: Thu, 8 May 2025 18:30:34 +0800
+	id 1uCzvn-000Aw5-2T;
+	Thu, 08 May 2025 12:00:51 +0000
+Date: Thu, 8 May 2025 20:00:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: serial: Convert arm,sbsa-uart to DT schema
-Message-ID: <202505081819.ErYsK7Bc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 5125/9729] drivers/gpu/drm/tiny/st7571-i2c.c:214
+ st7571_send_command_list() error: uninitialized symbol 'ret'.
+Message-ID: <202505081942.cZRwYwln-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,64 +62,232 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250506220016.2545637-1-robh@kernel.org>
-References: <20250506220016.2545637-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Marcus Folkesson <marcus.folkesson@gmail.com>
+CC: Javier Martinez Canillas <javierm@redhat.com>
+CC: Thomas Zimmermann <tzimmrmann@suse.de>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus krzk-dt/for-next linus/master v6.15-rc5 next-20250507]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-serial-Convert-arm-sbsa-uart-to-DT-schema/20250507-060357
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250506220016.2545637-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: serial: Convert arm,sbsa-uart to DT schema
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250508 (https://download.01.org/0day-ci/archive/20250508/202505081819.ErYsK7Bc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250508/202505081819.ErYsK7Bc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   08710e696081d58163c8078e0e096be6d35c5fad
+commit: 4b35f0f41ee295059c46a6f4ae97e4b5b8f10d9e [5125/9729] drm/st7571-i2c: add support for Sitronix ST7571 LCD controller
+:::::: branch date: 28 hours ago
+:::::: commit date: 2 weeks ago
+config: loongarch-randconfig-r071-20250502 (https://download.01.org/0day-ci/archive/20250508/202505081942.cZRwYwln-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505081819.ErYsK7Bc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505081942.cZRwYwln-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-1: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-2: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /ethernet-3: failed to match any schema with compatible: ['hisilicon,hns-nic-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@60080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@a0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@8,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@400,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@408,d0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /interrupt-controller@c0080000: failed to match any schema with compatible: ['hisilicon,mbigen-v2']
->> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: serial@602b0000 (arm,sbsa-uart): Unevaluated properties are not allowed ('reg-io-width' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/arm,sbsa-uart.yaml#
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7030000 (generic-ohci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: usb@a7020000 (generic-ehci): Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: dsa_cpld@78000010 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: sds_ctrl@c2200000 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: /soc/mdio@603c0000: failed to match any schema with compatible: ['hisilicon,hns-mdio']
+smatch warnings:
+drivers/gpu/drm/tiny/st7571-i2c.c:214 st7571_send_command_list() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/tiny/st7571-i2c.c:371 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x1'.
+drivers/gpu/drm/tiny/st7571-i2c.c:371 st7571_fb_update_rect_grayscale() error: uninitialized symbol 'x2'.
+
+vim +/ret +214 drivers/gpu/drm/tiny/st7571-i2c.c
+
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  202  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  203  static int st7571_send_command_list(struct st7571_device *st7571,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  204  				    const u8 *cmd_list, size_t len)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  205  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  206  	int ret;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  207  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  208  	for (int i = 0; i < len; i++) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  209  		ret = regmap_write(st7571->regmap, ST7571_COMMAND_MODE, cmd_list[i]);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  210  		if (ret < 0)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  211  			return ret;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  212  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  213  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23 @214  	return ret;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  215  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  216  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  217  static inline u8 st7571_transform_xy(const char *p, int x, int y)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  218  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  219  	int xrest = x % 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  220  	u8 result = 0;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  221  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  222  	/*
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  223  	 * Transforms an (x, y) pixel coordinate into a vertical 8-bit
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  224  	 * column from the framebuffer. It calculates the corresponding byte in the
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  225  	 * framebuffer, extracts the bit at the given x position across 8 consecutive
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  226  	 * rows, and packs those bits into a single byte.
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  227  	 *
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  228  	 * Return an 8-bit value representing a vertical column of pixels.
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  229  	 */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  230  	x = x / 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  231  	y = (y / 8) * 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  232  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  233  	for (int i = 0; i < 8; i++) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  234  		int row_idx = y + i;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  235  		u8 byte = p[row_idx * 16 + x];
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  236  		u8 bit = (byte >> xrest) & 1;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  237  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  238  		result |= (bit << i);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  239  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  240  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  241  	return result;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  242  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  243  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  244  static int st7571_set_position(struct st7571_device *st7571, int x, int y)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  245  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  246  	u8 cmd_list[] = {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  247  		ST7571_SET_COLUMN_LSB(x),
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  248  		ST7571_SET_COLUMN_MSB(x),
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  249  		ST7571_SET_PAGE(y / ST7571_PAGE_HEIGHT),
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  250  	};
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  251  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  252  	return st7571_send_command_list(st7571, cmd_list, ARRAY_SIZE(cmd_list));
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  253  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  254  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  255  static int st7571_fb_clear_screen(struct st7571_device *st7571)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  256  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  257  	u32 npixels = st7571->ncols * round_up(st7571->nlines, ST7571_PAGE_HEIGHT) * st7571->bpp;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  258  	char pixelvalue = 0x00;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  259  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  260  	for (int i = 0; i < npixels; i++)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  261  		regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, &pixelvalue, 1);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  262  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  263  	return 0;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  264  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  265  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  266  static void st7571_prepare_buffer_monochrome(struct st7571_device *st7571,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  267  					     const struct iosys_map *vmap,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  268  					     struct drm_framebuffer *fb,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  269  					     struct drm_rect *rect,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  270  					     struct drm_format_conv_state *fmtcnv_state)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  271  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  272  	unsigned int dst_pitch;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  273  	struct iosys_map dst;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  274  	u32 size;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  275  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  276  	switch (fb->format->format) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  277  	case DRM_FORMAT_XRGB8888:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  278  		dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  279  		iosys_map_set_vaddr(&dst, st7571->hwbuf);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  280  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  281  		drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  282  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  283  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  284  	case DRM_FORMAT_R1:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  285  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  286  		memcpy(st7571->hwbuf, vmap->vaddr, size);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  287  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  288  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  289  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  290  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  291  static void st7571_prepare_buffer_grayscale(struct st7571_device *st7571,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  292  					    const struct iosys_map *vmap,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  293  					    struct drm_framebuffer *fb,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  294  					    struct drm_rect *rect,
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  295  					    struct drm_format_conv_state *fmtcnv_state)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  296  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  297  	u32 size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  298  	unsigned int dst_pitch;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  299  	struct iosys_map dst;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  300  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  301  	switch (fb->format->format) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  302  	case DRM_FORMAT_XRGB8888: /* Only support XRGB8888 in monochrome mode */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  303  		dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  304  		iosys_map_set_vaddr(&dst, st7571->hwbuf);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  305  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  306  		drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  307  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  308  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  309  	case DRM_FORMAT_R1:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  310  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 8;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  311  		memcpy(st7571->hwbuf, vmap->vaddr, size);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  312  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  313  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  314  	case DRM_FORMAT_R2:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  315  		size = (rect->x2 - rect->x1) * (rect->y2 - rect->y1) / 4;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  316  		memcpy(st7571->hwbuf, vmap->vaddr, size);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  317  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  318  	};
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  319  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  320  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  321  static int st7571_fb_update_rect_monochrome(struct drm_framebuffer *fb, struct drm_rect *rect)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  322  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  323  	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  324  	char *row = st7571->row;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  325  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  326  	/* Align y to display page boundaries */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  327  	rect->y1 = round_down(rect->y1, ST7571_PAGE_HEIGHT);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  328  	rect->y2 = min_t(unsigned int, round_up(rect->y2, ST7571_PAGE_HEIGHT), st7571->nlines);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  329  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  330  	for (int y = rect->y1; y < rect->y2; y += ST7571_PAGE_HEIGHT) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  331  		for (int x = rect->x1; x < rect->x2; x++)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  332  			row[x] = st7571_transform_xy(st7571->hwbuf, x, y);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  333  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  334  		st7571_set_position(st7571, rect->x1, y);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  335  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  336  		/* TODO: Investige why we can't write multiple bytes at once */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  337  		for (int x = rect->x1; x < rect->x2; x++)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  338  			regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  339  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  340  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  341  	return 0;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  342  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  343  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  344  static int st7571_fb_update_rect_grayscale(struct drm_framebuffer *fb, struct drm_rect *rect)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  345  {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  346  	struct st7571_device *st7571 = drm_to_st7571(fb->dev);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  347  	u32 format = fb->format->format;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  348  	char *row = st7571->row;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  349  	int x1;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  350  	int x2;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  351  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  352  	/* Align y to display page boundaries */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  353  	rect->y1 = round_down(rect->y1, ST7571_PAGE_HEIGHT);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  354  	rect->y2 = min_t(unsigned int, round_up(rect->y2, ST7571_PAGE_HEIGHT), st7571->nlines);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  355  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  356  	switch (format) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  357  	case DRM_FORMAT_XRGB8888:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  358  		/* Threated as monochrome (R1) */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  359  		fallthrough;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  360  	case DRM_FORMAT_R1:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  361  		x1 = rect->x1;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  362  		x2 = rect->x2;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  363  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  364  	case DRM_FORMAT_R2:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  365  		x1 = rect->x1 * 2;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  366  		x2 = rect->x2 * 2;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  367  		break;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  368  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  369  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  370  	for (int y = rect->y1; y < rect->y2; y += ST7571_PAGE_HEIGHT) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23 @371  		for (int x = x1; x < x2; x++)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  372  			row[x] = st7571_transform_xy(st7571->hwbuf, x, y);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  373  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  374  		st7571_set_position(st7571, rect->x1, y);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  375  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  376  		/* TODO: Investige why we can't write multiple bytes at once */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  377  		for (int x = x1; x < x2; x++) {
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  378  			regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  379  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  380  			/*
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  381  			 * As the display supports grayscale, all pixels must be written as two bits
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  382  			 * even if the format is monochrome.
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  383  			 *
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  384  			 * The bit values maps to the following grayscale:
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  385  			 * 0 0 = White
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  386  			 * 0 1 = Light gray
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  387  			 * 1 0 = Dark gray
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  388  			 * 1 1 = Black
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  389  			 *
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  390  			 * For monochrome formats, write the same value twice to get
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  391  			 * either a black or white pixel.
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  392  			 */
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  393  			if (format == DRM_FORMAT_R1 || format == DRM_FORMAT_XRGB8888)
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  394  				regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, row + x, 1);
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  395  		}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  396  	}
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  397  
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  398  	return 0;
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  399  }
+4b35f0f41ee295 Marcus Folkesson 2025-04-23  400  
 
 -- 
 0-DAY CI Kernel Test Service
