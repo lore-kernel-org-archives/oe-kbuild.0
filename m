@@ -1,68 +1,71 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863E81DE2D8
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 05:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AB11EF080
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 05:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746683253; cv=none; b=Es3BAwk227LHIpM4hjCkSqpzTQJt97DeRkN/UUsc5xyNgeuK2d8hQOqAOUvTtzC6pJ4ncJmfSV/bsUnOxWl8TH1X22KHDh19jatKnoGsxDvdgpfnVCzwaRSdQ7plVaRp3KeySYBKzTEInTDq6zjAVe+z9soURSkDmMXwZbli8pw=
+	t=1746683419; cv=none; b=fYsuIN79BfQ8RfQY2UzR6CjUNgcCCfgF2VxqEVxSOBXMfAywtS5G4xGan0pSEtIIwxTViQI+RGREFzr976pNX2huCPoIbOeK98vMz+au3+ijp3KoHjw94VyFizhzhAdsyT35Qo2+wYuKPsXvGd1/ZpSGAFYF+rFbkhjkz5NDzro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746683253; c=relaxed/simple;
-	bh=M4+zHfcI33Z2cFnsOe/pEfEdRumAQbSlZAruITsX9Qo=;
+	s=arc-20240116; t=1746683419; c=relaxed/simple;
+	bh=XjJ63kwcos7MHsAjYLwMK+Uzag2QYhybqntQ7hHSoN0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IUJDKuZLuxDuQWLZdj5+vs6ksknOdyUcIsaqZc9NRBjUcb5fCN3uCdj/14x0H4c6jOFQ4t+JFNCTuRp5wcYi5QthsINdj4ruzv+ZJlwnC/Qgh03xpd6QxIvBd47S8d70cHzcXymq+7EL23Yp0hasD9JP+ABQcoHGvQR4H6rKLO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NcWoIzzz; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition; b=PD/NMsnPkFp5N2cqf+uBbGLD702RZ7EpJYXiwFehajmtKMto+fEhHMKhIqS+ctg8ezjnWqXe/xR2MUhNFLNO5ZiS7A5uAwUDiUdtrzEbAM7y6KGgm6afbe1UPWXIul+NmxkqWaTGLaKlGVR5AJXUx2moLsQ1Sp6LgcJYt9LYc/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BUtOEqdq; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NcWoIzzz"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so3731325e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 07 May 2025 22:47:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BUtOEqdq"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43d0618746bso4176355e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 07 May 2025 22:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746683249; x=1747288049; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1746683415; x=1747288215; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=P5CTBM0j2lcGjU5ouKbWKErsqM/JgWcN5EvB9r2bUWU=;
-        b=NcWoIzzzyPcr6ZPx/FHdoJKyANCjDqXhaRPHHyNXTPSuzMQftOv8nJqf9y/x+Lwcgt
-         z186Bdn+qIp5Qmdl+GqAkubNynX94p5yaaStCXKTQUUvXmVsCYGMQWifOenABnoNuNo5
-         sCraFHIH+5fyIfKWvr6zryLvbOpY5x1A7nMPtfDWLd26MBP+6a/WNqhwXygXc4sSLFW6
-         PI7CJ+911c56sK/8OoWYiq0dWD0TxNz76SCuMGyNruntNEim4ByKVrMB8Q0+ZFrsr0aG
-         dxvZ9pdDC/D3SrwW2jqlXMe4WM3TffePQi0adUqhBGBeZ4/I5aBruYalQvl3fEuGohbL
-         oyWw==
+        bh=wcHeJgbKnjxJ5K5DRkNbMCSOEMXDAYtsepXEwY2gwck=;
+        b=BUtOEqdqRpB5aRWVjuFW9NPAyUHGMfnu5pcJPZ0D5WukNCxY+93xI4ccunPWW4RMou
+         vSNIItbIoV1eRs7A87FfsuzgIWvU+/O+ppcifXRJyNOcC6XtSdxRK6FvUbkvZbNdsdQO
+         k4eT+OpkeErvMEoj2Agwc59+XTfdQmCB2jOe931mmeqPRmnflt5TJxOyl71tVfCpJy4W
+         XZ/VjvM4C24PwlVQBAYyvoPh6UgmucKXU5oQrcpLmMbVvMTlfElIbY7gGlALTLzkM7L5
+         r+f4tw6JJxgdFZYxD7yrHMs1dl1BzioJsv5djaQVGSrp42wqzS1rt75OplNXJu7AJo2O
+         XxVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746683249; x=1747288049;
+        d=1e100.net; s=20230601; t=1746683415; x=1747288215;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P5CTBM0j2lcGjU5ouKbWKErsqM/JgWcN5EvB9r2bUWU=;
-        b=eh9zK4O6jzOjqZYhiiIVi+g6PMTH1hkmm0LOMn9ur66QuT/5QYVBBtLSCcL4VT/iNN
-         FJ0z6Ea41ZJFfM3W49MIYVUjhUFcfBLPkt2PsawIuy9A7d1mwZI1ZNEsYoGBc2Zb6RBq
-         g38tyWcVFeOeNIa+vt2uHXqUlm92/5VAZuehsosXEyTtitPSCyMRhcL2QwEHhl6gLx6m
-         f4tpyHxaBPOZ9iVvrPPYsUQjC9X2epSlc+RZUax1raO2wOqo/MuSNlP6HOlpzw8aF1OW
-         uoIWjMv7n43x71Ys+WTji38pMkgWv3+j6lZqHWa3FSgaDVFBoe/dLmpVOY9JD4PMHdu+
-         zong==
-X-Gm-Message-State: AOJu0YxsDhUOZJEnevgeFeuD7UR2uNr4ZIIh/JpbGjGcYYJn0PCkbbu1
-	lvZWlMcclOd1beRBYgCm/eZKiq2aB9GBWcHImPU+E7wgHjRfJ3nez76Bv95fg8wf4/fjjM87ZaR
-	Q
-X-Gm-Gg: ASbGncsMZYVjI2I2nuR+J6ZMQVzOzui5UJU/26VYnV2wLm0lTMMuPOjOFO3kt1A8hnh
-	DnVvLETz5oc5AH1d6YdNtyUu2+AokctHkfE08GKWMwXp/bW7+KBIzFLjeDbHzEKxjW4/+GcdzWh
-	ITYEPSnTtxrXvAAQfUF45BpPx5CS20q+3V3I816Js9ajLK7M9lok6uZUWordZyxHCuorGMqYQHs
-	0CMxKMC2zG3wEYeFTjjOV2BMlpLRIhFLfTGVQFWq/tB9LUsVkCFQlp5aNhbQGuWJbcyoVbYVzmm
-	rVwxLTGPMLpVt3tIYtr8rXN0uGrQvSDzmsbqYUuttkqUYQ==
-X-Google-Smtp-Source: AGHT+IFcFCh0MsHBkg+J+VSER1ov0BEAS5iQlZeuPgTMA0LYLNvoc9VAJTqMWqYUfF3nzedFbo4nHw==
-X-Received: by 2002:a05:600c:35d3:b0:441:d437:ed19 with SMTP id 5b1f17b1804b1-441d44c4457mr42205415e9.11.1746683248755;
-        Wed, 07 May 2025 22:47:28 -0700 (PDT)
+        bh=wcHeJgbKnjxJ5K5DRkNbMCSOEMXDAYtsepXEwY2gwck=;
+        b=eb8Xoha1UH+UODUCEluIBNXfgOjvz909STSxHEIBjVCud+n8mAYy8iH7c2rSsQfgu9
+         j39Dk0cFTky1PVmXPK7bWyje+jnVGpk4x3AKR8jSH9Wtah9cQRtXYtl3Ozs7QM+EnlMW
+         NrzZM0qByOJnnmVurafvGEa9WNrWk6RJPBQhZgfYFCZHqPORIfL+dLv/OkcaYUC1sKqw
+         ibag0GRIIGr2Ua/yAXm9MB4otBpFzlKoguk/5XMZpbl9Y/mXntSfT57QG4VvFTpo+NGH
+         yDbqVPFm9O6k3HWZxnqRkFVkDOfHMt8PKQBRDN6OxG+lxG24+XGVkijfrbM4ahAmWGos
+         xKeg==
+X-Gm-Message-State: AOJu0Yx53UZHL7ruozjM9P0XgGs2WN5W6Fzz7rVEePLBeJ91zEeRobd3
+	9roWgmdOVjSGLb/jNmZSKMSCmQXtO3ulAxliDbAKp1eMEtBHLbZZ8XsiQjUt4MqaC7/JP+cVzzC
+	h
+X-Gm-Gg: ASbGncs+AcKD7FUwn7SGI7ZfljXCI9xZJ68aqSI0v8GbLiN20g01/UDq4lTgezOXT0F
+	d9Z0X7Yh6//H6y4pvjYlewV4CBnD6mrG/1VEI1dDexs3fo16vp0sEAn1D5iG8RDDb5h3GZw6eMS
+	AM1dZhEScp2+x5h4oWq8ausd9XFQVPd5d3Ye1m1L55LuUm3LWV3KR9HDHFocOaHkNJDcZI2+IKf
+	msmm9q4Gl17l1FrLtqNH/OMhZap9nhLE37uCRUBmwYkV4P0A1rxzBtt4Ms5NkXaGjcVE9xGE999
+	0w18ENQMPYVkfkBKn7fiTQTBqqF58JT6aFtCblEqT2UmYw==
+X-Google-Smtp-Source: AGHT+IG/ffPOSHPvA7Gk9i8hhcQ7yujUQiQdiRR7VNei6dUXA0jV9HvtaIF7yFHclkxLl+64FNu65g==
+X-Received: by 2002:a05:600c:154e:b0:43c:ef13:7e5e with SMTP id 5b1f17b1804b1-441d44dd248mr41492605e9.26.1746683414804;
+        Wed, 07 May 2025 22:50:14 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442cd32f3c2sm24406215e9.15.2025.05.07.22.47.27
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442cd35fb09sm24121125e9.30.2025.05.07.22.50.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 22:47:28 -0700 (PDT)
-Date: Thu, 8 May 2025 08:47:24 +0300
+        Wed, 07 May 2025 22:50:14 -0700 (PDT)
+Date: Thu, 8 May 2025 08:50:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
+To: oe-kbuild@lists.linux.dev, Arvind Yadav <Arvind.Yadav@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
-Subject: fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even
- be NULL?
-Message-ID: <202505080231.7OXwq4Te-lkp@intel.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	Sunil Khatri <sunil.khatri@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [linux-next:master 6980/9308]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:856
+ amdgpu_userq_wait_ioctl() warn: missing error code 'r'
+Message-ID: <202505080458.rnV8YfiY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,59 +74,55 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250508054724.e-H20OfcQcMKXhW_Jq2-HZsaSDvrAfqDJ4ZDz_Ho3ZI@z>
+Message-ID: <20250508055011.aFVn_NY7V5areOAXaAjDgXPkngadlz5RjC13pa8PNm8@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   707df3375124b51048233625a7e1c801e8c8a7fd
-commit: 18b4fac5ef17f77fed9417d22210ceafd6525fc7 ksmbd: fix use-after-free in smb_break_all_levII_oplock()
-config: i386-randconfig-141-20250416 (https://download.01.org/0day-ci/archive/20250508/202505080231.7OXwq4Te-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   08710e696081d58163c8078e0e096be6d35c5fad
+commit: 56801cb83c8c95ae23ea576570c75a01c1f07774 [6980/9308] drm/amdgpu: remove DRM_AMDGPU_NAVI3X_USERQ config for UQ
+config: loongarch-randconfig-r071-20250502 (https://download.01.org/0day-ci/archive/20250508/202505080458.rnV8YfiY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505080231.7OXwq4Te-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505080458.rnV8YfiY-lkp@intel.com/
 
-New smatch warnings:
-fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even be NULL?
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:856 amdgpu_userq_wait_ioctl() warn: missing error code 'r'
 
-vim +/opinfo +155 fs/smb/server/oplock.c
+vim +/r +856 drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
 
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  145  static struct oplock_info *opinfo_get_list(struct ksmbd_inode *ci)
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  146  {
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  147  	struct oplock_info *opinfo;
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  148  
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  149  	if (list_empty(&ci->m_op_list))
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  150  		return NULL;
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  151  
-18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  152  	down_read(&ci->m_lock);
-18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  153  	opinfo = list_first_entry(&ci->m_op_list, struct oplock_info,
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  154  					op_entry);
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  835  		/* Retrieve syncobj's fence */
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  836  		for (i = 0; i < num_syncobj; i++) {
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  837  			struct dma_fence *fence;
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  838  
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  839  			r = drm_syncobj_find_fence(filp, syncobj_handles[i],
+15e30a6e479282 Arunpravin Paneer Selvam 2024-10-30  840  						   0,
+15e30a6e479282 Arunpravin Paneer Selvam 2024-10-30  841  						   DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT,
+15e30a6e479282 Arunpravin Paneer Selvam 2024-10-30  842  						   &fence);
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  843  			if (r)
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  844  				goto free_fences;
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  845  
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  846  			if (WARN_ON_ONCE(num_fences >= wait_info->num_fences)) {
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  847  				r = -EINVAL;
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  848  				goto free_fences;
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  849  			}
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  850  
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  851  			fences[num_fences++] = fence;
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  852  		}
+a292fdecd72834 Arunpravin Paneer Selvam 2024-10-30  853  
+4b27406380b0b9 Arunpravin Paneer Selvam 2025-04-11  854  		waitq = idr_find(&userq_mgr->userq_idr, wait_info->waitq_id);
+4b27406380b0b9 Arunpravin Paneer Selvam 2025-04-11  855  		if (!waitq)
+4b27406380b0b9 Arunpravin Paneer Selvam 2025-04-11 @856  			goto free_fences;
+                                                                                ^^^^^^^^^^^^^^^^
+Set "r = -EINVAL"?
 
-The list_first_entry() macro never returns NULL.  If the list is
-empty then it returns an invalid pointer.  Use
-list_first_entry_or_null().  We have the check for list_empty()
-at the start of the function but it's outside of the lock so it's
-probably not safe to assume it's still true.  (I haven't looked
-at the locking here outside of what the kbuild-bot includes in this
-email).
+The kbuild-bot normally includes the whole function in the email
+but if the function is long then it chops the end off...  I'm
+assuming that the warning is correct without seeing the rest of
+the function.  :P
 
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19 @155  	if (opinfo) {
-c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  156  		if (opinfo->conn == NULL ||
-c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  157  		    !atomic_inc_not_zero(&opinfo->refcount))
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  158  			opinfo = NULL;
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  159  		else {
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  160  			if (ksmbd_conn_releasing(opinfo->conn)) {
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  161  				atomic_dec(&opinfo->refcount);
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  162  				opinfo = NULL;
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  163  			}
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  164  		}
-36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  165  	}
-18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  166  	up_read(&ci->m_lock);
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  167  
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  168  	return opinfo;
-e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  169  }
 
 -- 
 0-DAY CI Kernel Test Service
