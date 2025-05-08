@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CED728BA98
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 20:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE81D21E0AF
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 21:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746735525; cv=none; b=XWMuAfnnQv/JSylcclxgq0ZlMB0/VhwrNMwUfdygSFPpzUz6GXOg8McSnO/fsQqVpm8Y0HzvdMsiWPKPjd84JCZA2NUvOuLlh1tlI5ZMdBx0EvWD+b24UCIegOoHOo4Tit4xmDMv2i5XeDyjdiPUTuW/XP2vkmRrNdXLUJ2ShNQ=
+	t=1746739313; cv=none; b=JOktdcsv02vceinGSFfGDEMvHVY9uMkX/Rb4f2fZr3WE/hdIbpO5Bx0y+fWEuKdF+RRF7xYKkZZy/qVp/l3f0IEqF2zFDXesigosyFTZduGf0C02KyQtte9oldgwJ9hS8UBlRMf/wjpD8aK9zwMRln30aHBmIQlT7N8uzAQ2L+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746735525; c=relaxed/simple;
-	bh=kXH4fi54CeCjaytlaXB0/shX2EOUhcvnlZREjUAfRIU=;
+	s=arc-20240116; t=1746739313; c=relaxed/simple;
+	bh=xs7Ja+l8xiGysw/KyA0iH3LWtETeju7qFqau1wlhzkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gdyWU6yj5U+DkQfdDnrLG0uI5ukJw6HWVAPEeus5d8W1uJMP2K9UZt6Sp9OVhkt10QviANozAlKCqm2Glw8FGMfo/aIidkPsz1JEm2socHJSftqBNTxquk+dwmimY9l2gONCBeKBp0Ruuv30Kg206CCt9hM1CT2ntrOxMtSUCnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZg4lXpZ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=IUijLqSIC+wk8X+P6ySHNLroIvqRjOAMi/BdoSaAlLlm5NtXYqUufdR3ReplzfsV5TQd2TFJZUB4Jhbpwhcpws8yYYfkeDYXjXSQ75p7k9oklL/DEm7OJ3uxTZERpt3Q2FMyueDs2bkBZNZ73bC/seqLhEX9qBVuqDo40stSKf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2dKWxAz; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZg4lXpZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2dKWxAz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746735523; x=1778271523;
+  t=1746739311; x=1778275311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kXH4fi54CeCjaytlaXB0/shX2EOUhcvnlZREjUAfRIU=;
-  b=iZg4lXpZERuQtRvySOZesO4N6QFQSJjb+L1O7XImEgZANqBmeqVSSZFi
-   SusOp+dvzRuwR6EzaM5Q+zKWh+E9FrAPlJgj2nKrkk5eZAJiIAqabcHL1
-   UOJtXvloR45rtCUGNz2MkCsTWNm+C+GXEq0/8CifEAOEozbmfhN9W7eVz
-   nHY953yOjmPMqo3U5//+xarVTUg+kck2lfqU+6VbwTNFrAghZ7gFPxAGP
-   gfG8WrE/nIp8/AOR4EofSG8Jl4oHLET+VLS9B+y2l5ol0iQS7Vgr/HMBK
-   2N/NQNULcM0XQmJlUR8R7EqoQEAV0/4ylqXTRf9a71LV5DG4NAj55RffN
-   A==;
-X-CSE-ConnectionGUID: nS60oHULQS2QfVhU+AuBDQ==
-X-CSE-MsgGUID: mSmhOD2xQ/i2N3ZNhC+/pA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48623606"
+  bh=xs7Ja+l8xiGysw/KyA0iH3LWtETeju7qFqau1wlhzkA=;
+  b=O2dKWxAzZNUf5wmth+G3H3k3ovMb0QIv8seL33dugsRCOFp6auf5n+w9
+   hh1VpXFFE6CKjrCtBq30LfzgkbHm47KsPMg4a3laH/B6CU7qwoj8kVrLa
+   T/j/5ZFThMvIr2CceY2mz8ozqypvFjAYdpcF24XZHuzf1UEAPPdLp412g
+   Be+n5y0px/X3Jj600rEpV03EmpkiA/Jgvan22+yEpZQtHsywMLjvrON1T
+   Ohbo91Jb+WCde1pjjGFUePweXEqnK4F7ASKOATdQY4TjsA6S9YbxNF3Up
+   STv+9F+ds7mUqeymX2NK1YER4ckw29aHS13mZbVXt83a5MbWaWfdZorvx
+   Q==;
+X-CSE-ConnectionGUID: DOwexYuRSQmakhOEYl4TuA==
+X-CSE-MsgGUID: F615az9kSvqkd2snzmryCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="71063294"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="48623606"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 13:18:42 -0700
-X-CSE-ConnectionGUID: bwsoL496Rw+4uvhC8xkKuQ==
-X-CSE-MsgGUID: MwT2/d/JS9e7GvKefHjKgQ==
+   d="scan'208";a="71063294"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 14:21:50 -0700
+X-CSE-ConnectionGUID: t4xJRWwBTXKw+xfoUOOBfw==
+X-CSE-MsgGUID: ScyPtX3nRBW01Qm5QCOWRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="159699411"
+   d="scan'208";a="140458150"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 13:18:42 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 May 2025 14:21:48 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD7hX-000BLL-1w;
-	Thu, 08 May 2025 20:18:39 +0000
-Date: Fri, 9 May 2025 04:18:27 +0800
+	id 1uD8gb-000BO5-2H;
+	Thu, 08 May 2025 21:21:45 +0000
+Date: Fri, 9 May 2025 05:21:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 7/8] arm64: tegra: Add p3971-0089+p3834-0008 support
-Message-ID: <202505090457.qMTY9MLk-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [riteshharjani:vfs.all-ext4-atomic-write-bigalloc-lsfmm-rfcv2-wipv7-0day
+ 7/10] fs/ext4/extents.c:4437 ext4_ext_map_blocks() error: uninitialized
+ symbol 'ex'.
+Message-ID: <202505090533.jBoVQyp2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,56 +63,309 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250507143802.1230919-8-thierry.reding@gmail.com>
-References: <20250507143802.1230919-8-thierry.reding@gmail.com>
-TO: Thierry Reding <thierry.reding@gmail.com>
-TO: Thierry Reding <thierry.reding@gmail.com>
-CC: Jon Hunter <jonathanh@nvidia.com>
-CC: linux-tegra@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
+TO: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 
-Hi Thierry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on tegra/for-next vkoul-dmaengine/next abelloni/rtc-next arm64/for-next/core linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/dt-bindings-dma-Add-Tegra264-compatible-string/20250507-224445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250507143802.1230919-8-thierry.reding%40gmail.com
-patch subject: [PATCH 7/8] arm64: tegra: Add p3971-0089+p3834-0008 support
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: arm64-randconfig-052-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090457.qMTY9MLk-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090457.qMTY9MLk-lkp@intel.com/reproduce)
+tree:   https://github.com/riteshharjani/linux vfs.all-ext4-atomic-write-bigalloc-lsfmm-rfcv2-wipv7-0day
+head:   1912657402abaf0395d3a767f49d6ef7238fd29b
+commit: 3a2db400ba1b30b1c98060dd61cac23d1112ba23 [7/10] ext4: Add support for EXT4_GET_BLOCKS_QUERY_LEAF_BLOCKS
+:::::: branch date: 31 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090533.jBoVQyp2-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505090457.qMTY9MLk-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505090533.jBoVQyp2-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bus@0/serial@c5f0000: failed to match any schema with compatible: ['arm,sbsa-uart']
->> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bus@0/pmc@c800000: failed to match any schema with compatible: ['nvidia,tegra264-pmc']
->> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: bpmp (nvidia,tegra264-bpmp): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['nvidia,tegra264-bpmp', 'nvidia,tegra186-bpmp'] is too long
-   	'nvidia,tegra264-bpmp' is not one of ['nvidia,tegra194-bpmp', 'nvidia,tegra234-bpmp']
-   	'nvidia,tegra186-bpmp' was expected
-   	from schema $id: http://devicetree.org/schemas/firmware/nvidia,tegra186-bpmp.yaml#
->> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bpmp: failed to match any schema with compatible: ['nvidia,tegra264-bpmp', 'nvidia,tegra186-bpmp']
+smatch warnings:
+fs/ext4/extents.c:4437 ext4_ext_map_blocks() error: uninitialized symbol 'ex'.
+fs/ext4/extents.c:4437 ext4_ext_map_blocks() error: uninitialized symbol 'depth'.
+fs/ext4/extents.c:4437 ext4_ext_map_blocks() error: 'path' dereferencing possible ERR_PTR()
+
+vim +/ex +4437 fs/ext4/extents.c
+
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4169  
+c278bfecebfb1e Aneesh Kumar K.V     2008-01-28  4170  /*
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4171   * Block allocation/map/preallocation routine for extents based files
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4172   *
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4173   *
+c278bfecebfb1e Aneesh Kumar K.V     2008-01-28  4174   * Need to be called with
+0e855ac8b103ef Aneesh Kumar K.V     2008-01-28  4175   * down_read(&EXT4_I(inode)->i_data_sem) if not allocating file system block
+547e64bda9c7bd Cheng Nie            2024-01-18  4176   * (ie, flags is zero). Otherwise down_write(&EXT4_I(inode)->i_data_sem)
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4177   *
+b483bb77194b4e Randy Dunlap         2020-08-04  4178   * return > 0, number of blocks already mapped/allocated
+547e64bda9c7bd Cheng Nie            2024-01-18  4179   *          if flags doesn't contain EXT4_GET_BLOCKS_CREATE and these are pre-allocated blocks
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4180   *          	buffer head is unmapped
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4181   *          otherwise blocks are mapped
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4182   *
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4183   * return = 0, if plain look up failed (blocks have not been allocated)
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4184   *          buffer head is unmapped
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4185   *
+f5ab0d1f8f7df9 Mingming Cao         2008-02-25  4186   * return < 0, error case.
+c278bfecebfb1e Aneesh Kumar K.V     2008-01-28  4187   */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4188  int ext4_ext_map_blocks(handle_t *handle, struct inode *inode,
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4189  			struct ext4_map_blocks *map, int flags)
+a86c61812637c7 Alex Tomas           2006-10-11  4190  {
+a86c61812637c7 Alex Tomas           2006-10-11  4191  	struct ext4_ext_path *path = NULL;
+d7dce9e08595e8 yangerkun            2020-10-28  4192  	struct ext4_extent newex, *ex, ex2;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4193  	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
+8ad8d710035edf Eric Whitney         2020-05-10  4194  	ext4_fsblk_t newblock = 0, pblk;
+2ec2e1043473b3 Baokun Li            2024-08-22  4195  	int err = 0, depth;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4196  	unsigned int allocated = 0, offset = 0;
+81fdbb4a8d3424 Yongqiang Yang       2011-10-29  4197  	unsigned int allocated_clusters = 0;
+c9de560ded61fa Alex Tomas           2008-01-29  4198  	struct ext4_allocation_request ar;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4199  	ext4_lblk_t cluster_offset;
+a86c61812637c7 Alex Tomas           2006-10-11  4200  
+70aa1554b01474 Ritesh Harjani       2020-05-10  4201  	ext_debug(inode, "blocks %u/%u requested\n", map->m_lblk, map->m_len);
+0562e0bad483d1 Jiaying Zhang        2011-03-21  4202  	trace_ext4_ext_map_blocks_enter(inode, map->m_lblk, map->m_len, flags);
+a86c61812637c7 Alex Tomas           2006-10-11  4203  
+a86c61812637c7 Alex Tomas           2006-10-11  4204  	/* find extent for this block */
+ed8a1a766af737 Theodore Ts'o        2014-09-01  4205  	path = ext4_find_extent(inode, map->m_lblk, NULL, 0);
+a86c61812637c7 Alex Tomas           2006-10-11  4206  	if (IS_ERR(path)) {
+a86c61812637c7 Alex Tomas           2006-10-11  4207  		err = PTR_ERR(path);
+8ad8d710035edf Eric Whitney         2020-05-10  4208  		goto out;
+a86c61812637c7 Alex Tomas           2006-10-11  4209  	}
+a86c61812637c7 Alex Tomas           2006-10-11  4210  
+a86c61812637c7 Alex Tomas           2006-10-11  4211  	depth = ext_depth(inode);
+a86c61812637c7 Alex Tomas           2006-10-11  4212  
+a86c61812637c7 Alex Tomas           2006-10-11  4213  	/*
+d0d856e8bd6e69 Randy Dunlap         2006-10-11  4214  	 * consistent leaf must not be empty;
+d0d856e8bd6e69 Randy Dunlap         2006-10-11  4215  	 * this situation is possible, though, _during_ tree modification;
+ed8a1a766af737 Theodore Ts'o        2014-09-01  4216  	 * this is why assert can't be put in ext4_find_extent()
+a86c61812637c7 Alex Tomas           2006-10-11  4217  	 */
+273df556b6ee20 Frank Mayhar         2010-03-02  4218  	if (unlikely(path[depth].p_ext == NULL && depth != 0)) {
+273df556b6ee20 Frank Mayhar         2010-03-02  4219  		EXT4_ERROR_INODE(inode, "bad extent address "
+f70f362b4a6fe4 Theodore Ts'o        2010-05-16  4220  				 "lblock: %lu, depth: %d pblock %lld",
+f70f362b4a6fe4 Theodore Ts'o        2010-05-16  4221  				 (unsigned long) map->m_lblk, depth,
+f70f362b4a6fe4 Theodore Ts'o        2010-05-16  4222  				 path[depth].p_block);
+6a797d27378389 Darrick J. Wong      2015-10-17  4223  		err = -EFSCORRUPTED;
+8ad8d710035edf Eric Whitney         2020-05-10  4224  		goto out;
+034fb4c95fc0fe Surbhi Palande       2009-12-14  4225  	}
+a86c61812637c7 Alex Tomas           2006-10-11  4226  
+7e0289766a0750 Avantika Mathur      2006-12-06  4227  	ex = path[depth].p_ext;
+7e0289766a0750 Avantika Mathur      2006-12-06  4228  	if (ex) {
+725d26d3f09ccb Aneesh Kumar K.V     2008-01-28  4229  		ext4_lblk_t ee_block = le32_to_cpu(ex->ee_block);
+bf89d16f6ef538 Theodore Ts'o        2010-10-27  4230  		ext4_fsblk_t ee_start = ext4_ext_pblock(ex);
+a2df2a63407803 Amit Arora           2007-07-17  4231  		unsigned short ee_len;
+471d4011a9862e Suparna Bhattacharya 2006-10-11  4232  
+b8a8684502a0fc Lukas Czerner        2014-03-18  4233  
+471d4011a9862e Suparna Bhattacharya 2006-10-11  4234  		/*
+556615dcbf38b0 Lukas Czerner        2014-04-20  4235  		 * unwritten extents are treated as holes, except that
+56055d3ae4cc7f Amit Arora           2007-07-17  4236  		 * we split out initialized portions during a write.
+471d4011a9862e Suparna Bhattacharya 2006-10-11  4237  		 */
+a2df2a63407803 Amit Arora           2007-07-17  4238  		ee_len = ext4_ext_get_actual_len(ex);
+d8990240d8c911 Aditya Kali          2011-09-09  4239  
+d8990240d8c911 Aditya Kali          2011-09-09  4240  		trace_ext4_ext_show_extent(inode, ee_block, ee_start, ee_len);
+d8990240d8c911 Aditya Kali          2011-09-09  4241  
+d0d856e8bd6e69 Randy Dunlap         2006-10-11  4242  		/* if found extent covers block, simply return it */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4243  		if (in_range(map->m_lblk, ee_block, ee_len)) {
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4244  			newblock = map->m_lblk - ee_block + ee_start;
+d0d856e8bd6e69 Randy Dunlap         2006-10-11  4245  			/* number of remaining blocks in the extent */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4246  			allocated = ee_len - (map->m_lblk - ee_block);
+70aa1554b01474 Ritesh Harjani       2020-05-10  4247  			ext_debug(inode, "%u fit into %u:%d -> %llu\n",
+70aa1554b01474 Ritesh Harjani       2020-05-10  4248  				  map->m_lblk, ee_block, ee_len, newblock);
+56055d3ae4cc7f Amit Arora           2007-07-17  4249  
+b8a8684502a0fc Lukas Czerner        2014-03-18  4250  			/*
+b8a8684502a0fc Lukas Czerner        2014-03-18  4251  			 * If the extent is initialized check whether the
+b8a8684502a0fc Lukas Czerner        2014-03-18  4252  			 * caller wants to convert it to unwritten.
+b8a8684502a0fc Lukas Czerner        2014-03-18  4253  			 */
+556615dcbf38b0 Lukas Czerner        2014-04-20  4254  			if ((!ext4_ext_is_unwritten(ex)) &&
+b8a8684502a0fc Lukas Czerner        2014-03-18  4255  			    (flags & EXT4_GET_BLOCKS_CONVERT_UNWRITTEN)) {
+4191eefef978d7 Baokun Li            2024-08-22  4256  				path = convert_initialized_extent(handle,
+4191eefef978d7 Baokun Li            2024-08-22  4257  					inode, map, path, &allocated);
+4191eefef978d7 Baokun Li            2024-08-22  4258  				if (IS_ERR(path))
+4191eefef978d7 Baokun Li            2024-08-22  4259  					err = PTR_ERR(path);
+8ad8d710035edf Eric Whitney         2020-05-10  4260  				goto out;
+f064a9d6e7dbd3 Eric Whitney         2020-02-18  4261  			} else if (!ext4_ext_is_unwritten(ex)) {
+8ad8d710035edf Eric Whitney         2020-05-10  4262  				map->m_flags |= EXT4_MAP_MAPPED;
+8ad8d710035edf Eric Whitney         2020-05-10  4263  				map->m_pblk = newblock;
+8ad8d710035edf Eric Whitney         2020-05-10  4264  				if (allocated > map->m_len)
+8ad8d710035edf Eric Whitney         2020-05-10  4265  					allocated = map->m_len;
+8ad8d710035edf Eric Whitney         2020-05-10  4266  				map->m_len = allocated;
+8ad8d710035edf Eric Whitney         2020-05-10  4267  				ext4_ext_show_leaf(inode, path);
+a86c61812637c7 Alex Tomas           2006-10-11  4268  				goto out;
+f064a9d6e7dbd3 Eric Whitney         2020-02-18  4269  			}
+69eb33dc24dc44 Zheng Liu            2013-02-18  4270  
+2ec2e1043473b3 Baokun Li            2024-08-22  4271  			path = ext4_ext_handle_unwritten_extents(
+2ec2e1043473b3 Baokun Li            2024-08-22  4272  				handle, inode, map, path, flags,
+2ec2e1043473b3 Baokun Li            2024-08-22  4273  				&allocated, newblock);
+2ec2e1043473b3 Baokun Li            2024-08-22  4274  			if (IS_ERR(path))
+2ec2e1043473b3 Baokun Li            2024-08-22  4275  				err = PTR_ERR(path);
+8ad8d710035edf Eric Whitney         2020-05-10  4276  			goto out;
+56055d3ae4cc7f Amit Arora           2007-07-17  4277  		}
+a86c61812637c7 Alex Tomas           2006-10-11  4278  	}
+a86c61812637c7 Alex Tomas           2006-10-11  4279  
+a86c61812637c7 Alex Tomas           2006-10-11  4280  	/*
+d0d856e8bd6e69 Randy Dunlap         2006-10-11  4281  	 * requested block isn't allocated yet;
+547e64bda9c7bd Cheng Nie            2024-01-18  4282  	 * we couldn't try to create block if flags doesn't contain EXT4_GET_BLOCKS_CREATE
+a86c61812637c7 Alex Tomas           2006-10-11  4283  	 */
+c2177057331992 Theodore Ts'o        2009-05-14  4284  	if ((flags & EXT4_GET_BLOCKS_CREATE) == 0) {
+6430dea07e8595 Zhang Yi             2024-01-27  4285  		ext4_lblk_t len;
+140a52508a6838 Jan Kara             2016-03-09  4286  
+6430dea07e8595 Zhang Yi             2024-01-27  4287  		len = ext4_ext_determine_insert_hole(inode, path, map->m_lblk);
+facab4d9711e7a Jan Kara             2016-03-09  4288  
+facab4d9711e7a Jan Kara             2016-03-09  4289  		map->m_pblk = 0;
+6430dea07e8595 Zhang Yi             2024-01-27  4290  		map->m_len = min_t(unsigned int, map->m_len, len);
+8ad8d710035edf Eric Whitney         2020-05-10  4291  		goto out;
+a86c61812637c7 Alex Tomas           2006-10-11  4292  	}
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4293  
+a86c61812637c7 Alex Tomas           2006-10-11  4294  	/*
+c2ea3fde61f1df Theodore Ts'o        2008-10-10  4295  	 * Okay, we need to do block allocation.
+a86c61812637c7 Alex Tomas           2006-10-11  4296  	 */
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4297  	newex.ee_block = cpu_to_le32(map->m_lblk);
+d0abafac8c9162 Eric Whitney         2014-01-06  4298  	cluster_offset = EXT4_LBLK_COFF(sbi, map->m_lblk);
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4299  
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4300  	/*
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4301  	 * If we are doing bigalloc, check to see if the extent returned
+ed8a1a766af737 Theodore Ts'o        2014-09-01  4302  	 * by ext4_find_extent() implies a cluster we can use.
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4303  	 */
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4304  	if (cluster_offset && ex &&
+d8990240d8c911 Aditya Kali          2011-09-09  4305  	    get_implied_cluster_alloc(inode->i_sb, map, ex, path)) {
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4306  		ar.len = allocated = map->m_len;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4307  		newblock = map->m_pblk;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4308  		goto got_allocated_blocks;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4309  	}
+a86c61812637c7 Alex Tomas           2006-10-11  4310  
+c9de560ded61fa Alex Tomas           2008-01-29  4311  	/* find neighbour allocated blocks */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4312  	ar.lleft = map->m_lblk;
+c9de560ded61fa Alex Tomas           2008-01-29  4313  	err = ext4_ext_search_left(inode, path, &ar.lleft, &ar.pleft);
+c9de560ded61fa Alex Tomas           2008-01-29  4314  	if (err)
+8ad8d710035edf Eric Whitney         2020-05-10  4315  		goto out;
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4316  	ar.lright = map->m_lblk;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4317  	err = ext4_ext_search_right(inode, path, &ar.lright, &ar.pright, &ex2);
+d7dce9e08595e8 yangerkun            2020-10-28  4318  	if (err < 0)
+8ad8d710035edf Eric Whitney         2020-05-10  4319  		goto out;
+25d14f983f70dd Amit Arora           2007-05-24  4320  
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4321  	/* Check if the extent after searching to the right implies a
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4322  	 * cluster we can use. */
+d7dce9e08595e8 yangerkun            2020-10-28  4323  	if ((sbi->s_cluster_ratio > 1) && err &&
+d7dce9e08595e8 yangerkun            2020-10-28  4324  	    get_implied_cluster_alloc(inode->i_sb, map, &ex2, path)) {
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4325  		ar.len = allocated = map->m_len;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4326  		newblock = map->m_pblk;
+f7d1331f16a869 Baokun Li            2024-08-22  4327  		err = 0;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4328  		goto got_allocated_blocks;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4329  	}
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4330  
+749269facaf87f Amit Arora           2007-07-18  4331  	/*
+749269facaf87f Amit Arora           2007-07-18  4332  	 * See if request is beyond maximum number of blocks we can have in
+749269facaf87f Amit Arora           2007-07-18  4333  	 * a single extent. For an initialized extent this limit is
+556615dcbf38b0 Lukas Czerner        2014-04-20  4334  	 * EXT_INIT_MAX_LEN and for an unwritten extent this limit is
+556615dcbf38b0 Lukas Czerner        2014-04-20  4335  	 * EXT_UNWRITTEN_MAX_LEN.
+749269facaf87f Amit Arora           2007-07-18  4336  	 */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4337  	if (map->m_len > EXT_INIT_MAX_LEN &&
+556615dcbf38b0 Lukas Czerner        2014-04-20  4338  	    !(flags & EXT4_GET_BLOCKS_UNWRIT_EXT))
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4339  		map->m_len = EXT_INIT_MAX_LEN;
+556615dcbf38b0 Lukas Czerner        2014-04-20  4340  	else if (map->m_len > EXT_UNWRITTEN_MAX_LEN &&
+556615dcbf38b0 Lukas Czerner        2014-04-20  4341  		 (flags & EXT4_GET_BLOCKS_UNWRIT_EXT))
+556615dcbf38b0 Lukas Czerner        2014-04-20  4342  		map->m_len = EXT_UNWRITTEN_MAX_LEN;
+749269facaf87f Amit Arora           2007-07-18  4343  
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4344  	/* Check if we can really insert (m_lblk)::(m_lblk + m_len) extent */
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4345  	newex.ee_len = cpu_to_le16(map->m_len);
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4346  	err = ext4_ext_check_overlap(sbi, inode, &newex, path);
+25d14f983f70dd Amit Arora           2007-05-24  4347  	if (err)
+b939e3766ec19e Aneesh Kumar K.V     2008-01-28  4348  		allocated = ext4_ext_get_actual_len(&newex);
+25d14f983f70dd Amit Arora           2007-05-24  4349  	else
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4350  		allocated = map->m_len;
+c9de560ded61fa Alex Tomas           2008-01-29  4351  
+c9de560ded61fa Alex Tomas           2008-01-29  4352  	/* allocate new block */
+c9de560ded61fa Alex Tomas           2008-01-29  4353  	ar.inode = inode;
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4354  	ar.goal = ext4_ext_find_goal(inode, path, map->m_lblk);
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4355  	ar.logical = map->m_lblk;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4356  	/*
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4357  	 * We calculate the offset from the beginning of the cluster
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4358  	 * for the logical block number, since when we allocate a
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4359  	 * physical cluster, the physical block should start at the
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4360  	 * same offset from the beginning of the cluster.  This is
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4361  	 * needed so that future calls to get_implied_cluster_alloc()
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4362  	 * work correctly.
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4363  	 */
+f5a44db5d2d677 Theodore Ts'o        2013-12-20  4364  	offset = EXT4_LBLK_COFF(sbi, map->m_lblk);
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4365  	ar.len = EXT4_NUM_B2C(sbi, offset+allocated);
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4366  	ar.goal -= offset;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4367  	ar.logical -= offset;
+c9de560ded61fa Alex Tomas           2008-01-29  4368  	if (S_ISREG(inode->i_mode))
+c9de560ded61fa Alex Tomas           2008-01-29  4369  		ar.flags = EXT4_MB_HINT_DATA;
+c9de560ded61fa Alex Tomas           2008-01-29  4370  	else
+c9de560ded61fa Alex Tomas           2008-01-29  4371  		/* disable in-core preallocation for non-regular files */
+c9de560ded61fa Alex Tomas           2008-01-29  4372  		ar.flags = 0;
+556b27abf73833 Vivek Haldar         2011-05-25  4373  	if (flags & EXT4_GET_BLOCKS_NO_NORMALIZE)
+556b27abf73833 Vivek Haldar         2011-05-25  4374  		ar.flags |= EXT4_MB_HINT_NOPREALLOC;
+e3cf5d5d9a86df Theodore Ts'o        2014-09-04  4375  	if (flags & EXT4_GET_BLOCKS_DELALLOC_RESERVE)
+e3cf5d5d9a86df Theodore Ts'o        2014-09-04  4376  		ar.flags |= EXT4_MB_DELALLOC_RESERVED;
+c5e298ae53dc2e Theodore Ts'o        2015-06-21  4377  	if (flags & EXT4_GET_BLOCKS_METADATA_NOFAIL)
+c5e298ae53dc2e Theodore Ts'o        2015-06-21  4378  		ar.flags |= EXT4_MB_USE_RESERVED;
+c9de560ded61fa Alex Tomas           2008-01-29  4379  	newblock = ext4_mb_new_blocks(handle, &ar, &err);
+a86c61812637c7 Alex Tomas           2006-10-11  4380  	if (!newblock)
+8ad8d710035edf Eric Whitney         2020-05-10  4381  		goto out;
+7b415bf60f6afb Aditya Kali          2011-09-09  4382  	allocated_clusters = ar.len;
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4383  	ar.len = EXT4_C2B(sbi, ar.len) - offset;
+70aa1554b01474 Ritesh Harjani       2020-05-10  4384  	ext_debug(inode, "allocate new block: goal %llu, found %llu/%u, requested %u\n",
+ec8c60be96d6de Ritesh Harjani       2020-05-10  4385  		  ar.goal, newblock, ar.len, allocated);
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4386  	if (ar.len > allocated)
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4387  		ar.len = allocated;
+a86c61812637c7 Alex Tomas           2006-10-11  4388  
+4d33b1ef10995d Theodore Ts'o        2011-09-09  4389  got_allocated_blocks:
+a86c61812637c7 Alex Tomas           2006-10-11  4390  	/* try to insert new extent into found leaf and return */
+8ad8d710035edf Eric Whitney         2020-05-10  4391  	pblk = newblock + offset;
+8ad8d710035edf Eric Whitney         2020-05-10  4392  	ext4_ext_store_pblock(&newex, pblk);
+c9de560ded61fa Alex Tomas           2008-01-29  4393  	newex.ee_len = cpu_to_le16(ar.len);
+556615dcbf38b0 Lukas Czerner        2014-04-20  4394  	/* Mark unwritten */
+556615dcbf38b0 Lukas Czerner        2014-04-20  4395  	if (flags & EXT4_GET_BLOCKS_UNWRIT_EXT) {
+556615dcbf38b0 Lukas Czerner        2014-04-20  4396  		ext4_ext_mark_unwritten(&newex);
+a25a4e1a5d5dc0 Zheng Liu            2013-02-18  4397  		map->m_flags |= EXT4_MAP_UNWRITTEN;
+8d5d02e6b17656 Mingming Cao         2009-09-28  4398  	}
+c8d46e41bc744c Jiaying Zhang        2010-02-24  4399  
+f7d1331f16a869 Baokun Li            2024-08-22  4400  	path = ext4_ext_insert_extent(handle, inode, path, &newex, flags);
+f7d1331f16a869 Baokun Li            2024-08-22  4401  	if (IS_ERR(path)) {
+f7d1331f16a869 Baokun Li            2024-08-22  4402  		err = PTR_ERR(path);
+34990461342fc9 Eric Whitney         2020-03-11  4403  		if (allocated_clusters) {
+34990461342fc9 Eric Whitney         2020-03-11  4404  			int fb_flags = 0;
+82e54229118785 Dmitry Monakhov      2012-09-28  4405  
+34990461342fc9 Eric Whitney         2020-03-11  4406  			/*
+34990461342fc9 Eric Whitney         2020-03-11  4407  			 * free data blocks we just allocated.
+34990461342fc9 Eric Whitney         2020-03-11  4408  			 * not a good idea to call discard here directly,
+34990461342fc9 Eric Whitney         2020-03-11  4409  			 * but otherwise we'd need to call it every free().
+34990461342fc9 Eric Whitney         2020-03-11  4410  			 */
+2ffd2a6ad1d3a8 Kemeng Shi           2024-01-05  4411  			ext4_discard_preallocations(inode);
+34990461342fc9 Eric Whitney         2020-03-11  4412  			if (flags & EXT4_GET_BLOCKS_DELALLOC_RESERVE)
+34990461342fc9 Eric Whitney         2020-03-11  4413  				fb_flags = EXT4_FREE_BLOCKS_NO_QUOT_UPDATE;
+c8e15130e1636f Theodore Ts'o        2013-07-15  4414  			ext4_free_blocks(handle, inode, NULL, newblock,
+34990461342fc9 Eric Whitney         2020-03-11  4415  					 EXT4_C2B(sbi, allocated_clusters),
+34990461342fc9 Eric Whitney         2020-03-11  4416  					 fb_flags);
+34990461342fc9 Eric Whitney         2020-03-11  4417  		}
+8ad8d710035edf Eric Whitney         2020-05-10  4418  		goto out;
+315054f023d28e Alex Tomas           2007-05-24  4419  	}
+a86c61812637c7 Alex Tomas           2006-10-11  4420  
+b436b9bef84de6 Jan Kara             2009-12-08  4421  	/*
+b436b9bef84de6 Jan Kara             2009-12-08  4422  	 * Cache the extent and update transaction to commit on fdatasync only
+556615dcbf38b0 Lukas Czerner        2014-04-20  4423  	 * when it is _not_ an unwritten extent.
+b436b9bef84de6 Jan Kara             2009-12-08  4424  	 */
+556615dcbf38b0 Lukas Czerner        2014-04-20  4425  	if ((flags & EXT4_GET_BLOCKS_UNWRIT_EXT) == 0)
+b436b9bef84de6 Jan Kara             2009-12-08  4426  		ext4_update_inode_fsync_trans(handle, inode, 1);
+69eb33dc24dc44 Zheng Liu            2013-02-18  4427  	else
+b436b9bef84de6 Jan Kara             2009-12-08  4428  		ext4_update_inode_fsync_trans(handle, inode, 0);
+8ad8d710035edf Eric Whitney         2020-05-10  4429  
+8ad8d710035edf Eric Whitney         2020-05-10  4430  	map->m_flags |= (EXT4_MAP_NEW | EXT4_MAP_MAPPED);
+8ad8d710035edf Eric Whitney         2020-05-10  4431  	map->m_pblk = pblk;
+8ad8d710035edf Eric Whitney         2020-05-10  4432  	map->m_len = ar.len;
+e35fd6609b2fee Theodore Ts'o        2010-05-16  4433  	allocated = map->m_len;
+a86c61812637c7 Alex Tomas           2006-10-11  4434  	ext4_ext_show_leaf(inode, path);
+8ad8d710035edf Eric Whitney         2020-05-10  4435  out:
+3a2db400ba1b30 Ritesh Harjani (IBM  2025-04-29  4436) 	if (flags & EXT4_GET_BLOCKS_QUERY_LAST_IN_LEAF)
+3a2db400ba1b30 Ritesh Harjani (IBM  2025-04-29 @4437) 		if (ex && (ex == EXT_LAST_EXTENT(path[depth].p_hdr)))
+3a2db400ba1b30 Ritesh Harjani (IBM  2025-04-29  4438) 			map->m_flags |= EXT4_MAP_QUERY_LAST_IN_LEAF;
+3a2db400ba1b30 Ritesh Harjani (IBM  2025-04-29  4439) 
+7ff5fddaddf2cc Ye Bin               2022-09-24  4440  	ext4_free_ext_path(path);
+e861304b8ed83f Allison Henderson    2011-05-25  4441  
+63b999685cb372 Theodore Ts'o        2013-07-16  4442  	trace_ext4_ext_map_blocks_exit(inode, flags, map,
+63b999685cb372 Theodore Ts'o        2013-07-16  4443  				       err ? err : allocated);
+7877191c28b1e1 Lukas Czerner        2012-03-19  4444  	return err ? err : allocated;
+a86c61812637c7 Alex Tomas           2006-10-11  4445  }
+a86c61812637c7 Alex Tomas           2006-10-11  4446  
 
 -- 
 0-DAY CI Kernel Test Service
