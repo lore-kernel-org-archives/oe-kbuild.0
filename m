@@ -1,72 +1,68 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D93D21577D
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 05:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863E81DE2D8
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 05:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746682740; cv=none; b=ux2AIm5T4DPn5EDem2lR6AbH9DY0n5GJqgYZVCu1RaiZ/ituoIzvRYr3uscMlVFtxYzdaBED3A5yCUqPGmvZhw3jdm0Ys/e4sUBbP1obyXkiko86DPtra+v/h95YQxr2DqV3f4c/b5pXmlmNn/or6foRUCyDZuNRJ92/wdzmxCo=
+	t=1746683253; cv=none; b=Es3BAwk227LHIpM4hjCkSqpzTQJt97DeRkN/UUsc5xyNgeuK2d8hQOqAOUvTtzC6pJ4ncJmfSV/bsUnOxWl8TH1X22KHDh19jatKnoGsxDvdgpfnVCzwaRSdQ7plVaRp3KeySYBKzTEInTDq6zjAVe+z9soURSkDmMXwZbli8pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746682740; c=relaxed/simple;
-	bh=WPfaW0cQFoc0vUNbrk3nFmHIyx6KGVJyt8mp7eMc1eQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZcIBkT1vUA/xWIHkVV+jHAxfELvG608IzROQ34ZcAWh1q15V225J9KRLSVw7xiKmri73IrsHeffHjQkL/kPnLhbDbsW92zwP6F/ZPgcIwFGt3/q8vphfKRPg/Iy6o6Y52dqKzR0ZXydiVVDZAntFprB3BDGMypJ/aLIk+1TtVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OHHqtlDT; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1746683253; c=relaxed/simple;
+	bh=M4+zHfcI33Z2cFnsOe/pEfEdRumAQbSlZAruITsX9Qo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IUJDKuZLuxDuQWLZdj5+vs6ksknOdyUcIsaqZc9NRBjUcb5fCN3uCdj/14x0H4c6jOFQ4t+JFNCTuRp5wcYi5QthsINdj4ruzv+ZJlwnC/Qgh03xpd6QxIvBd47S8d70cHzcXymq+7EL23Yp0hasD9JP+ABQcoHGvQR4H6rKLO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NcWoIzzz; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OHHqtlDT"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so12142945e9.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 07 May 2025 22:38:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NcWoIzzz"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so3731325e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 07 May 2025 22:47:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746682737; x=1747287537; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3k4PEhU6worlCKck2U3ds/0NKF9gmmTtGy9MuzRu6o=;
-        b=OHHqtlDTC9h7cUaGgkgCWPndNvjxxYE4HigLYynWTxANO9YHQS+FCeC3KhHjZ186/i
-         9UJVgvBlsqlKaHIF267vohAo3tsw/iQVFqU0EzmvQ+OtU9YUdH86jp5+KeaD+SYdaJE+
-         iasPP/wQLl8o2F6P12k0NZCSd3vLdYTccRvN1/iNjPDfodNArTJWqozBS54PuggEftVA
-         Bcmh21L5bG5XsIS3OgKcv/3sUpm5uh7+lN3TbITgdFbOu3IAAMYvixzatLkYE42auKyX
-         hTCQ0jZHSR/nKq1yuot4Z8XXxhBJIF9lwFkaDeWlj2+j60UiaU21qBmEZeVHsACf1Or/
-         VDjw==
+        d=linaro.org; s=google; t=1746683249; x=1747288049; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P5CTBM0j2lcGjU5ouKbWKErsqM/JgWcN5EvB9r2bUWU=;
+        b=NcWoIzzzyPcr6ZPx/FHdoJKyANCjDqXhaRPHHyNXTPSuzMQftOv8nJqf9y/x+Lwcgt
+         z186Bdn+qIp5Qmdl+GqAkubNynX94p5yaaStCXKTQUUvXmVsCYGMQWifOenABnoNuNo5
+         sCraFHIH+5fyIfKWvr6zryLvbOpY5x1A7nMPtfDWLd26MBP+6a/WNqhwXygXc4sSLFW6
+         PI7CJ+911c56sK/8OoWYiq0dWD0TxNz76SCuMGyNruntNEim4ByKVrMB8Q0+ZFrsr0aG
+         dxvZ9pdDC/D3SrwW2jqlXMe4WM3TffePQi0adUqhBGBeZ4/I5aBruYalQvl3fEuGohbL
+         oyWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746682737; x=1747287537;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U3k4PEhU6worlCKck2U3ds/0NKF9gmmTtGy9MuzRu6o=;
-        b=dqJjbYM96EsCHKUeH3xHGvgoqFmip2nOq28pabELAs8W0siNTbkrJc/8brbR9wKrGY
-         IfYj9PRskTif+RjcYmXgKyEcFdBOfXd/s9O8coV0Lf8eL3l21DhcG6aXP6rtENQ1g3wf
-         sJGB0nKIGAmICIDsEpkoz8rSj7L0Tg7/Fa021PAj0MbSN3WYvAuXyReVumqGTmwd01kQ
-         SDqs4FJAb8glE2HeY7N1eQ1M2+RU0F1tRkg/ZyArcojT20oOzAACKqz9TN35wVqczOqM
-         q+H41rdMyvz3CBi9zlij82t/tybZV7J2d37bfQ5A/SvjJBu/34A0UWQdb2edznk3zvPh
-         xBJw==
-X-Gm-Message-State: AOJu0Yw6eYEsuknCrDMtScDNxjfecpultaCeInrIC8nYr+91FLNCe4tP
-	5zUYh7MX9izl9hIqNOl8uE4/e7K6yWMmu/iW8UEepD4CA3UQUYdG9UuraiWhV2c=
-X-Gm-Gg: ASbGncvj7xxZ0YvSqBlaP1T6/wBtrq5cHkRn9KcKmuZv1wimd/6qVF03tWi4IwAAkJG
-	SNifeEfbZKU+ZW+V8gtHYMUX9G78tc6/CCZ9i336XKYqUerProlaW/rkeSiRx+bYIHy9mZxbPdp
-	kwEkO2ma62Pj5bTo1H0sSSanjzvSKSNHAfKEnM49oKB4QBYcJTAz9Z/V2N2/9xY0tuZeGDFBcZm
-	LtE0JFOBIXbZxH02U/hbt3zXruoB+gS4TMzP/BtbFFpvo5Y9Z/8sl8g0di3V/+p+BA7utcbRwbs
-	HMnNxuumrnrpR25lTr7011IOKKpiS8ZepqTfHTw3hUr1mw==
-X-Google-Smtp-Source: AGHT+IF7VpQhE++cMJ/0vycInQosYNQwdOLJveREj7gdb3HDRxdShvggZtkV4ZOpk2gw61u1hDiO5Q==
-X-Received: by 2002:a05:6000:2dc4:b0:39f:ec:d4d with SMTP id ffacd0b85a97d-3a0b990e465mr1470004f8f.12.1746682737319;
-        Wed, 07 May 2025 22:38:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746683249; x=1747288049;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P5CTBM0j2lcGjU5ouKbWKErsqM/JgWcN5EvB9r2bUWU=;
+        b=eh9zK4O6jzOjqZYhiiIVi+g6PMTH1hkmm0LOMn9ur66QuT/5QYVBBtLSCcL4VT/iNN
+         FJ0z6Ea41ZJFfM3W49MIYVUjhUFcfBLPkt2PsawIuy9A7d1mwZI1ZNEsYoGBc2Zb6RBq
+         g38tyWcVFeOeNIa+vt2uHXqUlm92/5VAZuehsosXEyTtitPSCyMRhcL2QwEHhl6gLx6m
+         f4tpyHxaBPOZ9iVvrPPYsUQjC9X2epSlc+RZUax1raO2wOqo/MuSNlP6HOlpzw8aF1OW
+         uoIWjMv7n43x71Ys+WTji38pMkgWv3+j6lZqHWa3FSgaDVFBoe/dLmpVOY9JD4PMHdu+
+         zong==
+X-Gm-Message-State: AOJu0YxsDhUOZJEnevgeFeuD7UR2uNr4ZIIh/JpbGjGcYYJn0PCkbbu1
+	lvZWlMcclOd1beRBYgCm/eZKiq2aB9GBWcHImPU+E7wgHjRfJ3nez76Bv95fg8wf4/fjjM87ZaR
+	Q
+X-Gm-Gg: ASbGncsMZYVjI2I2nuR+J6ZMQVzOzui5UJU/26VYnV2wLm0lTMMuPOjOFO3kt1A8hnh
+	DnVvLETz5oc5AH1d6YdNtyUu2+AokctHkfE08GKWMwXp/bW7+KBIzFLjeDbHzEKxjW4/+GcdzWh
+	ITYEPSnTtxrXvAAQfUF45BpPx5CS20q+3V3I816Js9ajLK7M9lok6uZUWordZyxHCuorGMqYQHs
+	0CMxKMC2zG3wEYeFTjjOV2BMlpLRIhFLfTGVQFWq/tB9LUsVkCFQlp5aNhbQGuWJbcyoVbYVzmm
+	rVwxLTGPMLpVt3tIYtr8rXN0uGrQvSDzmsbqYUuttkqUYQ==
+X-Google-Smtp-Source: AGHT+IFcFCh0MsHBkg+J+VSER1ov0BEAS5iQlZeuPgTMA0LYLNvoc9VAJTqMWqYUfF3nzedFbo4nHw==
+X-Received: by 2002:a05:600c:35d3:b0:441:d437:ed19 with SMTP id 5b1f17b1804b1-441d44c4457mr42205415e9.11.1746683248755;
+        Wed, 07 May 2025 22:47:28 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a099b0ff8esm19098105f8f.79.2025.05.07.22.38.56
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442cd32f3c2sm24406215e9.15.2025.05.07.22.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 22:38:56 -0700 (PDT)
-Date: Thu, 8 May 2025 08:38:53 +0300
+        Wed, 07 May 2025 22:47:28 -0700 (PDT)
+Date: Thu, 8 May 2025 08:47:24 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shivank Garg <shivankg@amd.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 7893/8235] fs/jfs/jfs_metapage.c:245
- __metapage_migrate_folio() error: we previously assumed 'mp' could be null
- (see line 235)
-Message-ID: <aBxDbdW9KNe3mBAB@stanley.mountain>
-References: <202505071850.XaOkcCkX-lkp@intel.com>
- <21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
+To: oe-kbuild@lists.linux.dev, Namjae Jeon <linkinjeon@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
+Subject: fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even
+ be NULL?
+Message-ID: <202505080231.7OXwq4Te-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,52 +71,61 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21037c25-b85c-48fa-bdac-27cb3be2ccdb@amd.com>
+Message-ID: <20250508054724.e-H20OfcQcMKXhW_Jq2-HZsaSDvrAfqDJ4ZDz_Ho3ZI@z>
 
-On Wed, May 07, 2025 at 05:19:52PM +0530, Shivank Garg wrote:
-> 
-> Hi Dan,
-> 
-> This is a false positive.
-> 
-> In metapage_migrate_folio(), it checks if (!src->private) and only calls
-> __metapage_migrate_folio() if src->private is non-NULL
-> 
-> static int metapage_migrate_folio(struct address_space *mapping, struct folio *dst,
-> 				  struct folio *src, enum migrate_mode mode)
-> {
-> ...
-> 	if (!src->private)
-> 		return filemap_migrate_folio(mapping, dst, src, mode);
-> ...
-> ...
-> 	return __metapage_migrate_folio(mapping, dst, src, mode);
-> }
-> 
-> Then __metapage_migrate_folio() calls mp = folio_to_mp(src, 0), which returns src->private.
-> Which should not be NULL as previously checked.
-> 
-> I think we can skip the mp != NULL check from 
-> > 39ed4d1a0e03ce Shivank Garg  2025-04-30 @235  	if (mp && metapage_locked(mp))
-> It seem redundant here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   707df3375124b51048233625a7e1c801e8c8a7fd
+commit: 18b4fac5ef17f77fed9417d22210ceafd6525fc7 ksmbd: fix use-after-free in smb_break_all_levII_oplock()
+config: i386-randconfig-141-20250416 (https://download.01.org/0day-ci/archive/20250508/202505080231.7OXwq4Te-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-Yep.  Just delete the unnecessary NULL check.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505080231.7OXwq4Te-lkp@intel.com/
 
-I only consider these a false positive if the NULL check is
-required but it doesn't lead to a crash.  For example, there could be
-another condition which is equivalent to checking for NULL.
+New smatch warnings:
+fs/smb/server/oplock.c:155 opinfo_get_list() warn: can 'opinfo' even be NULL?
 
-	if (p)
-		p->foo = 100;
-	...
-	if (!p_valid(p))
-		return;
+vim +/opinfo +155 fs/smb/server/oplock.c
 
-	p->foo = 99;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  145  static struct oplock_info *opinfo_get_list(struct ksmbd_inode *ci)
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  146  {
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  147  	struct oplock_info *opinfo;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  148  
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  149  	if (list_empty(&ci->m_op_list))
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  150  		return NULL;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  151  
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  152  	down_read(&ci->m_lock);
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  153  	opinfo = list_first_entry(&ci->m_op_list, struct oplock_info,
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  154  					op_entry);
 
-In this code, if you have the cross function database then Smatch
-doesn't print a warning because the NULL check is not required.  But
-the cross function database is way too slow to use in the kbuild-bot.
+The list_first_entry() macro never returns NULL.  If the list is
+empty then it returns an invalid pointer.  Use
+list_first_entry_or_null().  We have the check for list_empty()
+at the start of the function but it's outside of the lock so it's
+probably not safe to assume it's still true.  (I haven't looked
+at the locking here outside of what the kbuild-bot includes in this
+email).
 
-regards,
-dan carpenter
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19 @155  	if (opinfo) {
+c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  156  		if (opinfo->conn == NULL ||
+c8efcc786146a95 fs/smb/server/oplock.c Namjae Jeon 2024-03-12  157  		    !atomic_inc_not_zero(&opinfo->refcount))
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  158  			opinfo = NULL;
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  159  		else {
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  160  			if (ksmbd_conn_releasing(opinfo->conn)) {
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  161  				atomic_dec(&opinfo->refcount);
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  162  				opinfo = NULL;
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  163  			}
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  164  		}
+36322523dddb111 fs/smb/server/oplock.c Namjae Jeon 2023-05-19  165  	}
+18b4fac5ef17f77 fs/smb/server/oplock.c Namjae Jeon 2025-04-15  166  	up_read(&ci->m_lock);
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  167  
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  168  	return opinfo;
+e2f34481b24db2f fs/cifsd/oplock.c      Namjae Jeon 2021-03-16  169  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
