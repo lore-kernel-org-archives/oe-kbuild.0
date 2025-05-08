@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198A821D581
-	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 19:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CED728BA98
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 May 2025 20:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746732700; cv=none; b=EGDdOM4hRF7sQnEgTYkvmNOXoX1z9KnKruF7bWtbXxmD1j0+2zcfjGryxXHqVXIIzxfhO4orSFSfNoRu9pcDUCHGwcGnGqzlN08+hBn3Mt5KItgJvIYZ7KybomyIDRJlaiCf8x1S+WB1kQxgy10+SU4B6kCXUhERNqzgCV+WRZs=
+	t=1746735525; cv=none; b=XWMuAfnnQv/JSylcclxgq0ZlMB0/VhwrNMwUfdygSFPpzUz6GXOg8McSnO/fsQqVpm8Y0HzvdMsiWPKPjd84JCZA2NUvOuLlh1tlI5ZMdBx0EvWD+b24UCIegOoHOo4Tit4xmDMv2i5XeDyjdiPUTuW/XP2vkmRrNdXLUJ2ShNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746732700; c=relaxed/simple;
-	bh=9h7i4193nrRu1KVPzUzr1zyv7+l9/ZN2fKwxy58xFbE=;
+	s=arc-20240116; t=1746735525; c=relaxed/simple;
+	bh=kXH4fi54CeCjaytlaXB0/shX2EOUhcvnlZREjUAfRIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DlCHSGygrEFxAABfy9v1qC3CHsoBNoTpUTvBeT9eNUK4KqLeDaEDQ5yPqyaJwXXV5XzJ1fpFkMs3+iwVcHKXBUbnGS9+xBcwbRSZ3t/cDL3eVZ+zCNx11+r7hDkiou4KmjebP3Mczo+MP6A6oiaCbRfxk1ZMKBHg0k+fjPtlUUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUKg4IgB; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=gdyWU6yj5U+DkQfdDnrLG0uI5ukJw6HWVAPEeus5d8W1uJMP2K9UZt6Sp9OVhkt10QviANozAlKCqm2Glw8FGMfo/aIidkPsz1JEm2socHJSftqBNTxquk+dwmimY9l2gONCBeKBp0Ruuv30Kg206CCt9hM1CT2ntrOxMtSUCnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZg4lXpZ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUKg4IgB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZg4lXpZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746732699; x=1778268699;
+  t=1746735523; x=1778271523;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9h7i4193nrRu1KVPzUzr1zyv7+l9/ZN2fKwxy58xFbE=;
-  b=SUKg4IgBREVejbtHR0JwUTruInIUgCyarIvp4VjeLJ6qZ7LzrIBGOJIU
-   n3bl5FlxBPYgpZQRC1XPIGeO5WuLfirHYcjTK9yNCV+LlxIgvzEQJbY0d
-   D3GTbKM5cVzqufPHgGdb61yxbZwJbFZlVG0M2dGpnSDnjWggqwKIBxgvC
-   BgJk9k2Se2BKGPDgcdEwRZnPcPeftV7DoKkoUFbwxIcabRRWaD5CpIEnv
-   EKApgaq3eHYKKmgQ8jAnPZ1xkFNz+bGnlVuHh2XqqvStNMfVpxXuYzH3D
-   1hN8hA1PKa0oiGJ0x0G3tjZknLBjUcxm+j104jFC4nLVPdgih/blTCbzj
-   g==;
-X-CSE-ConnectionGUID: vuB++afMTA281zR9YofCnA==
-X-CSE-MsgGUID: inGvvaHlTFSlZYxOKcMNng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48651579"
+  bh=kXH4fi54CeCjaytlaXB0/shX2EOUhcvnlZREjUAfRIU=;
+  b=iZg4lXpZERuQtRvySOZesO4N6QFQSJjb+L1O7XImEgZANqBmeqVSSZFi
+   SusOp+dvzRuwR6EzaM5Q+zKWh+E9FrAPlJgj2nKrkk5eZAJiIAqabcHL1
+   UOJtXvloR45rtCUGNz2MkCsTWNm+C+GXEq0/8CifEAOEozbmfhN9W7eVz
+   nHY953yOjmPMqo3U5//+xarVTUg+kck2lfqU+6VbwTNFrAghZ7gFPxAGP
+   gfG8WrE/nIp8/AOR4EofSG8Jl4oHLET+VLS9B+y2l5ol0iQS7Vgr/HMBK
+   2N/NQNULcM0XQmJlUR8R7EqoQEAV0/4ylqXTRf9a71LV5DG4NAj55RffN
+   A==;
+X-CSE-ConnectionGUID: nS60oHULQS2QfVhU+AuBDQ==
+X-CSE-MsgGUID: mSmhOD2xQ/i2N3ZNhC+/pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48623606"
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="48651579"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 12:31:38 -0700
-X-CSE-ConnectionGUID: NW/XLdWBTde9XFtGOqvqHQ==
-X-CSE-MsgGUID: cjU48EQLRHmh7LOpJd61Ow==
+   d="scan'208";a="48623606"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 13:18:42 -0700
+X-CSE-ConnectionGUID: bwsoL496Rw+4uvhC8xkKuQ==
+X-CSE-MsgGUID: MwT2/d/JS9e7GvKefHjKgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,273,1739865600"; 
-   d="scan'208";a="136906942"
+   d="scan'208";a="159699411"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 May 2025 12:31:37 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 13:18:42 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uD6xy-000BJ5-2q;
-	Thu, 08 May 2025 19:31:34 +0000
-Date: Fri, 9 May 2025 03:31:33 +0800
+	id 1uD7hX-000BLL-1w;
+	Thu, 08 May 2025 20:18:39 +0000
+Date: Fri, 9 May 2025 04:18:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: drivers/input/misc/uinput.o: warning: objtool:
- uinput_str_to_user+0x1a8: unknown CFA base reg -1
-Message-ID: <202505090349.BDLOO2Am-lkp@intel.com>
+Subject: Re: [PATCH 7/8] arm64: tegra: Add p3971-0089+p3834-0008 support
+Message-ID: <202505090457.qMTY9MLk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,35 +62,55 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20250507143802.1230919-8-thierry.reding@gmail.com>
+References: <20250507143802.1230919-8-thierry.reding@gmail.com>
+TO: Thierry Reding <thierry.reding@gmail.com>
+TO: Thierry Reding <thierry.reding@gmail.com>
+CC: Jon Hunter <jonathanh@nvidia.com>
+CC: linux-tegra@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2c89c1b655c0b06823f4ee8b055140d8628fc4da
-commit: 0a7fb6f07e3ad497d31ae9a2082d2cacab43d54a objtool: Increase per-function WARN_FUNC() rate limit
-date:   7 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-buildonly-randconfig-004-20250509 (https://download.01.org/0day-ci/archive/20250509/202505090349.BDLOO2Am-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090349.BDLOO2Am-lkp@intel.com/reproduce)
+Hi Thierry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on tegra/for-next vkoul-dmaengine/next abelloni/rtc-next arm64/for-next/core linus/master v6.15-rc5 next-20250508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/dt-bindings-dma-Add-Tegra264-compatible-string/20250507-224445
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250507143802.1230919-8-thierry.reding%40gmail.com
+patch subject: [PATCH 7/8] arm64: tegra: Add p3971-0089+p3834-0008 support
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: arm64-randconfig-052-20250508 (https://download.01.org/0day-ci/archive/20250509/202505090457.qMTY9MLk-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505090457.qMTY9MLk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505090349.BDLOO2Am-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505090457.qMTY9MLk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/input/misc/uinput.o: warning: objtool: uinput_str_to_user+0x1b0: undefined stack state
->> drivers/input/misc/uinput.o: warning: objtool: uinput_str_to_user+0x1a8: unknown CFA base reg -1
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bus@0/serial@c5f0000: failed to match any schema with compatible: ['arm,sbsa-uart']
+>> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bus@0/pmc@c800000: failed to match any schema with compatible: ['nvidia,tegra264-pmc']
+>> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: bpmp (nvidia,tegra264-bpmp): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra264-bpmp', 'nvidia,tegra186-bpmp'] is too long
+   	'nvidia,tegra264-bpmp' is not one of ['nvidia,tegra194-bpmp', 'nvidia,tegra234-bpmp']
+   	'nvidia,tegra186-bpmp' was expected
+   	from schema $id: http://devicetree.org/schemas/firmware/nvidia,tegra186-bpmp.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: /bpmp: failed to match any schema with compatible: ['nvidia,tegra264-bpmp', 'nvidia,tegra186-bpmp']
 
 -- 
 0-DAY CI Kernel Test Service
