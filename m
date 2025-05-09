@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413CE2309A3
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 14:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E44923BCF4
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 18:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746802588; cv=none; b=BoZCJwOGp4cWXOqsl058uqUMH6pItPAOlf2GDIezfoGDEI4kJ5iqYKfJrzTNcnkM3Scs4haf+y8+ETlgZFi0aTQSSmcUxtGZBBKLvg/H4g4gNRn2fUjpntl1eruYHZD3Fk8jqONrVTvJyxaUC1bcgAgjWL3UUuNKlX5Zsl+0Q4k=
+	t=1746815867; cv=none; b=LdDQyIBLtWUO2+/T5sAfaYd+bR6nZPCkFLN3ZXKfjTu1PhjTBW55QPLpS6bGobO2r9vCVRdOzQ6WdJabexbrKOi7Ky1AykQ1wt7ElpFp0BDeL02z2JNxU24FbNoSd8YF4mV7CMXUNOXr8/gtFcr3z//8IiK7VU39parrEjozVUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746802588; c=relaxed/simple;
-	bh=myA2AqvyoXu3UM+inlOhQ22ivP1F8xsbns87ob6P8Tk=;
+	s=arc-20240116; t=1746815867; c=relaxed/simple;
+	bh=uOIx2qVCo3/FFeEurVU14Q/iajDAu52Oy4XM83JXRiM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iEtgEqZtw1EPb4IaXo+gdTNk0BjVZfBjPHIdOn5PsNkun2m5URQe5g0AF0zgn2KlKeiteKr0jny6ZjUoSTMRzajq90j2SA9LuhMcxXbg73pfcH37JpEHC/xGtKEfDum0kqOMod/OqJBbGLgWhACe75XNP7lz924665hAW+nMnMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dS1kQ5u8; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=CN2/lrfUuVyZ7rq/J7Mqn+cyJ/l3al4SJkEg//MaqCLpXKR8V1K92rr71ftcU1EAdYpi5W6Z2Nk+eKuJYb03kvY/GUQzoMIVCL5ywwPgfonDKhtVb8of9LwX7xELit74r/XXU5/5qMqWDlroJZW0d95kisr8mdX8xM9qNDb+jaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxfyJyFs; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dS1kQ5u8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxfyJyFs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746802586; x=1778338586;
+  t=1746815866; x=1778351866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=myA2AqvyoXu3UM+inlOhQ22ivP1F8xsbns87ob6P8Tk=;
-  b=dS1kQ5u8wJp9HvrMG3wohQXmO7WlTZ+S56plWcYOMwYuglsfWtjGjzax
-   3MZMxudmmRgQbbFod7hhSy2oo0M/VRsxmLwB92c4ONFlGTsH5TAzuxhEj
-   glG1FggkmGk7xEPN6n4/SqM0dhSo8cONtFFnEVPtimYIIEMM5N2CZxLtV
-   3v2whamiZ0SrHLVIxnlE6FEroidB6L2X3IQNAZf8sSfGC/EWFO5G84x8S
-   6YzD+OvLdvZdUdySVZ9imR03uWB7BbTjWiQb5P8JybUoa7dJfop06SZgV
-   umkeXrTp65AtIdwDiBZ0LeoDnF1vyIm7YQQheyAYo2iEqE7Bc2BKrC0Sv
-   A==;
-X-CSE-ConnectionGUID: JavjcD26T2etfMTes2zVfQ==
-X-CSE-MsgGUID: v+w1phWUTeOAL8SmUK3uwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="59977511"
+  bh=uOIx2qVCo3/FFeEurVU14Q/iajDAu52Oy4XM83JXRiM=;
+  b=NxfyJyFsV9EexMZdGaOCx+QiBkvG4Ws1DYBayr0/V2yl5g1xKjMr0kD9
+   fF0FP3OfM9svFt4nT7YWgWYGZJ7CzUnDHB3Nb2fRTyptrGFU6LT6TdAk7
+   41YnX/ua2VTlxHqzgd73Je/U6MhDaLDwEziUQpGNptRHA19cVtKWFIkGE
+   uPUTrayjVAfuCd0jOEu6gfWQHF+o/GAnR7W57x/9M/iZGIagEaw1Sqclm
+   K3UpXDBOX2RpzYwOZGQv2uzRbmNKxVvSv/XGc/OOP1r9bxZt/eUNiA5Fs
+   Hc/k2GMJRYGIPNDXr/ZrMgOWl+8KSoqVK1id2GGH/K8BFrFBroSUOMFVU
+   Q==;
+X-CSE-ConnectionGUID: JN0wb1NlTqSLT82WYiRgFQ==
+X-CSE-MsgGUID: PMvpwhKrTXWP72lVc7J14w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="51313493"
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="59977511"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 07:56:26 -0700
-X-CSE-ConnectionGUID: Q1shfOzESq6Xaa4MD48WtA==
-X-CSE-MsgGUID: tNCE0YlpQ4S0nkjMYidlyQ==
+   d="scan'208";a="51313493"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 11:37:45 -0700
+X-CSE-ConnectionGUID: kC8Fm2K7RuKcF1TWAbAiNg==
+X-CSE-MsgGUID: AzWs9MkGS7OG6XzpvllmTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,275,1739865600"; 
-   d="scan'208";a="167719638"
+   d="scan'208";a="136398211"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 May 2025 07:56:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 09 May 2025 11:37:43 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDP9C-000CBD-0a;
-	Fri, 09 May 2025 14:56:22 +0000
-Date: Fri, 9 May 2025 22:55:44 +0800
+	id 1uDSbN-000CMh-0e;
+	Fri, 09 May 2025 18:37:41 +0000
+Date: Sat, 10 May 2025 02:37:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 3/3] arm64: dts: ti: k3-am62l: add initial reference
- board file
-Message-ID: <202505092201.vuNUBwFc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 8728/10031] drivers/net/usb/lan78xx.c:2732
+ lan78xx_phy_init() warn: missing unwind goto?
+Message-ID: <202505100248.ozuSU0hP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,158 +62,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250507-am62lx-v5-3-4b57ea878e62@ti.com>
-References: <20250507-am62lx-v5-3-4b57ea878e62@ti.com>
-TO: Bryan Brattlof <bb@ti.com>
-TO: Nishanth Menon <nm@ti.com>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: Tero Kristo <kristo@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-kernel@lists.infradead.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Bryan Brattlof <bb@ti.com>
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: Thangaraj Samynathan <thangaraj.s@microchip.com>
 
-Hi Bryan,
+Hi Oleksij,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on ed6f779e213070572e53e9801e4a6e510d7bc208]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bryan-Brattlof/dt-bindings-arm-ti-Add-binding-for-AM62L-SoCs/20250508-111107
-base:   ed6f779e213070572e53e9801e4a6e510d7bc208
-patch link:    https://lore.kernel.org/r/20250507-am62lx-v5-3-4b57ea878e62%40ti.com
-patch subject: [PATCH v5 3/3] arm64: dts: ti: k3-am62l: add initial reference board file
-:::::: branch date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ed61cb3d78d585209ec775933078e268544fe9a4
+commit: 8ba1f33c55d213ee0da1b972b481407cfddeda4a [8728/10031] net: usb: lan78xx: move LED DT configuration to helper
+:::::: branch date: 9 hours ago
 :::::: commit date: 2 days ago
-config: arm64-randconfig-001-20250509 (https://download.01.org/0day-ci/archive/20250509/202505092201.vuNUBwFc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505092201.vuNUBwFc-lkp@intel.com/reproduce)
+config: x86_64-randconfig-161-20250508 (https://download.01.org/0day-ci/archive/20250510/202505100248.ozuSU0hP-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505092201.vuNUBwFc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505100248.ozuSU0hP-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am62l.dtsi:101.30-113.5: Warning (simple_bus_reg): /bus@f0000/bus@43000000: simple-bus unit address format error, expected "a80000"
->> arch/arm64/boot/dts/ti/k3-am62l-main.dtsi:232.19-256.4: Warning (simple_bus_reg): /bus@f0000/bus@fc00000: simple-bus unit address format error, expected "100"
+New smatch warnings:
+drivers/net/usb/lan78xx.c:2732 lan78xx_phy_init() warn: missing unwind goto?
 
-vim +/a80000 +101 arch/arm64/boot/dts/ti/k3-am62l.dtsi
+Old smatch warnings:
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2529 lan78xx_register_fixed_phy() warn: format string contains non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\xe2'
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\x80'
+drivers/net/usb/lan78xx.c:2560 lan78xx_get_phy() warn: format string contains non-ascii character '\x93'
+drivers/net/usb/lan78xx.c:3025 lan78xx_init_ltm() warn: missing unwind goto?
 
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   14  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   15  / {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   16  	model = "Texas Instruments K3 AM62L3 SoC";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   17  	compatible = "ti,am62l3";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   18  	interrupt-parent = <&gic500>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   19  	#address-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   20  	#size-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   21  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   22  	firmware {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   23  		optee {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   24  			compatible = "linaro,optee-tz";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   25  			method = "smc";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   26  		};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   27  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   28  		psci: psci {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   29  			compatible = "arm,psci-1.0";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   30  			method = "smc";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   31  		};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   32  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   33  		scmi: scmi {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   34  			compatible = "arm,scmi-smc";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   35  			arm,smc-id = <0x82004000>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   36  			shmem = <&scmi_shmem>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   37  			#address-cells = <1>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   38  			#size-cells = <0>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   39  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   40  			scmi_clk: protocol@14 {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   41  				reg = <0x14>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   42  				#clock-cells = <1>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   43  				bootph-all;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   44  			};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   45  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   46  			scmi_pds: protocol@11 {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   47  				reg = <0x11>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   48  				#power-domain-cells = <1>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   49  				bootph-all;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   50  			};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   51  		};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   52  	};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   53  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   54  	a53_timer0: timer-cl0-cpu0 {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   55  		compatible = "arm,armv8-timer";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   56  		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>, /* cntpsirq */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   57  			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>, /* cntpnsirq */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   58  			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>, /* cntvirq */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   59  			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>; /* cnthpirq */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   60  	};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   61  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   62  	pmu: pmu {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   63  		compatible = "arm,cortex-a53-pmu";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   64  		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   65  	};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   66  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   67  	cbass_main: bus@f0000 {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   68  		compatible = "simple-bus";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   69  		ranges = <0x00 0x00600000 0x00 0x00600000 0x00 0x00010100>, /* GPIO */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   70  			 <0x00 0x01000000 0x00 0x01000000 0x00 0x01b28400>, /* First Peripheral Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   71  			 <0x00 0x00a40000 0x00 0x00a40000 0x00 0x00000400>, /* Timesync Router */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   72  			 <0x00 0x08000000 0x00 0x08000000 0x00 0x00200000>, /* CPSW */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   73  			 <0x00 0x09000000 0x00 0x09000000 0x00 0x00400000>, /* CTRL MMRs */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   74  			 <0x00 0x0e000000 0x00 0x0e000000 0x00 0x1a001400>, /* Second Peripheral Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   75  			 <0x00 0x301c0000 0x00 0x301c0000 0x00 0x00001000>, /* DPHY-TX */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   76  			 <0x00 0x30200000 0x00 0x30200000 0x00 0x0000b000>, /* DSS */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   77  			 <0x00 0x30270000 0x00 0x30270000 0x00 0x00390000>, /* DSI Wrapper */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   78  			 <0x00 0x30500000 0x00 0x30500000 0x00 0x00100000>, /* DSI Config */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   79  			 <0x00 0x31000000 0x00 0x31000000 0x00 0x00050000>, /* USB0 DWC3 Core Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   80  			 <0x00 0x31100000 0x00 0x31100000 0x00 0x00050000>, /* USB1 DWC3 Core Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   81  			 <0x00 0x3b000000 0x00 0x3b000000 0x00 0x00000400>, /* GPMC0 */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   82  			 <0x00 0x45810000 0x00 0x45810000 0x00 0x03170000>, /* DMSS */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   83  			 <0x00 0x50000000 0x00 0x50000000 0x00 0x08000000>, /* GPMC DATA */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   84  			 <0x00 0x60000000 0x00 0x60000000 0x00 0x08000000>, /* FSS DAT1 */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   85  			 <0x00 0x70800000 0x00 0x70800000 0x00 0x00018000>, /* OCSRAM */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   86  			 <0x01 0x00000000 0x01 0x00000000 0x00 0x00310000>, /* A53 PERIPHBASE */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   87  			 <0x04 0x00000000 0x04 0x00000000 0x01 0x00000000>, /* FSS DAT0 */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   88  			 <0x05 0x00000000 0x05 0x00000000 0x01 0x00000000>, /* FSS DAT3 */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   89  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   90  			 /* Wakeup Domain Range */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   91  			 <0x00 0x00a80000 0x00 0x00a80000 0x00 0x00034000>, /* GTC */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   92  			 <0x00 0x00b00000 0x00 0x00b00000 0x00 0x00001400>, /* VTM */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   93  			 <0x00 0x04080000 0x00 0x04080000 0x00 0x00008000>, /* PDGCFG */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   94  			 <0x00 0x04201000 0x00 0x04201000 0x00 0x00000100>, /* GPIO */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   95  			 <0x00 0x2b100000 0x00 0x2b100000 0x00 0x00100100>, /* Wakeup Peripheral Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   96  			 <0x00 0x40800000 0x00 0x40800000 0x00 0x00014000>, /* DMA */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   97  			 <0x00 0x43000000 0x00 0x43000000 0x00 0x00080000>; /* CTRL MMRs */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   98  		#address-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07   99  		#size-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  100  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07 @101  		cbass_wakeup:  bus@43000000 {
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  102  			compatible = "simple-bus";
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  103  			 ranges = <0x00 0x00a80000 0x00 0x00a80000 0x00 0x00034000>, /* GTC */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  104  				  <0x00 0x00b00000 0x00 0x00b00000 0x00 0x00001400>, /* VTM */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  105  				  <0x00 0x04080000 0x00 0x04080000 0x00 0x00008000>, /* PDGCFG */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  106  				  <0x00 0x04201000 0x00 0x04201000 0x00 0x00000100>, /* GPIO */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  107  				  <0x00 0x2b100000 0x00 0x2b100000 0x00 0x00100100>, /* Wakeup Peripheral Window */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  108  				  <0x00 0x40800000 0x00 0x40800000 0x00 0x00014000>, /* DMA */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  109  				  <0x00 0x43000000 0x00 0x43000000 0x00 0x00080000>; /* CTRL MMRs */
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  110  			#address-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  111  			#size-cells = <2>;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  112  			bootph-all;
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  113  		};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  114  	};
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  115  
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  116  	#include "k3-am62l-thermal.dtsi"
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  117  };
-5c91f2d6b1283d Vignesh Raghavendra 2025-05-07  118  
+vim +2732 drivers/net/usb/lan78xx.c
+
+8ba1f33c55d213 Oleksij Rempel            2025-05-05  2694  
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2695  static int lan78xx_phy_init(struct lan78xx_net *dev)
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2696  {
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2697  	__ETHTOOL_DECLARE_LINK_MODE_MASK(fc) = { 0, };
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2698  	int ret;
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2699  	u32 mii_adv;
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2700  	struct phy_device *phydev;
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2701  
+d39f339d260373 Oleksij Rempel            2025-05-05  2702  	phydev = lan78xx_get_phy(dev);
+d39f339d260373 Oleksij Rempel            2025-05-05  2703  	if (IS_ERR(phydev))
+232aa459aa40a6 Oleksij Rempel            2025-05-05  2704  		return PTR_ERR(phydev);
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2705  
+d39f339d260373 Oleksij Rempel            2025-05-05  2706  	ret = lan78xx_mac_prepare_for_phy(dev);
+d39f339d260373 Oleksij Rempel            2025-05-05  2707  	if (ret < 0)
+d39f339d260373 Oleksij Rempel            2025-05-05  2708  		goto free_phy;
+02dc1f3d613d5a Woojung Huh               2016-12-07  2709  
+cc89c323a30e73 Woojung Huh               2016-11-01  2710  	/* if phyirq is not set, use polling mode in phylib */
+cc89c323a30e73 Woojung Huh               2016-11-01  2711  	if (dev->domain_data.phyirq > 0)
+cc89c323a30e73 Woojung Huh               2016-11-01  2712  		phydev->irq = dev->domain_data.phyirq;
+cc89c323a30e73 Woojung Huh               2016-11-01  2713  	else
+817b653160db98 Sven Schuchmann           2021-11-27  2714  		phydev->irq = PHY_POLL;
+cc89c323a30e73 Woojung Huh               2016-11-01  2715  	netdev_dbg(dev->net, "phydev->irq = %d\n", phydev->irq);
+e4953910aee0c1 Woojung.Huh@microchip.com 2016-01-27  2716  
+f6e3ef3e4d3546 Woojung Huh               2016-11-17  2717  	/* set to AUTOMDIX */
+f6e3ef3e4d3546 Woojung Huh               2016-11-17  2718  	phydev->mdix = ETH_TP_MDI_AUTO;
+f6e3ef3e4d3546 Woojung Huh               2016-11-17  2719  
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2720  	ret = phy_connect_direct(dev->net, phydev,
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2721  				 lan78xx_link_status_change,
+02dc1f3d613d5a Woojung Huh               2016-12-07  2722  				 dev->interface);
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2723  	if (ret) {
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2724  		netdev_err(dev->net, "can't attach PHY to %s\n",
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2725  			   dev->mdiobus->id);
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2726  		if (dev->chipid == ID_REV_CHIP_ID_7801_) {
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2727  			if (phy_is_pseudo_fixed_link(phydev)) {
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2728  				fixed_phy_unregister(phydev);
+ae7370e61c5d8f Oleksij Rempel            2024-11-16  2729  				phy_device_free(phydev);
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2730  			}
+89b36fb5e53244 Raghuram Chary J          2018-04-28  2731  		}
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16 @2732  		return -EIO;
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2733  	}
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2734  
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2735  	/* MAC doesn't support 1000T Half */
+41124fa64d4b29 Andrew Lunn               2018-09-12  2736  	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
+e270b2dbd83caf Woojung.Huh@microchip.com 2016-02-25  2737  
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2738  	/* support both flow controls */
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2739  	dev->fc_request_control = (FLOW_CTRL_RX | FLOW_CTRL_TX);
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2740  	linkmode_clear_bit(ETHTOOL_LINK_MODE_Pause_BIT,
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2741  			   phydev->advertising);
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2742  	linkmode_clear_bit(ETHTOOL_LINK_MODE_Asym_Pause_BIT,
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2743  			   phydev->advertising);
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2744  	mii_adv = (u32)mii_advertise_flowctrl(dev->fc_request_control);
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2745  	mii_adv_to_linkmode_adv_t(fc, mii_adv);
+3c1bcc8614db10 Andrew Lunn               2018-11-10  2746  	linkmode_or(phydev->advertising, fc, phydev->advertising);
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2747  
+a00bbd15a5af98 Andrew Lunn               2024-04-06  2748  	phy_support_eee(phydev);
+a00bbd15a5af98 Andrew Lunn               2024-04-06  2749  
+8ba1f33c55d213 Oleksij Rempel            2025-05-05  2750  	ret = lan78xx_configure_leds_from_dt(dev, phydev);
+8ba1f33c55d213 Oleksij Rempel            2025-05-05  2751  	if (ret)
+8ba1f33c55d213 Oleksij Rempel            2025-05-05  2752  		goto free_phy;
+1827b0678863bc Phil Elwell               2018-04-19  2753  
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2754  	genphy_config_aneg(phydev);
+ce85e13ad6ef47 Woojung.Huh@microchip.com 2015-09-16  2755  
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2756  	dev->fc_autoneg = phydev->autoneg;
+349e0c5e223774 Woojung.Huh@microchip.com 2016-02-25  2757  
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2758  	return 0;
+d39f339d260373 Oleksij Rempel            2025-05-05  2759  
+d39f339d260373 Oleksij Rempel            2025-05-05  2760  free_phy:
+d39f339d260373 Oleksij Rempel            2025-05-05  2761  	if (phy_is_pseudo_fixed_link(phydev)) {
+d39f339d260373 Oleksij Rempel            2025-05-05  2762  		fixed_phy_unregister(phydev);
+d39f339d260373 Oleksij Rempel            2025-05-05  2763  		phy_device_free(phydev);
+d39f339d260373 Oleksij Rempel            2025-05-05  2764  	}
+d39f339d260373 Oleksij Rempel            2025-05-05  2765  
+d39f339d260373 Oleksij Rempel            2025-05-05  2766  	return ret;
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2767  }
+55d7de9de6c30a Woojung.Huh@microchip.com 2015-07-30  2768  
+
+:::::: The code at line 2732 was first introduced by commit
+:::::: ce85e13ad6ef47ddcd34684889dc38a9901868ef lan78xx: Update to use phylib instead of mii_if_info.
+
+:::::: TO: Woojung.Huh@microchip.com <Woojung.Huh@microchip.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
