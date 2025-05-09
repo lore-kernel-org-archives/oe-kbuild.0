@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E98325EFA3
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 21:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A78C25DB11
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 22:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746824701; cv=none; b=A+W9wKQYp+Y7I1APRFD4lcSwyLNFFKUd/6DvtiF3uRIyM62cOjyjgykE7kszK/XXHW7No8tBdmHqoSK2exptYgHLqFGUZe3jh1OPPd9/jnkL66uQ+SYEsnyN6Q+7vmcOJCHfUN7MbciWHWnXehSyLM26sjwIcCaHLywNuZjNigE=
+	t=1746828428; cv=none; b=UG3Iv/X0N77NgpalKx2iKDDQbfT5bXne6cz2JMaBEoHIssq5SaDp3iV5QDppUqoGjcFubRplQGIaiDtBr83ftYPnuymxj5llPp/KSWw6uLgs+JENm2Rjx1KDJ3/ohbzpznuCl5YbfenqKnJ6lc4+aaM/DASavf4saaNkfu0Ykkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746824701; c=relaxed/simple;
-	bh=dV/35L59eYDKdHo8aULfyPfRkbG2CYbrhQhUr9u+1lw=;
+	s=arc-20240116; t=1746828428; c=relaxed/simple;
+	bh=J98Vkhhj0jKyjyG4yOWJbROvKF6fyPqDQFdPXpsjthY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JDVZsyWKvF2ApGBSmTYwNGlBHj1o+tkwB90YQM9AZ9dL0evrgynnH5VdOpKqQ6/L5g4RQWnP2u0b0ELb+bFIu2lhuZcvwZ5hcoRoDKP4CgLBW7T2BvS+8f05DbWrJy9IQU+w1RpM+1w4KG0uzmdhNxbsHsdwnGw8E+q5NaqcXmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btv86XWA; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=JZQtMxzHU+eW7RM15sraFFbdfmzfNOEQDOk8w4uIUlGx1s1snJ9dwf8QgSDoIMaK8QUmdZ9RTJLxN1lt6Y4nZ0RQ8aWy6KHRjx555W/q27aWDM92jqhBaP7wtqx6BNwCNnTvMQoJvKIfMIS7nh12czHIKuqB9lzLJJjCSHpypJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnIijV8j; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btv86XWA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnIijV8j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746824700; x=1778360700;
+  t=1746828425; x=1778364425;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dV/35L59eYDKdHo8aULfyPfRkbG2CYbrhQhUr9u+1lw=;
-  b=btv86XWARO6OEjbF71NUqra980i3S3RvMOxYzeKZh+q1Cun36KHQLMVX
-   F5hFC7yDr+xDZiC8d9ODRjJbfQpxdD59zhvHrkccs5WTV66qDqeRvaoDM
-   BO/QKE0xTDMKuys6W7aI75mdR9pwPo9vB9g6+6H2N4gx9vWYNf+FoOZua
-   QHkRJ+akmCuNWnaFesJfabRduxXbx9pdWQGBDmhWeb/Q21P9afVPitkbo
-   MXihYH/0ijoJMfjrgEar3Eov+bOHop+rv38uAQOYV1ReqmPfxy0x4Xuhk
-   ApepgGWp8YChiXt6Ows+YvGLqmnPaR6Jjp7eG53vm+77+K0b5iz5Revsz
-   Q==;
-X-CSE-ConnectionGUID: SkyDC9lLT+qGZwunR8R6UA==
-X-CSE-MsgGUID: hL8uphlMT0K4LyxZas9cvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="66204168"
+  bh=J98Vkhhj0jKyjyG4yOWJbROvKF6fyPqDQFdPXpsjthY=;
+  b=VnIijV8jnB4WUeiAySnQCCBM7C4+6U/DHRXUKG89k9/4CVIowpFBRvPj
+   f61oUrW7G22/U6fzJP+FDzxRQSCjkey1YlVER0YKveIg2DzkeG8R+CAKH
+   UjUPwJjwCCgb8H21Qj0vitVlCh/E5bbjr3+f98YikJqr/TOFQ/+pUuBCB
+   iSF0K6nKvgQ7PcsYaqtcP7Bwi+F/bYIbe/89UniIt388GXIqpmlrzeEG3
+   KeyeYHmtN1C+9aGLL/1D1AR1CARyFiZMgyb0f6CyBAVCK+RowjJ3/jVc0
+   wHuT0tOyj7+C668Wq4XNFeBBBBPSeWCWN8ujAdqQnwSX0w0Jeu99Xa5yS
+   g==;
+X-CSE-ConnectionGUID: IIYnhFoUSW2ylCJ0HN+1MA==
+X-CSE-MsgGUID: BVK1Kq/XTkCpNIhHmT3Kjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48822722"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="66204168"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 14:04:59 -0700
-X-CSE-ConnectionGUID: vb1f07Z/RwO0AMP6HquVMQ==
-X-CSE-MsgGUID: +8mZga5NTGyvzABT4r7rmw==
+   d="scan'208";a="48822722"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 15:07:04 -0700
+X-CSE-ConnectionGUID: TMokcKZuS2iQuP13F9Y44A==
+X-CSE-MsgGUID: C8YG+VLqRx2xH7GJgbAjjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="136680959"
+   d="scan'208";a="137129831"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 May 2025 14:04:58 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 09 May 2025 15:07:03 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDUtr-000CTZ-1I;
-	Fri, 09 May 2025 21:04:55 +0000
-Date: Sat, 10 May 2025 05:04:31 +0800
+	id 1uDVrx-000CWz-0X;
+	Fri, 09 May 2025 22:07:01 +0000
+Date: Sat, 10 May 2025 06:06:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-nvme:nvme-6.16 11/14] drivers/nvme/target/core.c:1018
- nvmet_sq_init() error: uninitialized symbol 'ret'.
-Message-ID: <202505100417.PlIkH5TX-lkp@intel.com>
+Subject: [linux-next:master 7134/10031]
+ drivers/regulator/tps65219-regulator.c:407 tps65219_regulator_probe() error:
+ uninitialized symbol 'rdev'.
+Message-ID: <202505100652.RkAzg3df-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,53 +65,121 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-nvme@lists.infradead.org
-TO: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Damien Le Moal <dlemoal@kernel.org>
+TO: Shree Ramamoorthy <s-ramamoorthy@ti.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   git://git.infradead.org/nvme.git nvme-6.16
-head:   a0136c6ac4a9aba90a47b9c691bc299a113b5259
-commit: 206372d7c565174e6b8289dac03077b23b8369c9 [11/14] nvmet: support completion queue sharing
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: i386-randconfig-141-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100417.PlIkH5TX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ed61cb3d78d585209ec775933078e268544fe9a4
+commit: 38c9f98db20a649a1f8454f507608b6aef0c9297 [7134/10031] regulator: tps65219: Add support for TPS65215 Regulator IRQs
+:::::: branch date: 12 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-161-20250508 (https://download.01.org/0day-ci/archive/20250510/202505100652.RkAzg3df-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505100417.PlIkH5TX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505100652.RkAzg3df-lkp@intel.com/
 
-smatch warnings:
-drivers/nvme/target/core.c:1018 nvmet_sq_init() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/regulator/tps65219-regulator.c:407 tps65219_regulator_probe() error: uninitialized symbol 'rdev'.
+drivers/regulator/tps65219-regulator.c:407 tps65219_regulator_probe() warn: passing zero to 'PTR_ERR'
 
-vim +/ret +1018 drivers/nvme/target/core.c
+Old smatch warnings:
+drivers/regulator/tps65219-regulator.c:430 tps65219_regulator_probe() error: uninitialized symbol 'rdev'.
+drivers/regulator/tps65219-regulator.c:430 tps65219_regulator_probe() warn: passing zero to 'PTR_ERR'
 
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1012  
-206372d7c56517 Wilfred Mallawa   2025-04-24  1013  int nvmet_sq_init(struct nvmet_sq *sq, struct nvmet_cq *cq)
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1014  {
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1015  	int ret;
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1016  
-206372d7c56517 Wilfred Mallawa   2025-04-24  1017  	if (!nvmet_cq_get(cq))
-206372d7c56517 Wilfred Mallawa   2025-04-24 @1018  		return ret;
-206372d7c56517 Wilfred Mallawa   2025-04-24  1019  
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1020  	ret = percpu_ref_init(&sq->ref, nvmet_sq_free, 0, GFP_KERNEL);
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1021  	if (ret) {
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1022  		pr_err("percpu_ref init failed!\n");
-206372d7c56517 Wilfred Mallawa   2025-04-24  1023  		nvmet_cq_put(cq);
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1024  		return ret;
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1025  	}
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1026  	init_completion(&sq->free_done);
-427242ce99e432 Sagi Grimberg     2017-03-06  1027  	init_completion(&sq->confirm_done);
-1befd944e05050 Christoph Hellwig 2022-09-20  1028  	nvmet_auth_sq_init(sq);
-206372d7c56517 Wilfred Mallawa   2025-04-24  1029  	sq->cq = cq;
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1030  
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1031  	return 0;
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1032  }
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1033  EXPORT_SYMBOL_GPL(nvmet_sq_init);
-a07b4970f464f1 Christoph Hellwig 2016-06-21  1034  
+vim +/rdev +407 drivers/regulator/tps65219-regulator.c
+
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  350  
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  351  static int tps65219_regulator_probe(struct platform_device *pdev)
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  352  {
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  353  	struct tps65219_regulator_irq_data *irq_data;
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  354  	struct tps65219_regulator_irq_type *irq_type;
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  355  	struct tps65219_chip_data *pmic;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  356  	struct regulator_dev *rdev;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  357  	int error;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  358  	int irq;
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  359  	int i;
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  360  
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  361  	struct tps65219 *tps = dev_get_drvdata(pdev->dev.parent);
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  362  	struct regulator_config config = { };
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  363  	enum pmic_id chip = platform_get_device_id(pdev)->driver_data;
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  364  
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  365  	pmic = &chip_info_table[chip];
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  366  
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  367  	config.dev = tps->dev;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  368  	config.driver_data = tps;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  369  	config.regmap = tps->regmap;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  370  
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  371  	for (i = 0; i <  pmic->common_rdesc_size; i++) {
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  372  		rdev = devm_regulator_register(&pdev->dev, &pmic->common_rdesc[i],
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  373  					       &config);
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  374  		if (IS_ERR(rdev))
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  375  			return dev_err_probe(tps->dev, PTR_ERR(rdev),
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  376  					      "Failed to register %s regulator\n",
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  377  					      pmic->common_rdesc[i].name);
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  378  	}
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  379  
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  380  	for (i = 0; i <  pmic->rdesc_size; i++) {
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  381  		rdev = devm_regulator_register(&pdev->dev, &pmic->rdesc[i],
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  382  					       &config);
+e7ce0437709552 Shree Ramamoorthy 2024-12-17  383  		if (IS_ERR(rdev))
+e7ce0437709552 Shree Ramamoorthy 2024-12-17  384  			return dev_err_probe(tps->dev, PTR_ERR(rdev),
+e7ce0437709552 Shree Ramamoorthy 2024-12-17  385  					     "Failed to register %s regulator\n",
+3f2e457efdad5a Shree Ramamoorthy 2025-04-25  386  					     pmic->rdesc[i].name);
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  387  	}
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  388  
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  389  	irq_data = devm_kmalloc(tps->dev, pmic->common_irq_size, GFP_KERNEL);
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  390  	if (!irq_data)
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  391  		return -ENOMEM;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  392  
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  393  	for (i = 0; i < pmic->common_irq_size; ++i) {
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  394  		irq_type = &pmic->common_irq_types[i];
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  395  		irq = platform_get_irq_byname(pdev, irq_type->irq_name);
+d46f737208a45d Yang Li           2022-08-25  396  		if (irq < 0)
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  397  			return -EINVAL;
+d46f737208a45d Yang Li           2022-08-25  398  
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  399  		irq_data[i].dev = tps->dev;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  400  		irq_data[i].type = irq_type;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  401  		error = devm_request_threaded_irq(tps->dev, irq, NULL,
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  402  						  tps65219_regulator_irq_handler,
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  403  						  IRQF_ONESHOT,
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  404  						  irq_type->irq_name,
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  405  						  &irq_data[i]);
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  406  		if (error)
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25 @407  			return dev_err_probe(tps->dev, PTR_ERR(rdev),
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  408  					     "Failed to request %s IRQ %d: %d\n",
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  409  					     irq_type->irq_name, irq, error);
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  410  	}
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  411  
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  412  	irq_data = devm_kmalloc(tps->dev, pmic->dev_irq_size, GFP_KERNEL);
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  413  	if (!irq_data)
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  414  		return -ENOMEM;
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  415  
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  416  	for (i = 0; i < pmic->dev_irq_size; ++i) {
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  417  		irq_type = &pmic->irq_types[i];
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  418  		irq = platform_get_irq_byname(pdev, irq_type->irq_name);
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  419  		if (irq < 0)
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  420  			return -EINVAL;
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  421  
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  422  		irq_data[i].dev = tps->dev;
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  423  		irq_data[i].type = irq_type;
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  424  		error = devm_request_threaded_irq(tps->dev, irq, NULL,
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  425  						  tps65219_regulator_irq_handler,
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  426  						  IRQF_ONESHOT,
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  427  						  irq_type->irq_name,
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  428  						  &irq_data[i]);
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  429  		if (error)
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  430  			return dev_err_probe(tps->dev, PTR_ERR(rdev),
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  431  					     "Failed to request %s IRQ %d: %d\n",
+38c9f98db20a64 Shree Ramamoorthy 2025-04-25  432  					     irq_type->irq_name, irq, error);
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  433  	}
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  434  
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  435  	return 0;
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  436  }
+c12ac5fc3e0af2 Jerome Neanne     2022-08-05  437  
 
 -- 
 0-DAY CI Kernel Test Service
