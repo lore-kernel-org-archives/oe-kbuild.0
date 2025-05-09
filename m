@@ -1,55 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73692749D3
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 09:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D4D73477
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 09:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746781492; cv=none; b=CqrVnLVN/FTIg47iwHBlKT9HI4Fq3+PCRag2U57VrV0FAfMDrRfRuT69V9XfHKu4laXrqwEhR/qZw+U5nehwYFwVJr1xUaiMHRiRZK0dmcozEsd9TjvDiWO1GvdA1U17p4QgVBCkDRpzKgnvr/YJXvkYnN0YeHq7nIIah7VK8CE=
+	t=1746782024; cv=none; b=JS4fCiTmacXTkBsBGdHDwpglIGUaMIe/C6emA4cFD2aZAzMJhbFQo4YqnQb/yjzh6eU+S2Mi0K6D3ghZmRmv1Ra3fM6eDoeaCgrhpAoz8GbtdBp3cn2fpt7evHS/TOKpIR8rTsbEPzJwHqUCOVZK02VQR9iQc1DbJGdeoazEx0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746781492; c=relaxed/simple;
-	bh=zx9xncLkzwlnW96xeyUjQnsi201s69AwmhcztCuWY8I=;
+	s=arc-20240116; t=1746782024; c=relaxed/simple;
+	bh=RSC0Sgyw8HT/RCfrByLtIWId5ZOUmzu8FkI+S3Ou5IU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Aho0/mlYA+yc9Bdlcdr8rxLtxnY34+rL23du/5rmZmTmMndk6GmHOHJMhhp2cg466EMucK3ZFv8is/BI6qn3qyui09ayHdJE9V2Mg9z3dtUjfX1FErcSdR7TCmQui64ciCT+vtBdmcZwVEWsceOg0s2Nuv+QldEilLCTSLdBsNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z8u9vOuH; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jdDzqFCWdKHFvDonU2Yw0wGXU8DnvJJDucQazj6bypXQy0HeC2BSNL9jxEDjKJGcfMOND0O0jIQ66DZQrHc1JkgxZJneJpGRMGKFHFsoiDqf+5dxgF6uYLkUEkON4zTyyKvEZXCG+wE12jQM/60k4RreQHeNf5XVKF+ncs2Zf8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YkpSoHMc; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8u9vOuH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746781491; x=1778317491;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zx9xncLkzwlnW96xeyUjQnsi201s69AwmhcztCuWY8I=;
-  b=Z8u9vOuHf7g0EP4RqUe+uf0rPwQhFVkhNAtJMlfGOyi+n4E/OIVdYXqY
-   z9oafwwzLWdqCbNqJXoy2Ffp1/0mbzdfAS4ksWAA1o8LUTYTVFQxF9S4T
-   aji/ereZBk0gzaOxHl4XuFBJVqU/3Dek5tP5GmnSJMiopQB/nfs1yA2q4
-   Lv0eOIW7TBGR3n+biEz9YXdqhrT6H523PzVeXvDLlh+/ca6DZ1Iut51u2
-   GX6VVv2mnnWsOD5NLLeL3GOjHzm8BtwnWHVR2RHhlN6kKHH+9vexAOkPc
-   4Xf5/8E7FHEM3TBFBzxzuge41+ZyVbM9Jf5Lb57OyCfbhGa5CMOVFEQ+c
-   A==;
-X-CSE-ConnectionGUID: r/1OonYEQ5aIe8vQeVMxCg==
-X-CSE-MsgGUID: /p4YpEYfQH2qvi6OJ5jTnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="71112479"
-X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="71112479"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 02:04:51 -0700
-X-CSE-ConnectionGUID: nDMKb7J/S8GGeKb3cwOuNw==
-X-CSE-MsgGUID: qrNwkPX0QDWwZ5mahF+Qig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="136496526"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 09 May 2025 02:04:49 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uDJew-000Bqp-1u;
-	Fri, 09 May 2025 09:04:46 +0000
-Date: Fri, 9 May 2025 17:04:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YkpSoHMc"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a0be321968so984194f8f.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 09 May 2025 02:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746782021; x=1747386821; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5ipHg38+rk32+E6lqZLQugC6GWcXHbQnwtyP7WMR9wk=;
+        b=YkpSoHMcDqFfxmgh2WIm8eKVYBX8xde8EdQbX4VKbNFf0EjnD5sEwXhBP5JuqJPf8k
+         VSk3S2v7zdNYHYjfZAHuwVUSjmMCpEME26khYbPhuRozdz1XTeObibpWfir9oOCGPNsu
+         TtxVPD+z/aj/Sl6u7JTILxnZsynuJNTtFbYdNPgQhSKfbBKUektKOf3GZ8ZHDM3+ZpD8
+         uDHV317wHqahnh4aSel0ldw+yhT8/jDOQ9WpucGZzMrKnKKoWdDPzxAaqlFIRz804U9c
+         afb1HfLRCKLamoVSA+3gh/yQbrSQePXXgaL8DijIkZVZT+TZHvQ2YuoPIW4Tx5Orc8ph
+         w49Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746782021; x=1747386821;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ipHg38+rk32+E6lqZLQugC6GWcXHbQnwtyP7WMR9wk=;
+        b=iibXT8UvkRe70bThS/MgLejSns8nORj7zru3MXD0F1cUMulNuIZ8PDz3Tdn9EHoYou
+         cdVQRb51ELYGKkQoGTeEIUk9mr5QzTXFLRXuxHnWuVbokLEJv8zRXgJZQ/yIdVUZ2oc6
+         75cnLCwi+3gObmNmaJKMyy59CIi7Z8y374E5cd672lNMKBXY1SOa7wzwrtUqHVIYlgI6
+         rzIVfyZLH8mvKRpPB7/HkxONXRPGGybXIsq5VNvHyLN3xCDAqeU5ormEdYom0wcrE2dG
+         ej5yIHUjOQVmxvybkLwaUMTI4nWRtqm3nImQvEc66UrKCZAgpWWLeUoRWPsL97MMUymS
+         Zlpw==
+X-Gm-Message-State: AOJu0Yy52Z8NUlR40XdDhGW0k2ZSv93a/BUvtnkmeaFwulkmLpEhX4Qu
+	ojkLIOAqe8lpEYyLGXt627LQLsT8N/g01AGoNJQkvAWSoaOV9MpGJEHBRRfpHAYlreBz+qXQZmb
+	t
+X-Gm-Gg: ASbGncvJDuR7usyscFo0Sx5kIkXJl0QbeVFylr5x75hUkThY+3UHwlORS8q7siDrfOz
+	ih1A8lSoqfRSue+bJlVlOgriGcgt896C8brbn71lv87i1hFNlGMm86Ziboi4Eg8J2cC1C10xBxa
+	f4II7gd/qG2TwusN4JDEE048chZvq/as0zAsiRBqEbb4VOdNYNoZGZeSYElSI4Z1EyGhrJaD0Og
+	MZSJs890RYUtoYfOHxnkLP5nfDc9HEAel2rV2OjH7DYCOm0ryvO5H4ssYWrTNBvaoIyusOvhV1S
+	f7Q7QaoproS7ZCoZwZuzk6SAnwftleYCeYJvgPd5IxF54g==
+X-Google-Smtp-Source: AGHT+IEmqGQ0WFYRqxg6Zi5BhZ8msqNSALFUkIH4riLC21Mc+W5RHQBxiyuvRG/VuegHsphKn00xZQ==
+X-Received: by 2002:a05:6000:18ae:b0:3a1:fac3:158c with SMTP id ffacd0b85a97d-3a1fac31619mr664746f8f.59.1746782020857;
+        Fri, 09 May 2025 02:13:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a1f5a4c7b2sm2642318f8f.93.2025.05.09.02.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 02:13:40 -0700 (PDT)
+Date: Fri, 9 May 2025 12:13:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dillon Varone <dillon.varone@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alvin Lee <alvin.lee2@amd.com>,
+	Zaeem Mohamed <zaeem.mohamed@amd.com>
 Subject: [agd5f:drm-next 379/514]
  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:336
  dc_stream_program_cursor_attributes() error: we previously assumed 'stream'
@@ -63,26 +75,18 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dillon Varone <dillon.varone@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Alvin Lee <alvin.lee2@amd.com>
-CC: Zaeem Mohamed <zaeem.mohamed@amd.com>
+Message-ID: <20250509091337.E8K5RNK3CJFw20Axx8mYM3QvsW0axlccGqDqGmTmQ7A@z>
 
 tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
 head:   afc6053d4c4b0a6be500b9e643aa17221e93a57b
 commit: 19e743f0fb730e4dac43e37bb71d1ebdb622b3cf [379/514] drm/amd/display: Refactor SubVP cursor limiting logic
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 weeks ago
 config: x86_64-randconfig-161-20250430 (https://download.01.org/0day-ci/archive/20250509/202505091637.9zSZ2WDD-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202505091637.9zSZ2WDD-lkp@intel.com/
 
 smatch warnings:
@@ -90,7 +94,6 @@ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c:336 dc_stream_program_
 
 vim +/stream +336 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stream.c
 
-f63f86b5affcc2a Harry Wentland      2024-03-15  326  
 f63f86b5affcc2a Harry Wentland      2024-03-15  327  bool dc_stream_program_cursor_attributes(
 f63f86b5affcc2a Harry Wentland      2024-03-15  328  	struct dc_stream_state *stream,
 f63f86b5affcc2a Harry Wentland      2024-03-15  329  	const struct dc_cursor_attributes *attributes)
@@ -99,8 +102,14 @@ f63f86b5affcc2a Harry Wentland      2024-03-15  331  	struct dc  *dc;
 f63f86b5affcc2a Harry Wentland      2024-03-15  332  	bool reset_idle_optimizations = false;
 f63f86b5affcc2a Harry Wentland      2024-03-15  333  
 f63f86b5affcc2a Harry Wentland      2024-03-15 @334  	dc = stream ? stream->ctx->dc : NULL;
+                                                             ^^^^^^^^
+If stream is NULL
+
 f63f86b5affcc2a Harry Wentland      2024-03-15  335  
 f63f86b5affcc2a Harry Wentland      2024-03-15 @336  	if (dc_stream_set_cursor_attributes(stream, attributes)) {
+                                                                                            ^^^^^^
+Then this will crash.
+
 8457bddc266c754 Charlene Liu        2024-01-11  337  		dc_z10_restore(dc);
 4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  338  		/* disable idle optimizations while updating cursor */
 4d55b0dd1cdd853 Bhawanpreet Lakha   2020-05-21  339  		if (dc->idle_optimizations_allowed) {
@@ -119,14 +128,8 @@ f63f86b5affcc2a Harry Wentland      2024-03-15 @336  	if (dc_stream_set_cursor_a
 4fd771ea441ed98 Roy Chan            2021-07-19  352  
 f63f86b5affcc2a Harry Wentland      2024-03-15  353  	return false;
 f63f86b5affcc2a Harry Wentland      2024-03-15  354  }
-f63f86b5affcc2a Harry Wentland      2024-03-15  355  
-
-:::::: The code at line 336 was first introduced by commit
-:::::: f63f86b5affcc2abd1162f11824b9386fc06ac94 drm/amd/display: Separate setting and programming of cursor
-
-:::::: TO: Harry Wentland <harry.wentland@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
