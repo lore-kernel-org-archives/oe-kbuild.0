@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909E6264605
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 04:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10813139D1B
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 05:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746766157; cv=none; b=kANu4ggSPB27LrSdyUih2WtUAI4oArosqkAR+lQ+0r66iPsB6gwtoWftZGCTM5ftkEa1RM2TbbvmgJeuNlSw4jAbpHC0c31sRPyAotv52gROpPI9n3O9YYxdzeGxXu+YSr0NfLy9yKXkmuol2eFmPMB6L++Ubl/SldHResrWKEM=
+	t=1746767309; cv=none; b=MOsQeBTqg3xGAWARtzOei4fpyLGn6QgiSNf0r4ota6W1Bk/C/85Tyk5qZ0nCKrXNWP08cP6OXQTsfplAHkfD7OyCowV/oHEGzsIKBvCLTFIv+lzRz2gk5gWklxYurDbI6Da2opH4ThEtM3Y0v0yStfPO4kKbz8r+Wn97FaggtrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746766157; c=relaxed/simple;
-	bh=FeeznCKw3v/5LRFK0ghY048neQcNUCin1fyHhYE383s=;
+	s=arc-20240116; t=1746767309; c=relaxed/simple;
+	bh=x+bDtZ6Pn6eWQvY9AmuJuyAHGlh3y1Ye7wKTVdXtaZw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X5O7tRfHKWsKT+qVuWXkbTNrValXJL7k1t5P/zMXMXfp7vgGtfcFFVE72YzS86Ubhf6HnejrGN4JLWDoJWDLICgUo0gM0RZC5oZIltvTiqLOLVy8MNkXBPBzPpCDOHDQuEpICyh3SDdl6tMK0L1MDltyWlhm5EpDUFTTP34HndA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVagedV7; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=HXjhWmAUCfYGe1CqsyN9hPkuyBg8/KHuRrvjybbA6ax2Nrhg83CI6H6YXzK5XJb7wJTR/TpNhMAUPj9Ac64BdZhOdAdahV3m509IKkNyrmm2q20WPaYS9xNMwRw5IxqACpascuZk75ZapyYDsmxrCTiLy4tUZ+EPDqA0fEzPeJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmJQtes0; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVagedV7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmJQtes0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746766156; x=1778302156;
+  t=1746767308; x=1778303308;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FeeznCKw3v/5LRFK0ghY048neQcNUCin1fyHhYE383s=;
-  b=BVagedV7BIwOy+C3DSqoAglQ55W1MbQuZJt6Sea0LAzrtv/maaTwkiYA
-   9gNRI7Bv1/34ptaIKkq1q+53mWvS/0oPjnWRyeqXmU8viP+MAFfj3xuLi
-   VPy3Ug2+iS2qbLHfxOt5B3DcYy6xe+fTDGS8nTNvHXozG/d2zQp2/KqWc
-   aBv36zMGy+Qdef/PUc2oG5BHLVK4eJf3O2amjks0Rfd0RvSiHg2wETcfV
-   xTB1WvdaL/wlDiz4lpnyd2SLJ7zbcDn66vCjvBMDCc6kVjDqHvn4aKo5I
-   UZ02p+ln6P/BW2yd+0sbxQZgUE1a2duOC8zJOUw9NaPTaj0i863NeMZLJ
+  bh=x+bDtZ6Pn6eWQvY9AmuJuyAHGlh3y1Ye7wKTVdXtaZw=;
+  b=SmJQtes0VIs1rDw0kpxAPROH6PyKBD/dtfj3LiwSN4IUU8U4LIvXpbb7
+   /cI935uDya6HU2jHDAf3G4eYLKcr6wXJUHnpU6R5W8uZfloQSTNy21EQK
+   B3NZNT7YQEeWKAe76sTtNMLhOcg894+va6ChgODp34WpxiMbt6UJZ/Kxg
+   5AEve4kl9DEKLwCWxVzsxSvoFLw/yoMlXwlzVMe2/qqYag93A3fu32iWs
+   fu2qrp9WW9XCfZ8nBQLohd7p5D4fsxolfHlMIJFnuZ8J3hZGKO/ZmuLHa
+   59nXV5Kl1qCmBDuIwZSGQWbGvWPE4wXWCoyCLySSSIUVO0VbFmxzrjM0s
    A==;
-X-CSE-ConnectionGUID: sSmRrWZ5SQabgvK551htTw==
-X-CSE-MsgGUID: OQrvMHuKRKux0aXOIFVi7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48496272"
+X-CSE-ConnectionGUID: 4zh7C/KnQ/6IGVkcJA2roQ==
+X-CSE-MsgGUID: 1aK0JVxQTGWGoiMH13c9ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48731098"
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="48496272"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 21:49:15 -0700
-X-CSE-ConnectionGUID: QfK8q1d7Tly1bjfizSV5LA==
-X-CSE-MsgGUID: P1+zRsfVT0KpHYxwqeTSkg==
+   d="scan'208";a="48731098"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 22:08:27 -0700
+X-CSE-ConnectionGUID: SoQ117LuRHuL/Rth8/ES+w==
+X-CSE-MsgGUID: 9MbyFLDKT46mTfP3esfqEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="140562180"
-Received: from igk-lkp-server01.igk.intel.com (HELO b9ffd1689040) ([10.211.3.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 May 2025 21:49:13 -0700
-Received: from kbuild by b9ffd1689040 with local (Exim 4.96)
+   d="scan'208";a="136899639"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 08 May 2025 22:08:26 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDFfb-0000Ti-37;
-	Fri, 09 May 2025 04:49:11 +0000
-Date: Fri, 9 May 2025 12:48:15 +0800
+	id 1uDFyC-000Bg7-0Q;
+	Fri, 09 May 2025 05:08:24 +0000
+Date: Fri, 9 May 2025 13:08:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ardb:la57-cpucap 2/6] arch/x86/kvm/reverse_cpuid.h:102:2: error:
- call to '__compiletime_assert_680' declared with 'error' attribute:
- BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-Message-ID: <202505091226.MjZBcX1y-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe-block:for-6.16/block 49/106] block/blk-mq-sched.c:444
+ blk_mq_sched_reg_debugfs() warn: iterator 'i' not incremented
+Message-ID: <202505091356.PvNPIRRx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,278 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ard Biesheuvel <ardb@kernel.org>
+TO: Ming Lei <ming.lei@redhat.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Yu Kuai <yukuai3@huawei.com>
+CC: Nilay Shroff <nilay@linux.ibm.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Hannes Reinecke <hare@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git la57-cpucap
-head:   b69e81879863086ffd10017a2153273363272478
-commit: cb90175592e75552aabc4d2fe3f83bc4be63d819 [2/6] x86/cpu: Use a new feature flag for 5 level paging
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250509/202505091226.MjZBcX1y-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091226.MjZBcX1y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.16/block
+head:   824afb9b04648ea11531fc9047923ec07e7a943d
+commit: ed3896acdcf038888a80a02dd264099e35f76b47 [49/106] block: add two helpers for registering/un-registering sched debugfs
+:::::: branch date: 14 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20250508 (https://download.01.org/0day-ci/archive/20250509/202505091356.PvNPIRRx-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505091226.MjZBcX1y-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505091356.PvNPIRRx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+block/blk-mq-sched.c:444 blk_mq_sched_reg_debugfs() warn: iterator 'i' not incremented
+block/blk-mq-sched.c:455 blk_mq_sched_unreg_debugfs() warn: iterator 'i' not incremented
 
-   In file included from arch/x86/kvm/x86.c:21:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-     102 |         BUILD_BUG_ON(x86_leaf == CPUID_LNX_5);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __compiletime_assert_680
-         | ^
-   In file included from arch/x86/kvm/x86.c:21:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __compiletime_assert_680
-         | ^
-   In file included from arch/x86/kvm/x86.c:21:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __compiletime_assert_680
-         | ^
-   In file included from arch/x86/kvm/x86.c:21:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __compiletime_assert_680
-         | ^
-   4 errors generated.
---
-   In file included from arch/x86/kvm/mmu/mmu.c:19:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-     102 |         BUILD_BUG_ON(x86_leaf == CPUID_LNX_5);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __compiletime_assert_680
-         | ^
-   1 error generated.
---
-   In file included from arch/x86/kvm/vmx/vmx.c:55:
-   In file included from arch/x86/kvm/vmx/capabilities.h:7:
-   In file included from arch/x86/kvm/vmx/../lapic.h:9:
-   In file included from arch/x86/kvm/vmx/../hyperv.h:25:
-   In file included from arch/x86/kvm/vmx/../x86.h:11:
-   In file included from arch/x86/kvm/vmx/../cpuid.h:5:
->> arch/x86/kvm/vmx/../reverse_cpuid.h:102:2: error: call to '__compiletime_assert_714' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-     102 |         BUILD_BUG_ON(x86_leaf == CPUID_LNX_5);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:10:1: note: expanded from here
-      10 | __compiletime_assert_714
-         | ^
-   In file included from arch/x86/kvm/vmx/vmx.c:55:
-   In file included from arch/x86/kvm/vmx/capabilities.h:7:
-   In file included from arch/x86/kvm/vmx/../lapic.h:9:
-   In file included from arch/x86/kvm/vmx/../hyperv.h:25:
-   In file included from arch/x86/kvm/vmx/../x86.h:11:
-   In file included from arch/x86/kvm/vmx/../cpuid.h:5:
->> arch/x86/kvm/vmx/../reverse_cpuid.h:102:2: error: call to '__compiletime_assert_714' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:10:1: note: expanded from here
-      10 | __compiletime_assert_714
-         | ^
-   2 errors generated.
---
-   In file included from mmu/mmu.c:19:
-   In file included from arch/x86/kvm/irq.h:19:
-   In file included from arch/x86/kvm/lapic.h:9:
-   In file included from arch/x86/kvm/hyperv.h:25:
-   In file included from arch/x86/kvm/x86.h:11:
-   In file included from arch/x86/kvm/cpuid.h:5:
->> arch/x86/kvm/reverse_cpuid.h:102:2: error: call to '__compiletime_assert_680' declared with 'error' attribute: BUILD_BUG_ON failed: x86_leaf == CPUID_LNX_5
-     102 |         BUILD_BUG_ON(x86_leaf == CPUID_LNX_5);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:557:2: note: expanded from macro 'compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:33:1: note: expanded from here
-      33 | __compiletime_assert_680
-         | ^
-   1 error generated.
+Old smatch warnings:
+block/blk-mq-sched.c:406 blk_mq_sched_tags_teardown() warn: iterator 'i' not incremented
+block/blk-mq-sched.c:494 blk_mq_init_sched() warn: iterator 'i' not incremented
+block/blk-mq-sched.c:533 blk_mq_sched_free_rqs() warn: iterator 'i' not incremented
+block/blk-mq-sched.c:550 blk_mq_exit_sched() warn: iterator 'i' not incremented
 
+vim +/i +444 block/blk-mq-sched.c
 
-vim +102 arch/x86/kvm/reverse_cpuid.h
-
-013380782d4d67 Ricardo Koller      2021-04-21   86  
-013380782d4d67 Ricardo Koller      2021-04-21   87  /*
-013380782d4d67 Ricardo Koller      2021-04-21   88   * Reverse CPUID and its derivatives can only be used for hardware-defined
-013380782d4d67 Ricardo Koller      2021-04-21   89   * feature words, i.e. words whose bits directly correspond to a CPUID leaf.
-013380782d4d67 Ricardo Koller      2021-04-21   90   * Retrieving a feature bit or masking guest CPUID from a Linux-defined word
-013380782d4d67 Ricardo Koller      2021-04-21   91   * is nonsensical as the bit number/mask is an arbitrary software-defined value
-013380782d4d67 Ricardo Koller      2021-04-21   92   * and can't be used by KVM to query/control guest capabilities.  And obviously
-013380782d4d67 Ricardo Koller      2021-04-21   93   * the leaf being queried must have an entry in the lookup table.
-013380782d4d67 Ricardo Koller      2021-04-21   94   */
-013380782d4d67 Ricardo Koller      2021-04-21   95  static __always_inline void reverse_cpuid_check(unsigned int x86_leaf)
-013380782d4d67 Ricardo Koller      2021-04-21   96  {
-8cb4a9a82b2162 Sean Christopherson 2024-04-04   97  	BUILD_BUG_ON(NR_CPUID_WORDS != NCAPINTS);
-013380782d4d67 Ricardo Koller      2021-04-21   98  	BUILD_BUG_ON(x86_leaf == CPUID_LNX_1);
-013380782d4d67 Ricardo Koller      2021-04-21   99  	BUILD_BUG_ON(x86_leaf == CPUID_LNX_2);
-013380782d4d67 Ricardo Koller      2021-04-21  100  	BUILD_BUG_ON(x86_leaf == CPUID_LNX_3);
-013380782d4d67 Ricardo Koller      2021-04-21  101  	BUILD_BUG_ON(x86_leaf == CPUID_LNX_4);
-8cb4a9a82b2162 Sean Christopherson 2024-04-04 @102  	BUILD_BUG_ON(x86_leaf == CPUID_LNX_5);
-013380782d4d67 Ricardo Koller      2021-04-21  103  	BUILD_BUG_ON(x86_leaf >= ARRAY_SIZE(reverse_cpuid));
-013380782d4d67 Ricardo Koller      2021-04-21  104  	BUILD_BUG_ON(reverse_cpuid[x86_leaf].function == 0);
-013380782d4d67 Ricardo Koller      2021-04-21  105  }
-013380782d4d67 Ricardo Koller      2021-04-21  106  
-
-:::::: The code at line 102 was first introduced by commit
-:::::: 8cb4a9a82b21623dbb4b3051dd30d98356cf95bc x86/cpufeatures: Add CPUID_LNX_5 to track recently added Linux-defined word
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+d97e594c51660b John Garry 2021-05-13  436  
+ed3896acdcf038 Ming Lei   2025-05-05  437  static void blk_mq_sched_reg_debugfs(struct request_queue *q)
+ed3896acdcf038 Ming Lei   2025-05-05  438  {
+ed3896acdcf038 Ming Lei   2025-05-05  439  	struct blk_mq_hw_ctx *hctx;
+ed3896acdcf038 Ming Lei   2025-05-05  440  	unsigned long i;
+ed3896acdcf038 Ming Lei   2025-05-05  441  
+ed3896acdcf038 Ming Lei   2025-05-05  442  	mutex_lock(&q->debugfs_mutex);
+ed3896acdcf038 Ming Lei   2025-05-05  443  	blk_mq_debugfs_register_sched(q);
+ed3896acdcf038 Ming Lei   2025-05-05 @444  	queue_for_each_hw_ctx(q, hctx, i)
+ed3896acdcf038 Ming Lei   2025-05-05  445  		blk_mq_debugfs_register_sched_hctx(q, hctx);
+ed3896acdcf038 Ming Lei   2025-05-05  446  	mutex_unlock(&q->debugfs_mutex);
+ed3896acdcf038 Ming Lei   2025-05-05  447  }
+ed3896acdcf038 Ming Lei   2025-05-05  448  
+ed3896acdcf038 Ming Lei   2025-05-05  449  static void blk_mq_sched_unreg_debugfs(struct request_queue *q)
+ed3896acdcf038 Ming Lei   2025-05-05  450  {
+ed3896acdcf038 Ming Lei   2025-05-05  451  	struct blk_mq_hw_ctx *hctx;
+ed3896acdcf038 Ming Lei   2025-05-05  452  	unsigned long i;
+ed3896acdcf038 Ming Lei   2025-05-05  453  
+ed3896acdcf038 Ming Lei   2025-05-05  454  	mutex_lock(&q->debugfs_mutex);
+ed3896acdcf038 Ming Lei   2025-05-05 @455  	queue_for_each_hw_ctx(q, hctx, i)
+ed3896acdcf038 Ming Lei   2025-05-05  456  		blk_mq_debugfs_unregister_sched_hctx(hctx);
+ed3896acdcf038 Ming Lei   2025-05-05  457  	blk_mq_debugfs_unregister_sched(q);
+ed3896acdcf038 Ming Lei   2025-05-05  458  	mutex_unlock(&q->debugfs_mutex);
+ed3896acdcf038 Ming Lei   2025-05-05  459  }
+ed3896acdcf038 Ming Lei   2025-05-05  460  
 
 -- 
 0-DAY CI Kernel Test Service
