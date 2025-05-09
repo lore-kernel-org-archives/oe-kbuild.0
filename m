@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4252620CE
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 20:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E98325EFA3
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 21:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746822237; cv=none; b=X5Wb7nHBN6OqvFg5AdaIXKRtfypeC7O76zYfrEzKNTaIChtmy+lrC4eSjvXOXaKYSvkZ7ddXMJmauRzKgJcZFqkgAtRtMlvZwi8my2EZwrCmPBDZisN23yVBVMye8Jfua3WQL68IincXEgqFyUUaT/DCbKcRoAQ74s9A4cSLZ/A=
+	t=1746824701; cv=none; b=A+W9wKQYp+Y7I1APRFD4lcSwyLNFFKUd/6DvtiF3uRIyM62cOjyjgykE7kszK/XXHW7No8tBdmHqoSK2exptYgHLqFGUZe3jh1OPPd9/jnkL66uQ+SYEsnyN6Q+7vmcOJCHfUN7MbciWHWnXehSyLM26sjwIcCaHLywNuZjNigE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746822237; c=relaxed/simple;
-	bh=tG7mP8pcRmpsrWBmFeyEa91vpEbRKc8wiSjm8tDqyTc=;
+	s=arc-20240116; t=1746824701; c=relaxed/simple;
+	bh=dV/35L59eYDKdHo8aULfyPfRkbG2CYbrhQhUr9u+1lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DrvXtKuGNXm3gyCOEw70lqTjdy4zfaxfuhCd+SEdjryv1DiAqY6Zt5N6fx3PjaflUNNNi3y6zmXDrHhRA2d1DMA8VypJhRUO9tM+Nv28cIv7DEkKAHNGubBP0Ejjogd2fl01JKmrp2auyDl/AEzFkHAenTwAW6Ys8echhSH/59g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+eAfN6J; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=JDVZsyWKvF2ApGBSmTYwNGlBHj1o+tkwB90YQM9AZ9dL0evrgynnH5VdOpKqQ6/L5g4RQWnP2u0b0ELb+bFIu2lhuZcvwZ5hcoRoDKP4CgLBW7T2BvS+8f05DbWrJy9IQU+w1RpM+1w4KG0uzmdhNxbsHsdwnGw8E+q5NaqcXmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btv86XWA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+eAfN6J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btv86XWA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746822235; x=1778358235;
+  t=1746824700; x=1778360700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tG7mP8pcRmpsrWBmFeyEa91vpEbRKc8wiSjm8tDqyTc=;
-  b=l+eAfN6Jdas0beeEHGQ0Yjbln2oqme0eJEoYJZA6uT6mRjtBh2QrbmuB
-   X7k2b0LCBucFfIfs4COF6UpJXSHaR7IXOKYZtrRKtZywbnFhyRsyduB/w
-   TRE8IvKtJaCDx/VywdllfbL2ffsmErDZRtT8fQVVLdbCKNtc35lNBbBxs
-   Dn7J4VgBx1wGvEf+kBOOEORpkxTlH2ZB2ov1H11t87mgxpOEizHwLAMcp
-   8C4lsARdvFVBBhrq2+4tqZ/2husWHNxwDPXYhZhYP6qYaUI3LRpv2ddlu
-   zQ4npUqDe/rRVZcrmfR4M3JL+M3daUkipvhbbIIwP5P3569WVuW9fr2is
-   g==;
-X-CSE-ConnectionGUID: DYaEiyRuTimNQOtfNrApEQ==
-X-CSE-MsgGUID: 8I/eRZy4T5i8OVYyCqmAUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52477621"
+  bh=dV/35L59eYDKdHo8aULfyPfRkbG2CYbrhQhUr9u+1lw=;
+  b=btv86XWARO6OEjbF71NUqra980i3S3RvMOxYzeKZh+q1Cun36KHQLMVX
+   F5hFC7yDr+xDZiC8d9ODRjJbfQpxdD59zhvHrkccs5WTV66qDqeRvaoDM
+   BO/QKE0xTDMKuys6W7aI75mdR9pwPo9vB9g6+6H2N4gx9vWYNf+FoOZua
+   QHkRJ+akmCuNWnaFesJfabRduxXbx9pdWQGBDmhWeb/Q21P9afVPitkbo
+   MXihYH/0ijoJMfjrgEar3Eov+bOHop+rv38uAQOYV1ReqmPfxy0x4Xuhk
+   ApepgGWp8YChiXt6Ows+YvGLqmnPaR6Jjp7eG53vm+77+K0b5iz5Revsz
+   Q==;
+X-CSE-ConnectionGUID: SkyDC9lLT+qGZwunR8R6UA==
+X-CSE-MsgGUID: hL8uphlMT0K4LyxZas9cvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="66204168"
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="52477621"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 13:23:54 -0700
-X-CSE-ConnectionGUID: MCOo0DjmReOHniBm0Yeb5g==
-X-CSE-MsgGUID: t5i7Vs9mQW63uqyQzLmiCw==
+   d="scan'208";a="66204168"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 14:04:59 -0700
+X-CSE-ConnectionGUID: vb1f07Z/RwO0AMP6HquVMQ==
+X-CSE-MsgGUID: +8mZga5NTGyvzABT4r7rmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,276,1739865600"; 
-   d="scan'208";a="141681948"
+   d="scan'208";a="136680959"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 May 2025 13:23:53 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 May 2025 14:04:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDUG7-000CR9-0n;
-	Fri, 09 May 2025 20:23:51 +0000
-Date: Sat, 10 May 2025 04:23:03 +0800
+	id 1uDUtr-000CTZ-1I;
+	Fri, 09 May 2025 21:04:55 +0000
+Date: Sat, 10 May 2025 05:04:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 3/3] ARM: tegra: Add device-tree for ASUS Transformer
- Pad LTE TF300TL
-Message-ID: <202505100400.MHd3fUsA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-nvme:nvme-6.16 11/14] drivers/nvme/target/core.c:1018
+ nvmet_sq_init() error: uninitialized symbol 'ret'.
+Message-ID: <202505100417.PlIkH5TX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,57 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250503102950.32744-4-clamor95@gmail.com>
-References: <20250503102950.32744-4-clamor95@gmail.com>
-TO: Svyatoslav Ryhel <clamor95@gmail.com>
+CC: linux-nvme@lists.infradead.org
+TO: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Damien Le Moal <dlemoal@kernel.org>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-arm-tegra-group-Tegra30-based-ASUS-Transformers/20250503-183229
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250503102950.32744-4-clamor95%40gmail.com
-patch subject: [PATCH v2 3/3] ARM: tegra: Add device-tree for ASUS Transformer Pad LTE TF300TL
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-052-20250507 (https://download.01.org/0day-ci/archive/20250510/202505100400.MHd3fUsA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250510/202505100400.MHd3fUsA-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.16
+head:   a0136c6ac4a9aba90a47b9c691bc299a113b5259
+commit: 206372d7c565174e6b8289dac03077b23b8369c9 [11/14] nvmet: support completion queue sharing
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: i386-randconfig-141-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100417.PlIkH5TX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505100400.MHd3fUsA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505100417.PlIkH5TX-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi:53.22-59.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma@80000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1110.15-1123.4: Warning (unique_unit_address_if_enabled): /usb@7d000000: duplicate unit-address (also used in node /usb-phy@7d000000)
-   arch/arm/boot/dts/nvidia/tegra30.dtsi:1196.15-1208.4: Warning (unique_unit_address_if_enabled): /usb@7d008000: duplicate unit-address (also used in node /usb-phy@7d008000)
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /pcie@3000: failed to match any schema with compatible: ['nvidia,tegra30-pcie']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra30-ictlr']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /dma@6000a000: failed to match any schema with compatible: ['nvidia,tegra30-apbdma', 'nvidia,tegra20-apbdma']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /dma@6000a000: failed to match any schema with compatible: ['nvidia,tegra30-apbdma', 'nvidia,tegra20-apbdma']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /i2c@7000d000/pmic@2d: failed to match any schema with compatible: ['ti,tps65911']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml#
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
->> arch/arm/boot/dts/nvidia/tegra30-asus-tf300tl.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
+smatch warnings:
+drivers/nvme/target/core.c:1018 nvmet_sq_init() error: uninitialized symbol 'ret'.
+
+vim +/ret +1018 drivers/nvme/target/core.c
+
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1012  
+206372d7c56517 Wilfred Mallawa   2025-04-24  1013  int nvmet_sq_init(struct nvmet_sq *sq, struct nvmet_cq *cq)
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1014  {
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1015  	int ret;
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1016  
+206372d7c56517 Wilfred Mallawa   2025-04-24  1017  	if (!nvmet_cq_get(cq))
+206372d7c56517 Wilfred Mallawa   2025-04-24 @1018  		return ret;
+206372d7c56517 Wilfred Mallawa   2025-04-24  1019  
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1020  	ret = percpu_ref_init(&sq->ref, nvmet_sq_free, 0, GFP_KERNEL);
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1021  	if (ret) {
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1022  		pr_err("percpu_ref init failed!\n");
+206372d7c56517 Wilfred Mallawa   2025-04-24  1023  		nvmet_cq_put(cq);
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1024  		return ret;
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1025  	}
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1026  	init_completion(&sq->free_done);
+427242ce99e432 Sagi Grimberg     2017-03-06  1027  	init_completion(&sq->confirm_done);
+1befd944e05050 Christoph Hellwig 2022-09-20  1028  	nvmet_auth_sq_init(sq);
+206372d7c56517 Wilfred Mallawa   2025-04-24  1029  	sq->cq = cq;
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1030  
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1031  	return 0;
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1032  }
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1033  EXPORT_SYMBOL_GPL(nvmet_sq_init);
+a07b4970f464f1 Christoph Hellwig 2016-06-21  1034  
 
 -- 
 0-DAY CI Kernel Test Service
