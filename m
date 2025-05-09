@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DA4221299
-	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 03:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ED1F507
+	for <oe-kbuild@lists.linux.dev>; Fri,  9 May 2025 03:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746761602; cv=none; b=l1BTHBeW9hNOBXo1jp16OvJm621m5LRbsuUYrv5r9dNwasxazREN6EM/4TWRp3+WXu121i/bPRObepkC+U77dc/FlPSlNjJ6vg6AEH8goTQPFa/bV2RP77QgDGZuKrM3Off/So+OyPG34v1NdbGxjBGcoeWgZwDK2Ow3vEnBi1Q=
+	t=1746762271; cv=none; b=JZY1ZjvZekcwqAP7z53QoY9iabEqlglY54/oNOKb3tEO6z7wFphWnOLHjZkzrgkbtO9YiKPChxFeSSil4vBp98W4LTgDoYXcrvG65jAqp/avzJZCTWhFo91iAleqN5RRUYvbfL6IqtaBR1lRsBlMBHRYta0EJsr/pSP7OvmauZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746761602; c=relaxed/simple;
-	bh=DitTqTfbwk+MeawUHmJt6QpzWAdHlGZbcOLPYaKrkGA=;
+	s=arc-20240116; t=1746762271; c=relaxed/simple;
+	bh=MoobisjWOD9SM2rvpa/Ag3Z0J5LG+PhlteGixIdswzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AirUxMQtDMx5bRkGIn9Zpz40zA+o1HUTClkpfbFnksEF6C9OxXhkA64KkaraqgafWyTagyacBVkZ1TQKYcjx2Of5Rbxowp9O/aDU7EF6p40kbn7+OMTA4qhTuPQ4HIihVxlzgxYffCm+CySkgoIsXzOIs+k1ETW/zwRWnjl6lfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYpasWsX; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=AhjAnp6lnBHU6gVEdxP+Vy54nTOIJPF6q+TzriRPRJfNDAUrysG3MUn3Kc72C7InerSXzAwRbPqCUGUVVTVPtQtK4zRRAsDZGIUBAQgBzJ2a5mdkoPn/ZiVWe1rGYkmJ850lGOYyq9BqoouXw5ke7I8UmsBj215jQBGV8sjWNB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFJdQ2ZS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYpasWsX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFJdQ2ZS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746761601; x=1778297601;
+  t=1746762269; x=1778298269;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DitTqTfbwk+MeawUHmJt6QpzWAdHlGZbcOLPYaKrkGA=;
-  b=LYpasWsXDqTIlTn72bUgllnLepjiAzZpvCCSFJEuOT5SX0d9pjJSF+bF
-   5oPbvOcvX8PH+Qehs42ozj/TkswmSq6O8v0jJGvUIEhEXoFbulYtLYF0j
-   WBe4Ko6RloJredJx/c2kUmaEfax04AsHs4NMOPSeC/XW3Y+1n6NUqhHLB
-   9PVgGvEsCbXJaWqDk32qSD0/ISkrQhFvcaRIKXJue7De/jJSqCA2xD+QH
-   AwWiUg0w/kzPfrbdPCE0s+09wp+s9JabP62khPWiHEbjibUAepLckhQIn
-   pO+WzYOl1FzObmnMcZuxGOtJglo9V9q+eCi4FKLqZJWffRL1++6MSUZVI
-   Q==;
-X-CSE-ConnectionGUID: xgQkVWpfRpC83O6MaZD5Mg==
-X-CSE-MsgGUID: PWqe+yULS4SGC6/MoPNYRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48446075"
+  bh=MoobisjWOD9SM2rvpa/Ag3Z0J5LG+PhlteGixIdswzo=;
+  b=kFJdQ2ZSJJACRodDiDt6W7OGpy+dWC9liu3KjKxf9KRo0w2Wu4kclXE7
+   30ZklLHuzSO3X+vkHnYZvLF6S49nWMdlba6kxTIkA3wRXsqvDEh3HCEE6
+   HefIwwKfa6O7KFmkm2rrj0YX6+FP13oIPrGHbKmQcCWTyl1bw0UEVxWuM
+   QK3sjVvUJQk5b8HQ8LdXPe/wKg+ITjW8Vtm2+O+lgieqB2Wk3BnYXDBwk
+   e8zety3cESAgkq9zx7sPdhg4iw29RS0R+MnBicaapnD3RL0UVMzrwvpBo
+   a0pM7wlfDaMTf2iSrj8JnrIQE2zhU/XrD/ynJLO/j5qTqW6QvPFVa5hJN
+   w==;
+X-CSE-ConnectionGUID: UrfE2vqjTZujfOaaaPFEZA==
+X-CSE-MsgGUID: NXt3g7uGRd2gzP8bCwdthw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48446957"
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="48446075"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 20:33:20 -0700
-X-CSE-ConnectionGUID: KNgs9/AHRGe6GJa7TJQbdA==
-X-CSE-MsgGUID: L7ocokyTSaWoxVAXrAOtRw==
+   d="scan'208";a="48446957"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 20:44:28 -0700
+X-CSE-ConnectionGUID: 1IHy8JOdRNWKSrUDceC+dw==
+X-CSE-MsgGUID: 1IgpDki2S5Gxr/lfymskJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="136883022"
+   d="scan'208";a="159797166"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 May 2025 20:33:18 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 08 May 2025 20:44:19 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDEU8-000BdD-0d;
-	Fri, 09 May 2025 03:33:16 +0000
-Date: Fri, 9 May 2025 11:33:13 +0800
+	id 1uDEen-000Bdf-08;
+	Fri, 09 May 2025 03:44:17 +0000
+Date: Fri, 9 May 2025 11:43:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: timer: Convert marvell,armada-370-timer to
- DT schema
-Message-ID: <202505091152.zC1V2ZeE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3904/9729]
+ drivers/gpu/drm/panel/panel-himax-hx8279.c:801 hx8279_check_gmux_config()
+ warn: impossible condition '(gmux->gout_l[i] > (((0) + (((~((0))) << (6)) &
+ (~((0)) >> (32 - 1 - (7))))) | ((0) + (((~((0))) << (0)) & (~((0)) >> (32 -
+ 1 - (5))))))) => (0-255 > 255...
+Message-ID: <202505091159.PizrDYwj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,72 +65,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250506022301.2588282-1-robh@kernel.org>
-References: <20250506022301.2588282-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Gregory Clement <gregory.clement@bootlin.com>
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/timers/core]
-[also build test WARNING on linus/master v6.15-rc5 next-20250508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-timer-Convert-marvell-armada-370-timer-to-DT-schema/20250506-144131
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20250506022301.2588282-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: timer: Convert marvell,armada-370-timer to DT schema
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-051-20250507 (https://download.01.org/0day-ci/archive/20250509/202505091152.zC1V2ZeE-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250509/202505091152.zC1V2ZeE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f48887a98b78880b7711aca311fbbbcaad6c4e3b
+commit: 38d42c261389985e8dd4739dbd97e2dc855e8dd0 [3904/9729] drm: panel: Add driver for Himax HX8279 DDIC panels
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-141-20250508 (https://download.01.org/0day-ci/archive/20250509/202505091159.PizrDYwj-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505091152.zC1V2ZeE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505091159.PizrDYwj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs2: failed to match any schema with compatible: ['marvell,mvebu-devbus']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/devbus-cs3: failed to match any schema with compatible: ['marvell,mvebu-devbus']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): gpio_leds: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: internal-regs (simple-bus): $nodename:0: 'internal-regs' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pin-ctrl@18000: failed to match any schema with compatible: ['marvell,mv88f6710-pinctrl']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/corediv-clock@18740: failed to match any schema with compatible: ['marvell,armada-370-corediv-clock']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/mbus-controller@20000: failed to match any schema with compatible: ['marvell,mbus-controller']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/coherency-fabric@20200: failed to match any schema with compatible: ['marvell,coherency-fabric']
->> arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: timer@20300 (marvell,armada-370-timer): 'clock-frequency' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/marvell,armada-370-timer.yaml#
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/watchdog@20300: failed to match any schema with compatible: ['marvell,armada-370-wdt']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/cpurst@20800: failed to match any schema with compatible: ['marvell,armada-370-cpu-reset']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/pmsu@22000: failed to match any schema with compatible: ['marvell,armada-370-pmsu']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@70000: failed to match any schema with compatible: ['marvell,armada-370-neta']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/ethernet@74000: failed to match any schema with compatible: ['marvell,armada-370-neta']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: /soc/internal-regs/sata@a0000: failed to match any schema with compatible: ['marvell,armada-370-sata']
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): $nodename:0: 'mvsdio@d4000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,orion-sdio.yaml#
-   arch/arm/boot/dts/marvell/armada-370-mirabox.dtb: mvsdio@d4000 (marvell,orion-sdio): Unevaluated properties are not allowed ('broken-cd', 'bus-width', 'cap-mmc-highspeed', 'cap-sd-highspeed', 'cap-sdio-irq' were unexpected)
+New smatch warnings:
+drivers/gpu/drm/panel/panel-himax-hx8279.c:801 hx8279_check_gmux_config() warn: impossible condition '(gmux->gout_l[i] > (((0) + (((~((0))) << (6)) & (~((0)) >> (32 - 1 - (7))))) | ((0) + (((~((0))) << (0)) & (~((0)) >> (32 - 1 - (5))))))) => (0-255 > 255)'
+drivers/gpu/drm/panel/panel-himax-hx8279.c:807 hx8279_check_gmux_config() warn: impossible condition '(gmux->gout_r[i] > (((0) + (((~((0))) << (6)) & (~((0)) >> (32 - 1 - (7))))) | ((0) + (((~((0))) << (0)) & (~((0)) >> (32 - 1 - (5))))))) => (0-255 > 255)'
+
+Old smatch warnings:
+drivers/gpu/drm/panel/panel-himax-hx8279.c:842 hx8279_check_goa_config() error: uninitialized symbol 'goa_odd_valid'.
+drivers/gpu/drm/panel/panel-himax-hx8279.c:842 hx8279_check_goa_config() error: uninitialized symbol 'goa_even_valid'.
+
+vim +801 drivers/gpu/drm/panel/panel-himax-hx8279.c
+
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  789  
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  790  static int hx8279_check_gmux_config(struct hx8279 *hx, struct device *dev)
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  791  {
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  792  	const struct hx8279_panel_desc *desc = hx->desc;
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  793  	const struct hx8279_goa_mux *gmux = desc->gmux;
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  794  	int i;
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  795  
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  796  	/* No gmux defined means we simply skip the GOA mux configuration */
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  797  	if (!gmux)
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  798  		return 0;
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  799  
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  800  	for (i = 0; i < ARRAY_SIZE(gmux->gout_l); i++) {
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14 @801  		if (gmux->gout_l[i] > (HX8279_GOUT_STB | HX8279_GOUT_SEL))
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  802  			return dev_err_probe(dev, -EINVAL,
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  803  					     "Invalid value found in gout_l[%d]\n", i);
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  804  	}
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  805  
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  806  	for (i = 0; i < ARRAY_SIZE(gmux->gout_r); i++) {
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14 @807  		if (gmux->gout_r[i] > (HX8279_GOUT_STB | HX8279_GOUT_SEL))
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  808  			return dev_err_probe(dev, -EINVAL,
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  809  					     "Invalid value found in gout_r[%d]\n", i);
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  810  	}
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  811  
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  812  	return 0;
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  813  }
+38d42c26138998 AngeloGioacchino Del Regno 2025-04-14  814  
 
 -- 
 0-DAY CI Kernel Test Service
