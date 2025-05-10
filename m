@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014C0125DF
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 May 2025 20:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0314A1F03D2
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 May 2025 21:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746909925; cv=none; b=dJvGsXgSJh3oOEKm6pEWxh7xcZs/PC0y1D+vlBQuIO3tkCo/yJmZs3W6hOchZvSCjyBPObbTWPbdREqymqmGBloLeGHqzzTTxfyFv+Qmi+o80iulASbCoZTV51PWAr62CWUcSuKFlOVbPqbvOkNUbi35Ikr+BZeWe2ZTNEb2w8c=
+	t=1746913229; cv=none; b=Ax/cUB+zJaJ+EO+4iP4qH/NOOJ2XhbAy9yphTotTer6nfNvy5tXo73IdYwEVSbINjg05Q8bjL7r3Z01390AhiwoZqZz9x4+zppG722vmCpzFKEa6mn7AZIKKM8NCmpNMDmEEGhcpKrHM/nO5LrrquL/V5N+WIYeTvbMFXtpQwls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746909925; c=relaxed/simple;
-	bh=0ekSH2uI9o/geKSjWYq7zBjtzcm3rzvXRHHFX+xe1zQ=;
+	s=arc-20240116; t=1746913229; c=relaxed/simple;
+	bh=7IYR4BMn67xhVpeHzEFZMOmTVeMdOvoqQI/+wrKGKGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KYmO1Esmr9R5Z8nmrvVfwNEUAYTzOAzi2BJYY78XMpyeID3jjcnhm/rOhkNpXsi6q0zB9PSzU3gxKFHGF1kDZDzhFWsIx8NILF4L93wf2lwaeKKzuL0O9Iblk+y2kie42U0kwynuHHAZpmTZKiHe+hcgMZ4jlwjBOWKhep0quwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILYmtRhI; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=A8APEGcDsdphAu54n5t6T8qqvR6Ks/sixpsx6N3MOWwwxUkuuIU1zPt5t4KuMvlj3wtamsfqjbM61oaWXF3VQ0ZbvZ9A2rJD7ZD2IxNIrRHri1JiH93vUGZXy271qMhxCg4rdFHI+X0JpqB40/AvJFiL27vxQ/ZuQ8iJ+CW5Nr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LE71acX2; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILYmtRhI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LE71acX2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746909923; x=1778445923;
+  t=1746913227; x=1778449227;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0ekSH2uI9o/geKSjWYq7zBjtzcm3rzvXRHHFX+xe1zQ=;
-  b=ILYmtRhIaua94/z/nmzcozGmnFcjvtLF3eCysLRxYBQzb3+1OyfiAW1t
-   qn/lj5v93pE7odR8LQiDjt/Mzgnl5r/vGuh7Slc9Hwweb3u6fD/lrZD7i
-   ywMr+B1IaEtwG5JBW8a8BJMkscoTMHMXZM5g7gOAUTpP/kl2PK7XyHyv3
-   eYjxxtAT2+BrEWyXEJo9irq2i7RCKVRlAbqf2PEFYLdiEMqTzG5a1bpd9
-   U0SPCUyiiKR1zJ6/aHiWi0ZIZeBIikq79gcA5MzYtF7xCWF61CMxsPGQM
-   RoLJfoGudzUxalVKD+cdo2dBG7XTh/VkEUiREBpIngQ+Zlvv3Qp6O2E/p
-   w==;
-X-CSE-ConnectionGUID: EG+1FyaIR0S+uCQYGAk2xQ==
-X-CSE-MsgGUID: 2KFQswHkSw+ugkDEiQnT2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="48884133"
+  bh=7IYR4BMn67xhVpeHzEFZMOmTVeMdOvoqQI/+wrKGKGY=;
+  b=LE71acX2/kL5WxqUOifi+bB5NVxuiOfBkg8jdxvMFMMzRR1/fVsYjhOE
+   pXFU4ztSEj7xCitpSO6+gTzePv1K/340vBTV6VUYM4Q98PgqTuKveoWBe
+   uS6jmzzC0mhSGzQSyfBXWmBxe0K/wxT2VWIHmJSplzin41jO7Jdu4GzNM
+   qTIBjcaNAU1RPQUvB3g+b9LC29yRhvtAkCAJa8sM5BHrhFe0puGyIXCFB
+   sjSpqlX6SJlGzKyZhz4d3gSd12/KRJRaghgHYIKBqF6xbaEszhSZM782h
+   0UWeAvlrs566toZs9eNukgbhAn3rOjh9ioGqqdQafiul4iDy9ljPW5rOj
+   A==;
+X-CSE-ConnectionGUID: bGC2Dxv+ScOQbt1kRwW0IQ==
+X-CSE-MsgGUID: SVR1wKYqTKapa81Jf6MFWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="74115053"
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="48884133"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 13:45:23 -0700
-X-CSE-ConnectionGUID: 1e45lkLVQvCTCt3myWnbjQ==
-X-CSE-MsgGUID: khqD/tIsQrefJOv9ImObhg==
+   d="scan'208";a="74115053"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 14:40:26 -0700
+X-CSE-ConnectionGUID: Gjo14cMbS+uaJSI9ZPzwXg==
+X-CSE-MsgGUID: rWej0ydARE2IrW9PTHhOjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="141010286"
+   d="scan'208";a="168039599"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 May 2025 13:45:21 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 May 2025 14:40:25 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDr4Q-000DNP-31;
-	Sat, 10 May 2025 20:45:18 +0000
-Date: Sun, 11 May 2025 04:44:55 +0800
+	id 1uDrvj-000DPH-0V;
+	Sat, 10 May 2025 21:40:23 +0000
+Date: Sun, 11 May 2025 05:39:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: timer: Convert lsi,zevio-timer to DT schema
-Message-ID: <202505110412.wCibIeYB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 171/199]
+ fs/bcachefs/backpointers.c:334 __bch2_backpointer_get_key() warn: passing
+ zero to 'ERR_CAST'
+Message-ID: <202505110519.F1cJbDqf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,68 +63,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250506022257.2588136-1-robh@kernel.org>
-References: <20250506022257.2588136-1-robh@kernel.org>
-TO: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Rob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/timers/core]
-[also build test WARNING on linus/master v6.15-rc5 next-20250509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-timer-Convert-lsi-zevio-timer-to-DT-schema/20250506-143752
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20250506022257.2588136-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: timer: Convert lsi,zevio-timer to DT schema
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-051-20250507 (https://download.01.org/0day-ci/archive/20250511/202505110412.wCibIeYB-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev21+ge6ea659
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110412.wCibIeYB-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   d815fb1b379fb43f7a33d1bede6efea16b6405e6
+commit: c85f7244967c89ccd189af685cd7d5401501eee6 [171/199] bcachefs: Fix missing commit in backpointer to missing target
+:::::: branch date: 2 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110519.F1cJbDqf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505110412.wCibIeYB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505110519.F1cJbDqf-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nspire/nspire.dtsi:44.21-47.4: Warning (unit_address_vs_reg): /base_clk: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/nspire/nspire.dtsi:49.19-53.4: Warning (unit_address_vs_reg): /ahb_clk: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/nspire/nspire.dtsi:130.16-220.5: Warning (unit_address_vs_reg): /ahb/apb@90000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nspire/nspire-tp.dtb: /base_clk: failed to match any schema with compatible: ['lsi,nspire-classic-clock']
-   arch/arm/boot/dts/nspire/nspire-tp.dtb: /ahb_clk: failed to match any schema with compatible: ['lsi,nspire-classic-ahb-divider']
-   arch/arm/boot/dts/nspire/nspire-tp.dtb: apb@90000000 (simple-bus): 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
->> arch/arm/boot/dts/nspire/nspire-tp.dtb: timer@900d0000 (lsi,zevio-timer): 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
->> arch/arm/boot/dts/nspire/nspire-tp.dtb: timer@900d0000 (lsi,zevio-timer): clocks: [[9], [9], [9]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
-   arch/arm/boot/dts/nspire/nspire-tp.dtb: /ahb/interrupt-controller@dc000000: failed to match any schema with compatible: ['lsi,zevio-intc']
---
-   arch/arm/boot/dts/nspire/nspire.dtsi:44.21-47.4: Warning (unit_address_vs_reg): /base_clk: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/nspire/nspire.dtsi:49.19-53.4: Warning (unit_address_vs_reg): /ahb_clk: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/nspire/nspire.dtsi:130.16-220.5: Warning (unit_address_vs_reg): /ahb/apb@90000000: node has a unit name, but no reg or ranges property
-   arch/arm/boot/dts/nspire/nspire-clp.dtb: /base_clk: failed to match any schema with compatible: ['lsi,nspire-classic-clock']
-   arch/arm/boot/dts/nspire/nspire-clp.dtb: /ahb_clk: failed to match any schema with compatible: ['lsi,nspire-classic-ahb-divider']
-   arch/arm/boot/dts/nspire/nspire-clp.dtb: apb@90000000 (simple-bus): 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
->> arch/arm/boot/dts/nspire/nspire-clp.dtb: timer@900d0000 (lsi,zevio-timer): 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
->> arch/arm/boot/dts/nspire/nspire-clp.dtb: timer@900d0000 (lsi,zevio-timer): clocks: [[9], [9], [9]] is too long
-   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
-   arch/arm/boot/dts/nspire/nspire-clp.dtb: /ahb/interrupt-controller@dc000000: failed to match any schema with compatible: ['lsi,zevio-intc']
+smatch warnings:
+fs/bcachefs/backpointers.c:334 __bch2_backpointer_get_key() warn: passing zero to 'ERR_CAST'
+
+vim +/ERR_CAST +334 fs/bcachefs/backpointers.c
+
+c85f7244967c89c Kent Overstreet 2025-05-09  283  
+c85f7244967c89c Kent Overstreet 2025-05-09  284  static struct bkey_s_c __bch2_backpointer_get_key(struct btree_trans *trans,
+9e92d6e9efb02c6 Kent Overstreet 2024-11-14  285  						  struct bkey_s_c_backpointer bp,
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  286  						  struct btree_iter *iter,
+056cae1c00b9773 Kent Overstreet 2024-11-14  287  						  unsigned iter_flags,
+c85f7244967c89c Kent Overstreet 2025-05-09  288  						  struct bkey_buf *last_flushed,
+c85f7244967c89c Kent Overstreet 2025-05-09  289  						  bool commit)
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  290  {
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  291  	struct bch_fs *c = trans->c;
+633cf069445d953 Kent Overstreet 2024-04-30  292  
+f11ca2ab18e369a Kent Overstreet 2024-11-27  293  	if (unlikely(bp.v->btree_id >= btree_id_nr_alive(c)))
+f11ca2ab18e369a Kent Overstreet 2024-11-27  294  		return bkey_s_c_null;
+f11ca2ab18e369a Kent Overstreet 2024-11-27  295  
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  296  	bch2_trans_node_iter_init(trans, iter,
+9e92d6e9efb02c6 Kent Overstreet 2024-11-14  297  				  bp.v->btree_id,
+9e92d6e9efb02c6 Kent Overstreet 2024-11-14  298  				  bp.v->pos,
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  299  				  0,
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  300  				  bp.v->level,
+6bdefe9c3900b3b Kent Overstreet 2023-03-29  301  				  iter_flags);
+9180ad2e161b703 Kent Overstreet 2025-03-21  302  	struct bkey_s_c k = bch2_btree_iter_peek_slot(trans, iter);
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  303  	if (bkey_err(k)) {
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  304  		bch2_trans_iter_exit(trans, iter);
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  305  		return k;
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  306  	}
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  307  
+2581f89ac8d7174 Kent Overstreet 2025-04-02  308  	/*
+2581f89ac8d7174 Kent Overstreet 2025-04-02  309  	 * peek_slot() doesn't normally return NULL - except when we ask for a
+2581f89ac8d7174 Kent Overstreet 2025-04-02  310  	 * key at a btree level that doesn't exist.
+2581f89ac8d7174 Kent Overstreet 2025-04-02  311  	 *
+2581f89ac8d7174 Kent Overstreet 2025-04-02  312  	 * We may want to revisit this and change peek_slot():
+2581f89ac8d7174 Kent Overstreet 2025-04-02  313  	 */
+2581f89ac8d7174 Kent Overstreet 2025-04-02  314  	if (!k.k) {
+2581f89ac8d7174 Kent Overstreet 2025-04-02  315  		bkey_init(&iter->k);
+2581f89ac8d7174 Kent Overstreet 2025-04-02  316  		iter->k.p = bp.v->pos;
+2581f89ac8d7174 Kent Overstreet 2025-04-02  317  		k.k = &iter->k;
+2581f89ac8d7174 Kent Overstreet 2025-04-02  318  	}
+2581f89ac8d7174 Kent Overstreet 2025-04-02  319  
+9e92d6e9efb02c6 Kent Overstreet 2024-11-14  320  	if (k.k &&
+eb25733aba20544 Kent Overstreet 2024-11-15  321  	    extent_matches_bp(c, bp.v->btree_id, bp.v->level, k, bp))
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  322  		return k;
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  323  
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  324  	bch2_trans_iter_exit(trans, iter);
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  325  
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  326  	if (!bp.v->level) {
+c85f7244967c89c Kent Overstreet 2025-05-09  327  		int ret = backpointer_target_not_found(trans, bp, k, last_flushed, commit);
+c2c2a4d6420bbfd Kent Overstreet 2024-11-12  328  		return ret ? bkey_s_c_err(ret) : bkey_s_c_null;
+853960d00b4b3df Kent Overstreet 2023-11-04  329  	} else {
+c85f7244967c89c Kent Overstreet 2025-05-09  330  		struct btree *b = __bch2_backpointer_get_node(trans, bp, iter, last_flushed, commit);
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  331  		if (b == ERR_PTR(-BCH_ERR_backpointer_to_overwritten_btree_node))
+ca16fa6b860fe35 Kent Overstreet 2024-12-28  332  			return bkey_s_c_null;
+c2c2a4d6420bbfd Kent Overstreet 2024-11-12  333  		if (IS_ERR_OR_NULL(b))
+c2c2a4d6420bbfd Kent Overstreet 2024-11-12 @334  			return ((struct bkey_s_c) { .k = ERR_CAST(b) });
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  335  
+853960d00b4b3df Kent Overstreet 2023-11-04  336  		return bkey_i_to_s_c(&b->key);
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  337  	}
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  338  }
+a8c752bb1d93a24 Kent Overstreet 2022-03-17  339  
+
+:::::: The code at line 334 was first introduced by commit
+:::::: c2c2a4d6420bbfd584aa5e159a6f78b7b5124fd7 bcachefs: bch2_backpointer_get_key() now repairs dangling backpointers
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
