@@ -1,72 +1,57 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DBD189F3B
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 May 2025 10:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014C0125DF
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 May 2025 20:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746871911; cv=none; b=c5uMD2i3xQ1NyF11eG5vQUlTSscQpyxHqgTd0/XgViBHwism/KFCyKAlRPPi6XGrjtgcr9mPZnsinviEx2RrxSeKNCkOuSoq5pjRbhIyzPZF4eLymIFmL7tOFki6qkLb8c7O1FSeyvMep2gmU2hu7z3x1NJJ+JbJ2gxP/IkVW8A=
+	t=1746909925; cv=none; b=dJvGsXgSJh3oOEKm6pEWxh7xcZs/PC0y1D+vlBQuIO3tkCo/yJmZs3W6hOchZvSCjyBPObbTWPbdREqymqmGBloLeGHqzzTTxfyFv+Qmi+o80iulASbCoZTV51PWAr62CWUcSuKFlOVbPqbvOkNUbi35Ikr+BZeWe2ZTNEb2w8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746871911; c=relaxed/simple;
-	bh=TAdkEWmft0UsuHt29v3Eue/35LhyOeiZPHuU7JfGkcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCR3/ovuRMAcg6X4WfkBHJHOZEW0gNs8SQswN9nKIQGk/SWwS0RMCaOO/CnYaCYZdATeHEKz5523tl0ZxejzSdmlmklZgu2Ze1gAjE8hI6Igw1bRMJBWgL69UAie+nniT3N8WEovQvCfF1c/z0y5Z5tuI5HGoZ8Haev1vzDNwbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RO/4TSfF; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1746909925; c=relaxed/simple;
+	bh=0ekSH2uI9o/geKSjWYq7zBjtzcm3rzvXRHHFX+xe1zQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KYmO1Esmr9R5Z8nmrvVfwNEUAYTzOAzi2BJYY78XMpyeID3jjcnhm/rOhkNpXsi6q0zB9PSzU3gxKFHGF1kDZDzhFWsIx8NILF4L93wf2lwaeKKzuL0O9Iblk+y2kie42U0kwynuHHAZpmTZKiHe+hcgMZ4jlwjBOWKhep0quwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILYmtRhI; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RO/4TSfF"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a1f9791a4dso758859f8f.0
-        for <oe-kbuild@lists.linux.dev>; Sat, 10 May 2025 03:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746871907; x=1747476707; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bEGLI17Sg6m1LZBmMFTStRe876DURecVpE92sDlyUxQ=;
-        b=RO/4TSfFdKZZ057GnrHqO0FvhZjhy288FThmd27fQHc6U6Hbc4dfL8ffb+i+Anchfp
-         HGff2YXSELvWe0ZQAYJSuf0FIFICT7GwK+sS5M19ijbB0/6pwcj05qSI3rTcArOKVs0A
-         jSHrUL1fsDX1oqIvl2qIf9a6TpJmzxqJCYwoPRpJwjxpWRV/R/pg2AwE0OTB0yabjlSH
-         sLULbvMIV1o8m1VYmYzeXkG16FDj0dmH4GO0ngfAHoOsBDpsMY8FfAGQNZ646Q55JMO+
-         vDv+AcwpBr1tyjMIUQBqTcqKXXfQ99ecifLywTjoBuDCrKkY5zF6CT1Xn2QyqgcMSNdd
-         uzYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746871907; x=1747476707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bEGLI17Sg6m1LZBmMFTStRe876DURecVpE92sDlyUxQ=;
-        b=vU+jIvwsICJlX4JE/iMibcNo94kUL8UCFzsn5A1Bk8/yI0gyL1FD36ssjSFVHKeHM/
-         KYLKu32fwqtSFpUlAbsV0jbexTyXqlV5XN3Dc2w+zqckzncdvF6Jwqb6T8wsgxzhOflJ
-         EEatAtbsWbu5y7nfrWv/bQuN78QqxsJfaZey9vquPTpf0fZ48XXuL+kDRO8tI2gs7ybn
-         bxKY5yrvN3yebPzuKcgnMwfSf0DYfGb/U0iIPgrw40jU/NgpUU36pdQNF29HEkO+odQl
-         1qvL58XLQ6dhIub45nIgIUXh7dlVCPCfLHkt1VeKs35B2dXybgD91eo42yo1KAhJF97K
-         my1g==
-X-Gm-Message-State: AOJu0Yx1lUKjNf4ZoWstBbPY+4kpJDsBi2pxruBDuU6wu8R0xKagTjRd
-	yM8WGJNh8aYSea2EnisH/16feVQID29CovJXS3d5227v0+YPav5425uLJD+nIAU=
-X-Gm-Gg: ASbGncupJpkz0JsYMyw0s/UUktLIjtuSmlXRpd/cUxYeoxCLIrjTAz9XFkuzBUIjID4
-	sLVmSd71oUKbw33WMU+qDI0s0AVc49gKv9xgOAFsyjjiyANI/YH23Wjdur/sk9E9Ls6uOXLZr/+
-	4DVLQeF/bTj3AUiEsqRzO/1vukSbSLoyXir9KvTwElsMVz+h4hNTEFsdUlQYhzFikPHR+q7VJuC
-	YYYLGtjapOYZ5dOdsMElPzOBh+FKPAal5A+lFqKEEBV3jyrKBnKRYSgDP/+BEIJAK1a4J7m8Uvz
-	lctcBCR5wrAhZPzNKtREne7nLGzKdsJ3oCJrRReCDLOH0k2oJNcyX1l/
-X-Google-Smtp-Source: AGHT+IFPRV3WrM4qUPjKyQq2cTWDQTQifuNlkOsms5GePA9Os7cAR7/IKQemogvl9WbUSLD3uLc2Xg==
-X-Received: by 2002:a05:6000:2506:b0:391:22a9:4408 with SMTP id ffacd0b85a97d-3a1f64386eemr5180967f8f.16.1746871907101;
-        Sat, 10 May 2025 03:11:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442d780ffb7sm31422365e9.1.2025.05.10.03.11.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 03:11:46 -0700 (PDT)
-Date: Sat, 10 May 2025 13:11:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: [tip:x86/boot 10/10]
- arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc() error: we
- previously assumed 'boot_ghcb' could be null (see line 101)
-Message-ID: <aB8mXZ_TxDuLa7Jr@stanley.mountain>
-References: <202505100719.9pE7wDfB-lkp@intel.com>
- <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILYmtRhI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746909923; x=1778445923;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0ekSH2uI9o/geKSjWYq7zBjtzcm3rzvXRHHFX+xe1zQ=;
+  b=ILYmtRhIaua94/z/nmzcozGmnFcjvtLF3eCysLRxYBQzb3+1OyfiAW1t
+   qn/lj5v93pE7odR8LQiDjt/Mzgnl5r/vGuh7Slc9Hwweb3u6fD/lrZD7i
+   ywMr+B1IaEtwG5JBW8a8BJMkscoTMHMXZM5g7gOAUTpP/kl2PK7XyHyv3
+   eYjxxtAT2+BrEWyXEJo9irq2i7RCKVRlAbqf2PEFYLdiEMqTzG5a1bpd9
+   U0SPCUyiiKR1zJ6/aHiWi0ZIZeBIikq79gcA5MzYtF7xCWF61CMxsPGQM
+   RoLJfoGudzUxalVKD+cdo2dBG7XTh/VkEUiREBpIngQ+Zlvv3Qp6O2E/p
+   w==;
+X-CSE-ConnectionGUID: EG+1FyaIR0S+uCQYGAk2xQ==
+X-CSE-MsgGUID: 2KFQswHkSw+ugkDEiQnT2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="48884133"
+X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
+   d="scan'208";a="48884133"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 13:45:23 -0700
+X-CSE-ConnectionGUID: 1e45lkLVQvCTCt3myWnbjQ==
+X-CSE-MsgGUID: khqD/tIsQrefJOv9ImObhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
+   d="scan'208";a="141010286"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 May 2025 13:45:21 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uDr4Q-000DNP-31;
+	Sat, 10 May 2025 20:45:18 +0000
+Date: Sun, 11 May 2025 04:44:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH] dt-bindings: timer: Convert lsi,zevio-timer to DT schema
+Message-ID: <202505110412.wCibIeYB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,63 +60,70 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXHyVh7KwNyekd8ZAATufnMHyzyMismVf2xW8F=LfBJviQ@mail.gmail.com>
 
-On Sat, May 10, 2025 at 09:57:23AM +0200, Ard Biesheuvel wrote:
-> Hi Dan,
-> 
-> On Sat, 10 May 2025 at 09:43, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > Hi Ard,
-> >
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
-> > head:   ed4d95d033e359f9445e85bf5a768a5859a5830b
-> > commit: ed4d95d033e359f9445e85bf5a768a5859a5830b [10/10] x86/sev: Disentangle #VC handling code from startup code
-> > config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250510/202505100719.9pE7wDfB-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202505100719.9pE7wDfB-lkp@intel.com/
-> >
-> > smatch warnings:
-> > arch/x86/boot/compressed/sev-handle-vc.c:104 do_boot_stage2_vc() error: we previously assumed 'boot_ghcb' could be null (see line 101)
-> >
-> > vim +/boot_ghcb +104 arch/x86/boot/compressed/sev-handle-vc.c
-> >
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04   96  void do_boot_stage2_vc(struct pt_regs *regs, unsigned long exit_code)
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04   97  {
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04   98   struct es_em_ctxt ctxt;
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04   99   enum es_result result;
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04  100
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04 @101   if (!boot_ghcb && !early_setup_ghcb())
-> >                                                     ^^^^^^^^^^
-> > Check for NULL.  Should the && be ||?
-> >
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04  102           sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04  103
-> > ed4d95d033e359 Ard Biesheuvel 2025-05-04 @104   vc_ghcb_invalidate(boot_ghcb);
-> >                                                                    ^^^^^^^^^
-> > Unchecked dereference.
-> >
-> 
-> On success, early_setup_ghcb() will assign boot_ghcb, and so it is
-> only called if it was unset.
-> 
-> The logic is a bit clunky here: for clarity, it could be rewritten as
-> 
-> if (!boot_ghcb) {
->   early_setup_ghcb();
->   if (!boot_ghcb)
->     sev_es_terminate(...);
-> }
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Ah.  Thanks.  I didn't even think that early_setup_ghcb() might
-set boot_ghcb().
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250506022257.2588136-1-robh@kernel.org>
+References: <20250506022257.2588136-1-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-regards,
-dan carpenter
+Hi Rob,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on linus/master v6.15-rc5 next-20250509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-bindings-timer-Convert-lsi-zevio-timer-to-DT-schema/20250506-143752
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20250506022257.2588136-1-robh%40kernel.org
+patch subject: [PATCH] dt-bindings: timer: Convert lsi,zevio-timer to DT schema
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-051-20250507 (https://download.01.org/0day-ci/archive/20250511/202505110412.wCibIeYB-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev21+ge6ea659
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250511/202505110412.wCibIeYB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202505110412.wCibIeYB-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/nspire/nspire.dtsi:44.21-47.4: Warning (unit_address_vs_reg): /base_clk: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/nspire/nspire.dtsi:49.19-53.4: Warning (unit_address_vs_reg): /ahb_clk: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/nspire/nspire.dtsi:130.16-220.5: Warning (unit_address_vs_reg): /ahb/apb@90000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nspire/nspire-tp.dtb: /base_clk: failed to match any schema with compatible: ['lsi,nspire-classic-clock']
+   arch/arm/boot/dts/nspire/nspire-tp.dtb: /ahb_clk: failed to match any schema with compatible: ['lsi,nspire-classic-ahb-divider']
+   arch/arm/boot/dts/nspire/nspire-tp.dtb: apb@90000000 (simple-bus): 'clocks' is a dependency of 'clock-ranges'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+>> arch/arm/boot/dts/nspire/nspire-tp.dtb: timer@900d0000 (lsi,zevio-timer): 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
+>> arch/arm/boot/dts/nspire/nspire-tp.dtb: timer@900d0000 (lsi,zevio-timer): clocks: [[9], [9], [9]] is too long
+   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
+   arch/arm/boot/dts/nspire/nspire-tp.dtb: /ahb/interrupt-controller@dc000000: failed to match any schema with compatible: ['lsi,zevio-intc']
+--
+   arch/arm/boot/dts/nspire/nspire.dtsi:44.21-47.4: Warning (unit_address_vs_reg): /base_clk: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/nspire/nspire.dtsi:49.19-53.4: Warning (unit_address_vs_reg): /ahb_clk: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/nspire/nspire.dtsi:130.16-220.5: Warning (unit_address_vs_reg): /ahb/apb@90000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/nspire/nspire-clp.dtb: /base_clk: failed to match any schema with compatible: ['lsi,nspire-classic-clock']
+   arch/arm/boot/dts/nspire/nspire-clp.dtb: /ahb_clk: failed to match any schema with compatible: ['lsi,nspire-classic-ahb-divider']
+   arch/arm/boot/dts/nspire/nspire-clp.dtb: apb@90000000 (simple-bus): 'clocks' is a dependency of 'clock-ranges'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+>> arch/arm/boot/dts/nspire/nspire-clp.dtb: timer@900d0000 (lsi,zevio-timer): 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
+>> arch/arm/boot/dts/nspire/nspire-clp.dtb: timer@900d0000 (lsi,zevio-timer): clocks: [[9], [9], [9]] is too long
+   	from schema $id: http://devicetree.org/schemas/timer/lsi,zevio-timer.yaml#
+   arch/arm/boot/dts/nspire/nspire-clp.dtb: /ahb/interrupt-controller@dc000000: failed to match any schema with compatible: ['lsi,zevio-intc']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
