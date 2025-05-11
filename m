@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2852F2E
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 May 2025 03:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95919143748
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 May 2025 10:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746935645; cv=none; b=STQp9SXsAraQU2yt7L2tXyWp6cgidOuhW0/fqax/lqkIruGYetNCHg392uK3T8crKEk9pQle0vSJnyeOfpAzzwjrZXSVKfBAhyBm830aDy8USAdwPwY+Siak8kS8s/n+KJ8Lu+nZyqUvxoKJm+4wihX9gpdo5wtATbkktWXiDV8=
+	t=1746958292; cv=none; b=raC+oNwTCORra2GcAoz5In0607j5GekSYtrfUAI99OLj5nkfTrIPVL9UBbA4GTEKzIqhRQmNIaPUwkEYc8mt779QwJqOoisdEut+XgA/s9tLrlJFqJ8nJA1cv5n1RYUZKxeY0y9jNwZKdNbjUZt/BHZW13thEEkdMIXPMkQtTiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746935645; c=relaxed/simple;
-	bh=9//mQO1z/aWNLG5b1/5pAKVcUkMCMcCeNfF201WlaKY=;
+	s=arc-20240116; t=1746958292; c=relaxed/simple;
+	bh=yl6Fm78u93Vkpc2ZSVsSGdKcZT6w7Vn+18O3gj7t3wI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EFhmjZIs+Ix8Pc+dE/buiQYA6vQgAUlzRV7KxUkWvpfmSwlQ2NXtns3MMF7cTkkoL/clKHHKMestvSKpPmdrdWUfKUrbndMZNyenarEbYW/7L9yQpxlHh7/6BQct4lGe6IScZxVALt9pITFbEEKwzUpA31XWw+w2VetrPsLEJAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLsaJ5IE; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=EC0USgpcMwB5kVi2fa5QgsS/LV1ZEuXaL5M+WurhlzRgczv/1JfgLd7mmoi6KnCx9sc4sgJBxjH7ERIj19C5N+YduuVi07N9ZrbZuGs+s02AElMDhLtflbZpSBeDw+4QtIb30rxEBZtUbVVS7Q6PTeGKsuZMlhg9ETb4qnCBuh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FjgEaa0V; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLsaJ5IE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FjgEaa0V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746935644; x=1778471644;
+  t=1746958291; x=1778494291;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9//mQO1z/aWNLG5b1/5pAKVcUkMCMcCeNfF201WlaKY=;
-  b=mLsaJ5IEi2XmyE8e5A76a9Q89eQOiDANAU60qlkhoHoahvnkEHGBA+TK
-   t1eGasUGPhT5XkwYK3YzF+mwU3Cxq05OtMN4wBT3cqqTX8joCfQHmKpQ5
-   lOwNoD/snv12AIuy507KaueJrBsf21+s2hZkWWoHuXXBWSH9K4dVMF6/X
-   XFmeHQ7xFJhfukd2THWFtc97seg2HBHRUxvhSABDHjB4GL0J2orXf+gbV
-   fdS+4xgrIBlbPrJDuRGTy6ITOTAoITAnsu/QHMHy/vA2uWavbF7bctX/r
-   8XjX2MoQfmVJmZBPuXEjvve1NV/RPP4PYxn2bIdXKId72wA2jrO26YJux
+  bh=yl6Fm78u93Vkpc2ZSVsSGdKcZT6w7Vn+18O3gj7t3wI=;
+  b=FjgEaa0V6XFNiG+7KzwEbmOQYlTjjag7lnXKOi6luNTxl3TNkVpc57Ru
+   1/yZj9r6V8pja0bMFSpJ+08j1ZcuqaEY5qodL0AxING8bGqF1qmf2+f/H
+   ZOKv4llKuejvYI6UqZ56hWXrYww/KcE/F1FpQ7w2HepId+SaFumUoXNct
+   HyEipysdI1Pl1uid7rV4LQVPFAY7rxAWOGpbTJ/NXnbEhq+ixRTSP+eQR
+   20XnyM2wZI7NrkAe3XxeIgRxpj3iBhbHNfOVsKKt7ohfOPeD5oNXHIEY6
+   bZteXjXcx0PfNhqCtw5MoKAidrvz//SHahs+RL2dG6la0hO48SccNv6er
    Q==;
-X-CSE-ConnectionGUID: S5ZaO7CAQCWZEEp5J60m9Q==
-X-CSE-MsgGUID: G5KdNdNFQ9eyd05VUN48wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="48860127"
-X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="48860127"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2025 20:54:03 -0700
-X-CSE-ConnectionGUID: e1izJNOiQqSO/o9QaqPC9A==
-X-CSE-MsgGUID: 77fw5RoGT0S4x6IurUSFeg==
+X-CSE-ConnectionGUID: C/cs6IT+QGeuxX2OuLsrOw==
+X-CSE-MsgGUID: uIifHo+IRYqpwP9ymz8UHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11429"; a="66294564"
+X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
+   d="scan'208";a="66294564"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2025 03:11:30 -0700
+X-CSE-ConnectionGUID: 8V2DYopLQvWh6xE+xr0nuQ==
+X-CSE-MsgGUID: 4gysc6TCRTKjFEGPq8lyUg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,278,1739865600"; 
-   d="scan'208";a="142132019"
+X-IronPort-AV: E=Sophos;i="6.15,280,1739865600"; 
+   d="scan'208";a="137473396"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 May 2025 20:54:03 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 May 2025 03:11:29 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uDxlH-000DZb-2W;
-	Sun, 11 May 2025 03:53:59 +0000
-Date: Sun, 11 May 2025 11:53:06 +0800
+	id 1uE3eY-000DiF-1I;
+	Sun, 11 May 2025 10:11:26 +0000
+Date: Sun, 11 May 2025 18:11:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6048/10031]
- drivers/mtd/nand/raw/loongson1-nand-controller.c:374
- ls1x_nand_dma_transfer() warn: passing zero to 'PTR_ERR'
-Message-ID: <202505111115.FfRZilcq-lkp@intel.com>
+Subject: [pci:ptm-debugfs 1/4] drivers/pci/pcie/ptm.c:275
+ context_update_write() error: buffer overflow 'buf' 7 <= 7
+Message-ID: <202505111829.bSouegRR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,95 +64,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Keguang Zhang <keguang.zhang@gmail.com>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: linux-pci@vger.kernel.org
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ed61cb3d78d585209ec775933078e268544fe9a4
-commit: d2d10ede04b1671dc4762479a2d06f183aaafbba [6048/10031] mtd: rawnand: Add Loongson-1 NAND Controller Driver
-:::::: branch date: 2 days ago
-:::::: commit date: 13 days ago
-config: microblaze-randconfig-r072-20250511 (https://download.01.org/0day-ci/archive/20250511/202505111115.FfRZilcq-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git ptm-debugfs
+head:   356fc3e997f3bf54448a8cb39b49c7d73959d166
+commit: 1130deffd29ab25da8091b573e173ef9d889e827 [1/4] PCI: Add debugfs support for exposing PTM context
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: alpha-randconfig-r073-20250511 (https://download.01.org/0day-ci/archive/20250511/202505111829.bSouegRR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505111115.FfRZilcq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505111829.bSouegRR-lkp@intel.com/
 
 smatch warnings:
-drivers/mtd/nand/raw/loongson1-nand-controller.c:374 ls1x_nand_dma_transfer() warn: passing zero to 'PTR_ERR'
+drivers/pci/pcie/ptm.c:275 context_update_write() error: buffer overflow 'buf' 7 <= 7
 
-vim +/PTR_ERR +374 drivers/mtd/nand/raw/loongson1-nand-controller.c
+vim +/buf +275 drivers/pci/pcie/ptm.c
 
-d2d10ede04b1671 Keguang Zhang 2025-03-20  341  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  342  static int ls1x_nand_dma_transfer(struct ls1x_nand_host *host, struct ls1x_nand_op *op)
-d2d10ede04b1671 Keguang Zhang 2025-03-20  343  {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  344  	struct nand_chip *chip = &host->chip;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  345  	struct dma_chan *chan = host->dma_chan;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  346  	struct device *dev = chan->device->dev;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  347  	struct dma_async_tx_descriptor *desc;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  348  	enum dma_data_direction data_dir = op->is_write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  349  	enum dma_transfer_direction xfer_dir = op->is_write ? DMA_MEM_TO_DEV : DMA_DEV_TO_MEM;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  350  	void *buf = op->buf;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  351  	char *dma_buf = NULL;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  352  	dma_addr_t dma_addr;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  353  	int ret;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  354  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  355  	if (IS_ALIGNED((uintptr_t)buf, chip->buf_align) &&
-d2d10ede04b1671 Keguang Zhang 2025-03-20  356  	    IS_ALIGNED(op->orig_len, chip->buf_align)) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  357  		dma_addr = dma_map_single(dev, buf, op->orig_len, data_dir);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  358  		if (dma_mapping_error(dev, dma_addr)) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  359  			dev_err(dev, "failed to map DMA buffer\n");
-d2d10ede04b1671 Keguang Zhang 2025-03-20  360  			return -ENXIO;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  361  		}
-d2d10ede04b1671 Keguang Zhang 2025-03-20  362  	} else if (!op->is_write) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  363  		dma_buf = dma_alloc_coherent(dev, op->len, &dma_addr, GFP_KERNEL);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  364  		if (!dma_buf)
-d2d10ede04b1671 Keguang Zhang 2025-03-20  365  			return -ENOMEM;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  366  	} else {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  367  		dev_err(dev, "subpage writing not supported\n");
-d2d10ede04b1671 Keguang Zhang 2025-03-20  368  		return -EOPNOTSUPP;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  369  	}
-d2d10ede04b1671 Keguang Zhang 2025-03-20  370  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  371  	desc = dmaengine_prep_slave_single(chan, dma_addr, op->len, xfer_dir, DMA_PREP_INTERRUPT);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  372  	if (!desc) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  373  		dev_err(dev, "failed to prepare DMA descriptor\n");
-d2d10ede04b1671 Keguang Zhang 2025-03-20 @374  		ret = PTR_ERR(desc);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  375  		goto err;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  376  	}
-d2d10ede04b1671 Keguang Zhang 2025-03-20  377  	desc->callback = ls1x_nand_dma_callback;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  378  	desc->callback_param = host;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  379  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  380  	host->dma_cookie = dmaengine_submit(desc);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  381  	ret = dma_submit_error(host->dma_cookie);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  382  	if (ret) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  383  		dev_err(dev, "failed to submit DMA descriptor\n");
-d2d10ede04b1671 Keguang Zhang 2025-03-20  384  		goto err;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  385  	}
-d2d10ede04b1671 Keguang Zhang 2025-03-20  386  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  387  	dev_dbg(dev, "issue DMA with cookie=%d\n", host->dma_cookie);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  388  	dma_async_issue_pending(chan);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  389  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  390  	if (!wait_for_completion_timeout(&host->dma_complete, msecs_to_jiffies(1000))) {
-d2d10ede04b1671 Keguang Zhang 2025-03-20  391  		dmaengine_terminate_sync(chan);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  392  		reinit_completion(&host->dma_complete);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  393  		ret = -ETIMEDOUT;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  394  		goto err;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  395  	}
-d2d10ede04b1671 Keguang Zhang 2025-03-20  396  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  397  	if (dma_buf)
-d2d10ede04b1671 Keguang Zhang 2025-03-20  398  		memcpy(buf, dma_buf + op->aligned_offset, op->orig_len);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  399  err:
-d2d10ede04b1671 Keguang Zhang 2025-03-20  400  	if (dma_buf)
-d2d10ede04b1671 Keguang Zhang 2025-03-20  401  		dma_free_coherent(dev, op->len, dma_buf, dma_addr);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  402  	else
-d2d10ede04b1671 Keguang Zhang 2025-03-20  403  		dma_unmap_single(dev, dma_addr, op->orig_len, data_dir);
-d2d10ede04b1671 Keguang Zhang 2025-03-20  404  
-d2d10ede04b1671 Keguang Zhang 2025-03-20  405  	return ret;
-d2d10ede04b1671 Keguang Zhang 2025-03-20  406  }
-d2d10ede04b1671 Keguang Zhang 2025-03-20  407  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  256  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  257  static ssize_t context_update_write(struct file *file, const char __user *ubuf,
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  258  			     size_t count, loff_t *ppos)
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  259  {
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  260  	struct pci_ptm_debugfs *ptm_debugfs = file->private_data;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  261  	char buf[7];
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  262  	int ret;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  263  	u8 mode;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  264  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  265  	if (!ptm_debugfs->ops->context_update_write)
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  266  		return -EOPNOTSUPP;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  267  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  268  	if (count < 1 || count > sizeof(buf))
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  269  		return -EINVAL;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  270  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  271  	ret = copy_from_user(buf, ubuf, count);
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  272  	if (ret)
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  273  		return -EFAULT;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  274  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05 @275  	buf[count] = '\0';
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  276  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  277  	if (sysfs_streq(buf, "auto"))
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  278  		mode = PCIE_PTM_CONTEXT_UPDATE_AUTO;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  279  	else if (sysfs_streq(buf, "manual"))
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  280  		mode = PCIE_PTM_CONTEXT_UPDATE_MANUAL;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  281  	else
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  282  		return -EINVAL;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  283  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  284  	mutex_lock(&ptm_debugfs->lock);
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  285  	ret = ptm_debugfs->ops->context_update_write(ptm_debugfs->pdata, mode);
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  286  	mutex_unlock(&ptm_debugfs->lock);
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  287  	if (ret)
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  288  		return ret;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  289  
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  290  	return count;
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  291  }
+1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  292  
 
 -- 
 0-DAY CI Kernel Test Service
