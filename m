@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1958B70814
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112021A238E
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747145786; cv=none; b=E7/X3lXKxCkfPT461vGqjYZ/+05bvcJ7hxqE3iyjI2DxUvxlIokGiY2coPPMpyJjOpfxILmQXr/TAeJGqge63fw7kTRsqbsL/rP86fvG0Jsm1NtbP4dGOyVSXKegc/oF7qPoLEIEBPARDFkwT3h9cMWz1+MWXOmU3DRkRnE61nk=
+	t=1747146930; cv=none; b=S6ybbR5XnZ/b5WnXPw4nKzCWkUf65tWZZij3I3JnAhY4I1pJvZs2B+pOEdqsqimuax9QtEmWT4pTzIc/YGZXhPWZv82ddBX4AD54QwnEGpJXVKBZbAPuKcQSsnQzZR7fWghxBc9m6/GAKMBkrjdTBqPyqFIjnEsxqUHoDHmP8ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747145786; c=relaxed/simple;
-	bh=pyK3KFhfgQEOqwsmmGugIknED1eRxetYM1EQZ1LfD6Y=;
+	s=arc-20240116; t=1747146930; c=relaxed/simple;
+	bh=FwZKRCw8iT8978ldsjaRlYdpJhgTsERdkb+N3lNjX/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qN/ys6Nag3XxIyRJgLgKxwDZ3IaC2yCW/IGXCipRFNsSjuWKN6g1BE9Eh7uYLLNaDJJ6ZDwoinQqpSS9Kgo93ernnVHS+T5QHPeROywd4xpEKvS6/FkaAN0DP/W9IwuBFC4C74Ymc3OT5vQIkScEK0XfAMwSHeaQjcHklhpk9E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFmy+QuN; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=O9c8YSmlbX/UvplfYdmWY6OR+trsSeOuBU7TxUCeqmekxAMvWMRArUlITzh4nAwp+aNAmv+PynwU9Rlcvqz/Izaxi2iCv5MYboRmSf13y6y8bRPOCH6atPlVSylL5+Mw4i0s75MWiV6uD9t6xRHWbBL/ujuFozNYOvTtA9mmt6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mYL85l7M; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFmy+QuN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747145784; x=1778681784;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pyK3KFhfgQEOqwsmmGugIknED1eRxetYM1EQZ1LfD6Y=;
-  b=BFmy+QuNjxp5+6qqs+cqysfbo5kqG1YQ41WU/9hTssE/IIdgEboMVwI0
-   8/st7qnGG/tXe9WeeQvIrRpZW/DU+6fPoJzuR1wuwtKfLAGDBJgPJqtIv
-   0p8n2n4DX6x7O3/qNX3OrYE0tOIvg20iqlErv49yKlycdAzrQe1291PV9
-   +abQTO2T2UWvUx6cVdcKSPW6gTygLbPMpvMXMBg+ymo4W8L37RcX8cHnp
-   8BlqiWxcQlAsPTJmnMnoffQArmjue1TtVJdPvnow2RkySg+iCaSmnn8hu
-   ZKJM1ExnKKYmrmlOxwqKLnsrodCn4N1f9QQoRjrnODagfeynOPZA+UHCa
-   w==;
-X-CSE-ConnectionGUID: bb+6lxhzTVy7Y1hbNUGdQQ==
-X-CSE-MsgGUID: Ku89EpnIQM2UkM+By1PJxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59228300"
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="59228300"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 07:16:22 -0700
-X-CSE-ConnectionGUID: jkKqM0UYToywnnmAMqENXQ==
-X-CSE-MsgGUID: 67JgsSTWQSa3NRa/2BaGJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="138698290"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 May 2025 07:16:20 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uEqQc-000G7C-2M;
-	Tue, 13 May 2025 14:16:18 +0000
-Date: Tue, 13 May 2025 22:15:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/mm_init.c:2118 deferred_init_memmap_chunk() warn: iterator 'i'
- not incremented
-Message-ID: <202505132255.cPJSUykz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mYL85l7M"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a0af41faa5so3174197f8f.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 07:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747146926; x=1747751726; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=28KEA+cf7exzULPtaOdve61V0mLdHEa4yWh1byFce8Y=;
+        b=mYL85l7MfaWZyJcSDTu9XGCQ0072LSXAeL1bdz4trL7gRbkTUS94hPassoLZBKew/+
+         ihi/xksO/t/Uqql5cKxeiMp4BjpYmv8U/BPw98Ubmx1jXrJllEX2phMOScUIcKMSXe1z
+         tBdWqu93hbxPyJrjazwvHf5PiNH6XEzcMvt04AzyJgZLkJME9mn0Je75TwFyxdhJ70WA
+         V/4CQyKDE3uGoRdkkIcbGaBHS9XJIhz1nBpwl66fbmB+cVqe1NRg2KOzywU1xH5vHgwF
+         O5GejOj2iw8TCS2BiS/LwDm0LlrF+9HqZthKIOVUtHVKx/gyMtnP1LKTuC/6n7dMJSd6
+         UtpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747146926; x=1747751726;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=28KEA+cf7exzULPtaOdve61V0mLdHEa4yWh1byFce8Y=;
+        b=c+Iwz96yB7AK/hNY5i6mxHpS3utWIhzT8rIP5wiXXme9pIN9XCCj32KSL9ANr3y5zg
+         9ef7d6xLukXq8Nw6cxmR+OYvaTUfe957V32hbcDPHD1YFnB/LV2VE7cHmJyWMZ2uR97q
+         +zE4lWDw5xcnDnEwTm9TzoMqnSX698JIu7r+hxjYcADCANJ2TjFEms6fGk6JHmJihXnm
+         C9hHB7iVm6vbSnhsG6uiZaeetsk992AC+NhKJqBb1MggG/36AZm/5AaUy9Sg4MK5uIpp
+         tn4D8nVtNTPJqJmcmtSTixftFwyfHJrZA6CXoKlDjz89rTfMIdyMly3AJuv7nsq7Odpc
+         bWBQ==
+X-Gm-Message-State: AOJu0YypAfZwvBaCWMPsY+T+xjy+7RB4SHXLkxIdj0iNMVY0jkMV+gNE
+	6wtdQ2OfmrU+STyxpdpXlxEgbiOGHvnYxmtf7wCDf5KTf6Zbxrx+0d7LVbVRaBxZp2Hi+2kL400
+	yoOu61A==
+X-Gm-Gg: ASbGncu2RJYXeNEBisRSi7nbIwT2gRHd0BQ2es95peWwCdxt/rCzpbCe9u718kt0vAk
+	WMh0ELqL2Bi784davmwDAQ1b9XwnblcGXUaM9zachT2BmYHoUBjX8xVFJh7EbtODbDCDZ8y8ara
+	yG5pGC0OjFcXcTUqQleE3tvsl1CpguBpnustkAVaTTbnl2/5cm0Rowl0uUkbyLGFcGP7fP9wTfw
+	fc7VH0P6oP4ceH+jasrn/GYpETQRU9wthzJQAS3RT3Bba/BVGtWwQ6/Qufdu2H5sSWr+GF08oKE
+	2qBvFL+321v2vdph//q48KPG9QuQcDgRG8V61p9w5BiXWRamQ5s0FvQA03uo9UYCSjtP3CBWxMu
+	GrU/nGfWDxAq4nl4R
+X-Google-Smtp-Source: AGHT+IGjGaxb3ZPnyECShzGCSghtyGYFdfWofCholoJMn/DMDkmH2hwI57MfaiVucMPpyvK0jvNZ9w==
+X-Received: by 2002:adf:ed92:0:b0:3a1:fcd4:eada with SMTP id ffacd0b85a97d-3a1fcd4ecdemr10094236f8f.4.1747146926088;
+        Tue, 13 May 2025 07:35:26 -0700 (PDT)
+Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58ed0a5sm16231692f8f.21.2025.05.13.07.35.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 07:35:25 -0700 (PDT)
+Date: Tue, 13 May 2025 17:35:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zaid Alali <zaidal@os.amperecomputing.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Ira Weiny <ira.weiny@intel.com>
+Subject: [rafael-pm:bleeding-edge 135/136] drivers/acpi/apei/einj-core.c:769
+ einj_probe() warn: missing unwind goto?
+Message-ID: <0899a8f6-5880-49dc-b699-e369719280e1@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,201 +76,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wei Yang <richard.weiyang@gmail.com>
-CC: "Mike Rapoport (IBM)" <rppt@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e9565e23cd89d4d5cd4388f8742130be1d6f182d
-commit: f1180fd2a7c039691b64ebf404c746a74e40b7b0 mm/mm_init.c: not always search next deferred_init_pfn from very beginning
-date:   11 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20250513 (https://download.01.org/0day-ci/archive/20250513/202505132255.cPJSUykz-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   9148437b5790361af63c5ffb89112c380fda2472
+commit: e54b1dc1c4f083cb66a70d8ccc866de47fc36d7a [135/136] ACPI: APEI: EINJ: Remove redundant calls to einj_get_available_error_type()
+config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110745.UJtyemor-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505132255.cPJSUykz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505110745.UJtyemor-lkp@intel.com/
 
 smatch warnings:
-mm/mm_init.c:2118 deferred_init_memmap_chunk() warn: iterator 'i' not incremented
-mm/mm_init.c:2149 deferred_init_memmap() warn: iterator 'i' not incremented
-mm/mm_init.c:2224 deferred_grow_zone() warn: iterator 'i' not incremented
+drivers/acpi/apei/einj-core.c:769 einj_probe() warn: missing unwind goto?
 
-vim +/i +2118 mm/mm_init.c
+vim +769 drivers/acpi/apei/einj-core.c
 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2111) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2112) static void __init
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2113) deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2114) 			   void *arg)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2115) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2116) 	unsigned long spfn, epfn;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2117) 	struct zone *zone = arg;
-f1180fd2a7c039 Wei Yang                                   2024-06-05 @2118  	u64 i = 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2119) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2120) 	deferred_init_mem_pfn_range_in_zone(&i, zone, &spfn, &epfn, start_pfn);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2121) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2122) 	/*
-5e0a760b44417f Kirill A. Shutemov                         2023-12-28  2123  	 * Initialize and free pages in MAX_PAGE_ORDER sized increments so that
-5e0a760b44417f Kirill A. Shutemov                         2023-12-28  2124  	 * we can avoid introducing any issues with the buddy allocator.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2125) 	 */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2126) 	while (spfn < end_pfn) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2127) 		deferred_init_maxorder(&i, zone, &spfn, &epfn);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2128) 		cond_resched();
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2129) 	}
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2130) }
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2131) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2132) /* An arch may override for more concurrency. */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2133) __weak int __init
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2134) deferred_page_init_max_threads(const struct cpumask *node_cpumask)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2135) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2136) 	return 1;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2137) }
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2138) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2139) /* Initialise remaining memory on a node */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2140) static int __init deferred_init_memmap(void *data)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2141) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2142) 	pg_data_t *pgdat = data;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2143) 	const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2144) 	unsigned long spfn = 0, epfn = 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2145) 	unsigned long first_init_pfn, flags;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2146) 	unsigned long start = jiffies;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2147) 	struct zone *zone;
-ce8ebb95439459 Wei Yang                                   2024-06-05  2148  	int max_threads;
-f1180fd2a7c039 Wei Yang                                   2024-06-05 @2149  	u64 i = 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2150) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2151) 	/* Bind memory initialisation thread to a local node if possible */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2152) 	if (!cpumask_empty(cpumask))
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2153) 		set_cpus_allowed_ptr(current, cpumask);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2154) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2155) 	pgdat_resize_lock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2156) 	first_init_pfn = pgdat->first_deferred_pfn;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2157) 	if (first_init_pfn == ULONG_MAX) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2158) 		pgdat_resize_unlock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2159) 		pgdat_init_report_one_done();
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2160) 		return 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2161) 	}
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2162) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2163) 	/* Sanity check boundaries */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2164) 	BUG_ON(pgdat->first_deferred_pfn < pgdat->node_start_pfn);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2165) 	BUG_ON(pgdat->first_deferred_pfn > pgdat_end_pfn(pgdat));
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2166) 	pgdat->first_deferred_pfn = ULONG_MAX;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2167) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2168) 	/*
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2169) 	 * Once we unlock here, the zone cannot be grown anymore, thus if an
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2170) 	 * interrupt thread must allocate this early in boot, zone must be
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2171) 	 * pre-grown prior to start of deferred page initialization.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2172) 	 */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2173) 	pgdat_resize_unlock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2174) 
-ce8ebb95439459 Wei Yang                                   2024-06-05  2175  	/* Only the highest zone is deferred */
-ce8ebb95439459 Wei Yang                                   2024-06-05  2176  	zone = pgdat->node_zones + pgdat->nr_zones - 1;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2177) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2178) 	max_threads = deferred_page_init_max_threads(cpumask);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2179) 
-544b8e14c24b1f Wei Yang                                   2024-06-05  2180  	while (deferred_init_mem_pfn_range_in_zone(&i, zone, &spfn, &epfn, first_init_pfn)) {
-544b8e14c24b1f Wei Yang                                   2024-06-05  2181  		first_init_pfn = ALIGN(epfn, PAGES_PER_SECTION);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2182) 		struct padata_mt_job job = {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2183) 			.thread_fn   = deferred_init_memmap_chunk,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2184) 			.fn_arg      = zone,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2185) 			.start       = spfn,
-544b8e14c24b1f Wei Yang                                   2024-06-05  2186  			.size        = first_init_pfn - spfn,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2187) 			.align       = PAGES_PER_SECTION,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2188) 			.min_chunk   = PAGES_PER_SECTION,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2189) 			.max_threads = max_threads,
-eb52286634f042 Gang Li Subject: padata: dispatch works on 2024-03-06  2190  			.numa_aware  = false,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2191) 		};
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2192) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2193) 		padata_do_multithreaded(&job);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2194) 	}
-544b8e14c24b1f Wei Yang                                   2024-06-05  2195  
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2196) 	/* Sanity check that the next zone really is unpopulated */
-ce8ebb95439459 Wei Yang                                   2024-06-05  2197  	WARN_ON(pgdat->nr_zones < MAX_NR_ZONES && populated_zone(++zone));
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2198) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2199) 	pr_info("node %d deferred pages initialised in %ums\n",
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2200) 		pgdat->node_id, jiffies_to_msecs(jiffies - start));
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2201) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2202) 	pgdat_init_report_one_done();
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2203) 	return 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2204) }
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2205) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2206) /*
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2207)  * If this zone has deferred pages, try to grow it by initializing enough
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2208)  * deferred pages to satisfy the allocation specified by order, rounded up to
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2209)  * the nearest PAGES_PER_SECTION boundary.  So we're adding memory in increments
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2210)  * of SECTION_SIZE bytes by initializing struct pages in increments of
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2211)  * PAGES_PER_SECTION * sizeof(struct page) bytes.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2212)  *
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2213)  * Return true when zone was grown, otherwise return false. We return true even
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2214)  * when we grow less than requested, to let the caller decide if there are
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2215)  * enough pages to satisfy the allocation.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2216)  */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2217) bool __init deferred_grow_zone(struct zone *zone, unsigned int order)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2218) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2219) 	unsigned long nr_pages_needed = ALIGN(1 << order, PAGES_PER_SECTION);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2220) 	pg_data_t *pgdat = zone->zone_pgdat;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2221) 	unsigned long first_deferred_pfn = pgdat->first_deferred_pfn;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2222) 	unsigned long spfn, epfn, flags;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2223) 	unsigned long nr_pages = 0;
-f1180fd2a7c039 Wei Yang                                   2024-06-05 @2224  	u64 i = 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2225) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2226) 	/* Only the last zone may have deferred pages */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2227) 	if (zone_end_pfn(zone) != pgdat_end_pfn(pgdat))
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2228) 		return false;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2229) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2230) 	pgdat_resize_lock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2231) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2232) 	/*
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2233) 	 * If someone grew this zone while we were waiting for spinlock, return
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2234) 	 * true, as there might be enough pages already.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2235) 	 */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2236) 	if (first_deferred_pfn != pgdat->first_deferred_pfn) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2237) 		pgdat_resize_unlock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2238) 		return true;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2239) 	}
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2240) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2241) 	/* If the zone is empty somebody else may have cleared out the zone */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2242) 	if (!deferred_init_mem_pfn_range_in_zone(&i, zone, &spfn, &epfn,
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2243) 						 first_deferred_pfn)) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2244) 		pgdat->first_deferred_pfn = ULONG_MAX;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2245) 		pgdat_resize_unlock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2246) 		/* Retry only once. */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2247) 		return first_deferred_pfn != ULONG_MAX;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2248) 	}
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2249) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2250) 	/*
-5e0a760b44417f Kirill A. Shutemov                         2023-12-28  2251  	 * Initialize and free pages in MAX_PAGE_ORDER sized increments so
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2252) 	 * that we can avoid introducing any issues with the buddy
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2253) 	 * allocator.
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2254) 	 */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2255) 	while (spfn < epfn) {
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2256) 		/* update our first deferred PFN for this section */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2257) 		first_deferred_pfn = spfn;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2258) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2259) 		nr_pages += deferred_init_maxorder(&i, zone, &spfn, &epfn);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2260) 		touch_nmi_watchdog();
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2261) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2262) 		/* We should only stop along section boundaries */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2263) 		if ((first_deferred_pfn ^ spfn) < PAGES_PER_SECTION)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2264) 			continue;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2265) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2266) 		/* If our quota has been met we can stop here */
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2267) 		if (nr_pages >= nr_pages_needed)
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2268) 			break;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2269) 	}
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2270) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2271) 	pgdat->first_deferred_pfn = spfn;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2272) 	pgdat_resize_unlock(pgdat, &flags);
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2273) 
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2274) 	return nr_pages > 0;
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2275) }
-9420f89db2dd61 Mike Rapoport (IBM                         2023-03-21  2276) 
+6cb9441bfe8dd7f drivers/acpi/apei/einj-core.c Sudeep Holla       2025-03-17  744  static int __init einj_probe(struct faux_device *fdev)
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  745  {
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  746  	int rc;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  747  	acpi_status status;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  748  	struct apei_exec_context ctx;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  749  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  750  	status = acpi_get_table(ACPI_SIG_EINJ, 0,
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  751  				(struct acpi_table_header **)&einj_tab);
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  752  	if (status == AE_NOT_FOUND) {
+5621fafaac0031e drivers/acpi/apei/einj.c      Ben Cheatham       2024-03-11  753  		pr_debug("EINJ table not found.\n");
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  754  		return -ENODEV;
+37ea9693869627d drivers/acpi/apei/einj.c      Jay Lu             2022-12-06  755  	} else if (ACPI_FAILURE(status)) {
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  756  		pr_err("Failed to get EINJ table: %s\n",
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  757  				acpi_format_exception(status));
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  758  		return -EINVAL;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  759  	}
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  760  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  761  	rc = einj_check_table(einj_tab);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  762  	if (rc) {
+d222678426faa5b drivers/acpi/apei/einj.c      Colin Ian King     2017-01-17  763  		pr_warn(FW_BUG "Invalid EINJ table.\n");
+541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  764  		goto err_put_table;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  765  	}
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  766  
+e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  767  	rc = einj_get_available_error_type(&available_error_type);
+e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  768  	if (rc)
+e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06 @769  		return rc;
+
+Should be "goto err_put_table;"
+
+e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  770  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  771  	rc = -ENOMEM;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  772  	einj_debug_dir = debugfs_create_dir("einj", apei_get_debugfs_dir());
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  773  
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  774  	debugfs_create_file("available_error_type", S_IRUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  775  			    NULL, &available_error_type_fops);
+dcaed592b2fc9ca drivers/acpi/apei/einj.c      Rafael J. Wysocki  2019-03-04  776  	debugfs_create_file_unsafe("error_type", 0600, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  777  				   NULL, &error_type_fops);
+dcaed592b2fc9ca drivers/acpi/apei/einj.c      Rafael J. Wysocki  2019-03-04  778  	debugfs_create_file_unsafe("error_inject", 0200, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  779  				   NULL, &error_inject_fops);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  780  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  781  	apei_resources_init(&einj_resources);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  782  	einj_exec_ctx_init(&ctx);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  783  	rc = apei_exec_collect_resources(&ctx, &einj_resources);
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  784  	if (rc) {
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  785  		pr_err("Error collecting EINJ resources.\n");
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  786  		goto err_fini;
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  787  	}
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  788  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  789  	rc = apei_resources_request(&einj_resources, "APEI EINJ");
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  790  	if (rc) {
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  791  		pr_err("Error requesting memory/port resources.\n");
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  792  		goto err_fini;
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  793  	}
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  794  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  795  	rc = apei_exec_pre_map_gars(&ctx);
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  796  	if (rc) {
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  797  		pr_err("Error pre-mapping GARs.\n");
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  798  		goto err_release;
+dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  799  	}
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  800  
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  801  	einj_param = einj_get_parameter_address();
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  802  	if ((param_extension || acpi5) && einj_param) {
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  803  		debugfs_create_x32("flags", S_IRUSR | S_IWUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  804  				   &error_flags);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  805  		debugfs_create_x64("param1", S_IRUSR | S_IWUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  806  				   &error_param1);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  807  		debugfs_create_x64("param2", S_IRUSR | S_IWUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  808  				   &error_param2);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  809  		debugfs_create_x64("param3", S_IRUSR | S_IWUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  810  				   &error_param3);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  811  		debugfs_create_x64("param4", S_IRUSR | S_IWUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  812  				   &error_param4);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  813  		debugfs_create_x32("notrigger", S_IRUSR | S_IWUSR,
+ee49089dc7d9fc7 drivers/acpi/apei/einj.c      Chen Gong          2012-03-15  814  				   einj_debug_dir, &notrigger);
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  815  	}
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  816  
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  817  	if (vendor_dev[0]) {
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  818  		vendor_blob.data = vendor_dev;
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  819  		vendor_blob.size = strlen(vendor_dev);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  820  		debugfs_create_blob("vendor", S_IRUSR, einj_debug_dir,
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  821  				    &vendor_blob);
+9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  822  		debugfs_create_x32("vendor_flags", S_IRUSR | S_IWUSR,
+c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  823  				   einj_debug_dir, &vendor_flags);
+6e320ec1d98f9eb drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  824  	}
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  825  
+22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  826  	if (vendor_errors.size)
+22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  827  		debugfs_create_blob("oem_error", 0600, einj_debug_dir,
+22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  828  				    &vendor_errors);
+22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  829  
+b2f740baa421525 drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  830  	pr_info("Error INJection is initialized.\n");
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  831  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  832  	return 0;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  833  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  834  err_release:
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  835  	apei_resources_release(&einj_resources);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  836  err_fini:
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  837  	apei_resources_fini(&einj_resources);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  838  	debugfs_remove_recursive(einj_debug_dir);
+541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  839  err_put_table:
+541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  840  	acpi_put_table((struct acpi_table_header *)einj_tab);
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  841  
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  842  	return rc;
+e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  843  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
