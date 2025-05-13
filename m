@@ -1,72 +1,68 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112021A238E
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ABA1E5B9D
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747146930; cv=none; b=S6ybbR5XnZ/b5WnXPw4nKzCWkUf65tWZZij3I3JnAhY4I1pJvZs2B+pOEdqsqimuax9QtEmWT4pTzIc/YGZXhPWZv82ddBX4AD54QwnEGpJXVKBZbAPuKcQSsnQzZR7fWghxBc9m6/GAKMBkrjdTBqPyqFIjnEsxqUHoDHmP8ZY=
+	t=1747147106; cv=none; b=JHHJnyBxuloWhite+FrJuhI7yNUlb8cZUCAszZgj017mIOhxjtQ11LftFnLRThHpEHBbogUv7Ozl9upSaii+WjZeEJrGp3XDNsqd2UT/EomUa0V3yJMcFvQ7LsyNrwSHyzkaZFHp2rGvzNgCgEFl91dImlGOWSQGCyvTBT89diM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747146930; c=relaxed/simple;
-	bh=FwZKRCw8iT8978ldsjaRlYdpJhgTsERdkb+N3lNjX/U=;
+	s=arc-20240116; t=1747147106; c=relaxed/simple;
+	bh=W4iM/prlPhxEGSomxxf3DcBMCZYpDfHGzwjarEdqCIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O9c8YSmlbX/UvplfYdmWY6OR+trsSeOuBU7TxUCeqmekxAMvWMRArUlITzh4nAwp+aNAmv+PynwU9Rlcvqz/Izaxi2iCv5MYboRmSf13y6y8bRPOCH6atPlVSylL5+Mw4i0s75MWiV6uD9t6xRHWbBL/ujuFozNYOvTtA9mmt6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mYL85l7M; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition; b=umwUs+csVeib1DCB0okVWpUGvz9ImmEJ2v1BY21L3e0NIqZSx9pAVExs04EjgKLiJ+hNIjBliC8qzkKuGCz3GNlvxo7BZWuHY6D4MZSBojfVU6KszcZ/hNmi9eV29B5mYGUYttavk6JInDpW64lmlNxHMQHkTVHIVEMiX/ll890=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s0qv6vqO; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mYL85l7M"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a0af41faa5so3174197f8f.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 07:35:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s0qv6vqO"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a0b291093fso4249017f8f.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 07:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747146926; x=1747751726; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747147103; x=1747751903; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=28KEA+cf7exzULPtaOdve61V0mLdHEa4yWh1byFce8Y=;
-        b=mYL85l7MfaWZyJcSDTu9XGCQ0072LSXAeL1bdz4trL7gRbkTUS94hPassoLZBKew/+
-         ihi/xksO/t/Uqql5cKxeiMp4BjpYmv8U/BPw98Ubmx1jXrJllEX2phMOScUIcKMSXe1z
-         tBdWqu93hbxPyJrjazwvHf5PiNH6XEzcMvt04AzyJgZLkJME9mn0Je75TwFyxdhJ70WA
-         V/4CQyKDE3uGoRdkkIcbGaBHS9XJIhz1nBpwl66fbmB+cVqe1NRg2KOzywU1xH5vHgwF
-         O5GejOj2iw8TCS2BiS/LwDm0LlrF+9HqZthKIOVUtHVKx/gyMtnP1LKTuC/6n7dMJSd6
-         UtpA==
+        bh=OqRKb7ngH3ntLnw87YWN+YBlBs4u08NQKjb6q0IBoZg=;
+        b=s0qv6vqOKIs7cdJeAqzo4ECrET9Q/mTQtTXbWL2tqXcQlkyUPMqIXdaw3eh07vJa/j
+         qzBwA5jABA+XStPU6CeBpQpbp8ihYUmzwAJWhKJtcsUPjUAtImkNjt5WMnKWjUS7Jtqi
+         vOt8OfIuDQEXui7tjPYifDKY9+3x6UD4OfHceqSWo71pv+gcDYwqsjLv0I5L77UTsZL6
+         hzqX/4PER/Mv8xayWiyWLjuUQIgNvyvWiddaS84t8mNNSbvK+jSVNifqz+QuzG2jwGNx
+         xiyCjCUQQ4eH4p49t1WOGNQk54bEBWB+YxlTf2xomjA/jpNNaDkuMG2cit8ucFIo/Nkq
+         ZmOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747146926; x=1747751726;
+        d=1e100.net; s=20230601; t=1747147103; x=1747751903;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=28KEA+cf7exzULPtaOdve61V0mLdHEa4yWh1byFce8Y=;
-        b=c+Iwz96yB7AK/hNY5i6mxHpS3utWIhzT8rIP5wiXXme9pIN9XCCj32KSL9ANr3y5zg
-         9ef7d6xLukXq8Nw6cxmR+OYvaTUfe957V32hbcDPHD1YFnB/LV2VE7cHmJyWMZ2uR97q
-         +zE4lWDw5xcnDnEwTm9TzoMqnSX698JIu7r+hxjYcADCANJ2TjFEms6fGk6JHmJihXnm
-         C9hHB7iVm6vbSnhsG6uiZaeetsk992AC+NhKJqBb1MggG/36AZm/5AaUy9Sg4MK5uIpp
-         tn4D8nVtNTPJqJmcmtSTixftFwyfHJrZA6CXoKlDjz89rTfMIdyMly3AJuv7nsq7Odpc
-         bWBQ==
-X-Gm-Message-State: AOJu0YypAfZwvBaCWMPsY+T+xjy+7RB4SHXLkxIdj0iNMVY0jkMV+gNE
-	6wtdQ2OfmrU+STyxpdpXlxEgbiOGHvnYxmtf7wCDf5KTf6Zbxrx+0d7LVbVRaBxZp2Hi+2kL400
-	yoOu61A==
-X-Gm-Gg: ASbGncu2RJYXeNEBisRSi7nbIwT2gRHd0BQ2es95peWwCdxt/rCzpbCe9u718kt0vAk
-	WMh0ELqL2Bi784davmwDAQ1b9XwnblcGXUaM9zachT2BmYHoUBjX8xVFJh7EbtODbDCDZ8y8ara
-	yG5pGC0OjFcXcTUqQleE3tvsl1CpguBpnustkAVaTTbnl2/5cm0Rowl0uUkbyLGFcGP7fP9wTfw
-	fc7VH0P6oP4ceH+jasrn/GYpETQRU9wthzJQAS3RT3Bba/BVGtWwQ6/Qufdu2H5sSWr+GF08oKE
-	2qBvFL+321v2vdph//q48KPG9QuQcDgRG8V61p9w5BiXWRamQ5s0FvQA03uo9UYCSjtP3CBWxMu
-	GrU/nGfWDxAq4nl4R
-X-Google-Smtp-Source: AGHT+IGjGaxb3ZPnyECShzGCSghtyGYFdfWofCholoJMn/DMDkmH2hwI57MfaiVucMPpyvK0jvNZ9w==
-X-Received: by 2002:adf:ed92:0:b0:3a1:fcd4:eada with SMTP id ffacd0b85a97d-3a1fcd4ecdemr10094236f8f.4.1747146926088;
-        Tue, 13 May 2025 07:35:26 -0700 (PDT)
+        bh=OqRKb7ngH3ntLnw87YWN+YBlBs4u08NQKjb6q0IBoZg=;
+        b=ux4gZXTwL9Zat8tu+hIJRwelE/s+pRPWqwCVZuUMInW1wzOr6xo74BIfftUO+/BlFX
+         oo48MQYypJCiQ17pq5IHQTnqqx48CD0uTcO5pI5C21za0KeL3ANX4wczLqWr/F8AmIcA
+         uxxSWmoAFDHuaaYw2NEuvC2hxmPQMUyxrTJ2MC7NVavX2AVg7FhXkByBrIQu+dFELuQa
+         15x484iU9uhbVWRbFWQEhEF9PxQYJZYmO/h8NyKiGfY2FTTUl/7nX249YPpz7YJOFURq
+         pvXXtR31VMQSu6fNEE6LW1O1r5QpojG4dULPe8BNzXYY+ydKCeyZ/Pf8XWptx3G5DFBZ
+         CEhQ==
+X-Gm-Message-State: AOJu0YxYucr3y1ZwtECljgeiKj7m9DmyZ7I3fmJ+4xi3Ycew/NeKkrq/
+	A0mbZPDHYgjyIFb11AkHCn0fg1SbY+JL+46tHkbFE24R2jWf5b7AD6vwtV/n8qjDfk7mQSMFrQl
+	wb978Eg==
+X-Gm-Gg: ASbGncsSnfmWFRcaS/LtmtkHey5xmcAJ1Wb5tpx8PKrEs9b77/Eforw5+TTOkJKu1UO
+	aarEg+Kk1bjCwr8rJcm5k2x1zEO+iDASyLDxxW5mE0XxFmd+AxAKMo1hilqonGijaApouazilYr
+	2OU5AUfqOlZYCTxlrS1SJ52mZxxwhsxaqY68aSGlCiyoIZbjB9RCQJiD0BY5T97G8kngjFgRg5A
+	7SLF2grRu8zyveRiE3ivEdW6p/LDO0uok9n47eM/n5dwljTmQ/JShQFsWojmEMxrXmQusMxEJcD
+	Hr/z7jG3OBhufRAqyU83IyHMgIKU+oYq9G0AHZv2iWHYXOkXOkSyWxoBpnGUV6GqjNfciOgpHnt
+	1YqYB0Q==
+X-Google-Smtp-Source: AGHT+IEUqSemEdzKu4pnmG//NeUfgyzzj+7NjQMrdsDA+9dSpSvRry26837zLtZcLCYlPTMamRR8jA==
+X-Received: by 2002:adf:f2c4:0:b0:391:1218:d5f4 with SMTP id ffacd0b85a97d-3a340d22fc1mr3010847f8f.23.1747147102819;
+        Tue, 13 May 2025 07:38:22 -0700 (PDT)
 Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58ed0a5sm16231692f8f.21.2025.05.13.07.35.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4d21esm16703967f8f.99.2025.05.13.07.38.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 07:35:25 -0700 (PDT)
-Date: Tue, 13 May 2025 17:35:24 +0300
+        Tue, 13 May 2025 07:38:22 -0700 (PDT)
+Date: Tue, 13 May 2025 17:38:20 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zaid Alali <zaidal@os.amperecomputing.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Ira Weiny <ira.weiny@intel.com>
-Subject: [rafael-pm:bleeding-edge 135/136] drivers/acpi/apei/einj-core.c:769
- einj_probe() warn: missing unwind goto?
-Message-ID: <0899a8f6-5880-49dc-b699-e369719280e1@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Alexander Graf <graf@amazon.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
+Subject: [agraf-2.6:kexec-cma 1/2] kernel/kexec_core.c:801
+ kimage_load_normal_segment() error: uninitialized symbol 'result'.
+Message-ID: <8f74c790-0241-408e-be1f-d55a083e4447@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -76,126 +72,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   9148437b5790361af63c5ffb89112c380fda2472
-commit: e54b1dc1c4f083cb66a70d8ccc866de47fc36d7a [135/136] ACPI: APEI: EINJ: Remove redundant calls to einj_get_available_error_type()
-config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110745.UJtyemor-lkp@intel.com/config)
+tree:   https://github.com/agraf/linux-2.6.git kexec-cma
+head:   752619bbe38c535612b1a9e5b47ea7d962c63449
+commit: 1e91ce490239e53ac0b4ad9aea3ebed48d1edf51 [1/2] kexec: Use CMA
+config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505111109.zkW7PHWQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505110745.UJtyemor-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505111109.zkW7PHWQ-lkp@intel.com/
 
 smatch warnings:
-drivers/acpi/apei/einj-core.c:769 einj_probe() warn: missing unwind goto?
+kernel/kexec_core.c:801 kimage_load_normal_segment() error: uninitialized symbol 'result'.
 
-vim +769 drivers/acpi/apei/einj-core.c
+vim +/result +801 kernel/kexec_core.c
 
-6cb9441bfe8dd7f drivers/acpi/apei/einj-core.c Sudeep Holla       2025-03-17  744  static int __init einj_probe(struct faux_device *fdev)
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  745  {
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  746  	int rc;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  747  	acpi_status status;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  748  	struct apei_exec_context ctx;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  749  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  750  	status = acpi_get_table(ACPI_SIG_EINJ, 0,
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  751  				(struct acpi_table_header **)&einj_tab);
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  752  	if (status == AE_NOT_FOUND) {
-5621fafaac0031e drivers/acpi/apei/einj.c      Ben Cheatham       2024-03-11  753  		pr_debug("EINJ table not found.\n");
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  754  		return -ENODEV;
-37ea9693869627d drivers/acpi/apei/einj.c      Jay Lu             2022-12-06  755  	} else if (ACPI_FAILURE(status)) {
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  756  		pr_err("Failed to get EINJ table: %s\n",
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  757  				acpi_format_exception(status));
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  758  		return -EINVAL;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  759  	}
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  760  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  761  	rc = einj_check_table(einj_tab);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  762  	if (rc) {
-d222678426faa5b drivers/acpi/apei/einj.c      Colin Ian King     2017-01-17  763  		pr_warn(FW_BUG "Invalid EINJ table.\n");
-541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  764  		goto err_put_table;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  765  	}
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  766  
-e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  767  	rc = einj_get_available_error_type(&available_error_type);
-e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  768  	if (rc)
-e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06 @769  		return rc;
+2965faa5e03d1e Dave Young            2015-09-09  734  static int kimage_load_normal_segment(struct kimage *image,
+2965faa5e03d1e Dave Young            2015-09-09  735  					 struct kexec_segment *segment)
+2965faa5e03d1e Dave Young            2015-09-09  736  {
+2965faa5e03d1e Dave Young            2015-09-09  737  	unsigned long maddr;
+2965faa5e03d1e Dave Young            2015-09-09  738  	size_t ubytes, mbytes;
+2965faa5e03d1e Dave Young            2015-09-09  739  	int result;
+2965faa5e03d1e Dave Young            2015-09-09  740  	unsigned char __user *buf = NULL;
+2965faa5e03d1e Dave Young            2015-09-09  741  	unsigned char *kbuf = NULL;
+1e91ce490239e5 Alexander Graf        2025-05-09  742  	bool dest_intact = false;
+2965faa5e03d1e Dave Young            2015-09-09  743  
+2965faa5e03d1e Dave Young            2015-09-09  744  	if (image->file_mode)
+2965faa5e03d1e Dave Young            2015-09-09  745  		kbuf = segment->kbuf;
+2965faa5e03d1e Dave Young            2015-09-09  746  	else
+2965faa5e03d1e Dave Young            2015-09-09  747  		buf = segment->buf;
+2965faa5e03d1e Dave Young            2015-09-09  748  	ubytes = segment->bufsz;
+2965faa5e03d1e Dave Young            2015-09-09  749  	mbytes = segment->memsz;
+2965faa5e03d1e Dave Young            2015-09-09  750  	maddr = segment->mem;
+2965faa5e03d1e Dave Young            2015-09-09  751  
+2965faa5e03d1e Dave Young            2015-09-09  752  	while (mbytes) {
+2965faa5e03d1e Dave Young            2015-09-09  753  		struct page *page;
+2965faa5e03d1e Dave Young            2015-09-09  754  		char *ptr;
+2965faa5e03d1e Dave Young            2015-09-09  755  		size_t uchunk, mchunk;
+2965faa5e03d1e Dave Young            2015-09-09  756  
+2965faa5e03d1e Dave Young            2015-09-09  757  		page = kimage_alloc_page(image, GFP_HIGHUSER, maddr);
+2965faa5e03d1e Dave Young            2015-09-09  758  		if (!page) {
+2965faa5e03d1e Dave Young            2015-09-09  759  			result  = -ENOMEM;
+2965faa5e03d1e Dave Young            2015-09-09  760  			goto out;
+2965faa5e03d1e Dave Young            2015-09-09  761  		}
+1e91ce490239e5 Alexander Graf        2025-05-09  762  
+1e91ce490239e5 Alexander Graf        2025-05-09  763  		/* Add page to copy list if it's not already in place */
+1e91ce490239e5 Alexander Graf        2025-05-09  764  		if (page_to_boot_pfn(page) << PAGE_SHIFT != maddr) {
+1e91ce490239e5 Alexander Graf        2025-05-09  765  			if (!dest_intact) {
+1e91ce490239e5 Alexander Graf        2025-05-09  766  				result = kimage_set_destination(image, maddr);
+1e91ce490239e5 Alexander Graf        2025-05-09  767  				if (result < 0)
+1e91ce490239e5 Alexander Graf        2025-05-09  768  					goto out;
+1e91ce490239e5 Alexander Graf        2025-05-09  769  				dest_intact = true;
+1e91ce490239e5 Alexander Graf        2025-05-09  770  			}
+1e91ce490239e5 Alexander Graf        2025-05-09  771  
+43546d8669d62d Russell King          2016-08-02  772  			result = kimage_add_page(image, page_to_boot_pfn(page)
+2965faa5e03d1e Dave Young            2015-09-09  773  									<< PAGE_SHIFT);
+2965faa5e03d1e Dave Young            2015-09-09  774  			if (result < 0)
+2965faa5e03d1e Dave Young            2015-09-09  775  				goto out;
+1e91ce490239e5 Alexander Graf        2025-05-09  776  		} else {
+1e91ce490239e5 Alexander Graf        2025-05-09  777  			dest_intact = false;
 
-Should be "goto err_put_table;"
+result not set on this path.
 
-e54b1dc1c4f083c drivers/acpi/apei/einj-core.c Zaid Alali         2025-05-06  770  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  771  	rc = -ENOMEM;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  772  	einj_debug_dir = debugfs_create_dir("einj", apei_get_debugfs_dir());
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  773  
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  774  	debugfs_create_file("available_error_type", S_IRUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  775  			    NULL, &available_error_type_fops);
-dcaed592b2fc9ca drivers/acpi/apei/einj.c      Rafael J. Wysocki  2019-03-04  776  	debugfs_create_file_unsafe("error_type", 0600, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  777  				   NULL, &error_type_fops);
-dcaed592b2fc9ca drivers/acpi/apei/einj.c      Rafael J. Wysocki  2019-03-04  778  	debugfs_create_file_unsafe("error_inject", 0200, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  779  				   NULL, &error_inject_fops);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  780  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  781  	apei_resources_init(&einj_resources);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  782  	einj_exec_ctx_init(&ctx);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  783  	rc = apei_exec_collect_resources(&ctx, &einj_resources);
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  784  	if (rc) {
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  785  		pr_err("Error collecting EINJ resources.\n");
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  786  		goto err_fini;
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  787  	}
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  788  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  789  	rc = apei_resources_request(&einj_resources, "APEI EINJ");
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  790  	if (rc) {
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  791  		pr_err("Error requesting memory/port resources.\n");
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  792  		goto err_fini;
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  793  	}
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  794  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  795  	rc = apei_exec_pre_map_gars(&ctx);
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  796  	if (rc) {
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  797  		pr_err("Error pre-mapping GARs.\n");
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  798  		goto err_release;
-dba648300e890fb drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  799  	}
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  800  
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  801  	einj_param = einj_get_parameter_address();
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  802  	if ((param_extension || acpi5) && einj_param) {
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  803  		debugfs_create_x32("flags", S_IRUSR | S_IWUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  804  				   &error_flags);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  805  		debugfs_create_x64("param1", S_IRUSR | S_IWUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  806  				   &error_param1);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  807  		debugfs_create_x64("param2", S_IRUSR | S_IWUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  808  				   &error_param2);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  809  		debugfs_create_x64("param3", S_IRUSR | S_IWUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  810  				   &error_param3);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  811  		debugfs_create_x64("param4", S_IRUSR | S_IWUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  812  				   &error_param4);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  813  		debugfs_create_x32("notrigger", S_IRUSR | S_IWUSR,
-ee49089dc7d9fc7 drivers/acpi/apei/einj.c      Chen Gong          2012-03-15  814  				   einj_debug_dir, &notrigger);
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  815  	}
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  816  
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  817  	if (vendor_dev[0]) {
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  818  		vendor_blob.data = vendor_dev;
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  819  		vendor_blob.size = strlen(vendor_dev);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  820  		debugfs_create_blob("vendor", S_IRUSR, einj_debug_dir,
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  821  				    &vendor_blob);
-9ec6dbfbdc0ade8 drivers/acpi/apei/einj.c      Greg Kroah-Hartman 2019-01-22  822  		debugfs_create_x32("vendor_flags", S_IRUSR | S_IWUSR,
-c130bd6f82e5dda drivers/acpi/apei/einj.c      Tony Luck          2012-01-17  823  				   einj_debug_dir, &vendor_flags);
-6e320ec1d98f9eb drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  824  	}
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  825  
-22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  826  	if (vendor_errors.size)
-22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  827  		debugfs_create_blob("oem_error", 0600, einj_debug_dir,
-22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  828  				    &vendor_errors);
-22fca621bd1bbc5 drivers/acpi/apei/einj.c      Avadhut Naik       2023-11-16  829  
-b2f740baa421525 drivers/acpi/apei/einj.c      Borislav Petkov    2016-05-23  830  	pr_info("Error INJection is initialized.\n");
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  831  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  832  	return 0;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  833  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  834  err_release:
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  835  	apei_resources_release(&einj_resources);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  836  err_fini:
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  837  	apei_resources_fini(&einj_resources);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  838  	debugfs_remove_recursive(einj_debug_dir);
-541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  839  err_put_table:
-541156a38fd01d9 drivers/acpi/apei/einj.c      Hanjun Guo         2020-05-07  840  	acpi_put_table((struct acpi_table_header *)einj_tab);
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  841  
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  842  	return rc;
-e40213450b53157 drivers/acpi/apei/einj.c      Ying Huang         2010-05-18  843  }
+1e91ce490239e5 Alexander Graf        2025-05-09  778  		}
+2965faa5e03d1e Dave Young            2015-09-09  779  
+948084f0f6959f Fabio M. De Francesco 2022-08-21  780  		ptr = kmap_local_page(page);
+2965faa5e03d1e Dave Young            2015-09-09  781  		/* Start with a clear page */
+2965faa5e03d1e Dave Young            2015-09-09  782  		clear_page(ptr);
+2965faa5e03d1e Dave Young            2015-09-09  783  		ptr += maddr & ~PAGE_MASK;
+2965faa5e03d1e Dave Young            2015-09-09  784  		mchunk = min_t(size_t, mbytes,
+2965faa5e03d1e Dave Young            2015-09-09  785  				PAGE_SIZE - (maddr & ~PAGE_MASK));
+2965faa5e03d1e Dave Young            2015-09-09  786  		uchunk = min(ubytes, mchunk);
+2965faa5e03d1e Dave Young            2015-09-09  787  
+4bb7be96fc8871 yang.zhang            2024-02-22  788  		if (uchunk) {
+2965faa5e03d1e Dave Young            2015-09-09  789  			/* For file based kexec, source pages are in kernel memory */
+2965faa5e03d1e Dave Young            2015-09-09  790  			if (image->file_mode)
+2965faa5e03d1e Dave Young            2015-09-09  791  				memcpy(ptr, kbuf, uchunk);
+2965faa5e03d1e Dave Young            2015-09-09  792  			else
+2965faa5e03d1e Dave Young            2015-09-09  793  				result = copy_from_user(ptr, buf, uchunk);
+4bb7be96fc8871 yang.zhang            2024-02-22  794  			ubytes -= uchunk;
+4bb7be96fc8871 yang.zhang            2024-02-22  795  			if (image->file_mode)
+4bb7be96fc8871 yang.zhang            2024-02-22  796  				kbuf += uchunk;
+4bb7be96fc8871 yang.zhang            2024-02-22  797  			else
+4bb7be96fc8871 yang.zhang            2024-02-22  798  				buf += uchunk;
+4bb7be96fc8871 yang.zhang            2024-02-22  799  		}
+948084f0f6959f Fabio M. De Francesco 2022-08-21  800  		kunmap_local(ptr);
+2965faa5e03d1e Dave Young            2015-09-09 @801  		if (result) {
+2965faa5e03d1e Dave Young            2015-09-09  802  			result = -EFAULT;
+2965faa5e03d1e Dave Young            2015-09-09  803  			goto out;
+2965faa5e03d1e Dave Young            2015-09-09  804  		}
+2965faa5e03d1e Dave Young            2015-09-09  805  		maddr  += mchunk;
+2965faa5e03d1e Dave Young            2015-09-09  806  		mbytes -= mchunk;
+a8311f647e4196 Jarrett Farnitano     2018-06-14  807  
+a8311f647e4196 Jarrett Farnitano     2018-06-14  808  		cond_resched();
+2965faa5e03d1e Dave Young            2015-09-09  809  	}
+2965faa5e03d1e Dave Young            2015-09-09  810  out:
+2965faa5e03d1e Dave Young            2015-09-09  811  	return result;
+2965faa5e03d1e Dave Young            2015-09-09  812  }
 
 -- 
 0-DAY CI Kernel Test Service
