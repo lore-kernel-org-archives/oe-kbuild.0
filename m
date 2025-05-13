@@ -1,70 +1,58 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4DF33985
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 08:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D8420E309
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 08:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747123223; cv=none; b=lASFYKbtCEkYzO1Qs4iYBLjj2KQCbsflElXnzG0N8MLynL5sw8bhLQFRt4vx+fqCXABsjqoa7qK+03CAgWJ67xXaC955Vp59wVB9VW7btoLmVkgK9okwuDBuXxp7Jomp38tN0b2Hc5TRexlfG+kZ1NgALlfpgjWxEncnfmZjqrs=
+	t=1747125454; cv=none; b=Oeext5J0uNXzb6DVaugk0etZev6fNRx9Ap8FNkDPa692A0EHMBj5iInM9DDgkYxYUj+TToHpY+JrG7daNIZl1ynFP/8CRnoaUTVSC4Xg+EhhkRr49B2lJ1ZNzfV/wr6BEG800cxMQhqY1la3ZQa3Rff520RyHifxZRarbS1AeKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747123223; c=relaxed/simple;
-	bh=1lBQoHN/7PWHMGfYzcAiy+RWiPyzpT1oQU8AO2uIjmU=;
+	s=arc-20240116; t=1747125454; c=relaxed/simple;
+	bh=zgDdmSeWkLaUaASI/n7ZfCuk6pqpPiC1M4wAYicsvv0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DFOwYs1THtEnPLOku2WQZdYpM1FYsrW5GPmm1gWgHTRiFFsmfS5TFu2tVQkzp7LmRpJuOivJ50ofq1A+VkmpLrCtvxIpo1DY3QruwZ/a3YABPXSxbShR3ncS8sk1SLN8iiw1s26CBNN/ZbqVoNFBvbKXP6gC8FrF+Nmlecnz9zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DVak8SK4; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=X8QkM4wJ2gyE9x7FB/YyLrsQvs5daeIBNAIqlUWuMEnJJJGMRO8fkRDlLbBsty55t7YCKI30H4j+Z+NFUt/3zOKct/4muGkkFkUJuLdEx0cNgOb8Xys7YWIDsBLFDuh8Qcfth4lqdGaIdVYye931cYvdD+ETql8LbITmibQC0MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/N7aObK; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DVak8SK4"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso55327275e9.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 01:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747123216; x=1747728016; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4D7BVolXRAAtXfmL3BcLl8Eiqaw3L/l8xoeqAeraOx0=;
-        b=DVak8SK4iR84sEN4drMvimgtJmNrw6RK3g8pjQSX6gLSmyPLgMGaFhrPaF8AsWas1Z
-         7rS4JYXxrhqO4EKyIBWCJzNmCB0ZY+cWNalLCuEhJSIoqLyZnlKVN6b4IBgN/6s/1lJT
-         +BAk1siU+Xf0k9WwQ8UEOUk4Qtp4LzX4fwdgZnvyzIrS+N3VLQyaK9JYObk0c7q61PKf
-         s5txMpo4WXOIckc1PvXeGJCezkJ83+QKxPPQNsek1W4tp75gKRY8lD88X8lFXuH54ifF
-         OHlgb5jrN3o3wdfun5gSf5aVV+ZqCtvHQGjAM6YZ4V3PVLgYsm6q9O5tGJOPiohxOmKZ
-         zwOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747123216; x=1747728016;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4D7BVolXRAAtXfmL3BcLl8Eiqaw3L/l8xoeqAeraOx0=;
-        b=mZmvWS+OUO9s7H0R56EIUeIH5S7wk6mETRPZ+1hzOp7pDTSjgVIkADWKPimej/IOLk
-         vgIMZw+A1qtTWeUjDOXKWhgzAyAYAPVT5ofkI2g7RmdjZeGanBWAZsmd/CPTy+ua/unq
-         PsKCjKRlMMI7YKMeicE7wHYb9jq0lSNQ6hR6VTAVIBrml7Bn1OFKctYhs9sadnobCsmg
-         xeFK+OrmkaRrpNzzR6UqWZrstYnrZi3Xs/GdtobtRblUXJjck9SAWN2eVRMFv3noZMIh
-         1g7ESc0Rr8hQPrZWVg/YIbvcpjk2d4Lm9ajTWeM5fCTVyERN7qw/+orKsVk78LaPa1zz
-         56pA==
-X-Gm-Message-State: AOJu0YwWPkSmziSgzi0etLK3Er2SIuvAV09GKqojH3dKtRx3FLnPSe5j
-	9W4bWd6rqAllRNMe15CgpziwQdImQxQjVMc/KfIVdkDJtHdVgX8ebESabx05b5QPjiDThJnEo5J
-	ysFuNEw==
-X-Gm-Gg: ASbGncskNIk+9hjxmcq1ZCp+eyyLob/SeLIfijVWo8QzqJaZVy5SVjPh/BG+9dTzkbH
-	2hnogNye5fpHaTgVWpNc7+8cDfU9HzgyVtHCRJN9edjkTGP2agU/FW3bDZTds9Fo9iQl5+QO7rF
-	NO3GFoMHbG0FYzZBjbWSBE7zKj1lJtnqUWnzwXYpoNciM+2lgKrZ3iEubdUn6XCGYo8vQVk7PxZ
-	G/pjHlPERMsGsTjqgsHYl9ek26zr0/gfS59Dup0phWGrJ3VXsXBpFhoV8lU0My8Im9WC+wa07Ys
-	+/95mfjbrG/w2ps66cE4BJx+4gg3J+Grd4K9Q0giwV0fU7jwAsxUEDzJDyrizY72PYqKf9vfyu2
-	OPg74xw==
-X-Google-Smtp-Source: AGHT+IHqpoT66C/0UgUmKDin0anmvZ+Q/xF1r2yiozJRTYT3VriCuDezWmWMXYySr2wsYFAG39vUEA==
-X-Received: by 2002:a05:600c:cca:b0:43c:f597:d582 with SMTP id 5b1f17b1804b1-442d6cfa8d8mr120252085e9.1.1747123215819;
-        Tue, 13 May 2025 01:00:15 -0700 (PDT)
-Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442cd3b7b83sm194214025e9.33.2025.05.13.01.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 01:00:15 -0700 (PDT)
-Date: Tue, 13 May 2025 11:00:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Swapnil Sapkal <swapnil.sapkal@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>
-Subject: [superm1:linux-next 4/4] drivers/cpufreq/amd-pstate-ut.c:262
- amd_pstate_ut_check_driver() error: uninitialized symbol 'ret'.
-Message-ID: <9fa7e533-96c4-497b-9e6c-687065d46454@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/N7aObK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747125453; x=1778661453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zgDdmSeWkLaUaASI/n7ZfCuk6pqpPiC1M4wAYicsvv0=;
+  b=T/N7aObKynmxsM+ITY118+4wP/cG2phCdh5f5ZGfnZljB1O5J3gCqdYU
+   R+OT90n8d+NMLkiAqQCXTqoNSn3dRj1zdUWIvG4tQ+yPwa2qaUPAiTMeh
+   Rj/XKOcNJNTtxAoYI+ekl5UKGt7bwmGJCcQdX25qtyGp8xxZD87NkOnAA
+   qXcQMmsJC4dtiZE7UXNyZ4LAv9/k/DUQhjk1LWoiiorFfD332QHerN9Xf
+   2hO2nM6lYpOtdpKzpSrfjB7nbkS3pI7Rarx2nG8f3S48Noym8U9jKnCjM
+   A1DaWZVaIU0c5yaXQ8XuGq5J3YLe9n5/9GT/6QMYaQ09Vp42p909OElIK
+   g==;
+X-CSE-ConnectionGUID: YBscVCXYRMu48HOs9VN6Jg==
+X-CSE-MsgGUID: XHv4YQwfTvOw4oMNJXNmJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="49038038"
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
+   d="scan'208";a="49038038"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 01:37:32 -0700
+X-CSE-ConnectionGUID: RxnrsCqhTi6Cpk88TP2oVA==
+X-CSE-MsgGUID: 3MFLd93bTieoptLrG5hGyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
+   d="scan'208";a="142578210"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 May 2025 01:37:32 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uEl8j-000Fsm-0t;
+	Tue, 13 May 2025 08:37:29 +0000
+Date: Tue, 13 May 2025 16:37:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: fs/btrfs/extent-tree.o: warning: objtool:
+ btrfs_cross_ref_exist+0x12c: unreachable instruction
+Message-ID: <202505131614.cWLXbQcX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,60 +62,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-head:   d26d16438bc5fd5524121244cc133f9872a63210
-commit: d26d16438bc5fd5524121244cc133f9872a63210 [4/4] amd-pstate-ut: Reset amd-pstate driver mode after running selftests
-config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505110608.VZ20jjP5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Filipe Manana <fdmanana@suse.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Qu Wenruo <wqu@suse.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9565e23cd89d4d5cd4388f8742130be1d6f182d
+commit: 88694f74f4853b01dae678fb8d5f2c46948ae620 btrfs: add assertions and comment about path expectations to btrfs_cross_ref_exist()
+date:   4 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 months ago
+config: loongarch-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250513/202505131614.cWLXbQcX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131614.cWLXbQcX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505110608.VZ20jjP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505131614.cWLXbQcX-lkp@intel.com/
 
-smatch warnings:
-drivers/cpufreq/amd-pstate-ut.c:262 amd_pstate_ut_check_driver() error: uninitialized symbol 'ret'.
+All warnings (new ones prefixed by >>):
 
-vim +/ret +262 drivers/cpufreq/amd-pstate-ut.c
-
-a7875346c68910 Mario Limonciello 2025-02-14  242  static int amd_pstate_ut_check_driver(u32 index)
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  243  {
-93497752dfed19 Qianqiang Liu     2024-09-11  244  	enum amd_pstate_mode mode1, mode2 = AMD_PSTATE_DISABLE;
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  245  	enum amd_pstate_mode orig_mode = amd_pstate_get_status();
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  246  	int ret;
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  247  
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  248  	for (mode1 = AMD_PSTATE_DISABLE; mode1 < AMD_PSTATE_MAX; mode1++) {
-a7875346c68910 Mario Limonciello 2025-02-14  249  		int ret = amd_pstate_set_mode(mode1);
-
-int accidentally declared twice.
-
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  250  		if (ret)
-a7875346c68910 Mario Limonciello 2025-02-14  251  			return ret;
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  252  		for (mode2 = AMD_PSTATE_DISABLE; mode2 < AMD_PSTATE_MAX; mode2++) {
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  253  			if (mode1 == mode2)
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  254  				continue;
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  255  			ret = amd_pstate_set_mode(mode2);
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  256  			if (ret)
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  257  				goto out;
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  258  		}
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  259  	}
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  260  
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  261  out:
-d26d16438bc5fd Swapnil Sapkal    2025-04-30 @262  	if (ret)
-
-Uninitialized.
-
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  263  		pr_warn("%s: failed to update status for %s->%s: %d\n", __func__,
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  264  			amd_pstate_get_mode_string(mode1),
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  265  			amd_pstate_get_mode_string(mode2), ret);
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  266  
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  267  	amd_pstate_set_mode(orig_mode);
-d26d16438bc5fd Swapnil Sapkal    2025-04-30  268  	return ret;
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  269  }
-3e39e68dfbb6d4 Mario Limonciello 2024-08-31  270  
+   fs/btrfs/extent-tree.o: warning: objtool: find_free_extent_update_loop+0x3a8: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: visit_node_for_delete+0xcc: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: do_allocation_zoned.isra.0+0x22c: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: find_free_extent+0xf78: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: btrfs_get_extent_inline_ref_type+0x130: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: lookup_inline_extent_backref+0x538: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: btrfs_inc_extent_ref+0x8c: unreachable instruction
+>> fs/btrfs/extent-tree.o: warning: objtool: btrfs_cross_ref_exist+0x12c: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: walk_down_proc+0x2c8: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: walk_up_proc+0x16c: unreachable instruction
+   fs/btrfs/extent-tree.o: warning: objtool: btrfs_drop_snapshot+0x5a0: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
