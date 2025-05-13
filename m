@@ -1,68 +1,70 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ABA1E5B9D
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72225298991
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 14:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747147106; cv=none; b=JHHJnyBxuloWhite+FrJuhI7yNUlb8cZUCAszZgj017mIOhxjtQ11LftFnLRThHpEHBbogUv7Ozl9upSaii+WjZeEJrGp3XDNsqd2UT/EomUa0V3yJMcFvQ7LsyNrwSHyzkaZFHp2rGvzNgCgEFl91dImlGOWSQGCyvTBT89diM=
+	t=1747147339; cv=none; b=czZU1R9Tr0tmrbIJNOpAb3FQgRY5umkxCjxYwTRJTNpvL37erWlSg4nkC0QSDGgXEYUECiIORySrudwHFQrn/H1g2oaiL5QjKWkSLKhIHl126egA4BGQjMxyBNKAlVaa/+dZarr/GJRdnikVaJTPBRAu6AHUZp7wErIyT59eZlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747147106; c=relaxed/simple;
-	bh=W4iM/prlPhxEGSomxxf3DcBMCZYpDfHGzwjarEdqCIU=;
+	s=arc-20240116; t=1747147339; c=relaxed/simple;
+	bh=GbVUPWgyGQygF0TIC7ugcyw6hbZIaF/Q8BvoNM6W1TU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=umwUs+csVeib1DCB0okVWpUGvz9ImmEJ2v1BY21L3e0NIqZSx9pAVExs04EjgKLiJ+hNIjBliC8qzkKuGCz3GNlvxo7BZWuHY6D4MZSBojfVU6KszcZ/hNmi9eV29B5mYGUYttavk6JInDpW64lmlNxHMQHkTVHIVEMiX/ll890=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s0qv6vqO; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition; b=QJjQ2xtcxwATWLRQuGaoCfnMA31dlch0ziZdhex+OCfV1cLlxo2r+VhaZYpW6fV/QPHQR8m0r6KW2lW4UVVAoqVwkoEggosYqgBqpQdFIpHAWfpzidUUDXS9M0czCZi54+ihOx7l3duGojneunfYWbpatdxqKTWdCFAPzEhtfw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zgG8sM/a; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s0qv6vqO"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a0b291093fso4249017f8f.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 07:38:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zgG8sM/a"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a1fb18420aso3787002f8f.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 07:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747147103; x=1747751903; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747147335; x=1747752135; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OqRKb7ngH3ntLnw87YWN+YBlBs4u08NQKjb6q0IBoZg=;
-        b=s0qv6vqOKIs7cdJeAqzo4ECrET9Q/mTQtTXbWL2tqXcQlkyUPMqIXdaw3eh07vJa/j
-         qzBwA5jABA+XStPU6CeBpQpbp8ihYUmzwAJWhKJtcsUPjUAtImkNjt5WMnKWjUS7Jtqi
-         vOt8OfIuDQEXui7tjPYifDKY9+3x6UD4OfHceqSWo71pv+gcDYwqsjLv0I5L77UTsZL6
-         hzqX/4PER/Mv8xayWiyWLjuUQIgNvyvWiddaS84t8mNNSbvK+jSVNifqz+QuzG2jwGNx
-         xiyCjCUQQ4eH4p49t1WOGNQk54bEBWB+YxlTf2xomjA/jpNNaDkuMG2cit8ucFIo/Nkq
-         ZmOw==
+        bh=wMluixgbgTOmYqWeOknU8H/LWWHpT3IASPBLK+tXxyI=;
+        b=zgG8sM/ax+9OXrhRZ72BRFHzmJnn24tM32j5pa91TsdqLstNcuDhJjEU3KEzGznKKu
+         7w1shElLdJ60EKVMZpEUYFibWS/NkYEXs5Xy7yajE6WDE8gAW50nSJzgB69nL5AFWnry
+         nrucdWoJ5RVtyIPnJGRMCNs/qDpUyKFYRiTm7kxQAab5mPsMQq1ZGl6f9aCrrjAzAkBW
+         +2o09zCYUmGZUPObLFvqj7wbkMImbZyaUrzAQFa64Ol0FS4sVAAhnsF7HWfNrRoFOR+3
+         fuwY1BlW7txLZF/tb9gX1nLwi/yO/bjBLgGrAKN36AAhTTWZX1TMMpRHMtoi2BOfPCn4
+         Ibqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747147103; x=1747751903;
+        d=1e100.net; s=20230601; t=1747147335; x=1747752135;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OqRKb7ngH3ntLnw87YWN+YBlBs4u08NQKjb6q0IBoZg=;
-        b=ux4gZXTwL9Zat8tu+hIJRwelE/s+pRPWqwCVZuUMInW1wzOr6xo74BIfftUO+/BlFX
-         oo48MQYypJCiQ17pq5IHQTnqqx48CD0uTcO5pI5C21za0KeL3ANX4wczLqWr/F8AmIcA
-         uxxSWmoAFDHuaaYw2NEuvC2hxmPQMUyxrTJ2MC7NVavX2AVg7FhXkByBrIQu+dFELuQa
-         15x484iU9uhbVWRbFWQEhEF9PxQYJZYmO/h8NyKiGfY2FTTUl/7nX249YPpz7YJOFURq
-         pvXXtR31VMQSu6fNEE6LW1O1r5QpojG4dULPe8BNzXYY+ydKCeyZ/Pf8XWptx3G5DFBZ
-         CEhQ==
-X-Gm-Message-State: AOJu0YxYucr3y1ZwtECljgeiKj7m9DmyZ7I3fmJ+4xi3Ycew/NeKkrq/
-	A0mbZPDHYgjyIFb11AkHCn0fg1SbY+JL+46tHkbFE24R2jWf5b7AD6vwtV/n8qjDfk7mQSMFrQl
-	wb978Eg==
-X-Gm-Gg: ASbGncsSnfmWFRcaS/LtmtkHey5xmcAJ1Wb5tpx8PKrEs9b77/Eforw5+TTOkJKu1UO
-	aarEg+Kk1bjCwr8rJcm5k2x1zEO+iDASyLDxxW5mE0XxFmd+AxAKMo1hilqonGijaApouazilYr
-	2OU5AUfqOlZYCTxlrS1SJ52mZxxwhsxaqY68aSGlCiyoIZbjB9RCQJiD0BY5T97G8kngjFgRg5A
-	7SLF2grRu8zyveRiE3ivEdW6p/LDO0uok9n47eM/n5dwljTmQ/JShQFsWojmEMxrXmQusMxEJcD
-	Hr/z7jG3OBhufRAqyU83IyHMgIKU+oYq9G0AHZv2iWHYXOkXOkSyWxoBpnGUV6GqjNfciOgpHnt
-	1YqYB0Q==
-X-Google-Smtp-Source: AGHT+IEUqSemEdzKu4pnmG//NeUfgyzzj+7NjQMrdsDA+9dSpSvRry26837zLtZcLCYlPTMamRR8jA==
-X-Received: by 2002:adf:f2c4:0:b0:391:1218:d5f4 with SMTP id ffacd0b85a97d-3a340d22fc1mr3010847f8f.23.1747147102819;
-        Tue, 13 May 2025 07:38:22 -0700 (PDT)
+        bh=wMluixgbgTOmYqWeOknU8H/LWWHpT3IASPBLK+tXxyI=;
+        b=cxR0xRSV8yknBsmpmjO4quoTpnkhoKBZNcxgfGFApf3U2h0KgQouaopNStJdXR0njD
+         fYVzG5tX28R56OLpK6YBV6tyQHWWzb8u6qRkTy5RqqgmO1nRDDZ6efaOBFMVohZWeYP9
+         d7+xMgOHqBtgLr6xUjIsWVSR0qtnVYjhNW95L59x7mqLUQJNltjW1JHqIYpCizIvGiAh
+         75pQKk296TEjtidKhDk8Zia/AqwB+pi8SWes/WS2SPeGqPiUFNjA+wdKE49QGxM62ncy
+         j7tkJPIoYs7yMo7gvo1blB8FMXCUP0PfucKhKSDpTGVrI52CHVwW1X0CxNbj+GYAUOGk
+         budw==
+X-Gm-Message-State: AOJu0YyQr8TuYnUvtsZkQLErIEJ8X/Hfuinj3LI1NU8+UeNAHbRlX2op
+	0MqJGxpo2YMiWR5Qq68yf/tRTgQ5GSAOjHTTGoca1cINZGXj5FWAVDaVAVogcKsmFKQ8D/2BoA2
+	Rh409cw==
+X-Gm-Gg: ASbGncv6NHPD1F24abhLJChwhomyznquTNmy2w/9kGxqH35nCDVq6Q3e5oihTJE4Ne8
+	BHUxT4mfGcmIXSfM+OaOiRG2/b+fz6R3VY6GR8dNoiUtijs73n142zxmEQGmnYYhr4r+GNJ8uKW
+	3iXzds8whn1X7yrnFrBkhH1l7ry6EkmI//q7VPAlgBon9g7zmtM/Z/tVj3DO1gog1xrrdXfZ2Yj
+	criK1TScSJ1bbz4yoeUSCpul1prRy0wJ8v9y0j6XXfivDsPdLXOiNMQEK0ghOLUE5iizMrauPpj
+	iJp+HFE5LlofqW+PwQ/s2CCbhpDOChD4Pc2EsmxGfIiHBapn9dzDs+6NVcr5j6TVllOA8/aFn4H
+	iCT9aRw==
+X-Google-Smtp-Source: AGHT+IFYejKzEH3qIllIXstVeJt/kuvZEBvkgPfkjDZbAFF5algNuopHW3jtYJc5kH4mXRov6/D+sA==
+X-Received: by 2002:a5d:5188:0:b0:3a0:b58c:dd8 with SMTP id ffacd0b85a97d-3a1f64588e6mr10221963f8f.30.1747147334963;
+        Tue, 13 May 2025 07:42:14 -0700 (PDT)
 Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4d21esm16703967f8f.99.2025.05.13.07.38.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4cc2esm16887784f8f.90.2025.05.13.07.42.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 May 2025 07:38:22 -0700 (PDT)
-Date: Tue, 13 May 2025 17:38:20 +0300
+        Tue, 13 May 2025 07:42:14 -0700 (PDT)
+Date: Tue, 13 May 2025 17:42:12 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alexander Graf <graf@amazon.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org
-Subject: [agraf-2.6:kexec-cma 1/2] kernel/kexec_core.c:801
- kimage_load_normal_segment() error: uninitialized symbol 'result'.
-Message-ID: <8f74c790-0241-408e-be1f-d55a083e4447@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Keguang Zhang <keguang.zhang@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [linux-next:master 6048/10031]
+ drivers/mtd/nand/raw/loongson1-nand-controller.c:374
+ ls1x_nand_dma_transfer() warn: passing zero to 'PTR_ERR'
+Message-ID: <1f6eea14-762f-47ab-ab84-4e9d1e95883b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,105 +74,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/agraf/linux-2.6.git kexec-cma
-head:   752619bbe38c535612b1a9e5b47ea7d962c63449
-commit: 1e91ce490239e53ac0b4ad9aea3ebed48d1edf51 [1/2] kexec: Use CMA
-config: x86_64-randconfig-161-20250510 (https://download.01.org/0day-ci/archive/20250511/202505111109.zkW7PHWQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ed61cb3d78d585209ec775933078e268544fe9a4
+commit: d2d10ede04b1671dc4762479a2d06f183aaafbba [6048/10031] mtd: rawnand: Add Loongson-1 NAND Controller Driver
+config: microblaze-randconfig-r072-20250511 (https://download.01.org/0day-ci/archive/20250511/202505111115.FfRZilcq-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505111109.zkW7PHWQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505111115.FfRZilcq-lkp@intel.com/
 
 smatch warnings:
-kernel/kexec_core.c:801 kimage_load_normal_segment() error: uninitialized symbol 'result'.
+drivers/mtd/nand/raw/loongson1-nand-controller.c:374 ls1x_nand_dma_transfer() warn: passing zero to 'PTR_ERR'
 
-vim +/result +801 kernel/kexec_core.c
+vim +/PTR_ERR +374 drivers/mtd/nand/raw/loongson1-nand-controller.c
 
-2965faa5e03d1e Dave Young            2015-09-09  734  static int kimage_load_normal_segment(struct kimage *image,
-2965faa5e03d1e Dave Young            2015-09-09  735  					 struct kexec_segment *segment)
-2965faa5e03d1e Dave Young            2015-09-09  736  {
-2965faa5e03d1e Dave Young            2015-09-09  737  	unsigned long maddr;
-2965faa5e03d1e Dave Young            2015-09-09  738  	size_t ubytes, mbytes;
-2965faa5e03d1e Dave Young            2015-09-09  739  	int result;
-2965faa5e03d1e Dave Young            2015-09-09  740  	unsigned char __user *buf = NULL;
-2965faa5e03d1e Dave Young            2015-09-09  741  	unsigned char *kbuf = NULL;
-1e91ce490239e5 Alexander Graf        2025-05-09  742  	bool dest_intact = false;
-2965faa5e03d1e Dave Young            2015-09-09  743  
-2965faa5e03d1e Dave Young            2015-09-09  744  	if (image->file_mode)
-2965faa5e03d1e Dave Young            2015-09-09  745  		kbuf = segment->kbuf;
-2965faa5e03d1e Dave Young            2015-09-09  746  	else
-2965faa5e03d1e Dave Young            2015-09-09  747  		buf = segment->buf;
-2965faa5e03d1e Dave Young            2015-09-09  748  	ubytes = segment->bufsz;
-2965faa5e03d1e Dave Young            2015-09-09  749  	mbytes = segment->memsz;
-2965faa5e03d1e Dave Young            2015-09-09  750  	maddr = segment->mem;
-2965faa5e03d1e Dave Young            2015-09-09  751  
-2965faa5e03d1e Dave Young            2015-09-09  752  	while (mbytes) {
-2965faa5e03d1e Dave Young            2015-09-09  753  		struct page *page;
-2965faa5e03d1e Dave Young            2015-09-09  754  		char *ptr;
-2965faa5e03d1e Dave Young            2015-09-09  755  		size_t uchunk, mchunk;
-2965faa5e03d1e Dave Young            2015-09-09  756  
-2965faa5e03d1e Dave Young            2015-09-09  757  		page = kimage_alloc_page(image, GFP_HIGHUSER, maddr);
-2965faa5e03d1e Dave Young            2015-09-09  758  		if (!page) {
-2965faa5e03d1e Dave Young            2015-09-09  759  			result  = -ENOMEM;
-2965faa5e03d1e Dave Young            2015-09-09  760  			goto out;
-2965faa5e03d1e Dave Young            2015-09-09  761  		}
-1e91ce490239e5 Alexander Graf        2025-05-09  762  
-1e91ce490239e5 Alexander Graf        2025-05-09  763  		/* Add page to copy list if it's not already in place */
-1e91ce490239e5 Alexander Graf        2025-05-09  764  		if (page_to_boot_pfn(page) << PAGE_SHIFT != maddr) {
-1e91ce490239e5 Alexander Graf        2025-05-09  765  			if (!dest_intact) {
-1e91ce490239e5 Alexander Graf        2025-05-09  766  				result = kimage_set_destination(image, maddr);
-1e91ce490239e5 Alexander Graf        2025-05-09  767  				if (result < 0)
-1e91ce490239e5 Alexander Graf        2025-05-09  768  					goto out;
-1e91ce490239e5 Alexander Graf        2025-05-09  769  				dest_intact = true;
-1e91ce490239e5 Alexander Graf        2025-05-09  770  			}
-1e91ce490239e5 Alexander Graf        2025-05-09  771  
-43546d8669d62d Russell King          2016-08-02  772  			result = kimage_add_page(image, page_to_boot_pfn(page)
-2965faa5e03d1e Dave Young            2015-09-09  773  									<< PAGE_SHIFT);
-2965faa5e03d1e Dave Young            2015-09-09  774  			if (result < 0)
-2965faa5e03d1e Dave Young            2015-09-09  775  				goto out;
-1e91ce490239e5 Alexander Graf        2025-05-09  776  		} else {
-1e91ce490239e5 Alexander Graf        2025-05-09  777  			dest_intact = false;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  342  static int ls1x_nand_dma_transfer(struct ls1x_nand_host *host, struct ls1x_nand_op *op)
+d2d10ede04b1671 Keguang Zhang 2025-03-20  343  {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  344  	struct nand_chip *chip = &host->chip;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  345  	struct dma_chan *chan = host->dma_chan;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  346  	struct device *dev = chan->device->dev;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  347  	struct dma_async_tx_descriptor *desc;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  348  	enum dma_data_direction data_dir = op->is_write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  349  	enum dma_transfer_direction xfer_dir = op->is_write ? DMA_MEM_TO_DEV : DMA_DEV_TO_MEM;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  350  	void *buf = op->buf;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  351  	char *dma_buf = NULL;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  352  	dma_addr_t dma_addr;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  353  	int ret;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  354  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  355  	if (IS_ALIGNED((uintptr_t)buf, chip->buf_align) &&
+d2d10ede04b1671 Keguang Zhang 2025-03-20  356  	    IS_ALIGNED(op->orig_len, chip->buf_align)) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  357  		dma_addr = dma_map_single(dev, buf, op->orig_len, data_dir);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  358  		if (dma_mapping_error(dev, dma_addr)) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  359  			dev_err(dev, "failed to map DMA buffer\n");
+d2d10ede04b1671 Keguang Zhang 2025-03-20  360  			return -ENXIO;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  361  		}
+d2d10ede04b1671 Keguang Zhang 2025-03-20  362  	} else if (!op->is_write) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  363  		dma_buf = dma_alloc_coherent(dev, op->len, &dma_addr, GFP_KERNEL);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  364  		if (!dma_buf)
+d2d10ede04b1671 Keguang Zhang 2025-03-20  365  			return -ENOMEM;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  366  	} else {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  367  		dev_err(dev, "subpage writing not supported\n");
+d2d10ede04b1671 Keguang Zhang 2025-03-20  368  		return -EOPNOTSUPP;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  369  	}
+d2d10ede04b1671 Keguang Zhang 2025-03-20  370  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  371  	desc = dmaengine_prep_slave_single(chan, dma_addr, op->len, xfer_dir, DMA_PREP_INTERRUPT);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  372  	if (!desc) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  373  		dev_err(dev, "failed to prepare DMA descriptor\n");
+d2d10ede04b1671 Keguang Zhang 2025-03-20 @374  		ret = PTR_ERR(desc);
 
-result not set on this path.
+desc is NULL not an error pointer.
 
-1e91ce490239e5 Alexander Graf        2025-05-09  778  		}
-2965faa5e03d1e Dave Young            2015-09-09  779  
-948084f0f6959f Fabio M. De Francesco 2022-08-21  780  		ptr = kmap_local_page(page);
-2965faa5e03d1e Dave Young            2015-09-09  781  		/* Start with a clear page */
-2965faa5e03d1e Dave Young            2015-09-09  782  		clear_page(ptr);
-2965faa5e03d1e Dave Young            2015-09-09  783  		ptr += maddr & ~PAGE_MASK;
-2965faa5e03d1e Dave Young            2015-09-09  784  		mchunk = min_t(size_t, mbytes,
-2965faa5e03d1e Dave Young            2015-09-09  785  				PAGE_SIZE - (maddr & ~PAGE_MASK));
-2965faa5e03d1e Dave Young            2015-09-09  786  		uchunk = min(ubytes, mchunk);
-2965faa5e03d1e Dave Young            2015-09-09  787  
-4bb7be96fc8871 yang.zhang            2024-02-22  788  		if (uchunk) {
-2965faa5e03d1e Dave Young            2015-09-09  789  			/* For file based kexec, source pages are in kernel memory */
-2965faa5e03d1e Dave Young            2015-09-09  790  			if (image->file_mode)
-2965faa5e03d1e Dave Young            2015-09-09  791  				memcpy(ptr, kbuf, uchunk);
-2965faa5e03d1e Dave Young            2015-09-09  792  			else
-2965faa5e03d1e Dave Young            2015-09-09  793  				result = copy_from_user(ptr, buf, uchunk);
-4bb7be96fc8871 yang.zhang            2024-02-22  794  			ubytes -= uchunk;
-4bb7be96fc8871 yang.zhang            2024-02-22  795  			if (image->file_mode)
-4bb7be96fc8871 yang.zhang            2024-02-22  796  				kbuf += uchunk;
-4bb7be96fc8871 yang.zhang            2024-02-22  797  			else
-4bb7be96fc8871 yang.zhang            2024-02-22  798  				buf += uchunk;
-4bb7be96fc8871 yang.zhang            2024-02-22  799  		}
-948084f0f6959f Fabio M. De Francesco 2022-08-21  800  		kunmap_local(ptr);
-2965faa5e03d1e Dave Young            2015-09-09 @801  		if (result) {
-2965faa5e03d1e Dave Young            2015-09-09  802  			result = -EFAULT;
-2965faa5e03d1e Dave Young            2015-09-09  803  			goto out;
-2965faa5e03d1e Dave Young            2015-09-09  804  		}
-2965faa5e03d1e Dave Young            2015-09-09  805  		maddr  += mchunk;
-2965faa5e03d1e Dave Young            2015-09-09  806  		mbytes -= mchunk;
-a8311f647e4196 Jarrett Farnitano     2018-06-14  807  
-a8311f647e4196 Jarrett Farnitano     2018-06-14  808  		cond_resched();
-2965faa5e03d1e Dave Young            2015-09-09  809  	}
-2965faa5e03d1e Dave Young            2015-09-09  810  out:
-2965faa5e03d1e Dave Young            2015-09-09  811  	return result;
-2965faa5e03d1e Dave Young            2015-09-09  812  }
+d2d10ede04b1671 Keguang Zhang 2025-03-20  375  		goto err;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  376  	}
+d2d10ede04b1671 Keguang Zhang 2025-03-20  377  	desc->callback = ls1x_nand_dma_callback;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  378  	desc->callback_param = host;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  379  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  380  	host->dma_cookie = dmaengine_submit(desc);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  381  	ret = dma_submit_error(host->dma_cookie);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  382  	if (ret) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  383  		dev_err(dev, "failed to submit DMA descriptor\n");
+d2d10ede04b1671 Keguang Zhang 2025-03-20  384  		goto err;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  385  	}
+d2d10ede04b1671 Keguang Zhang 2025-03-20  386  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  387  	dev_dbg(dev, "issue DMA with cookie=%d\n", host->dma_cookie);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  388  	dma_async_issue_pending(chan);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  389  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  390  	if (!wait_for_completion_timeout(&host->dma_complete, msecs_to_jiffies(1000))) {
+d2d10ede04b1671 Keguang Zhang 2025-03-20  391  		dmaengine_terminate_sync(chan);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  392  		reinit_completion(&host->dma_complete);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  393  		ret = -ETIMEDOUT;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  394  		goto err;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  395  	}
+d2d10ede04b1671 Keguang Zhang 2025-03-20  396  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  397  	if (dma_buf)
+d2d10ede04b1671 Keguang Zhang 2025-03-20  398  		memcpy(buf, dma_buf + op->aligned_offset, op->orig_len);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  399  err:
+d2d10ede04b1671 Keguang Zhang 2025-03-20  400  	if (dma_buf)
+d2d10ede04b1671 Keguang Zhang 2025-03-20  401  		dma_free_coherent(dev, op->len, dma_buf, dma_addr);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  402  	else
+d2d10ede04b1671 Keguang Zhang 2025-03-20  403  		dma_unmap_single(dev, dma_addr, op->orig_len, data_dir);
+d2d10ede04b1671 Keguang Zhang 2025-03-20  404  
+d2d10ede04b1671 Keguang Zhang 2025-03-20  405  	return ret;
+d2d10ede04b1671 Keguang Zhang 2025-03-20  406  }
 
 -- 
 0-DAY CI Kernel Test Service
