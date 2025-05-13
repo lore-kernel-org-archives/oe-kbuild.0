@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4511BC2A
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 02:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D9C645
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 May 2025 04:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747104719; cv=none; b=E2+JIykPF4eG8n20wI5aEyjNy6twGnlzqpmizm/KqoO8EoQFoAEitoIGQGYzHWGJpVcgLZwimWbJ07NgXKvZrfkzTmAZFLg05HAujXQbQgf39HUU/2XC2V0RrPjuzoUHlvMs1LeYK7jLEZCzPbRmZ8KGdUP4S/TnZJNyzVN3MWk=
+	t=1747110968; cv=none; b=Ttg2vUfwnwVlhPpwthT66LdVZlv8uqjIuTEzXCKbIAcH8iFEJo+cRSlukyDKYkrkZKmpVFNNxE0k8CXzkKGxFfzzc7NBQGtqWDlon12F1y6MomlUFFT8xU4m9uN9vgZzN47aAuM0Eq6IyGvEyrFbJztoBeOv5gz+OzcbU9CSRMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747104719; c=relaxed/simple;
-	bh=7lsGIm4y/aV3knwYnAS9zDBLuKbZuTwkpXRyTteGwMY=;
+	s=arc-20240116; t=1747110968; c=relaxed/simple;
+	bh=QJSHjOYPGwasxbxyvxivl9UnG11b4HzVLxSr4MAj2h8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ebvpsqhw4wTvzMNlRz5W1H8ZOe03cEqCjyJMKiFijg3g1SF5bSKpN8niuhTa4oiIcuNqNmzB6qOkpcTrnC5nQoxIbD2ZXkJCNMgjAIQkr+3iVDP0+jNLe/oWWZE+JAan4uG/HyntE/HO6lrS4e4Xiicsc5guXcmnD1L8hj+j6X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PkbbQMBc; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=NBTpkaQLTNmtpjPyQaz0gE+LBUAH3nsCTtEevpKhWchseNxiUOyBAXeA2alD97p0C+JDc8Fu2sn3cyCk6MumByt5+hGUXzU8etZF0XpswAf7eGCtIa6cfUHgGSJg+1OFSGm6XhCboqg/sEaEF0Zv4DNWjMH+PSv+SK1ZKj1mxF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OvFsajKK; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PkbbQMBc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OvFsajKK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747104718; x=1778640718;
+  t=1747110966; x=1778646966;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7lsGIm4y/aV3knwYnAS9zDBLuKbZuTwkpXRyTteGwMY=;
-  b=PkbbQMBcY04/ZE4QEh6u89JQ+M21t4NIHx2ri9ThDFg5TplENUziOoIM
-   tyZu60GIiVb7QODnQfJD74Q340nkYzPROyYanjsxrVzgaeE3fH4oE9T7u
-   myA4MQCQu8IyDawnoOQSmoy026d7UC6pFUcchWBLsyZ5J5vyMKGmidnkf
-   x2SjFesOoYpoLvdg1KnUs/QbvZE9QQNv9VU0vjyDZA1UgGqmzVsbi0yx+
-   3WAGWbadkwMKdrn1hCVM5/kCDQ3zxR/7Qad8tW3FUe9NUPogu5hwh5hA8
-   zovvUjOlKflT/HRzpv+oc6ruExJ7GSCeM+ga6siI3nKD66ZK7NCYEt8Yy
-   g==;
-X-CSE-ConnectionGUID: ID2rApbUSLaCkF6vSBlvAQ==
-X-CSE-MsgGUID: CzcwipXbRfaXReLXPDtKXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="66475480"
+  bh=QJSHjOYPGwasxbxyvxivl9UnG11b4HzVLxSr4MAj2h8=;
+  b=OvFsajKKX/pNrZ1Ph6U2yYR9da9wP5haFyqISCSohyTVCyZYmMv3AxG1
+   oN8VPYMDvtajvKt0Zmu7yx0PhCWk6JOTXeLnMQfKFPBeN1CuW+qu0TobU
+   VJRJXAzmSVelBLquEivIhM0QfRFA9lRAZFyyqxG5uBMkhJUnLOyTfEcUN
+   u9Gc5rv1nNU29j1ANxCGOx29eDoWwLmiYVDT3Ct6YmHl1Rcg2CTOUdDX6
+   14nBbbrScsJfeW5oxxOSH6nClNgVo+MRMM0qJWL9wotu9PH9s7sf9VdlZ
+   ELyDa99ggCRwDGIm53MbD7idVgaML2bEPluKyTBV+ampLhXTvfP91MgBr
+   A==;
+X-CSE-ConnectionGUID: 4Hctj3iYQvGpWq1XHWtSgg==
+X-CSE-MsgGUID: rAcDmqe3QjeK+OHIvTmieA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="48928317"
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="66475480"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 19:51:57 -0700
-X-CSE-ConnectionGUID: /ghCZdbmQwiaSrmG4ZeQOg==
-X-CSE-MsgGUID: gBQAItd8RWiiYz/WuUqDLQ==
+   d="scan'208";a="48928317"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 21:36:06 -0700
+X-CSE-ConnectionGUID: TyW1RzPxTMaHXbsqmrBJCQ==
+X-CSE-MsgGUID: GmKXqUXyQeWLcw2e8M7ZrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="168650629"
+   d="scan'208";a="168493826"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 May 2025 19:51:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 May 2025 21:36:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uEfkH-000Fbv-34;
-	Tue, 13 May 2025 02:51:53 +0000
-Date: Tue, 13 May 2025 10:50:59 +0800
+	id 1uEhN4-000Fe7-0x;
+	Tue, 13 May 2025 04:36:02 +0000
+Date: Tue, 13 May 2025 12:35:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 6/6] iommu: make inclusion of iommufd directory
- conditional
-Message-ID: <202505131001.hEIJFgMF-lkp@intel.com>
+Subject: fs/btrfs/zoned.o: warning: objtool:
+ btrfs_reset_unused_block_groups+0x354: unreachable instruction
+Message-ID: <202505131230.w39juDKb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,57 +63,38 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <5568089.Sb9uPGUboI@devpool92.emlix.com>
-References: <5568089.Sb9uPGUboI@devpool92.emlix.com>
-TO: Rolf Eike Beer <eb@emlix.com>
-TO: Joerg Roedel <joro@8bytes.org>
-TO: Will Deacon <will@kernel.org>
-CC: iommu@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-CC: Robin Murphy <robin.murphy@arm.com>
-CC: Jason Gunthorpe <jgg@ziepe.ca>
+TO: Naohiro Aota <naohiro.aota@wdc.com>
+CC: David Sterba <dsterba@suse.com>
 
-Hi Rolf,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250512]
-[also build test ERROR on v6.15-rc6]
-[cannot apply to arm-perf/for-next/perf linus/master v6.15-rc6 v6.15-rc5 v6.15-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rolf-Eike-Beer/iommu-remove-duplicate-selection-of-DMAR_TABLE/20250512-212423
-base:   next-20250512
-patch link:    https://lore.kernel.org/r/5568089.Sb9uPGUboI%40devpool92.emlix.com
-patch subject: [PATCH 6/6] iommu: make inclusion of iommufd directory conditional
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: arm64-randconfig-003-20250513 (https://download.01.org/0day-ci/archive/20250513/202505131001.hEIJFgMF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131001.hEIJFgMF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   627277ba7c2398dc4f95cc9be8222bb2d9477800
+commit: 453a73c3069a268c3c4dd00695fc2a95f7880438 btrfs: zoned: reclaim unused zone by zone resetting
+date:   4 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 4 months ago
+config: loongarch-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250513/202505131230.w39juDKb-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250513/202505131230.w39juDKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505131001.hEIJFgMF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505131230.w39juDKb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/vfio/vfio_main.o: in function `vfio_ioctl_device_feature':
->> vfio_main.c:(.text+0x34fc): undefined reference to `iova_bitmap_alloc'
->> aarch64-linux-ld: vfio_main.c:(.text+0x351c): undefined reference to `iova_bitmap_for_each'
->> aarch64-linux-ld: vfio_main.c:(.text+0x3528): undefined reference to `iova_bitmap_free'
-   aarch64-linux-ld: drivers/vfio/pci/pds/dirty.o: in function `pds_vfio_dma_logging_report':
->> dirty.c:(.text+0x13c4): undefined reference to `iova_bitmap_set'
+   fs/btrfs/zoned.o: warning: objtool: sb_zone_number+0x58: unreachable instruction
+   fs/btrfs/zoned.o: warning: objtool: btrfs_get_dev_zone_info+0x454: unreachable instruction
+   fs/btrfs/zoned.o: warning: objtool: btrfs_find_allocatable_zones+0x17c: unreachable instruction
+   fs/btrfs/zoned.o: warning: objtool: btrfs_ensure_empty_zones+0xe0: unreachable instruction
+   fs/btrfs/zoned.o: warning: objtool: btrfs_finish_ordered_zoned+0x180: unreachable instruction
+>> fs/btrfs/zoned.o: warning: objtool: btrfs_reset_unused_block_groups+0x354: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
