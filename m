@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD5128EC
-	for <oe-kbuild@lists.linux.dev>; Wed, 14 May 2025 02:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30B726FDA1
+	for <oe-kbuild@lists.linux.dev>; Wed, 14 May 2025 10:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747190977; cv=none; b=PTehT4SREscKUazNcmZp+tjrDmXRGIXg5EJLNK73+qW84pRnORsnGIj0HtX64HiVxP7bBwv5tsOIEHhD+aLJp+e8JZ5XqqaOK+5p8Nj8/oq18ncu0776F8MGnZ+WOAKVVdCnWQ49Vm1RhgkoE1ep+P+J7s+kMjWrUux9m30gkzI=
+	t=1747217830; cv=none; b=kIFT9dCwi78bSbjVh7A9PTZLtZx9rqEdQu9v95bRb7xWhVu55/s3f139pWvDx/NJj92onGpBfAivlbc/ayR7bSS7+g/q/E86nA4XouymN8h10VwKkOxRDX/Z0zCJjB0F8XPwDNK6KKk8wX47GU+3ecv3+bNnJK9wyR6QTclYZSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747190977; c=relaxed/simple;
-	bh=lk9h59SMKPy8VE7uxSrcADxp5oIe1Z2xYfQMWeLES3I=;
+	s=arc-20240116; t=1747217830; c=relaxed/simple;
+	bh=AT7BjYarO1512qX692JFBTkb+BHG/DtKU0VcMyMyiX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=afX84eF9i2m9YC/q/InPQazZzys/OohIzRZ5g7/Ctv+5s34oFOifc5YJqKeVfOSl2WqAPCdRmNhLaNNGOHeorhdjas2kOwBqEnyO4C5mwYGOzKFhK3C2P9yVl2svIOOzrU+0q/Ym0uK4GyDRcf8uH0uu0LvDfrmHBGeyJBR5GrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BliIFbF+; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=qQ7NqVlPWSzIeh2HcQlX4DjkL6jV21ytKl91gspsQGdUHetDQb1zoFGzSARPdwCVbeWj5cjt5fueN714OKhGM454CbnKwHUdRq9waDXNIodi0ZiH6rKfK5XibCsXm9PPKvQiSWS3gr75ol/9nJu2pSDuprEJslF87GhutarICcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Scyihwcq; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BliIFbF+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Scyihwcq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747190975; x=1778726975;
+  t=1747217829; x=1778753829;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lk9h59SMKPy8VE7uxSrcADxp5oIe1Z2xYfQMWeLES3I=;
-  b=BliIFbF+Yia76EjbMGo3N3PfBhwuSnDlhErkFpC+39QVFfUINhMez3XY
-   wLYZUY9QcoFJaBCOfFWrxsFzuh+QhN8nee0kk71A1KQa9EPDEBqTiUton
-   tTpeLn1XftbbAbYvf6x9gUgUyvvXNgV/otHMrGJtaw9X+pQUUL0xAIokR
-   DIfv61h9HO5x+xdnB53+ROXai98QBbIRpGKtGBa0kkEJ82nLO4okvKBxe
-   hqk+E6MtrAVE1R1abBZQgUCwFTF2IQEzeRX/XcB3tUcKXco9vtO0241UH
-   VwwSVC5dnAy8ZXV9J7orcy+kvjafBvf9ZPyb3GtogjhKskAtr0UBvRw11
-   w==;
-X-CSE-ConnectionGUID: UbWq1rzCQTeaText8YBnOQ==
-X-CSE-MsgGUID: 4K9g6IM9R7Ww8nxsohlkLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48998234"
+  bh=AT7BjYarO1512qX692JFBTkb+BHG/DtKU0VcMyMyiX0=;
+  b=Scyihwcqitwgk8XgBT7u8Uh6yMugZ7WwNjtJ/j9oEBty7AeHMG6bAcjI
+   wSI3sA49XGW9ASVmFi9TT0e6K3SOrT7K7OcuxMlbeUFL9f5j3ytk8++JM
+   mJnEfVVaSqU2drvoAyj17ap6W5UlmIviSUgLv2sZYhKGtlNYqQ04lrVIi
+   PmQqSTM6p4WMjl3ap+PDVjWUMCKMCmLKzC2RNIbwt0ivcxGFfDxfcJ+yo
+   1RH25KeIrDygFYKtvELXZQB4/oJjJhWkFf8ViUL3Gsn1sh6Dnpu6Hj8nl
+   OEf03lz2n9lKnPL7tMR7b6AgMQlM3jkbYfP7G76UIRH+LWjuJtBPaKFqB
+   A==;
+X-CSE-ConnectionGUID: 8rcFVoFORsOBm6YEm0tguQ==
+X-CSE-MsgGUID: MqB8G/h5S3ag7y+FIJ/o1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="49086959"
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="48998234"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 19:49:34 -0700
-X-CSE-ConnectionGUID: 808fST0uSW2Nc/TmaYRv6A==
-X-CSE-MsgGUID: /ibj8rhrQ22AxXQ1kn/l4w==
+   d="scan'208";a="49086959"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 03:17:08 -0700
+X-CSE-ConnectionGUID: NbTR4MqaQJSCnwOmBTZgbQ==
+X-CSE-MsgGUID: G+Zx+umGS96UidFmGiEAxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,287,1739865600"; 
-   d="scan'208";a="161195465"
+   d="scan'208";a="169094848"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 May 2025 19:49:33 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 14 May 2025 03:17:06 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uF2BX-000Gcb-2C;
-	Wed, 14 May 2025 02:49:31 +0000
-Date: Wed, 14 May 2025 10:49:03 +0800
+	id 1uF9Ae-000Gxz-1x;
+	Wed, 14 May 2025 10:17:04 +0000
+Date: Wed, 14 May 2025 18:16:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.o: warning: objtool:
- amdgpu_vm_update_range+0x4fc: unreachable instruction
-Message-ID: <202505141011.BKcYxI92-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v15 37/43] dept: assign unique dept_key to each distinct
+ wait_for_completion() caller
+Message-ID: <202505141759.avvm2GOf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,33 +62,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20250513100730.12664-38-byungchul@sk.com>
+References: <20250513100730.12664-38-byungchul@sk.com>
+TO: Byungchul Park <byungchul@sk.com>
+TO: linux-kernel@vger.kernel.org
+CC: kernel_team@skhynix.com
+CC: torvalds@linux-foundation.org
+CC: damien.lemoal@opensource.wdc.com
+CC: linux-ide@vger.kernel.org
+CC: adilger.kernel@dilger.ca
+CC: linux-ext4@vger.kernel.org
+CC: mingo@redhat.com
+CC: peterz@infradead.org
+CC: will@kernel.org
+CC: tglx@linutronix.de
+CC: rostedt@goodmis.org
+CC: joel@joelfernandes.org
+CC: sashal@kernel.org
+CC: daniel.vetter@ffwll.ch
+CC: duyuyang@gmail.com
+CC: johannes.berg@intel.com
+CC: tj@kernel.org
+CC: tytso@mit.edu
+CC: willy@infradead.org
+CC: david@fromorbit.com
+CC: amir73il@gmail.com
+CC: gregkh@linuxfoundation.org
+CC: kernel-team@lge.com
+CC: linux-mm@kvack.org
+CC: akpm@linux-foundation.org
+CC: mhocko@kernel.org
+CC: minchan@kernel.org
+CC: hannes@cmpxchg.org
+CC: vdavydov.dev@gmail.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9f35e33144ae5377d6a8de86dd3bd4d995c6ac65
-commit: 624bde3465f660e54a7cd4c1efc3e536349fead5 loongarch: Use ASM_REACHABLE
-date:   5 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 months ago
-config: loongarch-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250514/202505141011.BKcYxI92-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250514/202505141011.BKcYxI92-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/llist-move-llist_-head-node-definition-to-types-h/20250513-181346
+base:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
+patch link:    https://lore.kernel.org/r/20250513100730.12664-38-byungchul%40sk.com
+patch subject: [PATCH v15 37/43] dept: assign unique dept_key to each distinct wait_for_completion() caller
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: loongarch-randconfig-r071-20250514 (https://download.01.org/0day-ci/archive/20250514/202505141759.avvm2GOf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505141011.BKcYxI92-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505141759.avvm2GOf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/sched/completion.c:167 __wait_for_completion_timeout() error: 'wait_for_common()' returns negative and '__fake_return_0x7fd58a360280' is unsigned
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.o: warning: objtool: amdgpu_vm_update_range+0x4fc: unreachable instruction
+vim +167 kernel/sched/completion.c
+
+b8a216269ec0ce Peter Zijlstra 2013-10-04  151  
+b8a216269ec0ce Peter Zijlstra 2013-10-04  152  /**
+203be867bd3b2b Byungchul Park 2025-05-13  153   * __wait_for_completion_timeout: - waits for completion of a task (w/timeout)
+b8a216269ec0ce Peter Zijlstra 2013-10-04  154   * @x:  holds the state of this particular completion
+b8a216269ec0ce Peter Zijlstra 2013-10-04  155   * @timeout:  timeout value in jiffies
+b8a216269ec0ce Peter Zijlstra 2013-10-04  156   *
+b8a216269ec0ce Peter Zijlstra 2013-10-04  157   * This waits for either a completion of a specific task to be signaled or for a
+b8a216269ec0ce Peter Zijlstra 2013-10-04  158   * specified timeout to expire. The timeout is in jiffies. It is not
+b8a216269ec0ce Peter Zijlstra 2013-10-04  159   * interruptible.
+b8a216269ec0ce Peter Zijlstra 2013-10-04  160   *
+b8a216269ec0ce Peter Zijlstra 2013-10-04  161   * Return: 0 if timed out, and positive (at least 1, or number of jiffies left
+b8a216269ec0ce Peter Zijlstra 2013-10-04  162   * till timeout) if completed.
+b8a216269ec0ce Peter Zijlstra 2013-10-04  163   */
+b8a216269ec0ce Peter Zijlstra 2013-10-04  164  unsigned long __sched
+203be867bd3b2b Byungchul Park 2025-05-13  165  __wait_for_completion_timeout(struct completion *x, unsigned long timeout)
+b8a216269ec0ce Peter Zijlstra 2013-10-04  166  {
+b8a216269ec0ce Peter Zijlstra 2013-10-04 @167  	return wait_for_common(x, timeout, TASK_UNINTERRUPTIBLE);
+b8a216269ec0ce Peter Zijlstra 2013-10-04  168  }
+203be867bd3b2b Byungchul Park 2025-05-13  169  EXPORT_SYMBOL(__wait_for_completion_timeout);
+b8a216269ec0ce Peter Zijlstra 2013-10-04  170  
 
 -- 
 0-DAY CI Kernel Test Service
