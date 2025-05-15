@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D143D1401B
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 May 2025 02:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F8E10E5
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 May 2025 04:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747277276; cv=none; b=ts5XIYwKhxYWYJGbv3o1+oSkS8wge25KM9pu+6kpdBODJUREuWlimiJiVhCVgoHKuglAUQIdDgfz5fT5QWysi8w0W6GWYsHPyz4FVs0sUnlUg1Iot/Gwbrv6P8lJA061IhNsYO03bypdGubq3U2mUMEYbPzoogXEduAIuCAr62g=
+	t=1747283518; cv=none; b=cLhqEgN7lPj/3sElxcZqXr7mj9gMB0JxJ/C2kGgWKI28H9vbeRvn1p2Uh0S4OJf3pkd93zX2rR85vbaYLK94k7YgrkDyOXYPXaTCG0OkxxJOeEwDc5KrK9viArlrl5OiE9/x2NuXRkgUgVusMCwSaYU5kx5nIAo5u2QgNk0jo8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747277276; c=relaxed/simple;
-	bh=NG1MgjwWxeZSNT186jqYSJsH1+GWG4cbTSogrAcuuvg=;
+	s=arc-20240116; t=1747283518; c=relaxed/simple;
+	bh=UV+mjOOiuqbcBg8pWFyNvnuKB9cv+ZY05gaCWO/4yVg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KZiDZPGm9+BEWK+VtMbLt6PLKywDpbFR1R9iJb1B/U5N0aW1vaXeypzMcUX9Oe3OzvGDKXd4CrUAMbfWjokhkyLPZWOQLjTBZOvrX5rsRtEsZ766EzyefSUF7TYg9Bxebep9sYoRvA6GRwXLMjphE5tZ1r25vgOEGITBrSS4UMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSsd32iG; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Fy9GwRmAduHnoHY/bCdtfP1T7AXJBTr789lY4a4LAPFX6NTaVMCZpp1SMrpwzBUb75BRBIkLd3ogpk0UDlKD9bIX0Ud8THMQlZoGLMJp3Q0He5GMGH7TV6cUmZHfxih5R76XLupi33nJeJOyLwSnJYgZMaPUYBBm6TjMSnobtBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIJN60zw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSsd32iG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIJN60zw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747277274; x=1778813274;
+  t=1747283515; x=1778819515;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NG1MgjwWxeZSNT186jqYSJsH1+GWG4cbTSogrAcuuvg=;
-  b=eSsd32iG7JoJaGk+eZX559GisEOOAqcpM5gp875voN4iPv3+M4rdLQZs
-   FLQQDnj2Pe3RcsaEk2AaJQmubRCbceXnGO+FVQ9EBLZAs81uu07y65ewl
-   hPmtfKiQ9x4JFsmVmwqnQEMGDXtTZKdYNfrwKQp3xCjJHjkJ/ufk/ETkQ
-   p00gdxHsNyIx+tUE9s24ClMXWbVfykEQPQFONlcyLhpEg4miF1JEjFBWz
-   6hDAGCVqyxoNZ12wK0rol4OTGYqK480HzlZ6B0xwrcTKqdJBwSvV6Eijf
-   Kuu6Hv4bbl7cpS7WfADROKbkU5TiLqaC/P2XOfmgamtyQ/8KGV1iebYhP
-   w==;
-X-CSE-ConnectionGUID: HY9FsZZ4QpyQhH1q5s0sdw==
-X-CSE-MsgGUID: IB9eFtrFT9q1+6XAt1+QXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="51838758"
-X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="51838758"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 19:47:48 -0700
-X-CSE-ConnectionGUID: AtMj1KmDTFig4T7Jri6xlA==
-X-CSE-MsgGUID: xFgXwNAhQ7yPDPUBGiGtag==
+  bh=UV+mjOOiuqbcBg8pWFyNvnuKB9cv+ZY05gaCWO/4yVg=;
+  b=iIJN60zw5BndXtZGflAEeyac9p/T4p0NM/MjofzOw3mS7IAxVk+sMlN1
+   6zsFdMTIbM0+UmptETZABoU1RsHw+0OAd1KOnX5FBvPSicuTiVE4ZBQYJ
+   K2+MqLQD8J9It52f4v8G24gKDEVzaGzt0Ot0UafeTFvzsONEw7RnUf4Nx
+   bUTrIgHHDGJlCt4BBZ6Gg1Q3mXuCM7tgALkl06DzAZDowakUNkcK9/4+9
+   l/U2y5i9IE6yhFPP82MsZHaLYHWDmmNNa/gdp7a78gkKIG0sztceC+uRW
+   KEDAOKUokNWzXWZxzt1TOO/Pneeq/1ZYv7yS/9kTXmeLDRQuObyy0kUYq
+   A==;
+X-CSE-ConnectionGUID: qhcGjhWmQNGcx1UE8fBW3Q==
+X-CSE-MsgGUID: Sraf1NJ+Sb2aaZ18yRCWzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="59836485"
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
+   d="scan'208";a="59836485"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2025 21:31:55 -0700
+X-CSE-ConnectionGUID: L/8AG1X2Tpq1rNfQ/7r1eQ==
+X-CSE-MsgGUID: rTexKP+FTSi0Phtl3kSIyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,289,1739865600"; 
-   d="scan'208";a="139123955"
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
+   d="scan'208";a="138114783"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 May 2025 19:47:44 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 14 May 2025 21:31:54 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uFOdJ-000Hnf-2b;
-	Thu, 15 May 2025 02:47:41 +0000
-Date: Thu, 15 May 2025 10:47:32 +0800
+	id 1uFQG8-000HvB-0t;
+	Thu, 15 May 2025 04:31:52 +0000
+Date: Thu, 15 May 2025 12:31:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [sean-jc:x86/dynamic_mmu_page_hash 65/66]
- arch/x86/kvm/svm/svm.c:5640:2: error: call to '__compiletime_assert_550'
- declared with 'error' attribute: BUILD_BUG_ON failed:
- get_order(sizeof(struct kvm_svm)) < 2 && !IS_ENABLED(CONFIG_DEBUG_KERNEL) &&
- !IS_ENABLED(CONFIG_KASAN)
-Message-ID: <202505151034.9fu9WdRg-lkp@intel.com>
+Subject: Re: [PATCH v2] erofs: support deflate decompress by using Intel QAT
+Message-ID: <202505151214.Jj7IHygl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,89 +62,55 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "__compiletime_assert_NNN"
+:::::: Manual check reason: "low confidence static check warning: fs/erofs/decompressor_crypto.c:211:10: sparse: sparse: bogus scalar initializer"
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sean Christopherson <seanjc@google.com>
+In-Reply-To: <20250514121709.2557-1-liubo03@inspur.com>
+References: <20250514121709.2557-1-liubo03@inspur.com>
+TO: Bo Liu <liubo03@inspur.com>
+TO: xiang@kernel.org
+TO: chao@kernel.org
+CC: linux-erofs@lists.ozlabs.org
+CC: linux-kernel@vger.kernel.org
+CC: Bo Liu <liubo03@inspur.com>
 
-tree:   https://github.com/sean-jc/linux x86/dynamic_mmu_page_hash
-head:   ffadf534604c2d8ed89af07098ae9f60f9f7f137
-commit: 032ffa65cd624bfc7248533d1e3b68ce4daf446f [65/66] KVM: x86: Use kvzalloc() to allocate VM struct
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-buildonly-randconfig-003-20250515 (https://download.01.org/0day-ci/archive/20250515/202505151034.9fu9WdRg-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151034.9fu9WdRg-lkp@intel.com/reproduce)
+Hi Bo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xiang-erofs/dev-test]
+[also build test WARNING on xiang-erofs/dev xiang-erofs/fixes linus/master v6.15-rc6 next-20250514]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/erofs-support-deflate-decompress-by-using-Intel-QAT/20250514-202351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20250514121709.2557-1-liubo03%40inspur.com
+patch subject: [PATCH v2] erofs: support deflate decompress by using Intel QAT
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: x86_64-randconfig-r131-20250515 (https://download.01.org/0day-ci/archive/20250515/202505151214.Jj7IHygl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250515/202505151214.Jj7IHygl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505151034.9fu9WdRg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505151214.Jj7IHygl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/erofs/decompressor_crypto.c:211:10: sparse: sparse: bogus scalar initializer
 
->> arch/x86/kvm/svm/svm.c:5640:2: error: call to '__compiletime_assert_550' declared with 'error' attribute: BUILD_BUG_ON failed: get_order(sizeof(struct kvm_svm)) < 2 && !IS_ENABLED(CONFIG_DEBUG_KERNEL) && !IS_ENABLED(CONFIG_KASAN)
-    5640 |         KVM_SANITY_CHECK_VM_STRUCT_SIZE(kvm_svm);
-         |         ^
-   arch/x86/kvm/x86.h:76:2: note: expanded from macro 'KVM_SANITY_CHECK_VM_STRUCT_SIZE'
-      76 |         BUILD_BUG_ON(get_order(sizeof(struct x)) < 2 &&                                 \
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:545:2: note: expanded from macro '_compiletime_assert'
-     545 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:538:4: note: expanded from macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:17:1: note: expanded from here
-      17 | __compiletime_assert_550
-         | ^
-   1 error generated.
+vim +211 fs/erofs/decompressor_crypto.c
 
-
-vim +5640 arch/x86/kvm/svm/svm.c
-
-baeb4de7ad12b7 arch/x86/kvm/svm/svm.c Sean Christopherson 2023-07-21  5635  
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity          2006-12-10  5636  static int __init svm_init(void)
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity          2006-12-10  5637  {
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5638  	int r;
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5639  
-032ffa65cd624b arch/x86/kvm/svm/svm.c Sean Christopherson 2025-04-21 @5640  	KVM_SANITY_CHECK_VM_STRUCT_SIZE(kvm_svm);
-032ffa65cd624b arch/x86/kvm/svm/svm.c Sean Christopherson 2025-04-21  5641  
-d07f46f9f51afc arch/x86/kvm/svm/svm.c Tom Lendacky        2020-09-07  5642  	__unused_size_checks();
-d07f46f9f51afc arch/x86/kvm/svm/svm.c Tom Lendacky        2020-09-07  5643  
-d4193132497574 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5644  	if (!kvm_is_svm_supported())
-d4193132497574 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5645  		return -EOPNOTSUPP;
-d4193132497574 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5646  
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5647  	r = kvm_x86_vendor_init(&svm_init_ops);
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5648  	if (r)
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5649  		return r;
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5650  
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5651  	/*
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5652  	 * Common KVM initialization _must_ come last, after this, /dev/kvm is
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5653  	 * exposed to userspace!
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5654  	 */
-81a1cf9f89a6b7 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5655  	r = kvm_init(sizeof(struct vcpu_svm), __alignof__(struct vcpu_svm),
-81a1cf9f89a6b7 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5656  		     THIS_MODULE);
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5657  	if (r)
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5658  		goto err_kvm_init;
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5659  
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5660  	return 0;
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5661  
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5662  err_kvm_init:
-baeb4de7ad12b7 arch/x86/kvm/svm/svm.c Sean Christopherson 2023-07-21  5663  	__svm_exit();
-4f8396b96a9fc6 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-11-30  5664  	return r;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity          2006-12-10  5665  }
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity          2006-12-10  5666  
+5cf7d8744a0a86 Bo Liu 2025-05-14  207  
+5cf7d8744a0a86 Bo Liu 2025-05-14  208  struct z_erofs_crypto_engine *z_erofs_crypto[] = {
+5cf7d8744a0a86 Bo Liu 2025-05-14  209  	[Z_EROFS_COMPRESSION_LZ4] = &(struct z_erofs_crypto_engine) {NULL},
+5cf7d8744a0a86 Bo Liu 2025-05-14  210  	[Z_EROFS_COMPRESSION_LZMA] = &(struct z_erofs_crypto_engine) {NULL},
+5cf7d8744a0a86 Bo Liu 2025-05-14 @211  	[Z_EROFS_COMPRESSION_DEFLATE] = {&(struct z_erofs_crypto_engine) {
 
 -- 
 0-DAY CI Kernel Test Service
