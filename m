@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6129E1A01B9
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 May 2025 08:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C0629551A;
+	Thu, 15 May 2025 09:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747297880; cv=none; b=X2yxNUbjxZK6NAlSuhUfzMyal9LsUShgUuAOsqe7GiPtg1aX5YQtxLspST4XJ2I1VBh/NsyU806CGQ+AIf8QK6gUREvV76H8kR6xdtv0GJ1ZaUw+HvXnUvVYS8307v4BjTsC08zfduC03nBzFfMvYioctn1ng4dMTdj3Yj3Z8GA=
+	t=1747300798; cv=none; b=BUcMXlyUTF2NcEMDJtJSXoqRkX0n8QKEwszs+f7DK3rLrC+BWtudBJnTfVW7sFflaHXEvgQVZc38MYEOWLe9NDhQF9guM+fsUmYKK9YA9p0sT/ogiskaB22S1kwPNllXEywKwrQPtD7bSsIeLBuJ61NykCb26E2TRUf7Vl+MkXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747297880; c=relaxed/simple;
-	bh=J4KuRQaJwLCcBJDNUYcoZwE4zeeX/EyME3m9Yqr53Zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KZ9aJ3lk94KVGYtf7MHMAXqvwkGpoue3mH4ugN6nPlUC6BDmdFiuk5CRirkuc8W32hxbErJVS6SFP0OYHgxhq97yoI0dTaW3WLKFDKpLr1d1BCxDkoiaeBKoIi4UQ/d+Kb/zLVgTb84DoTRaVvnLnuIpy2ZukoiK3KLoEwZwpR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I42O6v5u; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I42O6v5u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747297878; x=1778833878;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J4KuRQaJwLCcBJDNUYcoZwE4zeeX/EyME3m9Yqr53Zo=;
-  b=I42O6v5uZVcQbUSF2tETXMqeukkqvnMPsr7+JVHi5qbarfko6jM6S+p/
-   MQva4T6CoZKg7zU8w4tkko5UWkHgu6WQWAeaCJeOe6tSXVX9uBxgOW3pv
-   BJh8l8BXy+E2+Bw3hYyARPBY3DvA9dTK4cZsh3O4aaLC6MT0Ap/TR9Eti
-   ARhrr9opTWYwsLGRXFG4rKkLYglvnXXcjMSQK2U+OHcDrDny4L1n7WWAw
-   1EWcRRTWxyKn3geNG8vnMPMnFqleo5MuXC+Jn0Ek83pWa8bb05F0UcPZG
-   6oTPxdnIj76Ts05thKWSvC++RkCjPC+WHMzndqvVM50Lx9Tkp6crtm2Q9
-   w==;
-X-CSE-ConnectionGUID: Wn/i5sPJTdK95yrMn4g2Mg==
-X-CSE-MsgGUID: WehfCwtTTA2Vj4FQCIq7pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="49361038"
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="49361038"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:31:17 -0700
-X-CSE-ConnectionGUID: wza9HhzpS+KE05bwEsukow==
-X-CSE-MsgGUID: ZmmdmuNbRziktFSqHxay4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="138168229"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 May 2025 01:31:17 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uFTzm-000IAp-1m;
-	Thu, 15 May 2025 08:31:14 +0000
-Date: Thu, 15 May 2025 16:30:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android16-6.12 3/3]
- arch/arm64/net/bpf_jit_comp.c:2726:32: sparse: sparse: arithmetics on
- pointers to functions
-Message-ID: <202505151610.siraVnKI-lkp@intel.com>
+	s=arc-20240116; t=1747300798; c=relaxed/simple;
+	bh=27BgqZply+/JSM8w3Q+eEIN5X9am9OQ8w9Lycn4Lcx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p3xmckbfn8+myp4MSQ45wwTMLrSLCc7sOVrQW1eUVsWpIZlcH1BA9+7U760cXGt8nIeLVwp4xbGF7EGLlmKuOlBqcgosnoPbjyiwdng5l8nmmaOWWecNkZnMT2TJc6vZw+YUvf72uxjU1o/k8SNQjt/0fVMPQ8zQqakz8nWb9+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7423df563d6so711821b3a.0;
+        Thu, 15 May 2025 02:19:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747300796; x=1747905596;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sly7kHXqrRGdvJB5iOb5QQcI+fsxg5o/luWWE7Ei/To=;
+        b=Bii1hGf22M/3EmQISZu6LNGg73zHlXWX9N+3JQKgRb38OK9PdSgOnjV5PWHqDQ0Eq1
+         MhFAsLi0dPgzf4zlL4PsJTu9ufWQ1L5qbmiE/nOm+XYrNCv8iJa8lE1JM23zfHXuw7uW
+         Sj5WPItLQhpRjGlLuy1tw+7RmHxtVthlZa114MqAuUY4njcL88AC+WytDnxBccDA3MYp
+         SbdizgjW/KGfYoBXRjPp5KjLHYRUBjgXHeqrbNn71d87I5d7xZ5XmaqxPTfazoyN5MSf
+         7ULv9A8r7HPMAyNP+fPLi5WWlSQm97S/yg9cSpj4YHTyOXDa2YwBIZRoMWBKIytUG4eY
+         CYlA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7IuqrOGyAhn0cpW4FRPpOAhSGJMAfjIJft923cD/tpZ0skftR0CsjI0Y6AQge6RTApX62Y+IL5K98JFNX@lists.linux.dev
+X-Gm-Message-State: AOJu0YxuobgcRGZyEMHi2iHhwSBRVJM8FcRo1a7muKl4pN8/0numACQV
+	P49jMNxuBm+Qp8ozJ/74fdKBzfZSWqmrfq/3+2c4tR/c5NvNlYoX
+X-Gm-Gg: ASbGncuhNnDIy2j2Mkvp5m8pKpSyvAAidu/6pEL5rDafsjqTHBoISK6LTOYgOVzzFIS
+	R+hPYVoU+C3FYrZjxYm8h9VEdwcFrpVFJyxK8bWS56JwuEUZNZADceHmTxuvA2JjG3uZ+AOnEGT
+	i8T5k59AsAr9kwNCXD0654ymgeOyzT86VfGxA5OnaKPFhDqts9CiD02oaHQ9CmUuLjS1BZehCQO
+	9i/cfBEjwF+PJ6saW0g4sKXoPEXLyTSzPqTXkuTZbcRMw4qInsAFk9eY6yqEL98z2aUdBcsbftP
+	r0eX4mAmP6XIvCaHHgeqUQ4126HQakpHKVQC6TA/7MxOnzdUwcJKJ9GDc7nHAB2AG2Km/dpfbn4
+	5RErekya1eQ==
+X-Google-Smtp-Source: AGHT+IFuVEr6BM9jzhK4QkAm9P5QQf8rERAevNQeJYJBnBZfUkBiMmtorh/Gb0R5VbI0wsAM/rbOLw==
+X-Received: by 2002:a05:6a20:b40a:b0:1f5:6b36:f57a with SMTP id adf61e73a8af0-215ff1b6a3cmr9009418637.39.1747300796233;
+        Thu, 15 May 2025 02:19:56 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-74237a8972asm10649368b3a.157.2025.05.15.02.19.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 02:19:55 -0700 (PDT)
+Date: Thu, 15 May 2025 18:19:54 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org
+Subject: Re: [pci:ptm-debugfs 1/4] drivers/pci/pcie/ptm.c:275
+ context_update_write() error: buffer overflow 'buf' 7 <= 7
+Message-ID: <20250515091954.GA1059401@rocinante>
+References: <b41c1754-c6b7-4805-9f14-7c643d6c5304@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,55 +63,35 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b41c1754-c6b7-4805-9f14-7c643d6c5304@suswa.mountain>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/arm64/net/bpf_jit_comp.c:2726:32: sparse: sparse: arithmetics on pointers to functions"
-:::::: 
+Hello,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+[...]
+> smatch warnings:
+> drivers/pci/pcie/ptm.c:275 context_update_write() error: buffer overflow 'buf' 7 <= 7
+> 
+> vim +/buf +275 drivers/pci/pcie/ptm.c
+> 
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  257  static ssize_t context_update_write(struct file *file, const char __user *ubuf,
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  258  			     size_t count, loff_t *ppos)
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  259  {
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  260  	struct pci_ptm_debugfs *ptm_debugfs = file->private_data;
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  261  	char buf[7];
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  262  	int ret;
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  263  	u8 mode;
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  264  
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  265  	if (!ptm_debugfs->ops->context_update_write)
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  266  		return -EOPNOTSUPP;
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  267  
+> 1130deffd29ab2 Manivannan Sadhasivam 2025-05-05  268  	if (count < 1 || count > sizeof(buf))
+> 
+> Should be >= instead of >.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e1cdedc5dbd14af8ca28472c8d459635f6523cb6
-commit: 83e46665472d48dd181c2c9e451f751e9d5b6ec7 [3/3] FROMLIST: arm64/cfi,bpf: Support kCFI + BPF on arm64
-:::::: branch date: 17 hours ago
-:::::: commit date: 4 weeks ago
-config: arm64-randconfig-r113-20250515 (https://download.01.org/0day-ci/archive/20250515/202505151610.siraVnKI-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250515/202505151610.siraVnKI-lkp@intel.com/reproduce)
+Done.  Fixed directly on the branch, see:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505151610.siraVnKI-lkp@intel.com/
+  https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=ptm-debugfs&id=132833405e61463d47d6badff1b8080b09b5808e
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/net/bpf_jit_comp.c:2726:32: sparse: sparse: arithmetics on pointers to functions
->> arch/arm64/net/bpf_jit_comp.c:2726:17: sparse: sparse: non size-preserving pointer to integer cast
->> arch/arm64/net/bpf_jit_comp.c:2726:17: sparse: sparse: non size-preserving integer to pointer cast
+Thank you, Dan!
 
-vim +2726 arch/arm64/net/bpf_jit_comp.c
-
-75fe4c0b3e181f5 Puranjay Mohan 2024-05-02  2709  
-1dad391daef129e Puranjay Mohan 2024-02-28  2710  void bpf_jit_free(struct bpf_prog *prog)
-1dad391daef129e Puranjay Mohan 2024-02-28  2711  {
-1dad391daef129e Puranjay Mohan 2024-02-28  2712  	if (prog->jited) {
-1dad391daef129e Puranjay Mohan 2024-02-28  2713  		struct arm64_jit_data *jit_data = prog->aux->jit_data;
-1dad391daef129e Puranjay Mohan 2024-02-28  2714  		struct bpf_binary_header *hdr;
-1dad391daef129e Puranjay Mohan 2024-02-28  2715  
-1dad391daef129e Puranjay Mohan 2024-02-28  2716  		/*
-1dad391daef129e Puranjay Mohan 2024-02-28  2717  		 * If we fail the final pass of JIT (from jit_subprogs),
-1dad391daef129e Puranjay Mohan 2024-02-28  2718  		 * the program may not be finalized yet. Call finalize here
-1dad391daef129e Puranjay Mohan 2024-02-28  2719  		 * before freeing it.
-1dad391daef129e Puranjay Mohan 2024-02-28  2720  		 */
-1dad391daef129e Puranjay Mohan 2024-02-28  2721  		if (jit_data) {
-1dad391daef129e Puranjay Mohan 2024-02-28  2722  			bpf_arch_text_copy(&jit_data->ro_header->size, &jit_data->header->size,
-1dad391daef129e Puranjay Mohan 2024-02-28  2723  					   sizeof(jit_data->header->size));
-1dad391daef129e Puranjay Mohan 2024-02-28  2724  			kfree(jit_data);
-1dad391daef129e Puranjay Mohan 2024-02-28  2725  		}
-83e46665472d48d Puranjay Mohan 2025-03-10 @2726  		prog->bpf_func -= cfi_get_offset();
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Krzysztof
