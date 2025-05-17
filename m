@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC344A21
-	for <oe-kbuild@lists.linux.dev>; Sat, 17 May 2025 02:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53328347B4
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 May 2025 02:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747448043; cv=none; b=J2oXPhPvw1hLSVbOLiOSU2SyUufXJ6rLiAruG+YJPVk84B+baAJsWoqfnhE/CgSE08LHdty9ZHOh84PTm8fKZLTYb7zCLHk9vfYomOm/AiJluEGM1RjfkNLmP2DPrznnBs6Xq1PgrxhUNS2ot4ZP9VST2mIfNIxhd/2bw7wGVEs=
+	t=1747450258; cv=none; b=g4lItEHKZhPZ2t53XG2jo85fjZI+SJLfi/5b/Dp/3u8pTJxQcSZNpz7QskHCwze29M0GgraLy6se6YBjpgCqBV6h+zQtpuq4AoBCItkQ4s5LMQQ2rcHxZWGNmVxNJbEEQCkNEaisT++EvgojnkcG7pn/IlB8+jVn/NtDUHQd50w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747448043; c=relaxed/simple;
-	bh=q8hO47w6iW+vDYTBVSzEd+bpvTGZBnzk/5cVZNeakn4=;
+	s=arc-20240116; t=1747450258; c=relaxed/simple;
+	bh=qYFXePQ45p/ex/pyBUxjmryEGUCC35jJ+5JDYHNDU40=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T7+/Lgt13ZIHcFgyIsBfRocvG3vEXYE7W+KF4z85DF6yUD89jzySfNSBxqvhLCxzKQG8uYK32VXdf9XUl3+BBK/1+dcMZ6WTMZM41gRY7WCWXVMNNFMfYN+ybMAN+9vI5rkWR9jdvoR6psJwiFw+DsgKDSbyhr0ik8FUoVnBNBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/dsZZzk; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=CaZWJCURT3HHZu8/ocxui4N7dd5j0cuvjeLivHPMZf6TOeB8hffRgJ98jQ2V6pqWXwT3ISXOeswX2+LHuWB7GNTjAIWM5gLG3fU+CIDPP/6uKTZDXu9A4bFYAUmYgxYk2izdy17obeHkshynkVlmEazwGINz9MQiql7JOf6Jb14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBYL2cet; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/dsZZzk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBYL2cet"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747448041; x=1778984041;
+  t=1747450257; x=1778986257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q8hO47w6iW+vDYTBVSzEd+bpvTGZBnzk/5cVZNeakn4=;
-  b=f/dsZZzkyFo4flG2nbgNPUwAxfF1ON3CvZ9UPhGLflm/psWz6aGC21Sf
-   yni+Aa4vG4ixqchYRe7K4Gq/yxsQuYz/OXsWmHVos3DD0BHF2h2DhyBf6
-   znY6RDGApdj5dECqVkq0/89btUMCvTiiQ4v+D8ySCj39rEvY5usEwWVtx
-   Gn8pfqH49aKAj3Cn0GfehWuJ34/15OK49Ak9LSGV5PseCb/fbM+C54ba5
-   WEIjxmpIK5n460yomzo7tGa0aawj90fu/aMI5mx3mnBZKHDAcVQoXOyN4
-   v4ZKzA90zcQjsNU+OFXDGX38d3Fi+JEAz05DppVKX1wSBeaOD1fwcIaT8
-   A==;
-X-CSE-ConnectionGUID: 6WTb2sd5Rki9nWn7OfNpTA==
-X-CSE-MsgGUID: 60g7ul5xSMSbNsajffhV7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="53230248"
+  bh=qYFXePQ45p/ex/pyBUxjmryEGUCC35jJ+5JDYHNDU40=;
+  b=mBYL2cetRFvnkCjkS8LiRYATLCYqxl1KySus3GKeqKvb/9t7EozHUhde
+   yp8jX9n4sET8iqtYvMBli9U+yIBFtQt2yUsvGZ8CJhLkesNfNe/53Dert
+   05MKqi5c0m8lRPyCwROsiG3n49j/4UAVIvnkofwEvtdz5pQp9+5nN7+NQ
+   kqJowIVJvIdh6PqSmtzDcauwtZbh16y1G5XpuGEXHxDtKvR3xhPqHHABg
+   NWYi/OMaO2tXmMDST26VypOucU5sywPI/z2xWsJKhONUldDVbEtDRUOO5
+   /F9BSt8FgBjnpwS7awv9vTTQ3XsJ+sKM9Dp/h0n6EYLxmeP3WmoiuCf2N
+   Q==;
+X-CSE-ConnectionGUID: c8LjbLmbTlmXYJUUCU7t3Q==
+X-CSE-MsgGUID: Gep6hWugSoSBzWKqDeGPFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="74828975"
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="53230248"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 19:14:00 -0700
-X-CSE-ConnectionGUID: OwXLl4nKTz2lolAlAgDCpQ==
-X-CSE-MsgGUID: WU+by+QNSzCbJrKnDLSb+w==
+   d="scan'208";a="74828975"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 19:50:55 -0700
+X-CSE-ConnectionGUID: pHjH45LsRbOL7v7kvehrqw==
+X-CSE-MsgGUID: /p0gLm6JSWSDIWblxfKSyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,295,1739865600"; 
-   d="scan'208";a="138693764"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 May 2025 19:13:59 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="169791187"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 May 2025 19:50:54 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uG73k-0000U7-2n;
-	Sat, 17 May 2025 02:13:56 +0000
-Date: Sat, 17 May 2025 10:13:18 +0800
+	id 1uG7dU-000JtJ-0H;
+	Sat, 17 May 2025 02:50:52 +0000
+Date: Sat, 17 May 2025 10:50:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
- 828/4329] arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb:
- watchdog@14400000 (renesas,r9a09g047-wdt): compatible: 'oneOf' conditional
- failed, one must be fixed:
-Message-ID: <202505171047.bkloo0X4-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cel:nfsd-testing 3/93] fs/nfsd/nfs4callback.c:1412
+ nfsd41_cb_referring_call() warn: '&rcl->__list' not removed from list
+Message-ID: <202505171002.cE46sdj5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,43 +62,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Biju Das <biju.das.jz@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+TO: Chuck Lever <chuck.lever@oracle.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
-tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
-head:   9d5f0863e401cb64a69c27af17034edd01e989b3
-commit: e2e8c1a9f88d52b3a288f9ee499a2633c3a83008 [828/4329] arm64: dts: renesas: r9a09g047: Add WDT1-WDT3 nodes
-:::::: branch date: 13 days ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-2052-20250516 (https://download.01.org/0day-ci/archive/20250517/202505171047.bkloo0X4-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171047.bkloo0X4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   d868e4920c3f4feefcbc17c5812bbe1a48af8c6f
+commit: 4f3c8d8c9e109655311bbb4c6c46a54a9ef90d99 [3/93] NFSD: Implement CB_SEQUENCE referring call lists
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171002.cE46sdj5-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505171047.bkloo0X4-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505171002.cE46sdj5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a09g047e57-smarc.dtb: watchdog@14400000 (renesas,r9a09g047-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g047-wdt', 'renesas,r9a09g057-wdt'] is too long
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r7s72100-wdt', 'renesas,r7s9210-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r9a06g032-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r9a07g043-wdt', 'renesas,r9a07g044-wdt', 'renesas,r9a07g054-wdt', 'renesas,r9a08g045-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r9a09g011-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r8a7742-wdt', 'renesas,r8a7743-wdt', 'renesas,r8a7744-wdt', 'renesas,r8a7745-wdt', 'renesas,r8a77470-wdt', 'renesas,r8a7790-wdt', 'renesas,r8a7791-wdt', 'renesas,r8a7792-wdt', 'renesas,r8a7793-wdt', 'renesas,r8a7794-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r8a774a1-wdt', 'renesas,r8a774b1-wdt', 'renesas,r8a774c0-wdt', 'renesas,r8a774e1-wdt', 'renesas,r8a7795-wdt', 'renesas,r8a7796-wdt', 'renesas,r8a77961-wdt', 'renesas,r8a77965-wdt', 'renesas,r8a77970-wdt', 'renesas,r8a77980-wdt', 'renesas,r8a77990-wdt', 'renesas,r8a77995-wdt']
-   	'renesas,r9a09g047-wdt' is not one of ['renesas,r8a779a0-wdt', 'renesas,r8a779f0-wdt', 'renesas,r8a779g0-wdt', 'renesas,r8a779h0-wdt']
-   	'renesas,r9a09g057-wdt' was expected
-   	'renesas,rza-wdt' was expected
+New smatch warnings:
+fs/nfsd/nfs4callback.c:1412 nfsd41_cb_referring_call() warn: '&rcl->__list' not removed from list
+
+Old smatch warnings:
+include/linux/sunrpc/xdr.h:805 xdr_stream_decode_uint32_array() warn: potential user controlled sizeof overflow 'len * 4' '0-u32max * 4'
+
+vim +1412 fs/nfsd/nfs4callback.c
+
+2bbfed98a4d82a Trond Myklebust 2019-10-23  1350  
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1351  /**
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1352   * nfsd41_cb_referring_call - add a referring call to a callback operation
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1353   * @cb: context of callback to add the rc to
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1354   * @sessionid: referring call's session ID
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1355   * @slotid: referring call's session slot index
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1356   * @seqno: referring call's slot sequence number
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1357   *
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1358   * Caller serializes access to @cb.
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1359   *
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1360   * NB: If memory allocation fails, the referring call is not added.
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1361   */
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1362  void nfsd41_cb_referring_call(struct nfsd4_callback *cb,
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1363  			      struct nfs4_sessionid *sessionid,
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1364  			      u32 slotid, u32 seqno)
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1365  {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1366  	struct nfsd4_referring_call_list *rcl;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1367  	struct nfsd4_referring_call *rc;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1368  	bool found;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1369  
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1370  	might_sleep();
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1371  
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1372  	found = false;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1373  	list_for_each_entry(rcl, &cb->cb_referring_call_list, __list) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1374  		if (!memcmp(rcl->rcl_sessionid.data, sessionid->data,
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1375  			   NFS4_MAX_SESSIONID_LEN)) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1376  			found = true;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1377  			break;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1378  		}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1379  	}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1380  	if (!found) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1381  		rcl = kmalloc(sizeof(*rcl), GFP_KERNEL);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1382  		if (!rcl)
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1383  			return;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1384  		memcpy(rcl->rcl_sessionid.data, sessionid->data,
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1385  		       NFS4_MAX_SESSIONID_LEN);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1386  		rcl->__nr_referring_calls = 0;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1387  		INIT_LIST_HEAD(&rcl->rcl_referring_calls);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1388  		list_add(&rcl->__list, &cb->cb_referring_call_list);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1389  		cb->cb_nr_referring_call_list++;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1390  	}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1391  
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1392  	found = false;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1393  	list_for_each_entry(rc, &rcl->rcl_referring_calls, __list) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1394  		if (rc->rc_sequenceid == seqno && rc->rc_slotid == slotid) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1395  			found = true;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1396  			break;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1397  		}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1398  	}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1399  	if (!found) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1400  		rc = kmalloc(sizeof(*rc), GFP_KERNEL);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1401  		if (!rc)
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1402  			goto out;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1403  		rc->rc_sequenceid = seqno;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1404  		rc->rc_slotid = slotid;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1405  		rcl->__nr_referring_calls++;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1406  		list_add(&rc->__list, &rcl->rcl_referring_calls);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1407  	}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1408  
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1409  out:
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1410  	if (!rcl->__nr_referring_calls) {
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1411  		cb->cb_nr_referring_call_list--;
+4f3c8d8c9e1096 Chuck Lever     2025-03-01 @1412  		kfree(rcl);
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1413  	}
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1414  }
+4f3c8d8c9e1096 Chuck Lever     2025-03-01  1415  
 
 -- 
 0-DAY CI Kernel Test Service
