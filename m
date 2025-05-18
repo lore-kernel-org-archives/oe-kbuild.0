@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BC52E659
-	for <oe-kbuild@lists.linux.dev>; Sun, 18 May 2025 03:38:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06065EEDE
+	for <oe-kbuild@lists.linux.dev>; Sun, 18 May 2025 04:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747539533; cv=none; b=FO8WTiULdKVhHOjeF3Ri2mgVQwJVrwg/sU92Wf3vmmjky+mXbga4eBU8J4mgYaclFfmf6OWnWZXUDNkxbd8ffOuCHevbsfFC0UmT34ak7nV0tGL6UiMABryT1V6oHAETPwfg/oRAjuDIJ4nWacBro/bhtlafX51IDhqdtjQZnMY=
+	t=1747541456; cv=none; b=CAR/rDZm9kyq29r/jWo0o66OftgU+DJPBWxsZ8XSX0zABBjGb8HHUu67LwDx+tNhcIhKWolVekMfv0zlqrZqzzxwU1s15dgZC1ynhe0CAIh0mjJbdkLJz4hRpAvQW872V6Yk7T9J6C2EfoYDSgLFx128Tnux2wLNZSL2zN46+PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747539533; c=relaxed/simple;
-	bh=Jl59+XSUYzVBWwWVN9bCii4xZ5/JaNwmn8Eev2nvSus=;
+	s=arc-20240116; t=1747541456; c=relaxed/simple;
+	bh=Rctu/nMGSYzOj9wHZWrK13l8S/0n66MYzSuYRMlM/uI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jt8GzzQI/403POrglRNiOzqEAYXirJPQ6judDR8BZ1VHlUOVWJ8dZZx2V0AcyWtAtFBE+UzWcx1JAuC2ayTmA/W/qr2YoweJaVKZFC3hPo3q+n346ELs1FikGmwLZJZbxtxRv6pWpRDBob7tWvdrJU2Nw+0eRFIykrRdAmUrhu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kozvuKaM; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=XpfSFGFAusaNiaJXyemjijhRRer178qNT+9KIail+WvLcHWgoOmZU8cqVwsNjBfVRtc0fLoDWbA12bnw17013zAQY7B74lw1xZbYt88RGeSYxNwLpw993r//lAAs15t8M7y8CEYn6g97DcZE0AeI0zF2dXlzct/4dbpSHmkAH/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=We2fmMyC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kozvuKaM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="We2fmMyC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747539531; x=1779075531;
+  t=1747541454; x=1779077454;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jl59+XSUYzVBWwWVN9bCii4xZ5/JaNwmn8Eev2nvSus=;
-  b=kozvuKaM1ReP8WK7UOAc/r022F7UjBP4U7SBx2ZeFWP+Xn0EJZ/kCE2s
-   ++G5NgKw/Dfu5dJEEITGs12D7IPZThbWtaqMv4H4mEQvw3q3EcY16sF9I
-   habUhsEk2CsWVnoOXTJmpTzFcUC6yB+dohmvBkDLJAV76BJgZ8qaSx0TM
-   G5mVmnMqe/ZyI/EeBNhhB9Ofz5zxGyWfPOzH25Tu1C7u46GyMUaD34JC5
-   b7jer+9l0ckyv+lFVEhCxxwpxkoHRH/bMXHZwuDdcVHPop1+jFPGWnkkk
-   HaKc1nfx+kC9sanMbq9e36tHzDejaC7+6Rf6neYgilWfOge67MiXyHWCt
+  bh=Rctu/nMGSYzOj9wHZWrK13l8S/0n66MYzSuYRMlM/uI=;
+  b=We2fmMyCEsEjwapmSZVtNMfTHmTngdlHhwQZ6whTuBphYqV54FrDEKQ6
+   +JQ8kmnebQcCljkgT3NJdAN6V0ugxqKC6t8hUCQC68R8Cv8duZpQU9Tzb
+   95T/ghbfpAzlJDo7RcTrpPnGBLNbh1Esb/dDsYyGidX0cpbkLWVYvpDB1
+   4lpeAzvVesDuSk3v3iYEQvNjnJ+QRqcvuhsaLPaK5oznLhxzwmu/anEMA
+   2EqX/7B/CikRZhT/ya82h4EqzLb3nGc1ONBWE3XpcNxabRkhFDzd5vL/a
+   SQ4O2rDH+atD8QR5Q70jm/ZyAYuE6wDlySoM4C2RiZk6exyJjOAQXpTUq
    Q==;
-X-CSE-ConnectionGUID: 7/1X5etvTOyshLdZNOShKA==
-X-CSE-MsgGUID: fvDtoSwCSfKv9pfg93yimA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="59698952"
+X-CSE-ConnectionGUID: 706yCmlATP6KawIwiE+j0Q==
+X-CSE-MsgGUID: SWmBiJ3JSFe4KC8u7O6E5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="67021901"
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="59698952"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 20:38:50 -0700
-X-CSE-ConnectionGUID: vsP0OKjUQyiBKqdlEHR9Ow==
-X-CSE-MsgGUID: VgI8Kp3WTS+vj7Apfw7JWw==
+   d="scan'208";a="67021901"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 21:10:52 -0700
+X-CSE-ConnectionGUID: vdbsMz+FQFilL5MFOH1uNw==
+X-CSE-MsgGUID: r868xKMNQdyKWZK54aDamw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,298,1739865600"; 
-   d="scan'208";a="169981727"
+   d="scan'208";a="170093619"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 May 2025 20:38:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 May 2025 21:10:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uGUrO-000KaV-2r;
-	Sun, 18 May 2025 03:38:46 +0000
-Date: Sun, 18 May 2025 11:38:43 +0800
+	id 1uGVMP-000Kbf-0O;
+	Sun, 18 May 2025 04:10:49 +0000
+Date: Sun, 18 May 2025 12:10:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: fs/btrfs/extent_io.o: warning: objtool:
- btrfs_clear_buffer_dirty+0x2c4: unreachable instruction
-Message-ID: <202505181108.JxBG7kX8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] NFS: Fixes for nfs4_proc_mkdir() error handling
+Message-ID: <202505181116.RhlCb75I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,48 +61,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Qu Wenruo <wqu@suse.com>
-CC: David Sterba <dsterba@suse.com>
+In-Reply-To: <20250516150010.61641-1-anna@kernel.org>
+References: <20250516150010.61641-1-anna@kernel.org>
+TO: Anna Schumaker <anna@kernel.org>
+TO: linux-nfs@vger.kernel.org
+TO: trond.myklebust@hammerspace.com
+CC: anna@kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5723cc3450bccf7f98f227b9723b5c9f6b3af1c5
-commit: 7895817b31598a04f974acdd5d46a5b6c66f9f08 btrfs: simplify subpage handling of btrfs_clear_buffer_dirty()
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: loongarch-randconfig-001-20250512 (https://download.01.org/0day-ci/archive/20250518/202505181108.JxBG7kX8-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250518/202505181108.JxBG7kX8-lkp@intel.com/reproduce)
+Hi Anna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Schumaker/NFS-Fixes-for-nfs4_proc_mkdir-error-handling/20250516-231124
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20250516150010.61641-1-anna%40kernel.org
+patch subject: [PATCH] NFS: Fixes for nfs4_proc_mkdir() error handling
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20250517 (https://download.01.org/0day-ci/archive/20250518/202505181116.RhlCb75I-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505181108.JxBG7kX8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505181116.RhlCb75I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/nfs/nfs4proc.c:5277 nfs4_proc_mkdir() warn: passing zero to 'PTR_ERR'
 
-   fs/btrfs/extent_io.o: warning: objtool: set_delalloc_bitmap+0x104: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: assert_eb_folio_uptodate+0xc8: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: submit_extent_folio+0xc8: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: submit_one_sector+0xc4: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: end_bbio_data_write+0x16c: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: detach_extent_buffer_folio+0x104: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: attach_eb_folio_to_filemap+0x108: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: find_lock_delalloc_range+0x124: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: writepage_delalloc+0x410: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: btrfs_do_readpage+0x200: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: extent_write_locked_range+0x220: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: alloc_extent_buffer+0x278: unreachable instruction
->> fs/btrfs/extent_io.o: warning: objtool: btrfs_clear_buffer_dirty+0x2c4: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: read_extent_buffer_pages_nowait+0x2c0: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: write_one_eb+0x420: unreachable instruction
+Old smatch warnings:
+fs/nfs/nfs4proc.c:1471 nfs4_opendata_alloc() error: we previously assumed 'c' could be null (see line 1439)
+
+vim +/PTR_ERR +5277 fs/nfs/nfs4proc.c
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5259  
+8376583b84a193 NeilBrown           2025-02-27  5260  static struct dentry *nfs4_proc_mkdir(struct inode *dir, struct dentry *dentry,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5261  				      struct iattr *sattr)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5262  {
+dff25ddb48086a Andreas Gruenbacher 2016-12-02  5263  	struct nfs_server *server = NFS_SERVER(dir);
+0688e64bc60038 Trond Myklebust     2019-04-07  5264  	struct nfs4_exception exception = {
+0688e64bc60038 Trond Myklebust     2019-04-07  5265  		.interruptible = true,
+0688e64bc60038 Trond Myklebust     2019-04-07  5266  	};
+c528f70f504434 Trond Myklebust     2022-10-19  5267  	struct nfs4_label l, *label;
+8376583b84a193 NeilBrown           2025-02-27  5268  	struct dentry *alias;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5269  	int err;
+a8a5da996df7d2 Aneesh Kumar K.V    2010-12-09  5270  
+aa9c2669626ca7 David Quigley       2013-05-22  5271  	label = nfs4_label_init_security(dir, dentry, sattr, &l);
+aa9c2669626ca7 David Quigley       2013-05-22  5272  
+dff25ddb48086a Andreas Gruenbacher 2016-12-02  5273  	if (!(server->attr_bitmask[2] & FATTR4_WORD2_MODE_UMASK))
+a8a5da996df7d2 Aneesh Kumar K.V    2010-12-09  5274  		sattr->ia_mode &= ~current_umask();
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5275  	do {
+8376583b84a193 NeilBrown           2025-02-27  5276  		alias = _nfs4_proc_mkdir(dir, dentry, sattr, label);
+4c35d65f4c6f1e Anna Schumaker      2025-05-16 @5277  		err = PTR_ERR(alias);
+4c35d65f4c6f1e Anna Schumaker      2025-05-16  5278  		if (err > 0)
+4c35d65f4c6f1e Anna Schumaker      2025-05-16  5279  			err = 0;
+078ea3dfe396b1 Trond Myklebust     2013-08-12  5280  		trace_nfs4_mkdir(dir, &dentry->d_name, err);
+078ea3dfe396b1 Trond Myklebust     2013-08-12  5281  		err = nfs4_handle_exception(NFS_SERVER(dir), err,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5282  				&exception);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5283  	} while (exception.retry);
+aa9c2669626ca7 David Quigley       2013-05-22  5284  	nfs4_label_release_security(label);
+aa9c2669626ca7 David Quigley       2013-05-22  5285  
+4c35d65f4c6f1e Anna Schumaker      2025-05-16  5286  	if (err != 0)
+4c35d65f4c6f1e Anna Schumaker      2025-05-16  5287  		return ERR_PTR(err);
+8376583b84a193 NeilBrown           2025-02-27  5288  	return alias;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5289  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  5290  
 
 -- 
 0-DAY CI Kernel Test Service
