@@ -1,71 +1,71 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108D57083A
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 09:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBB23A9BD
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 09:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747993570; cv=none; b=Nv5bvihiZviKeMuef1pcE7vjYQrXSd+9UF+uj5ZA9Ln/ZgzwKncUr2OwGtjDqi8LJImG4F/NIbwTTeOesRKfQj217ZbPgX3uUZnVlxeG/eb2zw6ZiDcRzHJktD+Hri0kfqd+sDUOCoyMh5lXMocgi0GibD2b3Sl85J3fcUWcBRg=
+	t=1747994344; cv=none; b=BKwBzdxaJG7dBQiKgWPjJCFHlH/v6bX1oLCnA3s8Ik8qFbFgesHbvYkaaEGadKFhvgJeA/7tVV/VGY8h2D6Oahm2v80EICuV8uf14ySZNMlhspvMWxeGdXMgJLMh8lAnbcRJqXXqiYHnpfsuH4xmFmKvB5a+3P4d15AlzSPY6L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747993570; c=relaxed/simple;
-	bh=g0CqvvMKzLeMKYjz7hRE+LMOROw08soSCEk9jR0MjeI=;
+	s=arc-20240116; t=1747994344; c=relaxed/simple;
+	bh=sOTzNX+QtEQKIe4p3xpWgGKk7sRb/GoSk1b2cMqAYKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=lusX+toYNeOImjZb1iNimWKFNPj1is0ako7qXKM4v+qO5nYAFZXfv7EOoMwiaEue6D4BX2Ot+FlDccdDvMFdhF0c2f5MVVns1xdKWsmynXBpTWXmpap23O04qyrcp9Y1dFvWayBz7ZW9tKMpceV+xhCBvBvV+TR/Vcj1xN5Sh4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mfktvs2K; arc=none smtp.client-ip=209.85.128.46
+	 Content-Disposition; b=mMIE4pzCKSzSCtHgU5187VA78vYxTtPsrPWnqhF4UFodkTWS4KushJl82I6tGMAx1VYPfZpvO9+hXAMLc4xBwESo2vRN1LaCzB7M9PfFva7xLQoS7pA6+WbD+8Paxv21L7w4QJyjvqQEdbCuCkoz8EsrreHZ68voq/6g4XJA3pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=We4kIVSy; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mfktvs2K"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso69341695e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 02:46:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="We4kIVSy"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cf257158fso69444775e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 02:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747993566; x=1748598366; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=foNTOHpzt5e+CVfMRgO4/fjIO/6hBNq5r7JEJPhTgRc=;
-        b=Mfktvs2KkEzfCs382k/F6w6u4BMQlAbhZ4gejUhEJPsKINSRHWzQLdCbQNGz4plkkN
-         do6tRRMxMjgvMWTDVc+imPmb9ETAiAT3Lt+YgIYPGncOiwgi3y0TdHrtiQECV+RtmI76
-         uHVda9R2GHYX9OA8FS2cn/Xg4300ahvJ/m/b4IuHLEmFaonJi3+0Fn8M7HtgA50QEw2I
-         9DyN4cEgM6mDbpJsuaNLUQiUuXnnh5CtUz83B1ncRTSHdf0ZLuBKJzx7YQTfYvnlz0fq
-         KNHSgujHOvy898n8b2K9nooRBzgx62aS62ePvmw20SVzBEMJCewZ50F9uCbAz5XJDB2X
-         Cpfg==
+        d=linaro.org; s=google; t=1747994341; x=1748599141; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky7N7zgOvv1ZePfl6ZS7WcKMQTdT+DntzszzzsUT03k=;
+        b=We4kIVSyhnfdyd5/suAtFTkEvH40kpk+rm8ieFcoydZermF+3v/ecCXE6mDYWieb7O
+         n78Mbn1QBJeE3uQg+BdUZHUWH4tZ0mFnHCjy3XWwd+ilIR+WlfHTnA3zKBt1IT0Husdj
+         KMANIyBErsxoz5B10rmkcx+xV0InjBoh3unGxvzOHp+wydnP4hqECltHbMivUehFTf2D
+         PBbuuXGk+pezQD9jW51Wgg4cnd4Jp6aPI7cTj9DSexiKI6OiTQUlhoxAuikajwwT9mI2
+         LMdtoID+SzNU9nsWhsD1aOF2w6XFFvKVuSbgDYJf7BvC8zN0xpO+3pRH1kIk6X+A7bGj
+         2d3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993566; x=1748598366;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=foNTOHpzt5e+CVfMRgO4/fjIO/6hBNq5r7JEJPhTgRc=;
-        b=wfoxIl3uIAR1noeWVyjxbqnJ9AV6Nc07O1gVs4+ggiI5RBgj6pnDzRPuYJdlBzE/IB
-         lt7goXFgedfgxQKuy7+za6uaEP9mVXm62z6AtRQQX9mR5eM7GtjRmaot4x+Gl2Mt+mEp
-         qqKC3fh5YC2tz86HZEuqH4FYmiY2U0MkiLqUYgi84SglRsi1qxpA1vMgdQP2uAhDHl9d
-         roIdyK02tPNkbiqDsZpKZVJZNlz0EethP6h73BzXTmCx0Ox6Vf0fFXzceM6/Qx/UrEt5
-         799MBeAdKiJBDn7PCp1SRnSSC8NOMVtbnqJvl6I0Dtdnnen3cszMbIdSIvpRl//lN2vE
-         IrNA==
-X-Gm-Message-State: AOJu0YztClqCJdwdWUVM4/dP93sqyS0biX3LuBwsmDR6iMcJRJ46/iDQ
-	qu243tNdSaDRqEnp8dhBjiISX7yi3LAJ3sAPWD9pofUwgaAUTsatqg1A5FUHetp8Y2Yd20Dfit6
-	8FaBt
-X-Gm-Gg: ASbGncv7NY+2my43TGaAJmIjrDkMKM3xQ4bc2INm4mZfokVzfNDIziPMLP2YXBEAXYp
-	LAPYZyXVs0XQYPBmH7DYGTKVK5Fe2hIta/tbBk9zBpcscrDINIKcwPlMEK3Vo6gtMJ3t0HOSlCh
-	1O4cqVZruhQFqweINpXMzavw3n7aP2F6xJVVdjx8rda56ON0TJJ+It6FbhEj99swWnZ+iCVsCp7
-	N6aC1PSpPGZNqOFkyDmY4I6qpehweWlk+xIIj0flcP2mUw/c7e73UW2GBx35ZZ2pdkCnsQC9igV
-	iJBVbhu3NILP9uQH4K9ImGmR/jWO/cA5B3OI05lu7X3f187bJ4JG52n1
-X-Google-Smtp-Source: AGHT+IFeXuzRSP3te/4kJrabY82cymAda1Ah/IMjxYAHTLxROVr9nV9wVlqZWpQQfGQ7Ndx2j/Asnw==
-X-Received: by 2002:a05:600c:3114:b0:43c:fa24:8721 with SMTP id 5b1f17b1804b1-442fd6445bdmr296392075e9.17.1747993566028;
-        Fri, 23 May 2025 02:46:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747994341; x=1748599141;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky7N7zgOvv1ZePfl6ZS7WcKMQTdT+DntzszzzsUT03k=;
+        b=HG7SpZQ8V9uGLz1MrloZTplp+K8vcU654uG20XIvKjppAXfwUs8TIPzxg0VtpY6+7o
+         n7/iZeQOH/z+Ux2PTaEiVfQrTkbNap9aEvEw8HWUY6fcfujbA+zdPRQPZzyaXgS9DIQE
+         I1u7aZcPJk5rLfqWvilZDJZDkH2Z/5NaI8gQKDH6Wu62wIr1JybuAQjZyxlNillDWhE6
+         1yoWAxnjOdIAReG1+Bq+GXg6c8edb6Ylbd/6KopYYkpVk5h9X/wIWC1v8TewUdFfWY2d
+         QObggxOtB7Kl99ch+0O9fN3BfB8OnU2gcLCb5MeyBD7Ncy5e+GgifibR6YJ/lZnXsJKe
+         AvYQ==
+X-Gm-Message-State: AOJu0YznXdMH/Vc13w+udyI/oweEZjCVHMrfonCuiWYBE1XSdyBjr5av
+	MfNIc4+cdSYFG8BpFUdV4lGN8zf/7nWhX0FbjoXgLYtCvZyaB3Tzr3+jQrN7V9TDuh5UdmjkMZY
+	qbhWO
+X-Gm-Gg: ASbGncs843MyJpncFQL5dWCb4vuQ0a/ge5iSHx5s5LktLNFoypyw50Rh+JAfcAs0E7B
+	KuzgySST3D1N+stGx2of3BuvI6R2RmeLGua0BI2Ooi+2hQbbcTWaP3FhAuaMsXIn2S33KSTfeo2
+	h/4wA71Wv3t/K8qt0yGeQkMzq7LyavxHPqb1h6DO1hDCJ+tg1cxH+2Y6dYxDIE2wkOBOtHmIMmx
+	SHIBJV1J8YmhIPdZpt1esG5ukxsQF0y5UoSHJwYfIFIq4sSeGGK68NrTYjzmaYdmR336P4vT3zm
+	JJULl6Um4jskDpdGIZTn5perCiBKzvtrPbLwfiSD0ZtLy1pvBhChGIQv
+X-Google-Smtp-Source: AGHT+IH5MW196hi1a+GGyI7a3FFU+dB1gm0exsPw7cu83Sp950UVRyK9+IA81RAahFK7xGZzOjL1Uw==
+X-Received: by 2002:a05:600c:3d8e:b0:43c:eeee:b706 with SMTP id 5b1f17b1804b1-442ff032801mr250427695e9.24.1747994340926;
+        Fri, 23 May 2025 02:59:00 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-447f6f062fcsm131130745e9.15.2025.05.23.02.46.04
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442ebd46aa4sm225773565e9.1.2025.05.23.02.59.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 02:46:05 -0700 (PDT)
-Date: Fri, 23 May 2025 12:46:01 +0300
+        Fri, 23 May 2025 02:59:00 -0700 (PDT)
+Date: Fri, 23 May 2025 12:58:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Wentao Liang <vulab@iscas.ac.cn>,
-	andi.shyti@kernel.org
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
-Message-ID: <202505221445.quJVHqSz-lkp@intel.com>
+	Carlos Maiolino <cem@kernel.org>,
+	Hans Holmberg <hans.holmberg@wdc.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: [linux-next:master 10746/11779] fs/xfs/xfs_mru_cache.c:451
+ xfs_mru_cache_insert() error: we previously assumed 'mru' could be null (see
+ line 429)
+Message-ID: <202505211940.jjLX0rQI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,109 +74,65 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519141918.2522-1-vulab@iscas.ac.cn>
-Message-ID: <20250523094601.x-NZWRH-w-GfJHs4UTh-vAfIhvwk-jmXgjfGA_cefEY@z>
+Message-ID: <20250523095857.xtkxtAycYIQcUn4E6TQ15ZM0F4JcDEUCOdTw9xIhfxo@z>
 
-Hi Wentao,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/i2c-qup-Add-error-handling-in-qup_i2c_xfer_v2/20250519-222137
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250519141918.2522-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] i2c: qup: Add error handling in qup_i2c_xfer_v2()
-config: powerpc64-randconfig-r071-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221445.quJVHqSz-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8566fc3b96539e3235909d6bdda198e1282beaed
+commit: 70b95cb86513d7f6d084ddc8e961a1cab9022e14 [10746/11779] xfs: free the item in xfs_mru_cache_insert on failure
+config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211940.jjLX0rQI-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505221445.quJVHqSz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505211940.jjLX0rQI-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-qup.c:1621 qup_i2c_xfer_v2() error: uninitialized symbol 'err'.
+New smatch warnings:
+fs/xfs/xfs_mru_cache.c:451 xfs_mru_cache_insert() error: we previously assumed 'mru' could be null (see line 429)
 
-vim +/err +1621 drivers/i2c/busses/i2c-qup.c
+vim +/mru +451 fs/xfs/xfs_mru_cache.c
 
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1565  static int qup_i2c_xfer_v2(struct i2c_adapter *adap,
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1566  			   struct i2c_msg msgs[],
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1567  			   int num)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1568  {
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1569  	struct qup_i2c_dev *qup = i2c_get_adapdata(adap);
-61f647e9d36d67 Wentao Liang          2025-05-19  1570  	int ret, err, idx = 0;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1571  
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1572  	qup->bus_err = 0;
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1573  	qup->qup_err = 0;
-fbf9921f8b35d9 Sricharan Ramabadhran 2016-06-10  1574  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1575  	ret = pm_runtime_get_sync(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1576  	if (ret < 0)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1577  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1578  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1579  	ret = qup_i2c_determine_mode_v2(qup, msgs, num);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1580  	if (ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1581  		goto out;
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1582  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1583  	writel(1, qup->base + QUP_SW_RESET);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1584  	ret = qup_i2c_poll_state(qup, QUP_RESET_STATE);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1585  	if (ret)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1586  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1587  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1588  	/* Configure QUP as I2C mini core */
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1589  	writel(I2C_MINI_CORE | I2C_N_VAL_V2, qup->base + QUP_CONFIG);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1590  	writel(QUP_V2_TAGS_EN, qup->base + QUP_I2C_MASTER_GEN);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1591  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1592  	if (qup_i2c_poll_state_i2c_master(qup)) {
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1593  		ret = -EIO;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1594  		goto out;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1595  	}
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1596  
-eb422b539c1f39 Abhishek Sahu         2018-03-12  1597  	if (qup->use_dma) {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1598  		reinit_completion(&qup->xfer);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1599  		ret = qup_i2c_bam_xfer(adap, &msgs[0], num);
-eb422b539c1f39 Abhishek Sahu         2018-03-12  1600  		qup->use_dma = false;
-9cedf3b2f09946 Sricharan Ramabadhran 2016-02-22  1601  	} else {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1602  		qup_i2c_conf_mode_v2(qup);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1603  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1604  		for (idx = 0; idx < num; idx++) {
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1605  			qup->msg = &msgs[idx];
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1606  			qup->is_last = idx == (num - 1);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1607  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1608  			ret = qup_i2c_xfer_v2_msg(qup, idx,
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1609  					!!(msgs[idx].flags & I2C_M_RD));
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1610  			if (ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1611  				break;
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1612  		}
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1613  		qup->msg = NULL;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1614  	}
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1615  
-f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1616  	if (!ret)
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1617  		ret = qup_i2c_bus_active(qup, ONE_BYTE);
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1618  
-7545c7dba169c4 Abhishek Sahu         2018-03-12  1619  	if (!ret)
-61f647e9d36d67 Wentao Liang          2025-05-19  1620  		err = qup_i2c_change_state(qup, QUP_RESET_STATE);
+2a82b8be8a8dac David Chinner     2007-07-11  420  int
+2a82b8be8a8dac David Chinner     2007-07-11  421  xfs_mru_cache_insert(
+22328d712dd7fd Christoph Hellwig 2014-04-23  422  	struct xfs_mru_cache	*mru,
+2a82b8be8a8dac David Chinner     2007-07-11  423  	unsigned long		key,
+22328d712dd7fd Christoph Hellwig 2014-04-23  424  	struct xfs_mru_cache_elem *elem)
+2a82b8be8a8dac David Chinner     2007-07-11  425  {
+70b95cb86513d7 Christoph Hellwig 2025-05-14  426  	int			error = -EINVAL;
+2a82b8be8a8dac David Chinner     2007-07-11  427  
+2a82b8be8a8dac David Chinner     2007-07-11  428  	ASSERT(mru && mru->lists);
+2a82b8be8a8dac David Chinner     2007-07-11 @429  	if (!mru || !mru->lists)
 
-if ret was already set then err isn't initialized.
+mru can't be NULL but if it were
 
-61f647e9d36d67 Wentao Liang          2025-05-19 @1621  	if (err)
-                                                            ^^^
-Uninitialized.  In production obviously the only sane choice is
-CONFIG_INIT_STACK_ALL_ZERO but I really encourage developers to set
-CONFIG_INIT_STACK_ALL_PATTERN=y so that we catch these sorts of
-bugs in testing.
+70b95cb86513d7 Christoph Hellwig 2025-05-14  430  		goto out_free;
+2a82b8be8a8dac David Chinner     2007-07-11  431  
+70b95cb86513d7 Christoph Hellwig 2025-05-14  432  	error = -ENOMEM;
+0b3a76e955ebe3 Dave Chinner      2024-01-16  433  	if (radix_tree_preload(GFP_KERNEL))
+70b95cb86513d7 Christoph Hellwig 2025-05-14  434  		goto out_free;
+2a82b8be8a8dac David Chinner     2007-07-11  435  
+2a82b8be8a8dac David Chinner     2007-07-11  436  	INIT_LIST_HEAD(&elem->list_node);
+2a82b8be8a8dac David Chinner     2007-07-11  437  	elem->key = key;
+2a82b8be8a8dac David Chinner     2007-07-11  438  
+ba74d0cba51dca Eric Sandeen      2007-10-11  439  	spin_lock(&mru->lock);
+2451337dd04390 Dave Chinner      2014-06-25  440  	error = radix_tree_insert(&mru->store, key, elem);
+2a82b8be8a8dac David Chinner     2007-07-11  441  	radix_tree_preload_end();
+22328d712dd7fd Christoph Hellwig 2014-04-23  442  	if (!error)
+2a82b8be8a8dac David Chinner     2007-07-11  443  		_xfs_mru_cache_list_insert(mru, elem);
+ba74d0cba51dca Eric Sandeen      2007-10-11  444  	spin_unlock(&mru->lock);
+2a82b8be8a8dac David Chinner     2007-07-11  445  
+70b95cb86513d7 Christoph Hellwig 2025-05-14  446  	if (error)
+70b95cb86513d7 Christoph Hellwig 2025-05-14  447  		goto out_free;
+70b95cb86513d7 Christoph Hellwig 2025-05-14  448  	return 0;
+70b95cb86513d7 Christoph Hellwig 2025-05-14  449  
+70b95cb86513d7 Christoph Hellwig 2025-05-14  450  out_free:
+70b95cb86513d7 Christoph Hellwig 2025-05-14 @451  	mru->free_func(mru->data, elem);
 
-61f647e9d36d67 Wentao Liang          2025-05-19  1622  		return err;
-f74187932d30e4 Sricharan Ramabadhran 2016-01-19  1623  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1624  	if (ret == 0)
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1625  		ret = num;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1626  out:
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1627  	pm_runtime_mark_last_busy(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1628  	pm_runtime_put_autosuspend(qup->dev);
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1629  
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1630  	return ret;
-191424bb6166f6 Sricharan Ramabadhran 2016-01-19  1631  }
+then we are toast.
+
+ce695c6551f948 Christoph Hellwig 2014-04-23  452  	return error;
+2a82b8be8a8dac David Chinner     2007-07-11  453  }
 
 -- 
 0-DAY CI Kernel Test Service
