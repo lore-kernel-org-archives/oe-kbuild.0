@@ -1,71 +1,71 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBB23A9BD
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 09:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8744B2288D3
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 10:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747994344; cv=none; b=BKwBzdxaJG7dBQiKgWPjJCFHlH/v6bX1oLCnA3s8Ik8qFbFgesHbvYkaaEGadKFhvgJeA/7tVV/VGY8h2D6Oahm2v80EICuV8uf14ySZNMlhspvMWxeGdXMgJLMh8lAnbcRJqXXqiYHnpfsuH4xmFmKvB5a+3P4d15AlzSPY6L4=
+	t=1747994597; cv=none; b=B6eYsOy4BRUf/oG7VffuStKgBqgHEZtqAV2Npmf9v8V96Rbpx1oOXzcdUcdYQgG5mRBbPCEX3sEJSwhHN+/IEa7o/TwYQj0wGupUdVokzFPmKgrXYtAFmUFovcdliiyAoZ+YC+p7aprr+zdn9lyAG5woCX8lygBxcDmrQYyXLaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747994344; c=relaxed/simple;
-	bh=sOTzNX+QtEQKIe4p3xpWgGKk7sRb/GoSk1b2cMqAYKY=;
+	s=arc-20240116; t=1747994597; c=relaxed/simple;
+	bh=ujiOe3bOmZs9X41VUnMNWR4wflTRGuLIY5D/eQTzs5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mMIE4pzCKSzSCtHgU5187VA78vYxTtPsrPWnqhF4UFodkTWS4KushJl82I6tGMAx1VYPfZpvO9+hXAMLc4xBwESo2vRN1LaCzB7M9PfFva7xLQoS7pA6+WbD+8Paxv21L7w4QJyjvqQEdbCuCkoz8EsrreHZ68voq/6g4XJA3pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=We4kIVSy; arc=none smtp.client-ip=209.85.128.49
+	 Content-Disposition:In-Reply-To; b=k+IfSqfeJN4AaQdIXOIARzxHjhrIYqBNsXYgnJ7zksvWtXkuY4vlUKKf4/ykfpFCE42UthwPhcGAQyaKNb0IR747ATQuCDKbMWnde6NpO8/7sCmVb+cZXKUFFVTUmcsi3CYTYBFIwNYmznClZxFVmVAPiTY9MZwTySMpi7xvL3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xbtBRAdz; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="We4kIVSy"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cf257158fso69444775e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 02:59:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xbtBRAdz"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-442ea341570so62748705e9.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 03:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747994341; x=1748599141; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ky7N7zgOvv1ZePfl6ZS7WcKMQTdT+DntzszzzsUT03k=;
-        b=We4kIVSyhnfdyd5/suAtFTkEvH40kpk+rm8ieFcoydZermF+3v/ecCXE6mDYWieb7O
-         n78Mbn1QBJeE3uQg+BdUZHUWH4tZ0mFnHCjy3XWwd+ilIR+WlfHTnA3zKBt1IT0Husdj
-         KMANIyBErsxoz5B10rmkcx+xV0InjBoh3unGxvzOHp+wydnP4hqECltHbMivUehFTf2D
-         PBbuuXGk+pezQD9jW51Wgg4cnd4Jp6aPI7cTj9DSexiKI6OiTQUlhoxAuikajwwT9mI2
-         LMdtoID+SzNU9nsWhsD1aOF2w6XFFvKVuSbgDYJf7BvC8zN0xpO+3pRH1kIk6X+A7bGj
-         2d3w==
+        d=linaro.org; s=google; t=1747994593; x=1748599393; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H/Gce1NColnWtg6ZWbw4/vDJFXeyJ5MZqm0V5eF1bt4=;
+        b=xbtBRAdzCC1td7KwH9EgpBHMfiYdsf1u9iMVa5c7i7vhlgWlEP0up7xCX7kDtQN0cJ
+         z1UajDneuc6FFHF/Dup5cxRN6Ypx6u20PpCTZxOZNh3ox9ylSs27bvHxvauOTxZVQZNu
+         lREqI5EZiGtT6L1G5vR93zoPsfWsNbxIo5qSbYKpoG6/fNfHnnwMcBzOcBB/a65p972d
+         gZWAcvzVnk+7WQ7qmss/jmPj7TpCMELfeFDUfrdwyRfJN4oXymxCyxnVQmL68oZDwk3o
+         eE4p3/YtsX5OXKJpSV+3sTOrS5TZ4SlDOwazitqTBbdvak18w8RAPVkLRRO3XyR13NTE
+         aCyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747994341; x=1748599141;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ky7N7zgOvv1ZePfl6ZS7WcKMQTdT+DntzszzzsUT03k=;
-        b=HG7SpZQ8V9uGLz1MrloZTplp+K8vcU654uG20XIvKjppAXfwUs8TIPzxg0VtpY6+7o
-         n7/iZeQOH/z+Ux2PTaEiVfQrTkbNap9aEvEw8HWUY6fcfujbA+zdPRQPZzyaXgS9DIQE
-         I1u7aZcPJk5rLfqWvilZDJZDkH2Z/5NaI8gQKDH6Wu62wIr1JybuAQjZyxlNillDWhE6
-         1yoWAxnjOdIAReG1+Bq+GXg6c8edb6Ylbd/6KopYYkpVk5h9X/wIWC1v8TewUdFfWY2d
-         QObggxOtB7Kl99ch+0O9fN3BfB8OnU2gcLCb5MeyBD7Ncy5e+GgifibR6YJ/lZnXsJKe
-         AvYQ==
-X-Gm-Message-State: AOJu0YznXdMH/Vc13w+udyI/oweEZjCVHMrfonCuiWYBE1XSdyBjr5av
-	MfNIc4+cdSYFG8BpFUdV4lGN8zf/7nWhX0FbjoXgLYtCvZyaB3Tzr3+jQrN7V9TDuh5UdmjkMZY
-	qbhWO
-X-Gm-Gg: ASbGncs843MyJpncFQL5dWCb4vuQ0a/ge5iSHx5s5LktLNFoypyw50Rh+JAfcAs0E7B
-	KuzgySST3D1N+stGx2of3BuvI6R2RmeLGua0BI2Ooi+2hQbbcTWaP3FhAuaMsXIn2S33KSTfeo2
-	h/4wA71Wv3t/K8qt0yGeQkMzq7LyavxHPqb1h6DO1hDCJ+tg1cxH+2Y6dYxDIE2wkOBOtHmIMmx
-	SHIBJV1J8YmhIPdZpt1esG5ukxsQF0y5UoSHJwYfIFIq4sSeGGK68NrTYjzmaYdmR336P4vT3zm
-	JJULl6Um4jskDpdGIZTn5perCiBKzvtrPbLwfiSD0ZtLy1pvBhChGIQv
-X-Google-Smtp-Source: AGHT+IH5MW196hi1a+GGyI7a3FFU+dB1gm0exsPw7cu83Sp950UVRyK9+IA81RAahFK7xGZzOjL1Uw==
-X-Received: by 2002:a05:600c:3d8e:b0:43c:eeee:b706 with SMTP id 5b1f17b1804b1-442ff032801mr250427695e9.24.1747994340926;
-        Fri, 23 May 2025 02:59:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747994594; x=1748599394;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H/Gce1NColnWtg6ZWbw4/vDJFXeyJ5MZqm0V5eF1bt4=;
+        b=jv09LtAWRNt8BTwiD1i8vlOX0jz6dhmizZQ0Im4adtpcRFGd3AlEIfEifvHW+TAV6A
+         M7qQW/i+qKDiXOdERPPAePQk4oFMOuKoSzZxyaDDAM6Bmb3pS+Cpue5RuWNW+FDBhWT6
+         HqWN+tAPfkxntoycrnqjmjJtYLx1NpgZ8495C3mC0HxaQH7uGM5JzcRJmiDHt+WsFDbZ
+         1WHYPp3mwV4buFjLj98TOlT77BOqwMO0FJiEwoFtMxhjcc/FoGp09z5d0K/W5bUGCnQf
+         IrT0sFxf8tMUldNKA9z7MGZTrQNMCojASbC2UQCbaO34UQStQAZfV8/LVCQaJi12sN7U
+         dZWw==
+X-Gm-Message-State: AOJu0YzlqveJpW32lX/Wj8D2vp6bub+c857NuPpFeDhmR4n4liRxO+Is
+	qzTF/b9dsgAiy9kkn+MIz+3PZTRczEcwmAnWcKZLBndIqQMD8QTIJx4KXu/hstrLE/N42RV+5c5
+	P5+OH
+X-Gm-Gg: ASbGncuS7G+mJ4wi938wxzThaDwJkz9OVkCiuyJLkmz27O+HRQ4x7dQ/ezqS7nnKWpV
+	teZ0rI0ZiSp7XGP7GB2LkJs2xL6oaUTKljeWTo5bP69PYIR8/Bl4VU+W0s5QqNcOLfnAArazP1z
+	cnBBFcaeWHuvyIzxiLWMKS2MpPZ5PPP6AqIyUaqEHasRmhZetANqZRwN5FWIWXRDEw4LIwsqcxc
+	9kP7+4o1NHVpkgjTw34nQUXdsa6hzNCnPy5hfAE6pfDcXTDQVL2TJv8+tOpaUB3YL6RyikGVq83
+	15o+j4GcszNfj7Bo9eOcldQQacgvV3Aghtzo0bxu/5B9H6nKKQ13FlQEpaaDFfyuzp0=
+X-Google-Smtp-Source: AGHT+IGXYYf0TFhQ1O+wON7w7Ui0TdCCwX28S/0fiqjwsGck85D7SHKGiXnA9KbBhPMZpeej6AwM4w==
+X-Received: by 2002:a05:6000:2008:b0:3a4:79e8:cdfc with SMTP id ffacd0b85a97d-3a479e8cf38mr9971757f8f.30.1747994593532;
+        Fri, 23 May 2025 03:03:13 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-442ebd46aa4sm225773565e9.1.2025.05.23.02.59.00
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca8894csm26040832f8f.76.2025.05.23.03.03.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 02:59:00 -0700 (PDT)
-Date: Fri, 23 May 2025 12:58:57 +0300
+        Fri, 23 May 2025 03:03:13 -0700 (PDT)
+Date: Fri, 23 May 2025 13:03:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+To: oe-kbuild@lists.linux.dev, Dawei Li <dawei.li@linux.dev>,
+	andersson@kernel.org, mathieu.poirier@linaro.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Carlos Maiolino <cem@kernel.org>,
-	Hans Holmberg <hans.holmberg@wdc.com>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [linux-next:master 10746/11779] fs/xfs/xfs_mru_cache.c:451
- xfs_mru_cache_insert() error: we previously assumed 'mru' could be null (see
- line 429)
-Message-ID: <202505211940.jjLX0rQI-lkp@intel.com>
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dawei.li@linux.dev, set_pte_at@outlook.com
+Subject: Re: [PATCH v3 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL
+ uAPI
+Message-ID: <202505211038.sqqVX8kO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,65 +74,110 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250523095857.xtkxtAycYIQcUn4E6TQ15ZM0F4JcDEUCOdTw9xIhfxo@z>
+In-Reply-To: <20250519150823.62350-4-dawei.li@linux.dev>
+Message-ID: <20250523100309.OPtH8K-6Yf2AAbZZkt8esiv6wBLepAOyrW4J68qKb0s@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8566fc3b96539e3235909d6bdda198e1282beaed
-commit: 70b95cb86513d7f6d084ddc8e961a1cab9022e14 [10746/11779] xfs: free the item in xfs_mru_cache_insert on failure
-config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211940.jjLX0rQI-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Dawei,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/rpmsg-char-Reuse-eptdev-logic-for-anonymous-device/20250519-231006
+base:   92a09c47464d040866cf2b4cd052bc60555185fb
+patch link:    https://lore.kernel.org/r/20250519150823.62350-4-dawei.li%40linux.dev
+patch subject: [PATCH v3 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
+config: powerpc64-randconfig-r072-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211038.sqqVX8kO-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505211940.jjLX0rQI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505211038.sqqVX8kO-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_mru_cache.c:451 xfs_mru_cache_insert() error: we previously assumed 'mru' could be null (see line 429)
+smatch warnings:
+drivers/rpmsg/rpmsg_ctrl.c:140 rpmsg_ctrldev_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/mru +451 fs/xfs/xfs_mru_cache.c
+vim +140 drivers/rpmsg/rpmsg_ctrl.c
 
-2a82b8be8a8dac David Chinner     2007-07-11  420  int
-2a82b8be8a8dac David Chinner     2007-07-11  421  xfs_mru_cache_insert(
-22328d712dd7fd Christoph Hellwig 2014-04-23  422  	struct xfs_mru_cache	*mru,
-2a82b8be8a8dac David Chinner     2007-07-11  423  	unsigned long		key,
-22328d712dd7fd Christoph Hellwig 2014-04-23  424  	struct xfs_mru_cache_elem *elem)
-2a82b8be8a8dac David Chinner     2007-07-11  425  {
-70b95cb86513d7 Christoph Hellwig 2025-05-14  426  	int			error = -EINVAL;
-2a82b8be8a8dac David Chinner     2007-07-11  427  
-2a82b8be8a8dac David Chinner     2007-07-11  428  	ASSERT(mru && mru->lists);
-2a82b8be8a8dac David Chinner     2007-07-11 @429  	if (!mru || !mru->lists)
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   74  static long rpmsg_ctrldev_ioctl(struct file *fp, unsigned int cmd,
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   75  				unsigned long arg)
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   76  {
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   77  	struct rpmsg_ctrldev *ctrldev = fp->private_data;
+74317ea5240801 Dawei Li         2025-05-19   78  	struct rpmsg_endpoint_fd_info ept_fd_info;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   79  	void __user *argp = (void __user *)arg;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   80  	struct rpmsg_endpoint_info eptinfo;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   81  	struct rpmsg_channel_info chinfo;
+8109517b394e6d Arnaud Pouliquen 2022-01-24   82  	struct rpmsg_device *rpdev;
+8109517b394e6d Arnaud Pouliquen 2022-01-24   83  	int ret = 0;
+74317ea5240801 Dawei Li         2025-05-19   84  	int fd = -1;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   85  
+74317ea5240801 Dawei Li         2025-05-19   86  	if (cmd == RPMSG_CREATE_EPT_IOCTL || cmd == RPMSG_CREATE_DEV_IOCTL ||
+74317ea5240801 Dawei Li         2025-05-19   87  	    cmd == RPMSG_RELEASE_DEV_IOCTL) {
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   88  		if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   89  			return -EFAULT;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   90  
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   91  		memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   92  		chinfo.name[RPMSG_NAME_SIZE - 1] = '\0';
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   93  		chinfo.src = eptinfo.src;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24   94  		chinfo.dst = eptinfo.dst;
+74317ea5240801 Dawei Li         2025-05-19   95  	} else if (cmd == RPMSG_CREATE_EPT_FD_IOCTL) {
+74317ea5240801 Dawei Li         2025-05-19   96  		if (copy_from_user(&ept_fd_info, argp, sizeof(ept_fd_info)))
+74317ea5240801 Dawei Li         2025-05-19   97  			return -EFAULT;
+74317ea5240801 Dawei Li         2025-05-19   98  
+74317ea5240801 Dawei Li         2025-05-19   99  		memcpy(chinfo.name, ept_fd_info.name, RPMSG_NAME_SIZE);
+74317ea5240801 Dawei Li         2025-05-19  100  		chinfo.name[RPMSG_NAME_SIZE - 1] = '\0';
+74317ea5240801 Dawei Li         2025-05-19  101  		chinfo.src = ept_fd_info.src;
+74317ea5240801 Dawei Li         2025-05-19  102  		chinfo.dst = ept_fd_info.dst;
+74317ea5240801 Dawei Li         2025-05-19  103  	}
+617d32938d1be0 Arnaud Pouliquen 2022-01-24  104  
+8109517b394e6d Arnaud Pouliquen 2022-01-24  105  	mutex_lock(&ctrldev->ctrl_lock);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  106  	switch (cmd) {
+8109517b394e6d Arnaud Pouliquen 2022-01-24  107  	case RPMSG_CREATE_EPT_IOCTL:
+8109517b394e6d Arnaud Pouliquen 2022-01-24  108  		ret = rpmsg_chrdev_eptdev_create(ctrldev->rpdev, &ctrldev->dev, chinfo);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  109  		break;
+8109517b394e6d Arnaud Pouliquen 2022-01-24  110  
+8109517b394e6d Arnaud Pouliquen 2022-01-24  111  	case RPMSG_CREATE_DEV_IOCTL:
+8109517b394e6d Arnaud Pouliquen 2022-01-24  112  		rpdev = rpmsg_create_channel(ctrldev->rpdev, &chinfo);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  113  		if (!rpdev) {
+8109517b394e6d Arnaud Pouliquen 2022-01-24  114  			dev_err(&ctrldev->dev, "failed to create %s channel\n", chinfo.name);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  115  			ret = -ENXIO;
+8109517b394e6d Arnaud Pouliquen 2022-01-24  116  		}
+8109517b394e6d Arnaud Pouliquen 2022-01-24  117  		break;
+8109517b394e6d Arnaud Pouliquen 2022-01-24  118  
+8109517b394e6d Arnaud Pouliquen 2022-01-24  119  	case RPMSG_RELEASE_DEV_IOCTL:
+8109517b394e6d Arnaud Pouliquen 2022-01-24  120  		ret = rpmsg_release_channel(ctrldev->rpdev, &chinfo);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  121  		if (ret)
+8109517b394e6d Arnaud Pouliquen 2022-01-24  122  			dev_err(&ctrldev->dev, "failed to release %s channel (%d)\n",
+8109517b394e6d Arnaud Pouliquen 2022-01-24  123  				chinfo.name, ret);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  124  		break;
+8109517b394e6d Arnaud Pouliquen 2022-01-24  125  
+74317ea5240801 Dawei Li         2025-05-19  126  	case RPMSG_CREATE_EPT_FD_IOCTL:
+74317ea5240801 Dawei Li         2025-05-19  127  		ret = rpmsg_anonymous_eptdev_create(ctrldev->rpdev, &ctrldev->dev, chinfo,
+74317ea5240801 Dawei Li         2025-05-19  128  						    ept_fd_info.flags, &fd);
+74317ea5240801 Dawei Li         2025-05-19  129  		if (!ret) {
 
-mru can't be NULL but if it were
+You should flip this around.  if (ret)
+					break;
 
-70b95cb86513d7 Christoph Hellwig 2025-05-14  430  		goto out_free;
-2a82b8be8a8dac David Chinner     2007-07-11  431  
-70b95cb86513d7 Christoph Hellwig 2025-05-14  432  	error = -ENOMEM;
-0b3a76e955ebe3 Dave Chinner      2024-01-16  433  	if (radix_tree_preload(GFP_KERNEL))
-70b95cb86513d7 Christoph Hellwig 2025-05-14  434  		goto out_free;
-2a82b8be8a8dac David Chinner     2007-07-11  435  
-2a82b8be8a8dac David Chinner     2007-07-11  436  	INIT_LIST_HEAD(&elem->list_node);
-2a82b8be8a8dac David Chinner     2007-07-11  437  	elem->key = key;
-2a82b8be8a8dac David Chinner     2007-07-11  438  
-ba74d0cba51dca Eric Sandeen      2007-10-11  439  	spin_lock(&mru->lock);
-2451337dd04390 Dave Chinner      2014-06-25  440  	error = radix_tree_insert(&mru->store, key, elem);
-2a82b8be8a8dac David Chinner     2007-07-11  441  	radix_tree_preload_end();
-22328d712dd7fd Christoph Hellwig 2014-04-23  442  	if (!error)
-2a82b8be8a8dac David Chinner     2007-07-11  443  		_xfs_mru_cache_list_insert(mru, elem);
-ba74d0cba51dca Eric Sandeen      2007-10-11  444  	spin_unlock(&mru->lock);
-2a82b8be8a8dac David Chinner     2007-07-11  445  
-70b95cb86513d7 Christoph Hellwig 2025-05-14  446  	if (error)
-70b95cb86513d7 Christoph Hellwig 2025-05-14  447  		goto out_free;
-70b95cb86513d7 Christoph Hellwig 2025-05-14  448  	return 0;
-70b95cb86513d7 Christoph Hellwig 2025-05-14  449  
-70b95cb86513d7 Christoph Hellwig 2025-05-14  450  out_free:
-70b95cb86513d7 Christoph Hellwig 2025-05-14 @451  	mru->free_func(mru->data, elem);
+74317ea5240801 Dawei Li         2025-05-19  130  			ept_fd_info.fd = fd;
+74317ea5240801 Dawei Li         2025-05-19  131  			ret = copy_to_user(argp, &ept_fd_info, sizeof(ept_fd_info));
 
-then we are toast.
+This should be:
 
-ce695c6551f948 Christoph Hellwig 2014-04-23  452  	return error;
-2a82b8be8a8dac David Chinner     2007-07-11  453  }
+	if (copy_to_user(argp, &ept_fd_info, sizeof(ept_fd_info)))
+		ret = -EFAULT;
+
+
+74317ea5240801 Dawei Li         2025-05-19  132  		}
+74317ea5240801 Dawei Li         2025-05-19  133  		break;
+74317ea5240801 Dawei Li         2025-05-19  134  
+8109517b394e6d Arnaud Pouliquen 2022-01-24  135  	default:
+8109517b394e6d Arnaud Pouliquen 2022-01-24  136  		ret = -EINVAL;
+8109517b394e6d Arnaud Pouliquen 2022-01-24  137  	}
+8109517b394e6d Arnaud Pouliquen 2022-01-24  138  	mutex_unlock(&ctrldev->ctrl_lock);
+8109517b394e6d Arnaud Pouliquen 2022-01-24  139  
+8109517b394e6d Arnaud Pouliquen 2022-01-24 @140  	return ret;
+617d32938d1be0 Arnaud Pouliquen 2022-01-24  141  };
 
 -- 
 0-DAY CI Kernel Test Service
