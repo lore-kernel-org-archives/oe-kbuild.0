@@ -1,68 +1,72 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E262882A2
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 08:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F576233134
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 08:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747987984; cv=none; b=Q/MBnNK/+bYmDuSfTYG9Ny42ou9F022oFMP5hQc2gHIliOiU9L27k5pT6UulFA3rW0S4BRojdPWdFgaflDkq00PsVBCQV0OnElJRn1unoLZlyJJQPoufpUHv004giVrYW8R5kV8NDDmgxx6T0lvX1yF3FXTIZ/IDjwpbLcYQ6/Q=
+	t=1747989010; cv=none; b=IVLcFFEskV9OBJb4ouOiRMKpRTCtHxQh5FV7HCkmBkO2hjXiDQpXwY0AHH2eaf8ZimqsgMkgDWdyWMw1trxvTPNJs0l4ia60tQ6C6T0TILL1GJqznRMUF8jL+UIeSj/8HTP5Gzbj4xnOAp8MSFmknPz7w2baKB35qRKW2M2I8Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747987984; c=relaxed/simple;
-	bh=aMlex74IyOMR1qirqxGs7gic+8F3yx2rJr4KfbBTDBs=;
+	s=arc-20240116; t=1747989010; c=relaxed/simple;
+	bh=4+BeMEmjSAWATjFZHg65BHSXSzofLaF78b0i1a+pcM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NtnyBR9LqBZJVGi+UWOiuAYmlLN0Gmfhxgr0tlMpMzNgyjWmznvXtm7XXJC4TcIEdqTisjRntkdcHlozieRs/ySTmEziTJe2bLe0cHr+Gv4e3MNudPUv4zzYC+BNZZxcKF9ed7EbAQnbBghXkLtzhxzIs0VDH0zAnZM8ckcMyvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N9ujN+Sn; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition; b=Dfmbe/KB4Ql1FeAqX0ajDK+ugiAAc/7NsRLzpAksqLHd6oVhhU2/367SsLal8ReQB5xCYu8G9RQTOwCCyxzG98cBV0yFwu1RNLOB4JAW/Gnljw5245ZUlKQv+wElZ6/pLLvW+CiPMYsU+amr+0XK0C172FXuSz1+lvaw90u8b64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wCQNBYV8; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N9ujN+Sn"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a0ac853894so7860196f8f.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 01:13:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wCQNBYV8"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a376ba6f08so2966856f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 01:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747987979; x=1748592779; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1747989006; x=1748593806; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xSdRboFiYEYYT3CZ0igSixqUd+xu0dWeJ9sxgLML8B4=;
-        b=N9ujN+SnXZ18Duv9fyOL2pkpi36/orKn4x59zzYBzCoiCUyAKe69pKtrCTb1rZ4iLJ
-         ajx8bJrLb5ktm98OjJQDbVoCxJvrCeREgwf4X1APgVt6Yc3wNnL7c6QTMGL/LZaqd/LU
-         VbtssqWbjyGIwvjB4MDXcCOLzwlD9/3+PN8ZKu6f9mdAfMSeLZqSmpHUfNIyQ1k6rVjy
-         HfOiGTlfSr0O0sYSqaiV3euldreLZtu91m28kV6TrO6OayFMpD7X283SgaA4wJfVCKLV
-         YqsP4dH2DonUtgCh27wJ+0Se++S+Dtaj0fhdDahnTmZkDBCtxCh4INX5S4O/RoGmwEm4
-         vLAw==
+        bh=0hzu/331svahbTes/8aRYkVNN0812xz1z5KDadrw01g=;
+        b=wCQNBYV8ccTv1Yj+gwCAzS7i0t4wNJT1j3tnddS7KfZ9I6ImgVT2qtcz37CYDy6NqG
+         FHF2FeKceH5Dwkxd3cphCzLZ6NzGjaX0XS7W91+1ZwqmCBVheCD9UZUsW0jBp8eW11qu
+         4HN7rg897tcGymVFG1NSj7AsLHn/kQzF/Gy0SDxo0hubgMuyeA2+FaeylH1V+OwO8GkV
+         duSCEPNwL2u4plPBT+IsRHUpQs+TbD2302zfZH11nMlLxZoLtCjndoE0H30iDL9BcPCw
+         9/SzA71YIMIaonRfxFdndARpc2NMfkG5kCdJKl5vdcObzB98EfYtXme1KpJjH8eMV1eV
+         HIZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747987979; x=1748592779;
+        d=1e100.net; s=20230601; t=1747989006; x=1748593806;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xSdRboFiYEYYT3CZ0igSixqUd+xu0dWeJ9sxgLML8B4=;
-        b=bvhqs5JU/TDlhkKNZc3hSZ1Kgy9ZzJuDhPSkDiJC1q8v27toP9u2WQD6e1w4swNTyg
-         KI26StyvbRmjwZqwhaoXMe6+fy1Ag2tD9YapG695szO+Tq7sQw9TgL4OIXZBuOc6rJbQ
-         xRbShXFc6qVvI1cUdIf+K2+w6URdQEPHD/ik2POowtNEJDX7HAA3BwjVa+Cv7wWj4Rs6
-         O39pSzPpSj9q6MYe/VvUpDCOTCPFXAgYeHoqvZEPIKO3+uaDGHlr3cK3XZjvLsN+NJlM
-         tzCAfyyNnW8ADWzu8STKL2q9jNuCA2Hv5f73+HRD27yC+0B15jAVjW1C0vQqjNygd3nU
-         /IAA==
-X-Gm-Message-State: AOJu0YyNBOaGJA+QrVEk+7Wc0ps6oyYfSb7RBJ4bAfWlFKH99NxYwttI
-	WOjiQeQ3azJhxDbIayaqIj84S15RgGhPTAZwRW2TQZdeyPS6GnFwTSdWXTSjdLI0BeAeGTWgxyM
-	lmwJo
-X-Gm-Gg: ASbGncvFZbeA1J4C0JX1mj0rCO5z2PFukkSQO8+avN/fftymwldZJXx2uHUdTM7fAnl
-	pvEsp2m6FIpwGhRsm3Zegi23YAd2vwGuYky+o+fyr7DlmFwpWSQ9hwu49JXL2+dM2pdeoQkTF2m
-	hGQIg8AWqn/a+WLJVVhvvweiq3ital4rUc1NnVy6Zfd0a1uGQcFdBK1tzR8DB4PxqMQsU8d+YpE
-	hM/mQYZatafE7/7wz/jRDNJfLEYjHRMzK1LIvSjymsSJIklQ+gyRfqi6U0+wh3/kMCFTHqgTLFu
-	xHzWK5Xkqqj/mb3EvUWG1R5THWlT4SjezgEVxcjFHa+XUQl18H01PziN
-X-Google-Smtp-Source: AGHT+IFjTZcfmvfed0hjVta3v+ReMWyTvmS2NU57Vb0uEbSmQjvUK3ePUpilpcC8nhmpE5pK/SXCUQ==
-X-Received: by 2002:a05:6000:1844:b0:3a0:ad5e:2ee1 with SMTP id ffacd0b85a97d-3a4c2344d26mr1598944f8f.50.1747987979526;
-        Fri, 23 May 2025 01:12:59 -0700 (PDT)
+        bh=0hzu/331svahbTes/8aRYkVNN0812xz1z5KDadrw01g=;
+        b=obEzBZkvI1auUU/wPotDKbo4feN61Jih9zyQzbOtaA1vKXZ9YWees+OTtqnQw+Z5RG
+         Fqh4z3Gia/Siqy39OJEtUlP1EjZo1QZfKUI2HhhMZ1Xp7qfJkoqAdENk2ZDFWy/4z4Rz
+         P4GpzZxDe/mkONBPtdscOvz2d81UVwXm7LuoyAHuwmaASO5NEVmU6V9M83+qPUwuQ1I4
+         55wJFbbcU7GM8x1VFdwzVjG9whq2MhvAv2Q167eRd+r3WHFDJMQA8k618GPl95cFU1+M
+         afx3WUDXUnjsmUy+xNctt5UETX67LNYCI3JIthRm0YpsP8liGFsKZ6qk3ryYp7apckzz
+         3+1g==
+X-Gm-Message-State: AOJu0YxiZHS8+gdWTQdKxHEvVXuiupwpFIAKKM9W8dxF409jfeWv59lx
+	+xvkdoIbOi+Yq8mPV5LgQNQJp9l6Jlngfcereem+3+bbpzXTZNCoLmSmSjBor1abI+J8XMef8p/
+	lPWbd
+X-Gm-Gg: ASbGncuFD99abgCe69ObX0rrCxcuT0PilYdrTItWrDzNudQliG8kflxA/9d/mfzy19P
+	OSWFIWByn9gFILgAPdk3B2fCEQpRgMuZodjT8A92iD0gDtGIq3t0OX46nLf6RKj2P5+EF0UU1nD
+	gM6H/zBFiHe7XXk5Cr4Ou9PMp8PVEIxemUe5Lscqrd8GgyqsXEslYNaHgyhd1i9fxuk+ri3ZDfC
+	tPy4iVrcQTIqZbMw2ecUaSY9AKHuWj6iGXKMz7Qw0AuL++aG+dSWDpKHdHXTo0cWLaW5Ckwbv6d
+	oA4ymmX9Oqxmnyd9f5RgfIlqTSJooGDcz81CPcvxWbX/CWJKSPIXmhIy
+X-Google-Smtp-Source: AGHT+IE06BDQgHT8K2b8PLVbznX7v0nJNrz2nHMEuKTcFYYfVpza79W+ry5W8H8nR5LU1oDBKpzmDw==
+X-Received: by 2002:a5d:64c4:0:b0:3a0:b565:f1ea with SMTP id ffacd0b85a97d-3a4c1faad0dmr3219661f8f.5.1747989006250;
+        Fri, 23 May 2025 01:30:06 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a368250dbbsm21043942f8f.47.2025.05.23.01.12.58
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca8874bsm26117801f8f.67.2025.05.23.01.30.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 01:12:59 -0700 (PDT)
-Date: Fri, 23 May 2025 11:12:55 +0300
+        Fri, 23 May 2025 01:30:05 -0700 (PDT)
+Date: Fri, 23 May 2025 11:30:02 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+To: oe-kbuild@lists.linux.dev, Baochen Qiang <quic_bqiang@quicinc.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jeff Layton <jlayton@kernel.org>
-Subject: [cel:nfsd-testing 3/93] fs/nfsd/nfs4callback.c:1412
- nfsd41_cb_referring_call() warn: '&rcl->__list' not removed from list
-Message-ID: <202505171002.cE46sdj5-lkp@intel.com>
+	Jeff Johnson <jjohnson@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	ath12k@lists.infradead.org,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Vasanthakumar Thiagarajan <vasanthakumar.thiagarajan@oss.qualcomm.com>
+Subject: [ath:pending-deferred 23/61]
+ drivers/net/wireless/ath/ath12k/mac.c:9812 ath12k_mac_parse_tx_pwr_env()
+ error: buffer overflow 'local_non_psd->power' 5 <= 15
+Message-ID: <202505180703.Kr9OfQRP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,87 +75,52 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-ID: <20250523081255.zhEPOxhU67ibZFylT_yuphZGVvQxa0O33ARdqROFyL4@z>
+Message-ID: <20250523083002.fce_EuHko1OyKUoEYc9Uwo2DQvJ72nmr76g_LecxtLQ@z>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   d868e4920c3f4feefcbc17c5812bbe1a48af8c6f
-commit: 4f3c8d8c9e109655311bbb4c6c46a54a9ef90d99 [3/93] NFSD: Implement CB_SEQUENCE referring call lists
-config: i386-randconfig-141-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171002.cE46sdj5-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git pending-deferred
+head:   52c1e49f8c69a630f3dbe7dd79c52979cdad19d2
+commit: cccbb9d0dd6ab9e3353066217e9ab5b44bd761d3 [23/61] wifi: ath12k: add parse of transmit power envelope element
+config: x86_64-randconfig-161-20250518 (https://download.01.org/0day-ci/archive/20250518/202505180703.Kr9OfQRP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505171002.cE46sdj5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505180703.Kr9OfQRP-lkp@intel.com/
 
 New smatch warnings:
-fs/nfsd/nfs4callback.c:1412 nfsd41_cb_referring_call() warn: '&rcl->__list' not removed from list
+drivers/net/wireless/ath/ath12k/mac.c:9812 ath12k_mac_parse_tx_pwr_env() error: buffer overflow 'local_non_psd->power' 5 <= 15
+drivers/net/wireless/ath/ath12k/mac.c:9812 ath12k_mac_parse_tx_pwr_env() error: buffer overflow 'local_non_psd->power' 5 <= 15
+drivers/net/wireless/ath/ath12k/mac.c:9812 ath12k_mac_parse_tx_pwr_env() error: buffer overflow 'reg_non_psd->power' 5 <= 15
+drivers/net/wireless/ath/ath12k/mac.c:9812 ath12k_mac_parse_tx_pwr_env() error: buffer overflow 'reg_non_psd->power' 5 <= 15
 
-vim +1412 fs/nfsd/nfs4callback.c
+vim +9812 drivers/net/wireless/ath/ath12k/mac.c
 
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1362  void nfsd41_cb_referring_call(struct nfsd4_callback *cb,
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1363  			      struct nfs4_sessionid *sessionid,
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1364  			      u32 slotid, u32 seqno)
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1365  {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1366  	struct nfsd4_referring_call_list *rcl;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1367  	struct nfsd4_referring_call *rc;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1368  	bool found;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1369  
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1370  	might_sleep();
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1371  
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1372  	found = false;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1373  	list_for_each_entry(rcl, &cb->cb_referring_call_list, __list) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1374  		if (!memcmp(rcl->rcl_sessionid.data, sessionid->data,
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1375  			   NFS4_MAX_SESSIONID_LEN)) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1376  			found = true;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1377  			break;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1378  		}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1379  	}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1380  	if (!found) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1381  		rcl = kmalloc(sizeof(*rcl), GFP_KERNEL);
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1382  		if (!rcl)
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1383  			return;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1384  		memcpy(rcl->rcl_sessionid.data, sessionid->data,
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1385  		       NFS4_MAX_SESSIONID_LEN);
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1386  		rcl->__nr_referring_calls = 0;
-                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This is zero.
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9802  	} else {
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9803  		tpc_info->is_psd_power = false;
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9804  		tpc_info->eirp_power = 0;
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9805  
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9806  		tpc_info->num_pwr_levels = max(local_non_psd->count,
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9807  					       reg_non_psd->count);
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9808  		if (tpc_info->num_pwr_levels > ATH12K_NUM_PWR_LEVELS)
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9809  			tpc_info->num_pwr_levels = ATH12K_NUM_PWR_LEVELS;
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tpc_info->num_pwr_levels can be ATH12K_NUM_PWR_LEVELS (16).
 
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1387  		INIT_LIST_HEAD(&rcl->rcl_referring_calls);
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1388  		list_add(&rcl->__list, &cb->cb_referring_call_list);
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9810  
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9811  		for (i = 0; i < tpc_info->num_pwr_levels; i++) {
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18 @9812  			tpc_info->tpe[i] = min(local_non_psd->power[i],
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9813  					       reg_non_psd->power[i]) / 2;
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^
+So i can be 15 but there are only 5 elements in the array.
 
-We add "rcl" to the list.
-
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1389  		cb->cb_nr_referring_call_list++;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1390  	}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1391  
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1392  	found = false;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1393  	list_for_each_entry(rc, &rcl->rcl_referring_calls, __list) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1394  		if (rc->rc_sequenceid == seqno && rc->rc_slotid == slotid) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1395  			found = true;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1396  			break;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1397  		}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1398  	}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1399  	if (!found) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1400  		rc = kmalloc(sizeof(*rc), GFP_KERNEL);
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1401  		if (!rc)
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1402  			goto out;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1403  		rc->rc_sequenceid = seqno;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1404  		rc->rc_slotid = slotid;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1405  		rcl->__nr_referring_calls++;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1406  		list_add(&rc->__list, &rcl->rcl_referring_calls);
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1407  	}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1408  
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1409  out:
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1410  	if (!rcl->__nr_referring_calls) {
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1411  		cb->cb_nr_referring_call_list--;
-4f3c8d8c9e1096 Chuck Lever     2025-03-01 @1412  		kfree(rcl);
-
-This frees rcl but it's still on the list.
-
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1413  	}
-4f3c8d8c9e1096 Chuck Lever     2025-03-01  1414  }
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9814  			ath12k_dbg(ab, ATH12K_DBG_MAC,
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9815  				   "non PSD power[%d] : %d\n",
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9816  				   i, tpc_info->tpe[i]);
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9817  		}
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9818  	}
+cccbb9d0dd6ab9 Baochen Qiang 2025-04-18  9819  }
 
 -- 
 0-DAY CI Kernel Test Service
