@@ -1,81 +1,68 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994B413DDAE
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 09:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0F4223DFA
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 09:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747993212; cv=none; b=mbowIwNC1/Z7f0SeGeNr6dfPsMPdElrJJpkXPs1Q8IFir3+jQFCd+1FDyZdVzuSXXNm7xk9dJ3BJJIB2+7g0e0IvAXZLNUoJ2NMLyr17ImOttjbI46Zx9lHmP4iFKvChzv+USwRNo0rciUauUpBtrDVW359mxpD4YOjifV3GQ4k=
+	t=1747993410; cv=none; b=Z5ee42t3jjXW7aCoqGqvHx2H0KFbeoBCDHaPj1e3ec6VnPZAu2X3s/w6g6cPHQK1KCsj+njjMe/GS3uZRjDtRe03b6W+jaqatumuIopennVwE1CMJCEo0z7/KgZFdMUqWpLm2KJW+DO5bKQpRZCGerA3JeLCm9T2apnRKYNdVsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747993212; c=relaxed/simple;
-	bh=EyjIJJ1aJToH0hBOVAR+EF+V4bSXXfa03bGAG1Wq7yc=;
+	s=arc-20240116; t=1747993410; c=relaxed/simple;
+	bh=IB0K1uUNYimeg8wJMWrZHPGvEnLotCzFoA4V9I0lTC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=om4tT8hixgqlMKp4GaCy892XGPIv9i4+FhxrPxhJtrn+09472HVbAYNZ3lmwmlY7BVtdqrfHYrSd6U10X+faJgJAfU3+7D/jrarKomc0H2SxQg57luVrXfUT7J4g5BpiYRRYC0QQNwMd8nENfg6zw5Ci4rJ8zKq7q3oW/QXM5xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JndGOQgY; arc=none smtp.client-ip=209.85.221.54
+	 Content-Disposition; b=lXlrvSWLxdtUPDAcVJBagt9+UNZXrRPJ5SJr17f2n0HIrY+AxzM3AKxM+ni2bdy5ZEtLdQhDOkgjUUoNVL6IcPsjwCEywDWRjyqtBJdtj1B8Mf5Fn8Sl45Sc8PSpGfUadY8P08ei149/wj5kklC+Tqn0NHF5cPS9IuIgwf4jA8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aQjAZH7I; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JndGOQgY"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a374f727dbso4037999f8f.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 02:40:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aQjAZH7I"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a4bdee0bf7so1224228f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 02:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747993208; x=1748598008; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PmM7wl7FfXANU3+HoiZcpwWBrDC/gYVSs/BA58caBms=;
-        b=JndGOQgYIBoI+oSgWuIKLMnA6VFZxBzbej/vt3D9kQSwBhZUItocMlvdM1BInbD78H
-         CdlFQepXxJ0lVVS0YsSUGuyzwU2o5w6P3yO4pAUibi3u/x0cV3Ij7508zWWaevloJqJP
-         ZbOf3HvfuNvTvyl3I8YgtCIaK8Ic1GU9lZWnTOKKw9d+Ap6HxwYsDur4RVkD6BqWCovd
-         Ae7ehCmsPLHclFW5jEhmSqcJ6tk8iSFL6kTxxkUFB2HPVT9SMCuBbH9dtIAmI6uBFJ/6
-         mvOYiNWyznnSXiZa8Cyl/3pwU+h1baPl+6IbX5jR0XjIEuxeXiy3YxeFzGlfUBeekZYj
-         JnvA==
+        d=linaro.org; s=google; t=1747993406; x=1748598206; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ASW4g2Stbx73gzooi+ihqxW33Cbhs7/VAI8mEaOvq4I=;
+        b=aQjAZH7IHrxTTeQw50xURB/Re9BpLWYkRYc+Uu1ArZBK9nzneS05tMnGvqe8dsFBJe
+         k9BhYbr/iN9jts2a4DygA1/DcC/U1XZoqb7k2yWQKqWq3ew3cIug0RgbIqvlK3wr+wOt
+         zda7sjFCdwX8IolPTa9whVdPXREZdPVzZCivEYR1neud0jWROsEyavk7F9HIDNEOux7U
+         3kb/iy5WuBobSfc6VGU2EeVgwLamF/SUJCVjyA3BtgtCiowys+8V73UMsjQuf7erK+3e
+         WHdQ51VTZIbfqk9JICQ/4fJotVHvPZ+puk5Yas5J9H21PSH13B9vOhynw9HWr5nn6R28
+         Wr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747993208; x=1748598008;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PmM7wl7FfXANU3+HoiZcpwWBrDC/gYVSs/BA58caBms=;
-        b=PoRZrLp5o6+9+v4hVpWT9+sciDptYMBoi+GF1FByvy0ikQPvLUIoNMhDivUOZHXD7H
-         F81zZXGvcATEnnQv6CEqigOtu5eJDAz0a7uZI5ODQ02w3Ii4Kecbn1y1lcXWsr4O4ddi
-         JFceaZ6zt55gqMz8QxOKk2REzrvXj9CaMjFBI9CryDU6fVBg1w9UD7AC8WWfefFs7RYj
-         iGKPqOIGss2hiv96W9WCDjwIjFmhZV1SUrC7EQHV9wfOWgw7E9f+1RWE73/TaZA+I4TI
-         4KPIPhlGU45Gt0fO3Qj/s88Qx8qLHmgT7M2EQPqfqtL4kAfez4uRiTaGh+3j1TGwmlSf
-         CmEA==
-X-Gm-Message-State: AOJu0YzJ2LoGblQgqvR49x0vuotzc+BHfF8tePxSRexbu10s8I76NwD1
-	GvoU/ZynaroA+ZAL1oewCnRHE6AG0tjAkjP+imcu5nF1jIwGgibCyctVCIUvCltdjDiyNKtLrBG
-	KI2UE
-X-Gm-Gg: ASbGncsOWuid2U5t2/sCqjotwyzUR8Xghb2MRGwQQASs8Ve3UF38lGpf0ygHygpQbWt
-	q56VnfdIGaMJOVBQOS/a05Q0yzHjP3qeTfiD8w47fkle7i3nhtGUdOVQ0OFys+4OOhqqAv7a7dg
-	XWJ9hznTEE2DNYiUQ7bBWOx2iU2z6HaL9fkpDlpncom9PcejeirFZKk9+gb+f5Yme/fGE6eYt5C
-	IC8R3gd4wmpSuxNRC/k8sfHN4iQcJCaGsM5Ghy6MgUmmygt3Dl/6VKFEH0m/UB363Pp7c2t1UEF
-	0M5iQYDUgqkhVN/VCcsdU4rD6GIJJgEQAeTTBoSH9m/9DRFqhOhcYrB+ILLM6Q+Y1fk=
-X-Google-Smtp-Source: AGHT+IGZNy6iLufcbGr1Cm4vscuZZ5cosVeDu++QGebNauJZVQ9784C5I6lmRFlz/knjxPIF4kXi1w==
-X-Received: by 2002:a05:6000:40c9:b0:3a1:fc5c:dec7 with SMTP id ffacd0b85a97d-3a35fe67788mr24039998f8f.21.1747993207620;
-        Fri, 23 May 2025 02:40:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747993406; x=1748598206;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ASW4g2Stbx73gzooi+ihqxW33Cbhs7/VAI8mEaOvq4I=;
+        b=Q5BAXFLrYi3aZ+WUwMWf3uP/A+6IfTdsTS4/nUmV5oWT77VXiW0mdXiAbAbWuDCEmV
+         Q40bE0dYiB4lFHIhb/A6t6kHpBM8LI9ShgPenVdTdC1OssSSLrJAhmVxEuEi9jN4vrGx
+         3WfOIYW4QpPZHAvZPQQjxk+kyPuNpJtBTutzq308GozAxWF9L7z0sjXOE3FATELeAQnI
+         jZUTW7tgpxATTIBhkfliRDgYj2CL1SKkM4r+jzXeyMrRusN7g0n8AdzQKdphdL3tdiKO
+         oJYoAVTLsug/5ALV1MZZ8EBtJzXRs7LShk/38ukoxUPFBWE1T7PKitunMvopnIKAl9cT
+         C2gA==
+X-Gm-Message-State: AOJu0YwraVb77Ni8QqqrlWd2BguyhrTDBsv7FyEY2U6+R99rnsBQ9uSH
+	AtH2nzmjxMsKn3duYLAE4wR/HluzzKhvlvv03fzrZWQB8QEYQaYVSoetpqWsevf+Hh6lP2SZR5c
+	15THJ
+X-Gm-Gg: ASbGncs1dW+v5nnZrUKdO9YFOlmLufPe7N9vLKssxDBHaGfZ4/kSYyRnrZ/B1f/8lxf
+	WodEd/HgY0MGphY8xJGHubgH+01BFgnbR51L2MkggUUE4x35VHESCjTBOLceygi+ZHR/5hpP8t7
+	dEzIZQ/C1OW8vwT4uvF4ON6DMpZDbMELz+QdwTAmr2bN5frM9dsOOQauPO6DufzKjGj/lJYIvZ1
+	oF6UHhEb4h0WTEk4wS25hzWpjMw6feQAEyJfB0LlDSF0KPyYZH8EY9ulakZhGIne5vW0AIwMO/k
+	1WMH9DEowMBio7EmZFSSrUhwyX1NNqJzxyyLDZmKxsukWHej8rMAqxKj
+X-Google-Smtp-Source: AGHT+IG1YNLEDe44w/T8lljUWTbHZkAvqGZuDKj2vYHLa+eE3eKX2dF2LxR+S7PWrvYKdiPTMXE6nA==
+X-Received: by 2002:a05:6000:2282:b0:3a3:7bbc:d94e with SMTP id ffacd0b85a97d-3a37bbcdc22mr14556163f8f.6.1747993406070;
+        Fri, 23 May 2025 02:43:26 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca88a34sm25709566f8f.70.2025.05.23.02.40.06
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca62910sm26535095f8f.50.2025.05.23.02.43.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 02:40:07 -0700 (PDT)
-Date: Fri, 23 May 2025 12:40:03 +0300
+        Fri, 23 May 2025 02:43:25 -0700 (PDT)
+Date: Fri, 23 May 2025 12:43:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bhupesh <bhupesh@igalia.com>,
-	akpm@linux-foundation.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, bhupesh@igalia.com,
-	kernel-dev@igalia.com, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	oliver.sang@intel.com, laoar.shao@gmail.com, pmladek@suse.com,
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
-	arnaldo.melo@gmail.com, alexei.starovoitov@gmail.com,
-	andrii.nakryiko@gmail.com, mirq-linux@rere.qmqm.pl,
-	peterz@infradead.org, willy@infradead.org, david@redhat.com,
-	viro@zeniv.linux.org.uk, keescook@chromium.org,
-	ebiederm@xmission.com, brauner@kernel.org, jack@suse.cz,
-	mingo@redhat.com, juri.lelli@redhat.com, bsegall@google.com,
-	mgorman@suse.de
-Subject: Re: [PATCH v4 2/3] treewide: Switch memcpy() users of 'task->comm'
- to a more safer implementation
-Message-ID: <202505221104.qV4Iy0rA-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Benjamin Marzinski <bmarzins@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mikulas Patocka <mpatocka@redhat.com>
+Subject: [linux-next:master 10969/12618] drivers/md/dm-mpath.c:2104
+ probe_active_paths() warn: mixing irqsave and irq
+Message-ID: <202505221209.UJOI2rXT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -84,116 +71,88 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250521062337.53262-3-bhupesh@igalia.com>
-Message-ID: <20250523094003.q4oy9ixNixw4SuW8myFKxXyKe0_Ueo1LV7iQGl9F9Ks@z>
+Message-ID: <20250523094322.v7P45RclTcyzt1VWyY51XvX3CtM4nv6TRsWM0xWbYi8@z>
 
-Hi Bhupesh,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bhupesh/exec-Remove-obsolete-comments/20250521-142443
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250521062337.53262-3-bhupesh%40igalia.com
-patch subject: [PATCH v4 2/3] treewide: Switch memcpy() users of 'task->comm' to a more safer implementation
-config: powerpc64-randconfig-r071-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221104.qV4Iy0rA-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
+commit: 5c977f1023156938915c57d362fddde8fad2b052 [10969/12618] dm-mpath: Don't grab work_mutex while probing paths
+config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250522/202505221209.UJOI2rXT-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505221104.qV4Iy0rA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505221209.UJOI2rXT-lkp@intel.com/
 
-New smatch warnings:
-fs/coredump.c:591 do_coredump() error: buffer overflow 'comm' 16 <= 16
-fs/coredump.c:1006 validate_coredump_safety() error: buffer overflow 'comm' 16 <= 16
+smatch warnings:
+drivers/md/dm-mpath.c:2104 probe_active_paths() warn: mixing irqsave and irq
 
-vim +/comm +591 fs/coredump.c
+vim +2104 drivers/md/dm-mpath.c
 
-a78282e2c94f4c Linus Torvalds               2024-09-26  524  void do_coredump(const kernel_siginfo_t *siginfo)
-10c28d937e2cca Alex Kelly                   2012-09-26  525  {
-10c28d937e2cca Alex Kelly                   2012-09-26  526  	struct core_state core_state;
-10c28d937e2cca Alex Kelly                   2012-09-26  527  	struct core_name cn;
-10c28d937e2cca Alex Kelly                   2012-09-26  528  	struct mm_struct *mm = current->mm;
-10c28d937e2cca Alex Kelly                   2012-09-26  529  	struct linux_binfmt * binfmt;
-10c28d937e2cca Alex Kelly                   2012-09-26  530  	const struct cred *old_cred;
-10c28d937e2cca Alex Kelly                   2012-09-26  531  	struct cred *cred;
-a78282e2c94f4c Linus Torvalds               2024-09-26  532  	int retval = 0;
-10c28d937e2cca Alex Kelly                   2012-09-26  533  	int ispipe;
-315c69261dd3fa Paul Wise                    2019-08-02  534  	size_t *argv = NULL;
-315c69261dd3fa Paul Wise                    2019-08-02  535  	int argc = 0;
-fbb1816942c044 Jann Horn                    2015-09-09  536  	/* require nonrelative corefile path and be extra careful */
-fbb1816942c044 Jann Horn                    2015-09-09  537  	bool need_suid_safe = false;
-acdedd99b0f3bf Oleg Nesterov                2013-04-30  538  	bool core_dumped = false;
-10c28d937e2cca Alex Kelly                   2012-09-26  539  	static atomic_t core_dump_count = ATOMIC_INIT(0);
-10c28d937e2cca Alex Kelly                   2012-09-26  540  	struct coredump_params cprm = {
-5ab1c309b34488 Denys Vlasenko               2012-10-04  541  		.siginfo = siginfo,
-10c28d937e2cca Alex Kelly                   2012-09-26  542  		.limit = rlimit(RLIMIT_CORE),
-10c28d937e2cca Alex Kelly                   2012-09-26  543  		/*
-10c28d937e2cca Alex Kelly                   2012-09-26  544  		 * We must use the same mm->flags while dumping core to avoid
-10c28d937e2cca Alex Kelly                   2012-09-26  545  		 * inconsistency of bit flags, since this flag is not protected
-10c28d937e2cca Alex Kelly                   2012-09-26  546  		 * by any locks.
-10c28d937e2cca Alex Kelly                   2012-09-26  547  		 */
-10c28d937e2cca Alex Kelly                   2012-09-26  548  		.mm_flags = mm->flags,
-95c5436a488384 Eric W. Biederman            2022-03-08  549  		.vma_meta = NULL,
-8603b6f58637ce Oleksandr Natalenko          2022-09-03  550  		.cpu = raw_smp_processor_id(),
-10c28d937e2cca Alex Kelly                   2012-09-26  551  	};
-10c28d937e2cca Alex Kelly                   2012-09-26  552  
-5ab1c309b34488 Denys Vlasenko               2012-10-04  553  	audit_core_dumps(siginfo->si_signo);
-10c28d937e2cca Alex Kelly                   2012-09-26  554  
-10c28d937e2cca Alex Kelly                   2012-09-26  555  	binfmt = mm->binfmt;
-a78282e2c94f4c Linus Torvalds               2024-09-26  556  	if (!binfmt || !binfmt->core_dump)
-10c28d937e2cca Alex Kelly                   2012-09-26  557  		goto fail;
-a78282e2c94f4c Linus Torvalds               2024-09-26  558  	if (!__get_dumpable(cprm.mm_flags))
-10c28d937e2cca Alex Kelly                   2012-09-26  559  		goto fail;
-10c28d937e2cca Alex Kelly                   2012-09-26  560  
-10c28d937e2cca Alex Kelly                   2012-09-26  561  	cred = prepare_creds();
-a78282e2c94f4c Linus Torvalds               2024-09-26  562  	if (!cred)
-10c28d937e2cca Alex Kelly                   2012-09-26  563  		goto fail;
-10c28d937e2cca Alex Kelly                   2012-09-26  564  	/*
-10c28d937e2cca Alex Kelly                   2012-09-26  565  	 * We cannot trust fsuid as being the "true" uid of the process
-10c28d937e2cca Alex Kelly                   2012-09-26  566  	 * nor do we know its entire history. We only know it was tainted
-10c28d937e2cca Alex Kelly                   2012-09-26  567  	 * so we dump it as root in mode 2, and only into a controlled
-10c28d937e2cca Alex Kelly                   2012-09-26  568  	 * environment (pipe handler or fully qualified path).
-10c28d937e2cca Alex Kelly                   2012-09-26  569  	 */
-e579d2c259be42 Kees Cook                    2013-02-27  570  	if (__get_dumpable(cprm.mm_flags) == SUID_DUMP_ROOT) {
-10c28d937e2cca Alex Kelly                   2012-09-26  571  		/* Setuid core dump mode */
-10c28d937e2cca Alex Kelly                   2012-09-26  572  		cred->fsuid = GLOBAL_ROOT_UID;	/* Dump root private */
-fbb1816942c044 Jann Horn                    2015-09-09  573  		need_suid_safe = true;
-10c28d937e2cca Alex Kelly                   2012-09-26  574  	}
-10c28d937e2cca Alex Kelly                   2012-09-26  575  
-5ab1c309b34488 Denys Vlasenko               2012-10-04  576  	retval = coredump_wait(siginfo->si_signo, &core_state);
-10c28d937e2cca Alex Kelly                   2012-09-26  577  	if (retval < 0)
-10c28d937e2cca Alex Kelly                   2012-09-26  578  		goto fail_creds;
-10c28d937e2cca Alex Kelly                   2012-09-26  579  
-10c28d937e2cca Alex Kelly                   2012-09-26  580  	old_cred = override_creds(cred);
-10c28d937e2cca Alex Kelly                   2012-09-26  581  
-315c69261dd3fa Paul Wise                    2019-08-02  582  	ispipe = format_corename(&cn, &cprm, &argv, &argc);
-10c28d937e2cca Alex Kelly                   2012-09-26  583  
-10c28d937e2cca Alex Kelly                   2012-09-26  584  	if (ispipe) {
-315c69261dd3fa Paul Wise                    2019-08-02  585  		int argi;
-10c28d937e2cca Alex Kelly                   2012-09-26  586  		int dump_count;
-10c28d937e2cca Alex Kelly                   2012-09-26  587  		char **helper_argv;
-907ed1328d2a74 Lucas De Marchi              2013-04-30  588  		struct subprocess_info *sub_info;
-10c28d937e2cca Alex Kelly                   2012-09-26  589  
-10c28d937e2cca Alex Kelly                   2012-09-26  590  		if (ispipe < 0) {
-c114e9948c2b6a Roman Kisel                  2024-07-18 @591  			coredump_report_failure("format_corename failed, aborting core");
-e7fd1549aeb83e Oleg Nesterov                2013-07-03  592  			goto fail_unlock;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2095  static int probe_active_paths(struct multipath *m)
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2096  {
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2097  	struct pgpath *pgpath;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2098  	struct priority_group *pg = NULL;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2099  	unsigned long flags;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2100  	int r = 0;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2101  
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2102  	spin_lock_irqsave(&m->lock, flags);
 
->               /* This will always be NUL terminated. */ \
-> -             memcpy(comm, current->comm, sizeof(comm)); \
-> +             memcpy(comm, current->comm, TASK_COMM_LEN); \
-> +             comm[TASK_COMM_LEN] = '\0'; \
-                     ^^^^^^^^^^^^^^
-This was supposed to be "TASK_COMM_LEN - 1".  Also the comment says
-it's not required...
+_irqsave() is for if we don't know if the caller has disabled IRQs or
+not.
 
-10c28d937e2cca Alex Kelly                   2012-09-26  593  		}
-10c28d937e2cca Alex Kelly                   2012-09-26  594  
-10c28d937e2cca Alex Kelly                   2012-09-26  595  		if (cprm.limit == 1) {
-10c28d937e2cca Alex Kelly                   2012-09-26  596  			/* See umh_pipe_setup() which sets RLIMIT_CORE = 1.
+5c977f10231569 Benjamin Marzinski 2025-05-15  2103  	if (test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags)) {
+5c977f10231569 Benjamin Marzinski 2025-05-15 @2104  		wait_event_lock_irq(m->probe_wait,
+5c977f10231569 Benjamin Marzinski 2025-05-15  2105  				    !test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags),
+5c977f10231569 Benjamin Marzinski 2025-05-15  2106  				    m->lock);
+
+The wait_event_lock_irq() macro calls spin_unlock_irq(), so hopefully
+none of the callers of probe_active_paths() actually relied on having
+IRQs disabled.
+
+5c977f10231569 Benjamin Marzinski 2025-05-15  2107  		/*
+5c977f10231569 Benjamin Marzinski 2025-05-15  2108  		 * if we waited because a probe was already in progress,
+5c977f10231569 Benjamin Marzinski 2025-05-15  2109  		 * and it probed the current active pathgroup, don't
+5c977f10231569 Benjamin Marzinski 2025-05-15  2110  		 * reprobe. Just return the number of valid paths
+5c977f10231569 Benjamin Marzinski 2025-05-15  2111  		 */
+5c977f10231569 Benjamin Marzinski 2025-05-15  2112  		if (m->current_pg == m->last_probed_pg)
+5c977f10231569 Benjamin Marzinski 2025-05-15  2113  			goto skip_probe;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2114  	}
+5c977f10231569 Benjamin Marzinski 2025-05-15  2115  	if (!m->current_pg || m->is_suspending ||
+5c977f10231569 Benjamin Marzinski 2025-05-15  2116  	    test_bit(MPATHF_QUEUE_IO, &m->flags))
+5c977f10231569 Benjamin Marzinski 2025-05-15  2117  		goto skip_probe;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2118  	set_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
+5c977f10231569 Benjamin Marzinski 2025-05-15  2119  	pg = m->last_probed_pg = m->current_pg;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2120  	spin_unlock_irqrestore(&m->lock, flags);
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2121  
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2122  	list_for_each_entry(pgpath, &pg->pgpaths, list) {
+5c977f10231569 Benjamin Marzinski 2025-05-15  2123  		if (pg != READ_ONCE(m->current_pg) ||
+5c977f10231569 Benjamin Marzinski 2025-05-15  2124  		    READ_ONCE(m->is_suspending))
+5c977f10231569 Benjamin Marzinski 2025-05-15  2125  			goto out;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2126  		if (!pgpath->is_active)
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2127  			continue;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2128  
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2129  		r = probe_path(pgpath);
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2130  		if (r < 0)
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2131  			goto out;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2132  	}
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2133  
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2134  out:
+5c977f10231569 Benjamin Marzinski 2025-05-15  2135  	spin_lock_irqsave(&m->lock, flags);
+5c977f10231569 Benjamin Marzinski 2025-05-15  2136  	clear_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
+5c977f10231569 Benjamin Marzinski 2025-05-15  2137  	if (test_and_clear_bit(MPATHF_NEED_PG_SWITCH, &m->flags)) {
+5c977f10231569 Benjamin Marzinski 2025-05-15  2138  		m->current_pgpath = NULL;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2139  		m->current_pg = NULL;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2140  	}
+5c977f10231569 Benjamin Marzinski 2025-05-15  2141  skip_probe:
+5c977f10231569 Benjamin Marzinski 2025-05-15  2142  	if (r == 0 && !atomic_read(&m->nr_valid_paths))
+5c977f10231569 Benjamin Marzinski 2025-05-15  2143  		r = -ENOTCONN;
+5c977f10231569 Benjamin Marzinski 2025-05-15  2144  	spin_unlock_irqrestore(&m->lock, flags);
+5c977f10231569 Benjamin Marzinski 2025-05-15  2145  	if (pg)
+5c977f10231569 Benjamin Marzinski 2025-05-15  2146  		wake_up(&m->probe_wait);
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2147  	return r;
+7734fb4ad98c3f Kevin Wolf         2025-04-29  2148  }
 
 -- 
 0-DAY CI Kernel Test Service
