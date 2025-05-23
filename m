@@ -1,71 +1,34 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8744B2288D3
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 10:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94711C8629;
+	Fri, 23 May 2025 10:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747994597; cv=none; b=B6eYsOy4BRUf/oG7VffuStKgBqgHEZtqAV2Npmf9v8V96Rbpx1oOXzcdUcdYQgG5mRBbPCEX3sEJSwhHN+/IEa7o/TwYQj0wGupUdVokzFPmKgrXYtAFmUFovcdliiyAoZ+YC+p7aprr+zdn9lyAG5woCX8lygBxcDmrQYyXLaQ=
+	t=1747994808; cv=none; b=qMG0CJCX2dktLFxWraIKrs73QNt3e5Q+v4Dau8qpodDvN8JxEIF8Hj9hq9FYTf7LvLXtnRX2XwoKnAHDPX5gJXufa7MYEaadUXpBOMkFJMKH2opQYgYwbJHlCGMxZY2Uc9J7i6zdnXYuwXLKL99iNImVhn4oFLSc9V3VUMtM/fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747994597; c=relaxed/simple;
-	bh=ujiOe3bOmZs9X41VUnMNWR4wflTRGuLIY5D/eQTzs5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k+IfSqfeJN4AaQdIXOIARzxHjhrIYqBNsXYgnJ7zksvWtXkuY4vlUKKf4/ykfpFCE42UthwPhcGAQyaKNb0IR747ATQuCDKbMWnde6NpO8/7sCmVb+cZXKUFFVTUmcsi3CYTYBFIwNYmznClZxFVmVAPiTY9MZwTySMpi7xvL3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xbtBRAdz; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xbtBRAdz"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-442ea341570so62748705e9.1
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 May 2025 03:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747994593; x=1748599393; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H/Gce1NColnWtg6ZWbw4/vDJFXeyJ5MZqm0V5eF1bt4=;
-        b=xbtBRAdzCC1td7KwH9EgpBHMfiYdsf1u9iMVa5c7i7vhlgWlEP0up7xCX7kDtQN0cJ
-         z1UajDneuc6FFHF/Dup5cxRN6Ypx6u20PpCTZxOZNh3ox9ylSs27bvHxvauOTxZVQZNu
-         lREqI5EZiGtT6L1G5vR93zoPsfWsNbxIo5qSbYKpoG6/fNfHnnwMcBzOcBB/a65p972d
-         gZWAcvzVnk+7WQ7qmss/jmPj7TpCMELfeFDUfrdwyRfJN4oXymxCyxnVQmL68oZDwk3o
-         eE4p3/YtsX5OXKJpSV+3sTOrS5TZ4SlDOwazitqTBbdvak18w8RAPVkLRRO3XyR13NTE
-         aCyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747994594; x=1748599394;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H/Gce1NColnWtg6ZWbw4/vDJFXeyJ5MZqm0V5eF1bt4=;
-        b=jv09LtAWRNt8BTwiD1i8vlOX0jz6dhmizZQ0Im4adtpcRFGd3AlEIfEifvHW+TAV6A
-         M7qQW/i+qKDiXOdERPPAePQk4oFMOuKoSzZxyaDDAM6Bmb3pS+Cpue5RuWNW+FDBhWT6
-         HqWN+tAPfkxntoycrnqjmjJtYLx1NpgZ8495C3mC0HxaQH7uGM5JzcRJmiDHt+WsFDbZ
-         1WHYPp3mwV4buFjLj98TOlT77BOqwMO0FJiEwoFtMxhjcc/FoGp09z5d0K/W5bUGCnQf
-         IrT0sFxf8tMUldNKA9z7MGZTrQNMCojASbC2UQCbaO34UQStQAZfV8/LVCQaJi12sN7U
-         dZWw==
-X-Gm-Message-State: AOJu0YzlqveJpW32lX/Wj8D2vp6bub+c857NuPpFeDhmR4n4liRxO+Is
-	qzTF/b9dsgAiy9kkn+MIz+3PZTRczEcwmAnWcKZLBndIqQMD8QTIJx4KXu/hstrLE/N42RV+5c5
-	P5+OH
-X-Gm-Gg: ASbGncuS7G+mJ4wi938wxzThaDwJkz9OVkCiuyJLkmz27O+HRQ4x7dQ/ezqS7nnKWpV
-	teZ0rI0ZiSp7XGP7GB2LkJs2xL6oaUTKljeWTo5bP69PYIR8/Bl4VU+W0s5QqNcOLfnAArazP1z
-	cnBBFcaeWHuvyIzxiLWMKS2MpPZ5PPP6AqIyUaqEHasRmhZetANqZRwN5FWIWXRDEw4LIwsqcxc
-	9kP7+4o1NHVpkgjTw34nQUXdsa6hzNCnPy5hfAE6pfDcXTDQVL2TJv8+tOpaUB3YL6RyikGVq83
-	15o+j4GcszNfj7Bo9eOcldQQacgvV3Aghtzo0bxu/5B9H6nKKQ13FlQEpaaDFfyuzp0=
-X-Google-Smtp-Source: AGHT+IGXYYf0TFhQ1O+wON7w7Ui0TdCCwX28S/0fiqjwsGck85D7SHKGiXnA9KbBhPMZpeej6AwM4w==
-X-Received: by 2002:a05:6000:2008:b0:3a4:79e8:cdfc with SMTP id ffacd0b85a97d-3a479e8cf38mr9971757f8f.30.1747994593532;
-        Fri, 23 May 2025 03:03:13 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a35ca8894csm26040832f8f.76.2025.05.23.03.03.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 May 2025 03:03:13 -0700 (PDT)
-Date: Fri, 23 May 2025 13:03:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dawei Li <dawei.li@linux.dev>,
-	andersson@kernel.org, mathieu.poirier@linaro.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dawei.li@linux.dev, set_pte_at@outlook.com
-Subject: Re: [PATCH v3 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL
- uAPI
-Message-ID: <202505211038.sqqVX8kO-lkp@intel.com>
+	s=arc-20240116; t=1747994808; c=relaxed/simple;
+	bh=THheXSACEUJfGXyhSOdVFZzx2Ne79IquJbtAhn/EX3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I3dJNYgUKS+IJBG3d/dLaA37A9fVhkB72on3cRMcE1midqnty3uCXV/qHVZiXiT5h8UrqlIUE7BoyYOC9HNU8K1uRCOdkn8RVh/3GStcMsBFQ3lnPtXMM/SMM3Lc5Mi7UVZtEQ0xdw4l+cbDSWu9nxP+UQUqM/A/InEusIyhc3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3079468BEB; Fri, 23 May 2025 12:06:41 +0200 (CEST)
+Date: Fri, 23 May 2025 12:06:40 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Carlos Maiolino <cem@kernel.org>,
+	Hans Holmberg <hans.holmberg@wdc.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [linux-next:master 10746/11779] fs/xfs/xfs_mru_cache.c:451
+ xfs_mru_cache_insert() error: we previously assumed 'mru' could be
+ null (see line 429)
+Message-ID: <20250523100640.GA23844@lst.de>
+References: <202505211940.jjLX0rQI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -74,112 +37,21 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250519150823.62350-4-dawei.li@linux.dev>
-Message-ID: <20250523100309.OPtH8K-6Yf2AAbZZkt8esiv6wBLepAOyrW4J68qKb0s@z>
+In-Reply-To: <202505211940.jjLX0rQI-lkp@intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Dawei,
+On Fri, May 23, 2025 at 12:58:57PM +0300, Dan Carpenter wrote:
+> 2a82b8be8a8dac David Chinner     2007-07-11  428  	ASSERT(mru && mru->lists);
+> 2a82b8be8a8dac David Chinner     2007-07-11 @429  	if (!mru || !mru->lists)
+> 
+> mru can't be NULL but if it were
+> 
+> 70b95cb86513d7 Christoph Hellwig 2025-05-14  450  out_free:
+> 70b95cb86513d7 Christoph Hellwig 2025-05-14 @451  	mru->free_func(mru->data, elem);
+> 
+> then we are toast.
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dawei-Li/rpmsg-char-Reuse-eptdev-logic-for-anonymous-device/20250519-231006
-base:   92a09c47464d040866cf2b4cd052bc60555185fb
-patch link:    https://lore.kernel.org/r/20250519150823.62350-4-dawei.li%40linux.dev
-patch subject: [PATCH v3 3/3] rpmsg: ctrl: Introduce RPMSG_CREATE_EPT_FD_IOCTL uAPI
-config: powerpc64-randconfig-r072-20250521 (https://download.01.org/0day-ci/archive/20250521/202505211038.sqqVX8kO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505211038.sqqVX8kO-lkp@intel.com/
-
-smatch warnings:
-drivers/rpmsg/rpmsg_ctrl.c:140 rpmsg_ctrldev_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
-
-vim +140 drivers/rpmsg/rpmsg_ctrl.c
-
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   74  static long rpmsg_ctrldev_ioctl(struct file *fp, unsigned int cmd,
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   75  				unsigned long arg)
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   76  {
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   77  	struct rpmsg_ctrldev *ctrldev = fp->private_data;
-74317ea5240801 Dawei Li         2025-05-19   78  	struct rpmsg_endpoint_fd_info ept_fd_info;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   79  	void __user *argp = (void __user *)arg;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   80  	struct rpmsg_endpoint_info eptinfo;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   81  	struct rpmsg_channel_info chinfo;
-8109517b394e6d Arnaud Pouliquen 2022-01-24   82  	struct rpmsg_device *rpdev;
-8109517b394e6d Arnaud Pouliquen 2022-01-24   83  	int ret = 0;
-74317ea5240801 Dawei Li         2025-05-19   84  	int fd = -1;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   85  
-74317ea5240801 Dawei Li         2025-05-19   86  	if (cmd == RPMSG_CREATE_EPT_IOCTL || cmd == RPMSG_CREATE_DEV_IOCTL ||
-74317ea5240801 Dawei Li         2025-05-19   87  	    cmd == RPMSG_RELEASE_DEV_IOCTL) {
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   88  		if (copy_from_user(&eptinfo, argp, sizeof(eptinfo)))
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   89  			return -EFAULT;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   90  
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   91  		memcpy(chinfo.name, eptinfo.name, RPMSG_NAME_SIZE);
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   92  		chinfo.name[RPMSG_NAME_SIZE - 1] = '\0';
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   93  		chinfo.src = eptinfo.src;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24   94  		chinfo.dst = eptinfo.dst;
-74317ea5240801 Dawei Li         2025-05-19   95  	} else if (cmd == RPMSG_CREATE_EPT_FD_IOCTL) {
-74317ea5240801 Dawei Li         2025-05-19   96  		if (copy_from_user(&ept_fd_info, argp, sizeof(ept_fd_info)))
-74317ea5240801 Dawei Li         2025-05-19   97  			return -EFAULT;
-74317ea5240801 Dawei Li         2025-05-19   98  
-74317ea5240801 Dawei Li         2025-05-19   99  		memcpy(chinfo.name, ept_fd_info.name, RPMSG_NAME_SIZE);
-74317ea5240801 Dawei Li         2025-05-19  100  		chinfo.name[RPMSG_NAME_SIZE - 1] = '\0';
-74317ea5240801 Dawei Li         2025-05-19  101  		chinfo.src = ept_fd_info.src;
-74317ea5240801 Dawei Li         2025-05-19  102  		chinfo.dst = ept_fd_info.dst;
-74317ea5240801 Dawei Li         2025-05-19  103  	}
-617d32938d1be0 Arnaud Pouliquen 2022-01-24  104  
-8109517b394e6d Arnaud Pouliquen 2022-01-24  105  	mutex_lock(&ctrldev->ctrl_lock);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  106  	switch (cmd) {
-8109517b394e6d Arnaud Pouliquen 2022-01-24  107  	case RPMSG_CREATE_EPT_IOCTL:
-8109517b394e6d Arnaud Pouliquen 2022-01-24  108  		ret = rpmsg_chrdev_eptdev_create(ctrldev->rpdev, &ctrldev->dev, chinfo);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  109  		break;
-8109517b394e6d Arnaud Pouliquen 2022-01-24  110  
-8109517b394e6d Arnaud Pouliquen 2022-01-24  111  	case RPMSG_CREATE_DEV_IOCTL:
-8109517b394e6d Arnaud Pouliquen 2022-01-24  112  		rpdev = rpmsg_create_channel(ctrldev->rpdev, &chinfo);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  113  		if (!rpdev) {
-8109517b394e6d Arnaud Pouliquen 2022-01-24  114  			dev_err(&ctrldev->dev, "failed to create %s channel\n", chinfo.name);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  115  			ret = -ENXIO;
-8109517b394e6d Arnaud Pouliquen 2022-01-24  116  		}
-8109517b394e6d Arnaud Pouliquen 2022-01-24  117  		break;
-8109517b394e6d Arnaud Pouliquen 2022-01-24  118  
-8109517b394e6d Arnaud Pouliquen 2022-01-24  119  	case RPMSG_RELEASE_DEV_IOCTL:
-8109517b394e6d Arnaud Pouliquen 2022-01-24  120  		ret = rpmsg_release_channel(ctrldev->rpdev, &chinfo);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  121  		if (ret)
-8109517b394e6d Arnaud Pouliquen 2022-01-24  122  			dev_err(&ctrldev->dev, "failed to release %s channel (%d)\n",
-8109517b394e6d Arnaud Pouliquen 2022-01-24  123  				chinfo.name, ret);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  124  		break;
-8109517b394e6d Arnaud Pouliquen 2022-01-24  125  
-74317ea5240801 Dawei Li         2025-05-19  126  	case RPMSG_CREATE_EPT_FD_IOCTL:
-74317ea5240801 Dawei Li         2025-05-19  127  		ret = rpmsg_anonymous_eptdev_create(ctrldev->rpdev, &ctrldev->dev, chinfo,
-74317ea5240801 Dawei Li         2025-05-19  128  						    ept_fd_info.flags, &fd);
-74317ea5240801 Dawei Li         2025-05-19  129  		if (!ret) {
-
-You should flip this around.  if (ret)
-					break;
-
-74317ea5240801 Dawei Li         2025-05-19  130  			ept_fd_info.fd = fd;
-74317ea5240801 Dawei Li         2025-05-19  131  			ret = copy_to_user(argp, &ept_fd_info, sizeof(ept_fd_info));
-
-This should be:
-
-	if (copy_to_user(argp, &ept_fd_info, sizeof(ept_fd_info)))
-		ret = -EFAULT;
-
-
-74317ea5240801 Dawei Li         2025-05-19  132  		}
-74317ea5240801 Dawei Li         2025-05-19  133  		break;
-74317ea5240801 Dawei Li         2025-05-19  134  
-8109517b394e6d Arnaud Pouliquen 2022-01-24  135  	default:
-8109517b394e6d Arnaud Pouliquen 2022-01-24  136  		ret = -EINVAL;
-8109517b394e6d Arnaud Pouliquen 2022-01-24  137  	}
-8109517b394e6d Arnaud Pouliquen 2022-01-24  138  	mutex_unlock(&ctrldev->ctrl_lock);
-8109517b394e6d Arnaud Pouliquen 2022-01-24  139  
-8109517b394e6d Arnaud Pouliquen 2022-01-24 @140  	return ret;
-617d32938d1be0 Arnaud Pouliquen 2022-01-24  141  };
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yeah.  Fortunately it is just a debug check for an invalid API.
+I'd be tempted to just remove the check and only leave in the assert
+for the same condition right above.
 
