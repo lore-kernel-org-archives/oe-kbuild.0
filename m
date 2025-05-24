@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28417E9
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 May 2025 03:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C665695
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 May 2025 04:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748056207; cv=none; b=EuWnL0Wer4QpdIqNse8sZJGyT+MslQhiMNyZ6KgcIHU50ZJUG6uYb7M+2ivvu/T16qKhCYK0ZIBb8Vk2ZkMC5jYtRl4tlzdWkHRi258R2f4Mkma+Q/fp8UCe7RTliUa3oIEjLk+kjUUE5veTx1vXW055aJFNzMDAWsMFwk4nsTE=
+	t=1748059756; cv=none; b=t5z5PXlPHWbJpQC1q0fmV3qWxllkYqwXCKXXwYXbDclKwSKIYPgU6WLZ779m9Lzowe49XnkOhuinOPeNokoA/L9587onoP2zkk6KXqqlWwfBv2d672xqKVml3CZr4D0uIKBQmYGyVh/hNVYGnf9e26cSTokFDo+xXTOpV25R0eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748056207; c=relaxed/simple;
-	bh=nrQUVuANaypscrZunQKtczAMUaLJz4U2NXLwLJI+GRw=;
+	s=arc-20240116; t=1748059756; c=relaxed/simple;
+	bh=CxanWLxNeQ0tXNro47//7ZBVGjKU4ySKjqkz1UIcTCY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fg4V1oFHwmJ121NQV/tum3eD1uOHM10AHC5zBIwk5nIm0FHghLnx8X0bHytnNbS/dXeCNiHBB5gGhj4yFgmIZsc5Mu81mmoqIgHHgPm1l5SYVsx11mx1JFO9ohgYJJKnRxQ8dVJkTOL7UxhplVziXZf21IAGstneIQrR9MwRkfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oLB5ogos; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=OtWHu4Px2OZKJMrWpdl32Tk+oIRw9ltsqPAMBTLxPHT9z0dEyKpJPUxlqaKiiIn0K2ZOOMFLXb0bsC7uRlF68+I0Ttz21ZfpKIiQElMbvCNORib6KNOQ4QU3JigUG0ytZ+UlcFN5WlTSrpAaYQ1+RyaBOoiVM9p0fGb+bpf+94s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V6YOUCkV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oLB5ogos"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6YOUCkV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748056204; x=1779592204;
+  t=1748059755; x=1779595755;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nrQUVuANaypscrZunQKtczAMUaLJz4U2NXLwLJI+GRw=;
-  b=oLB5ogos4XyMpdNWgbDHIMLw6/c49SgR7D4uBWKyIM9SpvLlv3C328dQ
-   afKp7+4e7Oh5HMPhM37g2med+girmnashf1p7GP13XpVPM8AQg86Gn2MO
-   b7t0pIhRQPnYOWAwz5Vldym2/rfyNreU2vwdYeWlebWfp3y6wlxW3+U5I
-   EU2V1rNH1+mUzpS8SRsIlEAoI4a7RYFIQcpzkhifqjevZ3REZf/g7KCBZ
-   VYqi2paI8dkl63iD3wTd4yNijUeXX9Ne8SUmA9wLflR/JYsZ9kP9xWC3R
-   s/ja8Q7D/bHb8twJglLC5bzg7ijzpSk1s+uUXbrKJRuHmcpcqRyN5uZj5
-   g==;
-X-CSE-ConnectionGUID: 64F9HjNcS+Sw2DGaWRMhVg==
-X-CSE-MsgGUID: 5sH7/ItBT32+tULAaUXKXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61466988"
+  bh=CxanWLxNeQ0tXNro47//7ZBVGjKU4ySKjqkz1UIcTCY=;
+  b=V6YOUCkVlKTAkrhrX7RK8BXEC3aVbPHlIQLQlbFejYOvYg1c0eIvJg67
+   W3p6Esxyq2IBJEgjA62YqIleYzlNmsPMnWMCwK3yhAVXsrv3OfaCwfcrw
+   ybU7NF1l94XL/8jFpcYgoCdAk6zhWlIM8XEzh9MviW6rMVpdZPl14UY7g
+   yCR16Usr3oCd2Xv764HKnJlXX4e9sfbW82kVdZG3MjPliHT/4Sa4a8UtQ
+   RkzWD70WhjgEQySs2aVH5iYTzYAVvgC6bSsDJMKo+mWVVQU+D0kpXQAbI
+   hPYnyKCQaYmbP7gYoU0LP5YL20SOx+ZVthcY5TfE26oDVgOqJqwdSe4hu
+   w==;
+X-CSE-ConnectionGUID: XXOdnVrVQvGUddr7u2FE2g==
+X-CSE-MsgGUID: j7O0CFteQ3yIw9ycpTWdKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="61521800"
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="61466988"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 20:10:04 -0700
-X-CSE-ConnectionGUID: 51hh0ab9SKW8ZwtXxYS86g==
-X-CSE-MsgGUID: poXnj4+aSLuURD844V8sUA==
+   d="scan'208";a="61521800"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 21:09:14 -0700
+X-CSE-ConnectionGUID: rbFcWDcrSzWOllgc2iJfDA==
+X-CSE-MsgGUID: 7S0CkgwrTHeXwH0EZMa32Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="178522970"
-Received: from igk-lkp-server01.igk.intel.com (HELO a1decbf9c5f9) ([10.211.3.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 May 2025 20:10:03 -0700
-Received: from kbuild by a1decbf9c5f9 with local (Exim 4.96)
+   d="scan'208";a="141281977"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 23 May 2025 21:09:13 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIfGq-0001b0-2J;
-	Sat, 24 May 2025 03:10:00 +0000
-Date: Sat, 24 May 2025 11:09:23 +0800
+	id 1uIgC6-000QvT-2h;
+	Sat, 24 May 2025 04:09:10 +0000
+Date: Sat, 24 May 2025 12:09:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 32/236]
- arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/display-pipe@228200000:
- failed to match any schema with compatible: ['apple,t8103-display-pipe',
- 'apple,h7-display-pipe']
-Message-ID: <202505241142.tbKyrL7N-lkp@intel.com>
+Subject: fs/bcachefs/backpointers.o: warning: objtool:
+ __bch2_backpointer_get_node+0x78: unreachable instruction
+Message-ID: <202505241254.A6ki50R9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,116 +63,39 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Sasha Finkelstein <fnkl.kernel@gmail.com>
-CC: Janne Grunau <j@jannau.net>
-CC: Nick Chan <towinchenmi@gmail.com>
-CC: Neal Gompa <neal@gompa.dev>
-CC: Sven Peter <sven@svenpeter.dev>
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   25a6e10c983dcd254c925e79298049dfb29c1d9f
-commit: 232b95d0ce111111245335e7ad02b1e5e9f659af [32/236] arm64: dts: apple: Add touchbar screen nodes
-:::::: branch date: 8 days ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-2051-20250524 (https://download.01.org/0day-ci/archive/20250524/202505241142.tbKyrL7N-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241142.tbKyrL7N-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4856ebd997159f198e3177e515bda01143727463
+commit: d1041d8eab31f9b4c696ee060141d1b0d156f84d bcachefs: Fix missing commit in backpointer to missing target
+date:   9 days ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 days ago
+config: loongarch-randconfig-r063-20250522 (https://download.01.org/0day-ci/archive/20250524/202505241254.A6ki50R9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250524/202505241254.A6ki50R9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505241142.tbKyrL7N-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505241254.A6ki50R9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103.dtsi:403.34-432.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8103.dtsi:415.25-424.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j274.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
-   arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8103.dtsi:415.25-424.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8103.dtsi:426.26-430.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dsi@228600000/panel@0: failed to match any schema with compatible: ['apple,j293-summit', 'apple,summit']
->> arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dsi@228600000/panel@0: failed to match any schema with compatible: ['apple,j293-summit', 'apple,summit']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/spi@235100000/touchbar@0: failed to match any schema with compatible: ['apple,j293-touchbar']
-   arch/arm64/boot/dts/apple/t8103-j293.dtb: network@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/t8103.dtsi:403.34-432.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8103.dtsi:415.25-424.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: network@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/t8103.dtsi:403.34-432.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8103.dtsi:415.25-424.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j456.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
-   arch/arm64/boot/dts/apple/t8103-j456.dtb: network@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/t8103.dtsi:403.34-432.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8103.dtsi:415.25-424.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8103-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8103-j457.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8103-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
-   arch/arm64/boot/dts/apple/t8103-j457.dtb: network@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:419.34-448.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8112.dtsi:431.25-440.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8112-j413.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
-   arch/arm64/boot/dts/apple/t8112-j413.dtb: wifi@0,0 (pci14e4,4433): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
---
-   arch/arm64/boot/dts/apple/t8112.dtsi:419.34-448.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8112.dtsi:431.25-440.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8112-j473.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
---
-   arch/arm64/boot/dts/apple/spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/apple/t8112.dtsi:431.25-440.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/apple/t8112.dtsi:442.26-446.7: Warning (graph_child_address): /soc/dsi@228600000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/display-pipe@228200000: failed to match any schema with compatible: ['apple,t8112-display-pipe', 'apple,h7-display-pipe']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dsi@228600000: failed to match any schema with compatible: ['apple,t8112-display-pipe-mipi', 'apple,h7-display-pipe-mipi']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dsi@228600000/panel@0: failed to match any schema with compatible: ['apple,j493-summit', 'apple,summit']
->> arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dsi@228600000/panel@0: failed to match any schema with compatible: ['apple,j493-summit', 'apple,summit']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000/touchbar@0: failed to match any schema with compatible: ['apple,j493-touchbar']
-   arch/arm64/boot/dts/apple/t8112-j493.dtb: wifi@0,0 (pci14e4,4425): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+All warnings (new ones prefixed by >>):
+
+   fs/bcachefs/backpointers.o: warning: objtool: bucket_pos_to_bp_end+0x70: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: bch2_pin_backpointer_nodes_with_missing+0x1f8: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: bch2_extent_crc_unpack+0x9c: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: bch2_extent_ptr_to_bp+0x1f8: unreachable instruction
+>> fs/bcachefs/backpointers.o: warning: objtool: __bch2_backpointer_get_node+0x78: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: check_extent_checksum+0x170: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: bch2_check_extents_to_backpointers+0x64: unreachable instruction
+   fs/bcachefs/backpointers.o: warning: objtool: bch2_check_backpointers_to_extents+0x3a8: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
