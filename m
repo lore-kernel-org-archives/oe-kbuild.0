@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6056D1D8DE4
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 May 2025 01:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F6523774
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 May 2025 01:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748049895; cv=none; b=EEY6RalZ64Ko9UXUOJt/Ynj//mt9HXS+UZGRxofcFUMCZ/3eznSRJPFz+beulQX3ZPfvBVVDXikZB4KrLyRB3ikt39CJR7qoeblvOpRPjlYOPnlPGiuRPagFLJisaFDeYjcsjzAGCOQB/A6KksVcK5ECraaF5wky7TRI+mlzPEg=
+	t=1748050557; cv=none; b=G/6UpUGzzYHysGt4DDIh5zniK3wB9eJGREEVm4dO4/HG1DJT3t5fTmPrhxbg1rJVvMfmepNefDaFH0QQUvlL+M7gj+6fIIwJdU9Sxn7N73cQrOR9UelAQ/QPCVisJ+Wq5E8jN552ViMpSFxTURdVbDwNwzk/2fQKCCYvL5qJltk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748049895; c=relaxed/simple;
-	bh=vNHls/X5e7ne4gKtpqIgVSNK+oZlfaLoQbO+YeQ4NQk=;
+	s=arc-20240116; t=1748050557; c=relaxed/simple;
+	bh=3uPGj5W2z+ZKHfEM/BE7x1R5SVQP8qgk1RQd5vy+FAM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NrJT21mklOlO3Xd8Ghn0+LbASb/7eChiBcdhwRALFtq13VU57AeIVW1aRQezCUsBNYMIwfoeCrPtNyqCHWfjARPwmCfQK3FJqYjZm0HixfSlqDUMI2Eq4llIlyTYvGW5NBm5Er7YpTdiZqh3hj1spGmr4ktvlpv9cL8Q1lrPnAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ddg04Q9u; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=UcSBzrJzAHrjjssUhrRrWx1nSIV/lZ9YIbTooARz3W+bXpIAMv1OIv0qg76hrtAhTiZ9Ohd8tMvzXSXDO5U2ucYLviw1ZM61oT4rg9JLICNieAEsk/BFbo580C3ZF8rTteOAScWrGqy2BjtzwCYNl13CjoojOEwDb8lj20/dn0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAiQz9xH; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ddg04Q9u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAiQz9xH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748049894; x=1779585894;
+  t=1748050556; x=1779586556;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vNHls/X5e7ne4gKtpqIgVSNK+oZlfaLoQbO+YeQ4NQk=;
-  b=Ddg04Q9ukfvEzQg396I/U3zwR6zbksiktxBl55L8VTREyfZtHecgFy90
-   jJwAijPGbY31uqI7HwW4cdsayQryw0NNBCMIOBYMIPhGEW/cI1r0SHLaJ
-   //y4MTI52IJm0RPtmfVTC+YdsFfNiNjuYSOjikSMXBBbaLUpl1HCvBm7J
-   02/Ujc/bA1G5gt4rXvE0NFN/xt8DjmXuwzhpgo07265inZwIiFE1HY0kt
-   bU/RkXlEIlTKKtc7xyflC8x+broPF/AZZGDuGZDVCTnirLJHzEfxkExc3
-   y7lhE4cBIqQFegPTSealvdQaJgaxGrZT9WdSLBgx46Wc1uVlUaCfS5yQB
-   Q==;
-X-CSE-ConnectionGUID: auehxZHTSb2QX8SvZng7jA==
-X-CSE-MsgGUID: cDmbnMhBQC6rhwA8Aj7SIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="50108519"
+  bh=3uPGj5W2z+ZKHfEM/BE7x1R5SVQP8qgk1RQd5vy+FAM=;
+  b=mAiQz9xHdi9IoLh64yOu/iLTn9iFHZAhpPUvpz//JycZukcF9jokpKpg
+   UIf27lG+lqxRR+X7OPWUDCeMroxAhI7heRHMtsiC2cMq9iNwcVrr8Myf8
+   Cb8YNQnOF+pYlXSuhbm/ySpzXuIovlJzWhsBb02MWnFSpI7+3ixQDnnbB
+   9XihxEYYqqozLBADzx39ow4XOTB4W2GujUIuqwmUnGXDTPLCOtMUNvp2c
+   Yj7Xnf9i6cviacbWPOlzckBgN9h4fmJvIw2NioaU9lQnmN97pwLN1sVfq
+   5PuMN+b02s8T+lfGcpdxfxk/tjHdMTc108wIM5NCObIkEY4EN8iptboLc
+   w==;
+X-CSE-ConnectionGUID: s4ZaiYNdRoCf0iFJ9vkvrQ==
+X-CSE-MsgGUID: jdwsPPVnQ9GNN+rOEQXBxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11441"; a="53918268"
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="50108519"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 18:24:53 -0700
-X-CSE-ConnectionGUID: YorkL27aRfS6mUuZ3H03ag==
-X-CSE-MsgGUID: 1SQ0bpRUQZmVYM8UhVINvw==
+   d="scan'208";a="53918268"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2025 18:35:53 -0700
+X-CSE-ConnectionGUID: hDs+VLDbTgOkxCVba2QxrA==
+X-CSE-MsgGUID: 8fPI9IC9Sg+Wu+O5bKYoPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,310,1739865600"; 
-   d="scan'208";a="146566236"
+   d="scan'208";a="142329103"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 May 2025 18:24:51 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 May 2025 18:35:52 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uIdd3-000Qr8-1D;
-	Sat, 24 May 2025 01:24:49 +0000
-Date: Sat, 24 May 2025 09:24:30 +0800
+	id 1uIdni-000QrN-0b;
+	Sat, 24 May 2025 01:35:50 +0000
+Date: Sat, 24 May 2025 09:35:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android-mainline-desktop 0/24]
- drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c:396:39-40:
- WARNING opportunity for max()
-Message-ID: <202505240945.5jvlhFRo-lkp@intel.com>
+Subject: lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is used
+ later (line 644) to compute the same size
+Message-ID: <202505240949.oKaaAeZq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,123 +64,73 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Kees Cook <kees@kernel.org>
+CC: David Gow <davidgow@google.com>
+CC: Rae Moar <rmoar@google.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   faddd8b9e49cb6ec917511d2839d916ea49312d3
-commit: a29997b7ac1f5c816b543e0c56aa2b5b56baac24 [0/24] drm/amd/display: Limit VTotal range to max hw cap minus fp
-:::::: branch date: 15 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-053-20250523 (https://download.01.org/0day-ci/archive/20250524/202505240945.5jvlhFRo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Kees,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4856ebd997159f198e3177e515bda01143727463
+commit: db6fe4d61ece24193eb4d94a82d967501d53358c lib: Move KUnit tests into tests/ subdirectory
+date:   3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-104-20250524 (https://download.01.org/0day-ci/archive/20250524/202505240949.oKaaAeZq-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202505240945.5jvlhFRo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505240949.oKaaAeZq-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c:396:39-40: WARNING opportunity for max()
+>> lib/tests/overflow_kunit.c:637:13-14: WARNING: array_size is used later (line 644) to compute the same size
+--
+>> lib/tests/overflow_kunit.c:295:14-19: Unneeded variable: "index". Return "0" on line 297
 
-vim +396 drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+vim +637 lib/tests/overflow_kunit.c
 
-a29997b7ac1f5c Dillon Varone    2024-11-13  352  
-70839da6360500 Aurabindo Pillai 2024-04-19  353  static void populate_dml21_timing_config_from_stream_state(struct dml2_timing_cfg *timing,
-a00e85713c372f Rodrigo Siqueira 2024-04-29  354  		struct dc_stream_state *stream,
-a00e85713c372f Rodrigo Siqueira 2024-04-29  355  		struct dml2_context *dml_ctx)
-70839da6360500 Aurabindo Pillai 2024-04-19  356  {
-a29997b7ac1f5c Dillon Varone    2024-11-13  357  	unsigned int hblank_start, vblank_start, min_hardware_refresh_in_uhz;
-70839da6360500 Aurabindo Pillai 2024-04-19  358  
-70839da6360500 Aurabindo Pillai 2024-04-19  359  	timing->h_active = stream->timing.h_addressable + stream->timing.h_border_left + stream->timing.h_border_right;
-70839da6360500 Aurabindo Pillai 2024-04-19  360  	timing->v_active = stream->timing.v_addressable + stream->timing.v_border_bottom + stream->timing.v_border_top;
-70839da6360500 Aurabindo Pillai 2024-04-19  361  	timing->h_front_porch = stream->timing.h_front_porch;
-70839da6360500 Aurabindo Pillai 2024-04-19  362  	timing->v_front_porch = stream->timing.v_front_porch;
-70839da6360500 Aurabindo Pillai 2024-04-19  363  	timing->pixel_clock_khz = stream->timing.pix_clk_100hz / 10;
-70839da6360500 Aurabindo Pillai 2024-04-19  364  	if (stream->timing.timing_3d_format == TIMING_3D_FORMAT_HW_FRAME_PACKING)
-70839da6360500 Aurabindo Pillai 2024-04-19  365  		timing->pixel_clock_khz *= 2;
-70839da6360500 Aurabindo Pillai 2024-04-19  366  	timing->h_total = stream->timing.h_total;
-70839da6360500 Aurabindo Pillai 2024-04-19  367  	timing->v_total = stream->timing.v_total;
-70839da6360500 Aurabindo Pillai 2024-04-19  368  	timing->h_sync_width = stream->timing.h_sync_width;
-70839da6360500 Aurabindo Pillai 2024-04-19  369  	timing->interlaced = stream->timing.flags.INTERLACE;
-70839da6360500 Aurabindo Pillai 2024-04-19  370  
-70839da6360500 Aurabindo Pillai 2024-04-19  371  	hblank_start = stream->timing.h_total - stream->timing.h_front_porch;
-70839da6360500 Aurabindo Pillai 2024-04-19  372  
-70839da6360500 Aurabindo Pillai 2024-04-19  373  	timing->h_blank_end = hblank_start - stream->timing.h_addressable
-70839da6360500 Aurabindo Pillai 2024-04-19  374  		- stream->timing.h_border_left - stream->timing.h_border_right;
-70839da6360500 Aurabindo Pillai 2024-04-19  375  
-70839da6360500 Aurabindo Pillai 2024-04-19  376  	if (hblank_start < stream->timing.h_addressable)
-70839da6360500 Aurabindo Pillai 2024-04-19  377  		timing->h_blank_end = 0;
-70839da6360500 Aurabindo Pillai 2024-04-19  378  
-70839da6360500 Aurabindo Pillai 2024-04-19  379  	vblank_start = stream->timing.v_total - stream->timing.v_front_porch;
-70839da6360500 Aurabindo Pillai 2024-04-19  380  
-70839da6360500 Aurabindo Pillai 2024-04-19  381  	timing->v_blank_end = vblank_start - stream->timing.v_addressable
-70839da6360500 Aurabindo Pillai 2024-04-19  382  		- stream->timing.v_border_top - stream->timing.v_border_bottom;
-70839da6360500 Aurabindo Pillai 2024-04-19  383  
-70839da6360500 Aurabindo Pillai 2024-04-19  384  	timing->drr_config.enabled = stream->ignore_msa_timing_param;
-70839da6360500 Aurabindo Pillai 2024-04-19  385  	timing->drr_config.drr_active_variable = stream->vrr_active_variable;
-70839da6360500 Aurabindo Pillai 2024-04-19  386  	timing->drr_config.drr_active_fixed = stream->vrr_active_fixed;
-70839da6360500 Aurabindo Pillai 2024-04-19  387  	timing->drr_config.disallowed = !stream->allow_freesync;
-a00e85713c372f Rodrigo Siqueira 2024-04-29  388  
-a29997b7ac1f5c Dillon Varone    2024-11-13  389  	/* limit min refresh rate to DC cap */
-a29997b7ac1f5c Dillon Varone    2024-11-13  390  	min_hardware_refresh_in_uhz = stream->timing.min_refresh_in_uhz;
-a29997b7ac1f5c Dillon Varone    2024-11-13  391  	if (stream->ctx->dc->caps.max_v_total != 0) {
-a29997b7ac1f5c Dillon Varone    2024-11-13  392  		min_hardware_refresh_in_uhz = div64_u64((stream->timing.pix_clk_100hz * 100000000ULL),
-a29997b7ac1f5c Dillon Varone    2024-11-13  393  				(stream->timing.h_total * (long long)calc_max_hardware_v_total(stream)));
-a29997b7ac1f5c Dillon Varone    2024-11-13  394  	}
-a29997b7ac1f5c Dillon Varone    2024-11-13  395  
-a29997b7ac1f5c Dillon Varone    2024-11-13 @396  	if (stream->timing.min_refresh_in_uhz > min_hardware_refresh_in_uhz) {
-a29997b7ac1f5c Dillon Varone    2024-11-13  397  		timing->drr_config.min_refresh_uhz = stream->timing.min_refresh_in_uhz;
-a29997b7ac1f5c Dillon Varone    2024-11-13  398  	} else {
-a29997b7ac1f5c Dillon Varone    2024-11-13  399  		timing->drr_config.min_refresh_uhz = min_hardware_refresh_in_uhz;
-a29997b7ac1f5c Dillon Varone    2024-11-13  400  	}
-a29997b7ac1f5c Dillon Varone    2024-11-13  401  
-a00e85713c372f Rodrigo Siqueira 2024-04-29  402  	if (dml_ctx->config.callbacks.get_max_flickerless_instant_vtotal_increase &&
-a00e85713c372f Rodrigo Siqueira 2024-04-29  403  			stream->ctx->dc->config.enable_fpo_flicker_detection == 1)
-a00e85713c372f Rodrigo Siqueira 2024-04-29  404  		timing->drr_config.max_instant_vtotal_delta = dml_ctx->config.callbacks.get_max_flickerless_instant_vtotal_increase(stream, false);
-a00e85713c372f Rodrigo Siqueira 2024-04-29  405  	else
-a00e85713c372f Rodrigo Siqueira 2024-04-29  406  		timing->drr_config.max_instant_vtotal_delta = 0;
-70839da6360500 Aurabindo Pillai 2024-04-19  407  
-70839da6360500 Aurabindo Pillai 2024-04-19  408  	if (stream->timing.flags.DSC) {
-70839da6360500 Aurabindo Pillai 2024-04-19  409  		timing->dsc.enable = dml2_dsc_enable;
-70839da6360500 Aurabindo Pillai 2024-04-19  410  		timing->dsc.overrides.num_slices = stream->timing.dsc_cfg.num_slices_h;
-70839da6360500 Aurabindo Pillai 2024-04-19  411  		timing->dsc.dsc_compressed_bpp_x16 = stream->timing.dsc_cfg.bits_per_pixel;
-70839da6360500 Aurabindo Pillai 2024-04-19  412  	} else
-70839da6360500 Aurabindo Pillai 2024-04-19  413  		timing->dsc.enable = dml2_dsc_disable;
-70839da6360500 Aurabindo Pillai 2024-04-19  414  
-70839da6360500 Aurabindo Pillai 2024-04-19  415  	switch (stream->timing.display_color_depth) {
-70839da6360500 Aurabindo Pillai 2024-04-19  416  	case COLOR_DEPTH_666:
-70839da6360500 Aurabindo Pillai 2024-04-19  417  		timing->bpc = 6;
-70839da6360500 Aurabindo Pillai 2024-04-19  418  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  419  	case COLOR_DEPTH_888:
-70839da6360500 Aurabindo Pillai 2024-04-19  420  		timing->bpc = 8;
-70839da6360500 Aurabindo Pillai 2024-04-19  421  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  422  	case COLOR_DEPTH_101010:
-70839da6360500 Aurabindo Pillai 2024-04-19  423  		timing->bpc = 10;
-70839da6360500 Aurabindo Pillai 2024-04-19  424  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  425  	case COLOR_DEPTH_121212:
-70839da6360500 Aurabindo Pillai 2024-04-19  426  		timing->bpc = 12;
-70839da6360500 Aurabindo Pillai 2024-04-19  427  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  428  	case COLOR_DEPTH_141414:
-70839da6360500 Aurabindo Pillai 2024-04-19  429  		timing->bpc = 14;
-70839da6360500 Aurabindo Pillai 2024-04-19  430  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  431  	case COLOR_DEPTH_161616:
-70839da6360500 Aurabindo Pillai 2024-04-19  432  		timing->bpc = 16;
-70839da6360500 Aurabindo Pillai 2024-04-19  433  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  434  	case COLOR_DEPTH_999:
-70839da6360500 Aurabindo Pillai 2024-04-19  435  		timing->bpc = 9;
-70839da6360500 Aurabindo Pillai 2024-04-19  436  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  437  	case COLOR_DEPTH_111111:
-70839da6360500 Aurabindo Pillai 2024-04-19  438  		timing->bpc = 11;
-70839da6360500 Aurabindo Pillai 2024-04-19  439  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  440  	default:
-70839da6360500 Aurabindo Pillai 2024-04-19  441  		timing->bpc = 8;
-70839da6360500 Aurabindo Pillai 2024-04-19  442  		break;
-70839da6360500 Aurabindo Pillai 2024-04-19  443  	}
-70839da6360500 Aurabindo Pillai 2024-04-19  444  
-70839da6360500 Aurabindo Pillai 2024-04-19  445  	timing->vblank_nom = timing->v_total - timing->v_active;
-70839da6360500 Aurabindo Pillai 2024-04-19  446  }
-70839da6360500 Aurabindo Pillai 2024-04-19  447  
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  621  
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  622  #define DEFINE_TEST_ALLOC(func, free_func, want_arg, want_gfp, want_node)\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  623  static void test_ ## func (struct kunit *test, void *arg)		\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  624  {									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  625  	volatile size_t a = TEST_SIZE;					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  626  	volatile size_t b = (SIZE_MAX / TEST_SIZE) + 1;			\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  627  	void *ptr;							\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  628  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  629  	/* Tiny allocation test. */					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  630  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg, 1);\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  631  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  632  			    #func " failed regular allocation?!\n");	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  633  	free ## want_arg (free_func, arg, ptr);				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  634  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  635  	/* Wrapped allocation test. */					\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  636  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @637  							  a * b);	\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  638  	KUNIT_ASSERT_NOT_ERR_OR_NULL_MSG(test, ptr,			\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  639  			    #func " unexpectedly failed bad wrapping?!\n"); \
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  640  	free ## want_arg (free_func, arg, ptr);				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  641  									\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  642  	/* Saturated allocation test. */				\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  643  	ptr = alloc ## want_arg ## want_gfp ## want_node (func, arg,	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10 @644  						   array_size(a, b));	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  645  	if (ptr) {							\
+617f55e20743fc lib/overflow_kunit.c Kees Cook 2022-02-16  646  		KUNIT_FAIL(test, #func " missed saturation!\n");	\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  647  		free ## want_arg (free_func, arg, ptr);			\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  648  	}								\
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  649  }
+ca90800a91ba72 lib/test_overflow.c  Kees Cook 2018-05-10  650  
+
+:::::: The code at line 637 was first introduced by commit
+:::::: ca90800a91ba723d78ded634d037c1d2df8b54d6 test_overflow: Add memory allocation overflow tests
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
