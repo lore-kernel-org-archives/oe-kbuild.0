@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D706F126C03
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 May 2025 03:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D901C861D
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 May 2025 06:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748231520; cv=none; b=dcnowwQL6uazHBFT1esBJ5TmJ2rAd/GDnAVncX9pyLIUzLTWS+UmWNNoTy/XaWJeFDV5n3bcJKVKjIc9c9K+EBOY+yJ2ePNr1Dv059lPcD1q224v/bZTclmKbOtxUu0+Mvk5go55jmO+S5yDt3RQDJD+Ciw9g5d7M/0Krtc1e14=
+	t=1748241409; cv=none; b=M99qOXvXScRQdkKl20a7C3mAMpfl9RHxtWpLaOXP/B0gnJytiKof1KHSVlaDOIsVJIhcSExg7RXQdb177L7M68rM/8xj22JLwhTR1bEsMpH/pvD2SSuArfIZdCXgj0DR46rBrbbZ5pZjkmeszidkRUb+lOmpMq5pimI0o0TiYvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748231520; c=relaxed/simple;
-	bh=VxRgdFWYoTpvnLjwJ94QnSeqnUVViSArvOzVTcSHIhs=;
+	s=arc-20240116; t=1748241409; c=relaxed/simple;
+	bh=f357TMpsKFIO6MjcV4osUpKN3OM2rvj7EyZMQSoPwis=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aVEtN/oNBQ5Amwa2f6KAWbcovNNVhDYmow4NQwxpQY88osbfq0NjhyHjjJeJebDQBxSEx4K1SZqNaKtBuYqHqbso1jLqNFCIP4aOivOLcWrCxoM/6gkGLTqz8m0KxxpyZ8ak+kUkELH0tOYsA04nqtIoZsokAnF1YWYH3VT3+oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y03resFM; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=gqJ2JlEM55qzhZ5Z+bDMHKZwfYolzxIATC+TduEH4i5Mn+T/W3W6Zy5JRG6j3viQ7QFnN6Rl0pVDprau81aDcfAp1Xrab/IdPuw2YadF07ohkXEJZ8nOskdsKVUUpPnW/hunvDfv4fGmRWOkkmuWgUEm8GfhSCb39wTuxi2kDSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tbb+1vBt; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y03resFM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748231517; x=1779767517;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VxRgdFWYoTpvnLjwJ94QnSeqnUVViSArvOzVTcSHIhs=;
-  b=Y03resFM/1Dug3CshDmx+EY13x1vlzYWMmQ81ZyWdWW2BeXkp/gIsNQB
-   2KSyo4YEFWdy3cNYXUS0yfDcRUOSBvp3yc1y1wlJRYAQq2UUUZ+y2nxKT
-   DRtS97TjrG4c26VOolsF+sl/e5z5uk6hoUtHU0PsFD0bUuAUG8YULSs/X
-   ABzjS2uJJyA9O3J48yVH3kcHP9P4pi3gxrHzXwH7kX2ZD+KwYnxIwAXl4
-   vWLvc3cWgU644d/ANdlbJhxz0WwSu6Jkfgv4raJOINfTQ0LjWba8GXLce
-   w0zUuVTT1IcoFuQRclvc3MFGmzkGkWkca7d6Ebq3Kjyr5P0fcc1RiLCs0
-   w==;
-X-CSE-ConnectionGUID: sbJdMUJhSCadUNLBABUzIg==
-X-CSE-MsgGUID: 45tyRgNxStep7UsV/Ix7Sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="49446108"
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="49446108"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 20:51:57 -0700
-X-CSE-ConnectionGUID: UqiKABzmQIqso3gVxZQUaw==
-X-CSE-MsgGUID: csl+VU7aTGOnqhzia5hHGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="142030623"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 May 2025 20:51:55 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uJOsT-000S7Q-2b;
-	Mon, 26 May 2025 03:51:53 +0000
-Date: Mon, 26 May 2025 11:51:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tbb+1vBt"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so22539035e9.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 25 May 2025 23:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748241405; x=1748846205; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=szPoFZo1qtuOcko9W28Xe98h6q8n7Lwdut0b0uqIg+c=;
+        b=tbb+1vBtoQ/B6W8Ap9gosZdLVnAtpAHiNLFesSsQtw63aYVSkeUqvCO6OGS9p/6M2H
+         wruvxCmPh2Zyvk0mkarRFvMmm9WdWDFqd5ryuzrtobVlxnuQL3YDxlW6AL9BE6y/hb+d
+         Dm/Gq0iIeCAeUM1rItz7NUbze1/lUTYdMzfMwbO+0Er3zR7TJ9WZixKHwHm+gA+/AJug
+         55aQhA24k2CrPs95lsagJdB7lczY92slpKrT5hfSlWhUDrAsR+zHtuKLhGZkcj5L9VAF
+         GXPAMeOEqD/obzqkj/iKlOi+/wEN0N/+ll4lmX6K2WqX8MfvDLRRiN+3ahOW26A/eqCk
+         xuyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748241405; x=1748846205;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=szPoFZo1qtuOcko9W28Xe98h6q8n7Lwdut0b0uqIg+c=;
+        b=Ha7owVZy9yK0+e4JKxJzC/LW/6JcNw4/l70FXpudWZXU3Anx9Aec6xuUvC/wIqzGsf
+         Fe3nAMRPgAzoVWVglDmqzAGL/Xwpj5IakMsOanGnpNGGfTftJYqbaL4BVncMTb3KBumY
+         BynwLUQ+dFUYpleTS/GG+06nps8X9uJQPLPXsuGRMuRs3zPN32NQc3T70snSgDXwskge
+         HUD6VprAQZaO1d7digYwjPIaXhQKMoslX4mlosyfA+XMLV98nBLcizKqNqze+pfyvN+f
+         tihlNNPjKPuQA+O+QmI9dC6896E+B+62xAhEEev29dVZbIvoCOvePCIGWCmKab4nfnK+
+         NhXA==
+X-Gm-Message-State: AOJu0Yw4I0d3pmE6f0pDBHIsURxzF15Jm7PJg79gdqdZqVryrZHItIPS
+	kED7DXhDm+n1q/uiSt6TGtRVoobTYfs5lXc1EaJi9O2UhqVpsI9cqmdO7wPXPVYOlBu5QwV1zf9
+	yCb3/
+X-Gm-Gg: ASbGncvr/BMl3xY33B7yvl1DOF45dIDnx5PR65B1t5apQHI/BGV3b+ExJzKzhE2fpDW
+	yGFbqkQTRSUbOfmMPUhsdkOvB63QRbARMexrsYfpJj2XID9gPuyP+o3gFCwf4C4d/qnWlzFUAWH
+	+hNxiwZUrnc+jr+zt6+mtV7U0UvvEpgUjvScHp4Uv6IRSEw1aXD5tWOYtk7Z3mM9uJLa+ll/Sd7
+	v1YXZ+6utAeFvawj01tVnJvGNffPku2zsvzQCd3PZzRNvjL/cPcqYyRFw0/dKc05rmURA790UDj
+	5pkCYIEgHeCDPQ2bc2xE1jh7y+IWyQvidMmxT7xUnEJ6pyRaCPg4S383
+X-Google-Smtp-Source: AGHT+IEQ7uO7eq3sWoX6vR13FTdVqyDvylkH1GTJLSx4FN8jLcvB+d2mvQA5tQ2N/TYUDL6/KQ9IHw==
+X-Received: by 2002:a05:600c:3b19:b0:442:e9eb:cba2 with SMTP id 5b1f17b1804b1-44c8f25dab7mr78164895e9.0.1748241405368;
+        Sun, 25 May 2025 23:36:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4d10e98f8sm4698986f8f.42.2025.05.25.23.36.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 May 2025 23:36:44 -0700 (PDT)
+Date: Mon, 26 May 2025 09:36:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rafal Bilkowski <rafalbilkowski@gmail.com>,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dsahern@kernel.org,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	Rafal Bilkowski <rafalbilkowski@gmail.com>
 Subject: Re: [PATCH]    net: ipv6: sanitize RPL SRH cmpre/cmpre fields to fix
  taint issue
-Message-ID: <202505261122.cLfqUgVh-lkp@intel.com>
+Message-ID: <202505251717.YSYmRdLZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,59 +75,37 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20250524055159.32982-1-rafalbilkowski@gmail.com>
-References: <20250524055159.32982-1-rafalbilkowski@gmail.com>
-TO: Rafal Bilkowski <rafalbilkowski@gmail.com>
-TO: netdev@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: dsahern@kernel.org
-CC: edumazet@google.com
-CC: kuba@kernel.org
-CC: pabeni@redhat.com
-CC: Rafal Bilkowski <rafalbilkowski@gmail.com>
+Message-ID: <20250526063641.g4-PcVwL-ytETsDnr3bv9URjdDpHtVvC385jHS5xBGk@z>
 
 Hi Rafal,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on klassert-ipsec/master]
-[also build test WARNING on net/main net-next/main linus/master v6.15-rc7 next-20250523]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Rafal-Bilkowski/net-ipv6-sanitize-RPL-SRH-cmpre-cmpre-fields-to-fix-taint-issue/20250524-135351
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec.git master
 patch link:    https://lore.kernel.org/r/20250524055159.32982-1-rafalbilkowski%40gmail.com
 patch subject: [PATCH]    net: ipv6: sanitize RPL SRH cmpre/cmpre fields to fix taint issue
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r071-20250526 (https://download.01.org/0day-ci/archive/20250526/202505261122.cLfqUgVh-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+config: parisc-randconfig-r072-20250525 (https://download.01.org/0day-ci/archive/20250525/202505251717.YSYmRdLZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505261122.cLfqUgVh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202505251717.YSYmRdLZ-lkp@intel.com/
 
-New smatch warnings:
-net/ipv6/exthdrs.c:513 ipv6_rpl_srh_rcv() warn: impossible condition '(hdr->hdrlen > (~0)) => (1-255 > 255)'
-
-Old smatch warnings:
+smatch warnings:
 net/ipv6/exthdrs.c:511 ipv6_rpl_srh_rcv() error: uninitialized symbol 'hdr'.
 net/ipv6/exthdrs.c:547 ipv6_rpl_srh_rcv() warn: impossible condition '(hdr->cmpri > 15) => (0-15 > 15)'
 net/ipv6/exthdrs.c:547 ipv6_rpl_srh_rcv() warn: impossible condition '(hdr->cmpre > 15) => (0-15 > 15)'
 net/ipv6/exthdrs.c:550 ipv6_rpl_srh_rcv() warn: impossible condition '(hdr->pad > 15) => (0-15 > 15)'
 net/ipv6/exthdrs.c:555 ipv6_rpl_srh_rcv() warn: 'n' unsigned <= 0
 
-vim +513 net/ipv6/exthdrs.c
+vim +/hdr +511 net/ipv6/exthdrs.c
 
-1ababeba4a21f3 David Lebrun        2016-11-08  481  
 8610c7c6e3bd64 Alexander Aring     2020-03-27  482  static int ipv6_rpl_srh_rcv(struct sk_buff *skb)
 8610c7c6e3bd64 Alexander Aring     2020-03-27  483  {
 8610c7c6e3bd64 Alexander Aring     2020-03-27  484  	struct ipv6_rpl_sr_hdr *hdr, *ohdr, *chdr;
@@ -143,9 +135,12 @@ vim +513 net/ipv6/exthdrs.c
 045bd21f380952 Rafal Bilkowski     2025-05-24  508  	if (!pskb_may_pull(skb, skb_transport_offset(skb) + sizeof(struct ipv6_rpl_sr_hdr)))
 045bd21f380952 Rafal Bilkowski     2025-05-24  509  		goto error;
 045bd21f380952 Rafal Bilkowski     2025-05-24  510  	// Check if there is enough memory available for the header and hdrlen is in valid range
-045bd21f380952 Rafal Bilkowski     2025-05-24  511  	if (skb_tailroom(skb) < ((hdr->hdrlen + 1) << 3) ||
+045bd21f380952 Rafal Bilkowski     2025-05-24 @511  	if (skb_tailroom(skb) < ((hdr->hdrlen + 1) << 3) ||
+
+Where is hdr initialized?  Is part of the commit missing?
+
 045bd21f380952 Rafal Bilkowski     2025-05-24  512  	    hdr->hdrlen == 0 ||
-045bd21f380952 Rafal Bilkowski     2025-05-24 @513  	    hdr->hdrlen > U8_MAX)
+045bd21f380952 Rafal Bilkowski     2025-05-24  513  	    hdr->hdrlen > U8_MAX)
 045bd21f380952 Rafal Bilkowski     2025-05-24  514  		goto error;
 045bd21f380952 Rafal Bilkowski     2025-05-24  515  
 8610c7c6e3bd64 Alexander Aring     2020-03-27  516  	hdr = (struct ipv6_rpl_sr_hdr *)skb_transport_header(skb);
@@ -179,15 +174,27 @@ ac9d8a66e41d55 Kuniyuki Iwashima   2023-06-14  524  			skb_pull(skb, offset);
 8610c7c6e3bd64 Alexander Aring     2020-03-27  544  	}
 8610c7c6e3bd64 Alexander Aring     2020-03-27  545  
 045bd21f380952 Rafal Bilkowski     2025-05-24  546  	// Check if cmpri and cmpre are valid and do not exceed 15
-045bd21f380952 Rafal Bilkowski     2025-05-24  547  	if (hdr->cmpri > 15 || hdr->cmpre > 15)
+
+These comments are pointless.  It's just explaining what an if statement
+does but it doesn't explain why 15 is chosen.  #MagicNumber
+
+045bd21f380952 Rafal Bilkowski     2025-05-24 @547  	if (hdr->cmpri > 15 || hdr->cmpre > 15)
 045bd21f380952 Rafal Bilkowski     2025-05-24  548  		goto error;
+
+I don't normally report these because it's fine to add pointless
+if statements if it makes the code more readable.  But that's
+not really what's happening here based on the commit message.
+
 045bd21f380952 Rafal Bilkowski     2025-05-24  549  	// Check if pad value is valid and does not exceed 15
-045bd21f380952 Rafal Bilkowski     2025-05-24  550  	if (hdr->pad > 15)
+045bd21f380952 Rafal Bilkowski     2025-05-24 @550  	if (hdr->pad > 15)
 045bd21f380952 Rafal Bilkowski     2025-05-24  551  		goto error;
 045bd21f380952 Rafal Bilkowski     2025-05-24  552  
 8610c7c6e3bd64 Alexander Aring     2020-03-27  553  	n = (hdr->hdrlen << 3) - hdr->pad - (16 - hdr->cmpre);
 045bd21f380952 Rafal Bilkowski     2025-05-24  554  	// Check if n is non-negative
-045bd21f380952 Rafal Bilkowski     2025-05-24  555  	if (n <= 0)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+n is unsigned so it can't be negative.
+
+045bd21f380952 Rafal Bilkowski     2025-05-24 @555  	if (n <= 0)
 045bd21f380952 Rafal Bilkowski     2025-05-24  556  		goto error;
 045bd21f380952 Rafal Bilkowski     2025-05-24  557  
 8610c7c6e3bd64 Alexander Aring     2020-03-27  558  	r = do_div(n, (16 - hdr->cmpri));
@@ -195,110 +202,8 @@ ac9d8a66e41d55 Kuniyuki Iwashima   2023-06-14  524  			skb_pull(skb, offset);
 8610c7c6e3bd64 Alexander Aring     2020-03-27  560  	 * unsigned char which is segments_left field. Should not be
 8610c7c6e3bd64 Alexander Aring     2020-03-27  561  	 * higher than that.
 8610c7c6e3bd64 Alexander Aring     2020-03-27  562  	 */
-8610c7c6e3bd64 Alexander Aring     2020-03-27  563  	if (r || (n + 1) > 255) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  564  		kfree_skb(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  565  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  566  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  567  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  568  	if (hdr->segments_left > n + 1) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  569  		__IP6_INC_STATS(net, idev, IPSTATS_MIB_INHDRERRORS);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  570  		icmpv6_param_prob(skb, ICMPV6_HDR_FIELD,
-8610c7c6e3bd64 Alexander Aring     2020-03-27  571  				  ((&hdr->segments_left) -
-8610c7c6e3bd64 Alexander Aring     2020-03-27  572  				   skb_network_header(skb)));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  573  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  574  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  575  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  576  	hdr->segments_left--;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  577  	i = n - hdr->segments_left;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  578  
-6f3934576853a4 Gustavo A. R. Silva 2020-06-22  579  	buf = kcalloc(struct_size(hdr, segments.addr, n + 2), 2, GFP_ATOMIC);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  580  	if (unlikely(!buf)) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  581  		kfree_skb(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  582  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  583  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  584  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  585  	ohdr = (struct ipv6_rpl_sr_hdr *)buf;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  586  	ipv6_rpl_srh_decompress(ohdr, hdr, &ipv6_hdr(skb)->daddr, n);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  587  	chdr = (struct ipv6_rpl_sr_hdr *)(buf + ((ohdr->hdrlen + 1) << 3));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  588  
-6facbca52da2c2 Kuniyuki Iwashima   2023-06-14  589  	if (ipv6_addr_is_multicast(&ohdr->rpl_segaddr[i])) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  590  		kfree_skb(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  591  		kfree(buf);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  592  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  593  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  594  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  595  	err = ipv6_chk_rpl_srh_loop(net, ohdr->rpl_segaddr, n + 1);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  596  	if (err) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  597  		icmpv6_send(skb, ICMPV6_PARAMPROB, 0, 0);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  598  		kfree_skb(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  599  		kfree(buf);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  600  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  601  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  602  
-5ee6ad1dcae8be Guo Zhengkui        2022-04-12  603  	swap(ipv6_hdr(skb)->daddr, ohdr->rpl_segaddr[i]);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  604  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  605  	ipv6_rpl_srh_compress(chdr, ohdr, &ipv6_hdr(skb)->daddr, n);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  606  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  607  	oldhdr = ipv6_hdr(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  608  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  609  	skb_pull(skb, ((hdr->hdrlen + 1) << 3));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  610  	skb_postpull_rcsum(skb, oldhdr,
-8610c7c6e3bd64 Alexander Aring     2020-03-27  611  			   sizeof(struct ipv6hdr) + ((hdr->hdrlen + 1) << 3));
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  612  	if (unlikely(!hdr->segments_left)) {
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  613  		if (pskb_expand_head(skb, sizeof(struct ipv6hdr) + ((chdr->hdrlen + 1) << 3), 0,
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  614  				     GFP_ATOMIC)) {
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  615  			__IP6_INC_STATS(net, ip6_dst_idev(skb_dst(skb)), IPSTATS_MIB_OUTDISCARDS);
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  616  			kfree_skb(skb);
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  617  			kfree(buf);
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  618  			return -1;
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  619  		}
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  620  
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  621  		oldhdr = ipv6_hdr(skb);
-a2f4c143d76b1a Kuniyuki Iwashima   2023-06-05  622  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  623  	skb_push(skb, ((chdr->hdrlen + 1) << 3) + sizeof(struct ipv6hdr));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  624  	skb_reset_network_header(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  625  	skb_mac_header_rebuild(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  626  	skb_set_transport_header(skb, sizeof(struct ipv6hdr));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  627  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  628  	memmove(ipv6_hdr(skb), oldhdr, sizeof(struct ipv6hdr));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  629  	memcpy(skb_transport_header(skb), chdr, (chdr->hdrlen + 1) << 3);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  630  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  631  	ipv6_hdr(skb)->payload_len = htons(skb->len - sizeof(struct ipv6hdr));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  632  	skb_postpush_rcsum(skb, ipv6_hdr(skb),
-8610c7c6e3bd64 Alexander Aring     2020-03-27  633  			   sizeof(struct ipv6hdr) + ((chdr->hdrlen + 1) << 3));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  634  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  635  	kfree(buf);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  636  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  637  	ip6_route_input(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  638  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  639  	if (skb_dst(skb)->error) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  640  		dst_input(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  641  		return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  642  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  643  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  644  	if (skb_dst(skb)->dev->flags & IFF_LOOPBACK) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  645  		if (ipv6_hdr(skb)->hop_limit <= 1) {
-8610c7c6e3bd64 Alexander Aring     2020-03-27  646  			__IP6_INC_STATS(net, idev, IPSTATS_MIB_INHDRERRORS);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  647  			icmpv6_send(skb, ICMPV6_TIME_EXCEED,
-8610c7c6e3bd64 Alexander Aring     2020-03-27  648  				    ICMPV6_EXC_HOPLIMIT, 0);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  649  			kfree_skb(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  650  			return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  651  		}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  652  		ipv6_hdr(skb)->hop_limit--;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  653  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  654  		skb_pull(skb, sizeof(struct ipv6hdr));
-8610c7c6e3bd64 Alexander Aring     2020-03-27  655  		goto looped_back;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  656  	}
-8610c7c6e3bd64 Alexander Aring     2020-03-27  657  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  658  	dst_input(skb);
-8610c7c6e3bd64 Alexander Aring     2020-03-27  659  
-8610c7c6e3bd64 Alexander Aring     2020-03-27  660  	return -1;
-045bd21f380952 Rafal Bilkowski     2025-05-24  661  
-045bd21f380952 Rafal Bilkowski     2025-05-24  662  error:
-045bd21f380952 Rafal Bilkowski     2025-05-24  663  	return -1;
-8610c7c6e3bd64 Alexander Aring     2020-03-27  664  }
-8610c7c6e3bd64 Alexander Aring     2020-03-27  665  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
