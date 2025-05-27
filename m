@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFDA280A51
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 May 2025 18:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7472F1E0B62
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 May 2025 19:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748371883; cv=none; b=qP2oxtFaokv37tnJ9ihAEKF6BhXID/5ZBm1hk/qABJMd4RtJIuYcMiey2V/Bned7ietjsp/VODPA+Vteg232o+YQWXWOvoGObgA+daDj7TXyyAXI+W0ca/A5E1ucCSneVX8mEwHFLvdDFVoDUt7b6SsRq3rktZJLZa7iPj9fAmc=
+	t=1748375670; cv=none; b=d3L6n2vuaFDUmlL06R/Oluw+NjDAwoyCCcj1k7klCsW4je7cw010Al1XaIC26Wym7GStaJLO5PTjNNteg8Sk30cs5PkoS9eVTpnLKYbp8EIRqpNp0Pt51D10DRTPEFmEBcTT4BVMDmJtkl2Nb4AlIvveMtU2ulO6IgTt+9W4DSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748371883; c=relaxed/simple;
-	bh=8lAGxByy6OOpA7o3lKALHFgfRre0TVEWhCK10aK5nlk=;
+	s=arc-20240116; t=1748375670; c=relaxed/simple;
+	bh=CTN7AMQABHANNGkWijOq0V0frXiQje1B8iE+fZI3Vls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=okTv3hcjp0tahCLSTKQBxelW6bRebQlKOD847lVLI5XC1wpA6vbwgjlC4dVAqEwy9QR70GBqiQTvVTrK0O4EaQRC0LY7zPOoK+hx86rmpkv36Fu4d0Qowq8f8AOTleG+kkU1xLBWKi8OHmOa6ByFUApHBX2XpFZk0lRv2YMeiJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iohob3jY; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Eki8eHb7WckjjVEgRhg1ABYDPGL7rQhOirsGVwDzeww5tnvDSJf9H/8m6F3Y+rMK/4j4hImLMG4jiFwBQP8gRDeVzTufEmdUYZgst91njUgkZfnFCE0vPJlmWp+Ligi3WY7RKZ4r+XDtPo0eceZPLzdN5kMZgnzcLeclcSanaT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HcgYC1+A; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iohob3jY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HcgYC1+A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748371882; x=1779907882;
+  t=1748375669; x=1779911669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8lAGxByy6OOpA7o3lKALHFgfRre0TVEWhCK10aK5nlk=;
-  b=Iohob3jYCMmyuwywoiLLjlv+C6+o7EW72lJH7U87ZMRZf/2i1JJbLWz/
-   ePpy5ope6W7b+Vl5hC4tSNtGY9v4am4jQxhUzUqFKO1uTrxdQiuKuOT5l
-   tsSXbXjY4Qb7XN0biRJpuEfuftQJRKxOKp5bAWszvtAzdPvWhwuXuPDXX
-   Lhcyw4JpPkTbsLpO024vE24jMg66C83lndxEZZX9kg7oK4bCfjBRxtdRk
-   FkNTvBUrBDkStUIF2Po2OQ+2omQ9/C5yYlHqLiL/2kE6wEDA9sJMtZ+q/
-   B2hyLgZ9T+zsBI57HzNKD2Fj6Ypu1VEg1QFTqHKxomVk72fEFEbyG4qcH
+  bh=CTN7AMQABHANNGkWijOq0V0frXiQje1B8iE+fZI3Vls=;
+  b=HcgYC1+A7/VY12T79tUgyYVa5hdrcoZk+5RBopFeJSQXZaHgmhupvxu4
+   bvp4kxRs2wLBEP1JDMplX+avkqumQfzfYFgXIJ75gZbCaqiXQ5INQi/eY
+   qyn/HpkYweo0eB9KMEp4YFPYj73RVSED4r96NMbiu74yIHYWwFMf/1Opp
+   y1AHMnRCK2HrcuswfmCVyM9UBZyyDt6mPzCBLYop5uiiBoZntXD1izsqu
+   MTf8HnHSzs1NAH7szHuY1QGWdHfhZ8lADxat+EVDurfVFfh/TTO0OfkUw
+   onusPB695YWQ+J1UHxU6Nj1j4HkcgAy7kVG7xZk0V5Sr4CGm1CMaHHgIF
    w==;
-X-CSE-ConnectionGUID: nc96Oz0mSSqWh5aQVBK6dg==
-X-CSE-MsgGUID: 7K5pTnpLRV+Nzy8YaG7hzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="61727413"
+X-CSE-ConnectionGUID: 44jqkxMgSbytfq96+6rZXA==
+X-CSE-MsgGUID: Brsn62SPSwCJsi5VEC2XsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="60635882"
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="61727413"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 11:51:21 -0700
-X-CSE-ConnectionGUID: HQzGUqALQKiGPjgc32KdFg==
-X-CSE-MsgGUID: dHX/So7NQ6qmGXykn9Jgog==
+   d="scan'208";a="60635882"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 12:54:26 -0700
+X-CSE-ConnectionGUID: XoRXJ8htQF+BS+jY1v80/w==
+X-CSE-MsgGUID: AOAZLhIATHqU1XOx3ZE2Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="142895086"
+   d="scan'208";a="142928248"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 May 2025 11:51:20 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 May 2025 12:54:25 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uJzOP-000Uum-1v;
-	Tue, 27 May 2025 18:51:17 +0000
-Date: Wed, 28 May 2025 02:50:58 +0800
+	id 1uK0NT-000UyH-0p;
+	Tue, 27 May 2025 19:54:23 +0000
+Date: Wed, 28 May 2025 03:54:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/damon/paddr.c:321 damon_pa_pageout() error: uninitialized symbol
- 'folio'.
-Message-ID: <202505280224.t2xtsPZP-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/bcachefs/btree_key_cache.o: warning: objtool:
+ bch2_btree_path_traverse_cached+0x7c: unreachable instruction
+Message-ID: <202505280300.4O9Rdv7R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,127 +62,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   b1456f6dc167f7f101746e495bede2bac3d0e19f
-commit: 94ba17adaba0f651fdcf745c8891a88e2e028cfa mm/damon: avoid applying DAMOS action to same entity multiple times
-date:   2 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 months ago
-config: i386-randconfig-141-20250527 (https://download.01.org/0day-ci/archive/20250528/202505280224.t2xtsPZP-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+commit: 49771a7578cdfb73ca957dc1ca9516872c8b406b bcachefs: Fix bch2_btree_path_traverse_cached() when paths realloced
+date:   10 days ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 days ago
+config: loongarch-randconfig-r063-20250522 (https://download.01.org/0day-ci/archive/20250528/202505280300.4O9Rdv7R-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280300.4O9Rdv7R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505280224.t2xtsPZP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505280300.4O9Rdv7R-lkp@intel.com/
 
-smatch warnings:
-mm/damon/paddr.c:321 damon_pa_pageout() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:354 damon_pa_mark_accessed_or_deactivate() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:522 damon_pa_migrate() error: uninitialized symbol 'folio'.
-mm/damon/paddr.c:558 damon_pa_stat() error: uninitialized symbol 'folio'.
+All warnings (new ones prefixed by >>):
 
-vim +/folio +321 mm/damon/paddr.c
-
-94ba17adaba0f6 SeongJae Park         2025-02-07  267  
-96f1971dabca71 SeongJae Park         2025-01-06  268  static unsigned long damon_pa_pageout(struct damon_region *r, struct damos *s,
-96f1971dabca71 SeongJae Park         2025-01-06  269  		unsigned long *sz_filter_passed)
-57223ac295845b SeongJae Park         2021-11-05  270  {
-0e92c2ee9f4595 SeongJae Park         2022-01-14  271  	unsigned long addr, applied;
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  272  	LIST_HEAD(folio_list);
-ebd3f70c630a9a SeongJae Park         2024-04-29  273  	bool install_young_filter = true;
-69a5f999176d10 SeongJae Park         2024-04-29  274  	struct damos_filter *filter;
-94ba17adaba0f6 SeongJae Park         2025-02-07  275  	struct folio *folio;
-69a5f999176d10 SeongJae Park         2024-04-29  276  
-ebd3f70c630a9a SeongJae Park         2024-04-29  277  	/* check access in page level again by default */
-69a5f999176d10 SeongJae Park         2024-04-29  278  	damos_for_each_filter(filter, s) {
-69a5f999176d10 SeongJae Park         2024-04-29  279  		if (filter->type == DAMOS_FILTER_TYPE_YOUNG) {
-ebd3f70c630a9a SeongJae Park         2024-04-29  280  			install_young_filter = false;
-69a5f999176d10 SeongJae Park         2024-04-29  281  			break;
-69a5f999176d10 SeongJae Park         2024-04-29  282  		}
-69a5f999176d10 SeongJae Park         2024-04-29  283  	}
-ebd3f70c630a9a SeongJae Park         2024-04-29  284  	if (install_young_filter) {
-e2fbfedad03401 SeongJae Park         2025-01-09  285  		filter = damos_new_filter(
-e2fbfedad03401 SeongJae Park         2025-01-09  286  				DAMOS_FILTER_TYPE_YOUNG, true, false);
-ebd3f70c630a9a SeongJae Park         2024-04-29  287  		if (!filter)
-ebd3f70c630a9a SeongJae Park         2024-04-29  288  			return 0;
-ebd3f70c630a9a SeongJae Park         2024-04-29  289  		damos_add_filter(s, filter);
-ebd3f70c630a9a SeongJae Park         2024-04-29  290  	}
-57223ac295845b SeongJae Park         2021-11-05  291  
-3a06696305e757 Usama Arif            2025-02-07  292  	addr = r->ar.start;
-3a06696305e757 Usama Arif            2025-02-07  293  	while (addr < r->ar.end) {
-94ba17adaba0f6 SeongJae Park         2025-02-07  294  		folio = damon_get_folio(PHYS_PFN(addr));
-94ba17adaba0f6 SeongJae Park         2025-02-07  295  		if (damon_pa_invalid_damos_folio(folio, s)) {
-3a06696305e757 Usama Arif            2025-02-07  296  			addr += PAGE_SIZE;
-57223ac295845b SeongJae Park         2021-11-05  297  			continue;
-3a06696305e757 Usama Arif            2025-02-07  298  		}
-57223ac295845b SeongJae Park         2021-11-05  299  
-dd411433129c07 Kefeng Wang           2023-03-08  300  		if (damos_pa_filter_out(s, folio))
-dd411433129c07 Kefeng Wang           2023-03-08  301  			goto put_folio;
-96f1971dabca71 SeongJae Park         2025-01-06  302  		else
-96f1971dabca71 SeongJae Park         2025-01-06  303  			*sz_filter_passed += folio_size(folio);
-18250e78f9c759 SeongJae Park         2022-12-05  304  
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  305  		folio_clear_referenced(folio);
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  306  		folio_test_clear_young(folio);
-dd411433129c07 Kefeng Wang           2023-03-08  307  		if (!folio_isolate_lru(folio))
-dd411433129c07 Kefeng Wang           2023-03-08  308  			goto put_folio;
-3f98c9a62c338b andrew.yang           2023-02-22  309  		if (folio_test_unevictable(folio))
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  310  			folio_putback_lru(folio);
-3f98c9a62c338b andrew.yang           2023-02-22  311  		else
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  312  			list_add(&folio->lru, &folio_list);
-dd411433129c07 Kefeng Wang           2023-03-08  313  put_folio:
-3a06696305e757 Usama Arif            2025-02-07  314  		addr += folio_size(folio);
-07bb1fbaa2bbd2 Kefeng Wang           2022-12-30  315  		folio_put(folio);
-57223ac295845b SeongJae Park         2021-11-05  316  	}
-ebd3f70c630a9a SeongJae Park         2024-04-29  317  	if (install_young_filter)
-ebd3f70c630a9a SeongJae Park         2024-04-29  318  		damos_destroy_filter(filter);
-14f5be2a2d9bb7 SeongJae Park         2024-04-29  319  	applied = reclaim_pages(&folio_list);
-57223ac295845b SeongJae Park         2021-11-05  320  	cond_resched();
-94ba17adaba0f6 SeongJae Park         2025-02-07 @321  	s->last_applied = folio;
-0e92c2ee9f4595 SeongJae Park         2022-01-14  322  	return applied * PAGE_SIZE;
-57223ac295845b SeongJae Park         2021-11-05  323  }
-57223ac295845b SeongJae Park         2021-11-05  324  
-8193321ac90d52 SeongJae Park         2022-09-13  325  static inline unsigned long damon_pa_mark_accessed_or_deactivate(
-96f1971dabca71 SeongJae Park         2025-01-06  326  		struct damon_region *r, struct damos *s, bool mark_accessed,
-96f1971dabca71 SeongJae Park         2025-01-06  327  		unsigned long *sz_filter_passed)
-8cdcc532268df0 SeongJae Park         2022-06-13  328  {
-8cdcc532268df0 SeongJae Park         2022-06-13  329  	unsigned long addr, applied = 0;
-94ba17adaba0f6 SeongJae Park         2025-02-07  330  	struct folio *folio;
-8cdcc532268df0 SeongJae Park         2022-06-13  331  
-3a06696305e757 Usama Arif            2025-02-07  332  	addr = r->ar.start;
-3a06696305e757 Usama Arif            2025-02-07  333  	while (addr < r->ar.end) {
-94ba17adaba0f6 SeongJae Park         2025-02-07  334  		folio = damon_get_folio(PHYS_PFN(addr));
-94ba17adaba0f6 SeongJae Park         2025-02-07  335  		if (damon_pa_invalid_damos_folio(folio, s)) {
-3a06696305e757 Usama Arif            2025-02-07  336  			addr += PAGE_SIZE;
-8cdcc532268df0 SeongJae Park         2022-06-13  337  			continue;
-3a06696305e757 Usama Arif            2025-02-07  338  		}
-18250e78f9c759 SeongJae Park         2022-12-05  339  
-b6993be23601c8 Kefeng Wang           2023-03-08  340  		if (damos_pa_filter_out(s, folio))
-b6993be23601c8 Kefeng Wang           2023-03-08  341  			goto put_folio;
-96f1971dabca71 SeongJae Park         2025-01-06  342  		else
-96f1971dabca71 SeongJae Park         2025-01-06  343  			*sz_filter_passed += folio_size(folio);
-18250e78f9c759 SeongJae Park         2022-12-05  344  
-8193321ac90d52 SeongJae Park         2022-09-13  345  		if (mark_accessed)
-f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  346) 			folio_mark_accessed(folio);
-8193321ac90d52 SeongJae Park         2022-09-13  347  		else
-5a9e34747c9f73 Vishal Moola (Oracle  2022-12-21  348) 			folio_deactivate(folio);
-f70da5ee8fe15b Vishal Moola (Oracle  2022-12-21  349) 		applied += folio_nr_pages(folio);
-b6993be23601c8 Kefeng Wang           2023-03-08  350  put_folio:
-3a06696305e757 Usama Arif            2025-02-07  351  		addr += folio_size(folio);
-dd52a61da0dd8b SeongJae Park         2023-03-04  352  		folio_put(folio);
-8cdcc532268df0 SeongJae Park         2022-06-13  353  	}
-94ba17adaba0f6 SeongJae Park         2025-02-07 @354  	s->last_applied = folio;
-8cdcc532268df0 SeongJae Park         2022-06-13  355  	return applied * PAGE_SIZE;
-8cdcc532268df0 SeongJae Park         2022-06-13  356  }
-8cdcc532268df0 SeongJae Park         2022-06-13  357  
+   fs/bcachefs/btree_key_cache.o: warning: objtool: btree_key_cache_flush_pos.constprop.0+0x1f4: unreachable instruction
+   fs/bcachefs/btree_key_cache.o: warning: objtool: btree_key_cache_create+0x5dc: unreachable instruction
+>> fs/bcachefs/btree_key_cache.o: warning: objtool: bch2_btree_path_traverse_cached+0x7c: unreachable instruction
+   fs/bcachefs/btree_key_cache.o: warning: objtool: bch2_btree_insert_key_cached+0x9c: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
