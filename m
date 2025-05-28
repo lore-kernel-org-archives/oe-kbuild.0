@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEA61D798E
-	for <oe-kbuild@lists.linux.dev>; Wed, 28 May 2025 05:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112B21FBEBE
+	for <oe-kbuild@lists.linux.dev>; Wed, 28 May 2025 07:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748409975; cv=none; b=VV68w8onoKz0IWmJl2AviU15ydv+4f7oDKC8DO+dpyeuTpsb1CJQnJUH6yT47CiMSYul8dWbvn3mHT0gg2tuKJ4YNlMbMtg4RDe1QNVaBySGscJyxOBFSUEY9L6lr8HkMO2UL2q8C56oFYM41s/Kh42+al5IyLjOERmAOKRCAwQ=
+	t=1748415744; cv=none; b=foPU+Jnr2P/O368tKwGAqVkGr4BSFaZ4aVfi20gcNArRbqP7OC0l6a2UV9UitLD2/cDCD5gDcjU00M78MBxe4ljiSw55aAIhzxS/Lg6NT3ftkgyu/IHuydN1lRqsTlRpOhl/i6SnE14sDQVV9ibl+8DnxLD+uJkoZCq2dR4D3CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748409975; c=relaxed/simple;
-	bh=rFgjqWSErzxXdGE5MT+rBv4VozNEr6hKCboVB+KBnWc=;
+	s=arc-20240116; t=1748415744; c=relaxed/simple;
+	bh=wjTOeEzg7TTrbzIVPcmz/NnObhocOkaN5xD2lrkVke4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ch1wF9uPwrOakmGR4pcNvph0XyQmApkos0OkvBrwLmxgUb7Vh8+1wyDANRUPohn9cEE80hPC6NUeuG/UEgDzSCPPJMc97FUDPxig9//zlwC1IZnCs1qEJK5vKBzj5Wl2gv9GIGfeTJehB3I38XcJ7vrldtbHyQq976ZqCv8g5kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aARykGmw; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=DPrPbLRvNxG43FFrMjv7EuGiKKmViMND4llYQPB8RGo/RJaasUJwzvopo4IwujDWkZCQmtxWtrYEotSG4Vu6AqJnwdqrO/n0pbX2vpvlD4vlZqrTbxikpyZA1NuX7qCxpL1s5apXj/RBlY3xX5wtYv6P5oxNZaQ/rGC6lQe9+0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkiJ9ZNr; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aARykGmw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkiJ9ZNr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748409973; x=1779945973;
+  t=1748415742; x=1779951742;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rFgjqWSErzxXdGE5MT+rBv4VozNEr6hKCboVB+KBnWc=;
-  b=aARykGmwVAp3/VvKdQ8Ubu/FF+6KdTNMDsoK2dJ4TSCRNoKlTuX7h814
-   GpD6vwoy3yZqHKGKy1fKNif9TMRSzEnoR3F7s+8FLF4jzh02ORz/UBIOa
-   qE8bdWHjrexHUHX3vWhkDcjnredTawveWrRdVuf6qgSY/UTSPZPyERMNa
-   bBORdtYIUOZYG7xaokDlYKaQMZr0om3w6qv6Mi/DxZpwyU0vmnHtDJ9fd
-   p1Y+WuDDLFMPkOQPSENT1d0ao9YCAInj7P7X02fcvqHLm/1qDd7CmuCsp
-   bAcskCE+dspzuLdD86WkjpJzKrY1qww8HXu/lnijZXw1B4Grr5i2o61kA
-   Q==;
-X-CSE-ConnectionGUID: P+wjrsUGQ5GregBljiYAxQ==
-X-CSE-MsgGUID: 3ysPP4CPReiMBjb1grmEUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="38043496"
+  bh=wjTOeEzg7TTrbzIVPcmz/NnObhocOkaN5xD2lrkVke4=;
+  b=hkiJ9ZNrusLIS0mIaU5kHumuJH4cNCXt7Z/qkd9jGTyaIkYvTl7xfw75
+   MMYu5ywzEMST36JLzm9l/C4/TXyIA34Gx1hRhE2y+STUlhthtBZ7jsLBp
+   DUkbV6raNsq1HpBgNYcPu/ZPb7lIB8sW6+4BHjt8wRPEbVQZ7VfYf2fq4
+   gGMK0AiSRujV7msA9nI8nhVwBSzWES1E14yhHaSk1hNql1e0OdflbRvXf
+   69L/Mm9gtzA+p6W62mKpAoP7dFrWrzfOfNum4RC2R/kbwJaezOxoqB+He
+   DNID5pdABCF4h8xLkBe4usxgnEudI3P0Mtu5WHvTgNWMfSWCZk+MwMiik
+   A==;
+X-CSE-ConnectionGUID: dQKPtpcHTJq+wJjtBarb2A==
+X-CSE-MsgGUID: dO0ndM7ERmySYwUzupcmig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="49676891"
 X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="38043496"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 22:26:12 -0700
-X-CSE-ConnectionGUID: FVdZ1xhoT3GL33Ji6P+ipg==
-X-CSE-MsgGUID: rHUbbs3XQIKC90adtBVtDQ==
+   d="scan'208";a="49676891"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2025 00:02:21 -0700
+X-CSE-ConnectionGUID: /iBfGOfYSJGXQ88p7F5uLQ==
+X-CSE-MsgGUID: 035GWhmiSTmD6LyIPGSiNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,320,1739865600"; 
-   d="scan'208";a="143745007"
+   d="scan'208";a="143067829"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 May 2025 22:26:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 May 2025 00:02:20 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uK9Im-000VIK-1p;
-	Wed, 28 May 2025 05:26:08 +0000
-Date: Wed, 28 May 2025 13:25:48 +0800
+	id 1uKAnp-000VMU-1L;
+	Wed, 28 May 2025 07:02:17 +0000
+Date: Wed, 28 May 2025 15:02:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 925/13594]
- drivers/accel/amdxdna/aie2_ctx.c:783:11-15: ERROR: invalid reference to the
- index variable of the iterator on line 771
-Message-ID: <202505281325.z3xXj6QG-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [broonie-spi:for-next 9/11] drivers/spi/spi-pci1xxxx.c:768
+ pci1xxxx_spi_probe() warn: missing error code? 'ret'
+Message-ID: <202505281417.WyCoNJlC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,100 +64,181 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Lizhi Hou <lizhi.hou@amd.com>
-CC: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+CC: linux-spi@vger.kernel.org
+TO: Thangaraj Samynathan <thangaraj.s@microchip.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fefff2755f2aa4125dce2a1edfe7e545c7c621f2
-commit: e486147c912f653ef4b60a6c7dbd4168a4c56a9f [925/13594] accel/amdxdna: Add BO import and export
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-101-20250528 (https://download.01.org/0day-ci/archive/20250528/202505281325.z3xXj6QG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+head:   6aae49917bd543677e539df17556071edd9a273a
+commit: b4608e944177531334a79f3df2cd14275b47808c [9/11] spi: spi-pci1xxxx: Fix Probe failure with Dual SPI instance with INTx interrupts
+:::::: branch date: 14 hours ago
+:::::: commit date: 20 hours ago
+config: riscv-randconfig-r073-20250528 (https://download.01.org/0day-ci/archive/20250528/202505281417.WyCoNJlC-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202505281325.z3xXj6QG-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505281417.WyCoNJlC-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/accel/amdxdna/aie2_ctx.c:783:11-15: ERROR: invalid reference to the index variable of the iterator on line 771
+smatch warnings:
+drivers/spi/spi-pci1xxxx.c:768 pci1xxxx_spi_probe() warn: missing error code? 'ret'
 
-vim +783 drivers/accel/amdxdna/aie2_ctx.c
+vim +/ret +768 drivers/spi/spi-pci1xxxx.c
 
-aac243092b707b Lizhi Hou 2024-11-18  757  
-aac243092b707b Lizhi Hou 2024-11-18  758  static int aie2_populate_range(struct amdxdna_gem_obj *abo)
-aac243092b707b Lizhi Hou 2024-11-18  759  {
-aac243092b707b Lizhi Hou 2024-11-18  760  	struct amdxdna_dev *xdna = to_xdna_dev(to_gobj(abo)->dev);
-e486147c912f65 Lizhi Hou 2025-03-25  761  	struct amdxdna_umap *mapp;
-aac243092b707b Lizhi Hou 2024-11-18  762  	unsigned long timeout;
-e486147c912f65 Lizhi Hou 2025-03-25  763  	struct mm_struct *mm;
-e486147c912f65 Lizhi Hou 2025-03-25  764  	bool found;
-aac243092b707b Lizhi Hou 2024-11-18  765  	int ret;
-aac243092b707b Lizhi Hou 2024-11-18  766  
-e486147c912f65 Lizhi Hou 2025-03-25  767  	timeout = jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-e486147c912f65 Lizhi Hou 2025-03-25  768  again:
-e486147c912f65 Lizhi Hou 2025-03-25  769  	found = false;
-e486147c912f65 Lizhi Hou 2025-03-25  770  	down_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25 @771  	list_for_each_entry(mapp, &abo->mem.umap_list, node) {
-e486147c912f65 Lizhi Hou 2025-03-25  772  		if (mapp->invalid) {
-e486147c912f65 Lizhi Hou 2025-03-25  773  			found = true;
-e486147c912f65 Lizhi Hou 2025-03-25  774  			break;
-e486147c912f65 Lizhi Hou 2025-03-25  775  		}
-e486147c912f65 Lizhi Hou 2025-03-25  776  	}
-aac243092b707b Lizhi Hou 2024-11-18  777  
-e486147c912f65 Lizhi Hou 2025-03-25  778  	if (!found) {
-e486147c912f65 Lizhi Hou 2025-03-25  779  		abo->mem.map_invalid = false;
-e486147c912f65 Lizhi Hou 2025-03-25  780  		up_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25  781  		return 0;
-e486147c912f65 Lizhi Hou 2025-03-25  782  	}
-e486147c912f65 Lizhi Hou 2025-03-25 @783  	kref_get(&mapp->refcnt);
-e486147c912f65 Lizhi Hou 2025-03-25  784  	up_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25  785  
-e486147c912f65 Lizhi Hou 2025-03-25  786  	XDNA_DBG(xdna, "populate memory range %lx %lx",
-e486147c912f65 Lizhi Hou 2025-03-25  787  		 mapp->vma->vm_start, mapp->vma->vm_end);
-e486147c912f65 Lizhi Hou 2025-03-25  788  	mm = mapp->notifier.mm;
-e486147c912f65 Lizhi Hou 2025-03-25  789  	if (!mmget_not_zero(mm)) {
-e486147c912f65 Lizhi Hou 2025-03-25  790  		amdxdna_umap_put(mapp);
-aac243092b707b Lizhi Hou 2024-11-18  791  		return -EFAULT;
-e486147c912f65 Lizhi Hou 2025-03-25  792  	}
-aac243092b707b Lizhi Hou 2024-11-18  793  
-e486147c912f65 Lizhi Hou 2025-03-25  794  	mapp->range.notifier_seq = mmu_interval_read_begin(&mapp->notifier);
-aac243092b707b Lizhi Hou 2024-11-18  795  	mmap_read_lock(mm);
-e486147c912f65 Lizhi Hou 2025-03-25  796  	ret = hmm_range_fault(&mapp->range);
-aac243092b707b Lizhi Hou 2024-11-18  797  	mmap_read_unlock(mm);
-aac243092b707b Lizhi Hou 2024-11-18  798  	if (ret) {
-aac243092b707b Lizhi Hou 2024-11-18  799  		if (time_after(jiffies, timeout)) {
-aac243092b707b Lizhi Hou 2024-11-18  800  			ret = -ETIME;
-aac243092b707b Lizhi Hou 2024-11-18  801  			goto put_mm;
-aac243092b707b Lizhi Hou 2024-11-18  802  		}
-aac243092b707b Lizhi Hou 2024-11-18  803  
-e486147c912f65 Lizhi Hou 2025-03-25  804  		if (ret == -EBUSY) {
-e486147c912f65 Lizhi Hou 2025-03-25  805  			amdxdna_umap_put(mapp);
-aac243092b707b Lizhi Hou 2024-11-18  806  			goto again;
-e486147c912f65 Lizhi Hou 2025-03-25  807  		}
-aac243092b707b Lizhi Hou 2024-11-18  808  
-aac243092b707b Lizhi Hou 2024-11-18  809  		goto put_mm;
-aac243092b707b Lizhi Hou 2024-11-18  810  	}
-aac243092b707b Lizhi Hou 2024-11-18  811  
-e486147c912f65 Lizhi Hou 2025-03-25  812  	down_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25  813  	if (mmu_interval_read_retry(&mapp->notifier, mapp->range.notifier_seq)) {
-e486147c912f65 Lizhi Hou 2025-03-25  814  		up_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25  815  		amdxdna_umap_put(mapp);
-aac243092b707b Lizhi Hou 2024-11-18  816  		goto again;
-aac243092b707b Lizhi Hou 2024-11-18  817  	}
-e486147c912f65 Lizhi Hou 2025-03-25  818  	mapp->invalid = false;
-e486147c912f65 Lizhi Hou 2025-03-25  819  	up_write(&xdna->notifier_lock);
-e486147c912f65 Lizhi Hou 2025-03-25  820  	amdxdna_umap_put(mapp);
-e486147c912f65 Lizhi Hou 2025-03-25  821  	goto again;
-aac243092b707b Lizhi Hou 2024-11-18  822  
-aac243092b707b Lizhi Hou 2024-11-18  823  put_mm:
-e486147c912f65 Lizhi Hou 2025-03-25  824  	amdxdna_umap_put(mapp);
-aac243092b707b Lizhi Hou 2024-11-18  825  	mmput(mm);
-aac243092b707b Lizhi Hou 2024-11-18  826  	return ret;
-aac243092b707b Lizhi Hou 2024-11-18  827  }
-aac243092b707b Lizhi Hou 2024-11-18  828  
+9538edeb72c989a Thangaraj Samynathan 2024-02-07  708  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  709  static int pci1xxxx_spi_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  710  {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  711  	u8 hw_inst_cnt, iter, start, only_sec_inst;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  712  	struct pci1xxxx_spi_internal *spi_sub_ptr;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  713  	struct device *dev = &pdev->dev;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  714  	struct pci1xxxx_spi *spi_bus;
+f9977bb164a26d3 Yang Yingliang       2023-08-18  715  	struct spi_controller *spi_host;
+b4608e944177531 Thangaraj Samynathan 2025-05-27  716  	int num_vector = 0;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  717  	u32 regval;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  718  	int ret;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  719  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  720  	hw_inst_cnt = ent->driver_data & 0x0f;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  721  	start = (ent->driver_data & 0xf0) >> 4;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  722  	if (start == 1)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  723  		only_sec_inst = 1;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  724  	else
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  725  		only_sec_inst = 0;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  726  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  727  	spi_bus = devm_kzalloc(&pdev->dev,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  728  			       struct_size(spi_bus, spi_int, hw_inst_cnt),
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  729  			       GFP_KERNEL);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  730  	if (!spi_bus)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  731  		return -ENOMEM;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  732  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  733  	spi_bus->dev = pdev;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  734  	spi_bus->total_hw_instances = hw_inst_cnt;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  735  	pci_set_master(pdev);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  736  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  737  	for (iter = 0; iter < hw_inst_cnt; iter++) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  738  		spi_bus->spi_int[iter] = devm_kzalloc(&pdev->dev,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  739  						      sizeof(struct pci1xxxx_spi_internal),
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  740  						      GFP_KERNEL);
+1f886a7bfb3faf4 Huai-Yuan Liu        2024-04-03  741  		if (!spi_bus->spi_int[iter])
+1f886a7bfb3faf4 Huai-Yuan Liu        2024-04-03  742  			return -ENOMEM;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  743  		spi_sub_ptr = spi_bus->spi_int[iter];
+f9977bb164a26d3 Yang Yingliang       2023-08-18  744  		spi_sub_ptr->spi_host = devm_spi_alloc_host(dev, sizeof(struct spi_controller));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  745  		if (!spi_sub_ptr->spi_host)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  746  			return -ENOMEM;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  747  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  748  		spi_sub_ptr->parent = spi_bus;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  749  		spi_sub_ptr->spi_xfer_in_progress = false;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  750  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  751  		if (!iter) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  752  			ret = pcim_enable_device(pdev);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  753  			if (ret)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  754  				return -ENOMEM;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  755  
+d981e7b3f25fbab Philipp Stanner      2025-04-17  756  			ret = pcim_request_all_regions(pdev, DRV_NAME);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  757  			if (ret)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  758  				return -ENOMEM;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  759  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  760  			spi_bus->reg_base = pcim_iomap(pdev, 0, pci_resource_len(pdev, 0));
+d981e7b3f25fbab Philipp Stanner      2025-04-17  761  			if (!spi_bus->reg_base)
+d981e7b3f25fbab Philipp Stanner      2025-04-17  762  				return -EINVAL;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  763  
+b4608e944177531 Thangaraj Samynathan 2025-05-27  764  			num_vector = pci_alloc_irq_vectors(pdev, 1, hw_inst_cnt,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  765  							   PCI_IRQ_ALL_TYPES);
+b4608e944177531 Thangaraj Samynathan 2025-05-27  766  			if (num_vector < 0) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  767  				dev_err(&pdev->dev, "Error allocating MSI vectors\n");
+d981e7b3f25fbab Philipp Stanner      2025-04-17 @768  				return ret;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  769  			}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  770  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  771  			init_completion(&spi_sub_ptr->spi_xfer_done);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  772  			/* Initialize Interrupts - SPI_INT */
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  773  			regval = readl(spi_bus->reg_base +
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  774  				       SPI_MST_EVENT_MASK_REG_OFFSET(spi_sub_ptr->hw_inst));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  775  			regval &= ~SPI_INTR;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  776  			writel(regval, spi_bus->reg_base +
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  777  			       SPI_MST_EVENT_MASK_REG_OFFSET(spi_sub_ptr->hw_inst));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  778  			spi_sub_ptr->irq = pci_irq_vector(pdev, 0);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  779  
+b4608e944177531 Thangaraj Samynathan 2025-05-27  780  			if (num_vector >= hw_inst_cnt)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  781  				ret = devm_request_irq(&pdev->dev, spi_sub_ptr->irq,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  782  						       pci1xxxx_spi_isr, PCI1XXXX_IRQ_FLAGS,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  783  						       pci_name(pdev), spi_sub_ptr);
+b4608e944177531 Thangaraj Samynathan 2025-05-27  784  			else
+b4608e944177531 Thangaraj Samynathan 2025-05-27  785  				ret = devm_request_irq(&pdev->dev, spi_sub_ptr->irq,
+b4608e944177531 Thangaraj Samynathan 2025-05-27  786  						       pci1xxxx_spi_shared_isr,
+b4608e944177531 Thangaraj Samynathan 2025-05-27  787  						       PCI1XXXX_IRQ_FLAGS | IRQF_SHARED,
+b4608e944177531 Thangaraj Samynathan 2025-05-27  788  						       pci_name(pdev), spi_bus);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  789  			if (ret < 0) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  790  				dev_err(&pdev->dev, "Unable to request irq : %d",
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  791  					spi_sub_ptr->irq);
+d981e7b3f25fbab Philipp Stanner      2025-04-17  792  				return -ENODEV;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  793  			}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  794  
+3e7cfd6ad29a748 Thangaraj Samynathan 2024-02-07  795  			ret = pci1xxxx_spi_dma_init(spi_bus, spi_sub_ptr->irq);
+3e7cfd6ad29a748 Thangaraj Samynathan 2024-02-07  796  			if (ret && ret != -EOPNOTSUPP)
+d981e7b3f25fbab Philipp Stanner      2025-04-17  797  				return ret;
+3e7cfd6ad29a748 Thangaraj Samynathan 2024-02-07  798  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  799  			/* This register is only applicable for 1st instance */
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  800  			regval = readl(spi_bus->reg_base + SPI_PCI_CTRL_REG_OFFSET(0));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  801  			if (!only_sec_inst)
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  802  				regval |= (BIT(4));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  803  			else
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  804  				regval &= ~(BIT(4));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  805  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  806  			writel(regval, spi_bus->reg_base + SPI_PCI_CTRL_REG_OFFSET(0));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  807  		}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  808  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  809  		spi_sub_ptr->hw_inst = start++;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  810  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  811  		if (iter == 1) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  812  			init_completion(&spi_sub_ptr->spi_xfer_done);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  813  			/* Initialize Interrupts - SPI_INT */
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  814  			regval = readl(spi_bus->reg_base +
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  815  			       SPI_MST_EVENT_MASK_REG_OFFSET(spi_sub_ptr->hw_inst));
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  816  			regval &= ~SPI_INTR;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  817  			writel(regval, spi_bus->reg_base +
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  818  			       SPI_MST_EVENT_MASK_REG_OFFSET(spi_sub_ptr->hw_inst));
+b4608e944177531 Thangaraj Samynathan 2025-05-27  819  			if (num_vector >= hw_inst_cnt) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  820  				spi_sub_ptr->irq = pci_irq_vector(pdev, iter);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  821  				ret = devm_request_irq(&pdev->dev, spi_sub_ptr->irq,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  822  						       pci1xxxx_spi_isr, PCI1XXXX_IRQ_FLAGS,
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  823  						       pci_name(pdev), spi_sub_ptr);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  824  				if (ret < 0) {
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  825  					dev_err(&pdev->dev, "Unable to request irq : %d",
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  826  						spi_sub_ptr->irq);
+d981e7b3f25fbab Philipp Stanner      2025-04-17  827  					return -ENODEV;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  828  				}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  829  			}
+b4608e944177531 Thangaraj Samynathan 2025-05-27  830  		}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  831  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  832  		spi_host = spi_sub_ptr->spi_host;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  833  		spi_host->num_chipselect = SPI_CHIP_SEL_COUNT;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  834  		spi_host->mode_bits = SPI_MODE_0 | SPI_MODE_3 | SPI_RX_DUAL |
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  835  				      SPI_TX_DUAL | SPI_LOOP;
+9538edeb72c989a Thangaraj Samynathan 2024-02-07  836  		spi_host->can_dma = pci1xxxx_spi_can_dma;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  837  		spi_host->transfer_one = pci1xxxx_spi_transfer_one;
+9538edeb72c989a Thangaraj Samynathan 2024-02-07  838  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  839  		spi_host->set_cs = pci1xxxx_spi_set_cs;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  840  		spi_host->bits_per_word_mask = SPI_BPW_MASK(8);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  841  		spi_host->max_speed_hz = PCI1XXXX_SPI_MAX_CLOCK_HZ;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  842  		spi_host->min_speed_hz = PCI1XXXX_SPI_MIN_CLOCK_HZ;
+90366cd60133a9f Andy Shevchenko      2023-07-10  843  		spi_host->flags = SPI_CONTROLLER_MUST_TX;
+f9977bb164a26d3 Yang Yingliang       2023-08-18  844  		spi_controller_set_devdata(spi_host, spi_sub_ptr);
+f9977bb164a26d3 Yang Yingliang       2023-08-18  845  		ret = devm_spi_register_controller(dev, spi_host);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  846  		if (ret)
+d981e7b3f25fbab Philipp Stanner      2025-04-17  847  			return ret;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  848  	}
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  849  	pci_set_drvdata(pdev, spi_bus);
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  850  
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  851  	return 0;
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  852  }
+1cc0cbea7167af5 Tharun Kumar P       2022-10-06  853  
+
+:::::: The code at line 768 was first introduced by commit
+:::::: d981e7b3f25fbabca9cdd02aa2a8f16d6f235fc2 spi: pci1xxxx: Use non-hybrid PCI devres API
+
+:::::: TO: Philipp Stanner <phasta@kernel.org>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
