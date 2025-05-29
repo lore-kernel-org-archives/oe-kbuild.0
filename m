@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6831DEFE8
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 21:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835A420B806
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 23:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748553783; cv=none; b=rpu80FOBFyGK60jv0X0L/Tms0lHhEMfoXE+y/l1rzzYRCSlmhaJPMdENdD74nzpn5J2Yu3LmaPP33Ar5HVQ9d6EpfLT0rc2LB1kLvTTVgVqD5034FapDh0K7sYIT1s5uYYeuRL9vl3fSHrMm52OEnJ2e2yLDt+500mJl0y26CBk=
+	t=1748559911; cv=none; b=hrwXDVYIfAYeDSaFshqTT1X3BP6dyABxoI+ZQi0dkmaNe9Qlo0VdUq8ExQTMw4XtQVSzYij0VqeOtX7BdoMyUdfSL/KRUnY5K3rwzw0NQq3ghyTQYnzGOTRR5wP0BDebv53TN5BSvsXbIHwflOzMx/0lk1OSfIWXRpZPH+g4+wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748553783; c=relaxed/simple;
-	bh=MfJ29iUjxkMQB/NwkkaPKmq6EdqmIzw7He2H4pmls/M=;
+	s=arc-20240116; t=1748559911; c=relaxed/simple;
+	bh=F6tCowfmzf4/Db0BN2vCGeVzxpft9eOW6neZ+KM1/Mw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PrBO9UMMAhdQrM4GHE4+svJ4mHXhbNPDMwVr4gT+aum/fSoBqesNlDGPU+l8/Clkypu9b2QGFiVd/EsN07V3Y7Pqth7guJlhcmIYU8aIepN8TxBmRAVIDXazxR81MYO/UXZIuQOHOiT1LPyrvWvmRykQEGpiY/X1HGF1N8GqifA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B54dtLnk; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=JE/uL6DSnmA30KMlDQv0X+pG2mOygTg9lppSzmzPmQWfstsxfVXOKx5gypD6TtpEfDxy/Ddq5ZGvqxDjlwL3Wto40QrCsQiOW3GOyTx1/e1MkJcKNd1GoXHmpP44YJXRFKDRxOEICD9n6FJMgxo18rGXxXWX+0TNdW+NY8GAXM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3vX1fGd; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B54dtLnk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3vX1fGd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748553781; x=1780089781;
+  t=1748559909; x=1780095909;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MfJ29iUjxkMQB/NwkkaPKmq6EdqmIzw7He2H4pmls/M=;
-  b=B54dtLnkTjTwQ22sqRTiyGU/TReiTeZaaTpxh4VUlsLvGE4/a1t0b3ya
-   R4ryzKmGBsJRbVE96jxBkziQuZp9FMvvDTQrIT3SEoTub+85Yn9n6HE4T
-   Ifx+cztO2YSJYr85z7Pkk1UyLNTBC1GoUaHot2enqAJmXOjRO3tfWwwvl
-   aVH6fEF2R/EaatGO9U9/3l5U39E86agRI1nX2PiTTZ7CZWWf5uGIdNALP
-   3AjWwXVF7hrBqUVTVoEHMJEuPIIsKDtQSqvjhmdzeRIZNdvWsrAUIXd4h
-   gU5mirdlU5rR+LVFVDmi2qZvQbMjzKyDA1jednYup8VjNsiuFSuB8+cCt
-   g==;
-X-CSE-ConnectionGUID: ecuB+JLRTJW397ErqAb9fw==
-X-CSE-MsgGUID: bhpokI85SKiG+d18zepA4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="68059297"
+  bh=F6tCowfmzf4/Db0BN2vCGeVzxpft9eOW6neZ+KM1/Mw=;
+  b=H3vX1fGdZq0+hGKAyc97uoTruM2JLXT2MeN1L5LRFJxw7OL6YTPyuuEL
+   Fh5VvouKUzQRmzXAiQ/x6gDeTteW8qD8aDC72KQ1cj/z24a1Bkgg1Z88J
+   5PuM8CdY4Q+QyMM7H4hg9l45xHUJ0OIXijlR/21/5DvqOvz2TxV6EIb7h
+   /Fs3Y9vv8ZG/KhWr2tzYGqmSx2nl9xQKkY6S9OdUdP+NnDHOxB6LRIVIJ
+   pwL9cxfaWLtwQFB8KUjAwbjovJZPLqv7lf3J8H3+pZxcdLsdtm8taQII7
+   vSHZCseXFrEm2p+ehIxyCwCAo7gxH8r06w0cZVtarHqEU7SV7bTgh/gC5
+   A==;
+X-CSE-ConnectionGUID: 1YvExtGGTruHYzZ6ws/ulQ==
+X-CSE-MsgGUID: x5mXjc7ZRSi9w377tO/7IQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="53268655"
 X-IronPort-AV: E=Sophos;i="6.16,194,1744095600"; 
-   d="scan'208";a="68059297"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 14:22:59 -0700
-X-CSE-ConnectionGUID: MDeQIHfTTl6/46DXXTXgCw==
-X-CSE-MsgGUID: PpG+HqT5RYmhH+AXQd49Kw==
+   d="scan'208";a="53268655"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 16:05:09 -0700
+X-CSE-ConnectionGUID: CaCmGMQhS7yq1ccWgGVOfQ==
+X-CSE-MsgGUID: GfcVjNpOQBi4/MEMVoPtsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,194,1744095600"; 
-   d="scan'208";a="147555298"
+   d="scan'208";a="148564671"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 May 2025 14:22:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 May 2025 16:05:07 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKkiF-000X7M-0t;
-	Thu, 29 May 2025 21:22:55 +0000
-Date: Fri, 30 May 2025 05:22:41 +0800
+	id 1uKmJ7-000XAu-1V;
+	Thu, 29 May 2025 23:05:05 +0000
+Date: Fri, 30 May 2025 07:04:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 07/19] drm/xe/vm: Add a helper
- xe_vm_range_tilemask_tlb_invalidation()
-Message-ID: <202505300542.iz30Sd3K-lkp@intel.com>
+Subject: Re: [PATCH v2 4/4] Input: Add TouchNetix aXiom I2C Touchscreen
+ support
+Message-ID: <202505300736.rrz4tZ29-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,113 +64,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250527164003.1068118-8-himal.prasad.ghimiray@intel.com>
-References: <20250527164003.1068118-8-himal.prasad.ghimiray@intel.com>
-TO: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-TO: intel-xe@lists.freedesktop.org
-CC: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+In-Reply-To: <20250529-v6-10-topic-touchscreen-axiom-v2-4-a5edb105a600@pengutronix.de>
+References: <20250529-v6-10-topic-touchscreen-axiom-v2-4-a5edb105a600@pengutronix.de>
+TO: Marco Felsch <m.felsch@pengutronix.de>
 
-Hi Himal,
+Hi Marco,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on linus/master v6.15 next-20250529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 38fec10eb60d687e30c8c6b5420d86e8149f7557]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Himal-Prasad-Ghimiray/Introduce-drm_gpuvm_sm_map_ops_flags-enums-for-sm_map_ops/20250528-041919
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250527164003.1068118-8-himal.prasad.ghimiray%40intel.com
-patch subject: [PATCH v3 07/19] drm/xe/vm: Add a helper xe_vm_range_tilemask_tlb_invalidation()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: loongarch-randconfig-r073-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300542.iz30Sd3K-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/firmware_loader-expand-firmware-error-codes-with-skip-error/20250529-061458
+base:   38fec10eb60d687e30c8c6b5420d86e8149f7557
+patch link:    https://lore.kernel.org/r/20250529-v6-10-topic-touchscreen-axiom-v2-4-a5edb105a600%40pengutronix.de
+patch subject: [PATCH v2 4/4] Input: Add TouchNetix aXiom I2C Touchscreen support
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: m68k-randconfig-r073-20250530 (https://download.01.org/0day-ci/archive/20250530/202505300736.rrz4tZ29-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505300542.iz30Sd3K-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505300736.rrz4tZ29-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:3913 xe_vm_range_tilemask_tlb_invalidation() error: uninitialized symbol 'err'.
+drivers/input/touchscreen/touchnetix_axiom.c:2141 axiom_zero_volatile_mem() error: uninitialized symbol 'buf'.
 
 Old smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2480 new_vma() error: we previously assumed 'bo' could be null (see line 2454)
-drivers/gpu/drm/xe/xe_vm.c:2492 new_vma() error: 'vma' dereferencing possible ERR_PTR()
-drivers/gpu/drm/xe/xe_vm.c:2919 prefetch_ranges() warn: iterator 'i' not incremented
-arch/loongarch/include/asm/atomic.h:135 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-drivers/gpu/drm/xe/xe_vm.c:4119 xe_vm_snapshot_print() warn: passing zero to 'PTR_ERR'
+drivers/input/touchscreen/touchnetix_axiom.c:2143 axiom_zero_volatile_mem() error: uninitialized symbol 'buf'.
 
-vim +/err +3913 drivers/gpu/drm/xe/xe_vm.c
+vim +/buf +2141 drivers/input/touchscreen/touchnetix_axiom.c
 
-dd08ebf6c3525a Matthew Brost         2023-03-30  3853  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3854  /**
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3855   * xe_vm_range_tilemask_tlb_invalidation - Issue a TLB invalidation on this tilemask for an
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3856   * address range
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3857   * @vm: The VM
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3858   * @start: start address
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3859   * @end: end address
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3860   * @tile_mask: mask for which gt's issue tlb invalidation
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3861   *
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3862   * Issue a range based TLB invalidation for gt's in tilemask
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3863   *
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3864   * Returns 0 for success, negative error code otherwise.
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3865   */
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3866  int xe_vm_range_tilemask_tlb_invalidation(struct xe_vm *vm, u64 start,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3867  					  u64 end, u8 tile_mask)
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3868  {
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3869  	struct xe_gt_tlb_invalidation_fence fence[XE_MAX_TILES_PER_DEVICE * XE_MAX_GT_PER_TILE];
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3870  	struct xe_tile *tile;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3871  	u32 fence_id = 0;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3872  	u8 id;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3873  	int err;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3874  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3875  	if (!tile_mask)
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3876  		return 0;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3877  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3878  	for_each_tile(tile, vm->xe, id) {
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3879  		if (tile_mask & BIT(id)) {
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3880  			xe_gt_tlb_invalidation_fence_init(tile->primary_gt,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3881  							  &fence[fence_id], true);
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3882  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3883  			err = xe_gt_tlb_invalidation_range(tile->primary_gt,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3884  							   &fence[fence_id],
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3885  							   start,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3886  							   end,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3887  							   vm->usm.asid);
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3888  			if (WARN_ON_ONCE(err < 0))
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3889  				goto wait;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3890  			++fence_id;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3891  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3892  			if (!tile->media_gt)
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3893  				continue;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3894  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3895  			xe_gt_tlb_invalidation_fence_init(tile->media_gt,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3896  							  &fence[fence_id], true);
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3897  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3898  			err = xe_gt_tlb_invalidation_range(tile->media_gt,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3899  							   &fence[fence_id],
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3900  							   start,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3901  							   end,
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3902  							   vm->usm.asid);
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3903  			if (WARN_ON_ONCE(err < 0))
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3904  				goto wait;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3905  			++fence_id;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3906  		}
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3907  	}
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3908  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3909  wait:
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3910  	for (id = 0; id < fence_id; ++id)
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3911  		xe_gt_tlb_invalidation_fence_wait(&fence[id]);
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3912  
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27 @3913  	return err;
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3914  }
-511b2f09f331fc Himal Prasad Ghimiray 2025-05-27  3915  
+871c0ce3e5e95c Marco Felsch 2025-05-29  2125  
+871c0ce3e5e95c Marco Felsch 2025-05-29  2126  static int axiom_zero_volatile_mem(struct axiom_data *ts)
+871c0ce3e5e95c Marco Felsch 2025-05-29  2127  {
+871c0ce3e5e95c Marco Felsch 2025-05-29  2128  	int ret, size;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2129  	u8 *buf;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2130  
+871c0ce3e5e95c Marco Felsch 2025-05-29  2131  	/* Zero out the volatile memory except for the user content in u04 */
+871c0ce3e5e95c Marco Felsch 2025-05-29  2132  	ret = axiom_u04_get(ts, &buf);
+871c0ce3e5e95c Marco Felsch 2025-05-29  2133  	if (ret < 0)
+871c0ce3e5e95c Marco Felsch 2025-05-29  2134  		return ret;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2135  	size = ret;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2136  
+871c0ce3e5e95c Marco Felsch 2025-05-29  2137  	ret = axiom_u02_fillconfig(ts);
+871c0ce3e5e95c Marco Felsch 2025-05-29  2138  	if (ret)
+871c0ce3e5e95c Marco Felsch 2025-05-29  2139  		goto out;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2140  
+871c0ce3e5e95c Marco Felsch 2025-05-29 @2141  	ret = axiom_u04_set(ts, buf, size);
+871c0ce3e5e95c Marco Felsch 2025-05-29  2142  out:
+871c0ce3e5e95c Marco Felsch 2025-05-29  2143  	kfree(buf);
+871c0ce3e5e95c Marco Felsch 2025-05-29  2144  	return ret;
+871c0ce3e5e95c Marco Felsch 2025-05-29  2145  }
+871c0ce3e5e95c Marco Felsch 2025-05-29  2146  
 
 -- 
 0-DAY CI Kernel Test Service
