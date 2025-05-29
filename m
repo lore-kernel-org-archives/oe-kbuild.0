@@ -1,160 +1,163 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508B22D052
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 14:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002AC18DB03
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 16:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748528561; cv=none; b=j+l3OsdejO2aKjOaXXrSxK7CM1RDsA1Sqmdz4Ul/wE+uls7Emo9xUFzlhwtKNnR1ohBPL8ExiE/YFjwGhzODg29YPm//W//K6FVTGOJBPbdAAL4JowWAHHMseDSI1JWIIiYWPq+zoI+P6PTQ4R39+MDPguxpFoJipeXbF+n6lrE=
+	t=1748534908; cv=none; b=mx+ACglXA3sz7o5MKJdNqimHf9Dwywo4sQh+69uuUQdu2mZwSphMPLlU7RWDDcbOkW8igTF3pxjpLk0uVf6JTH7hk4QsVJ47rvOslOhKFpkH8sEgXpPECjW+/aGEVVh+9ApWo7ixMXkOivrCZVWg98OFWe36AHyWMPqX1yKEjEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748528561; c=relaxed/simple;
-	bh=SJeJDn0eb10YU45ltQlXDHBzhwugvkDPZfzcXcshxjo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=j0+QuwEtwBHkn62uXmB6VQs8TPML+g9SXUCo18rcaosD+rphHzUI9L0koCk7xwL8+GPGx9O+zoekQ0WgDmpOfpr2YbQWw/u3p7ah6iyOk/ivJpTLLe6hudYpURnMHo+r+WbWQmZyuQcjUd3YniFybKt1y7kzxWR1xuP3Be2Yvz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hs2BQsde; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748534908; c=relaxed/simple;
+	bh=on3NErWurNHx6MogLAT0cjGjBfR8NNC9cBpLuQeJE0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I4qb/VhyKDlhOoqznbgX3FEAv+6DFK0qkxeebYYU37re78RPDekMOQY9Y2AOh1U15/7WORK/UmUNvX//L/SWO6mDJAUOgeJ/kYhLbkrY7bfOvlGJNFw1dJAg64emmwnVnzbP7rd+txNvhve36Ufa1CZsEF54NlbnrrQ1VQ9KGXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xdo1DzNf; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hs2BQsde"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748528558;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tOfUOHsT5A2N3sIIw2kS94sCl5daw9Gv4uw0XwOhtn0=;
-	b=hs2BQsdepeCT1K2QH/SpQ1SkfG8gPMmxBgglUK7WpT+Ej68LcrKkUl+3EFfrtPQ5Ts08qr
-	+mdYiMlH52NwOif2N78duywqpyXclv0V3h2dYcgNxCwLL+sGxYMKVxHSymehUkn0YBXfkN
-	AOBqnX9T5LmMZi34oHn7iWjaAppuZmQ=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-110-QToTBfK4ME6BckVAbmEjKg-1; Thu,
- 29 May 2025 10:22:36 -0400
-X-MC-Unique: QToTBfK4ME6BckVAbmEjKg-1
-X-Mimecast-MFC-AGG-ID: QToTBfK4ME6BckVAbmEjKg_1748528555
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A14771956095;
-	Thu, 29 May 2025 14:22:35 +0000 (UTC)
-Received: from [10.22.80.20] (unknown [10.22.80.20])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D3A1F1955D88;
-	Thu, 29 May 2025 14:22:33 +0000 (UTC)
-Date: Thu, 29 May 2025 16:22:29 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-cc: oe-kbuild@lists.linux.dev, Benjamin Marzinski <bmarzins@redhat.com>, 
-    lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 10969/12618] drivers/md/dm-mpath.c:2104
- probe_active_paths() warn: mixing irqsave and irq
-In-Reply-To: <202505221209.UJOI2rXT-lkp@intel.com>
-Message-ID: <440f7ce7-da6a-da3d-b314-aaf4525c0a4d@redhat.com>
-References: <202505221209.UJOI2rXT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xdo1DzNf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748534907; x=1780070907;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=on3NErWurNHx6MogLAT0cjGjBfR8NNC9cBpLuQeJE0M=;
+  b=Xdo1DzNf4i4NS3uhPfk3hu30rTlvWDDyIGmPH8DFRbWkkTHDoRVlL1/S
+   2NI7OBl+6k27789qp6HJn+PoTmCQ1jmthSG4uHAsC1lD9mDjlSe2dYrCH
+   yp5Bg5oOp1g9xGKoqgUumv3sre/f4llaV9TI1Uv5fIzl9yR/Dm38Yd3vA
+   awRYTt7qjn9JpYVXrQ2qADO+wQczgIgPNhftQX9W0rSNW3F/JIB2MHmCy
+   A30zBVTk5ScyQwOqPUhja59IIWAuvR0q0yEd8NcjbY2kttaX5geFIAcwN
+   bnnhLlTAoY+CrNtrraamXQ7nxiAxiMOajF4Fdw92+xjei8UGwUpgmURwi
+   w==;
+X-CSE-ConnectionGUID: 2zOKjSbmReqqSHAluCaJIQ==
+X-CSE-MsgGUID: UPRh94U9TouipzOWeDw7CQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="38229039"
+X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
+   d="scan'208";a="38229039"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 09:08:21 -0700
+X-CSE-ConnectionGUID: aayOoVZKQJ6uzOJ+5sJHjg==
+X-CSE-MsgGUID: CKGo8n2nRre8oinKOa3jsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,193,1744095600"; 
+   d="scan'208";a="143940731"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 29 May 2025 09:07:29 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uKfmx-000WrM-0N;
+	Thu, 29 May 2025 16:07:27 +0000
+Date: Fri, 30 May 2025 00:06:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 10504/13944]
+ drivers/pci/controller/dwc/pcie-qcom.c:1575 qcom_pcie_reset_slot() warn:
+ missing unwind goto?
+Message-ID: <202505300021.GxvqDH44-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ERB_tSU0eQJV1xmqDdovcgYmFRuA279c-YQ0tfKEBLw_1748528555
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+CC: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
-This was already fixed in the commit 
-050a3e71ce24c6f18d70679d68056f76375ff51c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2a628f951ed54c30a232230b5b58349d2a8dbb11
+commit: b5c714170a4dd73154ae7bf1d01d19e267e668a3 [10504/13944] PCI: qcom: Add support for resetting the slot due to link down event
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 weeks ago
+config: loongarch-randconfig-r073-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300021.GxvqDH44-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
-Mikulas
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202505300021.GxvqDH44-lkp@intel.com/
 
-On Fri, 23 May 2025, Dan Carpenter wrote:
+smatch warnings:
+drivers/pci/controller/dwc/pcie-qcom.c:1575 qcom_pcie_reset_slot() warn: missing unwind goto?
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7bac2c97af4078d7a627500c9bcdd5b033f97718
-> commit: 5c977f1023156938915c57d362fddde8fad2b052 [10969/12618] dm-mpath: Don't grab work_mutex while probing paths
-> config: i386-randconfig-141-20250521 (https://download.01.org/0day-ci/archive/20250522/202505221209.UJOI2rXT-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202505221209.UJOI2rXT-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/md/dm-mpath.c:2104 probe_active_paths() warn: mixing irqsave and irq
-> 
-> vim +2104 drivers/md/dm-mpath.c
-> 
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2095  static int probe_active_paths(struct multipath *m)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2096  {
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2097  	struct pgpath *pgpath;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2098  	struct priority_group *pg = NULL;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2099  	unsigned long flags;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2100  	int r = 0;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2101  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2102  	spin_lock_irqsave(&m->lock, flags);
-> 
-> _irqsave() is for if we don't know if the caller has disabled IRQs or
-> not.
-> 
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2103  	if (test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags)) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15 @2104  		wait_event_lock_irq(m->probe_wait,
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2105  				    !test_bit(MPATHF_DELAY_PG_SWITCH, &m->flags),
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2106  				    m->lock);
-> 
-> The wait_event_lock_irq() macro calls spin_unlock_irq(), so hopefully
-> none of the callers of probe_active_paths() actually relied on having
-> IRQs disabled.
-> 
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2107  		/*
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2108  		 * if we waited because a probe was already in progress,
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2109  		 * and it probed the current active pathgroup, don't
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2110  		 * reprobe. Just return the number of valid paths
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2111  		 */
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2112  		if (m->current_pg == m->last_probed_pg)
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2113  			goto skip_probe;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2114  	}
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2115  	if (!m->current_pg || m->is_suspending ||
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2116  	    test_bit(MPATHF_QUEUE_IO, &m->flags))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2117  		goto skip_probe;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2118  	set_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2119  	pg = m->last_probed_pg = m->current_pg;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2120  	spin_unlock_irqrestore(&m->lock, flags);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2121  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2122  	list_for_each_entry(pgpath, &pg->pgpaths, list) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2123  		if (pg != READ_ONCE(m->current_pg) ||
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2124  		    READ_ONCE(m->is_suspending))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2125  			goto out;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2126  		if (!pgpath->is_active)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2127  			continue;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2128  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2129  		r = probe_path(pgpath);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2130  		if (r < 0)
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2131  			goto out;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2132  	}
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2133  
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2134  out:
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2135  	spin_lock_irqsave(&m->lock, flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2136  	clear_bit(MPATHF_DELAY_PG_SWITCH, &m->flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2137  	if (test_and_clear_bit(MPATHF_NEED_PG_SWITCH, &m->flags)) {
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2138  		m->current_pgpath = NULL;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2139  		m->current_pg = NULL;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2140  	}
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2141  skip_probe:
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2142  	if (r == 0 && !atomic_read(&m->nr_valid_paths))
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2143  		r = -ENOTCONN;
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2144  	spin_unlock_irqrestore(&m->lock, flags);
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2145  	if (pg)
-> 5c977f10231569 Benjamin Marzinski 2025-05-15  2146  		wake_up(&m->probe_wait);
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2147  	return r;
-> 7734fb4ad98c3f Kevin Wolf         2025-04-29  2148  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+vim +1575 drivers/pci/controller/dwc/pcie-qcom.c
 
+c4860af88d0cb1 Johan Hovold          2022-11-02  1535  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1536  static int qcom_pcie_reset_slot(struct pci_host_bridge *bridge,
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1537  				  struct pci_dev *pdev)
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1538  {
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1539  	struct pci_bus *bus = bridge->bus;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1540  	struct dw_pcie_rp *pp = bus->sysdata;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1541  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1542  	struct qcom_pcie *pcie = to_qcom_pcie(pci);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1543  	struct device *dev = pcie->pci->dev;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1544  	u32 val;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1545  	int ret;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1546  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1547  	/* Wait for the pending transactions to be completed */
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1548  	ret = readl_relaxed_poll_timeout(pcie->parf + PARF_STATUS, val,
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1549  					 val & FLUSH_COMPLETED, 10,
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1550  					 FLUSH_TIMEOUT_US);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1551  	if (ret) {
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1552  		dev_err(dev, "Flush completion failed: %d\n", ret);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1553  		goto err_host_deinit;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1554  	}
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1555  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1556  	/* Clear the FLUSH_MODE to allow the core to be reset */
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1557  	val = readl(pcie->parf + PARF_LTSSM);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1558  	val |= SW_CLEAR_FLUSH_MODE;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1559  	writel(val, pcie->parf + PARF_LTSSM);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1560  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1561  	/* Wait for the FLUSH_MODE to clear */
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1562  	ret = readl_relaxed_poll_timeout(pcie->parf + PARF_LTSSM, val,
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1563  					 !(val & FLUSH_MODE), 10,
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1564  					 FLUSH_TIMEOUT_US);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1565  	if (ret) {
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1566  		dev_err(dev, "Flush mode clear failed: %d\n", ret);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1567  		goto err_host_deinit;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1568  	}
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1569  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1570  	qcom_pcie_host_deinit(pp);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1571  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1572  	ret = qcom_pcie_host_init(pp);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1573  	if (ret) {
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1574  		dev_err(dev, "Host init failed\n");
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08 @1575  		return ret;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1576  	}
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1577  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1578  	ret = dw_pcie_setup_rc(pp);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1579  	if (ret)
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1580  		goto err_host_deinit;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1581  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1582  	/*
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1583  	 * Re-enable global IRQ events as the PARF_INT_ALL_MASK register is
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1584  	 * non-sticky.
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1585  	 */
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1586  	if (pcie->global_irq)
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1587  		writel_relaxed(PARF_INT_ALL_LINK_UP | PARF_INT_ALL_LINK_DOWN |
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1588  			       PARF_INT_MSI_DEV_0_7, pcie->parf + PARF_INT_ALL_MASK);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1589  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1590  	qcom_pcie_start_link(pci);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1591  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1592  	dev_dbg(dev, "Slot reset completed\n");
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1593  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1594  	return 0;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1595  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1596  err_host_deinit:
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1597  	qcom_pcie_host_deinit(pp);
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1598  
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1599  	return ret;
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1600  }
+b5c714170a4dd7 Manivannan Sadhasivam 2025-05-08  1601  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
