@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB39C219E93
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 09:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D92D1F7075
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 May 2025 11:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748509916; cv=none; b=bXehgNgomDKDHQvoj/yVsMWle6tAtGPIHemXAX7+iJKnqO6RuXIwUQ1E92f5+tzBFkEVSP0J2Awxs9Q04HpyKwjcqcXRMnV8y9kkri37fvAE7wOHeI46/M3HBuAe9InVHeDdd/iFGFSr8a53/5uZcbZ7h7s3FTvp5+UlKiXepGY=
+	t=1748518747; cv=none; b=I/HuuBpy3B8DepCgNdad8lEjA5YeUaehOz2ifVcN9HxK94qGyjNQhjw46M5z24fsB+/S9Eyaxykt5PEUgs92H0JXFaaLFnRM2AOFZbj3nwalbcFL1Mx1JAJ5O8wVHQa8AFK4zqvyyTcSZ/bqgUKQrp2HbmKydwwf8J1e28qrIK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748509916; c=relaxed/simple;
-	bh=JgBnMGVGg6gffBatqZmg5oanypkVHrja/+0ZvaDq/+8=;
+	s=arc-20240116; t=1748518747; c=relaxed/simple;
+	bh=6dkRP9Fh6DvksZQBTBweQ2CP+Qk+9iz5p394WdZ/IH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aqq6NYONLpgiEdZpRxuQLbrayO6l4eM/EXPirJDJ9enATG1sePazgbbpPYq6fZxo2csJBn4KRV0erTQj6B3rDzBfWcOKpXmCiwAF8HFBHi1myrnBnNf6sXDwsiuPuUblEcN1thPNJh33G3QPngS4Hcyk30IYkwL31+6AyHpQFXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCGvhy7H; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=VWMhQ6oNPWINTyu3m2uQcUVDLab77+DspHVdktWrE3yIvlEeHrOEtbdVeKnWfSdQfr++l6ruwe1Sa7mfjrkd7WecqAWV7CrvEMpJ5qPjCgVSF9ppppolMpMEq/dXxkDGhvI5bXhWqWdpM94PPcJB1Was6V6IeVRryYQ0LPEPYlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0fSS1fl; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCGvhy7H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0fSS1fl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748509913; x=1780045913;
+  t=1748518745; x=1780054745;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JgBnMGVGg6gffBatqZmg5oanypkVHrja/+0ZvaDq/+8=;
-  b=mCGvhy7HBidtwgm4tS3V6QivxbzXaHGRCns3g1jkTD0cHnfkeL26jZwX
-   RkYm0a1FdIsxLrq2L35RQ8y0EYB7fK3+Q4H69nWuojpwE9kMWx8qdBaTZ
-   zR+pYTRZU8Ocl9h6/TQvO7GdS2EgmEb3nhyCU0Ca82V8Ji3VZTahj50XG
-   toA1TOGGvxEUXY0FtYalTqZpdBu1/bCu8hqYREdAiPWlq6mCa2r4VNTtu
-   ElSqZ1pRWz0mv6HyCuPw/RghBlV2eikwihMzKPZMDs9q00gXUsHBfIxBT
-   M4e0vqNivbxx3KxrQyW7lILntNBADHZrNllKi3B10kZLoyomQxDZGa0wD
-   Q==;
-X-CSE-ConnectionGUID: 1NjNZSMAQJqeSWrpNI0czg==
-X-CSE-MsgGUID: jHoM/MCkRT6F8bHJCsVXyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="61224394"
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="61224394"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 02:11:53 -0700
-X-CSE-ConnectionGUID: 7VBsPslrTzCC6402U+anEQ==
-X-CSE-MsgGUID: OjfEycDaQJGUP3hJT1Oiww==
+  bh=6dkRP9Fh6DvksZQBTBweQ2CP+Qk+9iz5p394WdZ/IH4=;
+  b=D0fSS1flGsLkwTSdn5qBpJKxiqv2NBMv168sjbV6+YEgN2Ta6/grr69d
+   D20+5JZdcaqGaCQaz/OHsxYah+mDPQD8tE5uTdn8JFgSXdj9NsmElXrXO
+   YNz4L5/uCvX0qtUCP3jXL0kONE7tzAGS++5L37tkAa9wKN/J9TIR/axA1
+   hc2Vxq9RYM7a9RpXwbf25M8eNdLQSsLN6Wd6HzrO0bRQyR/2tbg1tpjrW
+   hNXm2RfLcxwvogo60zhveAydxd12sMR6EoPmwGy9UFYVGBQUzsK9VGAF9
+   nfnnBZL6PgLPP4z8+ZzG0ABQbCtesGh4b/zaFd4MWipSe4Edxq4Oh1TzR
+   g==;
+X-CSE-ConnectionGUID: X+3kipvVQuqgxp8m0vweuQ==
+X-CSE-MsgGUID: oSzX/HB9QOaOF/fkfN1Hng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11447"; a="50629214"
+X-IronPort-AV: E=Sophos;i="6.16,192,1744095600"; 
+   d="scan'208";a="50629214"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 04:39:04 -0700
+X-CSE-ConnectionGUID: rhROjDdMS7+uhSlGwJqqHg==
+X-CSE-MsgGUID: GiY7kJxCRYe6hX6Lh1fgRw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,323,1739865600"; 
-   d="scan'208";a="148370136"
+X-IronPort-AV: E=Sophos;i="6.16,192,1744095600"; 
+   d="scan'208";a="174410693"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 May 2025 02:11:52 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 May 2025 04:39:04 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKZIj-000WWW-34;
-	Thu, 29 May 2025 09:11:49 +0000
-Date: Thu, 29 May 2025 17:11:46 +0800
+	id 1uKbbB-000Wda-2J;
+	Thu, 29 May 2025 11:39:01 +0000
+Date: Thu, 29 May 2025 19:38:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [mingo-tip:WIP.sched/core 20/43] kernel/sched/fair.c:7369
- sched_balance_find_dst_group_cpu() warn: missing error code? 'i'
-Message-ID: <202505291754.N8fhSZcO-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/arm/rtsm_ve-aemv8a.dtb: mcc
+ (arm,vexpress,config-bus): 'clock-controller' does not match any of the
+ regexes: '^amp-.+$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$',
+ '^reset[0-9]*$', '^temp-.+$', '^volt-.+$', 'clk[0-9]*$'
+Message-ID: <202505291906.4CK36BfL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,100 +64,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Ingo Molnar <mingo@kernel.org>
-TO: Ingo Molnar <mingo@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Rob Herring (Arm)" <robh@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Sudeep Holla <sudeep.holla@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.sched/core
-head:   cab92ff1aee4c2ad30895f33dab4610b24c9f8eb
-commit: 943d3739b413d4131787c79640c3e30b6f88b4bd [20/43] sched/smp: Make SMP unconditional
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: i386-randconfig-141-20250529 (https://download.01.org/0day-ci/archive/20250529/202505291754.N8fhSZcO-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Rob,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90b83efa6701656e02c86e7df2cb1765ea602d07
+commit: 04f08ef291d4b8d76f8d198bf2929ad43b96eecf arm/arm64: dts: arm: Use generic clock and regulator nodenames
+date:   11 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 11 months ago
+config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/archive/20250529/202505291906.4CK36BfL-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250529/202505291906.4CK36BfL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202505291754.N8fhSZcO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505291906.4CK36BfL-lkp@intel.com/
 
-smatch warnings:
-kernel/sched/fair.c:7369 sched_balance_find_dst_group_cpu() warn: missing error code? 'i'
-kernel/sched/fair.c:7697 select_idle_capacity() warn: missing error code? 'cpu'
-kernel/sched/deadline.c:2482 find_later_rq() warn: missing error code? 'cpu'
-kernel/sched/deadline.c:2515 find_later_rq() warn: missing error code? 'best_cpu'
-
-vim +/i +7369 kernel/sched/fair.c
-
-e7693a362ec84bb kernel/sched_fair.c Gregory Haskins           2008-01-25  7343  
-ac192d3921a14e2 kernel/sched_fair.c Ingo Molnar               2008-03-16  7344  /*
-646ebaf51c64c64 kernel/sched/fair.c Ingo Molnar               2024-03-08  7345   * sched_balance_find_dst_group_cpu - find the idlest CPU among the CPUs in the group.
-ac192d3921a14e2 kernel/sched_fair.c Ingo Molnar               2008-03-16  7346   */
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7347  static int
-646ebaf51c64c64 kernel/sched/fair.c Ingo Molnar               2024-03-08  7348  sched_balance_find_dst_group_cpu(struct sched_group *group, struct task_struct *p, int this_cpu)
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7349  {
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7350  	unsigned long load, min_load = ULONG_MAX;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7351  	unsigned int min_exit_latency = UINT_MAX;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7352  	u64 latest_idle_timestamp = 0;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7353  	int least_loaded_cpu = this_cpu;
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14  7354  	int shallowest_idle_cpu = -1;
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7355  	int i;
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7356  
-eaecf41f5abf80b kernel/sched/fair.c Morten Rasmussen          2016-06-22  7357  	/* Check if we have any choice: */
-eaecf41f5abf80b kernel/sched/fair.c Morten Rasmussen          2016-06-22  7358  	if (group->group_weight == 1)
-ae4df9d6c935105 kernel/sched/fair.c Peter Zijlstra            2017-05-01  7359  		return cpumask_first(sched_group_span(group));
-eaecf41f5abf80b kernel/sched/fair.c Morten Rasmussen          2016-06-22  7360  
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7361  	/* Traverse only the allowed CPUs */
-3bd3706251ee8ab kernel/sched/fair.c Sebastian Andrzej Siewior 2019-04-23  7362  	for_each_cpu_and(i, sched_group_span(group), p->cpus_ptr) {
-97886d9dcd86820 kernel/sched/fair.c Aubrey Li                 2021-03-24  7363  		struct rq *rq = cpu_rq(i);
-97886d9dcd86820 kernel/sched/fair.c Aubrey Li                 2021-03-24  7364  
-97886d9dcd86820 kernel/sched/fair.c Aubrey Li                 2021-03-24  7365  		if (!sched_core_cookie_match(rq, p))
-97886d9dcd86820 kernel/sched/fair.c Aubrey Li                 2021-03-24  7366  			continue;
-97886d9dcd86820 kernel/sched/fair.c Aubrey Li                 2021-03-24  7367  
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14  7368  		if (sched_idle_cpu(i))
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14 @7369  			return i;
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14  7370  
-943d355d7feef38 kernel/sched/fair.c Rohit Jain                2018-05-09  7371  		if (available_idle_cpu(i)) {
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7372  			struct cpuidle_state *idle = idle_get_state(rq);
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7373  			if (idle && idle->exit_latency < min_exit_latency) {
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7374  				/*
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7375  				 * We give priority to a CPU whose idle state
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7376  				 * has the smallest exit latency irrespective
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7377  				 * of any idle timestamp.
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7378  				 */
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7379  				min_exit_latency = idle->exit_latency;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7380  				latest_idle_timestamp = rq->idle_stamp;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7381  				shallowest_idle_cpu = i;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7382  			} else if ((!idle || idle->exit_latency == min_exit_latency) &&
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7383  				   rq->idle_stamp > latest_idle_timestamp) {
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7384  				/*
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7385  				 * If equal or no active idle state, then
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7386  				 * the most recently idled CPU might have
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7387  				 * a warmer cache.
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7388  				 */
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7389  				latest_idle_timestamp = rq->idle_stamp;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7390  				shallowest_idle_cpu = i;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7391  			}
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14  7392  		} else if (shallowest_idle_cpu == -1) {
-11f10e5420f6cec kernel/sched/fair.c Vincent Guittot           2019-10-18  7393  			load = cpu_load(cpu_rq(i));
-18cec7e0ddd5e28 kernel/sched/fair.c Joel Fernandes            2017-12-15  7394  			if (load < min_load) {
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7395  				min_load = load;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7396  				least_loaded_cpu = i;
-83a0a96a5f26d97 kernel/sched/fair.c Nicolas Pitre             2014-09-04  7397  			}
-e7693a362ec84bb kernel/sched_fair.c Gregory Haskins           2008-01-25  7398  		}
-e7693a362ec84bb kernel/sched_fair.c Gregory Haskins           2008-01-25  7399  	}
-e7693a362ec84bb kernel/sched_fair.c Gregory Haskins           2008-01-25  7400  
-17346452b25b98a kernel/sched/fair.c Viresh Kumar              2019-11-14  7401  	return shallowest_idle_cpu != -1 ? shallowest_idle_cpu : least_loaded_cpu;
-aaee1203ca52b9d kernel/sched_fair.c Peter Zijlstra            2009-09-10  7402  }
-e7693a362ec84bb kernel/sched_fair.c Gregory Haskins           2008-01-25  7403  
-
-:::::: The code at line 7369 was first introduced by commit
-:::::: 17346452b25b98acfb395d2a82ec2e4ad0cb7a01 sched/fair: Make sched-idle CPU selection consistent throughout
-
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/arm/rtsm_ve-aemv8a.dtb: / (arm,rtsm_ve,aemv8a): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml#
+>> arch/arm64/boot/dts/arm/rtsm_ve-aemv8a.dtb: mcc (arm,vexpress,config-bus): 'clock-controller' does not match any of the regexes: '^amp-.+$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^reset[0-9]*$', '^temp-.+$', '^volt-.+$', 'clk[0-9]*$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml#
+--
+   scripts/dtc/include-prefixes/arm/arm/vexpress-v2m-rs1.dtsi:419.9-490.7: Warning (simple_bus_reg): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/mcc: missing or empty reg/ranges property
+   scripts/dtc/include-prefixes/arm/arm/vexpress-v2m-rs1.dtsi:366.13-376.9: Warning (graph_child_address): /bus@8000000/motherboard-bus@8000000/iofpga-bus@300000000/i2c@160000/dvi-transmitter@39/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/arm/vexpress-v2f-1xv7-ca53x2.dtb: / (arm,vexpress,v2f-1xv7,ca53x2): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml#
+   arch/arm64/boot/dts/arm/vexpress-v2f-1xv7-ca53x2.dtb: iofpga-bus@300000000 (simple-bus): mcc: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/arm/vexpress-v2f-1xv7-ca53x2.dtb: dcc (arm,vexpress,config-bus): 'clock-controller', 'regulator-12v', 'regulator-vio' do not match any of the regexes: '^amp-.+$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^reset[0-9]*$', '^temp-.+$', '^volt-.+$', 'clk[0-9]*$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml#
+--
+   arch/arm64/boot/dts/arm/fvp-base-revc.dtb: / (arm,fvp-base-revc): bus@8000000: Unevaluated properties are not allowed ('#interrupt-cells', 'interrupt-map', 'interrupt-map-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/arm/arm,vexpress-juno.yaml#
+>> arch/arm64/boot/dts/arm/fvp-base-revc.dtb: mcc (arm,vexpress,config-bus): 'clock-controller' does not match any of the regexes: '^amp-.+$', '^energy(-.+)?$', '^pinctrl-[0-9]+$', '^power-.+$', '^reset[0-9]*$', '^temp-.+$', '^volt-.+$', 'clk[0-9]*$'
+   	from schema $id: http://devicetree.org/schemas/arm/vexpress-config.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
