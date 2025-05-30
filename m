@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE7D2222D5
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 May 2025 10:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6EB234984
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 May 2025 12:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748601371; cv=none; b=JEih3gN55ygjxIivHsM3EHzAnzjZdmE6w/TAZzek2JSJUL7tJAgE/L+u+zsgcm0+5Gq6YsJtG9Et7SGzqEAs/aZSnkVLYvhku/+BLhn/htDvZDVPaIM3fvi9NmWxuL8sF+u23WZvEcWUtTSkHmSObeQXonZdwrxHjkbSCb5fKRw=
+	t=1748609000; cv=none; b=Gn37LsDvo9jchrxbqublmDb21tP/FQCf9y6+xjFx3YtsdHqVa7f067wJx3KTyxWYrDIiEdjx6Ibb9t55CZ5mSyjbX1ChbbZO4VHdef1qDTVXE1k+0m3YCsipYNL1fHjwm2egwl/+gfJDe6JMAGxZ+pToTnMvp92I7y0BCebNIbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748601371; c=relaxed/simple;
-	bh=SyRZBXMkC61uNSzxgKwHETnx5A4rICDgV+lCp7lxFSQ=;
+	s=arc-20240116; t=1748609000; c=relaxed/simple;
+	bh=jrgBMtT8Srl5hWPS/2bjbjhIh36dciX0Vn0krU8svik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rXMd4QKEKJ4bWMgZ5Aw9ibjp0A9n/cgpeK7k6e5Rd0WOwgT1FMHWP95WvawLdquRI7BexH8bRX591jo7NSIUrMgc6DCCNOKMDtif3elUiItkdZLaaHct1mmtquZ4/bnQxIkaWCysA+r5Io61+Hzmti524vIwoutWOQuEYpmMluE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PAhzoCGV; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Tv1cd9o4gnrQWLSPYjiFmg0RchTtd4xZ6Bf2U9gqQK2vB20Z+E8fxrTTT+F5iuvoOI/B+eaA27o3JQ5do4tmXTmxqHxYdT+PgUeUJRs54Wftk8cBqOVneAB3zkSVWDH9W/PnitDxYmI1TlPrt9u2xpweoMBrojAeyouvBX+OlIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qz0SL1eY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PAhzoCGV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qz0SL1eY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748601370; x=1780137370;
+  t=1748608998; x=1780144998;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SyRZBXMkC61uNSzxgKwHETnx5A4rICDgV+lCp7lxFSQ=;
-  b=PAhzoCGVH9aPJUJ56JeCLDvzGLuaGek4bBdt7T2nTqVUqATCm/ECjKeU
-   ByJh+LicpHmPY3xTHFQGz1ASVYMSCWPrnianWktVMbGB0M4dvv41YRrva
-   ykqXvfdbc0dawpf1UYpPcw8Wk1PGVBMQckHTa/+OJRovoA5LV2SvsTPXm
-   wFwQwqN0Xaga2KztkTcHJcadFeucIgP3oY5170X2x2QVfqRIlqjYpQsSl
-   lT370ME3J/6LxeSiQimqWpJPqUarjW0eSVHVd7V+txXM6+jmS1BF1Qt7E
-   4UnIOyz01CbDUq7XhySQLQEErsJErKdbNGdIPuz9irrDYYNDGl3Tg0fpp
+  bh=jrgBMtT8Srl5hWPS/2bjbjhIh36dciX0Vn0krU8svik=;
+  b=Qz0SL1eYtmGV0gclZVF/uDdm7jn9NlGBTEB8JbWNKZRFNnvQmk50K5I5
+   sk/PJJe2tpoWfzzuKiQpipyGq/Caz+TpEdc1LKdf0jdF7ERRMlL5B7d65
+   gWy0O4pcatq9XlXNaa4cYx20YiFTy2Qxh6GauEHAYWh3HKokmx4SJijRI
+   dyw9OM9lceRY/fQXK+/wnEKA3TnMfoxveWUKl70HI6dcEazAzoDyIr9uV
+   oqke0m3954Yx9lQ/hTE6J3CG/iIjmbRPj+gS7OymxEzJAKD/RN8ecKFxy
+   5Y1AR7Y6OCaG1ura09z8PAu7pQlzpzMzFa9K7yuwnMeRJPS7OUDNMt7JH
    Q==;
-X-CSE-ConnectionGUID: 2G93cvYUTXGDo13Z9gpjZg==
-X-CSE-MsgGUID: xE9nANz8Qwq0p3IVwq+bSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="50837040"
+X-CSE-ConnectionGUID: pgntWuqvTXyL+yZGk8UVBw==
+X-CSE-MsgGUID: tErb1wTvQqSRaAQ5t9DPFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="60957499"
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="50837040"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 03:36:07 -0700
-X-CSE-ConnectionGUID: SLSMi6NRTR2JOzUAC1vNdQ==
-X-CSE-MsgGUID: xtueh++YQCSIC+cZIKAv4Q==
+   d="scan'208";a="60957499"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 05:43:17 -0700
+X-CSE-ConnectionGUID: 2ou5bf5hSa6fUqekOhveow==
+X-CSE-MsgGUID: 4YjpSzE4Ss24Hl02sIQ/IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="174724018"
+   d="scan'208";a="143841336"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 May 2025 03:36:05 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 May 2025 05:43:15 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKx5n-000XYc-0H;
-	Fri, 30 May 2025 10:36:03 +0000
-Date: Fri, 30 May 2025 18:35:24 +0800
+	id 1uKz4r-000XdU-27;
+	Fri, 30 May 2025 12:43:13 +0000
+Date: Fri, 30 May 2025 20:42:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] dt-bindings: net: dsa: microchip: add bit-banged SMI
- example
-Message-ID: <202505301810.gNOn2u8O-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/firmware/arm_ffa/driver.c:1152:6-15: ERROR: invalid
+ reference to the index variable of the iterator on line 1148
+Message-ID: <202505302007.D7owsaRu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,178 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250528203152.628818-1-corentin.guillevic@smile.fr>
-References: <20250528203152.628818-1-corentin.guillevic@smile.fr>
-TO: Corentin Guillevic <corentin.guillevic@smile.fr>
-TO: Woojung Huh <woojung.huh@microchip.com>
-TO: UNGLinuxDriver@microchip.com
-TO: Andrew Lunn <andrew@lunn.ch>
-TO: Vladimir Oltean <olteanv@gmail.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Marek Vasut <marex@denx.de>
-CC: Corentin Guillevic <corentin.guillevic@smile.fr>
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+TO: Sudeep Holla <sudeep.holla@arm.com>
 
-Hi Corentin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.15 next-20250530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Corentin-Guillevic/dt-bindings-net-dsa-microchip-add-bit-banged-SMI-example/20250529-043300
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250528203152.628818-1-corentin.guillevic%40smile.fr
-patch subject: [PATCH] dt-bindings: net: dsa: microchip: add bit-banged SMI example
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20250530 (https://download.01.org/0day-ci/archive/20250530/202505301810.gNOn2u8O-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505301810.gNOn2u8O-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f66bc387efbee59978e076ce9bf123ac353b389c
+commit: be61da938576671c664382a059f961d7b4b2fc41 firmware: arm_ffa: Allow multiple UUIDs per partition to register SRI callback
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-r064-20250530 (https://download.01.org/0day-ci/archive/20250530/202505302007.D7owsaRu-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505301810.gNOn2u8O-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202505302007.D7owsaRu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mm-venice-gw7901.dtb: /soc@0/bus@30800000/i2c@30a40000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9897']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-basic.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-bd500.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revc-tian-g07017.dtb: /soc@0/bus@30800000/i2c@30a50000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9893']
---
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: /soc@0/bus@30800000/i2c@30a30000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9897']
---
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: /soc@0/bus@30800000/i2c@30a30000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9897']
---
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: cpu@1 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: cpu@2 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: cpu@2 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: cpu@3 (arm,cortex-a53): 'operating-points' is a dependency of 'clock-latency'
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
-   arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: cpu@3 (arm,cortex-a53): Unevaluated properties are not allowed ('clock-latency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: /soc@0/bus@30800000/i2c@30a30000/switch@5f: failed to match any schema with compatible: ['microchip,ksz9897']
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_ffa/driver.c:1152:6-15: ERROR: invalid reference to the index variable of the iterator on line 1148
+
+vim +1152 drivers/firmware/arm_ffa/driver.c
+
+e0573444edbf4ee Sudeep Holla     2023-10-05  1130  
+be61da938576671 Sudeep Holla     2025-02-17  1131  static int
+be61da938576671 Sudeep Holla     2025-02-17  1132  ffa_sched_recv_cb_update(struct ffa_device *dev, ffa_sched_recv_cb callback,
+0184450b8b1e773 Sudeep Holla     2023-10-05  1133  			 void *cb_data, bool is_registration)
+0184450b8b1e773 Sudeep Holla     2023-10-05  1134  {
+be61da938576671 Sudeep Holla     2025-02-17  1135  	struct ffa_dev_part_info *partition = NULL, *tmp;
+be61da938576671 Sudeep Holla     2025-02-17  1136  	struct list_head *phead;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1137  	bool cb_valid;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1138  
+f4bfcaee34bc952 Sudeep Holla     2023-10-24  1139  	if (ffa_notifications_disabled())
+f4bfcaee34bc952 Sudeep Holla     2023-10-24  1140  		return -EOPNOTSUPP;
+f4bfcaee34bc952 Sudeep Holla     2023-10-24  1141  
+be61da938576671 Sudeep Holla     2025-02-17  1142  	phead = xa_load(&drv_info->partition_info, dev->vm_id);
+be61da938576671 Sudeep Holla     2025-02-17  1143  	if (!phead) {
+be61da938576671 Sudeep Holla     2025-02-17  1144  		pr_err("%s: Invalid partition ID 0x%x\n", __func__, dev->vm_id);
+be61da938576671 Sudeep Holla     2025-02-17  1145  		return -EINVAL;
+be61da938576671 Sudeep Holla     2025-02-17  1146  	}
+be61da938576671 Sudeep Holla     2025-02-17  1147  
+be61da938576671 Sudeep Holla     2025-02-17 @1148  	list_for_each_entry_safe(partition, tmp, phead, node)
+be61da938576671 Sudeep Holla     2025-02-17  1149  		if (partition->dev == dev)
+be61da938576671 Sudeep Holla     2025-02-17  1150  			break;
+be61da938576671 Sudeep Holla     2025-02-17  1151  
+c00d9738fd5fce1 Cristian Marussi 2024-01-08 @1152  	if (!partition) {
+be61da938576671 Sudeep Holla     2025-02-17  1153  		pr_err("%s: No such partition ID 0x%x\n", __func__, dev->vm_id);
+c00d9738fd5fce1 Cristian Marussi 2024-01-08  1154  		return -EINVAL;
+c00d9738fd5fce1 Cristian Marussi 2024-01-08  1155  	}
+c00d9738fd5fce1 Cristian Marussi 2024-01-08  1156  
+0184450b8b1e773 Sudeep Holla     2023-10-05  1157  	write_lock(&partition->rw_lock);
+0184450b8b1e773 Sudeep Holla     2023-10-05  1158  
+0184450b8b1e773 Sudeep Holla     2023-10-05  1159  	cb_valid = !!partition->callback;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1160  	if (!(is_registration ^ cb_valid)) {
+0184450b8b1e773 Sudeep Holla     2023-10-05  1161  		write_unlock(&partition->rw_lock);
+0184450b8b1e773 Sudeep Holla     2023-10-05  1162  		return -EINVAL;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1163  	}
+0184450b8b1e773 Sudeep Holla     2023-10-05  1164  
+0184450b8b1e773 Sudeep Holla     2023-10-05  1165  	partition->callback = callback;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1166  	partition->cb_data = cb_data;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1167  
+0184450b8b1e773 Sudeep Holla     2023-10-05  1168  	write_unlock(&partition->rw_lock);
+0184450b8b1e773 Sudeep Holla     2023-10-05  1169  	return 0;
+0184450b8b1e773 Sudeep Holla     2023-10-05  1170  }
+0184450b8b1e773 Sudeep Holla     2023-10-05  1171  
+
+:::::: The code at line 1152 was first introduced by commit
+:::::: c00d9738fd5fce15dc5494d05b7599dce23e8146 firmware: arm_ffa: Check xa_load() return value
+
+:::::: TO: Cristian Marussi <cristian.marussi@arm.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
