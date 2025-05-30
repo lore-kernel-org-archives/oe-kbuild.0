@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0DF5674E
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 May 2025 03:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89086182BC
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 May 2025 03:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748574390; cv=none; b=iCeDRoNC7KBXibP+Ds2YfxG8gBC09DEzAcmShGEhk9TSgCkpW3FQPMDdY92ZpJMqVJ+1RAprPz7kriXIQcI9FU7kGTx1z+034fykIQNrwkgw7fpaidc/eM5n4a01KZY4oEZnEQG07O58OD5bkCNvKpMWLdPV3yM4te9cAjiT5Mg=
+	t=1748574991; cv=none; b=d+aI75+PJdAdS72bgP9KEgHvIeU4aYd5WSEEUK0enXRn612XRtVaJWW1xwEIGk5qTouUweWW0M+0jed4SOKszn57eOkUeEg5JSWjx8mrojPKikd51Q18MYDjB7st3dX6wpq5SX2swdxCSVZcRA3G868OCHwSrzJH1G1fNTGj+T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748574390; c=relaxed/simple;
-	bh=UJoFKwWooLQtcZbjiZZPHUWftcSRE+0SExF1JBFK1po=;
+	s=arc-20240116; t=1748574991; c=relaxed/simple;
+	bh=OzwDEvNs63wxHZqsOK67XSxXNk1vHn9JMRELbPVlktw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=msjpis86xZ+AYZsvgoEuJlv6ZkathwPxIr/7EYF1Rq1pmpCHf0dd3UfO8/Z3sT4R1EuvVSrhr0BSzUl+mJ+v8PAoc7SIJqemsDYnped/LcFa1nSGg/19pwnFJ9RRkXQq0x44tH3jM3wsR+TnWmHqM8sk23tlti5PEWIEUwDHsZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVYzqhJn; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=SIeDqmtSJ3jqoujLr6p9m9n55wqE+KV6C5mp40eqa8D/AYkHC4tdOlAD8qNQpFoCkr6dtyOuAnEeGr07b4pKG/lxstgPDF03uwnpErLQX1LXUxYjKxMnczEp6zJE9e5NXKEaZy9feUTju2SVDW3hJwiHTNChBaFQD3lhBtlxnBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVwa8VAa; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVYzqhJn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVwa8VAa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748574388; x=1780110388;
+  t=1748574990; x=1780110990;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UJoFKwWooLQtcZbjiZZPHUWftcSRE+0SExF1JBFK1po=;
-  b=FVYzqhJndHtIRlaxmRuoOlLEYRuF6L82Y/TeS9HvBDmF1xJfL29AlUKT
-   SjJVoyICrJk/Rv0Xfw/x9FpbakcZ6sSj8c66k06k2eLMQ7OmOyOYtZ+ye
-   gpUkY3Dq6ah4KCMRsnI9ZZeyrOZHifNEcHX0p1EtzluX+p14D5Dlhleik
-   nKI7za8Dyggaf4ILeQ0N2aZOGetrjFitOrCOXsf+nlZ7JE0baGrEvuOca
-   LFuo8Z+WaRi9qQS8vLA6gU1ACPyY3JIwESvYrPqmScmOa40+lPbp9tO1T
-   7jLhPvW9ArSP0Hy4STfuj+NMAHwiwuwjpJv2H0RKs5OMG4DilCjH5Euqz
+  bh=OzwDEvNs63wxHZqsOK67XSxXNk1vHn9JMRELbPVlktw=;
+  b=lVwa8VAab9UDmLa3pLWMB+UMLMBLm6QHJGoytvy9rkV3kOkuw3pzn0sl
+   4MqBE0CA+7eA5Wgq108/BMGw+NCLLiE3dtYrbkNmKbf+SGtFeCytVdH/x
+   SLz74XZUFpxrYkal+pYtWBf5aEH2IsebvpLiVf6TcBFl7VJ7LBN0mMKSB
+   i69ReMkGd5M7bZXHrGWoE5/mbT6PmJg04pBD4JoWZsknSIIaEVcxq1ILV
+   B1JCRzyYWHcydd5Ec7vUEWqL39y77P6hpERBZ2oySDby7EalrN988KAfK
+   5I2AuGuKyoWeq3KP+dJOiaJKOfFeoYOV6RJ6h1CyomV1TZ/oXZxn0u0YY
    Q==;
-X-CSE-ConnectionGUID: WYOEMbYISH6LF7Bs1j92Wg==
-X-CSE-MsgGUID: x/1QQnztQEWQ6ZwVg7q2zA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="49902731"
+X-CSE-ConnectionGUID: z1Hhlg2JSvCVoRoztwfGhw==
+X-CSE-MsgGUID: IDZ8B+R8QNeSJ71ACYzRHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="73192522"
 X-IronPort-AV: E=Sophos;i="6.16,194,1744095600"; 
-   d="scan'208";a="49902731"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 20:06:28 -0700
-X-CSE-ConnectionGUID: 0Rf/4BzVQK6rzmYwExnF4Q==
-X-CSE-MsgGUID: 6RYT5YOKQfulJuabGvaJng==
+   d="scan'208";a="73192522"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2025 20:16:29 -0700
+X-CSE-ConnectionGUID: +Oq94sx4TTyblkWpsfKF/g==
+X-CSE-MsgGUID: 58Nh8hHtS82hGkrX2UA2nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,194,1744095600"; 
-   d="scan'208";a="143776661"
+   d="scan'208";a="143575992"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 May 2025 20:06:27 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 May 2025 20:16:27 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKq4e-000XHo-2J;
-	Fri, 30 May 2025 03:06:24 +0000
-Date: Fri, 30 May 2025 11:05:42 +0800
+	id 1uKqEL-000XIO-1g;
+	Fri, 30 May 2025 03:16:25 +0000
+Date: Fri, 30 May 2025 11:15:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to
- yaml format
-Message-ID: <202505301018.3Z04iJfS-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android16-6.12-desktop 1/1]
+ drivers/platform/chrome/cros_ec_sysfs.c:355:32-49: opportunity for
+ str_yes_no(ap_driven_altmode)
+Message-ID: <202505301127.lmi3y7q1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,57 +63,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250529164822.777908-1-Frank.Li@nxp.com>
-References: <20250529164822.777908-1-Frank.Li@nxp.com>
-TO: Frank Li <Frank.Li@nxp.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-TO: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-TO: open list <linux-kernel@vger.kernel.org>
-CC: imx@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.15 next-20250529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-display-convert-himax-hx8357d-txt-to-yaml-format/20250530-004954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250529164822.777908-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] dt-bindings: display: convert himax, hx8357d.txt to yaml format
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: csky-randconfig-052-20250530 (https://download.01.org/0day-ci/archive/20250530/202505301018.3Z04iJfS-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505301018.3Z04iJfS-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   e3e18291d3d62133d3ef23cb34a4eb0919a36a77
+commit: dc2136f8c4ed409eb2d06722cc0a3f5a06746095 [1/1] UPSTREAM: platform/chrome: cros_ec_sysfs: Expose AP_MODE_ENTRY feature state
+:::::: branch date: 17 hours ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-r053-20250530 (https://download.01.org/0day-ci/archive/20250530/202505301127.lmi3y7q1-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505301018.3Z04iJfS-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202505301127.lmi3y7q1-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
->> Documentation/devicetree/bindings/display/himax,hx8357.yaml: gpios-reset: missing type definition
+cocci warnings: (new ones prefixed by >>)
+>> drivers/platform/chrome/cros_ec_sysfs.c:355:32-49: opportunity for str_yes_no(ap_driven_altmode)
+
+vim +355 drivers/platform/chrome/cros_ec_sysfs.c
+
+1f15db8c29906d Andrei Kuchynski 2025-02-03  347  
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  348  static ssize_t ap_mode_entry_show(struct device *dev,
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  349  			      struct device_attribute *attr, char *buf)
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  350  {
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  351  	struct cros_ec_dev *ec = to_cros_ec_dev(dev);
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  352  	const bool ap_driven_altmode = cros_ec_check_features(
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  353  		ec, EC_FEATURE_TYPEC_REQUIRE_AP_MODE_ENTRY);
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  354  
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03 @355  	return sysfs_emit(buf, "%s\n", ap_driven_altmode ? "yes" : "no");
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  356  }
+dc2136f8c4ed40 Andrei Kuchynski 2025-02-03  357  
 
 -- 
 0-DAY CI Kernel Test Service
