@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617E61F03D4
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 May 2025 11:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B777239E9F
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 May 2025 12:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748692328; cv=none; b=lDAtMtsWPweX/mdKCRmt1d3Mu6AC3518Siski064U85LpS+6Uf/UC675ou8qbkN8t0uD3kmjkJMSfMyUSKP6/CJUcvtNnuwtYwwSfB936TKS0r2fxt6yCkmrAj222Kyi9RHC7vurNMR2cMrnGU0DGkcHc6GTrYbr3t53vcIt4Cc=
+	t=1748694794; cv=none; b=dyVxVqc8wealMHkx6SGQrjfso+GB+bWLLQEKCXN/+Xqq/7D5RGdM2mpTI/fOMJylZVR3PrgGAsNcGnl0trHUGwYApWDXPwv4qW9dhdAot4XVXs6ergyxKgOQB8D/zuCtC4/0OFvz36iBTvoPgAdJlx0uNKrXAAqwZYUexPOe24Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748692328; c=relaxed/simple;
-	bh=LkTmFRv/hwoqCvXVcQI2WAcFTxz7J/kPG7VQTHuYsd4=;
+	s=arc-20240116; t=1748694794; c=relaxed/simple;
+	bh=bkHgl/+eGbWfLHDT5h1aZxk2u6VpzEz6d9ahSbeDLbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qxWPhVYChjqc90Bfz55G8Av8lvFId0sRg6jgF+ZcV1yT/iYJlY0yoyKdxZTATysFCPaSRSVRi/M2WZMmlvPPCeYRssX8lSHodVVPep8oePBVnQeOVRkVlqceV7087LXxeq6rk1PhRMyh93khRfVMwpevRJGZAfrg/c34dcGhdNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsZLvYZY; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=YLrQaTHLDUtRXJueNJuVIj7eAdhPXUdYb4FTiwY5hrRgeKZT3VXlVVE5Vs4V7UMRb6x2b/vyz5GQVrQCDfbfqou3smo6DGqL7h+emvhajh7YWK8VFxQFrylqZUUTj3zavzBHNu3MI/+0KINUg4dWeeTSsov5Ncj3bQpiI4gBAXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A+sukJ3i; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsZLvYZY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A+sukJ3i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748692326; x=1780228326;
+  t=1748694792; x=1780230792;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LkTmFRv/hwoqCvXVcQI2WAcFTxz7J/kPG7VQTHuYsd4=;
-  b=UsZLvYZY0XvYibKyLEfRmpaU94lARmOoEw6P7TkJGcC04Sa3iG+DrXIF
-   K1m5dk2hq2Wt08mKvY7YhE3qsXICPQin9dJFFi3e2OonIBWk8AJQqOCaX
-   bqbPLIT8PVkdXtlsHZQeRtS90vsZ04hfdUxKozSZfxkA3/jbYuhAhVUvx
-   LtuVWd6hVVIAMTQbuK9IM+X7VVKHRqQaIaPVUww0HZelh9tr9BqtrV7tN
-   p/M/1Yhy/dw7AjnDnP+cYgW737g4Rx6D2ARoNxuFPh7q1ZK4DCxw4FpJm
-   gfecQkx88cjrySj8Yqrl8KvdlhA2ZhsoooAoxvRMqx4jPFVAKZMHKMsD1
-   Q==;
-X-CSE-ConnectionGUID: A1w8qME0S3yrWUOGlV+C7Q==
-X-CSE-MsgGUID: 5cNx/DazRV6ZriVn9mITsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="73305415"
+  bh=bkHgl/+eGbWfLHDT5h1aZxk2u6VpzEz6d9ahSbeDLbE=;
+  b=A+sukJ3iM5Y4Dgre4H9kIzSluj4/sYqzn67GiazDTNe6SJE1N+rMZLgt
+   6zLTgSPkQAqb0MljyhbcjWFwDI+1Ad9b3zZJKU+UZGzUsSk8L7WeI+O2v
+   Qm1nZHdEWAgnoMx4Tyf2KJAVPhhL+HYeX54FgBlicBjUPUOVYqxd3TIcl
+   0oBk3UblBJ+RasbTu/9PAEv9bglN1HmcCkaf3R0UTqZo8D3M+nbgHgvNX
+   Y6q3SUwed96fWA0SqXlYptUbjEqVTamJvZl7WnIaoHwhm3EWvHZGl4lRE
+   1QUwtI5g0TCA7FnYDNLnKn8jN06/prYzJbAPhbzzDx29EKB1ccCLQxU8o
+   g==;
+X-CSE-ConnectionGUID: yzz9WubrScKAj1gCP6xGiA==
+X-CSE-MsgGUID: ymHj45HDTVyvllA+y94Vfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="50643031"
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="73305415"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 04:52:05 -0700
-X-CSE-ConnectionGUID: VFINQ4QsQLSK8iRaQMxypw==
-X-CSE-MsgGUID: CIP7+OC1TFOq1PjwM7KA/Q==
+   d="scan'208";a="50643031"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 05:33:10 -0700
+X-CSE-ConnectionGUID: gWRiK8ICSc+JybGevj7AYg==
+X-CSE-MsgGUID: U8BRTcenRH2Gk9gkwEixVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="175120391"
+   d="scan'208";a="174993905"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 May 2025 04:52:05 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 31 May 2025 05:33:08 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLKks-000YNM-2V;
-	Sat, 31 May 2025 11:52:02 +0000
-Date: Sat, 31 May 2025 19:51:18 +0800
+	id 1uLLOc-000YOq-0N;
+	Sat, 31 May 2025 12:33:06 +0000
+Date: Sat, 31 May 2025 20:32:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [geert-renesas-devel:master 14/33]
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: watchdog@11c00400
- (renesas,r9a09g056-wdt): compatible: 'oneOf' conditional failed, one must be
- fixed:
-Message-ID: <202505311908.VAOa2HmN-lkp@intel.com>
+Subject: Re: [PATCH v2 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1
+ nvmem phy selection
+Message-ID: <202505312059.WccFJIxX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,66 +68,183 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20250527175558.2738342-3-james.hilliard1@gmail.com>
+References: <20250527175558.2738342-3-james.hilliard1@gmail.com>
+TO: James Hilliard <james.hilliard1@gmail.com>
+TO: netdev@vger.kernel.org
+CC: linux-sunxi@lists.linux.dev
+CC: James Hilliard <james.hilliard1@gmail.com>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Paolo Abeni <pabeni@redhat.com>
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: "Chen-Yu Tsai" <wens@csie.org>
+CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+CC: Samuel Holland <samuel@sholland.org>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Alexandre Torgue <alexandre.torgue@foss.st.com>
+CC: Giuseppe Cavallaro <peppe.cavallaro@st.com>
+CC: Jose Abreu <joabreu@synopsys.com>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-head:   0cc4c9c39e8953745481c13288a46edc616dc7cd
-commit: b02907e6cd423253a5b19fd42e43d1c16e0fed89 [14/33] arm64: dts: renesas: r9a09g056: Add WDT0-WDT3 nodes
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on robh/for-next net/main net-next/main linus/master v6.15 next-20250530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Hilliard/net-stmmac-dwmac-sun8i-Allow-runtime-AC200-AC300-phy-selection/20250528-020008
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20250527175558.2738342-3-james.hilliard1%40gmail.com
+patch subject: [PATCH v2 3/3] dt-bindings: net: sun8i-emac: Add AC300 EMAC1 nvmem phy selection
 :::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250530 (https://download.01.org/0day-ci/archive/20250531/202505311908.VAOa2HmN-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+:::::: commit date: 4 days ago
+config: arm-randconfig-052-20250530 (https://download.01.org/0day-ci/archive/20250531/202505312059.WccFJIxX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
 dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505311908.VAOa2HmN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505312059.WccFJIxX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505311908.VAOa2HmN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505312059.WccFJIxX-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: timer@14001000 (renesas,r9a09g056-ostm): compatible:0: 'renesas,r9a09g056-ostm' is not one of ['renesas,r7s72100-ostm', 'renesas,r7s9210-ostm', 'renesas,r9a07g043-ostm', 'renesas,r9a07g044-ostm', 'renesas,r9a07g054-ostm', 'renesas,r9a09g057-ostm']
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: timer@12c00000 (renesas,r9a09g056-ostm): compatible:0: 'renesas,r9a09g056-ostm' is not one of ['renesas,r7s72100-ostm', 'renesas,r7s9210-ostm', 'renesas,r9a07g043-ostm', 'renesas,r9a07g044-ostm', 'renesas,r9a07g054-ostm', 'renesas,r9a09g057-ostm']
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: timer@12c01000 (renesas,r9a09g056-ostm): compatible:0: 'renesas,r9a09g056-ostm' is not one of ['renesas,r7s72100-ostm', 'renesas,r7s9210-ostm', 'renesas,r9a07g043-ostm', 'renesas,r9a07g044-ostm', 'renesas,r9a07g054-ostm', 'renesas,r9a09g057-ostm']
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: timer@12c02000 (renesas,r9a09g056-ostm): compatible:0: 'renesas,r9a09g056-ostm' is not one of ['renesas,r7s72100-ostm', 'renesas,r7s9210-ostm', 'renesas,r9a07g043-ostm', 'renesas,r9a07g044-ostm', 'renesas,r9a07g054-ostm', 'renesas,r9a09g057-ostm']
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: timer@12c03000 (renesas,r9a09g056-ostm): compatible:0: 'renesas,r9a09g056-ostm' is not one of ['renesas,r7s72100-ostm', 'renesas,r7s9210-ostm', 'renesas,r9a07g043-ostm', 'renesas,r9a07g044-ostm', 'renesas,r9a07g054-ostm', 'renesas,r9a09g057-ostm']
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: watchdog@11c00400 (renesas,r9a09g056-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-wdt', 'renesas,r9a09g057-wdt'] is too long
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r7s72100-wdt', 'renesas,r7s9210-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a06g032-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a07g043-wdt', 'renesas,r9a07g044-wdt', 'renesas,r9a07g054-wdt', 'renesas,r9a08g045-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a09g011-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a7742-wdt', 'renesas,r8a7743-wdt', 'renesas,r8a7744-wdt', 'renesas,r8a7745-wdt', 'renesas,r8a77470-wdt', 'renesas,r8a7790-wdt', 'renesas,r8a7791-wdt', 'renesas,r8a7792-wdt', 'renesas,r8a7793-wdt', 'renesas,r8a7794-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a774a1-wdt', 'renesas,r8a774b1-wdt', 'renesas,r8a774c0-wdt', 'renesas,r8a774e1-wdt', 'renesas,r8a7795-wdt', 'renesas,r8a7796-wdt', 'renesas,r8a77961-wdt', 'renesas,r8a77965-wdt', 'renesas,r8a77970-wdt', 'renesas,r8a77980-wdt', 'renesas,r8a77990-wdt', 'renesas,r8a77995-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a779a0-wdt', 'renesas,r8a779f0-wdt', 'renesas,r8a779g0-wdt', 'renesas,r8a779h0-wdt']
-   	'renesas,r9a09g047-wdt' was expected
-   	'renesas,r9a09g057-wdt' was expected
-   	'renesas,rza-wdt' was expected
-   	'renesas,rzn1-wdt' was expected
-   	'renesas,rzg2l-wdt' was expected
-   	'renesas,rzv2m-wdt' was expected
-   	'renesas,rcar-gen2-wdt' was expected
-   	'renesas,rcar-gen3-wdt' was expected
-   	'renesas,rcar-gen4-wdt' was expected
-   	from schema $id: http://devicetree.org/schemas/watchdog/renesas,wdt.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: watchdog@14400000 (renesas,r9a09g056-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g056-wdt', 'renesas,r9a09g057-wdt'] is too long
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r7s72100-wdt', 'renesas,r7s9210-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a06g032-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a07g043-wdt', 'renesas,r9a07g044-wdt', 'renesas,r9a07g054-wdt', 'renesas,r9a08g045-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r9a09g011-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a7742-wdt', 'renesas,r8a7743-wdt', 'renesas,r8a7744-wdt', 'renesas,r8a7745-wdt', 'renesas,r8a77470-wdt', 'renesas,r8a7790-wdt', 'renesas,r8a7791-wdt', 'renesas,r8a7792-wdt', 'renesas,r8a7793-wdt', 'renesas,r8a7794-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a774a1-wdt', 'renesas,r8a774b1-wdt', 'renesas,r8a774c0-wdt', 'renesas,r8a774e1-wdt', 'renesas,r8a7795-wdt', 'renesas,r8a7796-wdt', 'renesas,r8a77961-wdt', 'renesas,r8a77965-wdt', 'renesas,r8a77970-wdt', 'renesas,r8a77980-wdt', 'renesas,r8a77990-wdt', 'renesas,r8a77995-wdt']
-   	'renesas,r9a09g056-wdt' is not one of ['renesas,r8a779a0-wdt', 'renesas,r8a779f0-wdt', 'renesas,r8a779g0-wdt', 'renesas,r8a779h0-wdt']
-   	'renesas,r9a09g047-wdt' was expected
-   	'renesas,r9a09g057-wdt' was expected
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@4: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-link' is a required property
+   	'phy-handle' is a required property
+   	'managed' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47081-luxul-xwr-1200.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+--
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@4: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@8: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-dlink-dir-885l.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+--
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@0: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-link' is a required property
+   	'phy-handle' is a required property
+   	'managed' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-abr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+--
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@0: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-link' is a required property
+   	'phy-handle' is a required property
+   	'managed' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xbr-4500.dtb: ethernet-switch@18007000 (brcm,bcm53011-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+--
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@4: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-link' is a required property
+   	'phy-handle' is a required property
+   	'managed' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3100.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+--
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@12000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@13000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@13000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@14000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: pcie@14000: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+>> arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@4: Unevaluated properties are not allowed ('nvmem-cell-names', 'nvmem-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'phy-mode' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): ports:port@5: 'oneOf' conditional failed, one must be fixed:
+   	'fixed-link' is a required property
+   	'phy-handle' is a required property
+   	'managed' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
+   arch/arm/boot/dts/broadcom/bcm47094-luxul-xwr-3150-v1.dtb: ethernet-switch@18007000 (brcm,bcm53012-srab): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/dsa/brcm,b53.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
