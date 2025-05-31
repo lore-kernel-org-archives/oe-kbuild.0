@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6503A208A7
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 May 2025 06:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8960F1FF7B3
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 May 2025 10:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748674305; cv=none; b=nAbvnR2r5b2iUYAToisSX5SiOYy+iqlG9TEhHjndc98yKOj+fF8MF5rQcZj/hXgMtEqXHNGwBgIuPGbf0aU1Mi7fsxaTok0xxGKljvCq+vTnlOfTI9/oRb3FYM8LEDepj8s5r3ZrOnXh/C/DBKr3eigQRxuONQESE5agnCidRGg=
+	t=1748686681; cv=none; b=MecwhSSr8dD/IWBDPv4phuVRiXOBsJgBxIbAacPUnw2JWiUnfY8vSIaqeM0ySM7rG+Fd75CpLdp9KM5TI3i4x2661bC6Z29QsiGxOzOqJHd6vBFHRlQYCooZuxHsF55c7dU+4tFpNE3AG2j2oUEriKFH5DF9VbcWNFoCJAS0V8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748674305; c=relaxed/simple;
-	bh=DLFz4Gbi0bwMy32XLdgzeh13Z8zDCGXoWBW4bIhxOPA=;
+	s=arc-20240116; t=1748686681; c=relaxed/simple;
+	bh=k6IK+mOckM0Qmzx9AUjJftZClAiyZ6UcSlcevlAroIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z8KwDDHCnkgCSKnlkLpZ240cSg0/lqHWRUPqqeqIoMldshj72VfGYfB6hnqhAg7NOhoXnX+njXf4fSQBaE5wm/F8lkCuQhNY8PAbtWM2x+Am+/+Glxv+lGuuX/GhojiYL2KiWxFmSaGYn/ijVcoQeef+D/r2uyUq6q3JU83Mgjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtSgq/ww; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=kyacj4g/mDmGAgiNn8/8lqrhgULRNa71Hl+EN0r5E9J7pCWMrkUinDs16KroA9sVM/KfUz5uwsXKsWi/Pa3w3cZn52Y/mikybqvBySMuMN3047FQByPzqw58uhDAlaBQfleqxEN2PiLONdp2vV0vYL6afe0UfM6tFspLDBujvjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCsfcmPb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtSgq/ww"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCsfcmPb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748674303; x=1780210303;
+  t=1748686680; x=1780222680;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DLFz4Gbi0bwMy32XLdgzeh13Z8zDCGXoWBW4bIhxOPA=;
-  b=dtSgq/wwu4dOuDAJc/FC/KBfcljv72DFEgKJ0M4X5m9fcrP0dXTvaSok
-   zc3xCwCiy3kXyd5ppg/b5Is/ulJAs3LFBZMcZWAkcOqxSa4XGvC/XL50J
-   7vN8OYtnZJZ4mL6rLzEu7tg/9lKfjwWSfDxFQuabRHhFxjx2rOX3CFbUd
-   2WIglCXTTWkXDAHcgnSTdZxYsHaXxziRO62SUw/+clCIjeR/uhAmwe247
-   mdEF3H5VhQFQGNh1JKtnY3XyLGtznwjut5vFfDGWxcJ/t1eXc0NXLMQQA
-   gnKyHG+UqFS7ga0/6gRF8Ro7cW8a4SNFaEEMxDDz8DBk0GkhNyLUXNMSf
-   g==;
-X-CSE-ConnectionGUID: a8aQ9tNoS9mXJvqWV8NZbQ==
-X-CSE-MsgGUID: 7mUEGoYmQLaYwBlUNqOlEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="61388755"
+  bh=k6IK+mOckM0Qmzx9AUjJftZClAiyZ6UcSlcevlAroIc=;
+  b=SCsfcmPb/lnBZLYnkqqgZnRLA+8DZsEJMdN5MFzrSuVus8QXwMoSVd3T
+   Ekp1NywfhBtaWRTWzYG2FPICTTyo89o1HpKcJMBqTJgFQQss9rWMGdDUg
+   7bzUI5uRuJ8tyq4IGaRp1hDhQuUCt2y6E3FTYMCQNdm0Qq7VAx1lg/7si
+   drde6fzRcGtYupnqQ5UBs12oMgj1vhuKB7ZBqdqkYBDNNVAwZcniX1xGU
+   TWn8/0BTg5tjDlugtxAFMgNzv76IjgUrKIadYdg7Ff6c6QemvnXxo7JH0
+   wMW3C0xDKZSVJSaL2XR7SRYzTOWqtLWwhrqj3gVnUBwUNErTyw6rFzs08
+   A==;
+X-CSE-ConnectionGUID: PV3gPU64STemL4ZG/Ub2SQ==
+X-CSE-MsgGUID: zB3nmH5FRg6oEejhRkID0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="54435775"
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="61388755"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 23:51:43 -0700
-X-CSE-ConnectionGUID: 0civyq3EQnipWlaCpYlJcQ==
-X-CSE-MsgGUID: Olnvxrp/RZmN2yfvyREuZg==
+   d="scan'208";a="54435775"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 03:17:59 -0700
+X-CSE-ConnectionGUID: 2EwuRKySRkG7//BkCluzlQ==
+X-CSE-MsgGUID: CxBpJpc2RJiRA9dswMu51A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="144546619"
+   d="scan'208";a="144008397"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 May 2025 23:51:42 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 May 2025 03:17:58 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLG4B-000YFc-2h;
-	Sat, 31 May 2025 06:51:39 +0000
-Date: Sat, 31 May 2025 14:51:21 +0800
+	id 1uLJHn-000YKq-2H;
+	Sat, 31 May 2025 10:17:55 +0000
+Date: Sat, 31 May 2025 18:17:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [geert-renesas-devel:master 12/33]
- arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14400400
- (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must
- be fixed:
-Message-ID: <202505311427.4KOiD7Rt-lkp@intel.com>
+Subject: Re: [PATCH bpf v2] xsk: Fix out of order segment free in
+ __xsk_generic_xmit()
+Message-ID: <202505311701.ysDKIyGZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,102 +63,89 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "__compiletime_assert_NNN"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20250530103456.53564-1-e.kubanski@partner.samsung.com>
+References: <20250530103456.53564-1-e.kubanski@partner.samsung.com>
+TO: "e.kubanski" <e.kubanski@partner.samsung.com>
+TO: netdev@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: bjorn@kernel.org
+CC: magnus.karlsson@intel.com
+CC: maciej.fijalkowski@intel.com
+CC: jonathan.lemon@gmail.com
+CC: "e.kubanski" <e.kubanski@partner.samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-head:   0cc4c9c39e8953745481c13288a46edc616dc7cd
-commit: dd019682b48de9895eb62a0c7f213fceac4e316b [12/33] arm64: dts: renesas: r9a09g056: Add RIIC controllers
-:::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-051-20250530 (https://download.01.org/0day-ci/archive/20250531/202505311427.4KOiD7Rt-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505311427.4KOiD7Rt-lkp@intel.com/reproduce)
+Hi e.kubanski,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/e-kubanski/xsk-Fix-out-of-order-segment-free-in-__xsk_generic_xmit/20250530-183723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20250530103456.53564-1-e.kubanski%40partner.samsung.com
+patch subject: [PATCH bpf v2] xsk: Fix out of order segment free in __xsk_generic_xmit()
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250531/202505311701.ysDKIyGZ-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505311701.ysDKIyGZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202505311427.4KOiD7Rt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505311701.ysDKIyGZ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r9a07g043', 'renesas,scif-r9a07g054', 'renesas,scif-r9a08g045']
-   	'renesas,scif-r9a09g057' was expected
-   	'renesas,scif-r9a09g056' is not one of ['renesas,scif-r9a09g047']
-   	'renesas,scif' was expected
-   	'renesas,rcar-gen1-scif' was expected
-   	'renesas,rcar-gen2-scif' was expected
-   	'renesas,rcar-gen3-scif' was expected
-   	'renesas,rcar-gen4-scif' was expected
-   	'renesas,scif-r9a07g044' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14400400 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14400800 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14400c00 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14401000 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
---
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14401800 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14401c00 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@14402000 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
->> arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: i2c@11c01000 (renesas,riic-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,riic-r9a09g056', 'renesas,riic-r9a09g057'] is too long
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r7s72100', 'renesas,riic-r7s9210', 'renesas,riic-r9a07g043', 'renesas,riic-r9a07g044', 'renesas,riic-r9a07g054']
-   	'renesas,riic-r9a09g056' is not one of ['renesas,riic-r9a08g045', 'renesas,riic-r9a09g047']
-   	'renesas,riic-r9a09g057' was expected
-   	'renesas,riic-rz' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/renesas,riic.yaml#
-   arch/arm64/boot/dts/renesas/r9a09g056n48-rzv2n-evk.dtb: mmc@15c00000 (renesas,sdhi-r9a09g056): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,sdhi-r9a09g056', 'renesas,sdhi-r9a09g057'] is too long
-   	'renesas,sdhi-r9a09g056' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-r9a09g057', 'renesas,sdhi-sh73a0']
-   	'renesas,sdhi-r9a09g056' is not one of ['renesas,sdhi-r8a7778', 'renesas,sdhi-r8a7779']
+All errors (new ones prefixed by >>):
+
+>> drivers/net/ethernet/meta/fbnic/fbnic_txrx.c:2184:6: error: call to '__compiletime_assert_1551' declared with 'error' attribute: FIELD_PREP: value too large for the field
+    2184 |             FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_TROOM_MASK, FBNIC_RX_TROOM);
+         |             ^
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^
+   include/linux/bitfield.h:68:3: note: expanded from macro '__BF_FIELD_CHECK'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:550:2: note: expanded from macro '_compiletime_assert'
+     550 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:543:4: note: expanded from macro '__compiletime_assert'
+     543 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:23:1: note: expanded from here
+      23 | __compiletime_assert_1551
+         | ^
+   1 error generated.
+
+
+vim +2184 drivers/net/ethernet/meta/fbnic/fbnic_txrx.c
+
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2173  
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2174  static void fbnic_config_drop_mode_rcq(struct fbnic_napi_vector *nv,
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2175  				       struct fbnic_ring *rcq)
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2176  {
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2177  	u32 drop_mode, rcq_ctl;
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2178  
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2179  	drop_mode = FBNIC_QUEUE_RDE_CTL0_DROP_IMMEDIATE;
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2180  
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2181  	/* Specify packet layout */
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2182  	rcq_ctl = FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_DROP_MODE_MASK, drop_mode) |
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2183  	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK, FBNIC_RX_HROOM) |
+0cb4c0a13723ef Alexander Duyck 2024-07-12 @2184  	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_TROOM_MASK, FBNIC_RX_TROOM);
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2185  
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2186  	fbnic_ring_wr32(rcq, FBNIC_QUEUE_RDE_CTL0, rcq_ctl);
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2187  }
+0cb4c0a13723ef Alexander Duyck 2024-07-12  2188  
 
 -- 
 0-DAY CI Kernel Test Service
