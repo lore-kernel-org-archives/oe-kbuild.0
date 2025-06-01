@@ -1,193 +1,1003 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D791E2DCBEE
-	for <oe-kbuild@lists.linux.dev>; Sun,  1 Jun 2025 17:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E050A2DCBF9
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Jun 2025 18:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748797755; cv=none; b=Xn/Vj1F3sgKDBb7tI5+gysXHkLDbz8j/JLRL3qyzFUt6qFlZb7aljUGehJwQyNOz9LU+HPgu32msd4/MspkXjdzGpDRt2mO2L+ZaMzU4+Jn0vORt3NaljnWVtVTuRSsG1Od+6doH2kjWo0bglqsb2DmGfVa0xv5Czcwavvo2A+I=
+	t=1748802942; cv=none; b=SBTZtSWEGXjth7GTi8iDvcoFPh2swVKRnpbAnHAxvyc3/w9gmbkvv8yqCkW+IwIhiknQ8Xx/gMf2PW6pT/vzTENVs1e4ethF/zOKuwBJgm01fzgeAqGsCl0TnvYjJnzaADhimXUgp98hr2g+y2f/liodu7Oxy7rSjLkdrTIp9rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748797755; c=relaxed/simple;
-	bh=b/FMPbehhoM8W42ZfD0to6xaICctW5iUJhbZ1JFpl8k=;
+	s=arc-20240116; t=1748802942; c=relaxed/simple;
+	bh=Go/PDGO9WryrGp0mBf82qLtpCczsj1rmdhoCZdI0kxk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y5HW/WX/qjIblQTQFCvjZDsCj6FNEgHHf+ilegwM+kixM9CM/0hHhaXK2de9u78n+d+KpH148lJx6lM2MJ38pTpzL8eurRMmboct9avkHVyVVhXI/FwE5wQ1viN+eMZZFhO+cTm126XAQaLYZkexvafZFFKlzWB8nZKyt9fUTLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bt5rSsft; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=BIWr6DX6Gif0so8BYqrnD8N0mOQZ8IJaWK8eI+MmIomIGGx/VuKzZGovaBmp45V4nwwvzQS7o3TMgJQ47Rf4e/0J+ZQgd9R5A2Xya2bsT261MLASGeLnbt5QWS+DcqWrz+bxs/QS9C5LtxAFmG3YmspjorJF2/VZeqYa7ngs5xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a4JGBHpO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bt5rSsft"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4JGBHpO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748797753; x=1780333753;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=b/FMPbehhoM8W42ZfD0to6xaICctW5iUJhbZ1JFpl8k=;
-  b=Bt5rSsftNneS8pgjnJtIhRUaoz/CHGLvPpWNQ9Auqte2XKShvgr7w/Ar
-   UqtRqOrU+PPcKgKfSxC9GjpA3GgX+cFryEg4rLb+2UL6fhwERxBonNZIG
-   aDJyyR6CuA/oVzX9MW1dbaklHP+2QVIJHh3l1OAa+2UMbgk4G3s0tb9W0
-   qWAl5aNEVcuVPFgCgTSUZdNT/G8LrhqopFXtXg0q4de88SmRSpmPUfJp2
-   Xfds+D8x4KkWD7IJrN0lSMl++wtUwzdyrbfK+wF+PXi/V82W13gRpa5lh
-   0LYBozMNENna50Osb3f3kXqPUn4eDJPiV0ybSfYv3cM2K6VtDu/DOcqQ2
-   Q==;
-X-CSE-ConnectionGUID: sS69Qcf/SbmXlzIOeapHGA==
-X-CSE-MsgGUID: pgIIh65MSPGwiL0NYor7Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="49942124"
+  t=1748802937; x=1780338937;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Go/PDGO9WryrGp0mBf82qLtpCczsj1rmdhoCZdI0kxk=;
+  b=a4JGBHpOAKoHEkypSyosDsyThRlerqV1OidiSwZ340wOHiYbYA9lzMrb
+   jezM30OuQmEiQ4b2C88nzWDPQQxJJTUKR2yHkoqlM/pIfV6dsWokDY5fh
+   nk1G9iVACzQ1MV0+7hZtXviI0ZcdZw0TUGwXr4mZTDlHo5Scb2wiyssqZ
+   3E8SU2g2579zQS/B8UYHToKwj2f4dyDo1MEfBUYoDCJbPNP1Zu37OHLtI
+   kMxo2jbePhteNFVygbDxrX7EdQjZuSSMvAUVkox8STeynzcVedN8NsT37
+   rXMTFeAvItW25rbCmZaK8H0SabxJDbS/R4eTcUfaISiqsKd7Hi43BnTN/
+   g==;
+X-CSE-ConnectionGUID: TVvV3jNLTNOHPGWmIHpV5Q==
+X-CSE-MsgGUID: k+cBWb7eQrCZfOULptwREQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="61494391"
 X-IronPort-AV: E=Sophos;i="6.16,201,1744095600"; 
-   d="scan'208";a="49942124"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 10:09:12 -0700
-X-CSE-ConnectionGUID: zxzxLr7YQm6wwM7Wa/PzYQ==
-X-CSE-MsgGUID: iNgFqEhYTBKuAj+mSD1xsg==
+   d="scan'208";a="61494391"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 11:35:36 -0700
+X-CSE-ConnectionGUID: LhZDyXghSKWS6RX+4f7zGQ==
+X-CSE-MsgGUID: usS+/2tpSaagCvK/QKkqHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,201,1744095600"; 
-   d="scan'208";a="144390913"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jun 2025 10:09:11 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="181541985"
+Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
+  by orviesa001.jf.intel.com with ESMTP; 01 Jun 2025 11:35:34 -0700
+Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLmBI-000Z12-1v;
-	Sun, 01 Jun 2025 17:09:08 +0000
-Date: Mon, 2 Jun 2025 01:08:49 +0800
+	id 1uLnWt-0001BO-2l;
+	Sun, 01 Jun 2025 18:35:31 +0000
+Date: Mon, 2 Jun 2025 02:35:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding lock on
- line 514
-Message-ID: <202506020100.63BHmOV3-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [conor:rzfive-cache 2661/3677]
+ arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@0 (arm,cortex-a7):
+ qcom,acc: False schema does not allow [[8]]
+Message-ID: <202506020230.2kQBDZHB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tao Zhou <tao.zhou1@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+TO: Conor Dooley <conor+lkp@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bb1556ec94647060c6b52bf434b9fd824724a6f4
-commit: 8652920d2c00243e8a8ca91560a30488d95d9a1b drm/amdgpu: add mutex lock for cper ring
-date:   3 months ago
-:::::: branch date: 65 minutes ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-051-20250601 (https://download.01.org/0day-ci/archive/20250602/202506020100.63BHmOV3-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git rzfive-cache
+head:   b3de5943f1834862cdd3ebfaf45ced907e808ece
+commit: 333ff6b5b1a80ca3ec5542ccbe3736d240ca7f86 [2661/3677] dt-bindings: arm/cpus: Add schemas for "enable-method" dependencies
+:::::: branch date: 3 weeks ago
+:::::: commit date: 7 weeks ago
+config: arm-randconfig-2052-20250523 (https://download.01.org/0day-ci/archive/20250602/202506020230.2kQBDZHB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250602/202506020230.2kQBDZHB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506020100.63BHmOV3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506020230.2kQBDZHB-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:535:4-10: preceding lock on line 514
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:540:4-10: preceding lock on line 514
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c:576:1-7: preceding lock on line 514
-
-vim +535 drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-
-d38ceaf99ed015 Alex Deucher    2015-04-20  490  
-4f4824b55650fa Tom St Denis    2016-04-27  491  /* Layout of file is 12 bytes consisting of
-4f4824b55650fa Tom St Denis    2016-04-27  492   * - rptr
-4f4824b55650fa Tom St Denis    2016-04-27  493   * - wptr
-4f4824b55650fa Tom St Denis    2016-04-27  494   * - driver's copy of wptr
-4f4824b55650fa Tom St Denis    2016-04-27  495   *
-4f4824b55650fa Tom St Denis    2016-04-27  496   * followed by n-words of ring data
-4f4824b55650fa Tom St Denis    2016-04-27  497   */
-4f4824b55650fa Tom St Denis    2016-04-27  498  static ssize_t amdgpu_debugfs_ring_read(struct file *f, char __user *buf,
-4f4824b55650fa Tom St Denis    2016-04-27  499  					size_t size, loff_t *pos)
-d38ceaf99ed015 Alex Deucher    2015-04-20  500  {
-450630975da9e7 Al Viro         2016-12-04  501  	struct amdgpu_ring *ring = file_inode(f)->i_private;
-4f4824b55650fa Tom St Denis    2016-04-27  502  	uint32_t value, result, early[3];
-5a1428242952f2 Tao Zhou        2025-01-22  503  	uint64_t p;
-ebbc2ada5c636a Tim Huang       2024-04-25  504  	loff_t i;
-ebbc2ada5c636a Tim Huang       2024-04-25  505  	int r;
-d38ceaf99ed015 Alex Deucher    2015-04-20  506  
-c71dbd93eb0039 Tom St Denis    2016-05-02  507  	if (*pos & 3 || size & 3)
-4f4824b55650fa Tom St Denis    2016-04-27  508  		return -EINVAL;
-d38ceaf99ed015 Alex Deucher    2015-04-20  509  
-4f4824b55650fa Tom St Denis    2016-04-27  510  	result = 0;
-c7e6be2303d0b6 Christian König 2016-01-21  511  
-4f4824b55650fa Tom St Denis    2016-04-27  512  	if (*pos < 12) {
-8652920d2c0024 Tao Zhou        2025-02-10  513  		if (ring->funcs->type == AMDGPU_RING_TYPE_CPER)
-8652920d2c0024 Tao Zhou        2025-02-10 @514  			mutex_lock(&ring->adev->cper.ring_lock);
-8652920d2c0024 Tao Zhou        2025-02-10  515  
-9c5c71bbed4132 Tom St Denis    2018-03-01  516  		early[0] = amdgpu_ring_get_rptr(ring) & ring->buf_mask;
-ec63982e90a879 Tom St Denis    2017-03-29  517  		early[1] = amdgpu_ring_get_wptr(ring) & ring->buf_mask;
-ec63982e90a879 Tom St Denis    2017-03-29  518  		early[2] = ring->wptr & ring->buf_mask;
-4f4824b55650fa Tom St Denis    2016-04-27  519  		for (i = *pos / 4; i < 3 && size; i++) {
-4f4824b55650fa Tom St Denis    2016-04-27  520  			r = put_user(early[i], (uint32_t *)buf);
-8652920d2c0024 Tao Zhou        2025-02-10  521  			if (r) {
-8652920d2c0024 Tao Zhou        2025-02-10  522  				result = r;
-8652920d2c0024 Tao Zhou        2025-02-10  523  				goto out;
-8652920d2c0024 Tao Zhou        2025-02-10  524  			}
-4f4824b55650fa Tom St Denis    2016-04-27  525  			buf += 4;
-4f4824b55650fa Tom St Denis    2016-04-27  526  			result += 4;
-4f4824b55650fa Tom St Denis    2016-04-27  527  			size -= 4;
-4f4824b55650fa Tom St Denis    2016-04-27  528  			*pos += 4;
-4f4824b55650fa Tom St Denis    2016-04-27  529  		}
-4f4824b55650fa Tom St Denis    2016-04-27  530  	}
-d38ceaf99ed015 Alex Deucher    2015-04-20  531  
-5a1428242952f2 Tao Zhou        2025-01-22  532  	if (ring->funcs->type != AMDGPU_RING_TYPE_CPER) {
-4f4824b55650fa Tom St Denis    2016-04-27  533  		while (size) {
-4f4824b55650fa Tom St Denis    2016-04-27  534  			if (*pos >= (ring->ring_size + 12))
-4f4824b55650fa Tom St Denis    2016-04-27 @535  				return result;
-d38ceaf99ed015 Alex Deucher    2015-04-20  536  
-4f4824b55650fa Tom St Denis    2016-04-27  537  			value = ring->ring[(*pos - 12)/4];
-4f4824b55650fa Tom St Denis    2016-04-27  538  			r = put_user(value, (uint32_t *)buf);
-4f4824b55650fa Tom St Denis    2016-04-27  539  			if (r)
-4f4824b55650fa Tom St Denis    2016-04-27  540  				return r;
-4f4824b55650fa Tom St Denis    2016-04-27  541  			buf += 4;
-4f4824b55650fa Tom St Denis    2016-04-27  542  			result += 4;
-4f4824b55650fa Tom St Denis    2016-04-27  543  			size -= 4;
-4f4824b55650fa Tom St Denis    2016-04-27  544  			*pos += 4;
-d38ceaf99ed015 Alex Deucher    2015-04-20  545  		}
-5a1428242952f2 Tao Zhou        2025-01-22  546  	} else {
-5a1428242952f2 Tao Zhou        2025-01-22  547  		p = early[0];
-5a1428242952f2 Tao Zhou        2025-01-22  548  		if (early[0] <= early[1])
-5a1428242952f2 Tao Zhou        2025-01-22  549  			size = (early[1] - early[0]);
-5a1428242952f2 Tao Zhou        2025-01-22  550  		else
-5a1428242952f2 Tao Zhou        2025-01-22  551  			size = ring->ring_size - (early[0] - early[1]);
-5a1428242952f2 Tao Zhou        2025-01-22  552  
-5a1428242952f2 Tao Zhou        2025-01-22  553  		while (size) {
-5a1428242952f2 Tao Zhou        2025-01-22  554  			if (p == early[1])
-8652920d2c0024 Tao Zhou        2025-02-10  555  				goto out;
-5a1428242952f2 Tao Zhou        2025-01-22  556  
-5a1428242952f2 Tao Zhou        2025-01-22  557  			value = ring->ring[p];
-5a1428242952f2 Tao Zhou        2025-01-22  558  			r = put_user(value, (uint32_t *)buf);
-8652920d2c0024 Tao Zhou        2025-02-10  559  			if (r) {
-8652920d2c0024 Tao Zhou        2025-02-10  560  				result = r;
-8652920d2c0024 Tao Zhou        2025-02-10  561  				goto out;
-8652920d2c0024 Tao Zhou        2025-02-10  562  			}
-5a1428242952f2 Tao Zhou        2025-01-22  563  
-5a1428242952f2 Tao Zhou        2025-01-22  564  			buf += 4;
-5a1428242952f2 Tao Zhou        2025-01-22  565  			result += 4;
-5a1428242952f2 Tao Zhou        2025-01-22  566  			size--;
-5a1428242952f2 Tao Zhou        2025-01-22  567  			p++;
-5a1428242952f2 Tao Zhou        2025-01-22  568  			p &= ring->ptr_mask;
-5a1428242952f2 Tao Zhou        2025-01-22  569  		}
-5a1428242952f2 Tao Zhou        2025-01-22  570  	}
-4f4824b55650fa Tom St Denis    2016-04-27  571  
-8652920d2c0024 Tao Zhou        2025-02-10  572  out:
-8652920d2c0024 Tao Zhou        2025-02-10  573  	if (ring->funcs->type == AMDGPU_RING_TYPE_CPER)
-8652920d2c0024 Tao Zhou        2025-02-10  574  		mutex_unlock(&ring->adev->cper.ring_lock);
-8652920d2c0024 Tao Zhou        2025-02-10  575  
-4f4824b55650fa Tom St Denis    2016-04-27  576  	return result;
-d38ceaf99ed015 Alex Deucher    2015-04-20  577  }
-d38ceaf99ed015 Alex Deucher    2015-04-20  578  
-
-:::::: The code at line 535 was first introduced by commit
-:::::: 4f4824b55650fa7014eedf18cb1f9f243cb2b45e drm/amd/amdgpu: Convert ring debugfs entries to binary
-
-:::::: TO: Tom St Denis <tom.stdenis@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[13]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/msm8226-motorola-falcon.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[14]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-asus-sparrow.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-huawei-sturgeon.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-lg-lenok.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-matisse-wifi.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8026-samsung-milletwifi.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1535.14-1566.5: Warning (simple_bus_reg): /soc/replicator: missing or empty reg/ranges property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1096.21-1144.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1162.21-1216.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-cm-qs600.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1535.14-1566.5: Warning (simple_bus_reg): /soc/replicator: missing or empty reg/ranges property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1096.21-1144.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1162.21-1216.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1535.14-1566.5: Warning (simple_bus_reg): /soc/replicator: missing or empty reg/ranges property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1096.21-1144.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1162.21-1216.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-sony-xperia-lagan-yuga.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1535.14-1566.5: Warning (simple_bus_reg): /soc/replicator: missing or empty reg/ranges property
+   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1162.21-1216.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8064-asus-nexus7-flo.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8074-dragonboard.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:334.26-337.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:359.26-362.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:379.40-382.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:389.40-392.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:424.41-427.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:439.41-442.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:464.41-467.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:489.41-492.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: / (qcom,apq8084-sbc): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-ifc6540.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:334.26-337.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:359.26-362.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:379.40-382.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:389.40-392.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:424.41-427.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:439.41-442.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:464.41-467.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-apq8084.dtsi:489.41-492.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: / (qcom,apq8084-mtp): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-apq8084-mtp.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: / (alfa-network,ap120c-ac): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: / (alfa-network,ap120c-ac): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-ap120c-ac-bit.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: / (8dev,jalapeno): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4018-jalapeno.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: / (qcom,ipq4019-ap-dk01.1-c1): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk01.1-c1.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: / (qcom,ipq4019-dk04.1-c1): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 268435456]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c1.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: / (qcom,ipq4019-ap-dk04.1-c3): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 268435456]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk04.1-c3.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dts:12.16-15.5: Warning (unit_address_vs_reg): /soc/pci@40000000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dts:12.16-15.5: Warning (simple_bus_reg): /soc/pci@40000000: missing or empty reg/ranges property
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: / (qcom,ipq4019-ap-dk07.1-c1): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c1.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq4019.dtsi:132.9-135.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: / (qcom,ipq4019-ap-dk07.1-c2): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[2147483648, 536870912]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq4019-ap.dk07.1-c2.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi:274.9-277.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: / (qcom,ipq8064-ap148): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: rpm@108000 (qcom,rpm-ipq8064): 'clock-controller', 'clock-names', 'clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^regulators(-[01])?$'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: syscon@3000000 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: amba (simple-bus): $nodename:0: 'amba' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+--
+   arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi:274.9-277.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/qcom/qcom-ipq8064.dtsi:641.24-664.5: Warning (unique_unit_address_if_enabled): /soc/usb@110f8800: duplicate unit-address (also used in node /soc/phy@110f8800)
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: / (mikrotik,rb3011): memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: rpm@108000 (qcom,rpm-ipq8064): 'clock-controller', 'clock-names', 'clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^regulators(-[01])?$'
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: syscon@3000000 (syscon): compatible: ['syscon'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: usb@110f8800 (qcom,ipq8064-dwc3): 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-dempsey.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-makepeace.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-microsoft-moneypenny.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-s3ve3g.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-htc-memul.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:590.28-601.5: Warning (avoid_unnecessary_addr_size): /soc/i2c@f9927000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-superman-lte.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:590.28-601.5: Warning (avoid_unnecessary_addr_size): /soc/i2c@f9927000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-microsoft-tesla.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[12]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[12]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[13]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[14]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-motorola-peregrine.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[15]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1052.28-1103.6: Warning (avoid_unnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:756.27-759.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:791.27-794.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:1039.11-1049.7: Warning (graph_child_address): /soc/display-subsystem@fd900000/display-controller@fd900000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@0 (arm,cortex-a7): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@0 (arm,cortex-a7): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@1 (arm,cortex-a7): qcom,acc: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@1 (arm,cortex-a7): qcom,saw: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@2 (arm,cortex-a7): qcom,acc: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@2 (arm,cortex-a7): qcom,saw: False schema does not allow [[10]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8926-samsung-matisselte.dtb: cpu@3 (arm,cortex-a7): qcom,acc: False schema does not allow [[11]]
+--
+>> arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-cdp.dtb: timer@200a000 (qcom,kpss-wdt-msm8960): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+--
+>> arch/arm/boot/dts/qcom/qcom-msm8960-samsung-expressatt.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8960-samsung-expressatt.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-samsung-expressatt.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[5]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-samsung-expressatt.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8960-samsung-expressatt.dtb: timer@200a000 (qcom,kpss-wdt-msm8960): 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-lge-nexus5-hammerhead.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-samsung-hlte.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-amami.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974-sony-xperia-rhine-honami.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-fairphone-fp2.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-htc-m8.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: / (oneplus,bacon): qcom,board-id: False schema does not allow [[8, 0]]
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: / (oneplus,bacon): qcom,msm-id: False schema does not allow [[194, 65536]]
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-oneplus-bacon.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-klte.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-samsung-kltechn.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-aries.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-castor.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
+--
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1287.26-1290.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1@d7: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode@d7)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1297.26-1300.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s9-p1@d8: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s10-p1@d8)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1322.26-1325.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s2-p2@dc: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s3-p2@dc)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1347.26-1350.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s7-p2@e0: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s8-p2@e0)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1367.40-1370.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s5-p2-backup@e3: duplicate unit-address (also used in node /soc/efuse@fc4bc000/mode-backup@e3)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1377.40-1380.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s6-p2-backup@e4: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s7-p2-backup@e4)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1412.41-1415.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1-backup@442: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p1-backup@442)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1427.41-1430.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s4-p1-backup@444: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s5-p1-backup@444)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1452.41-1455.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s8-p1-backup@448: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s9-p1-backup@448)
+   arch/arm/boot/dts/qcom/qcom-msm8974.dtsi:1477.41-1480.6: Warning (unique_unit_address_if_enabled): /soc/efuse@fc4bc000/s1-p2-backup@44c: duplicate unit-address (also used in node /soc/efuse@fc4bc000/s2-p2-backup@44c)
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@0 (qcom,krait): qcom,acc: False schema does not allow [[3]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@0 (qcom,krait): qcom,saw: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@1 (qcom,krait): qcom,acc: False schema does not allow [[6]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@1 (qcom,krait): qcom,saw: False schema does not allow [[7]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@2 (qcom,krait): qcom,acc: False schema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@2 (qcom,krait): qcom,saw: False schema does not allow [[9]]
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/qcom/qcom-msm8974pro-sony-xperia-shinano-leo.dtb: cpu@3 (qcom,krait): qcom,acc: False schema does not allow [[10]]
 
 -- 
 0-DAY CI Kernel Test Service
