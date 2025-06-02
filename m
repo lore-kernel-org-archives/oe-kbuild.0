@@ -1,72 +1,68 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155FB191F7F
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jun 2025 06:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BE6136351
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jun 2025 06:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748847016; cv=none; b=atcgfuxQaBQ2StEp2LhqN5v9t7+ysJasnXFwbX7alvLCl26qlKCe7YFe9S5RwH0axmSIqUtatNBEpstGkERwQFK1S1uCFT/R3nXvdObkYuvrziOi0bTP7bnFIfRgxUBqMLhtliw/JqTRoINecsEnfnWoKBspV+r6XHFOl+lsiwE=
+	t=1748847162; cv=none; b=dO8211FjCV7K4yowZwxjBXjkPOJ9lxNhgdtrK3Z4Aw1feiDwStO6ZKnYCTUc9cYJ5TJCU9mEsZyruvwSlTkwwOaWBW0Z0E6MVHUts1wRXcv4LJZQ8OripXEJeL1aDSvefu6uiT8U8Zo2MSYEDfcxvOq30UKGgs2qI1JNcVHienA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748847016; c=relaxed/simple;
-	bh=USY+Knj3Gn6M4UyCoMEuT925F5VZ0aIxGsAN793hFfA=;
+	s=arc-20240116; t=1748847162; c=relaxed/simple;
+	bh=0hym0BUS6jqerOB7zJMdIZF+E/EaLTB3aGzU8g4MyQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dkVq3qgJn9LayP6OgVGCwfewSRYn08Rdqo17aWjknlEKMVfu0YGSZHWbjkFErcKCMCiCU1LgpJFwyUWSF4cOEut/H5ZaioFaJj0g341ZCMAeOKclwqbuLY2nxFCsznZtJV0kEASjHpga45NIOlBw4jjR5LgMl4uhMmjpgAE/UvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zyimShzm; arc=none smtp.client-ip=209.85.221.51
+	 Content-Disposition; b=jl2faIdkW65l4BhC3Ot6Mdl2WWe++4ubb12drHdzje9VdaTKCxJrdhn3cjUsNPhEVgLy4+pNfdIzFDLQ0re9sgt5R4AaH/YZfWogicshSmg6mSehEKG9tiSzBwDer+oLFBxTyGu4qGotlAGj1cQJzQ2fSdEKuCmYqI0hB4nA/oQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c49nftGH; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zyimShzm"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4f71831abso2734287f8f.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 01 Jun 2025 23:50:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c49nftGH"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a361b8a66cso2339376f8f.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 01 Jun 2025 23:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748847012; x=1749451812; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SK0IyySBRZW3kx89rtPTvWUvyucit05wnIbR/YG6Fpo=;
-        b=zyimShzmOV4KR1v0qwGcXoqH5F1c3mDk2m0a+t/L9bWBy6TQvSj2XLPcmZW9vFnshi
-         2oXYKx4Pvf/0EfMgjzE1pwfi+W9wON5tfdO24W1n0J1qeCKTju1jTbMD8HxUw2j9yk6h
-         lvXOrWdBM/pEDaklVVyV/JoFjf2zlPfZRapsBJInnEKg8aVAfJ9YsMkFIxCFdRP+Btto
-         QVhNaot3PBYji4O4ssGJodIPs08VAaUJ+slyuoXFz9d5CQYy+Z0WQ8jkyXMfjxpRCIql
-         AQC0IE/0WfuebDEZRG/IFKjh2FRgrz1A6Bnnj/zby7+v/MwwYh03mqAS6wsDA5xoyhs4
-         pULw==
+        d=linaro.org; s=google; t=1748847159; x=1749451959; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UJx76R+q+RUB6GwJbjfN8d8kPj+Gd8DjvzSAAAVToQE=;
+        b=c49nftGHllzv+pJuXJ7Rcop53MAoM90Cw8JR/DOcrjS2DkGdoVI2/9A3nS+BOLTgAl
+         fY5CWvI0B67Tza+O65Xa/F/9Rc17VRKkIZifPeMY2w/IujtVh9ykLqZdctJQZvtPsyKe
+         oi2Re7XEG4gXQKPpRq1kiq//pX/nkb28kXQ1M3Jkpx/olXE7FJc69W+VbQchKmuUJRBw
+         dLT2j2TOXblAahV0KYbL3C7/YvSkzDHSCTJXwm4hyFWsl0FB4dBTVfpnB4LW5BlW3Lzp
+         nMNmWa8+liVSKdKnOEtf99NQZ+/T8c/x6bYwx921dg6bdqYjqDvwoUOMhzodMnuA1PB8
+         938Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748847012; x=1749451812;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SK0IyySBRZW3kx89rtPTvWUvyucit05wnIbR/YG6Fpo=;
-        b=O1GS79WYDehty5r8PprafLJDj78rXxfEYkLPfqa+qIjlAwBNe1/pWgIWH2n/FDtOJM
-         ZqDBGTg4+wr7GkO+0YcNVcSI2HLXZ0W7an0fedgoM0E6ahBEK8ryKO2QHX0lbf68uTDz
-         MFrmW8mFYNxboV7zxun1/3iiND7UMyUeiVQ/mRn34AwSTYylpLoLSrvvy6vHkQyLTVas
-         sfm37/zrcRFUBImsbq+BiYwmk9INJeOpmFCGh83tKKc0mGyp+aWwZFFDguCffM5x+cSs
-         NerHTGWxP6UjIuojXCLx8j0s9qMIK+IOGRF/VdKNXYet6v+sEELtKAjs12u7sm2B8iF8
-         ArdQ==
-X-Gm-Message-State: AOJu0YwmfOyOASTjdt+g/+4i478LhpC5b3XfeMDts56HbnnUZ/wm02Ly
-	LP+/5U5o6qY6uYpmpQpVytpuImPwGH30ToLOBlZhfupnq4d4/fOg00hvJYNLmC9asz9PqtHx89L
-	TDN7d
-X-Gm-Gg: ASbGncuSqzgy2nhJbSum0l7gNHL2V5wfV9TJyv5EBKxNmN45yVJFlVRXLokXfgeeYeT
-	dLnHXHg11k8FRKy/RzHdRY58KnIYzOIjbxKJ/qpe/Plcu9N9rpVeSRoztlu7cByDs5tPazYhJoh
-	z7JHU/+GAazWOHP7yKFcyDGRgRk/weGmw9zWWg/gMKYjTXvYYBV8qj6rMM6wtmzbh3pv5kBZjPD
-	WmN6rvThKvVPPT+Nvk7VRXyd1oSXuY7aWYWLgb8+cmwPx8QSvQgtFY2P88WLHSCufTOQ6dvsQ9F
-	8CI4xkqKMolEv5hqSdG54y7mU3qWqH6qF6oRY/yQaXtnLfCQ4yVYi3k=
-X-Google-Smtp-Source: AGHT+IEZR8tQifVwfY35OyZRO4tFwJdgXpdkuSPBQCXC2PRdUrJ5MhzKClOt7HCXAkUO8ONJz6PuGg==
-X-Received: by 2002:a05:6000:2888:b0:3a3:760c:81b7 with SMTP id ffacd0b85a97d-3a4f89df572mr8120211f8f.57.1748847012124;
-        Sun, 01 Jun 2025 23:50:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748847159; x=1749451959;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJx76R+q+RUB6GwJbjfN8d8kPj+Gd8DjvzSAAAVToQE=;
+        b=MeiFb4TXEAWIvbgdks4jKsMwLm8T2nC+5Dhb167Q5KU/fVfT20DIhnGhPAttI2NJq8
+         moALnnfWxyJ/8rMSGqfrXWXtn30o1YUrxgTG71Gr02QDEBDq7lZ2pXz8MQ8Wqh9KcmKN
+         8mdH+921fvQxt5PxRkRz0XLjyqD9VsyZ/HHUsq9gYm6bEEYQJ/cy+seulDDdaYehtZ8D
+         FdiQqDHbaR5ispOXBaKMoFY1wKhiRMGC5lRekvtGMSRR9n6+l1wc5SOnjx4w4F4PgRrD
+         6IWJIDlZr4LuEmZeuGAMM4soZI/hReORpEz2ulQAZPc7KZ7cw8qnd6jv7EFSsDLdMWRB
+         k60Q==
+X-Gm-Message-State: AOJu0Yz0drru3wgv8xnd1jloTWx5R7hlIsaYpQnjXdvBg7ri7Ne4yCH/
+	b5gbyhH9XWJqU516MB2Ey70h/AaqhuRj0yehRbw05eqfuQE5OQiemmB3HsamIthy4AUFbcJjWEg
+	F7729
+X-Gm-Gg: ASbGnctAJFrURReB+U7a1+SCRsRRrpzofRbCKxWNRb8lEE9vmtSDkhEGa22eH+qAtEj
+	DHUIhhf6ZDymDyJKBcZZNgTeS2doeU9a22R/tVSuMBn2ghD8KeDzQ9x9+NOAvhy8K+tnAgvMdk/
+	n05gVP4dsHMiPZoXfNvKSu8C6jUk2/qK5sQye+pWtw4kpORNiH0acLH+ivq1wtqVYgiBMQSkCR1
+	/7ICMzMzZxFTzEI/LsNX6gZukD9fHjkV4TVZBSnN6mWJmy8R2OI8Y50zGrS8QFKPHEe4RMP10pO
+	lG5vW3PiblWJ90i150Y/LUvGbkrrj/lYBWsir7DdqEdsNs1U3Q13ZaiHGEn9S/sjjQ==
+X-Google-Smtp-Source: AGHT+IFelW6nd6xGMcrwxtWYEh6cXGsGvk80xK1pRJRECj4EukgRTyKQBMfM6jZRfmit/zkfAHS5lQ==
+X-Received: by 2002:a05:6000:381:b0:3a4:eec5:441c with SMTP id ffacd0b85a97d-3a4fe399495mr5417023f8f.47.1748847158915;
+        Sun, 01 Jun 2025 23:52:38 -0700 (PDT)
 Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f009ff11sm13526519f8f.86.2025.06.01.23.50.11
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-450d800671csm110334925e9.30.2025.06.01.23.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 23:50:11 -0700 (PDT)
-Date: Mon, 2 Jun 2025 09:50:07 +0300
+        Sun, 01 Jun 2025 23:52:38 -0700 (PDT)
+Date: Mon, 2 Jun 2025 09:52:34 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Harsh Jain <h.jain@amd.com>,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-	mounika.botcha@amd.com, sarat.chand.savitala@amd.com,
-	mohan.dhanawade@amd.com, michal.simek@amd.com
+To: oe-kbuild@lists.linux.dev, Kuniyuki Iwashima <kuniyu@amazon.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Harsh Jain <h.jain@amd.com>
-Subject: Re: [PATCH 3/3] crypto: drbg: Export CTR DRBG DF functions
-Message-ID: <202505311325.22fIOcCt-lkp@intel.com>
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
+Subject: net/netlabel/netlabel_kapi.c:1200 netlbl_conn_setattr() warn:
+ inconsistent returns 'rcu_read'.
+Message-ID: <202506010920.TbxfWuYH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,98 +71,102 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529113116.669667-4-h.jain@amd.com>
-Message-ID: <20250602065007.chDk3mvKyWcHifs5WzOhcjx-4tP2BeN1EJzGwUDp_7k@z>
+Message-ID: <20250602065234.mwXrjYU7YGYUNiGR71BvQzeWximyaZ7iI3lb5Kd2Lm8@z>
 
-Hi Harsh,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/dt-bindings-crypto-Add-node-for-True-Random-Number-Generator/20250529-193255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20250529113116.669667-4-h.jain%40amd.com
-patch subject: [PATCH 3/3] crypto: drbg: Export CTR DRBG DF functions
-config: s390-randconfig-r073-20250531 (https://download.01.org/0day-ci/archive/20250531/202505311325.22fIOcCt-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4cb6c8af8591135ec000fbe4bb474139ceec595d
+commit: 6e9f2df1c550ead7cecb3e450af1105735020c92 calipso: Don't call calipso functions for AF_INET sk.
+date:   4 days ago
+config: i386-randconfig-141-20250601 (https://download.01.org/0day-ci/archive/20250601/202506010920.TbxfWuYH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505311325.22fIOcCt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506010920.TbxfWuYH-lkp@intel.com/
 
 smatch warnings:
-drivers/crypto/xilinx/xilinx-trng.c:368 xtrng_probe() warn: missing unwind goto?
+net/netlabel/netlabel_kapi.c:1200 netlbl_conn_setattr() warn: inconsistent returns 'rcu_read'.
 
-vim +368 drivers/crypto/xilinx/xilinx-trng.c
+vim +/rcu_read +1200 net/netlabel/netlabel_kapi.c
 
-940a39f34689c6 Harsh Jain 2025-05-29  334  static int xtrng_probe(struct platform_device *pdev)
-940a39f34689c6 Harsh Jain 2025-05-29  335  {
-940a39f34689c6 Harsh Jain 2025-05-29  336  	struct xilinx_rng *rng;
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  337  	size_t sb_size;
-940a39f34689c6 Harsh Jain 2025-05-29  338  	int ret;
-940a39f34689c6 Harsh Jain 2025-05-29  339  
-940a39f34689c6 Harsh Jain 2025-05-29  340  	rng = devm_kzalloc(&pdev->dev, sizeof(*rng), GFP_KERNEL);
-940a39f34689c6 Harsh Jain 2025-05-29  341  	if (!rng)
-940a39f34689c6 Harsh Jain 2025-05-29  342  		return -ENOMEM;
-940a39f34689c6 Harsh Jain 2025-05-29  343  
-940a39f34689c6 Harsh Jain 2025-05-29  344  	rng->dev = &pdev->dev;
-940a39f34689c6 Harsh Jain 2025-05-29  345  	rng->rng_base = devm_platform_ioremap_resource(pdev, 0);
-940a39f34689c6 Harsh Jain 2025-05-29  346  	if (IS_ERR(rng->rng_base)) {
-940a39f34689c6 Harsh Jain 2025-05-29  347  		dev_err(&pdev->dev, "Failed to map resource %ld\n", PTR_ERR(rng->rng_base));
-940a39f34689c6 Harsh Jain 2025-05-29  348  		return PTR_ERR(rng->rng_base);
-940a39f34689c6 Harsh Jain 2025-05-29  349  	}
-940a39f34689c6 Harsh Jain 2025-05-29  350  
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  351  	rng->tfm = crypto_alloc_cipher("aes", 0, 0);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  352  	if (IS_ERR(rng->tfm)) {
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  353  		pr_info("DRBG: could not allocate cipher TFM handle:\n");
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  354  		return PTR_ERR(rng->tfm);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  355  	}
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  356  
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  357  	sb_size = crypto_drbg_ctr_df_datalen(TRNG_SEED_LEN_BYTES, AES_BLOCK_SIZE);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  358  	rng->scratchpadbuf = devm_kzalloc(&pdev->dev, sb_size, GFP_KERNEL);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  359  	if (!rng->scratchpadbuf) {
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  360  		ret = -ENOMEM;
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  361  		goto cipher_cleanup;
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  362  	}
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  363  
-940a39f34689c6 Harsh Jain 2025-05-29  364  	xtrng_trng_reset(rng->rng_base);
-940a39f34689c6 Harsh Jain 2025-05-29  365  	ret = xtrng_reseed_internal(rng);
-940a39f34689c6 Harsh Jain 2025-05-29  366  	if (ret) {
-940a39f34689c6 Harsh Jain 2025-05-29  367  		dev_err(&pdev->dev, "TRNG Seed fail\n");
-940a39f34689c6 Harsh Jain 2025-05-29 @368  		return ret;
+014ab19a69c325 Paul Moore        2008-10-10  1129  int netlbl_conn_setattr(struct sock *sk,
+014ab19a69c325 Paul Moore        2008-10-10  1130  			struct sockaddr *addr,
+014ab19a69c325 Paul Moore        2008-10-10  1131  			const struct netlbl_lsm_secattr *secattr)
+014ab19a69c325 Paul Moore        2008-10-10  1132  {
+014ab19a69c325 Paul Moore        2008-10-10  1133  	int ret_val;
+014ab19a69c325 Paul Moore        2008-10-10  1134  	struct sockaddr_in *addr4;
+ceba1832b1b2da Huw Davies        2016-06-27  1135  #if IS_ENABLED(CONFIG_IPV6)
+ceba1832b1b2da Huw Davies        2016-06-27  1136  	struct sockaddr_in6 *addr6;
+ceba1832b1b2da Huw Davies        2016-06-27  1137  #endif
+6a8b7f0c85f1f4 Paul Moore        2013-08-02  1138  	struct netlbl_dommap_def *entry;
+014ab19a69c325 Paul Moore        2008-10-10  1139  
+014ab19a69c325 Paul Moore        2008-10-10  1140  	rcu_read_lock();
+014ab19a69c325 Paul Moore        2008-10-10  1141  	switch (addr->sa_family) {
+014ab19a69c325 Paul Moore        2008-10-10  1142  	case AF_INET:
+014ab19a69c325 Paul Moore        2008-10-10  1143  		addr4 = (struct sockaddr_in *)addr;
+6a8b7f0c85f1f4 Paul Moore        2013-08-02  1144  		entry = netlbl_domhsh_getentry_af4(secattr->domain,
+014ab19a69c325 Paul Moore        2008-10-10  1145  						   addr4->sin_addr.s_addr);
+6a8b7f0c85f1f4 Paul Moore        2013-08-02  1146  		if (entry == NULL) {
+014ab19a69c325 Paul Moore        2008-10-10  1147  			ret_val = -ENOENT;
+014ab19a69c325 Paul Moore        2008-10-10  1148  			goto conn_setattr_return;
+014ab19a69c325 Paul Moore        2008-10-10  1149  		}
+6a8b7f0c85f1f4 Paul Moore        2013-08-02  1150  		switch (entry->type) {
+014ab19a69c325 Paul Moore        2008-10-10  1151  		case NETLBL_NLTYPE_CIPSOV4:
+014ab19a69c325 Paul Moore        2008-10-10  1152  			ret_val = cipso_v4_sock_setattr(sk,
+8ec9897ec2e93a Davide Caratti    2024-05-10  1153  							entry->cipso, secattr,
+8ec9897ec2e93a Davide Caratti    2024-05-10  1154  							netlbl_sk_lock_check(sk));
+014ab19a69c325 Paul Moore        2008-10-10  1155  			break;
+014ab19a69c325 Paul Moore        2008-10-10  1156  		case NETLBL_NLTYPE_UNLABELED:
+014ab19a69c325 Paul Moore        2008-10-10  1157  			/* just delete the protocols we support for right now
+014ab19a69c325 Paul Moore        2008-10-10  1158  			 * but we could remove other protocols if needed */
+ceba1832b1b2da Huw Davies        2016-06-27  1159  			netlbl_sock_delattr(sk);
+014ab19a69c325 Paul Moore        2008-10-10  1160  			ret_val = 0;
+014ab19a69c325 Paul Moore        2008-10-10  1161  			break;
+014ab19a69c325 Paul Moore        2008-10-10  1162  		default:
+014ab19a69c325 Paul Moore        2008-10-10  1163  			ret_val = -ENOENT;
+014ab19a69c325 Paul Moore        2008-10-10  1164  		}
+014ab19a69c325 Paul Moore        2008-10-10  1165  		break;
+dfd56b8b38fff3 Eric Dumazet      2011-12-10  1166  #if IS_ENABLED(CONFIG_IPV6)
+014ab19a69c325 Paul Moore        2008-10-10  1167  	case AF_INET6:
+6e9f2df1c550ea Kuniyuki Iwashima 2025-05-22  1168  		if (sk->sk_family != AF_INET6)
+6e9f2df1c550ea Kuniyuki Iwashima 2025-05-22  1169  			return -EAFNOSUPPORT;
 
-goto cipher_cleanup;
+Need to call conn_setattr_return() so goto conn_setattr_return.
 
-940a39f34689c6 Harsh Jain 2025-05-29  369  	}
-940a39f34689c6 Harsh Jain 2025-05-29  370  
-940a39f34689c6 Harsh Jain 2025-05-29  371  	xilinx_rng_dev = rng;
-940a39f34689c6 Harsh Jain 2025-05-29  372  	mutex_init(&rng->lock);
-940a39f34689c6 Harsh Jain 2025-05-29  373  	ret = crypto_register_rng(&xtrng_trng_alg);
-940a39f34689c6 Harsh Jain 2025-05-29  374  	if (ret) {
-940a39f34689c6 Harsh Jain 2025-05-29  375  		dev_err(&pdev->dev, "Crypto Random device registration failed: %d\n", ret);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  376  		goto cipher_cleanup;
-940a39f34689c6 Harsh Jain 2025-05-29  377  	}
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  378  
-940a39f34689c6 Harsh Jain 2025-05-29  379  	ret = xtrng_hwrng_register(&rng->trng);
-940a39f34689c6 Harsh Jain 2025-05-29  380  	if (ret) {
-940a39f34689c6 Harsh Jain 2025-05-29  381  		dev_err(&pdev->dev, "HWRNG device registration failed: %d\n", ret);
-940a39f34689c6 Harsh Jain 2025-05-29  382  		goto crypto_rng_free;
-940a39f34689c6 Harsh Jain 2025-05-29  383  	}
-940a39f34689c6 Harsh Jain 2025-05-29  384  	platform_set_drvdata(pdev, rng);
-940a39f34689c6 Harsh Jain 2025-05-29  385  
-940a39f34689c6 Harsh Jain 2025-05-29  386  	return 0;
-940a39f34689c6 Harsh Jain 2025-05-29  387  
-940a39f34689c6 Harsh Jain 2025-05-29  388  crypto_rng_free:
-940a39f34689c6 Harsh Jain 2025-05-29  389  	crypto_unregister_rng(&xtrng_trng_alg);
-940a39f34689c6 Harsh Jain 2025-05-29  390  
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  391  cipher_cleanup:
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  392  	crypto_free_cipher(rng->tfm);
-bf8ac5fe42abd6 Harsh Jain 2025-05-29  393  
-940a39f34689c6 Harsh Jain 2025-05-29  394  	return ret;
-940a39f34689c6 Harsh Jain 2025-05-29  395  }
+6e9f2df1c550ea Kuniyuki Iwashima 2025-05-22  1170  
+ceba1832b1b2da Huw Davies        2016-06-27  1171  		addr6 = (struct sockaddr_in6 *)addr;
+ceba1832b1b2da Huw Davies        2016-06-27  1172  		entry = netlbl_domhsh_getentry_af6(secattr->domain,
+ceba1832b1b2da Huw Davies        2016-06-27  1173  						   &addr6->sin6_addr);
+ceba1832b1b2da Huw Davies        2016-06-27  1174  		if (entry == NULL) {
+ceba1832b1b2da Huw Davies        2016-06-27  1175  			ret_val = -ENOENT;
+ceba1832b1b2da Huw Davies        2016-06-27  1176  			goto conn_setattr_return;
+ceba1832b1b2da Huw Davies        2016-06-27  1177  		}
+ceba1832b1b2da Huw Davies        2016-06-27  1178  		switch (entry->type) {
+ceba1832b1b2da Huw Davies        2016-06-27  1179  		case NETLBL_NLTYPE_CALIPSO:
+ceba1832b1b2da Huw Davies        2016-06-27  1180  			ret_val = calipso_sock_setattr(sk,
+ceba1832b1b2da Huw Davies        2016-06-27  1181  						       entry->calipso, secattr);
+ceba1832b1b2da Huw Davies        2016-06-27  1182  			break;
+ceba1832b1b2da Huw Davies        2016-06-27  1183  		case NETLBL_NLTYPE_UNLABELED:
+ceba1832b1b2da Huw Davies        2016-06-27  1184  			/* just delete the protocols we support for right now
+ceba1832b1b2da Huw Davies        2016-06-27  1185  			 * but we could remove other protocols if needed */
+ceba1832b1b2da Huw Davies        2016-06-27  1186  			netlbl_sock_delattr(sk);
+014ab19a69c325 Paul Moore        2008-10-10  1187  			ret_val = 0;
+014ab19a69c325 Paul Moore        2008-10-10  1188  			break;
+ceba1832b1b2da Huw Davies        2016-06-27  1189  		default:
+ceba1832b1b2da Huw Davies        2016-06-27  1190  			ret_val = -ENOENT;
+ceba1832b1b2da Huw Davies        2016-06-27  1191  		}
+ceba1832b1b2da Huw Davies        2016-06-27  1192  		break;
+014ab19a69c325 Paul Moore        2008-10-10  1193  #endif /* IPv6 */
+014ab19a69c325 Paul Moore        2008-10-10  1194  	default:
+389fb800ac8be2 Paul Moore        2009-03-27  1195  		ret_val = -EPROTONOSUPPORT;
+014ab19a69c325 Paul Moore        2008-10-10  1196  	}
+014ab19a69c325 Paul Moore        2008-10-10  1197  
+014ab19a69c325 Paul Moore        2008-10-10  1198  conn_setattr_return:
+014ab19a69c325 Paul Moore        2008-10-10  1199  	rcu_read_unlock();
+014ab19a69c325 Paul Moore        2008-10-10 @1200  	return ret_val;
+014ab19a69c325 Paul Moore        2008-10-10  1201  }
 
 -- 
 0-DAY CI Kernel Test Service
