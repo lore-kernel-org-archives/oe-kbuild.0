@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D584F21C16D
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Jun 2025 13:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E019910E5
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Jun 2025 00:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748871495; cv=none; b=SZf9rm+VzhHrwpOfwVyp84i2qHeAhX+ii3sy2VldjQ8bhWeL3819N1TyWV8ZvQd7xG0Hbq7l1GUgZmNCpeGfwMBkmj3h1SbTUkXubD4gIgl5kTfx+ktFnljQVZC6+nlMAwHaK4HBLSY5/MQs6iLgTsXU8+lOGAQzJbu2bliZQgc=
+	t=1748909656; cv=none; b=HyZOG3V852BYwR8uKGiGoTJR9Qt+TbT+aE7kX/wJc9PG2enKEHG76cesOKNV54s/mONuc+ulXq1Ki1fMtaeJv+stikQBbmPpZ1uenL2qVRaseR1jG3inGCs67QYWEj63gYgyyR86y9fzkf2LMWOj3oOFEZnQmQ/1Z4JBrdeoOro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748871495; c=relaxed/simple;
-	bh=dxkfjv7SkaKXDdsHwvf4TU3oa0+fD3+iNxN4OEeVlQU=;
+	s=arc-20240116; t=1748909656; c=relaxed/simple;
+	bh=SRHsY6mbHor2H74kTfGmZ/FxM4J80++Q8zbe1w0KDbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qTBl2HpmJdcJbs41vDdBDns/2FpqadrmudOailf4GkLDiPTnNTiI02bBsor2eI4F7IyqbETPIN1qQbPeX0D4zce6YxNxL+mzSZdHn37GtjmcGYIzyfQQThqG31gkqBTwU9SlQUzphDYXE7kLCnvnnkUyMTOWtTg+iu+76gmhszQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtuP9AWL; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=fxlyMWh3NUi35SuhX2rQc1rIueD52x31Kz8rkVrGTg4EjaZCav3p2X7tEts4VvBUliFE3LbHHZeQeh52M8xr5mUxrZKj9p43ZC5gOx5ODaspr1tnKTYkQmqulYRQ8/pduGvmVQMGWo3osGHt0AuqqQjTAQZAZ5D/32u+NAbmLKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNaQIC6t; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtuP9AWL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNaQIC6t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748871485; x=1780407485;
+  t=1748909648; x=1780445648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dxkfjv7SkaKXDdsHwvf4TU3oa0+fD3+iNxN4OEeVlQU=;
-  b=JtuP9AWLn1pH30fryJn7OdXxPAfUe4hV3/2lGBX21FweQ5+awTSH9NwH
-   R7Eii0kO8glP1UR8rf01q+Fg3a4LBD0TuQmzFviNhRtqaXq8CFdOokE7k
-   JBsXf0zF3CGxY58swFtI6wK4gtSoKJ6keae2ECd3OGU31/kxHw7vjFvuL
-   QhgtheQnDKtAzvl4TRXuHJxzjj7NMaHI/nV5xUQQLAxuogBJ2hN6dKLSa
-   hgl7BiQ09BVlfr9TaMCdXXYdUrVlgzDjXWSI9NzsUNrc0uS1SrzepUD0x
-   u55UB3hOjheSex7E3XMT58An66XVRVUfJzT47HAGmoWeNtopzqPd3CJ+s
-   g==;
-X-CSE-ConnectionGUID: v6tYmNqtRFukNG+jTrQ5TA==
-X-CSE-MsgGUID: 4oswclXqRQa5AosjFyZwPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="50934025"
-X-IronPort-AV: E=Sophos;i="6.16,203,1744095600"; 
-   d="scan'208";a="50934025"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 06:38:05 -0700
-X-CSE-ConnectionGUID: jStrogkHRqSnF5TEWh50gQ==
-X-CSE-MsgGUID: YcJOLGDlTei9Ir2NdetYuw==
+  bh=SRHsY6mbHor2H74kTfGmZ/FxM4J80++Q8zbe1w0KDbA=;
+  b=RNaQIC6tPd0imVRaj6baPSDtty/0SSl98Wz9AcgfKaE2eTnmNMGGK9+V
+   1ok2zOZQRLAnCvc2YJYpafG03NpQBZha7WwQVfwVDyh1z3WQk8JrdegAx
+   PJkIVSwBJSkkBg5qwWslNl2CdAdvY2jwz3GVdrHYEQZMhFMdBx4CXhOhZ
+   6RROAFjCVlNqmZC0mMm6Eq48DUkEUccUhouCrMXPdKQ7884EzHLcGw/Mm
+   S1YzPLohquvN+vi/LqFs209UzQJbnSmVQQEXymml+sWgOQEoErtT5MN5Y
+   jobzBagLM/Diz8/YCoTihCvQ2D12NW25/859Lu1AHVYLs9QcRhynkcxr6
+   Q==;
+X-CSE-ConnectionGUID: avCEkmDrRS2Z6cnWr5fiug==
+X-CSE-MsgGUID: 96QL78bGTx2+nGYQ4GiKvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="50934936"
+X-IronPort-AV: E=Sophos;i="6.16,204,1744095600"; 
+   d="scan'208";a="50934936"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 17:14:07 -0700
+X-CSE-ConnectionGUID: 0fhkqmq3Rx+lJvrTey7KNQ==
+X-CSE-MsgGUID: tL4jBOKDSM2bWiUQ3iM7cw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,203,1744095600"; 
-   d="scan'208";a="149316504"
+X-IronPort-AV: E=Sophos;i="6.16,204,1744095600"; 
+   d="scan'208";a="145139840"
 Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by orviesa003.jf.intel.com with ESMTP; 02 Jun 2025 06:38:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2025 17:14:05 -0700
 Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uM5MW-0001K2-2D;
-	Mon, 02 Jun 2025 13:38:00 +0000
-Date: Mon, 2 Jun 2025 21:37:52 +0800
+	id 1uMFI1-0001OE-29;
+	Tue, 03 Jun 2025 00:14:01 +0000
+Date: Tue, 3 Jun 2025 08:13:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:n/sm8750-audio-part-3 23/23]
- arch/arm64/boot/dts/qcom/sm8750.dtsi:3052.34-3053.8: Warning
- (graph_endpoint): /soc@0/phy@88e8000/ports/port@0/endpoint: graph connection
- to node '/pmic-glink/connector@0/ports/port@1/endpoint' is not bidirectional
-Message-ID: <202506022126.bfSZLMlH-lkp@intel.com>
+Subject: [krzk-github:wip/todo-on-top-of-sm8750-display-dts 17/22]
+ arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning
+ (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000:
+ unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or
+ child "reg" property
+Message-ID: <202506030855.S9hXb1Wa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,31 +71,27 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Wesley Cheng <quic_wcheng@quicinc.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://github.com/krzk/linux n/sm8750-audio-part-3
-head:   a016380204f5cf5f488e9314594442243281adfd
-commit: ec641b25cc78eae045852d032319ef3a846f2912 [23/23] arm64: dts: qcom: Add USB orientation support for MTP and QRD
-:::::: branch date: 7 days ago
-:::::: commit date: 5 weeks ago
-config: arm64-randconfig-2005-20250502 (https://download.01.org/0day-ci/archive/20250602/202506022126.bfSZLMlH-lkp@intel.com/config)
+tree:   https://github.com/krzk/linux wip/todo-on-top-of-sm8750-display-dts
+head:   2d2f95c3e8d8faec5d7050461c87e1cc4a9d85e8
+commit: a880ed13c2dd5b41ad39e2110b00f40680007b4b [17/22] arm64: dts: qcom: sm8750: Add display (MDSS) with Display CC
+:::::: branch date: 6 weeks ago
+:::::: commit date: 6 weeks ago
+config: arm64-randconfig-2005-20250502 (https://download.01.org/0day-ci/archive/20250603/202506030855.S9hXb1Wa-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250602/202506022126.bfSZLMlH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250603/202506030855.S9hXb1Wa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506022126.bfSZLMlH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506030855.S9hXb1Wa-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sm8750.dtsi:3052.34-3053.8: Warning (graph_endpoint): /soc@0/phy@88e8000/ports/port@0/endpoint: graph connection to node '/pmic-glink/connector@0/ports/port@1/endpoint' is not bidirectional
->> arch/arm64/boot/dts/qcom/sm8750.dtsi:3153.31-3154.9: Warning (graph_endpoint): /soc@0/usb@a6f8800/usb@a600000/ports/port@0/endpoint: graph connection to node '/pmic-glink/connector@0/ports/port@0/endpoint' is not bidirectional
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: Warning (graph_child_address): Failed prerequisite 'graph_endpoint'
+>> arch/arm64/boot/dts/qcom/sm8750.dtsi:2709.27-2791.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sm8750.dtsi:2813.27-2869.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 
-vim +3052 arch/arm64/boot/dts/qcom/sm8750.dtsi
+vim +2709 arch/arm64/boot/dts/qcom/sm8750.dtsi
 
 068c3d3c83be47 Melody Olvera        2024-12-04    22  
 068c3d3c83be47 Melody Olvera        2024-12-04    23  / {
@@ -2783,7 +2780,7 @@ a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2705  					};
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2706  				};
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2707  			};
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2708  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2709  			mdss_dsi0: dsi@ae94000 {
+a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28 @2709  			mdss_dsi0: dsi@ae94000 {
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2710  				compatible = "qcom,sm8750-dsi-ctrl", "qcom,mdss-dsi-ctrl";
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2711  				reg = <0x0 0x0ae94000 0x0 0x400>;
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2712  				reg-names = "dsi_ctrl";
@@ -2887,353 +2884,7 @@ a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2809
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2810  				status = "disabled";
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2811  			};
 a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2812  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2813  			mdss_dsi1: dsi@ae96000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2814  				compatible = "qcom,sm8750-dsi-ctrl", "qcom,mdss-dsi-ctrl";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2815  				reg = <0x0 0x0ae96000 0x0 0x400>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2816  				reg-names = "dsi_ctrl";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2817  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2818  				interrupts-extended = <&mdss 5>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2819  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2820  				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2821  					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2822  					 <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2823  					 <&dispcc DISP_CC_MDSS_ESC1_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2824  					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2825  					 <&gcc GCC_DISP_HF_AXI_CLK>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2826  				clock-names = "byte",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2827  					      "byte_intf",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2828  					      "pixel",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2829  					      "core",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2830  					      "iface",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2831  					      "bus";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2832  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2833  				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2834  						  <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2835  				assigned-clock-parents = <&mdss_dsi1_phy DSI_BYTE_PLL_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2836  							 <&mdss_dsi1_phy DSI_PIXEL_PLL_CLK>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2837  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2838  				operating-points-v2 = <&mdss_dsi_opp_table>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2839  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2840  				power-domains = <&rpmhpd RPMHPD_MMCX>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2841  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2842  				phys = <&mdss_dsi1_phy>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2843  				phy-names = "dsi";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2844  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2845  				#address-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2846  				#size-cells = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2847  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2848  				status = "disabled";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2849  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2850  				ports {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2851  					#address-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2852  					#size-cells = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2853  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2854  					port@0 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2855  						reg = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2856  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2857  						mdss_dsi1_in: endpoint {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2858  							remote-endpoint = <&dpu_intf2_out>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2859  						};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2860  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2861  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2862  					port@1 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2863  						reg = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2864  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2865  						mdss_dsi1_out: endpoint {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2866  						};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2867  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2868  				};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2869  			};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2870  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2871  			mdss_dsi1_phy: phy@ae97000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2872  				compatible = "qcom,sm8750-dsi-phy-3nm";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2873  				reg = <0x0 0x0ae97000 0x0 0x200>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2874  				      <0x0 0x0ae97200 0x0 0x280>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2875  				      <0x0 0x0ae97500 0x0 0x400>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2876  				reg-names = "dsi_phy",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2877  					    "dsi_phy_lane",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2878  					    "dsi_pll";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2879  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2880  				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2881  					 <&rpmhcc RPMH_CXO_CLK>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2882  				clock-names = "iface",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2883  					      "ref";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2884  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2885  				#clock-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2886  				#phy-cells = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2887  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2888  				status = "disabled";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2889  			};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2890  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2891  			mdss_dp0: displayport-controller@af54000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2892  				compatible = "qcom,sm8750-dp", "qcom,sm8650-dp";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2893  				reg = <0x0 0xaf54000 0x0 0x104>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2894  				      <0x0 0xaf54200 0x0 0xc0>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2895  				      <0x0 0xaf55000 0x0 0x770>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2896  				      <0x0 0xaf56000 0x0 0x9c>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2897  				      <0x0 0xaf57000 0x0 0x9c>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2898  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2899  				interrupts-extended = <&mdss 12>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2900  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2901  				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2902  					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2903  					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2904  					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2905  					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2906  				clock-names = "core_iface",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2907  					      "core_aux",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2908  					      "ctrl_link",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2909  					      "ctrl_link_iface",
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2910  					      "stream_pixel";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2911  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2912  				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2913  						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2914  				assigned-clock-parents = <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2915  							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2916  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2917  				operating-points-v2 = <&dp_opp_table>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2918  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2919  				power-domains = <&rpmhpd RPMHPD_MMCX>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2920  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2921  				phys = <&usb_dp_qmpphy QMP_USB43DP_DP_PHY>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2922  				phy-names = "dp";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2923  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2924  				#sound-dai-cells = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2925  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2926  				status = "disabled";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2927  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2928  				dp_opp_table: opp-table {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2929  					compatible = "operating-points-v2";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2930  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2931  					opp-192000000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2932  						opp-hz = /bits/ 64 <192000000>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2933  						required-opps = <&rpmhpd_opp_low_svs_d1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2934  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2935  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2936  					opp-270000000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2937  						opp-hz = /bits/ 64 <270000000>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2938  						required-opps = <&rpmhpd_opp_low_svs>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2939  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2940  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2941  					opp-540000000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2942  						opp-hz = /bits/ 64 <540000000>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2943  						required-opps = <&rpmhpd_opp_svs_l1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2944  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2945  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2946  					opp-810000000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2947  						opp-hz = /bits/ 64 <810000000>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2948  						required-opps = <&rpmhpd_opp_nom>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2949  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2950  				};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2951  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2952  				ports {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2953  					#address-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2954  					#size-cells = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2955  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2956  					port@0 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2957  						reg = <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2958  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2959  						mdss_dp0_in: endpoint {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2960  							remote-endpoint = <&dpu_intf0_out>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2961  						};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2962  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2963  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2964  					port@1 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2965  						reg = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2966  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2967  						mdss_dp0_out: endpoint {
-ff4630d9ef1f3a Krzysztof Kozlowski  2025-04-24  2968  							remote-endpoint = <&usb_dp_qmpphy_dp_in>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2969  						};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2970  					};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2971  				};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2972  			};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2973  		};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2974  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2975  		dispcc: clock-controller@af00000 {
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2976  			compatible = "qcom,sm8750-dispcc";
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2977  			reg = <0 0x0af00000 0 0x20000>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2978  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2979  			clocks = <&bi_tcxo_div2>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2980  				 <&bi_tcxo_ao_div2>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2981  				 <&gcc GCC_DISP_AHB_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2982  				 <&sleep_clk>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2983  				 <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2984  				 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2985  				 <&mdss_dsi1_phy DSI_BYTE_PLL_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2986  				 <&mdss_dsi1_phy DSI_PIXEL_PLL_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2987  				 <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2988  				 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2989  				 <0>, /* dp1 */
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2990  				 <0>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2991  				 <0>, /* dp2 */
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2992  				 <0>,
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2993  				 <0>, /* dp3 */
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2994  				 <0>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2995  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2996  			power-domains = <&rpmhpd RPMHPD_MMCX>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2997  			required-opps = <&rpmhpd_opp_low_svs>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2998  
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  2999  			#clock-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  3000  			#reset-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  3001  			#power-domain-cells = <1>;
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  3002  		};
-a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28  3003  
-051188e0bc270a Wesley Cheng         2025-04-21  3004  		usb_1_hsphy: phy@88e3000 {
-051188e0bc270a Wesley Cheng         2025-04-21  3005  			compatible = "qcom,sm8750-m31-eusb2-phy";
-051188e0bc270a Wesley Cheng         2025-04-21  3006  			reg = <0x0 0x88e3000 0x0 0x29c>;
-051188e0bc270a Wesley Cheng         2025-04-21  3007  
-051188e0bc270a Wesley Cheng         2025-04-21  3008  			clocks = <&tcsrcc TCSR_USB2_CLKREF_EN>;
-051188e0bc270a Wesley Cheng         2025-04-21  3009  			clock-names = "ref";
-051188e0bc270a Wesley Cheng         2025-04-21  3010  
-051188e0bc270a Wesley Cheng         2025-04-21  3011  			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
-051188e0bc270a Wesley Cheng         2025-04-21  3012  
-051188e0bc270a Wesley Cheng         2025-04-21  3013  			#phy-cells = <0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3014  
-051188e0bc270a Wesley Cheng         2025-04-21  3015  			status = "disabled";
-051188e0bc270a Wesley Cheng         2025-04-21  3016  		};
-051188e0bc270a Wesley Cheng         2025-04-21  3017  
-051188e0bc270a Wesley Cheng         2025-04-21  3018  		usb_dp_qmpphy: phy@88e8000 {
-051188e0bc270a Wesley Cheng         2025-04-21  3019  			compatible = "qcom,sm8750-qmp-usb3-dp-phy";
-051188e0bc270a Wesley Cheng         2025-04-21  3020  			reg = <0x0 0x088e8000 0x0 0x4000>;
-051188e0bc270a Wesley Cheng         2025-04-21  3021  
-051188e0bc270a Wesley Cheng         2025-04-21  3022  			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3023  				 <&tcsrcc TCSR_USB3_CLKREF_EN>,
-051188e0bc270a Wesley Cheng         2025-04-21  3024  				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3025  				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-051188e0bc270a Wesley Cheng         2025-04-21  3026  			clock-names = "aux",
-051188e0bc270a Wesley Cheng         2025-04-21  3027  				      "ref",
-051188e0bc270a Wesley Cheng         2025-04-21  3028  				      "com_aux",
-051188e0bc270a Wesley Cheng         2025-04-21  3029  				      "usb3_pipe";
-051188e0bc270a Wesley Cheng         2025-04-21  3030  
-051188e0bc270a Wesley Cheng         2025-04-21  3031  			resets = <&gcc GCC_USB3_PHY_PRIM_BCR>,
-051188e0bc270a Wesley Cheng         2025-04-21  3032  				 <&gcc GCC_USB3_DP_PHY_PRIM_BCR>;
-051188e0bc270a Wesley Cheng         2025-04-21  3033  			reset-names = "phy",
-051188e0bc270a Wesley Cheng         2025-04-21  3034  				      "common";
-051188e0bc270a Wesley Cheng         2025-04-21  3035  
-051188e0bc270a Wesley Cheng         2025-04-21  3036  			power-domains = <&gcc GCC_USB3_PHY_GDSC>;
-051188e0bc270a Wesley Cheng         2025-04-21  3037  
-051188e0bc270a Wesley Cheng         2025-04-21  3038  			#clock-cells = <1>;
-051188e0bc270a Wesley Cheng         2025-04-21  3039  			#phy-cells = <1>;
-051188e0bc270a Wesley Cheng         2025-04-21  3040  
-051188e0bc270a Wesley Cheng         2025-04-21  3041  			orientation-switch;
-051188e0bc270a Wesley Cheng         2025-04-21  3042  
-051188e0bc270a Wesley Cheng         2025-04-21  3043  			status = "disabled";
-051188e0bc270a Wesley Cheng         2025-04-21  3044  
-051188e0bc270a Wesley Cheng         2025-04-21  3045  			ports {
-051188e0bc270a Wesley Cheng         2025-04-21  3046  				#address-cells = <1>;
-051188e0bc270a Wesley Cheng         2025-04-21  3047  				#size-cells = <0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3048  
-051188e0bc270a Wesley Cheng         2025-04-21  3049  				port@0 {
-051188e0bc270a Wesley Cheng         2025-04-21  3050  					reg = <0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3051  
-051188e0bc270a Wesley Cheng         2025-04-21 @3052  					usb_dp_qmpphy_out: endpoint {
-051188e0bc270a Wesley Cheng         2025-04-21  3053  					};
-051188e0bc270a Wesley Cheng         2025-04-21  3054  				};
-051188e0bc270a Wesley Cheng         2025-04-21  3055  
-051188e0bc270a Wesley Cheng         2025-04-21  3056  				port@1 {
-051188e0bc270a Wesley Cheng         2025-04-21  3057  					reg = <1>;
-051188e0bc270a Wesley Cheng         2025-04-21  3058  
-051188e0bc270a Wesley Cheng         2025-04-21  3059  					usb_dp_qmpphy_usb_ss_in: endpoint {
-051188e0bc270a Wesley Cheng         2025-04-21  3060  						remote-endpoint = <&usb_1_dwc3_ss>;
-051188e0bc270a Wesley Cheng         2025-04-21  3061  					};
-051188e0bc270a Wesley Cheng         2025-04-21  3062  				};
-051188e0bc270a Wesley Cheng         2025-04-21  3063  
-051188e0bc270a Wesley Cheng         2025-04-21  3064  				port@2 {
-051188e0bc270a Wesley Cheng         2025-04-21  3065  					reg = <2>;
-051188e0bc270a Wesley Cheng         2025-04-21  3066  
-051188e0bc270a Wesley Cheng         2025-04-21  3067  					usb_dp_qmpphy_dp_in: endpoint {
-ff4630d9ef1f3a Krzysztof Kozlowski  2025-04-24  3068  						remote-endpoint = <&mdss_dp0_out>;
-051188e0bc270a Wesley Cheng         2025-04-21  3069  					};
-051188e0bc270a Wesley Cheng         2025-04-21  3070  				};
-051188e0bc270a Wesley Cheng         2025-04-21  3071  			};
-051188e0bc270a Wesley Cheng         2025-04-21  3072  		};
-051188e0bc270a Wesley Cheng         2025-04-21  3073  
-051188e0bc270a Wesley Cheng         2025-04-21  3074  		usb_1: usb@a6f8800 {
-051188e0bc270a Wesley Cheng         2025-04-21  3075  			compatible = "qcom,sm8750-dwc3", "qcom,dwc3";
-051188e0bc270a Wesley Cheng         2025-04-21  3076  			reg = <0x0 0x0a6f8800 0x0 0x400>;
-051188e0bc270a Wesley Cheng         2025-04-21  3077  
-051188e0bc270a Wesley Cheng         2025-04-21  3078  			clocks = <&gcc GCC_CFG_NOC_USB3_PRIM_AXI_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3079  				 <&gcc GCC_USB30_PRIM_MASTER_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3080  				 <&gcc GCC_AGGRE_USB3_PRIM_AXI_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3081  				 <&gcc GCC_USB30_PRIM_SLEEP_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3082  				 <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>;
-051188e0bc270a Wesley Cheng         2025-04-21  3083  			clock-names = "cfg_noc",
-051188e0bc270a Wesley Cheng         2025-04-21  3084  				      "core",
-051188e0bc270a Wesley Cheng         2025-04-21  3085  				      "iface",
-051188e0bc270a Wesley Cheng         2025-04-21  3086  				      "sleep",
-051188e0bc270a Wesley Cheng         2025-04-21  3087  				      "mock_utmi";
-051188e0bc270a Wesley Cheng         2025-04-21  3088  
-051188e0bc270a Wesley Cheng         2025-04-21  3089  			assigned-clocks = <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
-051188e0bc270a Wesley Cheng         2025-04-21  3090  					  <&gcc GCC_USB30_PRIM_MASTER_CLK>;
-051188e0bc270a Wesley Cheng         2025-04-21  3091  			assigned-clock-rates = <19200000>, <200000000>;
-051188e0bc270a Wesley Cheng         2025-04-21  3092  
-051188e0bc270a Wesley Cheng         2025-04-21  3093  			interrupts-extended = <&intc GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-051188e0bc270a Wesley Cheng         2025-04-21  3094  					      <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
-051188e0bc270a Wesley Cheng         2025-04-21  3095  					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
-051188e0bc270a Wesley Cheng         2025-04-21  3096  					      <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
-051188e0bc270a Wesley Cheng         2025-04-21  3097  					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>;
-051188e0bc270a Wesley Cheng         2025-04-21  3098  			interrupt-names = "pwr_event",
-051188e0bc270a Wesley Cheng         2025-04-21  3099  					  "hs_phy_irq",
-051188e0bc270a Wesley Cheng         2025-04-21  3100  					  "dp_hs_phy_irq",
-051188e0bc270a Wesley Cheng         2025-04-21  3101  					  "dm_hs_phy_irq",
-051188e0bc270a Wesley Cheng         2025-04-21  3102  					  "ss_phy_irq";
-051188e0bc270a Wesley Cheng         2025-04-21  3103  
-051188e0bc270a Wesley Cheng         2025-04-21  3104  			power-domains = <&gcc GCC_USB30_PRIM_GDSC>;
-051188e0bc270a Wesley Cheng         2025-04-21  3105  			required-opps = <&rpmhpd_opp_nom>;
-051188e0bc270a Wesley Cheng         2025-04-21  3106  
-051188e0bc270a Wesley Cheng         2025-04-21  3107  			resets = <&gcc GCC_USB30_PRIM_BCR>;
-051188e0bc270a Wesley Cheng         2025-04-21  3108  
-051188e0bc270a Wesley Cheng         2025-04-21  3109  			interconnects = <&aggre1_noc MASTER_USB3_0 QCOM_ICC_TAG_ALWAYS
-051188e0bc270a Wesley Cheng         2025-04-21  3110  					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-051188e0bc270a Wesley Cheng         2025-04-21  3111  					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-051188e0bc270a Wesley Cheng         2025-04-21  3112  					 &config_noc SLAVE_USB3_0 QCOM_ICC_TAG_ACTIVE_ONLY>;
-051188e0bc270a Wesley Cheng         2025-04-21  3113  			interconnect-names = "usb-ddr", "apps-usb";
-051188e0bc270a Wesley Cheng         2025-04-21  3114  
-051188e0bc270a Wesley Cheng         2025-04-21  3115  			#address-cells = <2>;
-051188e0bc270a Wesley Cheng         2025-04-21  3116  			#size-cells = <2>;
-051188e0bc270a Wesley Cheng         2025-04-21  3117  			ranges;
-051188e0bc270a Wesley Cheng         2025-04-21  3118  
-051188e0bc270a Wesley Cheng         2025-04-21  3119  			status = "disabled";
-051188e0bc270a Wesley Cheng         2025-04-21  3120  
-051188e0bc270a Wesley Cheng         2025-04-21  3121  			usb_1_dwc3: usb@a600000 {
-051188e0bc270a Wesley Cheng         2025-04-21  3122  				compatible = "snps,dwc3";
-051188e0bc270a Wesley Cheng         2025-04-21  3123  				reg = <0x0 0x0a600000 0x0 0xe000>;
-051188e0bc270a Wesley Cheng         2025-04-21  3124  
-051188e0bc270a Wesley Cheng         2025-04-21  3125  				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-051188e0bc270a Wesley Cheng         2025-04-21  3126  
-051188e0bc270a Wesley Cheng         2025-04-21  3127  				iommus = <&apps_smmu 0x40 0x0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3128  
-051188e0bc270a Wesley Cheng         2025-04-21  3129  				phys = <&usb_1_hsphy>, <&usb_dp_qmpphy QMP_USB43DP_USB3_PHY>;
-051188e0bc270a Wesley Cheng         2025-04-21  3130  				phy-names = "usb2-phy", "usb3-phy";
-051188e0bc270a Wesley Cheng         2025-04-21  3131  
-051188e0bc270a Wesley Cheng         2025-04-21  3132  				snps,hird-threshold = /bits/ 8 <0x0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3133  				snps,usb2-gadget-lpm-disable;
-051188e0bc270a Wesley Cheng         2025-04-21  3134  				snps,dis_u2_susphy_quirk;
-051188e0bc270a Wesley Cheng         2025-04-21  3135  				snps,dis_enblslpm_quirk;
-051188e0bc270a Wesley Cheng         2025-04-21  3136  				snps,dis-u1-entry-quirk;
-051188e0bc270a Wesley Cheng         2025-04-21  3137  				snps,dis-u2-entry-quirk;
-051188e0bc270a Wesley Cheng         2025-04-21  3138  				snps,is-utmi-l1-suspend;
-051188e0bc270a Wesley Cheng         2025-04-21  3139  				snps,usb3_lpm_capable;
-051188e0bc270a Wesley Cheng         2025-04-21  3140  				snps,usb2-lpm-disable;
-051188e0bc270a Wesley Cheng         2025-04-21  3141  				snps,has-lpm-erratum;
-051188e0bc270a Wesley Cheng         2025-04-21  3142  				tx-fifo-resize;
-051188e0bc270a Wesley Cheng         2025-04-21  3143  
-051188e0bc270a Wesley Cheng         2025-04-21  3144  				dma-coherent;
-051188e0bc270a Wesley Cheng         2025-04-21  3145  
-051188e0bc270a Wesley Cheng         2025-04-21  3146  				ports {
-051188e0bc270a Wesley Cheng         2025-04-21  3147  					#address-cells = <1>;
-051188e0bc270a Wesley Cheng         2025-04-21  3148  					#size-cells = <0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3149  
-051188e0bc270a Wesley Cheng         2025-04-21  3150  					port@0 {
-051188e0bc270a Wesley Cheng         2025-04-21  3151  						reg = <0>;
-051188e0bc270a Wesley Cheng         2025-04-21  3152  
-051188e0bc270a Wesley Cheng         2025-04-21 @3153  						usb_1_dwc3_hs: endpoint {
-
-:::::: The code at line 3052 was first introduced by commit
-:::::: 051188e0bc270afffc5a00fe0a0d1dee0a384378 arm64: dts: qcom: sm8750: Add USB support to SM8750 SoCs
-
-:::::: TO: Wesley Cheng <quic_wcheng@quicinc.com>
-:::::: CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+a880ed13c2dd5b Krzysztof Kozlowski  2024-11-28 @2813  			mdss_dsi1: dsi@ae96000 {
 
 -- 
 0-DAY CI Kernel Test Service
