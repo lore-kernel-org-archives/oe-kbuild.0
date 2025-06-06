@@ -1,276 +1,265 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01303126C17
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Jun 2025 23:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698BF23817A
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Jun 2025 23:23:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749252221; cv=none; b=n/vXtfUvaNh6DTbeeBU1PEkNPwsIlkGtUK8X5Qfhs6PiyOLBghAoYYtiYPdanRXAXtgPTBveQjHKzSkYun83WtLBEx5POZ36PiZsUwZ6aAe2m0xeCuGI4XtDT/aqQMMRx/D/EDZO73H+CfiiRwUGB/r9x0C1p493if63T5bTCrU=
+	t=1749252223; cv=none; b=aIIHC+bRwLEe9374pB4qKOGzb8vwMDs/DvIinqlq1iYlyxaCepnY9epjlWe4k5/H5mD64BD5faNeh8LtdNKW5pa/9iDuH7XgKcS9Fd2JMHcf3H5RPdkqWpxYx87oy14lloOW8MN41MEthL/GfaBAp0jjAPFyjT6LaAxItjwO7OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749252221; c=relaxed/simple;
-	bh=zLrVQBbIQJcKIgc0tRJfNdnlPhId/G13fSTABR8qPO8=;
+	s=arc-20240116; t=1749252223; c=relaxed/simple;
+	bh=E0wsNQ5Y9eY9DcRX8Z7Hp84m2k8/9NqtAEgafab7P+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VoQQSyyX6Y4RytBhXbxI74lmr96nPzXTWQriQP4uiwBkaJP2O0cKZvuTUuyQ1LTrVo/Pc5WifxsfOzTpYYkzWPjA6z0onm4BvrOARD6G7tCOcy3diuO2WYLPUSCrq+GJoNV1jVgKq8LsviPv0IuNWQW+Sig1AMWiTZW0noqhYP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bSZ6x2/6; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=tbF24bdI+Jcz1YoRoGbTP2+oQKIlb815ypSaqyBaSM9ZG0nv0qc91UzNX9ugJELE+uKsqHl6Yagl9BcrvPVhCrerP8+o4KhbN7nF7lO2t993yoQD99MgnvFIJDFlFLGO6jNRxD/R8R8asDcwlA4rJkSapanH6IM9UNRuLvePG+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDTO8GSN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bSZ6x2/6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDTO8GSN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749252219; x=1780788219;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zLrVQBbIQJcKIgc0tRJfNdnlPhId/G13fSTABR8qPO8=;
-  b=bSZ6x2/6YQDN+btaeIUDYInV1MwOe0wtmD2DmIcNo6cw8FcfTIMeT7F4
-   YIEF57N5W+4lyAbYY0cC49o3sivMBUcKwMAPlwv14dmhNr2TKgXVAXzxl
-   BlqWXouw1IisLyAt1g7xsGQeo9WlBHcUnyXZn4uw+o+7z7SggxmaTwR7e
-   Pljr1bAFC0JDBCrcpRMb30jBr+e6PaHeOWJV09LzfUa7AfjaRLIQAn6n+
-   tIFhv0Cv8hxJvV+bMwW1zXdw66ELK4eZv/H3PXhkIDHWbEvB50aIZrgn1
-   9o+2u4HN6Ht10E7qfxWOjRAg4hzPsQwHQyGc2DJ/I27yH7og0sVdlWeEh
-   Q==;
-X-CSE-ConnectionGUID: 0ZKVhqc0SMuQHWfXuf8+gA==
-X-CSE-MsgGUID: sYszbYUSTtqbDigXylt8HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62809849"
+  t=1749252221; x=1780788221;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E0wsNQ5Y9eY9DcRX8Z7Hp84m2k8/9NqtAEgafab7P+E=;
+  b=oDTO8GSN6zwnAQOdGc0Kbrnuze6dmyfoYOnhqr466hohqLksuZzgVoS1
+   P6w/RgahpVHXBi6AcBU+b+H3nk+bkiYgLh8UrYwGozj80lYCljdzwS0VD
+   1pBS9N/OZ5RPutVohuKxLPx3vWZIpouugjlXigXxgejHAzARPP5rEONkL
+   VCjci4uQ9nJ8wsOpQg8MbllE3FsuZNu1MTgccr2nrjwoMa8MDEXAvDSFL
+   +v3j7KzILlot3gN7/vX/Q1c+HDmvtERc1UFdlOpRTNFaZWsGawT2JIfp4
+   BdMqg1S7be8nDbt0vTzFz440eYc3Og8MHxCPEDpkXuCRLNcWCLwknNWyC
+   w==;
+X-CSE-ConnectionGUID: ck0HTaBZTuer7qfyXqJAJQ==
+X-CSE-MsgGUID: l2/MsWDXQ3GyqC9YWPwn5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62809851"
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="62809849"
+   d="scan'208";a="62809851"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 16:23:38 -0700
-X-CSE-ConnectionGUID: WzylfaNaS7O0svWIvDlhYg==
-X-CSE-MsgGUID: UKDnU51VTsibyDwM2Bcbew==
+X-CSE-ConnectionGUID: 3R3k6pBYQcuIvuQZG2adZw==
+X-CSE-MsgGUID: pnJ+8M6lQl6KxQbJ5H9/HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="145878076"
+   d="scan'208";a="145878078"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 06 Jun 2025 16:23:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNgPO-0005Kv-2x;
+	id 1uNgPO-0005Kr-2n;
 	Fri, 06 Jun 2025 23:23:34 +0000
-Date: Sat, 7 Jun 2025 07:23:23 +0800
+Date: Sat, 7 Jun 2025 07:23:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [thomas-weissschuh:b4/vdso-ptp 40/41]
- arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335
- __cvdso_clock_gettime_common() warn: right shifting more than type allows 32
- vs 40
-Message-ID: <202506070701.TgxbA5AU-lkp@intel.com>
+Subject: Re: [PATCH 12/12] btrfs: replace identity maps with actual remaps
+ when doing relocations
+Message-ID: <202506070726.RNG32ur3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Thomas Weiﬂschuh" <thomas.weissschuh@linutronix.de>
+In-Reply-To: <20250605162345.2561026-13-maharmstone@fb.com>
+References: <20250605162345.2561026-13-maharmstone@fb.com>
+TO: Mark Harmstone <maharmstone@fb.com>
+TO: linux-btrfs@vger.kernel.org
+CC: Mark Harmstone <maharmstone@fb.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-ptp
-head:   72077b3c44e381076449b817f73dd764c4eef196
-commit: 14518473f21d795a7cbac78518660eaae3663011 [40/41] vdso/gettimeofday: Add support for auxiliary clocks
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: x86_64-randconfig-161-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070701.TgxbA5AU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Mark,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master next-20250606]
+[cannot apply to v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20250606-002804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250605162345.2561026-13-maharmstone%40fb.com
+patch subject: [PATCH 12/12] btrfs: replace identity maps with actual remaps when doing relocations
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: hexagon-randconfig-r072-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070726.RNG32ur3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506070701.TgxbA5AU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506070726.RNG32ur3-lkp@intel.com/
 
 smatch warnings:
-arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335 __cvdso_clock_gettime_common() warn: right shifting more than type allows 32 vs 40
-arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:335 __cvdso_clock_gettime_common() warn: bitwise AND condition is false here
-arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:479 __cvdso_clock_getres_common() warn: right shifting more than type allows 32 vs 40
-arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:479 __cvdso_clock_getres_common() warn: bitwise AND condition is false here
+fs/btrfs/relocation.c:5167 do_remap_tree_reloc_trans() warn: variable dereferenced before check 'dest_bg' (see line 5096)
 
-vim +335 arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c
+vim +/dest_bg +5167 fs/btrfs/relocation.c
 
-14518473f21d79 Thomas Weiﬂschuh   2025-06-05  313  
-edeb59c3ee3a14 Thomas Weiﬂschuh   2025-06-05  314  static __always_inline bool
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  315  __cvdso_clock_gettime_common(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  316  			     struct __kernel_timespec *ts)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  317  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  318  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  319  	u32 msk;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  320  
-9847f8b00d26ad Thomas Weiﬂschuh   2025-01-16  321  	if (!vdso_clockid_valid(clock))
-edeb59c3ee3a14 Thomas Weiﬂschuh   2025-06-05  322  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  323  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  324  	/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  325  	 * Convert the clockid to a bitmask and use it to check which
-00b26474c2f161 Vincenzo Frascino  2019-06-21  326  	 * clocks are handled in the VDSO directly.
-00b26474c2f161 Vincenzo Frascino  2019-06-21  327  	 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  328  	msk = 1U << clock;
-8463cf80529d0f Christophe Leroy   2019-12-23  329  	if (likely(msk & VDSO_HRES))
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  330  		vc = &vc[CS_HRES_COARSE];
-8463cf80529d0f Christophe Leroy   2019-12-23  331  	else if (msk & VDSO_COARSE)
-70067ae181f302 Anna-Maria Behnsen 2025-03-03  332  		return do_coarse(vd, &vc[CS_HRES_COARSE], clock, ts);
-8463cf80529d0f Christophe Leroy   2019-12-23  333  	else if (msk & VDSO_RAW)
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  334  		vc = &vc[CS_RAW];
-14518473f21d79 Thomas Weiﬂschuh   2025-06-05 @335  	else if (msk & VDSO_AUX)
-14518473f21d79 Thomas Weiﬂschuh   2025-06-05  336  		return do_aux(vd, clock, ts);
-c966533f8c6c45 Andrei Vagin       2019-11-12  337  	else
-edeb59c3ee3a14 Thomas Weiﬂschuh   2025-06-05  338  		return false;
-c966533f8c6c45 Andrei Vagin       2019-11-12  339  
-64c3613ce31a1a Anna-Maria Behnsen 2025-03-03  340  	return do_hres(vd, vc, clock, ts);
-502a590a170b3b Thomas Gleixner    2019-07-28  341  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  342  
-502a590a170b3b Thomas Gleixner    2019-07-28  343  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  344  __cvdso_clock_gettime_data(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  345  			   struct __kernel_timespec *ts)
-502a590a170b3b Thomas Gleixner    2019-07-28  346  {
-edeb59c3ee3a14 Thomas Weiﬂschuh   2025-06-05  347  	bool ret = __cvdso_clock_gettime_common(vd, clock, ts);
-502a590a170b3b Thomas Gleixner    2019-07-28  348  
-edeb59c3ee3a14 Thomas Weiﬂschuh   2025-06-05  349  	if (unlikely(!ret))
-00b26474c2f161 Vincenzo Frascino  2019-06-21  350  		return clock_gettime_fallback(clock, ts);
-502a590a170b3b Thomas Gleixner    2019-07-28  351  	return 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  352  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  353  
-e876f0b69dc993 Christophe Leroy   2020-02-07  354  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  355  __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
-e876f0b69dc993 Christophe Leroy   2020-02-07  356  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  357  	return __cvdso_clock_gettime_data(__arch_get_vdso_u_time_data(), clock, ts);
-e876f0b69dc993 Christophe Leroy   2020-02-07  358  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  359  
-bf279849ad5953 Vincenzo Frascino  2019-08-30  360  #ifdef BUILD_VDSO32
-00b26474c2f161 Vincenzo Frascino  2019-06-21  361  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  362  __cvdso_clock_gettime32_data(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  363  			     struct old_timespec32 *res)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  364  {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  365  	struct __kernel_timespec ts;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  366  	int ret;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  367  
-e876f0b69dc993 Christophe Leroy   2020-02-07  368  	ret = __cvdso_clock_gettime_common(vd, clock, &ts);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  369  
-c60a32ea4f459f Thomas Gleixner    2019-07-30  370  	if (unlikely(ret))
-c60a32ea4f459f Thomas Gleixner    2019-07-30  371  		return clock_gettime32_fallback(clock, res);
-502a590a170b3b Thomas Gleixner    2019-07-28  372  
-a279235ddbe975 Vincenzo Frascino  2019-08-30  373  	/* For ret == 0 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  374  	res->tv_sec = ts.tv_sec;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  375  	res->tv_nsec = ts.tv_nsec;
-a279235ddbe975 Vincenzo Frascino  2019-08-30  376  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  377  	return ret;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  378  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  379  
-e876f0b69dc993 Christophe Leroy   2020-02-07  380  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  381  __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
-e876f0b69dc993 Christophe Leroy   2020-02-07  382  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  383  	return __cvdso_clock_gettime32_data(__arch_get_vdso_u_time_data(), clock, res);
-e876f0b69dc993 Christophe Leroy   2020-02-07  384  }
-bf279849ad5953 Vincenzo Frascino  2019-08-30  385  #endif /* BUILD_VDSO32 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  386  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  387  static __maybe_unused int
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  388  __cvdso_gettimeofday_data(const struct vdso_time_data *vd,
-e876f0b69dc993 Christophe Leroy   2020-02-07  389  			  struct __kernel_old_timeval *tv, struct timezone *tz)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  390  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  391  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  392  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  393  	if (likely(tv != NULL)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  394  		struct __kernel_timespec ts;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  395  
-64c3613ce31a1a Anna-Maria Behnsen 2025-03-03  396  		if (do_hres(vd, &vc[CS_HRES_COARSE], CLOCK_REALTIME, &ts))
-00b26474c2f161 Vincenzo Frascino  2019-06-21  397  			return gettimeofday_fallback(tv, tz);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  398  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  399  		tv->tv_sec = ts.tv_sec;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  400  		tv->tv_usec = (u32)ts.tv_nsec / NSEC_PER_USEC;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  401  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  402  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  403  	if (unlikely(tz != NULL)) {
-660fd04f931717 Thomas Gleixner    2019-11-12  404  		if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  405  		    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  406  			vd = __arch_get_vdso_u_timens_data(vd);
-660fd04f931717 Thomas Gleixner    2019-11-12  407  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  408  		tz->tz_minuteswest = vd[CS_HRES_COARSE].tz_minuteswest;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  409  		tz->tz_dsttime = vd[CS_HRES_COARSE].tz_dsttime;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  410  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  411  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  412  	return 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  413  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  414  
-e876f0b69dc993 Christophe Leroy   2020-02-07  415  static __maybe_unused int
-e876f0b69dc993 Christophe Leroy   2020-02-07  416  __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
-e876f0b69dc993 Christophe Leroy   2020-02-07  417  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  418  	return __cvdso_gettimeofday_data(__arch_get_vdso_u_time_data(), tv, tz);
-e876f0b69dc993 Christophe Leroy   2020-02-07  419  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  420  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  421  #ifdef VDSO_HAS_TIME
-e876f0b69dc993 Christophe Leroy   2020-02-07  422  static __maybe_unused __kernel_old_time_t
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  423  __cvdso_time_data(const struct vdso_time_data *vd, __kernel_old_time_t *time)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  424  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  425  	const struct vdso_clock *vc = vd->clock_data;
-660fd04f931717 Thomas Gleixner    2019-11-12  426  	__kernel_old_time_t t;
-660fd04f931717 Thomas Gleixner    2019-11-12  427  
-2d6b01bd88ccab Thomas Gleixner    2020-02-07  428  	if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  429  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS) {
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  430  		vd = __arch_get_vdso_u_timens_data(vd);
-886653e3663917 Anna-Maria Behnsen 2025-03-03  431  		vc = vd->clock_data;
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  432  	}
-660fd04f931717 Thomas Gleixner    2019-11-12  433  
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  434  	t = READ_ONCE(vc[CS_HRES_COARSE].basetime[CLOCK_REALTIME].sec);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  435  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  436  	if (time)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  437  		*time = t;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  438  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  439  	return t;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  440  }
-e876f0b69dc993 Christophe Leroy   2020-02-07  441  
-e876f0b69dc993 Christophe Leroy   2020-02-07  442  static __maybe_unused __kernel_old_time_t __cvdso_time(__kernel_old_time_t *time)
-e876f0b69dc993 Christophe Leroy   2020-02-07  443  {
-df7fcbefa71090 Thomas Weiﬂschuh   2025-02-04  444  	return __cvdso_time_data(__arch_get_vdso_u_time_data(), time);
-e876f0b69dc993 Christophe Leroy   2020-02-07  445  }
-00b26474c2f161 Vincenzo Frascino  2019-06-21  446  #endif /* VDSO_HAS_TIME */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  447  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  448  #ifdef VDSO_HAS_CLOCK_GETRES
-00b26474c2f161 Vincenzo Frascino  2019-06-21  449  static __maybe_unused
-97686a778e9acf Thomas Weiﬂschuh   2025-06-05  450  bool __cvdso_clock_getres_common(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy   2020-02-07  451  				 struct __kernel_timespec *res)
-00b26474c2f161 Vincenzo Frascino  2019-06-21  452  {
-886653e3663917 Anna-Maria Behnsen 2025-03-03  453  	const struct vdso_clock *vc = vd->clock_data;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  454  	u32 msk;
-502a590a170b3b Thomas Gleixner    2019-07-28  455  	u64 ns;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  456  
-9847f8b00d26ad Thomas Weiﬂschuh   2025-01-16  457  	if (!vdso_clockid_valid(clock))
-97686a778e9acf Thomas Weiﬂschuh   2025-06-05  458  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  459  
-2d6b01bd88ccab Thomas Gleixner    2020-02-07  460  	if (IS_ENABLED(CONFIG_TIME_NS) &&
-cddb82d1c4de56 Anna-Maria Behnsen 2025-03-03  461  	    vc->clock_mode == VDSO_CLOCKMODE_TIMENS)
-ac1a42f4e4e296 Thomas Weiﬂschuh   2025-02-04  462  		vd = __arch_get_vdso_u_timens_data(vd);
-660fd04f931717 Thomas Gleixner    2019-11-12  463  
-00b26474c2f161 Vincenzo Frascino  2019-06-21  464  	/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  465  	 * Convert the clockid to a bitmask and use it to check which
-00b26474c2f161 Vincenzo Frascino  2019-06-21  466  	 * clocks are handled in the VDSO directly.
-00b26474c2f161 Vincenzo Frascino  2019-06-21  467  	 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  468  	msk = 1U << clock;
-cdb7c5a9c897ab Christophe Leroy   2019-12-23  469  	if (msk & (VDSO_HRES | VDSO_RAW)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  470  		/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  471  		 * Preserves the behaviour of posix_get_hrtimer_res().
-00b26474c2f161 Vincenzo Frascino  2019-06-21  472  		 */
-886653e3663917 Anna-Maria Behnsen 2025-03-03  473  		ns = READ_ONCE(vd->hrtimer_res);
-00b26474c2f161 Vincenzo Frascino  2019-06-21  474  	} else if (msk & VDSO_COARSE) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  475  		/*
-00b26474c2f161 Vincenzo Frascino  2019-06-21  476  		 * Preserves the behaviour of posix_get_coarse_res().
-00b26474c2f161 Vincenzo Frascino  2019-06-21  477  		 */
-00b26474c2f161 Vincenzo Frascino  2019-06-21  478  		ns = LOW_RES_NSEC;
-14518473f21d79 Thomas Weiﬂschuh   2025-06-05 @479  	} else if (msk & VDSO_AUX) {
-14518473f21d79 Thomas Weiﬂschuh   2025-06-05  480  		ns = aux_clock_resolution_ns();
-00b26474c2f161 Vincenzo Frascino  2019-06-21  481  	} else {
-97686a778e9acf Thomas Weiﬂschuh   2025-06-05  482  		return false;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  483  	}
-00b26474c2f161 Vincenzo Frascino  2019-06-21  484  
-1638b8f096ca16 Thomas Gleixner    2019-10-21  485  	if (likely(res)) {
-00b26474c2f161 Vincenzo Frascino  2019-06-21  486  		res->tv_sec = 0;
-00b26474c2f161 Vincenzo Frascino  2019-06-21  487  		res->tv_nsec = ns;
-1638b8f096ca16 Thomas Gleixner    2019-10-21  488  	}
-97686a778e9acf Thomas Weiﬂschuh   2025-06-05  489  	return true;
-502a590a170b3b Thomas Gleixner    2019-07-28  490  }
-502a590a170b3b Thomas Gleixner    2019-07-28  491  
+9d106e9eb328ac Mark Harmstone 2025-06-05  5019  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5020  static int do_remap_tree_reloc_trans(struct btrfs_fs_info *fs_info,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5021  				     struct btrfs_block_group *src_bg,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5022  				     struct btrfs_path *path, u64 *last_start)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5023  {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5024  	struct btrfs_trans_handle *trans;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5025  	struct btrfs_root *extent_root;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5026  	struct btrfs_key ins;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5027  	struct btrfs_block_group *dest_bg = NULL;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5028  	struct btrfs_chunk_map *chunk;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5029  	u64 start, remap_length, length, new_addr, min_size;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5030  	int ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5031  	bool no_more = false;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5032  	bool is_data = src_bg->flags & BTRFS_BLOCK_GROUP_DATA;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5033  	bool made_reservation = false, bg_needs_free_space;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5034  	struct btrfs_space_info *sinfo = src_bg->space_info;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5035  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5036  	extent_root = btrfs_extent_root(fs_info, src_bg->start);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5037  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5038  	trans = btrfs_start_transaction(extent_root, 0);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5039  	if (IS_ERR(trans))
+d273bbfb12e73f Mark Harmstone 2025-06-05  5040  		return PTR_ERR(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5041  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5042  	mutex_lock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5043  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5044  	ret = find_next_identity_remap(trans, path, src_bg->start + src_bg->length,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5045  				       *last_start, &start, &remap_length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5046  	if (ret == -ENOENT) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5047  		no_more = true;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5048  		goto next;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5049  	} else if (ret) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5050  		mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5051  		btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5052  		return ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5053  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5054  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5055  	/* Try to reserve enough space for block. */
+d273bbfb12e73f Mark Harmstone 2025-06-05  5056  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5057  	spin_lock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5058  	btrfs_space_info_update_bytes_may_use(sinfo, remap_length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5059  	spin_unlock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5060  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5061  	if (is_data)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5062  		min_size = fs_info->sectorsize;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5063  	else
+d273bbfb12e73f Mark Harmstone 2025-06-05  5064  		min_size = fs_info->nodesize;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5065  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5066  	ret = btrfs_reserve_extent(fs_info->fs_root, remap_length,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5067  				   remap_length, min_size,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5068  				   0, 0, &ins, is_data, false);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5069  	if (ret) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5070  		spin_lock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5071  		btrfs_space_info_update_bytes_may_use(sinfo, -remap_length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5072  		spin_unlock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5073  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5074  		mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5075  		btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5076  		return ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5077  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5078  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5079  	made_reservation = true;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5080  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5081  	new_addr = ins.objectid;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5082  	length = ins.offset;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5083  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5084  	if (!is_data && !IS_ALIGNED(length, fs_info->nodesize)) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5085  		u64 new_length = ALIGN_DOWN(length, fs_info->nodesize);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5086  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5087  		btrfs_free_reserved_extent(fs_info, new_addr + new_length,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5088  					   length - new_length, 0);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5089  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5090  		length = new_length;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5091  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5092  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5093  	dest_bg = btrfs_lookup_block_group(fs_info, new_addr);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5094  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5095  	mutex_lock(&dest_bg->free_space_lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05 @5096  	bg_needs_free_space = test_bit(BLOCK_GROUP_FLAG_NEEDS_FREE_SPACE,
+d273bbfb12e73f Mark Harmstone 2025-06-05  5097  				       &dest_bg->runtime_flags);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5098  	mutex_unlock(&dest_bg->free_space_lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5099  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5100  	if (bg_needs_free_space) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5101  		ret = add_block_group_free_space(trans, dest_bg);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5102  		if (ret)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5103  			goto fail;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5104  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5105  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5106  	ret = do_copy(fs_info, start, new_addr, length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5107  	if (ret)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5108  		goto fail;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5109  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5110  	ret = remove_from_free_space_tree(trans, new_addr, length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5111  	if (ret)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5112  		goto fail;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5113  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5114  	ret = add_remap_entry(trans, path, src_bg, start, new_addr, length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5115  	if (ret) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5116  		add_to_free_space_tree(trans, new_addr, length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5117  		goto fail;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5118  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5119  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5120  	adjust_block_group_remap_bytes(trans, dest_bg, length);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5121  	btrfs_free_reserved_bytes(dest_bg, length, 0);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5122  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5123  	spin_lock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5124  	sinfo->bytes_readonly += length;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5125  	spin_unlock(&sinfo->lock);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5126  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5127  next:
+d273bbfb12e73f Mark Harmstone 2025-06-05  5128  	if (dest_bg)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5129  		btrfs_put_block_group(dest_bg);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5130  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5131  	if (made_reservation)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5132  		btrfs_dec_block_group_reservations(fs_info, new_addr);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5133  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5134  	if (src_bg->used == 0 && src_bg->remap_bytes == 0) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5135  		chunk = btrfs_find_chunk_map(fs_info, src_bg->start, 1);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5136  		if (!chunk) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5137  			mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5138  			btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5139  			return -ENOENT;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5140  		}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5141  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5142  		ret = last_identity_remap_gone(trans, chunk, src_bg, path);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5143  		if (ret) {
+d273bbfb12e73f Mark Harmstone 2025-06-05  5144  			btrfs_free_chunk_map(chunk);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5145  			mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5146  			btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5147  			return ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5148  		}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5149  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5150  		btrfs_free_chunk_map(chunk);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5151  	}
+d273bbfb12e73f Mark Harmstone 2025-06-05  5152  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5153  	mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5154  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5155  	ret = btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5156  	if (ret)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5157  		return ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5158  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5159  	if (no_more)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5160  		return 1;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5161  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5162  	*last_start = start;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5163  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5164  	return 0;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5165  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5166  fail:
+d273bbfb12e73f Mark Harmstone 2025-06-05 @5167  	if (dest_bg)
+d273bbfb12e73f Mark Harmstone 2025-06-05  5168  		btrfs_put_block_group(dest_bg);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5169  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5170  	btrfs_free_reserved_extent(fs_info, new_addr, length, 0);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5171  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5172  	mutex_unlock(&fs_info->remap_mutex);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5173  	btrfs_end_transaction(trans);
+d273bbfb12e73f Mark Harmstone 2025-06-05  5174  
+d273bbfb12e73f Mark Harmstone 2025-06-05  5175  	return ret;
+d273bbfb12e73f Mark Harmstone 2025-06-05  5176  }
+d273bbfb12e73f Mark Harmstone 2025-06-05  5177  
 
 -- 
 0-DAY CI Kernel Test Service
