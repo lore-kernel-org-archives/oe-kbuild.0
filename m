@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CE52868A2
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Jun 2025 09:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0889220D4E2
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Jun 2025 12:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749202056; cv=none; b=RDV5hQ3gHZ/2FYA4eI0MHLuG1rMN4iWcVvhOyZlHo3I5F/Ifx97sl9pasYqIBuFi2nQMLxGCMDmB/J3TLEth1VVbUvbRxg7/dUSwonNRyJfUq1ND75nYtqk1KAMixZNxPbEV89DkVndJXNczmTVvIIT06hFzDB4bOtRHyf0qNSg=
+	t=1749214429; cv=none; b=j45OGr6TKOoXYh6+6tf4OiN7DhMKwF6vIe5DLJZ/gaMlpgZ8+pMY86ReQNtS0olyO5p4vshKtDacNuzDKWLNIXgzbbJU+N+/NXK0K3GPVIE5WLBRs67zzzbiHad7eFKbOOOu1Ar87oN/waKFtxqt278xYiiPAdv5ZtrqoFedvkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749202056; c=relaxed/simple;
-	bh=cN1FgowBUBYlFbIJXXyiTEY3veHcZooj7I346THXJD4=;
+	s=arc-20240116; t=1749214429; c=relaxed/simple;
+	bh=ZuYPFw47kgxfPJdJ3Fev+4ul695t8YdKF93HudzZykA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QQPETNO4dH4cX9LirQ8E0QSDA1lq8CatIM9Yb8GWSsOuBjOIOjiAVFeLHB46BO1tlkA4VRAPS+dH/rgBsilN/hzRdwpN3ZR8gXNMmtkYRgcHJ/2GMlHbvRHjjxNAo6ED8hGaY8c2XYPdcgVcgP21wDXAk3D2tIi0BFbGDjdCTXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GP1iUwJI; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=eJKKaAwQfkFpsRcX2/bGbjdNxxaRlCXFfF57qqxmb1mqTGnC4/oBK+AH21LPYYumZZNI7y82hkrdPqgchRECC54F4kDGNsIGG/q5W9dQGjW2ET4fg+QzCzdafOKg/AJUDAbuDycOaD2oHfPKvhjexOG52s85aP/jqrKRKLj/6cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EsMQs9KK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GP1iUwJI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EsMQs9KK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749202053; x=1780738053;
+  t=1749214428; x=1780750428;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cN1FgowBUBYlFbIJXXyiTEY3veHcZooj7I346THXJD4=;
-  b=GP1iUwJI8p4OtyYA8qGFw3Fj8pxjrP567X1zjFCHF9okGDP4jHlHdYsn
-   vqT7jXLNA8k7ySYQs2fIZsAo667fp5gPcc4yO1ZM9h7o1OP2QStuNxB5p
-   GDBhgq1dAZue90R4AmZlKqADXEIU0dAWHdq14Y+xlxQWGCx1f2t1Vc36T
-   92FxNe5zhDJK2pXJfN8xDk9WJ+r/uGmSu0icg3+7/P2azB3VQycUpvhrB
-   2oA9VM1BYlYKWWtmWScA6qcucLOVgm9AD0h+MIeEUiWJ8S0AbzzC0Mi+y
-   koe6lOm1eV8KwqcfOyl1uxk7qp2LIafNiGPmn/kgs5wcCbltIOWTGsZu7
-   A==;
-X-CSE-ConnectionGUID: HWNMOCMkSg+H5neR4WG+BQ==
-X-CSE-MsgGUID: /wyJjm25Rxu65xOkMHP8Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="68787492"
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="68787492"
+  bh=ZuYPFw47kgxfPJdJ3Fev+4ul695t8YdKF93HudzZykA=;
+  b=EsMQs9KK4fpJ7mhiKZfwtXSPgmj+fO+C6HMRtldpLf13RC38+emwG06Q
+   NSY7WUY/5ZqPJbD95AN6Zp6BFZC7ymYyrgKWyEhiI14zQHRBITQP0Rf8B
+   eEH4+bGTy23zL62e5BjRHRqI/TSHQ3tBMoprjXu3cbPXW1Aw242hMscYJ
+   ejU1C7EyoCb2pFQ8Ma7YBYaM3KZT66IfMJ6reFa7btQYFZJjGvqrx+Oei
+   09uQEANSxU60zWWdY/MGZogtdUrN7l3Z0oCs3TKqLzSNZIiY2Z7W/a2qB
+   /aBT1d4F0Fms7fP5C3QNH2zmllhgkLH0x68HildcCddF2U18Xd8FBh2tT
+   g==;
+X-CSE-ConnectionGUID: Kj9IYTXxQyqOQz4QsYfLxw==
+X-CSE-MsgGUID: fAbJmbzqRZOGwxOKu95yQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51508586"
+X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
+   d="scan'208";a="51508586"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 02:27:32 -0700
-X-CSE-ConnectionGUID: 5ArJQI2vSEq8ON+yA1oi8w==
-X-CSE-MsgGUID: jamkD++YQ1exMI5nzbPKgQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 05:53:47 -0700
+X-CSE-ConnectionGUID: PpAz22quRkSCAvChSLMorQ==
+X-CSE-MsgGUID: r6J5PKhnSMmdW/m/23U8kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="146132181"
+X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
+   d="scan'208";a="146171427"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Jun 2025 02:27:31 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 06 Jun 2025 05:53:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNTMH-0004tB-11;
-	Fri, 06 Jun 2025 09:27:29 +0000
-Date: Fri, 6 Jun 2025 17:27:02 +0800
+	id 1uNWZr-0004zG-3D;
+	Fri, 06 Jun 2025 12:53:43 +0000
+Date: Fri, 6 Jun 2025 20:53:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] kbuild: extract modules.builtin.modinfo from
- vmlinux.unstripped
-Message-ID: <202506061718.9bJ7PyNy-lkp@intel.com>
+Subject: [zen:6.15/zen-sauce 6/30] fs/bcachefs/fsck.o: warning: objtool:
+ check_key_has_inode+0x300: unreachable instruction
+Message-ID: <202506062053.R9Be25rb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,53 +63,30 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250606041029.614348-5-masahiroy@kernel.org>
-References: <20250606041029.614348-5-masahiroy@kernel.org>
-TO: Masahiro Yamada <masahiroy@kernel.org>
-TO: linux-kbuild@vger.kernel.org
-CC: Petr Pavlu <petr.pavlu@suse.com>
-CC: Alexey Gladkov <legion@kernel.org>
-CC: Ard Biesheuvel <ardb@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Nicolas Schier <nicolas@fjasle.eu>
-CC: linux-kernel@vger.kernel.org
-CC: Masahiro Yamada <masahiroy@kernel.org>
+TO: steven@liquorix.net
 
-Hi Masahiro,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.15 next-20250606]
-[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master arnd-asm-generic/master mcgrof/modules-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/module-remove-meaningless-name-parameter-from-__MODULE_INFO/20250606-121255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20250606041029.614348-5-masahiroy%40kernel.org
-patch subject: [PATCH 4/4] kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: i386-buildonly-randconfig-004-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061718.9bJ7PyNy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061718.9bJ7PyNy-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.15/zen-sauce
+head:   625fb48c0c4fab13b9c2f231c3fe6368a1b78242
+commit: 490a2fd553b92e5ad5f151994a9bbf953cc000f7 [6/30] ZEN: Disable stack conservation for GCC
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: loongarch-randconfig-001-20250606 (https://download.01.org/0day-ci/archive/20250606/202506062053.R9Be25rb-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506062053.R9Be25rb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506061718.9bJ7PyNy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506062053.R9Be25rb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> make[4]: *** No rule to make target 'vmlinux', needed by 'arch/x86/boot/compressed/vmlinux.bin'.
-   make[4]: Target 'arch/x86/boot/compressed/vmlinux' not remade because of errors.
+>> fs/bcachefs/fsck.o: warning: objtool: check_key_has_inode+0x300: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
