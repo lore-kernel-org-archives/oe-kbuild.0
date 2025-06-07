@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CB220A5EA
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jun 2025 09:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFA3184F
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jun 2025 09:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749288457; cv=none; b=ukwDFsLuIE/BVJMmSQEqm9eQ7QHyGyNrVbrrQ7WeDJw0J9WOW4p1zETp+nMaDolDTlEWeRqnQPUFzKgQ+BdQwz0mQ2q0veq4WexOjxcBl3nHMEN4O/8Uu0iYNTbHcmA1O37bu/xU8drL+P7lsp7jP/D00XeflZl+gqifkTDYet4=
+	t=1749289116; cv=none; b=HxShiHp/rNhjrh37YQH5d66eQhmMBNmpTWConJcRuxSsrOo0SltsOYRDIlRWByLmA5IHRBQ97vqJAqGgrJollLoe26jHTwzQijqPCxoAhFGpy/Hf76GkYEp0LCU3M0eFDLr5w5VCZ/lOy1WV5taIDonRDEIIZkkXnOfHRG1WQ4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749288457; c=relaxed/simple;
-	bh=c66UvRqonSMkewqWNGaXrZILczeaTwC4be9oYO4cHl4=;
+	s=arc-20240116; t=1749289116; c=relaxed/simple;
+	bh=+Cpy6401Rbmr50YZqzHd6D0ekOVuyDAQqc4kSfaTJ4w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=txKFq0rghbqt+tIwsMdUdGOli45YNSjbLL5y9iIY2mkiCE914haTCd23Wut/r/MXBr4R88zRrItCjQCCCnXCautJ/f2xToNZcIvGlTQBylGCyRXQE9NnJAuDAH/xrw2h1WWUjBF5lMxV9mTfYLUXMgKLx6wDKDofmwYlp7r+2m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVZMBN4i; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=P7AAgfkiGwqA3h3sxHUMvMVR4iv4b0EDJvspytxxLfT9cCUpvqigMo7iOOdiEP5yb3GRSFzWy+9V+K1SbFRmFoym/hG339rUCfJtJq94KWExx2ep/efWgCSvBk5lyGzssOjoOMpagWTshoC+kI5VevyKxG2gwDx4AoPRBtOfcHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFHFW77I; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVZMBN4i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFHFW77I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749288454; x=1780824454;
+  t=1749289114; x=1780825114;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c66UvRqonSMkewqWNGaXrZILczeaTwC4be9oYO4cHl4=;
-  b=jVZMBN4iOwH1uuPK46rwBV8wCtL5jK5SGeO1XW2luuFkqCzRfObvWbPG
-   xdjYdho1U9SRFwwZslmeEaEQx4/IXAjILYb4RyIOD72djnsP2x75uR/dB
-   OTRfL/ExT1hjH1yZxD3lS157s4h7mNy+53gFa19gGBG0iW8LlxSCk5VZo
-   RT1+Xbg1LvRvRDENOKTMCX6QnzORvEgk2uIFNr5oVdTkyG1QuU1OTVBKN
-   Ra4aZVuuM5AyYrt8ytz9Wl0XNe0K3RVYDyTMdIFTui4c/ua0zhsD0Iy87
-   p0MmmmxSxzpp0ntQwh6R3ooZ7arf1RGh7nMN8FDz202uljEYGZBFRpuc2
-   A==;
-X-CSE-ConnectionGUID: EwHnPqm9RlWMLyDlbGJ/TQ==
-X-CSE-MsgGUID: 9uuo3IzWT++CVD+oE/VH2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54059959"
+  bh=+Cpy6401Rbmr50YZqzHd6D0ekOVuyDAQqc4kSfaTJ4w=;
+  b=XFHFW77Iiu3ZjvgjAXxqTmqu2vCxx3dLm9ZQVSz5NBAbSxA5I5G9kmVl
+   LMcr23nLzJB2SyQHSs0Yi+jsljo8IT1vyhOvss7SztMwt+auLj1SSb95w
+   e0yQ8/66cmA97hPiiPyKtdAnkigj7ymp3Y2BwjdCd+ZRedRQKTsPJoI+C
+   HurKKZWAt+xHRuxo2uBT/mjFiEUC6355zOHB0APizMJREIT9KhMISMvEQ
+   f5nyivxivRabO2u7uSKI/+I0j/5AfMy4AbmHBzmiHXCSgdgcJ8XFksk7N
+   5tPitGX4M7f/R6bbXk40Pp+bVzqCIcoYZjdzUS3QbIXK0WnL10x5ZivhA
+   g==;
+X-CSE-ConnectionGUID: T+i0oNfcT0ikAzy+EMYu5g==
+X-CSE-MsgGUID: dKGuRGjzSQGjXHzDdKz2qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="61698572"
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="54059959"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 02:27:33 -0700
-X-CSE-ConnectionGUID: qZq5Oe81Tem32d71bxZZIQ==
-X-CSE-MsgGUID: cjgp7RkzT9GxSBnwWKDMsw==
+   d="scan'208";a="61698572"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 02:38:33 -0700
+X-CSE-ConnectionGUID: yALgZc0dR3qUSfzZV4FYBw==
+X-CSE-MsgGUID: Fb1MFT09SduuDPcU+RP2mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="146042949"
+   d="scan'208";a="146557070"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jun 2025 02:27:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2025 02:38:31 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNppo-0005ah-29;
-	Sat, 07 Jun 2025 09:27:28 +0000
-Date: Sat, 7 Jun 2025 17:26:38 +0800
+	id 1uNq0T-0005b4-1v;
+	Sat, 07 Jun 2025 09:38:29 +0000
+Date: Sat, 7 Jun 2025 17:37:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] compiler_types: Remove unnecessary indirection in
- compiletime_assert()
-Message-ID: <202506071707.obW41dVN-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202506071711.nmLl67SN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,1097 +62,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250607-compiletime_assert-v1-1-a8991a9be729@columbia.edu>
-References: <20250607-compiletime_assert-v1-1-a8991a9be729@columbia.edu>
-TO: Tal Zussman <tz2294@columbia.edu>
-TO: Kees Cook <kees@kernel.org>
-TO: Miguel Ojeda <ojeda@kernel.org>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: linux-kernel@vger.kernel.org
-CC: Tal Zussman <tz2294@columbia.edu>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-Hi Tal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bdc7f8c5adad50dad2ec762e317f8b212f5782ac]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tal-Zussman/compiler_types-Remove-unnecessary-indirection-in-compiletime_assert/20250607-152454
-base:   bdc7f8c5adad50dad2ec762e317f8b212f5782ac
-patch link:    https://lore.kernel.org/r/20250607-compiletime_assert-v1-1-a8991a9be729%40columbia.edu
-patch subject: [PATCH] compiler_types: Remove unnecessary indirection in compiletime_assert()
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250607/202506071707.obW41dVN-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071707.obW41dVN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   31245821cb3d54a27ff007515f57af84d6842846
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 years, 3 months ago
+config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250607/202506071711.nmLl67SN-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506071707.obW41dVN-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202506071711.nmLl67SN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:204:3: note: previous attribute is here
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:235:3: note: previous attribute is here
-     235 |                 fortify_panic(FORTIFY_FUNC_strnlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:271:3: note: previous attribute is here
-     271 |                 fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:271:3: note: previous attribute is here
-     271 |                 fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:271:3: note: previous attribute is here
-     271 |                 fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
->> include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:271:3: note: previous attribute is here
-     271 |                 fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
-   include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:15:38: note: expanded from macro 'FORTIFY_REASON'
-      15 | #define FORTIFY_REASON(func, write)     (FIELD_PREP(BIT(0), write) | \
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   include/linux/fortify-string.h:271:3: note: previous attribute is here
-     271 |                 fortify_panic(FORTIFY_FUNC_strlen, FORTIFY_READ, p_size, ret + 1, ret);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-         |                          ^
-   include/linux/fortify-string.h:16:7: note: expanded from macro 'FORTIFY_REASON'
-      16 |                                          FIELD_PREP(GENMASK(7, 1), func))
-         |                                          ^
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
-     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
-     547 |                         __compiletime_error(msg);                       \
-         |                         ^
-   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
-     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
-         |                                                        ^
-   In file included from scripts/mod/devicetable-offsets.c:3:
-   In file included from include/linux/mod_devicetable.h:14:
-   In file included from include/linux/uuid.h:11:
-   In file included from include/linux/string.h:392:
-   include/linux/fortify-string.h:204:3: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
-     204 |                 fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-         |                 ^
-   include/linux/fortify-string.h:21:19: note: expanded from macro 'fortify_panic'
-      21 |          __fortify_panic(FORTIFY_REASON(func, write), avail, size)
-..
+vim +2306 block/blk-throttle.c
 
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-vim +/error +204 include/linux/fortify-string.h
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
 
-fa35198f39571b Kees Cook      2022-09-19  163  
-dfbafa70bde26c Kees Cook      2022-08-26  164  /**
-dfbafa70bde26c Kees Cook      2022-08-26  165   * strncpy - Copy a string to memory with non-guaranteed NUL padding
-dfbafa70bde26c Kees Cook      2022-08-26  166   *
-dfbafa70bde26c Kees Cook      2022-08-26  167   * @p: pointer to destination of copy
-dfbafa70bde26c Kees Cook      2022-08-26  168   * @q: pointer to NUL-terminated source string to copy
-dfbafa70bde26c Kees Cook      2022-08-26  169   * @size: bytes to write at @p
-dfbafa70bde26c Kees Cook      2022-08-26  170   *
-dfbafa70bde26c Kees Cook      2022-08-26  171   * If strlen(@q) >= @size, the copy of @q will stop after @size bytes,
-dfbafa70bde26c Kees Cook      2022-08-26  172   * and @p will NOT be NUL-terminated
-dfbafa70bde26c Kees Cook      2022-08-26  173   *
-dfbafa70bde26c Kees Cook      2022-08-26  174   * If strlen(@q) < @size, following the copy of @q, trailing NUL bytes
-dfbafa70bde26c Kees Cook      2022-08-26  175   * will be written to @p until @size total bytes have been written.
-dfbafa70bde26c Kees Cook      2022-08-26  176   *
-dfbafa70bde26c Kees Cook      2022-08-26  177   * Do not use this function. While FORTIFY_SOURCE tries to avoid
-dfbafa70bde26c Kees Cook      2022-08-26  178   * over-reads of @q, it cannot defend against writing unterminated
-dfbafa70bde26c Kees Cook      2022-08-26  179   * results to @p. Using strncpy() remains ambiguous and fragile.
-dfbafa70bde26c Kees Cook      2022-08-26  180   * Instead, please choose an alternative, so that the expectation
-dfbafa70bde26c Kees Cook      2022-08-26  181   * of @p's contents is unambiguous:
-dfbafa70bde26c Kees Cook      2022-08-26  182   *
-03699f271de1f4 Kees Cook      2022-09-02  183   * +--------------------+--------------------+------------+
-03699f271de1f4 Kees Cook      2022-09-02  184   * | **p** needs to be: | padded to **size** | not padded |
-03699f271de1f4 Kees Cook      2022-09-02  185   * +====================+====================+============+
-dfbafa70bde26c Kees Cook      2022-08-26  186   * |     NUL-terminated | strscpy_pad()      | strscpy()  |
-03699f271de1f4 Kees Cook      2022-09-02  187   * +--------------------+--------------------+------------+
-dfbafa70bde26c Kees Cook      2022-08-26  188   * | not NUL-terminated | strtomem_pad()     | strtomem() |
-03699f271de1f4 Kees Cook      2022-09-02  189   * +--------------------+--------------------+------------+
-dfbafa70bde26c Kees Cook      2022-08-26  190   *
-dfbafa70bde26c Kees Cook      2022-08-26  191   * Note strscpy*()'s differing return values for detecting truncation,
-dfbafa70bde26c Kees Cook      2022-08-26  192   * and strtomem*()'s expectation that the destination is marked with
-dfbafa70bde26c Kees Cook      2022-08-26  193   * __nonstring when it is a character array.
-dfbafa70bde26c Kees Cook      2022-08-26  194   *
-dfbafa70bde26c Kees Cook      2022-08-26  195   */
-92df138a8d663c Kees Cook      2022-02-08  196  __FORTIFY_INLINE __diagnose_as(__builtin_strncpy, 1, 2, 3)
-281d0c962752fb Kees Cook      2022-02-08  197  char *strncpy(char * const POS p, const char *q, __kernel_size_t size)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  198  {
-21a2c74b0a2a78 Kees Cook      2023-04-07  199  	const size_t p_size = __member_size(p);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  200  
-fa35198f39571b Kees Cook      2022-09-19  201  	if (__compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  202  		__write_overflow();
-a28a6e860c6cf2 Francis Laniel 2021-02-25  203  	if (p_size < size)
-3d965b33e40d97 Kees Cook      2023-04-07 @204  		fortify_panic(FORTIFY_FUNC_strncpy, FORTIFY_WRITE, p_size, size, p);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  205  	return __underlying_strncpy(p, q, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  206  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  207  
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
