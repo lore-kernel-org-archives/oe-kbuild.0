@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698BF23817A
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Jun 2025 23:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DAB22FE15
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jun 2025 01:17:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749252223; cv=none; b=aIIHC+bRwLEe9374pB4qKOGzb8vwMDs/DvIinqlq1iYlyxaCepnY9epjlWe4k5/H5mD64BD5faNeh8LtdNKW5pa/9iDuH7XgKcS9Fd2JMHcf3H5RPdkqWpxYx87oy14lloOW8MN41MEthL/GfaBAp0jjAPFyjT6LaAxItjwO7OI=
+	t=1749259069; cv=none; b=KXIsW+vGmvElDXMtbe7/DmZYyKH+GYDXS/0c+DmSjQdXcThJb3JIcXMztwp2ZFZ+dqCxjmuwY/QbZudC0Y1F/uON0PD0O6NH5n2EeKbt9U5S0AHhVwQxEDn3adWy8yuR/3D8j7WTAVj8hPDfhQLJyABzVcbKMopDXONCTgzg9iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749252223; c=relaxed/simple;
-	bh=E0wsNQ5Y9eY9DcRX8Z7Hp84m2k8/9NqtAEgafab7P+E=;
+	s=arc-20240116; t=1749259069; c=relaxed/simple;
+	bh=B3KUD+IGapNpy/f0lTunvLxHqScF4rcJacGJeKDMn4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tbF24bdI+Jcz1YoRoGbTP2+oQKIlb815ypSaqyBaSM9ZG0nv0qc91UzNX9ugJELE+uKsqHl6Yagl9BcrvPVhCrerP8+o4KhbN7nF7lO2t993yoQD99MgnvFIJDFlFLGO6jNRxD/R8R8asDcwlA4rJkSapanH6IM9UNRuLvePG+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDTO8GSN; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=g2IPUx1xXl2AjKQe1HHkHhbS0aOpVi6W/U7zc0U+C/PDLCCEDxIMPkYSXYCkuQtoi4qAl7nY+HPD2J1CTXc5KgpciQyvLaqC9BnUDnTgvpOADChkExobDlXKEUwwYv9kpYPAhIMWS4wvdT54I+GerxDP4ON/m1g0kpwx+hpyp/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtWRIh30; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDTO8GSN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtWRIh30"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749252221; x=1780788221;
+  t=1749259068; x=1780795068;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E0wsNQ5Y9eY9DcRX8Z7Hp84m2k8/9NqtAEgafab7P+E=;
-  b=oDTO8GSN6zwnAQOdGc0Kbrnuze6dmyfoYOnhqr466hohqLksuZzgVoS1
-   P6w/RgahpVHXBi6AcBU+b+H3nk+bkiYgLh8UrYwGozj80lYCljdzwS0VD
-   1pBS9N/OZ5RPutVohuKxLPx3vWZIpouugjlXigXxgejHAzARPP5rEONkL
-   VCjci4uQ9nJ8wsOpQg8MbllE3FsuZNu1MTgccr2nrjwoMa8MDEXAvDSFL
-   +v3j7KzILlot3gN7/vX/Q1c+HDmvtERc1UFdlOpRTNFaZWsGawT2JIfp4
-   BdMqg1S7be8nDbt0vTzFz440eYc3Og8MHxCPEDpkXuCRLNcWCLwknNWyC
-   w==;
-X-CSE-ConnectionGUID: ck0HTaBZTuer7qfyXqJAJQ==
-X-CSE-MsgGUID: l2/MsWDXQ3GyqC9YWPwn5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62809851"
+  bh=B3KUD+IGapNpy/f0lTunvLxHqScF4rcJacGJeKDMn4c=;
+  b=PtWRIh30bsq8KFUMNQcPPWmYQmc4UD1pQVMzE9BlkIH0PNTPPKkhZF9o
+   y1+EA+E5l/myW+QYKWQmsy4C7FnXBwyOLMBMlMsMTMlLferb9WWc0syQm
+   9CKImFxggYCHkk/66W9u7rapTBYkjAaRuH3Z16YLJCmOMb7XcdO4eVx+1
+   vEt15Riml/uc0EFVWsJlGgHztdI1Sm7gthWAMZGvQKugX4n3H4f2C8bot
+   1jt4TgII/Q0yv05eBRluWh8CT5ZzfaNqDcSpRuUCaZrJzaUzhT4XX3H32
+   O5ge+0TtI07/9DZ48Dd6et+6XEQYEyxfw4Bcvi9GsFqbMRaZdPns4vxPq
+   g==;
+X-CSE-ConnectionGUID: UfevLrjkTEOPhoFnX42BMQ==
+X-CSE-MsgGUID: 6+Faczr2TCe1g/jRrBq64A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62814294"
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="62809851"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 16:23:38 -0700
-X-CSE-ConnectionGUID: 3R3k6pBYQcuIvuQZG2adZw==
-X-CSE-MsgGUID: pnJ+8M6lQl6KxQbJ5H9/HQ==
+   d="scan'208";a="62814294"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 18:17:48 -0700
+X-CSE-ConnectionGUID: pbYZ9A5KRkyKhk0G/P7FKA==
+X-CSE-MsgGUID: TJGOeBu1QE6pXfhVHpsM0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="145878078"
+   d="scan'208";a="146488163"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Jun 2025 16:23:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 Jun 2025 18:17:45 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNgPO-0005Kr-2n;
-	Fri, 06 Jun 2025 23:23:34 +0000
-Date: Sat, 7 Jun 2025 07:23:22 +0800
+	id 1uNiBr-0005OL-1B;
+	Sat, 07 Jun 2025 01:17:43 +0000
+Date: Sat, 7 Jun 2025 09:16:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 12/12] btrfs: replace identity maps with actual remaps
- when doing relocations
-Message-ID: <202506070726.RNG32ur3-lkp@intel.com>
+Subject: [norov:smp 4/4] kernel/smp.c:851 smp_call_function_many_cond() warn:
+ maybe use && instead of &
+Message-ID: <202506070933.1A1B6nRd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,202 +64,126 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250605162345.2561026-13-maharmstone@fb.com>
-References: <20250605162345.2561026-13-maharmstone@fb.com>
-TO: Mark Harmstone <maharmstone@fb.com>
-TO: linux-btrfs@vger.kernel.org
-CC: Mark Harmstone <maharmstone@fb.com>
+TO: Yury Norov <yury.norov@gmail.com>
 
-Hi Mark,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master next-20250606]
-[cannot apply to v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20250606-002804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250605162345.2561026-13-maharmstone%40fb.com
-patch subject: [PATCH 12/12] btrfs: replace identity maps with actual remaps when doing relocations
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: hexagon-randconfig-r072-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070726.RNG32ur3-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+tree:   https://github.com/norov/linux smp
+head:   c8a0154d1529978dcda3d5745f0f911432c74f3d
+commit: c8a0154d1529978dcda3d5745f0f911432c74f3d [4/4] smp: defer check for local execution in smp_call_function_many_cond()
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: i386-randconfig-141-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070933.1A1B6nRd-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202506070726.RNG32ur3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506070933.1A1B6nRd-lkp@intel.com/
 
 smatch warnings:
-fs/btrfs/relocation.c:5167 do_remap_tree_reloc_trans() warn: variable dereferenced before check 'dest_bg' (see line 5096)
+kernel/smp.c:851 smp_call_function_many_cond() warn: maybe use && instead of &
 
-vim +/dest_bg +5167 fs/btrfs/relocation.c
+vim +851 kernel/smp.c
 
-9d106e9eb328ac Mark Harmstone 2025-06-05  5019  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5020  static int do_remap_tree_reloc_trans(struct btrfs_fs_info *fs_info,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5021  				     struct btrfs_block_group *src_bg,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5022  				     struct btrfs_path *path, u64 *last_start)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5023  {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5024  	struct btrfs_trans_handle *trans;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5025  	struct btrfs_root *extent_root;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5026  	struct btrfs_key ins;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5027  	struct btrfs_block_group *dest_bg = NULL;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5028  	struct btrfs_chunk_map *chunk;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5029  	u64 start, remap_length, length, new_addr, min_size;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5030  	int ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5031  	bool no_more = false;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5032  	bool is_data = src_bg->flags & BTRFS_BLOCK_GROUP_DATA;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5033  	bool made_reservation = false, bg_needs_free_space;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5034  	struct btrfs_space_info *sinfo = src_bg->space_info;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5035  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5036  	extent_root = btrfs_extent_root(fs_info, src_bg->start);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5037  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5038  	trans = btrfs_start_transaction(extent_root, 0);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5039  	if (IS_ERR(trans))
-d273bbfb12e73f Mark Harmstone 2025-06-05  5040  		return PTR_ERR(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5041  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5042  	mutex_lock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5043  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5044  	ret = find_next_identity_remap(trans, path, src_bg->start + src_bg->length,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5045  				       *last_start, &start, &remap_length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5046  	if (ret == -ENOENT) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5047  		no_more = true;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5048  		goto next;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5049  	} else if (ret) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5050  		mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5051  		btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5052  		return ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5053  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5054  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5055  	/* Try to reserve enough space for block. */
-d273bbfb12e73f Mark Harmstone 2025-06-05  5056  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5057  	spin_lock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5058  	btrfs_space_info_update_bytes_may_use(sinfo, remap_length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5059  	spin_unlock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5060  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5061  	if (is_data)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5062  		min_size = fs_info->sectorsize;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5063  	else
-d273bbfb12e73f Mark Harmstone 2025-06-05  5064  		min_size = fs_info->nodesize;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5065  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5066  	ret = btrfs_reserve_extent(fs_info->fs_root, remap_length,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5067  				   remap_length, min_size,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5068  				   0, 0, &ins, is_data, false);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5069  	if (ret) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5070  		spin_lock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5071  		btrfs_space_info_update_bytes_may_use(sinfo, -remap_length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5072  		spin_unlock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5073  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5074  		mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5075  		btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5076  		return ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5077  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5078  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5079  	made_reservation = true;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5080  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5081  	new_addr = ins.objectid;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5082  	length = ins.offset;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5083  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5084  	if (!is_data && !IS_ALIGNED(length, fs_info->nodesize)) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5085  		u64 new_length = ALIGN_DOWN(length, fs_info->nodesize);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5086  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5087  		btrfs_free_reserved_extent(fs_info, new_addr + new_length,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5088  					   length - new_length, 0);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5089  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5090  		length = new_length;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5091  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5092  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5093  	dest_bg = btrfs_lookup_block_group(fs_info, new_addr);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5094  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5095  	mutex_lock(&dest_bg->free_space_lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05 @5096  	bg_needs_free_space = test_bit(BLOCK_GROUP_FLAG_NEEDS_FREE_SPACE,
-d273bbfb12e73f Mark Harmstone 2025-06-05  5097  				       &dest_bg->runtime_flags);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5098  	mutex_unlock(&dest_bg->free_space_lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5099  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5100  	if (bg_needs_free_space) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5101  		ret = add_block_group_free_space(trans, dest_bg);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5102  		if (ret)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5103  			goto fail;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5104  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5105  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5106  	ret = do_copy(fs_info, start, new_addr, length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5107  	if (ret)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5108  		goto fail;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5109  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5110  	ret = remove_from_free_space_tree(trans, new_addr, length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5111  	if (ret)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5112  		goto fail;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5113  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5114  	ret = add_remap_entry(trans, path, src_bg, start, new_addr, length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5115  	if (ret) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5116  		add_to_free_space_tree(trans, new_addr, length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5117  		goto fail;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5118  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5119  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5120  	adjust_block_group_remap_bytes(trans, dest_bg, length);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5121  	btrfs_free_reserved_bytes(dest_bg, length, 0);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5122  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5123  	spin_lock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5124  	sinfo->bytes_readonly += length;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5125  	spin_unlock(&sinfo->lock);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5126  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5127  next:
-d273bbfb12e73f Mark Harmstone 2025-06-05  5128  	if (dest_bg)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5129  		btrfs_put_block_group(dest_bg);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5130  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5131  	if (made_reservation)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5132  		btrfs_dec_block_group_reservations(fs_info, new_addr);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5133  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5134  	if (src_bg->used == 0 && src_bg->remap_bytes == 0) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5135  		chunk = btrfs_find_chunk_map(fs_info, src_bg->start, 1);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5136  		if (!chunk) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5137  			mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5138  			btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5139  			return -ENOENT;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5140  		}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5141  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5142  		ret = last_identity_remap_gone(trans, chunk, src_bg, path);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5143  		if (ret) {
-d273bbfb12e73f Mark Harmstone 2025-06-05  5144  			btrfs_free_chunk_map(chunk);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5145  			mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5146  			btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5147  			return ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5148  		}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5149  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5150  		btrfs_free_chunk_map(chunk);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5151  	}
-d273bbfb12e73f Mark Harmstone 2025-06-05  5152  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5153  	mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5154  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5155  	ret = btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5156  	if (ret)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5157  		return ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5158  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5159  	if (no_more)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5160  		return 1;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5161  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5162  	*last_start = start;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5163  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5164  	return 0;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5165  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5166  fail:
-d273bbfb12e73f Mark Harmstone 2025-06-05 @5167  	if (dest_bg)
-d273bbfb12e73f Mark Harmstone 2025-06-05  5168  		btrfs_put_block_group(dest_bg);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5169  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5170  	btrfs_free_reserved_extent(fs_info, new_addr, length, 0);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5171  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5172  	mutex_unlock(&fs_info->remap_mutex);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5173  	btrfs_end_transaction(trans);
-d273bbfb12e73f Mark Harmstone 2025-06-05  5174  
-d273bbfb12e73f Mark Harmstone 2025-06-05  5175  	return ret;
-d273bbfb12e73f Mark Harmstone 2025-06-05  5176  }
-d273bbfb12e73f Mark Harmstone 2025-06-05  5177  
+a32a4d8a815c4e Nadav Amit                2021-02-20  771  
+67719ef25eeb20 Sebastian Andrzej Siewior 2020-01-17  772  static void smp_call_function_many_cond(const struct cpumask *mask,
+67719ef25eeb20 Sebastian Andrzej Siewior 2020-01-17  773  					smp_call_func_t func, void *info,
+a32a4d8a815c4e Nadav Amit                2021-02-20  774  					unsigned int scf_flags,
+a32a4d8a815c4e Nadav Amit                2021-02-20  775  					smp_cond_func_t cond_func)
+3d4422332711ef Jens Axboe                2008-06-26  776  {
+a32a4d8a815c4e Nadav Amit                2021-02-20  777  	int cpu, last_cpu, this_cpu = smp_processor_id();
+e1d12f327037a5 Andrew Morton             2013-04-30  778  	struct call_function_data *cfd;
+a32a4d8a815c4e Nadav Amit                2021-02-20  779  	bool wait = scf_flags & SCF_WAIT;
+bf5a8c26ad7caf Leonardo Bras             2023-06-15  780  	int nr_cpus = 0;
+a32a4d8a815c4e Nadav Amit                2021-02-20  781  	bool run_remote = false;
+a32a4d8a815c4e Nadav Amit                2021-02-20  782  
+a32a4d8a815c4e Nadav Amit                2021-02-20  783  	lockdep_assert_preemption_disabled();
+3d4422332711ef Jens Axboe                2008-06-26  784  
+269c861baa2fe7 Suresh Siddha             2009-08-19  785  	/*
+269c861baa2fe7 Suresh Siddha             2009-08-19  786  	 * Can deadlock when called with interrupts disabled.
+269c861baa2fe7 Suresh Siddha             2009-08-19  787  	 * We allow cpu's that are not yet online though, as no one else can
+269c861baa2fe7 Suresh Siddha             2009-08-19  788  	 * send smp call function interrupt to this cpu and as such deadlocks
+269c861baa2fe7 Suresh Siddha             2009-08-19  789  	 * can't happen.
+269c861baa2fe7 Suresh Siddha             2009-08-19  790  	 */
+a32a4d8a815c4e Nadav Amit                2021-02-20  791  	if (cpu_online(this_cpu) && !oops_in_progress &&
+a32a4d8a815c4e Nadav Amit                2021-02-20  792  	    !early_boot_irqs_disabled)
+a32a4d8a815c4e Nadav Amit                2021-02-20  793  		lockdep_assert_irqs_enabled();
+3d4422332711ef Jens Axboe                2008-06-26  794  
+19dbdcb8039cff Peter Zijlstra            2019-07-18  795  	/*
+19dbdcb8039cff Peter Zijlstra            2019-07-18  796  	 * When @wait we can deadlock when we interrupt between llist_add() and
+19dbdcb8039cff Peter Zijlstra            2019-07-18  797  	 * arch_send_call_function_ipi*(); when !@wait we can deadlock due to
+19dbdcb8039cff Peter Zijlstra            2019-07-18  798  	 * csd_lock() on because the interrupt context uses the same csd
+19dbdcb8039cff Peter Zijlstra            2019-07-18  799  	 * storage.
+19dbdcb8039cff Peter Zijlstra            2019-07-18  800  	 */
+19dbdcb8039cff Peter Zijlstra            2019-07-18  801  	WARN_ON_ONCE(!in_task());
+19dbdcb8039cff Peter Zijlstra            2019-07-18  802  
+a32a4d8a815c4e Nadav Amit                2021-02-20  803  	/* Check if we need remote execution, i.e., any CPU excluding this one. */
+22a0fd713a96eb Yury Norov [NVIDIA]       2025-06-06  804  	if (cpumask_any_and_but(mask, cpu_online_mask, this_cpu) < nr_cpu_ids) {
+a32a4d8a815c4e Nadav Amit                2021-02-20  805  		run_remote = true;
+bb964a92ce70ac Christoph Lameter         2014-08-17  806  		cfd = this_cpu_ptr(&cfd_data);
+e1d12f327037a5 Andrew Morton             2013-04-30  807  		cpumask_and(cfd->cpumask, mask, cpu_online_mask);
+6c8557bdb28df3 Peter Zijlstra            2017-05-19  808  		__cpumask_clear_cpu(this_cpu, cfd->cpumask);
+723aae25d5cdb0 Milton Miller             2011-03-15  809  
+3fc5b3b6a80b2e Aaron Lu                  2017-05-19  810  		cpumask_clear(cfd->cpumask_ipi);
+e1d12f327037a5 Andrew Morton             2013-04-30  811  		for_each_cpu(cpu, cfd->cpumask) {
+6366d062e7f974 Paul E. McKenney          2023-03-20  812  			call_single_data_t *csd = per_cpu_ptr(cfd->csd, cpu);
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  813  
+5c3124975e15c1 Peter Zijlstra            2023-03-22  814  			if (cond_func && !cond_func(cpu, info)) {
+5c3124975e15c1 Peter Zijlstra            2023-03-22  815  				__cpumask_clear_cpu(cpu, cfd->cpumask);
+67719ef25eeb20 Sebastian Andrzej Siewior 2020-01-17  816  				continue;
+5c3124975e15c1 Peter Zijlstra            2023-03-22  817  			}
+67719ef25eeb20 Sebastian Andrzej Siewior 2020-01-17  818  
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  819  			csd_lock(csd);
+8053871d0f7f67 Linus Torvalds            2015-02-11  820  			if (wait)
+545b8c8df41f9e Peter Zijlstra            2020-06-15  821  				csd->node.u_flags |= CSD_TYPE_SYNC;
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  822  			csd->func = func;
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  823  			csd->info = info;
+35feb60474bf4f Paul E. McKenney          2020-06-30  824  #ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
+545b8c8df41f9e Peter Zijlstra            2020-06-15  825  			csd->node.src = smp_processor_id();
+545b8c8df41f9e Peter Zijlstra            2020-06-15  826  			csd->node.dst = cpu;
+e48c15b796d412 Paul E. McKenney          2020-06-29  827  #endif
+bf5a8c26ad7caf Leonardo Bras             2023-06-15  828  			trace_csd_queue_cpu(cpu, _RET_IP_, func, csd);
+bf5a8c26ad7caf Leonardo Bras             2023-06-15  829  
+a32a4d8a815c4e Nadav Amit                2021-02-20  830  			if (llist_add(&csd->node.llist, &per_cpu(call_single_queue, cpu))) {
+6c8557bdb28df3 Peter Zijlstra            2017-05-19  831  				__cpumask_set_cpu(cpu, cfd->cpumask_ipi);
+a32a4d8a815c4e Nadav Amit                2021-02-20  832  				nr_cpus++;
+a32a4d8a815c4e Nadav Amit                2021-02-20  833  				last_cpu = cpu;
+a32a4d8a815c4e Nadav Amit                2021-02-20  834  			}
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  835  		}
+561920a0d2bb6d Suresh Siddha             2008-10-30  836  
+a32a4d8a815c4e Nadav Amit                2021-02-20  837  		/*
+a32a4d8a815c4e Nadav Amit                2021-02-20  838  		 * Choose the most efficient way to send an IPI. Note that the
+a32a4d8a815c4e Nadav Amit                2021-02-20  839  		 * number of CPUs might be zero due to concurrent changes to the
+a32a4d8a815c4e Nadav Amit                2021-02-20  840  		 * provided mask.
+a32a4d8a815c4e Nadav Amit                2021-02-20  841  		 */
+a32a4d8a815c4e Nadav Amit                2021-02-20  842  		if (nr_cpus == 1)
+5c3124975e15c1 Peter Zijlstra            2023-03-22  843  			send_call_function_single_ipi(last_cpu);
+a32a4d8a815c4e Nadav Amit                2021-02-20  844  		else if (likely(nr_cpus > 1))
+5c3124975e15c1 Peter Zijlstra            2023-03-22  845  			send_call_function_ipi_mask(cfd->cpumask_ipi);
+cbc862707ba3d9 Yury Norov [NVIDIA]       2025-06-06  846  		else
+cbc862707ba3d9 Yury Norov [NVIDIA]       2025-06-06  847  			run_remote = false;
+a32a4d8a815c4e Nadav Amit                2021-02-20  848  	}
+a32a4d8a815c4e Nadav Amit                2021-02-20  849  
+c8a0154d152997 Yury Norov [NVIDIA]       2025-06-06  850  	/* Check if we need local execution. */
+c8a0154d152997 Yury Norov [NVIDIA]       2025-06-06 @851  	if ((scf_flags & SCF_RUN_LOCAL) & cpumask_test_cpu(this_cpu, mask) &&
+c8a0154d152997 Yury Norov [NVIDIA]       2025-06-06  852  	    (!cond_func || cond_func(this_cpu, info))) {
+a32a4d8a815c4e Nadav Amit                2021-02-20  853  		unsigned long flags;
+a32a4d8a815c4e Nadav Amit                2021-02-20  854  
+a32a4d8a815c4e Nadav Amit                2021-02-20  855  		local_irq_save(flags);
+949fa3f11ced2a Leonardo Bras             2023-06-15  856  		csd_do_func(func, info, NULL);
+a32a4d8a815c4e Nadav Amit                2021-02-20  857  		local_irq_restore(flags);
+a32a4d8a815c4e Nadav Amit                2021-02-20  858  	}
+3d4422332711ef Jens Axboe                2008-06-26  859  
+a32a4d8a815c4e Nadav Amit                2021-02-20  860  	if (run_remote && wait) {
+e1d12f327037a5 Andrew Morton             2013-04-30  861  		for_each_cpu(cpu, cfd->cpumask) {
+966a967116e699 Ying Huang                2017-08-08  862  			call_single_data_t *csd;
+e1d12f327037a5 Andrew Morton             2013-04-30  863  
+6366d062e7f974 Paul E. McKenney          2023-03-20  864  			csd = per_cpu_ptr(cfd->csd, cpu);
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  865  			csd_lock_wait(csd);
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  866  		}
+9a46ad6d6df3b5 Shaohua Li                2013-02-21  867  	}
+cc7a486cac78f6 Nicholas Piggin           2008-08-11  868  }
+67719ef25eeb20 Sebastian Andrzej Siewior 2020-01-17  869  
 
 -- 
 0-DAY CI Kernel Test Service
