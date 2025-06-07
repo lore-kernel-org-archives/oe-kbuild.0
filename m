@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFA3184F
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jun 2025 09:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2133FBB3
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Jun 2025 12:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749289116; cv=none; b=HxShiHp/rNhjrh37YQH5d66eQhmMBNmpTWConJcRuxSsrOo0SltsOYRDIlRWByLmA5IHRBQ97vqJAqGgrJollLoe26jHTwzQijqPCxoAhFGpy/Hf76GkYEp0LCU3M0eFDLr5w5VCZ/lOy1WV5taIDonRDEIIZkkXnOfHRG1WQ4k=
+	t=1749300955; cv=none; b=INTvk0aj/XOg35+0ZT5OiTU4GuwAC9hHhCq9b+TM6LILy/uJW16ukACUTFJF9VZ8gdoOeVbjCcbfe6UoS8z4OOw7zFDWzc3IQ1SDaCQrsjFwhHG5TuDA9KXnoegsV3pvTYRA4kf7b6pVcN0A6Je+TnOLnsa626shUIe6sbaHhE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749289116; c=relaxed/simple;
-	bh=+Cpy6401Rbmr50YZqzHd6D0ekOVuyDAQqc4kSfaTJ4w=;
+	s=arc-20240116; t=1749300955; c=relaxed/simple;
+	bh=oI05QMUyG9JF8xhzyGJGeIERbkRGHS0CsmdLo6L3dck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P7AAgfkiGwqA3h3sxHUMvMVR4iv4b0EDJvspytxxLfT9cCUpvqigMo7iOOdiEP5yb3GRSFzWy+9V+K1SbFRmFoym/hG339rUCfJtJq94KWExx2ep/efWgCSvBk5lyGzssOjoOMpagWTshoC+kI5VevyKxG2gwDx4AoPRBtOfcHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFHFW77I; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=hnQWRB/2tfHNRf7xlqgkkd0jMRiRBLRZQS3woKgYhwchwcX+cvXFC2BNp3+8sbnbFunASbZwx9jrKXqSQDj+Kxz+WewPCApJZQtOoUoRVttzno5OGxyCsGrzgoCG3J3+3fQa/jWFXD9VjrHZucQT+P8UjKftXEZ0vkg2TkO/eGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSmh+vq9; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFHFW77I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSmh+vq9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749289114; x=1780825114;
+  t=1749300952; x=1780836952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Cpy6401Rbmr50YZqzHd6D0ekOVuyDAQqc4kSfaTJ4w=;
-  b=XFHFW77Iiu3ZjvgjAXxqTmqu2vCxx3dLm9ZQVSz5NBAbSxA5I5G9kmVl
-   LMcr23nLzJB2SyQHSs0Yi+jsljo8IT1vyhOvss7SztMwt+auLj1SSb95w
-   e0yQ8/66cmA97hPiiPyKtdAnkigj7ymp3Y2BwjdCd+ZRedRQKTsPJoI+C
-   HurKKZWAt+xHRuxo2uBT/mjFiEUC6355zOHB0APizMJREIT9KhMISMvEQ
-   f5nyivxivRabO2u7uSKI/+I0j/5AfMy4AbmHBzmiHXCSgdgcJ8XFksk7N
-   5tPitGX4M7f/R6bbXk40Pp+bVzqCIcoYZjdzUS3QbIXK0WnL10x5ZivhA
-   g==;
-X-CSE-ConnectionGUID: T+i0oNfcT0ikAzy+EMYu5g==
-X-CSE-MsgGUID: dKGuRGjzSQGjXHzDdKz2qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="61698572"
-X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="61698572"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 02:38:33 -0700
-X-CSE-ConnectionGUID: yALgZc0dR3qUSfzZV4FYBw==
-X-CSE-MsgGUID: Fb1MFT09SduuDPcU+RP2mw==
+  bh=oI05QMUyG9JF8xhzyGJGeIERbkRGHS0CsmdLo6L3dck=;
+  b=LSmh+vq9Rx7msOKr7vIqkyQ8jPNhFqNoUr5CaLXFGY1JXbleDVY69v1E
+   hbuU2ZE7OdtD8ra6P3M52Ywt+uGY/bGLIaF+bVI6gTvKGdXCBQBPcGmm6
+   X2/AeOv9kU0Qgg1DQyPml7TFtLKpI12xOVVLHWsotR3mhg/kbCXDbDRny
+   Q+BEJL1pLvXY6oO+thOyh5I+gKKfC4NYcs2onlLjre56+K3190IQ+mrKj
+   TsNJskTpbyap2SqWl2sjhykXlmTfZlk0xjuhLtitzJlnA2A9CouRAR0pJ
+   4lz1NcWmiCunzB3CEcL/Vu3HivCNaWpdW1w47ERjueuwdXvr5/cNHRtgb
+   A==;
+X-CSE-ConnectionGUID: 6LuZuepDRlCL0jnLW0PiWQ==
+X-CSE-MsgGUID: W/TwsOXVRFKISfpN0hqjTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="62837702"
+X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
+   d="scan'208";a="62837702"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 05:55:51 -0700
+X-CSE-ConnectionGUID: e0X2Sk5cRsynDK64fGju9A==
+X-CSE-MsgGUID: Z+v1PUXNSRikFVkn47zwxw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="146557070"
+X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
+   d="scan'208";a="183254198"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Jun 2025 02:38:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 07 Jun 2025 05:55:49 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNq0T-0005b4-1v;
-	Sat, 07 Jun 2025 09:38:29 +0000
-Date: Sat, 7 Jun 2025 17:37:59 +0800
+	id 1uNt5O-0005n3-2e;
+	Sat, 07 Jun 2025 12:55:46 +0000
+Date: Sat, 7 Jun 2025 20:55:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 1568/1568]
- block/blk-throttle.c:2306:1-7: preceding lock on line 2212
-Message-ID: <202506071711.nmLl67SN-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] compiler_types: Remove unnecessary indirection in
+ compiletime_assert()
+Message-ID: <202506072023.tGPGIsGR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,153 +62,423 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   31245821cb3d54a27ff007515f57af84d6842846
-commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [1568/1568] blk-throttle: Set BIO_THROTTLED when bio has been throttled
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 years, 3 months ago
-config: x86_64-randconfig-102-20250408 (https://download.01.org/0day-ci/archive/20250607/202506071711.nmLl67SN-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250607-compiletime_assert-v1-1-a8991a9be729@columbia.edu>
+References: <20250607-compiletime_assert-v1-1-a8991a9be729@columbia.edu>
+TO: Tal Zussman <tz2294@columbia.edu>
+TO: Kees Cook <kees@kernel.org>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: linux-kernel@vger.kernel.org
+CC: Tal Zussman <tz2294@columbia.edu>
+
+Hi Tal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bdc7f8c5adad50dad2ec762e317f8b212f5782ac]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tal-Zussman/compiler_types-Remove-unnecessary-indirection-in-compiletime_assert/20250607-152454
+base:   bdc7f8c5adad50dad2ec762e317f8b212f5782ac
+patch link:    https://lore.kernel.org/r/20250607-compiletime_assert-v1-1-a8991a9be729%40columbia.edu
+patch subject: [PATCH] compiler_types: Remove unnecessary indirection in compiletime_assert()
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: x86_64-buildonly-randconfig-001-20250607 (https://download.01.org/0day-ci/archive/20250607/202506072023.tGPGIsGR-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506072023.tGPGIsGR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506071711.nmLl67SN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506072023.tGPGIsGR-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+All error/warnings (new ones prefixed by >>):
 
-vim +2306 block/blk-throttle.c
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+--
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+--
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+>> clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+   clang diag: include/linux/compiler_attributes.h:138:56: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+..
 
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
-ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
-ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
-e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
-c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
-ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
-73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
-0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
-e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
-e43473b7f223ec Vivek Goyal   2010-09-15  2203  
-ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
-ae118896361111 Tejun Heo     2015-08-18  2205  
-2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
-e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
-e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
-bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
-e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2211  
-e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
-c9589f03e49095 Tejun Heo     2015-08-18  2213  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
-c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
-e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
-f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
-2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
-9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
-9e234eeafbe17e Shaohua Li    2017-03-27  2221  
-73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
-73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
-c79892c5576163 Shaohua Li    2017-03-27  2224  again:
-9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
-3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
-3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
-fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
-9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
-c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
-3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
-c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
-c79892c5576163 Shaohua Li    2017-03-27  2240  			}
-9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
-c79892c5576163 Shaohua Li    2017-03-27  2242  		}
-de701c74a34005 Vivek Goyal   2011-03-07  2243  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
-e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
-04521db04e9a11 Vivek Goyal   2011-03-22  2246  
-04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
-04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
-04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
-04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
-04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
-04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
-04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
-04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
-04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
-04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
-04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
-0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
-9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
-9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
-9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
-c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
-9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
-9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
-9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
-e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
-e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2271  
-9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
-fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
-8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
-9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
-9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
-9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
-73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
-e43473b7f223ec Vivek Goyal   2010-09-15  2279  
-3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
-3f0abd806651df Shaohua Li    2017-03-27  2281  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
-c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
-bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
-e43473b7f223ec Vivek Goyal   2010-09-15  2285  
-7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
-7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
-7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
-7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
-7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
-7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
-0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
-77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
-7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
-e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
-e43473b7f223ec Vivek Goyal   2010-09-15  2296  
-bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
-111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
-5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
-b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
-e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
-e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
-bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
-e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
-e43473b7f223ec Vivek Goyal   2010-09-15  2308  
 
-:::::: The code at line 2306 was first introduced by commit
-:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+vim +/error +37 include/linux/list.h
 
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+^1da177e4c3f415 Linus Torvalds    2005-04-16  24  
+^1da177e4c3f415 Linus Torvalds    2005-04-16  25  #define LIST_HEAD(name) \
+^1da177e4c3f415 Linus Torvalds    2005-04-16  26  	struct list_head name = LIST_HEAD_INIT(name)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  27  
+46deb7449d99f37 Paul E. McKenney  2019-11-09  28  /**
+46deb7449d99f37 Paul E. McKenney  2019-11-09  29   * INIT_LIST_HEAD - Initialize a list_head structure
+46deb7449d99f37 Paul E. McKenney  2019-11-09  30   * @list: list_head structure to be initialized.
+46deb7449d99f37 Paul E. McKenney  2019-11-09  31   *
+46deb7449d99f37 Paul E. McKenney  2019-11-09  32   * Initializes the list_head to point to itself.  If it is a list header,
+46deb7449d99f37 Paul E. McKenney  2019-11-09  33   * the result is an empty list.
+46deb7449d99f37 Paul E. McKenney  2019-11-09  34   */
+490d6ab170c94a7 Zach Brown        2006-02-03  35  static inline void INIT_LIST_HEAD(struct list_head *list)
+490d6ab170c94a7 Zach Brown        2006-02-03  36  {
+2f073848c3cc8af Paul E. McKenney  2015-10-12 @37  	WRITE_ONCE(list->next, list);
+d679ae94fdd5d3a Kuniyuki Iwashima 2022-04-29  38  	WRITE_ONCE(list->prev, list);
+490d6ab170c94a7 Zach Brown        2006-02-03  39  }
+^1da177e4c3f415 Linus Torvalds    2005-04-16  40  
 
 -- 
 0-DAY CI Kernel Test Service
