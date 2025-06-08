@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050052F3E
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Jun 2025 20:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EDB1B040B
+	for <oe-kbuild@lists.linux.dev>; Sun,  8 Jun 2025 22:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749414225; cv=none; b=pYWPy+wkytnusgR5OCEPiCh7QDXfbceZqxAlDnFJpsN0gBz6qd0uODzEgp6n9klcLefIn4En7Al8w4bdFrbpXNUedHYVa4kp9ano8NExhX05ozqKMXpUI3Cn3McSSB7Kx9QOD7lqA60irvKkgUuY1LzMrhQd9HgVmQzt6rTQiY4=
+	t=1749423435; cv=none; b=uass9d3OWshHZ+6CGWGB2GeqJys9CoTXopWO4NyKx/Xr5J0Jk1o+0RCd2qa1ppqIR0s01+307ODTDlS5gQ5i9ko96YcVj5boKkUdhme8AxKxZU8xE8dgrJaAheSCud0aUZKoadkre5IRJivS3yTBxjxg2wgmWj8IPGwAWjn5Oc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749414225; c=relaxed/simple;
-	bh=cGoVobjr825l4Prh4aqr4Un90/YzPCi/P7eCY78nMJ8=;
+	s=arc-20240116; t=1749423435; c=relaxed/simple;
+	bh=3X+NVPWkCOye++Db48UAFUt7/wAeZy37cjYD4IAVyqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d+3/tn8YYyOsYRUFVxiqnepDroWPhPua2IIxZZt9FK+cJSY77SoyI6wgwdUL6qPiDTXwLyZE8mPs8wmC3dugiuvpdyIAcXrFWMJGUMHpIvzUCL9U2kbZlq0vkv7676DqOSkvTIVdURfZ5BxjWe0OtdywOrSbF3BolBEQddldETY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LeldO+Rq; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=roh4IMFnDXvySobWATsAlP5dN7byF5O4C0DysLbpJpJ3yulJrwWpIU7ziMN+w4rgYW5luCpjsrBOYpIXr4mXGF9mX2YqwBlbz4Z0yLB3ZvWuhvr6nKlBHbt3dbUYP0OUjEn/hQqe1I8onYESGqTzmBxjzSxQQEqrA6QH5MziUwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZYoWnUM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LeldO+Rq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZYoWnUM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749414224; x=1780950224;
+  t=1749423433; x=1780959433;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cGoVobjr825l4Prh4aqr4Un90/YzPCi/P7eCY78nMJ8=;
-  b=LeldO+Rq/ZHt7936N8gLeBQUAI8efzqb1znaugke8m5yZjspTmB7aexs
-   toDnQEOT0DCcWd1AEtxIIrCN3KHVxVhV0KDMuLTWhKrvKUIXeV37bwDNu
-   Pp6eFS14uc6Tea7LvPJYvI9aobfR9ar9rTn8JsKwx3lK1f/8qGXp97kqE
-   IPacAPzy1iMT2wDzIqqvC6Dytlya66P19bMAD+JIbNGRuZODa6WI0Vumj
-   AWJJyUaT2bnufpgyUJbEYf6HMindGgZfe6vghMow0Q+P7a1+GtNb/P4bJ
-   PCc1wDg1qUOTGH/MvQtMnvboF6BE/lhh1TknvmXoXsQzu9xs2m0AZemeM
-   A==;
-X-CSE-ConnectionGUID: QYmpmbjPSo66/u4a3146og==
-X-CSE-MsgGUID: 68UhqrLIRhGdPpE+WqwPtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51400080"
+  bh=3X+NVPWkCOye++Db48UAFUt7/wAeZy37cjYD4IAVyqk=;
+  b=BZYoWnUMPzrtZZP/JBY878XyjNRry646K02evaStT6pT6xlg9kVKyar6
+   coUWMe+mzaApAAVQ7f4nf/vuSanOZf4FPlQFpNw19EN+tC6rhta6UWu/N
+   BR5vA6Fj9UsW8cFZ1Ug6piWuZXnE2EH9lpLQu+OsOGnxmL9JvrYBtBG8I
+   u3XL9nJnWHuZ+/VpsR5jPQLGuC4RzbghZJkxrJJAHHYg2wz/8uoirAZId
+   oV8LgN9Eb3WjfFdqxKouBs6Tx0+hj514w0M8SNioVfKi0tdLrwmiuNdA2
+   sSSlodHR4EsehSQhwgSb6S8E6WqsraEp+vp1aE3VrHAYZe0cygDInNpoD
+   Q==;
+X-CSE-ConnectionGUID: aSWKmA9BRsWgjgrYiYu98w==
+X-CSE-MsgGUID: x/oaAkYhR+W1exqp+qKVJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="50601604"
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="51400080"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 13:23:44 -0700
-X-CSE-ConnectionGUID: K73r51tyTOuCXcCOq8vVYA==
-X-CSE-MsgGUID: ZER0kgWvRTafVbCIMGxkzQ==
+   d="scan'208";a="50601604"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 15:57:12 -0700
+X-CSE-ConnectionGUID: m+ooq5kkS1+dA8tLm23Q9w==
+X-CSE-MsgGUID: PXlEtavVSpafih1ibXCuIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="177271541"
+   d="scan'208";a="146932360"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Jun 2025 13:23:43 -0700
+  by orviesa007.jf.intel.com with ESMTP; 08 Jun 2025 15:57:11 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOMYO-0006Xl-0Y;
-	Sun, 08 Jun 2025 20:23:40 +0000
-Date: Mon, 9 Jun 2025 04:22:43 +0800
+	id 1uOOwu-0006c9-22;
+	Sun, 08 Jun 2025 22:57:08 +0000
+Date: Mon, 9 Jun 2025 06:56:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [akpm-mm:mm-nonmm-unstable 29/32]
- include/linux/compiler_types.h:565:39: error: call to
- '__compiletime_assert___COUNTER__' declared with attribute error:
- BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
-Message-ID: <202506090419.A0G5I2FK-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/btrfs/extent_io.c:4261:2-11: second lock on line 4261
+Message-ID: <202506090637.jjgXwrmn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,66 +61,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only suspicious fbc files changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Tal Zussman <tz2294@columbia.edu>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Filipe Manana <fdmanana@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   8172857ac52869c411762ce86802d127b0bb7546
-commit: 54594582aa30a31c2596575729000f0a60b0a648 [29/32] compiler_types: remove unnecessary indirection in compiletime_assert()
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: arc-randconfig-002-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090419.A0G5I2FK-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090419.A0G5I2FK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   939f15e640f193616691d3bcde0089760e75b0d3
+commit: 19d7f65f032f898df8c164d378be502901772eb7 btrfs: convert the buffer_radix to an xarray
+date:   3 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 3 weeks ago
+config: openrisc-randconfig-r063-20250608 (https://download.01.org/0day-ci/archive/20250609/202506090637.jjgXwrmn-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506090419.A0G5I2FK-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202506090637.jjgXwrmn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/btrfs/extent_io.c:4261:2-11: second lock on line 4261
 
-   In file included from <command-line>:
-   arch/arc/mm/highmem.c: In function 'kmap_init':
->> include/linux/compiler_types.h:565:39: error: call to '__compiletime_assert___COUNTER__' declared with attribute error: BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
-     565 |  __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                       ^
-   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
-     549 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   arch/arc/mm/highmem.c:69:2: note: in expansion of macro 'BUILD_BUG_ON'
-      69 |  BUILD_BUG_ON(FIX_KMAP_SLOTS > PTRS_PER_PTE);
-         |  ^~~~~~~~~~~~
+vim +4261 fs/btrfs/extent_io.c
 
+6af118ce51b52c Chris Mason 2008-07-22  4245  
+0145aa38cb39a0 Li Zetao    2024-08-29  4246  static int try_release_subpage_extent_buffer(struct folio *folio)
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4247  {
+0145aa38cb39a0 Li Zetao    2024-08-29  4248  	struct btrfs_fs_info *fs_info = folio_to_fs_info(folio);
+19d7f65f032f89 Josef Bacik 2025-04-28  4249  	struct extent_buffer *eb;
+19d7f65f032f89 Josef Bacik 2025-04-28  4250  	unsigned long start = (folio_pos(folio) >> fs_info->sectorsize_bits);
+19d7f65f032f89 Josef Bacik 2025-04-28  4251  	unsigned long index = start;
+19d7f65f032f89 Josef Bacik 2025-04-28  4252  	unsigned long end = index + (PAGE_SIZE >> fs_info->sectorsize_bits) - 1;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4253  	int ret;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4254  
+19d7f65f032f89 Josef Bacik 2025-04-28  4255  	xa_lock_irq(&fs_info->buffer_tree);
+19d7f65f032f89 Josef Bacik 2025-04-28  4256  	xa_for_each_range(&fs_info->buffer_tree, index, eb, start, end) {
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4257  		/*
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4258  		 * The same as try_release_extent_buffer(), to ensure the eb
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4259  		 * won't disappear out from under us.
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4260  		 */
+d1e86e3fc34f24 Qu Wenruo   2021-01-26 @4261  		spin_lock(&eb->refs_lock);
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4262  		if (atomic_read(&eb->refs) != 1 || extent_buffer_under_io(eb)) {
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4263  			spin_unlock(&eb->refs_lock);
+19d7f65f032f89 Josef Bacik 2025-04-28  4264  			continue;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4265  		}
+19d7f65f032f89 Josef Bacik 2025-04-28  4266  		xa_unlock_irq(&fs_info->buffer_tree);
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4267  
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4268  		/*
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4269  		 * If tree ref isn't set then we know the ref on this eb is a
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4270  		 * real ref, so just return, this eb will likely be freed soon
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4271  		 * anyway.
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4272  		 */
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4273  		if (!test_and_clear_bit(EXTENT_BUFFER_TREE_REF, &eb->bflags)) {
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4274  			spin_unlock(&eb->refs_lock);
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4275  			break;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4276  		}
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4277  
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4278  		/*
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4279  		 * Here we don't care about the return value, we will always
+cfbf07e2787e4d Qu Wenruo   2023-11-17  4280  		 * check the folio private at the end.  And
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4281  		 * release_extent_buffer() will release the refs_lock.
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4282  		 */
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4283  		release_extent_buffer(eb);
+19d7f65f032f89 Josef Bacik 2025-04-28  4284  		xa_lock_irq(&fs_info->buffer_tree);
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4285  	}
+19d7f65f032f89 Josef Bacik 2025-04-28  4286  	xa_unlock_irq(&fs_info->buffer_tree);
+19d7f65f032f89 Josef Bacik 2025-04-28  4287  
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4288  	/*
+cfbf07e2787e4d Qu Wenruo   2023-11-17  4289  	 * Finally to check if we have cleared folio private, as if we have
+cfbf07e2787e4d Qu Wenruo   2023-11-17  4290  	 * released all ebs in the page, the folio private should be cleared now.
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4291  	 */
+0145aa38cb39a0 Li Zetao    2024-08-29  4292  	spin_lock(&folio->mapping->i_private_lock);
+0145aa38cb39a0 Li Zetao    2024-08-29  4293  	if (!folio_test_private(folio))
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4294  		ret = 1;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4295  	else
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4296  		ret = 0;
+0145aa38cb39a0 Li Zetao    2024-08-29  4297  	spin_unlock(&folio->mapping->i_private_lock);
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4298  	return ret;
+d1e86e3fc34f24 Qu Wenruo   2021-01-26  4299  
 
-vim +/__compiletime_assert___COUNTER__ +565 include/linux/compiler_types.h
+:::::: The code at line 4261 was first introduced by commit
+:::::: d1e86e3fc34f24b090d86949ad7f3db7a4c1861f btrfs: support subpage in try_release_extent_buffer()
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  557   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  559   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564  #define compiletime_assert(condition, msg) \
-54594582aa30a3 Tal Zussman 2025-06-07 @565  	__compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566  
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
