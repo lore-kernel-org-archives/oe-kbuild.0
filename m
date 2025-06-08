@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5CD13B788
-	for <oe-kbuild@lists.linux.dev>; Sun,  8 Jun 2025 10:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C77282EB
+	for <oe-kbuild@lists.linux.dev>; Sun,  8 Jun 2025 14:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749378595; cv=none; b=dvjLS5jIL1mLjh6o65nHvQasjpcoVZ0FvWdtoJMw/BXPmztDSUMoQT6ttIIW+2YRdEL8Ykq6LqIXVc0PohbJ/mM3/Dbd7vh9/3Vhi82XuHwUUj6aLfHVN3WWCPUVHYHn2Mk2/iGDPY9pjCbLnzJL43j0e519Yhzbw9n0bpnxAr4=
+	t=1749393252; cv=none; b=COIEzHSDL+7wyuAKhW8H+qZ94ipcy8zSveaPutnKLYdcwMVuNCXcYAHGAGAybZupSw+kTCyACM5RfL2KYYVwhZYnppw45b7mYFT0vaA/Lz6Bj5kLMubIp3+TZl4NfCOnzbmFqG2dgd26aJd+WMZZ8RSOUAWi0RGRlAziSGYDfUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749378595; c=relaxed/simple;
-	bh=Cd/EbRk47i22DQ9edRj3yRVB7Y+Mpm2Lt6gEzgIdP48=;
+	s=arc-20240116; t=1749393252; c=relaxed/simple;
+	bh=eTgaRKc0eTyvDLfiKrauuK0g1kf2Z0lmPDWS6ZPFTu0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sRnvsaYehiwNng+RAVW1+tduWpCZc1zrIwp3V0pqveHWjosF0NRjsufyaqofleyR+c6rbZcKlIqYE6va7iv+C+XrPT+KCtr8htZGJN/sj4x7bqVyjQEdcOSJE9T0QrAeBDa/Cp77asH16rMWxj3n96XK6nF2LkXjMzyHIioWLfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3NtCqs/; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=tpVV3pn2+aLBWwMBYs/mHrEZoUgEn+GNAEADyFq/20B6ILsq7AyvB2+q46D5O5DHrkx85zz6ggNfJLgGE9DETEXBIxjwFxuCWdbnbrbGEqjsWlb+3FWUmUFbhF+0NG6GFLYcNlmbVFUaw9qyj9SwQWy72N0zonRQSavYeoyoa7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j80PD0aa; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3NtCqs/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j80PD0aa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749378591; x=1780914591;
+  t=1749393251; x=1780929251;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cd/EbRk47i22DQ9edRj3yRVB7Y+Mpm2Lt6gEzgIdP48=;
-  b=e3NtCqs/DAV5I5HnrYILqMJz6JVvhwQghlAleULpXfK+18XK6INzqn2s
-   1y9qFpHwUzP4+RbKIgQtkzHJ9EANd8eWwrJ2lpXs8rbjxNDGjBs82YsLG
-   Ld0CIl6qpg7R1jC/AUaUacyeTHT4i6WQoMYQ+++cilR4+t5U7UMAftSpu
-   Axdfb5nL7T+cwQJpaXbAS3jfaGjuuhg4u3OJaUtkL7VOZ+xNDzoydlyVT
-   RtQjGtqBLVE6YQdduxozmmK14WOV1YeleLiV9cHW3ZD7sA5goYatwqQJ8
-   MvURD0VKGkm0ewnrODetp7UZPE5wIZIbOnQKyeURxMzof1N7mSza3M4+r
-   A==;
-X-CSE-ConnectionGUID: A7SwyuSvQv22QBi/27ttPw==
-X-CSE-MsgGUID: LUyB9SVsQ6qZam5uv9tZvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="50580047"
+  bh=eTgaRKc0eTyvDLfiKrauuK0g1kf2Z0lmPDWS6ZPFTu0=;
+  b=j80PD0aaxA9iMTot1/hT9WuAXHs7QES4wc6WOUIzix+zJWgks5kPdPSc
+   ylefSM68C2uWQjTxN49i/0ClMcntC58P3KaldXR0vQtnaUn+UOdob8gBf
+   gaclWUjWb0XImVehe6ASce2nG2HSjdI3dXr1qdqFe6tjOmdYNvKQY3y9s
+   14uIItcbW0yx/HJtdghRas0Yf4Wk+I2ogfP3qFBYr8LPyXLDDZ5+i3s7a
+   EsdlU3NauyIjV7FPY5gHLcYoLyUSibQGWJKMsJpOBCGASIJeBrTjSvKRL
+   w9WU2p3riHtrBTfWz5XJBFcCQT3wmjGsT6hrYCCSdJTPbEY0ypTl5s9lF
+   g==;
+X-CSE-ConnectionGUID: dR1IlSUjR8evTT9aW/99Zg==
+X-CSE-MsgGUID: HFAPwuxNQGCETPCxPoXluQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51189989"
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="50580047"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 03:29:51 -0700
-X-CSE-ConnectionGUID: 7mP+ZN1FTFeJ5/GhBlI6kQ==
-X-CSE-MsgGUID: UTTi6QoZT3u2ZMufkfEUDw==
+   d="scan'208";a="51189989"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 07:34:11 -0700
+X-CSE-ConnectionGUID: qC4ob6wmTC+nzUonGFg6IQ==
+X-CSE-MsgGUID: xZLjhihtS0e/rqZsH8oegA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="146134223"
+   d="scan'208";a="150098992"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Jun 2025 03:29:50 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 Jun 2025 07:34:08 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uODHg-0006K9-0a;
-	Sun, 08 Jun 2025 10:29:48 +0000
-Date: Sun, 8 Jun 2025 18:29:00 +0800
+	id 1uOH66-0006Oz-1b;
+	Sun, 08 Jun 2025 14:34:06 +0000
+Date: Sun, 8 Jun 2025 22:34:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 09/10] ARM: dts: imx6ul: support Engicam MicroGEA GTW
- board
-Message-ID: <202506081814.3FIfmBz0-lkp@intel.com>
+Subject: Re: [PATCH v1 2/2] ARM: dts: aspeed: santabarbara: Add Meta
+ Santabarbara BMC
+Message-ID: <202506082256.hAelIP2x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,51 +68,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250607093342.2248695-10-dario.binacchi@amarulasolutions.com>
-References: <20250607093342.2248695-10-dario.binacchi@amarulasolutions.com>
-TO: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+In-Reply-To: <20250606102802.1821638-3-fredchen.openbmc@gmail.com>
+References: <20250606102802.1821638-3-fredchen.openbmc@gmail.com>
+TO: Fred Chen <fredchen.openbmc@gmail.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Joel Stanley <joel@jms.id.au>
+TO: Andrew Jeffery <andrew@codeconstruct.com.au>
+TO: devicetree@vger.kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-aspeed@lists.ozlabs.org
 TO: linux-kernel@vger.kernel.org
-CC: Matteo Lisi <matteo.lisi@engicam.com>
-CC: linux-amarula@amarulasolutions.com
-CC: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Fabio Estevam <festevam@gmail.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-CC: Rob Herring <robh@kernel.org>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
 
-Hi Dario,
+Hi Fred,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bdc7f8c5adad50dad2ec762e317f8b212f5782ac]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.15 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/dt-bindings-arm-fsl-support-Engicam-MicroGEA-BMM-board/20250607-173700
-base:   bdc7f8c5adad50dad2ec762e317f8b212f5782ac
-patch link:    https://lore.kernel.org/r/20250607093342.2248695-10-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH 09/10] ARM: dts: imx6ul: support Engicam MicroGEA GTW board
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
-config: arm-randconfig-052-20250608 (https://download.01.org/0day-ci/archive/20250608/202506081814.3FIfmBz0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Chen/dt-bindings-arm-aspeed-add-Meta-Santabarbara-board/20250606-183035
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250606102802.1821638-3-fredchen.openbmc%40gmail.com
+patch subject: [PATCH v1 2/2] ARM: dts: aspeed: santabarbara: Add Meta Santabarbara BMC
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-051-20250607 (https://download.01.org/0day-ci/archive/20250608/202506082256.hAelIP2x-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
 dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506081814.3FIfmBz0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506082256.hAelIP2x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202506081814.3FIfmBz0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506082256.hAelIP2x-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/nxp/imx/imx6ull-engicam-microgea-gtw.dtb: cpu@0 (arm,cortex-a7): Unevaluated properties are not allowed ('fsl,soc-operating-points', 'soc-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
->> arch/arm/boot/dts/nxp/imx/imx6ull-engicam-microgea-gtw.dtb: nand-controller@1806000 (fsl,imx6q-gpmi-nand): Unevaluated properties are not allowed ('nand-ecc-mode', 'nand-ecc-step-size', 'nand-ecc-strength', 'nand-on-flash-bbt' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/gpmi-nand.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-g6.dtsi:634.36-638.7: Warning (unique_unit_address_if_enabled): /ahb/apb/lpc@1e789000/reset-controller@98: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/uart-routing@98)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: gpio@1e780000 (aspeed,ast2600-gpio): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+   	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
