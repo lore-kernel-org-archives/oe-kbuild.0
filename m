@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0D9218EBF
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Jun 2025 16:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8BE55E69
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Jun 2025 18:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749485661; cv=none; b=agcSGOGrqAlvXaML4bMruDpsCSIQ9uyMG23CXAHmuMiT2/RG5bUy/3n1EIxPEt9b1IyUniVtOPRIuoBfE3FGobVyNbG2qsLTLE2q5azA3pcxp8ISAl41hwvX6zH4jHm0+AY/RsVr+FH4zYtf5/RFDO8jz+pLqsNmINdGRnr7fiY=
+	t=1749493070; cv=none; b=G/KEgHYZM6rTR5C6gn8WUfE+N9pv5uC0q9l/0H76kLJ/t2oZXc1wKvLUFAXPiWj5ha1wKcrvkfP6FuKf+2q+4gBkyEu1xSnZn+CbJtr+QQQutffSkL2F3r/P8MTvxuLVgIBPv1aKJbLJN/gY3ktjYt5NSr4GO7gATY9iHNZKiIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749485661; c=relaxed/simple;
-	bh=54XOD8PuQVj//v8Z+dWHg15tHghkCtpwD3e34n1v/Qs=;
+	s=arc-20240116; t=1749493070; c=relaxed/simple;
+	bh=8Z1ialGhZLfl3Fa+CNWcYtXopGU9g9lJg5RVuhaVctM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ldXQHIN+Swa2iW4SIlbNIDCioe/OPwSb5L8Aoaj6E1TzULozfhljJYw+M9swa9KAwt24Ytv3Jx0f17q8uo/qBB6kPBeoL8LLQkSBmOXBp5J731tRkj0w0LAzGPqn0N6KiWqQeBd4bA9Gnz+wnXnHBZpskumUxay6x5zpfb6l1Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZShQutop; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=A1wyibk/4v5JSjVtKaPMFIgoL7KWQUm3oyY42Xzh5ber4yI2zDSh9g+FdWAyeWcI+GxH2hG8CJn548tohKtOyOSUa2HAPrZ0pzWDm9bRMZz59k7QljoQCO8YuvnDbtjNQbDuRTi3U7c4dImJ95xA5Rbdp0CBgE0IwsI/WeK61h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Abc5ajta; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZShQutop"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Abc5ajta"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749485660; x=1781021660;
+  t=1749493069; x=1781029069;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=54XOD8PuQVj//v8Z+dWHg15tHghkCtpwD3e34n1v/Qs=;
-  b=ZShQutops9hqlR9nfGcBAtOfE6uAtfoYqtPDVpVuf77pKS1Vhtdc+YBg
-   sEUlCWP08x0Pw4JtnsnCVXnoxva2PJdqZ2BuSFr/fxfPPgwX0kLt5sLKl
-   cUkW1Yb0j7RawPQHDFGDgR7XHaT4x2HuKQEBwjVO5IY8v9wKToiZwM/Ql
-   3pbPBeqg8vZvtAPKWVJoIJJMH3Fvg0M3jZU+myin6JSYJ7eYnMPamrGLE
-   +oWpaU9SpZKTDaZY8iNqV06leKKQnYnCSM+ajcBCFub4YnrY9A0VcxAUY
-   HV8JAfMYLo30Yj1/hZJaeNtEEOMvDuR8Fd658dvwHlhpzFdwMUw/46vBa
-   g==;
-X-CSE-ConnectionGUID: IoVunKTqQi2UJ6tEnFVC1w==
-X-CSE-MsgGUID: 5WhrcYalSxqMolWRQ6zDyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51275778"
-X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="51275778"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 09:14:19 -0700
-X-CSE-ConnectionGUID: pWeGmxuDRGKiCxz09R6LsQ==
-X-CSE-MsgGUID: DSYqaNgLTMyWCvCtYNQuhQ==
+  bh=8Z1ialGhZLfl3Fa+CNWcYtXopGU9g9lJg5RVuhaVctM=;
+  b=Abc5ajtaU24bCUc6qupnF6fHOke5cH/kJUXA8LcwBDvTnRVrPfEwdMnM
+   rX3zY5Z6sNqw7ABbeNEcdmqzXml3dDo33WFzp3J4PQechjm/DoCMsS03p
+   NEr2RDvA0iOQ/3+hJhh7IbFCbOMtEDLIKv7qxov0uyXUSfzXEKz8eD3N5
+   lmbvDIXcOmPvcZjUJwkywxsOB4TzCayRXCHe/T9PTl9Dus1WgljNOFW7Z
+   TKrjOiI3h6r9KpShFpaGrnqegPLUBFmBnWqht4pkyk2iPDi5I3juKvmDF
+   rJrw/K1UzvckRk18Lpi4PU/WP8HRnTSSOzcDBnlQ5mkW8grwUz8JTuKKK
+   A==;
+X-CSE-ConnectionGUID: FKZE1pjoQ6u6EvXVFotzXg==
+X-CSE-MsgGUID: Z9AI8KDzTwSqWNhQ8kl3OA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51292415"
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="51292415"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 11:17:49 -0700
+X-CSE-ConnectionGUID: GTVRP6J2TGeQKvuorwVe1w==
+X-CSE-MsgGUID: 3UXu8vMcSzm1d8XVP0cXzA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="147077723"
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="151396276"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jun 2025 09:14:17 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Jun 2025 11:17:48 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOf8Z-0007Bd-39;
-	Mon, 09 Jun 2025 16:14:15 +0000
-Date: Tue, 10 Jun 2025 00:13:16 +0800
+	id 1uOh45-0007JB-1k;
+	Mon, 09 Jun 2025 18:17:45 +0000
+Date: Tue, 10 Jun 2025 02:17:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v8 5/7] ACPI: APEI: EINJ: Create debugfs files to enter
- device id and syndrome
-Message-ID: <202506100008.WCNjNbsv-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [jpoimboe:klp-build 29/62] samples/ftrace/ftrace-ops.o: warning:
+ objtool: __cfi_init_module size 8 != 16
+Message-ID: <202506100232.pcTHUvQ3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,94 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only suspicious fbc files changed"
+:::::: 
+
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20250604223804.842501-6-zaidal@os.amperecomputing.com>
-References: <20250604223804.842501-6-zaidal@os.amperecomputing.com>
-TO: Zaid Alali <zaidal@os.amperecomputing.com>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-Hi Zaid,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.16-rc1 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zaid-Alali/ACPI-APEI-EINJ-Fix-kernel-test-sparse-warnings/20250605-064102
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250604223804.842501-6-zaidal%40os.amperecomputing.com
-patch subject: [PATCH v8 5/7] ACPI: APEI: EINJ: Create debugfs files to enter device id and syndrome
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-054-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100008.WCNjNbsv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
+head:   e751180ffe5aa8f7d0c478c866c8ed4267336bd5
+commit: 104616b4dbe48e6abc87820a1af06c19bc142f1b [29/62] objtool: Mark prefix functions
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-076-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100232.pcTHUvQ3-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100232.pcTHUvQ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506100008.WCNjNbsv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506100232.pcTHUvQ3-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/apei/einj-core.c:884:5-6: WARNING: Unsigned expression compared with zero: c < 0
+All warnings (new ones prefixed by >>):
 
-vim +884 drivers/acpi/apei/einj-core.c
-
-fe9ef21f215600 Tony Luck 2025-06-04  867  
-fe9ef21f215600 Tony Luck 2025-06-04  868  static ssize_t u128_write(struct file *f, const char __user *buf, size_t count, loff_t *off)
-fe9ef21f215600 Tony Luck 2025-06-04  869  {
-fe9ef21f215600 Tony Luck 2025-06-04  870  	char input[2 + 2 * COMPONENT_LEN + 2];
-fe9ef21f215600 Tony Luck 2025-06-04  871  	u8 *save = f->f_inode->i_private;
-fe9ef21f215600 Tony Luck 2025-06-04  872  	u8 tmp[COMPONENT_LEN];
-fe9ef21f215600 Tony Luck 2025-06-04  873  	char byte[3] = {};
-fe9ef21f215600 Tony Luck 2025-06-04  874  	char *s, *e;
-fe9ef21f215600 Tony Luck 2025-06-04  875  	size_t c;
-fe9ef21f215600 Tony Luck 2025-06-04  876  	long val;
-fe9ef21f215600 Tony Luck 2025-06-04  877  	int i;
-fe9ef21f215600 Tony Luck 2025-06-04  878  
-fe9ef21f215600 Tony Luck 2025-06-04  879  	/* Require that user supply whole input line in one write(2) syscall */
-fe9ef21f215600 Tony Luck 2025-06-04  880  	if (*off)
-fe9ef21f215600 Tony Luck 2025-06-04  881  		return -EINVAL;
-fe9ef21f215600 Tony Luck 2025-06-04  882  
-fe9ef21f215600 Tony Luck 2025-06-04  883  	c = simple_write_to_buffer(input, sizeof(input), off, buf, count);
-fe9ef21f215600 Tony Luck 2025-06-04 @884  	if (c < 0)
-fe9ef21f215600 Tony Luck 2025-06-04  885  		return c;
-fe9ef21f215600 Tony Luck 2025-06-04  886  
-fe9ef21f215600 Tony Luck 2025-06-04  887  	if (c < 1 || input[c - 1] != '\n')
-fe9ef21f215600 Tony Luck 2025-06-04  888  		return -EINVAL;
-fe9ef21f215600 Tony Luck 2025-06-04  889  
-fe9ef21f215600 Tony Luck 2025-06-04  890  	/* Empty line means invalidate this entry */
-fe9ef21f215600 Tony Luck 2025-06-04  891  	if (c == 1) {
-fe9ef21f215600 Tony Luck 2025-06-04  892  		memset(save, 0xff, COMPONENT_LEN);
-fe9ef21f215600 Tony Luck 2025-06-04  893  		return c;
-fe9ef21f215600 Tony Luck 2025-06-04  894  	}
-fe9ef21f215600 Tony Luck 2025-06-04  895  
-fe9ef21f215600 Tony Luck 2025-06-04  896  	if (input[0] == '0' && (input[1] == 'x' || input[1] == 'X'))
-fe9ef21f215600 Tony Luck 2025-06-04  897  		s = input + 2;
-fe9ef21f215600 Tony Luck 2025-06-04  898  	else
-fe9ef21f215600 Tony Luck 2025-06-04  899  		s = input;
-fe9ef21f215600 Tony Luck 2025-06-04  900  	e = input + c - 1;
-fe9ef21f215600 Tony Luck 2025-06-04  901  
-fe9ef21f215600 Tony Luck 2025-06-04  902  	for (i = 0; i < COMPONENT_LEN; i++) {
-fe9ef21f215600 Tony Luck 2025-06-04  903  		byte[1] = *--e;
-fe9ef21f215600 Tony Luck 2025-06-04  904  		byte[0] = e > s ? *--e : '0';
-fe9ef21f215600 Tony Luck 2025-06-04  905  		if (kstrtol(byte, 16, &val))
-fe9ef21f215600 Tony Luck 2025-06-04  906  			return -EINVAL;
-fe9ef21f215600 Tony Luck 2025-06-04  907  		tmp[i] = val;
-fe9ef21f215600 Tony Luck 2025-06-04  908  		if (e <= s)
-fe9ef21f215600 Tony Luck 2025-06-04  909  			break;
-fe9ef21f215600 Tony Luck 2025-06-04  910  	}
-fe9ef21f215600 Tony Luck 2025-06-04  911  	while (++i < COMPONENT_LEN)
-fe9ef21f215600 Tony Luck 2025-06-04  912  		tmp[i] = 0;
-fe9ef21f215600 Tony Luck 2025-06-04  913  
-fe9ef21f215600 Tony Luck 2025-06-04  914  	memcpy(save, tmp, COMPONENT_LEN);
-fe9ef21f215600 Tony Luck 2025-06-04  915  
-fe9ef21f215600 Tony Luck 2025-06-04  916  	return c;
-fe9ef21f215600 Tony Luck 2025-06-04  917  }
-fe9ef21f215600 Tony Luck 2025-06-04  918  
+>> samples/ftrace/ftrace-ops.o: warning: objtool: __cfi_init_module size 8 != 16
+>> samples/ftrace/ftrace-ops.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> kernel/rcu/refscale.o: warning: objtool: __cfi_init_module size 8 != 16
+--
+>> crypto/asymmetric_keys/x509_selftest.o: warning: objtool: __cfi_init_module size 8 != 16
+>> crypto/asymmetric_keys/x509_selftest.o: warning: objtool: __cfi_fips_signature_selftest_rsa size 8 != 16
+--
+>> net/core/failover.o: warning: objtool: __cfi_init_module size 8 != 16
+>> net/core/failover.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> lib/kunit/kunit-example-test.o: warning: objtool: __cfi_example_init_test size 8 != 16
+--
+>> net/dns_resolver/dns_resolver.o: warning: objtool: __cfi_init_module size 8 != 16
+>> net/dns_resolver/dns_resolver.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> drivers/comedi/drivers/tests/ni_routes_test.o: warning: objtool: __cfi_init_module size 8 != 16
+>> drivers/comedi/drivers/tests/ni_routes_test.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> kernel/locking/locktorture.o: warning: objtool: __cfi_init_module size 8 != 16
+--
+>> fs/smb/client/cifs.o: warning: objtool: __cfi_init_module size 8 != 16
+>> fs/smb/client/cifs.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> drivers/usb/misc/usbtest.o: warning: objtool: __cfi_init_module size 8 != 16
+>> drivers/usb/misc/usbtest.o: warning: objtool: __cfi_cleanup_module size 8 != 16
+--
+>> drivers/gpu/drm/drm_buddy.o: warning: objtool: __cfi_init_module size 8 != 16
+..
 
 -- 
 0-DAY CI Kernel Test Service
