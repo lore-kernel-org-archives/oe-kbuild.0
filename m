@@ -1,7385 +1,5512 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E792F509
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Jun 2025 01:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2654F18D65E
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Jun 2025 03:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749606170; cv=none; b=cmT5DyOONg7Q9RB73gsZk8QRpY44mJ7vFrD/7RiVySRwGajq/KpBX29K48YbTL44SRqGyfyK+zgZ9p/l2h6LyMCDVuX+ghwth/yf8LSWlceds8hmXO161GYqGH2ZvV6SELJJ4LwW60iTNs1FOp+d4QqazxcFWfIrd3DN0nv7nuA=
+	t=1749612961; cv=none; b=Glr5H9jDUWJfPf8odgsIv6QCXTD38t4A0pQ+p5Uy087f+G9lrZ3TCY5bqYEuSGacayqWqljZOJvTcSMriVjvREyGZ8xHZ28ArpkyQt/zgpXruj/8mWIrZOMbHu7HM9nAkXlEhH0YJc31rYHY/Rhl6p014NXJDmPErnfLKZ1wDr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749606170; c=relaxed/simple;
-	bh=LDAS1hE6/0SpYMztfH7EH152vdaaUnFi9akLBt2F6V8=;
+	s=arc-20240116; t=1749612961; c=relaxed/simple;
+	bh=Df0nOHjb14or2N0X95FbREf5X/UncWuXDA0pW3bDWdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HJE4mTN1s8YiIEh8IpN581j+TepJdLFsC7fOZIe7O5aKu3XttHPkgO4g22/ox/wkz/tfH8JgBjAq6PW+0oArvZqOA0TetAan5GQH4RRmcblvh5pz/FI1+HjiTfYhI0qTFdv/EdEp7TQzhyEEpT1mnKqnDAZeW4pMRTi+cAj7Ij4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y02GXBjk; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=qrw3EKbffwmckR7PQ6zuftC3G5kg/KjabbP09hkDEAibAxlJb5P/U8vhZkH5Lbjv5KeNlxT0B0S/rJnAiy/EvUV8Y44cfFxi+0EOx73d+zkFz3JCmL3DUnCcomgMBPEqiOlxlO4jrjMGkXr5ch+cn3ef4kKp27f6CXjZb0L9pjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WozeKfgY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y02GXBjk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WozeKfgY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749606163; x=1781142163;
+  t=1749612947; x=1781148947;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LDAS1hE6/0SpYMztfH7EH152vdaaUnFi9akLBt2F6V8=;
-  b=Y02GXBjkXy00aySFvAVX15qs0TNroywMWAgMP5ElWR0OaaO3X6AYPQMS
-   LYviopAe3NDGPMu38IyyCPVXDW4VKNDl76PwkQZG6gwjD2E1mx9f9AXhp
-   Zn3lrI6ixSmbZI2crVnWU5svYM0tpO7W5A1/BLW5nFl+Sv9AuCBwFyHyN
-   GkaOlObBPhPvxyIUNZwn1e8kE8MbPU4hLyc4ptWLDnTDkMqnSEgSZvusS
-   4awI8JAJjdNQo+MxK90JYJ+ilaHuASL/rLQYkDYPu7XI5YoJNBKSr8dIW
-   7Am2zno+o3Vf2tL4poe9WDsh2L0w+FdsiXf5LHPUroSyysjLpzbdhOApr
-   g==;
-X-CSE-ConnectionGUID: RJ1yP/CBQkasFIAVrt2Wtg==
-X-CSE-MsgGUID: 5hqiZ8nQTXmQQ+65oHncVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51593573"
+  bh=Df0nOHjb14or2N0X95FbREf5X/UncWuXDA0pW3bDWdw=;
+  b=WozeKfgYIHYEza6pfOuuKMomD7ob2i4S4DgkZILRvHBlJ/gFmetkT/ej
+   8KmtBxBLZJt0dlFAffng9FnafGtYLy2A3QkDmQVy6CG+Y7RiNrmv31A7x
+   +wBgEJdug8D7u0ye+9AfOngKO7VtWum2gJN71jx+EOMnjbGL30I/4MOmE
+   NfDf7JwKt/6KKubz9CxJo2g12FK0rCtxmWCbnSp134n4pWRhkrpjjZLvT
+   At9INd/T4/Hro2IhQU6Q8MGFSrvtjgVwFzgnEO+ueLgmmFoFDwOc+mWXT
+   ti4MzKqE61VgeWKn0ZQUKqHd/SYnW+VUdjsNqnELF/0CREwZ5EKgDEwFu
+   A==;
+X-CSE-ConnectionGUID: Cnin24LCQ6mbiqjfVGJKCQ==
+X-CSE-MsgGUID: LOI4u974Rx2k1hRWiu2qWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="62395704"
 X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
-   d="scan'208";a="51593573"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 18:42:43 -0700
-X-CSE-ConnectionGUID: 12kMneu9RH6tg9FnSj9J5Q==
-X-CSE-MsgGUID: HunZiJwQQ5mXUQ/V/z0JTg==
+   d="scan'208";a="62395704"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 20:35:46 -0700
+X-CSE-ConnectionGUID: 2zqqDUJoTwGSm2VNJT0KgA==
+X-CSE-MsgGUID: SrR689fUTkiuAAeh6c1crQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
-   d="scan'208";a="152157558"
+   d="scan'208";a="146936353"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Jun 2025 18:42:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Jun 2025 20:35:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uP123-0008TO-24;
-	Tue, 10 Jun 2025 15:36:59 +0000
-Date: Tue, 10 Jun 2025 23:36:54 +0800
+	id 1uPCFZ-0009yW-1I;
+	Wed, 11 Jun 2025 03:35:41 +0000
+Date: Wed, 11 Jun 2025 11:35:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/mediatek/mtk_hdmi.c:1392:2-8: ERROR: missing
- put_device; call of_find_device_by_node on line 1375, but without a
- corresponding object release within this function.
-Message-ID: <202506102301.7J32S7Zs-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 2/2] arm64: dts: qcom: sm8450-qrd: Flatten usb
+ controller node
+Message-ID: <202506111134.MvjCjISa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="zONNN0iVlsYVANUE"
-Content-Disposition: inline
-
-
---zONNN0iVlsYVANUE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20250610091805.2997546-3-krishna.kurapati@oss.qualcomm.com>
+References: <20250610091805.2997546-3-krishna.kurapati@oss.qualcomm.com>
+TO: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konradybcio@kernel.org>
 CC: linux-kernel@vger.kernel.org
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
-CC: CK Hu <ck.hu@mediatek.com>
+CC: devicetree@vger.kernel.org
+CC: linux-arm-msm@vger.kernel.org
+CC: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
-commit: 7485be967f7f39e931967b33c71ece88a573fc90 drm/mediatek: mtk_hdmi: Move CEC device parsing in new function
-date:   7 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 7 weeks ago
-config: powerpc64-randconfig-r061-20250610
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next linus/master v6.16-rc1 next-20250610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/arm64-dts-qcom-sm8450-qrd-add-pmic-glink-node/20250610-172208
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250610091805.2997546-3-krishna.kurapati%40oss.qualcomm.com
+patch subject: [PATCH v2 2/2] arm64: dts: qcom: sm8450-qrd: Flatten usb controller node
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250611/202506111134.MvjCjISa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506111134.MvjCjISa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506102301.7J32S7Zs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506111134.MvjCjISa-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_hdmi.c:1392:2-8: ERROR: missing put_device; call of_find_device_by_node on line 1375, but without a corresponding object release within this function.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sm8450.dtsi:5419.22-5496.5: Warning (simple_bus_reg): /soc@0/usb@a6f8800: simple-bus unit address format error, expected "a600000"
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3501.27-3574.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3595.27-3649.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sm8450.dtsi:5419.22-5496.5: Warning (avoid_unnecessary_addr_size): /soc@0/usb@a6f8800: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 
-vim +1392 drivers/gpu/drm/mediatek/mtk_hdmi.c
+vim +/a600000 +5419 arch/arm64/boot/dts/qcom/sm8450.dtsi
 
-8f83f26891e125 Jie Qiu                    2016-01-04  1359  
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1360  static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struct device_node *np)
-8f83f26891e125 Jie Qiu                    2016-01-04  1361  {
-8f83f26891e125 Jie Qiu                    2016-01-04  1362  	struct platform_device *cec_pdev;
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1363  	struct device_node *cec_np;
-8f83f26891e125 Jie Qiu                    2016-01-04  1364  	int ret;
-8f83f26891e125 Jie Qiu                    2016-01-04  1365  
-8f83f26891e125 Jie Qiu                    2016-01-04  1366  	ret = mtk_hdmi_get_all_clk(hdmi, np);
-03c7aea33cb586 AngeloGioacchino Del Regno 2025-04-15  1367  	if (ret)
-03c7aea33cb586 AngeloGioacchino Del Regno 2025-04-15  1368  		return dev_err_probe(dev, ret, "Failed to get clocks\n");
-8f83f26891e125 Jie Qiu                    2016-01-04  1369  
-8f83f26891e125 Jie Qiu                    2016-01-04  1370  	/* The CEC module handles HDMI hotplug detection */
-ceff2f4dcd44ab Johan Hovold               2018-08-27  1371  	cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
-03c7aea33cb586 AngeloGioacchino Del Regno 2025-04-15  1372  	if (!cec_np)
-03c7aea33cb586 AngeloGioacchino Del Regno 2025-04-15  1373  		return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
-8f83f26891e125 Jie Qiu                    2016-01-04  1374  
-8f83f26891e125 Jie Qiu                    2016-01-04 @1375  	cec_pdev = of_find_device_by_node(cec_np);
-8f83f26891e125 Jie Qiu                    2016-01-04  1376  	if (!cec_pdev) {
-4bf99144d2b407 Rob Herring                2017-07-18  1377  		dev_err(hdmi->dev, "Waiting for CEC device %pOF\n",
-4bf99144d2b407 Rob Herring                2017-07-18  1378  			cec_np);
-ceff2f4dcd44ab Johan Hovold               2018-08-27  1379  		of_node_put(cec_np);
-8f83f26891e125 Jie Qiu                    2016-01-04  1380  		return -EPROBE_DEFER;
-8f83f26891e125 Jie Qiu                    2016-01-04  1381  	}
-ceff2f4dcd44ab Johan Hovold               2018-08-27  1382  	of_node_put(cec_np);
-8f83f26891e125 Jie Qiu                    2016-01-04  1383  
-8f83f26891e125 Jie Qiu                    2016-01-04  1384  	/*
-8f83f26891e125 Jie Qiu                    2016-01-04  1385  	 * The mediatek,syscon-hdmi property contains a phandle link to the
-8f83f26891e125 Jie Qiu                    2016-01-04  1386  	 * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
-8f83f26891e125 Jie Qiu                    2016-01-04  1387  	 * registers it contains.
-8f83f26891e125 Jie Qiu                    2016-01-04  1388  	 */
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1389  	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle_args(np, "mediatek,syscon-hdmi",
-1b0965f495cdd6 Krzysztof Kozlowski        2025-04-15  1390  								1, &hdmi->sys_offset);
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1391  	if (IS_ERR(hdmi->sys_regmap))
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15 @1392  		return dev_err_probe(dev, PTR_ERR(hdmi->sys_regmap),
-1b0965f495cdd6 Krzysztof Kozlowski        2025-04-15  1393  				     "Failed to get system configuration registers\n");
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1394  
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1395  	hdmi->cec_dev = &cec_pdev->dev;
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1396  	return 0;
-8f83f26891e125 Jie Qiu                    2016-01-04  1397  }
-7485be967f7f39 AngeloGioacchino Del Regno 2025-04-15  1398  
+5188049c9b36d7 Vinod Koul                2021-12-15    28  
+5188049c9b36d7 Vinod Koul                2021-12-15    29  / {
+5188049c9b36d7 Vinod Koul                2021-12-15    30  	interrupt-parent = <&intc>;
+5188049c9b36d7 Vinod Koul                2021-12-15    31  
+5188049c9b36d7 Vinod Koul                2021-12-15    32  	#address-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15    33  	#size-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15    34  
+5188049c9b36d7 Vinod Koul                2021-12-15    35  	chosen { };
+5188049c9b36d7 Vinod Koul                2021-12-15    36  
+5188049c9b36d7 Vinod Koul                2021-12-15    37  	clocks {
+5188049c9b36d7 Vinod Koul                2021-12-15    38  		xo_board: xo-board {
+5188049c9b36d7 Vinod Koul                2021-12-15    39  			compatible = "fixed-clock";
+5188049c9b36d7 Vinod Koul                2021-12-15    40  			#clock-cells = <0>;
+5188049c9b36d7 Vinod Koul                2021-12-15    41  			clock-frequency = <76800000>;
+5188049c9b36d7 Vinod Koul                2021-12-15    42  		};
+5188049c9b36d7 Vinod Koul                2021-12-15    43  
+5188049c9b36d7 Vinod Koul                2021-12-15    44  		sleep_clk: sleep-clk {
+5188049c9b36d7 Vinod Koul                2021-12-15    45  			compatible = "fixed-clock";
+5188049c9b36d7 Vinod Koul                2021-12-15    46  			#clock-cells = <0>;
+c375ff3b887abf Dmitry Baryshkov          2024-12-24    47  			clock-frequency = <32764>;
+5188049c9b36d7 Vinod Koul                2021-12-15    48  		};
+5188049c9b36d7 Vinod Koul                2021-12-15    49  	};
+5188049c9b36d7 Vinod Koul                2021-12-15    50  
+5188049c9b36d7 Vinod Koul                2021-12-15    51  	cpus {
+5188049c9b36d7 Vinod Koul                2021-12-15    52  		#address-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15    53  		#size-cells = <0>;
+5188049c9b36d7 Vinod Koul                2021-12-15    54  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    55  		cpu0: cpu@0 {
+5188049c9b36d7 Vinod Koul                2021-12-15    56  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15    57  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15    58  			reg = <0x0 0x0>;
+5188049c9b36d7 Vinod Koul                2021-12-15    59  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    60  			next-level-cache = <&l2_0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    61  			power-domains = <&cpu_pd0>;
+5188049c9b36d7 Vinod Koul                2021-12-15    62  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15    63  			qcom,freq-domain = <&cpufreq_hw 0>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11    64  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17    65  			clocks = <&cpufreq_hw 0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    66  			l2_0: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15    67  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07    68  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16    69  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    70  				next-level-cache = <&l3_0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    71  				l3_0: l3-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15    72  					compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07    73  					cache-level = <3>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16    74  					cache-unified;
+5188049c9b36d7 Vinod Koul                2021-12-15    75  				};
+5188049c9b36d7 Vinod Koul                2021-12-15    76  			};
+5188049c9b36d7 Vinod Koul                2021-12-15    77  		};
+5188049c9b36d7 Vinod Koul                2021-12-15    78  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    79  		cpu1: cpu@100 {
+5188049c9b36d7 Vinod Koul                2021-12-15    80  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15    81  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15    82  			reg = <0x0 0x100>;
+5188049c9b36d7 Vinod Koul                2021-12-15    83  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    84  			next-level-cache = <&l2_100>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    85  			power-domains = <&cpu_pd1>;
+5188049c9b36d7 Vinod Koul                2021-12-15    86  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15    87  			qcom,freq-domain = <&cpufreq_hw 0>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11    88  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17    89  			clocks = <&cpufreq_hw 0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    90  			l2_100: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15    91  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07    92  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16    93  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    94  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15    95  			};
+5188049c9b36d7 Vinod Koul                2021-12-15    96  		};
+5188049c9b36d7 Vinod Koul                2021-12-15    97  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22    98  		cpu2: cpu@200 {
+5188049c9b36d7 Vinod Koul                2021-12-15    99  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   100  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   101  			reg = <0x0 0x200>;
+5188049c9b36d7 Vinod Koul                2021-12-15   102  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   103  			next-level-cache = <&l2_200>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   104  			power-domains = <&cpu_pd2>;
+5188049c9b36d7 Vinod Koul                2021-12-15   105  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   106  			qcom,freq-domain = <&cpufreq_hw 0>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   107  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   108  			clocks = <&cpufreq_hw 0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   109  			l2_200: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   110  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   111  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   112  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   113  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   114  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   115  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   116  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   117  		cpu3: cpu@300 {
+5188049c9b36d7 Vinod Koul                2021-12-15   118  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   119  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   120  			reg = <0x0 0x300>;
+5188049c9b36d7 Vinod Koul                2021-12-15   121  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   122  			next-level-cache = <&l2_300>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   123  			power-domains = <&cpu_pd3>;
+5188049c9b36d7 Vinod Koul                2021-12-15   124  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   125  			qcom,freq-domain = <&cpufreq_hw 0>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   126  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   127  			clocks = <&cpufreq_hw 0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   128  			l2_300: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   129  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   130  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   131  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   132  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   133  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   134  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   135  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   136  		cpu4: cpu@400 {
+5188049c9b36d7 Vinod Koul                2021-12-15   137  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   138  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   139  			reg = <0x0 0x400>;
+5188049c9b36d7 Vinod Koul                2021-12-15   140  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   141  			next-level-cache = <&l2_400>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   142  			power-domains = <&cpu_pd4>;
+5188049c9b36d7 Vinod Koul                2021-12-15   143  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   144  			qcom,freq-domain = <&cpufreq_hw 1>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   145  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   146  			clocks = <&cpufreq_hw 1>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   147  			l2_400: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   148  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   149  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   150  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   151  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   152  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   153  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   154  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   155  		cpu5: cpu@500 {
+5188049c9b36d7 Vinod Koul                2021-12-15   156  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   157  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   158  			reg = <0x0 0x500>;
+5188049c9b36d7 Vinod Koul                2021-12-15   159  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   160  			next-level-cache = <&l2_500>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   161  			power-domains = <&cpu_pd5>;
+5188049c9b36d7 Vinod Koul                2021-12-15   162  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   163  			qcom,freq-domain = <&cpufreq_hw 1>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   164  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   165  			clocks = <&cpufreq_hw 1>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   166  			l2_500: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   167  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   168  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   169  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   170  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   171  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   172  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   173  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   174  		cpu6: cpu@600 {
+5188049c9b36d7 Vinod Koul                2021-12-15   175  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   176  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   177  			reg = <0x0 0x600>;
+5188049c9b36d7 Vinod Koul                2021-12-15   178  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   179  			next-level-cache = <&l2_600>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   180  			power-domains = <&cpu_pd6>;
+5188049c9b36d7 Vinod Koul                2021-12-15   181  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   182  			qcom,freq-domain = <&cpufreq_hw 1>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   183  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   184  			clocks = <&cpufreq_hw 1>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   185  			l2_600: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   186  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   187  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   188  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   189  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   190  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   191  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   192  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   193  		cpu7: cpu@700 {
+5188049c9b36d7 Vinod Koul                2021-12-15   194  			device_type = "cpu";
+5188049c9b36d7 Vinod Koul                2021-12-15   195  			compatible = "qcom,kryo780";
+5188049c9b36d7 Vinod Koul                2021-12-15   196  			reg = <0x0 0x700>;
+5188049c9b36d7 Vinod Koul                2021-12-15   197  			enable-method = "psci";
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   198  			next-level-cache = <&l2_700>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   199  			power-domains = <&cpu_pd7>;
+5188049c9b36d7 Vinod Koul                2021-12-15   200  			power-domain-names = "psci";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15   201  			qcom,freq-domain = <&cpufreq_hw 2>;
+fccf8e31ac3d7c Vladimir Zapolskiy        2022-04-11   202  			#cooling-cells = <2>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17   203  			clocks = <&cpufreq_hw 2>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   204  			l2_700: l2-cache {
+5188049c9b36d7 Vinod Koul                2021-12-15   205  				compatible = "cache";
+9435294c6517dc Pierre Gondois            2022-11-07   206  				cache-level = <2>;
+9c6e72fb2058dc Krzysztof Kozlowski       2023-04-16   207  				cache-unified;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   208  				next-level-cache = <&l3_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   209  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   210  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   211  
+5188049c9b36d7 Vinod Koul                2021-12-15   212  		cpu-map {
+5188049c9b36d7 Vinod Koul                2021-12-15   213  			cluster0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   214  				core0 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   215  					cpu = <&cpu0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   216  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   217  
+5188049c9b36d7 Vinod Koul                2021-12-15   218  				core1 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   219  					cpu = <&cpu1>;
+5188049c9b36d7 Vinod Koul                2021-12-15   220  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   221  
+5188049c9b36d7 Vinod Koul                2021-12-15   222  				core2 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   223  					cpu = <&cpu2>;
+5188049c9b36d7 Vinod Koul                2021-12-15   224  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   225  
+5188049c9b36d7 Vinod Koul                2021-12-15   226  				core3 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   227  					cpu = <&cpu3>;
+5188049c9b36d7 Vinod Koul                2021-12-15   228  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   229  
+5188049c9b36d7 Vinod Koul                2021-12-15   230  				core4 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   231  					cpu = <&cpu4>;
+5188049c9b36d7 Vinod Koul                2021-12-15   232  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   233  
+5188049c9b36d7 Vinod Koul                2021-12-15   234  				core5 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   235  					cpu = <&cpu5>;
+5188049c9b36d7 Vinod Koul                2021-12-15   236  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   237  
+5188049c9b36d7 Vinod Koul                2021-12-15   238  				core6 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   239  					cpu = <&cpu6>;
+5188049c9b36d7 Vinod Koul                2021-12-15   240  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   241  
+5188049c9b36d7 Vinod Koul                2021-12-15   242  				core7 {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   243  					cpu = <&cpu7>;
+5188049c9b36d7 Vinod Koul                2021-12-15   244  				};
+5188049c9b36d7 Vinod Koul                2021-12-15   245  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   246  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   247  
+5188049c9b36d7 Vinod Koul                2021-12-15   248  		idle-states {
+5188049c9b36d7 Vinod Koul                2021-12-15   249  			entry-method = "psci";
+5188049c9b36d7 Vinod Koul                2021-12-15   250  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   251  			little_cpu_sleep_0: cpu-sleep-0-0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   252  				compatible = "arm,idle-state";
+5188049c9b36d7 Vinod Koul                2021-12-15   253  				idle-state-name = "silver-rail-power-collapse";
+5188049c9b36d7 Vinod Koul                2021-12-15   254  				arm,psci-suspend-param = <0x40000004>;
+6574702b0d394d Maulik Shah               2022-01-09   255  				entry-latency-us = <800>;
+6574702b0d394d Maulik Shah               2022-01-09   256  				exit-latency-us = <750>;
+6574702b0d394d Maulik Shah               2022-01-09   257  				min-residency-us = <4090>;
+5188049c9b36d7 Vinod Koul                2021-12-15   258  				local-timer-stop;
+5188049c9b36d7 Vinod Koul                2021-12-15   259  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   260  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   261  			big_cpu_sleep_0: cpu-sleep-1-0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   262  				compatible = "arm,idle-state";
+5188049c9b36d7 Vinod Koul                2021-12-15   263  				idle-state-name = "gold-rail-power-collapse";
+5188049c9b36d7 Vinod Koul                2021-12-15   264  				arm,psci-suspend-param = <0x40000004>;
+6574702b0d394d Maulik Shah               2022-01-09   265  				entry-latency-us = <600>;
+6574702b0d394d Maulik Shah               2022-01-09   266  				exit-latency-us = <1550>;
+6574702b0d394d Maulik Shah               2022-01-09   267  				min-residency-us = <4791>;
+5188049c9b36d7 Vinod Koul                2021-12-15   268  				local-timer-stop;
+5188049c9b36d7 Vinod Koul                2021-12-15   269  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   270  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   271  
+5188049c9b36d7 Vinod Koul                2021-12-15   272  		domain-idle-states {
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   273  			cluster_sleep_0: cluster-sleep-0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   274  				compatible = "domain-idle-state";
+6574702b0d394d Maulik Shah               2022-01-09   275  				arm,psci-suspend-param = <0x41000044>;
+6574702b0d394d Maulik Shah               2022-01-09   276  				entry-latency-us = <1050>;
+6574702b0d394d Maulik Shah               2022-01-09   277  				exit-latency-us = <2500>;
+6574702b0d394d Maulik Shah               2022-01-09   278  				min-residency-us = <5309>;
+5188049c9b36d7 Vinod Koul                2021-12-15   279  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   280  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   281  			cluster_sleep_1: cluster-sleep-1 {
+5188049c9b36d7 Vinod Koul                2021-12-15   282  				compatible = "domain-idle-state";
+5188049c9b36d7 Vinod Koul                2021-12-15   283  				arm,psci-suspend-param = <0x4100c344>;
+6574702b0d394d Maulik Shah               2022-01-09   284  				entry-latency-us = <2700>;
+6574702b0d394d Maulik Shah               2022-01-09   285  				exit-latency-us = <3500>;
+6574702b0d394d Maulik Shah               2022-01-09   286  				min-residency-us = <13959>;
+5188049c9b36d7 Vinod Koul                2021-12-15   287  			};
+5188049c9b36d7 Vinod Koul                2021-12-15   288  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   289  	};
+5188049c9b36d7 Vinod Koul                2021-12-15   290  
+6e8637db89bf13 Mao Jinlong               2025-01-07   291  	ete-0 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   292  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   293  		cpu = <&cpu0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   294  
+6e8637db89bf13 Mao Jinlong               2025-01-07   295  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   296  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   297  				ete0_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   298  					remote-endpoint = <&funnel_ete_in_ete0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   299  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   300  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   301  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   302  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   303  
+6e8637db89bf13 Mao Jinlong               2025-01-07   304  	ete-1 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   305  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   306  		cpu = <&cpu1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   307  
+6e8637db89bf13 Mao Jinlong               2025-01-07   308  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   309  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   310  				ete1_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   311  					remote-endpoint = <&funnel_ete_in_ete1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   312  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   313  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   314  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   315  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   316  
+6e8637db89bf13 Mao Jinlong               2025-01-07   317  	ete-2 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   318  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   319  		cpu = <&cpu2>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   320  
+6e8637db89bf13 Mao Jinlong               2025-01-07   321  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   322  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   323  				ete2_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   324  					remote-endpoint = <&funnel_ete_in_ete2>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   325  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   326  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   327  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   328  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   329  
+6e8637db89bf13 Mao Jinlong               2025-01-07   330  	ete-3 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   331  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   332  		cpu = <&cpu3>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   333  
+6e8637db89bf13 Mao Jinlong               2025-01-07   334  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   335  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   336  				ete3_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   337  					remote-endpoint = <&funnel_ete_in_ete3>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   338  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   339  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   340  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   341  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   342  
+6e8637db89bf13 Mao Jinlong               2025-01-07   343  	ete-4 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   344  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   345  		cpu = <&cpu4>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   346  
+6e8637db89bf13 Mao Jinlong               2025-01-07   347  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   348  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   349  				ete4_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   350  					remote-endpoint = <&funnel_ete_in_ete4>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   351  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   352  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   353  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   354  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   355  
+6e8637db89bf13 Mao Jinlong               2025-01-07   356  	ete-5 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   357  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   358  		cpu = <&cpu5>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   359  
+6e8637db89bf13 Mao Jinlong               2025-01-07   360  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   361  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   362  				ete5_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   363  					remote-endpoint = <&funnel_ete_in_ete5>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   364  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   365  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   366  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   367  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   368  
+6e8637db89bf13 Mao Jinlong               2025-01-07   369  	ete-6 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   370  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   371  		cpu = <&cpu6>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   372  
+6e8637db89bf13 Mao Jinlong               2025-01-07   373  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   374  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   375  				ete6_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   376  					remote-endpoint = <&funnel_ete_in_ete6>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   377  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   378  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   379  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   380  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   381  
+6e8637db89bf13 Mao Jinlong               2025-01-07   382  	ete-7 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   383  		compatible = "arm,embedded-trace-extension";
+6e8637db89bf13 Mao Jinlong               2025-01-07   384  		cpu = <&cpu7>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   385  
+6e8637db89bf13 Mao Jinlong               2025-01-07   386  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   387  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   388  				ete7_out_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   389  					remote-endpoint = <&funnel_ete_in_ete7>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   390  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   391  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   392  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   393  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   394  
+6e8637db89bf13 Mao Jinlong               2025-01-07   395  	funnel-ete {
+6e8637db89bf13 Mao Jinlong               2025-01-07   396  		compatible = "arm,coresight-static-funnel";
+6e8637db89bf13 Mao Jinlong               2025-01-07   397  
+6e8637db89bf13 Mao Jinlong               2025-01-07   398  		out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   399  			port {
+6e8637db89bf13 Mao Jinlong               2025-01-07   400  				funnel_ete_out_funnel_apss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   401  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   402  						<&funnel_apss_in_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   403  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   404  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   405  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   406  
+6e8637db89bf13 Mao Jinlong               2025-01-07   407  		in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07   408  			#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   409  			#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   410  
+6e8637db89bf13 Mao Jinlong               2025-01-07   411  			port@0 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   412  				reg = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   413  				funnel_ete_in_ete0: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   414  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   415  						<&ete0_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   416  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   417  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   418  
+6e8637db89bf13 Mao Jinlong               2025-01-07   419  			port@1 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   420  				reg = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   421  				funnel_ete_in_ete1: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   422  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   423  						<&ete1_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   424  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   425  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   426  
+6e8637db89bf13 Mao Jinlong               2025-01-07   427  			port@2 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   428  				reg = <2>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   429  				funnel_ete_in_ete2: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   430  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   431  						<&ete2_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   432  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   433  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   434  
+6e8637db89bf13 Mao Jinlong               2025-01-07   435  			port@3 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   436  				reg = <3>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   437  				funnel_ete_in_ete3: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   438  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   439  						<&ete3_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   440  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   441  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   442  
+6e8637db89bf13 Mao Jinlong               2025-01-07   443  			port@4 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   444  				reg = <4>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   445  				funnel_ete_in_ete4: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   446  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   447  						<&ete4_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   448  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   449  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   450  
+6e8637db89bf13 Mao Jinlong               2025-01-07   451  			port@5 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   452  				reg = <5>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   453  				funnel_ete_in_ete5: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   454  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   455  						<&ete5_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   456  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   457  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   458  
+6e8637db89bf13 Mao Jinlong               2025-01-07   459  			port@6 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   460  				reg = <6>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   461  				funnel_ete_in_ete6: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   462  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   463  						<&ete6_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   464  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   465  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   466  
+6e8637db89bf13 Mao Jinlong               2025-01-07   467  			port@7 {
+6e8637db89bf13 Mao Jinlong               2025-01-07   468  				reg = <7>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   469  				funnel_ete_in_ete7: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07   470  					remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07   471  						<&ete7_out_funnel_ete>;
+6e8637db89bf13 Mao Jinlong               2025-01-07   472  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07   473  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07   474  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07   475  	};
+6e8637db89bf13 Mao Jinlong               2025-01-07   476  
+5188049c9b36d7 Vinod Koul                2021-12-15   477  	firmware {
+5188049c9b36d7 Vinod Koul                2021-12-15   478  		scm: scm {
+5188049c9b36d7 Vinod Koul                2021-12-15   479  			compatible = "qcom,scm-sm8450", "qcom,scm";
+1f731bbf71e374 Mukesh Ojha               2023-01-12   480  			qcom,dload-mode = <&tcsr 0x13000>;
+4c9fb8e89849db Sibi Sankar               2022-05-23   481  			interconnects = <&aggre2_noc MASTER_CRYPTO 0 &mc_virt SLAVE_EBI1 0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   482  			#reset-cells = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15   483  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   484  	};
+5188049c9b36d7 Vinod Koul                2021-12-15   485  
+12cfafe7b78876 Vinod Koul                2022-06-06   486  	clk_virt: interconnect-0 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   487  		compatible = "qcom,sm8450-clk-virt";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   488  		#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   489  		qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   490  	};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   491  
+12cfafe7b78876 Vinod Koul                2022-06-06   492  	mc_virt: interconnect-1 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   493  		compatible = "qcom,sm8450-mc-virt";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   494  		#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   495  		qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   496  	};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03   497  
+5188049c9b36d7 Vinod Koul                2021-12-15   498  	memory@a0000000 {
+5188049c9b36d7 Vinod Koul                2021-12-15   499  		device_type = "memory";
+5188049c9b36d7 Vinod Koul                2021-12-15   500  		/* We expect the bootloader to fill in the size */
+5188049c9b36d7 Vinod Koul                2021-12-15   501  		reg = <0x0 0xa0000000 0x0 0x0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   502  	};
+5188049c9b36d7 Vinod Koul                2021-12-15   503  
+5188049c9b36d7 Vinod Koul                2021-12-15   504  	pmu {
+5188049c9b36d7 Vinod Koul                2021-12-15   505  		compatible = "arm,armv8-pmuv3";
+5188049c9b36d7 Vinod Koul                2021-12-15   506  		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH>;
+5188049c9b36d7 Vinod Koul                2021-12-15   507  	};
+5188049c9b36d7 Vinod Koul                2021-12-15   508  
+5188049c9b36d7 Vinod Koul                2021-12-15   509  	psci {
+5188049c9b36d7 Vinod Koul                2021-12-15   510  		compatible = "arm,psci-1.0";
+5188049c9b36d7 Vinod Koul                2021-12-15   511  		method = "smc";
+5188049c9b36d7 Vinod Koul                2021-12-15   512  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   513  		cpu_pd0: power-domain-cpu0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   514  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   515  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   516  			domain-idle-states = <&little_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   517  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   518  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   519  		cpu_pd1: power-domain-cpu1 {
+5188049c9b36d7 Vinod Koul                2021-12-15   520  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   521  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   522  			domain-idle-states = <&little_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   523  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   524  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   525  		cpu_pd2: power-domain-cpu2 {
+5188049c9b36d7 Vinod Koul                2021-12-15   526  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   527  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   528  			domain-idle-states = <&little_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   529  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   530  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   531  		cpu_pd3: power-domain-cpu3 {
+5188049c9b36d7 Vinod Koul                2021-12-15   532  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   533  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   534  			domain-idle-states = <&little_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   535  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   536  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   537  		cpu_pd4: power-domain-cpu4 {
+5188049c9b36d7 Vinod Koul                2021-12-15   538  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   539  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   540  			domain-idle-states = <&big_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   541  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   542  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   543  		cpu_pd5: power-domain-cpu5 {
+5188049c9b36d7 Vinod Koul                2021-12-15   544  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   545  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   546  			domain-idle-states = <&big_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   547  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   548  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   549  		cpu_pd6: power-domain-cpu6 {
+5188049c9b36d7 Vinod Koul                2021-12-15   550  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   551  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   552  			domain-idle-states = <&big_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   553  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   554  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   555  		cpu_pd7: power-domain-cpu7 {
+5188049c9b36d7 Vinod Koul                2021-12-15   556  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   557  			power-domains = <&cluster_pd>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   558  			domain-idle-states = <&big_cpu_sleep_0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   559  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   560  
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   561  		cluster_pd: power-domain-cpu-cluster0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   562  			#power-domain-cells = <0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22   563  			domain-idle-states = <&cluster_sleep_0>, <&cluster_sleep_1>;
+5188049c9b36d7 Vinod Koul                2021-12-15   564  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   565  	};
+5188049c9b36d7 Vinod Koul                2021-12-15   566  
+0e3e654696074b Krzysztof Kozlowski       2022-06-27   567  	qup_opp_table_100mhz: opp-table-qup {
+a84e88e9a00334 Vinod Koul                2022-04-14   568  		compatible = "operating-points-v2";
+a84e88e9a00334 Vinod Koul                2022-04-14   569  
+a84e88e9a00334 Vinod Koul                2022-04-14   570  		opp-50000000 {
+a84e88e9a00334 Vinod Koul                2022-04-14   571  			opp-hz = /bits/ 64 <50000000>;
+a84e88e9a00334 Vinod Koul                2022-04-14   572  			required-opps = <&rpmhpd_opp_min_svs>;
+a84e88e9a00334 Vinod Koul                2022-04-14   573  		};
+a84e88e9a00334 Vinod Koul                2022-04-14   574  
+a84e88e9a00334 Vinod Koul                2022-04-14   575  		opp-75000000 {
+a84e88e9a00334 Vinod Koul                2022-04-14   576  			opp-hz = /bits/ 64 <75000000>;
+a84e88e9a00334 Vinod Koul                2022-04-14   577  			required-opps = <&rpmhpd_opp_low_svs>;
+a84e88e9a00334 Vinod Koul                2022-04-14   578  		};
+a84e88e9a00334 Vinod Koul                2022-04-14   579  
+a84e88e9a00334 Vinod Koul                2022-04-14   580  		opp-100000000 {
+a84e88e9a00334 Vinod Koul                2022-04-14   581  			opp-hz = /bits/ 64 <100000000>;
+a84e88e9a00334 Vinod Koul                2022-04-14   582  			required-opps = <&rpmhpd_opp_svs>;
+a84e88e9a00334 Vinod Koul                2022-04-14   583  		};
+a84e88e9a00334 Vinod Koul                2022-04-14   584  	};
+a84e88e9a00334 Vinod Koul                2022-04-14   585  
+285f97bc4b017b Vinod Koul                2021-12-15   586  	reserved_memory: reserved-memory {
+285f97bc4b017b Vinod Koul                2021-12-15   587  		#address-cells = <2>;
+285f97bc4b017b Vinod Koul                2021-12-15   588  		#size-cells = <2>;
+285f97bc4b017b Vinod Koul                2021-12-15   589  		ranges;
+285f97bc4b017b Vinod Koul                2021-12-15   590  
+285f97bc4b017b Vinod Koul                2021-12-15   591  		hyp_mem: memory@80000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   592  			reg = <0x0 0x80000000 0x0 0x600000>;
+285f97bc4b017b Vinod Koul                2021-12-15   593  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   594  		};
+285f97bc4b017b Vinod Koul                2021-12-15   595  
+285f97bc4b017b Vinod Koul                2021-12-15   596  		xbl_dt_log_mem: memory@80600000 {
+285f97bc4b017b Vinod Koul                2021-12-15   597  			reg = <0x0 0x80600000 0x0 0x40000>;
+285f97bc4b017b Vinod Koul                2021-12-15   598  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   599  		};
+285f97bc4b017b Vinod Koul                2021-12-15   600  
+285f97bc4b017b Vinod Koul                2021-12-15   601  		xbl_ramdump_mem: memory@80640000 {
+285f97bc4b017b Vinod Koul                2021-12-15   602  			reg = <0x0 0x80640000 0x0 0x180000>;
+285f97bc4b017b Vinod Koul                2021-12-15   603  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   604  		};
+285f97bc4b017b Vinod Koul                2021-12-15   605  
+285f97bc4b017b Vinod Koul                2021-12-15   606  		xbl_sc_mem: memory@807c0000 {
+285f97bc4b017b Vinod Koul                2021-12-15   607  			reg = <0x0 0x807c0000 0x0 0x40000>;
+285f97bc4b017b Vinod Koul                2021-12-15   608  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   609  		};
+285f97bc4b017b Vinod Koul                2021-12-15   610  
+285f97bc4b017b Vinod Koul                2021-12-15   611  		aop_image_mem: memory@80800000 {
+285f97bc4b017b Vinod Koul                2021-12-15   612  			reg = <0x0 0x80800000 0x0 0x60000>;
+285f97bc4b017b Vinod Koul                2021-12-15   613  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   614  		};
+285f97bc4b017b Vinod Koul                2021-12-15   615  
+285f97bc4b017b Vinod Koul                2021-12-15   616  		aop_cmd_db_mem: memory@80860000 {
+285f97bc4b017b Vinod Koul                2021-12-15   617  			compatible = "qcom,cmd-db";
+285f97bc4b017b Vinod Koul                2021-12-15   618  			reg = <0x0 0x80860000 0x0 0x20000>;
+285f97bc4b017b Vinod Koul                2021-12-15   619  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   620  		};
+285f97bc4b017b Vinod Koul                2021-12-15   621  
+285f97bc4b017b Vinod Koul                2021-12-15   622  		aop_config_mem: memory@80880000 {
+285f97bc4b017b Vinod Koul                2021-12-15   623  			reg = <0x0 0x80880000 0x0 0x20000>;
+285f97bc4b017b Vinod Koul                2021-12-15   624  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   625  		};
+285f97bc4b017b Vinod Koul                2021-12-15   626  
+285f97bc4b017b Vinod Koul                2021-12-15   627  		tme_crash_dump_mem: memory@808a0000 {
+285f97bc4b017b Vinod Koul                2021-12-15   628  			reg = <0x0 0x808a0000 0x0 0x40000>;
+285f97bc4b017b Vinod Koul                2021-12-15   629  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   630  		};
+285f97bc4b017b Vinod Koul                2021-12-15   631  
+285f97bc4b017b Vinod Koul                2021-12-15   632  		tme_log_mem: memory@808e0000 {
+285f97bc4b017b Vinod Koul                2021-12-15   633  			reg = <0x0 0x808e0000 0x0 0x4000>;
+285f97bc4b017b Vinod Koul                2021-12-15   634  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   635  		};
+285f97bc4b017b Vinod Koul                2021-12-15   636  
+285f97bc4b017b Vinod Koul                2021-12-15   637  		uefi_log_mem: memory@808e4000 {
+285f97bc4b017b Vinod Koul                2021-12-15   638  			reg = <0x0 0x808e4000 0x0 0x10000>;
+285f97bc4b017b Vinod Koul                2021-12-15   639  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   640  		};
+285f97bc4b017b Vinod Koul                2021-12-15   641  
+285f97bc4b017b Vinod Koul                2021-12-15   642  		/* secdata region can be reused by apps */
+285f97bc4b017b Vinod Koul                2021-12-15   643  		smem: memory@80900000 {
+285f97bc4b017b Vinod Koul                2021-12-15   644  			compatible = "qcom,smem";
+285f97bc4b017b Vinod Koul                2021-12-15   645  			reg = <0x0 0x80900000 0x0 0x200000>;
+285f97bc4b017b Vinod Koul                2021-12-15   646  			hwlocks = <&tcsr_mutex 3>;
+285f97bc4b017b Vinod Koul                2021-12-15   647  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   648  		};
+285f97bc4b017b Vinod Koul                2021-12-15   649  
+285f97bc4b017b Vinod Koul                2021-12-15   650  		cpucp_fw_mem: memory@80b00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   651  			reg = <0x0 0x80b00000 0x0 0x100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   652  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   653  		};
+285f97bc4b017b Vinod Koul                2021-12-15   654  
+285f97bc4b017b Vinod Koul                2021-12-15   655  		cdsp_secure_heap: memory@80c00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   656  			reg = <0x0 0x80c00000 0x0 0x4600000>;
+285f97bc4b017b Vinod Koul                2021-12-15   657  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   658  		};
+285f97bc4b017b Vinod Koul                2021-12-15   659  
+285f97bc4b017b Vinod Koul                2021-12-15   660  		video_mem: memory@85700000 {
+285f97bc4b017b Vinod Koul                2021-12-15   661  			reg = <0x0 0x85700000 0x0 0x700000>;
+285f97bc4b017b Vinod Koul                2021-12-15   662  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   663  		};
+285f97bc4b017b Vinod Koul                2021-12-15   664  
+285f97bc4b017b Vinod Koul                2021-12-15   665  		adsp_mem: memory@85e00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   666  			reg = <0x0 0x85e00000 0x0 0x2100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   667  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   668  		};
+285f97bc4b017b Vinod Koul                2021-12-15   669  
+285f97bc4b017b Vinod Koul                2021-12-15   670  		slpi_mem: memory@88000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   671  			reg = <0x0 0x88000000 0x0 0x1900000>;
+285f97bc4b017b Vinod Koul                2021-12-15   672  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   673  		};
+285f97bc4b017b Vinod Koul                2021-12-15   674  
+285f97bc4b017b Vinod Koul                2021-12-15   675  		cdsp_mem: memory@89900000 {
+285f97bc4b017b Vinod Koul                2021-12-15   676  			reg = <0x0 0x89900000 0x0 0x2000000>;
+285f97bc4b017b Vinod Koul                2021-12-15   677  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   678  		};
+285f97bc4b017b Vinod Koul                2021-12-15   679  
+285f97bc4b017b Vinod Koul                2021-12-15   680  		ipa_fw_mem: memory@8b900000 {
+285f97bc4b017b Vinod Koul                2021-12-15   681  			reg = <0x0 0x8b900000 0x0 0x10000>;
+285f97bc4b017b Vinod Koul                2021-12-15   682  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   683  		};
+285f97bc4b017b Vinod Koul                2021-12-15   684  
+285f97bc4b017b Vinod Koul                2021-12-15   685  		ipa_gsi_mem: memory@8b910000 {
+285f97bc4b017b Vinod Koul                2021-12-15   686  			reg = <0x0 0x8b910000 0x0 0xa000>;
+285f97bc4b017b Vinod Koul                2021-12-15   687  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   688  		};
+285f97bc4b017b Vinod Koul                2021-12-15   689  
+285f97bc4b017b Vinod Koul                2021-12-15   690  		gpu_micro_code_mem: memory@8b91a000 {
+285f97bc4b017b Vinod Koul                2021-12-15   691  			reg = <0x0 0x8b91a000 0x0 0x2000>;
+285f97bc4b017b Vinod Koul                2021-12-15   692  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   693  		};
+285f97bc4b017b Vinod Koul                2021-12-15   694  
+285f97bc4b017b Vinod Koul                2021-12-15   695  		spss_region_mem: memory@8ba00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   696  			reg = <0x0 0x8ba00000 0x0 0x180000>;
+285f97bc4b017b Vinod Koul                2021-12-15   697  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   698  		};
+285f97bc4b017b Vinod Koul                2021-12-15   699  
+285f97bc4b017b Vinod Koul                2021-12-15   700  		/* First part of the "SPU secure shared memory" region */
+285f97bc4b017b Vinod Koul                2021-12-15   701  		spu_tz_shared_mem: memory@8bb80000 {
+285f97bc4b017b Vinod Koul                2021-12-15   702  			reg = <0x0 0x8bb80000 0x0 0x60000>;
+285f97bc4b017b Vinod Koul                2021-12-15   703  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   704  		};
+285f97bc4b017b Vinod Koul                2021-12-15   705  
+285f97bc4b017b Vinod Koul                2021-12-15   706  		/* Second part of the "SPU secure shared memory" region */
+285f97bc4b017b Vinod Koul                2021-12-15   707  		spu_modem_shared_mem: memory@8bbe0000 {
+285f97bc4b017b Vinod Koul                2021-12-15   708  			reg = <0x0 0x8bbe0000 0x0 0x20000>;
+285f97bc4b017b Vinod Koul                2021-12-15   709  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   710  		};
+285f97bc4b017b Vinod Koul                2021-12-15   711  
+285f97bc4b017b Vinod Koul                2021-12-15   712  		mpss_mem: memory@8bc00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   713  			reg = <0x0 0x8bc00000 0x0 0x13200000>;
+285f97bc4b017b Vinod Koul                2021-12-15   714  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   715  		};
+285f97bc4b017b Vinod Koul                2021-12-15   716  
+285f97bc4b017b Vinod Koul                2021-12-15   717  		cvp_mem: memory@9ee00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   718  			reg = <0x0 0x9ee00000 0x0 0x700000>;
+285f97bc4b017b Vinod Koul                2021-12-15   719  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   720  		};
+285f97bc4b017b Vinod Koul                2021-12-15   721  
+2fb19263442dda Konrad Dybcio             2022-07-14   722  		camera_mem: memory@9f500000 {
+2fb19263442dda Konrad Dybcio             2022-07-14   723  			reg = <0x0 0x9f500000 0x0 0x800000>;
+2fb19263442dda Konrad Dybcio             2022-07-14   724  			no-map;
+2fb19263442dda Konrad Dybcio             2022-07-14   725  		};
+2fb19263442dda Konrad Dybcio             2022-07-14   726  
+1172729576fbbe Bjorn Andersson           2022-01-27   727  		rmtfs_mem: memory@9fd00000 {
+1172729576fbbe Bjorn Andersson           2022-01-27   728  			compatible = "qcom,rmtfs-mem";
+1172729576fbbe Bjorn Andersson           2022-01-27   729  			reg = <0x0 0x9fd00000 0x0 0x280000>;
+1172729576fbbe Bjorn Andersson           2022-01-27   730  			no-map;
+1172729576fbbe Bjorn Andersson           2022-01-27   731  
+1172729576fbbe Bjorn Andersson           2022-01-27   732  			qcom,client-id = <1>;
+018c949b32df9f Luca Weiss                2023-08-18   733  			qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
+1172729576fbbe Bjorn Andersson           2022-01-27   734  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   735  
+2fb19263442dda Konrad Dybcio             2022-07-14   736  		xbl_sc_mem2: memory@a6e00000 {
+2fb19263442dda Konrad Dybcio             2022-07-14   737  			reg = <0x0 0xa6e00000 0x0 0x40000>;
+2fb19263442dda Konrad Dybcio             2022-07-14   738  			no-map;
+2fb19263442dda Konrad Dybcio             2022-07-14   739  		};
+2fb19263442dda Konrad Dybcio             2022-07-14   740  
+285f97bc4b017b Vinod Koul                2021-12-15   741  		global_sync_mem: memory@a6f00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   742  			reg = <0x0 0xa6f00000 0x0 0x100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   743  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   744  		};
+285f97bc4b017b Vinod Koul                2021-12-15   745  
+285f97bc4b017b Vinod Koul                2021-12-15   746  		/* uefi region can be reused by APPS */
+285f97bc4b017b Vinod Koul                2021-12-15   747  
+285f97bc4b017b Vinod Koul                2021-12-15   748  		/* Linux kernel image is loaded at 0xa0000000 */
+285f97bc4b017b Vinod Koul                2021-12-15   749  
+285f97bc4b017b Vinod Koul                2021-12-15   750  		oem_vm_mem: memory@bb000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   751  			reg = <0x0 0xbb000000 0x0 0x5000000>;
+285f97bc4b017b Vinod Koul                2021-12-15   752  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   753  		};
+285f97bc4b017b Vinod Koul                2021-12-15   754  
+285f97bc4b017b Vinod Koul                2021-12-15   755  		mte_mem: memory@c0000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   756  			reg = <0x0 0xc0000000 0x0 0x20000000>;
+285f97bc4b017b Vinod Koul                2021-12-15   757  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   758  		};
+285f97bc4b017b Vinod Koul                2021-12-15   759  
+285f97bc4b017b Vinod Koul                2021-12-15   760  		qheebsp_reserved_mem: memory@e0000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   761  			reg = <0x0 0xe0000000 0x0 0x600000>;
+285f97bc4b017b Vinod Koul                2021-12-15   762  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   763  		};
+285f97bc4b017b Vinod Koul                2021-12-15   764  
+285f97bc4b017b Vinod Koul                2021-12-15   765  		cpusys_vm_mem: memory@e0600000 {
+285f97bc4b017b Vinod Koul                2021-12-15   766  			reg = <0x0 0xe0600000 0x0 0x400000>;
+285f97bc4b017b Vinod Koul                2021-12-15   767  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   768  		};
+285f97bc4b017b Vinod Koul                2021-12-15   769  
+285f97bc4b017b Vinod Koul                2021-12-15   770  		hyp_reserved_mem: memory@e0a00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   771  			reg = <0x0 0xe0a00000 0x0 0x100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   772  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   773  		};
+285f97bc4b017b Vinod Koul                2021-12-15   774  
+285f97bc4b017b Vinod Koul                2021-12-15   775  		trust_ui_vm_mem: memory@e0b00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   776  			reg = <0x0 0xe0b00000 0x0 0x4af3000>;
+285f97bc4b017b Vinod Koul                2021-12-15   777  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   778  		};
+285f97bc4b017b Vinod Koul                2021-12-15   779  
+285f97bc4b017b Vinod Koul                2021-12-15   780  		trust_ui_vm_qrtr: memory@e55f3000 {
+285f97bc4b017b Vinod Koul                2021-12-15   781  			reg = <0x0 0xe55f3000 0x0 0x9000>;
+285f97bc4b017b Vinod Koul                2021-12-15   782  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   783  		};
+285f97bc4b017b Vinod Koul                2021-12-15   784  
+285f97bc4b017b Vinod Koul                2021-12-15   785  		trust_ui_vm_vblk0_ring: memory@e55fc000 {
+285f97bc4b017b Vinod Koul                2021-12-15   786  			reg = <0x0 0xe55fc000 0x0 0x4000>;
+285f97bc4b017b Vinod Koul                2021-12-15   787  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   788  		};
+285f97bc4b017b Vinod Koul                2021-12-15   789  
+285f97bc4b017b Vinod Koul                2021-12-15   790  		trust_ui_vm_swiotlb: memory@e5600000 {
+285f97bc4b017b Vinod Koul                2021-12-15   791  			reg = <0x0 0xe5600000 0x0 0x100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   792  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   793  		};
+285f97bc4b017b Vinod Koul                2021-12-15   794  
+285f97bc4b017b Vinod Koul                2021-12-15   795  		tz_stat_mem: memory@e8800000 {
+285f97bc4b017b Vinod Koul                2021-12-15   796  			reg = <0x0 0xe8800000 0x0 0x100000>;
+285f97bc4b017b Vinod Koul                2021-12-15   797  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   798  		};
+285f97bc4b017b Vinod Koul                2021-12-15   799  
+285f97bc4b017b Vinod Koul                2021-12-15   800  		tags_mem: memory@e8900000 {
+285f97bc4b017b Vinod Koul                2021-12-15   801  			reg = <0x0 0xe8900000 0x0 0x1200000>;
+285f97bc4b017b Vinod Koul                2021-12-15   802  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   803  		};
+285f97bc4b017b Vinod Koul                2021-12-15   804  
+285f97bc4b017b Vinod Koul                2021-12-15   805  		qtee_mem: memory@e9b00000 {
+285f97bc4b017b Vinod Koul                2021-12-15   806  			reg = <0x0 0xe9b00000 0x0 0x500000>;
+285f97bc4b017b Vinod Koul                2021-12-15   807  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   808  		};
+285f97bc4b017b Vinod Koul                2021-12-15   809  
+285f97bc4b017b Vinod Koul                2021-12-15   810  		trusted_apps_mem: memory@ea000000 {
+285f97bc4b017b Vinod Koul                2021-12-15   811  			reg = <0x0 0xea000000 0x0 0x3900000>;
+285f97bc4b017b Vinod Koul                2021-12-15   812  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   813  		};
+285f97bc4b017b Vinod Koul                2021-12-15   814  
+285f97bc4b017b Vinod Koul                2021-12-15   815  		trusted_apps_ext_mem: memory@ed900000 {
+285f97bc4b017b Vinod Koul                2021-12-15   816  			reg = <0x0 0xed900000 0x0 0x3b00000>;
+285f97bc4b017b Vinod Koul                2021-12-15   817  			no-map;
+285f97bc4b017b Vinod Koul                2021-12-15   818  		};
+285f97bc4b017b Vinod Koul                2021-12-15   819  	};
+285f97bc4b017b Vinod Koul                2021-12-15   820  
+1172729576fbbe Bjorn Andersson           2022-01-27   821  	smp2p-adsp {
+1172729576fbbe Bjorn Andersson           2022-01-27   822  		compatible = "qcom,smp2p";
+1172729576fbbe Bjorn Andersson           2022-01-27   823  		qcom,smem = <443>, <429>;
+1172729576fbbe Bjorn Andersson           2022-01-27   824  		interrupts-extended = <&ipcc IPCC_CLIENT_LPASS
+1172729576fbbe Bjorn Andersson           2022-01-27   825  					     IPCC_MPROC_SIGNAL_SMP2P
+1172729576fbbe Bjorn Andersson           2022-01-27   826  					     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27   827  		mboxes = <&ipcc IPCC_CLIENT_LPASS
+1172729576fbbe Bjorn Andersson           2022-01-27   828  				IPCC_MPROC_SIGNAL_SMP2P>;
+1172729576fbbe Bjorn Andersson           2022-01-27   829  
+1172729576fbbe Bjorn Andersson           2022-01-27   830  		qcom,local-pid = <0>;
+1172729576fbbe Bjorn Andersson           2022-01-27   831  		qcom,remote-pid = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   832  
+1172729576fbbe Bjorn Andersson           2022-01-27   833  		smp2p_adsp_out: master-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   834  			qcom,entry-name = "master-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   835  			#qcom,smem-state-cells = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   836  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   837  
+1172729576fbbe Bjorn Andersson           2022-01-27   838  		smp2p_adsp_in: slave-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   839  			qcom,entry-name = "slave-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   840  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27   841  			#interrupt-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   842  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   843  	};
+1172729576fbbe Bjorn Andersson           2022-01-27   844  
+1172729576fbbe Bjorn Andersson           2022-01-27   845  	smp2p-cdsp {
+1172729576fbbe Bjorn Andersson           2022-01-27   846  		compatible = "qcom,smp2p";
+1172729576fbbe Bjorn Andersson           2022-01-27   847  		qcom,smem = <94>, <432>;
+1172729576fbbe Bjorn Andersson           2022-01-27   848  		interrupts-extended = <&ipcc IPCC_CLIENT_CDSP
+1172729576fbbe Bjorn Andersson           2022-01-27   849  					     IPCC_MPROC_SIGNAL_SMP2P
+1172729576fbbe Bjorn Andersson           2022-01-27   850  					     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27   851  		mboxes = <&ipcc IPCC_CLIENT_CDSP
+1172729576fbbe Bjorn Andersson           2022-01-27   852  				IPCC_MPROC_SIGNAL_SMP2P>;
+1172729576fbbe Bjorn Andersson           2022-01-27   853  
+1172729576fbbe Bjorn Andersson           2022-01-27   854  		qcom,local-pid = <0>;
+1172729576fbbe Bjorn Andersson           2022-01-27   855  		qcom,remote-pid = <5>;
+1172729576fbbe Bjorn Andersson           2022-01-27   856  
+1172729576fbbe Bjorn Andersson           2022-01-27   857  		smp2p_cdsp_out: master-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   858  			qcom,entry-name = "master-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   859  			#qcom,smem-state-cells = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   860  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   861  
+1172729576fbbe Bjorn Andersson           2022-01-27   862  		smp2p_cdsp_in: slave-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   863  			qcom,entry-name = "slave-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   864  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27   865  			#interrupt-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   866  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   867  	};
+1172729576fbbe Bjorn Andersson           2022-01-27   868  
+1172729576fbbe Bjorn Andersson           2022-01-27   869  	smp2p-modem {
+1172729576fbbe Bjorn Andersson           2022-01-27   870  		compatible = "qcom,smp2p";
+1172729576fbbe Bjorn Andersson           2022-01-27   871  		qcom,smem = <435>, <428>;
+1172729576fbbe Bjorn Andersson           2022-01-27   872  		interrupts-extended = <&ipcc IPCC_CLIENT_MPSS
+1172729576fbbe Bjorn Andersson           2022-01-27   873  					     IPCC_MPROC_SIGNAL_SMP2P
+1172729576fbbe Bjorn Andersson           2022-01-27   874  					     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27   875  		mboxes = <&ipcc IPCC_CLIENT_MPSS
+1172729576fbbe Bjorn Andersson           2022-01-27   876  				IPCC_MPROC_SIGNAL_SMP2P>;
+1172729576fbbe Bjorn Andersson           2022-01-27   877  
+1172729576fbbe Bjorn Andersson           2022-01-27   878  		qcom,local-pid = <0>;
+1172729576fbbe Bjorn Andersson           2022-01-27   879  		qcom,remote-pid = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   880  
+1172729576fbbe Bjorn Andersson           2022-01-27   881  		smp2p_modem_out: master-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   882  			qcom,entry-name = "master-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   883  			#qcom,smem-state-cells = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   884  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   885  
+1172729576fbbe Bjorn Andersson           2022-01-27   886  		smp2p_modem_in: slave-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   887  			qcom,entry-name = "slave-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   888  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27   889  			#interrupt-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   890  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   891  
+1172729576fbbe Bjorn Andersson           2022-01-27   892  		ipa_smp2p_out: ipa-ap-to-modem {
+1172729576fbbe Bjorn Andersson           2022-01-27   893  			qcom,entry-name = "ipa";
+1172729576fbbe Bjorn Andersson           2022-01-27   894  			#qcom,smem-state-cells = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   895  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   896  
+1172729576fbbe Bjorn Andersson           2022-01-27   897  		ipa_smp2p_in: ipa-modem-to-ap {
+1172729576fbbe Bjorn Andersson           2022-01-27   898  			qcom,entry-name = "ipa";
+1172729576fbbe Bjorn Andersson           2022-01-27   899  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27   900  			#interrupt-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   901  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   902  	};
+1172729576fbbe Bjorn Andersson           2022-01-27   903  
+1172729576fbbe Bjorn Andersson           2022-01-27   904  	smp2p-slpi {
+1172729576fbbe Bjorn Andersson           2022-01-27   905  		compatible = "qcom,smp2p";
+1172729576fbbe Bjorn Andersson           2022-01-27   906  		qcom,smem = <481>, <430>;
+1172729576fbbe Bjorn Andersson           2022-01-27   907  		interrupts-extended = <&ipcc IPCC_CLIENT_SLPI
+1172729576fbbe Bjorn Andersson           2022-01-27   908  					     IPCC_MPROC_SIGNAL_SMP2P
+1172729576fbbe Bjorn Andersson           2022-01-27   909  					     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27   910  		mboxes = <&ipcc IPCC_CLIENT_SLPI
+1172729576fbbe Bjorn Andersson           2022-01-27   911  				IPCC_MPROC_SIGNAL_SMP2P>;
+1172729576fbbe Bjorn Andersson           2022-01-27   912  
+1172729576fbbe Bjorn Andersson           2022-01-27   913  		qcom,local-pid = <0>;
+1172729576fbbe Bjorn Andersson           2022-01-27   914  		qcom,remote-pid = <3>;
+1172729576fbbe Bjorn Andersson           2022-01-27   915  
+1172729576fbbe Bjorn Andersson           2022-01-27   916  		smp2p_slpi_out: master-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   917  			qcom,entry-name = "master-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   918  			#qcom,smem-state-cells = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27   919  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   920  
+1172729576fbbe Bjorn Andersson           2022-01-27   921  		smp2p_slpi_in: slave-kernel {
+1172729576fbbe Bjorn Andersson           2022-01-27   922  			qcom,entry-name = "slave-kernel";
+1172729576fbbe Bjorn Andersson           2022-01-27   923  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27   924  			#interrupt-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27   925  		};
+1172729576fbbe Bjorn Andersson           2022-01-27   926  	};
+1172729576fbbe Bjorn Andersson           2022-01-27   927  
+5188049c9b36d7 Vinod Koul                2021-12-15   928  	soc: soc@0 {
+5188049c9b36d7 Vinod Koul                2021-12-15   929  		#address-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15   930  		#size-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15   931  		ranges = <0 0 0 0 0x10 0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   932  		dma-ranges = <0 0 0 0 0x10 0>;
+5188049c9b36d7 Vinod Koul                2021-12-15   933  		compatible = "simple-bus";
+5188049c9b36d7 Vinod Koul                2021-12-15   934  
+5188049c9b36d7 Vinod Koul                2021-12-15   935  		gcc: clock-controller@100000 {
+5188049c9b36d7 Vinod Koul                2021-12-15   936  			compatible = "qcom,gcc-sm8450";
+5188049c9b36d7 Vinod Koul                2021-12-15   937  			reg = <0x0 0x00100000 0x0 0x1f4200>;
+5188049c9b36d7 Vinod Koul                2021-12-15   938  			#clock-cells = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15   939  			#reset-cells = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15   940  			#power-domain-cells = <1>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01   941  			clocks = <&rpmhcc RPMH_CXO_CLK>,
+539a9923683c79 Krzysztof Kozlowski       2022-12-24   942  				 <&sleep_clk>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20   943  				 <&pcie0_phy>,
+e7686284066073 Neil Armstrong            2024-05-02   944  				 <&pcie1_phy QMP_PCIE_PIPE_CLK>,
+e7686284066073 Neil Armstrong            2024-05-02   945  				 <&pcie1_phy QMP_PCIE_PHY_AUX_CLK>,
+75390b69d5df49 Dmitry Baryshkov          2023-12-05   946  				 <&ufs_mem_phy 0>,
+75390b69d5df49 Dmitry Baryshkov          2023-12-05   947  				 <&ufs_mem_phy 1>,
+75390b69d5df49 Dmitry Baryshkov          2023-12-05   948  				 <&ufs_mem_phy 2>,
+d3054cec1e9ea4 Neil Armstrong            2023-03-17   949  				 <&usb_1_qmpphy QMP_USB43DP_USB3_PIPE_CLK>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01   950  			clock-names = "bi_tcxo",
+539a9923683c79 Krzysztof Kozlowski       2022-12-24   951  				      "sleep_clk",
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01   952  				      "pcie_0_pipe_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   953  				      "pcie_1_pipe_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   954  				      "pcie_1_phy_aux_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   955  				      "ufs_phy_rx_symbol_0_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   956  				      "ufs_phy_rx_symbol_1_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   957  				      "ufs_phy_tx_symbol_0_clk",
+86543bc6eec499 Dmitry Baryshkov          2022-11-23   958  				      "usb3_phy_wrapper_gcc_usb30_pipe_clk";
+5188049c9b36d7 Vinod Koul                2021-12-15   959  		};
+5188049c9b36d7 Vinod Koul                2021-12-15   960  
+b9c84330830973 Vinod Koul                2022-04-14   961  		gpi_dma2: dma-controller@800000 {
+19e67894500a8a Krzysztof Kozlowski       2022-10-18   962  			compatible = "qcom,sm8450-gpi-dma", "qcom,sm6350-gpi-dma";
+b9c84330830973 Vinod Koul                2022-04-14   963  			#dma-cells = <3>;
+a58cde4d66e18a Konrad Dybcio             2023-01-02   964  			reg = <0 0x00800000 0 0x60000>;
+b9c84330830973 Vinod Koul                2022-04-14   965  			interrupts = <GIC_SPI 588 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   966  				     <GIC_SPI 589 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   967  				     <GIC_SPI 590 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   968  				     <GIC_SPI 591 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   969  				     <GIC_SPI 592 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   970  				     <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   971  				     <GIC_SPI 594 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   972  				     <GIC_SPI 595 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   973  				     <GIC_SPI 596 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   974  				     <GIC_SPI 597 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   975  				     <GIC_SPI 598 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14   976  				     <GIC_SPI 599 IRQ_TYPE_LEVEL_HIGH>;
+b9c84330830973 Vinod Koul                2022-04-14   977  			dma-channels = <12>;
+b9c84330830973 Vinod Koul                2022-04-14   978  			dma-channel-mask = <0x7e>;
+b9c84330830973 Vinod Koul                2022-04-14   979  			iommus = <&apps_smmu 0x496 0x0>;
+b9c84330830973 Vinod Koul                2022-04-14   980  			status = "disabled";
+b9c84330830973 Vinod Koul                2022-04-14   981  		};
+b9c84330830973 Vinod Koul                2022-04-14   982  
+ba640cd31342b4 Vinod Koul                2022-04-14   983  		qupv3_id_2: geniqup@8c0000 {
+ba640cd31342b4 Vinod Koul                2022-04-14   984  			compatible = "qcom,geni-se-qup";
+ba640cd31342b4 Vinod Koul                2022-04-14   985  			reg = <0x0 0x008c0000 0x0 0x2000>;
+ba640cd31342b4 Vinod Koul                2022-04-14   986  			clock-names = "m-ahb", "s-ahb";
+ba640cd31342b4 Vinod Koul                2022-04-14   987  			clocks = <&gcc GCC_QUPV3_WRAP_2_M_AHB_CLK>,
+ba640cd31342b4 Vinod Koul                2022-04-14   988  				 <&gcc GCC_QUPV3_WRAP_2_S_AHB_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14   989  			iommus = <&apps_smmu 0x483 0x0>;
+ba640cd31342b4 Vinod Koul                2022-04-14   990  			#address-cells = <2>;
+ba640cd31342b4 Vinod Koul                2022-04-14   991  			#size-cells = <2>;
+ba640cd31342b4 Vinod Koul                2022-04-14   992  			ranges;
+ba640cd31342b4 Vinod Koul                2022-04-14   993  			status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14   994  
+ba640cd31342b4 Vinod Koul                2022-04-14   995  			i2c15: i2c@880000 {
+ba640cd31342b4 Vinod Koul                2022-04-14   996  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14   997  				reg = <0x0 0x00880000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14   998  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14   999  				clocks = <&gcc GCC_QUPV3_WRAP2_S0_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1000  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1001  				pinctrl-0 = <&qup_i2c15_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1002  				interrupts = <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1003  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1004  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1005  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1006  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1007  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1008  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1009  				dmas = <&gpi_dma2 0 0 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1010  				       <&gpi_dma2 1 0 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1011  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1012  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1013  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1014  
+ba640cd31342b4 Vinod Koul                2022-04-14  1015  			spi15: spi@880000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1016  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1017  				reg = <0x0 0x00880000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1018  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1019  				clocks = <&gcc GCC_QUPV3_WRAP2_S0_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1020  				interrupts = <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1021  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1022  				pinctrl-0 = <&qup_spi15_data_clk>, <&qup_spi15_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1023  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1024  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1025  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1026  				dmas = <&gpi_dma2 0 0 QCOM_GPI_SPI>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1027  				       <&gpi_dma2 1 0 QCOM_GPI_SPI>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1028  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1029  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1030  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1031  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1032  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1033  
+ba640cd31342b4 Vinod Koul                2022-04-14  1034  			i2c16: i2c@884000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1035  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1036  				reg = <0x0 0x00884000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1037  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1038  				clocks = <&gcc GCC_QUPV3_WRAP2_S1_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1039  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1040  				pinctrl-0 = <&qup_i2c16_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1041  				interrupts = <GIC_SPI 583 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1042  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1043  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1044  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1045  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1046  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1047  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1048  				dmas = <&gpi_dma2 0 1 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1049  				       <&gpi_dma2 1 1 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1050  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1051  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1052  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1053  
+ba640cd31342b4 Vinod Koul                2022-04-14  1054  			spi16: spi@884000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1055  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1056  				reg = <0x0 0x00884000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1057  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1058  				clocks = <&gcc GCC_QUPV3_WRAP2_S1_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1059  				interrupts = <GIC_SPI 583 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1060  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1061  				pinctrl-0 = <&qup_spi16_data_clk>, <&qup_spi16_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1062  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1063  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1064  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1065  				dmas = <&gpi_dma2 0 1 QCOM_GPI_SPI>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1066  				       <&gpi_dma2 1 1 QCOM_GPI_SPI>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1067  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1068  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1069  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1070  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1071  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1072  
+ba640cd31342b4 Vinod Koul                2022-04-14  1073  			i2c17: i2c@888000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1074  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1075  				reg = <0x0 0x00888000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1076  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1077  				clocks = <&gcc GCC_QUPV3_WRAP2_S2_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1078  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1079  				pinctrl-0 = <&qup_i2c17_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1080  				interrupts = <GIC_SPI 584 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1081  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1082  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1083  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1084  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1085  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1086  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1087  				dmas = <&gpi_dma2 0 2 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1088  				       <&gpi_dma2 1 2 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1089  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1090  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1091  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1092  
+ba640cd31342b4 Vinod Koul                2022-04-14  1093  			spi17: spi@888000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1094  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1095  				reg = <0x0 0x00888000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1096  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1097  				clocks = <&gcc GCC_QUPV3_WRAP2_S2_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1098  				interrupts = <GIC_SPI 584 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1099  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1100  				pinctrl-0 = <&qup_spi17_data_clk>, <&qup_spi17_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1101  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1102  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1103  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1104  				dmas = <&gpi_dma2 0 2 QCOM_GPI_SPI>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1105  				       <&gpi_dma2 1 2 QCOM_GPI_SPI>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1106  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1107  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1108  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1109  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1110  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1111  
+ba640cd31342b4 Vinod Koul                2022-04-14  1112  			i2c18: i2c@88c000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1113  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1114  				reg = <0x0 0x0088c000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1115  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1116  				clocks = <&gcc GCC_QUPV3_WRAP2_S3_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1117  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1118  				pinctrl-0 = <&qup_i2c18_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1119  				interrupts = <GIC_SPI 585 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1120  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1121  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1122  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1123  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1124  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1125  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1126  				dmas = <&gpi_dma2 0 3 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1127  				       <&gpi_dma2 1 3 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1128  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1129  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1130  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1131  
+ba640cd31342b4 Vinod Koul                2022-04-14  1132  			spi18: spi@88c000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1133  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1134  				reg = <0 0x0088c000 0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1135  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1136  				clocks = <&gcc GCC_QUPV3_WRAP2_S3_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1137  				interrupts = <GIC_SPI 585 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1138  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1139  				pinctrl-0 = <&qup_spi18_data_clk>, <&qup_spi18_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1140  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1141  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1142  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1143  				dmas = <&gpi_dma2 0 3 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1144  				       <&gpi_dma2 1 3 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1145  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1146  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1147  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1148  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1149  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1150  
+ba640cd31342b4 Vinod Koul                2022-04-14  1151  			i2c19: i2c@890000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1152  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1153  				reg = <0x0 0x00890000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1154  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1155  				clocks = <&gcc GCC_QUPV3_WRAP2_S4_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1156  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1157  				pinctrl-0 = <&qup_i2c19_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1158  				interrupts = <GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1159  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1160  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1161  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1162  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1163  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1164  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1165  				dmas = <&gpi_dma2 0 4 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1166  				       <&gpi_dma2 1 4 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1167  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1168  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1169  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1170  
+ba640cd31342b4 Vinod Koul                2022-04-14  1171  			spi19: spi@890000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1172  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1173  				reg = <0 0x00890000 0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1174  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1175  				clocks = <&gcc GCC_QUPV3_WRAP2_S4_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1176  				interrupts = <GIC_SPI 586 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1177  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1178  				pinctrl-0 = <&qup_spi19_data_clk>, <&qup_spi19_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1179  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1180  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1181  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1182  				dmas = <&gpi_dma2 0 4 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1183  				       <&gpi_dma2 1 4 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1184  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1185  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1186  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1187  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1188  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1189  
+ba640cd31342b4 Vinod Koul                2022-04-14  1190  			i2c20: i2c@894000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1191  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1192  				reg = <0x0 0x00894000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1193  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1194  				clocks = <&gcc GCC_QUPV3_WRAP2_S5_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1195  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1196  				pinctrl-0 = <&qup_i2c20_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1197  				interrupts = <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1198  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1199  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1200  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1201  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1202  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1203  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1204  				dmas = <&gpi_dma2 0 5 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1205  				       <&gpi_dma2 1 5 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1206  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1207  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1208  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1209  
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1210  			uart20: serial@894000 {
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1211  				compatible = "qcom,geni-uart";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1212  				reg = <0 0x00894000 0 0x4000>;
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1213  				clock-names = "se";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1214  				clocks = <&gcc GCC_QUPV3_WRAP2_S5_CLK>;
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1215  				pinctrl-names = "default";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1216  				pinctrl-0 = <&qup_uart20_default>;
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1217  				interrupts = <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>;
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1218  				interconnects = <&clk_virt MASTER_QUP_CORE_2 QCOM_ICC_TAG_ALWAYS
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1219  						 &clk_virt SLAVE_QUP_CORE_2 QCOM_ICC_TAG_ALWAYS>,
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1220  						<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1221  						 &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ALWAYS>;
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1222  				interconnect-names = "qup-core",
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1223  						     "qup-config";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1224  				status = "disabled";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1225  			};
+f5837418479a3f Dmitry Baryshkov          2022-05-02  1226  
+ba640cd31342b4 Vinod Koul                2022-04-14  1227  			spi20: spi@894000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1228  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1229  				reg = <0 0x00894000 0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1230  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1231  				clocks = <&gcc GCC_QUPV3_WRAP2_S5_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1232  				interrupts = <GIC_SPI 587 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1233  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1234  				pinctrl-0 = <&qup_spi20_data_clk>, <&qup_spi20_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1235  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1236  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1237  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1238  				dmas = <&gpi_dma2 0 5 QCOM_GPI_SPI>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1239  				       <&gpi_dma2 1 5 QCOM_GPI_SPI>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1240  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1241  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1242  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1243  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1244  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1245  
+ba640cd31342b4 Vinod Koul                2022-04-14  1246  			i2c21: i2c@898000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1247  				compatible = "qcom,geni-i2c";
+ba640cd31342b4 Vinod Koul                2022-04-14  1248  				reg = <0x0 0x00898000 0x0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1249  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1250  				clocks = <&gcc GCC_QUPV3_WRAP2_S6_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1251  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1252  				pinctrl-0 = <&qup_i2c21_data_clk>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1253  				interrupts = <GIC_SPI 579 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1254  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1255  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1256  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1257  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1258  						<&aggre2_noc MASTER_QUP_2 0 &mc_virt SLAVE_EBI1 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1259  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+ba640cd31342b4 Vinod Koul                2022-04-14  1260  				dmas = <&gpi_dma2 0 6 QCOM_GPI_I2C>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1261  				       <&gpi_dma2 1 6 QCOM_GPI_I2C>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1262  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1263  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1264  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1265  
+ba640cd31342b4 Vinod Koul                2022-04-14  1266  			spi21: spi@898000 {
+ba640cd31342b4 Vinod Koul                2022-04-14  1267  				compatible = "qcom,geni-spi";
+ba640cd31342b4 Vinod Koul                2022-04-14  1268  				reg = <0 0x00898000 0 0x4000>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1269  				clock-names = "se";
+ba640cd31342b4 Vinod Koul                2022-04-14  1270  				clocks = <&gcc GCC_QUPV3_WRAP2_S6_CLK>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1271  				interrupts = <GIC_SPI 579 IRQ_TYPE_LEVEL_HIGH>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1272  				pinctrl-names = "default";
+ba640cd31342b4 Vinod Koul                2022-04-14  1273  				pinctrl-0 = <&qup_spi21_data_clk>, <&qup_spi21_cs>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1274  				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1275  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1276  				interconnect-names = "qup-core", "qup-config";
+ba640cd31342b4 Vinod Koul                2022-04-14  1277  				dmas = <&gpi_dma2 0 6 QCOM_GPI_SPI>,
+ba640cd31342b4 Vinod Koul                2022-04-14  1278  				       <&gpi_dma2 1 6 QCOM_GPI_SPI>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1279  				dma-names = "tx", "rx";
+ba640cd31342b4 Vinod Koul                2022-04-14  1280  				#address-cells = <1>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1281  				#size-cells = <0>;
+ba640cd31342b4 Vinod Koul                2022-04-14  1282  				status = "disabled";
+ba640cd31342b4 Vinod Koul                2022-04-14  1283  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  1284  		};
+ba640cd31342b4 Vinod Koul                2022-04-14  1285  
+b9c84330830973 Vinod Koul                2022-04-14  1286  		gpi_dma0: dma-controller@900000 {
+19e67894500a8a Krzysztof Kozlowski       2022-10-18  1287  			compatible = "qcom,sm8450-gpi-dma", "qcom,sm6350-gpi-dma";
+b9c84330830973 Vinod Koul                2022-04-14  1288  			#dma-cells = <3>;
+a58cde4d66e18a Konrad Dybcio             2023-01-02  1289  			reg = <0 0x00900000 0 0x60000>;
+b9c84330830973 Vinod Koul                2022-04-14  1290  			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1291  				     <GIC_SPI 245 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1292  				     <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1293  				     <GIC_SPI 247 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1294  				     <GIC_SPI 248 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1295  				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1296  				     <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1297  				     <GIC_SPI 251 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1298  				     <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1299  				     <GIC_SPI 253 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1300  				     <GIC_SPI 254 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1301  				     <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH>;
+b9c84330830973 Vinod Koul                2022-04-14  1302  			dma-channels = <12>;
+b9c84330830973 Vinod Koul                2022-04-14  1303  			dma-channel-mask = <0x7e>;
+b9c84330830973 Vinod Koul                2022-04-14  1304  			iommus = <&apps_smmu 0x5b6 0x0>;
+b9c84330830973 Vinod Koul                2022-04-14  1305  			status = "disabled";
+b9c84330830973 Vinod Koul                2022-04-14  1306  		};
+b9c84330830973 Vinod Koul                2022-04-14  1307  
+5188049c9b36d7 Vinod Koul                2021-12-15  1308  		qupv3_id_0: geniqup@9c0000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  1309  			compatible = "qcom,geni-se-qup";
+5188049c9b36d7 Vinod Koul                2021-12-15  1310  			reg = <0x0 0x009c0000 0x0 0x2000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  1311  			clock-names = "m-ahb", "s-ahb";
+5188049c9b36d7 Vinod Koul                2021-12-15  1312  			clocks = <&gcc GCC_QUPV3_WRAP_0_M_AHB_CLK>,
+5188049c9b36d7 Vinod Koul                2021-12-15  1313  				 <&gcc GCC_QUPV3_WRAP_0_S_AHB_CLK>;
+488922c1a37257 Vinod Koul                2022-04-14  1314  			iommus = <&apps_smmu 0x5a3 0x0>;
+488922c1a37257 Vinod Koul                2022-04-14  1315  			interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>;
+488922c1a37257 Vinod Koul                2022-04-14  1316  			interconnect-names = "qup-core";
+5188049c9b36d7 Vinod Koul                2021-12-15  1317  			#address-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15  1318  			#size-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15  1319  			ranges;
+5188049c9b36d7 Vinod Koul                2021-12-15  1320  			status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  1321  
+a84e88e9a00334 Vinod Koul                2022-04-14  1322  			i2c0: i2c@980000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1323  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1324  				reg = <0x0 0x00980000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1325  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1326  				clocks = <&gcc GCC_QUPV3_WRAP0_S0_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1327  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1328  				pinctrl-0 = <&qup_i2c0_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1329  				interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1330  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1331  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1332  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1333  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1334  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1335  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1336  				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1337  				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1338  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1339  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1340  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1341  
+a84e88e9a00334 Vinod Koul                2022-04-14  1342  			spi0: spi@980000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1343  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1344  				reg = <0x0 0x00980000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1345  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1346  				clocks = <&gcc GCC_QUPV3_WRAP0_S0_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1347  				interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1348  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1349  				pinctrl-0 = <&qup_spi0_data_clk>, <&qup_spi0_cs>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  1350  				power-domains = <&rpmhpd RPMHPD_CX>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1351  				operating-points-v2 = <&qup_opp_table_100mhz>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1352  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1353  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1354  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1355  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1356  				dmas = <&gpi_dma0 0 0 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1357  				       <&gpi_dma0 1 0 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1358  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1359  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1360  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1361  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1362  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1363  
+a84e88e9a00334 Vinod Koul                2022-04-14  1364  			i2c1: i2c@984000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1365  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1366  				reg = <0x0 0x00984000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1367  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1368  				clocks = <&gcc GCC_QUPV3_WRAP0_S1_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1369  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1370  				pinctrl-0 = <&qup_i2c1_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1371  				interrupts = <GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1372  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1373  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1374  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1375  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1376  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1377  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1378  				dmas = <&gpi_dma0 0 1 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1379  				       <&gpi_dma0 1 1 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1380  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1381  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1382  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1383  
+a84e88e9a00334 Vinod Koul                2022-04-14  1384  			spi1: spi@984000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1385  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1386  				reg = <0x0 0x00984000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1387  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1388  				clocks = <&gcc GCC_QUPV3_WRAP0_S1_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1389  				interrupts = <GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1390  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1391  				pinctrl-0 = <&qup_spi1_data_clk>, <&qup_spi1_cs>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1392  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1393  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1394  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1395  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1396  				dmas = <&gpi_dma0 0 1 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1397  				       <&gpi_dma0 1 1 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1398  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1399  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1400  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1401  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1402  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1403  
+a84e88e9a00334 Vinod Koul                2022-04-14  1404  			i2c2: i2c@988000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1405  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1406  				reg = <0x0 0x00988000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1407  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1408  				clocks = <&gcc GCC_QUPV3_WRAP0_S2_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1409  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1410  				pinctrl-0 = <&qup_i2c2_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1411  				interrupts = <GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1412  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1413  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1414  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1415  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1416  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1417  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1418  				dmas = <&gpi_dma0 0 2 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1419  				       <&gpi_dma0 1 2 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1420  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1421  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1422  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1423  
+a84e88e9a00334 Vinod Koul                2022-04-14  1424  			spi2: spi@988000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1425  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1426  				reg = <0x0 0x00988000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1427  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1428  				clocks = <&gcc GCC_QUPV3_WRAP0_S2_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1429  				interrupts = <GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1430  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1431  				pinctrl-0 = <&qup_spi2_data_clk>, <&qup_spi2_cs>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1432  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1433  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1434  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1435  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1436  				dmas = <&gpi_dma0 0 2 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1437  				       <&gpi_dma0 1 2 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1438  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1439  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1440  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1441  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1442  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1443  
+a84e88e9a00334 Vinod Koul                2022-04-14  1444  
+a84e88e9a00334 Vinod Koul                2022-04-14  1445  			i2c3: i2c@98c000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1446  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1447  				reg = <0x0 0x0098c000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1448  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1449  				clocks = <&gcc GCC_QUPV3_WRAP0_S3_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1450  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1451  				pinctrl-0 = <&qup_i2c3_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1452  				interrupts = <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1453  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1454  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1455  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1456  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1457  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1458  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1459  				dmas = <&gpi_dma0 0 3 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1460  				       <&gpi_dma0 1 3 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1461  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1462  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1463  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1464  
+a84e88e9a00334 Vinod Koul                2022-04-14  1465  			spi3: spi@98c000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1466  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1467  				reg = <0x0 0x0098c000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1468  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1469  				clocks = <&gcc GCC_QUPV3_WRAP0_S3_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1470  				interrupts = <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1471  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1472  				pinctrl-0 = <&qup_spi3_data_clk>, <&qup_spi3_cs>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1473  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1474  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1475  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1476  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1477  				dmas = <&gpi_dma0 0 3 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1478  				       <&gpi_dma0 1 3 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1479  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1480  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1481  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1482  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1483  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1484  
+a84e88e9a00334 Vinod Koul                2022-04-14  1485  			i2c4: i2c@990000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1486  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1487  				reg = <0x0 0x00990000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1488  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1489  				clocks = <&gcc GCC_QUPV3_WRAP0_S4_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1490  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1491  				pinctrl-0 = <&qup_i2c4_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1492  				interrupts = <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1493  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1494  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1495  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1496  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1497  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1498  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1499  				dmas = <&gpi_dma0 0 4 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1500  				       <&gpi_dma0 1 4 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1501  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1502  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1503  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1504  
+a84e88e9a00334 Vinod Koul                2022-04-14  1505  			spi4: spi@990000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1506  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1507  				reg = <0x0 0x00990000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1508  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1509  				clocks = <&gcc GCC_QUPV3_WRAP0_S4_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1510  				interrupts = <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1511  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1512  				pinctrl-0 = <&qup_spi4_data_clk>, <&qup_spi4_cs>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  1513  				power-domains = <&rpmhpd RPMHPD_CX>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1514  				operating-points-v2 = <&qup_opp_table_100mhz>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1515  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1516  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1517  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1518  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1519  				dmas = <&gpi_dma0 0 4 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1520  				       <&gpi_dma0 1 4 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1521  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1522  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1523  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1524  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1525  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1526  
+a84e88e9a00334 Vinod Koul                2022-04-14  1527  			i2c5: i2c@994000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1528  				compatible = "qcom,geni-i2c";
+a84e88e9a00334 Vinod Koul                2022-04-14  1529  				reg = <0x0 0x00994000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1530  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1531  				clocks = <&gcc GCC_QUPV3_WRAP0_S5_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1532  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1533  				pinctrl-0 = <&qup_i2c5_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1534  				interrupts = <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1535  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1536  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1537  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1538  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1539  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1540  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1541  				dmas = <&gpi_dma0 0 5 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1542  				       <&gpi_dma0 1 5 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1543  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1544  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1545  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1546  
+a84e88e9a00334 Vinod Koul                2022-04-14  1547  			spi5: spi@994000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1548  				compatible = "qcom,geni-spi";
+a84e88e9a00334 Vinod Koul                2022-04-14  1549  				reg = <0x0 0x00994000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1550  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1551  				clocks = <&gcc GCC_QUPV3_WRAP0_S5_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1552  				interrupts = <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1553  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1554  				pinctrl-0 = <&qup_spi5_data_clk>, <&qup_spi5_cs>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1555  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1556  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1557  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1558  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1559  				dmas = <&gpi_dma0 0 5 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1560  				       <&gpi_dma0 1 5 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1561  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1562  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1563  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1564  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1565  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1566  
+a84e88e9a00334 Vinod Koul                2022-04-14  1567  
+a84e88e9a00334 Vinod Koul                2022-04-14  1568  			i2c6: i2c@998000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1569  				compatible = "qcom,geni-i2c";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  1570  				reg = <0x0 0x00998000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1571  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1572  				clocks = <&gcc GCC_QUPV3_WRAP0_S6_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1573  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1574  				pinctrl-0 = <&qup_i2c6_data_clk>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1575  				interrupts = <GIC_SPI 607 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1576  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1577  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1578  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1579  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1580  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1581  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1582  				dmas = <&gpi_dma0 0 6 QCOM_GPI_I2C>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1583  				       <&gpi_dma0 1 6 QCOM_GPI_I2C>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1584  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1585  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1586  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1587  
+a84e88e9a00334 Vinod Koul                2022-04-14  1588  			spi6: spi@998000 {
+a84e88e9a00334 Vinod Koul                2022-04-14  1589  				compatible = "qcom,geni-spi";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  1590  				reg = <0x0 0x00998000 0x0 0x4000>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1591  				clock-names = "se";
+a84e88e9a00334 Vinod Koul                2022-04-14  1592  				clocks = <&gcc GCC_QUPV3_WRAP0_S6_CLK>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1593  				interrupts = <GIC_SPI 607 IRQ_TYPE_LEVEL_HIGH>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1594  				pinctrl-names = "default";
+a84e88e9a00334 Vinod Koul                2022-04-14  1595  				pinctrl-0 = <&qup_spi6_data_clk>, <&qup_spi6_cs>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1596  				interconnects = <&clk_virt MASTER_QUP_CORE_0 0 &clk_virt SLAVE_QUP_CORE_0 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1597  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1598  						<&aggre2_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI1 0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1599  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+a84e88e9a00334 Vinod Koul                2022-04-14  1600  				dmas = <&gpi_dma0 0 6 QCOM_GPI_SPI>,
+a84e88e9a00334 Vinod Koul                2022-04-14  1601  				       <&gpi_dma0 1 6 QCOM_GPI_SPI>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1602  				dma-names = "tx", "rx";
+a84e88e9a00334 Vinod Koul                2022-04-14  1603  				#address-cells = <1>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1604  				#size-cells = <0>;
+a84e88e9a00334 Vinod Koul                2022-04-14  1605  				status = "disabled";
+a84e88e9a00334 Vinod Koul                2022-04-14  1606  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  1607  
+5188049c9b36d7 Vinod Koul                2021-12-15  1608  			uart7: serial@99c000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  1609  				compatible = "qcom,geni-debug-uart";
+5188049c9b36d7 Vinod Koul                2021-12-15  1610  				reg = <0 0x0099c000 0 0x4000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  1611  				clock-names = "se";
+5188049c9b36d7 Vinod Koul                2021-12-15  1612  				clocks = <&gcc GCC_QUPV3_WRAP0_S7_CLK>;
+ec950d55728459 Vinod Koul                2021-12-15  1613  				pinctrl-names = "default";
+ec950d55728459 Vinod Koul                2021-12-15  1614  				pinctrl-0 = <&qup_uart7_tx>, <&qup_uart7_rx>;
+5188049c9b36d7 Vinod Koul                2021-12-15  1615  				interrupts = <GIC_SPI 608 IRQ_TYPE_LEVEL_HIGH>;
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1616  				interconnects = <&clk_virt MASTER_QUP_CORE_2 QCOM_ICC_TAG_ALWAYS
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1617  						 &clk_virt SLAVE_QUP_CORE_2 QCOM_ICC_TAG_ALWAYS>,
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1618  						<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1619  						 &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ALWAYS>;
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1620  				interconnect-names = "qup-core",
+6e115b75b43bd1 Konrad Dybcio             2024-01-16  1621  						     "qup-config";
+5188049c9b36d7 Vinod Koul                2021-12-15  1622  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  1623  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  1624  		};
+5188049c9b36d7 Vinod Koul                2021-12-15  1625  
+b9c84330830973 Vinod Koul                2022-04-14  1626  		gpi_dma1: dma-controller@a00000 {
+19e67894500a8a Krzysztof Kozlowski       2022-10-18  1627  			compatible = "qcom,sm8450-gpi-dma", "qcom,sm6350-gpi-dma";
+b9c84330830973 Vinod Koul                2022-04-14  1628  			#dma-cells = <3>;
+a58cde4d66e18a Konrad Dybcio             2023-01-02  1629  			reg = <0 0x00a00000 0 0x60000>;
+b9c84330830973 Vinod Koul                2022-04-14  1630  			interrupts = <GIC_SPI 279 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1631  				     <GIC_SPI 280 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1632  				     <GIC_SPI 281 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1633  				     <GIC_SPI 282 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1634  				     <GIC_SPI 283 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1635  				     <GIC_SPI 284 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1636  				     <GIC_SPI 293 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1637  				     <GIC_SPI 294 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1638  				     <GIC_SPI 295 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1639  				     <GIC_SPI 296 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1640  				     <GIC_SPI 297 IRQ_TYPE_LEVEL_HIGH>,
+b9c84330830973 Vinod Koul                2022-04-14  1641  				     <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>;
+b9c84330830973 Vinod Koul                2022-04-14  1642  			dma-channels = <12>;
+b9c84330830973 Vinod Koul                2022-04-14  1643  			dma-channel-mask = <0x7e>;
+b9c84330830973 Vinod Koul                2022-04-14  1644  			iommus = <&apps_smmu 0x56 0x0>;
+b9c84330830973 Vinod Koul                2022-04-14  1645  			status = "disabled";
+b9c84330830973 Vinod Koul                2022-04-14  1646  		};
+b9c84330830973 Vinod Koul                2022-04-14  1647  
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1648  		qupv3_id_1: geniqup@ac0000 {
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1649  			compatible = "qcom,geni-se-qup";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1650  			reg = <0x0 0x00ac0000 0x0 0x6000>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1651  			clock-names = "m-ahb", "s-ahb";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1652  			clocks = <&gcc GCC_QUPV3_WRAP_1_M_AHB_CLK>,
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1653  				 <&gcc GCC_QUPV3_WRAP_1_S_AHB_CLK>;
+67ebdc6dd1e204 Vinod Koul                2022-04-14  1654  			iommus = <&apps_smmu 0x43 0x0>;
+67ebdc6dd1e204 Vinod Koul                2022-04-14  1655  			interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>;
+67ebdc6dd1e204 Vinod Koul                2022-04-14  1656  			interconnect-names = "qup-core";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1657  			#address-cells = <2>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1658  			#size-cells = <2>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1659  			ranges;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1660  			status = "disabled";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1661  
+1a380216fd6fcf Vinod Koul                2022-04-14  1662  			i2c8: i2c@a80000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1663  				compatible = "qcom,geni-i2c";
+1a380216fd6fcf Vinod Koul                2022-04-14  1664  				reg = <0x0 0x00a80000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1665  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1666  				clocks = <&gcc GCC_QUPV3_WRAP1_S0_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1667  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1668  				pinctrl-0 = <&qup_i2c8_data_clk>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1669  				interrupts = <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1670  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1671  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1672  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1673  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1674  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1675  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1676  				dmas = <&gpi_dma1 0 0 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1677  				       <&gpi_dma1 1 0 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1678  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1679  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1680  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1681  
+1a380216fd6fcf Vinod Koul                2022-04-14  1682  			spi8: spi@a80000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1683  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1684  				reg = <0x0 0x00a80000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1685  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1686  				clocks = <&gcc GCC_QUPV3_WRAP1_S0_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1687  				interrupts = <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1688  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1689  				pinctrl-0 = <&qup_spi8_data_clk>, <&qup_spi8_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1690  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1691  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1692  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1693  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1694  				dmas = <&gpi_dma1 0 0 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1695  				       <&gpi_dma1 1 0 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1696  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1697  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1698  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1699  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1700  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1701  
+1a380216fd6fcf Vinod Koul                2022-04-14  1702  			i2c9: i2c@a84000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1703  				compatible = "qcom,geni-i2c";
+1a380216fd6fcf Vinod Koul                2022-04-14  1704  				reg = <0x0 0x00a84000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1705  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1706  				clocks = <&gcc GCC_QUPV3_WRAP1_S1_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1707  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1708  				pinctrl-0 = <&qup_i2c9_data_clk>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1709  				interrupts = <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1710  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1711  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1712  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1713  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1714  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1715  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1716  				dmas = <&gpi_dma1 0 1 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1717  				       <&gpi_dma1 1 1 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1718  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1719  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1720  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1721  
+1a380216fd6fcf Vinod Koul                2022-04-14  1722  			spi9: spi@a84000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1723  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1724  				reg = <0x0 0x00a84000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1725  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1726  				clocks = <&gcc GCC_QUPV3_WRAP1_S1_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1727  				interrupts = <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1728  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1729  				pinctrl-0 = <&qup_spi9_data_clk>, <&qup_spi9_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1730  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1731  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1732  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1733  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1734  				dmas = <&gpi_dma1 0 1 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1735  				       <&gpi_dma1 1 1 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1736  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1737  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1738  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1739  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1740  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1741  
+1a380216fd6fcf Vinod Koul                2022-04-14  1742  			i2c10: i2c@a88000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1743  				compatible = "qcom,geni-i2c";
+1a380216fd6fcf Vinod Koul                2022-04-14  1744  				reg = <0x0 0x00a88000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1745  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1746  				clocks = <&gcc GCC_QUPV3_WRAP1_S2_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1747  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1748  				pinctrl-0 = <&qup_i2c10_data_clk>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1749  				interrupts = <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1750  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1751  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1752  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1753  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1754  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1755  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1756  				dmas = <&gpi_dma1 0 2 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1757  				       <&gpi_dma1 1 2 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1758  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1759  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1760  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1761  
+1a380216fd6fcf Vinod Koul                2022-04-14  1762  			spi10: spi@a88000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1763  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1764  				reg = <0x0 0x00a88000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1765  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1766  				clocks = <&gcc GCC_QUPV3_WRAP1_S2_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1767  				interrupts = <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1768  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1769  				pinctrl-0 = <&qup_spi10_data_clk>, <&qup_spi10_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1770  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1771  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1772  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1773  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1774  				dmas = <&gpi_dma1 0 2 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1775  				       <&gpi_dma1 1 2 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1776  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1777  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1778  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1779  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1780  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1781  
+1a380216fd6fcf Vinod Koul                2022-04-14  1782  			i2c11: i2c@a8c000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1783  				compatible = "qcom,geni-i2c";
+1a380216fd6fcf Vinod Koul                2022-04-14  1784  				reg = <0x0 0x00a8c000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1785  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1786  				clocks = <&gcc GCC_QUPV3_WRAP1_S3_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1787  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1788  				pinctrl-0 = <&qup_i2c11_data_clk>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1789  				interrupts = <GIC_SPI 356 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1790  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1791  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1792  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1793  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1794  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1795  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1796  				dmas = <&gpi_dma1 0 3 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1797  				       <&gpi_dma1 1 3 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1798  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1799  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1800  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1801  
+1a380216fd6fcf Vinod Koul                2022-04-14  1802  			spi11: spi@a8c000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1803  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1804  				reg = <0x0 0x00a8c000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1805  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1806  				clocks = <&gcc GCC_QUPV3_WRAP1_S3_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1807  				interrupts = <GIC_SPI 356 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1808  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1809  				pinctrl-0 = <&qup_spi11_data_clk>, <&qup_spi11_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1810  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1811  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1812  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1813  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1814  				dmas = <&gpi_dma1 0 3 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1815  				       <&gpi_dma1 1 3 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1816  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1817  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1818  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1819  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1820  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1821  
+1a380216fd6fcf Vinod Koul                2022-04-14  1822  			i2c12: i2c@a90000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1823  				compatible = "qcom,geni-i2c";
+1a380216fd6fcf Vinod Koul                2022-04-14  1824  				reg = <0x0 0x00a90000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1825  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1826  				clocks = <&gcc GCC_QUPV3_WRAP1_S4_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1827  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1828  				pinctrl-0 = <&qup_i2c12_data_clk>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1829  				interrupts = <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1830  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1831  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1832  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1833  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1834  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1835  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1836  				dmas = <&gpi_dma1 0 4 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1837  				       <&gpi_dma1 1 4 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1838  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1839  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1840  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1841  
+1a380216fd6fcf Vinod Koul                2022-04-14  1842  			spi12: spi@a90000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1843  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1844  				reg = <0x0 0x00a90000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1845  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1846  				clocks = <&gcc GCC_QUPV3_WRAP1_S4_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1847  				interrupts = <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1848  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1849  				pinctrl-0 = <&qup_spi12_data_clk>, <&qup_spi12_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1850  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1851  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1852  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1853  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1854  				dmas = <&gpi_dma1 0 4 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1855  				       <&gpi_dma1 1 4 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1856  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1857  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1858  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1859  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1860  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1861  
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1862  			i2c13: i2c@a94000 {
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1863  				compatible = "qcom,geni-i2c";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1864  				reg = <0 0x00a94000 0 0x4000>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1865  				clock-names = "se";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1866  				clocks = <&gcc GCC_QUPV3_WRAP1_S5_CLK>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1867  				pinctrl-names = "default";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1868  				pinctrl-0 = <&qup_i2c13_data_clk>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1869  				interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1870  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1871  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1872  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1873  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1874  				dmas = <&gpi_dma1 0 5 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1875  				       <&gpi_dma1 1 5 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1876  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1877  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1878  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1879  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1880  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1881  
+1a380216fd6fcf Vinod Koul                2022-04-14  1882  			spi13: spi@a94000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1883  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1884  				reg = <0x0 0x00a94000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1885  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1886  				clocks = <&gcc GCC_QUPV3_WRAP1_S5_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1887  				interrupts = <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1888  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1889  				pinctrl-0 = <&qup_spi13_data_clk>, <&qup_spi13_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1890  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1891  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1892  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1893  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1894  				dmas = <&gpi_dma1 0 5 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1895  				       <&gpi_dma1 1 5 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1896  				dma-names = "tx", "rx";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1897  				#address-cells = <1>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1898  				#size-cells = <0>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1899  				status = "disabled";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1900  			};
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1901  
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1902  			i2c14: i2c@a98000 {
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1903  				compatible = "qcom,geni-i2c";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1904  				reg = <0 0x00a98000 0 0x4000>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1905  				clock-names = "se";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1906  				clocks = <&gcc GCC_QUPV3_WRAP1_S6_CLK>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1907  				pinctrl-names = "default";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1908  				pinctrl-0 = <&qup_i2c14_data_clk>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1909  				interrupts = <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1910  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1911  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1912  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1913  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1914  				dmas = <&gpi_dma1 0 6 QCOM_GPI_I2C>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1915  				       <&gpi_dma1 1 6 QCOM_GPI_I2C>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1916  				dma-names = "tx", "rx";
+1a380216fd6fcf Vinod Koul                2022-04-14  1917  				#address-cells = <1>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1918  				#size-cells = <0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1919  				status = "disabled";
+1a380216fd6fcf Vinod Koul                2022-04-14  1920  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  1921  
+1a380216fd6fcf Vinod Koul                2022-04-14  1922  			spi14: spi@a98000 {
+1a380216fd6fcf Vinod Koul                2022-04-14  1923  				compatible = "qcom,geni-spi";
+1a380216fd6fcf Vinod Koul                2022-04-14  1924  				reg = <0x0 0x00a98000 0x0 0x4000>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1925  				clock-names = "se";
+1a380216fd6fcf Vinod Koul                2022-04-14  1926  				clocks = <&gcc GCC_QUPV3_WRAP1_S6_CLK>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1927  				interrupts = <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1928  				pinctrl-names = "default";
+1a380216fd6fcf Vinod Koul                2022-04-14  1929  				pinctrl-0 = <&qup_spi14_data_clk>, <&qup_spi14_cs>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1930  				interconnects = <&clk_virt MASTER_QUP_CORE_1 0 &clk_virt SLAVE_QUP_CORE_1 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1931  						<&system_noc MASTER_A2NOC_SNOC 0 &gem_noc SLAVE_LLCC 0>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1932  						<&aggre2_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI1 0>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1933  				interconnect-names = "qup-core", "qup-config", "qup-memory";
+1a380216fd6fcf Vinod Koul                2022-04-14  1934  				dmas = <&gpi_dma1 0 6 QCOM_GPI_SPI>,
+1a380216fd6fcf Vinod Koul                2022-04-14  1935  				       <&gpi_dma1 1 6 QCOM_GPI_SPI>;
+1a380216fd6fcf Vinod Koul                2022-04-14  1936  				dma-names = "tx", "rx";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1937  				#address-cells = <1>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1938  				#size-cells = <0>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  1939  				status = "disabled";
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  1940  			};
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  1941  		};
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  1942  
+c2c9fa136253da Neil Armstrong            2023-10-03  1943  		rng: rng@10c3000 {
+c2c9fa136253da Neil Armstrong            2023-10-03  1944  			compatible = "qcom,sm8450-trng", "qcom,trng";
+c2c9fa136253da Neil Armstrong            2023-10-03  1945  			reg = <0 0x010c3000 0 0x1000>;
+c2c9fa136253da Neil Armstrong            2023-10-03  1946  		};
+c2c9fa136253da Neil Armstrong            2023-10-03  1947  
+052c9a1f1400f1 Manivannan Sadhasivam     2023-12-06  1948  		pcie0: pcie@1c00000 {
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1949  			compatible = "qcom,pcie-sm8450-pcie0";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1950  			reg = <0 0x01c00000 0 0x3000>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1951  			      <0 0x60000000 0 0xf1d>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1952  			      <0 0x60000f20 0 0xa8>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1953  			      <0 0x60001000 0 0x1000>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1954  			      <0 0x60100000 0 0x100000>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1955  			reg-names = "parf", "dbi", "elbi", "atu", "config";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1956  			device_type = "pci";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1957  			linux,pci-domain = <0>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1958  			bus-range = <0x00 0xff>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1959  			num-lanes = <1>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1960  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1961  			#address-cells = <3>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1962  			#size-cells = <2>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1963  
+f57903c8f4c779 Manivannan Sadhasivam     2023-02-28  1964  			ranges = <0x01000000 0x0 0x00000000 0x0 0x60200000 0x0 0x100000>,
+f57903c8f4c779 Manivannan Sadhasivam     2023-02-28  1965  				 <0x02000000 0x0 0x60300000 0x0 0x60300000 0x0 0x3d00000>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1966  
+ecc3ac293ed15a Manivannan Sadhasivam     2024-03-18  1967  			msi-map = <0x0 &gic_its 0x5980 0x1>,
+ecc3ac293ed15a Manivannan Sadhasivam     2024-03-18  1968  				  <0x100 &gic_its 0x5981 0x1>;
+ff384ab56f164e Manivannan Sadhasivam     2023-01-02  1969  			msi-map-mask = <0xff00>;
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1970  			interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1971  				     <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1972  				     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1973  				     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1974  				     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1975  				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1976  				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  1977  				     <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  1978  				     <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1979  			interrupt-names = "msi0",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1980  					  "msi1",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1981  					  "msi2",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1982  					  "msi3",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1983  					  "msi4",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1984  					  "msi5",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  1985  					  "msi6",
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  1986  					  "msi7",
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  1987  					  "global";
+0da2eff44e78de Manivannan Sadhasivam     2023-01-11  1988  			#interrupt-cells = <1>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1989  			interrupt-map-mask = <0 0 0 0x7>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1990  			interrupt-map = <0 0 0 1 &intc 0 0 0 149 IRQ_TYPE_LEVEL_HIGH>, /* int_a */
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1991  					<0 0 0 2 &intc 0 0 0 150 IRQ_TYPE_LEVEL_HIGH>, /* int_b */
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1992  					<0 0 0 3 &intc 0 0 0 151 IRQ_TYPE_LEVEL_HIGH>, /* int_c */
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1993  					<0 0 0 4 &intc 0 0 0 152 IRQ_TYPE_LEVEL_HIGH>; /* int_d */
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  1994  
+42870599f9441f Krishna chaitanya chundru 2024-05-18  1995  			interconnects = <&pcie_noc MASTER_PCIE_0 QCOM_ICC_TAG_ALWAYS
+42870599f9441f Krishna chaitanya chundru 2024-05-18  1996  					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+42870599f9441f Krishna chaitanya chundru 2024-05-18  1997  					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+42870599f9441f Krishna chaitanya chundru 2024-05-18  1998  					 &config_noc SLAVE_PCIE_0 QCOM_ICC_TAG_ALWAYS>;
+42870599f9441f Krishna chaitanya chundru 2024-05-18  1999  			interconnect-names = "pcie-mem", "cpu-pcie";
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2000  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2001  			clocks = <&gcc GCC_PCIE_0_PIPE_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2002  				 <&gcc GCC_PCIE_0_PIPE_CLK_SRC>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2003  				 <&pcie0_phy>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2004  				 <&rpmhcc RPMH_CXO_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2005  				 <&gcc GCC_PCIE_0_AUX_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2006  				 <&gcc GCC_PCIE_0_CFG_AHB_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2007  				 <&gcc GCC_PCIE_0_MSTR_AXI_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2008  				 <&gcc GCC_PCIE_0_SLV_AXI_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2009  				 <&gcc GCC_PCIE_0_SLV_Q2A_AXI_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2010  				 <&gcc GCC_DDRSS_PCIE_SF_TBU_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2011  				 <&gcc GCC_AGGRE_NOC_PCIE_0_AXI_CLK>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2012  				 <&gcc GCC_AGGRE_NOC_PCIE_1_AXI_CLK>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2013  			clock-names = "pipe",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2014  				      "pipe_mux",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2015  				      "phy_pipe",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2016  				      "ref",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2017  				      "aux",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2018  				      "cfg",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2019  				      "bus_master",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2020  				      "bus_slave",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2021  				      "slave_q2a",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2022  				      "ddrss_sf_tbu",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2023  				      "aggre0",
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2024  				      "aggre1";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2025  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2026  			iommu-map = <0x0   &apps_smmu 0x1c00 0x1>,
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2027  				    <0x100 &apps_smmu 0x1c01 0x1>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2028  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2029  			resets = <&gcc GCC_PCIE_0_BCR>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2030  			reset-names = "pci";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2031  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2032  			power-domains = <&gcc PCIE_0_GDSC>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2033  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2034  			phys = <&pcie0_phy>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2035  			phy-names = "pciephy";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2036  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2037  			perst-gpios = <&tlmm 94 GPIO_ACTIVE_LOW>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2038  			wake-gpios = <&tlmm 96 GPIO_ACTIVE_HIGH>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2039  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2040  			pinctrl-names = "default";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2041  			pinctrl-0 = <&pcie0_default_state>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2042  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2043  			operating-points-v2 = <&pcie0_opp_table>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2044  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2045  			status = "disabled";
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2046  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2047  			pcie0_opp_table: opp-table {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2048  				compatible = "operating-points-v2";
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2049  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2050  				/* GEN 1 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2051  				opp-2500000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2052  					opp-hz = /bits/ 64 <2500000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2053  					required-opps = <&rpmhpd_opp_low_svs>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2054  					opp-peak-kBps = <250000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2055  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2056  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2057  				/* GEN 2 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2058  				opp-5000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2059  					opp-hz = /bits/ 64 <5000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2060  					required-opps = <&rpmhpd_opp_low_svs>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2061  					opp-peak-kBps = <500000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2062  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2063  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2064  				/* GEN 3 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2065  				opp-8000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2066  					opp-hz = /bits/ 64 <8000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2067  					required-opps = <&rpmhpd_opp_nom>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2068  					opp-peak-kBps = <984500 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2069  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2070  			};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2071  
+fe79fbce6efd25 Bartosz Golaszewski       2024-10-18  2072  			pcieport0: pcie@0 {
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2073  				device_type = "pci";
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2074  				reg = <0x0 0x0 0x0 0x0 0x0>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2075  				bus-range = <0x01 0xff>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2076  
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2077  				#address-cells = <3>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2078  				#size-cells = <2>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2079  				ranges;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2080  			};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2081  		};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  2082  
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2083  		pcie0_phy: phy@1c06000 {
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2084  			compatible = "qcom,sm8450-qmp-gen3x1-pcie-phy";
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2085  			reg = <0 0x01c06000 0 0x2000>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2086  
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2087  			clocks = <&gcc GCC_PCIE_0_AUX_CLK>,
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2088  				 <&gcc GCC_PCIE_0_CFG_AHB_CLK>,
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2089  				 <&gcc GCC_PCIE_0_CLKREF_EN>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2090  				 <&gcc GCC_PCIE_0_PHY_RCHNG_CLK>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2091  				 <&gcc GCC_PCIE_0_PIPE_CLK>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2092  			clock-names = "aux",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2093  				      "cfg_ahb",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2094  				      "ref",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2095  				      "rchng",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2096  				      "pipe";
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2097  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2098  			clock-output-names = "pcie_0_pipe_clk";
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2099  			#clock-cells = <0>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2100  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2101  			#phy-cells = <0>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2102  
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2103  			resets = <&gcc GCC_PCIE_0_PHY_BCR>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2104  			reset-names = "phy";
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2105  
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2106  			assigned-clocks = <&gcc GCC_PCIE_0_PHY_RCHNG_CLK>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2107  			assigned-clock-rates = <100000000>;
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2108  
+d41a72c24ce3fd Dmitry Baryshkov          2022-03-01  2109  			status = "disabled";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  2110  		};
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  2111  
+052c9a1f1400f1 Manivannan Sadhasivam     2023-12-06  2112  		pcie1: pcie@1c08000 {
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2113  			compatible = "qcom,pcie-sm8450-pcie1";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2114  			reg = <0 0x01c08000 0 0x3000>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2115  			      <0 0x40000000 0 0xf1d>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2116  			      <0 0x40000f20 0 0xa8>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2117  			      <0 0x40001000 0 0x1000>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2118  			      <0 0x40100000 0 0x100000>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2119  			reg-names = "parf", "dbi", "elbi", "atu", "config";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2120  			device_type = "pci";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2121  			linux,pci-domain = <1>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2122  			bus-range = <0x00 0xff>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2123  			num-lanes = <2>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2124  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2125  			#address-cells = <3>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2126  			#size-cells = <2>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2127  
+f57903c8f4c779 Manivannan Sadhasivam     2023-02-28  2128  			ranges = <0x01000000 0x0 0x00000000 0x0 0x40200000 0x0 0x100000>,
+f57903c8f4c779 Manivannan Sadhasivam     2023-02-28  2129  				 <0x02000000 0x0 0x40300000 0x0 0x40300000 0x0 0x1fd00000>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2130  
+ecc3ac293ed15a Manivannan Sadhasivam     2024-03-18  2131  			msi-map = <0x0 &gic_its 0x5a00 0x1>,
+ecc3ac293ed15a Manivannan Sadhasivam     2024-03-18  2132  				  <0x100 &gic_its 0x5a01 0x1>;
+ff384ab56f164e Manivannan Sadhasivam     2023-01-02  2133  			msi-map-mask = <0xff00>;
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2134  			interrupts = <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2135  				     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2136  				     <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2137  				     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2138  				     <GIC_SPI 313 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2139  				     <GIC_SPI 314 IRQ_TYPE_LEVEL_HIGH>,
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2140  				     <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  2141  				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  2142  				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2143  			interrupt-names = "msi0",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2144  					  "msi1",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2145  					  "msi2",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2146  					  "msi3",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2147  					  "msi4",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2148  					  "msi5",
+aa87ad5575a125 Krzysztof Kozlowski       2024-01-26  2149  					  "msi6",
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  2150  					  "msi7",
+7dc36be39c96f0 Manivannan Sadhasivam     2024-08-28  2151  					  "global";
+0da2eff44e78de Manivannan Sadhasivam     2023-01-11  2152  			#interrupt-cells = <1>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2153  			interrupt-map-mask = <0 0 0 0x7>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2154  			interrupt-map = <0 0 0 1 &intc 0 0 0 434 IRQ_TYPE_LEVEL_HIGH>, /* int_a */
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2155  					<0 0 0 2 &intc 0 0 0 435 IRQ_TYPE_LEVEL_HIGH>, /* int_b */
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2156  					<0 0 0 3 &intc 0 0 0 438 IRQ_TYPE_LEVEL_HIGH>, /* int_c */
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2157  					<0 0 0 4 &intc 0 0 0 439 IRQ_TYPE_LEVEL_HIGH>; /* int_d */
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2158  
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2159  			interconnects = <&pcie_noc MASTER_PCIE_1 QCOM_ICC_TAG_ALWAYS
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2160  					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2161  					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2162  					 &config_noc SLAVE_PCIE_1 QCOM_ICC_TAG_ALWAYS>;
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2163  			interconnect-names = "pcie-mem", "cpu-pcie";
+42870599f9441f Krishna chaitanya chundru 2024-05-18  2164  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2165  			clocks = <&gcc GCC_PCIE_1_PIPE_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2166  				 <&gcc GCC_PCIE_1_PIPE_CLK_SRC>,
+5d3d966400d0a0 Dmitry Baryshkov          2024-10-06  2167  				 <&pcie1_phy QMP_PCIE_PIPE_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2168  				 <&rpmhcc RPMH_CXO_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2169  				 <&gcc GCC_PCIE_1_AUX_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2170  				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2171  				 <&gcc GCC_PCIE_1_MSTR_AXI_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2172  				 <&gcc GCC_PCIE_1_SLV_AXI_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2173  				 <&gcc GCC_PCIE_1_SLV_Q2A_AXI_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2174  				 <&gcc GCC_DDRSS_PCIE_SF_TBU_CLK>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2175  				 <&gcc GCC_AGGRE_NOC_PCIE_1_AXI_CLK>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2176  			clock-names = "pipe",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2177  				      "pipe_mux",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2178  				      "phy_pipe",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2179  				      "ref",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2180  				      "aux",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2181  				      "cfg",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2182  				      "bus_master",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2183  				      "bus_slave",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2184  				      "slave_q2a",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2185  				      "ddrss_sf_tbu",
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2186  				      "aggre1";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2187  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2188  			iommu-map = <0x0   &apps_smmu 0x1c80 0x1>,
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2189  				    <0x100 &apps_smmu 0x1c81 0x1>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2190  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2191  			resets = <&gcc GCC_PCIE_1_BCR>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2192  			reset-names = "pci";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2193  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2194  			power-domains = <&gcc PCIE_1_GDSC>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2195  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2196  			phys = <&pcie1_phy>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2197  			phy-names = "pciephy";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2198  
+e57430d2483506 Neil Armstrong            2023-03-24  2199  			perst-gpios = <&tlmm 97 GPIO_ACTIVE_LOW>;
+e57430d2483506 Neil Armstrong            2023-03-24  2200  			wake-gpios = <&tlmm 99 GPIO_ACTIVE_HIGH>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2201  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2202  			pinctrl-names = "default";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2203  			pinctrl-0 = <&pcie1_default_state>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2204  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2205  			operating-points-v2 = <&pcie1_opp_table>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2206  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2207  			status = "disabled";
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2208  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2209  			pcie1_opp_table: opp-table {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2210  				compatible = "operating-points-v2";
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2211  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2212  				/* GEN 1 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2213  				opp-2500000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2214  					opp-hz = /bits/ 64 <2500000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2215  					required-opps = <&rpmhpd_opp_low_svs>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2216  					opp-peak-kBps = <250000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2217  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2218  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2219  				/* GEN 1 x2 and GEN 2 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2220  				opp-5000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2221  					opp-hz = /bits/ 64 <5000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2222  					required-opps = <&rpmhpd_opp_low_svs>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2223  					opp-peak-kBps = <500000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2224  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2225  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2226  				/* GEN 2 x2 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2227  				opp-10000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2228  					opp-hz = /bits/ 64 <10000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2229  					required-opps = <&rpmhpd_opp_low_svs>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2230  					opp-peak-kBps = <1000000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2231  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2232  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2233  				/* GEN 3 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2234  				opp-8000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2235  					opp-hz = /bits/ 64 <8000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2236  					required-opps = <&rpmhpd_opp_nom>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2237  					opp-peak-kBps = <984500 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2238  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2239  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2240  				/* GEN 3 x2 and GEN 4 x1 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2241  				opp-16000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2242  					opp-hz = /bits/ 64 <16000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2243  					required-opps = <&rpmhpd_opp_nom>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2244  					opp-peak-kBps = <1969000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2245  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2246  
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2247  				/* GEN 4 x2 */
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2248  				opp-32000000 {
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2249  					opp-hz = /bits/ 64 <32000000>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2250  					required-opps = <&rpmhpd_opp_nom>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2251  					opp-peak-kBps = <3938000 1>;
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2252  				};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2253  			};
+628388982c1303 Krishna chaitanya chundru 2024-05-18  2254  
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2255  			pcie@0 {
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2256  				device_type = "pci";
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2257  				reg = <0x0 0x0 0x0 0x0 0x0>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2258  				bus-range = <0x01 0xff>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2259  
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2260  				#address-cells = <3>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2261  				#size-cells = <2>;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2262  				ranges;
+4261fd53582df0 Manivannan Sadhasivam     2024-03-21  2263  			};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2264  		};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  2265  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2266  		pcie1_ep: pcie-ep@1c08000 {
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2267  			compatible = "qcom,sm8450-pcie-ep";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2268  			reg = <0x0 0x01c08000 0x0 0x3000>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2269  			      <0x0 0x40000000 0x0 0xf1d>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2270  			      <0x0 0x40000f20 0x0 0xa8>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2271  			      <0x0 0x40001000 0x0 0x1000>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2272  			      <0x0 0x40200000 0x0 0x1000000>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2273  			      <0x0 0x01c0b000 0x0 0x1000>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2274  			      <0x0 0x40002000 0x0 0x1000>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2275  			reg-names = "parf",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2276  				    "dbi",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2277  				    "elbi",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2278  				    "atu",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2279  				    "addr_space",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2280  				    "mmio",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2281  				    "dma";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2282  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2283  			clocks = <&gcc GCC_PCIE_1_AUX_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2284  				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2285  				 <&gcc GCC_PCIE_1_MSTR_AXI_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2286  				 <&gcc GCC_PCIE_1_SLV_AXI_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2287  				 <&gcc GCC_PCIE_1_SLV_Q2A_AXI_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2288  				 <&rpmhcc RPMH_CXO_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2289  				 <&gcc GCC_DDRSS_PCIE_SF_TBU_CLK>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2290  				 <&gcc GCC_AGGRE_NOC_PCIE_1_AXI_CLK>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2291  			clock-names = "aux",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2292  				      "cfg",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2293  				      "bus_master",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2294  				      "bus_slave",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2295  				      "slave_q2a",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2296  				      "ref",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2297  				      "ddrss_sf_tbu",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2298  				      "aggre_noc_axi";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2299  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2300  			interrupts = <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2301  				     <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2302  				     <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2303  			interrupt-names = "global",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2304  					  "doorbell",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2305  					  "dma";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2306  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2307  			interconnects = <&pcie_noc MASTER_PCIE_1 QCOM_ICC_TAG_ALWAYS
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2308  					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2309  					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2310  					 &config_noc SLAVE_PCIE_1 QCOM_ICC_TAG_ACTIVE_ONLY>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2311  			interconnect-names = "pcie-mem",
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2312  					     "cpu-pcie";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2313  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2314  			iommus = <&apps_smmu 0x1c80 0x7f>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2315  			resets = <&gcc GCC_PCIE_1_BCR>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2316  			reset-names = "core";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2317  			power-domains = <&gcc PCIE_1_GDSC>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2318  			phys = <&pcie1_phy>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2319  			phy-names = "pciephy";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2320  			num-lanes = <2>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2321  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2322  			pinctrl-names = "default";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2323  			pinctrl-0 = <&pcie1_default_state>;
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2324  
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2325  			status = "disabled";
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2326  		};
+bffe01a9b4bbcc Dmitry Baryshkov          2025-02-21  2327  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2328  		pcie1_phy: phy@1c0e000 {
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2329  			compatible = "qcom,sm8450-qmp-gen4x2-pcie-phy";
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2330  			reg = <0 0x01c0e000 0 0x2000>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2331  
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2332  			clocks = <&gcc GCC_PCIE_1_PHY_AUX_CLK>,
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2333  				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2334  				 <&gcc GCC_PCIE_1_CLKREF_EN>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2335  				 <&gcc GCC_PCIE_1_PHY_RCHNG_CLK>,
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2336  				 <&gcc GCC_PCIE_1_PIPE_CLK>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2337  			clock-names = "aux",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2338  				      "cfg_ahb",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2339  				      "ref",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2340  				      "rchng",
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2341  				      "pipe";
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2342  
+831f66d3423c22 Dmitry Baryshkov          2024-06-14  2343  			clock-output-names = "pcie_1_pipe_clk";
+e7686284066073 Neil Armstrong            2024-05-02  2344  			#clock-cells = <1>;
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2345  
+a912733ccb57c4 Dmitry Baryshkov          2023-08-20  2346  			#phy-cells = <0>;
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2347  
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2348  			resets = <&gcc GCC_PCIE_1_PHY_BCR>;
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2349  			reset-names = "phy";
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2350  
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2351  			assigned-clocks = <&gcc GCC_PCIE_1_PHY_RCHNG_CLK>;
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2352  			assigned-clock-rates = <100000000>;
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2353  
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2354  			status = "disabled";
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2355  		};
+334d91d2410d76 Dmitry Baryshkov          2022-03-01  2356  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2357  		config_noc: interconnect@1500000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2358  			compatible = "qcom,sm8450-config-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2359  			reg = <0 0x01500000 0 0x1c000>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2360  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2361  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2362  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2363  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2364  		system_noc: interconnect@1680000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2365  			compatible = "qcom,sm8450-system-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2366  			reg = <0 0x01680000 0 0x1e200>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2367  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2368  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2369  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2370  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2371  		pcie_noc: interconnect@16c0000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2372  			compatible = "qcom,sm8450-pcie-anoc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2373  			reg = <0 0x016c0000 0 0xe280>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2374  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2375  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2376  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2377  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2378  		aggre1_noc: interconnect@16e0000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2379  			compatible = "qcom,sm8450-aggre1-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2380  			reg = <0 0x016e0000 0 0x1c080>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2381  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2382  			clocks = <&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2383  				 <&gcc GCC_AGGRE_USB3_PRIM_AXI_CLK>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2384  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2385  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2386  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2387  		aggre2_noc: interconnect@1700000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2388  			compatible = "qcom,sm8450-aggre2-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2389  			reg = <0 0x01700000 0 0x31080>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2390  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2391  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2392  			clocks = <&gcc GCC_AGGRE_NOC_PCIE_0_AXI_CLK>,
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2393  				 <&gcc GCC_AGGRE_NOC_PCIE_1_AXI_CLK>,
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2394  				 <&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2395  				 <&rpmhcc RPMH_IPA_CLK>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2396  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2397  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2398  		mmss_noc: interconnect@1740000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2399  			compatible = "qcom,sm8450-mmss-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2400  			reg = <0 0x01740000 0 0x1f080>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2401  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2402  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2403  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  2404  
+5188049c9b36d7 Vinod Koul                2021-12-15  2405  		tcsr_mutex: hwlock@1f40000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  2406  			compatible = "qcom,tcsr-mutex";
+5188049c9b36d7 Vinod Koul                2021-12-15  2407  			reg = <0x0 0x01f40000 0x0 0x40000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  2408  			#hwlock-cells = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15  2409  		};
+5188049c9b36d7 Vinod Koul                2021-12-15  2410  
+1f731bbf71e374 Mukesh Ojha               2023-01-12  2411  		tcsr: syscon@1fc0000 {
+1f731bbf71e374 Mukesh Ojha               2023-01-12  2412  			compatible = "qcom,sm8450-tcsr", "syscon";
+1f731bbf71e374 Mukesh Ojha               2023-01-12  2413  			reg = <0x0 0x1fc0000 0x0 0x30000>;
+1f731bbf71e374 Mukesh Ojha               2023-01-12  2414  		};
+1f731bbf71e374 Mukesh Ojha               2023-01-12  2415  
+9810647a043678 Konrad Dybcio             2023-12-04  2416  		gpu: gpu@3d00000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2417  			compatible = "qcom,adreno-730.1", "qcom,adreno";
+9810647a043678 Konrad Dybcio             2023-12-04  2418  			reg = <0x0 0x03d00000 0x0 0x40000>,
+9810647a043678 Konrad Dybcio             2023-12-04  2419  			      <0x0 0x03d9e000 0x0 0x1000>,
+9810647a043678 Konrad Dybcio             2023-12-04  2420  			      <0x0 0x03d61000 0x0 0x800>;
+9810647a043678 Konrad Dybcio             2023-12-04  2421  			reg-names = "kgsl_3d0_reg_memory",
+9810647a043678 Konrad Dybcio             2023-12-04  2422  				    "cx_mem",
+9810647a043678 Konrad Dybcio             2023-12-04  2423  				    "cx_dbgc";
+9810647a043678 Konrad Dybcio             2023-12-04  2424  
+9810647a043678 Konrad Dybcio             2023-12-04  2425  			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
+9810647a043678 Konrad Dybcio             2023-12-04  2426  
+9810647a043678 Konrad Dybcio             2023-12-04  2427  			iommus = <&adreno_smmu 0 0x400>,
+9810647a043678 Konrad Dybcio             2023-12-04  2428  				 <&adreno_smmu 1 0x400>;
+9810647a043678 Konrad Dybcio             2023-12-04  2429  
+9810647a043678 Konrad Dybcio             2023-12-04  2430  			operating-points-v2 = <&gpu_opp_table>;
+9810647a043678 Konrad Dybcio             2023-12-04  2431  
+9810647a043678 Konrad Dybcio             2023-12-04  2432  			qcom,gmu = <&gmu>;
+36fd56ab4d1d13 Konrad Dybcio             2024-01-02  2433  			#cooling-cells = <2>;
+9810647a043678 Konrad Dybcio             2023-12-04  2434  
+9810647a043678 Konrad Dybcio             2023-12-04  2435  			status = "disabled";
+9810647a043678 Konrad Dybcio             2023-12-04  2436  
+9810647a043678 Konrad Dybcio             2023-12-04  2437  			zap-shader {
+9810647a043678 Konrad Dybcio             2023-12-04  2438  				memory-region = <&gpu_micro_code_mem>;
+9810647a043678 Konrad Dybcio             2023-12-04  2439  			};
+9810647a043678 Konrad Dybcio             2023-12-04  2440  
+9810647a043678 Konrad Dybcio             2023-12-04  2441  			gpu_opp_table: opp-table {
+9810647a043678 Konrad Dybcio             2023-12-04  2442  				compatible = "operating-points-v2";
+9810647a043678 Konrad Dybcio             2023-12-04  2443  
+9810647a043678 Konrad Dybcio             2023-12-04  2444  				opp-818000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2445  					opp-hz = /bits/ 64 <818000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2446  					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
+9810647a043678 Konrad Dybcio             2023-12-04  2447  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2448  
+9810647a043678 Konrad Dybcio             2023-12-04  2449  				opp-791000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2450  					opp-hz = /bits/ 64 <791000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2451  					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2452  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2453  
+9810647a043678 Konrad Dybcio             2023-12-04  2454  				opp-734000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2455  					opp-hz = /bits/ 64 <734000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2456  					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+9810647a043678 Konrad Dybcio             2023-12-04  2457  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2458  
+9810647a043678 Konrad Dybcio             2023-12-04  2459  				opp-640000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2460  					opp-hz = /bits/ 64 <640000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2461  					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
+9810647a043678 Konrad Dybcio             2023-12-04  2462  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2463  
+9810647a043678 Konrad Dybcio             2023-12-04  2464  				opp-599000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2465  					opp-hz = /bits/ 64 <599000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2466  					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2467  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2468  
+9810647a043678 Konrad Dybcio             2023-12-04  2469  				opp-545000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2470  					opp-hz = /bits/ 64 <545000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2471  					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L0>;
+9810647a043678 Konrad Dybcio             2023-12-04  2472  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2473  
+9810647a043678 Konrad Dybcio             2023-12-04  2474  				opp-492000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2475  					opp-hz = /bits/ 64 <492000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2476  					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+9810647a043678 Konrad Dybcio             2023-12-04  2477  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2478  
+9810647a043678 Konrad Dybcio             2023-12-04  2479  				opp-421000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2480  					opp-hz = /bits/ 64 <421000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2481  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_L1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2482  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2483  
+9810647a043678 Konrad Dybcio             2023-12-04  2484  				opp-350000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2485  					opp-hz = /bits/ 64 <350000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2486  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+9810647a043678 Konrad Dybcio             2023-12-04  2487  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2488  
+9810647a043678 Konrad Dybcio             2023-12-04  2489  				opp-317000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2490  					opp-hz = /bits/ 64 <317000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2491  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+9810647a043678 Konrad Dybcio             2023-12-04  2492  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2493  
+9810647a043678 Konrad Dybcio             2023-12-04  2494  				opp-285000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2495  					opp-hz = /bits/ 64 <285000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2496  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2497  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2498  
+9810647a043678 Konrad Dybcio             2023-12-04  2499  				opp-220000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2500  					opp-hz = /bits/ 64 <220000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2501  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2502  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2503  			};
+9810647a043678 Konrad Dybcio             2023-12-04  2504  		};
+9810647a043678 Konrad Dybcio             2023-12-04  2505  
+9810647a043678 Konrad Dybcio             2023-12-04  2506  		gmu: gmu@3d6a000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2507  			compatible = "qcom,adreno-gmu-730.1", "qcom,adreno-gmu";
+9810647a043678 Konrad Dybcio             2023-12-04  2508  			reg = <0x0 0x03d6a000 0x0 0x35000>,
+9810647a043678 Konrad Dybcio             2023-12-04  2509  			      <0x0 0x03d50000 0x0 0x10000>,
+9810647a043678 Konrad Dybcio             2023-12-04  2510  			      <0x0 0x0b290000 0x0 0x10000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2511  			reg-names = "gmu", "rscc", "gmu_pdc";
+9810647a043678 Konrad Dybcio             2023-12-04  2512  
+9810647a043678 Konrad Dybcio             2023-12-04  2513  			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2514  				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+9810647a043678 Konrad Dybcio             2023-12-04  2515  			interrupt-names = "hfi", "gmu";
+9810647a043678 Konrad Dybcio             2023-12-04  2516  
+9810647a043678 Konrad Dybcio             2023-12-04  2517  			clocks = <&gpucc GPU_CC_AHB_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2518  				 <&gpucc GPU_CC_CX_GMU_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2519  				 <&gpucc GPU_CC_CXO_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2520  				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2521  				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2522  				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2523  				 <&gpucc GPU_CC_DEMET_CLK>;
+9810647a043678 Konrad Dybcio             2023-12-04  2524  			clock-names = "ahb",
+9810647a043678 Konrad Dybcio             2023-12-04  2525  				      "gmu",
+9810647a043678 Konrad Dybcio             2023-12-04  2526  				      "cxo",
+9810647a043678 Konrad Dybcio             2023-12-04  2527  				      "axi",
+9810647a043678 Konrad Dybcio             2023-12-04  2528  				      "memnoc",
+9810647a043678 Konrad Dybcio             2023-12-04  2529  				      "hub",
+9810647a043678 Konrad Dybcio             2023-12-04  2530  				      "demet";
+9810647a043678 Konrad Dybcio             2023-12-04  2531  
+9810647a043678 Konrad Dybcio             2023-12-04  2532  			power-domains = <&gpucc GPU_CX_GDSC>,
+9810647a043678 Konrad Dybcio             2023-12-04  2533  					<&gpucc GPU_GX_GDSC>;
+9810647a043678 Konrad Dybcio             2023-12-04  2534  			power-domain-names = "cx",
+9810647a043678 Konrad Dybcio             2023-12-04  2535  					     "gx";
+9810647a043678 Konrad Dybcio             2023-12-04  2536  
+9810647a043678 Konrad Dybcio             2023-12-04  2537  			iommus = <&adreno_smmu 5 0x400>;
+9810647a043678 Konrad Dybcio             2023-12-04  2538  
+9810647a043678 Konrad Dybcio             2023-12-04  2539  			qcom,qmp = <&aoss_qmp>;
+9810647a043678 Konrad Dybcio             2023-12-04  2540  
+9810647a043678 Konrad Dybcio             2023-12-04  2541  			operating-points-v2 = <&gmu_opp_table>;
+9810647a043678 Konrad Dybcio             2023-12-04  2542  
+9810647a043678 Konrad Dybcio             2023-12-04  2543  			gmu_opp_table: opp-table {
+9810647a043678 Konrad Dybcio             2023-12-04  2544  				compatible = "operating-points-v2";
+9810647a043678 Konrad Dybcio             2023-12-04  2545  
+9810647a043678 Konrad Dybcio             2023-12-04  2546  				opp-500000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2547  					opp-hz = /bits/ 64 <500000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2548  					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+9810647a043678 Konrad Dybcio             2023-12-04  2549  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2550  
+9810647a043678 Konrad Dybcio             2023-12-04  2551  				opp-200000000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2552  					opp-hz = /bits/ 64 <200000000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2553  					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+9810647a043678 Konrad Dybcio             2023-12-04  2554  				};
+9810647a043678 Konrad Dybcio             2023-12-04  2555  			};
+9810647a043678 Konrad Dybcio             2023-12-04  2556  		};
+9810647a043678 Konrad Dybcio             2023-12-04  2557  
+9810647a043678 Konrad Dybcio             2023-12-04  2558  		gpucc: clock-controller@3d90000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2559  			compatible = "qcom,sm8450-gpucc";
+9810647a043678 Konrad Dybcio             2023-12-04  2560  			reg = <0x0 0x03d90000 0x0 0xa000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2561  			clocks = <&rpmhcc RPMH_CXO_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2562  				 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
+9810647a043678 Konrad Dybcio             2023-12-04  2563  				 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
+9810647a043678 Konrad Dybcio             2023-12-04  2564  			#clock-cells = <1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2565  			#reset-cells = <1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2566  			#power-domain-cells = <1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2567  		};
+9810647a043678 Konrad Dybcio             2023-12-04  2568  
+9810647a043678 Konrad Dybcio             2023-12-04  2569  		adreno_smmu: iommu@3da0000 {
+9810647a043678 Konrad Dybcio             2023-12-04  2570  			compatible = "qcom,sm8450-smmu-500", "qcom,adreno-smmu",
+9810647a043678 Konrad Dybcio             2023-12-04  2571  				     "qcom,smmu-500", "arm,mmu-500";
+9810647a043678 Konrad Dybcio             2023-12-04  2572  			reg = <0x0 0x03da0000 0x0 0x40000>;
+9810647a043678 Konrad Dybcio             2023-12-04  2573  			#iommu-cells = <2>;
+9810647a043678 Konrad Dybcio             2023-12-04  2574  			#global-interrupts = <1>;
+9810647a043678 Konrad Dybcio             2023-12-04  2575  			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2576  				     <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2577  				     <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2578  				     <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2579  				     <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2580  				     <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2581  				     <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2582  				     <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2583  				     <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2584  				     <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2585  				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2586  				     <GIC_SPI 422 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2587  				     <GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2588  				     <GIC_SPI 574 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2589  				     <GIC_SPI 575 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2590  				     <GIC_SPI 576 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2591  				     <GIC_SPI 577 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2592  				     <GIC_SPI 659 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2593  				     <GIC_SPI 661 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2594  				     <GIC_SPI 664 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2595  				     <GIC_SPI 665 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2596  				     <GIC_SPI 666 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2597  				     <GIC_SPI 668 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2598  				     <GIC_SPI 669 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2599  				     <GIC_SPI 699 IRQ_TYPE_LEVEL_HIGH>,
+9810647a043678 Konrad Dybcio             2023-12-04  2600  				     <GIC_SPI 700 IRQ_TYPE_LEVEL_HIGH>;
+9810647a043678 Konrad Dybcio             2023-12-04  2601  			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2602  				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2603  				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2604  				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2605  				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
+9810647a043678 Konrad Dybcio             2023-12-04  2606  				 <&gpucc GPU_CC_AHB_CLK>;
+9810647a043678 Konrad Dybcio             2023-12-04  2607  			clock-names = "gmu",
+9810647a043678 Konrad Dybcio             2023-12-04  2608  				      "hub",
+9810647a043678 Konrad Dybcio             2023-12-04  2609  				      "hlos",
+9810647a043678 Konrad Dybcio             2023-12-04  2610  				      "bus",
+9810647a043678 Konrad Dybcio             2023-12-04  2611  				      "iface",
+9810647a043678 Konrad Dybcio             2023-12-04  2612  				      "ahb";
+9810647a043678 Konrad Dybcio             2023-12-04  2613  			power-domains = <&gpucc GPU_CX_GDSC>;
+9810647a043678 Konrad Dybcio             2023-12-04  2614  			dma-coherent;
+9810647a043678 Konrad Dybcio             2023-12-04  2615  		};
+9810647a043678 Konrad Dybcio             2023-12-04  2616  
+19fd04fb9247fb Vinod Koul                2021-12-16  2617  		usb_1_hsphy: phy@88e3000 {
+19fd04fb9247fb Vinod Koul                2021-12-16  2618  			compatible = "qcom,sm8450-usb-hs-phy",
+19fd04fb9247fb Vinod Koul                2021-12-16  2619  				     "qcom,usb-snps-hs-7nm-phy";
+19fd04fb9247fb Vinod Koul                2021-12-16  2620  			reg = <0 0x088e3000 0 0x400>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2621  			status = "disabled";
+19fd04fb9247fb Vinod Koul                2021-12-16  2622  			#phy-cells = <0>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2623  
+19fd04fb9247fb Vinod Koul                2021-12-16  2624  			clocks = <&rpmhcc RPMH_CXO_CLK>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2625  			clock-names = "ref";
+19fd04fb9247fb Vinod Koul                2021-12-16  2626  
+19fd04fb9247fb Vinod Koul                2021-12-16  2627  			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2628  		};
+19fd04fb9247fb Vinod Koul                2021-12-16  2629  
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2630  		usb_1_qmpphy: phy@88e8000 {
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2631  			compatible = "qcom,sm8450-qmp-usb3-dp-phy";
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2632  			reg = <0 0x088e8000 0 0x3000>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2633  
+19fd04fb9247fb Vinod Koul                2021-12-16  2634  			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
+19fd04fb9247fb Vinod Koul                2021-12-16  2635  				 <&rpmhcc RPMH_CXO_CLK>,
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2636  				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2637  				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2638  			clock-names = "aux", "ref", "com_aux", "usb3_pipe";
+19fd04fb9247fb Vinod Koul                2021-12-16  2639  
+19fd04fb9247fb Vinod Koul                2021-12-16  2640  			resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
+19fd04fb9247fb Vinod Koul                2021-12-16  2641  				 <&gcc GCC_USB3_PHY_PRIM_BCR>;
+19fd04fb9247fb Vinod Koul                2021-12-16  2642  			reset-names = "phy", "common";
+19fd04fb9247fb Vinod Koul                2021-12-16  2643  
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2644  			#clock-cells = <1>;
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2645  			#phy-cells = <1>;
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2646  
+1a1322c8a698c8 Dmitry Baryshkov          2024-04-29  2647  			orientation-switch;
+1a1322c8a698c8 Dmitry Baryshkov          2024-04-29  2648  
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  2649  			status = "disabled";
+e5167da381a71e Neil Armstrong            2023-05-23  2650  
+e5167da381a71e Neil Armstrong            2023-05-23  2651  			ports {
+e5167da381a71e Neil Armstrong            2023-05-23  2652  				#address-cells = <1>;
+e5167da381a71e Neil Armstrong            2023-05-23  2653  				#size-cells = <0>;
+e5167da381a71e Neil Armstrong            2023-05-23  2654  
+e5167da381a71e Neil Armstrong            2023-05-23  2655  				port@0 {
+e5167da381a71e Neil Armstrong            2023-05-23  2656  					reg = <0>;
+e5167da381a71e Neil Armstrong            2023-05-23  2657  
+e5167da381a71e Neil Armstrong            2023-05-23  2658  					usb_1_qmpphy_out: endpoint {
+e5167da381a71e Neil Armstrong            2023-05-23  2659  					};
+e5167da381a71e Neil Armstrong            2023-05-23  2660  				};
+e5167da381a71e Neil Armstrong            2023-05-23  2661  
+e5167da381a71e Neil Armstrong            2023-05-23  2662  				port@1 {
+e5167da381a71e Neil Armstrong            2023-05-23  2663  					reg = <1>;
+e5167da381a71e Neil Armstrong            2023-05-23  2664  
+e5167da381a71e Neil Armstrong            2023-05-23  2665  					usb_1_qmpphy_usb_ss_in: endpoint {
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  2666  						remote-endpoint = <&usb_1_dwc3_ss>;
+e5167da381a71e Neil Armstrong            2023-05-23  2667  					};
+e5167da381a71e Neil Armstrong            2023-05-23  2668  				};
+e5167da381a71e Neil Armstrong            2023-05-23  2669  
+e5167da381a71e Neil Armstrong            2023-05-23  2670  				port@2 {
+e5167da381a71e Neil Armstrong            2023-05-23  2671  					reg = <2>;
+e5167da381a71e Neil Armstrong            2023-05-23  2672  
+e5167da381a71e Neil Armstrong            2023-05-23  2673  					usb_1_qmpphy_dp_in: endpoint {
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  2674  						remote-endpoint = <&mdss_dp0_out>;
+e5167da381a71e Neil Armstrong            2023-05-23  2675  					};
+e5167da381a71e Neil Armstrong            2023-05-23  2676  				};
+e5167da381a71e Neil Armstrong            2023-05-23  2677  			};
+19fd04fb9247fb Vinod Koul                2021-12-16  2678  		};
+19fd04fb9247fb Vinod Koul                2021-12-16  2679  
+1172729576fbbe Bjorn Andersson           2022-01-27  2680  		remoteproc_slpi: remoteproc@2400000 {
+1172729576fbbe Bjorn Andersson           2022-01-27  2681  			compatible = "qcom,sm8450-slpi-pas";
+1172729576fbbe Bjorn Andersson           2022-01-27  2682  			reg = <0 0x02400000 0 0x4000>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2683  
+20402c94721a05 Manivannan Sadhasivam     2022-05-30  2684  			interrupts-extended = <&pdc 9 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  2685  					      <&smp2p_slpi_in 0 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  2686  					      <&smp2p_slpi_in 1 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  2687  					      <&smp2p_slpi_in 2 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  2688  					      <&smp2p_slpi_in 3 IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2689  			interrupt-names = "wdog", "fatal", "ready",
+1172729576fbbe Bjorn Andersson           2022-01-27  2690  					  "handover", "stop-ack";
+1172729576fbbe Bjorn Andersson           2022-01-27  2691  
+1172729576fbbe Bjorn Andersson           2022-01-27  2692  			clocks = <&rpmhcc RPMH_CXO_CLK>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2693  			clock-names = "xo";
+1172729576fbbe Bjorn Andersson           2022-01-27  2694  
+8ed9de79680f1d Rohit Agarwal             2023-07-20  2695  			power-domains = <&rpmhpd RPMHPD_LCX>,
+8ed9de79680f1d Rohit Agarwal             2023-07-20  2696  					<&rpmhpd RPMHPD_LMX>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2697  			power-domain-names = "lcx", "lmx";
+1172729576fbbe Bjorn Andersson           2022-01-27  2698  
+1172729576fbbe Bjorn Andersson           2022-01-27  2699  			memory-region = <&slpi_mem>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2700  
+1172729576fbbe Bjorn Andersson           2022-01-27  2701  			qcom,qmp = <&aoss_qmp>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2702  
+1172729576fbbe Bjorn Andersson           2022-01-27  2703  			qcom,smem-states = <&smp2p_slpi_out 0>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2704  			qcom,smem-state-names = "stop";
+1172729576fbbe Bjorn Andersson           2022-01-27  2705  
+1172729576fbbe Bjorn Andersson           2022-01-27  2706  			status = "disabled";
+1172729576fbbe Bjorn Andersson           2022-01-27  2707  
+1172729576fbbe Bjorn Andersson           2022-01-27  2708  			glink-edge {
+1172729576fbbe Bjorn Andersson           2022-01-27  2709  				interrupts-extended = <&ipcc IPCC_CLIENT_SLPI
+1172729576fbbe Bjorn Andersson           2022-01-27  2710  							     IPCC_MPROC_SIGNAL_GLINK_QMP
+1172729576fbbe Bjorn Andersson           2022-01-27  2711  							     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2712  				mboxes = <&ipcc IPCC_CLIENT_SLPI
+1172729576fbbe Bjorn Andersson           2022-01-27  2713  						IPCC_MPROC_SIGNAL_GLINK_QMP>;
+1172729576fbbe Bjorn Andersson           2022-01-27  2714  
+1172729576fbbe Bjorn Andersson           2022-01-27  2715  				label = "slpi";
+1172729576fbbe Bjorn Andersson           2022-01-27  2716  				qcom,remote-pid = <3>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2717  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2718  				fastrpc {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2719  					compatible = "qcom,fastrpc";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2720  					qcom,glink-channels = "fastrpcglink-apps-dsp";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2721  					label = "sdsp";
+033fbfa0eb60e5 Neil Armstrong            2024-02-27  2722  					qcom,non-secure-domain;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2723  					#address-cells = <1>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2724  					#size-cells = <0>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2725  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2726  					compute-cb@1 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2727  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2728  						reg = <1>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2729  						iommus = <&apps_smmu 0x0541 0x0>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2730  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2731  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2732  					compute-cb@2 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2733  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2734  						reg = <2>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2735  						iommus = <&apps_smmu 0x0542 0x0>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2736  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2737  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2738  					compute-cb@3 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2739  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2740  						reg = <3>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2741  						iommus = <&apps_smmu 0x0543 0x0>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2742  						/* note: shared-cb = <4> in downstream */
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2743  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  2744  				};
+1172729576fbbe Bjorn Andersson           2022-01-27  2745  			};
+1172729576fbbe Bjorn Andersson           2022-01-27  2746  		};
+1172729576fbbe Bjorn Andersson           2022-01-27  2747  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2748  		remoteproc_adsp: remoteproc@3000000 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2749  			compatible = "qcom,sm8450-adsp-pas";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2750  			reg = <0x0 0x03000000 0x0 0x10000>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2751  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2752  			interrupts-extended = <&pdc 6 IRQ_TYPE_EDGE_RISING>,
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2753  					      <&smp2p_adsp_in 0 IRQ_TYPE_EDGE_RISING>,
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2754  					      <&smp2p_adsp_in 1 IRQ_TYPE_EDGE_RISING>,
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2755  					      <&smp2p_adsp_in 2 IRQ_TYPE_EDGE_RISING>,
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2756  					      <&smp2p_adsp_in 3 IRQ_TYPE_EDGE_RISING>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2757  			interrupt-names = "wdog", "fatal", "ready",
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2758  					  "handover", "stop-ack";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2759  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2760  			clocks = <&rpmhcc RPMH_CXO_CLK>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2761  			clock-names = "xo";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2762  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2763  			power-domains = <&rpmhpd RPMHPD_LCX>,
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2764  					<&rpmhpd RPMHPD_LMX>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2765  			power-domain-names = "lcx", "lmx";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2766  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2767  			memory-region = <&adsp_mem>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2768  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2769  			qcom,qmp = <&aoss_qmp>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2770  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2771  			qcom,smem-states = <&smp2p_adsp_out 0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2772  			qcom,smem-state-names = "stop";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2773  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2774  			status = "disabled";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2775  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2776  			remoteproc_adsp_glink: glink-edge {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2777  				interrupts-extended = <&ipcc IPCC_CLIENT_LPASS
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2778  							     IPCC_MPROC_SIGNAL_GLINK_QMP
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2779  							     IRQ_TYPE_EDGE_RISING>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2780  				mboxes = <&ipcc IPCC_CLIENT_LPASS
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2781  						IPCC_MPROC_SIGNAL_GLINK_QMP>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2782  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2783  				label = "lpass";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2784  				qcom,remote-pid = <2>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2785  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2786  				gpr {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2787  					compatible = "qcom,gpr";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2788  					qcom,glink-channels = "adsp_apps";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2789  					qcom,domain = <GPR_DOMAIN_ID_ADSP>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2790  					qcom,intents = <512 20>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2791  					#address-cells = <1>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2792  					#size-cells = <0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2793  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2794  					q6apm: service@1 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2795  						compatible = "qcom,q6apm";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2796  						reg = <GPR_APM_MODULE_IID>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2797  						#sound-dai-cells = <0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2798  						qcom,protection-domain = "avs/audio",
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2799  									 "msm/adsp/audio_pd";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2800  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2801  						q6apmdai: dais {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2802  							compatible = "qcom,q6apm-dais";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2803  							iommus = <&apps_smmu 0x1801 0x0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2804  						};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2805  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2806  						q6apmbedai: bedais {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2807  							compatible = "qcom,q6apm-lpass-dais";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2808  							#sound-dai-cells = <1>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2809  						};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2810  					};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2811  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2812  					q6prm: service@2 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2813  						compatible = "qcom,q6prm";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2814  						reg = <GPR_PRM_MODULE_IID>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2815  						qcom,protection-domain = "avs/audio",
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2816  									 "msm/adsp/audio_pd";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2817  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2818  						q6prmcc: clock-controller {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2819  							compatible = "qcom,q6prm-lpass-clocks";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2820  							#clock-cells = <2>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2821  						};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2822  					};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2823  				};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2824  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2825  				fastrpc {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2826  					compatible = "qcom,fastrpc";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2827  					qcom,glink-channels = "fastrpcglink-apps-dsp";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2828  					label = "adsp";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2829  					qcom,non-secure-domain;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2830  					#address-cells = <1>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2831  					#size-cells = <0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2832  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2833  					compute-cb@3 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2834  						compatible = "qcom,fastrpc-compute-cb";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2835  						reg = <3>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2836  						iommus = <&apps_smmu 0x1803 0x0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2837  					};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2838  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2839  					compute-cb@4 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2840  						compatible = "qcom,fastrpc-compute-cb";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2841  						reg = <4>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2842  						iommus = <&apps_smmu 0x1804 0x0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2843  					};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2844  
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2845  					compute-cb@5 {
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2846  						compatible = "qcom,fastrpc-compute-cb";
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2847  						reg = <5>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2848  						iommus = <&apps_smmu 0x1805 0x0>;
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2849  					};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2850  				};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2851  			};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2852  		};
+13c96bee5d5e5b Krzysztof Kozlowski       2024-12-13  2853  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2854  		wsa2macro: codec@31e0000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2855  			compatible = "qcom,sm8450-lpass-wsa-macro";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2856  			reg = <0 0x031e0000 0 0x1000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2857  			clocks = <&q6prmcc LPASS_CLK_ID_WSA2_CORE_TX_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2858  				 <&q6prmcc LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2859  				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2860  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2861  				 <&vamacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2862  			clock-names = "mclk", "npl", "macro", "dcodec", "fsgen";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2863  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2864  			#clock-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2865  			clock-output-names = "wsa2-mclk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2866  			#sound-dai-cells = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2867  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2868  
+11fcb81373de52 Neil Armstrong            2023-11-06  2869  		swr4: soundwire@31f0000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2870  			compatible = "qcom,soundwire-v1.7.0";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2871  			reg = <0 0x031f0000 0 0x2000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2872  			interrupts = <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2873  			clocks = <&wsa2macro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2874  			clock-names = "iface";
+add214009d0632 Krzysztof Kozlowski       2023-04-05  2875  			label = "WSA2";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2876  
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2877  			pinctrl-0 = <&wsa2_swr_active>;
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2878  			pinctrl-names = "default";
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2879  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2880  			qcom,din-ports = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2881  			qcom,dout-ports = <6>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2882  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2883  			qcom,ports-sinterval-low =	/bits/ 8 <0x07 0x1f 0x3f 0x07 0x1f 0x3f 0x0f 0x0f>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2884  			qcom,ports-offset1 =		/bits/ 8 <0x01 0x02 0x0c 0x06 0x12 0x0d 0x07 0x0a>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2885  			qcom,ports-offset2 =		/bits/ 8 <0xff 0x00 0x1f 0xff 0x00 0x1f 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2886  			qcom,ports-hstart =		/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2887  			qcom,ports-hstop =		/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2888  			qcom,ports-word-length =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2889  			qcom,ports-block-pack-mode =	/bits/ 8 <0xff 0xff 0x01 0xff 0xff 0x01 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2890  			qcom,ports-block-group-count =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2891  			qcom,ports-lane-control =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2892  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2893  			#address-cells = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2894  			#size-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2895  			#sound-dai-cells = <1>;
+b9ae6ddeded793 Krzysztof Kozlowski       2023-01-02  2896  			status = "disabled";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2897  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2898  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2899  		rxmacro: codec@3200000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2900  			compatible = "qcom,sm8450-lpass-rx-macro";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  2901  			reg = <0 0x03200000 0 0x1000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2902  			clocks = <&q6prmcc LPASS_CLK_ID_RX_CORE_TX_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2903  				 <&q6prmcc LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2904  				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2905  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2906  				 <&vamacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2907  			clock-names = "mclk", "npl", "macro", "dcodec", "fsgen";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2908  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2909  			#clock-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2910  			clock-output-names = "mclk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2911  			#sound-dai-cells = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2912  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2913  
+11fcb81373de52 Neil Armstrong            2023-11-06  2914  		swr1: soundwire@3210000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2915  			compatible = "qcom,soundwire-v1.7.0";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  2916  			reg = <0 0x03210000 0 0x2000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2917  			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2918  			clocks = <&rxmacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2919  			clock-names = "iface";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2920  			label = "RX";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2921  			qcom,din-ports = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2922  			qcom,dout-ports = <5>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2923  
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2924  			pinctrl-0 = <&rx_swr_active>;
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2925  			pinctrl-names = "default";
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2926  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2927  			qcom,ports-sinterval-low =	/bits/ 8 <0x03 0x1f 0x1f 0x07 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2928  			qcom,ports-offset1 =		/bits/ 8 <0x00 0x00 0x0b 0x01 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2929  			qcom,ports-offset2 =		/bits/ 8 <0x00 0x00 0x0b 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2930  			qcom,ports-hstart =		/bits/ 8 <0xff 0x03 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2931  			qcom,ports-hstop =		/bits/ 8 <0xff 0x06 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2932  			qcom,ports-word-length =	/bits/ 8 <0x01 0x07 0x04 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2933  			qcom,ports-block-pack-mode =	/bits/ 8 <0xff 0x00 0x01 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2934  			qcom,ports-block-group-count =	/bits/ 8 <0xff 0xff 0xff 0xff 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2935  			qcom,ports-lane-control =	/bits/ 8 <0x01 0x00 0x00 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2936  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2937  			#address-cells = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2938  			#size-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2939  			#sound-dai-cells = <1>;
+b9ae6ddeded793 Krzysztof Kozlowski       2023-01-02  2940  			status = "disabled";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2941  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2942  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2943  		txmacro: codec@3220000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2944  			compatible = "qcom,sm8450-lpass-tx-macro";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  2945  			reg = <0 0x03220000 0 0x1000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2946  			clocks = <&q6prmcc LPASS_CLK_ID_RX_CORE_TX_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2947  				 <&q6prmcc LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2948  				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2949  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2950  				 <&vamacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2951  			clock-names = "mclk", "npl", "macro", "dcodec", "fsgen";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2952  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2953  			#clock-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2954  			clock-output-names = "mclk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2955  			#sound-dai-cells = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2956  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2957  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2958  		wsamacro: codec@3240000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2959  			compatible = "qcom,sm8450-lpass-wsa-macro";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2960  			reg = <0 0x03240000 0 0x1000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2961  			clocks = <&q6prmcc LPASS_CLK_ID_WSA_CORE_TX_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2962  				 <&q6prmcc LPASS_CLK_ID_WSA_CORE_TX_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2963  				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2964  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2965  				 <&vamacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2966  			clock-names = "mclk", "npl", "macro", "dcodec", "fsgen";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2967  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2968  			#clock-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2969  			clock-output-names = "mclk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2970  			#sound-dai-cells = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2971  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2972  
+11fcb81373de52 Neil Armstrong            2023-11-06  2973  		swr0: soundwire@3250000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2974  			compatible = "qcom,soundwire-v1.7.0";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2975  			reg = <0 0x03250000 0 0x2000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2976  			interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2977  			clocks = <&wsamacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2978  			clock-names = "iface";
+add214009d0632 Krzysztof Kozlowski       2023-04-05  2979  			label = "WSA";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2980  
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2981  			pinctrl-0 = <&wsa_swr_active>;
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2982  			pinctrl-names = "default";
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  2983  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2984  			qcom,din-ports = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2985  			qcom,dout-ports = <6>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2986  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2987  			qcom,ports-sinterval-low =	/bits/ 8 <0x07 0x1f 0x3f 0x07 0x1f 0x3f 0x0f 0x0f>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2988  			qcom,ports-offset1 =		/bits/ 8 <0x01 0x02 0x0c 0x06 0x12 0x0d 0x07 0x0a>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2989  			qcom,ports-offset2 =		/bits/ 8 <0xff 0x00 0x1f 0xff 0x00 0x1f 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2990  			qcom,ports-hstart =		/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2991  			qcom,ports-hstop =		/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2992  			qcom,ports-word-length =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2993  			qcom,ports-block-pack-mode =	/bits/ 8 <0xff 0xff 0x01 0xff 0xff 0x01 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2994  			qcom,ports-block-group-count =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2995  			qcom,ports-lane-control =	/bits/ 8 <0xff 0xff 0xff 0xff 0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2996  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2997  			#address-cells = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2998  			#size-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  2999  			#sound-dai-cells = <1>;
+b9ae6ddeded793 Krzysztof Kozlowski       2023-01-02  3000  			status = "disabled";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3001  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3002  
+11fcb81373de52 Neil Armstrong            2023-11-06  3003  		swr2: soundwire@33b0000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3004  			compatible = "qcom,soundwire-v1.7.0";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  3005  			reg = <0 0x033b0000 0 0x2000>;
+d6573b4c202e75 Krzysztof Kozlowski       2023-04-05  3006  			interrupts = <GIC_SPI 496 IRQ_TYPE_LEVEL_HIGH>,
+d6573b4c202e75 Krzysztof Kozlowski       2023-04-05  3007  				     <GIC_SPI 520 IRQ_TYPE_LEVEL_HIGH>;
+5eafe69af43d77 Krzysztof Kozlowski       2022-12-23  3008  			interrupt-names = "core", "wakeup";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3009  
+20e886590a3106 Krzysztof Kozlowski       2023-11-29  3010  			clocks = <&txmacro>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3011  			clock-names = "iface";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3012  			label = "TX";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3013  
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  3014  			pinctrl-0 = <&tx_swr_active>;
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  3015  			pinctrl-names = "default";
+565f4d00cde3e2 Krzysztof Kozlowski       2023-12-13  3016  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3017  			qcom,din-ports = <4>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3018  			qcom,dout-ports = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3019  			qcom,ports-sinterval-low =	/bits/ 8 <0x01 0x01 0x03 0x03>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3020  			qcom,ports-offset1 =		/bits/ 8 <0x00 0x00 0x01 0x01>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3021  			qcom,ports-offset2 =		/bits/ 8 <0x00 0x00 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3022  			qcom,ports-hstart =		/bits/ 8 <0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3023  			qcom,ports-hstop =		/bits/ 8 <0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3024  			qcom,ports-word-length =	/bits/ 8 <0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3025  			qcom,ports-block-pack-mode =	/bits/ 8 <0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3026  			qcom,ports-block-group-count =	/bits/ 8 <0xff 0xff 0xff 0xff>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3027  			qcom,ports-lane-control =	/bits/ 8 <0x01 0x02 0x00 0x00>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3028  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3029  			#address-cells = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3030  			#size-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3031  			#sound-dai-cells = <1>;
+b9ae6ddeded793 Krzysztof Kozlowski       2023-01-02  3032  			status = "disabled";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3033  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3034  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3035  		vamacro: codec@33f0000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3036  			compatible = "qcom,sm8450-lpass-va-macro";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3037  			reg = <0 0x033f0000 0 0x1000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3038  			clocks = <&q6prmcc LPASS_CLK_ID_TX_CORE_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3039  				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3040  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3041  				 <&q6prmcc LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3042  			clock-names = "mclk", "macro", "dcodec", "npl";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3043  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3044  			#clock-cells = <0>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3045  			clock-output-names = "fsgen";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3046  			#sound-dai-cells = <1>;
+b9ae6ddeded793 Krzysztof Kozlowski       2023-01-02  3047  			status = "disabled";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3048  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  3049  
+1172729576fbbe Bjorn Andersson           2022-01-27  3050  		remoteproc_cdsp: remoteproc@32300000 {
+1172729576fbbe Bjorn Andersson           2022-01-27  3051  			compatible = "qcom,sm8450-cdsp-pas";
+3751fe2cba2a9f Krzysztof Kozlowski       2024-12-13  3052  			reg = <0 0x32300000 0 0x10000>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3053  
+20402c94721a05 Manivannan Sadhasivam     2022-05-30  3054  			interrupts-extended = <&intc GIC_SPI 578 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3055  					      <&smp2p_cdsp_in 0 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3056  					      <&smp2p_cdsp_in 1 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3057  					      <&smp2p_cdsp_in 2 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3058  					      <&smp2p_cdsp_in 3 IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3059  			interrupt-names = "wdog", "fatal", "ready",
+1172729576fbbe Bjorn Andersson           2022-01-27  3060  					  "handover", "stop-ack";
+1172729576fbbe Bjorn Andersson           2022-01-27  3061  
+1172729576fbbe Bjorn Andersson           2022-01-27  3062  			clocks = <&rpmhcc RPMH_CXO_CLK>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3063  			clock-names = "xo";
+1172729576fbbe Bjorn Andersson           2022-01-27  3064  
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3065  			power-domains = <&rpmhpd RPMHPD_CX>,
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3066  					<&rpmhpd RPMHPD_MXC>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3067  			power-domain-names = "cx", "mxc";
+1172729576fbbe Bjorn Andersson           2022-01-27  3068  
+1172729576fbbe Bjorn Andersson           2022-01-27  3069  			memory-region = <&cdsp_mem>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3070  
+1172729576fbbe Bjorn Andersson           2022-01-27  3071  			qcom,qmp = <&aoss_qmp>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3072  
+1172729576fbbe Bjorn Andersson           2022-01-27  3073  			qcom,smem-states = <&smp2p_cdsp_out 0>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3074  			qcom,smem-state-names = "stop";
+1172729576fbbe Bjorn Andersson           2022-01-27  3075  
+1172729576fbbe Bjorn Andersson           2022-01-27  3076  			status = "disabled";
+1172729576fbbe Bjorn Andersson           2022-01-27  3077  
+1172729576fbbe Bjorn Andersson           2022-01-27  3078  			glink-edge {
+1172729576fbbe Bjorn Andersson           2022-01-27  3079  				interrupts-extended = <&ipcc IPCC_CLIENT_CDSP
+1172729576fbbe Bjorn Andersson           2022-01-27  3080  							     IPCC_MPROC_SIGNAL_GLINK_QMP
+1172729576fbbe Bjorn Andersson           2022-01-27  3081  							     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3082  				mboxes = <&ipcc IPCC_CLIENT_CDSP
+1172729576fbbe Bjorn Andersson           2022-01-27  3083  						IPCC_MPROC_SIGNAL_GLINK_QMP>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3084  
+1172729576fbbe Bjorn Andersson           2022-01-27  3085  				label = "cdsp";
+1172729576fbbe Bjorn Andersson           2022-01-27  3086  				qcom,remote-pid = <5>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3087  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3088  				fastrpc {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3089  					compatible = "qcom,fastrpc";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3090  					qcom,glink-channels = "fastrpcglink-apps-dsp";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3091  					label = "cdsp";
+033fbfa0eb60e5 Neil Armstrong            2024-02-27  3092  					qcom,non-secure-domain;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3093  					#address-cells = <1>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3094  					#size-cells = <0>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3095  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3096  					compute-cb@1 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3097  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3098  						reg = <1>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3099  						iommus = <&apps_smmu 0x2161 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3100  							 <&apps_smmu 0x1021 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3101  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3102  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3103  					compute-cb@2 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3104  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3105  						reg = <2>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3106  						iommus = <&apps_smmu 0x2162 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3107  							 <&apps_smmu 0x1022 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3108  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3109  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3110  					compute-cb@3 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3111  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3112  						reg = <3>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3113  						iommus = <&apps_smmu 0x2163 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3114  							 <&apps_smmu 0x1023 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3115  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3116  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3117  					compute-cb@4 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3118  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3119  						reg = <4>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3120  						iommus = <&apps_smmu 0x2164 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3121  							 <&apps_smmu 0x1024 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3122  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3123  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3124  					compute-cb@5 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3125  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3126  						reg = <5>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3127  						iommus = <&apps_smmu 0x2165 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3128  							 <&apps_smmu 0x1025 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3129  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3130  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3131  					compute-cb@6 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3132  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3133  						reg = <6>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3134  						iommus = <&apps_smmu 0x2166 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3135  							 <&apps_smmu 0x1026 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3136  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3137  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3138  					compute-cb@7 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3139  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3140  						reg = <7>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3141  						iommus = <&apps_smmu 0x2167 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3142  							 <&apps_smmu 0x1027 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3143  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3144  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3145  					compute-cb@8 {
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3146  						compatible = "qcom,fastrpc-compute-cb";
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3147  						reg = <8>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3148  						iommus = <&apps_smmu 0x2168 0x0400>,
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3149  							 <&apps_smmu 0x1028 0x1420>;
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3150  					};
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3151  
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3152  					/* note: secure cb9 in downstream */
+91d70eb70867f3 Dmitry Baryshkov          2022-04-10  3153  				};
+1172729576fbbe Bjorn Andersson           2022-01-27  3154  			};
+1172729576fbbe Bjorn Andersson           2022-01-27  3155  		};
+1172729576fbbe Bjorn Andersson           2022-01-27  3156  
+1172729576fbbe Bjorn Andersson           2022-01-27  3157  		remoteproc_mpss: remoteproc@4080000 {
+1172729576fbbe Bjorn Andersson           2022-01-27  3158  			compatible = "qcom,sm8450-mpss-pas";
+fa6442e87ab7c4 Krzysztof Kozlowski       2024-12-13  3159  			reg = <0x0 0x04080000 0x0 0x10000>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3160  
+20402c94721a05 Manivannan Sadhasivam     2022-05-30  3161  			interrupts-extended = <&intc GIC_SPI 264 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3162  					      <&smp2p_modem_in 0 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3163  					      <&smp2p_modem_in 1 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3164  					      <&smp2p_modem_in 2 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3165  					      <&smp2p_modem_in 3 IRQ_TYPE_EDGE_RISING>,
+1172729576fbbe Bjorn Andersson           2022-01-27  3166  					      <&smp2p_modem_in 7 IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3167  			interrupt-names = "wdog", "fatal", "ready", "handover",
+1172729576fbbe Bjorn Andersson           2022-01-27  3168  					  "stop-ack", "shutdown-ack";
+1172729576fbbe Bjorn Andersson           2022-01-27  3169  
+1172729576fbbe Bjorn Andersson           2022-01-27  3170  			clocks = <&rpmhcc RPMH_CXO_CLK>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3171  			clock-names = "xo";
+1172729576fbbe Bjorn Andersson           2022-01-27  3172  
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3173  			power-domains = <&rpmhpd RPMHPD_CX>,
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3174  					<&rpmhpd RPMHPD_MSS>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3175  			power-domain-names = "cx", "mss";
+1172729576fbbe Bjorn Andersson           2022-01-27  3176  
+1172729576fbbe Bjorn Andersson           2022-01-27  3177  			memory-region = <&mpss_mem>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3178  
+1172729576fbbe Bjorn Andersson           2022-01-27  3179  			qcom,qmp = <&aoss_qmp>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3180  
+1172729576fbbe Bjorn Andersson           2022-01-27  3181  			qcom,smem-states = <&smp2p_modem_out 0>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3182  			qcom,smem-state-names = "stop";
+1172729576fbbe Bjorn Andersson           2022-01-27  3183  
+1172729576fbbe Bjorn Andersson           2022-01-27  3184  			status = "disabled";
+1172729576fbbe Bjorn Andersson           2022-01-27  3185  
+1172729576fbbe Bjorn Andersson           2022-01-27  3186  			glink-edge {
+1172729576fbbe Bjorn Andersson           2022-01-27  3187  				interrupts-extended = <&ipcc IPCC_CLIENT_MPSS
+1172729576fbbe Bjorn Andersson           2022-01-27  3188  							     IPCC_MPROC_SIGNAL_GLINK_QMP
+1172729576fbbe Bjorn Andersson           2022-01-27  3189  							     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3190  				mboxes = <&ipcc IPCC_CLIENT_MPSS
+1172729576fbbe Bjorn Andersson           2022-01-27  3191  						IPCC_MPROC_SIGNAL_GLINK_QMP>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3192  				label = "modem";
+1172729576fbbe Bjorn Andersson           2022-01-27  3193  				qcom,remote-pid = <1>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3194  			};
+1172729576fbbe Bjorn Andersson           2022-01-27  3195  		};
+1172729576fbbe Bjorn Andersson           2022-01-27  3196  
+3c678552b00f90 Taniya Das                2023-05-24  3197  		videocc: clock-controller@aaf0000 {
+3c678552b00f90 Taniya Das                2023-05-24  3198  			compatible = "qcom,sm8450-videocc";
+3c678552b00f90 Taniya Das                2023-05-24  3199  			reg = <0 0x0aaf0000 0 0x10000>;
+3c678552b00f90 Taniya Das                2023-05-24  3200  			clocks = <&rpmhcc RPMH_CXO_CLK>,
+3c678552b00f90 Taniya Das                2023-05-24  3201  				 <&gcc GCC_VIDEO_AHB_CLK>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3202  			power-domains = <&rpmhpd RPMHPD_MMCX>;
+3c678552b00f90 Taniya Das                2023-05-24  3203  			required-opps = <&rpmhpd_opp_low_svs>;
+3c678552b00f90 Taniya Das                2023-05-24  3204  			#clock-cells = <1>;
+3c678552b00f90 Taniya Das                2023-05-24  3205  			#reset-cells = <1>;
+3c678552b00f90 Taniya Das                2023-05-24  3206  			#power-domain-cells = <1>;
+3c678552b00f90 Taniya Das                2023-05-24  3207  		};
+3c678552b00f90 Taniya Das                2023-05-24  3208  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3209  		cci0: cci@ac15000 {
+71b7c2df3109ee Konrad Dybcio             2022-12-13  3210  			compatible = "qcom,sm8450-cci", "qcom,msm8996-cci";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  3211  			reg = <0 0x0ac15000 0 0x1000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3212  			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3213  			power-domains = <&camcc TITAN_TOP_GDSC>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3214  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3215  			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3216  				 <&camcc CAM_CC_SLOW_AHB_CLK_SRC>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3217  				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3218  				 <&camcc CAM_CC_CCI_0_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3219  				 <&camcc CAM_CC_CCI_0_CLK_SRC>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3220  			clock-names = "camnoc_axi",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3221  				      "slow_ahb_src",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3222  				      "cpas_ahb",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3223  				      "cci",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3224  				      "cci_src";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3225  			pinctrl-0 = <&cci0_default &cci1_default>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3226  			pinctrl-1 = <&cci0_sleep &cci1_sleep>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3227  			pinctrl-names = "default", "sleep";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3228  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3229  			status = "disabled";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3230  			#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3231  			#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3232  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3233  			cci0_i2c0: i2c-bus@0 {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3234  				reg = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3235  				clock-frequency = <1000000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3236  				#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3237  				#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3238  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3239  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3240  			cci0_i2c1: i2c-bus@1 {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3241  				reg = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3242  				clock-frequency = <1000000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3243  				#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3244  				#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3245  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3246  		};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3247  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3248  		cci1: cci@ac16000 {
+71b7c2df3109ee Konrad Dybcio             2022-12-13  3249  			compatible = "qcom,sm8450-cci", "qcom,msm8996-cci";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  3250  			reg = <0 0x0ac16000 0 0x1000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3251  			interrupts = <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3252  			power-domains = <&camcc TITAN_TOP_GDSC>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3253  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3254  			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3255  				 <&camcc CAM_CC_SLOW_AHB_CLK_SRC>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3256  				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3257  				 <&camcc CAM_CC_CCI_1_CLK>,
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3258  				 <&camcc CAM_CC_CCI_1_CLK_SRC>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3259  			clock-names = "camnoc_axi",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3260  				      "slow_ahb_src",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3261  				      "cpas_ahb",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3262  				      "cci",
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3263  				      "cci_src";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3264  			pinctrl-0 = <&cci2_default &cci3_default>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3265  			pinctrl-1 = <&cci2_sleep &cci3_sleep>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3266  			pinctrl-names = "default", "sleep";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3267  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3268  			status = "disabled";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3269  			#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3270  			#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3271  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3272  			cci1_i2c0: i2c-bus@0 {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3273  				reg = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3274  				clock-frequency = <1000000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3275  				#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3276  				#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3277  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3278  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3279  			cci1_i2c1: i2c-bus@1 {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3280  				reg = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3281  				clock-frequency = <1000000>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3282  				#address-cells = <1>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3283  				#size-cells = <0>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3284  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3285  		};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3286  
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3287  		camcc: clock-controller@ade0000 {
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3288  			compatible = "qcom,sm8450-camcc";
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3289  			reg = <0 0x0ade0000 0 0x20000>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3290  			clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3291  				 <&rpmhcc RPMH_CXO_CLK>,
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3292  				 <&rpmhcc RPMH_CXO_CLK_A>,
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3293  				 <&sleep_clk>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3294  			power-domains = <&rpmhpd RPMHPD_MMCX>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3295  			required-opps = <&rpmhpd_opp_low_svs>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3296  			#clock-cells = <1>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3297  			#reset-cells = <1>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3298  			#power-domain-cells = <1>;
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3299  			status = "disabled";
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3300  		};
+e07e07dac9502b Vladimir Zapolskiy        2022-07-01  3301  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3302  		mdss: display-subsystem@ae00000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3303  			compatible = "qcom,sm8450-mdss";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3304  			reg = <0 0x0ae00000 0 0x1000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3305  			reg-names = "mdss";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3306  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3307  			/* same path used twice */
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3308  			interconnects = <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3309  					<&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3310  					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3311  					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3312  			interconnect-names = "mdp0-mem",
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3313  					     "mdp1-mem",
+4e125191e6cb00 Dmitry Baryshkov          2023-07-12  3314  					     "cpu-cfg";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3315  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3316  			resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3317  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3318  			power-domains = <&dispcc MDSS_GDSC>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3319  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3320  			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3321  				 <&gcc GCC_DISP_HF_AXI_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3322  				 <&gcc GCC_DISP_SF_AXI_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3323  				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3324  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3325  			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3326  			interrupt-controller;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3327  			#interrupt-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3328  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3329  			iommus = <&apps_smmu 0x2800 0x402>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3330  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3331  			#address-cells = <2>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3332  			#size-cells = <2>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3333  			ranges;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3334  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3335  			status = "disabled";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3336  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3337  			mdss_mdp: display-controller@ae01000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3338  				compatible = "qcom,sm8450-dpu";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3339  				reg = <0 0x0ae01000 0 0x8f000>,
+62acfd77a57839 Dmitry Baryshkov          2025-04-15  3340  				      <0 0x0aeb0000 0 0x3000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3341  				reg-names = "mdp", "vbif";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3342  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3343  				clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3344  					<&gcc GCC_DISP_SF_AXI_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3345  					<&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3346  					<&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3347  					<&dispcc DISP_CC_MDSS_MDP_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3348  					<&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3349  				clock-names = "bus",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3350  					      "nrt_bus",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3351  					      "iface",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3352  					      "lut",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3353  					      "core",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3354  					      "vsync";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3355  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3356  				assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3357  				assigned-clock-rates = <19200000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3358  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3359  				operating-points-v2 = <&mdp_opp_table>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3360  				power-domains = <&rpmhpd RPMHPD_MMCX>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3361  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3362  				interrupt-parent = <&mdss>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3363  				interrupts = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3364  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3365  				ports {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3366  					#address-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3367  					#size-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3368  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3369  					port@0 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3370  						reg = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3371  						dpu_intf1_out: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3372  							remote-endpoint = <&mdss_dsi0_in>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3373  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3374  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3375  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3376  					port@1 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3377  						reg = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3378  						dpu_intf2_out: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3379  							remote-endpoint = <&mdss_dsi1_in>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3380  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3381  					};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3382  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3383  					port@2 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3384  						reg = <2>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3385  						dpu_intf0_out: endpoint {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3386  							remote-endpoint = <&mdss_dp0_in>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3387  						};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3388  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3389  				};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3390  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3391  				mdp_opp_table: opp-table {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3392  					compatible = "operating-points-v2";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3393  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3394  					opp-172000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3395  						opp-hz = /bits/ 64 <172000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3396  						required-opps = <&rpmhpd_opp_low_svs_d1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3397  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3398  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3399  					opp-200000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3400  						opp-hz = /bits/ 64 <200000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3401  						required-opps = <&rpmhpd_opp_low_svs>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3402  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3403  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3404  					opp-325000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3405  						opp-hz = /bits/ 64 <325000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3406  						required-opps = <&rpmhpd_opp_svs>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3407  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3408  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3409  					opp-375000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3410  						opp-hz = /bits/ 64 <375000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3411  						required-opps = <&rpmhpd_opp_svs_l1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3412  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3413  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3414  					opp-500000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3415  						opp-hz = /bits/ 64 <500000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3416  						required-opps = <&rpmhpd_opp_nom>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3417  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3418  				};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3419  			};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3420  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3421  			mdss_dp0: displayport-controller@ae90000 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3422  				compatible = "qcom,sm8450-dp", "qcom,sm8350-dp";
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3423  				reg = <0 0xae90000 0 0x200>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3424  				      <0 0xae90200 0 0x200>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3425  				      <0 0xae90400 0 0xc00>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3426  				      <0 0xae91000 0 0x400>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3427  				      <0 0xae91400 0 0x400>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3428  				interrupt-parent = <&mdss>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3429  				interrupts = <12>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3430  				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3431  					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3432  					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3433  					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3434  					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3435  				clock-names = "core_iface",
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3436  					      "core_aux",
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3437  					      "ctrl_link",
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3438  					      "ctrl_link_iface",
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3439  					      "stream_pixel";
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3440  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3441  				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3442  						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3443  				assigned-clock-parents = <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3444  							 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3445  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3446  				phys = <&usb_1_qmpphy QMP_USB43DP_DP_PHY>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3447  				phy-names = "dp";
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3448  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3449  				#sound-dai-cells = <0>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3450  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3451  				operating-points-v2 = <&dp_opp_table>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3452  				power-domains = <&rpmhpd RPMHPD_MMCX>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3453  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3454  				status = "disabled";
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3455  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3456  				ports {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3457  					#address-cells = <1>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3458  					#size-cells = <0>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3459  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3460  					port@0 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3461  						reg = <0>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3462  						mdss_dp0_in: endpoint {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3463  							remote-endpoint = <&dpu_intf0_out>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3464  						};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3465  					};
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3466  
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3467  					port@1 {
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3468  						reg = <1>;
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3469  
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3470  						mdss_dp0_out: endpoint {
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3471  							remote-endpoint = <&usb_1_qmpphy_dp_in>;
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3472  						};
+a84f3627f9d976 Dmitry Baryshkov          2024-04-29  3473  		};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3474  				};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3475  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3476  				dp_opp_table: opp-table {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3477  					compatible = "operating-points-v2";
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3478  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3479  					opp-160000000 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3480  						opp-hz = /bits/ 64 <160000000>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3481  						required-opps = <&rpmhpd_opp_low_svs>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3482  					};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3483  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3484  					opp-270000000 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3485  						opp-hz = /bits/ 64 <270000000>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3486  						required-opps = <&rpmhpd_opp_svs>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3487  					};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3488  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3489  					opp-540000000 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3490  						opp-hz = /bits/ 64 <540000000>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3491  						required-opps = <&rpmhpd_opp_svs_l1>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3492  					};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3493  
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3494  					opp-810000000 {
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3495  						opp-hz = /bits/ 64 <810000000>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3496  						required-opps = <&rpmhpd_opp_nom>;
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3497  					};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3498  				};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3499  			};
+bdd2f4ce5e762d Neil Armstrong            2023-03-17  3500  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3501  			mdss_dsi0: dsi@ae94000 {
+b7f4f6971d62f0 Dmitry Baryshkov          2023-01-10  3502  				compatible = "qcom,sm8450-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3503  				reg = <0 0x0ae94000 0 0x400>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3504  				reg-names = "dsi_ctrl";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3505  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3506  				interrupt-parent = <&mdss>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3507  				interrupts = <4>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3508  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3509  				clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3510  					 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3511  					 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3512  					 <&dispcc DISP_CC_MDSS_ESC0_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3513  					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3514  					<&gcc GCC_DISP_HF_AXI_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3515  				clock-names = "byte",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3516  					      "byte_intf",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3517  					      "pixel",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3518  					      "core",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3519  					      "iface",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3520  					      "bus";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3521  
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3522  				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3523  						  <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3524  				assigned-clock-parents = <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3525  							 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3526  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3527  				operating-points-v2 = <&mdss_dsi_opp_table>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3528  				power-domains = <&rpmhpd RPMHPD_MMCX>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3529  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3530  				phys = <&mdss_dsi0_phy>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3531  				phy-names = "dsi";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3532  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3533  				#address-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3534  				#size-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3535  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3536  				status = "disabled";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3537  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3538  				ports {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3539  					#address-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3540  					#size-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3541  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3542  					port@0 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3543  						reg = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3544  						mdss_dsi0_in: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3545  							remote-endpoint = <&dpu_intf1_out>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3546  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3547  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3548  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3549  					port@1 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3550  						reg = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3551  						mdss_dsi0_out: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3552  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3553  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3554  				};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3555  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3556  				mdss_dsi_opp_table: opp-table {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3557  					compatible = "operating-points-v2";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3558  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3559  					opp-187500000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3560  						opp-hz = /bits/ 64 <187500000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3561  						required-opps = <&rpmhpd_opp_low_svs>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3562  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3563  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3564  					opp-300000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3565  						opp-hz = /bits/ 64 <300000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3566  						required-opps = <&rpmhpd_opp_svs>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3567  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3568  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3569  					opp-358000000 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3570  						opp-hz = /bits/ 64 <358000000>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3571  						required-opps = <&rpmhpd_opp_svs_l1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3572  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3573  				};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3574  			};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3575  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3576  			mdss_dsi0_phy: phy@ae94400 {
+cce9c1d0b0168a Konrad Dybcio             2023-01-23  3577  				compatible = "qcom,sm8450-dsi-phy-5nm";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3578  				reg = <0 0x0ae94400 0 0x200>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3579  				      <0 0x0ae94600 0 0x280>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3580  				      <0 0x0ae94900 0 0x260>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3581  				reg-names = "dsi_phy",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3582  					    "dsi_phy_lane",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3583  					    "dsi_pll";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3584  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3585  				#clock-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3586  				#phy-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3587  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3588  				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3589  					 <&rpmhcc RPMH_CXO_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3590  				clock-names = "iface", "ref";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3591  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3592  				status = "disabled";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3593  			};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3594  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3595  			mdss_dsi1: dsi@ae96000 {
+b7f4f6971d62f0 Dmitry Baryshkov          2023-01-10  3596  				compatible = "qcom,sm8450-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3597  				reg = <0 0x0ae96000 0 0x400>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3598  				reg-names = "dsi_ctrl";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3599  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3600  				interrupt-parent = <&mdss>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3601  				interrupts = <5>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3602  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3603  				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3604  					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3605  					 <&dispcc DISP_CC_MDSS_PCLK1_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3606  					 <&dispcc DISP_CC_MDSS_ESC1_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3607  					 <&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3608  					 <&gcc GCC_DISP_HF_AXI_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3609  				clock-names = "byte",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3610  					      "byte_intf",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3611  					      "pixel",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3612  					      "core",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3613  					      "iface",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3614  					      "bus";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3615  
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3616  				assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK_SRC>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3617  						  <&dispcc DISP_CC_MDSS_PCLK1_CLK_SRC>;
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3618  				assigned-clock-parents = <&mdss_dsi1_phy DSI_BYTE_PLL_CLK>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3619  							 <&mdss_dsi1_phy DSI_PIXEL_PLL_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3620  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3621  				operating-points-v2 = <&mdss_dsi_opp_table>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3622  				power-domains = <&rpmhpd RPMHPD_MMCX>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3623  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3624  				phys = <&mdss_dsi1_phy>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3625  				phy-names = "dsi";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3626  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3627  				#address-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3628  				#size-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3629  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3630  				status = "disabled";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3631  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3632  				ports {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3633  					#address-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3634  					#size-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3635  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3636  					port@0 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3637  						reg = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3638  						mdss_dsi1_in: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3639  							remote-endpoint = <&dpu_intf2_out>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3640  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3641  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3642  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3643  					port@1 {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3644  						reg = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3645  						mdss_dsi1_out: endpoint {
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3646  						};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3647  					};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3648  				};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3649  			};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3650  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3651  			mdss_dsi1_phy: phy@ae96400 {
+cce9c1d0b0168a Konrad Dybcio             2023-01-23  3652  				compatible = "qcom,sm8450-dsi-phy-5nm";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3653  				reg = <0 0x0ae96400 0 0x200>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3654  				      <0 0x0ae96600 0 0x280>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3655  				      <0 0x0ae96900 0 0x260>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3656  				reg-names = "dsi_phy",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3657  					    "dsi_phy_lane",
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3658  					    "dsi_pll";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3659  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3660  				#clock-cells = <1>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3661  				#phy-cells = <0>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3662  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3663  				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3664  					 <&rpmhcc RPMH_CXO_CLK>;
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3665  				clock-names = "iface", "ref";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3666  
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3667  				status = "disabled";
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3668  			};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3669  		};
+a6dd1206e45a43 Dmitry Baryshkov          2022-12-07  3670  
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3671  		dispcc: clock-controller@af00000 {
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3672  			compatible = "qcom,sm8450-dispcc";
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3673  			reg = <0 0x0af00000 0 0x20000>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3674  			clocks = <&rpmhcc RPMH_CXO_CLK>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3675  				 <&rpmhcc RPMH_CXO_CLK_A>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3676  				 <&gcc GCC_DISP_AHB_CLK>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3677  				 <&sleep_clk>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3678  				 <&mdss_dsi0_phy DSI_BYTE_PLL_CLK>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3679  				 <&mdss_dsi0_phy DSI_PIXEL_PLL_CLK>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3680  				 <&mdss_dsi1_phy DSI_BYTE_PLL_CLK>,
+0d18a031499d4e Krzysztof Kozlowski       2025-04-08  3681  				 <&mdss_dsi1_phy DSI_PIXEL_PLL_CLK>,
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  3682  				 <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+d3054cec1e9ea4 Neil Armstrong            2023-03-17  3683  				 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3684  				 <0>, /* dp1 */
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3685  				 <0>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3686  				 <0>, /* dp2 */
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3687  				 <0>,
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3688  				 <0>, /* dp3 */
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3689  				 <0>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  3690  			power-domains = <&rpmhpd RPMHPD_MMCX>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3691  			required-opps = <&rpmhpd_opp_low_svs>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3692  			#clock-cells = <1>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3693  			#reset-cells = <1>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3694  			#power-domain-cells = <1>;
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3695  		};
+65b35e04d26563 Dmitry Baryshkov          2022-09-09  3696  
+5188049c9b36d7 Vinod Koul                2021-12-15  3697  		pdc: interrupt-controller@b220000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  3698  			compatible = "qcom,sm8450-pdc", "qcom,pdc";
+5188049c9b36d7 Vinod Koul                2021-12-15  3699  			reg = <0 0x0b220000 0 0x30000>, <0 0x174000f0 0 0x64>;
+5188049c9b36d7 Vinod Koul                2021-12-15  3700  			qcom,pdc-ranges = <0 480 12>, <14 494 24>, <40 520 54>,
+5188049c9b36d7 Vinod Koul                2021-12-15  3701  					  <94 609 31>, <125 63 1>, <126 716 12>;
+5188049c9b36d7 Vinod Koul                2021-12-15  3702  			#interrupt-cells = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15  3703  			interrupt-parent = <&intc>;
+5188049c9b36d7 Vinod Koul                2021-12-15  3704  			interrupt-controller;
+5188049c9b36d7 Vinod Koul                2021-12-15  3705  		};
+5188049c9b36d7 Vinod Koul                2021-12-15  3706  
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3707  		tsens0: thermal-sensor@c263000 {
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3708  			compatible = "qcom,sm8450-tsens", "qcom,tsens-v2";
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3709  			reg = <0 0x0c263000 0 0x1000>, /* TM */
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3710  			      <0 0x0c222000 0 0x1000>; /* SROT */
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3711  			#qcom,sensors = <16>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3712  			interrupts = <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3713  				     <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3714  			interrupt-names = "uplow", "critical";
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3715  			#thermal-sensor-cells = <1>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3716  		};
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3717  
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3718  		tsens1: thermal-sensor@c265000 {
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3719  			compatible = "qcom,sm8450-tsens", "qcom,tsens-v2";
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3720  			reg = <0 0x0c265000 0 0x1000>, /* TM */
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3721  			      <0 0x0c223000 0 0x1000>; /* SROT */
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3722  			#qcom,sensors = <16>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3723  			interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>,
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3724  				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3725  			interrupt-names = "uplow", "critical";
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3726  			#thermal-sensor-cells = <1>;
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3727  		};
+48995e863307bf Vladimir Zapolskiy        2022-04-11  3728  
+bb99820dd284a9 Krzysztof Kozlowski       2022-12-13  3729  		aoss_qmp: power-management@c300000 {
+1172729576fbbe Bjorn Andersson           2022-01-27  3730  			compatible = "qcom,sm8450-aoss-qmp", "qcom,aoss-qmp";
+1172729576fbbe Bjorn Andersson           2022-01-27  3731  			reg = <0 0x0c300000 0 0x400>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3732  			interrupts-extended = <&ipcc IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP
+1172729576fbbe Bjorn Andersson           2022-01-27  3733  						     IRQ_TYPE_EDGE_RISING>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3734  			mboxes = <&ipcc IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3735  
+1172729576fbbe Bjorn Andersson           2022-01-27  3736  			#clock-cells = <0>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3737  		};
+1172729576fbbe Bjorn Andersson           2022-01-27  3738  
+6578747ae2d76c Konrad Dybcio             2023-08-11  3739  		sram@c3f0000 {
+6578747ae2d76c Konrad Dybcio             2023-08-11  3740  			compatible = "qcom,rpmh-stats";
+6578747ae2d76c Konrad Dybcio             2023-08-11  3741  			reg = <0 0x0c3f0000 0 0x400>;
+6578747ae2d76c Konrad Dybcio             2023-08-11  3742  		};
+6578747ae2d76c Konrad Dybcio             2023-08-11  3743  
+f891f86e47c320 Vinod Koul                2022-12-29  3744  		spmi_bus: spmi@c400000 {
+f891f86e47c320 Vinod Koul                2022-12-29  3745  			compatible = "qcom,spmi-pmic-arb";
+f891f86e47c320 Vinod Koul                2022-12-29  3746  			reg = <0 0x0c400000 0 0x00003000>,
+f891f86e47c320 Vinod Koul                2022-12-29  3747  			      <0 0x0c500000 0 0x00400000>,
+f891f86e47c320 Vinod Koul                2022-12-29  3748  			      <0 0x0c440000 0 0x00080000>,
+f891f86e47c320 Vinod Koul                2022-12-29  3749  			      <0 0x0c4c0000 0 0x00010000>,
+f891f86e47c320 Vinod Koul                2022-12-29  3750  			      <0 0x0c42d000 0 0x00010000>;
+f891f86e47c320 Vinod Koul                2022-12-29  3751  			reg-names = "core",
+f891f86e47c320 Vinod Koul                2022-12-29  3752  				    "chnls",
+f891f86e47c320 Vinod Koul                2022-12-29  3753  				    "obsrvr",
+f891f86e47c320 Vinod Koul                2022-12-29  3754  				    "intr",
+f891f86e47c320 Vinod Koul                2022-12-29  3755  				    "cnfg";
+f891f86e47c320 Vinod Koul                2022-12-29  3756  			interrupt-names = "periph_irq";
+f891f86e47c320 Vinod Koul                2022-12-29  3757  			interrupts-extended = <&pdc 1 IRQ_TYPE_LEVEL_HIGH>;
+f891f86e47c320 Vinod Koul                2022-12-29  3758  			qcom,ee = <0>;
+f891f86e47c320 Vinod Koul                2022-12-29  3759  			qcom,channel = <0>;
+f891f86e47c320 Vinod Koul                2022-12-29  3760  			interrupt-controller;
+f891f86e47c320 Vinod Koul                2022-12-29  3761  			#interrupt-cells = <4>;
+f891f86e47c320 Vinod Koul                2022-12-29  3762  			#address-cells = <2>;
+f891f86e47c320 Vinod Koul                2022-12-29  3763  			#size-cells = <0>;
+f891f86e47c320 Vinod Koul                2022-12-29  3764  		};
+f891f86e47c320 Vinod Koul                2022-12-29  3765  
+1172729576fbbe Bjorn Andersson           2022-01-27  3766  		ipcc: mailbox@ed18000 {
+1172729576fbbe Bjorn Andersson           2022-01-27  3767  			compatible = "qcom,sm8450-ipcc", "qcom,ipcc";
+1172729576fbbe Bjorn Andersson           2022-01-27  3768  			reg = <0 0x0ed18000 0 0x1000>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3769  			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3770  			interrupt-controller;
+1172729576fbbe Bjorn Andersson           2022-01-27  3771  			#interrupt-cells = <3>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3772  			#mbox-cells = <2>;
+1172729576fbbe Bjorn Andersson           2022-01-27  3773  		};
+1172729576fbbe Bjorn Andersson           2022-01-27  3774  
+ec950d55728459 Vinod Koul                2021-12-15  3775  		tlmm: pinctrl@f100000 {
+ec950d55728459 Vinod Koul                2021-12-15  3776  			compatible = "qcom,sm8450-tlmm";
+ec950d55728459 Vinod Koul                2021-12-15  3777  			reg = <0 0x0f100000 0 0x300000>;
+ec950d55728459 Vinod Koul                2021-12-15  3778  			interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
+ec950d55728459 Vinod Koul                2021-12-15  3779  			gpio-controller;
+ec950d55728459 Vinod Koul                2021-12-15  3780  			#gpio-cells = <2>;
+ec950d55728459 Vinod Koul                2021-12-15  3781  			interrupt-controller;
+ec950d55728459 Vinod Koul                2021-12-15  3782  			#interrupt-cells = <2>;
+ec950d55728459 Vinod Koul                2021-12-15  3783  			gpio-ranges = <&tlmm 0 0 211>;
+ec950d55728459 Vinod Koul                2021-12-15  3784  			wakeup-parent = <&pdc>;
+ec950d55728459 Vinod Koul                2021-12-15  3785  
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3786  			sdc2_default_state: sdc2-default-state {
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3787  				clk-pins {
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3788  					pins = "sdc2_clk";
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3789  					drive-strength = <16>;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3790  					bias-disable;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3791  				};
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3792  
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3793  				cmd-pins {
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3794  					pins = "sdc2_cmd";
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3795  					drive-strength = <16>;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3796  					bias-pull-up;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3797  				};
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3798  
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3799  				data-pins {
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3800  					pins = "sdc2_data";
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3801  					drive-strength = <16>;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3802  					bias-pull-up;
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3803  				};
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3804  			};
+a0646262ec94fa Krzysztof Kozlowski       2022-10-26  3805  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3806  			sdc2_sleep_state: sdc2-sleep-state {
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3807  				clk-pins {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3808  					pins = "sdc2_clk";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3809  					drive-strength = <2>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3810  					bias-disable;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3811  				};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3812  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3813  				cmd-pins {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3814  					pins = "sdc2_cmd";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3815  					drive-strength = <2>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3816  					bias-pull-up;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3817  				};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3818  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3819  				data-pins {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3820  					pins = "sdc2_data";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3821  					drive-strength = <2>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3822  					bias-pull-up;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3823  				};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3824  			};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  3825  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3826  			cci0_default: cci0-default-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3827  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3828  				pins = "gpio110", "gpio111";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3829  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3830  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3831  				bias-pull-up;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3832  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3833  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3834  			cci0_sleep: cci0-sleep-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3835  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3836  				pins = "gpio110", "gpio111";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3837  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3838  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3839  				bias-pull-down;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3840  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3841  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3842  			cci1_default: cci1-default-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3843  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3844  				pins = "gpio112", "gpio113";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3845  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3846  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3847  				bias-pull-up;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3848  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3849  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3850  			cci1_sleep: cci1-sleep-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3851  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3852  				pins = "gpio112", "gpio113";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3853  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3854  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3855  				bias-pull-down;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3856  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3857  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3858  			cci2_default: cci2-default-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3859  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3860  				pins = "gpio114", "gpio115";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3861  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3862  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3863  				bias-pull-up;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3864  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3865  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3866  			cci2_sleep: cci2-sleep-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3867  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3868  				pins = "gpio114", "gpio115";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3869  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3870  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3871  				bias-pull-down;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3872  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3873  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3874  			cci3_default: cci3-default-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3875  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3876  				pins = "gpio208", "gpio209";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3877  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3878  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3879  				bias-pull-up;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3880  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3881  
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3882  			cci3_sleep: cci3-sleep-state {
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3883  				/* SDA, SCL */
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3884  				pins = "gpio208", "gpio209";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3885  				function = "cci_i2c";
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3886  				drive-strength = <2>;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3887  				bias-pull-down;
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3888  			};
+b318c53e9c383b Vladimir Zapolskiy        2022-09-01  3889  
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3890  			pcie0_default_state: pcie0-default-state {
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3891  				perst-pins {
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3892  					pins = "gpio94";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3893  					function = "gpio";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3894  					drive-strength = <2>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3895  					bias-pull-down;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3896  				};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3897  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3898  				clkreq-pins {
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3899  					pins = "gpio95";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3900  					function = "pcie0_clkreqn";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3901  					drive-strength = <2>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3902  					bias-pull-up;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3903  				};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3904  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3905  				wake-pins {
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3906  					pins = "gpio96";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3907  					function = "gpio";
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3908  					drive-strength = <2>;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3909  					bias-pull-up;
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3910  				};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3911  			};
+7b09b1b47335b7 Dmitry Baryshkov          2022-03-01  3912  
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3913  			pcie1_default_state: pcie1-default-state {
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3914  				perst-pins {
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3915  					pins = "gpio97";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3916  					function = "gpio";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3917  					drive-strength = <2>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3918  					bias-pull-down;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3919  				};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3920  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3921  				clkreq-pins {
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3922  					pins = "gpio98";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3923  					function = "pcie1_clkreqn";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3924  					drive-strength = <2>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3925  					bias-pull-up;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3926  				};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3927  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3928  				wake-pins {
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3929  					pins = "gpio99";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3930  					function = "gpio";
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3931  					drive-strength = <2>;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3932  					bias-pull-up;
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3933  				};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3934  			};
+bc6588bc25fb30 Dmitry Baryshkov          2022-03-01  3935  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3936  			qup_i2c0_data_clk: qup-i2c0-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3937  				pins = "gpio0", "gpio1";
+a84e88e9a00334 Vinod Koul                2022-04-14  3938  				function = "qup0";
+a84e88e9a00334 Vinod Koul                2022-04-14  3939  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3940  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3941  			qup_i2c1_data_clk: qup-i2c1-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3942  				pins = "gpio4", "gpio5";
+a84e88e9a00334 Vinod Koul                2022-04-14  3943  				function = "qup1";
+a84e88e9a00334 Vinod Koul                2022-04-14  3944  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3945  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3946  			qup_i2c2_data_clk: qup-i2c2-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3947  				pins = "gpio8", "gpio9";
+a84e88e9a00334 Vinod Koul                2022-04-14  3948  				function = "qup2";
+a84e88e9a00334 Vinod Koul                2022-04-14  3949  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3950  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3951  			qup_i2c3_data_clk: qup-i2c3-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3952  				pins = "gpio12", "gpio13";
+a84e88e9a00334 Vinod Koul                2022-04-14  3953  				function = "qup3";
+a84e88e9a00334 Vinod Koul                2022-04-14  3954  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3955  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3956  			qup_i2c4_data_clk: qup-i2c4-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3957  				pins = "gpio16", "gpio17";
+a84e88e9a00334 Vinod Koul                2022-04-14  3958  				function = "qup4";
+a84e88e9a00334 Vinod Koul                2022-04-14  3959  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3960  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3961  			qup_i2c5_data_clk: qup-i2c5-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3962  				pins = "gpio206", "gpio207";
+a84e88e9a00334 Vinod Koul                2022-04-14  3963  				function = "qup5";
+a84e88e9a00334 Vinod Koul                2022-04-14  3964  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3965  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3966  			qup_i2c6_data_clk: qup-i2c6-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  3967  				pins = "gpio20", "gpio21";
+a84e88e9a00334 Vinod Koul                2022-04-14  3968  				function = "qup6";
+a84e88e9a00334 Vinod Koul                2022-04-14  3969  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  3970  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3971  			qup_i2c8_data_clk: qup-i2c8-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  3972  				pins = "gpio28", "gpio29";
+1a380216fd6fcf Vinod Koul                2022-04-14  3973  				function = "qup8";
+1a380216fd6fcf Vinod Koul                2022-04-14  3974  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  3975  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3976  			qup_i2c9_data_clk: qup-i2c9-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  3977  				pins = "gpio32", "gpio33";
+1a380216fd6fcf Vinod Koul                2022-04-14  3978  				function = "qup9";
+1a380216fd6fcf Vinod Koul                2022-04-14  3979  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  3980  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3981  			qup_i2c10_data_clk: qup-i2c10-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  3982  				pins = "gpio36", "gpio37";
+1a380216fd6fcf Vinod Koul                2022-04-14  3983  				function = "qup10";
+1a380216fd6fcf Vinod Koul                2022-04-14  3984  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  3985  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3986  			qup_i2c11_data_clk: qup-i2c11-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  3987  				pins = "gpio40", "gpio41";
+1a380216fd6fcf Vinod Koul                2022-04-14  3988  				function = "qup11";
+1a380216fd6fcf Vinod Koul                2022-04-14  3989  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  3990  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3991  			qup_i2c12_data_clk: qup-i2c12-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  3992  				pins = "gpio44", "gpio45";
+1a380216fd6fcf Vinod Koul                2022-04-14  3993  				function = "qup12";
+1a380216fd6fcf Vinod Koul                2022-04-14  3994  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  3995  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  3996  			qup_i2c13_data_clk: qup-i2c13-data-clk-state {
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  3997  				pins = "gpio48", "gpio49";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  3998  				function = "qup13";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  3999  				drive-strength = <2>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4000  				bias-pull-up;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4001  			};
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4002  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4003  			qup_i2c14_data_clk: qup-i2c14-data-clk-state {
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4004  				pins = "gpio52", "gpio53";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4005  				function = "qup14";
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4006  				drive-strength = <2>;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4007  				bias-pull-up;
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4008  			};
+bf0a257a9418eb Dmitry Baryshkov          2021-12-15  4009  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4010  			qup_i2c15_data_clk: qup-i2c15-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4011  				pins = "gpio56", "gpio57";
+ba640cd31342b4 Vinod Koul                2022-04-14  4012  				function = "qup15";
+ba640cd31342b4 Vinod Koul                2022-04-14  4013  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4014  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4015  			qup_i2c16_data_clk: qup-i2c16-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4016  				pins = "gpio60", "gpio61";
+ba640cd31342b4 Vinod Koul                2022-04-14  4017  				function = "qup16";
+ba640cd31342b4 Vinod Koul                2022-04-14  4018  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4019  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4020  			qup_i2c17_data_clk: qup-i2c17-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4021  				pins = "gpio64", "gpio65";
+ba640cd31342b4 Vinod Koul                2022-04-14  4022  				function = "qup17";
+ba640cd31342b4 Vinod Koul                2022-04-14  4023  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4024  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4025  			qup_i2c18_data_clk: qup-i2c18-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4026  				pins = "gpio68", "gpio69";
+ba640cd31342b4 Vinod Koul                2022-04-14  4027  				function = "qup18";
+ba640cd31342b4 Vinod Koul                2022-04-14  4028  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4029  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4030  			qup_i2c19_data_clk: qup-i2c19-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4031  				pins = "gpio72", "gpio73";
+ba640cd31342b4 Vinod Koul                2022-04-14  4032  				function = "qup19";
+ba640cd31342b4 Vinod Koul                2022-04-14  4033  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4034  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4035  			qup_i2c20_data_clk: qup-i2c20-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4036  				pins = "gpio76", "gpio77";
+ba640cd31342b4 Vinod Koul                2022-04-14  4037  				function = "qup20";
+ba640cd31342b4 Vinod Koul                2022-04-14  4038  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4039  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4040  			qup_i2c21_data_clk: qup-i2c21-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4041  				pins = "gpio80", "gpio81";
+ba640cd31342b4 Vinod Koul                2022-04-14  4042  				function = "qup21";
+ba640cd31342b4 Vinod Koul                2022-04-14  4043  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4044  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4045  			qup_spi0_cs: qup-spi0-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4046  				pins = "gpio3";
+a84e88e9a00334 Vinod Koul                2022-04-14  4047  				function = "qup0";
+a84e88e9a00334 Vinod Koul                2022-04-14  4048  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4049  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4050  			qup_spi0_data_clk: qup-spi0-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4051  				pins = "gpio0", "gpio1", "gpio2";
+a84e88e9a00334 Vinod Koul                2022-04-14  4052  				function = "qup0";
+a84e88e9a00334 Vinod Koul                2022-04-14  4053  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4054  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4055  			qup_spi1_cs: qup-spi1-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4056  				pins = "gpio7";
+a84e88e9a00334 Vinod Koul                2022-04-14  4057  				function = "qup1";
+a84e88e9a00334 Vinod Koul                2022-04-14  4058  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4059  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4060  			qup_spi1_data_clk: qup-spi1-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4061  				pins = "gpio4", "gpio5", "gpio6";
+a84e88e9a00334 Vinod Koul                2022-04-14  4062  				function = "qup1";
+a84e88e9a00334 Vinod Koul                2022-04-14  4063  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4064  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4065  			qup_spi2_cs: qup-spi2-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4066  				pins = "gpio11";
+a84e88e9a00334 Vinod Koul                2022-04-14  4067  				function = "qup2";
+a84e88e9a00334 Vinod Koul                2022-04-14  4068  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4069  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4070  			qup_spi2_data_clk: qup-spi2-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4071  				pins = "gpio8", "gpio9", "gpio10";
+a84e88e9a00334 Vinod Koul                2022-04-14  4072  				function = "qup2";
+a84e88e9a00334 Vinod Koul                2022-04-14  4073  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4074  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4075  			qup_spi3_cs: qup-spi3-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4076  				pins = "gpio15";
+a84e88e9a00334 Vinod Koul                2022-04-14  4077  				function = "qup3";
+a84e88e9a00334 Vinod Koul                2022-04-14  4078  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4079  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4080  			qup_spi3_data_clk: qup-spi3-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4081  				pins = "gpio12", "gpio13", "gpio14";
+a84e88e9a00334 Vinod Koul                2022-04-14  4082  				function = "qup3";
+a84e88e9a00334 Vinod Koul                2022-04-14  4083  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4084  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4085  			qup_spi4_cs: qup-spi4-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4086  				pins = "gpio19";
+a84e88e9a00334 Vinod Koul                2022-04-14  4087  				function = "qup4";
+a84e88e9a00334 Vinod Koul                2022-04-14  4088  				drive-strength = <6>;
+a84e88e9a00334 Vinod Koul                2022-04-14  4089  				bias-disable;
+a84e88e9a00334 Vinod Koul                2022-04-14  4090  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4091  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4092  			qup_spi4_data_clk: qup-spi4-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4093  				pins = "gpio16", "gpio17", "gpio18";
+a84e88e9a00334 Vinod Koul                2022-04-14  4094  				function = "qup4";
+a84e88e9a00334 Vinod Koul                2022-04-14  4095  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4096  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4097  			qup_spi5_cs: qup-spi5-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4098  				pins = "gpio85";
+a84e88e9a00334 Vinod Koul                2022-04-14  4099  				function = "qup5";
+a84e88e9a00334 Vinod Koul                2022-04-14  4100  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4101  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4102  			qup_spi5_data_clk: qup-spi5-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4103  				pins = "gpio206", "gpio207", "gpio84";
+a84e88e9a00334 Vinod Koul                2022-04-14  4104  				function = "qup5";
+a84e88e9a00334 Vinod Koul                2022-04-14  4105  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4106  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4107  			qup_spi6_cs: qup-spi6-cs-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4108  				pins = "gpio23";
+a84e88e9a00334 Vinod Koul                2022-04-14  4109  				function = "qup6";
+a84e88e9a00334 Vinod Koul                2022-04-14  4110  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4111  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4112  			qup_spi6_data_clk: qup-spi6-data-clk-state {
+a84e88e9a00334 Vinod Koul                2022-04-14  4113  				pins = "gpio20", "gpio21", "gpio22";
+a84e88e9a00334 Vinod Koul                2022-04-14  4114  				function = "qup6";
+a84e88e9a00334 Vinod Koul                2022-04-14  4115  			};
+a84e88e9a00334 Vinod Koul                2022-04-14  4116  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4117  			qup_spi8_cs: qup-spi8-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4118  				pins = "gpio31";
+1a380216fd6fcf Vinod Koul                2022-04-14  4119  				function = "qup8";
+1a380216fd6fcf Vinod Koul                2022-04-14  4120  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4121  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4122  			qup_spi8_data_clk: qup-spi8-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4123  				pins = "gpio28", "gpio29", "gpio30";
+1a380216fd6fcf Vinod Koul                2022-04-14  4124  				function = "qup8";
+1a380216fd6fcf Vinod Koul                2022-04-14  4125  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4126  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4127  			qup_spi9_cs: qup-spi9-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4128  				pins = "gpio35";
+1a380216fd6fcf Vinod Koul                2022-04-14  4129  				function = "qup9";
+1a380216fd6fcf Vinod Koul                2022-04-14  4130  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4131  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4132  			qup_spi9_data_clk: qup-spi9-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4133  				pins = "gpio32", "gpio33", "gpio34";
+1a380216fd6fcf Vinod Koul                2022-04-14  4134  				function = "qup9";
+1a380216fd6fcf Vinod Koul                2022-04-14  4135  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4136  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4137  			qup_spi10_cs: qup-spi10-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4138  				pins = "gpio39";
+1a380216fd6fcf Vinod Koul                2022-04-14  4139  				function = "qup10";
+1a380216fd6fcf Vinod Koul                2022-04-14  4140  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4141  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4142  			qup_spi10_data_clk: qup-spi10-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4143  				pins = "gpio36", "gpio37", "gpio38";
+1a380216fd6fcf Vinod Koul                2022-04-14  4144  				function = "qup10";
+1a380216fd6fcf Vinod Koul                2022-04-14  4145  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4146  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4147  			qup_spi11_cs: qup-spi11-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4148  				pins = "gpio43";
+1a380216fd6fcf Vinod Koul                2022-04-14  4149  				function = "qup11";
+1a380216fd6fcf Vinod Koul                2022-04-14  4150  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4151  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4152  			qup_spi11_data_clk: qup-spi11-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4153  				pins = "gpio40", "gpio41", "gpio42";
+1a380216fd6fcf Vinod Koul                2022-04-14  4154  				function = "qup11";
+1a380216fd6fcf Vinod Koul                2022-04-14  4155  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4156  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4157  			qup_spi12_cs: qup-spi12-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4158  				pins = "gpio47";
+1a380216fd6fcf Vinod Koul                2022-04-14  4159  				function = "qup12";
+1a380216fd6fcf Vinod Koul                2022-04-14  4160  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4161  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4162  			qup_spi12_data_clk: qup-spi12-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4163  				pins = "gpio44", "gpio45", "gpio46";
+1a380216fd6fcf Vinod Koul                2022-04-14  4164  				function = "qup12";
+1a380216fd6fcf Vinod Koul                2022-04-14  4165  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4166  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4167  			qup_spi13_cs: qup-spi13-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4168  				pins = "gpio51";
+1a380216fd6fcf Vinod Koul                2022-04-14  4169  				function = "qup13";
+1a380216fd6fcf Vinod Koul                2022-04-14  4170  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4171  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4172  			qup_spi13_data_clk: qup-spi13-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4173  				pins = "gpio48", "gpio49", "gpio50";
+1a380216fd6fcf Vinod Koul                2022-04-14  4174  				function = "qup13";
+1a380216fd6fcf Vinod Koul                2022-04-14  4175  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4176  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4177  			qup_spi14_cs: qup-spi14-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4178  				pins = "gpio55";
+1a380216fd6fcf Vinod Koul                2022-04-14  4179  				function = "qup14";
+1a380216fd6fcf Vinod Koul                2022-04-14  4180  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4181  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4182  			qup_spi14_data_clk: qup-spi14-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4183  				pins = "gpio52", "gpio53", "gpio54";
+1a380216fd6fcf Vinod Koul                2022-04-14  4184  				function = "qup14";
+1a380216fd6fcf Vinod Koul                2022-04-14  4185  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4186  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4187  			qup_spi15_cs: qup-spi15-cs-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4188  				pins = "gpio59";
+1a380216fd6fcf Vinod Koul                2022-04-14  4189  				function = "qup15";
+1a380216fd6fcf Vinod Koul                2022-04-14  4190  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4191  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4192  			qup_spi15_data_clk: qup-spi15-data-clk-state {
+1a380216fd6fcf Vinod Koul                2022-04-14  4193  				pins = "gpio56", "gpio57", "gpio58";
+1a380216fd6fcf Vinod Koul                2022-04-14  4194  				function = "qup15";
+1a380216fd6fcf Vinod Koul                2022-04-14  4195  			};
+1a380216fd6fcf Vinod Koul                2022-04-14  4196  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4197  			qup_spi16_cs: qup-spi16-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4198  				pins = "gpio63";
+ba640cd31342b4 Vinod Koul                2022-04-14  4199  				function = "qup16";
+ba640cd31342b4 Vinod Koul                2022-04-14  4200  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4201  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4202  			qup_spi16_data_clk: qup-spi16-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4203  				pins = "gpio60", "gpio61", "gpio62";
+ba640cd31342b4 Vinod Koul                2022-04-14  4204  				function = "qup16";
+ba640cd31342b4 Vinod Koul                2022-04-14  4205  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4206  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4207  			qup_spi17_cs: qup-spi17-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4208  				pins = "gpio67";
+ba640cd31342b4 Vinod Koul                2022-04-14  4209  				function = "qup17";
+ba640cd31342b4 Vinod Koul                2022-04-14  4210  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4211  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4212  			qup_spi17_data_clk: qup-spi17-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4213  				pins = "gpio64", "gpio65", "gpio66";
+ba640cd31342b4 Vinod Koul                2022-04-14  4214  				function = "qup17";
+ba640cd31342b4 Vinod Koul                2022-04-14  4215  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4216  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4217  			qup_spi18_cs: qup-spi18-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4218  				pins = "gpio71";
+ba640cd31342b4 Vinod Koul                2022-04-14  4219  				function = "qup18";
+ba640cd31342b4 Vinod Koul                2022-04-14  4220  				drive-strength = <6>;
+ba640cd31342b4 Vinod Koul                2022-04-14  4221  				bias-disable;
+ba640cd31342b4 Vinod Koul                2022-04-14  4222  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4223  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4224  			qup_spi18_data_clk: qup-spi18-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4225  				pins = "gpio68", "gpio69", "gpio70";
+ba640cd31342b4 Vinod Koul                2022-04-14  4226  				function = "qup18";
+ba640cd31342b4 Vinod Koul                2022-04-14  4227  				drive-strength = <6>;
+ba640cd31342b4 Vinod Koul                2022-04-14  4228  				bias-disable;
+ba640cd31342b4 Vinod Koul                2022-04-14  4229  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4230  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4231  			qup_spi19_cs: qup-spi19-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4232  				pins = "gpio75";
+ba640cd31342b4 Vinod Koul                2022-04-14  4233  				function = "qup19";
+ba640cd31342b4 Vinod Koul                2022-04-14  4234  				drive-strength = <6>;
+ba640cd31342b4 Vinod Koul                2022-04-14  4235  				bias-disable;
+ba640cd31342b4 Vinod Koul                2022-04-14  4236  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4237  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4238  			qup_spi19_data_clk: qup-spi19-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4239  				pins = "gpio72", "gpio73", "gpio74";
+ba640cd31342b4 Vinod Koul                2022-04-14  4240  				function = "qup19";
+ba640cd31342b4 Vinod Koul                2022-04-14  4241  				drive-strength = <6>;
+ba640cd31342b4 Vinod Koul                2022-04-14  4242  				bias-disable;
+ba640cd31342b4 Vinod Koul                2022-04-14  4243  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4244  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4245  			qup_spi20_cs: qup-spi20-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4246  				pins = "gpio79";
+ba640cd31342b4 Vinod Koul                2022-04-14  4247  				function = "qup20";
+ba640cd31342b4 Vinod Koul                2022-04-14  4248  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4249  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4250  			qup_spi20_data_clk: qup-spi20-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4251  				pins = "gpio76", "gpio77", "gpio78";
+ba640cd31342b4 Vinod Koul                2022-04-14  4252  				function = "qup20";
+ba640cd31342b4 Vinod Koul                2022-04-14  4253  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4254  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4255  			qup_spi21_cs: qup-spi21-cs-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4256  				pins = "gpio83";
+ba640cd31342b4 Vinod Koul                2022-04-14  4257  				function = "qup21";
+ba640cd31342b4 Vinod Koul                2022-04-14  4258  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4259  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4260  			qup_spi21_data_clk: qup-spi21-data-clk-state {
+ba640cd31342b4 Vinod Koul                2022-04-14  4261  				pins = "gpio80", "gpio81", "gpio82";
+ba640cd31342b4 Vinod Koul                2022-04-14  4262  				function = "qup21";
+ba640cd31342b4 Vinod Koul                2022-04-14  4263  			};
+ba640cd31342b4 Vinod Koul                2022-04-14  4264  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4265  			qup_uart7_rx: qup-uart7-rx-state {
+ec950d55728459 Vinod Koul                2021-12-15  4266  				pins = "gpio26";
+ec950d55728459 Vinod Koul                2021-12-15  4267  				function = "qup7";
+ec950d55728459 Vinod Koul                2021-12-15  4268  				drive-strength = <2>;
+ec950d55728459 Vinod Koul                2021-12-15  4269  				bias-disable;
+ec950d55728459 Vinod Koul                2021-12-15  4270  			};
+ec950d55728459 Vinod Koul                2021-12-15  4271  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4272  			qup_uart7_tx: qup-uart7-tx-state {
+ec950d55728459 Vinod Koul                2021-12-15  4273  				pins = "gpio27";
+ec950d55728459 Vinod Koul                2021-12-15  4274  				function = "qup7";
+ec950d55728459 Vinod Koul                2021-12-15  4275  				drive-strength = <2>;
+ec950d55728459 Vinod Koul                2021-12-15  4276  				bias-disable;
+ec950d55728459 Vinod Koul                2021-12-15  4277  			};
+f5837418479a3f Dmitry Baryshkov          2022-05-02  4278  
+a73747528867fa Krzysztof Kozlowski       2022-09-12  4279  			qup_uart20_default: qup-uart20-default-state {
+f5837418479a3f Dmitry Baryshkov          2022-05-02  4280  				pins = "gpio76", "gpio77", "gpio78", "gpio79";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  4281  				function = "qup20";
+f5837418479a3f Dmitry Baryshkov          2022-05-02  4282  			};
+ec950d55728459 Vinod Koul                2021-12-15  4283  		};
+ec950d55728459 Vinod Koul                2021-12-15  4284  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4285  		lpass_tlmm: pinctrl@3440000 {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4286  			compatible = "qcom,sm8450-lpass-lpi-pinctrl";
+a58cde4d66e18a Konrad Dybcio             2023-01-02  4287  			reg = <0 0x03440000 0x0 0x20000>,
+a58cde4d66e18a Konrad Dybcio             2023-01-02  4288  			      <0 0x034d0000 0x0 0x10000>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4289  			gpio-controller;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4290  			#gpio-cells = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4291  			gpio-ranges = <&lpass_tlmm 0 0 23>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4292  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4293  			clocks = <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4294  				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4295  			clock-names = "core", "audio";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4296  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4297  			tx_swr_active: tx-swr-active-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4298  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4299  					pins = "gpio0";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4300  					function = "swr_tx_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4301  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4302  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4303  					bias-disable;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4304  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4305  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4306  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4307  					pins = "gpio1", "gpio2", "gpio14";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4308  					function = "swr_tx_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4309  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4310  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4311  					bias-bus-hold;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4312  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4313  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4314  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4315  			rx_swr_active: rx-swr-active-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4316  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4317  					pins = "gpio3";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4318  					function = "swr_rx_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4319  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4320  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4321  					bias-disable;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4322  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4323  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4324  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4325  					pins = "gpio4", "gpio5";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4326  					function = "swr_rx_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4327  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4328  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4329  					bias-bus-hold;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4330  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4331  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4332  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4333  			dmic01_default: dmic01-default-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4334  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4335  					pins = "gpio6";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4336  					function = "dmic1_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4337  					drive-strength = <8>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4338  					output-high;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4339  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4340  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4341  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4342  					pins = "gpio7";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4343  					function = "dmic1_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4344  					drive-strength = <8>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4345  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4346  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4347  
+0d3eb7ff1f3a99 Krzysztof Kozlowski       2024-02-12  4348  			dmic23_default: dmic23-default-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4349  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4350  					pins = "gpio8";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4351  					function = "dmic2_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4352  					drive-strength = <8>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4353  					output-high;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4354  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4355  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4356  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4357  					pins = "gpio9";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4358  					function = "dmic2_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4359  					drive-strength = <8>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4360  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4361  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4362  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4363  			wsa_swr_active: wsa-swr-active-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4364  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4365  					pins = "gpio10";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4366  					function = "wsa_swr_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4367  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4368  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4369  					bias-disable;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4370  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4371  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4372  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4373  					pins = "gpio11";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4374  					function = "wsa_swr_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4375  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4376  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4377  					bias-bus-hold;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4378  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4379  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4380  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4381  			wsa2_swr_active: wsa2-swr-active-state {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4382  				clk-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4383  					pins = "gpio15";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4384  					function = "wsa2_swr_clk";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4385  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4386  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4387  					bias-disable;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4388  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4389  
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4390  				data-pins {
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4391  					pins = "gpio16";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4392  					function = "wsa2_swr_data";
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4393  					drive-strength = <2>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4394  					slew-rate = <1>;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4395  					bias-bus-hold;
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4396  				};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4397  			};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4398  		};
+14341e76dbc7e1 Srinivas Kandagatla       2022-12-02  4399  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4400  		stm@10002000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4401  			compatible = "arm,coresight-stm", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4402  			reg = <0x0 0x10002000 0x0 0x1000>,
+6e8637db89bf13 Mao Jinlong               2025-01-07  4403  				<0x0 0x16280000 0x0 0x180000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4404  			reg-names = "stm-base", "stm-stimulus-base";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4405  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4406  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4407  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4408  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4409  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4410  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4411  					stm_out_funnel_in0: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4412  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4413  							<&funnel_in0_in_stm>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4414  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4415  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4416  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4417  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4418  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4419  		funnel@10041000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4420  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4421  			reg = <0x0 0x10041000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4422  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4423  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4424  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4425  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4426  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4427  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4428  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4429  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4430  				port@7 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4431  					reg = <7>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4432  					funnel_in0_in_stm: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4433  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4434  							<&stm_out_funnel_in0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4435  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4436  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4437  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4438  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4439  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4440  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4441  					funnel_in0_out_funnel_qdss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4442  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4443  							<&funnel_qdss_in_funnel_in0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4444  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4445  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4446  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4447  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4448  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4449  		funnel@10042000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4450  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4451  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4452  			reg = <0x0 0x10042000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4453  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4454  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4455  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4456  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4457  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4458  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4459  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4460  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4461  				port@4 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4462  					reg = <4>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4463  					funnel_in1_in_funnel_apss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4464  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4465  							<&funnel_apss_out_funnel_in1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4466  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4467  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4468  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4469  				port@6 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4470  					reg = <6>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4471  					funnel_in1_in_funnel_dl_center: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4472  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4473  							<&funnel_dl_center_out_funnel_in1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4474  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4475  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4476  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4477  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4478  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4479  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4480  					funnel_in1_out_funnel_qdss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4481  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4482  							<&funnel_qdss_in_funnel_in1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4483  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4484  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4485  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4486  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4487  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4488  		funnel@10045000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4489  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4490  			reg = <0x0 0x10045000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4491  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4492  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4493  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4494  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4495  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4496  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4497  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4498  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4499  				port@0 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4500  					reg = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4501  					funnel_qdss_in_funnel_in0: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4502  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4503  							<&funnel_in0_out_funnel_qdss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4504  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4505  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4506  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4507  				port@1 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4508  					reg = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4509  					funnel_qdss_in_funnel_in1: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4510  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4511  							<&funnel_in1_out_funnel_qdss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4512  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4513  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4514  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4515  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4516  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4517  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4518  					funnel_qdss_out_funnel_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4519  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4520  							<&funnel_aoss_in_funnel_qdss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4521  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4522  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4523  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4524  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4525  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4526  		replicator@10046000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4527  			compatible = "arm,coresight-dynamic-replicator", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4528  			reg = <0x0 0x10046000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4529  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4530  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4531  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4532  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4533  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4534  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4535  					replicator_qdss_in_replicator_swao: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4536  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4537  							<&replicator_swao_out_replicator_qdss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4538  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4539  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4540  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4541  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4542  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4543  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4544  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4545  					replicator_qdss_out_replicator_etr: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4546  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4547  							<&replicator_etr_in_replicator_qdss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4548  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4549  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4550  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4551  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4552  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4553  		tmc_etr: tmc@10048000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4554  			compatible = "arm,coresight-tmc", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4555  			reg = <0x0 0x10048000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4556  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4557  			iommus = <&apps_smmu 0x0600 0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4558  			arm,buffer-size = <0x10000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4559  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4560  			arm,scatter-gather;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4561  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4562  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4563  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4564  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4565  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4566  					tmc_etr_in_replicator_etr: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4567  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4568  							<&replicator_etr_out_tmc_etr>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4569  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4570  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4571  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4572  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4573  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4574  		replicator@1004e000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4575  			compatible = "arm,coresight-dynamic-replicator", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4576  			reg = <0x0 0x1004e000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4577  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4578  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4579  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4580  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4581  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4582  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4583  					replicator_etr_in_replicator_qdss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4584  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4585  							<&replicator_qdss_out_replicator_etr>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4586  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4587  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4588  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4589  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4590  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4591  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4592  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4593  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4594  					replicator_etr_out_tmc_etr: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4595  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4596  							<&tmc_etr_in_replicator_etr>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4597  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4598  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4599  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4600  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4601  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4602  		funnel@10b04000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4603  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4604  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4605  			reg = <0x0 0x10b04000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4606  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4607  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4608  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4609  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4610  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4611  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4612  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4613  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4614  				port@6 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4615  					reg = <6>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4616  					funnel_aoss_in_tpda_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4617  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4618  							<&tpda_aoss_out_funnel_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4619  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4620  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4621  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4622  				port@7 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4623  					reg = <7>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4624  					funnel_aoss_in_funnel_qdss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4625  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4626  							<&funnel_qdss_out_funnel_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4627  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4628  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4629  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4630  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4631  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4632  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4633  					funnel_aoss_out_tmc_etf: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4634  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4635  							<&tmc_etf_in_funnel_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4636  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4637  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4638  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4639  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4640  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4641  		tmc@10b05000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4642  			compatible = "arm,coresight-tmc", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4643  			reg = <0x0 0x10b05000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4644  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4645  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4646  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4647  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4648  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4649  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4650  					tmc_etf_in_funnel_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4651  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4652  							<&funnel_aoss_out_tmc_etf>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4653  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4654  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4655  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4656  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4657  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4658  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4659  					tmc_etf_out_replicator_swao: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4660  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4661  							<&replicator_swao_in_tmc_etf>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4662  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4663  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4664  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4665  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4666  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4667  		replicator@10b06000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4668  			compatible = "arm,coresight-dynamic-replicator", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4669  			reg = <0x0 0x10b06000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4670  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4671  			qcom,replicator-loses-context;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4672  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4673  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4674  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4675  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4676  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4677  					replicator_swao_in_tmc_etf: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4678  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4679  							<&tmc_etf_out_replicator_swao>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4680  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4681  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4682  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4683  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4684  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4685  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4686  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4687  					replicator_swao_out_replicator_qdss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4688  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4689  							<&replicator_qdss_in_replicator_swao>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4690  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4691  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4692  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4693  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4694  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4695  		tpda@10b08000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4696  			compatible = "qcom,coresight-tpda", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4697  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4698  			reg = <0x0 0x10b08000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4699  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4700  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4701  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4702  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4703  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4704  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4705  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4706  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4707  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4708  				port@0 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4709  					reg = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4710  					tpda_aoss_in_tpdm_swao_prio_0: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4711  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4712  							<&tpdm_swao_prio_0_out_tpda_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4713  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4714  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4715  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4716  				port@4 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4717  					reg = <4>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4718  					tpda_aoss_in_tpdm_swao: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4719  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4720  							<&tpdm_swao_out_tpda_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4721  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4722  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4723  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4724  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4725  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4726  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4727  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4728  					tpda_aoss_out_funnel_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4729  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4730  							<&funnel_aoss_in_tpda_aoss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4731  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4732  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4733  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4734  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4735  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4736  		tpdm@10b09000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4737  			compatible = "qcom,coresight-tpdm", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4738  			reg = <0x0 0x10b09000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4739  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4740  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4741  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4742  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4743  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4744  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4745  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4746  					tpdm_swao_prio_0_out_tpda_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4747  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4748  							<&tpda_aoss_in_tpdm_swao_prio_0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4749  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4750  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4751  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4752  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4753  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4754  		tpdm@10b0d000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4755  			compatible = "qcom,coresight-tpdm", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4756  			reg = <0x0 0x10b0d000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4757  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4758  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4759  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4760  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4761  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4762  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4763  					tpdm_swao_out_tpda_aoss: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4764  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4765  							<&tpda_aoss_in_tpdm_swao>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4766  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4767  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4768  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4769  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4770  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4771  		tpdm@10c28000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4772  			compatible = "qcom,coresight-tpdm", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4773  			reg = <0x0 0x10c28000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4774  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4775  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4776  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4777  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4778  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4779  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4780  					tpdm_dlct_out_tpda_dl_center_26: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4781  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4782  							<&tpda_dl_center_26_in_tpdm_dlct>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4783  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4784  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4785  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4786  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4787  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4788  		tpdm@10c29000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4789  			compatible = "qcom,coresight-tpdm", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4790  			reg = <0x0 0x10c29000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4791  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4792  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4793  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4794  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4795  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4796  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4797  					tpdm_ipcc_out_tpda_dl_center_27: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4798  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4799  							<&tpda_dl_center_27_in_tpdm_ipcc>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4800  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4801  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4802  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4803  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4804  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4805  		cti@10c2a000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4806  			compatible = "arm,coresight-cti", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4807  			reg = <0x0 0x10c2a000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4808  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4809  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4810  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4811  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4812  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4813  		cti@10c2b000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4814  			compatible = "arm,coresight-cti", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4815  			reg = <0x0 0x10c2b000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4816  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4817  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4818  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4819  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4820  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4821  		tpda@10c2e000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4822  			compatible = "qcom,coresight-tpda", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4823  			reg = <0x0 0x10c2e000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4824  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4825  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4826  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4827  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4828  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4829  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4830  				#address-cells = <1>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4831  				#size-cells = <0>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4832  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4833  				port@1a {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4834  					reg = <26>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4835  					tpda_dl_center_26_in_tpdm_dlct: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4836  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4837  							<&tpdm_dlct_out_tpda_dl_center_26>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4838  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4839  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4840  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4841  				port@1b {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4842  					reg = <27>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4843  					tpda_dl_center_27_in_tpdm_ipcc: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4844  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4845  							<&tpdm_ipcc_out_tpda_dl_center_27>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4846  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4847  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4848  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4849  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4850  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4851  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4852  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4853  					tpda_dl_center_out_funnel_dl_center: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4854  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4855  							<&funnel_dl_center_in_tpda_dl_center>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4856  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4857  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4858  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4859  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4860  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4861  		funnel@10c2f000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4862  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4863  			reg = <0x0 0x10c2f000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4864  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4865  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4866  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4867  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4868  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4869  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4870  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4871  					funnel_dl_center_in_tpda_dl_center: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4872  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4873  							<&tpda_dl_center_out_funnel_dl_center>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4874  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4875  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4876  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4877  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4878  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4879  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4880  					funnel_dl_center_out_funnel_in1: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4881  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4882  							<&funnel_in1_in_funnel_dl_center>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4883  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4884  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4885  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4886  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4887  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4888  		funnel@13810000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4889  			compatible = "arm,coresight-dynamic-funnel", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4890  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4891  			reg = <0x0 0x13810000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4892  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4893  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4894  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4895  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4896  			in-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4897  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4898  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4899  					funnel_apss_in_funnel_ete: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4900  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4901  							<&funnel_ete_out_funnel_apss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4902  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4903  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4904  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4905  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4906  			out-ports {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4907  				port {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4908  					funnel_apss_out_funnel_in1: endpoint {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4909  						remote-endpoint =
+6e8637db89bf13 Mao Jinlong               2025-01-07  4910  							<&funnel_in1_in_funnel_apss>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4911  					};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4912  				};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4913  			};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4914  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4915  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4916  		cti@138e0000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4917  			compatible = "arm,coresight-cti", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4918  			reg = <0x0 0x138e0000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4919  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4920  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4921  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4922  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4923  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4924  		cti@138f0000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4925  			compatible = "arm,coresight-cti", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4926  			reg = <0x0 0x138f0000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4927  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4928  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4929  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4930  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4931  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4932  		cti@13900000 {
+6e8637db89bf13 Mao Jinlong               2025-01-07  4933  			compatible = "arm,coresight-cti", "arm,primecell";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4934  			reg = <0x0 0x13900000 0x0 0x1000>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4935  
+6e8637db89bf13 Mao Jinlong               2025-01-07  4936  			clocks = <&aoss_qmp>;
+6e8637db89bf13 Mao Jinlong               2025-01-07  4937  			clock-names = "apb_pclk";
+6e8637db89bf13 Mao Jinlong               2025-01-07  4938  		};
+6e8637db89bf13 Mao Jinlong               2025-01-07  4939  
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4940  		sram@146aa000 {
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4941  			compatible = "qcom,sm8450-imem", "syscon", "simple-mfd";
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4942  			reg = <0 0x146aa000 0 0x1000>;
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4943  			ranges = <0 0 0x146aa000 0x1000>;
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4944  
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4945  			#address-cells = <1>;
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4946  			#size-cells = <1>;
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4947  
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4948  			pil-reloc@94c {
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4949  				compatible = "qcom,pil-reloc-info";
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4950  				reg = <0x94c 0xc8>;
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4951  			};
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4952  		};
+d39469f5ce81b2 Mukesh Ojha               2023-02-22  4953  
+892d5395396d55 Vinod Koul                2021-12-15  4954  		apps_smmu: iommu@15000000 {
+892d5395396d55 Vinod Koul                2021-12-15  4955  			compatible = "qcom,sm8450-smmu-500", "arm,mmu-500";
+892d5395396d55 Vinod Koul                2021-12-15  4956  			reg = <0 0x15000000 0 0x100000>;
+892d5395396d55 Vinod Koul                2021-12-15  4957  			#iommu-cells = <2>;
+7baa00bef33625 Jonathan Marek            2022-01-22  4958  			#global-interrupts = <1>;
+892d5395396d55 Vinod Koul                2021-12-15  4959  			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4960  				     <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4961  				     <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4962  				     <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4963  				     <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4964  				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4965  				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4966  				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4967  				     <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4968  				     <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4969  				     <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4970  				     <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4971  				     <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4972  				     <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4973  				     <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4974  				     <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4975  				     <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4976  				     <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4977  				     <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4978  				     <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4979  				     <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4980  				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4981  				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4982  				     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4983  				     <GIC_SPI 182 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4984  				     <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4985  				     <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4986  				     <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4987  				     <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4988  				     <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4989  				     <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4990  				     <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4991  				     <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4992  				     <GIC_SPI 191 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4993  				     <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4994  				     <GIC_SPI 315 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4995  				     <GIC_SPI 316 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4996  				     <GIC_SPI 317 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4997  				     <GIC_SPI 318 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4998  				     <GIC_SPI 319 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  4999  				     <GIC_SPI 320 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5000  				     <GIC_SPI 321 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5001  				     <GIC_SPI 322 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5002  				     <GIC_SPI 323 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5003  				     <GIC_SPI 324 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5004  				     <GIC_SPI 325 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5005  				     <GIC_SPI 326 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5006  				     <GIC_SPI 327 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5007  				     <GIC_SPI 328 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5008  				     <GIC_SPI 329 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5009  				     <GIC_SPI 330 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5010  				     <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5011  				     <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5012  				     <GIC_SPI 333 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5013  				     <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5014  				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5015  				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5016  				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5017  				     <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5018  				     <GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5019  				     <GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5020  				     <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5021  				     <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5022  				     <GIC_SPI 343 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5023  				     <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5024  				     <GIC_SPI 345 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5025  				     <GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5026  				     <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5027  				     <GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5028  				     <GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5029  				     <GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5030  				     <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5031  				     <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5032  				     <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5033  				     <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5034  				     <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5035  				     <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5036  				     <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5037  				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5038  				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5039  				     <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5040  				     <GIC_SPI 418 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5041  				     <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5042  				     <GIC_SPI 412 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5043  				     <GIC_SPI 421 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5044  				     <GIC_SPI 707 IRQ_TYPE_LEVEL_HIGH>,
+7baa00bef33625 Jonathan Marek            2022-01-22  5045  				     <GIC_SPI 423 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5046  				     <GIC_SPI 424 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5047  				     <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5048  				     <GIC_SPI 690 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5049  				     <GIC_SPI 691 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5050  				     <GIC_SPI 692 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5051  				     <GIC_SPI 693 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5052  				     <GIC_SPI 694 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5053  				     <GIC_SPI 695 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5054  				     <GIC_SPI 696 IRQ_TYPE_LEVEL_HIGH>,
+892d5395396d55 Vinod Koul                2021-12-15  5055  				     <GIC_SPI 697 IRQ_TYPE_LEVEL_HIGH>;
+c9ab6652769d33 Konrad Dybcio             2024-09-19  5056  			dma-coherent;
+892d5395396d55 Vinod Koul                2021-12-15  5057  		};
+892d5395396d55 Vinod Koul                2021-12-15  5058  
+5188049c9b36d7 Vinod Koul                2021-12-15  5059  		intc: interrupt-controller@17100000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5060  			compatible = "arm,gic-v3";
+5188049c9b36d7 Vinod Koul                2021-12-15  5061  			#interrupt-cells = <3>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5062  			interrupt-controller;
+5188049c9b36d7 Vinod Koul                2021-12-15  5063  			#redistributor-regions = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5064  			redistributor-stride = <0x0 0x40000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5065  			reg = <0x0 0x17100000 0x0 0x10000>,     /* GICD */
+5188049c9b36d7 Vinod Koul                2021-12-15  5066  			      <0x0 0x17180000 0x0 0x200000>;    /* GICR * 8 */
+5188049c9b36d7 Vinod Koul                2021-12-15  5067  			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5068  			#address-cells = <2>;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5069  			#size-cells = <2>;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5070  			ranges;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5071  
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5072  			gic_its: msi-controller@17140000 {
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5073  				compatible = "arm,gic-v3-its";
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5074  				reg = <0x0 0x17140000 0x0 0x20000>;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5075  				msi-controller;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5076  				#msi-cells = <1>;
+fc8b0b9b630df6 Dmitry Baryshkov          2022-05-02  5077  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5078  		};
+5188049c9b36d7 Vinod Koul                2021-12-15  5079  
+5188049c9b36d7 Vinod Koul                2021-12-15  5080  		timer@17420000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5081  			compatible = "arm,armv7-timer-mem";
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5082  			#address-cells = <1>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5083  			#size-cells = <1>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5084  			ranges = <0 0 0 0x20000000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5085  			reg = <0x0 0x17420000 0x0 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5086  			clock-frequency = <19200000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5087  
+5188049c9b36d7 Vinod Koul                2021-12-15  5088  			frame@17421000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5089  				frame-number = <0>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5090  				interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5091  					     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5092  				reg = <0x17421000 0x1000>,
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5093  				      <0x17422000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5094  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5095  
+5188049c9b36d7 Vinod Koul                2021-12-15  5096  			frame@17423000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5097  				frame-number = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5098  				interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5099  				reg = <0x17423000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5100  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5101  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5102  
+5188049c9b36d7 Vinod Koul                2021-12-15  5103  			frame@17425000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5104  				frame-number = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5105  				interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5106  				reg = <0x17425000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5107  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5108  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5109  
+5188049c9b36d7 Vinod Koul                2021-12-15  5110  			frame@17427000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5111  				frame-number = <3>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5112  				interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5113  				reg = <0x17427000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5114  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5115  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5116  
+5188049c9b36d7 Vinod Koul                2021-12-15  5117  			frame@17429000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5118  				frame-number = <4>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5119  				interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5120  				reg = <0x17429000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5121  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5122  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5123  
+5188049c9b36d7 Vinod Koul                2021-12-15  5124  			frame@1742b000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5125  				frame-number = <5>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5126  				interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5127  				reg = <0x1742b000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5128  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5129  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5130  
+5188049c9b36d7 Vinod Koul                2021-12-15  5131  			frame@1742d000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5132  				frame-number = <6>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5133  				interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+458ebdbb8e5d59 David Heidelberg          2022-06-26  5134  				reg = <0x1742d000 0x1000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5135  				status = "disabled";
+5188049c9b36d7 Vinod Koul                2021-12-15  5136  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5137  		};
+5188049c9b36d7 Vinod Koul                2021-12-15  5138  
+5188049c9b36d7 Vinod Koul                2021-12-15  5139  		apps_rsc: rsc@17a00000 {
+5188049c9b36d7 Vinod Koul                2021-12-15  5140  			label = "apps_rsc";
+5188049c9b36d7 Vinod Koul                2021-12-15  5141  			compatible = "qcom,rpmh-rsc";
+5188049c9b36d7 Vinod Koul                2021-12-15  5142  			reg = <0x0 0x17a00000 0x0 0x10000>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5143  			      <0x0 0x17a10000 0x0 0x10000>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5144  			      <0x0 0x17a20000 0x0 0x10000>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5145  			      <0x0 0x17a30000 0x0 0x10000>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5146  			reg-names = "drv-0", "drv-1", "drv-2", "drv-3";
+5188049c9b36d7 Vinod Koul                2021-12-15  5147  			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5148  				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5149  				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5150  			qcom,tcs-offset = <0xd00>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5151  			qcom,drv-id = <2>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5152  			qcom,tcs-config = <ACTIVE_TCS  3>, <SLEEP_TCS   2>,
+5188049c9b36d7 Vinod Koul                2021-12-15  5153  					  <WAKE_TCS    2>, <CONTROL_TCS 0>;
+92513494aff8cb Krzysztof Kozlowski       2024-10-22  5154  			power-domains = <&cluster_pd>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5155  
+5188049c9b36d7 Vinod Koul                2021-12-15  5156  			apps_bcm_voter: bcm-voter {
+5188049c9b36d7 Vinod Koul                2021-12-15  5157  				compatible = "qcom,bcm-voter";
+5188049c9b36d7 Vinod Koul                2021-12-15  5158  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5159  
+5188049c9b36d7 Vinod Koul                2021-12-15  5160  			rpmhcc: clock-controller {
+5188049c9b36d7 Vinod Koul                2021-12-15  5161  				compatible = "qcom,sm8450-rpmh-clk";
+5188049c9b36d7 Vinod Koul                2021-12-15  5162  				#clock-cells = <1>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5163  				clock-names = "xo";
+5188049c9b36d7 Vinod Koul                2021-12-15  5164  				clocks = <&xo_board>;
+5188049c9b36d7 Vinod Koul                2021-12-15  5165  			};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5166  
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5167  			rpmhpd: power-controller {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5168  				compatible = "qcom,sm8450-rpmhpd";
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5169  				#power-domain-cells = <1>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5170  				operating-points-v2 = <&rpmhpd_opp_table>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5171  
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5172  				rpmhpd_opp_table: opp-table {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5173  					compatible = "operating-points-v2";
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5174  
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5175  					rpmhpd_opp_ret: opp1 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5176  						opp-level = <RPMH_REGULATOR_LEVEL_RETENTION>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5177  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5178  
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5179  					rpmhpd_opp_min_svs: opp2 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5180  						opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5181  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5182  
+a5ac24ba175908 Dmitry Baryshkov          2022-12-07  5183  					rpmhpd_opp_low_svs_d1: opp3 {
+a5ac24ba175908 Dmitry Baryshkov          2022-12-07  5184  						opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
+a5ac24ba175908 Dmitry Baryshkov          2022-12-07  5185  					};
+a5ac24ba175908 Dmitry Baryshkov          2022-12-07  5186  
+a5ac24ba175908 Dmitry Baryshkov          2022-12-07  5187  					rpmhpd_opp_low_svs: opp4 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5188  						opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5189  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5190  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5191  					rpmhpd_opp_low_svs_l1: opp5 {
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5192  						opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_L1>;
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5193  					};
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5194  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5195  					rpmhpd_opp_svs: opp6 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5196  						opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5197  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5198  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5199  					rpmhpd_opp_svs_l0: opp7 {
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5200  						opp-level = <RPMH_REGULATOR_LEVEL_SVS_L0>;
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5201  					};
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5202  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5203  					rpmhpd_opp_svs_l1: opp8 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5204  						opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5205  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5206  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5207  					rpmhpd_opp_svs_l2: opp9 {
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5208  						opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5209  					};
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5210  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5211  					rpmhpd_opp_nom: opp10 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5212  						opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5213  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5214  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5215  					rpmhpd_opp_nom_l1: opp11 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5216  						opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5217  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5218  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5219  					rpmhpd_opp_nom_l2: opp12 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5220  						opp-level = <RPMH_REGULATOR_LEVEL_NOM_L2>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5221  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5222  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5223  					rpmhpd_opp_turbo: opp13 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5224  						opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5225  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5226  
+ec8bb9c5b1c696 Konrad Dybcio             2023-05-16  5227  					rpmhpd_opp_turbo_l1: opp14 {
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5228  						opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5229  					};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5230  				};
+61eba74e473ed4 Dmitry Baryshkov          2021-12-15  5231  			};
+5188049c9b36d7 Vinod Koul                2021-12-15  5232  		};
+07fa917a335e13 Vinod Koul                2021-12-15  5233  
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5234  		cpufreq_hw: cpufreq@17d91000 {
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5235  			compatible = "qcom,sm8450-cpufreq-epss", "qcom,cpufreq-epss";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5236  			reg = <0 0x17d91000 0 0x1000>,
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5237  			      <0 0x17d92000 0 0x1000>,
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5238  			      <0 0x17d93000 0 0x1000>;
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5239  			reg-names = "freq-domain0", "freq-domain1", "freq-domain2";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5240  			clocks = <&rpmhcc RPMH_CXO_CLK>, <&gcc GCC_GPLL0>;
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5241  			clock-names = "xo", "alternate";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5242  			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>,
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5243  				     <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5244  				     <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5245  			interrupt-names = "dcvsh-irq-0", "dcvsh-irq-1", "dcvsh-irq-2";
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5246  			#freq-domain-cells = <1>;
+8a8845e07b1164 Manivannan Sadhasivam     2022-11-17  5247  			#clock-cells = <1>;
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5248  		};
+015a89f0d317dc Vladimir Zapolskiy        2021-12-15  5249  
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5250  		gem_noc: interconnect@19100000 {
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5251  			compatible = "qcom,sm8450-gem-noc";
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5252  			reg = <0 0x19100000 0 0xbb800>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5253  			#interconnect-cells = <2>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5254  			qcom,bcm-voters = <&apps_bcm_voter>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5255  		};
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5256  
+1dc3e50eb68031 Sai Prakash Ranjan        2022-01-28  5257  		system-cache-controller@19200000 {
+1dc3e50eb68031 Sai Prakash Ranjan        2022-01-28  5258  			compatible = "qcom,sm8450-llcc";
+413c8ecd48f1df Manivannan Sadhasivam     2023-03-14  5259  			reg = <0 0x19200000 0 0x80000>, <0 0x19600000 0 0x80000>,
+413c8ecd48f1df Manivannan Sadhasivam     2023-03-14  5260  			      <0 0x19300000 0 0x80000>, <0 0x19700000 0 0x80000>,
+c566143137aaac Unnathi Chalicheemala     2024-05-31  5261  			      <0 0x19a00000 0 0x80000>, <0 0x19c00000 0 0x80000>;
+413c8ecd48f1df Manivannan Sadhasivam     2023-03-14  5262  			reg-names = "llcc0_base", "llcc1_base", "llcc2_base",
+c566143137aaac Unnathi Chalicheemala     2024-05-31  5263  				    "llcc3_base", "llcc_broadcast_base",
+c566143137aaac Unnathi Chalicheemala     2024-05-31  5264  				    "llcc_broadcast_and_base";
+1dc3e50eb68031 Sai Prakash Ranjan        2022-01-28  5265  			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
+1dc3e50eb68031 Sai Prakash Ranjan        2022-01-28  5266  		};
+1dc3e50eb68031 Sai Prakash Ranjan        2022-01-28  5267  
+07fa917a335e13 Vinod Koul                2021-12-15  5268  		ufs_mem_hc: ufshc@1d84000 {
+07fa917a335e13 Vinod Koul                2021-12-15  5269  			compatible = "qcom,sm8450-ufshc", "qcom,ufshc",
+07fa917a335e13 Vinod Koul                2021-12-15  5270  				     "jedec,ufs-2.0";
+86b0aef435851d Luca Weiss                2023-06-27  5271  			reg = <0 0x01d84000 0 0x3000>;
+07fa917a335e13 Vinod Koul                2021-12-15  5272  			interrupts = <GIC_SPI 265 IRQ_TYPE_LEVEL_HIGH>;
+75390b69d5df49 Dmitry Baryshkov          2023-12-05  5273  			phys = <&ufs_mem_phy>;
+07fa917a335e13 Vinod Koul                2021-12-15  5274  			phy-names = "ufsphy";
+07fa917a335e13 Vinod Koul                2021-12-15  5275  			lanes-per-direction = <2>;
+07fa917a335e13 Vinod Koul                2021-12-15  5276  			#reset-cells = <1>;
+07fa917a335e13 Vinod Koul                2021-12-15  5277  			resets = <&gcc GCC_UFS_PHY_BCR>;
+07fa917a335e13 Vinod Koul                2021-12-15  5278  			reset-names = "rst";
+07fa917a335e13 Vinod Koul                2021-12-15  5279  
+07fa917a335e13 Vinod Koul                2021-12-15  5280  			power-domains = <&gcc UFS_PHY_GDSC>;
+07fa917a335e13 Vinod Koul                2021-12-15  5281  
+07fa917a335e13 Vinod Koul                2021-12-15  5282  			iommus = <&apps_smmu 0xe0 0x0>;
+8ba961d4339c5d Manivannan Sadhasivam     2023-03-07  5283  			dma-coherent;
+07fa917a335e13 Vinod Koul                2021-12-15  5284  
+de9b3d9616078f Vladimir Zapolskiy        2022-03-11  5285  			interconnects = <&aggre1_noc MASTER_UFS_MEM 0 &mc_virt SLAVE_EBI1 0>,
+de9b3d9616078f Vladimir Zapolskiy        2022-03-11  5286  					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_UFS_MEM_CFG 0>;
+aa2d0bf04a3c97 Vinod Koul                2022-02-03  5287  			interconnect-names = "ufs-ddr", "cpu-ufs";
+07fa917a335e13 Vinod Koul                2021-12-15  5288  			clock-names =
+07fa917a335e13 Vinod Koul                2021-12-15  5289  				"core_clk",
+07fa917a335e13 Vinod Koul                2021-12-15  5290  				"bus_aggr_clk",
+07fa917a335e13 Vinod Koul                2021-12-15  5291  				"iface_clk",
+07fa917a335e13 Vinod Koul                2021-12-15  5292  				"core_clk_unipro",
+07fa917a335e13 Vinod Koul                2021-12-15  5293  				"ref_clk",
+07fa917a335e13 Vinod Koul                2021-12-15  5294  				"tx_lane0_sync_clk",
+07fa917a335e13 Vinod Koul                2021-12-15  5295  				"rx_lane0_sync_clk",
+86b0aef435851d Luca Weiss                2023-06-27  5296  				"rx_lane1_sync_clk";
+07fa917a335e13 Vinod Koul                2021-12-15  5297  			clocks =
+07fa917a335e13 Vinod Koul                2021-12-15  5298  				<&gcc GCC_UFS_PHY_AXI_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5299  				<&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5300  				<&gcc GCC_UFS_PHY_AHB_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5301  				<&gcc GCC_UFS_PHY_UNIPRO_CORE_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5302  				<&rpmhcc RPMH_CXO_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5303  				<&gcc GCC_UFS_PHY_TX_SYMBOL_0_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5304  				<&gcc GCC_UFS_PHY_RX_SYMBOL_0_CLK>,
+86b0aef435851d Luca Weiss                2023-06-27  5305  				<&gcc GCC_UFS_PHY_RX_SYMBOL_1_CLK>;
+07fa917a335e13 Vinod Koul                2021-12-15  5306  			freq-table-hz =
+07fa917a335e13 Vinod Koul                2021-12-15  5307  				<75000000 300000000>,
+07fa917a335e13 Vinod Koul                2021-12-15  5308  				<0 0>,
+07fa917a335e13 Vinod Koul                2021-12-15  5309  				<0 0>,
+07fa917a335e13 Vinod Koul                2021-12-15  5310  				<75000000 300000000>,
+07fa917a335e13 Vinod Koul                2021-12-15  5311  				<75000000 300000000>,
+07fa917a335e13 Vinod Koul                2021-12-15  5312  				<0 0>,
+07fa917a335e13 Vinod Koul                2021-12-15  5313  				<0 0>,
+86b0aef435851d Luca Weiss                2023-06-27  5314  				<0 0>;
+86b0aef435851d Luca Weiss                2023-06-27  5315  			qcom,ice = <&ice>;
+86b0aef435851d Luca Weiss                2023-06-27  5316  
+07fa917a335e13 Vinod Koul                2021-12-15  5317  			status = "disabled";
+07fa917a335e13 Vinod Koul                2021-12-15  5318  		};
+07fa917a335e13 Vinod Koul                2021-12-15  5319  
+07fa917a335e13 Vinod Koul                2021-12-15  5320  		ufs_mem_phy: phy@1d87000 {
+07fa917a335e13 Vinod Koul                2021-12-15  5321  			compatible = "qcom,sm8450-qmp-ufs-phy";
+75390b69d5df49 Dmitry Baryshkov          2023-12-05  5322  			reg = <0 0x01d87000 0 0x1000>;
+75390b69d5df49 Dmitry Baryshkov          2023-12-05  5323  
+07fa917a335e13 Vinod Koul                2021-12-15  5324  			clock-names = "ref", "ref_aux", "qref";
+07fa917a335e13 Vinod Koul                2021-12-15  5325  			clocks = <&rpmhcc RPMH_CXO_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5326  				 <&gcc GCC_UFS_PHY_PHY_AUX_CLK>,
+07fa917a335e13 Vinod Koul                2021-12-15  5327  				 <&gcc GCC_UFS_0_CLKREF_EN>;
+07fa917a335e13 Vinod Koul                2021-12-15  5328  
+27d3f57cf5a714 Dmitry Baryshkov          2024-05-01  5329  			power-domains = <&gcc UFS_PHY_GDSC>;
+27d3f57cf5a714 Dmitry Baryshkov          2024-05-01  5330  
+07fa917a335e13 Vinod Koul                2021-12-15  5331  			resets = <&ufs_mem_hc 0>;
+07fa917a335e13 Vinod Koul                2021-12-15  5332  			reset-names = "ufsphy";
+07fa917a335e13 Vinod Koul                2021-12-15  5333  
+86543bc6eec499 Dmitry Baryshkov          2022-11-23  5334  			#clock-cells = <1>;
+07fa917a335e13 Vinod Koul                2021-12-15  5335  			#phy-cells = <0>;
+75390b69d5df49 Dmitry Baryshkov          2023-12-05  5336  
+75390b69d5df49 Dmitry Baryshkov          2023-12-05  5337  			status = "disabled";
+07fa917a335e13 Vinod Koul                2021-12-15  5338  		};
+19fd04fb9247fb Vinod Koul                2021-12-16  5339  
+86b0aef435851d Luca Weiss                2023-06-27  5340  		ice: crypto@1d88000 {
+86b0aef435851d Luca Weiss                2023-06-27  5341  			compatible = "qcom,sm8450-inline-crypto-engine",
+86b0aef435851d Luca Weiss                2023-06-27  5342  				     "qcom,inline-crypto-engine";
+86b0aef435851d Luca Weiss                2023-06-27  5343  			reg = <0 0x01d88000 0 0x8000>;
+86b0aef435851d Luca Weiss                2023-06-27  5344  			clocks = <&gcc GCC_UFS_PHY_ICE_CORE_CLK>;
+86b0aef435851d Luca Weiss                2023-06-27  5345  		};
+86b0aef435851d Luca Weiss                2023-06-27  5346  
+b92b0d2f758205 Neil Armstrong            2023-05-27  5347  		cryptobam: dma-controller@1dc4000 {
+b92b0d2f758205 Neil Armstrong            2023-05-27  5348  			compatible = "qcom,bam-v1.7.4", "qcom,bam-v1.7.0";
+b92b0d2f758205 Neil Armstrong            2023-05-27  5349  			reg = <0 0x01dc4000 0 0x28000>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5350  			interrupts = <GIC_SPI 272 IRQ_TYPE_LEVEL_HIGH>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5351  			#dma-cells = <1>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5352  			qcom,ee = <0>;
+0fe6357229cb15 Stephan Gerhold           2025-02-12  5353  			qcom,num-ees = <4>;
+0fe6357229cb15 Stephan Gerhold           2025-02-12  5354  			num-channels = <16>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5355  			qcom,controlled-remotely;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5356  			iommus = <&apps_smmu 0x584 0x11>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5357  				 <&apps_smmu 0x588 0x0>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5358  				 <&apps_smmu 0x598 0x5>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5359  				 <&apps_smmu 0x59a 0x0>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5360  				 <&apps_smmu 0x59f 0x0>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5361  		};
+b92b0d2f758205 Neil Armstrong            2023-05-27  5362  
+b02966f8689795 Krzysztof Kozlowski       2023-06-16  5363  		crypto: crypto@1dfa000 {
+b92b0d2f758205 Neil Armstrong            2023-05-27  5364  			compatible = "qcom,sm8450-qce", "qcom,sm8150-qce", "qcom,qce";
+b92b0d2f758205 Neil Armstrong            2023-05-27  5365  			reg = <0 0x01dfa000 0 0x6000>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5366  			dmas = <&cryptobam 4>, <&cryptobam 5>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5367  			dma-names = "rx", "tx";
+b92b0d2f758205 Neil Armstrong            2023-05-27  5368  			iommus = <&apps_smmu 0x584 0x11>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5369  				 <&apps_smmu 0x588 0x0>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5370  				 <&apps_smmu 0x598 0x5>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5371  				 <&apps_smmu 0x59a 0x0>,
+b92b0d2f758205 Neil Armstrong            2023-05-27  5372  				 <&apps_smmu 0x59f 0x0>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5373  			interconnects = <&aggre2_noc MASTER_CRYPTO 0 &mc_virt SLAVE_EBI1 0>;
+b92b0d2f758205 Neil Armstrong            2023-05-27  5374  			interconnect-names = "memory";
+b92b0d2f758205 Neil Armstrong            2023-05-27  5375  		};
+b92b0d2f758205 Neil Armstrong            2023-05-27  5376  
+4b660ee5d0e9b9 Krzysztof Kozlowski       2022-12-04  5377  		sdhc_2: mmc@8804000 {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5378  			compatible = "qcom,sm8450-sdhci", "qcom,sdhci-msm-v5";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5379  			reg = <0 0x08804000 0 0x1000>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5380  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5381  			interrupts = <GIC_SPI 207 IRQ_TYPE_LEVEL_HIGH>,
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5382  				     <GIC_SPI 223 IRQ_TYPE_LEVEL_HIGH>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5383  			interrupt-names = "hc_irq", "pwr_irq";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5384  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5385  			clocks = <&gcc GCC_SDCC2_AHB_CLK>,
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5386  				 <&gcc GCC_SDCC2_APPS_CLK>,
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5387  				 <&rpmhcc RPMH_CXO_CLK>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5388  			clock-names = "iface", "core", "xo";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5389  			resets = <&gcc GCC_SDCC2_BCR>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5390  			interconnects = <&aggre2_noc MASTER_SDCC_2 0 &mc_virt SLAVE_EBI1 0>,
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5391  					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_SDCC_2 0>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5392  			interconnect-names = "sdhc-ddr","cpu-sdhc";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5393  			iommus = <&apps_smmu 0x4a0 0x0>;
+8ed9de79680f1d Rohit Agarwal             2023-07-20  5394  			power-domains = <&rpmhpd RPMHPD_CX>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5395  			operating-points-v2 = <&sdhc2_opp_table>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5396  			bus-width = <4>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5397  			dma-coherent;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5398  
+9d561dc4e5cc31 Krzysztof Kozlowski       2022-10-26  5399  			/* Forbid SDR104/SDR50 - broken hw! */
+9d561dc4e5cc31 Krzysztof Kozlowski       2022-10-26  5400  			sdhci-caps-mask = <0x3 0x0>;
+9d561dc4e5cc31 Krzysztof Kozlowski       2022-10-26  5401  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5402  			status = "disabled";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5403  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5404  			sdhc2_opp_table: opp-table {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5405  				compatible = "operating-points-v2";
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5406  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5407  				opp-100000000 {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5408  					opp-hz = /bits/ 64 <100000000>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5409  					required-opps = <&rpmhpd_opp_low_svs>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5410  				};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5411  
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5412  				opp-202000000 {
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5413  					opp-hz = /bits/ 64 <202000000>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5414  					required-opps = <&rpmhpd_opp_svs_l1>;
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5415  				};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5416  			};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5417  		};
+20e8f1ee8d2729 Konrad Dybcio             2022-07-14  5418  
+19fd04fb9247fb Vinod Koul                2021-12-16 @5419  		usb_1: usb@a6f8800 {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
---zONNN0iVlsYVANUE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=config
-
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/powerpc 6.15.0-rc1 Kernel Configuration
-#
-CONFIG_CC_VERSION_TEXT="powerpc64-linux-gcc (GCC) 15.1.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=150100
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=24400
-CONFIG_LD_IS_BFD=y
-CONFIG_LD_VERSION=24400
-CONFIG_LLD_VERSION=0
-CONFIG_RUSTC_VERSION=0
-CONFIG_RUSTC_LLVM_VERSION=0
-CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
-CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y
-CONFIG_TOOLS_SUPPORT_RELR=y
-CONFIG_CC_HAS_ASM_INLINE=y
-CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
-CONFIG_CC_HAS_COUNTED_BY=y
-CONFIG_CC_HAS_MULTIDIMENSIONAL_NONSTRING=y
-CONFIG_LD_CAN_USE_KEEP_IN_OVERLAY=y
-CONFIG_PAHOLE_VERSION=130
-CONFIG_CONSTRUCTORS=y
-CONFIG_IRQ_WORK=y
-CONFIG_BUILDTIME_TABLE_SORT=y
-CONFIG_THREAD_INFO_IN_TASK=y
-
-#
-# General setup
-#
-CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_COMPILE_TEST=y
-# CONFIG_WERROR is not set
-CONFIG_LOCALVERSION=""
-CONFIG_BUILD_SALT=""
-CONFIG_HAVE_KERNEL_GZIP=y
-CONFIG_HAVE_KERNEL_XZ=y
-CONFIG_KERNEL_GZIP=y
-# CONFIG_KERNEL_XZ is not set
-CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="(none)"
-# CONFIG_SYSVIPC is not set
-# CONFIG_WATCH_QUEUE is not set
-CONFIG_CROSS_MEMORY_ATTACH=y
-# CONFIG_USELIB is not set
-CONFIG_HAVE_ARCH_AUDITSYSCALL=y
-
-#
-# IRQ subsystem
-#
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_IRQ_SHOW_LEVEL=y
-CONFIG_GENERIC_IRQ_MIGRATION=y
-CONFIG_GENERIC_IRQ_INJECTION=y
-CONFIG_HARDIRQS_SW_RESEND=y
-CONFIG_GENERIC_IRQ_CHIP=y
-CONFIG_IRQ_DOMAIN=y
-CONFIG_IRQ_SIM=y
-CONFIG_IRQ_DOMAIN_HIERARCHY=y
-CONFIG_IRQ_FASTEOI_HIERARCHY_HANDLERS=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_IRQ_FORCED_THREADING=y
-CONFIG_SPARSE_IRQ=y
-CONFIG_GENERIC_IRQ_DEBUGFS=y
-# end of IRQ subsystem
-
-CONFIG_GENERIC_TIME_VSYSCALL=y
-CONFIG_GENERIC_CLOCKEVENTS=y
-CONFIG_ARCH_HAS_TICK_BROADCAST=y
-CONFIG_GENERIC_CLOCKEVENTS_BROADCAST=y
-CONFIG_GENERIC_CMOS_UPDATE=y
-CONFIG_CONTEXT_TRACKING=y
-CONFIG_CONTEXT_TRACKING_IDLE=y
-
-#
-# Timers subsystem
-#
-CONFIG_TICK_ONESHOT=y
-CONFIG_HZ_PERIODIC=y
-# CONFIG_NO_HZ_IDLE is not set
-# CONFIG_NO_HZ_FULL is not set
-CONFIG_NO_HZ=y
-CONFIG_HIGH_RES_TIMERS=y
-# end of Timers subsystem
-
-CONFIG_HAVE_EBPF_JIT=y
-CONFIG_ARCH_WANT_DEFAULT_BPF_JIT=y
-
-#
-# BPF subsystem
-#
-# CONFIG_BPF_SYSCALL is not set
-# end of BPF subsystem
-
-CONFIG_PREEMPT_NONE_BUILD=y
-CONFIG_ARCH_HAS_PREEMPT_LAZY=y
-CONFIG_PREEMPT_NONE=y
-# CONFIG_PREEMPT_VOLUNTARY is not set
-# CONFIG_PREEMPT is not set
-# CONFIG_PREEMPT_LAZY is not set
-CONFIG_PREEMPT_COUNT=y
-
-#
-# CPU/Task time and stats accounting
-#
-CONFIG_VIRT_CPU_ACCOUNTING=y
-# CONFIG_TICK_CPU_ACCOUNTING is not set
-CONFIG_VIRT_CPU_ACCOUNTING_NATIVE=y
-# CONFIG_VIRT_CPU_ACCOUNTING_GEN is not set
-CONFIG_BSD_PROCESS_ACCT=y
-# CONFIG_BSD_PROCESS_ACCT_V3 is not set
-CONFIG_PSI=y
-# CONFIG_PSI_DEFAULT_DISABLED is not set
-# end of CPU/Task time and stats accounting
-
-# CONFIG_CPU_ISOLATION is not set
-
-#
-# RCU Subsystem
-#
-CONFIG_TREE_RCU=y
-CONFIG_RCU_EXPERT=y
-CONFIG_TREE_SRCU=y
-CONFIG_NEED_SRCU_NMI_SAFE=y
-CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_NEED_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-# CONFIG_FORCE_TASKS_RUDE_RCU is not set
-CONFIG_FORCE_TASKS_TRACE_RCU=y
-CONFIG_TASKS_TRACE_RCU=y
-CONFIG_RCU_STALL_COMMON=y
-CONFIG_RCU_NEED_SEGCBLIST=y
-CONFIG_RCU_FANOUT=32
-CONFIG_RCU_FANOUT_LEAF=2
-CONFIG_RCU_NOCB_CPU=y
-# CONFIG_RCU_NOCB_CPU_DEFAULT_ALL is not set
-# CONFIG_TASKS_TRACE_RCU_READ_MB is not set
-CONFIG_RCU_LAZY=y
-CONFIG_RCU_LAZY_DEFAULT_OFF=y
-# CONFIG_RCU_DOUBLE_CHECK_CB_TIME is not set
-# end of RCU Subsystem
-
-# CONFIG_IKCONFIG is not set
-# CONFIG_IKHEADERS is not set
-CONFIG_LOG_BUF_SHIFT=17
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-# CONFIG_PRINTK_INDEX is not set
-
-#
-# Scheduler features
-#
-# CONFIG_UCLAMP_TASK is not set
-# end of Scheduler features
-
-CONFIG_ARCH_SUPPORTS_NUMA_BALANCING=y
-CONFIG_CC_HAS_INT128=y
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
-CONFIG_GCC10_NO_ARRAY_BOUNDS=y
-CONFIG_CC_NO_ARRAY_BOUNDS=y
-CONFIG_GCC_NO_STRINGOP_OVERFLOW=y
-CONFIG_CC_NO_STRINGOP_OVERFLOW=y
-# CONFIG_NUMA_BALANCING is not set
-# CONFIG_CGROUPS is not set
-CONFIG_NAMESPACES=y
-# CONFIG_UTS_NS is not set
-CONFIG_TIME_NS=y
-CONFIG_USER_NS=y
-# CONFIG_PID_NS is not set
-# CONFIG_SCHED_AUTOGROUP is not set
-CONFIG_RELAY=y
-# CONFIG_BLK_DEV_INITRD is not set
-CONFIG_BOOT_CONFIG=y
-# CONFIG_BOOT_CONFIG_FORCE is not set
-CONFIG_BOOT_CONFIG_EMBED=y
-CONFIG_BOOT_CONFIG_EMBED_FILE=""
-# CONFIG_INITRAMFS_PRESERVE_MTIME is not set
-CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
-# CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-CONFIG_LD_ORPHAN_WARN=y
-CONFIG_LD_ORPHAN_WARN_LEVEL="warn"
-CONFIG_SYSCTL_EXCEPTION_TRACE=y
-CONFIG_HAVE_PCSPKR_PLATFORM=y
-CONFIG_EXPERT=y
-CONFIG_MULTIUSER=y
-# CONFIG_SGETMASK_SYSCALL is not set
-CONFIG_SYSFS_SYSCALL=y
-# CONFIG_FHANDLE is not set
-# CONFIG_POSIX_TIMERS is not set
-CONFIG_PRINTK=y
-# CONFIG_BUG is not set
-CONFIG_PCSPKR_PLATFORM=y
-# CONFIG_BASE_SMALL is not set
-CONFIG_FUTEX=y
-CONFIG_FUTEX_PI=y
-CONFIG_EPOLL=y
-# CONFIG_SIGNALFD is not set
-CONFIG_TIMERFD=y
-CONFIG_EVENTFD=y
-CONFIG_SHMEM=y
-# CONFIG_AIO is not set
-# CONFIG_IO_URING is not set
-# CONFIG_ADVISE_SYSCALLS is not set
-CONFIG_MEMBARRIER=y
-CONFIG_KCMP=y
-CONFIG_RSEQ=y
-CONFIG_DEBUG_RSEQ=y
-CONFIG_CACHESTAT_SYSCALL=y
-# CONFIG_PC104 is not set
-CONFIG_KALLSYMS=y
-CONFIG_KALLSYMS_SELFTEST=y
-CONFIG_KALLSYMS_ALL=y
-CONFIG_ARCH_HAS_MEMBARRIER_CALLBACKS=y
-CONFIG_ARCH_HAS_MEMBARRIER_SYNC_CORE=y
-CONFIG_HAVE_PERF_EVENTS=y
-
-#
-# Kernel Performance Events And Counters
-#
-# CONFIG_PERF_EVENTS is not set
-# end of Kernel Performance Events And Counters
-
-# CONFIG_PROFILING is not set
-CONFIG_TRACEPOINTS=y
-
-#
-# Kexec and crash features
-#
-# CONFIG_KEXEC is not set
-# CONFIG_KEXEC_FILE is not set
-# end of Kexec and crash features
-# end of General setup
-
-CONFIG_PPC64=y
-
-#
-# Processor support
-#
-CONFIG_PPC_BOOK3S_64=y
-# CONFIG_PPC_BOOK3E_64 is not set
-CONFIG_PPC_THP=y
-# CONFIG_POWERPC64_CPU is not set
-# CONFIG_CELL_CPU is not set
-# CONFIG_PPC_970_CPU is not set
-# CONFIG_POWER6_CPU is not set
-# CONFIG_POWER7_CPU is not set
-# CONFIG_POWER8_CPU is not set
-# CONFIG_POWER9_CPU is not set
-# CONFIG_POWER10_CPU is not set
-CONFIG_TOOLCHAIN_DEFAULT_CPU=y
-CONFIG_PPC_BOOK3S=y
-CONFIG_PPC_FPU_REGS=y
-CONFIG_PPC_FPU=y
-# CONFIG_ALTIVEC is not set
-CONFIG_PPC_64S_HASH_MMU=y
-CONFIG_PPC_RADIX_MMU=y
-CONFIG_PPC_RADIX_MMU_DEFAULT=y
-CONFIG_PPC_RADIX_BROADCAST_TLBIE=y
-# CONFIG_PPC_KUEP is not set
-CONFIG_PPC_KUAP=y
-# CONFIG_PPC_KUAP_DEBUG is not set
-CONFIG_PPC_PKEY=y
-CONFIG_PPC_HAVE_PMU_SUPPORT=y
-# CONFIG_PMU_SYSFS is not set
-CONFIG_FORCE_SMP=y
-CONFIG_SMP=y
-CONFIG_NR_CPUS=4
-CONFIG_PPC_DOORBELL=y
-# end of Processor support
-
-CONFIG_VDSO32=y
-CONFIG_CPU_BIG_ENDIAN=y
-# CONFIG_CPU_LITTLE_ENDIAN is not set
-CONFIG_PPC64_ELF_ABI_V2=y
-CONFIG_CC_HAS_ELFV2=y
-CONFIG_CC_HAS_PREFIXED=y
-CONFIG_CC_HAS_PCREL=y
-CONFIG_64BIT=y
-CONFIG_MMU=y
-CONFIG_ARCH_MMAP_RND_BITS_MAX=33
-CONFIG_ARCH_MMAP_RND_BITS_MIN=18
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MAX=17
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS_MIN=11
-CONFIG_NR_IRQS=512
-CONFIG_NMI_IPI=y
-CONFIG_STACKTRACE_SUPPORT=y
-CONFIG_LOCKDEP_SUPPORT=y
-CONFIG_GENERIC_HWEIGHT=y
-CONFIG_PPC=y
-CONFIG_PPC_BARRIER_NOSPEC=y
-CONFIG_EARLY_PRINTK=y
-CONFIG_PANIC_TIMEOUT=180
-CONFIG_COMPAT=y
-CONFIG_SCHED_OMIT_FRAME_POINTER=y
-CONFIG_ARCH_MAY_HAVE_PC_FDC=y
-CONFIG_PPC_UDBG_16550=y
-CONFIG_GENERIC_TBSYNC=y
-CONFIG_AUDIT_ARCH=y
-CONFIG_EPAPR_BOOT=y
-CONFIG_ARCH_HIBERNATION_POSSIBLE=y
-CONFIG_ARCH_SUSPEND_POSSIBLE=y
-CONFIG_ARCH_SUSPEND_NONZERO_CPU=y
-CONFIG_ARCH_HAS_ADD_PAGES=y
-CONFIG_ARCH_SUPPORTS_UPROBES=y
-CONFIG_PPC_DAWR=y
-CONFIG_PGTABLE_LEVELS=4
-CONFIG_PPC_MSI_BITMAP=y
-CONFIG_PPC_XICS=y
-CONFIG_PPC_ICP_NATIVE=y
-CONFIG_PPC_ICP_HV=y
-CONFIG_PPC_ICS_RTAS=y
-CONFIG_PPC_XIVE=y
-CONFIG_PPC_XIVE_NATIVE=y
-CONFIG_PPC_XIVE_SPAPR=y
-
-#
-# Platform support
-#
-CONFIG_PPC_POWERNV=y
-# CONFIG_OPAL_PRD is not set
-# CONFIG_SCOM_DEBUGFS is not set
-CONFIG_PPC_PSERIES=y
-CONFIG_PPC_SPLPAR=y
-# CONFIG_DTL is not set
-CONFIG_PSERIES_ENERGY=y
-CONFIG_IO_EVENT_IRQ=y
-# CONFIG_LPARCFG is not set
-# CONFIG_PPC_SMLPAR is not set
-CONFIG_HTMDUMP=m
-CONFIG_IBMVIO=y
-# CONFIG_IBMEBUS is not set
-# CONFIG_PPC_SVM is not set
-CONFIG_PPC_PMAC=y
-CONFIG_PPC_PMAC64=y
-# CONFIG_PPC_PASEMI is not set
-# CONFIG_PPC_PS3 is not set
-# CONFIG_PPC_MICROWATT is not set
-# CONFIG_KVM_GUEST is not set
-CONFIG_EPAPR_PARAVIRT=y
-CONFIG_PPC_HASH_MMU_NATIVE=y
-# CONFIG_PPC_OF_BOOT_TRAMPOLINE is not set
-CONFIG_PPC_DT_CPU_FTRS=y
-CONFIG_PPC_SMP_MUXED_IPI=y
-CONFIG_MPIC=y
-# CONFIG_MPIC_MSGR is not set
-CONFIG_PPC_I8259=y
-CONFIG_U3_DART=y
-CONFIG_PPC_RTAS=y
-CONFIG_RTAS_ERROR_LOGGING=y
-CONFIG_PPC_RTAS_DAEMON=y
-CONFIG_MPIC_U3_HT_IRQS=y
-CONFIG_EEH=y
-CONFIG_PPC_970_NAP=y
-CONFIG_PPC_P7_NAP=y
-CONFIG_PPC_BOOK3S_IDLE=y
-CONFIG_PPC_INDIRECT_PIO=y
-
-#
-# CPU Frequency scaling
-#
-CONFIG_CPU_FREQ=y
-CONFIG_CPU_FREQ_GOV_ATTR_SET=y
-CONFIG_CPU_FREQ_GOV_COMMON=y
-# CONFIG_CPU_FREQ_STAT is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE is not set
-# CONFIG_CPU_FREQ_DEFAULT_GOV_ONDEMAND is not set
-CONFIG_CPU_FREQ_DEFAULT_GOV_CONSERVATIVE=y
-# CONFIG_CPU_FREQ_DEFAULT_GOV_SCHEDUTIL is not set
-CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_CPU_FREQ_GOV_POWERSAVE=y
-# CONFIG_CPU_FREQ_GOV_USERSPACE is not set
-CONFIG_CPU_FREQ_GOV_ONDEMAND=m
-CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
-CONFIG_CPU_FREQ_GOV_SCHEDUTIL=y
-
-#
-# CPU frequency scaling drivers
-#
-# CONFIG_CPUFREQ_DT is not set
-# CONFIG_CPUFREQ_DT_PLATDEV is not set
-# CONFIG_ARM_AIROHA_SOC_CPUFREQ is not set
-# CONFIG_ARM_APPLE_SOC_CPUFREQ is not set
-# CONFIG_ARM_SCPI_CPUFREQ is not set
-CONFIG_ARM_BRCMSTB_AVS_CPUFREQ=y
-CONFIG_ARM_MEDIATEK_CPUFREQ=y
-# CONFIG_ARM_MEDIATEK_CPUFREQ_HW is not set
-CONFIG_ARM_OMAP2PLUS_CPUFREQ=y
-CONFIG_ARM_QCOM_CPUFREQ_HW=y
-CONFIG_ARM_RASPBERRYPI_CPUFREQ=m
-# CONFIG_ARM_S3C64XX_CPUFREQ is not set
-CONFIG_ARM_S5PV210_CPUFREQ=y
-CONFIG_ARM_SCMI_CPUFREQ=y
-CONFIG_ARM_SPEAR_CPUFREQ=y
-# CONFIG_ARM_TI_CPUFREQ is not set
-CONFIG_ARM_PXA2xx_CPUFREQ=m
-# CONFIG_CPU_FREQ_PMAC64 is not set
-CONFIG_POWERNV_CPUFREQ=y
-CONFIG_QORIQ_CPUFREQ=y
-# end of CPU Frequency scaling
-
-#
-# CPUIdle driver
-#
-
-#
-# CPU Idle
-#
-# CONFIG_CPU_IDLE is not set
-# end of CPU Idle
-# end of CPUIdle driver
-
-CONFIG_QE_GPIO=y
-CONFIG_GEN_RTC=y
-# end of Platform support
-
-#
-# Kernel options
-#
-# CONFIG_HZ_100 is not set
-CONFIG_HZ_250=y
-# CONFIG_HZ_300 is not set
-# CONFIG_HZ_1000 is not set
-CONFIG_HZ=250
-CONFIG_SCHED_HRTICK=y
-# CONFIG_PPC_TRANSACTIONAL_MEM is not set
-CONFIG_LD_HEAD_STUB_CATCH=y
-CONFIG_HOTPLUG_CPU=y
-# CONFIG_PPC_QUEUED_SPINLOCKS is not set
-CONFIG_ARCH_CPU_PROBE_RELEASE=y
-CONFIG_PPC64_SUPPORTS_MEMORY_FAILURE=y
-CONFIG_ARCH_SUPPORTS_KEXEC=y
-CONFIG_ARCH_SUPPORTS_KEXEC_FILE=y
-CONFIG_ARCH_SUPPORTS_KEXEC_PURGATORY=y
-CONFIG_PPC64_BIG_ENDIAN_ELF_ABI_V2=y
-# CONFIG_RELOCATABLE is not set
-CONFIG_ARCH_SUPPORTS_CRASH_DUMP=y
-CONFIG_ARCH_DEFAULT_CRASH_DUMP=y
-CONFIG_ARCH_SUPPORTS_CRASH_HOTPLUG=y
-# CONFIG_PRESERVE_FA_DUMP is not set
-# CONFIG_OPAL_CORE is not set
-CONFIG_IRQ_ALL_CPUS=y
-CONFIG_NUMA=y
-CONFIG_NODES_SHIFT=8
-CONFIG_HAVE_MEMORYLESS_NODES=y
-CONFIG_ARCH_SELECT_MEMORY_MODEL=y
-CONFIG_ARCH_SPARSEMEM_ENABLE=y
-CONFIG_ARCH_SPARSEMEM_DEFAULT=y
-CONFIG_ILLEGAL_POINTER_VALUE=0x5deadbeef0000000
-CONFIG_PPC_4K_PAGES=y
-# CONFIG_PPC_64K_PAGES is not set
-CONFIG_THREAD_SHIFT=13
-CONFIG_DATA_SHIFT=24
-CONFIG_ARCH_FORCE_MAX_ORDER=12
-# CONFIG_PPC_PROT_SAO_LPAR is not set
-# CONFIG_SCHED_SMT is not set
-CONFIG_PPC_DENORMALISATION=y
-CONFIG_CMDLINE=""
-CONFIG_EXTRA_TARGETS=""
-CONFIG_ARCH_WANTS_FREEZER_CONTROL=y
-# CONFIG_SUSPEND is not set
-CONFIG_PM=y
-# CONFIG_PM_DEBUG is not set
-CONFIG_PM_CLK=y
-CONFIG_PM_GENERIC_DOMAINS=y
-CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
-CONFIG_PM_GENERIC_DOMAINS_OF=y
-CONFIG_ENERGY_MODEL=y
-CONFIG_PPC_MEM_KEYS=y
-CONFIG_ARCH_PKEY_BITS=5
-# end of Kernel options
-
-CONFIG_ISA_DMA_API=y
-
-#
-# Bus options
-#
-CONFIG_GENERIC_ISA_DMA=y
-# CONFIG_FSL_LBC is not set
-# end of Bus options
-
-CONFIG_PAGE_OFFSET=0xc000000000000000
-CONFIG_KERNEL_START=0xc000000000000000
-CONFIG_PHYSICAL_START=0x00000000
-CONFIG_VIRTUALIZATION=y
-# CONFIG_KVM_BOOK3S_64 is not set
-CONFIG_CPU_MITIGATIONS=y
-CONFIG_ARCH_HAS_DMA_OPS=y
-
-#
-# General architecture-dependent options
-#
-CONFIG_HOTPLUG_SMT=y
-CONFIG_SMT_NUM_THREADS_DYNAMIC=y
-CONFIG_KPROBES=y
-CONFIG_JUMP_LABEL=y
-# CONFIG_STATIC_KEYS_SELFTEST is not set
-CONFIG_OPTPROBES=y
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
-CONFIG_ARCH_USE_BUILTIN_BSWAP=y
-CONFIG_KRETPROBES=y
-CONFIG_KRETPROBE_ON_RETHOOK=y
-CONFIG_HAVE_IOREMAP_PROT=y
-CONFIG_HAVE_KPROBES=y
-CONFIG_HAVE_KRETPROBES=y
-CONFIG_HAVE_OPTPROBES=y
-CONFIG_HAVE_KPROBES_ON_FTRACE=y
-CONFIG_HAVE_FUNCTION_ERROR_INJECTION=y
-CONFIG_HAVE_NMI=y
-CONFIG_TRACE_IRQFLAGS_SUPPORT=y
-CONFIG_HAVE_ARCH_TRACEHOOK=y
-CONFIG_GENERIC_SMP_IDLE_THREAD=y
-CONFIG_GENERIC_IDLE_POLL_SETUP=y
-CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
-CONFIG_ARCH_HAS_SET_MEMORY=y
-CONFIG_HAVE_ASM_MODVERSIONS=y
-CONFIG_HAVE_REGS_AND_STACK_ACCESS_API=y
-CONFIG_HAVE_RSEQ=y
-CONFIG_HAVE_FUNCTION_ARG_ACCESS_API=y
-CONFIG_HAVE_PERF_EVENTS_NMI=y
-CONFIG_HAVE_HARDLOCKUP_DETECTOR_ARCH=y
-CONFIG_HAVE_PERF_REGS=y
-CONFIG_HAVE_PERF_USER_STACK_DUMP=y
-CONFIG_HAVE_ARCH_JUMP_LABEL=y
-CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE=y
-CONFIG_MMU_GATHER_TABLE_FREE=y
-CONFIG_MMU_GATHER_RCU_TABLE_FREE=y
-CONFIG_MMU_GATHER_PAGE_SIZE=y
-CONFIG_MMU_GATHER_MERGE_VMAS=y
-CONFIG_ARCH_WANT_IRQS_OFF_ACTIVATE_MM=y
-CONFIG_MMU_LAZY_TLB_SHOOTDOWN=y
-CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG=y
-CONFIG_ARCH_WEAK_RELEASE_ACQUIRE=y
-CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
-CONFIG_ARCH_WANT_COMPAT_IPC_PARSE_VERSION=y
-CONFIG_ARCH_WANT_OLD_COMPAT_IPC=y
-CONFIG_HAVE_ARCH_SECCOMP=y
-CONFIG_HAVE_ARCH_SECCOMP_FILTER=y
-# CONFIG_SECCOMP is not set
-CONFIG_HAVE_STACKPROTECTOR=y
-# CONFIG_STACKPROTECTOR is not set
-CONFIG_LTO_NONE=y
-CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES=y
-CONFIG_HAVE_CONTEXT_TRACKING_USER=y
-CONFIG_HAVE_VIRT_CPU_ACCOUNTING=y
-CONFIG_ARCH_HAS_SCALED_CPUTIME=y
-CONFIG_HAVE_VIRT_CPU_ACCOUNTING_GEN=y
-CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
-CONFIG_HAVE_MOVE_PUD=y
-CONFIG_HAVE_MOVE_PMD=y
-CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
-CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD=y
-CONFIG_HAVE_ARCH_HUGE_VMAP=y
-CONFIG_HAVE_ARCH_HUGE_VMALLOC=y
-CONFIG_HAVE_ARCH_SOFT_DIRTY=y
-CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
-CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_HAVE_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_SOFTIRQ_ON_OWN_STACK=y
-CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
-CONFIG_HAVE_ARCH_MMAP_RND_BITS=y
-CONFIG_ARCH_MMAP_RND_BITS=18
-CONFIG_HAVE_ARCH_MMAP_RND_COMPAT_BITS=y
-CONFIG_ARCH_MMAP_RND_COMPAT_BITS=11
-CONFIG_HAVE_PAGE_SIZE_4KB=y
-CONFIG_PAGE_SIZE_4KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_PAGE_SHIFT=12
-CONFIG_ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT=y
-CONFIG_HAVE_RELIABLE_STACKTRACE=y
-CONFIG_HAVE_ARCH_NVRAM_OPS=y
-CONFIG_CLONE_BACKWARDS=y
-CONFIG_OLD_SIGSUSPEND=y
-CONFIG_COMPAT_OLD_SIGACTION=y
-# CONFIG_COMPAT_32BIT_TIME is not set
-CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
-# CONFIG_RANDOMIZE_KSTACK_OFFSET is not set
-CONFIG_ARCH_OPTIONAL_KERNEL_RWX=y
-CONFIG_ARCH_OPTIONAL_KERNEL_RWX_DEFAULT=y
-CONFIG_ARCH_HAS_STRICT_KERNEL_RWX=y
-CONFIG_STRICT_KERNEL_RWX=y
-CONFIG_ARCH_HAS_STRICT_MODULE_RWX=y
-CONFIG_STRICT_MODULE_RWX=y
-CONFIG_ARCH_HAS_PHYS_TO_DMA=y
-# CONFIG_LOCK_EVENT_COUNTS is not set
-CONFIG_ARCH_HAS_VDSO_ARCH_DATA=y
-CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
-CONFIG_ARCH_SUPPORTS_DEBUG_PAGEALLOC=y
-CONFIG_ARCH_HAS_KERNEL_FPU_SUPPORT=y
-
-#
-# GCOV-based kernel profiling
-#
-# CONFIG_GCOV_KERNEL is not set
-CONFIG_ARCH_HAS_GCOV_PROFILE_ALL=y
-# end of GCOV-based kernel profiling
-
-CONFIG_HAVE_GCC_PLUGINS=y
-CONFIG_FUNCTION_ALIGNMENT_4B=y
-CONFIG_FUNCTION_ALIGNMENT=4
-CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT=y
-CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT=y
-# end of General architecture-dependent options
-
-CONFIG_RT_MUTEXES=y
-CONFIG_MODULES=y
-# CONFIG_MODULE_DEBUG is not set
-CONFIG_MODULE_FORCE_LOAD=y
-# CONFIG_MODULE_UNLOAD is not set
-CONFIG_MODULE_SRCVERSION_ALL=y
-# CONFIG_MODULE_SIG is not set
-CONFIG_MODULE_COMPRESS=y
-CONFIG_MODULE_COMPRESS_GZIP=y
-# CONFIG_MODULE_COMPRESS_XZ is not set
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-# CONFIG_MODULE_COMPRESS_ALL is not set
-# CONFIG_MODULE_DECOMPRESS is not set
-# CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
-CONFIG_MODPROBE_PATH="/sbin/modprobe"
-# CONFIG_TRIM_UNUSED_KSYMS is not set
-CONFIG_MODULES_TREE_LOOKUP=y
-# CONFIG_BLOCK is not set
-CONFIG_PADATA=y
-CONFIG_ASN1=y
-CONFIG_UNINLINE_SPIN_UNLOCK=y
-CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=y
-CONFIG_MUTEX_SPIN_ON_OWNER=y
-CONFIG_RWSEM_SPIN_ON_OWNER=y
-CONFIG_LOCK_SPIN_ON_OWNER=y
-CONFIG_ARCH_HAS_MMIOWB=y
-CONFIG_MMIOWB=y
-CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE=y
-
-#
-# Executable file formats
-#
-CONFIG_BINFMT_ELF=y
-CONFIG_COMPAT_BINFMT_ELF=y
-CONFIG_ELFCORE=y
-CONFIG_BINFMT_SCRIPT=m
-CONFIG_BINFMT_MISC=y
-# CONFIG_COREDUMP is not set
-# end of Executable file formats
-
-#
-# Memory Management options
-#
-
-#
-# Slab allocator options
-#
-CONFIG_SLUB=y
-CONFIG_KVFREE_RCU_BATCHED=y
-CONFIG_SLAB_MERGE_DEFAULT=y
-# CONFIG_SLAB_FREELIST_RANDOM is not set
-CONFIG_SLAB_FREELIST_HARDENED=y
-CONFIG_SLAB_BUCKETS=y
-# CONFIG_SLUB_STATS is not set
-CONFIG_SLUB_CPU_PARTIAL=y
-CONFIG_RANDOM_KMALLOC_CACHES=y
-# end of Slab allocator options
-
-# CONFIG_SHUFFLE_PAGE_ALLOCATOR is not set
-# CONFIG_COMPAT_BRK is not set
-CONFIG_SELECT_MEMORY_MODEL=y
-CONFIG_SPARSEMEM_MANUAL=y
-CONFIG_SPARSEMEM=y
-CONFIG_SPARSEMEM_EXTREME=y
-CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-CONFIG_SPARSEMEM_VMEMMAP=y
-CONFIG_ARCH_WANT_OPTIMIZE_DAX_VMEMMAP=y
-CONFIG_HAVE_GUP_FAST=y
-CONFIG_ARCH_KEEP_MEMBLOCK=y
-CONFIG_MEMORY_ISOLATION=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG=y
-CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE=y
-# CONFIG_MEMORY_HOTPLUG is not set
-CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
-CONFIG_SPLIT_PTE_PTLOCKS=y
-CONFIG_ARCH_ENABLE_SPLIT_PMD_PTLOCK=y
-CONFIG_SPLIT_PMD_PTLOCKS=y
-# CONFIG_COMPACTION is not set
-CONFIG_PAGE_REPORTING=y
-CONFIG_MIGRATION=y
-CONFIG_CONTIG_ALLOC=y
-CONFIG_PCP_BATCH_SCALE_MAX=5
-CONFIG_PHYS_ADDR_T_64BIT=y
-CONFIG_MMU_NOTIFIER=y
-# CONFIG_KSM is not set
-CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-CONFIG_ARCH_SUPPORTS_MEMORY_FAILURE=y
-# CONFIG_MEMORY_FAILURE is not set
-# CONFIG_TRANSPARENT_HUGEPAGE is not set
-CONFIG_PAGE_MAPCOUNT=y
-CONFIG_NEED_PER_CPU_EMBED_FIRST_CHUNK=y
-CONFIG_NEED_PER_CPU_PAGE_FIRST_CHUNK=y
-CONFIG_USE_PERCPU_NUMA_NODE_ID=y
-CONFIG_HAVE_SETUP_PER_CPU_AREA=y
-CONFIG_CMA=y
-# CONFIG_CMA_DEBUGFS is not set
-# CONFIG_CMA_SYSFS is not set
-CONFIG_CMA_AREAS=8
-CONFIG_GENERIC_EARLY_IOREMAP=y
-# CONFIG_DEFERRED_STRUCT_PAGE_INIT is not set
-CONFIG_PAGE_IDLE_FLAG=y
-# CONFIG_IDLE_PAGE_TRACKING is not set
-CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
-CONFIG_ARCH_HAS_PTE_DEVMAP=y
-CONFIG_HMM_MIRROR=y
-CONFIG_GET_FREE_REGION=y
-CONFIG_VMAP_PFN=y
-CONFIG_ARCH_USES_HIGH_VMA_FLAGS=y
-CONFIG_ARCH_HAS_PKEYS=y
-CONFIG_VM_EVENT_COUNTERS=y
-CONFIG_PERCPU_STATS=y
-# CONFIG_GUP_TEST is not set
-# CONFIG_DMAPOOL_TEST is not set
-CONFIG_ARCH_HAS_PTE_SPECIAL=y
-CONFIG_MEMFD_CREATE=y
-CONFIG_USERFAULTFD=y
-# CONFIG_LRU_GEN is not set
-CONFIG_ARCH_SUPPORTS_PER_VMA_LOCK=y
-CONFIG_PER_VMA_LOCK=y
-CONFIG_LOCK_MM_AND_FIND_VMA=y
-CONFIG_EXECMEM=y
-
-#
-# Data Access Monitoring
-#
-CONFIG_DAMON=y
-# CONFIG_DAMON_VADDR is not set
-CONFIG_DAMON_PADDR=y
-# CONFIG_DAMON_SYSFS is not set
-# CONFIG_DAMON_RECLAIM is not set
-CONFIG_DAMON_LRU_SORT=y
-# end of Data Access Monitoring
-# end of Memory Management options
-
-# CONFIG_NET is not set
-
-#
-# Device Drivers
-#
-CONFIG_HAVE_PCI=y
-CONFIG_FORCE_PCI=y
-CONFIG_GENERIC_PCI_IOMAP=y
-CONFIG_PCI=y
-CONFIG_PCI_DOMAINS=y
-CONFIG_PCI_SYSCALL=y
-CONFIG_PCIEPORTBUS=y
-# CONFIG_PCIEAER is not set
-# CONFIG_PCIEASPM is not set
-CONFIG_PCIE_PME=y
-CONFIG_PCIE_PTM=y
-CONFIG_PCI_MSI=y
-CONFIG_PCI_MSI_ARCH_FALLBACKS=y
-CONFIG_PCI_QUIRKS=y
-CONFIG_PCI_DEBUG=y
-# CONFIG_PCI_REALLOC_ENABLE_AUTO is not set
-CONFIG_PCI_STUB=m
-CONFIG_PCI_PF_STUB=m
-CONFIG_PCI_ATS=y
-CONFIG_PCI_DOE=y
-CONFIG_PCI_ECAM=y
-CONFIG_PCI_IOV=y
-# CONFIG_PCI_PRI is not set
-CONFIG_PCI_PASID=y
-# CONFIG_PCIE_TPH is not set
-CONFIG_PCI_DYNAMIC_OF_NODES=y
-# CONFIG_PCIE_BUS_TUNE_OFF is not set
-CONFIG_PCIE_BUS_DEFAULT=y
-# CONFIG_PCIE_BUS_SAFE is not set
-# CONFIG_PCIE_BUS_PERFORMANCE is not set
-# CONFIG_PCIE_BUS_PEER2PEER is not set
-# CONFIG_VGA_ARB is not set
-# CONFIG_HOTPLUG_PCI is not set
-
-#
-# PCI controller drivers
-#
-# CONFIG_PCI_AARDVARK is not set
-# CONFIG_PCIE_ALTERA is not set
-# CONFIG_PCIE_APPLE is not set
-CONFIG_PCI_VERSATILE=y
-CONFIG_PCIE_BRCMSTB=m
-CONFIG_PCI_HOST_THUNDER_PEM=y
-# CONFIG_PCI_HOST_THUNDER_ECAM is not set
-CONFIG_PCI_FTPCI100=y
-CONFIG_PCI_HOST_COMMON=y
-CONFIG_PCI_HOST_GENERIC=m
-# CONFIG_PCI_LOONGSON is not set
-CONFIG_PCIE_MEDIATEK=m
-# CONFIG_PCIE_MEDIATEK_GEN3 is not set
-# CONFIG_PCIE_MT7621 is not set
-# CONFIG_PCI_TEGRA is not set
-CONFIG_PCIE_RCAR_HOST=y
-CONFIG_PCIE_RCAR_EP=y
-CONFIG_PCIE_ROCKCHIP=y
-# CONFIG_PCIE_ROCKCHIP_HOST is not set
-CONFIG_PCIE_ROCKCHIP_EP=y
-CONFIG_PCI_V3_SEMI=y
-# CONFIG_PCI_XGENE is not set
-CONFIG_PCIE_XILINX=y
-CONFIG_PCIE_XILINX_DMA_PL=y
-# CONFIG_PCIE_XILINX_NWL is not set
-# CONFIG_PCIE_XILINX_CPM is not set
-
-#
-# Cadence-based PCIe controllers
-#
-CONFIG_PCIE_CADENCE=y
-CONFIG_PCIE_CADENCE_EP=y
-CONFIG_PCIE_CADENCE_PLAT=y
-# CONFIG_PCIE_CADENCE_PLAT_HOST is not set
-CONFIG_PCIE_CADENCE_PLAT_EP=y
-CONFIG_PCI_J721E=y
-# CONFIG_PCI_J721E_HOST is not set
-CONFIG_PCI_J721E_EP=y
-# end of Cadence-based PCIe controllers
-
-#
-# DesignWare-based PCIe controllers
-#
-CONFIG_PCIE_DW=y
-CONFIG_PCIE_DW_DEBUGFS=y
-CONFIG_PCIE_DW_HOST=y
-CONFIG_PCIE_DW_EP=y
-# CONFIG_PCIE_AL is not set
-# CONFIG_PCIE_AMD_MDB is not set
-CONFIG_PCI_MESON=y
-# CONFIG_PCIE_ARTPEC6_HOST is not set
-# CONFIG_PCIE_ARTPEC6_EP is not set
-CONFIG_PCIE_BT1=y
-CONFIG_PCI_IMX6=y
-# CONFIG_PCI_IMX6_HOST is not set
-CONFIG_PCI_IMX6_EP=y
-CONFIG_PCI_LAYERSCAPE=y
-CONFIG_PCI_LAYERSCAPE_EP=y
-CONFIG_PCI_HISI=y
-CONFIG_PCIE_KIRIN=y
-# CONFIG_PCIE_HISI_STB is not set
-# CONFIG_PCIE_INTEL_GW is not set
-CONFIG_PCIE_KEEMBAY=y
-CONFIG_PCIE_KEEMBAY_HOST=y
-CONFIG_PCIE_KEEMBAY_EP=y
-CONFIG_PCIE_ARMADA_8K=y
-CONFIG_PCIE_TEGRA194=m
-CONFIG_PCIE_TEGRA194_HOST=m
-# CONFIG_PCIE_TEGRA194_EP is not set
-# CONFIG_PCIE_DW_PLAT_HOST is not set
-# CONFIG_PCIE_DW_PLAT_EP is not set
-CONFIG_PCIE_QCOM_COMMON=y
-CONFIG_PCIE_QCOM=y
-CONFIG_PCIE_QCOM_EP=y
-CONFIG_PCIE_RCAR_GEN4=m
-# CONFIG_PCIE_RCAR_GEN4_HOST is not set
-CONFIG_PCIE_RCAR_GEN4_EP=m
-# CONFIG_PCIE_ROCKCHIP_DW_HOST is not set
-# CONFIG_PCIE_ROCKCHIP_DW_EP is not set
-CONFIG_PCI_EXYNOS=y
-CONFIG_PCIE_FU740=y
-# CONFIG_PCIE_UNIPHIER is not set
-CONFIG_PCIE_UNIPHIER_EP=y
-# CONFIG_PCIE_SPEAR13XX is not set
-CONFIG_PCI_DRA7XX=y
-CONFIG_PCI_DRA7XX_HOST=y
-CONFIG_PCI_DRA7XX_EP=y
-CONFIG_PCI_KEYSTONE=y
-CONFIG_PCI_KEYSTONE_HOST=y
-CONFIG_PCI_KEYSTONE_EP=y
-# CONFIG_PCIE_VISCONTI_HOST is not set
-# end of DesignWare-based PCIe controllers
-
-#
-# Mobiveil-based PCIe controllers
-#
-CONFIG_PCIE_MOBIVEIL=y
-CONFIG_PCIE_MOBIVEIL_HOST=y
-CONFIG_PCIE_LAYERSCAPE_GEN4=y
-CONFIG_PCIE_MOBIVEIL_PLAT=y
-# end of Mobiveil-based PCIe controllers
-
-#
-# PLDA-based PCIe controllers
-#
-CONFIG_PCIE_PLDA_HOST=y
-CONFIG_PCIE_MICROCHIP_HOST=m
-CONFIG_PCIE_STARFIVE_HOST=y
-# end of PLDA-based PCIe controllers
-# end of PCI controller drivers
-
-#
-# PCI Endpoint
-#
-CONFIG_PCI_ENDPOINT=y
-CONFIG_PCI_ENDPOINT_CONFIGFS=y
-# CONFIG_PCI_EPF_TEST is not set
-CONFIG_PCI_EPF_NTB=m
-# CONFIG_PCI_EPF_VNTB is not set
-CONFIG_PCI_EPF_MHI=m
-# end of PCI Endpoint
-
-#
-# PCI switch controller drivers
-#
-CONFIG_PCI_SW_SWITCHTEC=y
-# end of PCI switch controller drivers
-
-# CONFIG_PCI_PWRCTL_SLOT is not set
-CONFIG_CXL_BUS=m
-CONFIG_CXL_PCI=m
-# CONFIG_CXL_MEM_RAW_COMMANDS is not set
-CONFIG_CXL_MEM=m
-# CONFIG_CXL_FEATURES is not set
-CONFIG_CXL_PORT=m
-CONFIG_CXL_REGION=y
-# CONFIG_CXL_REGION_INVALIDATION_TEST is not set
-# CONFIG_PCCARD is not set
-CONFIG_RAPIDIO=y
-# CONFIG_RAPIDIO_TSI721 is not set
-CONFIG_RAPIDIO_DISC_TIMEOUT=30
-# CONFIG_RAPIDIO_ENABLE_RX_TX_PORTS is not set
-CONFIG_RAPIDIO_DEBUG=y
-CONFIG_RAPIDIO_ENUM_BASIC=y
-CONFIG_RAPIDIO_CHMAN=m
-# CONFIG_RAPIDIO_MPORT_CDEV is not set
-
-#
-# RapidIO Switch drivers
-#
-# CONFIG_RAPIDIO_CPS_XX is not set
-CONFIG_RAPIDIO_CPS_GEN2=y
-# CONFIG_RAPIDIO_RXS_GEN3 is not set
-# end of RapidIO Switch drivers
-
-#
-# Generic Driver Options
-#
-CONFIG_AUXILIARY_BUS=y
-CONFIG_UEVENT_HELPER=y
-CONFIG_UEVENT_HELPER_PATH=""
-CONFIG_DEVTMPFS=y
-# CONFIG_DEVTMPFS_MOUNT is not set
-# CONFIG_DEVTMPFS_SAFE is not set
-# CONFIG_STANDALONE is not set
-CONFIG_PREVENT_FIRMWARE_BUILD=y
-
-#
-# Firmware loader
-#
-CONFIG_FW_LOADER=y
-# CONFIG_FW_LOADER_DEBUG is not set
-CONFIG_FW_LOADER_PAGED_BUF=y
-CONFIG_FW_LOADER_SYSFS=y
-CONFIG_EXTRA_FIRMWARE=""
-# CONFIG_FW_LOADER_USER_HELPER is not set
-CONFIG_FW_LOADER_COMPRESS=y
-CONFIG_FW_LOADER_COMPRESS_XZ=y
-# CONFIG_FW_LOADER_COMPRESS_ZSTD is not set
-CONFIG_FW_UPLOAD=y
-# end of Firmware loader
-
-CONFIG_WANT_DEV_COREDUMP=y
-# CONFIG_ALLOW_DEV_COREDUMP is not set
-# CONFIG_DEBUG_DRIVER is not set
-CONFIG_DEBUG_DEVRES=y
-CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
-CONFIG_TEST_ASYNC_DRIVER_PROBE=m
-CONFIG_GENERIC_CPU_AUTOPROBE=y
-CONFIG_GENERIC_CPU_VULNERABILITIES=y
-CONFIG_SOC_BUS=y
-CONFIG_REGMAP=y
-CONFIG_REGMAP_I2C=m
-CONFIG_REGMAP_SPI=y
-CONFIG_REGMAP_SPMI=m
-CONFIG_REGMAP_W1=m
-CONFIG_REGMAP_MMIO=y
-CONFIG_REGMAP_IRQ=y
-CONFIG_REGMAP_I3C=m
-CONFIG_REGMAP_SPI_AVMM=y
-CONFIG_DMA_SHARED_BUFFER=y
-# CONFIG_DMA_FENCE_TRACE is not set
-CONFIG_FW_DEVLINK_SYNC_STATE_TIMEOUT=y
-# end of Generic Driver Options
-
-#
-# Bus devices
-#
-CONFIG_ARM_INTEGRATOR_LM=y
-# CONFIG_BT1_APB is not set
-# CONFIG_BT1_AXI is not set
-CONFIG_MOXTET=m
-CONFIG_HISILICON_LPC=y
-# CONFIG_IMX_WEIM is not set
-# CONFIG_INTEL_IXP4XX_EB is not set
-CONFIG_QCOM_EBI2=y
-CONFIG_STM32_FIREWALL=y
-# CONFIG_FSL_MC_BUS is not set
-CONFIG_MHI_BUS=m
-CONFIG_MHI_BUS_DEBUG=y
-# CONFIG_MHI_BUS_PCI_GENERIC is not set
-CONFIG_MHI_BUS_EP=m
-# end of Bus devices
-
-#
-# Cache Drivers
-#
-# end of Cache Drivers
-
-#
-# Firmware Drivers
-#
-
-#
-# ARM System Control and Management Interface Protocol
-#
-CONFIG_ARM_SCMI_PROTOCOL=y
-CONFIG_ARM_SCMI_NEED_DEBUGFS=y
-CONFIG_ARM_SCMI_RAW_MODE_SUPPORT=y
-CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX=y
-# CONFIG_ARM_SCMI_DEBUG_COUNTERS is not set
-
-#
-# SCMI Transport Drivers
-#
-CONFIG_ARM_SCMI_HAVE_TRANSPORT=y
-CONFIG_ARM_SCMI_HAVE_SHMEM=y
-CONFIG_ARM_SCMI_HAVE_MSG=y
-CONFIG_ARM_SCMI_TRANSPORT_MAILBOX=y
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO=m
-CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_VERSION1_COMPLIANCE=y
-# CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_ATOMIC_ENABLE is not set
-# end of SCMI Transport Drivers
-
-#
-# ARM SCMI NXP i.MX Vendor Protocols
-#
-CONFIG_IMX_SCMI_BBM_EXT=m
-CONFIG_IMX_SCMI_MISC_EXT=m
-# end of ARM SCMI NXP i.MX Vendor Protocols
-
-CONFIG_ARM_SCMI_POWER_CONTROL=m
-# end of ARM System Control and Management Interface Protocol
-
-CONFIG_ARM_SCPI_PROTOCOL=y
-CONFIG_FIRMWARE_MEMMAP=y
-# CONFIG_FW_CFG_SYSFS is not set
-# CONFIG_TH1520_AON_PROTOCOL is not set
-CONFIG_TI_SCI_PROTOCOL=m
-CONFIG_TURRIS_MOX_RWTM=m
-CONFIG_BCM47XX_NVRAM=y
-CONFIG_BCM47XX_SPROM=y
-# CONFIG_TEE_BNXT_FW is not set
-CONFIG_FW_CS_DSP=m
-CONFIG_GOOGLE_FIRMWARE=y
-CONFIG_GOOGLE_CBMEM=m
-CONFIG_GOOGLE_COREBOOT_TABLE=m
-CONFIG_GOOGLE_MEMCONSOLE=m
-# CONFIG_GOOGLE_FRAMEBUFFER_COREBOOT is not set
-CONFIG_GOOGLE_MEMCONSOLE_COREBOOT=m
-# CONFIG_GOOGLE_VPD is not set
-CONFIG_IMX_SCMI_MISC_DRV=y
-
-#
-# Qualcomm firmware drivers
-#
-CONFIG_QCOM_SCM=y
-CONFIG_QCOM_TZMEM=y
-CONFIG_QCOM_TZMEM_MODE_GENERIC=y
-# CONFIG_QCOM_TZMEM_MODE_SHMBRIDGE is not set
-CONFIG_QCOM_QSEECOM=y
-# end of Qualcomm firmware drivers
-
-# CONFIG_EXYNOS_ACPM_PROTOCOL is not set
-
-#
-# Tegra firmware driver
-#
-# end of Tegra firmware driver
-# end of Firmware Drivers
-
-# CONFIG_FWCTL is not set
-CONFIG_GNSS=m
-CONFIG_MTD=y
-CONFIG_MTD_TESTS=m
-
-#
-# Partition parsers
-#
-CONFIG_MTD_BCM63XX_PARTS=y
-CONFIG_MTD_BRCM_U_BOOT=y
-# CONFIG_MTD_CMDLINE_PARTS is not set
-CONFIG_MTD_OF_PARTS=m
-# CONFIG_MTD_OF_PARTS_BCM4908 is not set
-CONFIG_MTD_OF_PARTS_LINKSYS_NS=y
-CONFIG_MTD_PARSER_IMAGETAG=y
-CONFIG_MTD_PARSER_TPLINK_SAFELOADER=y
-# CONFIG_MTD_PARSER_TRX is not set
-CONFIG_MTD_SHARPSL_PARTS=m
-# CONFIG_MTD_REDBOOT_PARTS is not set
-# end of Partition parsers
-
-#
-# User Modules And Translation Layers
-#
-# CONFIG_MTD_OOPS is not set
-# CONFIG_MTD_PARTITIONED_MASTER is not set
-
-#
-# RAM/ROM/Flash chip drivers
-#
-CONFIG_MTD_CFI=y
-CONFIG_MTD_JEDECPROBE=m
-CONFIG_MTD_GEN_PROBE=y
-CONFIG_MTD_CFI_ADV_OPTIONS=y
-# CONFIG_MTD_CFI_NOSWAP is not set
-CONFIG_MTD_CFI_BE_BYTE_SWAP=y
-# CONFIG_MTD_CFI_LE_BYTE_SWAP is not set
-# CONFIG_MTD_CFI_GEOMETRY is not set
-CONFIG_MTD_MAP_BANK_WIDTH_1=y
-CONFIG_MTD_MAP_BANK_WIDTH_2=y
-CONFIG_MTD_MAP_BANK_WIDTH_4=y
-CONFIG_MTD_CFI_I1=y
-CONFIG_MTD_CFI_I2=y
-# CONFIG_MTD_OTP is not set
-CONFIG_MTD_CFI_INTELEXT=m
-CONFIG_MTD_CFI_AMDSTD=y
-CONFIG_MTD_CFI_STAA=m
-CONFIG_MTD_CFI_UTIL=y
-CONFIG_MTD_RAM=y
-CONFIG_MTD_ROM=m
-# CONFIG_MTD_ABSENT is not set
-# end of RAM/ROM/Flash chip drivers
-
-#
-# Mapping drivers for chip access
-#
-CONFIG_MTD_COMPLEX_MAPPINGS=y
-CONFIG_MTD_PHYSMAP=m
-# CONFIG_MTD_PHYSMAP_COMPAT is not set
-# CONFIG_MTD_PHYSMAP_OF is not set
-# CONFIG_MTD_PHYSMAP_GPIO_ADDR is not set
-CONFIG_MTD_SC520CDP=y
-CONFIG_MTD_NETSC520=m
-# CONFIG_MTD_TS5500 is not set
-# CONFIG_MTD_PCI is not set
-CONFIG_MTD_PLATRAM=y
-# end of Mapping drivers for chip access
-
-#
-# Self-contained MTD device drivers
-#
-CONFIG_MTD_PMC551=m
-CONFIG_MTD_PMC551_BUGFIX=y
-# CONFIG_MTD_PMC551_DEBUG is not set
-CONFIG_MTD_DATAFLASH=y
-# CONFIG_MTD_DATAFLASH_WRITE_VERIFY is not set
-# CONFIG_MTD_DATAFLASH_OTP is not set
-CONFIG_MTD_MCHP23K256=m
-CONFIG_MTD_MCHP48L640=m
-CONFIG_MTD_SPEAR_SMI=m
-# CONFIG_MTD_SST25L is not set
-CONFIG_MTD_SLRAM=m
-CONFIG_MTD_PHRAM=y
-CONFIG_MTD_MTDRAM=m
-CONFIG_MTDRAM_TOTAL_SIZE=4096
-CONFIG_MTDRAM_ERASE_SIZE=128
-# CONFIG_MTD_POWERNV_FLASH is not set
-
-#
-# Disk-On-Chip Device Drivers
-#
-CONFIG_MTD_DOCG3=m
-CONFIG_BCH_CONST_M=14
-CONFIG_BCH_CONST_T=4
-# end of Self-contained MTD device drivers
-
-#
-# NAND
-#
-CONFIG_MTD_NAND_CORE=y
-CONFIG_MTD_ONENAND=y
-# CONFIG_MTD_ONENAND_VERIFY_WRITE is not set
-# CONFIG_MTD_ONENAND_GENERIC is not set
-CONFIG_MTD_ONENAND_SAMSUNG=m
-# CONFIG_MTD_ONENAND_OTP is not set
-# CONFIG_MTD_ONENAND_2X_PROGRAM is not set
-# CONFIG_MTD_RAW_NAND is not set
-# CONFIG_MTD_SPI_NAND is not set
-
-#
-# ECC engine support
-#
-CONFIG_MTD_NAND_ECC=y
-# CONFIG_MTD_NAND_ECC_SW_HAMMING is not set
-CONFIG_MTD_NAND_ECC_SW_BCH=y
-# CONFIG_MTD_NAND_ECC_MXIC is not set
-# CONFIG_MTD_NAND_ECC_MEDIATEK is not set
-# end of ECC engine support
-# end of NAND
-
-#
-# LPDDR & LPDDR2 PCM memory drivers
-#
-CONFIG_MTD_LPDDR=m
-CONFIG_MTD_QINFO_PROBE=m
-# end of LPDDR & LPDDR2 PCM memory drivers
-
-CONFIG_MTD_SPI_NOR=y
-# CONFIG_MTD_SPI_NOR_USE_4K_SECTORS is not set
-CONFIG_MTD_SPI_NOR_SWP_DISABLE=y
-# CONFIG_MTD_SPI_NOR_SWP_DISABLE_ON_VOLATILE is not set
-# CONFIG_MTD_SPI_NOR_SWP_KEEP is not set
-# CONFIG_SPI_HISI_SFC is not set
-# CONFIG_SPI_NXP_SPIFI is not set
-CONFIG_MTD_UBI=m
-CONFIG_MTD_UBI_WL_THRESHOLD=4096
-CONFIG_MTD_UBI_BEB_LIMIT=20
-# CONFIG_MTD_UBI_FASTMAP is not set
-CONFIG_MTD_UBI_GLUEBI=m
-CONFIG_MTD_UBI_NVMEM=m
-CONFIG_MTD_HYPERBUS=m
-# CONFIG_HBMC_AM654 is not set
-CONFIG_DTC=y
-CONFIG_OF=y
-CONFIG_OF_UNITTEST=y
-# CONFIG_OF_ALL_DTBS is not set
-CONFIG_OF_FLATTREE=y
-CONFIG_OF_EARLY_FLATTREE=y
-CONFIG_OF_KOBJ=y
-CONFIG_OF_DYNAMIC=y
-CONFIG_OF_ADDRESS=y
-CONFIG_OF_IRQ=y
-CONFIG_OF_RESERVED_MEM=y
-CONFIG_OF_RESOLVE=y
-# CONFIG_OF_OVERLAY is not set
-CONFIG_ARCH_MIGHT_HAVE_PC_PARPORT=y
-# CONFIG_PARPORT is not set
-
-#
-# NVME Support
-#
-# end of NVME Support
-
-#
-# Misc devices
-#
-CONFIG_SENSORS_LIS3LV02D=m
-# CONFIG_AD525X_DPOT is not set
-# CONFIG_DUMMY_IRQ is not set
-# CONFIG_IBMVMC is not set
-# CONFIG_PHANTOM is not set
-CONFIG_TIFM_CORE=y
-CONFIG_TIFM_7XX1=m
-CONFIG_ICS932S401=m
-# CONFIG_ATMEL_SSC is not set
-# CONFIG_ENCLOSURE_SERVICES is not set
-CONFIG_SMPRO_ERRMON=m
-CONFIG_SMPRO_MISC=m
-# CONFIG_GEHC_ACHC is not set
-# CONFIG_HI6421V600_IRQ is not set
-# CONFIG_HP_ILO is not set
-CONFIG_QCOM_COINCELL=y
-# CONFIG_QCOM_FASTRPC is not set
-# CONFIG_APDS9802ALS is not set
-# CONFIG_ISL29003 is not set
-CONFIG_ISL29020=m
-# CONFIG_SENSORS_TSL2550 is not set
-CONFIG_SENSORS_BH1770=m
-CONFIG_SENSORS_APDS990X=m
-# CONFIG_HMC6352 is not set
-CONFIG_DS1682=m
-CONFIG_PCH_PHUB=y
-# CONFIG_LATTICE_ECP3_CONFIG is not set
-CONFIG_SRAM=y
-CONFIG_DW_XDATA_PCIE=m
-CONFIG_PCI_ENDPOINT_TEST=m
-CONFIG_XILINX_SDFEC=y
-CONFIG_MISC_RTSX=m
-CONFIG_OPEN_DICE=y
-CONFIG_NTSYNC=y
-CONFIG_VCPU_STALL_DETECTOR=m
-# CONFIG_TPS6594_ESM is not set
-CONFIG_TPS6594_PFSM=y
-CONFIG_NSM=m
-# CONFIG_MARVELL_CN10K_DPI is not set
-CONFIG_C2PORT=y
-
-#
-# EEPROM support
-#
-# CONFIG_EEPROM_AT24 is not set
-# CONFIG_EEPROM_AT25 is not set
-CONFIG_EEPROM_MAX6875=m
-CONFIG_EEPROM_93CX6=m
-# CONFIG_EEPROM_93XX46 is not set
-# CONFIG_EEPROM_IDT_89HPESX is not set
-# CONFIG_EEPROM_EE1004 is not set
-# end of EEPROM support
-
-CONFIG_CB710_CORE=m
-CONFIG_CB710_DEBUG=y
-CONFIG_CB710_DEBUG_ASSUMPTIONS=y
-CONFIG_SENSORS_LIS3_SPI=m
-CONFIG_SENSORS_LIS3_I2C=m
-
-#
-# Altera FPGA firmware download module (requires I2C)
-#
-CONFIG_ALTERA_STAPL=m
-# CONFIG_GENWQE is not set
-# CONFIG_ECHO is not set
-CONFIG_BCM_VK=y
-# CONFIG_BCM_VK_TTY is not set
-CONFIG_MISC_ALCOR_PCI=y
-CONFIG_MISC_RTSX_PCI=m
-CONFIG_UACCE=m
-# CONFIG_PVPANIC is not set
-# CONFIG_GP_PCI1XXXX is not set
-# CONFIG_KEBA_CP500 is not set
-CONFIG_KEBA_LAN9252=y
-# end of Misc devices
-
-#
-# SCSI device support
-#
-# end of SCSI device support
-
-CONFIG_FUSION=y
-CONFIG_FUSION_MAX_SGE=128
-CONFIG_FUSION_LOGGING=y
-
-#
-# IEEE 1394 (FireWire) support
-#
-CONFIG_FIREWIRE=m
-# CONFIG_FIREWIRE_OHCI is not set
-CONFIG_FIREWIRE_NOSY=m
-# end of IEEE 1394 (FireWire) support
-
-CONFIG_MACINTOSH_DRIVERS=y
-CONFIG_ADB_PMU=y
-CONFIG_ADB_PMU_EVENT=y
-# CONFIG_ADB_PMU_LED is not set
-# CONFIG_PMAC_SMU is not set
-# CONFIG_WINDFARM is not set
-CONFIG_PMAC_RACKMETER=m
-
-#
-# Input device support
-#
-CONFIG_INPUT=y
-CONFIG_INPUT_LEDS=m
-CONFIG_INPUT_FF_MEMLESS=m
-CONFIG_INPUT_SPARSEKMAP=y
-CONFIG_INPUT_MATRIXKMAP=y
-
-#
-# Userland interfaces
-#
-# CONFIG_INPUT_MOUSEDEV is not set
-# CONFIG_INPUT_JOYDEV is not set
-# CONFIG_INPUT_EVDEV is not set
-
-#
-# Input Device Drivers
-#
-CONFIG_INPUT_KEYBOARD=y
-# CONFIG_KEYBOARD_ADP5588 is not set
-CONFIG_KEYBOARD_ADP5589=m
-# CONFIG_KEYBOARD_ATKBD is not set
-# CONFIG_KEYBOARD_QT1050 is not set
-CONFIG_KEYBOARD_QT1070=m
-# CONFIG_KEYBOARD_QT2160 is not set
-# CONFIG_KEYBOARD_CLPS711X is not set
-# CONFIG_KEYBOARD_DLINK_DIR685 is not set
-CONFIG_KEYBOARD_LKKBD=y
-CONFIG_KEYBOARD_EP93XX=y
-# CONFIG_KEYBOARD_GPIO is not set
-CONFIG_KEYBOARD_GPIO_POLLED=m
-CONFIG_KEYBOARD_TCA6416=m
-CONFIG_KEYBOARD_TCA8418=m
-CONFIG_KEYBOARD_MATRIX=m
-# CONFIG_KEYBOARD_LM8323 is not set
-CONFIG_KEYBOARD_LM8333=m
-CONFIG_KEYBOARD_LPC32XX=m
-CONFIG_KEYBOARD_MAX7359=m
-CONFIG_KEYBOARD_MPR121=m
-# CONFIG_KEYBOARD_SNVS_PWRKEY is not set
-CONFIG_KEYBOARD_IMX=y
-CONFIG_KEYBOARD_IMX_BBM_SCMI=m
-CONFIG_KEYBOARD_NEWTON=y
-CONFIG_KEYBOARD_TEGRA=m
-CONFIG_KEYBOARD_OPENCORES=y
-CONFIG_KEYBOARD_PINEPHONE=m
-# CONFIG_KEYBOARD_PXA27x is not set
-CONFIG_KEYBOARD_PMIC8XXX=m
-CONFIG_KEYBOARD_SAMSUNG=m
-# CONFIG_KEYBOARD_GOLDFISH_EVENTS is not set
-# CONFIG_KEYBOARD_STOWAWAY is not set
-CONFIG_KEYBOARD_ST_KEYSCAN=m
-CONFIG_KEYBOARD_SUNKBD=m
-CONFIG_KEYBOARD_SH_KEYSC=y
-CONFIG_KEYBOARD_STMPE=m
-CONFIG_KEYBOARD_IQS62X=m
-# CONFIG_KEYBOARD_OMAP4 is not set
-# CONFIG_KEYBOARD_SPEAR is not set
-# CONFIG_KEYBOARD_TM2_TOUCHKEY is not set
-CONFIG_KEYBOARD_XTKBD=y
-CONFIG_KEYBOARD_CAP11XX=m
-# CONFIG_KEYBOARD_BCM is not set
-CONFIG_KEYBOARD_MT6779=y
-CONFIG_KEYBOARD_MTK_PMIC=m
-# CONFIG_KEYBOARD_CYPRESS_SF is not set
-# CONFIG_INPUT_MOUSE is not set
-CONFIG_INPUT_JOYSTICK=y
-CONFIG_JOYSTICK_ANALOG=y
-CONFIG_JOYSTICK_A3D=y
-# CONFIG_JOYSTICK_ADI is not set
-CONFIG_JOYSTICK_COBRA=y
-# CONFIG_JOYSTICK_GF2K is not set
-CONFIG_JOYSTICK_GRIP=y
-# CONFIG_JOYSTICK_GRIP_MP is not set
-CONFIG_JOYSTICK_GUILLEMOT=y
-CONFIG_JOYSTICK_INTERACT=y
-# CONFIG_JOYSTICK_SIDEWINDER is not set
-CONFIG_JOYSTICK_TMDC=y
-CONFIG_JOYSTICK_IFORCE=y
-CONFIG_JOYSTICK_IFORCE_232=m
-# CONFIG_JOYSTICK_WARRIOR is not set
-# CONFIG_JOYSTICK_MAGELLAN is not set
-CONFIG_JOYSTICK_SPACEORB=y
-CONFIG_JOYSTICK_SPACEBALL=y
-CONFIG_JOYSTICK_STINGER=y
-CONFIG_JOYSTICK_TWIDJOY=m
-CONFIG_JOYSTICK_ZHENHUA=m
-# CONFIG_JOYSTICK_AS5011 is not set
-CONFIG_JOYSTICK_JOYDUMP=y
-CONFIG_JOYSTICK_PSXPAD_SPI=m
-CONFIG_JOYSTICK_PSXPAD_SPI_FF=y
-# CONFIG_JOYSTICK_QWIIC is not set
-# CONFIG_JOYSTICK_FSIA6B is not set
-CONFIG_JOYSTICK_SENSEHAT=m
-# CONFIG_JOYSTICK_SEESAW is not set
-# CONFIG_INPUT_TABLET is not set
-# CONFIG_INPUT_TOUCHSCREEN is not set
-# CONFIG_INPUT_MISC is not set
-# CONFIG_RMI4_CORE is not set
-
-#
-# Hardware I/O ports
-#
-CONFIG_SERIO=y
-CONFIG_ARCH_MIGHT_HAVE_PC_SERIO=y
-CONFIG_SERIO_I8042=y
-CONFIG_SERIO_SERPORT=m
-CONFIG_SERIO_PCIPS2=y
-CONFIG_SERIO_LIBPS2=m
-# CONFIG_SERIO_RAW is not set
-CONFIG_SERIO_XILINX_XPS_PS2=y
-CONFIG_SERIO_ALTERA_PS2=y
-# CONFIG_SERIO_PS2MULT is not set
-CONFIG_SERIO_ARC_PS2=y
-CONFIG_SERIO_APBPS2=y
-CONFIG_SERIO_OLPC_APSP=m
-# CONFIG_SERIO_SUN4I_PS2 is not set
-CONFIG_SERIO_GPIO_PS2=m
-CONFIG_USERIO=y
-CONFIG_GAMEPORT=y
-CONFIG_GAMEPORT_EMU10K1=m
-# CONFIG_GAMEPORT_FM801 is not set
-# end of Hardware I/O ports
-# end of Input device support
-
-#
-# Character devices
-#
-CONFIG_TTY=y
-# CONFIG_VT is not set
-CONFIG_UNIX98_PTYS=y
-CONFIG_LEGACY_PTYS=y
-CONFIG_LEGACY_PTY_COUNT=256
-CONFIG_LEGACY_TIOCSTI=y
-# CONFIG_LDISC_AUTOLOAD is not set
-
-#
-# Serial drivers
-#
-CONFIG_SERIAL_EARLYCON=y
-CONFIG_SERIAL_8250=y
-# CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
-# CONFIG_SERIAL_8250_16550A_VARIANTS is not set
-CONFIG_SERIAL_8250_FINTEK=y
-CONFIG_SERIAL_8250_CONSOLE=y
-CONFIG_SERIAL_8250_PCILIB=y
-CONFIG_SERIAL_8250_PCI=m
-CONFIG_SERIAL_8250_EXAR=m
-CONFIG_SERIAL_8250_MEN_MCB=m
-CONFIG_SERIAL_8250_NR_UARTS=4
-CONFIG_SERIAL_8250_RUNTIME_UARTS=4
-CONFIG_SERIAL_8250_EXTENDED=y
-CONFIG_SERIAL_8250_MANY_PORTS=y
-# CONFIG_SERIAL_8250_ASPEED_VUART is not set
-CONFIG_SERIAL_8250_PCI1XXXX=m
-CONFIG_SERIAL_8250_SHARE_IRQ=y
-# CONFIG_SERIAL_8250_DETECT_IRQ is not set
-# CONFIG_SERIAL_8250_RSA is not set
-CONFIG_SERIAL_8250_DWLIB=y
-# CONFIG_SERIAL_8250_BCM2835AUX is not set
-CONFIG_SERIAL_8250_FSL=y
-CONFIG_SERIAL_8250_DFL=m
-CONFIG_SERIAL_8250_DW=y
-CONFIG_SERIAL_8250_EM=m
-CONFIG_SERIAL_8250_IOC3=m
-CONFIG_SERIAL_8250_RT288X=y
-CONFIG_SERIAL_8250_OMAP=y
-CONFIG_SERIAL_8250_OMAP_TTYO_FIXUP=y
-# CONFIG_SERIAL_8250_LPC18XX is not set
-# CONFIG_SERIAL_8250_MT6577 is not set
-CONFIG_SERIAL_8250_UNIPHIER=y
-# CONFIG_SERIAL_8250_INGENIC is not set
-# CONFIG_SERIAL_8250_LPSS is not set
-# CONFIG_SERIAL_8250_MID is not set
-# CONFIG_SERIAL_8250_PERICOM is not set
-CONFIG_SERIAL_8250_PXA=y
-# CONFIG_SERIAL_8250_TEGRA is not set
-CONFIG_SERIAL_8250_BCM7271=y
-CONFIG_SERIAL_8250_NI=y
-CONFIG_SERIAL_OF_PLATFORM=m
-
-#
-# Non-8250 serial port support
-#
-# CONFIG_SERIAL_AMBA_PL010 is not set
-# CONFIG_SERIAL_ATMEL is not set
-# CONFIG_SERIAL_MESON is not set
-# CONFIG_SERIAL_CLPS711X is not set
-# CONFIG_SERIAL_SAMSUNG is not set
-CONFIG_SERIAL_TEGRA=y
-CONFIG_SERIAL_TEGRA_TCU=y
-CONFIG_SERIAL_TEGRA_TCU_CONSOLE=y
-CONFIG_SERIAL_TEGRA_UTC=m
-CONFIG_SERIAL_TEGRA_UTC_CONSOLE=y
-CONFIG_SERIAL_MAX3100=m
-# CONFIG_SERIAL_MAX310X is not set
-CONFIG_SERIAL_IMX=m
-CONFIG_SERIAL_IMX_CONSOLE=m
-# CONFIG_SERIAL_IMX_EARLYCON is not set
-CONFIG_SERIAL_UARTLITE=m
-CONFIG_SERIAL_UARTLITE_NR_UARTS=1
-# CONFIG_SERIAL_SH_SCI is not set
-CONFIG_SERIAL_HS_LPC32XX=y
-CONFIG_SERIAL_HS_LPC32XX_CONSOLE=y
-CONFIG_SERIAL_CORE=y
-CONFIG_SERIAL_CORE_CONSOLE=y
-# CONFIG_SERIAL_PMACZILOG is not set
-# CONFIG_SERIAL_ICOM is not set
-# CONFIG_SERIAL_JSM is not set
-# CONFIG_SERIAL_MSM is not set
-CONFIG_SERIAL_QCOM_GENI=m
-# CONFIG_SERIAL_QCOM_GENI_CONSOLE is not set
-# CONFIG_SERIAL_VT8500 is not set
-# CONFIG_SERIAL_OMAP is not set
-CONFIG_SERIAL_SIFIVE=m
-CONFIG_SERIAL_LANTIQ=y
-CONFIG_SERIAL_LANTIQ_CONSOLE=y
-CONFIG_SERIAL_QE=y
-CONFIG_SERIAL_SCCNXP=m
-CONFIG_SERIAL_SC16IS7XX=m
-CONFIG_SERIAL_SC16IS7XX_I2C=m
-CONFIG_SERIAL_SC16IS7XX_SPI=m
-CONFIG_SERIAL_TIMBERDALE=m
-CONFIG_SERIAL_BCM63XX=y
-CONFIG_SERIAL_BCM63XX_CONSOLE=y
-CONFIG_SERIAL_ALTERA_JTAGUART=m
-# CONFIG_SERIAL_ALTERA_UART is not set
-CONFIG_SERIAL_PCH_UART=m
-# CONFIG_SERIAL_MXS_AUART is not set
-CONFIG_SERIAL_XILINX_PS_UART=m
-# CONFIG_SERIAL_MPS2_UART is not set
-# CONFIG_SERIAL_ARC is not set
-CONFIG_SERIAL_RP2=m
-CONFIG_SERIAL_RP2_NR_UARTS=32
-# CONFIG_SERIAL_FSL_LPUART is not set
-# CONFIG_SERIAL_FSL_LINFLEXUART is not set
-CONFIG_SERIAL_CONEXANT_DIGICOLOR=y
-# CONFIG_SERIAL_CONEXANT_DIGICOLOR_CONSOLE is not set
-CONFIG_SERIAL_ST_ASC=y
-CONFIG_SERIAL_ST_ASC_CONSOLE=y
-CONFIG_SERIAL_MEN_Z135=m
-# CONFIG_SERIAL_SPRD is not set
-CONFIG_SERIAL_STM32=y
-# CONFIG_SERIAL_STM32_CONSOLE is not set
-# CONFIG_SERIAL_MVEBU_UART is not set
-CONFIG_SERIAL_OWL=y
-# CONFIG_SERIAL_OWL_CONSOLE is not set
-CONFIG_SERIAL_RDA=y
-# CONFIG_SERIAL_RDA_CONSOLE is not set
-CONFIG_SERIAL_MILBEAUT_USIO=y
-CONFIG_SERIAL_MILBEAUT_USIO_PORTS=4
-CONFIG_SERIAL_MILBEAUT_USIO_CONSOLE=y
-CONFIG_SERIAL_LITEUART=y
-CONFIG_SERIAL_LITEUART_MAX_PORTS=1
-# CONFIG_SERIAL_LITEUART_CONSOLE is not set
-CONFIG_SERIAL_SUNPLUS=m
-CONFIG_SERIAL_SUNPLUS_CONSOLE=y
-CONFIG_SERIAL_NUVOTON_MA35D1=m
-# CONFIG_SERIAL_ESP32 is not set
-# CONFIG_SERIAL_ESP32_ACM is not set
-# end of Serial drivers
-
-CONFIG_SERIAL_MCTRL_GPIO=y
-CONFIG_SERIAL_NONSTANDARD=y
-CONFIG_MOXA_INTELLIO=y
-CONFIG_MOXA_SMARTIO=m
-CONFIG_N_HDLC=m
-CONFIG_PPC_EPAPR_HV_BYTECHAN=y
-CONFIG_PPC_EARLY_DEBUG_EHV_BC=y
-CONFIG_PPC_EARLY_DEBUG_EHV_BC_HANDLE=0
-CONFIG_NOZOMI=y
-CONFIG_NULL_TTY=m
-CONFIG_HVC_DRIVER=y
-CONFIG_HVC_IRQ=y
-# CONFIG_HVC_CONSOLE is not set
-CONFIG_HVC_OPAL=y
-CONFIG_HVC_RTAS=y
-CONFIG_HVC_UDBG=y
-# CONFIG_RPMSG_TTY is not set
-# CONFIG_SERIAL_DEV_BUS is not set
-# CONFIG_TTY_PRINTK is not set
-CONFIG_VIRTIO_CONSOLE=m
-# CONFIG_IBM_BSR is not set
-CONFIG_POWERNV_OP_PANEL=m
-CONFIG_IPMI_HANDLER=y
-CONFIG_IPMI_PLAT_DATA=y
-# CONFIG_IPMI_PANIC_EVENT is not set
-# CONFIG_IPMI_DEVICE_INTERFACE is not set
-CONFIG_IPMI_SI=m
-CONFIG_IPMI_SSIF=m
-# CONFIG_IPMI_IPMB is not set
-# CONFIG_IPMI_POWERNV is not set
-CONFIG_IPMI_WATCHDOG=m
-CONFIG_IPMI_POWEROFF=y
-CONFIG_IPMI_KCS_BMC=y
-CONFIG_ASPEED_KCS_IPMI_BMC=m
-CONFIG_NPCM7XX_KCS_IPMI_BMC=y
-CONFIG_IPMI_KCS_BMC_CDEV_IPMI=y
-# CONFIG_IPMI_KCS_BMC_SERIO is not set
-CONFIG_ASPEED_BT_IPMI_BMC=m
-# CONFIG_SSIF_IPMI_BMC is not set
-CONFIG_IPMB_DEVICE_INTERFACE=m
-CONFIG_HW_RANDOM=y
-CONFIG_HW_RANDOM_TIMERIOMEM=y
-CONFIG_HW_RANDOM_INTEL=m
-CONFIG_HW_RANDOM_AMD=m
-CONFIG_HW_RANDOM_AIROHA=m
-CONFIG_HW_RANDOM_ATMEL=m
-# CONFIG_HW_RANDOM_BA431 is not set
-# CONFIG_HW_RANDOM_BCM2835 is not set
-# CONFIG_HW_RANDOM_BCM74110 is not set
-CONFIG_HW_RANDOM_IPROC_RNG200=m
-# CONFIG_HW_RANDOM_GEODE is not set
-# CONFIG_HW_RANDOM_IXP4XX is not set
-CONFIG_HW_RANDOM_OMAP=m
-# CONFIG_HW_RANDOM_OMAP3_ROM is not set
-# CONFIG_HW_RANDOM_PASEMI is not set
-# CONFIG_HW_RANDOM_VIRTIO is not set
-# CONFIG_HW_RANDOM_MXC_RNGA is not set
-CONFIG_HW_RANDOM_IMX_RNGC=y
-CONFIG_HW_RANDOM_INGENIC_RNG=y
-# CONFIG_HW_RANDOM_INGENIC_TRNG is not set
-# CONFIG_HW_RANDOM_NOMADIK is not set
-CONFIG_HW_RANDOM_PSERIES=y
-CONFIG_HW_RANDOM_POWERNV=y
-CONFIG_HW_RANDOM_HISI=m
-# CONFIG_HW_RANDOM_HISTB is not set
-# CONFIG_HW_RANDOM_ST is not set
-CONFIG_HW_RANDOM_XGENE=m
-# CONFIG_HW_RANDOM_STM32 is not set
-CONFIG_HW_RANDOM_PIC32=m
-CONFIG_HW_RANDOM_MESON=y
-CONFIG_HW_RANDOM_MTK=m
-CONFIG_HW_RANDOM_EXYNOS=y
-CONFIG_HW_RANDOM_NPCM=y
-# CONFIG_HW_RANDOM_KEYSTONE is not set
-# CONFIG_HW_RANDOM_CCTRNG is not set
-CONFIG_HW_RANDOM_XIPHERA=y
-# CONFIG_HW_RANDOM_CN10K is not set
-CONFIG_HW_RANDOM_JH7110=m
-# CONFIG_HW_RANDOM_ROCKCHIP is not set
-CONFIG_APPLICOM=m
-CONFIG_DEVMEM=y
-CONFIG_NVRAM=y
-CONFIG_DEVPORT=y
-# CONFIG_HANGCHECK_TIMER is not set
-# CONFIG_TCG_TPM is not set
-CONFIG_XILLYBUS_CLASS=y
-CONFIG_XILLYBUS=y
-# CONFIG_XILLYBUS_PCIE is not set
-CONFIG_XILLYBUS_OF=y
-# end of Character devices
-
-#
-# I2C support
-#
-CONFIG_I2C=m
-CONFIG_I2C_BOARDINFO=y
-CONFIG_I2C_CHARDEV=m
-CONFIG_I2C_MUX=m
-
-#
-# Multiplexer I2C Chip support
-#
-CONFIG_I2C_ARB_GPIO_CHALLENGE=m
-CONFIG_I2C_MUX_GPIO=m
-CONFIG_I2C_MUX_GPMUX=m
-CONFIG_I2C_MUX_LTC4306=m
-CONFIG_I2C_MUX_PCA9541=m
-CONFIG_I2C_MUX_PCA954x=m
-# CONFIG_I2C_MUX_PINCTRL is not set
-CONFIG_I2C_MUX_REG=m
-# CONFIG_I2C_DEMUX_PINCTRL is not set
-# CONFIG_I2C_MUX_MLXCPLD is not set
-CONFIG_I2C_MUX_MULE=m
-# end of Multiplexer I2C Chip support
-
-CONFIG_I2C_ATR=m
-CONFIG_I2C_HELPER_AUTO=y
-CONFIG_I2C_SMBUS=m
-CONFIG_I2C_ALGOBIT=m
-
-#
-# I2C Hardware Bus support
-#
-
-#
-# PC SMBus host controller drivers
-#
-CONFIG_I2C_CCGX_UCSI=m
-# CONFIG_I2C_ALI1535 is not set
-CONFIG_I2C_ALI1563=m
-CONFIG_I2C_ALI15X3=m
-CONFIG_I2C_AMD756=m
-CONFIG_I2C_AMD8111=m
-# CONFIG_I2C_HIX5HD2 is not set
-CONFIG_I2C_I801=m
-# CONFIG_I2C_ISCH is not set
-# CONFIG_I2C_PIIX4 is not set
-CONFIG_I2C_NFORCE2=m
-# CONFIG_I2C_NVIDIA_GPU is not set
-# CONFIG_I2C_SIS5595 is not set
-CONFIG_I2C_SIS630=m
-# CONFIG_I2C_SIS96X is not set
-# CONFIG_I2C_VIA is not set
-# CONFIG_I2C_VIAPRO is not set
-
-#
-# Mac SMBus host controller drivers
-#
-CONFIG_I2C_POWERMAC=m
-
-#
-# I2C system bus drivers (mostly embedded / system-on-chip)
-#
-# CONFIG_I2C_ALTERA is not set
-# CONFIG_I2C_ASPEED is not set
-CONFIG_I2C_AT91=m
-CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL=y
-CONFIG_I2C_AXXIA=m
-CONFIG_I2C_BCM2835=m
-CONFIG_I2C_BCM_IPROC=m
-CONFIG_I2C_BCM_KONA=m
-CONFIG_I2C_BRCMSTB=m
-# CONFIG_I2C_CADENCE is not set
-CONFIG_I2C_CBUS_GPIO=m
-CONFIG_I2C_DAVINCI=m
-CONFIG_I2C_DESIGNWARE_CORE=m
-CONFIG_I2C_DESIGNWARE_SLAVE=y
-CONFIG_I2C_DESIGNWARE_PLATFORM=m
-CONFIG_I2C_DESIGNWARE_PCI=m
-CONFIG_I2C_DIGICOLOR=m
-# CONFIG_I2C_EG20T is not set
-CONFIG_I2C_EMEV2=m
-CONFIG_I2C_EXYNOS5=m
-CONFIG_I2C_GPIO=m
-CONFIG_I2C_GPIO_FAULT_INJECTOR=y
-CONFIG_I2C_GXP=m
-CONFIG_I2C_HIGHLANDER=m
-CONFIG_I2C_HISI=m
-# CONFIG_I2C_IMG is not set
-# CONFIG_I2C_IMX is not set
-CONFIG_I2C_IMX_LPI2C=m
-# CONFIG_I2C_IOP3XX is not set
-CONFIG_I2C_JZ4780=m
-CONFIG_I2C_K1=m
-# CONFIG_I2C_KEBA is not set
-# CONFIG_I2C_LPC2K is not set
-CONFIG_I2C_LS2X=m
-CONFIG_I2C_MESON=m
-CONFIG_I2C_MICROCHIP_CORE=m
-CONFIG_I2C_MPC=m
-CONFIG_I2C_MT65XX=m
-CONFIG_I2C_MT7621=m
-# CONFIG_I2C_MV64XXX is not set
-# CONFIG_I2C_MXS is not set
-CONFIG_I2C_NOMADIK=m
-CONFIG_I2C_NPCM=m
-# CONFIG_I2C_OCORES is not set
-CONFIG_I2C_OMAP=m
-# CONFIG_I2C_OWL is not set
-CONFIG_I2C_APPLE=m
-# CONFIG_I2C_PCA_PLATFORM is not set
-# CONFIG_I2C_PNX is not set
-# CONFIG_I2C_PXA is not set
-CONFIG_I2C_QCOM_CCI=m
-# CONFIG_I2C_QCOM_GENI is not set
-CONFIG_I2C_QUP=m
-# CONFIG_I2C_RIIC is not set
-CONFIG_I2C_RK3X=m
-# CONFIG_I2C_RTL9300 is not set
-CONFIG_I2C_RZV2M=m
-CONFIG_I2C_S3C2410=m
-CONFIG_I2C_SH_MOBILE=m
-CONFIG_I2C_SIMTEC=m
-CONFIG_I2C_ST=m
-# CONFIG_I2C_STM32F4 is not set
-# CONFIG_I2C_STM32F7 is not set
-# CONFIG_I2C_SUN6I_P2WI is not set
-# CONFIG_I2C_SYNQUACER is not set
-CONFIG_I2C_TEGRA_BPMP=m
-CONFIG_I2C_UNIPHIER=m
-CONFIG_I2C_UNIPHIER_F=m
-CONFIG_I2C_VERSATILE=m
-CONFIG_I2C_WMT=m
-# CONFIG_I2C_THUNDERX is not set
-# CONFIG_I2C_XILINX is not set
-# CONFIG_I2C_XLP9XX is not set
-CONFIG_I2C_RCAR=m
-
-#
-# External I2C/SMBus adapter drivers
-#
-CONFIG_I2C_PCI1XXXX=m
-CONFIG_I2C_TAOS_EVM=m
-
-#
-# Other I2C/SMBus bus drivers
-#
-# CONFIG_I2C_MLXCPLD is not set
-CONFIG_I2C_OPAL=m
-CONFIG_I2C_VIRTIO=m
-# end of I2C Hardware Bus support
-
-# CONFIG_I2C_STUB is not set
-CONFIG_I2C_SLAVE=y
-# CONFIG_I2C_SLAVE_EEPROM is not set
-# CONFIG_I2C_SLAVE_TESTUNIT is not set
-CONFIG_I2C_DEBUG_CORE=y
-CONFIG_I2C_DEBUG_ALGO=y
-CONFIG_I2C_DEBUG_BUS=y
-# end of I2C support
-
-CONFIG_I3C=m
-# CONFIG_CDNS_I3C_MASTER is not set
-CONFIG_DW_I3C_MASTER=m
-# CONFIG_AST2600_I3C_MASTER is not set
-# CONFIG_SVC_I3C_MASTER is not set
-CONFIG_MIPI_I3C_HCI=m
-CONFIG_MIPI_I3C_HCI_PCI=m
-CONFIG_SPI=y
-CONFIG_SPI_DEBUG=y
-CONFIG_SPI_MASTER=y
-CONFIG_SPI_MEM=y
-
-#
-# SPI Master Controller Drivers
-#
-# CONFIG_SPI_AIROHA_SNFI is not set
-CONFIG_SPI_ALTERA=y
-CONFIG_SPI_ALTERA_CORE=y
-CONFIG_SPI_ALTERA_DFL=m
-CONFIG_SPI_AMLOGIC_SPIFC_A1=m
-CONFIG_SPI_APPLE=m
-CONFIG_SPI_AR934X=y
-# CONFIG_SPI_ATH79 is not set
-# CONFIG_SPI_ARMADA_3700 is not set
-CONFIG_SPI_ASPEED_SMC=m
-# CONFIG_SPI_ATMEL is not set
-# CONFIG_SPI_AT91_USART is not set
-# CONFIG_SPI_ATMEL_QUADSPI is not set
-# CONFIG_SPI_AXI_SPI_ENGINE is not set
-CONFIG_SPI_BCM2835=y
-# CONFIG_SPI_BCM2835AUX is not set
-CONFIG_SPI_BCM63XX=y
-# CONFIG_SPI_BCM63XX_HSSPI is not set
-CONFIG_SPI_BCM_QSPI=y
-CONFIG_SPI_BCMBCA_HSSPI=m
-CONFIG_SPI_BITBANG=y
-CONFIG_SPI_CADENCE=m
-CONFIG_SPI_CADENCE_QUADSPI=y
-# CONFIG_SPI_CADENCE_XSPI is not set
-# CONFIG_SPI_CLPS711X is not set
-CONFIG_SPI_DAVINCI=y
-CONFIG_SPI_DESIGNWARE=m
-# CONFIG_SPI_DW_DMA is not set
-# CONFIG_SPI_DW_PCI is not set
-CONFIG_SPI_DW_MMIO=m
-CONFIG_SPI_DW_BT1=m
-CONFIG_SPI_DW_BT1_DIRMAP=y
-CONFIG_SPI_EP93XX=m
-# CONFIG_SPI_FSL_LPSPI is not set
-CONFIG_SPI_FSL_QUADSPI=m
-CONFIG_SPI_GXP=m
-CONFIG_SPI_HISI_KUNPENG=y
-CONFIG_SPI_HISI_SFC_V3XX=y
-CONFIG_SPI_NXP_FLEXSPI=y
-# CONFIG_SPI_GPIO is not set
-CONFIG_SPI_IMG_SPFI=y
-# CONFIG_SPI_IMX is not set
-# CONFIG_SPI_INGENIC is not set
-CONFIG_SPI_INTEL=m
-CONFIG_SPI_INTEL_PCI=m
-# CONFIG_SPI_INTEL_PLATFORM is not set
-CONFIG_SPI_JCORE=y
-# CONFIG_SPI_KSPI2 is not set
-CONFIG_SPI_LOONGSON_CORE=y
-# CONFIG_SPI_LOONGSON_PCI is not set
-CONFIG_SPI_LOONGSON_PLATFORM=y
-# CONFIG_SPI_LP8841_RTC is not set
-CONFIG_SPI_FSL_LIB=m
-CONFIG_SPI_FSL_SPI=m
-CONFIG_SPI_FSL_DSPI=y
-CONFIG_SPI_MESON_SPICC=y
-CONFIG_SPI_MESON_SPIFC=m
-# CONFIG_SPI_MICROCHIP_CORE is not set
-CONFIG_SPI_MICROCHIP_CORE_QSPI=m
-CONFIG_SPI_MT65XX=m
-CONFIG_SPI_MT7621=m
-# CONFIG_SPI_MTK_NOR is not set
-# CONFIG_SPI_WPCM_FIU is not set
-# CONFIG_SPI_NPCM_FIU is not set
-CONFIG_SPI_NPCM_PSPI=m
-# CONFIG_SPI_LANTIQ_SSC is not set
-CONFIG_SPI_OC_TINY=m
-# CONFIG_SPI_OMAP24XX is not set
-CONFIG_SPI_TI_QSPI=y
-CONFIG_SPI_ORION=y
-CONFIG_SPI_PCI1XXXX=y
-CONFIG_SPI_PIC32=m
-CONFIG_SPI_PIC32_SQI=m
-CONFIG_SPI_PXA2XX=y
-CONFIG_SPI_PXA2XX_PCI=y
-# CONFIG_SPI_REALTEK_SNAND is not set
-CONFIG_SPI_ROCKCHIP=m
-# CONFIG_SPI_ROCKCHIP_SFC is not set
-# CONFIG_SPI_RSPI is not set
-CONFIG_SPI_RZV2M_CSI=m
-CONFIG_SPI_QCOM_QSPI=y
-# CONFIG_SPI_QPIC_SNAND is not set
-CONFIG_SPI_QUP=y
-# CONFIG_SPI_QCOM_GENI is not set
-CONFIG_SPI_S3C64XX=m
-# CONFIG_SPI_SC18IS602 is not set
-CONFIG_SPI_SH_MSIOF=m
-CONFIG_SPI_SH=y
-CONFIG_SPI_SH_HSPI=y
-CONFIG_SPI_SIFIVE=m
-CONFIG_SPI_SLAVE_MT27XX=y
-CONFIG_SPI_SN_F_OSPI=y
-CONFIG_SPI_SG2044_NOR=y
-# CONFIG_SPI_SPRD is not set
-CONFIG_SPI_SPRD_ADI=y
-# CONFIG_SPI_STM32 is not set
-CONFIG_SPI_STM32_OSPI=y
-CONFIG_SPI_STM32_QSPI=y
-# CONFIG_SPI_ST_SSC4 is not set
-CONFIG_SPI_SUN4I=y
-CONFIG_SPI_SUN6I=y
-CONFIG_SPI_SUNPLUS_SP7021=m
-CONFIG_SPI_SYNQUACER=y
-CONFIG_SPI_MXIC=y
-# CONFIG_SPI_TEGRA210_QUAD is not set
-# CONFIG_SPI_TEGRA114 is not set
-CONFIG_SPI_TEGRA20_SFLASH=y
-# CONFIG_SPI_TEGRA20_SLINK is not set
-# CONFIG_SPI_THUNDERX is not set
-CONFIG_SPI_TOPCLIFF_PCH=m
-CONFIG_SPI_UNIPHIER=m
-CONFIG_SPI_XCOMM=m
-# CONFIG_SPI_XILINX is not set
-CONFIG_SPI_XLP=m
-# CONFIG_SPI_XTENSA_XTFPGA is not set
-CONFIG_SPI_ZYNQ_QSPI=y
-CONFIG_SPI_ZYNQMP_GQSPI=y
-CONFIG_SPI_AMD=m
-
-#
-# SPI Multiplexer support
-#
-# CONFIG_SPI_MUX is not set
-
-#
-# SPI Protocol Masters
-#
-CONFIG_SPI_SPIDEV=m
-# CONFIG_SPI_LOOPBACK_TEST is not set
-# CONFIG_SPI_TLE62X0 is not set
-CONFIG_SPI_SLAVE=y
-# CONFIG_SPI_SLAVE_TIME is not set
-CONFIG_SPI_SLAVE_SYSTEM_CONTROL=y
-CONFIG_SPI_DYNAMIC=y
-CONFIG_SPMI=m
-CONFIG_SPMI_HISI3670=m
-# CONFIG_SPMI_MSM_PMIC_ARB is not set
-CONFIG_SPMI_MTK_PMIF=m
-# CONFIG_HSI is not set
-CONFIG_PPS=y
-CONFIG_PPS_DEBUG=y
-CONFIG_NTP_PPS=y
-
-#
-# PPS clients support
-#
-CONFIG_PPS_CLIENT_KTIMER=y
-CONFIG_PPS_CLIENT_LDISC=y
-CONFIG_PPS_CLIENT_GPIO=m
-CONFIG_PPS_GENERATOR=y
-CONFIG_PPS_GENERATOR_DUMMY=y
-
-#
-# PTP clock support
-#
-CONFIG_PTP_1588_CLOCK_OPTIONAL=y
-
-#
-# Enable PHYLIB and NETWORK_PHY_TIMESTAMPING to see the additional clocks.
-#
-# end of PTP clock support
-
-CONFIG_PINCTRL=y
-CONFIG_GENERIC_PINCTRL_GROUPS=y
-CONFIG_PINMUX=y
-CONFIG_GENERIC_PINMUX_FUNCTIONS=y
-CONFIG_PINCONF=y
-CONFIG_GENERIC_PINCONF=y
-CONFIG_DEBUG_PINCTRL=y
-CONFIG_PINCTRL_AMD=y
-# CONFIG_PINCTRL_AMDISP is not set
-CONFIG_PINCTRL_AT91PIO4=y
-# CONFIG_PINCTRL_AXP209 is not set
-CONFIG_PINCTRL_AW9523=m
-CONFIG_PINCTRL_BM1880=y
-# CONFIG_PINCTRL_CY8C95X0 is not set
-CONFIG_PINCTRL_DA850_PUPD=y
-CONFIG_PINCTRL_DA9062=m
-CONFIG_PINCTRL_EQUILIBRIUM=y
-# CONFIG_PINCTRL_EYEQ5 is not set
-CONFIG_PINCTRL_INGENIC=y
-# CONFIG_PINCTRL_K230 is not set
-CONFIG_PINCTRL_LOONGSON2=y
-# CONFIG_PINCTRL_LPC18XX is not set
-CONFIG_PINCTRL_MCP23S08_I2C=m
-CONFIG_PINCTRL_MCP23S08_SPI=y
-CONFIG_PINCTRL_MCP23S08=y
-# CONFIG_PINCTRL_MICROCHIP_SGPIO is not set
-CONFIG_PINCTRL_OCELOT=m
-# CONFIG_PINCTRL_PISTACHIO is not set
-CONFIG_PINCTRL_ROCKCHIP=y
-# CONFIG_PINCTRL_SCMI is not set
-CONFIG_PINCTRL_SINGLE=m
-CONFIG_PINCTRL_STMFX=m
-CONFIG_PINCTRL_TPS6594=y
-CONFIG_PINCTRL_TH1520=y
-CONFIG_PINCTRL_MLXBF3=y
-# CONFIG_PINCTRL_OWL is not set
-CONFIG_PINCTRL_ASPEED=y
-# CONFIG_PINCTRL_ASPEED_G4 is not set
-CONFIG_PINCTRL_ASPEED_G5=y
-CONFIG_PINCTRL_ASPEED_G6=y
-# CONFIG_PINCTRL_BCM281XX is not set
-CONFIG_PINCTRL_BCM2835=y
-CONFIG_PINCTRL_BCM4908=m
-CONFIG_PINCTRL_BCM63XX=y
-CONFIG_PINCTRL_BCM6318=y
-CONFIG_PINCTRL_BCM6328=y
-# CONFIG_PINCTRL_BCM6358 is not set
-# CONFIG_PINCTRL_BCM6362 is not set
-# CONFIG_PINCTRL_BCM6368 is not set
-# CONFIG_PINCTRL_BCM63268 is not set
-CONFIG_PINCTRL_IPROC_GPIO=y
-CONFIG_PINCTRL_CYGNUS_MUX=y
-CONFIG_PINCTRL_NS=y
-CONFIG_PINCTRL_NSP_GPIO=y
-# CONFIG_PINCTRL_NS2_MUX is not set
-# CONFIG_PINCTRL_NSP_MUX is not set
-# CONFIG_PINCTRL_AS370 is not set
-# CONFIG_PINCTRL_BERLIN_BG4CT is not set
-# CONFIG_PINCTRL_CS42L43 is not set
-CONFIG_PINCTRL_IMX=y
-# CONFIG_PINCTRL_IMX_SCMI is not set
-CONFIG_PINCTRL_IMX_SCU=y
-CONFIG_PINCTRL_IMX1_CORE=y
-CONFIG_PINCTRL_IMX1=y
-# CONFIG_PINCTRL_IMX27 is not set
-# CONFIG_PINCTRL_IMX25 is not set
-# CONFIG_PINCTRL_IMX35 is not set
-CONFIG_PINCTRL_IMX50=y
-CONFIG_PINCTRL_IMX51=y
-CONFIG_PINCTRL_IMX53=y
-CONFIG_PINCTRL_IMX6Q=y
-# CONFIG_PINCTRL_IMX6SL is not set
-# CONFIG_PINCTRL_IMX6SLL is not set
-# CONFIG_PINCTRL_IMX6SX is not set
-# CONFIG_PINCTRL_IMX6UL is not set
-CONFIG_PINCTRL_IMX7D=y
-CONFIG_PINCTRL_IMX7ULP=y
-# CONFIG_PINCTRL_IMX8MM is not set
-CONFIG_PINCTRL_IMX8MN=m
-CONFIG_PINCTRL_IMX8MP=m
-# CONFIG_PINCTRL_IMX8MQ is not set
-# CONFIG_PINCTRL_IMX8QM is not set
-CONFIG_PINCTRL_IMX8QXP=y
-CONFIG_PINCTRL_IMX8DXL=y
-CONFIG_PINCTRL_IMX8ULP=y
-# CONFIG_PINCTRL_IMXRT1050 is not set
-CONFIG_PINCTRL_IMX93=y
-# CONFIG_PINCTRL_VF610 is not set
-CONFIG_PINCTRL_IMXRT1170=y
-
-#
-# Intel pinctrl drivers
-#
-# CONFIG_PINCTRL_BAYTRAIL is not set
-CONFIG_PINCTRL_CHERRYVIEW=m
-CONFIG_PINCTRL_LYNXPOINT=y
-CONFIG_PINCTRL_INTEL=y
-CONFIG_PINCTRL_INTEL_PLATFORM=y
-CONFIG_PINCTRL_ALDERLAKE=y
-CONFIG_PINCTRL_BROXTON=m
-# CONFIG_PINCTRL_CANNONLAKE is not set
-CONFIG_PINCTRL_CEDARFORK=m
-CONFIG_PINCTRL_DENVERTON=y
-CONFIG_PINCTRL_ELKHARTLAKE=m
-# CONFIG_PINCTRL_EMMITSBURG is not set
-# CONFIG_PINCTRL_GEMINILAKE is not set
-CONFIG_PINCTRL_ICELAKE=m
-# CONFIG_PINCTRL_JASPERLAKE is not set
-CONFIG_PINCTRL_LAKEFIELD=y
-# CONFIG_PINCTRL_LEWISBURG is not set
-CONFIG_PINCTRL_METEORLAKE=m
-CONFIG_PINCTRL_METEORPOINT=y
-# CONFIG_PINCTRL_SUNRISEPOINT is not set
-# CONFIG_PINCTRL_TIGERLAKE is not set
-CONFIG_PINCTRL_TANGIER=m
-CONFIG_PINCTRL_MERRIFIELD=m
-# CONFIG_PINCTRL_MOOREFIELD is not set
-# end of Intel pinctrl drivers
-
-#
-# MediaTek pinctrl drivers
-#
-CONFIG_EINT_MTK=y
-CONFIG_PINCTRL_MTK=y
-CONFIG_PINCTRL_MTK_V2=y
-CONFIG_PINCTRL_MTK_MOORE=y
-CONFIG_PINCTRL_MTK_PARIS=y
-CONFIG_PINCTRL_MT2701=y
-# CONFIG_PINCTRL_MT7623 is not set
-CONFIG_PINCTRL_MT7629=y
-CONFIG_PINCTRL_MT8135=y
-CONFIG_PINCTRL_MT8127=y
-CONFIG_PINCTRL_AIROHA=y
-# CONFIG_PINCTRL_MT2712 is not set
-# CONFIG_PINCTRL_MT6765 is not set
-CONFIG_PINCTRL_MT6779=m
-# CONFIG_PINCTRL_MT6795 is not set
-CONFIG_PINCTRL_MT6797=y
-CONFIG_PINCTRL_MT7622=y
-# CONFIG_PINCTRL_MT7981 is not set
-CONFIG_PINCTRL_MT7986=y
-# CONFIG_PINCTRL_MT7988 is not set
-CONFIG_PINCTRL_MT8167=y
-CONFIG_PINCTRL_MT8173=y
-# CONFIG_PINCTRL_MT8183 is not set
-# CONFIG_PINCTRL_MT8186 is not set
-CONFIG_PINCTRL_MT8188=y
-CONFIG_PINCTRL_MT8192=y
-# CONFIG_PINCTRL_MT8195 is not set
-# CONFIG_PINCTRL_MT8365 is not set
-# CONFIG_PINCTRL_MT8516 is not set
-# CONFIG_PINCTRL_MT6397 is not set
-# end of MediaTek pinctrl drivers
-
-# CONFIG_PINCTRL_MESON is not set
-# CONFIG_PINCTRL_NOMADIK is not set
-CONFIG_PINCTRL_WPCM450=y
-# CONFIG_PINCTRL_NPCM7XX is not set
-CONFIG_PINCTRL_NPCM8XX=y
-# CONFIG_PINCTRL_MA35D1 is not set
-CONFIG_PINCTRL_PXA=y
-# CONFIG_PINCTRL_PXA25X is not set
-CONFIG_PINCTRL_PXA27X=y
-CONFIG_PINCTRL_MSM=m
-CONFIG_PINCTRL_APQ8064=m
-CONFIG_PINCTRL_APQ8084=m
-# CONFIG_PINCTRL_IPQ4019 is not set
-CONFIG_PINCTRL_IPQ5018=m
-CONFIG_PINCTRL_IPQ8064=m
-# CONFIG_PINCTRL_IPQ5332 is not set
-# CONFIG_PINCTRL_IPQ5424 is not set
-CONFIG_PINCTRL_IPQ8074=m
-CONFIG_PINCTRL_IPQ6018=m
-CONFIG_PINCTRL_IPQ9574=m
-CONFIG_PINCTRL_MSM8226=m
-# CONFIG_PINCTRL_MSM8660 is not set
-CONFIG_PINCTRL_MSM8960=m
-CONFIG_PINCTRL_MDM9607=m
-CONFIG_PINCTRL_MDM9615=m
-CONFIG_PINCTRL_MSM8X74=m
-CONFIG_PINCTRL_MSM8909=m
-CONFIG_PINCTRL_MSM8916=m
-CONFIG_PINCTRL_MSM8917=m
-CONFIG_PINCTRL_MSM8953=m
-CONFIG_PINCTRL_MSM8976=m
-# CONFIG_PINCTRL_MSM8994 is not set
-CONFIG_PINCTRL_MSM8996=m
-CONFIG_PINCTRL_MSM8998=m
-# CONFIG_PINCTRL_QCM2290 is not set
-CONFIG_PINCTRL_QCS404=m
-# CONFIG_PINCTRL_QCS615 is not set
-# CONFIG_PINCTRL_QCS8300 is not set
-# CONFIG_PINCTRL_QDU1000 is not set
-CONFIG_PINCTRL_SA8775P=m
-# CONFIG_PINCTRL_SAR2130P is not set
-CONFIG_PINCTRL_SC7180=m
-CONFIG_PINCTRL_SC7280=m
-# CONFIG_PINCTRL_SC8180X is not set
-CONFIG_PINCTRL_SC8280XP=m
-# CONFIG_PINCTRL_SDM660 is not set
-# CONFIG_PINCTRL_SDM670 is not set
-CONFIG_PINCTRL_SDM845=m
-# CONFIG_PINCTRL_SDX55 is not set
-CONFIG_PINCTRL_SDX65=m
-CONFIG_PINCTRL_SDX75=m
-CONFIG_PINCTRL_SM4450=m
-CONFIG_PINCTRL_SM6115=m
-# CONFIG_PINCTRL_SM6125 is not set
-CONFIG_PINCTRL_SM6350=m
-# CONFIG_PINCTRL_SM6375 is not set
-CONFIG_PINCTRL_SM7150=m
-# CONFIG_PINCTRL_SM8150 is not set
-# CONFIG_PINCTRL_SM8250 is not set
-CONFIG_PINCTRL_SM8350=m
-# CONFIG_PINCTRL_SM8450 is not set
-CONFIG_PINCTRL_SM8550=m
-# CONFIG_PINCTRL_SM8650 is not set
-CONFIG_PINCTRL_SM8750=m
-CONFIG_PINCTRL_X1E80100=m
-# CONFIG_PINCTRL_QCOM_SPMI_PMIC is not set
-CONFIG_PINCTRL_QCOM_SSBI_PMIC=y
-CONFIG_PINCTRL_LPASS_LPI=y
-CONFIG_PINCTRL_SC7280_LPASS_LPI=m
-CONFIG_PINCTRL_SM4250_LPASS_LPI=y
-CONFIG_PINCTRL_SM6115_LPASS_LPI=m
-CONFIG_PINCTRL_SM8250_LPASS_LPI=m
-CONFIG_PINCTRL_SM8350_LPASS_LPI=y
-CONFIG_PINCTRL_SM8450_LPASS_LPI=m
-CONFIG_PINCTRL_SC8280XP_LPASS_LPI=y
-CONFIG_PINCTRL_SM8550_LPASS_LPI=y
-CONFIG_PINCTRL_SM8650_LPASS_LPI=y
-
-#
-# Renesas pinctrl drivers
-#
-CONFIG_PINCTRL_RENESAS=y
-CONFIG_PINCTRL_SH_PFC=y
-CONFIG_PINCTRL_SH_PFC_GPIO=y
-CONFIG_PINCTRL_SH_FUNC_GPIO=y
-CONFIG_PINCTRL_PFC_EMEV2=y
-# CONFIG_PINCTRL_PFC_R8A77995 is not set
-# CONFIG_PINCTRL_PFC_R8A7794 is not set
-# CONFIG_PINCTRL_PFC_R8A77990 is not set
-# CONFIG_PINCTRL_PFC_R8A7779 is not set
-# CONFIG_PINCTRL_PFC_R8A7790 is not set
-# CONFIG_PINCTRL_PFC_R8A77951 is not set
-# CONFIG_PINCTRL_PFC_R8A7778 is not set
-# CONFIG_PINCTRL_PFC_R8A7793 is not set
-CONFIG_PINCTRL_PFC_R8A7791=y
-# CONFIG_PINCTRL_PFC_R8A77965 is not set
-# CONFIG_PINCTRL_PFC_R8A77960 is not set
-CONFIG_PINCTRL_PFC_R8A77961=y
-CONFIG_PINCTRL_PFC_R8A779F0=y
-CONFIG_PINCTRL_PFC_R8A7792=y
-# CONFIG_PINCTRL_PFC_R8A77980 is not set
-CONFIG_PINCTRL_PFC_R8A77970=y
-# CONFIG_PINCTRL_PFC_R8A779A0 is not set
-CONFIG_PINCTRL_PFC_R8A779G0=y
-CONFIG_PINCTRL_PFC_R8A779H0=y
-# CONFIG_PINCTRL_PFC_R8A7740 is not set
-CONFIG_PINCTRL_PFC_R8A73A4=y
-CONFIG_PINCTRL_RZA1=y
-# CONFIG_PINCTRL_RZA2 is not set
-# CONFIG_PINCTRL_RZG2L is not set
-# CONFIG_PINCTRL_PFC_R8A77470 is not set
-# CONFIG_PINCTRL_PFC_R8A7745 is not set
-CONFIG_PINCTRL_PFC_R8A7742=y
-# CONFIG_PINCTRL_PFC_R8A7743 is not set
-# CONFIG_PINCTRL_PFC_R8A7744 is not set
-# CONFIG_PINCTRL_PFC_R8A774C0 is not set
-# CONFIG_PINCTRL_PFC_R8A774E1 is not set
-# CONFIG_PINCTRL_PFC_R8A774A1 is not set
-CONFIG_PINCTRL_PFC_R8A774B1=y
-CONFIG_PINCTRL_RZN1=y
-# CONFIG_PINCTRL_RZV2M is not set
-# CONFIG_PINCTRL_PFC_SH7203 is not set
-# CONFIG_PINCTRL_PFC_SH7264 is not set
-# CONFIG_PINCTRL_PFC_SH7269 is not set
-CONFIG_PINCTRL_PFC_SH7720=y
-CONFIG_PINCTRL_PFC_SH7722=y
-# CONFIG_PINCTRL_PFC_SH7734 is not set
-# CONFIG_PINCTRL_PFC_SH7757 is not set
-# CONFIG_PINCTRL_PFC_SH7785 is not set
-# CONFIG_PINCTRL_PFC_SH7786 is not set
-CONFIG_PINCTRL_PFC_SH73A0=y
-# CONFIG_PINCTRL_PFC_SH7723 is not set
-# CONFIG_PINCTRL_PFC_SH7724 is not set
-CONFIG_PINCTRL_PFC_SHX3=y
-# end of Renesas pinctrl drivers
-
-# CONFIG_PINCTRL_EXYNOS is not set
-# CONFIG_PINCTRL_S3C64XX is not set
-CONFIG_PINCTRL_SOPHGO_COMMON=y
-CONFIG_PINCTRL_SOPHGO_CV18XX_OPS=y
-CONFIG_PINCTRL_SOPHGO_CV1800B=y
-# CONFIG_PINCTRL_SOPHGO_CV1812H is not set
-# CONFIG_PINCTRL_SOPHGO_SG2000 is not set
-# CONFIG_PINCTRL_SOPHGO_SG2002 is not set
-CONFIG_PINCTRL_SOPHGO_SG2042_OPS=y
-# CONFIG_PINCTRL_SOPHGO_SG2042 is not set
-CONFIG_PINCTRL_SOPHGO_SG2044=m
-# CONFIG_PINCTRL_SPACEMIT_K1 is not set
-CONFIG_PINCTRL_SPRD=y
-CONFIG_PINCTRL_SPRD_SC9860=y
-CONFIG_PINCTRL_STARFIVE_JH7100=y
-# CONFIG_PINCTRL_STARFIVE_JH7110_SYS is not set
-# CONFIG_PINCTRL_STARFIVE_JH7110_AON is not set
-CONFIG_PINCTRL_STM32=y
-CONFIG_PINCTRL_STM32F429=y
-# CONFIG_PINCTRL_STM32F469 is not set
-CONFIG_PINCTRL_STM32F746=y
-CONFIG_PINCTRL_STM32F769=y
-# CONFIG_PINCTRL_STM32H743 is not set
-CONFIG_PINCTRL_STM32MP135=y
-CONFIG_PINCTRL_STM32MP157=y
-CONFIG_PINCTRL_STM32MP257=y
-CONFIG_PINCTRL_TI_IODELAY=m
-CONFIG_PINCTRL_UNIPHIER=y
-# CONFIG_PINCTRL_UNIPHIER_LD4 is not set
-CONFIG_PINCTRL_UNIPHIER_PRO4=y
-# CONFIG_PINCTRL_UNIPHIER_SLD8 is not set
-CONFIG_PINCTRL_UNIPHIER_PRO5=y
-# CONFIG_PINCTRL_UNIPHIER_PXS2 is not set
-CONFIG_PINCTRL_UNIPHIER_LD6B=y
-CONFIG_PINCTRL_UNIPHIER_LD11=y
-# CONFIG_PINCTRL_UNIPHIER_LD20 is not set
-CONFIG_PINCTRL_UNIPHIER_PXS3=y
-CONFIG_PINCTRL_UNIPHIER_NX1=y
-CONFIG_PINCTRL_VISCONTI=y
-CONFIG_PINCTRL_TMPV7700=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_OF_GPIO=y
-CONFIG_GPIOLIB_IRQCHIP=y
-CONFIG_OF_GPIO_MM_GPIOCHIP=y
-# CONFIG_DEBUG_GPIO is not set
-# CONFIG_GPIO_SYSFS is not set
-CONFIG_GPIO_CDEV=y
-# CONFIG_GPIO_CDEV_V1 is not set
-CONFIG_GPIO_GENERIC=y
-CONFIG_GPIO_REGMAP=y
-CONFIG_GPIO_MAX730X=m
-
-#
-# Memory mapped GPIO drivers
-#
-CONFIG_GPIO_74XX_MMIO=m
-CONFIG_GPIO_ALTERA=m
-# CONFIG_GPIO_ASPEED is not set
-# CONFIG_GPIO_ASPEED_SGPIO is not set
-# CONFIG_GPIO_ATH79 is not set
-# CONFIG_GPIO_RASPBERRYPI_EXP is not set
-CONFIG_GPIO_BCM_KONA=y
-CONFIG_GPIO_BCM_XGS_IPROC=m
-# CONFIG_GPIO_BRCMSTB is not set
-CONFIG_GPIO_CADENCE=m
-CONFIG_GPIO_CLPS711X=y
-# CONFIG_GPIO_DAVINCI is not set
-# CONFIG_GPIO_DWAPB is not set
-# CONFIG_GPIO_EIC_SPRD is not set
-# CONFIG_GPIO_EM is not set
-# CONFIG_GPIO_EXAR is not set
-CONFIG_GPIO_GE_FPGA=y
-CONFIG_GPIO_FTGPIO010=y
-CONFIG_GPIO_GENERIC_PLATFORM=y
-CONFIG_GPIO_GRANITERAPIDS=m
-CONFIG_GPIO_GRGPIO=m
-CONFIG_GPIO_HISI=m
-CONFIG_GPIO_HLWD=y
-CONFIG_GPIO_LOGICVC=m
-# CONFIG_GPIO_LOONGSON_64BIT is not set
-CONFIG_GPIO_LPC18XX=m
-# CONFIG_GPIO_LPC32XX is not set
-# CONFIG_GPIO_MB86S7X is not set
-# CONFIG_GPIO_MENZ127 is not set
-# CONFIG_GPIO_MPC8XXX is not set
-CONFIG_GPIO_MT7621=y
-CONFIG_GPIO_MVEBU=y
-# CONFIG_GPIO_MXC is not set
-CONFIG_GPIO_MXS=y
-CONFIG_GPIO_NOMADIK=y
-# CONFIG_GPIO_NPCM_SGPIO is not set
-# CONFIG_GPIO_OMAP is not set
-# CONFIG_GPIO_POLARFIRE_SOC is not set
-# CONFIG_GPIO_PXA is not set
-# CONFIG_GPIO_RCAR is not set
-# CONFIG_GPIO_RDA is not set
-# CONFIG_GPIO_ROCKCHIP is not set
-CONFIG_GPIO_SAMA5D2_PIOBU=y
-CONFIG_GPIO_SIFIVE=m
-CONFIG_GPIO_SIOX=m
-CONFIG_GPIO_SNPS_CREG=y
-CONFIG_GPIO_SPRD=m
-# CONFIG_GPIO_STP_XWAY is not set
-CONFIG_GPIO_SYSCON=y
-CONFIG_GPIO_TANGIER=m
-# CONFIG_GPIO_TEGRA is not set
-CONFIG_GPIO_TEGRA186=m
-CONFIG_GPIO_TS4800=m
-# CONFIG_GPIO_THUNDERX is not set
-CONFIG_GPIO_UNIPHIER=m
-# CONFIG_GPIO_VF610 is not set
-CONFIG_GPIO_VISCONTI=m
-CONFIG_GPIO_XGENE_SB=y
-CONFIG_GPIO_XILINX=m
-CONFIG_GPIO_XLP=m
-CONFIG_GPIO_AMD_FCH=m
-# CONFIG_GPIO_IDT3243X is not set
-# end of Memory mapped GPIO drivers
-
-#
-# I2C GPIO expanders
-#
-# CONFIG_GPIO_ADNP is not set
-# CONFIG_GPIO_FXL6408 is not set
-CONFIG_GPIO_DS4520=m
-# CONFIG_GPIO_GW_PLD is not set
-CONFIG_GPIO_MAX7300=m
-CONFIG_GPIO_MAX732X=m
-CONFIG_GPIO_PCA953X=m
-CONFIG_GPIO_PCA953X_IRQ=y
-CONFIG_GPIO_PCA9570=m
-# CONFIG_GPIO_PCF857X is not set
-CONFIG_GPIO_TPIC2810=m
-CONFIG_GPIO_TS4900=m
-# end of I2C GPIO expanders
-
-#
-# MFD GPIO expanders
-#
-CONFIG_GPIO_ADP5585=m
-# CONFIG_GPIO_ARIZONA is not set
-# CONFIG_GPIO_BD9571MWV is not set
-# CONFIG_GPIO_DA9052 is not set
-CONFIG_GPIO_ELKHARTLAKE=m
-# CONFIG_GPIO_JANZ_TTL is not set
-# CONFIG_GPIO_LP3943 is not set
-CONFIG_GPIO_LP873X=m
-CONFIG_GPIO_LP87565=m
-# CONFIG_GPIO_PMIC_EIC_SPRD is not set
-# CONFIG_GPIO_SL28CPLD is not set
-CONFIG_GPIO_STMPE=y
-CONFIG_GPIO_TPS65086=m
-# CONFIG_GPIO_TPS65218 is not set
-CONFIG_GPIO_TPS65219=m
-# CONFIG_GPIO_TQMX86 is not set
-CONFIG_GPIO_WM831X=y
-# end of MFD GPIO expanders
-
-#
-# PCI GPIO expanders
-#
-CONFIG_GPIO_AMD8111=m
-CONFIG_GPIO_BT8XX=m
-# CONFIG_GPIO_MLXBF is not set
-# CONFIG_GPIO_MLXBF2 is not set
-CONFIG_GPIO_MLXBF3=y
-# CONFIG_GPIO_ML_IOH is not set
-CONFIG_GPIO_PCH=y
-# CONFIG_GPIO_PCI_IDIO_16 is not set
-CONFIG_GPIO_PCIE_IDIO_24=m
-# CONFIG_GPIO_RDC321X is not set
-# end of PCI GPIO expanders
-
-#
-# SPI GPIO expanders
-#
-# CONFIG_GPIO_74X164 is not set
-CONFIG_GPIO_MAX3191X=y
-CONFIG_GPIO_MAX7301=m
-CONFIG_GPIO_MC33880=m
-CONFIG_GPIO_PISOSR=m
-# CONFIG_GPIO_XRA1403 is not set
-CONFIG_GPIO_MOXTET=m
-# end of SPI GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-CONFIG_GPIO_AGGREGATOR=y
-# CONFIG_GPIO_LATCH is not set
-CONFIG_GPIO_MOCKUP=m
-# CONFIG_GPIO_VIRTIO is not set
-CONFIG_GPIO_SIM=y
-# end of Virtual GPIO drivers
-
-#
-# GPIO Debugging utilities
-#
-# CONFIG_GPIO_VIRTUSER is not set
-# end of GPIO Debugging utilities
-
-CONFIG_DEV_SYNC_PROBE=y
-CONFIG_W1=m
-
-#
-# 1-wire Bus Masters
-#
-CONFIG_W1_MASTER_AMD_AXI=m
-CONFIG_W1_MASTER_MATROX=m
-CONFIG_W1_MASTER_DS2482=m
-# CONFIG_W1_MASTER_MXC is not set
-CONFIG_W1_MASTER_GPIO=m
-CONFIG_HDQ_MASTER_OMAP=m
-CONFIG_W1_MASTER_SGI=m
-# end of 1-wire Bus Masters
-
-#
-# 1-wire Slaves
-#
-CONFIG_W1_SLAVE_THERM=m
-# CONFIG_W1_SLAVE_SMEM is not set
-CONFIG_W1_SLAVE_DS2405=m
-# CONFIG_W1_SLAVE_DS2408 is not set
-# CONFIG_W1_SLAVE_DS2413 is not set
-CONFIG_W1_SLAVE_DS2406=m
-# CONFIG_W1_SLAVE_DS2423 is not set
-CONFIG_W1_SLAVE_DS2805=m
-CONFIG_W1_SLAVE_DS2430=m
-# CONFIG_W1_SLAVE_DS2431 is not set
-CONFIG_W1_SLAVE_DS2433=m
-CONFIG_W1_SLAVE_DS2433_CRC=y
-# CONFIG_W1_SLAVE_DS2438 is not set
-# CONFIG_W1_SLAVE_DS250X is not set
-CONFIG_W1_SLAVE_DS2780=m
-CONFIG_W1_SLAVE_DS2781=m
-CONFIG_W1_SLAVE_DS28E04=m
-CONFIG_W1_SLAVE_DS28E17=m
-# end of 1-wire Slaves
-
-# CONFIG_POWER_RESET is not set
-# CONFIG_POWER_SEQUENCING is not set
-CONFIG_POWER_SUPPLY=y
-CONFIG_POWER_SUPPLY_DEBUG=y
-CONFIG_IP5XXX_POWER=m
-# CONFIG_WM831X_BACKUP is not set
-# CONFIG_WM831X_POWER is not set
-CONFIG_TEST_POWER=y
-# CONFIG_CHARGER_ADP5061 is not set
-# CONFIG_BATTERY_ACT8945A is not set
-CONFIG_BATTERY_CW2015=m
-# CONFIG_BATTERY_DS2760 is not set
-CONFIG_BATTERY_DS2780=m
-# CONFIG_BATTERY_DS2781 is not set
-CONFIG_BATTERY_DS2782=m
-# CONFIG_BATTERY_OLPC is not set
-CONFIG_BATTERY_SAMSUNG_SDI=y
-CONFIG_BATTERY_SBS=m
-# CONFIG_CHARGER_SBS is not set
-CONFIG_MANAGER_SBS=m
-# CONFIG_BATTERY_BQ27XXX is not set
-# CONFIG_BATTERY_DA9052 is not set
-# CONFIG_BATTERY_DA9150 is not set
-CONFIG_BATTERY_MAX17042=m
-CONFIG_BATTERY_MAX1720X=m
-CONFIG_BATTERY_MAX1721X=m
-CONFIG_CHARGER_MAX8903=y
-CONFIG_CHARGER_LP8727=m
-CONFIG_CHARGER_GPIO=y
-# CONFIG_CHARGER_MANAGER is not set
-CONFIG_CHARGER_LT3651=y
-CONFIG_CHARGER_LTC4162L=m
-CONFIG_CHARGER_MAX14577=m
-CONFIG_CHARGER_DETECTOR_MAX14656=m
-# CONFIG_CHARGER_MAX77705 is not set
-CONFIG_CHARGER_MAX77976=m
-CONFIG_CHARGER_MT6360=m
-# CONFIG_CHARGER_QCOM_SMBB is not set
-CONFIG_BATTERY_PM8916_BMS_VM=y
-# CONFIG_CHARGER_PM8916_LBC is not set
-CONFIG_CHARGER_BQ2415X=m
-# CONFIG_CHARGER_BQ24190 is not set
-# CONFIG_CHARGER_BQ24257 is not set
-CONFIG_CHARGER_BQ24735=m
-# CONFIG_CHARGER_BQ2515X is not set
-# CONFIG_CHARGER_BQ25890 is not set
-# CONFIG_CHARGER_BQ25980 is not set
-# CONFIG_CHARGER_BQ256XX is not set
-CONFIG_CHARGER_SMB347=m
-# CONFIG_CHARGER_TPS65217 is not set
-CONFIG_BATTERY_GAUGE_LTC2941=m
-# CONFIG_BATTERY_GOLDFISH is not set
-CONFIG_BATTERY_RT5033=m
-CONFIG_CHARGER_RT9455=m
-# CONFIG_CHARGER_RT9467 is not set
-CONFIG_CHARGER_RT9471=m
-CONFIG_CHARGER_SC2731=y
-CONFIG_FUEL_GAUGE_STC3117=m
-CONFIG_CHARGER_UCS1002=m
-# CONFIG_CHARGER_BD99954 is not set
-# CONFIG_BATTERY_UG3105 is not set
-# CONFIG_FUEL_GAUGE_MM8013 is not set
-CONFIG_HWMON=m
-CONFIG_HWMON_VID=m
-# CONFIG_HWMON_DEBUG_CHIP is not set
-
-#
-# Native drivers
-#
-CONFIG_SENSORS_ABITUGURU=m
-CONFIG_SENSORS_ABITUGURU3=m
-CONFIG_SENSORS_AD7314=m
-CONFIG_SENSORS_AD7414=m
-# CONFIG_SENSORS_AD7418 is not set
-CONFIG_SENSORS_ADM1025=m
-CONFIG_SENSORS_ADM1026=m
-# CONFIG_SENSORS_ADM1029 is not set
-CONFIG_SENSORS_ADM1031=m
-CONFIG_SENSORS_ADM1177=m
-CONFIG_SENSORS_ADM9240=m
-CONFIG_SENSORS_ADT7X10=m
-# CONFIG_SENSORS_ADT7310 is not set
-CONFIG_SENSORS_ADT7410=m
-CONFIG_SENSORS_ADT7411=m
-CONFIG_SENSORS_ADT7462=m
-# CONFIG_SENSORS_ADT7470 is not set
-CONFIG_SENSORS_ADT7475=m
-# CONFIG_SENSORS_AHT10 is not set
-# CONFIG_SENSORS_AS370 is not set
-CONFIG_SENSORS_ASC7621=m
-CONFIG_SENSORS_AXI_FAN_CONTROL=m
-# CONFIG_SENSORS_ARM_SCMI is not set
-# CONFIG_SENSORS_ARM_SCPI is not set
-# CONFIG_SENSORS_ASB100 is not set
-# CONFIG_SENSORS_ASPEED is not set
-CONFIG_SENSORS_ASPEED_G6=m
-CONFIG_SENSORS_ATXP1=m
-CONFIG_SENSORS_BT1_PVT=m
-# CONFIG_SENSORS_BT1_PVT_ALARMS is not set
-CONFIG_SENSORS_CHIPCAP2=m
-# CONFIG_SENSORS_DS620 is not set
-CONFIG_SENSORS_DS1621=m
-CONFIG_SENSORS_DA9052_ADC=m
-# CONFIG_SENSORS_I5K_AMB is not set
-CONFIG_SENSORS_SPARX5=m
-CONFIG_SENSORS_F75375S=m
-CONFIG_SENSORS_GSC=m
-CONFIG_SENSORS_MC13783_ADC=m
-# CONFIG_SENSORS_FSCHMD is not set
-CONFIG_SENSORS_GL518SM=m
-CONFIG_SENSORS_GL520SM=m
-CONFIG_SENSORS_G760A=m
-# CONFIG_SENSORS_G762 is not set
-CONFIG_SENSORS_GPIO_FAN=m
-CONFIG_SENSORS_GXP_FAN_CTRL=m
-# CONFIG_SENSORS_HIH6130 is not set
-CONFIG_SENSORS_HS3001=m
-CONFIG_SENSORS_HTU31=m
-CONFIG_SENSORS_IBMAEM=m
-CONFIG_SENSORS_IBMPEX=m
-CONFIG_SENSORS_IBMPOWERNV=m
-CONFIG_SENSORS_ISL28022=m
-CONFIG_SENSORS_JC42=m
-# CONFIG_SENSORS_POWR1220 is not set
-# CONFIG_SENSORS_LAN966X is not set
-CONFIG_SENSORS_LINEAGE=m
-CONFIG_SENSORS_LTC2945=m
-# CONFIG_SENSORS_LTC2947_I2C is not set
-# CONFIG_SENSORS_LTC2947_SPI is not set
-CONFIG_SENSORS_LTC2990=m
-CONFIG_SENSORS_LTC2991=m
-CONFIG_SENSORS_LTC2992=m
-CONFIG_SENSORS_LTC4151=m
-CONFIG_SENSORS_LTC4215=m
-# CONFIG_SENSORS_LTC4222 is not set
-CONFIG_SENSORS_LTC4245=m
-# CONFIG_SENSORS_LTC4260 is not set
-CONFIG_SENSORS_LTC4261=m
-CONFIG_SENSORS_LTC4282=m
-# CONFIG_SENSORS_MAX1111 is not set
-CONFIG_SENSORS_MAX127=m
-CONFIG_SENSORS_MAX16065=m
-# CONFIG_SENSORS_MAX1619 is not set
-# CONFIG_SENSORS_MAX1668 is not set
-# CONFIG_SENSORS_MAX197 is not set
-CONFIG_SENSORS_MAX31722=m
-CONFIG_SENSORS_MAX31730=m
-CONFIG_SENSORS_MAX31760=m
-# CONFIG_MAX31827 is not set
-# CONFIG_SENSORS_MAX6620 is not set
-CONFIG_SENSORS_MAX6621=m
-CONFIG_SENSORS_MAX6639=m
-# CONFIG_SENSORS_MAX6650 is not set
-CONFIG_SENSORS_MAX6697=m
-# CONFIG_SENSORS_MAX31790 is not set
-CONFIG_SENSORS_MC34VR500=m
-CONFIG_SENSORS_MCP3021=m
-CONFIG_SENSORS_MLXREG_FAN=m
-# CONFIG_SENSORS_TC654 is not set
-CONFIG_SENSORS_TPS23861=m
-CONFIG_SENSORS_MR75203=m
-CONFIG_SENSORS_ADCXX=m
-CONFIG_SENSORS_LM63=m
-# CONFIG_SENSORS_LM70 is not set
-# CONFIG_SENSORS_LM73 is not set
-CONFIG_SENSORS_LM75=m
-CONFIG_SENSORS_LM77=m
-CONFIG_SENSORS_LM78=m
-# CONFIG_SENSORS_LM80 is not set
-CONFIG_SENSORS_LM83=m
-CONFIG_SENSORS_LM85=m
-# CONFIG_SENSORS_LM87 is not set
-CONFIG_SENSORS_LM90=m
-CONFIG_SENSORS_LM92=m
-# CONFIG_SENSORS_LM93 is not set
-CONFIG_SENSORS_LM95234=m
-# CONFIG_SENSORS_LM95241 is not set
-CONFIG_SENSORS_LM95245=m
-CONFIG_SENSORS_NCT6775_CORE=m
-CONFIG_SENSORS_NCT6775_I2C=m
-CONFIG_SENSORS_NCT7363=m
-CONFIG_SENSORS_NCT7802=m
-CONFIG_SENSORS_NPCM7XX=m
-# CONFIG_SENSORS_NSA320 is not set
-CONFIG_SENSORS_OCC_P8_I2C=m
-CONFIG_SENSORS_OCC=m
-CONFIG_SENSORS_PCF8591=m
-# CONFIG_PMBUS is not set
-CONFIG_SENSORS_PT5161L=m
-# CONFIG_SENSORS_PWM_FAN is not set
-# CONFIG_SENSORS_RASPBERRYPI_HWMON is not set
-CONFIG_SENSORS_SL28CPLD=m
-CONFIG_SENSORS_SBTSI=m
-# CONFIG_SENSORS_SBRMI is not set
-CONFIG_SENSORS_SHT15=m
-# CONFIG_SENSORS_SHT21 is not set
-# CONFIG_SENSORS_SHT3x is not set
-CONFIG_SENSORS_SHT4x=m
-CONFIG_SENSORS_SHTC1=m
-CONFIG_SENSORS_SIS5595=m
-CONFIG_SENSORS_SY7636A=m
-CONFIG_SENSORS_EMC1403=m
-# CONFIG_SENSORS_EMC2103 is not set
-CONFIG_SENSORS_EMC2305=m
-CONFIG_SENSORS_EMC6W201=m
-CONFIG_SENSORS_SMSC47M192=m
-CONFIG_SENSORS_STTS751=m
-CONFIG_SENSORS_SFCTEMP=m
-CONFIG_SENSORS_SG2042_MCU=m
-CONFIG_SENSORS_ADC128D818=m
-# CONFIG_SENSORS_ADS7828 is not set
-CONFIG_SENSORS_ADS7871=m
-CONFIG_SENSORS_AMC6821=m
-# CONFIG_SENSORS_INA209 is not set
-CONFIG_SENSORS_INA2XX=m
-CONFIG_SENSORS_INA238=m
-CONFIG_SENSORS_INA3221=m
-# CONFIG_SENSORS_SPD5118 is not set
-CONFIG_SENSORS_TC74=m
-CONFIG_SENSORS_THMC50=m
-# CONFIG_SENSORS_TMP102 is not set
-# CONFIG_SENSORS_TMP103 is not set
-# CONFIG_SENSORS_TMP108 is not set
-CONFIG_SENSORS_TMP401=m
-# CONFIG_SENSORS_TMP421 is not set
-CONFIG_SENSORS_TMP464=m
-CONFIG_SENSORS_TMP513=m
-CONFIG_SENSORS_VIA686A=m
-CONFIG_SENSORS_VT8231=m
-CONFIG_SENSORS_W83773G=m
-# CONFIG_SENSORS_W83781D is not set
-CONFIG_SENSORS_W83791D=m
-CONFIG_SENSORS_W83792D=m
-CONFIG_SENSORS_W83793=m
-# CONFIG_SENSORS_W83795 is not set
-# CONFIG_SENSORS_W83L785TS is not set
-CONFIG_SENSORS_W83L786NG=m
-# CONFIG_SENSORS_WM831X is not set
-CONFIG_SENSORS_INTEL_M10_BMC_HWMON=m
-CONFIG_THERMAL=y
-# CONFIG_THERMAL_STATISTICS is not set
-CONFIG_THERMAL_DEBUGFS=y
-CONFIG_THERMAL_CORE_TESTING=y
-CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
-CONFIG_THERMAL_OF=y
-CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
-# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_POWER_ALLOCATOR is not set
-# CONFIG_THERMAL_GOV_FAIR_SHARE is not set
-CONFIG_THERMAL_GOV_STEP_WISE=y
-# CONFIG_THERMAL_GOV_BANG_BANG is not set
-CONFIG_THERMAL_GOV_USER_SPACE=y
-CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
-# CONFIG_CPU_THERMAL is not set
-CONFIG_DEVFREQ_THERMAL=y
-CONFIG_PCIE_THERMAL=y
-CONFIG_THERMAL_EMULATION=y
-# CONFIG_THERMAL_MMIO is not set
-CONFIG_HISI_THERMAL=m
-# CONFIG_IMX_THERMAL is not set
-# CONFIG_IMX8MM_THERMAL is not set
-CONFIG_K3_THERMAL=m
-CONFIG_QORIQ_THERMAL=m
-CONFIG_SPEAR_THERMAL=m
-CONFIG_SUN8I_THERMAL=m
-# CONFIG_ROCKCHIP_THERMAL is not set
-CONFIG_KIRKWOOD_THERMAL=y
-CONFIG_DOVE_THERMAL=y
-CONFIG_ARMADA_THERMAL=y
-CONFIG_DA9062_THERMAL=m
-
-#
-# Mediatek thermal drivers
-#
-# CONFIG_MTK_THERMAL is not set
-# end of Mediatek thermal drivers
-
-#
-# Intel thermal drivers
-#
-
-#
-# ACPI INT340X thermal drivers
-#
-# end of ACPI INT340X thermal drivers
-# end of Intel thermal drivers
-
-#
-# Broadcom thermal drivers
-#
-CONFIG_BCM2711_THERMAL=y
-CONFIG_BCM2835_THERMAL=m
-CONFIG_BRCMSTB_THERMAL=m
-CONFIG_BCM_NS_THERMAL=m
-CONFIG_BCM_SR_THERMAL=y
-# end of Broadcom thermal drivers
-
-#
-# Texas Instruments thermal drivers
-#
-CONFIG_TI_SOC_THERMAL=y
-# CONFIG_TI_THERMAL is not set
-CONFIG_OMAP3_THERMAL=y
-CONFIG_OMAP4_THERMAL=y
-# CONFIG_OMAP5_THERMAL is not set
-CONFIG_DRA752_THERMAL=y
-# end of Texas Instruments thermal drivers
-
-#
-# Samsung thermal drivers
-#
-CONFIG_EXYNOS_THERMAL=y
-# end of Samsung thermal drivers
-
-# CONFIG_RCAR_THERMAL is not set
-CONFIG_RCAR_GEN3_THERMAL=y
-CONFIG_RZG2L_THERMAL=m
-
-#
-# NVIDIA Tegra thermal drivers
-#
-CONFIG_TEGRA_SOCTHERM=m
-CONFIG_TEGRA_BPMP_THERMAL=y
-CONFIG_TEGRA30_TSENSOR=y
-# end of NVIDIA Tegra thermal drivers
-
-#
-# Qualcomm thermal drivers
-#
-# CONFIG_QCOM_TSENS is not set
-# end of Qualcomm thermal drivers
-
-CONFIG_UNIPHIER_THERMAL=y
-CONFIG_SPRD_THERMAL=m
-# CONFIG_LOONGSON2_THERMAL is not set
-# CONFIG_WATCHDOG is not set
-CONFIG_SSB_POSSIBLE=y
-CONFIG_SSB=m
-CONFIG_SSB_PCIHOST_POSSIBLE=y
-# CONFIG_SSB_PCIHOST is not set
-# CONFIG_SSB_HOST_SOC is not set
-CONFIG_SSB_DRIVER_GPIO=y
-CONFIG_BCMA_POSSIBLE=y
-CONFIG_BCMA=y
-CONFIG_BCMA_HOST_PCI_POSSIBLE=y
-# CONFIG_BCMA_HOST_PCI is not set
-CONFIG_BCMA_HOST_SOC=y
-CONFIG_BCMA_DRIVER_PCI=y
-# CONFIG_BCMA_DRIVER_MIPS is not set
-CONFIG_BCMA_SFLASH=y
-CONFIG_BCMA_DRIVER_GMAC_CMN=y
-CONFIG_BCMA_DRIVER_GPIO=y
-# CONFIG_BCMA_DEBUG is not set
-
-#
-# Multifunction device drivers
-#
-CONFIG_MFD_CORE=y
-CONFIG_MFD_ADP5585=m
-# CONFIG_MFD_ACT8945A is not set
-# CONFIG_MFD_SUN4I_GPADC is not set
-# CONFIG_MFD_SMPRO is not set
-CONFIG_MFD_AT91_USART=m
-CONFIG_MFD_ATMEL_FLEXCOM=y
-CONFIG_MFD_ATMEL_HLCDC=m
-CONFIG_MFD_ATMEL_SMC=y
-CONFIG_MFD_BCM590XX=m
-CONFIG_MFD_BD9571MWV=m
-CONFIG_MFD_AXP20X=m
-CONFIG_MFD_AXP20X_I2C=m
-CONFIG_MFD_CS42L43=m
-CONFIG_MFD_CS42L43_I2C=m
-# CONFIG_MFD_MADERA is not set
-# CONFIG_MFD_MAX5970 is not set
-CONFIG_PMIC_DA9052=y
-CONFIG_MFD_DA9052_SPI=y
-CONFIG_MFD_DA9062=m
-CONFIG_MFD_DA9063=m
-CONFIG_MFD_DA9150=m
-CONFIG_MFD_ENE_KB3930=m
-CONFIG_MFD_EXYNOS_LPASS=m
-CONFIG_MFD_GATEWORKS_GSC=m
-CONFIG_MFD_MC13XXX=y
-CONFIG_MFD_MC13XXX_SPI=y
-# CONFIG_MFD_MC13XXX_I2C is not set
-CONFIG_MFD_MP2629=m
-CONFIG_MFD_MXS_LRADC=m
-CONFIG_MFD_MX25_TSADC=m
-CONFIG_MFD_HI6421_PMIC=y
-# CONFIG_MFD_HI6421_SPMI is not set
-CONFIG_MFD_HI655X_PMIC=y
-CONFIG_LPC_ICH=m
-CONFIG_LPC_SCH=m
-CONFIG_MFD_IQS62X=m
-CONFIG_MFD_JANZ_CMODIO=y
-# CONFIG_MFD_KEMPLD is not set
-CONFIG_MFD_88PM800=m
-CONFIG_MFD_88PM805=m
-CONFIG_MFD_MAX14577=m
-# CONFIG_MFD_MAX77650 is not set
-CONFIG_MFD_MAX77686=m
-# CONFIG_MFD_MAX77693 is not set
-CONFIG_MFD_MAX77705=m
-# CONFIG_MFD_MAX77714 is not set
-# CONFIG_MFD_MAX8907 is not set
-CONFIG_MFD_MT6360=m
-CONFIG_MFD_MT6370=m
-CONFIG_MFD_MT6397=y
-# CONFIG_MFD_MENF21BMC is not set
-CONFIG_MFD_OCELOT=y
-CONFIG_EZX_PCAP=y
-CONFIG_MFD_CPCAP=y
-CONFIG_MFD_NTXEC=m
-# CONFIG_MFD_RETU is not set
-CONFIG_MFD_PM8XXX=m
-CONFIG_MFD_SPMI_PMIC=m
-CONFIG_MFD_SY7636A=m
-# CONFIG_MFD_RDC321X is not set
-# CONFIG_MFD_RT4831 is not set
-# CONFIG_MFD_RT5033 is not set
-CONFIG_MFD_RT5120=m
-# CONFIG_MFD_RK8XX_I2C is not set
-# CONFIG_MFD_RK8XX_SPI is not set
-CONFIG_MFD_RN5T618=m
-CONFIG_MFD_SI476X_CORE=m
-CONFIG_MFD_SIMPLE_MFD_I2C=m
-CONFIG_MFD_SL28CPLD=m
-CONFIG_MFD_SM501=m
-CONFIG_MFD_SM501_GPIO=y
-CONFIG_MFD_SKY81452=m
-CONFIG_MFD_SC27XX_PMIC=m
-CONFIG_RZ_MTU3=y
-CONFIG_ABX500_CORE=y
-CONFIG_MFD_STMPE=y
-
-#
-# STMicroelectronics STMPE Interface Drivers
-#
-# CONFIG_STMPE_SPI is not set
-# end of STMicroelectronics STMPE Interface Drivers
-
-# CONFIG_MFD_SUN6I_PRCM is not set
-CONFIG_MFD_SYSCON=y
-CONFIG_MFD_TI_AM335X_TSCADC=m
-CONFIG_MFD_LP3943=m
-CONFIG_MFD_TI_LMU=m
-# CONFIG_TPS6105X is not set
-# CONFIG_TPS65010 is not set
-# CONFIG_TPS6507X is not set
-CONFIG_MFD_TPS65086=m
-CONFIG_MFD_TPS65217=m
-CONFIG_MFD_TI_LP873X=m
-CONFIG_MFD_TI_LP87565=m
-CONFIG_MFD_TPS65218=m
-CONFIG_MFD_TPS65219=m
-# CONFIG_MFD_TPS65912_I2C is not set
-# CONFIG_MFD_TPS65912_SPI is not set
-CONFIG_MFD_TPS6594=y
-# CONFIG_MFD_TPS6594_I2C is not set
-CONFIG_MFD_TPS6594_SPI=y
-CONFIG_MFD_WL1273_CORE=m
-# CONFIG_MFD_LM3533 is not set
-# CONFIG_MFD_TIMBERDALE is not set
-CONFIG_MFD_TQMX86=y
-# CONFIG_MFD_VX855 is not set
-CONFIG_MFD_ARIZONA=m
-CONFIG_MFD_ARIZONA_I2C=m
-# CONFIG_MFD_ARIZONA_SPI is not set
-# CONFIG_MFD_CS47L24 is not set
-CONFIG_MFD_WM5102=y
-CONFIG_MFD_WM5110=y
-# CONFIG_MFD_WM8997 is not set
-# CONFIG_MFD_WM8998 is not set
-CONFIG_MFD_WM831X=y
-CONFIG_MFD_WM831X_SPI=y
-# CONFIG_MFD_WM8994 is not set
-# CONFIG_MFD_STW481X is not set
-# CONFIG_MFD_STM32_LPTIMER is not set
-# CONFIG_MFD_STM32_TIMERS is not set
-CONFIG_MFD_STMFX=m
-# CONFIG_MFD_ATC260X_I2C is not set
-# CONFIG_MFD_KHADAS_MCU is not set
-# CONFIG_MFD_ACER_A500_EC is not set
-CONFIG_MFD_QCOM_PM8008=m
-CONFIG_MFD_CS40L50_CORE=m
-CONFIG_MFD_CS40L50_I2C=m
-# CONFIG_MFD_CS40L50_SPI is not set
-CONFIG_MFD_INTEL_M10_BMC_CORE=y
-CONFIG_MFD_INTEL_M10_BMC_SPI=y
-CONFIG_MFD_INTEL_M10_BMC_PMCI=m
-# CONFIG_MFD_RSMU_I2C is not set
-CONFIG_MFD_RSMU_SPI=m
-# end of Multifunction device drivers
-
-CONFIG_REGULATOR=y
-# CONFIG_REGULATOR_DEBUG is not set
-CONFIG_REGULATOR_FIXED_VOLTAGE=m
-CONFIG_REGULATOR_VIRTUAL_CONSUMER=y
-CONFIG_REGULATOR_USERSPACE_CONSUMER=y
-# CONFIG_REGULATOR_88PG86X is not set
-# CONFIG_REGULATOR_88PM800 is not set
-CONFIG_REGULATOR_ACT8865=m
-CONFIG_REGULATOR_AD5398=m
-# CONFIG_REGULATOR_ANATOP is not set
-CONFIG_REGULATOR_ARM_SCMI=y
-CONFIG_REGULATOR_AW37503=m
-CONFIG_REGULATOR_AXP20X=m
-# CONFIG_REGULATOR_BCM590XX is not set
-CONFIG_REGULATOR_BD9571MWV=m
-CONFIG_REGULATOR_CPCAP=m
-# CONFIG_REGULATOR_DA9052 is not set
-# CONFIG_REGULATOR_DA9062 is not set
-CONFIG_REGULATOR_DA9063=m
-CONFIG_REGULATOR_DA9121=m
-# CONFIG_REGULATOR_DA9210 is not set
-# CONFIG_REGULATOR_DA9211 is not set
-# CONFIG_REGULATOR_FAN53555 is not set
-CONFIG_REGULATOR_FAN53880=m
-CONFIG_REGULATOR_GPIO=m
-CONFIG_REGULATOR_HI6421=m
-# CONFIG_REGULATOR_HI6421V530 is not set
-CONFIG_REGULATOR_HI655X=y
-CONFIG_REGULATOR_ISL9305=m
-CONFIG_REGULATOR_ISL6271A=m
-# CONFIG_REGULATOR_LM363X is not set
-# CONFIG_REGULATOR_LP3971 is not set
-CONFIG_REGULATOR_LP3972=m
-# CONFIG_REGULATOR_LP872X is not set
-# CONFIG_REGULATOR_LP873X is not set
-CONFIG_REGULATOR_LP8755=m
-CONFIG_REGULATOR_LP87565=m
-# CONFIG_REGULATOR_LTC3589 is not set
-CONFIG_REGULATOR_LTC3676=m
-CONFIG_REGULATOR_MAX14577=m
-# CONFIG_REGULATOR_MAX1586 is not set
-CONFIG_REGULATOR_MAX77503=m
-CONFIG_REGULATOR_MAX77620=y
-CONFIG_REGULATOR_MAX77650=y
-# CONFIG_REGULATOR_MAX77857 is not set
-# CONFIG_REGULATOR_MAX8649 is not set
-# CONFIG_REGULATOR_MAX8660 is not set
-# CONFIG_REGULATOR_MAX8893 is not set
-# CONFIG_REGULATOR_MAX8907 is not set
-CONFIG_REGULATOR_MAX8952=m
-# CONFIG_REGULATOR_MAX8973 is not set
-# CONFIG_REGULATOR_MAX20086 is not set
-# CONFIG_REGULATOR_MAX20411 is not set
-# CONFIG_REGULATOR_MAX77686 is not set
-# CONFIG_REGULATOR_MAX77693 is not set
-CONFIG_REGULATOR_MAX77802=y
-# CONFIG_REGULATOR_MAX77826 is not set
-CONFIG_REGULATOR_MC13XXX_CORE=m
-CONFIG_REGULATOR_MC13783=m
-CONFIG_REGULATOR_MC13892=m
-# CONFIG_REGULATOR_MCP16502 is not set
-CONFIG_REGULATOR_MP5416=m
-CONFIG_REGULATOR_MP8859=m
-CONFIG_REGULATOR_MP886X=m
-# CONFIG_REGULATOR_MPQ7920 is not set
-CONFIG_REGULATOR_MT6311=m
-CONFIG_REGULATOR_MT6315=m
-CONFIG_REGULATOR_MT6323=m
-CONFIG_REGULATOR_MT6331=y
-CONFIG_REGULATOR_MT6332=y
-CONFIG_REGULATOR_MT6357=y
-# CONFIG_REGULATOR_MT6358 is not set
-CONFIG_REGULATOR_MT6359=y
-# CONFIG_REGULATOR_MT6360 is not set
-# CONFIG_REGULATOR_MT6370 is not set
-CONFIG_REGULATOR_MT6397=m
-CONFIG_REGULATOR_PBIAS=m
-CONFIG_REGULATOR_PCA9450=m
-CONFIG_REGULATOR_PF9453=m
-CONFIG_REGULATOR_PCAP=y
-CONFIG_REGULATOR_PF8X00=m
-# CONFIG_REGULATOR_PFUZE100 is not set
-CONFIG_REGULATOR_PV88060=m
-CONFIG_REGULATOR_PV88080=m
-CONFIG_REGULATOR_PV88090=m
-CONFIG_REGULATOR_PWM=m
-# CONFIG_REGULATOR_QCOM_PM8008 is not set
-CONFIG_REGULATOR_QCOM_REFGEN=m
-# CONFIG_REGULATOR_QCOM_RPMH is not set
-CONFIG_REGULATOR_QCOM_SMD_RPM=m
-CONFIG_REGULATOR_QCOM_SPMI=m
-# CONFIG_REGULATOR_QCOM_USB_VBUS is not set
-# CONFIG_REGULATOR_RAA215300 is not set
-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
-# CONFIG_REGULATOR_RN5T618 is not set
-CONFIG_REGULATOR_RT4801=m
-CONFIG_REGULATOR_RT4803=m
-CONFIG_REGULATOR_RT5120=m
-# CONFIG_REGULATOR_RT5190A is not set
-# CONFIG_REGULATOR_RT5739 is not set
-CONFIG_REGULATOR_RT5759=m
-CONFIG_REGULATOR_RT6160=m
-CONFIG_REGULATOR_RT6190=m
-CONFIG_REGULATOR_RT6245=m
-CONFIG_REGULATOR_RTQ2134=m
-# CONFIG_REGULATOR_RTMV20 is not set
-CONFIG_REGULATOR_RTQ6752=m
-CONFIG_REGULATOR_RTQ2208=m
-CONFIG_REGULATOR_S2MPA01=m
-CONFIG_REGULATOR_S2MPS11=y
-CONFIG_REGULATOR_S5M8767=m
-CONFIG_REGULATOR_SC2731=y
-CONFIG_REGULATOR_SKY81452=m
-# CONFIG_REGULATOR_SLG51000 is not set
-# CONFIG_REGULATOR_STM32_BOOSTER is not set
-CONFIG_REGULATOR_STM32_VREFBUF=m
-# CONFIG_REGULATOR_STM32_PWR is not set
-# CONFIG_REGULATOR_TI_ABB is not set
-CONFIG_REGULATOR_STW481X_VMMC=y
-CONFIG_REGULATOR_SUN20I=m
-CONFIG_REGULATOR_SY7636A=m
-CONFIG_REGULATOR_SY8106A=m
-# CONFIG_REGULATOR_SY8824X is not set
-# CONFIG_REGULATOR_SY8827N is not set
-# CONFIG_REGULATOR_TPS51632 is not set
-CONFIG_REGULATOR_TPS62360=m
-CONFIG_REGULATOR_TPS6286X=m
-# CONFIG_REGULATOR_TPS6287X is not set
-CONFIG_REGULATOR_TPS65023=m
-CONFIG_REGULATOR_TPS6507X=m
-CONFIG_REGULATOR_TPS65086=m
-CONFIG_REGULATOR_TPS65132=m
-CONFIG_REGULATOR_TPS65217=m
-CONFIG_REGULATOR_TPS65218=m
-CONFIG_REGULATOR_TPS65219=m
-CONFIG_REGULATOR_TPS6594=y
-CONFIG_REGULATOR_TPS6524X=y
-# CONFIG_REGULATOR_TPS68470 is not set
-# CONFIG_REGULATOR_UNIPHIER is not set
-CONFIG_REGULATOR_RZG2L_VBCTRL=m
-CONFIG_REGULATOR_VCTRL=m
-CONFIG_REGULATOR_WM831X=m
-CONFIG_REGULATOR_QCOM_LABIBB=m
-# CONFIG_RC_CORE is not set
-CONFIG_CEC_CORE=m
-CONFIG_CEC_NOTIFIER=y
-
-#
-# CEC support
-#
-# CONFIG_MEDIA_CEC_SUPPORT is not set
-# end of CEC support
-
-CONFIG_MEDIA_SUPPORT=y
-CONFIG_MEDIA_SUPPORT_FILTER=y
-# CONFIG_MEDIA_SUBDRV_AUTOSELECT is not set
-
-#
-# Media device types
-#
-CONFIG_MEDIA_CAMERA_SUPPORT=y
-# CONFIG_MEDIA_ANALOG_TV_SUPPORT is not set
-CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-CONFIG_MEDIA_RADIO_SUPPORT=y
-CONFIG_MEDIA_SDR_SUPPORT=y
-CONFIG_MEDIA_PLATFORM_SUPPORT=y
-CONFIG_MEDIA_TEST_SUPPORT=y
-# end of Media device types
-
-CONFIG_VIDEO_DEV=m
-CONFIG_MEDIA_CONTROLLER=y
-CONFIG_DVB_CORE=m
-
-#
-# Video4Linux options
-#
-CONFIG_VIDEO_V4L2_I2C=y
-CONFIG_VIDEO_V4L2_SUBDEV_API=y
-# CONFIG_VIDEO_ADV_DEBUG is not set
-CONFIG_VIDEO_FIXED_MINOR_RANGES=y
-CONFIG_VIDEO_TUNER=m
-CONFIG_V4L2_MEM2MEM_DEV=m
-CONFIG_V4L2_FLASH_LED_CLASS=m
-CONFIG_V4L2_FWNODE=m
-CONFIG_V4L2_ASYNC=m
-CONFIG_V4L2_CCI=m
-CONFIG_V4L2_CCI_I2C=m
-# end of Video4Linux options
-
-#
-# Media controller options
-#
-# CONFIG_MEDIA_CONTROLLER_DVB is not set
-# end of Media controller options
-
-#
-# Digital TV options
-#
-CONFIG_DVB_MMAP=y
-CONFIG_DVB_MAX_ADAPTERS=16
-# CONFIG_DVB_DYNAMIC_MINORS is not set
-CONFIG_DVB_DEMUX_SECTION_LOSS_LOG=y
-# CONFIG_DVB_ULE_DEBUG is not set
-# end of Digital TV options
-
-#
-# Media drivers
-#
-
-#
-# Drivers filtered as selected at 'Filter media drivers'
-#
-
-#
-# Media drivers
-#
-CONFIG_MEDIA_PCI_SUPPORT=y
-
-#
-# Media capture support
-#
-CONFIG_VIDEO_SOLO6X10=m
-# CONFIG_STA2X11_VIP is not set
-CONFIG_VIDEO_TW5864=m
-CONFIG_VIDEO_TW68=m
-# CONFIG_VIDEO_TW686X is not set
-CONFIG_VIDEO_ZORAN=m
-# CONFIG_VIDEO_ZORAN_DC30 is not set
-# CONFIG_VIDEO_ZORAN_ZR36060 is not set
-
-#
-# Media capture/analog/hybrid TV support
-#
-CONFIG_VIDEO_COBALT=m
-CONFIG_VIDEO_CX25821=m
-CONFIG_VIDEO_CX25821_ALSA=m
-# CONFIG_VIDEO_SAA7134 is not set
-CONFIG_VIDEO_SAA7164=m
-
-#
-# Media digital TV PCI Adapters
-#
-CONFIG_DVB_B2C2_FLEXCOP_PCI=m
-# CONFIG_DVB_B2C2_FLEXCOP_PCI_DEBUG is not set
-CONFIG_DVB_DDBRIDGE=m
-CONFIG_DVB_DDBRIDGE_MSIENABLE=y
-# CONFIG_DVB_NETUP_UNIDVB is not set
-CONFIG_DVB_NGENE=m
-# CONFIG_DVB_PLUTO2 is not set
-CONFIG_DVB_PT1=m
-# CONFIG_DVB_PT3 is not set
-CONFIG_DVB_BUDGET_CORE=m
-CONFIG_DVB_BUDGET=m
-# CONFIG_DVB_BUDGET_AV is not set
-CONFIG_IPU_BRIDGE=m
-CONFIG_RADIO_ADAPTERS=m
-# CONFIG_RADIO_MAXIRADIO is not set
-CONFIG_RADIO_SAA7706H=m
-CONFIG_RADIO_SI4713=m
-CONFIG_RADIO_TEA575X=m
-CONFIG_RADIO_TEA5764=m
-CONFIG_RADIO_TEF6862=m
-CONFIG_RADIO_WL1273=m
-CONFIG_RADIO_SI470X=m
-CONFIG_I2C_SI470X=m
-# CONFIG_PLATFORM_SI4713 is not set
-CONFIG_I2C_SI4713=m
-CONFIG_V4L_RADIO_ISA_DRIVERS=y
-# CONFIG_RADIO_AZTECH is not set
-# CONFIG_RADIO_CADET is not set
-# CONFIG_RADIO_GEMTEK is not set
-CONFIG_RADIO_ISA=m
-# CONFIG_RADIO_MIROPCM20 is not set
-# CONFIG_RADIO_RTRACK is not set
-# CONFIG_RADIO_RTRACK2 is not set
-CONFIG_RADIO_SF16FMI=m
-CONFIG_RADIO_SF16FMR2=m
-CONFIG_RADIO_TERRATEC=m
-CONFIG_RADIO_TRUST=m
-CONFIG_RADIO_TYPHOON=m
-CONFIG_RADIO_ZOLTRIX=m
-CONFIG_MEDIA_PLATFORM_DRIVERS=y
-# CONFIG_V4L_PLATFORM_DRIVERS is not set
-# CONFIG_SDR_PLATFORM_DRIVERS is not set
-CONFIG_DVB_PLATFORM_DRIVERS=y
-# CONFIG_V4L_MEM2MEM_DRIVERS is not set
-
-#
-# Allegro DVT media platform drivers
-#
-
-#
-# Amlogic media platform drivers
-#
-
-#
-# Amphion drivers
-#
-
-#
-# Aspeed media platform drivers
-#
-
-#
-# Atmel media platform drivers
-#
-CONFIG_VIDEO_BCM2835_UNICAM=m
-
-#
-# Cadence media platform drivers
-#
-CONFIG_VIDEO_CADENCE_CSI2RX=m
-CONFIG_VIDEO_CADENCE_CSI2TX=m
-
-#
-# Chips&Media media platform drivers
-#
-# CONFIG_VIDEO_E5010_JPEG_ENC is not set
-
-#
-# Intel media platform drivers
-#
-
-#
-# Marvell media platform drivers
-#
-
-#
-# Mediatek media platform drivers
-#
-
-#
-# Microchip Technology, Inc. media platform drivers
-#
-
-#
-# Nuvoton media platform drivers
-#
-
-#
-# NVidia media platform drivers
-#
-
-#
-# NXP media platform drivers
-#
-CONFIG_VIDEO_IMX7_CSI=m
-CONFIG_VIDEO_IMX8MQ_MIPI_CSI2=m
-CONFIG_VIDEO_IMX_MIPI_CSIS=m
-CONFIG_VIDEO_IMX8_ISI=m
-CONFIG_VIDEO_IMX8_ISI_M2M=y
-
-#
-# Qualcomm media platform drivers
-#
-CONFIG_VIDEO_QCOM_IRIS=m
-
-#
-# Raspberry Pi media platform drivers
-#
-CONFIG_VIDEO_RP1_CFE=m
-
-#
-# Renesas media platform drivers
-#
-
-#
-# Rockchip media platform drivers
-#
-
-#
-# Samsung media platform drivers
-#
-
-#
-# STMicroelectronics media platform drivers
-#
-# CONFIG_DVB_C8SECTPFE is not set
-
-#
-# Sunxi media platform drivers
-#
-# CONFIG_VIDEO_SYNOPSYS_HDMIRX is not set
-
-#
-# Texas Instruments drivers
-#
-CONFIG_VIDEO_TI_J721E_CSI2RX=m
-
-#
-# Verisilicon media platform drivers
-#
-
-#
-# VIA media platform drivers
-#
-
-#
-# Xilinx media platform drivers
-#
-CONFIG_V4L_TEST_DRIVERS=y
-# CONFIG_VIDEO_VIM2M is not set
-CONFIG_VIDEO_VICODEC=m
-CONFIG_VIDEO_VIMC=m
-CONFIG_VIDEO_VIVID=m
-CONFIG_VIDEO_VIVID_CEC=y
-CONFIG_VIDEO_VIVID_OSD=y
-CONFIG_VIDEO_VIVID_MAX_DEVS=64
-CONFIG_VIDEO_VISL=m
-# CONFIG_VISL_DEBUGFS is not set
-CONFIG_DVB_TEST_DRIVERS=y
-CONFIG_DVB_VIDTV=m
-
-#
-# FireWire (IEEE 1394) Adapters
-#
-CONFIG_DVB_FIREDTV=m
-CONFIG_DVB_FIREDTV_INPUT=y
-CONFIG_TTPCI_EEPROM=m
-CONFIG_VIDEO_TVEEPROM=m
-CONFIG_DVB_B2C2_FLEXCOP=m
-CONFIG_VIDEO_SAA7146=m
-CONFIG_VIDEO_V4L2_TPG=m
-CONFIG_VIDEOBUF2_CORE=m
-CONFIG_VIDEOBUF2_V4L2=m
-CONFIG_VIDEOBUF2_MEMOPS=m
-CONFIG_VIDEOBUF2_DMA_CONTIG=m
-CONFIG_VIDEOBUF2_VMALLOC=m
-CONFIG_VIDEOBUF2_DMA_SG=m
-# end of Media drivers
-
-#
-# Media ancillary drivers
-#
-CONFIG_MEDIA_ATTACH=y
-# CONFIG_VIDEO_CAMERA_SENSOR is not set
-
-#
-# Camera ISPs
-#
-# CONFIG_VIDEO_THP7312 is not set
-# end of Camera ISPs
-
-#
-# Lens drivers
-#
-# CONFIG_VIDEO_AD5820 is not set
-CONFIG_VIDEO_AK7375=m
-CONFIG_VIDEO_DW9714=m
-# CONFIG_VIDEO_DW9719 is not set
-CONFIG_VIDEO_DW9768=m
-CONFIG_VIDEO_DW9807_VCM=m
-# end of Lens drivers
-
-#
-# Flash devices
-#
-CONFIG_VIDEO_ADP1653=m
-CONFIG_VIDEO_LM3560=m
-# CONFIG_VIDEO_LM3646 is not set
-# end of Flash devices
-
-#
-# Audio decoders, processors and mixers
-#
-CONFIG_VIDEO_CS3308=m
-CONFIG_VIDEO_CS5345=m
-CONFIG_VIDEO_CS53L32A=m
-CONFIG_VIDEO_MSP3400=m
-CONFIG_VIDEO_SONY_BTF_MPX=m
-# CONFIG_VIDEO_TDA7432 is not set
-CONFIG_VIDEO_TDA9840=m
-CONFIG_VIDEO_TEA6415C=m
-CONFIG_VIDEO_TEA6420=m
-CONFIG_VIDEO_TLV320AIC23B=m
-CONFIG_VIDEO_TVAUDIO=m
-CONFIG_VIDEO_UDA1342=m
-CONFIG_VIDEO_VP27SMPX=m
-CONFIG_VIDEO_WM8739=m
-CONFIG_VIDEO_WM8775=m
-# end of Audio decoders, processors and mixers
-
-#
-# RDS decoders
-#
-# CONFIG_VIDEO_SAA6588 is not set
-# end of RDS decoders
-
-#
-# Video decoders
-#
-CONFIG_VIDEO_ADV7180=m
-CONFIG_VIDEO_ADV7183=m
-# CONFIG_VIDEO_ADV748X is not set
-CONFIG_VIDEO_ADV7604=m
-# CONFIG_VIDEO_ADV7604_CEC is not set
-CONFIG_VIDEO_ADV7842=m
-# CONFIG_VIDEO_ADV7842_CEC is not set
-CONFIG_VIDEO_BT819=m
-# CONFIG_VIDEO_BT856 is not set
-CONFIG_VIDEO_BT866=m
-CONFIG_VIDEO_ISL7998X=m
-CONFIG_VIDEO_KS0127=m
-CONFIG_VIDEO_MAX9286=m
-CONFIG_VIDEO_ML86V7667=m
-CONFIG_VIDEO_SAA7110=m
-# CONFIG_VIDEO_SAA711X is not set
-CONFIG_VIDEO_TC358743=m
-# CONFIG_VIDEO_TC358743_CEC is not set
-CONFIG_VIDEO_TC358746=m
-CONFIG_VIDEO_TVP514X=m
-CONFIG_VIDEO_TVP5150=m
-# CONFIG_VIDEO_TVP7002 is not set
-CONFIG_VIDEO_TW2804=m
-CONFIG_VIDEO_TW9900=m
-# CONFIG_VIDEO_TW9903 is not set
-CONFIG_VIDEO_TW9906=m
-CONFIG_VIDEO_TW9910=m
-CONFIG_VIDEO_VPX3220=m
-
-#
-# Video and audio decoders
-#
-CONFIG_VIDEO_SAA717X=m
-CONFIG_VIDEO_CX25840=m
-# end of Video decoders
-
-#
-# Video encoders
-#
-# CONFIG_VIDEO_ADV7170 is not set
-# CONFIG_VIDEO_ADV7175 is not set
-CONFIG_VIDEO_ADV7343=m
-CONFIG_VIDEO_ADV7393=m
-CONFIG_VIDEO_ADV7511=m
-# CONFIG_VIDEO_ADV7511_CEC is not set
-# CONFIG_VIDEO_AK881X is not set
-CONFIG_VIDEO_SAA7127=m
-CONFIG_VIDEO_SAA7185=m
-CONFIG_VIDEO_THS8200=m
-# end of Video encoders
-
-#
-# Video improvement chips
-#
-CONFIG_VIDEO_UPD64031A=m
-CONFIG_VIDEO_UPD64083=m
-# end of Video improvement chips
-
-#
-# Audio/Video compression chips
-#
-CONFIG_VIDEO_SAA6752HS=m
-# end of Audio/Video compression chips
-
-#
-# SDR tuner chips
-#
-# CONFIG_SDR_MAX2175 is not set
-# end of SDR tuner chips
-
-#
-# Miscellaneous helper chips
-#
-# CONFIG_VIDEO_I2C is not set
-CONFIG_VIDEO_M52790=m
-# CONFIG_VIDEO_ST_MIPID02 is not set
-CONFIG_VIDEO_THS7303=m
-# end of Miscellaneous helper chips
-
-#
-# Video serializers and deserializers
-#
-# CONFIG_VIDEO_DS90UB913 is not set
-CONFIG_VIDEO_DS90UB953=m
-CONFIG_VIDEO_DS90UB960=m
-# CONFIG_VIDEO_MAX96714 is not set
-CONFIG_VIDEO_MAX96717=m
-# end of Video serializers and deserializers
-
-#
-# Media SPI Adapters
-#
-# CONFIG_CXD2880_SPI_DRV is not set
-CONFIG_VIDEO_GS1662=m
-# end of Media SPI Adapters
-
-CONFIG_MEDIA_TUNER=m
-
-#
-# Customize TV tuners
-#
-CONFIG_MEDIA_TUNER_E4000=m
-# CONFIG_MEDIA_TUNER_FC0011 is not set
-CONFIG_MEDIA_TUNER_FC0012=m
-# CONFIG_MEDIA_TUNER_FC0013 is not set
-CONFIG_MEDIA_TUNER_FC2580=m
-CONFIG_MEDIA_TUNER_IT913X=m
-# CONFIG_MEDIA_TUNER_M88RS6000T is not set
-CONFIG_MEDIA_TUNER_MAX2165=m
-CONFIG_MEDIA_TUNER_MC44S803=m
-CONFIG_MEDIA_TUNER_MSI001=m
-CONFIG_MEDIA_TUNER_MT2060=m
-CONFIG_MEDIA_TUNER_MT2063=m
-# CONFIG_MEDIA_TUNER_MT20XX is not set
-# CONFIG_MEDIA_TUNER_MT2131 is not set
-CONFIG_MEDIA_TUNER_MT2266=m
-CONFIG_MEDIA_TUNER_MXL301RF=m
-CONFIG_MEDIA_TUNER_MXL5005S=m
-# CONFIG_MEDIA_TUNER_MXL5007T is not set
-CONFIG_MEDIA_TUNER_QM1D1B0004=m
-CONFIG_MEDIA_TUNER_QM1D1C0042=m
-# CONFIG_MEDIA_TUNER_QT1010 is not set
-CONFIG_MEDIA_TUNER_R820T=m
-# CONFIG_MEDIA_TUNER_SI2157 is not set
-CONFIG_MEDIA_TUNER_SIMPLE=m
-CONFIG_MEDIA_TUNER_TDA18212=m
-CONFIG_MEDIA_TUNER_TDA18218=m
-CONFIG_MEDIA_TUNER_TDA18250=m
-CONFIG_MEDIA_TUNER_TDA18271=m
-CONFIG_MEDIA_TUNER_TDA827X=m
-CONFIG_MEDIA_TUNER_TDA8290=m
-CONFIG_MEDIA_TUNER_TDA9887=m
-CONFIG_MEDIA_TUNER_TEA5761=m
-# CONFIG_MEDIA_TUNER_TEA5767 is not set
-CONFIG_MEDIA_TUNER_TUA9001=m
-CONFIG_MEDIA_TUNER_XC2028=m
-CONFIG_MEDIA_TUNER_XC4000=m
-# CONFIG_MEDIA_TUNER_XC5000 is not set
-# end of Customize TV tuners
-
-#
-# Customise DVB Frontends
-#
-
-#
-# Multistandard (satellite) frontends
-#
-CONFIG_DVB_M88DS3103=m
-CONFIG_DVB_MXL5XX=m
-CONFIG_DVB_STB0899=m
-CONFIG_DVB_STB6100=m
-CONFIG_DVB_STV090x=m
-# CONFIG_DVB_STV0910 is not set
-CONFIG_DVB_STV6110x=m
-CONFIG_DVB_STV6111=m
-
-#
-# Multistandard (cable + terrestrial) frontends
-#
-# CONFIG_DVB_DRXK is not set
-CONFIG_DVB_MN88472=m
-# CONFIG_DVB_MN88473 is not set
-# CONFIG_DVB_SI2165 is not set
-CONFIG_DVB_TDA18271C2DD=m
-
-#
-# DVB-S (satellite) frontends
-#
-CONFIG_DVB_CX24110=m
-CONFIG_DVB_CX24116=m
-CONFIG_DVB_CX24117=m
-# CONFIG_DVB_CX24120 is not set
-# CONFIG_DVB_CX24123 is not set
-CONFIG_DVB_DS3000=m
-CONFIG_DVB_MB86A16=m
-CONFIG_DVB_MT312=m
-CONFIG_DVB_S5H1420=m
-CONFIG_DVB_SI21XX=m
-CONFIG_DVB_STB6000=m
-CONFIG_DVB_STV0288=m
-CONFIG_DVB_STV0299=m
-# CONFIG_DVB_STV0900 is not set
-# CONFIG_DVB_STV6110 is not set
-CONFIG_DVB_TDA10071=m
-CONFIG_DVB_TDA10086=m
-CONFIG_DVB_TDA8083=m
-# CONFIG_DVB_TDA8261 is not set
-# CONFIG_DVB_TDA826X is not set
-CONFIG_DVB_TS2020=m
-CONFIG_DVB_TUA6100=m
-CONFIG_DVB_TUNER_CX24113=m
-# CONFIG_DVB_TUNER_ITD1000 is not set
-CONFIG_DVB_VES1X93=m
-# CONFIG_DVB_ZL10036 is not set
-CONFIG_DVB_ZL10039=m
-
-#
-# DVB-T (terrestrial) frontends
-#
-# CONFIG_DVB_AF9013 is not set
-CONFIG_DVB_CX22700=m
-# CONFIG_DVB_CX22702 is not set
-CONFIG_DVB_CXD2820R=m
-CONFIG_DVB_CXD2841ER=m
-# CONFIG_DVB_DIB3000MB is not set
-# CONFIG_DVB_DIB3000MC is not set
-CONFIG_DVB_DIB7000M=m
-CONFIG_DVB_DIB7000P=m
-# CONFIG_DVB_DIB9000 is not set
-# CONFIG_DVB_DRXD is not set
-# CONFIG_DVB_EC100 is not set
-CONFIG_DVB_L64781=m
-# CONFIG_DVB_MT352 is not set
-# CONFIG_DVB_NXT6000 is not set
-# CONFIG_DVB_RTL2830 is not set
-# CONFIG_DVB_RTL2832 is not set
-# CONFIG_DVB_S5H1432 is not set
-CONFIG_DVB_SI2168=m
-# CONFIG_DVB_SP887X is not set
-CONFIG_DVB_STV0367=m
-CONFIG_DVB_TDA10048=m
-CONFIG_DVB_TDA1004X=m
-# CONFIG_DVB_ZD1301_DEMOD is not set
-# CONFIG_DVB_ZL10353 is not set
-# CONFIG_DVB_CXD2880 is not set
-
-#
-# DVB-C (cable) frontends
-#
-CONFIG_DVB_STV0297=m
-# CONFIG_DVB_TDA10021 is not set
-CONFIG_DVB_TDA10023=m
-# CONFIG_DVB_VES1820 is not set
-
-#
-# ATSC (North American/Korean Terrestrial/Cable DTV) frontends
-#
-CONFIG_DVB_AU8522=m
-CONFIG_DVB_AU8522_DTV=m
-CONFIG_DVB_AU8522_V4L=m
-# CONFIG_DVB_BCM3510 is not set
-# CONFIG_DVB_LG2160 is not set
-# CONFIG_DVB_LGDT3305 is not set
-CONFIG_DVB_LGDT3306A=m
-CONFIG_DVB_LGDT330X=m
-CONFIG_DVB_MXL692=m
-CONFIG_DVB_NXT200X=m
-CONFIG_DVB_OR51132=m
-CONFIG_DVB_OR51211=m
-# CONFIG_DVB_S5H1409 is not set
-# CONFIG_DVB_S5H1411 is not set
-
-#
-# ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_DIB8000=m
-CONFIG_DVB_MB86A20S=m
-# CONFIG_DVB_S921 is not set
-
-#
-# ISDB-S (satellite) & ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_MN88443X=m
-# CONFIG_DVB_TC90522 is not set
-
-#
-# Digital terrestrial only tuners/PLL
-#
-# CONFIG_DVB_PLL is not set
-CONFIG_DVB_TUNER_DIB0070=m
-CONFIG_DVB_TUNER_DIB0090=m
-
-#
-# SEC control devices for DVB-S
-#
-CONFIG_DVB_A8293=m
-CONFIG_DVB_AF9033=m
-CONFIG_DVB_ASCOT2E=m
-CONFIG_DVB_ATBM8830=m
-CONFIG_DVB_HELENE=m
-CONFIG_DVB_HORUS3A=m
-CONFIG_DVB_ISL6405=m
-# CONFIG_DVB_ISL6421 is not set
-# CONFIG_DVB_ISL6423 is not set
-CONFIG_DVB_IX2505V=m
-CONFIG_DVB_LGS8GL5=m
-CONFIG_DVB_LGS8GXX=m
-CONFIG_DVB_LNBH25=m
-CONFIG_DVB_LNBH29=m
-# CONFIG_DVB_LNBP21 is not set
-# CONFIG_DVB_LNBP22 is not set
-CONFIG_DVB_M88RS2000=m
-CONFIG_DVB_TDA665x=m
-# CONFIG_DVB_DRX39XYJ is not set
-
-#
-# Common Interface (EN50221) controller drivers
-#
-CONFIG_DVB_CXD2099=m
-CONFIG_DVB_SP2=m
-# end of Customise DVB Frontends
-
-#
-# Tools to develop new frontends
-#
-# CONFIG_DVB_DUMMY_FE is not set
-# end of Media ancillary drivers
-
-#
-# Graphics support
-#
-CONFIG_APERTURE_HELPERS=y
-CONFIG_VIDEO=y
-# CONFIG_AUXDISPLAY is not set
-CONFIG_AGP=y
-CONFIG_AGP_UNINORTH=y
-CONFIG_TEGRA_HOST1X_CONTEXT_BUS=y
-CONFIG_TEGRA_HOST1X=m
-CONFIG_TEGRA_HOST1X_FIREWALL=y
-CONFIG_IMX_IPUV3_CORE=m
-CONFIG_DRM=m
-CONFIG_DRM_MIPI_DBI=m
-CONFIG_DRM_MIPI_DSI=y
-CONFIG_DRM_DEBUG_MM=y
-CONFIG_DRM_KMS_HELPER=m
-CONFIG_DRM_DRAW=y
-# CONFIG_DRM_PANIC is not set
-# CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS is not set
-# CONFIG_DRM_DEBUG_MODESET_LOCK is not set
-CONFIG_DRM_CLIENT=y
-CONFIG_DRM_CLIENT_LIB=m
-CONFIG_DRM_CLIENT_SELECTION=m
-CONFIG_DRM_CLIENT_SETUP=y
-
-#
-# Supported DRM clients
-#
-# CONFIG_DRM_FBDEV_EMULATION is not set
-CONFIG_DRM_CLIENT_LOG=y
-CONFIG_DRM_CLIENT_DEFAULT_LOG=y
-CONFIG_DRM_CLIENT_DEFAULT="log"
-# end of Supported DRM clients
-
-CONFIG_DRM_LOAD_EDID_FIRMWARE=y
-CONFIG_DRM_DISPLAY_DP_AUX_BUS=m
-CONFIG_DRM_DISPLAY_HELPER=m
-CONFIG_DRM_BRIDGE_CONNECTOR=y
-# CONFIG_DRM_DISPLAY_DP_AUX_CEC is not set
-CONFIG_DRM_DISPLAY_DP_AUX_CHARDEV=y
-CONFIG_DRM_DISPLAY_DP_HELPER=y
-CONFIG_DRM_DISPLAY_DSC_HELPER=y
-CONFIG_DRM_DISPLAY_HDCP_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_STATE_HELPER=y
-CONFIG_DRM_TTM=m
-CONFIG_DRM_EXEC=m
-CONFIG_DRM_GPUVM=m
-CONFIG_DRM_BUDDY=m
-CONFIG_DRM_VRAM_HELPER=m
-CONFIG_DRM_TTM_HELPER=m
-CONFIG_DRM_GEM_DMA_HELPER=m
-CONFIG_DRM_GEM_SHMEM_HELPER=m
-CONFIG_DRM_SUBALLOC_HELPER=m
-CONFIG_DRM_SCHED=m
-
-#
-# ARM devices
-#
-CONFIG_DRM_HDLCD=m
-# CONFIG_DRM_HDLCD_SHOW_UNDERRUN is not set
-# CONFIG_DRM_MALI_DISPLAY is not set
-CONFIG_DRM_KOMEDA=m
-# end of ARM devices
-
-CONFIG_DRM_RADEON=m
-CONFIG_DRM_RADEON_USERPTR=y
-CONFIG_DRM_AMDGPU=m
-# CONFIG_DRM_AMDGPU_SI is not set
-CONFIG_DRM_AMDGPU_CIK=y
-CONFIG_DRM_AMDGPU_USERPTR=y
-# CONFIG_DRM_AMD_ISP is not set
-
-#
-# ACP (Audio CoProcessor) Configuration
-#
-# CONFIG_DRM_AMD_ACP is not set
-# end of ACP (Audio CoProcessor) Configuration
-
-#
-# Display Engine Configuration
-#
-CONFIG_DRM_AMD_DC=y
-CONFIG_DRM_AMD_DC_FP=y
-# CONFIG_DEBUG_KERNEL_DC is not set
-# CONFIG_DRM_AMD_SECURE_DISPLAY is not set
-# end of Display Engine Configuration
-
-# CONFIG_HSA_AMD is not set
-CONFIG_DRM_NOUVEAU=m
-CONFIG_NOUVEAU_DEBUG=5
-CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-CONFIG_NOUVEAU_DEBUG_MMU=y
-CONFIG_NOUVEAU_DEBUG_PUSH=y
-# CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
-CONFIG_DRM_NOUVEAU_GSP_DEFAULT=y
-CONFIG_DRM_NOUVEAU_CH7006=m
-CONFIG_DRM_NOUVEAU_SIL164=m
-# CONFIG_DRM_XE is not set
-# CONFIG_DRM_KMB_DISPLAY is not set
-CONFIG_DRM_VGEM=m
-CONFIG_DRM_VKMS=m
-CONFIG_DRM_EXYNOS=m
-
-#
-# CRTCs
-#
-CONFIG_DRM_EXYNOS_FIMD=y
-# CONFIG_DRM_EXYNOS5433_DECON is not set
-# CONFIG_DRM_EXYNOS7_DECON is not set
-# CONFIG_DRM_EXYNOS_MIXER is not set
-CONFIG_DRM_EXYNOS_VIDI=y
-
-#
-# Encoders and Bridges
-#
-# CONFIG_DRM_EXYNOS_DPI is not set
-# CONFIG_DRM_EXYNOS_DSI is not set
-# CONFIG_DRM_EXYNOS_DP is not set
-
-#
-# Sub-drivers
-#
-# CONFIG_DRM_EXYNOS_G2D is not set
-CONFIG_DRM_EXYNOS_IPP=y
-CONFIG_DRM_EXYNOS_FIMC=y
-# CONFIG_DRM_EXYNOS_ROTATOR is not set
-# CONFIG_DRM_EXYNOS_SCALER is not set
-# CONFIG_DRM_EXYNOS_GSC is not set
-# CONFIG_DRM_ROCKCHIP is not set
-CONFIG_DRM_AST=m
-# CONFIG_DRM_MGAG200 is not set
-# CONFIG_DRM_ATMEL_HLCDC is not set
-CONFIG_DRM_RCAR_DU=m
-# CONFIG_DRM_RCAR_USE_CMM is not set
-CONFIG_DRM_RCAR_DW_HDMI=m
-CONFIG_DRM_RCAR_USE_LVDS=y
-CONFIG_DRM_RCAR_LVDS=m
-# CONFIG_DRM_RCAR_USE_MIPI_DSI is not set
-# CONFIG_DRM_RZG2L_MIPI_DSI is not set
-CONFIG_DRM_SHMOBILE=m
-CONFIG_DRM_SUN4I=m
-CONFIG_DRM_SUN4I_HDMI=m
-# CONFIG_DRM_SUN4I_HDMI_CEC is not set
-# CONFIG_DRM_SUN4I_BACKEND is not set
-CONFIG_DRM_SUN6I_DSI=m
-# CONFIG_DRM_SUN8I_DW_HDMI is not set
-# CONFIG_DRM_SUN8I_MIXER is not set
-CONFIG_DRM_OMAP=m
-CONFIG_OMAP2_DSS_DEBUG=y
-# CONFIG_OMAP2_DSS_DEBUGFS is not set
-# CONFIG_OMAP2_DSS_DPI is not set
-CONFIG_OMAP2_DSS_VENC=y
-CONFIG_OMAP2_DSS_HDMI_COMMON=y
-CONFIG_OMAP4_DSS_HDMI=y
-# CONFIG_OMAP4_DSS_HDMI_CEC is not set
-# CONFIG_OMAP5_DSS_HDMI is not set
-CONFIG_OMAP2_DSS_SDI=y
-CONFIG_OMAP2_DSS_DSI=y
-CONFIG_OMAP2_DSS_MIN_FCK_PER_PCK=0
-# CONFIG_OMAP2_DSS_SLEEP_AFTER_VENC_RESET is not set
-# CONFIG_DRM_QXL is not set
-CONFIG_DRM_MSM=m
-CONFIG_DRM_MSM_GPU_STATE=y
-CONFIG_DRM_MSM_GPU_SUDO=y
-CONFIG_DRM_MSM_MDSS=y
-# CONFIG_DRM_MSM_MDP4 is not set
-CONFIG_DRM_MSM_MDP5=y
-CONFIG_DRM_MSM_DPU=y
-CONFIG_DRM_MSM_DP=y
-# CONFIG_DRM_MSM_DSI is not set
-CONFIG_DRM_MSM_HDMI=y
-# CONFIG_DRM_MSM_HDMI_HDCP is not set
-CONFIG_DRM_TEGRA=m
-CONFIG_DRM_TEGRA_DEBUG=y
-CONFIG_DRM_STM=m
-CONFIG_DRM_STM_DSI=m
-CONFIG_DRM_STM_LVDS=m
-CONFIG_DRM_PANEL=y
-
-#
-# Display Panels
-#
-CONFIG_DRM_PANEL_ABT_Y030XX067A=m
-CONFIG_DRM_PANEL_ARM_VERSATILE=m
-CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596=m
-CONFIG_DRM_PANEL_AUO_A030JTN01=m
-CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0=m
-# CONFIG_DRM_PANEL_BOE_HIMAX8279D is not set
-# CONFIG_DRM_PANEL_BOE_TH101MB31UIG002_28A is not set
-# CONFIG_DRM_PANEL_BOE_TV101WUM_NL6 is not set
-CONFIG_DRM_PANEL_BOE_TV101WUM_LL2=m
-CONFIG_DRM_PANEL_EBBG_FT8719=m
-CONFIG_DRM_PANEL_ELIDA_KD35T133=m
-# CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02 is not set
-CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D=m
-CONFIG_DRM_PANEL_DSI_CM=m
-CONFIG_DRM_PANEL_LVDS=m
-# CONFIG_DRM_PANEL_HIMAX_HX83102 is not set
-# CONFIG_DRM_PANEL_HIMAX_HX83112A is not set
-CONFIG_DRM_PANEL_HIMAX_HX8394=m
-CONFIG_DRM_PANEL_ILITEK_IL9322=m
-CONFIG_DRM_PANEL_ILITEK_ILI9341=m
-CONFIG_DRM_PANEL_ILITEK_ILI9805=m
-# CONFIG_DRM_PANEL_ILITEK_ILI9806E is not set
-# CONFIG_DRM_PANEL_ILITEK_ILI9881C is not set
-# CONFIG_DRM_PANEL_ILITEK_ILI9882T is not set
-# CONFIG_DRM_PANEL_INNOLUX_EJ030NA is not set
-CONFIG_DRM_PANEL_INNOLUX_P079ZCA=m
-CONFIG_DRM_PANEL_JADARD_JD9365DA_H3=m
-# CONFIG_DRM_PANEL_JDI_LPM102A188A is not set
-CONFIG_DRM_PANEL_JDI_LT070ME05000=m
-CONFIG_DRM_PANEL_JDI_R63452=m
-CONFIG_DRM_PANEL_KHADAS_TS050=m
-CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04=m
-# CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W is not set
-CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829=m
-CONFIG_DRM_PANEL_LINCOLNTECH_LCD197=m
-# CONFIG_DRM_PANEL_LG_LB035Q02 is not set
-CONFIG_DRM_PANEL_LG_LG4573=m
-# CONFIG_DRM_PANEL_LG_SW43408 is not set
-# CONFIG_DRM_PANEL_MAGNACHIP_D53E6EA8966 is not set
-# CONFIG_DRM_PANEL_MANTIX_MLAF057WE51 is not set
-# CONFIG_DRM_PANEL_NEC_NL8048HL11 is not set
-CONFIG_DRM_PANEL_NEWVISION_NV3051D=m
-# CONFIG_DRM_PANEL_NEWVISION_NV3052C is not set
-CONFIG_DRM_PANEL_NOVATEK_NT35510=m
-# CONFIG_DRM_PANEL_NOVATEK_NT35560 is not set
-CONFIG_DRM_PANEL_NOVATEK_NT35950=m
-# CONFIG_DRM_PANEL_NOVATEK_NT36523 is not set
-CONFIG_DRM_PANEL_NOVATEK_NT36672A=m
-# CONFIG_DRM_PANEL_NOVATEK_NT36672E is not set
-CONFIG_DRM_PANEL_NOVATEK_NT39016=m
-# CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO is not set
-# CONFIG_DRM_PANEL_ORISETECH_OTA5601A is not set
-CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
-CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS=m
-CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00=m
-CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN=m
-# CONFIG_DRM_PANEL_RAYDIUM_RM67191 is not set
-CONFIG_DRM_PANEL_RAYDIUM_RM67200=m
-CONFIG_DRM_PANEL_RAYDIUM_RM68200=m
-# CONFIG_DRM_PANEL_RAYDIUM_RM692E5 is not set
-# CONFIG_DRM_PANEL_RAYDIUM_RM69380 is not set
-CONFIG_DRM_PANEL_RONBO_RB070D30=m
-CONFIG_DRM_PANEL_SAMSUNG_AMS581VF01=m
-CONFIG_DRM_PANEL_SAMSUNG_AMS639RQ08=m
-# CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24 is not set
-# CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01 is not set
-CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=m
-CONFIG_DRM_PANEL_SAMSUNG_DB7430=m
-# CONFIG_DRM_PANEL_SAMSUNG_LD9040 is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6E3FA7=m
-# CONFIG_DRM_PANEL_SAMSUNG_S6D16D0 is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6D27A1=m
-CONFIG_DRM_PANEL_SAMSUNG_S6D7AA0=m
-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2=m
-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8=m
-# CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03 is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6E63M0=m
-# CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_SPI is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI=m
-CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=m
-CONFIG_DRM_PANEL_SAMSUNG_SOFEF00=m
-CONFIG_DRM_PANEL_SEIKO_43WVF1G=m
-CONFIG_DRM_PANEL_SHARP_LQ101R1SX01=m
-CONFIG_DRM_PANEL_SHARP_LS037V7DW01=m
-CONFIG_DRM_PANEL_SHARP_LS043T1LE01=m
-CONFIG_DRM_PANEL_SHARP_LS060T1SX01=m
-# CONFIG_DRM_PANEL_SITRONIX_ST7701 is not set
-CONFIG_DRM_PANEL_SITRONIX_ST7703=m
-# CONFIG_DRM_PANEL_SITRONIX_ST7789V is not set
-# CONFIG_DRM_PANEL_SONY_ACX565AKM is not set
-CONFIG_DRM_PANEL_SONY_TD4353_JDI=m
-CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521=m
-# CONFIG_DRM_PANEL_STARTEK_KD070FHFID015 is not set
-CONFIG_DRM_PANEL_EDP=m
-CONFIG_DRM_PANEL_SIMPLE=m
-CONFIG_DRM_PANEL_SUMMIT=m
-CONFIG_DRM_PANEL_SYNAPTICS_R63353=m
-CONFIG_DRM_PANEL_TDO_TL070WSH30=m
-# CONFIG_DRM_PANEL_TPO_TD028TTEC1 is not set
-CONFIG_DRM_PANEL_TPO_TD043MTEA1=m
-CONFIG_DRM_PANEL_TPO_TPG110=m
-CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
-# CONFIG_DRM_PANEL_VISIONOX_R66451 is not set
-CONFIG_DRM_PANEL_VISIONOX_RM69299=m
-# CONFIG_DRM_PANEL_VISIONOX_RM692E5 is not set
-CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
-# CONFIG_DRM_PANEL_WIDECHIPS_WS2401 is not set
-CONFIG_DRM_PANEL_XINPENG_XPP055C272=m
-# end of Display Panels
-
-CONFIG_DRM_BRIDGE=y
-CONFIG_DRM_PANEL_BRIDGE=y
-CONFIG_DRM_AUX_BRIDGE=m
-
-#
-# Display Interface Bridges
-#
-CONFIG_DRM_CHIPONE_ICN6211=m
-CONFIG_DRM_CHRONTEL_CH7033=m
-# CONFIG_DRM_CROS_EC_ANX7688 is not set
-CONFIG_DRM_DISPLAY_CONNECTOR=m
-CONFIG_DRM_FSL_LDB=m
-CONFIG_DRM_I2C_NXP_TDA998X=m
-CONFIG_DRM_ITE_IT6263=m
-# CONFIG_DRM_ITE_IT6505 is not set
-CONFIG_DRM_LONTIUM_LT8912B=m
-# CONFIG_DRM_LONTIUM_LT9211 is not set
-CONFIG_DRM_LONTIUM_LT9611=m
-CONFIG_DRM_LONTIUM_LT9611UXC=m
-CONFIG_DRM_ITE_IT66121=m
-# CONFIG_DRM_LVDS_CODEC is not set
-CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW=m
-CONFIG_DRM_NWL_MIPI_DSI=m
-CONFIG_DRM_NXP_PTN3460=m
-CONFIG_DRM_PARADE_PS8622=m
-CONFIG_DRM_PARADE_PS8640=m
-# CONFIG_DRM_SAMSUNG_DSIM is not set
-CONFIG_DRM_SIL_SII8620=m
-CONFIG_DRM_SII902X=m
-CONFIG_DRM_SII9234=m
-# CONFIG_DRM_SIMPLE_BRIDGE is not set
-CONFIG_DRM_THINE_THC63LVD1024=m
-CONFIG_DRM_TOSHIBA_TC358762=m
-CONFIG_DRM_TOSHIBA_TC358764=m
-# CONFIG_DRM_TOSHIBA_TC358767 is not set
-# CONFIG_DRM_TOSHIBA_TC358768 is not set
-# CONFIG_DRM_TOSHIBA_TC358775 is not set
-CONFIG_DRM_TI_DLPC3433=m
-CONFIG_DRM_TI_TDP158=m
-# CONFIG_DRM_TI_TFP410 is not set
-# CONFIG_DRM_TI_SN65DSI83 is not set
-# CONFIG_DRM_TI_SN65DSI86 is not set
-CONFIG_DRM_TI_TPD12S015=m
-# CONFIG_DRM_ANALOGIX_ANX6345 is not set
-CONFIG_DRM_ANALOGIX_ANX78XX=m
-CONFIG_DRM_ANALOGIX_DP=m
-CONFIG_DRM_ANALOGIX_ANX7625=m
-CONFIG_DRM_I2C_ADV7511=m
-CONFIG_DRM_I2C_ADV7511_CEC=y
-CONFIG_DRM_CDNS_DSI=m
-# CONFIG_DRM_CDNS_DSI_J721E is not set
-# CONFIG_DRM_CDNS_MHDP8546 is not set
-CONFIG_DRM_IMX_LDB_HELPER=m
-CONFIG_DRM_IMX_LEGACY_BRIDGE=m
-# CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE is not set
-# CONFIG_DRM_IMX8MP_HDMI_PVI is not set
-# CONFIG_DRM_IMX8QM_LDB is not set
-CONFIG_DRM_IMX8QXP_LDB=m
-# CONFIG_DRM_IMX8QXP_PIXEL_COMBINER is not set
-# CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI is not set
-CONFIG_DRM_IMX93_MIPI_DSI=m
-CONFIG_DRM_DW_HDMI=m
-CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
-CONFIG_DRM_DW_HDMI_GP_AUDIO=m
-CONFIG_DRM_DW_HDMI_CEC=m
-CONFIG_DRM_DW_MIPI_DSI=m
-# end of Display Interface Bridges
-
-CONFIG_DRM_STI=m
-# CONFIG_DRM_IMX_DCSS is not set
-CONFIG_DRM_IMX=m
-CONFIG_DRM_IMX_PARALLEL_DISPLAY=m
-CONFIG_DRM_IMX_TVE=m
-CONFIG_DRM_IMX_LDB=m
-CONFIG_DRM_IMX_HDMI=m
-# CONFIG_DRM_IMX_LCDC is not set
-CONFIG_DRM_INGENIC=m
-# CONFIG_DRM_INGENIC_IPU is not set
-CONFIG_DRM_V3D=m
-CONFIG_DRM_LOONGSON=m
-CONFIG_DRM_ETNAVIV=m
-# CONFIG_DRM_ETNAVIV_THERMAL is not set
-CONFIG_DRM_HISI_HIBMC=m
-# CONFIG_DRM_HISI_KIRIN is not set
-CONFIG_DRM_LOGICVC=m
-CONFIG_DRM_MEDIATEK=m
-CONFIG_DRM_MEDIATEK_DP=m
-CONFIG_DRM_MEDIATEK_HDMI=m
-CONFIG_DRM_MXS=y
-# CONFIG_DRM_MXSFB is not set
-CONFIG_DRM_IMX_LCDIF=m
-# CONFIG_DRM_MESON is not set
-# CONFIG_DRM_ARCPGU is not set
-CONFIG_DRM_BOCHS=m
-CONFIG_DRM_CIRRUS_QEMU=m
-CONFIG_DRM_OFDRM=m
-CONFIG_DRM_PANEL_MIPI_DBI=m
-# CONFIG_DRM_SIMPLEDRM is not set
-CONFIG_TINYDRM_HX8357D=m
-CONFIG_TINYDRM_ILI9163=m
-CONFIG_TINYDRM_ILI9225=m
-# CONFIG_TINYDRM_ILI9341 is not set
-CONFIG_TINYDRM_ILI9486=m
-CONFIG_TINYDRM_MI0283QT=m
-CONFIG_TINYDRM_REPAPER=m
-# CONFIG_TINYDRM_SHARP_MEMORY is not set
-# CONFIG_TINYDRM_ST7586 is not set
-# CONFIG_TINYDRM_ST7735R is not set
-CONFIG_DRM_PL111=m
-CONFIG_DRM_TVE200=m
-# CONFIG_DRM_LIMA is not set
-# CONFIG_DRM_PANFROST is not set
-# CONFIG_DRM_PANTHOR is not set
-CONFIG_DRM_ASPEED_GFX=m
-CONFIG_DRM_MCDE=m
-CONFIG_DRM_TIDSS=m
-# CONFIG_DRM_SSD130X is not set
-CONFIG_DRM_SPRD=m
-CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS=m
-# CONFIG_DRM_WERROR is not set
-CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=m
-
-#
-# Frame buffer Devices
-#
-CONFIG_FB=m
-CONFIG_FB_SVGALIB=m
-CONFIG_FB_MACMODES=m
-# CONFIG_FB_CIRRUS is not set
-CONFIG_FB_PM2=m
-# CONFIG_FB_PM2_FIFO_DISCONNECT is not set
-# CONFIG_FB_CLPS711X is not set
-# CONFIG_FB_IMX is not set
-CONFIG_FB_CYBER2000=m
-# CONFIG_FB_CYBER2000_DDC is not set
-CONFIG_FB_ARC=m
-CONFIG_FB_OF=m
-# CONFIG_FB_PVR2 is not set
-# CONFIG_FB_OPENCORES is not set
-# CONFIG_FB_S1D13XXX is not set
-# CONFIG_FB_ATMEL is not set
-# CONFIG_FB_NVIDIA is not set
-CONFIG_FB_RIVA=m
-# CONFIG_FB_RIVA_I2C is not set
-CONFIG_FB_RIVA_DEBUG=y
-# CONFIG_FB_RIVA_BACKLIGHT is not set
-CONFIG_FB_I740=m
-# CONFIG_FB_MATROX is not set
-# CONFIG_FB_RADEON is not set
-CONFIG_FB_ATY128=m
-CONFIG_FB_ATY128_BACKLIGHT=y
-CONFIG_FB_ATY=m
-# CONFIG_FB_ATY_CT is not set
-# CONFIG_FB_ATY_GX is not set
-# CONFIG_FB_ATY_BACKLIGHT is not set
-CONFIG_FB_S3=m
-CONFIG_FB_S3_DDC=y
-CONFIG_FB_SAVAGE=m
-# CONFIG_FB_SAVAGE_I2C is not set
-CONFIG_FB_SAVAGE_ACCEL=y
-CONFIG_FB_SIS=m
-CONFIG_FB_SIS_300=y
-# CONFIG_FB_SIS_315 is not set
-CONFIG_FB_VIA=m
-# CONFIG_FB_VIA_DIRECT_PROCFS is not set
-CONFIG_FB_VIA_X_COMPATIBILITY=y
-CONFIG_FB_NEOMAGIC=m
-CONFIG_FB_KYRO=m
-CONFIG_FB_3DFX=m
-CONFIG_FB_3DFX_ACCEL=y
-CONFIG_FB_3DFX_I2C=y
-# CONFIG_FB_VOODOO1 is not set
-# CONFIG_FB_VT8623 is not set
-CONFIG_FB_TRIDENT=m
-CONFIG_FB_ARK=m
-# CONFIG_FB_PM3 is not set
-CONFIG_FB_CARMINE=m
-CONFIG_FB_CARMINE_DRAM_EVAL=y
-# CONFIG_CARMINE_DRAM_CUSTOM is not set
-# CONFIG_FB_PXA168 is not set
-CONFIG_FB_SH_MOBILE_LCDC=m
-CONFIG_FB_S3C=m
-# CONFIG_FB_S3C_DEBUG_REGWRITE is not set
-CONFIG_FB_SM501=m
-CONFIG_FB_IBM_GXT4500=m
-CONFIG_FB_GOLDFISH=m
-CONFIG_FB_VIRTUAL=m
-# CONFIG_FB_METRONOME is not set
-CONFIG_FB_MB862XX=m
-# CONFIG_FB_MB862XX_PCI_GDC is not set
-CONFIG_FB_MB862XX_LIME=y
-CONFIG_FB_MB862XX_I2C=y
-# CONFIG_FB_PRE_INIT_FB is not set
-CONFIG_FB_BROADSHEET=m
-CONFIG_FB_SIMPLE=m
-# CONFIG_FB_SSD1307 is not set
-CONFIG_FB_SM712=m
-# CONFIG_MMP_DISP is not set
-CONFIG_FB_CORE=m
-CONFIG_FB_NOTIFY=y
-CONFIG_FIRMWARE_EDID=y
-CONFIG_FB_DEVICE=y
-CONFIG_FB_DDC=m
-CONFIG_FB_CFB_FILLRECT=m
-CONFIG_FB_CFB_COPYAREA=m
-CONFIG_FB_CFB_IMAGEBLIT=m
-CONFIG_FB_SYS_FILLRECT=m
-CONFIG_FB_SYS_COPYAREA=m
-CONFIG_FB_SYS_IMAGEBLIT=m
-CONFIG_FB_PROVIDE_GET_FB_UNMAPPED_AREA=y
-CONFIG_FB_FOREIGN_ENDIAN=y
-# CONFIG_FB_BOTH_ENDIAN is not set
-CONFIG_FB_BIG_ENDIAN=y
-# CONFIG_FB_LITTLE_ENDIAN is not set
-CONFIG_FB_SYSMEM_FOPS=m
-CONFIG_FB_DEFERRED_IO=y
-CONFIG_FB_DMAMEM_HELPERS=y
-CONFIG_FB_IOMEM_FOPS=m
-CONFIG_FB_IOMEM_HELPERS=y
-CONFIG_FB_SYSMEM_HELPERS=y
-CONFIG_FB_SYSMEM_HELPERS_DEFERRED=y
-CONFIG_FB_BACKLIGHT=y
-CONFIG_FB_MODE_HELPERS=y
-CONFIG_FB_TILEBLITTING=y
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-CONFIG_LCD_CLASS_DEVICE=y
-CONFIG_LCD_L4F00242T03=y
-CONFIG_LCD_LMS283GF05=y
-CONFIG_LCD_LTV350QV=m
-CONFIG_LCD_ILI922X=m
-CONFIG_LCD_ILI9320=y
-# CONFIG_LCD_TDO24M is not set
-CONFIG_LCD_VGG2432A4=y
-# CONFIG_LCD_PLATFORM is not set
-CONFIG_LCD_AMS369FG06=m
-CONFIG_LCD_LMS501KF03=m
-CONFIG_LCD_HX8357=m
-CONFIG_LCD_OTM3225A=y
-CONFIG_BACKLIGHT_CLASS_DEVICE=y
-CONFIG_BACKLIGHT_KTD253=y
-CONFIG_BACKLIGHT_KTD2801=y
-CONFIG_BACKLIGHT_KTZ8866=m
-# CONFIG_BACKLIGHT_OMAP1 is not set
-CONFIG_BACKLIGHT_PWM=m
-CONFIG_BACKLIGHT_DA9052=y
-# CONFIG_BACKLIGHT_MT6370 is not set
-CONFIG_BACKLIGHT_APPLE_DWI=y
-# CONFIG_BACKLIGHT_QCOM_WLED is not set
-CONFIG_BACKLIGHT_WM831X=m
-CONFIG_BACKLIGHT_ADP8860=m
-CONFIG_BACKLIGHT_ADP8870=m
-CONFIG_BACKLIGHT_LM3509=m
-CONFIG_BACKLIGHT_LM3630A=m
-CONFIG_BACKLIGHT_LM3639=m
-# CONFIG_BACKLIGHT_LP855X is not set
-# CONFIG_BACKLIGHT_MP3309C is not set
-CONFIG_BACKLIGHT_SKY81452=m
-# CONFIG_BACKLIGHT_TPS65217 is not set
-CONFIG_BACKLIGHT_GPIO=y
-# CONFIG_BACKLIGHT_LV5207LP is not set
-CONFIG_BACKLIGHT_BD6107=m
-CONFIG_BACKLIGHT_ARCXCNN=m
-CONFIG_BACKLIGHT_LED=m
-# end of Backlight & LCD device support
-
-CONFIG_VGASTATE=m
-CONFIG_VIDEOMODE_HELPERS=y
-CONFIG_HDMI=y
-CONFIG_LOGO=y
-# CONFIG_LOGO_LINUX_MONO is not set
-# CONFIG_LOGO_LINUX_VGA16 is not set
-CONFIG_LOGO_LINUX_CLUT224=y
-# end of Graphics support
-
-CONFIG_DRM_ACCEL=y
-# CONFIG_DRM_ACCEL_QAIC is not set
-CONFIG_SOUND=m
-CONFIG_SOUND_OSS_CORE=y
-CONFIG_SOUND_OSS_CORE_PRECLAIM=y
-CONFIG_SND=m
-CONFIG_SND_TIMER=m
-CONFIG_SND_PCM=m
-CONFIG_SND_PCM_ELD=y
-CONFIG_SND_PCM_IEC958=y
-CONFIG_SND_HWDEP=m
-CONFIG_SND_SEQ_DEVICE=m
-CONFIG_SND_RAWMIDI=m
-CONFIG_SND_JACK=y
-CONFIG_SND_JACK_INPUT_DEV=y
-CONFIG_SND_OSSEMUL=y
-# CONFIG_SND_MIXER_OSS is not set
-CONFIG_SND_PCM_OSS=m
-CONFIG_SND_PCM_OSS_PLUGINS=y
-# CONFIG_SND_PCM_TIMER is not set
-# CONFIG_SND_HRTIMER is not set
-CONFIG_SND_DYNAMIC_MINORS=y
-CONFIG_SND_MAX_CARDS=32
-CONFIG_SND_SUPPORT_OLD_API=y
-CONFIG_SND_CTL_FAST_LOOKUP=y
-# CONFIG_SND_DEBUG is not set
-CONFIG_SND_CTL_INPUT_VALIDATION=y
-# CONFIG_SND_UTIMER is not set
-CONFIG_SND_VMASTER=y
-CONFIG_SND_CTL_LED=m
-CONFIG_SND_SEQUENCER=m
-# CONFIG_SND_SEQ_DUMMY is not set
-CONFIG_SND_SEQUENCER_OSS=m
-CONFIG_SND_SEQ_MIDI_EVENT=m
-CONFIG_SND_SEQ_MIDI=m
-CONFIG_SND_SEQ_MIDI_EMUL=m
-CONFIG_SND_SEQ_VIRMIDI=m
-CONFIG_SND_SEQ_UMP=y
-CONFIG_SND_MPU401_UART=m
-CONFIG_SND_OPL3_LIB=m
-CONFIG_SND_OPL4_LIB=m
-CONFIG_SND_OPL3_LIB_SEQ=m
-CONFIG_SND_OPL4_LIB_SEQ=m
-CONFIG_SND_VX_LIB=m
-CONFIG_SND_AC97_CODEC=m
-# CONFIG_SND_DRIVERS is not set
-CONFIG_SND_WSS_LIB=m
-CONFIG_SND_SB_COMMON=m
-CONFIG_SND_SB8_DSP=m
-CONFIG_SND_SB16_DSP=m
-CONFIG_SND_ISA=y
-CONFIG_SND_ADLIB=m
-CONFIG_SND_AD1848=m
-# CONFIG_SND_AZT1605 is not set
-CONFIG_SND_AZT2316=m
-# CONFIG_SND_CMI8328 is not set
-CONFIG_SND_CMI8330=m
-CONFIG_SND_CS4231=m
-CONFIG_SND_CS4236=m
-CONFIG_SND_ES1688=m
-CONFIG_SND_ES18XX=m
-# CONFIG_SND_SC6000 is not set
-# CONFIG_SND_GUSCLASSIC is not set
-CONFIG_SND_GUSEXTREME=m
-# CONFIG_SND_GUSMAX is not set
-# CONFIG_SND_JAZZ16 is not set
-CONFIG_SND_OPL3SA2=m
-CONFIG_SND_OPTI92X_AD1848=m
-CONFIG_SND_OPTI92X_CS4231=m
-CONFIG_SND_OPTI93X=m
-CONFIG_SND_MIRO=m
-CONFIG_SND_SB8=m
-CONFIG_SND_SB16=m
-CONFIG_SND_SBAWE=m
-CONFIG_SND_SBAWE_SEQ=m
-CONFIG_SND_SSCAPE=m
-CONFIG_SND_WAVEFRONT=m
-CONFIG_SND_PCI=y
-CONFIG_SND_AD1889=m
-# CONFIG_SND_ALS4000 is not set
-CONFIG_SND_ATIIXP=m
-# CONFIG_SND_ATIIXP_MODEM is not set
-CONFIG_SND_AU8810=m
-CONFIG_SND_AU8820=m
-CONFIG_SND_AU8830=m
-CONFIG_SND_AW2=m
-# CONFIG_SND_BT87X is not set
-CONFIG_SND_CA0106=m
-CONFIG_SND_CMIPCI=m
-CONFIG_SND_OXYGEN_LIB=m
-# CONFIG_SND_OXYGEN is not set
-CONFIG_SND_CS4281=m
-CONFIG_SND_CS46XX=m
-CONFIG_SND_CS46XX_NEW_DSP=y
-# CONFIG_SND_CS5530 is not set
-CONFIG_SND_CS5535AUDIO=m
-CONFIG_SND_CTXFI=m
-CONFIG_SND_DARLA20=m
-CONFIG_SND_GINA20=m
-CONFIG_SND_LAYLA20=m
-# CONFIG_SND_DARLA24 is not set
-# CONFIG_SND_GINA24 is not set
-# CONFIG_SND_LAYLA24 is not set
-CONFIG_SND_MONA=m
-# CONFIG_SND_MIA is not set
-# CONFIG_SND_ECHO3G is not set
-CONFIG_SND_INDIGO=m
-# CONFIG_SND_INDIGOIO is not set
-CONFIG_SND_INDIGODJ=m
-CONFIG_SND_INDIGOIOX=m
-# CONFIG_SND_INDIGODJX is not set
-CONFIG_SND_ENS1370=m
-CONFIG_SND_ENS1371=m
-CONFIG_SND_FM801=m
-# CONFIG_SND_FM801_TEA575X_BOOL is not set
-# CONFIG_SND_HDSP is not set
-CONFIG_SND_HDSPM=m
-# CONFIG_SND_ICE1724 is not set
-CONFIG_SND_INTEL8X0=m
-CONFIG_SND_INTEL8X0M=m
-# CONFIG_SND_KORG1212 is not set
-# CONFIG_SND_LOLA is not set
-# CONFIG_SND_LX6464ES is not set
-CONFIG_SND_MIXART=m
-CONFIG_SND_NM256=m
-CONFIG_SND_PCXHR=m
-# CONFIG_SND_RIPTIDE is not set
-# CONFIG_SND_RME32 is not set
-# CONFIG_SND_RME96 is not set
-CONFIG_SND_RME9652=m
-CONFIG_SND_SE6X=m
-CONFIG_SND_VIA82XX=m
-# CONFIG_SND_VIA82XX_MODEM is not set
-# CONFIG_SND_VIRTUOSO is not set
-CONFIG_SND_VX222=m
-# CONFIG_SND_YMFPCI is not set
-
-#
-# HD-Audio
-#
-CONFIG_SND_HDA=m
-CONFIG_SND_HDA_GENERIC_LEDS=y
-CONFIG_SND_HDA_INTEL=m
-# CONFIG_SND_HDA_HWDEP is not set
-CONFIG_SND_HDA_RECONFIG=y
-# CONFIG_SND_HDA_INPUT_BEEP is not set
-CONFIG_SND_HDA_PATCH_LOADER=y
-CONFIG_SND_HDA_SCODEC_COMPONENT=m
-CONFIG_SND_HDA_CODEC_REALTEK=m
-# CONFIG_SND_HDA_CODEC_ANALOG is not set
-CONFIG_SND_HDA_CODEC_SIGMATEL=m
-# CONFIG_SND_HDA_CODEC_VIA is not set
-CONFIG_SND_HDA_CODEC_HDMI=m
-CONFIG_SND_HDA_CODEC_CIRRUS=m
-# CONFIG_SND_HDA_CODEC_CS8409 is not set
-CONFIG_SND_HDA_CODEC_CONEXANT=m
-CONFIG_SND_HDA_CODEC_SENARYTECH=m
-CONFIG_SND_HDA_CODEC_CA0110=m
-# CONFIG_SND_HDA_CODEC_CA0132 is not set
-CONFIG_SND_HDA_CODEC_CMEDIA=m
-CONFIG_SND_HDA_CODEC_SI3054=m
-CONFIG_SND_HDA_GENERIC=m
-CONFIG_SND_HDA_POWER_SAVE_DEFAULT=0
-# CONFIG_SND_HDA_INTEL_HDMI_SILENT_STREAM is not set
-CONFIG_SND_HDA_CTL_DEV_ID=y
-# end of HD-Audio
-
-CONFIG_SND_HDA_CORE=m
-CONFIG_SND_HDA_COMPONENT=y
-CONFIG_SND_HDA_PREALLOC_SIZE=64
-CONFIG_SND_INTEL_DSP_CONFIG=m
-CONFIG_SND_PPC=y
-CONFIG_SND_POWERMAC=m
-# CONFIG_SND_POWERMAC_AUTO_DRC is not set
-CONFIG_SND_AOA=m
-CONFIG_SND_AOA_FABRIC_LAYOUT=m
-# CONFIG_SND_AOA_ONYX is not set
-CONFIG_SND_AOA_TAS=m
-# CONFIG_SND_AOA_TOONIE is not set
-CONFIG_SND_AOA_SOUNDBUS=m
-CONFIG_SND_AOA_SOUNDBUS_I2S=m
-CONFIG_SND_SPI=y
-CONFIG_SND_FIREWIRE=y
-CONFIG_SND_FIREWIRE_LIB=m
-# CONFIG_SND_DICE is not set
-CONFIG_SND_OXFW=m
-# CONFIG_SND_ISIGHT is not set
-# CONFIG_SND_FIREWORKS is not set
-CONFIG_SND_BEBOB=m
-CONFIG_SND_FIREWIRE_DIGI00X=m
-CONFIG_SND_FIREWIRE_TASCAM=m
-CONFIG_SND_FIREWIRE_MOTU=m
-CONFIG_SND_FIREFACE=m
-# CONFIG_SND_SOC is not set
-CONFIG_SND_SYNTH_EMUX=m
-CONFIG_SND_VIRTIO=m
-CONFIG_AC97_BUS=m
-# CONFIG_HID_SUPPORT is not set
-CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-# CONFIG_USB_SUPPORT is not set
-# CONFIG_MMC is not set
-# CONFIG_MEMSTICK is not set
-CONFIG_LEDS_EXPRESSWIRE=y
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=m
-CONFIG_LEDS_CLASS_FLASH=m
-# CONFIG_LEDS_CLASS_MULTICOLOR is not set
-# CONFIG_LEDS_BRIGHTNESS_HW_CHANGED is not set
-
-#
-# LED drivers
-#
-CONFIG_LEDS_AN30259A=m
-CONFIG_LEDS_ARIEL=m
-# CONFIG_LEDS_AW200XX is not set
-CONFIG_LEDS_AW2013=m
-CONFIG_LEDS_BCM6328=m
-CONFIG_LEDS_BCM6358=m
-CONFIG_LEDS_CPCAP=m
-# CONFIG_LEDS_CR0014114 is not set
-# CONFIG_LEDS_EL15203000 is not set
-CONFIG_LEDS_LM3530=m
-# CONFIG_LEDS_LM3532 is not set
-# CONFIG_LEDS_LM3642 is not set
-CONFIG_LEDS_LM3692X=m
-CONFIG_LEDS_MT6323=m
-# CONFIG_LEDS_COBALT_QUBE is not set
-# CONFIG_LEDS_PCA9532 is not set
-CONFIG_LEDS_GPIO=m
-# CONFIG_LEDS_LP3944 is not set
-# CONFIG_LEDS_LP3952 is not set
-# CONFIG_LEDS_LP8860 is not set
-# CONFIG_LEDS_LP8864 is not set
-CONFIG_LEDS_PCA955X=m
-CONFIG_LEDS_PCA955X_GPIO=y
-# CONFIG_LEDS_PCA963X is not set
-# CONFIG_LEDS_PCA995X is not set
-CONFIG_LEDS_WM831X_STATUS=m
-CONFIG_LEDS_DA9052=m
-CONFIG_LEDS_DAC124S085=m
-CONFIG_LEDS_PWM=m
-# CONFIG_LEDS_REGULATOR is not set
-CONFIG_LEDS_BD2606MVV=m
-CONFIG_LEDS_BD2802=m
-# CONFIG_LEDS_LT3593 is not set
-CONFIG_LEDS_MC13783=m
-CONFIG_LEDS_NS2=m
-CONFIG_LEDS_NETXBIG=m
-# CONFIG_LEDS_TCA6507 is not set
-CONFIG_LEDS_TLC591XX=m
-# CONFIG_LEDS_LM355x is not set
-# CONFIG_LEDS_OT200 is not set
-CONFIG_LEDS_IS31FL319X=m
-# CONFIG_LEDS_IS31FL32XX is not set
-CONFIG_LEDS_SC27XX_BLTC=m
-
-#
-# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
-#
-CONFIG_LEDS_BLINKM=m
-# CONFIG_LEDS_POWERNV is not set
-CONFIG_LEDS_PM8058=m
-# CONFIG_LEDS_MLXREG is not set
-CONFIG_LEDS_USER=m
-# CONFIG_LEDS_NIC78BX is not set
-CONFIG_LEDS_SPI_BYTE=m
-CONFIG_LEDS_TI_LMU_COMMON=m
-CONFIG_LEDS_LM3697=m
-# CONFIG_LEDS_LM36274 is not set
-CONFIG_LEDS_ST1202=m
-CONFIG_LEDS_IP30=m
-CONFIG_LEDS_BCM63138=m
-CONFIG_LEDS_LGM=m
-
-#
-# Flash and Torch LED drivers
-#
-CONFIG_LEDS_AAT1290=m
-CONFIG_LEDS_AS3645A=m
-# CONFIG_LEDS_KTD2692 is not set
-CONFIG_LEDS_LM3601X=m
-# CONFIG_LEDS_MT6370_FLASH is not set
-CONFIG_LEDS_QCOM_FLASH=m
-CONFIG_LEDS_RT4505=m
-CONFIG_LEDS_RT8515=m
-CONFIG_LEDS_SGM3140=m
-CONFIG_LEDS_SY7802=m
-
-#
-# RGB LED drivers
-#
-
-#
-# LED Triggers
-#
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=y
-CONFIG_LEDS_TRIGGER_ONESHOT=y
-# CONFIG_LEDS_TRIGGER_MTD is not set
-# CONFIG_LEDS_TRIGGER_HEARTBEAT is not set
-CONFIG_LEDS_TRIGGER_BACKLIGHT=y
-CONFIG_LEDS_TRIGGER_CPU=y
-CONFIG_LEDS_TRIGGER_ACTIVITY=y
-CONFIG_LEDS_TRIGGER_GPIO=m
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=m
-
-#
-# iptables trigger is under Netfilter config (LED target)
-#
-CONFIG_LEDS_TRIGGER_TRANSIENT=m
-# CONFIG_LEDS_TRIGGER_CAMERA is not set
-CONFIG_LEDS_TRIGGER_PANIC=y
-CONFIG_LEDS_TRIGGER_PATTERN=m
-# CONFIG_LEDS_TRIGGER_TTY is not set
-CONFIG_LEDS_TRIGGER_INPUT_EVENTS=m
-
-#
-# Simatic LED drivers
-#
-# CONFIG_ACCESSIBILITY is not set
-CONFIG_EDAC_ATOMIC_SCRUB=y
-CONFIG_EDAC_SUPPORT=y
-CONFIG_RTC_LIB=y
-CONFIG_RTC_MC146818_LIB=y
-CONFIG_RTC_CLASS=y
-# CONFIG_RTC_HCTOSYS is not set
-# CONFIG_RTC_SYSTOHC is not set
-# CONFIG_RTC_DEBUG is not set
-# CONFIG_RTC_NVMEM is not set
-
-#
-# RTC interfaces
-#
-CONFIG_RTC_INTF_SYSFS=y
-# CONFIG_RTC_INTF_DEV is not set
-CONFIG_RTC_DRV_TEST=y
-
-#
-# I2C RTC drivers
-#
-# CONFIG_RTC_DRV_88PM80X is not set
-CONFIG_RTC_DRV_ABB5ZES3=m
-CONFIG_RTC_DRV_ABEOZ9=m
-CONFIG_RTC_DRV_ABX80X=m
-CONFIG_RTC_DRV_BRCMSTB=m
-CONFIG_RTC_DRV_DS1307=m
-CONFIG_RTC_DRV_DS1307_CENTURY=y
-CONFIG_RTC_DRV_DS1374=m
-# CONFIG_RTC_DRV_DS1672 is not set
-CONFIG_RTC_DRV_HYM8563=m
-CONFIG_RTC_DRV_MAX6900=m
-CONFIG_RTC_DRV_MAX8907=m
-CONFIG_RTC_DRV_MAX31335=m
-CONFIG_RTC_DRV_MAX77686=m
-CONFIG_RTC_DRV_NCT3018Y=m
-CONFIG_RTC_DRV_RS5C372=m
-CONFIG_RTC_DRV_ISL1208=m
-CONFIG_RTC_DRV_ISL12022=m
-# CONFIG_RTC_DRV_ISL12026 is not set
-CONFIG_RTC_DRV_X1205=m
-CONFIG_RTC_DRV_PCF8523=m
-# CONFIG_RTC_DRV_PCF85063 is not set
-# CONFIG_RTC_DRV_PCF85363 is not set
-# CONFIG_RTC_DRV_PCF8563 is not set
-# CONFIG_RTC_DRV_PCF8583 is not set
-CONFIG_RTC_DRV_M41T80=m
-CONFIG_RTC_DRV_M41T80_WDT=y
-# CONFIG_RTC_DRV_BQ32K is not set
-CONFIG_RTC_DRV_TPS6594=m
-# CONFIG_RTC_DRV_RC5T619 is not set
-CONFIG_RTC_DRV_S35390A=m
-CONFIG_RTC_DRV_FM3130=m
-# CONFIG_RTC_DRV_RX8010 is not set
-CONFIG_RTC_DRV_RX8111=m
-CONFIG_RTC_DRV_RX8581=m
-CONFIG_RTC_DRV_RX8025=m
-# CONFIG_RTC_DRV_EM3027 is not set
-CONFIG_RTC_DRV_RV3028=m
-CONFIG_RTC_DRV_RV3032=m
-CONFIG_RTC_DRV_RV8803=m
-# CONFIG_RTC_DRV_S5M is not set
-CONFIG_RTC_DRV_SD2405AL=m
-CONFIG_RTC_DRV_SD3078=m
-
-#
-# SPI RTC drivers
-#
-# CONFIG_RTC_DRV_M41T93 is not set
-# CONFIG_RTC_DRV_M41T94 is not set
-CONFIG_RTC_DRV_DS1302=m
-CONFIG_RTC_DRV_DS1305=y
-CONFIG_RTC_DRV_DS1343=y
-# CONFIG_RTC_DRV_DS1347 is not set
-# CONFIG_RTC_DRV_DS1390 is not set
-CONFIG_RTC_DRV_MAX6916=m
-CONFIG_RTC_DRV_R9701=m
-# CONFIG_RTC_DRV_RX4581 is not set
-# CONFIG_RTC_DRV_RS5C348 is not set
-# CONFIG_RTC_DRV_MAX6902 is not set
-CONFIG_RTC_DRV_PCF2123=y
-# CONFIG_RTC_DRV_MCP795 is not set
-CONFIG_RTC_I2C_AND_SPI=m
-
-#
-# SPI and I2C RTC drivers
-#
-# CONFIG_RTC_DRV_DS3232 is not set
-# CONFIG_RTC_DRV_PCF2127 is not set
-# CONFIG_RTC_DRV_RV3029C2 is not set
-# CONFIG_RTC_DRV_RX6110 is not set
-
-#
-# Platform RTC drivers
-#
-CONFIG_RTC_DRV_CMOS=m
-CONFIG_RTC_DRV_DS1286=m
-# CONFIG_RTC_DRV_DS1511 is not set
-CONFIG_RTC_DRV_DS1553=y
-# CONFIG_RTC_DRV_DS1685_FAMILY is not set
-# CONFIG_RTC_DRV_DS1742 is not set
-CONFIG_RTC_DRV_DS2404=m
-CONFIG_RTC_DRV_DA9052=m
-CONFIG_RTC_DRV_DA9063=m
-# CONFIG_RTC_DRV_STK17TA8 is not set
-# CONFIG_RTC_DRV_M48T86 is not set
-# CONFIG_RTC_DRV_M48T35 is not set
-CONFIG_RTC_DRV_M48T59=m
-CONFIG_RTC_DRV_MSM6242=y
-CONFIG_RTC_DRV_BQ4802=m
-# CONFIG_RTC_DRV_RP5C01 is not set
-CONFIG_RTC_DRV_GAMECUBE=m
-# CONFIG_RTC_DRV_WM831X is not set
-CONFIG_RTC_DRV_SC27XX=y
-# CONFIG_RTC_DRV_SPEAR is not set
-CONFIG_RTC_DRV_OPAL=y
-CONFIG_RTC_DRV_ZYNQMP=m
-CONFIG_RTC_DRV_NTXEC=m
-
-#
-# on-CPU RTC drivers
-#
-CONFIG_RTC_DRV_ASM9260=y
-CONFIG_RTC_DRV_DIGICOLOR=y
-CONFIG_RTC_DRV_IMXDI=y
-# CONFIG_RTC_DRV_FSL_FTM_ALARM is not set
-CONFIG_RTC_DRV_MESON=y
-CONFIG_RTC_DRV_MESON_VRTC=m
-CONFIG_RTC_DRV_OMAP=m
-CONFIG_RTC_DRV_S3C=m
-# CONFIG_RTC_DRV_EP93XX is not set
-CONFIG_RTC_DRV_AT91RM9200=m
-# CONFIG_RTC_DRV_AT91SAM9 is not set
-CONFIG_RTC_DRV_RZN1=y
-CONFIG_RTC_DRV_GENERIC=y
-# CONFIG_RTC_DRV_VT8500 is not set
-CONFIG_RTC_DRV_SUN6I=y
-CONFIG_RTC_DRV_SUNXI=m
-# CONFIG_RTC_DRV_MV is not set
-# CONFIG_RTC_DRV_ARMADA38X is not set
-# CONFIG_RTC_DRV_CADENCE is not set
-CONFIG_RTC_DRV_FTRTC010=m
-CONFIG_RTC_DRV_STMP=y
-CONFIG_RTC_DRV_PCAP=y
-CONFIG_RTC_DRV_MC13XXX=m
-CONFIG_RTC_DRV_JZ4740=y
-CONFIG_RTC_DRV_LOONGSON=y
-CONFIG_RTC_DRV_LPC24XX=m
-CONFIG_RTC_DRV_LPC32XX=y
-CONFIG_RTC_DRV_PM8XXX=m
-# CONFIG_RTC_DRV_TEGRA is not set
-# CONFIG_RTC_DRV_MXC is not set
-CONFIG_RTC_DRV_MXC_V2=y
-CONFIG_RTC_DRV_SNVS=y
-CONFIG_RTC_DRV_BBNSM=m
-CONFIG_RTC_DRV_IMX_BBM_SCMI=m
-CONFIG_RTC_DRV_MOXART=m
-CONFIG_RTC_DRV_MT2712=m
-# CONFIG_RTC_DRV_MT6397 is not set
-# CONFIG_RTC_DRV_MT7622 is not set
-CONFIG_RTC_DRV_XGENE=m
-# CONFIG_RTC_DRV_R7301 is not set
-CONFIG_RTC_DRV_STM32=m
-CONFIG_RTC_DRV_CPCAP=y
-CONFIG_RTC_DRV_RTD119X=y
-CONFIG_RTC_DRV_ASPEED=y
-CONFIG_RTC_DRV_TI_K3=m
-CONFIG_RTC_DRV_MA35D1=m
-
-#
-# HID Sensor RTC drivers
-#
-CONFIG_RTC_DRV_GOLDFISH=m
-# CONFIG_RTC_DRV_MSC313 is not set
-# CONFIG_RTC_DRV_SSD202D is not set
-# CONFIG_RTC_DRV_AMLOGIC_A4 is not set
-# CONFIG_DMADEVICES is not set
-
-#
-# DMABUF options
-#
-CONFIG_SYNC_FILE=y
-# CONFIG_SW_SYNC is not set
-CONFIG_UDMABUF=y
-# CONFIG_DMABUF_MOVE_NOTIFY is not set
-CONFIG_DMABUF_DEBUG=y
-# CONFIG_DMABUF_SELFTESTS is not set
-# CONFIG_DMABUF_HEAPS is not set
-CONFIG_DMABUF_SYSFS_STATS=y
-# end of DMABUF options
-
-CONFIG_UIO=m
-CONFIG_UIO_CIF=m
-CONFIG_UIO_PDRV_GENIRQ=m
-CONFIG_UIO_DMEM_GENIRQ=m
-CONFIG_UIO_AEC=m
-CONFIG_UIO_SERCOS3=m
-# CONFIG_UIO_PCI_GENERIC is not set
-CONFIG_UIO_NETX=m
-# CONFIG_UIO_MF624 is not set
-# CONFIG_UIO_DFL is not set
-CONFIG_VFIO=m
-# CONFIG_VFIO_DEVICE_CDEV is not set
-CONFIG_VFIO_GROUP=y
-# CONFIG_VFIO_CONTAINER is not set
-# CONFIG_VFIO_NOIOMMU is not set
-CONFIG_VFIO_VIRQFD=y
-# CONFIG_VFIO_DEBUGFS is not set
-
-#
-# VFIO support for PCI devices
-#
-CONFIG_VFIO_PCI_CORE=m
-CONFIG_VFIO_PCI_INTX=y
-CONFIG_VFIO_PCI=m
-# CONFIG_NVGRACE_GPU_VFIO_PCI is not set
-CONFIG_QAT_VFIO_PCI=m
-# end of VFIO support for PCI devices
-
-#
-# VFIO support for platform devices
-#
-CONFIG_VFIO_PLATFORM_BASE=m
-CONFIG_VFIO_PLATFORM=m
-CONFIG_VFIO_AMBA=m
-
-#
-# VFIO platform reset drivers
-#
-# CONFIG_VFIO_PLATFORM_CALXEDAXGMAC_RESET is not set
-CONFIG_VFIO_PLATFORM_AMDXGBE_RESET=m
-CONFIG_VFIO_PLATFORM_BCMFLEXRM_RESET=m
-# end of VFIO platform reset drivers
-# end of VFIO support for platform devices
-
-CONFIG_IRQ_BYPASS_MANAGER=m
-CONFIG_VIRT_DRIVERS=y
-# CONFIG_VMGENID is not set
-CONFIG_VBOXGUEST=y
-CONFIG_VIRTIO_ANCHOR=y
-CONFIG_VIRTIO=m
-# CONFIG_VIRTIO_MENU is not set
-CONFIG_VHOST_MENU=y
-CONFIG_VHOST_CROSS_ENDIAN_LEGACY=y
-
-#
-# Microsoft Hyper-V guest support
-#
-# end of Microsoft Hyper-V guest support
-
-# CONFIG_GREYBUS is not set
-# CONFIG_COMEDI is not set
-# CONFIG_STAGING is not set
-# CONFIG_GOLDFISH is not set
-# CONFIG_CHROME_PLATFORMS is not set
-CONFIG_CZNIC_PLATFORMS=y
-CONFIG_TURRIS_OMNIA_MCU=m
-# CONFIG_TURRIS_OMNIA_MCU_GPIO is not set
-# CONFIG_TURRIS_OMNIA_MCU_SYSOFF_WAKEUP is not set
-CONFIG_MELLANOX_PLATFORM=y
-# CONFIG_MLXREG_HOTPLUG is not set
-CONFIG_MLXREG_IO=m
-# CONFIG_MLXREG_LC is not set
-CONFIG_NVSW_SN2201=m
-CONFIG_OLPC_EC=y
-CONFIG_OLPC_XO175=y
-CONFIG_OLPC_XO175_EC=m
-CONFIG_SURFACE_PLATFORMS=y
-# CONFIG_ARM64_PLATFORM_DEVICES is not set
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_CLK_PREPARE=y
-CONFIG_COMMON_CLK=y
-CONFIG_COMMON_CLK_WM831X=m
-
-#
-# Clock driver for ARM Reference designs
-#
-CONFIG_CLK_ICST=y
-# CONFIG_CLK_SP810 is not set
-# end of Clock driver for ARM Reference designs
-
-# CONFIG_CLK_HSDK is not set
-# CONFIG_LMK04832 is not set
-CONFIG_COMMON_CLK_APPLE_NCO=y
-# CONFIG_COMMON_CLK_MAX77686 is not set
-CONFIG_COMMON_CLK_MAX9485=m
-CONFIG_COMMON_CLK_HI655X=y
-# CONFIG_COMMON_CLK_SCMI is not set
-CONFIG_COMMON_CLK_SCPI=m
-CONFIG_COMMON_CLK_SI5341=m
-# CONFIG_COMMON_CLK_SI5351 is not set
-CONFIG_COMMON_CLK_SI514=m
-CONFIG_COMMON_CLK_SI544=m
-# CONFIG_COMMON_CLK_SI570 is not set
-# CONFIG_COMMON_CLK_BM1880 is not set
-CONFIG_COMMON_CLK_CDCE706=m
-CONFIG_COMMON_CLK_TPS68470=m
-CONFIG_COMMON_CLK_CDCE925=m
-# CONFIG_COMMON_CLK_CS2000_CP is not set
-CONFIG_COMMON_CLK_EN7523=y
-# CONFIG_COMMON_CLK_EP93XX is not set
-# CONFIG_COMMON_CLK_EYEQ is not set
-# CONFIG_COMMON_CLK_FSL_FLEXSPI is not set
-CONFIG_COMMON_CLK_FSL_SAI=y
-# CONFIG_COMMON_CLK_GEMINI is not set
-CONFIG_COMMON_CLK_LAN966X=y
-# CONFIG_COMMON_CLK_ASPEED is not set
-CONFIG_COMMON_CLK_S2MPS11=y
-CONFIG_COMMON_CLK_AXI_CLKGEN=y
-CONFIG_CLK_QORIQ=y
-CONFIG_CLK_LS1028A_PLLDIG=y
-CONFIG_COMMON_CLK_XGENE=y
-# CONFIG_COMMON_CLK_NPCM8XX is not set
-# CONFIG_COMMON_CLK_LOONGSON2 is not set
-CONFIG_COMMON_CLK_PWM=y
-# CONFIG_COMMON_CLK_RS9_PCIE is not set
-CONFIG_COMMON_CLK_SI521XX=m
-# CONFIG_COMMON_CLK_VC3 is not set
-# CONFIG_COMMON_CLK_VC5 is not set
-CONFIG_COMMON_CLK_VC7=m
-CONFIG_COMMON_CLK_MMP2_AUDIO=y
-# CONFIG_COMMON_CLK_FIXED_MMIO is not set
-CONFIG_COMMON_CLK_SP7021=m
-CONFIG_CLK_ACTIONS=y
-# CONFIG_CLK_OWL_S500 is not set
-CONFIG_CLK_OWL_S700=y
-CONFIG_CLK_OWL_S900=y
-CONFIG_CLK_ANALOGBITS_WRPLL_CLN28HPC=m
-CONFIG_CLK_BAIKAL_T1=y
-# CONFIG_CLK_BT1_CCU_PLL is not set
-CONFIG_CLK_BT1_CCU_DIV=y
-CONFIG_CLK_BT1_CCU_RST=y
-# CONFIG_CLK_BCM2711_DVP is not set
-CONFIG_CLK_BCM2835=y
-# CONFIG_CLK_BCM_63XX is not set
-# CONFIG_CLK_BCM_63XX_GATE is not set
-# CONFIG_CLK_BCM63268_TIMER is not set
-CONFIG_CLK_BCM_KONA=y
-CONFIG_COMMON_CLK_IPROC=y
-CONFIG_CLK_BCM_CYGNUS=y
-CONFIG_CLK_BCM_HR2=y
-# CONFIG_CLK_BCM_NSP is not set
-# CONFIG_CLK_BCM_NS2 is not set
-# CONFIG_CLK_BCM_SR is not set
-CONFIG_CLK_RASPBERRYPI=y
-# CONFIG_COMMON_CLK_HI3516CV300 is not set
-CONFIG_COMMON_CLK_HI3519=m
-CONFIG_COMMON_CLK_HI3559A=y
-CONFIG_COMMON_CLK_HI3660=y
-CONFIG_COMMON_CLK_HI3670=y
-CONFIG_COMMON_CLK_HI3798CV200=m
-CONFIG_COMMON_CLK_HI6220=y
-CONFIG_RESET_HISI=y
-CONFIG_STUB_CLK_HI6220=y
-# CONFIG_STUB_CLK_HI3660 is not set
-CONFIG_COMMON_CLK_BOSTON=y
-CONFIG_MXC_CLK=y
-CONFIG_CLK_IMX8MM=y
-# CONFIG_CLK_IMX8MN is not set
-CONFIG_CLK_IMX8MP=y
-# CONFIG_CLK_IMX8MQ is not set
-CONFIG_CLK_IMX8ULP=m
-CONFIG_CLK_IMX93=m
-CONFIG_CLK_IMX95_BLK_CTL=m
-CONFIG_CLK_IMXRT1050=y
-
-#
-# Ingenic SoCs drivers
-#
-CONFIG_INGENIC_CGU_COMMON=y
-CONFIG_INGENIC_CGU_JZ4740=y
-CONFIG_INGENIC_CGU_JZ4755=y
-CONFIG_INGENIC_CGU_JZ4725B=y
-# CONFIG_INGENIC_CGU_JZ4760 is not set
-CONFIG_INGENIC_CGU_JZ4770=y
-CONFIG_INGENIC_CGU_JZ4780=y
-# CONFIG_INGENIC_CGU_X1000 is not set
-CONFIG_INGENIC_CGU_X1830=y
-CONFIG_INGENIC_TCU_CLK=y
-# end of Ingenic SoCs drivers
-
-# CONFIG_COMMON_CLK_KEYSTONE is not set
-CONFIG_TI_SCI_CLK=m
-# CONFIG_TI_SCI_CLK_PROBE_FROM_FW is not set
-# CONFIG_TI_SYSCON_CLK is not set
-
-#
-# Clock driver for MediaTek SoC
-#
-CONFIG_COMMON_CLK_MEDIATEK=y
-CONFIG_COMMON_CLK_MEDIATEK_FHCTL=y
-# CONFIG_COMMON_CLK_MT2701 is not set
-CONFIG_COMMON_CLK_MT2712=m
-CONFIG_COMMON_CLK_MT2712_BDPSYS=m
-# CONFIG_COMMON_CLK_MT2712_IMGSYS is not set
-# CONFIG_COMMON_CLK_MT2712_JPGDECSYS is not set
-CONFIG_COMMON_CLK_MT2712_MFGCFG=m
-CONFIG_COMMON_CLK_MT2712_MMSYS=m
-CONFIG_COMMON_CLK_MT2712_VDECSYS=m
-# CONFIG_COMMON_CLK_MT2712_VENCSYS is not set
-# CONFIG_COMMON_CLK_MT6735 is not set
-CONFIG_COMMON_CLK_MT6765=y
-# CONFIG_COMMON_CLK_MT6765_AUDIOSYS is not set
-CONFIG_COMMON_CLK_MT6765_CAMSYS=y
-CONFIG_COMMON_CLK_MT6765_GCESYS=y
-CONFIG_COMMON_CLK_MT6765_MMSYS=y
-# CONFIG_COMMON_CLK_MT6765_IMGSYS is not set
-# CONFIG_COMMON_CLK_MT6765_VCODECSYS is not set
-CONFIG_COMMON_CLK_MT6765_MFGSYS=m
-# CONFIG_COMMON_CLK_MT6765_MIPI0ASYS is not set
-# CONFIG_COMMON_CLK_MT6765_MIPI0BSYS is not set
-CONFIG_COMMON_CLK_MT6765_MIPI1ASYS=y
-# CONFIG_COMMON_CLK_MT6765_MIPI1BSYS is not set
-# CONFIG_COMMON_CLK_MT6765_MIPI2ASYS is not set
-# CONFIG_COMMON_CLK_MT6765_MIPI2BSYS is not set
-CONFIG_COMMON_CLK_MT6779=y
-CONFIG_COMMON_CLK_MT6779_MMSYS=y
-CONFIG_COMMON_CLK_MT6779_IMGSYS=m
-# CONFIG_COMMON_CLK_MT6779_IPESYS is not set
-# CONFIG_COMMON_CLK_MT6779_CAMSYS is not set
-CONFIG_COMMON_CLK_MT6779_VDECSYS=y
-CONFIG_COMMON_CLK_MT6779_VENCSYS=y
-# CONFIG_COMMON_CLK_MT6779_MFGCFG is not set
-# CONFIG_COMMON_CLK_MT6779_AUDSYS is not set
-# CONFIG_COMMON_CLK_MT6795 is not set
-CONFIG_COMMON_CLK_MT6797=y
-CONFIG_COMMON_CLK_MT6797_MMSYS=y
-CONFIG_COMMON_CLK_MT6797_IMGSYS=m
-CONFIG_COMMON_CLK_MT6797_VDECSYS=y
-CONFIG_COMMON_CLK_MT6797_VENCSYS=m
-# CONFIG_COMMON_CLK_MT7622 is not set
-CONFIG_COMMON_CLK_MT7629=y
-# CONFIG_COMMON_CLK_MT7629_ETHSYS is not set
-CONFIG_COMMON_CLK_MT7629_HIFSYS=y
-# CONFIG_COMMON_CLK_MT7981 is not set
-# CONFIG_COMMON_CLK_MT7986 is not set
-CONFIG_COMMON_CLK_MT7988=y
-# CONFIG_COMMON_CLK_MT8135 is not set
-CONFIG_COMMON_CLK_MT8167=m
-CONFIG_COMMON_CLK_MT8167_AUDSYS=m
-CONFIG_COMMON_CLK_MT8167_IMGSYS=m
-# CONFIG_COMMON_CLK_MT8167_MFGCFG is not set
-CONFIG_COMMON_CLK_MT8167_MMSYS=m
-CONFIG_COMMON_CLK_MT8167_VDECSYS=m
-# CONFIG_COMMON_CLK_MT8173 is not set
-CONFIG_COMMON_CLK_MT8183=m
-# CONFIG_COMMON_CLK_MT8183_AUDIOSYS is not set
-CONFIG_COMMON_CLK_MT8183_CAMSYS=m
-CONFIG_COMMON_CLK_MT8183_IMGSYS=m
-CONFIG_COMMON_CLK_MT8183_IPU_CORE0=m
-# CONFIG_COMMON_CLK_MT8183_IPU_CORE1 is not set
-# CONFIG_COMMON_CLK_MT8183_IPU_ADL is not set
-CONFIG_COMMON_CLK_MT8183_IPU_CONN=m
-CONFIG_COMMON_CLK_MT8183_MFGCFG=m
-# CONFIG_COMMON_CLK_MT8183_MMSYS is not set
-CONFIG_COMMON_CLK_MT8183_VDECSYS=m
-CONFIG_COMMON_CLK_MT8183_VENCSYS=m
-CONFIG_COMMON_CLK_MT8186=m
-CONFIG_COMMON_CLK_MT8186_CAMSYS=m
-# CONFIG_COMMON_CLK_MT8186_IMGSYS is not set
-CONFIG_COMMON_CLK_MT8186_IMP_IIC_WRAP=m
-CONFIG_COMMON_CLK_MT8186_MCUSYS=m
-CONFIG_COMMON_CLK_MT8186_MDPSYS=m
-# CONFIG_COMMON_CLK_MT8186_MFGCFG is not set
-CONFIG_COMMON_CLK_MT8186_MMSYS=m
-CONFIG_COMMON_CLK_MT8186_VDECSYS=m
-CONFIG_COMMON_CLK_MT8186_VENCSYS=m
-CONFIG_COMMON_CLK_MT8188=m
-CONFIG_COMMON_CLK_MT8188_ADSP_AUDIO26M=m
-CONFIG_COMMON_CLK_MT8188_IMP_IIC_WRAP=m
-CONFIG_COMMON_CLK_MT8188_MFGCFG=m
-CONFIG_COMMON_CLK_MT8188_VDOSYS=m
-# CONFIG_COMMON_CLK_MT8188_VPPSYS is not set
-CONFIG_COMMON_CLK_MT8192=y
-CONFIG_COMMON_CLK_MT8192_AUDSYS=y
-# CONFIG_COMMON_CLK_MT8192_CAMSYS is not set
-# CONFIG_COMMON_CLK_MT8192_IMGSYS is not set
-CONFIG_COMMON_CLK_MT8192_IMP_IIC_WRAP=y
-CONFIG_COMMON_CLK_MT8192_IPESYS=m
-CONFIG_COMMON_CLK_MT8192_MDPSYS=y
-CONFIG_COMMON_CLK_MT8192_MFGCFG=m
-# CONFIG_COMMON_CLK_MT8192_MMSYS is not set
-CONFIG_COMMON_CLK_MT8192_MSDC=m
-CONFIG_COMMON_CLK_MT8192_SCP_ADSP=y
-CONFIG_COMMON_CLK_MT8192_VDECSYS=m
-CONFIG_COMMON_CLK_MT8192_VENCSYS=y
-# CONFIG_COMMON_CLK_MT8195 is not set
-# CONFIG_COMMON_CLK_MT8365 is not set
-CONFIG_COMMON_CLK_MT8516=m
-CONFIG_COMMON_CLK_MT8516_AUDSYS=m
-# end of Clock driver for MediaTek SoC
-
-#
-# Clock support for Amlogic platforms
-#
-# end of Clock support for Amlogic platforms
-
-CONFIG_MSTAR_MSC313_CPUPLL=y
-CONFIG_MSTAR_MSC313_MPLL=y
-# CONFIG_MCHP_CLK_MPFS is not set
-# CONFIG_COMMON_CLK_NUVOTON is not set
-CONFIG_COMMON_CLK_PISTACHIO=y
-CONFIG_QCOM_GDSC=y
-CONFIG_COMMON_CLK_QCOM=m
-CONFIG_CLK_X1E80100_CAMCC=m
-CONFIG_CLK_X1E80100_DISPCC=m
-CONFIG_CLK_X1E80100_GCC=m
-# CONFIG_CLK_X1E80100_GPUCC is not set
-# CONFIG_CLK_X1E80100_TCSRCC is not set
-CONFIG_CLK_X1P42100_GPUCC=m
-# CONFIG_CLK_QCM2290_GPUCC is not set
-# CONFIG_QCOM_A53PLL is not set
-CONFIG_QCOM_A7PLL=m
-CONFIG_QCOM_CLK_APCS_MSM8916=m
-CONFIG_QCOM_CLK_APCS_SDX55=m
-CONFIG_QCOM_CLK_SMD_RPM=m
-CONFIG_QCOM_CLK_RPMH=m
-# CONFIG_APQ_GCC_8084 is not set
-# CONFIG_APQ_MMCC_8084 is not set
-CONFIG_IPQ_APSS_PLL=m
-# CONFIG_IPQ_CMN_PLL is not set
-CONFIG_IPQ_GCC_4019=m
-# CONFIG_IPQ_GCC_5018 is not set
-CONFIG_IPQ_GCC_5332=m
-CONFIG_IPQ_GCC_5424=m
-CONFIG_IPQ_GCC_6018=m
-CONFIG_IPQ_GCC_806X=m
-CONFIG_IPQ_LCC_806X=m
-# CONFIG_IPQ_GCC_8074 is not set
-CONFIG_IPQ_GCC_9574=m
-CONFIG_IPQ_NSSCC_9574=m
-# CONFIG_MSM_GCC_8660 is not set
-CONFIG_MSM_GCC_8909=m
-CONFIG_MSM_GCC_8916=m
-# CONFIG_MSM_GCC_8917 is not set
-# CONFIG_MSM_GCC_8939 is not set
-CONFIG_MSM_GCC_8960=m
-CONFIG_MSM_LCC_8960=m
-CONFIG_MDM_GCC_9607=m
-# CONFIG_MDM_GCC_9615 is not set
-CONFIG_MSM_MMCC_8960=m
-CONFIG_MSM_GCC_8953=m
-CONFIG_MSM_GCC_8974=m
-CONFIG_MSM_MMCC_8974=m
-CONFIG_MSM_GCC_8976=m
-# CONFIG_MSM_MMCC_8994 is not set
-# CONFIG_MSM_GCC_8994 is not set
-CONFIG_MSM_GCC_8996=m
-CONFIG_MSM_MMCC_8996=m
-CONFIG_MSM_GCC_8998=m
-CONFIG_MSM_GPUCC_8998=m
-# CONFIG_MSM_MMCC_8998 is not set
-CONFIG_QCM_GCC_2290=m
-CONFIG_QCM_DISPCC_2290=m
-CONFIG_QCS_GCC_404=m
-CONFIG_SA_CAMCC_8775P=m
-CONFIG_QCS_GCC_8300=m
-CONFIG_QCS_GCC_615=m
-CONFIG_SC_CAMCC_7180=m
-# CONFIG_SC_CAMCC_7280 is not set
-CONFIG_SC_CAMCC_8280XP=m
-CONFIG_SA_DISPCC_8775P=m
-# CONFIG_SC_DISPCC_7180 is not set
-# CONFIG_SC_DISPCC_7280 is not set
-# CONFIG_SC_DISPCC_8280XP is not set
-CONFIG_SA_GCC_8775P=m
-CONFIG_SA_GPUCC_8775P=m
-CONFIG_SAR_GCC_2130P=m
-# CONFIG_SAR_GPUCC_2130P is not set
-CONFIG_SC_GCC_7180=m
-CONFIG_SC_GCC_7280=m
-# CONFIG_SC_GCC_8180X is not set
-CONFIG_SC_GCC_8280XP=m
-CONFIG_SC_GPUCC_7180=m
-CONFIG_SC_GPUCC_7280=m
-CONFIG_SC_GPUCC_8280XP=m
-# CONFIG_SC_LPASSCC_7280 is not set
-CONFIG_SC_LPASSCC_8280XP=m
-# CONFIG_SC_LPASS_CORECC_7180 is not set
-CONFIG_SC_LPASS_CORECC_7280=m
-CONFIG_SC_VIDEOCC_7180=m
-CONFIG_SC_VIDEOCC_7280=m
-CONFIG_SDM_CAMCC_845=m
-CONFIG_SDM_GCC_660=m
-CONFIG_SDM_MMCC_660=m
-CONFIG_SDM_GPUCC_660=m
-CONFIG_QCS_TURING_404=m
-CONFIG_QCS_Q6SSTOP_404=m
-CONFIG_QDU_GCC_1000=m
-CONFIG_QDU_ECPRICC_1000=m
-CONFIG_SDM_GCC_845=m
-# CONFIG_SDM_GPUCC_845 is not set
-CONFIG_SDM_VIDEOCC_845=m
-CONFIG_SDM_DISPCC_845=m
-CONFIG_SDM_LPASSCC_845=m
-# CONFIG_SDX_GCC_55 is not set
-CONFIG_SDX_GCC_65=m
-CONFIG_SDX_GCC_75=m
-# CONFIG_SM_CAMCC_4450 is not set
-CONFIG_SM_CAMCC_6350=m
-# CONFIG_SM_CAMCC_7150 is not set
-CONFIG_SM_CAMCC_8150=m
-CONFIG_SM_CAMCC_8250=m
-CONFIG_SM_CAMCC_8450=m
-# CONFIG_SM_CAMCC_8550 is not set
-# CONFIG_SM_CAMCC_8650 is not set
-CONFIG_SM_DISPCC_4450=m
-CONFIG_SM_DISPCC_6115=m
-# CONFIG_SM_DISPCC_6125 is not set
-CONFIG_SM_DISPCC_8250=m
-CONFIG_SM_DISPCC_6350=m
-CONFIG_SM_DISPCC_6375=m
-CONFIG_SM_DISPCC_8450=m
-CONFIG_SM_DISPCC_8550=m
-CONFIG_SM_GCC_4450=m
-CONFIG_SM_GCC_6115=m
-CONFIG_SM_GCC_6125=m
-CONFIG_SM_GCC_6350=m
-CONFIG_SM_GCC_6375=m
-# CONFIG_SM_GCC_7150 is not set
-CONFIG_SM_GCC_8150=m
-CONFIG_SM_GCC_8250=m
-CONFIG_SM_GCC_8350=m
-CONFIG_SM_GCC_8450=m
-CONFIG_SM_GCC_8550=m
-CONFIG_SM_GCC_8650=m
-# CONFIG_SM_GCC_8750 is not set
-CONFIG_SM_GPUCC_4450=m
-# CONFIG_SM_GPUCC_6115 is not set
-CONFIG_SM_GPUCC_6125=m
-CONFIG_SM_GPUCC_6375=m
-# CONFIG_SM_GPUCC_6350 is not set
-# CONFIG_SM_GPUCC_8150 is not set
-CONFIG_SM_GPUCC_8250=m
-CONFIG_SM_GPUCC_8350=m
-# CONFIG_SM_GPUCC_8450 is not set
-CONFIG_SM_GPUCC_8550=m
-CONFIG_SM_GPUCC_8650=m
-# CONFIG_SM_LPASSCC_6115 is not set
-CONFIG_SM_TCSRCC_8550=m
-CONFIG_SM_TCSRCC_8650=m
-CONFIG_SM_TCSRCC_8750=m
-CONFIG_SA_VIDEOCC_8775P=m
-# CONFIG_SM_VIDEOCC_7150 is not set
-CONFIG_SM_VIDEOCC_8150=m
-CONFIG_SM_VIDEOCC_8250=m
-CONFIG_SM_VIDEOCC_8350=m
-CONFIG_SM_VIDEOCC_8550=m
-CONFIG_SPMI_PMIC_CLKDIV=m
-# CONFIG_QCOM_HFPLL is not set
-CONFIG_KPSS_XCC=m
-CONFIG_CLK_GFM_LPASS_SM8250=m
-CONFIG_SM_VIDEOCC_8450=m
-# CONFIG_CLK_MT7621 is not set
-CONFIG_CLK_MTMIPS=y
-CONFIG_CLK_RENESAS=y
-# CONFIG_CLK_EMEV2 is not set
-# CONFIG_CLK_RZA1 is not set
-CONFIG_CLK_R7S9210=y
-# CONFIG_CLK_R8A73A4 is not set
-CONFIG_CLK_R8A7740=y
-# CONFIG_CLK_R8A7742 is not set
-# CONFIG_CLK_R8A7743 is not set
-# CONFIG_CLK_R8A7745 is not set
-CONFIG_CLK_R8A77470=y
-# CONFIG_CLK_R8A774A1 is not set
-# CONFIG_CLK_R8A774B1 is not set
-# CONFIG_CLK_R8A774C0 is not set
-# CONFIG_CLK_R8A774E1 is not set
-CONFIG_CLK_R8A7778=y
-# CONFIG_CLK_R8A7779 is not set
-# CONFIG_CLK_R8A7790 is not set
-CONFIG_CLK_R8A7791=y
-CONFIG_CLK_R8A7792=y
-# CONFIG_CLK_R8A7794 is not set
-# CONFIG_CLK_R8A7795 is not set
-CONFIG_CLK_R8A77960=y
-CONFIG_CLK_R8A77961=y
-# CONFIG_CLK_R8A77965 is not set
-CONFIG_CLK_R8A77970=y
-CONFIG_CLK_R8A77980=y
-CONFIG_CLK_R8A77990=y
-# CONFIG_CLK_R8A77995 is not set
-CONFIG_CLK_R8A779A0=y
-CONFIG_CLK_R8A779F0=y
-# CONFIG_CLK_R8A779G0 is not set
-# CONFIG_CLK_R8A779H0 is not set
-# CONFIG_CLK_R9A06G032 is not set
-CONFIG_CLK_R9A07G043=y
-CONFIG_CLK_R9A07G044=y
-# CONFIG_CLK_R9A07G054 is not set
-CONFIG_CLK_R9A08G045=y
-CONFIG_CLK_R9A09G011=y
-# CONFIG_CLK_R9A09G047 is not set
-# CONFIG_CLK_R9A09G057 is not set
-# CONFIG_CLK_SH73A0 is not set
-CONFIG_CLK_RCAR_CPG_LIB=y
-CONFIG_CLK_RCAR_GEN2_CPG=y
-CONFIG_CLK_RCAR_GEN3_CPG=y
-CONFIG_CLK_RCAR_GEN4_CPG=y
-# CONFIG_CLK_RCAR_USB2_CLOCK_SEL is not set
-CONFIG_CLK_RZG2L=y
-CONFIG_CLK_RZV2H=y
-CONFIG_CLK_RENESAS_VBATTB=y
-CONFIG_CLK_RENESAS_CPG_MSSR=y
-CONFIG_CLK_RENESAS_CPG_MSTP=y
-CONFIG_CLK_RENESAS_DIV6=y
-# CONFIG_COMMON_CLK_SAMSUNG is not set
-CONFIG_CLK_SIFIVE=y
-CONFIG_CLK_SIFIVE_PRCI=m
-# CONFIG_CLK_INTEL_SOCFPGA is not set
-CONFIG_CLK_SOPHGO_CV1800=m
-CONFIG_CLK_SOPHGO_SG2042_PLL=m
-# CONFIG_CLK_SOPHGO_SG2042_CLKGEN is not set
-# CONFIG_SPRD_COMMON_CLK is not set
-CONFIG_CLK_STARFIVE_JH71X0=y
-CONFIG_CLK_STARFIVE_JH7100=y
-CONFIG_CLK_STARFIVE_JH7100_AUDIO=m
-# CONFIG_CLK_STARFIVE_JH7110_PLL is not set
-# CONFIG_CLK_STARFIVE_JH7110_SYS is not set
-# CONFIG_CLK_SUNXI is not set
-CONFIG_SUNXI_CCU=y
-# CONFIG_SUNIV_F1C100S_CCU is not set
-# CONFIG_SUN20I_D1_CCU is not set
-# CONFIG_SUN20I_D1_R_CCU is not set
-CONFIG_SUN50I_A64_CCU=y
-# CONFIG_SUN50I_A100_CCU is not set
-# CONFIG_SUN50I_A100_R_CCU is not set
-CONFIG_SUN50I_H6_CCU=m
-CONFIG_SUN50I_H616_CCU=y
-CONFIG_SUN50I_H6_R_CCU=m
-# CONFIG_SUN55I_A523_CCU is not set
-CONFIG_SUN55I_A523_R_CCU=y
-CONFIG_SUN4I_A10_CCU=y
-CONFIG_SUN5I_CCU=y
-CONFIG_SUN6I_A31_CCU=y
-CONFIG_SUN6I_RTC_CCU=m
-# CONFIG_SUN8I_A23_CCU is not set
-CONFIG_SUN8I_A33_CCU=y
-# CONFIG_SUN8I_A83T_CCU is not set
-CONFIG_SUN8I_H3_CCU=y
-CONFIG_SUN8I_V3S_CCU=y
-CONFIG_SUN8I_DE2_CCU=y
-# CONFIG_SUN8I_R40_CCU is not set
-CONFIG_SUN9I_A80_CCU=y
-# CONFIG_SUN8I_R_CCU is not set
-# CONFIG_CLK_THEAD_TH1520_AP is not set
-# CONFIG_COMMON_CLK_STM32MP is not set
-CONFIG_COMMON_CLK_TI_ADPLL=m
-# CONFIG_CLK_UNIPHIER is not set
-CONFIG_COMMON_CLK_VISCONTI=y
-# CONFIG_CLK_LGM_CGU is not set
-# CONFIG_XILINX_VCU is not set
-# CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
-# CONFIG_COMMON_CLK_ZYNQMP is not set
-# CONFIG_HWSPINLOCK is not set
-
-#
-# Clock Source drivers
-#
-CONFIG_TIMER_OF=y
-CONFIG_TIMER_PROBE=y
-CONFIG_I8253_LOCK=y
-CONFIG_CLKBLD_I8253=y
-CONFIG_CLKSRC_MMIO=y
-# CONFIG_BCM2835_TIMER is not set
-CONFIG_BCM_KONA_TIMER=y
-# CONFIG_DAVINCI_TIMER is not set
-# CONFIG_DIGICOLOR_TIMER is not set
-CONFIG_OMAP_DM_TIMER=y
-CONFIG_DW_APB_TIMER=y
-CONFIG_FTTMR010_TIMER=y
-# CONFIG_IXP4XX_TIMER is not set
-CONFIG_MESON6_TIMER=y
-# CONFIG_OWL_TIMER is not set
-CONFIG_RDA_TIMER=y
-CONFIG_REALTEK_OTTO_TIMER=y
-CONFIG_SUN4I_TIMER=y
-# CONFIG_SUN5I_HSTIMER is not set
-CONFIG_TEGRA_TIMER=y
-# CONFIG_VT8500_TIMER is not set
-CONFIG_NPCM7XX_TIMER=y
-CONFIG_CADENCE_TTC_TIMER=y
-CONFIG_ASM9260_TIMER=y
-CONFIG_CLKSRC_DBX500_PRCMU=y
-# CONFIG_CLPS711X_TIMER is not set
-CONFIG_MXS_TIMER=y
-# CONFIG_NSPIRE_TIMER is not set
-# CONFIG_INTEGRATOR_AP_TIMER is not set
-CONFIG_CLKSRC_PISTACHIO=y
-CONFIG_CLKSRC_STM32_LP=y
-CONFIG_ARMV7M_SYSTICK=y
-# CONFIG_ATMEL_PIT is not set
-CONFIG_ATMEL_ST=y
-# CONFIG_CLKSRC_SAMSUNG_PWM is not set
-# CONFIG_FSL_FTM_TIMER is not set
-# CONFIG_MTK_TIMER is not set
-# CONFIG_MTK_CPUX_TIMER is not set
-CONFIG_SPRD_TIMER=y
-CONFIG_CLKSRC_JCORE_PIT=y
-# CONFIG_SH_TIMER_CMT is not set
-CONFIG_SH_TIMER_MTU2=y
-# CONFIG_RENESAS_OSTM is not set
-# CONFIG_SH_TIMER_TMU is not set
-CONFIG_EM_TIMER_STI=y
-CONFIG_CLKSRC_PXA=y
-CONFIG_TIMER_IMX_SYS_CTR=y
-CONFIG_CLKSRC_LOONGSON1_PWM=y
-# CONFIG_CLKSRC_ST_LPC is not set
-# CONFIG_GXP_TIMER is not set
-CONFIG_MSC313E_TIMER=y
-# CONFIG_INGENIC_TIMER is not set
-# CONFIG_INGENIC_SYSOST is not set
-CONFIG_INGENIC_OST=y
-CONFIG_GOLDFISH_TIMER=y
-# CONFIG_RALINK_TIMER is not set
-# end of Clock Source drivers
-
-CONFIG_MAILBOX=y
-CONFIG_ARM_MHU_V3=y
-CONFIG_EXYNOS_MBOX=m
-# CONFIG_IMX_MBOX is not set
-CONFIG_PLATFORM_MHU=y
-CONFIG_ARMADA_37XX_RWTM_MBOX=y
-CONFIG_OMAP2PLUS_MBOX=m
-# CONFIG_ROCKCHIP_MBOX is not set
-CONFIG_ALTERA_MBOX=y
-CONFIG_TI_MESSAGE_MANAGER=m
-CONFIG_HI3660_MBOX=m
-# CONFIG_HI6220_MBOX is not set
-# CONFIG_MAILBOX_TEST is not set
-# CONFIG_POLARFIRE_SOC_MAILBOX is not set
-# CONFIG_QCOM_APCS_IPC is not set
-CONFIG_BCM_PDC_MBOX=y
-# CONFIG_STM32_IPCC is not set
-# CONFIG_MTK_ADSP_MBOX is not set
-CONFIG_MTK_CMDQ_MBOX=y
-CONFIG_SUN6I_MSGBOX=y
-CONFIG_SPRD_MBOX=y
-# CONFIG_QCOM_CPUCP_MBOX is not set
-CONFIG_QCOM_IPCC=y
-CONFIG_THEAD_TH1520_MBOX=m
-CONFIG_IOMMU_IOVA=m
-CONFIG_IOMMU_API=y
-CONFIG_IOMMU_SUPPORT=y
-
-#
-# Generic IOMMU Pagetable Support
-#
-CONFIG_IOMMU_IO_PGTABLE=y
-# CONFIG_IOMMU_IO_PGTABLE_LPAE is not set
-CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
-# CONFIG_IOMMU_IO_PGTABLE_ARMV7S_SELFTEST is not set
-# CONFIG_IOMMU_IO_PGTABLE_DART is not set
-# end of Generic IOMMU Pagetable Support
-
-CONFIG_IOMMU_DEBUGFS=y
-CONFIG_IOMMU_DEFAULT_DMA_STRICT=y
-# CONFIG_IOMMU_DEFAULT_DMA_LAZY is not set
-# CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set
-CONFIG_OF_IOMMU=y
-CONFIG_IOMMUFD_DRIVER_CORE=y
-CONFIG_IOMMUFD=m
-# CONFIG_IOMMUFD_VFIO_CONTAINER is not set
-CONFIG_OMAP_IOMMU=y
-CONFIG_OMAP_IOMMU_DEBUG=y
-CONFIG_ROCKCHIP_IOMMU=y
-CONFIG_SUN50I_IOMMU=y
-# CONFIG_IPMMU_VMSA is not set
-# CONFIG_SPAPR_TCE_IOMMU is not set
-# CONFIG_APPLE_DART is not set
-# CONFIG_ARM_SMMU is not set
-CONFIG_MTK_IOMMU=y
-CONFIG_MTK_IOMMU_V1=y
-# CONFIG_QCOM_IOMMU is not set
-# CONFIG_SPRD_IOMMU is not set
-
-#
-# Remoteproc drivers
-#
-# CONFIG_REMOTEPROC is not set
-# end of Remoteproc drivers
-
-#
-# Rpmsg drivers
-#
-CONFIG_RPMSG=y
-CONFIG_RPMSG_CTRL=m
-# CONFIG_RPMSG_NS is not set
-CONFIG_RPMSG_QCOM_GLINK=y
-CONFIG_RPMSG_QCOM_GLINK_RPM=y
-# CONFIG_RPMSG_VIRTIO is not set
-# end of Rpmsg drivers
-
-#
-# SOC (System On Chip) specific Drivers
-#
-
-#
-# Amlogic SoC drivers
-#
-# CONFIG_MESON_CANVAS is not set
-CONFIG_MESON_CLK_MEASURE=y
-CONFIG_MESON_GX_SOCINFO=y
-CONFIG_MESON_MX_SOCINFO=y
-# end of Amlogic SoC drivers
-
-#
-# Apple SoC drivers
-#
-# CONFIG_APPLE_MAILBOX is not set
-# CONFIG_APPLE_SART is not set
-# end of Apple SoC drivers
-
-#
-# ASPEED SoC drivers
-#
-CONFIG_ASPEED_LPC_CTRL=y
-CONFIG_ASPEED_LPC_SNOOP=m
-CONFIG_ASPEED_UART_ROUTING=m
-CONFIG_ASPEED_P2A_CTRL=m
-CONFIG_ASPEED_SOCINFO=y
-# end of ASPEED SoC drivers
-
-CONFIG_AT91_SOC_ID=y
-CONFIG_AT91_SOC_SFR=y
-
-#
-# Broadcom SoC drivers
-#
-CONFIG_SOC_BRCMSTB=y
-# end of Broadcom SoC drivers
-
-#
-# NXP/Freescale QorIQ SoC drivers
-#
-# CONFIG_FSL_DPAA is not set
-CONFIG_QUICC_ENGINE=y
-CONFIG_UCC_SLOW=y
-CONFIG_UCC=y
-CONFIG_CPM_TSA=m
-# CONFIG_DPAA2_CONSOLE is not set
-# end of NXP/Freescale QorIQ SoC drivers
-
-#
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
-# Hisilicon SoC drivers
-#
-# end of Hisilicon SoC drivers
-
-#
-# i.MX SoC drivers
-#
-CONFIG_SOC_IMX8M=y
-CONFIG_SOC_IMX9=y
-# end of i.MX SoC drivers
-
-#
-# IXP4xx SoC drivers
-#
-# CONFIG_IXP4XX_QMGR is not set
-CONFIG_IXP4XX_NPE=m
-# end of IXP4xx SoC drivers
-
-#
-# Enable LiteX SoC Builder specific drivers
-#
-CONFIG_LITEX=y
-CONFIG_LITEX_SOC_CONTROLLER=m
-# end of Enable LiteX SoC Builder specific drivers
-
-CONFIG_LOONGSON2_GUTS=m
-
-#
-# MediaTek SoC drivers
-#
-CONFIG_MTK_CMDQ=y
-CONFIG_MTK_DEVAPC=m
-CONFIG_MTK_INFRACFG=y
-# CONFIG_MTK_PMIC_WRAP is not set
-CONFIG_MTK_REGULATOR_COUPLER=y
-CONFIG_MTK_MMSYS=y
-CONFIG_MTK_SVS=m
-CONFIG_MTK_SOCINFO=m
-# end of MediaTek SoC drivers
-
-# CONFIG_WPCM450_SOC is not set
-
-#
-# Qualcomm SoC drivers
-#
-CONFIG_QCOM_AOSS_QMP=m
-CONFIG_QCOM_COMMAND_DB=y
-CONFIG_QCOM_GENI_SE=m
-CONFIG_QCOM_GSBI=m
-CONFIG_QCOM_LLCC=y
-CONFIG_QCOM_PMIC_PDCHARGER_ULOG=m
-CONFIG_QCOM_RAMP_CTRL=m
-CONFIG_QCOM_RMTFS_MEM=y
-# CONFIG_QCOM_RPM_MASTER_STATS is not set
-CONFIG_QCOM_RPMH=y
-CONFIG_QCOM_SMD_RPM=m
-# CONFIG_QCOM_SPM is not set
-CONFIG_QCOM_WCNSS_CTRL=m
-CONFIG_QCOM_ICC_BWMON=y
-CONFIG_QCOM_PBS=m
-# end of Qualcomm SoC drivers
-
-CONFIG_SOC_RENESAS=y
-# CONFIG_PWC_RZV2M is not set
-# CONFIG_RST_RCAR is not set
-CONFIG_SYSC_RZ=y
-# CONFIG_SYSC_R9A08G045 is not set
-CONFIG_SYS_R9A09G047=y
-# CONFIG_SYS_R9A09G057 is not set
-# CONFIG_ROCKCHIP_GRF is not set
-CONFIG_ROCKCHIP_IODOMAIN=y
-CONFIG_SOC_SAMSUNG=y
-# CONFIG_EXYNOS_ASV_ARM is not set
-CONFIG_EXYNOS_CHIPID=m
-CONFIG_EXYNOS_USI=m
-# CONFIG_EXYNOS_REGULATOR_COUPLER is not set
-CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER=y
-# CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER is not set
-# CONFIG_SOC_TI is not set
-CONFIG_UX500_SOC_ID=y
-CONFIG_SOC_INTEGRATOR_CM=y
-CONFIG_SOC_REALVIEW=y
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
-
-#
-# PM Domains
-#
-CONFIG_OWL_PM_DOMAINS_HELPER=y
-CONFIG_OWL_PM_DOMAINS=y
-
-#
-# Amlogic PM Domains
-#
-# CONFIG_MESON_EE_PM_DOMAINS is not set
-# end of Amlogic PM Domains
-
-CONFIG_APPLE_PMGR_PWRSTATE=y
-# CONFIG_ARM_SCMI_PERF_DOMAIN is not set
-CONFIG_ARM_SCMI_POWER_DOMAIN=m
-CONFIG_ARM_SCPI_POWER_DOMAIN=m
-
-#
-# Broadcom PM Domains
-#
-# CONFIG_BCM2835_POWER is not set
-# CONFIG_BCM_PMB is not set
-CONFIG_BCM63XX_POWER=y
-# end of Broadcom PM Domains
-
-#
-# i.MX PM Domains
-#
-# CONFIG_IMX_GPCV2_PM_DOMAINS is not set
-# end of i.MX PM Domains
-
-#
-# MediaTek PM Domains
-#
-# CONFIG_MTK_SCPSYS is not set
-# CONFIG_MTK_SCPSYS_PM_DOMAINS is not set
-# end of MediaTek PM Domains
-
-#
-# Qualcomm PM Domains
-#
-# CONFIG_QCOM_RPMHPD is not set
-CONFIG_QCOM_RPMPD=m
-# end of Qualcomm PM Domains
-
-CONFIG_SYSC_RCAR=y
-CONFIG_SYSC_RCAR_GEN4=y
-CONFIG_SYSC_R8A77995=y
-CONFIG_SYSC_R8A7794=y
-# CONFIG_SYSC_R8A77990 is not set
-CONFIG_SYSC_R8A7779=y
-CONFIG_SYSC_R8A7790=y
-# CONFIG_SYSC_R8A7795 is not set
-# CONFIG_SYSC_R8A7791 is not set
-CONFIG_SYSC_R8A77965=y
-CONFIG_SYSC_R8A77960=y
-# CONFIG_SYSC_R8A77961 is not set
-CONFIG_SYSC_R8A779F0=y
-CONFIG_SYSC_R8A7792=y
-# CONFIG_SYSC_R8A77980 is not set
-# CONFIG_SYSC_R8A77970 is not set
-# CONFIG_SYSC_R8A779A0 is not set
-# CONFIG_SYSC_R8A779G0 is not set
-CONFIG_SYSC_R8A779H0=y
-CONFIG_SYSC_RMOBILE=y
-CONFIG_SYSC_R8A77470=y
-# CONFIG_SYSC_R8A7745 is not set
-# CONFIG_SYSC_R8A7742 is not set
-# CONFIG_SYSC_R8A7743 is not set
-CONFIG_SYSC_R8A774C0=y
-CONFIG_SYSC_R8A774E1=y
-# CONFIG_SYSC_R8A774A1 is not set
-# CONFIG_SYSC_R8A774B1 is not set
-# CONFIG_EXYNOS_PM_DOMAINS is not set
-# CONFIG_UX500_PM_DOMAIN is not set
-# CONFIG_JH71XX_PMU is not set
-# CONFIG_SUN20I_PPU is not set
-# end of PM Domains
-
-CONFIG_PM_DEVFREQ=y
-
-#
-# DEVFREQ Governors
-#
-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=y
-# CONFIG_DEVFREQ_GOV_PERFORMANCE is not set
-CONFIG_DEVFREQ_GOV_POWERSAVE=y
-CONFIG_DEVFREQ_GOV_USERSPACE=m
-CONFIG_DEVFREQ_GOV_PASSIVE=y
-
-#
-# DEVFREQ Drivers
-#
-CONFIG_ARM_EXYNOS_BUS_DEVFREQ=y
-CONFIG_ARM_IMX_BUS_DEVFREQ=m
-# CONFIG_ARM_TEGRA_DEVFREQ is not set
-# CONFIG_ARM_MEDIATEK_CCI_DEVFREQ is not set
-CONFIG_ARM_SUN8I_A33_MBUS_DEVFREQ=y
-CONFIG_PM_DEVFREQ_EVENT=y
-CONFIG_DEVFREQ_EVENT_EXYNOS_NOCP=y
-CONFIG_DEVFREQ_EVENT_EXYNOS_PPMU=y
-CONFIG_DEVFREQ_EVENT_ROCKCHIP_DFI=m
-CONFIG_EXTCON=y
-
-#
-# Extcon Device Drivers
-#
-CONFIG_EXTCON_FSA9480=m
-CONFIG_EXTCON_GPIO=m
-CONFIG_EXTCON_LC824206XA=m
-CONFIG_EXTCON_MAX14577=m
-CONFIG_EXTCON_MAX3355=y
-CONFIG_EXTCON_PTN5150=m
-# CONFIG_EXTCON_QCOM_SPMI_MISC is not set
-CONFIG_EXTCON_RT8973A=m
-# CONFIG_EXTCON_SM5502 is not set
-CONFIG_EXTCON_USB_GPIO=y
-CONFIG_MEMORY=y
-CONFIG_DDR=y
-CONFIG_ATMEL_EBI=y
-CONFIG_BRCMSTB_DPFE=m
-CONFIG_BRCMSTB_MEMC=y
-# CONFIG_BT1_L2_CTL is not set
-# CONFIG_TI_AEMIF is not set
-CONFIG_TI_EMIF=m
-CONFIG_OMAP_GPMC=y
-CONFIG_OMAP_GPMC_DEBUG=y
-CONFIG_FPGA_DFL_EMIF=m
-CONFIG_MVEBU_DEVBUS=y
-CONFIG_FSL_CORENET_CF=m
-CONFIG_FSL_IFC=y
-CONFIG_JZ4780_NEMC=y
-CONFIG_MTK_SMI=y
-CONFIG_DA8XX_DDRCTL=y
-# CONFIG_RENESAS_RPCIF is not set
-CONFIG_STM32_FMC2_EBI=y
-CONFIG_SAMSUNG_MC=y
-CONFIG_EXYNOS5422_DMC=y
-CONFIG_EXYNOS_SROM=y
-CONFIG_TEGRA_MC=y
-CONFIG_TEGRA20_EMC=y
-CONFIG_TEGRA30_EMC=y
-CONFIG_TEGRA124_EMC=y
-# CONFIG_TEGRA210_EMC is not set
-# CONFIG_IIO is not set
-CONFIG_NTB=m
-CONFIG_NTB_MSI=y
-CONFIG_NTB_IDT=m
-CONFIG_NTB_EPF=m
-# CONFIG_NTB_SWITCHTEC is not set
-CONFIG_NTB_PINGPONG=m
-CONFIG_NTB_TOOL=m
-CONFIG_NTB_PERF=m
-CONFIG_NTB_MSI_TEST=m
-CONFIG_NTB_TRANSPORT=m
-CONFIG_PWM=y
-CONFIG_PWM_DEBUG=y
-CONFIG_PWM_ADP5585=m
-# CONFIG_PWM_APPLE is not set
-# CONFIG_PWM_ATMEL is not set
-# CONFIG_PWM_ATMEL_HLCDC_PWM is not set
-# CONFIG_PWM_ATMEL_TCB is not set
-# CONFIG_PWM_AXI_PWMGEN is not set
-# CONFIG_PWM_BCM_IPROC is not set
-CONFIG_PWM_BCM_KONA=m
-CONFIG_PWM_BCM2835=m
-CONFIG_PWM_BERLIN=y
-CONFIG_PWM_BRCMSTB=y
-# CONFIG_PWM_CLK is not set
-CONFIG_PWM_CLPS711X=m
-CONFIG_PWM_DWC_CORE=y
-CONFIG_PWM_DWC=y
-# CONFIG_PWM_EP93XX is not set
-CONFIG_PWM_FSL_FTM=y
-CONFIG_PWM_GPIO=m
-CONFIG_PWM_HIBVT=y
-CONFIG_PWM_IMG=m
-CONFIG_PWM_IMX1=y
-# CONFIG_PWM_IMX27 is not set
-# CONFIG_PWM_IMX_TPM is not set
-CONFIG_PWM_INTEL_LGM=m
-CONFIG_PWM_IQS620A=y
-# CONFIG_PWM_JZ4740 is not set
-CONFIG_PWM_KEEMBAY=y
-CONFIG_PWM_LP3943=m
-# CONFIG_PWM_LPC18XX_SCT is not set
-# CONFIG_PWM_LPC32XX is not set
-CONFIG_PWM_LPSS=y
-CONFIG_PWM_LPSS_PCI=y
-# CONFIG_PWM_LPSS_PLATFORM is not set
-CONFIG_PWM_MESON=m
-# CONFIG_PWM_MTK_DISP is not set
-# CONFIG_PWM_MEDIATEK is not set
-CONFIG_PWM_MICROCHIP_CORE=m
-# CONFIG_PWM_MXS is not set
-CONFIG_PWM_NTXEC=m
-CONFIG_PWM_OMAP_DMTIMER=m
-CONFIG_PWM_PCA9685=m
-CONFIG_PWM_PXA=m
-CONFIG_PWM_RASPBERRYPI_POE=y
-# CONFIG_PWM_RCAR is not set
-# CONFIG_PWM_RENESAS_TPU is not set
-CONFIG_PWM_ROCKCHIP=m
-# CONFIG_PWM_RZ_MTU3 is not set
-CONFIG_PWM_SAMSUNG=y
-CONFIG_PWM_SIFIVE=m
-# CONFIG_PWM_SL28CPLD is not set
-# CONFIG_PWM_SOPHGO_SG2042 is not set
-# CONFIG_PWM_SPEAR is not set
-CONFIG_PWM_SPRD=y
-CONFIG_PWM_STI=m
-# CONFIG_PWM_STM32 is not set
-CONFIG_PWM_STM32_LP=m
-CONFIG_PWM_STMPE=y
-CONFIG_PWM_SUN4I=y
-CONFIG_PWM_SUNPLUS=m
-CONFIG_PWM_TEGRA=y
-CONFIG_PWM_TIECAP=m
-CONFIG_PWM_TIEHRPWM=m
-# CONFIG_PWM_VISCONTI is not set
-CONFIG_PWM_VT8500=m
-CONFIG_PWM_XILINX=y
-
-#
-# IRQ chip support
-#
-CONFIG_IRQCHIP=y
-CONFIG_IRQ_MSI_LIB=y
-CONFIG_AL_FIC=y
-CONFIG_LAN966X_OIC=y
-CONFIG_JCORE_AIC=y
-CONFIG_RENESAS_INTC_IRQPIN=y
-CONFIG_RENESAS_IRQC=y
-CONFIG_RENESAS_RZA1_IRQC=y
-# CONFIG_RENESAS_RZG2L_IRQC is not set
-# CONFIG_RENESAS_RZV2H_ICU is not set
-CONFIG_SL28CPLD_INTC=y
-# CONFIG_TS4800_IRQ is not set
-CONFIG_XILINX_INTC=y
-# CONFIG_INGENIC_TCU_IRQ is not set
-CONFIG_STM32MP_EXTI=m
-# CONFIG_IRQ_UNIPHIER_AIDET is not set
-# CONFIG_MESON_IRQ_GPIO is not set
-# CONFIG_IMX_IRQSTEER is not set
-# CONFIG_IMX_INTMUX is not set
-CONFIG_IMX_MU_MSI=m
-CONFIG_TI_SCI_INTR_IRQCHIP=m
-# CONFIG_STARFIVE_JH8100_INTC is not set
-CONFIG_EXYNOS_IRQ_COMBINER=y
-# CONFIG_MST_IRQ is not set
-CONFIG_MCHP_EIC=y
-CONFIG_SOPHGO_SG2042_MSI=y
-CONFIG_SUNPLUS_SP7021_INTC=y
-# end of IRQ chip support
-
-# CONFIG_IPACK_BUS is not set
-CONFIG_RESET_CONTROLLER=y
-# CONFIG_RESET_A10SR is not set
-# CONFIG_RESET_ATH79 is not set
-CONFIG_RESET_AXS10X=y
-CONFIG_RESET_BCM6345=y
-# CONFIG_RESET_BERLIN is not set
-CONFIG_RESET_BRCMSTB=m
-CONFIG_RESET_BRCMSTB_RESCAL=y
-# CONFIG_RESET_EYEQ is not set
-CONFIG_RESET_GPIO=y
-CONFIG_RESET_HSDK=y
-# CONFIG_RESET_IMX7 is not set
-CONFIG_RESET_IMX8MP_AUDIOMIX=m
-CONFIG_RESET_INTEL_GW=y
-# CONFIG_RESET_K210 is not set
-CONFIG_RESET_LANTIQ=y
-CONFIG_RESET_LPC18XX=y
-CONFIG_RESET_MCHP_SPARX5=y
-CONFIG_RESET_NPCM=y
-# CONFIG_RESET_NUVOTON_MA35D1 is not set
-CONFIG_RESET_PISTACHIO=y
-CONFIG_RESET_QCOM_AOSS=y
-CONFIG_RESET_QCOM_PDC=m
-# CONFIG_RESET_RASPBERRYPI is not set
-CONFIG_RESET_RZG2L_USBPHY_CTRL=m
-CONFIG_RESET_SCMI=m
-CONFIG_RESET_SIMPLE=y
-# CONFIG_RESET_SOCFPGA is not set
-# CONFIG_RESET_SUNPLUS is not set
-# CONFIG_RESET_SUNXI is not set
-CONFIG_RESET_TI_SCI=m
-CONFIG_RESET_TI_SYSCON=m
-# CONFIG_RESET_TI_TPS380X is not set
-CONFIG_RESET_TN48M_CPLD=y
-CONFIG_RESET_UNIPHIER=y
-# CONFIG_RESET_UNIPHIER_GLUE is not set
-CONFIG_RESET_ZYNQ=y
-# CONFIG_RESET_ZYNQMP is not set
-CONFIG_RESET_MESON_COMMON=y
-CONFIG_RESET_MESON=y
-CONFIG_RESET_MESON_AUX=m
-CONFIG_RESET_MESON_AUDIO_ARB=y
-CONFIG_RESET_STARFIVE_JH71X0=y
-CONFIG_RESET_STARFIVE_JH7100=y
-CONFIG_STIH407_RESET=y
-CONFIG_COMMON_RESET_HI3660=m
-# CONFIG_COMMON_RESET_HI6220 is not set
-# CONFIG_RESET_TEGRA_BPMP is not set
-
-#
-# PHY Subsystem
-#
-CONFIG_GENERIC_PHY=y
-CONFIG_GENERIC_PHY_MIPI_DPHY=y
-# CONFIG_PHY_LPC18XX_USB_OTG is not set
-CONFIG_PHY_PISTACHIO_USB=m
-CONFIG_PHY_XGENE=y
-# CONFIG_PHY_CAN_TRANSCEIVER is not set
-# CONFIG_PHY_AIROHA_PCIE is not set
-CONFIG_PHY_NXP_PTN3222=m
-CONFIG_PHY_SUN6I_MIPI_DPHY=m
-CONFIG_PHY_SUN50I_USB3=m
-# CONFIG_PHY_MESON8_HDMI_TX is not set
-CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=m
-# CONFIG_PHY_MESON_G12A_USB2 is not set
-CONFIG_PHY_MESON_G12A_USB3_PCIE=y
-CONFIG_PHY_MESON_AXG_PCIE=m
-CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG=m
-CONFIG_PHY_MESON_AXG_MIPI_DPHY=y
-
-#
-# PHY drivers for Broadcom platforms
-#
-# CONFIG_PHY_BCM63XX_USBH is not set
-CONFIG_PHY_CYGNUS_PCIE=y
-# CONFIG_PHY_BCM_SR_USB is not set
-CONFIG_BCM_KONA_USB2_PHY=m
-# CONFIG_PHY_BCM_NS_USB2 is not set
-CONFIG_PHY_NS2_USB_DRD=y
-CONFIG_PHY_BRCM_SATA=m
-CONFIG_PHY_BRCM_USB=y
-# CONFIG_PHY_BCM_SR_PCIE is not set
-# end of PHY drivers for Broadcom platforms
-
-# CONFIG_PHY_CADENCE_TORRENT is not set
-CONFIG_PHY_CADENCE_DPHY=y
-# CONFIG_PHY_CADENCE_DPHY_RX is not set
-CONFIG_PHY_CADENCE_SIERRA=m
-# CONFIG_PHY_CADENCE_SALVO is not set
-CONFIG_PHY_FSL_IMX8MQ_USB=m
-# CONFIG_PHY_MIXEL_LVDS_PHY is not set
-CONFIG_PHY_MIXEL_MIPI_DPHY=m
-# CONFIG_PHY_FSL_IMX8M_PCIE is not set
-# CONFIG_PHY_FSL_IMX8QM_HSIO is not set
-CONFIG_PHY_FSL_SAMSUNG_HDMI_PHY=y
-CONFIG_PHY_FSL_LYNX_28G=y
-CONFIG_PHY_HI6220_USB=y
-CONFIG_PHY_HI3660_USB=m
-CONFIG_PHY_HI3670_USB=m
-CONFIG_PHY_HI3670_PCIE=m
-CONFIG_PHY_HISTB_COMBPHY=m
-CONFIG_PHY_HISI_INNO_USB2=y
-CONFIG_PHY_LANTIQ_VRX200_PCIE=m
-# CONFIG_PHY_LANTIQ_RCU_USB2 is not set
-# CONFIG_ARMADA375_USBCLUSTER_PHY is not set
-CONFIG_PHY_BERLIN_SATA=y
-CONFIG_PHY_BERLIN_USB=m
-CONFIG_PHY_MVEBU_A3700_UTMI=m
-CONFIG_PHY_MVEBU_A38X_COMPHY=m
-# CONFIG_PHY_PXA_28NM_HSIC is not set
-# CONFIG_PHY_PXA_28NM_USB2 is not set
-CONFIG_PHY_PXA_USB=m
-CONFIG_PHY_MMP3_USB=m
-CONFIG_PHY_MMP3_HSIC=m
-CONFIG_PHY_MTK_PCIE=m
-# CONFIG_PHY_MTK_XFI_TPHY is not set
-# CONFIG_PHY_MTK_TPHY is not set
-CONFIG_PHY_MTK_UFS=m
-CONFIG_PHY_MTK_XSPHY=m
-# CONFIG_PHY_MTK_HDMI is not set
-CONFIG_PHY_MTK_MIPI_CSI_0_5=y
-# CONFIG_PHY_MTK_MIPI_DSI is not set
-CONFIG_PHY_MTK_DP=m
-CONFIG_PHY_SPARX5_SERDES=m
-CONFIG_PHY_LAN966X_SERDES=y
-CONFIG_PHY_OCELOT_SERDES=y
-CONFIG_PHY_MA35_USB=m
-# CONFIG_PHY_ATH79_USB is not set
-CONFIG_PHY_QCOM_EDP=m
-CONFIG_PHY_QCOM_IPQ4019_USB=y
-CONFIG_PHY_QCOM_PCIE2=m
-CONFIG_PHY_QCOM_QMP=m
-CONFIG_PHY_QCOM_QMP_COMBO=m
-# CONFIG_PHY_QCOM_QMP_PCIE is not set
-CONFIG_PHY_QCOM_QMP_PCIE_8996=m
-# CONFIG_PHY_QCOM_QMP_UFS is not set
-CONFIG_PHY_QCOM_QMP_USB=m
-# CONFIG_PHY_QCOM_QMP_USB_LEGACY is not set
-CONFIG_PHY_QCOM_QUSB2=m
-# CONFIG_PHY_QCOM_SNPS_EUSB2 is not set
-# CONFIG_PHY_QCOM_EUSB2_REPEATER is not set
-# CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2 is not set
-CONFIG_PHY_QCOM_USB_HS_28NM=m
-CONFIG_PHY_QCOM_USB_SS=y
-CONFIG_PHY_QCOM_IPQ806X_USB=m
-CONFIG_PHY_QCOM_SGMII_ETH=m
-CONFIG_PHY_MT7621_PCI=m
-CONFIG_PHY_RALINK_USB=m
-CONFIG_PHY_R8A779F0_ETHERNET_SERDES=y
-CONFIG_PHY_RCAR_GEN3_USB3=m
-CONFIG_PHY_ROCKCHIP_DPHY_RX0=y
-CONFIG_PHY_ROCKCHIP_INNO_HDMI=m
-CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY=y
-# CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY is not set
-CONFIG_PHY_ROCKCHIP_PCIE=y
-# CONFIG_PHY_ROCKCHIP_SAMSUNG_DCPHY is not set
-CONFIG_PHY_ROCKCHIP_SAMSUNG_HDPTX=y
-CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=y
-# CONFIG_PHY_ROCKCHIP_TYPEC is not set
-# CONFIG_PHY_EXYNOS_DP_VIDEO is not set
-CONFIG_PHY_EXYNOS_MIPI_VIDEO=m
-CONFIG_PHY_EXYNOS_PCIE=y
-CONFIG_PHY_SAMSUNG_UFS=y
-# CONFIG_PHY_SAMSUNG_USB2 is not set
-# CONFIG_PHY_UNIPHIER_USB2 is not set
-# CONFIG_PHY_UNIPHIER_USB3 is not set
-CONFIG_PHY_UNIPHIER_PCIE=y
-CONFIG_PHY_UNIPHIER_AHCI=y
-CONFIG_PHY_ST_SPEAR1310_MIPHY=m
-CONFIG_PHY_ST_SPEAR1340_MIPHY=m
-CONFIG_PHY_STIH407_USB=m
-# CONFIG_PHY_STM32_COMBOPHY is not set
-CONFIG_PHY_STM32_USBPHYC=m
-CONFIG_PHY_STARFIVE_JH7110_DPHY_RX=y
-# CONFIG_PHY_STARFIVE_JH7110_DPHY_TX is not set
-CONFIG_PHY_STARFIVE_JH7110_PCIE=m
-CONFIG_PHY_SUNPLUS_USB=m
-CONFIG_PHY_TEGRA194_P2U=m
-CONFIG_PHY_DA8XX_USB=y
-CONFIG_PHY_AM654_SERDES=m
-CONFIG_PHY_J721E_WIZ=m
-CONFIG_OMAP_CONTROL_PHY=y
-CONFIG_TI_PIPE3=y
-CONFIG_PHY_INTEL_KEEMBAY_EMMC=m
-# CONFIG_PHY_INTEL_KEEMBAY_USB is not set
-CONFIG_PHY_INTEL_LGM_COMBO=y
-CONFIG_PHY_INTEL_LGM_EMMC=m
-CONFIG_PHY_XILINX_ZYNQMP=m
-# end of PHY Subsystem
-
-CONFIG_POWERCAP=y
-CONFIG_ARM_SCMI_POWERCAP=y
-# CONFIG_DTPM is not set
-CONFIG_MCB=m
-# CONFIG_MCB_PCI is not set
-# CONFIG_MCB_LPC is not set
-# CONFIG_RAS is not set
-# CONFIG_USB4 is not set
-
-#
-# Android
-#
-CONFIG_ANDROID_BINDER_IPC=y
-# CONFIG_ANDROID_BINDERFS is not set
-CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder,vndbinder"
-CONFIG_ANDROID_BINDER_IPC_SELFTEST=y
-# end of Android
-
-CONFIG_TRACE_GPU_MEM=y
-CONFIG_DAX=m
-CONFIG_NVMEM=y
-CONFIG_NVMEM_SYSFS=y
-CONFIG_NVMEM_LAYOUTS=y
-
-#
-# Layout Types
-#
-CONFIG_NVMEM_LAYOUT_SL28_VPD=m
-CONFIG_NVMEM_LAYOUT_ONIE_TLV=y
-CONFIG_NVMEM_LAYOUT_U_BOOT_ENV=y
-# end of Layout Types
-
-# CONFIG_NVMEM_APPLE_EFUSES is not set
-CONFIG_NVMEM_BCM_OCOTP=m
-# CONFIG_NVMEM_BRCM_NVRAM is not set
-# CONFIG_NVMEM_IMX_IIM is not set
-CONFIG_NVMEM_IMX_OCOTP=m
-# CONFIG_NVMEM_IMX_OCOTP_ELE is not set
-# CONFIG_NVMEM_JZ4780_EFUSE is not set
-CONFIG_NVMEM_LAN9662_OTPC=y
-# CONFIG_NVMEM_LAYERSCAPE_SFP is not set
-CONFIG_NVMEM_LPC18XX_EEPROM=y
-CONFIG_NVMEM_LPC18XX_OTP=m
-CONFIG_NVMEM_MESON_MX_EFUSE=y
-CONFIG_NVMEM_MICROCHIP_OTPC=m
-CONFIG_NVMEM_MTK_EFUSE=m
-CONFIG_NVMEM_MXS_OCOTP=y
-CONFIG_NVMEM_NINTENDO_OTP=y
-CONFIG_NVMEM_QCOM_QFPROM=m
-CONFIG_NVMEM_QCOM_SEC_QFPROM=m
-CONFIG_NVMEM_RCAR_EFUSE=m
-CONFIG_NVMEM_RMEM=m
-CONFIG_NVMEM_ROCKCHIP_EFUSE=m
-CONFIG_NVMEM_ROCKCHIP_OTP=m
-# CONFIG_NVMEM_SC27XX_EFUSE is not set
-CONFIG_NVMEM_SNVS_LPGPR=y
-# CONFIG_NVMEM_SPMI_SDAM is not set
-CONFIG_NVMEM_SPRD_EFUSE=y
-CONFIG_NVMEM_STM32_ROMEM=m
-# CONFIG_NVMEM_SUNPLUS_OCOTP is not set
-CONFIG_NVMEM_U_BOOT_ENV=y
-CONFIG_NVMEM_UNIPHIER_EFUSE=y
-CONFIG_NVMEM_VF610_OCOTP=m
-CONFIG_NVMEM_QORIQ_EFUSE=m
-
-#
-# HW tracing support
-#
-CONFIG_STM=m
-# CONFIG_STM_PROTO_BASIC is not set
-# CONFIG_STM_PROTO_SYS_T is not set
-# CONFIG_STM_DUMMY is not set
-CONFIG_STM_SOURCE_CONSOLE=m
-CONFIG_STM_SOURCE_HEARTBEAT=m
-CONFIG_STM_SOURCE_FTRACE=m
-CONFIG_INTEL_TH=y
-# CONFIG_INTEL_TH_PCI is not set
-CONFIG_INTEL_TH_GTH=y
-# CONFIG_INTEL_TH_STH is not set
-CONFIG_INTEL_TH_MSU=y
-# CONFIG_INTEL_TH_PTI is not set
-CONFIG_INTEL_TH_DEBUG=y
-# end of HW tracing support
-
-CONFIG_FPGA=m
-CONFIG_FPGA_MGR_SOCFPGA=m
-# CONFIG_FPGA_MGR_SOCFPGA_A10 is not set
-# CONFIG_ALTERA_PR_IP_CORE is not set
-CONFIG_FPGA_MGR_ALTERA_PS_SPI=m
-CONFIG_FPGA_MGR_ALTERA_CVP=m
-CONFIG_FPGA_MGR_ZYNQ_FPGA=m
-CONFIG_FPGA_MGR_XILINX_CORE=m
-CONFIG_FPGA_MGR_XILINX_SELECTMAP=m
-CONFIG_FPGA_MGR_XILINX_SPI=m
-CONFIG_FPGA_MGR_ICE40_SPI=m
-# CONFIG_FPGA_MGR_MACHXO2_SPI is not set
-CONFIG_FPGA_BRIDGE=m
-CONFIG_ALTERA_FREEZE_BRIDGE=m
-CONFIG_XILINX_PR_DECOUPLER=m
-CONFIG_FPGA_REGION=m
-CONFIG_OF_FPGA_REGION=m
-CONFIG_FPGA_DFL=m
-CONFIG_FPGA_DFL_AFU=m
-CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000=m
-CONFIG_FPGA_DFL_PCI=m
-# CONFIG_FPGA_MGR_ZYNQMP_FPGA is not set
-# CONFIG_FPGA_MGR_VERSAL_FPGA is not set
-# CONFIG_FPGA_M10_BMC_SEC_UPDATE is not set
-# CONFIG_FPGA_MGR_MICROCHIP_SPI is not set
-CONFIG_FPGA_MGR_LATTICE_SYSCONFIG=m
-CONFIG_FPGA_MGR_LATTICE_SYSCONFIG_SPI=m
-# CONFIG_FSI is not set
-CONFIG_TEE=m
-CONFIG_MULTIPLEXER=m
-
-#
-# Multiplexer drivers
-#
-CONFIG_MUX_ADG792A=m
-CONFIG_MUX_ADGS1408=m
-# CONFIG_MUX_GPIO is not set
-CONFIG_MUX_MMIO=m
-# end of Multiplexer drivers
-
-CONFIG_PM_OPP=y
-CONFIG_SIOX=y
-CONFIG_SIOX_BUS_GPIO=y
-# CONFIG_SLIMBUS is not set
-CONFIG_INTERCONNECT=y
-CONFIG_INTERCONNECT_IMX=y
-CONFIG_INTERCONNECT_IMX8MM=y
-CONFIG_INTERCONNECT_IMX8MN=m
-# CONFIG_INTERCONNECT_IMX8MQ is not set
-CONFIG_INTERCONNECT_IMX8MP=m
-# CONFIG_INTERCONNECT_MTK is not set
-CONFIG_INTERCONNECT_QCOM_OSM_L3=m
-CONFIG_INTERCONNECT_SAMSUNG=y
-CONFIG_INTERCONNECT_EXYNOS=y
-CONFIG_INTERCONNECT_CLK=m
-# CONFIG_COUNTER is not set
-CONFIG_MOST=m
-CONFIG_MOST_CDEV=m
-CONFIG_MOST_SND=m
-# CONFIG_PECI is not set
-# CONFIG_HTE is not set
-# end of Device Drivers
-
-#
-# File systems
-#
-# CONFIG_VALIDATE_FS_PARSER is not set
-CONFIG_FS_STACK=y
-CONFIG_EXPORTFS=m
-# CONFIG_EXPORTFS_BLOCK_OPS is not set
-# CONFIG_FILE_LOCKING is not set
-CONFIG_FS_ENCRYPTION=y
-# CONFIG_FS_VERITY is not set
-CONFIG_FSNOTIFY=y
-CONFIG_DNOTIFY=y
-CONFIG_INOTIFY_USER=y
-# CONFIG_FANOTIFY is not set
-# CONFIG_QUOTA is not set
-CONFIG_AUTOFS_FS=m
-# CONFIG_FUSE_FS is not set
-CONFIG_OVERLAY_FS=m
-CONFIG_OVERLAY_FS_REDIRECT_DIR=y
-# CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW is not set
-# CONFIG_OVERLAY_FS_INDEX is not set
-# CONFIG_OVERLAY_FS_XINO_AUTO is not set
-# CONFIG_OVERLAY_FS_METACOPY is not set
-# CONFIG_OVERLAY_FS_DEBUG is not set
-
-#
-# Caches
-#
-# end of Caches
-
-#
-# Pseudo filesystems
-#
-# CONFIG_PROC_FS is not set
-CONFIG_KERNFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-# CONFIG_TMPFS_POSIX_ACL is not set
-# CONFIG_TMPFS_XATTR is not set
-# CONFIG_TMPFS_INODE64 is not set
-# CONFIG_TMPFS_QUOTA is not set
-CONFIG_ARCH_SUPPORTS_HUGETLBFS=y
-# CONFIG_HUGETLBFS is not set
-CONFIG_ARCH_HAS_GIGANTIC_PAGE=y
-CONFIG_CONFIGFS_FS=y
-# end of Pseudo filesystems
-
-# CONFIG_MISC_FILESYSTEMS is not set
-CONFIG_NLS=y
-CONFIG_NLS_DEFAULT="iso8859-1"
-CONFIG_NLS_CODEPAGE_437=m
-CONFIG_NLS_CODEPAGE_737=y
-CONFIG_NLS_CODEPAGE_775=y
-CONFIG_NLS_CODEPAGE_850=m
-# CONFIG_NLS_CODEPAGE_852 is not set
-# CONFIG_NLS_CODEPAGE_855 is not set
-CONFIG_NLS_CODEPAGE_857=m
-CONFIG_NLS_CODEPAGE_860=m
-CONFIG_NLS_CODEPAGE_861=m
-CONFIG_NLS_CODEPAGE_862=y
-CONFIG_NLS_CODEPAGE_863=m
-# CONFIG_NLS_CODEPAGE_864 is not set
-CONFIG_NLS_CODEPAGE_865=m
-# CONFIG_NLS_CODEPAGE_866 is not set
-CONFIG_NLS_CODEPAGE_869=y
-CONFIG_NLS_CODEPAGE_936=y
-# CONFIG_NLS_CODEPAGE_950 is not set
-CONFIG_NLS_CODEPAGE_932=y
-# CONFIG_NLS_CODEPAGE_949 is not set
-# CONFIG_NLS_CODEPAGE_874 is not set
-# CONFIG_NLS_ISO8859_8 is not set
-CONFIG_NLS_CODEPAGE_1250=m
-# CONFIG_NLS_CODEPAGE_1251 is not set
-CONFIG_NLS_ASCII=m
-CONFIG_NLS_ISO8859_1=m
-# CONFIG_NLS_ISO8859_2 is not set
-CONFIG_NLS_ISO8859_3=m
-CONFIG_NLS_ISO8859_4=m
-CONFIG_NLS_ISO8859_5=m
-# CONFIG_NLS_ISO8859_6 is not set
-CONFIG_NLS_ISO8859_7=m
-CONFIG_NLS_ISO8859_9=m
-# CONFIG_NLS_ISO8859_13 is not set
-# CONFIG_NLS_ISO8859_14 is not set
-CONFIG_NLS_ISO8859_15=y
-CONFIG_NLS_KOI8_R=y
-CONFIG_NLS_KOI8_U=m
-CONFIG_NLS_MAC_ROMAN=y
-# CONFIG_NLS_MAC_CELTIC is not set
-# CONFIG_NLS_MAC_CENTEURO is not set
-# CONFIG_NLS_MAC_CROATIAN is not set
-# CONFIG_NLS_MAC_CYRILLIC is not set
-CONFIG_NLS_MAC_GAELIC=m
-CONFIG_NLS_MAC_GREEK=m
-CONFIG_NLS_MAC_ICELAND=y
-CONFIG_NLS_MAC_INUIT=y
-CONFIG_NLS_MAC_ROMANIAN=m
-CONFIG_NLS_MAC_TURKISH=y
-CONFIG_NLS_UTF8=y
-CONFIG_UNICODE=m
-# end of File systems
-
-#
-# Security options
-#
-CONFIG_KEYS=y
-# CONFIG_KEYS_REQUEST_CACHE is not set
-CONFIG_PERSISTENT_KEYRINGS=y
-# CONFIG_BIG_KEYS is not set
-CONFIG_TRUSTED_KEYS=m
-CONFIG_HAVE_TRUSTED_KEYS=y
-# CONFIG_TRUSTED_KEYS_TEE is not set
-CONFIG_TRUSTED_KEYS_CAAM=y
-CONFIG_ENCRYPTED_KEYS=m
-# CONFIG_USER_DECRYPTED_DATA is not set
-CONFIG_KEY_DH_OPERATIONS=y
-CONFIG_SECURITY_DMESG_RESTRICT=y
-CONFIG_PROC_MEM_ALWAYS_FORCE=y
-# CONFIG_PROC_MEM_FORCE_PTRACE is not set
-# CONFIG_PROC_MEM_NO_FORCE is not set
-# CONFIG_SECURITY is not set
-CONFIG_SECURITYFS=y
-CONFIG_STATIC_USERMODEHELPER=y
-CONFIG_STATIC_USERMODEHELPER_PATH="/sbin/usermode-helper"
-CONFIG_DEFAULT_SECURITY_DAC=y
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,ipe,bpf"
-
-#
-# Kernel hardening options
-#
-
-#
-# Memory initialization
-#
-CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
-CONFIG_INIT_STACK_NONE=y
-# CONFIG_INIT_STACK_ALL_PATTERN is not set
-# CONFIG_INIT_STACK_ALL_ZERO is not set
-# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
-# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-CONFIG_ZERO_CALL_USED_REGS=y
-# end of Memory initialization
-
-#
-# Bounds checking
-#
-CONFIG_FORTIFY_SOURCE=y
-CONFIG_HARDENED_USERCOPY=y
-# CONFIG_HARDENED_USERCOPY_DEFAULT_ON is not set
-# end of Bounds checking
-
-#
-# Hardening of kernel data structures
-#
-CONFIG_LIST_HARDENED=y
-CONFIG_BUG_ON_DATA_CORRUPTION=y
-# end of Hardening of kernel data structures
-
-CONFIG_RANDSTRUCT_NONE=y
-# end of Kernel hardening options
-# end of Security options
-
-CONFIG_CRYPTO=y
-
-#
-# Crypto core or helper
-#
-CONFIG_CRYPTO_ALGAPI=y
-CONFIG_CRYPTO_ALGAPI2=y
-CONFIG_CRYPTO_AEAD=y
-CONFIG_CRYPTO_AEAD2=y
-CONFIG_CRYPTO_SIG=y
-CONFIG_CRYPTO_SIG2=y
-CONFIG_CRYPTO_SKCIPHER=y
-CONFIG_CRYPTO_SKCIPHER2=y
-CONFIG_CRYPTO_HASH=y
-CONFIG_CRYPTO_HASH2=y
-CONFIG_CRYPTO_RNG=y
-CONFIG_CRYPTO_RNG2=y
-CONFIG_CRYPTO_RNG_DEFAULT=y
-CONFIG_CRYPTO_AKCIPHER2=y
-CONFIG_CRYPTO_AKCIPHER=y
-CONFIG_CRYPTO_KPP2=y
-CONFIG_CRYPTO_KPP=y
-CONFIG_CRYPTO_ACOMP2=y
-CONFIG_CRYPTO_HKDF=y
-CONFIG_CRYPTO_MANAGER=y
-CONFIG_CRYPTO_MANAGER2=y
-CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_NULL=y
-CONFIG_CRYPTO_NULL2=y
-CONFIG_CRYPTO_PCRYPT=m
-# CONFIG_CRYPTO_CRYPTD is not set
-CONFIG_CRYPTO_AUTHENC=y
-CONFIG_CRYPTO_KRB5ENC=y
-# CONFIG_CRYPTO_TEST is not set
-CONFIG_CRYPTO_ENGINE=y
-# end of Crypto core or helper
-
-#
-# Public-key cryptography
-#
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=y
-CONFIG_CRYPTO_DH_RFC7919_GROUPS=y
-CONFIG_CRYPTO_ECC=y
-CONFIG_CRYPTO_ECDH=y
-CONFIG_CRYPTO_ECDSA=m
-CONFIG_CRYPTO_ECRDSA=y
-CONFIG_CRYPTO_CURVE25519=m
-# end of Public-key cryptography
-
-#
-# Block ciphers
-#
-CONFIG_CRYPTO_AES=y
-# CONFIG_CRYPTO_AES_TI is not set
-CONFIG_CRYPTO_ARIA=m
-CONFIG_CRYPTO_BLOWFISH=m
-CONFIG_CRYPTO_BLOWFISH_COMMON=m
-# CONFIG_CRYPTO_CAMELLIA is not set
-CONFIG_CRYPTO_CAST_COMMON=y
-CONFIG_CRYPTO_CAST5=y
-CONFIG_CRYPTO_CAST6=y
-CONFIG_CRYPTO_DES=y
-CONFIG_CRYPTO_FCRYPT=y
-CONFIG_CRYPTO_SERPENT=m
-CONFIG_CRYPTO_SM4=y
-CONFIG_CRYPTO_SM4_GENERIC=y
-CONFIG_CRYPTO_TWOFISH=m
-CONFIG_CRYPTO_TWOFISH_COMMON=m
-# end of Block ciphers
-
-#
-# Length-preserving ciphers and modes
-#
-CONFIG_CRYPTO_ADIANTUM=m
-CONFIG_CRYPTO_CHACHA20=y
-CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CTR=y
-CONFIG_CRYPTO_CTS=y
-CONFIG_CRYPTO_ECB=y
-CONFIG_CRYPTO_HCTR2=m
-CONFIG_CRYPTO_LRW=y
-CONFIG_CRYPTO_PCBC=y
-CONFIG_CRYPTO_XCTR=m
-CONFIG_CRYPTO_XTS=y
-CONFIG_CRYPTO_NHPOLY1305=m
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-# CONFIG_CRYPTO_AEGIS128 is not set
-CONFIG_CRYPTO_CHACHA20POLY1305=m
-CONFIG_CRYPTO_CCM=y
-# CONFIG_CRYPTO_GCM is not set
-CONFIG_CRYPTO_GENIV=m
-CONFIG_CRYPTO_SEQIV=m
-# CONFIG_CRYPTO_ECHAINIV is not set
-# CONFIG_CRYPTO_ESSIV is not set
-# end of AEAD (authenticated encryption with associated data) ciphers
-
-#
-# Hashes, digests, and MACs
-#
-CONFIG_CRYPTO_BLAKE2B=m
-CONFIG_CRYPTO_CMAC=y
-# CONFIG_CRYPTO_GHASH is not set
-CONFIG_CRYPTO_HMAC=y
-# CONFIG_CRYPTO_MD4 is not set
-CONFIG_CRYPTO_MD5=y
-CONFIG_CRYPTO_MICHAEL_MIC=m
-CONFIG_CRYPTO_POLYVAL=m
-CONFIG_CRYPTO_POLY1305=m
-CONFIG_CRYPTO_RMD160=m
-CONFIG_CRYPTO_SHA1=y
-CONFIG_CRYPTO_SHA256=y
-CONFIG_CRYPTO_SHA512=y
-CONFIG_CRYPTO_SHA3=y
-CONFIG_CRYPTO_SM3=y
-CONFIG_CRYPTO_SM3_GENERIC=y
-CONFIG_CRYPTO_STREEBOG=y
-CONFIG_CRYPTO_WP512=y
-# CONFIG_CRYPTO_XCBC is not set
-CONFIG_CRYPTO_XXHASH=y
-# end of Hashes, digests, and MACs
-
-#
-# CRCs (cyclic redundancy checks)
-#
-CONFIG_CRYPTO_CRC32C=y
-# CONFIG_CRYPTO_CRC32 is not set
-# end of CRCs (cyclic redundancy checks)
-
-#
-# Compression
-#
-# CONFIG_CRYPTO_DEFLATE is not set
-# CONFIG_CRYPTO_LZO is not set
-# CONFIG_CRYPTO_842 is not set
-CONFIG_CRYPTO_LZ4=y
-CONFIG_CRYPTO_LZ4HC=m
-CONFIG_CRYPTO_ZSTD=m
-# end of Compression
-
-#
-# Random number generation
-#
-# CONFIG_CRYPTO_ANSI_CPRNG is not set
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_DRBG_HMAC=y
-# CONFIG_CRYPTO_DRBG_HASH is not set
-CONFIG_CRYPTO_DRBG_CTR=y
-CONFIG_CRYPTO_DRBG=y
-CONFIG_CRYPTO_JITTERENTROPY=y
-CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKS=64
-CONFIG_CRYPTO_JITTERENTROPY_MEMORY_BLOCKSIZE=32
-CONFIG_CRYPTO_JITTERENTROPY_OSR=1
-CONFIG_CRYPTO_KDF800108_CTR=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-# end of Userspace interface
-
-#
-# Accelerated Cryptographic Algorithms for CPU (powerpc)
-#
-# CONFIG_CRYPTO_MD5_PPC is not set
-# CONFIG_CRYPTO_SHA1_PPC is not set
-# end of Accelerated Cryptographic Algorithms for CPU (powerpc)
-
-CONFIG_CRYPTO_HW=y
-# CONFIG_CRYPTO_DEV_ALLWINNER is not set
-CONFIG_CRYPTO_DEV_SL3516=y
-# CONFIG_CRYPTO_DEV_SL3516_DEBUG is not set
-CONFIG_CRYPTO_DEV_FSL_CAAM_COMMON=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_AHASH_API_DESC=m
-CONFIG_CRYPTO_DEV_FSL_CAAM=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_DEBUG=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_JR=m
-CONFIG_CRYPTO_DEV_FSL_CAAM_RINGSIZE=9
-CONFIG_CRYPTO_DEV_FSL_CAAM_INTC=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_INTC_COUNT_THLD=255
-CONFIG_CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD=2048
-# CONFIG_CRYPTO_DEV_FSL_CAAM_CRYPTO_API is not set
-CONFIG_CRYPTO_DEV_FSL_CAAM_AHASH_API=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_PKC_API=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_RNG_API=y
-# CONFIG_CRYPTO_DEV_FSL_CAAM_PRNG_API is not set
-CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN=y
-CONFIG_CRYPTO_DEV_FSL_CAAM_RNG_TEST=y
-CONFIG_CRYPTO_DEV_EXYNOS_RNG=m
-# CONFIG_CRYPTO_DEV_S5P is not set
-# CONFIG_CRYPTO_DEV_NX is not set
-# CONFIG_CRYPTO_DEV_ATMEL_AUTHENC is not set
-CONFIG_CRYPTO_DEV_ATMEL_AES=m
-# CONFIG_CRYPTO_DEV_ATMEL_TDES is not set
-CONFIG_CRYPTO_DEV_ATMEL_SHA=y
-CONFIG_CRYPTO_DEV_ATMEL_I2C=m
-CONFIG_CRYPTO_DEV_ATMEL_ECC=m
-# CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
-# CONFIG_CAVIUM_CPT is not set
-# CONFIG_CRYPTO_DEV_NITROX_CNN55XX is not set
-CONFIG_CRYPTO_DEV_MARVELL=m
-CONFIG_CRYPTO_DEV_MARVELL_CESA=m
-# CONFIG_CRYPTO_DEV_OCTEONTX_CPT is not set
-# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4 is not set
-# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC is not set
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU=m
-# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU_HMAC_SHA224 is not set
-CONFIG_CRYPTO_DEV_QAT=y
-# CONFIG_CRYPTO_DEV_QAT_DH895xCC is not set
-CONFIG_CRYPTO_DEV_QAT_C3XXX=m
-# CONFIG_CRYPTO_DEV_QAT_C62X is not set
-CONFIG_CRYPTO_DEV_QAT_4XXX=y
-# CONFIG_CRYPTO_DEV_QAT_420XX is not set
-# CONFIG_CRYPTO_DEV_QAT_DH895xCCVF is not set
-# CONFIG_CRYPTO_DEV_QAT_C3XXXVF is not set
-CONFIG_CRYPTO_DEV_QAT_C62XVF=m
-CONFIG_CRYPTO_DEV_QAT_ERROR_INJECTION=y
-# CONFIG_CRYPTO_DEV_CAVIUM_ZIP is not set
-# CONFIG_CRYPTO_DEV_QCE is not set
-# CONFIG_CRYPTO_DEV_QCOM_RNG is not set
-# CONFIG_CRYPTO_DEV_IMGTEC_HASH is not set
-# CONFIG_CRYPTO_DEV_TEGRA is not set
-# CONFIG_CRYPTO_DEV_ZYNQMP_AES is not set
-# CONFIG_CRYPTO_DEV_ZYNQMP_SHA3 is not set
-CONFIG_CRYPTO_DEV_VIRTIO=m
-CONFIG_CRYPTO_DEV_SAFEXCEL=m
-CONFIG_CRYPTO_DEV_CCREE=y
-CONFIG_CRYPTO_DEV_HISI_SEC=m
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
-# CONFIG_CRYPTO_DEV_AMLOGIC_GXL_DEBUG is not set
-CONFIG_CRYPTO_DEV_SA2UL=m
-CONFIG_CRYPTO_DEV_ASPEED=y
-CONFIG_CRYPTO_DEV_ASPEED_DEBUG=y
-CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH=y
-# CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO is not set
-# CONFIG_CRYPTO_DEV_ASPEED_ACRY is not set
-# CONFIG_CRYPTO_DEV_JH7110 is not set
-# CONFIG_CRYPTO_DEV_EIP93 is not set
-# CONFIG_ASYMMETRIC_KEY_TYPE is not set
-
-#
-# Certificates for signature checking
-#
-# CONFIG_SYSTEM_BLACKLIST_KEYRING is not set
-# end of Certificates for signature checking
-
-# CONFIG_CRYPTO_KRB5 is not set
-CONFIG_BINARY_PRINTF=y
-
-#
-# Library routines
-#
-CONFIG_LINEAR_RANGES=y
-# CONFIG_PACKING is not set
-CONFIG_BITREVERSE=y
-CONFIG_GENERIC_STRNCPY_FROM_USER=y
-CONFIG_GENERIC_STRNLEN_USER=y
-CONFIG_GENERIC_NET_UTILS=y
-# CONFIG_CORDIC is not set
-CONFIG_PRIME_NUMBERS=m
-CONFIG_RATIONAL=y
-CONFIG_GENERIC_IOMAP=y
-CONFIG_STMP_DEVICE=y
-CONFIG_ARCH_USE_CMPXCHG_LOCKREF=y
-
-#
-# Crypto library routines
-#
-CONFIG_CRYPTO_LIB_UTILS=y
-CONFIG_CRYPTO_LIB_AES=y
-CONFIG_CRYPTO_LIB_GF128MUL=y
-CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA_INTERNAL=y
-CONFIG_CRYPTO_LIB_CURVE25519_GENERIC=m
-CONFIG_CRYPTO_LIB_CURVE25519_INTERNAL=m
-CONFIG_CRYPTO_LIB_DES=y
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
-CONFIG_CRYPTO_LIB_POLY1305_GENERIC=m
-CONFIG_CRYPTO_LIB_POLY1305_INTERNAL=m
-CONFIG_CRYPTO_LIB_SHA1=y
-CONFIG_CRYPTO_LIB_SHA256=y
-# end of Crypto library routines
-
-CONFIG_CRC_CCITT=m
-CONFIG_CRC16=m
-# CONFIG_CRC_T10DIF is not set
-CONFIG_CRC_ITU_T=m
-CONFIG_CRC32=y
-CONFIG_CRC8=y
-CONFIG_CRC_OPTIMIZATIONS=y
-CONFIG_XXHASH=y
-CONFIG_RANDOM32_SELFTEST=y
-CONFIG_ZLIB_DEFLATE=y
-CONFIG_LZ4_COMPRESS=y
-CONFIG_LZ4HC_COMPRESS=m
-CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=m
-CONFIG_ZSTD_COMPRESS=m
-CONFIG_ZSTD_DECOMPRESS=m
-CONFIG_XZ_DEC=y
-CONFIG_XZ_DEC_X86=y
-CONFIG_XZ_DEC_POWERPC=y
-CONFIG_XZ_DEC_ARM=y
-CONFIG_XZ_DEC_ARMTHUMB=y
-# CONFIG_XZ_DEC_ARM64 is not set
-# CONFIG_XZ_DEC_SPARC is not set
-CONFIG_XZ_DEC_RISCV=y
-CONFIG_XZ_DEC_MICROLZMA=y
-CONFIG_XZ_DEC_BCJ=y
-CONFIG_XZ_DEC_TEST=m
-CONFIG_GENERIC_ALLOCATOR=y
-CONFIG_BCH=y
-CONFIG_INTERVAL_TREE=y
-CONFIG_INTERVAL_TREE_SPAN_ITER=y
-CONFIG_XARRAY_MULTI=y
-CONFIG_ASSOCIATIVE_ARRAY=y
-CONFIG_HAS_IOMEM=y
-CONFIG_HAS_IOPORT=y
-CONFIG_HAS_IOPORT_MAP=y
-CONFIG_HAS_DMA=y
-CONFIG_DMA_OPS_HELPERS=y
-CONFIG_DMA_OPS_BYPASS=y
-CONFIG_ARCH_HAS_DMA_MAP_DIRECT=y
-CONFIG_NEED_SG_DMA_LENGTH=y
-CONFIG_NEED_DMA_MAP_STATE=y
-CONFIG_ARCH_DMA_ADDR_T_64BIT=y
-CONFIG_DMA_DECLARE_COHERENT=y
-CONFIG_ARCH_DMA_DEFAULT_COHERENT=y
-CONFIG_SWIOTLB=y
-# CONFIG_SWIOTLB_DYNAMIC is not set
-CONFIG_DMA_NEED_SYNC=y
-# CONFIG_DMA_RESTRICTED_POOL is not set
-# CONFIG_DMA_API_DEBUG is not set
-CONFIG_DMA_MAP_BENCHMARK=y
-CONFIG_SGL_ALLOC=y
-CONFIG_IOMMU_HELPER=y
-# CONFIG_CPUMASK_OFFSTACK is not set
-CONFIG_GLOB=y
-# CONFIG_GLOB_SELFTEST is not set
-CONFIG_CLZ_TAB=y
-# CONFIG_IRQ_POLL is not set
-CONFIG_MPILIB=y
-CONFIG_LIBFDT=y
-CONFIG_OID_REGISTRY=y
-CONFIG_HAVE_GENERIC_VDSO=y
-CONFIG_GENERIC_GETTIMEOFDAY=y
-CONFIG_GENERIC_VDSO_TIME_NS=y
-CONFIG_VDSO_GETRANDOM=y
-CONFIG_GENERIC_VDSO_DATA_STORE=y
-CONFIG_FONT_SUPPORT=y
-# CONFIG_FONTS is not set
-CONFIG_FONT_8x16=y
-CONFIG_FONT_SUN8x16=y
-CONFIG_SG_SPLIT=y
-CONFIG_ARCH_HAS_PMEM_API=y
-CONFIG_MEMREGION=y
-CONFIG_ARCH_HAS_MEMREMAP_COMPAT_ALIGN=y
-CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE=y
-CONFIG_ARCH_HAS_COPY_MC=y
-CONFIG_ARCH_STACKWALK=y
-CONFIG_STACKDEPOT=y
-CONFIG_STACKDEPOT_MAX_FRAMES=64
-# CONFIG_PARMAN is not set
-# CONFIG_OBJAGG is not set
-CONFIG_LWQ_TEST=y
-# end of Library routines
-
-CONFIG_GENERIC_IOREMAP=y
-CONFIG_POLYNOMIAL=m
-CONFIG_FIRMWARE_TABLE=y
-
-#
-# Kernel hacking
-#
-
-#
-# printk and dmesg options
-#
-# CONFIG_PRINTK_TIME is not set
-CONFIG_PRINTK_CALLER=y
-CONFIG_STACKTRACE_BUILD_ID=y
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
-CONFIG_CONSOLE_LOGLEVEL_QUIET=4
-CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
-CONFIG_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-CONFIG_SYMBOLIC_ERRNAME=y
-# end of printk and dmesg options
-
-CONFIG_DEBUG_KERNEL=y
-# CONFIG_DEBUG_MISC is not set
-
-#
-# Compile-time checks and compiler options
-#
-CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_ULEB128=y
-# CONFIG_DEBUG_INFO_NONE is not set
-CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
-# CONFIG_DEBUG_INFO_DWARF4 is not set
-# CONFIG_DEBUG_INFO_DWARF5 is not set
-# CONFIG_DEBUG_INFO_REDUCED is not set
-# CONFIG_DEBUG_INFO_COMPRESSED_NONE is not set
-CONFIG_DEBUG_INFO_COMPRESSED_ZLIB=y
-# CONFIG_DEBUG_INFO_SPLIT is not set
-CONFIG_PAHOLE_HAS_SPLIT_BTF=y
-CONFIG_PAHOLE_HAS_LANG_EXCLUDE=y
-CONFIG_GDB_SCRIPTS=y
-CONFIG_FRAME_WARN=0
-# CONFIG_STRIP_ASM_SYMS is not set
-# CONFIG_READABLE_ASM is not set
-# CONFIG_HEADERS_INSTALL is not set
-CONFIG_DEBUG_SECTION_MISMATCH=y
-CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-# CONFIG_DEBUG_FORCE_FUNCTION_ALIGN_64B is not set
-# CONFIG_VMLINUX_MAP is not set
-CONFIG_DEBUG_FORCE_WEAK_PER_CPU=y
-# end of Compile-time checks and compiler options
-
-#
-# Generic Kernel Debugging Instruments
-#
-# CONFIG_MAGIC_SYSRQ is not set
-CONFIG_DEBUG_FS=y
-# CONFIG_DEBUG_FS_ALLOW_ALL is not set
-CONFIG_DEBUG_FS_DISALLOW_MOUNT=y
-# CONFIG_DEBUG_FS_ALLOW_NONE is not set
-CONFIG_HAVE_ARCH_KGDB=y
-CONFIG_KGDB=y
-CONFIG_KGDB_HONOUR_BLOCKLIST=y
-CONFIG_KGDB_TESTS=y
-# CONFIG_KGDB_TESTS_ON_BOOT is not set
-# CONFIG_KGDB_KDB is not set
-CONFIG_ARCH_HAS_UBSAN=y
-# CONFIG_UBSAN is not set
-CONFIG_HAVE_ARCH_KCSAN=y
-CONFIG_HAVE_KCSAN_COMPILER=y
-CONFIG_KCSAN=y
-# CONFIG_KCSAN_VERBOSE is not set
-CONFIG_KCSAN_SELFTEST=y
-# CONFIG_KCSAN_EARLY_ENABLE is not set
-CONFIG_KCSAN_NUM_WATCHPOINTS=64
-CONFIG_KCSAN_UDELAY_TASK=80
-CONFIG_KCSAN_UDELAY_INTERRUPT=20
-# CONFIG_KCSAN_DELAY_RANDOMIZE is not set
-CONFIG_KCSAN_SKIP_WATCH=4000
-# CONFIG_KCSAN_SKIP_WATCH_RANDOMIZE is not set
-CONFIG_KCSAN_INTERRUPT_WATCHER=y
-CONFIG_KCSAN_REPORT_ONCE_IN_MS=3000
-CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=y
-# CONFIG_KCSAN_STRICT is not set
-CONFIG_KCSAN_REPORT_VALUE_CHANGE_ONLY=y
-CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=y
-CONFIG_KCSAN_IGNORE_ATOMICS=y
-CONFIG_KCSAN_PERMISSIVE=y
-# end of Generic Kernel Debugging Instruments
-
-#
-# Networking Debugging
-#
-# end of Networking Debugging
-
-#
-# Memory Debugging
-#
-CONFIG_PAGE_EXTENSION=y
-CONFIG_DEBUG_PAGEALLOC=y
-# CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT is not set
-CONFIG_SLUB_DEBUG=y
-# CONFIG_SLUB_DEBUG_ON is not set
-CONFIG_PAGE_OWNER=y
-CONFIG_PAGE_POISONING=y
-# CONFIG_DEBUG_PAGE_REF is not set
-CONFIG_DEBUG_RODATA_TEST=y
-CONFIG_ARCH_HAS_DEBUG_WX=y
-CONFIG_DEBUG_WX=y
-CONFIG_ARCH_HAS_PTDUMP=y
-CONFIG_PTDUMP=y
-CONFIG_PTDUMP_DEBUGFS=y
-CONFIG_HAVE_DEBUG_KMEMLEAK=y
-# CONFIG_DEBUG_KMEMLEAK is not set
-# CONFIG_PER_VMA_LOCK_STATS is not set
-CONFIG_DEBUG_OBJECTS=y
-CONFIG_DEBUG_OBJECTS_SELFTEST=y
-CONFIG_DEBUG_OBJECTS_FREE=y
-# CONFIG_DEBUG_OBJECTS_TIMERS is not set
-# CONFIG_DEBUG_OBJECTS_WORK is not set
-# CONFIG_DEBUG_OBJECTS_RCU_HEAD is not set
-CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-# CONFIG_SHRINKER_DEBUG is not set
-# CONFIG_DEBUG_STACK_USAGE is not set
-# CONFIG_SCHED_STACK_END_CHECK is not set
-CONFIG_ARCH_HAS_DEBUG_VM_PGTABLE=y
-# CONFIG_DEBUG_VFS is not set
-CONFIG_DEBUG_VM_IRQSOFF=y
-CONFIG_DEBUG_VM=y
-# CONFIG_DEBUG_VM_SHOOT_LAZIES is not set
-# CONFIG_DEBUG_VM_MAPLE_TREE is not set
-CONFIG_DEBUG_VM_RB=y
-CONFIG_DEBUG_VM_PGFLAGS=y
-# CONFIG_DEBUG_VM_PGTABLE is not set
-CONFIG_ARCH_HAS_DEBUG_VIRTUAL=y
-# CONFIG_DEBUG_VIRTUAL is not set
-CONFIG_DEBUG_MEMORY_INIT=y
-CONFIG_DEBUG_PER_CPU_MAPS=y
-CONFIG_HAVE_DEBUG_STACKOVERFLOW=y
-# CONFIG_DEBUG_STACKOVERFLOW is not set
-CONFIG_HAVE_ARCH_KASAN=y
-CONFIG_HAVE_ARCH_KASAN_VMALLOC=y
-CONFIG_ARCH_DISABLE_KASAN_INLINE=y
-CONFIG_CC_HAS_KASAN_GENERIC=y
-CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-# CONFIG_KASAN is not set
-CONFIG_HAVE_ARCH_KFENCE=y
-# CONFIG_KFENCE is not set
-# end of Memory Debugging
-
-CONFIG_DEBUG_SHIRQ=y
-
-#
-# Debug Oops, Lockups and Hangs
-#
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_ON_OOPS_VALUE=1
-# CONFIG_SOFTLOCKUP_DETECTOR is not set
-CONFIG_HAVE_HARDLOCKUP_DETECTOR_BUDDY=y
-# CONFIG_HARDLOCKUP_DETECTOR is not set
-# CONFIG_DETECT_HUNG_TASK is not set
-# CONFIG_WQ_WATCHDOG is not set
-# CONFIG_WQ_CPU_INTENSIVE_REPORT is not set
-CONFIG_TEST_LOCKUP=m
-# end of Debug Oops, Lockups and Hangs
-
-#
-# Scheduler Debugging
-#
-# end of Scheduler Debugging
-
-#
-# Lock Debugging (spinlocks, mutexes, etc...)
-#
-CONFIG_LOCK_DEBUGGING_SUPPORT=y
-CONFIG_PROVE_LOCKING=y
-CONFIG_PROVE_RAW_LOCK_NESTING=y
-CONFIG_LOCK_STAT=y
-CONFIG_DEBUG_RT_MUTEXES=y
-CONFIG_DEBUG_SPINLOCK=y
-CONFIG_DEBUG_MUTEXES=y
-CONFIG_DEBUG_WW_MUTEX_SLOWPATH=y
-CONFIG_DEBUG_RWSEMS=y
-CONFIG_DEBUG_LOCK_ALLOC=y
-CONFIG_LOCKDEP=y
-CONFIG_LOCKDEP_BITS=15
-CONFIG_LOCKDEP_CHAINS_BITS=16
-CONFIG_LOCKDEP_STACK_TRACE_BITS=19
-CONFIG_LOCKDEP_STACK_TRACE_HASH_BITS=14
-CONFIG_LOCKDEP_CIRCULAR_QUEUE_BITS=12
-# CONFIG_DEBUG_LOCKDEP is not set
-# CONFIG_DEBUG_ATOMIC_SLEEP is not set
-CONFIG_DEBUG_LOCKING_API_SELFTESTS=y
-# CONFIG_LOCK_TORTURE_TEST is not set
-CONFIG_WW_MUTEX_SELFTEST=m
-CONFIG_SCF_TORTURE_TEST=m
-# CONFIG_CSD_LOCK_WAIT_DEBUG is not set
-# end of Lock Debugging (spinlocks, mutexes, etc...)
-
-CONFIG_TRACE_IRQFLAGS=y
-CONFIG_DEBUG_IRQFLAGS=y
-CONFIG_STACKTRACE=y
-CONFIG_WARN_ALL_UNSEEDED_RANDOM=y
-CONFIG_DEBUG_KOBJECT=y
-
-#
-# Debug kernel data structures
-#
-CONFIG_DEBUG_LIST=y
-CONFIG_DEBUG_PLIST=y
-# CONFIG_DEBUG_SG is not set
-# CONFIG_DEBUG_NOTIFIERS is not set
-CONFIG_DEBUG_MAPLE_TREE=y
-# end of Debug kernel data structures
-
-#
-# RCU Debugging
-#
-CONFIG_PROVE_RCU=y
-# CONFIG_PROVE_RCU_LIST is not set
-CONFIG_TORTURE_TEST=y
-CONFIG_RCU_SCALE_TEST=m
-CONFIG_RCU_TORTURE_TEST=y
-CONFIG_RCU_TORTURE_TEST_CHK_RDR_STATE=y
-# CONFIG_RCU_TORTURE_TEST_LOG_CPU is not set
-# CONFIG_RCU_TORTURE_TEST_LOG_GP is not set
-CONFIG_RCU_REF_SCALE_TEST=m
-CONFIG_RCU_CPU_STALL_TIMEOUT=21
-CONFIG_RCU_EXP_CPU_STALL_TIMEOUT=0
-CONFIG_RCU_CPU_STALL_CPUTIME=y
-CONFIG_RCU_CPU_STALL_NOTIFIER=y
-# CONFIG_RCU_TRACE is not set
-CONFIG_RCU_EQS_DEBUG=y
-CONFIG_RCU_STRICT_GRACE_PERIOD=y
-# end of RCU Debugging
-
-# CONFIG_DEBUG_WQ_FORCE_RR_CPU is not set
-# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
-CONFIG_NOP_TRACER=y
-CONFIG_HAVE_RETHOOK=y
-CONFIG_RETHOOK=y
-CONFIG_HAVE_FUNCTION_GRAPH_TRACER=y
-CONFIG_HAVE_FTRACE_GRAPH_FUNC=y
-CONFIG_HAVE_DYNAMIC_FTRACE=y
-CONFIG_HAVE_FTRACE_MCOUNT_RECORD=y
-CONFIG_HAVE_SYSCALL_TRACEPOINTS=y
-CONFIG_HAVE_C_RECORDMCOUNT=y
-CONFIG_TRACE_CLOCK=y
-CONFIG_RING_BUFFER=y
-CONFIG_EVENT_TRACING=y
-CONFIG_CONTEXT_SWITCH_TRACER=y
-CONFIG_PREEMPTIRQ_TRACEPOINTS=y
-CONFIG_TRACING=y
-CONFIG_TRACING_SUPPORT=y
-# CONFIG_FTRACE is not set
-# CONFIG_SAMPLES is not set
-CONFIG_ARCH_HAS_DEVMEM_IS_ALLOWED=y
-# CONFIG_STRICT_DEVMEM is not set
-
-#
-# powerpc Debugging
-#
-CONFIG_PPC_DISABLE_WERROR=y
-CONFIG_PRINT_STACK_DEPTH=64
-# CONFIG_HCALL_STATS is not set
-# CONFIG_PPC_EMULATED_STATS is not set
-CONFIG_CODE_PATCHING_SELFTEST=y
-# CONFIG_JUMP_LABEL_FEATURE_CHECKS is not set
-# CONFIG_FTR_FIXUP_SELFTEST is not set
-CONFIG_MSI_BITMAP_SELFTEST=y
-# CONFIG_PPC_IRQ_SOFT_MASK_DEBUG is not set
-# CONFIG_PPC_RFI_SRR_DEBUG is not set
-CONFIG_XMON=y
-CONFIG_XMON_DEFAULT=y
-# CONFIG_XMON_DISASSEMBLY is not set
-# CONFIG_XMON_DEFAULT_RO_MODE is not set
-CONFIG_DEBUGGER=y
-CONFIG_BOOTX_TEXT=y
-# CONFIG_PPC_EARLY_DEBUG is not set
-# end of powerpc Debugging
-
-#
-# Kernel Testing and Coverage
-#
-# CONFIG_KUNIT is not set
-# CONFIG_NOTIFIER_ERROR_INJECTION is not set
-CONFIG_FUNCTION_ERROR_INJECTION=y
-# CONFIG_FAULT_INJECTION is not set
-CONFIG_ARCH_HAS_KCOV=y
-CONFIG_CC_HAS_SANCOV_TRACE_PC=y
-# CONFIG_KCOV is not set
-# CONFIG_RUNTIME_TESTING_MENU is not set
-CONFIG_ARCH_USE_MEMTEST=y
-CONFIG_MEMTEST=y
-# end of Kernel Testing and Coverage
-
-#
-# Rust hacking
-#
-# end of Rust hacking
-# end of Kernel hacking
-
-#
-# Documentation
-#
-CONFIG_WARN_MISSING_DOCUMENTS=y
-# CONFIG_WARN_ABI_ERRORS is not set
-# end of Documentation
-
---zONNN0iVlsYVANUE--
